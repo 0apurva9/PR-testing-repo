@@ -22,13 +22,28 @@ export default class Input2 extends React.Component {
     this.setState({ focused: false });
   }
   handleChange(event) {
-    this.setState({ value: event.target.value }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.state.value);
+    const re = this.props.onlyNumber ? /^[0-9\b]+$/ : /^[a-zA-Z\\s]+$/;
+    if (this.props.onlyNumber || this.props.onlyAlphabet) {
+      if (event.target.value === "" || re.test(event.target.value)) {
+        this.setState({ value: event.target.value }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.value);
+          } else {
+            this.setState({ value: event.target.value });
+          }
+        });
       } else {
-        this.setState({ value: event.target.value });
+        event.preventDefault();
       }
-    });
+    } else {
+      this.setState({ value: event.target.value }, () => {
+        if (this.props.onChange) {
+          this.props.onChange(this.state.value);
+        } else {
+          this.setState({ value: event.target.value });
+        }
+      });
+    }
   }
   handleKeyPress(event) {
     if (this.props.onKeyPress) {

@@ -240,6 +240,7 @@ export default class EditAccountDetails extends React.Component {
                   this.onChangeMobileNumber(mobileNumber)
                 }
                 disabled={false}
+                onlyNumber={true}
               />
             </div>
 
