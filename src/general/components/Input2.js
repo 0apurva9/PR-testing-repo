@@ -22,25 +22,37 @@ export default class Input2 extends React.Component {
     this.setState({ focused: false });
   }
   handleChange(event) {
-    const re = this.props.onlyNumber ? /^[0-9\b]+$/ : /^[a-zA-Z]+$/;
-    if (this.props.onlyNumber || this.props.onlyAlphabet) {
-      if (event.target.value === "" || re.test(event.target.value)) {
+    const NUMBER_REGEX = /^[0-9\b]+$/;
+    const ALPHABET_REGEX = /^[a-zA-Z]+$/;
+    if (this.props.onlyNumber) {
+      if (event.target.value === "" || NUMBER_REGEX.test(event.target.value)) {
         this.setState({ value: event.target.value }, () => {
           if (this.props.onChange) {
             this.props.onChange(this.state.value);
-          } else {
-            this.setState({ value: event.target.value });
           }
         });
       } else {
         event.preventDefault();
       }
-    } else {
+    }
+    if (this.props.onlyAlphabet) {
+      if (
+        event.target.value === "" ||
+        ALPHABET_REGEX.test(event.target.value)
+      ) {
+        this.setState({ value: event.target.value }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.value);
+          }
+        });
+      } else {
+        event.preventDefault();
+      }
+    }
+    if (!this.props.onlyAlphabet && !this.props.onlyNumber) {
       this.setState({ value: event.target.value }, () => {
         if (this.props.onChange) {
           this.props.onChange(this.state.value);
-        } else {
-          this.setState({ value: event.target.value });
         }
       });
     }
