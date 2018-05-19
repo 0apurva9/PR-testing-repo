@@ -22,7 +22,7 @@ export default class Input2 extends React.Component {
     this.setState({ focused: false });
   }
   handleChange(event) {
-    const NUMBER_REGEX = /^[0-9\b]+$/;
+    const NUMBER_REGEX = /^[0-9]+$/;
     const ALPHABET_REGEX = /^[a-zA-Z]+$/;
     if (this.props.onlyNumber) {
       if (event.target.value === "" || NUMBER_REGEX.test(event.target.value)) {
