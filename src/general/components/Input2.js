@@ -22,7 +22,7 @@ export default class Input2 extends React.Component {
     this.setState({ focused: false });
   }
   handleChange(event) {
-    const re = this.props.onlyNumber ? /^[0-9\b]+$/ : /^[a-zA-Z\\s]+$/;
+    const re = this.props.onlyNumber ? /^[0-9\b]+$/ : /^[a-zA-Z]+$/;
     if (this.props.onlyNumber || this.props.onlyAlphabet) {
       if (event.target.value === "" || re.test(event.target.value)) {
         this.setState({ value: event.target.value }, () => {
@@ -48,35 +48,6 @@ export default class Input2 extends React.Component {
   handleKeyPress(event) {
     if (this.props.onKeyPress) {
       this.props.onKeyPress(event);
-    }
-    if (this.props.onlyAlphabet) {
-      var regex = new RegExp("^[a-zA-Z\\s]+$");
-      var charCode = event.which ? event.which : event.keyCode;
-      if (
-        (charCode > 64 && charCode < 91) ||
-        (charCode > 96 && charCode < 123)
-      ) {
-        return true;
-      }
-      var key = String.fromCharCode(
-        !event.charCode ? event.which : event.charCode
-      );
-      if (!regex.test(key)) {
-        event.preventDefault();
-      } else {
-        return false;
-      }
-    }
-    if (this.props.onlyNumber) {
-      var number_regex = new RegExp("^[0-9]+$");
-      var keyCode = String.fromCharCode(
-        !event.charCode ? event.which : event.charCode
-      );
-      if (!number_regex.test(keyCode)) {
-        event.preventDefault();
-      } else {
-        return false;
-      }
     }
   }
   handleKeyUp = event => {
