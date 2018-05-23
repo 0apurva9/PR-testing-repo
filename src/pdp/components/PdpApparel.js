@@ -390,8 +390,8 @@ export default class PdpApparel extends React.Component {
           />
           {productData.variantOptions && (
             <React.Fragment>
-              {!this.checkIfNoSize() ||
-                (this.checkIfSizeDoesNotExist() && (
+              {!this.checkIfNoSize() &&
+                !this.checkIfSizeDoesNotExist() && (
                   <SizeSelector
                     history={this.props.history}
                     sizeSelected={this.checkIfSizeSelected()}
@@ -400,7 +400,7 @@ export default class PdpApparel extends React.Component {
                     showSizeGuide={this.props.showSizeGuide}
                     data={productData.variantOptions}
                   />
-                ))}
+                )}
 
               <ColourSelector
                 data={productData.variantOptions}

@@ -428,7 +428,8 @@ export default class PdpJewellery extends React.Component {
           />
 
           {productData.variantOptions &&
-            (!this.checkIfNoSize() || this.checkIfSizeDoesNotExist()) && (
+            !this.checkIfNoSize() &&
+            !this.checkIfSizeDoesNotExist() && (
               <React.Fragment>
                 <SizeSelector
                   history={this.props.history}
