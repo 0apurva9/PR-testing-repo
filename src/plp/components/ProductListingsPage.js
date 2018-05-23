@@ -5,13 +5,20 @@ import {
   CATEGORY_PRODUCT_LISTINGS_WITH_PAGE,
   BRAND_AND_CATEGORY_PAGE,
   SKU_PAGE,
+  CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS,
   CATEGORY_PAGE_WITH_SLUG,
   BRAND_PRODUCT_LISTINGS_WITH_PAGE,
   BRAND_PAGE_WITH_SLUG
 } from "../../lib/constants.js";
 import delay from "lodash.delay";
-import { getSearchTextFromUrlForCategoryProductListings } from "./SortUtils";
-import { BRAND_REGEX, CATEGORY_REGEX } from "../../home/actions/home.actions";
+import {
+  CATEGORY_CAPTURE_REGEX,
+  BRAND_REGEX,
+  BRAND_CAPTURE_REGEX,
+  CATEGORY_REGEX,
+  BRAND_CATEGORY_PREFIX
+} from "./PlpBrandCategoryWrapper.js";
+
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SKU_SUFFIX = `&isFilter=false&channel=mobile`;
@@ -31,11 +38,7 @@ class ProductListingsPage extends Component {
       searchCategory !== "" &&
       searchCategory !== SEARCH_CATEGORY_TO_IGNORE
     ) {
-      if (searchCategory === BRAND_REGEX) {
-        searchText = `:brand:${searchCategory}`;
-      } else if (searchCategory === CATEGORY_REGEX) {
-        searchText = `:category:${searchCategory}`;
-      }
+      searchText = `:brand:${searchCategory}`;
     }
 
     if (!searchText) {
@@ -46,10 +49,14 @@ class ProductListingsPage extends Component {
       this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
     ) {
-      searchText = getSearchTextFromUrlForCategoryProductListings(
-        searchText,
-        this.props.match.params[0]
-      );
+      if (searchText) {
+        searchText = searchText.replace(
+          ":relevance",
+          `:relevance:category:${this.props.match.params[0].toUpperCase()}`
+        );
+      } else {
+        searchText = `:relevance:category:${this.props.match.params[0].toUpperCase()}`;
+      }
     }
     if (
       this.props.match.path === BRAND_PRODUCT_LISTINGS_WITH_PAGE ||
