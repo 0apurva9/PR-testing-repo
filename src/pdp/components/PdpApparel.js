@@ -256,7 +256,7 @@ export default class PdpApparel extends React.Component {
   checkIfSizeDoesNotExist = () => {
     return this.props.productDetails.variantOptions
       ? this.props.productDetails.variantOptions.filter(val => {
-          return val.sizelink.isAvailable;
+          return val.sizelink.size && val.sizelink.isAvailable;
         }).length === 0
         ? true
         : false
@@ -390,16 +390,17 @@ export default class PdpApparel extends React.Component {
           />
           {productData.variantOptions && (
             <React.Fragment>
-              {!this.checkIfNoSize() && (
-                <SizeSelector
-                  history={this.props.history}
-                  sizeSelected={this.checkIfSizeSelected()}
-                  productId={productData.productListingId}
-                  hasSizeGuide={productData.showSizeGuide}
-                  showSizeGuide={this.props.showSizeGuide}
-                  data={productData.variantOptions}
-                />
-              )}
+              {!this.checkIfNoSize() ||
+                (this.checkIfSizeDoesNotExist() && (
+                  <SizeSelector
+                    history={this.props.history}
+                    sizeSelected={this.checkIfSizeSelected()}
+                    productId={productData.productListingId}
+                    hasSizeGuide={productData.showSizeGuide}
+                    showSizeGuide={this.props.showSizeGuide}
+                    data={productData.variantOptions}
+                  />
+                ))}
 
               <ColourSelector
                 data={productData.variantOptions}
