@@ -321,8 +321,6 @@ const cart = (
           cliqCashPaidAmount: action.couponResult.cliqCashPaidAmount
         });
       }
-      console.log("User Coupon ", clonedCartDetailCNC);
-
       delete carDetailsCopy["appliedCoupon"];
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
@@ -714,7 +712,6 @@ const cart = (
           cliqCashPaidAmount: action.bankOffer.cliqCashPaidAmount
         });
       }
-      console.log("Bank Offer", cloneCartDetailCNC);
       return Object.assign({}, state, {
         bankOfferStatus: action.status,
         cartDetailsCNC: cloneCartDetailCNC,
@@ -1332,7 +1329,6 @@ const cart = (
           carDetailsCopy: action.noCostEmiResult.cliqCashPaidAmount
         });
       }
-      console.log("No Cost Emi", carDetailsCopy);
 
       return Object.assign({}, state, {
         noCostEmiStatus: action.status,
