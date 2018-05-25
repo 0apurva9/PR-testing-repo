@@ -295,16 +295,28 @@ const cart = (
       });
 
     case cartActions.RELEASE_USER_COUPON_SUCCESS:
-      carDetailsCopy = cloneDeep(state.cartDetails);
-
-      cartAmount = action.couponResult && action.couponResult.cartAmount;
-      if (carDetailsCopy) {
-        carDetailsCopy.cartAmount = cartAmount;
+      carDetailsCopy = cloneCartDetailCNC
+        ? cloneDeep(state.cartDetailsCNC)
+        : {};
+      if (
+        carDetailsCopy &&
+        carDetailsCopy.cartAmount &&
+        action.couponResult &&
+        action.couponResult.cartAmount
+      ) {
+        carDetailsCopy.cartAmount = action.couponResult.cartAmount;
+        carDetailsCopy.cliqCashPaidAmount =
+          action.couponResult.cliqCashPaidAmount;
+        carDetailsCopy.deliveryCharges = action.couponResult.deliveryCharges;
       } else {
-        carDetailsCopy = { cartAmount };
+        Object.assign(carDetailsCopy, {
+          cartAmount: action.couponResult.cartAmount,
+          cliqCashPaidAmount: action.couponResult.cliqCashPaidAmount,
+          deliveryCharges: action.couponResult.deliveryCharges
+        });
       }
-      delete carDetailsCopy["appliedCoupon"];
 
+      delete carDetailsCopy["appliedCoupon"];
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
         couponStatus: action.status,
@@ -685,11 +697,17 @@ const cart = (
         action.bankOffer
       ) {
         cloneCartDetailCNC.cartAmount = action.bankOffer.cartAmount;
+        cloneCartDetailCNC.cliqCashPaidAmount =
+          action.bankOffer.cliqCashPaidAmount;
+        cloneCartDetailCNC.deliveryCharges = action.bankOffer.deliveryCharges;
       } else {
         Object.assign(cloneCartDetailCNC, {
-          cartAmount: action.bankOffer.cartAmount
+          cartAmount: action.bankOffer.cartAmount,
+          cliqCashPaidAmount: action.bankOffer.cliqCashPaidAmount,
+          deliveryCharges: action.bankOffer.deliveryCharges
         });
       }
+
       return Object.assign({}, state, {
         bankOfferStatus: action.status,
         cartDetailsCNC: cloneCartDetailCNC,
@@ -1289,12 +1307,28 @@ const cart = (
 
     case cartActions.REMOVE_NO_COST_EMI_SUCCESS:
       localStorage.removeItem(NO_COST_EMI_COUPON);
-      carDetailsCopy = cloneDeep(state.cartDetailsCNC);
-      emiCartAmount =
-        action.noCostEmiResult && action.noCostEmiResult.cartAmount
-          ? action.noCostEmiResult.cartAmount
-          : state.cartDetailsCNC.emiCartAmount;
-      carDetailsCopy.cartAmount = emiCartAmount;
+
+      carDetailsCopy = cloneCartDetailCNC
+        ? cloneDeep(state.cartDetailsCNC)
+        : {};
+      if (
+        carDetailsCopy &&
+        carDetailsCopy.cartAmount &&
+        action.noCostEmiResult &&
+        action.noCostEmiResult.cartAmount
+      ) {
+        carDetailsCopy.cartAmount = action.noCostEmiResult.cartAmount;
+        carDetailsCopy.cliqCashPaidAmount =
+          action.noCostEmiResult.cliqCashPaidAmount;
+        carDetailsCopy.deliveryCharges = action.noCostEmiResult.deliveryCharges;
+      } else {
+        Object.assign(carDetailsCopy, {
+          cartAmount: action.noCostEmiResult.cartAmount,
+          cliqCashPaidAmount: action.noCostEmiResult.cliqCashPaidAmount,
+          deliveryCharges: action.noCostEmiResult.deliveryCharges
+        });
+      }
+
       return Object.assign({}, state, {
         noCostEmiStatus: action.status,
         noCostEmiDetails: action.noCostEmiResult,
