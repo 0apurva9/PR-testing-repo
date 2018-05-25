@@ -8,17 +8,12 @@ import lockIcon from "./img/otpLock.svg";
 import ownStyles from "./OtpVerificationStyles.css";
 import { default as styles } from "./AuthPopUp.css";
 import Input from "../../general/components/Input";
-import { countdown, clearInterVal } from "../../lib/CountDownTimer";
 export default class OtpVerification extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       otp: ""
     };
-  }
-
-  componentDidMount() {
-    countdown("timer", 30);
   }
 
   callVerify = () => {
@@ -101,10 +96,6 @@ export default class OtpVerification extends React.Component {
                 onClick={() => this.resendOtp()}
               />
             </div>
-
-            <div className={ownStyles.time} id="counter">
-              30 sec
-            </div>
           </div>
           {/* <div className={styles.button}>
             <div className={ownStyles.submit}>
@@ -155,8 +146,6 @@ export default class OtpVerification extends React.Component {
               />
             </div>
             <div className={ownStyles.buttonHolder}>
-              <div className={ownStyles.left} id="timer" />
-
               <div className={ownStyles.right}>
                 <Button
                   backgroundColor={"transparent"}
@@ -179,9 +168,6 @@ export default class OtpVerification extends React.Component {
         </MediaQuery>
       </AuthPopUp>
     );
-  }
-  componentWillUnmount() {
-    clearInterVal();
   }
 }
 OtpVerification.propTypes = {

@@ -6,16 +6,12 @@ import lockBlackIcon from "./img/lockBlackIcon.svg";
 import Styles from "./KycDetailsPopup.css";
 import Input2 from "../../general/components/Input2";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
-import { countdown, clearInterVal } from "../../lib/CountDownTimer";
 export default class KycDetailsPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       otp: this.props.otp ? this.props.otp : ""
     };
-  }
-  componentDidMount() {
-    countdown("timer", 30);
   }
 
   resendOtp() {
@@ -76,16 +72,10 @@ export default class KycDetailsPopup extends React.Component {
               label={"Resend OTP"}
               onClick={() => this.resendOtp()}
             />
-            <div className={Styles.time} id="timer">
-              30 sec
-            </div>
           </div>
         </div>
       </div>
     );
-  }
-  componentWillUnmount() {
-    clearInterVal();
   }
 }
 KycDetailsPopup.propTypes = {
