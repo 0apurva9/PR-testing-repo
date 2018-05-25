@@ -1110,12 +1110,10 @@ class CheckOutPage extends React.Component {
       //get the NoCost Emi Coupon Code to release
       let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
 
-      if(noCostEmiCouponCode)
-      {
-      let cartId = localStorage.getItem(OLD_CART_CART_ID);
+      if (noCostEmiCouponCode) {
+        let cartId = localStorage.getItem(OLD_CART_CART_ID);
         this.props.removeNoCostEmi(noCostEmiCouponCode, carGuId, cartId);
       }
-
     } else {
       let cartDetailsLoggedInUser = Cookie.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
@@ -1198,8 +1196,21 @@ class CheckOutPage extends React.Component {
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value;
       const cartId = localStorage.getItem(OLD_CART_CART_ID);
-      if (this.props.applyNoCostEmi) {
-        this.props.applyNoCostEmi(couponCode, cartGuId, cartId);
+      if (this.props.removeNoCostEmi) {
+        const removeNoCostEmiResponse = this.props.removeNoCostEmi(
+          couponCode,
+          cartGuId,
+          cartId
+        );
+        if (removeNoCostEmiResponse.status === SUCCESS) {
+          this.setState({
+            isNoCostEmiApplied: false,
+            isNoCostEmiProceeded: false,
+            noCostEmiBankName: null,
+            noCostEmiDiscount: "0.00"
+          });
+        }
+        return removeNoCostEmiResponse;
       }
     } else {
       let cartDetailsLoggedInUser = Cookie.getCookie(
