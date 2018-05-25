@@ -894,10 +894,7 @@ class CheckOutPage extends React.Component {
               nextProps.cart.paymentFailureOrderDetails.cliqCashPaidAmount.value
           });
         }
-        if (
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount &&
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount.value
-        ) {
+
           this.setState({
             couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
               .couponDiscountAmount
@@ -907,21 +904,8 @@ class CheckOutPage extends React.Component {
                 ) / 100
               : "0.00"
           });
-        }
-        if (
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount &&
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount.value
-        ) {
-          this.setState({
-            couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
-              .couponDiscountAmount
-              ? Math.round(
-                  nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
-                    .value * 100
-                ) / 100
-              : "0.00"
-          });
-        }
+
+
       }
     }
 
