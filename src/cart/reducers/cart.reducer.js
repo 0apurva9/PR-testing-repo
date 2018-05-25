@@ -295,32 +295,40 @@ const cart = (
       });
 
     case cartActions.RELEASE_USER_COUPON_SUCCESS:
-      carDetailsCopy = cloneCartDetailCNC
+      carDetailsCopy = cloneDeep(state.cartDetails);
+      cartAmount = action.couponResult && action.couponResult.cartAmount;
+      if (carDetailsCopy) {
+        carDetailsCopy.cartAmount = cartAmount;
+      } else {
+        carDetailsCopy = { cartAmount };
+      }
+
+      const clonedCartDetailCNC = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
-      if (
-        carDetailsCopy &&
-        carDetailsCopy.cartAmount &&
-        action.couponResult &&
-        action.couponResult.cartAmount
-      ) {
-        carDetailsCopy.cartAmount = action.couponResult.cartAmount;
-        carDetailsCopy.cliqCashPaidAmount =
-          action.couponResult.cliqCashPaidAmount;
-        carDetailsCopy.deliveryCharges = action.couponResult.deliveryCharges;
-      } else {
-        Object.assign(carDetailsCopy, {
-          cartAmount: action.couponResult.cartAmount,
-          cliqCashPaidAmount: action.couponResult.cliqCashPaidAmount,
-          deliveryCharges: action.couponResult.deliveryCharges
+      if (clonedCartDetailCNC && action.couponResult.cartAmount) {
+        Object.assign(clonedCartDetailCNC, {
+          cartAmount: action.couponResult.cartAmount
         });
       }
+      if (clonedCartDetailCNC && action.couponResult.deliveryCharge) {
+        Object.assign(clonedCartDetailCNC, {
+          deliveryCharge: action.couponResult.deliveryCharge
+        });
+      }
+      if (clonedCartDetailCNC && action.couponResult.cliqCashPaidAmount) {
+        Object.assign(clonedCartDetailCNC, {
+          cliqCashPaidAmount: action.couponResult.cliqCashPaidAmount
+        });
+      }
+      console.log("User Coupon ", clonedCartDetailCNC);
 
       delete carDetailsCopy["appliedCoupon"];
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
         couponStatus: action.status,
         cartDetails: carDetailsCopy,
+        cartDetailsCNC: clonedCartDetailCNC,
         loading: false
       });
 
@@ -688,26 +696,25 @@ const cart = (
         loading: true
       });
     case cartActions.RELEASE_BANK_OFFER_SUCCESS:
-      cloneCartDetailCNC = cloneCartDetailCNC
+       cloneCartDetailCNC = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
-      if (
-        cloneCartDetailCNC &&
-        cloneCartDetailCNC.cartAmount &&
-        action.bankOffer
-      ) {
-        cloneCartDetailCNC.cartAmount = action.bankOffer.cartAmount;
-        cloneCartDetailCNC.cliqCashPaidAmount =
-          action.bankOffer.cliqCashPaidAmount;
-        cloneCartDetailCNC.deliveryCharges = action.bankOffer.deliveryCharges;
-      } else {
+      if (cloneCartDetailCNC && action.bankOffer.cartAmount) {
         Object.assign(cloneCartDetailCNC, {
-          cartAmount: action.bankOffer.cartAmount,
-          cliqCashPaidAmount: action.bankOffer.cliqCashPaidAmount,
+          cartAmount: action.bankOffer.cartAmount
+        });
+      }
+      if (cloneCartDetailCNC && action.bankOffer.deliveryCharge) {
+        Object.assign(cloneCartDetailCNC, {
           deliveryCharges: action.bankOffer.deliveryCharges
         });
       }
-
+      if (cloneCartDetailCNC && action.bankOffer.cliqCashPaidAmount) {
+        Object.assign(cloneCartDetailCNC, {
+          cliqCashPaidAmount: action.bankOffer.cliqCashPaidAmount
+        });
+      }
+      console.log("Bank Offer", cloneCartDetailCNC);
       return Object.assign({}, state, {
         bankOfferStatus: action.status,
         cartDetailsCNC: cloneCartDetailCNC,
@@ -728,7 +735,7 @@ const cart = (
       });
 
     case cartActions.APPLY_CLIQ_CASH_SUCCESS: {
-      cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
+       cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
       if (
         cloneCartDetailCNC.cartAmount &&
         action.paymentDetails &&
@@ -762,7 +769,7 @@ const cart = (
       });
 
     case cartActions.REMOVE_CLIQ_CASH_SUCCESS: {
-      cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
+       cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
       if (
         cloneCartDetailCNC.cartAmount &&
         action.paymentDetails &&
@@ -1307,27 +1314,25 @@ const cart = (
 
     case cartActions.REMOVE_NO_COST_EMI_SUCCESS:
       localStorage.removeItem(NO_COST_EMI_COUPON);
-
-      carDetailsCopy = cloneCartDetailCNC
+      carDetailsCopy = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
-      if (
-        carDetailsCopy &&
-        carDetailsCopy.cartAmount &&
-        action.noCostEmiResult &&
-        action.noCostEmiResult.cartAmount
-      ) {
-        carDetailsCopy.cartAmount = action.noCostEmiResult.cartAmount;
-        carDetailsCopy.cliqCashPaidAmount =
-          action.noCostEmiResult.cliqCashPaidAmount;
-        carDetailsCopy.deliveryCharges = action.noCostEmiResult.deliveryCharges;
-      } else {
+      if (carDetailsCopy && action.noCostEmiResult.cartAmount) {
         Object.assign(carDetailsCopy, {
-          cartAmount: action.noCostEmiResult.cartAmount,
-          cliqCashPaidAmount: action.noCostEmiResult.cliqCashPaidAmount,
+          cartAmount: action.noCostEmiResult.cartAmount
+        });
+      }
+      if (carDetailsCopy && action.noCostEmiResult.deliveryCharge) {
+        Object.assign(carDetailsCopy, {
           deliveryCharges: action.noCostEmiResult.deliveryCharges
         });
       }
+      if (carDetailsCopy && action.noCostEmiResult.cliqCashPaidAmount) {
+        Object.assign(carDetailsCopy, {
+          carDetailsCopy: action.noCostEmiResult.cliqCashPaidAmount
+        });
+      }
+      console.log("No Cost Emi", carDetailsCopy);
 
       return Object.assign({}, state, {
         noCostEmiStatus: action.status,
@@ -1371,11 +1376,10 @@ const cart = (
       });
 
     case cartActions.PAYMENT_FAILURE_ORDER_DETAILS_SUCCESS:
-      if (state.cartDetailsCNC) {
-        cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
-      } else {
-        cloneCartDetailCNC = {};
-      }
+        cloneCartDetailCNC = state.cartDetailsCNC
+        ? cloneDeep(state.cartDetailsCNC)
+        : {};
+
       if (
         cloneCartDetailCNC.cartAmount &&
         action.paymentFailureOrderDetails &&
