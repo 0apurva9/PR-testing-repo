@@ -438,8 +438,6 @@ class CheckOutPage extends React.Component {
           onNewAddress={() => this.addNewAddress()}
           onSelectAddress={address => this.onSelectAddress(address)}
         />
-        <DummyTab title="Delivery Mode" number={2} />
-        <DummyTab title="Payment Method" number={3} />
       </div>
     );
   };
@@ -486,7 +484,6 @@ class CheckOutPage extends React.Component {
               </div>
             );
           })}
-        <DummyTab title="Payment Method" number={3} />
       </div>
     );
   };
@@ -617,8 +614,6 @@ class CheckOutPage extends React.Component {
           userDetails={this.props.userDetails}
           clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
         />
-        <DummyTab title="Delivery Mode" number={2} />
-        <DummyTab title="Payment Method" number={3} />
       </div>
     );
   }
@@ -1092,12 +1087,13 @@ class CheckOutPage extends React.Component {
         this.props.getEmiBankDetails(
           this.props.cart.paymentFailureOrderDetails &&
             this.props.cart.paymentFailureOrderDetails.cartAmount &&
-            this.props.cart.paymentFailureOrderDetails.cartAmount.bagTotal.value
+            this.props.cart.paymentFailureOrderDetails.cartAmount.paybleAmount
+              .value
         );
       } else {
         this.props.getEmiBankDetails(
           this.props.cart.cartDetailsCNC.cartAmount &&
-            this.props.cart.cartDetailsCNC.cartAmount.bagTotal.value
+            this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value
         );
       }
     }
@@ -1495,7 +1491,9 @@ class CheckOutPage extends React.Component {
     if (this.state.binValidationCOD && !this.state.isCliqCashApplied) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
-    this.onChangePaymentMode({ currentPaymentMode: null });
+    if (!this.state.isNoCostEmiApplied) {
+      this.onChangePaymentMode({ currentPaymentMode: null });
+    }
   };
   handleSubmit = () => {
     localStorage.setItem(
@@ -1624,7 +1622,9 @@ class CheckOutPage extends React.Component {
         this.setState({ isNoCostEmiProceeded: true });
       }
     }
-    this.onChangePaymentMode({ currentPaymentMode: null });
+    if (!this.state.isNoCostEmiApplied) {
+      this.onChangePaymentMode({ currentPaymentMode: null });
+    }
   };
 
   addAddress = address => {
