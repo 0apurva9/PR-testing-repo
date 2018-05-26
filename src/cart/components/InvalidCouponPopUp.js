@@ -2,12 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./InvalidCouponPopUp.css";
-import Logo from "../../general/components/Logo";
 import {
-  INVALID_USER_COUPON_TYPE,
-  INVALID_BANK_OFFER_TYPE,
   FAILURE_LOWERCASE,
-  WRONG_FAILURE,
   SUCCESS,
   INVALID_NO_COST_EMI_TYPE,
   NO_COST_EMI_COUPON,
@@ -65,17 +61,19 @@ export default class InvalidCouponPopUp extends React.Component {
   }
   async continueWithoutCoupon() {
     let releaseStatus = {};
+    const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
+    const userCouponCode = localStorage.getItem(COUPON_COOKIE);
+    const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+
     if (this.props.result && this.props.result.userCoupon) {
-      if (localStorage.getItem(NO_COST_EMI_COUPON)) {
+      if (noCostEmiCoupon) {
         releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          localStorage.getItem(NO_COST_EMI_COUPON)
+          noCostEmiCoupon
         );
       }
       if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (localStorage.getItem(BANK_COUPON_COOKIE)) {
-          releaseStatus = await this.props.releaseBankOffer(
-            localStorage.getItem(BANK_COUPON_COOKIE)
-          );
+        if (bankCouponCode) {
+          releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
         }
       }
       if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
@@ -89,16 +87,14 @@ export default class InvalidCouponPopUp extends React.Component {
         }
       }
     } else if (this.props.result && this.props.result.bankOffer) {
-      if (localStorage.getItem(NO_COST_EMI_COUPON)) {
+      if (noCostEmiCoupon) {
         releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          localStorage.getItem(NO_COST_EMI_COUPON)
+          noCostEmiCoupon
         );
       }
       if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (localStorage.getItem(BANK_COUPON_COOKIE)) {
-          releaseStatus = await this.props.releaseBankOffer(
-            localStorage.getItem(BANK_COUPON_COOKIE)
-          );
+        if (bankCouponCode) {
+          releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
         }
       }
     } else if (this.props.result && this.props.result.noCostEmiCoupon) {
@@ -107,28 +103,36 @@ export default class InvalidCouponPopUp extends React.Component {
         INVALID_NO_COST_EMI_TYPE
       ) {
         releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          localStorage.getItem(NO_COST_EMI_COUPON)
+          noCostEmiCoupon
         );
       }
     }
     if (
-      localStorage.getItem(BANK_COUPON_COOKIE) ||
-      localStorage.getItem(COUPON_COOKIE) ||
-      localStorage.getItem(NO_COST_EMI_COUPON)
+      this.props.result &&
+      !this.props.result.userCoupon &&
+      !this.props.result.bankOffer &&
+      !this.props.result.noCostEmiCoupon
     ) {
-      const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
-      const userCouponCode = localStorage.getItem(COUPON_COOKIE);
-      const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
-
-      Promise.all([
-        bankCouponCode && this.props.releaseBankOffer(bankCouponCode),
-        userCouponCode && this.props.releaseUserCoupon(userCouponCode),
-        noCostEmiCoupon && this.props.removeNoCostEmi(noCostEmiCoupon)
-      ]).then(res => {
+      if (noCostEmiCoupon) {
+        releaseStatus = await this.props.releaseNoCostEmiCoupon(
+          noCostEmiCoupon
+        );
+      }
+      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+        if (bankCouponCode) {
+          releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
+        }
+      }
+      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+        if (userCouponCode) {
+          releaseStatus = await this.props.releaseUserCoupon(userCouponCode);
+        }
+      }
+      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
         localStorage.removeItem(BANK_COUPON_COOKIE);
         localStorage.removeItem(COUPON_COOKIE);
         this.props.closeModal();
-      });
+      }
     }
     if (releaseStatus.status === SUCCESS) {
       this.props.closeModal();
