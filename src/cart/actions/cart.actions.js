@@ -439,7 +439,13 @@ export function cartDetailsFailure(error) {
   };
 }
 
-export function getCartDetails(userId, accessToken, cartId, pinCode) {
+export function getCartDetails(
+  userId,
+  accessToken,
+  cartId,
+  pinCode,
+  isSetDataLayer
+) {
   return async (dispatch, getState, { api }) => {
     dispatch(cartDetailsRequest());
 
@@ -452,12 +458,14 @@ export function getCartDetails(userId, accessToken, cartId, pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      setDataLayer(
-        ADOBE_CART_TYPE,
-        resultJson,
-        getState().icid.value,
-        getState().icid.icidType
-      );
+      if (isSetDataLayer) {
+        setDataLayer(
+          ADOBE_CART_TYPE,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
+      }
 
       //set the local storage
       //set local storage
