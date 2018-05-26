@@ -895,17 +895,15 @@ class CheckOutPage extends React.Component {
           });
         }
 
-          this.setState({
-            couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
-              .couponDiscountAmount
-              ? Math.round(
-                  nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
-                    .value * 100
-                ) / 100
-              : "0.00"
-          });
-
-
+        this.setState({
+          couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
+            .couponDiscountAmount
+            ? Math.round(
+                nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
+                  .value * 100
+              ) / 100
+            : "0.00"
+        });
       }
     }
 
@@ -1094,12 +1092,10 @@ class CheckOutPage extends React.Component {
       //get the NoCost Emi Coupon Code to release
       let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
 
-      if(noCostEmiCouponCode)
-      {
-      let cartId = localStorage.getItem(OLD_CART_CART_ID);
+      if (noCostEmiCouponCode) {
+        let cartId = localStorage.getItem(OLD_CART_CART_ID);
         this.props.removeNoCostEmi(noCostEmiCouponCode, carGuId, cartId);
       }
-
     } else {
       let cartDetailsLoggedInUser = Cookie.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
@@ -1450,7 +1446,7 @@ class CheckOutPage extends React.Component {
         this.props.createJusPayOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-          localStorage.getItem(SELECTED_BANK_NAME),
+          this.state.bankCodeForNetBanking,
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
