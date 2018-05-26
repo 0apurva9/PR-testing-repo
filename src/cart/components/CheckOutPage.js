@@ -1178,8 +1178,21 @@ class CheckOutPage extends React.Component {
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value;
       const cartId = localStorage.getItem(OLD_CART_CART_ID);
-      if (this.props.applyNoCostEmi) {
-        this.props.applyNoCostEmi(couponCode, cartGuId, cartId);
+      if (this.props.removeNoCostEmi) {
+        const removeNoCostEmiResponse = this.props.removeNoCostEmi(
+          couponCode,
+          cartGuId,
+          cartId
+        );
+        if (removeNoCostEmiResponse.status === SUCCESS) {
+          this.setState({
+            isNoCostEmiApplied: false,
+            isNoCostEmiProceeded: false,
+            noCostEmiBankName: null,
+            noCostEmiDiscount: "0.00"
+          });
+        }
+        return removeNoCostEmiResponse;
       }
     } else {
       let cartDetailsLoggedInUser = Cookie.getCookie(
