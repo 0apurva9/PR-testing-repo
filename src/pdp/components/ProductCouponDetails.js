@@ -163,9 +163,12 @@ class ProductCouponDetails extends Component {
           >
             {coupons &&
               coupons.map((value, i) => {
+                let couponName = value.couponName
+                  ? value.couponName
+                  : value.couponCode;
                 return (
                   <CuponDetails
-                    promotionTitle={value.couponName}
+                    promotionTitle={couponName}
                     promotionDetail={value.description}
                     dateTime={value.couponExpiryDate}
                     amount={value.maxDiscount}
