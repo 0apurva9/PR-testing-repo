@@ -168,7 +168,7 @@ class ProductCouponDetails extends Component {
                   ? value.couponName
                   : value.couponCode;
 
-                let formattedDate = "";
+                let formattedDate;
                 if (value.couponExpiryDate) {
                   let dateOfBirth = new Date(
                     value.couponExpiryDate.split("IST").join()
