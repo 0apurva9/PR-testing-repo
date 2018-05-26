@@ -519,39 +519,6 @@ export function getCartDetailsCNC(
         throw new Error(`${resultJson.message}`);
       }
 
-      if (isSoftReservation) {
-        let productItems = {};
-        let item = [];
-        each(resultJson.products, product => {
-          if (product.isGiveAway === NO) {
-            let productDetails = {};
-            productDetails.ussId = product.USSID;
-            productDetails.quantity = product.qtySelectedByUser;
-            productDetails.fulfillmentType = product.fullfillmentType;
-
-            if (
-              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves
-            ) {
-              productDetails.deliveryMode =
-                product.pinCodeResponse.validDeliveryModes[0].type;
-              productDetails.serviceableSlaves =
-                product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-            } else if (
-              product.pinCodeResponse.validDeliveryModes[0]
-                .CNCServiceableSlavesData
-            ) {
-              productDetails.deliveryMode =
-                product.pinCodeResponse.validDeliveryModes[0].type;
-              productDetails.serviceableSlaves =
-                product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-            }
-            item.push(productDetails);
-            productItems.item = item;
-          }
-        });
-
-        dispatch(softReservation(pinCode, productItems));
-      }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -915,6 +882,7 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
   return async (dispatch, getState, { api }) => {
+
     dispatch(selectDeliveryModeRequest());
     try {
       const result = await api.post(
@@ -930,16 +898,38 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+        let productItems = {};
+        let item = [];
+        each(getState().cart && getState().cart.cartDetailsCNC && getState().cart.cartDetailsCNC.products, product => {
+          if (product.isGiveAway === NO) {
+            let productDetails = {};
+            productDetails.ussId = product.USSID;
+            productDetails.quantity = product.qtySelectedByUser;
+            productDetails.fulfillmentType = product.fullfillmentType;
 
-      dispatch(
-        getCartDetailsCNC(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token,
-          JSON.parse(cartDetails).code,
-          pinCode,
-          true
-        )
-      );
+            if (
+              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves
+            ) {
+              productDetails.deliveryMode =
+                product.pinCodeResponse.validDeliveryModes[0].type;
+              productDetails.serviceableSlaves =
+                product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
+            } else if (
+              product.pinCodeResponse.validDeliveryModes[0]
+                .CNCServiceableSlavesData
+            ) {
+              productDetails.deliveryMode =
+                product.pinCodeResponse.validDeliveryModes[0].type;
+              productDetails.serviceableSlaves =
+                product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
+            }
+            item.push(productDetails);
+            productItems.item = item;
+          }
+        });
+
+        dispatch(softReservation(pinCode, productItems));
+
       dispatch(selectDeliveryModeSuccess(resultJson));
       // setting data layer after selecting delivery mode success
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SELECT_DELIVERY_MODE);
