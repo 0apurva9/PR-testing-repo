@@ -15,6 +15,7 @@ import {
   RELEASE_USER_COUPON_FAILURE
 } from "../../cart/actions/cart.actions";
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import format from "date-fns/format";
 const REMOVE = "Remove";
 const APPLY = "Apply";
 const USER_COUPON_NOTE = "Note : Bank Offers can be applied  during payment";
@@ -166,11 +167,19 @@ class ProductCouponDetails extends Component {
                 let couponName = value.couponName
                   ? value.couponName
                   : value.couponCode;
+
+                let formattedDate = "";
+                if (value.couponExpiryDate) {
+                  let dateOfBirth = new Date(
+                    value.couponExpiryDate.split("IST").join()
+                  );
+                  formattedDate = format(dateOfBirth, "DD MMM YYYY");
+                }
                 return (
                   <CuponDetails
                     promotionTitle={couponName}
                     promotionDetail={value.description}
-                    dateTime={value.couponExpiryDate}
+                    dateTime={formattedDate}
                     amount={value.maxDiscount}
                     key={i}
                     couponType={value.couponType}
