@@ -419,9 +419,9 @@ export function getFeed(pageId: null) {
 
       dispatch(homeFeedSuccess(parsedResultJson, feedTypeRequest));
       if (
-        window.digitalData &&
-        window.digitalData.page &&
-        window.digitalData.page.pageInfo &&
+        !window.digitalData ||
+        !window.digitalData.page ||
+        !window.digitalData.page.pageInfo ||
         window.digitalData.page.pageInfo.pageName !== "homepage"
       ) {
         setDataLayer(

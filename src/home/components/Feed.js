@@ -283,7 +283,7 @@ class Feed extends Component {
   componentWillMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    console.log("COMPONENT WILL MOUNT");
+
     if (
       this.props.feedType === HOME_FEED_TYPE &&
       this.props.homeFeedData.length === 0
