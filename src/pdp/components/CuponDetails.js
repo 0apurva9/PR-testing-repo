@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./CuponDetails.css";
 import CheckBox from "../../general/components/CheckBox.js";
 import PropTypes from "prop-types";
+import { RUPEE_SYMBOL } from "../../lib/constants.js";
+
 const COUPON_TYPE = "COUPON";
 export default class CuponDetails extends React.Component {
   handleClick(val) {
@@ -38,19 +40,19 @@ export default class CuponDetails extends React.Component {
           />
 
           <div className={styles.dataHolder}>
-            {this.props.formattedDate && (
+            {this.props.dateTime && (
               <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>Valid till</div>
                 <div className={styles.dataInformation}>
-                  {this.props.formattedDate}
+                  {this.props.dateTime}
                 </div>
               </div>
             )}
             {this.props.amount && (
               <div className={styles.amountExpireHolder}>
-                <div className={styles.dataHeader}>Min.bag amount</div>
+                <div className={styles.dataHeader}>Max Discount</div>
                 <div className={styles.dataInformation}>
-                  Rs.
+                  {RUPEE_SYMBOL}
                   {this.props.amount}
                 </div>
               </div>
