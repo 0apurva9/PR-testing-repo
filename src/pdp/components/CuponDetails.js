@@ -48,7 +48,7 @@ export default class CuponDetails extends React.Component {
             )}
             {this.props.amount && (
               <div className={styles.amountExpireHolder}>
-                <div className={styles.dataHeader}>Min.bag amount</div>
+                <div className={styles.dataHeader}>Max Discount</div>
                 <div className={styles.dataInformation}>
                   Rs.
                   {this.props.amount}

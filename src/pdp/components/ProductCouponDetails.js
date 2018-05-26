@@ -17,8 +17,7 @@ import {
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 const REMOVE = "Remove";
 const APPLY = "Apply";
-const USER_COUPON_NOTE =
-  "Note : Bank promotions  can be applied  during payment";
+const USER_COUPON_NOTE = "Note : Bank Offers can be applied  during payment";
 
 class ProductCouponDetails extends Component {
   constructor(props) {
@@ -139,7 +138,7 @@ class ProductCouponDetails extends Component {
                   : APPLY
               }
               disableManualType={false}
-              placeholder="Enter Coupon code"
+              placeholder="Enter Coupon Code"
               couponCode={this.state.selectedCouponCode}
               getValue={selectedCouponCode =>
                 this.setState({ selectedCouponCode })
