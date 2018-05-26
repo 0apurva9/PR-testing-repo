@@ -25,7 +25,7 @@ export default class ThemeOffer extends React.Component {
     const itemIds = this.props.feedComponentData.itemIds;
     let itemIdsToAdd;
 
-    if (offers.length < OFFER_AND_ITEM_LIMIT && itemIds) {
+    if (offers && offers.length < OFFER_AND_ITEM_LIMIT && itemIds) {
       const numberOfItemsToTake = OFFER_AND_ITEM_LIMIT - offers.length;
       itemIdsToAdd = itemIds.slice(0, numberOfItemsToTake);
       if (

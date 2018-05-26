@@ -882,7 +882,6 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
   return async (dispatch, getState, { api }) => {
-
     dispatch(selectDeliveryModeRequest());
     try {
       const result = await api.post(
@@ -899,7 +898,7 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
         throw new Error(resultJsonStatus.message);
       }
 
-       dispatch(softReservation());
+      dispatch(softReservation());
       dispatch(selectDeliveryModeSuccess(resultJson));
       // setting data layer after selecting delivery mode success
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SELECT_DELIVERY_MODE);
@@ -1547,39 +1546,41 @@ export function softReservation() {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartId = JSON.parse(cartDetails).code;
-  let  pinCode=localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+  let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
-
     //get the body parameters
     let productItems = {};
-        let item = [];
-        each(getState().cart && getState().cart.cartDetailsCNC && getState().cart.cartDetailsCNC.products, product => {
-          if (product.isGiveAway === NO) {
-            let productDetails = {};
-            productDetails.ussId = product.USSID;
-            productDetails.quantity = product.qtySelectedByUser;
-            productDetails.fulfillmentType = product.fullfillmentType;
+    let item = [];
+    each(
+      getState().cart &&
+        getState().cart.cartDetailsCNC &&
+        getState().cart.cartDetailsCNC.products,
+      product => {
+        if (product.isGiveAway === NO) {
+          let productDetails = {};
+          productDetails.ussId = product.USSID;
+          productDetails.quantity = product.qtySelectedByUser;
+          productDetails.fulfillmentType = product.fullfillmentType;
 
-            if (
-              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves
-            ) {
-              productDetails.deliveryMode =
-                product.pinCodeResponse.validDeliveryModes[0].type;
-              productDetails.serviceableSlaves =
-                product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-            } else if (
-              product.pinCodeResponse.validDeliveryModes[0]
-                .CNCServiceableSlavesData
-            ) {
-              productDetails.deliveryMode =
-                product.pinCodeResponse.validDeliveryModes[0].type;
-              productDetails.serviceableSlaves =
-                product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-            }
-            item.push(productDetails);
-            productItems.item = item;
+          if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
+            productDetails.deliveryMode =
+              product.pinCodeResponse.validDeliveryModes[0].type;
+            productDetails.serviceableSlaves =
+              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
+          } else if (
+            product.pinCodeResponse.validDeliveryModes[0]
+              .CNCServiceableSlavesData
+          ) {
+            productDetails.deliveryMode =
+              product.pinCodeResponse.validDeliveryModes[0].type;
+            productDetails.serviceableSlaves =
+              product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
           }
-        });
+          item.push(productDetails);
+          productItems.item = item;
+        }
+      }
+    );
 
     try {
       const result = await api.post(
@@ -1935,18 +1936,14 @@ export function binValidation(paymentMode, binNo, cartGuId) {
   }
 
   return async (dispatch, getState, { api }) => {
-    let paymentTypeObject = new FormData();
-    paymentTypeObject.append("cartGuid", cartGuId);
-    paymentTypeObject.append("binNo", binNo);
     dispatch(binValidationRequest());
     try {
-      const result = await api.postFormData(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}`,
-        paymentTypeObject
+        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartGuId}&binNo=${binNo}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1970,18 +1967,14 @@ export function binValidationForNetBanking(paymentMode, bankName) {
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartId = JSON.parse(cartDetails).guid;
   return async (dispatch, getState, { api }) => {
-    let paymentTypeObject = new FormData();
-    paymentTypeObject.append("cartGuid", cartId);
-    paymentTypeObject.append("binNo", "");
     dispatch(binValidationRequest());
     try {
-      const result = await api.postFormData(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/binValidation?channel=mobile&access_token=${
           JSON.parse(customerCookie).access_token
-        }&bankName=${bankName}&paymentMode=${paymentMode}`,
-        paymentTypeObject
+        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3407,18 +3400,14 @@ export function binValidationForCOD(paymentMode) {
   const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   const cartId = JSON.parse(cartDetails).guid;
   return async (dispatch, getState, { api }) => {
-    let paymentTypeObject = new FormData();
-    paymentTypeObject.append("cartGuid", cartId);
-
     dispatch(binValidationForCODRequest());
     try {
-      const result = await api.postFormData(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}`,
-        paymentTypeObject
+        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
