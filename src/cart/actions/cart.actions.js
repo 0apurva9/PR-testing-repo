@@ -1927,12 +1927,17 @@ export function binValidationFailure(error) {
 }
 
 // Action Creator to bin Validation
-export function binValidation(paymentMode, binNo, cartGuId) {
+export function binValidation(paymentMode, binNo) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  if (!cartGuId) {
-    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    cartGuId = JSON.parse(cartDetails).guid;
+
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
   }
 
   return async (dispatch, getState, { api }) => {
@@ -1943,7 +1948,7 @@ export function binValidation(paymentMode, binNo, cartGuId) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartGuId}&binNo=${binNo}`
+        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1965,7 +1970,13 @@ export function binValidationForNetBanking(paymentMode, bankName) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartId = JSON.parse(cartDetails).guid;
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationRequest());
     try {
@@ -3397,8 +3408,15 @@ export function binValidationForCODFailure(error) {
 export function binValidationForCOD(paymentMode) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+
   const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  const cartId = JSON.parse(cartDetails).guid;
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationForCODRequest());
     try {
