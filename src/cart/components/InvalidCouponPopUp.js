@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./InvalidCouponPopUp.css";
+import queryString from "query-string";
+
 import {
   FAILURE_LOWERCASE,
   SUCCESS,
@@ -64,6 +66,8 @@ export default class InvalidCouponPopUp extends React.Component {
     const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const userCouponCode = localStorage.getItem(COUPON_COOKIE);
     const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    const isPaymentFailureCase = parsedQueryString.status;
 
     if (this.props.result && this.props.result.userCoupon) {
       if (noCostEmiCoupon) {
@@ -124,7 +128,7 @@ export default class InvalidCouponPopUp extends React.Component {
         }
       }
       if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (userCouponCode) {
+        if (userCouponCode && !isPaymentFailureCase) {
           releaseStatus = await this.props.releaseUserCoupon(userCouponCode);
         }
       }
@@ -139,6 +143,9 @@ export default class InvalidCouponPopUp extends React.Component {
     }
   }
   render() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    const isPaymentFailureCase = parsedQueryString.status;
+
     const data = this.props.result;
     return (
       <div className={styles.base}>
@@ -220,17 +227,24 @@ export default class InvalidCouponPopUp extends React.Component {
             />
           </div>
         </div>
-        <div className={styles.buttonHolderForContinueCoupon}>
-          <div className={styles.button}>
-            <Button
-              type="secondary"
-              height={36}
-              label="Continue without coupon"
-              width={211}
-              onClick={() => this.continueWithoutCoupon()}
-            />
+        {(!isPaymentFailureCase ||
+          (isPaymentFailureCase &&
+            (!data ||
+              !data.userCoupon ||
+              !data.userCoupon.status ||
+              data.userCoupon.status.toLowerCase() !== FAILURE_LOWERCASE))) && (
+          <div className={styles.buttonHolderForContinueCoupon}>
+            <div className={styles.button}>
+              <Button
+                type="secondary"
+                height={36}
+                label="Continue without coupon"
+                width={211}
+                onClick={() => this.continueWithoutCoupon()}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
