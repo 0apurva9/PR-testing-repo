@@ -33,11 +33,17 @@ export default class EmiAccordion extends React.Component {
   }
 
   handleSelectPlan(val) {
+    console.log(val);
     if (val) {
       this.setState({
         selectedEmiRate: val.interestRate,
         selectedEmi: val.term,
         selectedPrice: val.monthlyInstallment
+      });
+      this.onChangeCardDetail({
+        emi_bank: this.state.selectedBank,
+        emi_tenure: val.term,
+        is_emi: IS_EMI
       });
     }
   }
@@ -64,11 +70,6 @@ export default class EmiAccordion extends React.Component {
         selectedEmiRate: option.emitermsrate[0].interestRate,
         selectedEmi: option.emitermsrate[0].term,
         selectedPrice: option.emitermsrate[0].monthlyInstallment
-      });
-      this.onChangeCardDetail({
-        emi_bank: option.emiBank,
-        emi_tenure: option.emitermsrate[0].term,
-        is_emi: IS_EMI
       });
     }
   }
