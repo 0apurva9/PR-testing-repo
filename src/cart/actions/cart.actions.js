@@ -2691,24 +2691,7 @@ export function createJusPayOrderForSavedCards(
     dispatch(createJusPayOrderRequest());
     try {
       const result = await api.post(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
-          cardDetails.cardIssuer
-        }&
-        cardFingerPrint=${
-          cardDetails.cardFingerprint
-        }&platform=2&pincode=${localStorage.getItem(
-          DEFAULT_PIN_CODE_LOCAL_STORAGE
-        )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
-          cardDetails.cardReferenceNumber
-        }&country=&addressLine1=&access_token=${
-          JSON.parse(customerCookie).access_token
-        }&juspayUrl=${encodeURIComponent(
-          jusPayUrl
-        )}$paymentMode=${currentSelectedPaymentMode}$bankName=${
-          bankName ? bankName : ""
-        }`,
+        `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${cardDetails.cardIssuer}&cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}&city=&cartGuid=${cartId}&token=&cardRefNo=${cardDetails.cardReferenceNumber}&country=&addressLine1=&access_token=${JSON.parse(customerCookie).access_token}&juspayUrl=${encodeURIComponent(jusPayUrl)}$paymentMode=${currentSelectedPaymentMode}$bankName=${bankName ? bankName : ""}`,
         cartItem
       );
       const resultJson = await result.json();
