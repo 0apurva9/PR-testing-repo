@@ -137,6 +137,7 @@ export const SOCIAL_SIGN_UP = "signUp";
 export const OLD_CART_GU_ID = "oldCartGuId";
 export const OLD_CART_CART_ID = "oldCartCartId";
 export const NO_COST_EMI_COUPON = "noCostEmiCoupon";
+export const EMI_TYPE = "emiType";
 export const CART_DETAILS_FOR_ANONYMOUS = "cartDetailsForAnonymous";
 export const CART_DETAILS_FOR_LOGGED_IN_USER = "cartDetails";
 export const LOGGED_IN_USER_DETAILS = "userDetails";
