@@ -19,7 +19,7 @@ export default class EmiCard extends React.Component {
 
   handleChange(val) {
     const updatedValue = this.props.options.filter(option => {
-      return option.term === val;
+      return option.term === val.value;
     })[0];
 
     this.setState(
