@@ -1,5 +1,5 @@
 import React from "react";
-import SelectBoxMobile from "../../general/components/SelectBoxMobile";
+import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import PropTypes from "prop-types";
 import styles from "./EmiCard.css";
 export default class EmiCard extends React.Component {
@@ -19,7 +19,7 @@ export default class EmiCard extends React.Component {
 
   handleChange(val) {
     const updatedValue = this.props.options.filter(option => {
-      return option.term === val;
+      return option.term === val.value;
     })[0];
 
     this.setState(
@@ -44,7 +44,7 @@ export default class EmiCard extends React.Component {
             <div className={styles.label}>Tenure(Months)</div>
             <div className={styles.info}>
               <div className={styles.selectBoxMobile}>
-                <SelectBoxMobile
+                <SelectBoxMobile2
                   value={this.state.term}
                   label={this.state.term}
                   theme="blackBox"
@@ -54,6 +54,7 @@ export default class EmiCard extends React.Component {
                   })}
                   selected={this.state.term}
                   onChange={val => this.handleChange(val)}
+                  placeholder={"Tenure"}
                 />
               </div>
             </div>

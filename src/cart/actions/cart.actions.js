@@ -11,7 +11,8 @@ import {
   SELECTED_BANK_NAME,
   EMI,
   NO_COST_EMI_COUPON,
-  CLIQ_CASH
+  CLIQ_CASH,
+  STANDARD_EMI
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -22,6 +23,7 @@ import {
   EMI_BANK_TERMS_AND_CONDITIONS,
   INVALID_BANK_COUPON_POPUP
 } from "../../general/modal.actions";
+import { displayToast } from "../../general/toast.actions";
 import {
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
@@ -36,7 +38,8 @@ import {
   FAILURE_LOWERCASE,
   SOFT_RESERVATION_ITEM,
   ADDRESS_DETAILS_FOR_PAYMENT,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  EMI_TYPE
 } from "../../lib/constants";
 import queryString, { parse } from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -2089,22 +2092,10 @@ export function softReservationForPayment(cardDetails, address) {
       }
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(softReservationForPaymentSuccess(resultJson));
-      if (localStorage.getItem(PAYMENT_MODE_TYPE) === EMI) {
-        dispatch(
-          createJusPayOrder(
-            "",
-            productItems,
-            address,
-            cardDetails,
-            paymentMode,
-            false
-          )
-        );
-      } else {
-        dispatch(
+      dispatch(
           jusPayTokenize(cardDetails, address, productItems, paymentMode, false)
         );
-      }
+
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }
@@ -2497,7 +2488,8 @@ export function createJusPayOrder(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(
@@ -2613,7 +2605,8 @@ export function createJusPayOrderForNetBanking(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(
@@ -2732,7 +2725,8 @@ export function createJusPayOrderForSavedCards(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
 
@@ -2851,7 +2845,8 @@ export function createJusPayOrderForCliqCash(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
@@ -2991,11 +2986,12 @@ export function jusPayPaymentMethodType(
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
       cardObject.append("save_to_locker", "1");
-      if (localStorage.getItem(NO_COST_EMI_COUPON)) {
+      if (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
       }
+
       const result = await api.postJusPay(`txns?`, cardObject);
       const resultJson = await result.json();
 
@@ -3009,6 +3005,10 @@ export function jusPayPaymentMethodType(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
+        if(localStorage.getItem(EMI_TYPE))
+        {
+        localStorage.removeItem(EMI_TYPE);
+        }
         dispatch(generateCartIdForLoggedInUser());
       } else {
         throw new Error(resultJson.error_message);
@@ -3502,8 +3502,9 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
-        ) {
+
           dispatch(updateTransactionDetailsForCODFailure());
+
           return dispatch(
             showModal(INVALID_BANK_COUPON_POPUP, {
               result: resultJson
