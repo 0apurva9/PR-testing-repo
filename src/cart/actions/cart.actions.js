@@ -3503,7 +3503,7 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
         ) {
-          dispatch(createJusPayOrderFailure(INVALID_COUPON_ERROR_MESSAGE));
+          dispatch(updateTransactionDetailsForCODFailure(INVALID_COUPON_ERROR_MESSAGE));
           return dispatch(
             showModal(INVALID_BANK_COUPON_POPUP, {
               result: resultJson
