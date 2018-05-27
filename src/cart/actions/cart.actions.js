@@ -3501,8 +3501,8 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
-          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
-
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2)
+       {
           dispatch(updateTransactionDetailsForCODFailure());
 
           return dispatch(

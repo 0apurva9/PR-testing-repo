@@ -21,7 +21,6 @@ export default class EmiAccordion extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedEMIType !== STANDARD_EMI) {
-      localStorage.removeItem(EMI_TYPE);
       this.setState({
         planSelected: false,
         selectedEmi: "",
