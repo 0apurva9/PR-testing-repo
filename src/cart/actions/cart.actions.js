@@ -23,6 +23,7 @@ import {
   EMI_BANK_TERMS_AND_CONDITIONS,
   INVALID_BANK_COUPON_POPUP
 } from "../../general/modal.actions";
+import { displayToast } from "../../general/toast.actions";
 import {
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
@@ -2487,7 +2488,8 @@ export function createJusPayOrder(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(
@@ -2603,7 +2605,8 @@ export function createJusPayOrderForNetBanking(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(
@@ -2722,7 +2725,8 @@ export function createJusPayOrderForSavedCards(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
 
@@ -2841,7 +2845,8 @@ export function createJusPayOrderForCliqCash(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
@@ -3498,7 +3503,9 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
         ) {
-          dispatch(updateTransactionDetailsForCODFailure(INVALID_COUPON_ERROR_MESSAGE));
+          dispatch(
+            updateTransactionDetailsForCODFailure(INVALID_COUPON_ERROR_MESSAGE)
+          );
           return dispatch(
             showModal(INVALID_BANK_COUPON_POPUP, {
               result: resultJson
