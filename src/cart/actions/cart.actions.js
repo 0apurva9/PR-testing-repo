@@ -3000,6 +3000,10 @@ export function jusPayPaymentMethodType(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
+        if(localStorage.getItem(EMI_TYPE))
+        {
+        localStorage.removeItem(EMI_TYPE);
+        }
         dispatch(generateCartIdForLoggedInUser());
       } else {
         throw new Error(resultJson.error_message);

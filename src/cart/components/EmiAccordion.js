@@ -21,7 +21,7 @@ export default class EmiAccordion extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedEMIType !== STANDARD_EMI) {
-      localStorage.setItem(EMI_TYPE, null);
+      localStorage.removeItem(EMI_TYPE);
       this.setState({
         planSelected: false,
         selectedEmi: "",
@@ -67,7 +67,7 @@ export default class EmiAccordion extends React.Component {
       });
       this.onChangeCardDetail({
         emi_bank: option.emiBank,
-        emi_tenure: option.emitermsrate[0].interestRate,
+        emi_tenure: option.emitermsrate[0].term,
         is_emi: IS_EMI
       });
     }
