@@ -43,7 +43,7 @@ export default class EmiAccordion extends React.Component {
       this.onChangeCardDetail({
         emi_bank: this.state.selectedBank,
         emi_tenure: val.term,
-        is_emi: 2
+        is_emi: true
       });
     }
   }
@@ -70,6 +70,11 @@ export default class EmiAccordion extends React.Component {
         selectedEmiRate: option.emitermsrate[0].interestRate,
         selectedEmi: option.emitermsrate[0].term,
         selectedPrice: option.emitermsrate[0].monthlyInstallment
+      });
+      this.onChangeCardDetail({
+        emi_bank: option.emiBank,
+        emi_tenure: option.emitermsrate[0].term,
+        is_emi: true
       });
     }
   }

@@ -301,6 +301,7 @@ class CheckOutPage extends React.Component {
   componentDidUpdate() {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
+    console.log(value)
     if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
@@ -2008,6 +2009,7 @@ class CheckOutPage extends React.Component {
           }
         }
       } else if (this.state.currentSelectedEMIType === STANDARD_EMI) {
+        console.log()
         if (
           this.state.cardDetails &&
           this.state.cardDetails.emi_bank &&
