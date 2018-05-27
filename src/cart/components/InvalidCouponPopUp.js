@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./InvalidCouponPopUp.css";
+import queryString from "query-string";
+
 import {
   FAILURE_LOWERCASE,
   SUCCESS,
@@ -139,6 +141,9 @@ export default class InvalidCouponPopUp extends React.Component {
     }
   }
   render() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    const isPaymentFailureCase = parsedQueryString.status;
+
     const data = this.props.result;
     return (
       <div className={styles.base}>
@@ -220,17 +225,19 @@ export default class InvalidCouponPopUp extends React.Component {
             />
           </div>
         </div>
-        <div className={styles.buttonHolderForContinueCoupon}>
-          <div className={styles.button}>
-            <Button
-              type="secondary"
-              height={36}
-              label="Continue without coupon"
-              width={211}
-              onClick={() => this.continueWithoutCoupon()}
-            />
+        {!isPaymentFailureCase && (
+          <div className={styles.buttonHolderForContinueCoupon}>
+            <div className={styles.button}>
+              <Button
+                type="secondary"
+                height={36}
+                label="Continue without coupon"
+                width={211}
+                onClick={() => this.continueWithoutCoupon()}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
