@@ -33,7 +33,6 @@ export default class EmiAccordion extends React.Component {
   }
 
   handleSelectPlan(val) {
-    console.log(val);
     if (val) {
       this.setState({
         selectedEmiRate: val.interestRate,
