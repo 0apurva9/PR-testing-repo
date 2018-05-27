@@ -4,7 +4,7 @@ import EmiCartSelect from "./EmiCartSelect";
 import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
-import { STANDARD_EMI } from "../../lib/constants";
+import { STANDARD_EMI, EMI_TYPE } from "../../lib/constants";
 const PAYMENT_MODE = "EMI";
 
 const IS_EMI = "1";
@@ -21,6 +21,7 @@ export default class EmiAccordion extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedEMIType !== STANDARD_EMI) {
+      localStorage.setItem(EMI_TYPE, null);
       this.setState({
         planSelected: false,
         selectedEmi: "",
@@ -72,6 +73,7 @@ export default class EmiAccordion extends React.Component {
     }
   }
   handleConfirmPlan() {
+    localStorage.setItem(EMI_TYPE, STANDARD_EMI);
     this.setState({ planSelected: true });
   }
   handleChangePlan() {
