@@ -83,7 +83,8 @@ export default class InvalidCouponPopUp extends React.Component {
       if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
         if (
           this.props.result.userCoupon &&
-          this.props.result.userCoupon.couponCode
+          this.props.result.userCoupon.couponCode &&
+          !isPaymentFailureCase
         ) {
           releaseStatus = await this.props.releaseUserCoupon(
             this.props.result.userCoupon.couponCode
