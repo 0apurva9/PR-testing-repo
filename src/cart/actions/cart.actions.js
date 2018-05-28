@@ -2922,7 +2922,7 @@ export function jusPayPaymentMethodTypeForGiftCard(
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
       cardObject.append("save_to_locker", true);
-      if (localStorage.getItem(NO_COST_EMI_COUPON)) {
+      if (cardDetails.is_emi && (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI)) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
@@ -2955,6 +2955,7 @@ export function jusPayPaymentMethodType(
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(jusPayPaymentMethodTypeRequest());
+    console.log(cardDetails.is_emi);
     try {
       let cardObject = new FormData();
       cardObject.append("payment_method_type", "CARD");
@@ -2967,8 +2968,8 @@ export function jusPayPaymentMethodType(
       cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
-      cardObject.append("save_to_locker", "1");
-      if (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI) {
+      cardObject.append("save_to_locker", true);
+      if (cardDetails.is_emi && (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI)) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
