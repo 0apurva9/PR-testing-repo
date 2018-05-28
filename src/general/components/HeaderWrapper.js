@@ -29,9 +29,7 @@ import {
   setIsGoBackFromPDP,
   setIsNotGoBackFromPDP
 } from "../../plp/actions/plp.actions.js";
-
-const PRODUCT_CODE_REGEX = /p-mp(.*)/;
-
+const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
 class HeaderWrapper extends React.Component {
   constructor(props) {
     super(props);
