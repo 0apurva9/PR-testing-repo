@@ -94,6 +94,9 @@ const ADOBE_INTERNAL_SEARCH_NULL = "null_search";
 
 const ADOBE_NOT_FOUND = "404_error";
 const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
+
+const SIGN_UP_START = "signup_starts";
+const SIGN_UP_SUCCESS = "signup_successful";
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT";
@@ -224,6 +227,9 @@ export const ADOBE_ON_CLICK_FOLLOWED_WIDGET = "ADOBE_ON_CLICK_FOLLOWED_WIDGET";
 
 export const ADOBE_STATIC_PAGE = "ADOBE_STATIC_PAGE";
 export const ADOBE_LOGIN_AND_SIGN_UP_PAGE = "ADOBE_LOGIN_AND_SIGN_UP_PAGE";
+
+export const ADOBE_SIGN_UP_START = "ADOBE_SIGN_UP_START";
+export const ADOBE_SIGN_UP_SUCCESS = "ADOBE_SIGN_UP_SUCCESS";
 
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
@@ -1644,4 +1650,12 @@ function getDigitalDataForStatic(response) {
 
 export function setDataLayerForNotFound() {
   window._satellite.track(ADOBE_NOT_FOUND);
+}
+export function setDataLayerForSignupProcess(type) {
+  if (type === ADOBE_SIGN_UP_START) {
+    window._satellite.track(SIGN_UP_START);
+  }
+  if (type === ADOBE_SIGN_UP_SUCCESS) {
+    window._satellite.track(SIGN_UP_SUCCESS);
+  }
 }
