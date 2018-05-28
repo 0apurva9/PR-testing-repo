@@ -29,7 +29,8 @@ export default class Checkout extends React.Component {
     }
   }
   handleFocusOnPinCode() {
-    document.getElementById("searchAndUpdateInput").focus();
+    document.getElementById("searchAndUpdateInput") &&
+      document.getElementById("searchAndUpdateInput").focus();
   }
 
   render() {

@@ -1977,7 +1977,7 @@ class CheckOutPage extends React.Component {
       !this.state.isPaymentFailed &&
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
-      (this.props.cart.userAddress && this.props.cart.userAddress.addresses)
+      (this.props.cart.userAddress && this.props.cart.userAddress.addresses && !this.state.isGiftCard)
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
@@ -1985,8 +1985,7 @@ class CheckOutPage extends React.Component {
 
       labelForButton = PROCEED;
     } else if (
-      (this.state.confirmAddress && !this.state.deliverMode) ||
-      this.state.isGiftCard
+      (this.state.confirmAddress && !this.state.deliverMode &&  !this.state.isGiftCard)
     ) {
       labelForButton = PROCEED;
     } else if (
