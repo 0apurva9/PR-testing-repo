@@ -206,7 +206,13 @@ export default class PaymentCardWrapper extends React.Component {
               <div className={styles.card}>
                 <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
               </div>
-              {this.renderSavedCards()}
+              {this.props.cart.paymentModes &&
+                this.props.cart.paymentModes.savedCardResponse &&
+                this.props.cart.paymentModes.savedCardResponse
+                  .savedCardDetailsMap &&
+                this.props.cart.paymentModes.savedCardResponse
+                  .savedCardDetailsMap.length > 0 &&
+                this.renderSavedCards()}
               {this.props.cart.paymentModes &&
                 this.renderPaymentCardsComponents()}
             </div>
