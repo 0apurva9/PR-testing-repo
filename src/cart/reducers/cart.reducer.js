@@ -694,7 +694,7 @@ const cart = (
         loading: true
       });
     case cartActions.RELEASE_BANK_OFFER_SUCCESS:
-       cloneCartDetailCNC = state.cartDetailsCNC
+      cloneCartDetailCNC = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
       if (cloneCartDetailCNC && action.bankOffer.cartAmount) {
@@ -732,7 +732,7 @@ const cart = (
       });
 
     case cartActions.APPLY_CLIQ_CASH_SUCCESS: {
-       cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
+      cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
       if (
         cloneCartDetailCNC.cartAmount &&
         action.paymentDetails &&
@@ -766,7 +766,7 @@ const cart = (
       });
 
     case cartActions.REMOVE_CLIQ_CASH_SUCCESS: {
-       cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
+      cloneCartDetailCNC = cloneDeep(state.cartDetailsCNC);
       if (
         cloneCartDetailCNC.cartAmount &&
         action.paymentDetails &&
@@ -1024,14 +1024,17 @@ const cart = (
       return Object.assign({}, state, {
         transactionDetailsStatus: action.status,
         transactionDetailsDetails: action.transactionDetails,
-        loading: false
+        loading: false,
+        isPaymentProceeded:false
       });
 
     case cartActions.UPDATE_TRANSACTION_DETAILS_FOR_COD_FAILURE:
+      console.log(action.error);
       return Object.assign({}, state, {
         transactionDetailsStatus: action.status,
         transactionDetailsError: action.error,
-        loading: false
+        loading: false,
+        isPaymentProceeded:false
       });
 
     case cartActions.SOFT_RESERVATION_FOR_COD_PAYMENT_REQUEST:
@@ -1372,7 +1375,7 @@ const cart = (
       });
 
     case cartActions.PAYMENT_FAILURE_ORDER_DETAILS_SUCCESS:
-        cloneCartDetailCNC = state.cartDetailsCNC
+      cloneCartDetailCNC = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
 
