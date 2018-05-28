@@ -89,9 +89,6 @@ export default class PaymentCardWrapper extends React.Component {
     }
   };
   renderSavedCards = () => {
-    console.log(
-      this.props.cart.paymentModes.savedCardResponse.savedCardDetailsMap.length
-    );
     return (
       <CheckoutSavedCard
         currentPaymentMode={this.props.currentPaymentMode}
