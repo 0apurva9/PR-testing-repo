@@ -2622,14 +2622,13 @@ export function createJusPayOrderForNetBanking(
   };
 }
 
-export function createJusPayOrderForGiftCardNetBanking(guId) {
+export function createJusPayOrderForGiftCardNetBanking(guId,bankCode) {
   const jusPayUrl = `${
     window.location.origin
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
-  const bankName = localStorage.getItem(SELECTED_BANK_NAME);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -2637,7 +2636,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platform=2&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platform=2&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -2652,7 +2651,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId) {
       dispatch(
         jusPayPaymentMethodTypeForGiftCardNetBanking(
           resultJson.juspayOrderId,
-          bankName,
+          bankCode,
           guId
         )
       );
@@ -2955,7 +2954,6 @@ export function jusPayPaymentMethodType(
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(jusPayPaymentMethodTypeRequest());
-    console.log(cardDetails.is_emi);
     try {
       let cardObject = new FormData();
       cardObject.append("payment_method_type", "CARD");

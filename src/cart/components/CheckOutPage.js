@@ -1472,7 +1472,8 @@ class CheckOutPage extends React.Component {
       if (this.state.isGiftCard) {
         if (this.props.createJusPayOrderForGiftCardNetBanking) {
           this.props.createJusPayOrderForGiftCardNetBanking(
-            this.state.egvCartGuid
+            this.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
           );
         }
       } else {
@@ -1609,7 +1610,8 @@ class CheckOutPage extends React.Component {
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
-            this.props.location.state.egvCartGuid
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
           );
         } else {
           this.softReservationPaymentForNetBanking(
@@ -1630,7 +1632,8 @@ class CheckOutPage extends React.Component {
       if (this.state.paymentModeSelected === PAYTM) {
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
-            this.props.location.state.egvCartGuid
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
           );
         } else {
           this.softReservationPaymentForWallet(PAYTM);
@@ -1870,7 +1873,8 @@ class CheckOutPage extends React.Component {
   createJusPayOrderForGiftCardNetBanking = () => {
     if (this.props.createJusPayOrderForGiftCardNetBanking) {
       this.props.createJusPayOrderForGiftCardNetBanking(
-        this.props.location.state.egvCartGuid
+        this.props.location.state.egvCartGuid,
+        this.state.bankCodeForNetBanking
       );
     }
   };
