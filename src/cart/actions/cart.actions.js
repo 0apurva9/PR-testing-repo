@@ -2622,14 +2622,14 @@ export function createJusPayOrderForNetBanking(
   };
 }
 
-export function createJusPayOrderForGiftCardNetBanking(guId) {
+export function createJusPayOrderForGiftCardNetBanking(guId,bankName) {
   const jusPayUrl = `${
     window.location.origin
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
-  const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  // const bankName = localStorage.getItem(SELECTED_BANK_NAME);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -2955,7 +2955,6 @@ export function jusPayPaymentMethodType(
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(jusPayPaymentMethodTypeRequest());
-    console.log(cardDetails.is_emi);
     try {
       let cardObject = new FormData();
       cardObject.append("payment_method_type", "CARD");

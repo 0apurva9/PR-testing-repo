@@ -287,8 +287,8 @@ const mapDispatchToProps = dispatch => {
         )
       );
     },
-    createJusPayOrderForGiftCardNetBanking: guId => {
-      dispatch(createJusPayOrderForGiftCardNetBanking(guId));
+    createJusPayOrderForGiftCardNetBanking: (guId, bankName) => {
+      dispatch(createJusPayOrderForGiftCardNetBanking(guId, bankName));
     },
     createJusPayOrderForGiftCardFromSavedCards: (cardDetails, guId) => {
       dispatch(createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId));
