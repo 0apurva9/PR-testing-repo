@@ -403,6 +403,19 @@ export function getFeed(pageId: null) {
         );
         resultJson = resultJson[0];
         feedTypeRequest = HOME_FEED_TYPE;
+        if (
+          !window.digitalData ||
+          !window.digitalData.page ||
+          !window.digitalData.page.pageInfo ||
+          window.digitalData.page.pageInfo.pageName !== "homepage"
+        ) {
+          setDataLayer(
+            ADOBE_HOME_TYPE,
+            null,
+            getState().icid.value,
+            getState().icid.icidType
+          );
+        }
       }
 
       if (
@@ -418,19 +431,6 @@ export function getFeed(pageId: null) {
       parsedResultJson = parsedResultJson.items;
 
       dispatch(homeFeedSuccess(parsedResultJson, feedTypeRequest));
-      if (
-        !window.digitalData ||
-        !window.digitalData.page ||
-        !window.digitalData.page.pageInfo ||
-        window.digitalData.page.pageInfo.pageName !== "homepage"
-      ) {
-        setDataLayer(
-          ADOBE_HOME_TYPE,
-          null,
-          getState().icid.value,
-          getState().icid.icidType
-        );
-      }
     } catch (e) {
       dispatch(homeFeedFailure(e.message));
     }
