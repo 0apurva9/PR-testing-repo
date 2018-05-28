@@ -26,14 +26,14 @@ export function transformData(datum) {
     price = datum.mrp;
   }
   if (datum.mrpPrice) {
-    price = datum.mrpPrice.formattedValue;
+    price = datum.mrpPrice.doubleValue;
   }
   let discountPrice;
   if (datum.winningSellerMOP) {
     discountPrice = datum.winningSellerMOP;
   }
   if (datum.discountedPrice) {
-    discountPrice = datum.discountedPrice.formattedValue;
+    discountPrice = datum.discountedPrice.doubleValue;
   }
   return {
     image: image,
