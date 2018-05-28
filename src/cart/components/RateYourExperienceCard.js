@@ -12,7 +12,9 @@ export default class RateyourExperienceCard extends React.Component {
   }
 
   captureOrderExperience = rating => {
-    this.props.captureOrderExperience(rating);
+    if (rating) {
+      this.props.captureOrderExperience(rating);
+    }
   };
   render() {
     return (
