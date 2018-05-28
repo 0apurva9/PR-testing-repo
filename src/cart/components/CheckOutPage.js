@@ -669,6 +669,24 @@ class CheckOutPage extends React.Component {
         });
       }
     }
+
+    //update cliqCash Amount
+    if (
+      nextProps.cart.paymentModes &&
+      nextProps.cart.paymentModes.cliqCash &&
+      nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance
+    ) {
+      this.setState({
+        cliqCashAmount: nextProps.cart.paymentModes.cliqCash
+          .totalCliqCashBalance.value
+          ? Math.round(
+              nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance.value *
+                100
+            ) / 100
+          : "0.00"
+      });
+    }
+
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&
@@ -812,9 +830,9 @@ class CheckOutPage extends React.Component {
             : "0.00";
         }
         if (
-          this.props.cart &&
-          this.props.cart.emiEligibilityDetails &&
-          this.props.cart.emiEligibilityDetails.isNoCostEMIEligible &&
+          nextProps.cart &&
+          nextProps.cart.emiEligibilityDetails &&
+          nextProps.cart.emiEligibilityDetails.isNoCostEMIEligible &&
           nextProps.cart.cartDetailsCNC.cartAmount &&
           nextProps.cart.cartDetailsCNC.cartAmount.noCostEMIDiscountValue
         ) {
@@ -1977,7 +1995,9 @@ class CheckOutPage extends React.Component {
       !this.state.isPaymentFailed &&
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
-      (this.props.cart.userAddress && this.props.cart.userAddress.addresses)
+      (this.props.cart.userAddress &&
+        this.props.cart.userAddress.addresses &&
+        !this.state.isGiftCard)
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
@@ -1985,8 +2005,9 @@ class CheckOutPage extends React.Component {
 
       labelForButton = PROCEED;
     } else if (
-      (this.state.confirmAddress && !this.state.deliverMode) ||
-      this.state.isGiftCard
+      this.state.confirmAddress &&
+      !this.state.deliverMode &&
+      !this.state.isGiftCard
     ) {
       labelForButton = PROCEED;
     } else if (
@@ -2265,6 +2286,7 @@ class CheckOutPage extends React.Component {
                 this.props.cart.emiEligibilityDetails &&
                 this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
               }
+              isNoCostEmiApplied={this.state.isNoCostEmiApplied}
               noCostEmiDiscount={this.state.noCostEmiDiscount}
               amount={this.state.payableAmount}
               bagTotal={this.state.bagAmount}

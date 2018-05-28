@@ -5,9 +5,14 @@ import { displayToast } from "../../general/toast.actions.js";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 
 import SignUp from "../components/SignUp.js";
+import {
+  setDataLayerForSignupProcess,
+  ADOBE_SIGN_UP_START
+} from "../../lib/adobeUtils.js";
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: userSignUpDetails => {
+      setDataLayerForSignupProcess(ADOBE_SIGN_UP_START);
       dispatch(signUpUser(userSignUpDetails));
     },
     displayToast: message => {

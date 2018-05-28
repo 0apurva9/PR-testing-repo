@@ -29,7 +29,8 @@ export default class Checkout extends React.Component {
     }
   }
   handleFocusOnPinCode() {
-    document.getElementById("searchAndUpdateInput").focus();
+    document.getElementById("searchAndUpdateInput") &&
+      document.getElementById("searchAndUpdateInput").focus();
   }
 
   render() {
@@ -137,7 +138,7 @@ export default class Checkout extends React.Component {
         </div>
         <div className={styles.base}>
           <div className={styles.totalPriceButtonHolder}>
-            {defaultPinCode && (
+            {!this.props.isOnCartPage && (
               <div className={styles.checkoutButtonHolder}>
                 <Button
                   disabled={this.props.disabled}
@@ -151,19 +152,36 @@ export default class Checkout extends React.Component {
                 />
               </div>
             )}
-            {!defaultPinCode && (
-              <div className={styles.checkoutButtonHolder}>
-                <Button
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label={this.props.label}
-                  width={120}
-                  textStyle={{ color: "#FFF", fontSize: 14 }}
-                  onClick={() => this.handleFocusOnPinCode()}
-                />
-              </div>
-            )}
+
+            {this.props.isOnCartPage &&
+              defaultPinCode && (
+                <div className={styles.checkoutButtonHolder}>
+                  <Button
+                    disabled={this.props.disabled}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label={this.props.label}
+                    width={120}
+                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    onClick={() => this.handleClick()}
+                  />
+                </div>
+              )}
+            {this.props.isOnCartPage &&
+              !defaultPinCode && (
+                <div className={styles.checkoutButtonHolder}>
+                  <Button
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label={this.props.label}
+                    width={120}
+                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    onClick={() => this.handleFocusOnPinCode()}
+                  />
+                </div>
+              )}
             <div className={styles.totalPriceHeading}>Total</div>
             <div className={styles.amountHolder}>
               <div className={styles.amount}>
@@ -237,17 +255,18 @@ export default class Checkout extends React.Component {
                 </div>
               )}
 
-              {this.props.noCostEmiEligibility && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    No Cost EMI Discount
+              {this.props.noCostEmiEligibility &&
+                this.props.isNoCostEmiApplied && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      No Cost EMI Discount
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.noCostEmiDiscount}
+                    </div>
                   </div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.noCostEmiDiscount}
-                  </div>
-                </div>
-              )}
+                )}
               {this.props.isCliqCashApplied && (
                 <div className={styles.informationHolder}>
                   <div className={styles.informationQuestionHolder}>
