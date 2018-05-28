@@ -255,17 +255,18 @@ export default class Checkout extends React.Component {
                 </div>
               )}
 
-              {this.props.noCostEmiEligibility && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    No Cost EMI Discount
+              {this.props.noCostEmiEligibility &&
+                this.props.isNoCostEmiApplied && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      No Cost EMI Discount
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.noCostEmiDiscount}
+                    </div>
                   </div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.noCostEmiDiscount}
-                  </div>
-                </div>
-              )}
+                )}
               {this.props.isCliqCashApplied && (
                 <div className={styles.informationHolder}>
                   <div className={styles.informationQuestionHolder}>
