@@ -185,7 +185,11 @@ const cart = (
     paymentFailureOrderDetails: null,
 
     isSoftReservationFailed: false,
-    isPaymentProceeded: false
+    isPaymentProceeded: false,
+    getTermsAndConditionDetails: null,
+    getTermsAndConditionStatus: null,
+    getTermsAndConditionError: null,
+    loadingForGetTermsAndCondition: false
   },
   action
 ) => {
@@ -1025,7 +1029,7 @@ const cart = (
         transactionDetailsStatus: action.status,
         transactionDetailsDetails: action.transactionDetails,
         loading: false,
-        isPaymentProceeded:false
+        isPaymentProceeded: false
       });
 
     case cartActions.UPDATE_TRANSACTION_DETAILS_FOR_COD_FAILURE:
@@ -1033,7 +1037,7 @@ const cart = (
         transactionDetailsStatus: action.status,
         transactionDetailsError: action.error,
         loading: false,
-        isPaymentProceeded:false
+        isPaymentProceeded: false
       });
 
     case cartActions.SOFT_RESERVATION_FOR_COD_PAYMENT_REQUEST:
@@ -1396,6 +1400,28 @@ const cart = (
         paymentFailureOrderDetails: action.paymentFailureOrderDetails,
         loading: false
       });
+    //for termsCondition
+    case cartActions.GET_TERMS_AND_CONDITION_REQUEST:
+      return Object.assign({}, state, {
+        getTermsAndConditionStatus: action.status,
+        loadingForGetTermsAndCondition: true
+      });
+
+    case cartActions.GET_TERMS_AND_CONDITION_SUCCESS:
+      return Object.assign({}, state, {
+        getTermsAndConditionStatus: action.status,
+        getTermsAndConditionDetails: action.termsAndConditions,
+        loadingForGetTermsAndCondition: false
+      });
+
+    case cartActions.GET_TERMS_AND_CONDITION_FAILURE:
+      return Object.assign({}, state, {
+        getTermsAndConditionStatus: action.status,
+        getTermsAndConditionError: action.error,
+        loadingForGetTermsAndCondition: false
+      });
+
+    //end
 
     case cartActions.PAYMENT_FAILURE_ORDER_DETAILS_FAILURE:
       return Object.assign({}, state, {

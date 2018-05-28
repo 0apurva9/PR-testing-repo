@@ -30,10 +30,11 @@
   right: 0;
 }
 .buttonHolder {
-  width: auto;
+  width: 100%;
   position: relative;
   margin-top: 20px;
   height: 25px;
+  display: inline-block;
 }
 .container {
   width: auto;
@@ -44,5 +45,13 @@
 .button {
   width: auto;
   height: auto;
-  position: absolute;
+  display: inline-block;
+  vertical-align: top;
+}
+.termsAndConditionButton {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 30px;
 }

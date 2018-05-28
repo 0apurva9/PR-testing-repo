@@ -62,7 +62,8 @@ import {
   showModal,
   BANK_OFFERS,
   GIFT_CARD_MODAL,
-  CLIQ_CASH_AND_NO_COST_EMI_POPUP
+  CLIQ_CASH_AND_NO_COST_EMI_POPUP,
+  TERMS_CONDITION_POPUP
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -195,6 +196,9 @@ const mapDispatchToProps = dispatch => {
     },
     getEmiBankDetails: cartTotalProducts => {
       dispatch(getEmiBankDetails(cartTotalProducts));
+    },
+    getTermsAndConditions: () => {
+      dispatch(showModal(TERMS_CONDITION_POPUP));
     },
     applyCliqCash: pinCode => {
       dispatch(applyCliqCash(pinCode));

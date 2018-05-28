@@ -15,7 +15,11 @@ export default class BankOffer extends React.Component {
       this.props.selectItem();
     }
   }
-
+  openTermsAndCondition() {
+    if (this.props.openTermsAndCondition) {
+      this.props.openTermsAndCondition();
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -40,6 +44,16 @@ export default class BankOffer extends React.Component {
               }}
             />
           </div>
+          {this.props.labelTermsAndCondition && (
+            <div className={styles.termsAndConditionButton}>
+              <UnderLinedButton
+                label={this.props.labelTermsAndCondition}
+                onClick={() => {
+                  this.props.openTermsAndCondition();
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -50,5 +64,6 @@ BankOffer.propTypes = {
   bankName: PropTypes.string,
   offerText: PropTypes.string,
   label: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  labelTermsAndCondition: PropTypes.string
 };

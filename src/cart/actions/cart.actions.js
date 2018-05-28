@@ -238,6 +238,13 @@ export const BIN_VALIDATION_COD_REQUEST = "BIN_VALIDATION_COD_REQUEST";
 export const BIN_VALIDATION_COD_SUCCESS = "BIN_VALIDATION_COD_SUCCESS";
 export const BIN_VALIDATION_COD_FAILURE = "BIN_VALIDATION_COD_FAILURE";
 
+export const GET_TERMS_AND_CONDITION_REQUEST =
+  "GET_TERMS_AND_CONDITION_REQUEST";
+export const GET_TERMS_AND_CONDITION_SUCCESS =
+  "GET_TERMS_AND_CONDITION_SUCCESS";
+export const GET_TERMS_AND_CONDITION_FAILURE =
+  "GET_TERMS_AND_CONDITION_FAILURE";
+
 export const UPDATE_TRANSACTION_DETAILS_FOR_COD_REQUEST =
   "UPDATE_TRANSACTION_DETAILS_FOR_COD_REQUEST";
 export const UPDATE_TRANSACTION_DETAILS_FOR_COD_SUCCESS =
@@ -2093,9 +2100,8 @@ export function softReservationForPayment(cardDetails, address) {
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(softReservationForPaymentSuccess(resultJson));
       dispatch(
-          jusPayTokenize(cardDetails, address, productItems, paymentMode, false)
-        );
-
+        jusPayTokenize(cardDetails, address, productItems, paymentMode, false)
+      );
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }
@@ -2691,7 +2697,23 @@ export function createJusPayOrderForSavedCards(
     dispatch(createJusPayOrderRequest());
     try {
       const result = await api.post(
-        `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${cardDetails.cardIssuer}&cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}&city=&cartGuid=${cartId}&token=&cardRefNo=${cardDetails.cardReferenceNumber}&country=&addressLine1=&access_token=${JSON.parse(customerCookie).access_token}&juspayUrl=${encodeURIComponent(jusPayUrl)}&paymentMode=${currentSelectedPaymentMode}&bankName=${bankName ? bankName : ""}`,
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
+          cardDetails.cardIssuer
+        }&cardFingerPrint=${
+          cardDetails.cardFingerprint
+        }&platform=2&pincode=${localStorage.getItem(
+          DEFAULT_PIN_CODE_LOCAL_STORAGE
+        )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
+          cardDetails.cardReferenceNumber
+        }&country=&addressLine1=&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&juspayUrl=${encodeURIComponent(
+          jusPayUrl
+        )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
+          bankName ? bankName : ""
+        }`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2968,7 +2990,10 @@ export function jusPayPaymentMethodType(
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
       cardObject.append("save_to_locker", "1");
-      if (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI) {
+      if (
+        localStorage.getItem(NO_COST_EMI_COUPON) ||
+        localStorage.getItem(EMI_TYPE) === STANDARD_EMI
+      ) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
@@ -2987,9 +3012,8 @@ export function jusPayPaymentMethodType(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
-        if(localStorage.getItem(EMI_TYPE))
-        {
-        localStorage.removeItem(EMI_TYPE);
+        if (localStorage.getItem(EMI_TYPE)) {
+          localStorage.removeItem(EMI_TYPE);
         }
         dispatch(generateCartIdForLoggedInUser());
       } else {
@@ -3483,8 +3507,8 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
-          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2)
-       {
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+        ) {
           dispatch(updateTransactionDetailsForCODFailure());
 
           return dispatch(
@@ -4251,5 +4275,49 @@ export function getPaymentFailureOrderDetails() {
 export function resetIsSoftReservationFailed() {
   return {
     type: RESET_IS_SOFT_RESERVATION_FAILED
+  };
+}
+
+export function getTermsAndConditionDataRequest() {
+  return {
+    type: GET_TERMS_AND_CONDITION_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getTermsAndConditionDataSuccess(termsAndConditions) {
+  return {
+    type: GET_TERMS_AND_CONDITION_SUCCESS,
+    status: SUCCESS,
+    termsAndConditions
+  };
+}
+export function getTermsAndConditionDataFailure(error) {
+  return {
+    type: GET_TERMS_AND_CONDITION_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getTermsAndConditionData() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getTermsAndConditionDataRequest());
+    try {
+      const result = await api.get(
+        `v2/mpl/paymentSpecificOffersTermsAndCondition?isPwa=true`
+      );
+      const resultJson = await result.json();
+
+      if (
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === SUCCESS_CAMEL_CASE
+      ) {
+        return dispatch(getTermsAndConditionDataSuccess(resultJson));
+      } else {
+        throw new Error(`${resultJson.errors[0].message}`);
+      }
+    } catch (e) {
+      dispatch(getTermsAndConditionDataFailure(e.message));
+    }
   };
 }
