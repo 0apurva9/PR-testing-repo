@@ -1029,7 +1029,6 @@ const cart = (
       });
 
     case cartActions.UPDATE_TRANSACTION_DETAILS_FOR_COD_FAILURE:
-      console.log(action.error);
       return Object.assign({}, state, {
         transactionDetailsStatus: action.status,
         transactionDetailsError: action.error,
