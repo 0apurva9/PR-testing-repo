@@ -958,7 +958,8 @@ class CheckOutPage extends React.Component {
     // we have relsease coupon if user applied any coupon
     if (
       this.props.history.action === "POP" &&
-      this.state.selectedBankOfferCode
+      this.state.selectedBankOfferCode &&
+      !this.state.isPaymentFailed
     ) {
       this.props.releaseBankOffer(this.state.selectedBankOfferCode);
     }
