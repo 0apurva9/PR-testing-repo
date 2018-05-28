@@ -141,6 +141,44 @@ export default class AllOrderDetails extends React.Component {
       <div className={styles.base}>
         {orderDetails && orderDetails.orderData
           ? orderDetails.orderData.map((orderDetails, i) => {
+              let cliqAndCollect =
+                orderDetails &&
+                orderDetails.products &&
+                orderDetails.products[0] &&
+                orderDetails.products[0].storeDetails &&
+                orderDetails.products[0].storeDetails.clicknCollect;
+
+              let deliveryAddress =
+                cliqAndCollect === "Y"
+                  ? `${
+                      orderDetails.pickupPersonName
+                        ? orderDetails.pickupPersonName
+                        : ""
+                    }, ${
+                      orderDetails.pickupPersonMobile
+                        ? orderDetails.pickupPersonMobile
+                        : ""
+                    }`
+                  : `${
+                      orderDetails && orderDetails.billingAddress.addressLine1
+                        ? orderDetails.billingAddress.addressLine1
+                        : ""
+                    } ${
+                      orderDetails && orderDetails.billingAddress.town
+                        ? orderDetails.billingAddress.town
+                        : ""
+                    } ${
+                      orderDetails && orderDetails.billingAddress.state
+                        ? orderDetails.billingAddress.state
+                        : ""
+                    } ${
+                      orderDetails && orderDetails.billingAddress.postalcode
+                        ? orderDetails.billingAddress.postalcode
+                        : ""
+                    }`;
+
+              let placeHolder =
+                cliqAndCollect === "Y" ? "Pickup Details" : "Delivery address";
               let formattedDate = "";
               if (orderDetails && orderDetails.orderDate) {
                 formattedDate = format(orderDetails.orderDate, dateFormat);
@@ -204,24 +242,8 @@ export default class AllOrderDetails extends React.Component {
                     orderDetails &&
                     orderDetails.billingAddress && (
                       <OrderDelivered
-                        deliveredAddress={`${
-                          orderDetails &&
-                          orderDetails.billingAddress.addressLine1
-                            ? orderDetails.billingAddress.addressLine1
-                            : ""
-                        } ${
-                          orderDetails && orderDetails.billingAddress.town
-                            ? orderDetails.billingAddress.town
-                            : ""
-                        } ${
-                          orderDetails && orderDetails.billingAddress.state
-                            ? orderDetails.billingAddress.state
-                            : ""
-                        } ${
-                          orderDetails && orderDetails.billingAddress.postalcode
-                            ? orderDetails.billingAddress.postalcode
-                            : ""
-                        }`}
+                        deliveredAddress={deliveryAddress}
+                        orderDeliveryHeaderText={placeHolder}
                       />
                     )}
                 </div>
