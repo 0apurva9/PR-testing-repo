@@ -141,15 +141,8 @@ export default class AllOrderDetails extends React.Component {
       <div className={styles.base}>
         {orderDetails && orderDetails.orderData
           ? orderDetails.orderData.map((orderDetails, i) => {
-              let cliqAndCollect =
-                orderDetails &&
-                orderDetails.products &&
-                orderDetails.products[0] &&
-                orderDetails.products[0].storeDetails &&
-                orderDetails.products[0].storeDetails.clicknCollect;
-
               let deliveryAddress =
-                cliqAndCollect === "Y"
+                orderDetails.pickupPersonName || orderDetails.pickupPersonMobile
                   ? `${
                       orderDetails.pickupPersonName
                         ? orderDetails.pickupPersonName
@@ -178,7 +171,9 @@ export default class AllOrderDetails extends React.Component {
                     }`;
 
               let placeHolder =
-                cliqAndCollect === "Y" ? "Pickup Details" : "Delivery address";
+                orderDetails.pickupPersonName || orderDetails.pickupPersonMobile
+                  ? "Pickup Details"
+                  : "Delivery address";
               let formattedDate = "";
               if (orderDetails && orderDetails.orderDate) {
                 formattedDate = format(orderDetails.orderDate, dateFormat);
