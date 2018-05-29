@@ -2,14 +2,18 @@ import * as api from "../../lib/apiRequest";
 import configureMockStore from "redux-mock-store";
 import * as userActions from "./user.actions.js";
 import thunk from "redux-thunk";
-import { SUCCESS, REQUESTING, ERROR } from "../../lib/constants";
+import {
+  SUCCESS,
+  REQUESTING,
+  ERROR,
+  PLAT_FORM_NUMBER
+} from "../../lib/constants";
 import * as user from "../mocks/user.mock";
 import * as Cookie from "../../lib/Cookie";
-const SIGN_UP_PATH = `v2/mpl/users/customerRegistration?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&isPwa=true&username=test@xelpmoc.in&password=123456&platformNumber=2`;
+const SIGN_UP_PATH = `v2/mpl/users/customerRegistration?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&isPwa=true&username=test@xelpmoc.in&password=123456&platformNumber=${PLAT_FORM_NUMBER}`;
 const LOGIN_PATH =
   "v2/mpl/users/test@xelpmoc.in/customerLogin?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08";
-const OTP_VERIFICATION_PATH =
-  "/v2/mpl/users/registrationOTPVerification?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&otp=[object Object]&isPwa=true&platformNumber=2&username=undefined&password=undefined";
+const OTP_VERIFICATION_PATH = `/v2/mpl/users/registrationOTPVerification?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&otp=[object Object]&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&username=undefined&password=undefined`;
 import {
   GLOBAL_ACCESS_TOKEN,
   CUSTOMER_ACCESS_TOKEN

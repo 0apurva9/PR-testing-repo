@@ -39,7 +39,8 @@ import {
   SOFT_RESERVATION_ITEM,
   ADDRESS_DETAILS_FOR_PAYMENT,
   CART_BAG_DETAILS,
-  EMI_TYPE
+  EMI_TYPE,
+  PLAT_FORM_NUMBER
 } from "../../lib/constants";
 import queryString, { parse } from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -459,7 +460,7 @@ export function getCartDetails(
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&platformNumber=2&pincode=${pinCode}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -528,7 +529,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=2&pincode=${pinCode}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}`
       );
       const resultJson = await result.json();
       if (resultJson.status === FAILURE) {
@@ -636,7 +637,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
           JSON.parse(cartDetails).code
         }/applyCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2`,
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
         couponObject
       );
 
@@ -730,7 +731,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&couponCode=${oldCouponCode}&cartGuid=${cartGuId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -841,7 +842,7 @@ export function addUserAddress(userAddress, fromAccount) {
           JSON.parse(userDetails).userName
         }/addAddress?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&countryIso=${
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&countryIso=${
           userAddress.countryIso
         }&addressType=${userAddress.addressType}&phone=${
           userAddress.phone
@@ -1051,7 +1052,7 @@ export function getEmiBankDetails(price) {
     dispatch(emiBankingDetailsRequest());
     try {
       const result = await api.get(
-        `${CART_PATH}/getBankDetailsforEMI?platformNumber=2&productValue=${price}&access_token=${
+        `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
           JSON.parse(globalCookie).access_token
         }&isPwa=true`
       );
@@ -1226,7 +1227,7 @@ export function getOrderSummary(pincode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/displayOrderSummary?access_token=${
           JSON.parse(customerCookie).access_token
-        }&pincode=${pincode}&isPwa=true&platformNumber=2`
+        }&pincode=${pincode}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
 
@@ -1303,7 +1304,7 @@ export function mergeCartId(cartGuId) {
           JSON.parse(userDetails).userName
         }/carts?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&userId=${
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&userId=${
           JSON.parse(userDetails).userName
         }&oldCartId=${
           JSON.parse(cartDetailsAnonymous).guid
@@ -1507,7 +1508,7 @@ export function addPickupPersonCNC(personMobile, personName) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/addPickupPerson?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&personMobile=${personMobile}&personName=${personName}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&personMobile=${personMobile}&personName=${personName}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1604,7 +1605,7 @@ export function softReservation() {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/softReservation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&pincode=${pinCode}&type=cart`,
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&type=cart`,
         productItems
       );
       const resultJson = await result.json();
@@ -1658,7 +1659,7 @@ export function getPaymentModes(guId) {
           JSON.parse(userDetails).userName
         }/payments/getPaymentModes?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${guId}&isPwa=true&platformNumber=2`
+        }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1723,7 +1724,7 @@ export function applyBankOffer(couponCode) {
           JSON.parse(userDetails).userName
         }/carts/applyCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1964,7 +1965,7 @@ export function binValidation(paymentMode, binNo) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2470,7 +2471,7 @@ export function createJusPayOrder(
           address.state ? address.state : ""
         }&pincode=${
           address.postalCode
-        }&cardSaved=true&sameAsShipping=true&cartGuid=${cartId}&token=${token}&isPwa=true&platformNumber=2&juspayUrl=${encodeURIComponent(
+        }&cardSaved=true&sameAsShipping=true&cartGuid=${cartId}&token=${token}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&juspayUrl=${encodeURIComponent(
           jusPayUrl
         )}&bankName=${
           bankName ? bankName : ""
@@ -2533,7 +2534,7 @@ export function createJusPayOrderForGiftCard(
           JSON.parse(userDetails).userName
         }/createJuspayOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&firstName=&lastName=&addressLine1=&addressLine2=&addressLine3=&country=&city=&state=&pincode=&cardSaved=true&sameAsShipping=true&cartGuid=${guId}&token=${token}&isPwa=true&platformNumber=2&juspayUrl=${encodeURIComponent(
+        }&firstName=&lastName=&addressLine1=&addressLine2=&addressLine3=&country=&city=&state=&pincode=&cardSaved=true&sameAsShipping=true&cartGuid=${guId}&token=${token}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&juspayUrl=${encodeURIComponent(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
@@ -3196,7 +3197,7 @@ export function updateTransactionDetails(paymentMode, juspayOrderID, cartId) {
           JSON.parse(userDetails).userName
         }/payments/updateTransactionDetailsforCard?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=2&isPwa=true`,
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true`,
         paymentObject
       );
       const resultJson = await result.json();
@@ -3253,7 +3254,7 @@ export function orderConfirmation(orderId) {
           JSON.parse(userDetails).userName
         }/orderConfirmation/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=2&isPwa=true`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3381,7 +3382,7 @@ export function getCODEligibility(isPaymentFailed) {
           JSON.parse(userDetails).userName
         }/payments/getCODEligibility?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&cartGuid=${cartId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&cartGuid=${cartId}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3441,7 +3442,7 @@ export function binValidationForCOD(paymentMode) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3501,7 +3502,7 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
           JSON.parse(userDetails).userName
         }/payments/updateTransactionDetailsforCOD?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=2&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3651,7 +3652,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3717,7 +3718,7 @@ export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
           JSON.parse(cartDetailsAnonymous).guid
         }/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=2`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3786,7 +3787,7 @@ export function updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/updateEntries/${selectedItem}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&quantity=${quantity}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=${quantity}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3850,7 +3851,7 @@ export function updateQuantityInCartLoggedOut(selectedItem, quantity, pinCode) {
           JSON.parse(cartDetailsAnonymous).guid
         }/updateEntries/${selectedItem}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=2&quantity=${quantity}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=${quantity}`
       );
 
       const resultJson = await result.json();
@@ -3920,7 +3921,7 @@ export function getEmiEligibility(cartGuId) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/noCostEmiCheck?platformNumber=2&access_token=${
+        }/payments/noCostEmiCheck?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
         }&cartGuid=${cartGuId}`
       );
