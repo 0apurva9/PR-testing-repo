@@ -49,7 +49,7 @@ export default class BankOffer extends React.Component {
             <UnderLinedButton
               label="T&C"
               onClick={() => {
-                this.props.openBankOfferTncModal();
+                this.openBankOfferTncModal();
               }}
             />
           </div>

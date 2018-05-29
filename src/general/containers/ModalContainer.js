@@ -17,7 +17,7 @@ import {
   removeAddress,
   cancelProduct
 } from "../../account/actions/account.actions";
-import { openBankOfferTncModal } from "../../cart/actions/cart.actions";
+import { getTncForBankOffer } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
   FAILURE,
@@ -273,8 +273,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
-    openBankOfferTncModal: () => {
-      dispatch(openBankOfferTncModal());
+    getTNCForBankOffer: () => {
+      dispatch(getTncForBankOffer());
     },
     updateProfile: (accountDetails, otp) => {
       dispatch(updateProfile(accountDetails, otp));

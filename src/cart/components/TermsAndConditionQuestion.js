@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./OpenBankOfferTNCModal.css";
+import styles from "./BankOfferTNCModal.css";
 import { Collapse } from "react-collapse";
 
 export default class TermsAndConditionQuestion extends React.Component {

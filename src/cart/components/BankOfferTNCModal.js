@@ -1,13 +1,12 @@
 import React from "react";
-import styles from "./OpenBankOfferTNCModal.css";
+import styles from "./BankOfferTNCModal.css";
 import SlideModal from "../../general/components/SlideModal";
 import TermsAndConditionQuestion from "./TermsAndConditionQuestion";
-export default class OpenBankOfferTNCModal extends React.Component {
+export default class BankOfferTNCModal extends React.Component {
   componentDidMount() {
-    this.props.openBankOfferTncModal();
+    this.props.getTNCForBankOffer();
   }
   render() {
-    console.log(this.props);
     return (
       <SlideModal closeModal={this.props.closeModal}>
         <div className={styles.base}>

@@ -4301,7 +4301,7 @@ export function getTncForBankOfferFailure(error) {
     error
   };
 }
-export function openBankOfferTncModal() {
+export function getTncForBankOffer() {
   return async (dispatch, getState, { api }) => {
     dispatch(getTncForBankOfferRequest());
     try {
