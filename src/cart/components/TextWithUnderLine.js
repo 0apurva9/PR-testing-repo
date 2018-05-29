@@ -59,7 +59,7 @@ export default class TextWithUnderLine extends React.Component {
             }
             onFocusInput={() => this.onFocusInput()}
             onBlur={() => this.onBlur()}
-            labelText="Update"
+            labelText="Submit"
             borderColor={this.state.borderColor}
             borderBottom={this.state.borderBottom}
             onKeyPress={this.props.onKeyPress}
