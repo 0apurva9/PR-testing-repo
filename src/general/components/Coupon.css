@@ -1,7 +1,7 @@
 .base {
   width: 100%;
   height: auto;
-  padding: 30px 12px;
+  padding: 20px 12px;
   background-color: #fff;
   border-radius: 4px;
 }
@@ -13,7 +13,7 @@
   width: 100%;
   height: auto;
   position: relative;
-  padding: 0px 50px 0px 50px;
+  padding: 0px 20px 0px 50px;
 }
 .headingText {
   width: 100%;
@@ -29,8 +29,10 @@
   width: 25px;
   height: 25px;
   position: absolute;
-  left: 0;
+  left: 10px;
   top: 0;
+  bottom: 0;
+  margin: auto;
 }
 .button {
   width: auto;
@@ -39,4 +41,13 @@
   line-height: 16px;
   top: 6px;
   bottom: 0;
+}
+.subText {
+  width: 100%;
+  height: auto;
+  font-family: regular;
+  font-size: 14px;
+  color: #797979;
+  line-height: normal;
+  margin-top: 5px;
 }
