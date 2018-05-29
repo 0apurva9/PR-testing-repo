@@ -129,25 +129,27 @@ class ProductCouponDetails extends Component {
           <div className={styles.header}>
             <StaticDarkHeader text="Apply Coupon" />
           </div>
-          <div className={styles.searchHolder}>
-            <SearchCupon
-              label={
-                this.state.previousSelectedCouponCode &&
-                this.state.previousSelectedCouponCode ===
-                  this.state.selectedCouponCode
-                  ? REMOVE
-                  : APPLY
-              }
-              disableManualType={false}
-              placeholder="Enter Coupon Code"
-              couponCode={this.state.selectedCouponCode}
-              getValue={selectedCouponCode =>
-                this.setState({ selectedCouponCode })
-              }
-              applyUserCoupon={() => this.applyUserCoupon()}
-            />
+          <div className={styles.stickyPortion}>
+            <div className={styles.searchHolder}>
+              <SearchCupon
+                label={
+                  this.state.previousSelectedCouponCode &&
+                  this.state.previousSelectedCouponCode ===
+                    this.state.selectedCouponCode
+                    ? REMOVE
+                    : APPLY
+                }
+                disableManualType={false}
+                placeholder="Enter Coupon Code"
+                couponCode={this.state.selectedCouponCode}
+                getValue={selectedCouponCode =>
+                  this.setState({ selectedCouponCode })
+                }
+                applyUserCoupon={() => this.applyUserCoupon()}
+              />
+            </div>
+            <div className={styles.disclaimer}>{USER_COUPON_NOTE}</div>
           </div>
-          <div className={styles.disclaimer}>{USER_COUPON_NOTE}</div>
           {!showLogOutUserCoupon && (
             <div className={styles.link} onClick={() => this.navigateToLogin()}>
               <div className={styles.linkArrow}>

@@ -9,6 +9,17 @@
 .header {
   width: 100%;
   height: auto;
+  position: sticky;
+  top: 0;
+}
+.stickyPortion {
+  width: 100%;
+  height: auto;
+  position: sticky;
+  top: 45px;
+  z-index: 5;
+  background: #fff;
+  display: inline-block;
 }
 .link {
   width: 100%;
@@ -26,8 +37,7 @@
   font-size: 12px;
   padding: 0 15px;
   color: #171d1c;
-  margin-top: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .bold {
   font-family: semibold;
@@ -46,5 +56,4 @@
 .searchHolder {
   composes: header;
   padding: 20px;
-  margin-bottom: 20px;
 }

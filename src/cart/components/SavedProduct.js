@@ -33,18 +33,20 @@ export default class SavedProduct extends React.Component {
             couponButtonText={couponButtonText}
           />
         </div>
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              type="hollow"
-              height={40}
-              label="View My Wish List"
-              width={200}
-              textStyle={{ color: "#212121", fontSize: 14 }}
-              onClick={() => this.handleClick()}
-            />
+        {this.props.isViewWishList && (
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                type="hollow"
+                height={40}
+                label="View My Wish List"
+                width={200}
+                textStyle={{ color: "#212121", fontSize: 14 }}
+                onClick={() => this.handleClick()}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -55,10 +57,12 @@ SavedProduct.propTypes = {
   onApplyCoupon: PropTypes.func,
   cuponHeading: PropTypes.string,
   giftCardHeading: PropTypes.string,
-  giftCardLabel: PropTypes.string
+  giftCardLabel: PropTypes.string,
+  isViewWishList: PropTypes.bool
 };
 SavedProduct.defaultProps = {
   couponHeading: "Have a Coupon ?",
   giftCardHeading: "Surprise for a special one ?",
-  giftCardLabel: "Gift wrap for free"
+  giftCardLabel: "Gift wrap for free",
+  isViewWishList: false
 };
