@@ -230,6 +230,7 @@ export default class GiftCard extends React.Component {
                 onChange={senderName => this.setState({ senderName })}
                 textStyle={{ fontSize: 14 }}
                 height={33}
+                onlyAlphabet={true}
               />
             </div>
           </div>

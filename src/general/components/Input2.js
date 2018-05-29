@@ -98,7 +98,7 @@ export default class Input2 extends React.Component {
               onChange={event => this.handleChange(event)}
               style={{ ...this.props.textStyle }}
               onKeyUp={event => this.handleKeyUp(event)}
-              value={this.props.value}
+              value={this.props.value ? this.props.value : this.state.value}
               maxLength={this.props.maxLength}
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}
