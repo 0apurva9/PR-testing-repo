@@ -30,6 +30,7 @@ export default class AddressModal extends React.Component {
     return (
       <BottomSlideModal>
         <div className={styles.base}>
+          <div className={styles.labelText}>Please enter your PIN code</div>
           <div className={styles.searchHolder}>
             <SearchAndUpdate
               checkPinCodeAvailability={pincode =>

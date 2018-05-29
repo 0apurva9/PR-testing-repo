@@ -381,7 +381,7 @@ class CartPage extends React.Component {
           <div className={styles.content}>
             <TextWithUnderLine
               onClick={() => this.changePinCode()}
-              buttonLabel="Change"
+              buttonLabel="Change PIN code"
               checkPinCodeAvailability={pinCode =>
                 this.checkPinCodeAvailability(pinCode)
               }
