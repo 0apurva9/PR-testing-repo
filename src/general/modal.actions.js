@@ -18,7 +18,7 @@ export const UPDATE_PROFILE_OTP_VERIFICATION = "UpdateProfileOtpVerification";
 export const GIFT_CARD_MODAL = "GiftCardModal";
 export const EMI_ITEM_LEVEL_BREAKAGE = "NoCostEmiItemBreakUp";
 export const EMI_BANK_TERMS_AND_CONDITIONS = "EmiTermsAndConditions";
-
+export const GO_TO_CART_PAGE_POPUP = "GoToCartPagePopUp";
 export const GENERATE_OTP_FOR_CLIQ_CASH = "generateOtpForCliqCash";
 export const VERIFY_OTP_FOR_CLIQ_CASH = "verifyOtpForCliqCash";
 export const ORDER_DETAILS_MODAL = "OrderModal";
