@@ -4,7 +4,7 @@ import ModalPanel from "./ModalPanel";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
-import GetTermsAndCondition from "../../cart/components/GetTermsAndCondition";
+import OpenBankOfferTNCModal from "../../cart/components/OpenBankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
 
 import * as Cookie from "../../lib/Cookie.js";
@@ -560,10 +560,10 @@ export default class ModalRoot extends React.Component {
           loadingForVerifyWallet={this.props.loadingForVerifyWallet}
         />
       ),
-      TermsAndConditionForCheckout: (
-        <GetTermsAndCondition
-          getTermsAndConditions={this.props.getTermsAndConditions}
-          getTermsAndConditionData={() => this.props.getTermsAndConditionData()}
+      TermsAndConditionForBankOffer: (
+        <OpenBankOfferTNCModal
+          bankOfferTncDetails={this.props.bankOfferTncDetails}
+          openBankOfferTncModal={() => this.props.openBankOfferTncModal()}
           closeModal={() => this.handleClose()}
         />
       ),

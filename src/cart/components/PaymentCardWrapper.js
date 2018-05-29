@@ -18,7 +18,6 @@ import CheckOutHeader from "./CheckOutHeader";
 import { getCookie } from "../../lib/Cookie";
 
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
-const TERMS_LABEL = "T&C";
 const keyForCreditCard = "Credit Card";
 const keyForDebitCard = "Debit Card";
 const keyForNetbanking = "Netbanking";
@@ -59,9 +58,9 @@ export default class PaymentCardWrapper extends React.Component {
       this.props.binValidationForPaytm(PAYTM, "", val);
     }
   }
-  openTermsAndCondition() {
-    if (this.props.getTermsAndConditions) {
-      this.props.getTermsAndConditions();
+  openBankOfferTncModal() {
+    if (this.props.openBankOfferTncModal) {
+      this.props.openBankOfferTncModal();
     }
   }
   renderPaymentCard = datumType => {
@@ -169,9 +168,9 @@ export default class PaymentCardWrapper extends React.Component {
           bankName={offerTitle}
           offerText={offerDescription}
           label={SEE_ALL_BANK_OFFERS}
-          labelTermsAndCondition={TERMS_LABEL}
+          labelTermsAndCondition="T&C"
           applyBankOffers={() => this.props.openBankOffers()}
-          openTermsAndCondition={() => this.openTermsAndCondition()}
+          openBankOfferTncModal={() => this.openBankOfferTncModal()}
           value={offerCode}
         />
       </GridSelect>

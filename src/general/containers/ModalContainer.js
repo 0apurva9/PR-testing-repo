@@ -17,7 +17,7 @@ import {
   removeAddress,
   cancelProduct
 } from "../../account/actions/account.actions";
-import { getTermsAndConditionData } from "../../cart/actions/cart.actions";
+import { openBankOfferTncModal } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
   FAILURE,
@@ -72,7 +72,7 @@ import {
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const mapStateToProps = (state, ownProps) => {
   return {
-    getTermsAndConditions: state.cart.getTermsAndConditionDetails,
+    bankOfferTncDetails: state.cart.bankOfferTncDetails,
     modalType: state.modal.modalType,
     ownProps: state.modal.ownProps,
     modalStatus: state.modal.modalDisplayed,
@@ -273,8 +273,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
-    getTermsAndConditionData: () => {
-      dispatch(getTermsAndConditionData());
+    openBankOfferTncModal: () => {
+      dispatch(openBankOfferTncModal());
     },
     updateProfile: (accountDetails, otp) => {
       dispatch(updateProfile(accountDetails, otp));

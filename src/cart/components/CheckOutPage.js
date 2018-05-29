@@ -2179,7 +2179,7 @@ class CheckOutPage extends React.Component {
             <div className={styles.paymentCardHolderπp}>
               <PaymentCardWrapper
                 applyBankCoupons={val => this.applyBankCoupons(val)}
-                getTermsAndConditions={() => this.props.getTermsAndConditions()}
+                openBankOfferTncModal={() => this.props.openBankOfferTncModal()}
                 isCliqCashApplied={this.state.isCliqCashApplied}
                 isRemainingBalance={this.state.isRemainingAmount}
                 isPaymentFailed={this.state.isPaymentFailed}

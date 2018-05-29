@@ -238,12 +238,9 @@ export const BIN_VALIDATION_COD_REQUEST = "BIN_VALIDATION_COD_REQUEST";
 export const BIN_VALIDATION_COD_SUCCESS = "BIN_VALIDATION_COD_SUCCESS";
 export const BIN_VALIDATION_COD_FAILURE = "BIN_VALIDATION_COD_FAILURE";
 
-export const GET_TERMS_AND_CONDITION_REQUEST =
-  "GET_TERMS_AND_CONDITION_REQUEST";
-export const GET_TERMS_AND_CONDITION_SUCCESS =
-  "GET_TERMS_AND_CONDITION_SUCCESS";
-export const GET_TERMS_AND_CONDITION_FAILURE =
-  "GET_TERMS_AND_CONDITION_FAILURE";
+export const GET_TNC_FOR_BANK_OFFER_REQUEST = "GET_TNC_FOR_BANK_OFFER_REQUEST";
+export const GET_TNC_FOR_BANK_OFFER_SUCCESS = "GET_TNC_FOR_BANK_OFFER_SUCCESS";
+export const GET_TNC_FOR_BANK_OFFER_FAILURE = " GET_TNC_FOR_BANK_OFFER_FAILURE";
 
 export const UPDATE_TRANSACTION_DETAILS_FOR_COD_REQUEST =
   "UPDATE_TRANSACTION_DETAILS_FOR_COD_REQUEST";
@@ -4284,46 +4281,41 @@ export function resetIsSoftReservationFailed() {
   };
 }
 
-export function getTermsAndConditionDataRequest() {
+export function getTncForBankOfferRequest() {
   return {
-    type: GET_TERMS_AND_CONDITION_REQUEST,
+    type: GET_TNC_FOR_BANK_OFFER_REQUEST,
     status: REQUESTING
   };
 }
-export function getTermsAndConditionDataSuccess(termsAndConditions) {
+export function getTncForBankOfferSuccess(termsAndConditions) {
   return {
-    type: GET_TERMS_AND_CONDITION_SUCCESS,
+    type: GET_TNC_FOR_BANK_OFFER_SUCCESS,
     status: SUCCESS,
     termsAndConditions
   };
 }
-export function getTermsAndConditionDataFailure(error) {
+export function getTncForBankOfferFailure(error) {
   return {
-    type: GET_TERMS_AND_CONDITION_FAILURE,
+    type: GET_TNC_FOR_BANK_OFFER_FAILURE,
     status: ERROR,
     error
   };
 }
-export function getTermsAndConditionData() {
+export function openBankOfferTncModal() {
   return async (dispatch, getState, { api }) => {
-    dispatch(getTermsAndConditionDataRequest());
+    dispatch(getTncForBankOfferRequest());
     try {
       const result = await api.get(
         `v2/mpl/paymentSpecificOffersTermsAndCondition?isPwa=true`
       );
       const resultJson = await result.json();
-
-      if (
-        resultJson.status === SUCCESS ||
-        resultJson.status === SUCCESS_UPPERCASE ||
-        resultJson.status === SUCCESS_CAMEL_CASE
-      ) {
-        return dispatch(getTermsAndConditionDataSuccess(resultJson));
-      } else {
-        throw new Error(`${resultJson.errors[0].message}`);
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
       }
+      dispatch(getTncForBankOfferSuccess(resultJson));
     } catch (e) {
-      dispatch(getTermsAndConditionDataFailure(e.message));
+      dispatch(getTncForBankOfferFailure(e.message));
     }
   };
 }

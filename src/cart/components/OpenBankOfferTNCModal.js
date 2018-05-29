@@ -1,22 +1,21 @@
 import React from "react";
-import styles from "./GetTermsAndCondition.css";
-
+import styles from "./OpenBankOfferTNCModal.css";
 import SlideModal from "../../general/components/SlideModal";
 import TermsAndConditionQuestion from "./TermsAndConditionQuestion";
-import PropTypes from "prop-types";
-export default class GetTermsAndCondition extends React.Component {
+export default class OpenBankOfferTNCModal extends React.Component {
   componentDidMount() {
-    this.props.getTermsAndConditionData();
+    this.props.openBankOfferTncModal();
   }
   render() {
+    console.log(this.props);
     return (
       <SlideModal closeModal={this.props.closeModal}>
         <div className={styles.base}>
           <div className={styles.header}>Terms & Condition</div>
           <div className={styles.content}>
-            {this.props.getTermsAndConditions &&
-              this.props.getTermsAndConditions.coupons &&
-              this.props.getTermsAndConditions.coupons.map((val, i) => {
+            {this.props.bankOfferTncDetails &&
+              this.props.bankOfferTncDetails.coupons &&
+              this.props.bankOfferTncDetails.coupons.map((val, i) => {
                 return (
                   <div className={styles.dataHolder}>
                     <TermsAndConditionQuestion
@@ -39,8 +38,3 @@ export default class GetTermsAndCondition extends React.Component {
     );
   }
 }
-GetTermsAndCondition.propTypes = {
-  lat: PropTypes.number,
-  lng: PropTypes.number,
-  image: PropTypes.string
-};

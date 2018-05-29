@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./GetTermsAndCondition.css";
+import styles from "./OpenBankOfferTNCModal.css";
 import { Collapse } from "react-collapse";
-import PropTypes from "prop-types";
+
 export default class TermsAndConditionQuestion extends React.Component {
   constructor(props) {
     super(props);

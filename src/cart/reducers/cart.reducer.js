@@ -186,10 +186,10 @@ const cart = (
 
     isSoftReservationFailed: false,
     isPaymentProceeded: false,
-    getTermsAndConditionDetails: null,
-    getTermsAndConditionStatus: null,
-    getTermsAndConditionError: null,
-    loadingForGetTermsAndCondition: false
+    bankOfferTncDetails: null,
+    bankOfferTncStatus: null,
+    bankOfferTncError: null,
+    loadingForBankOfferTNC: false
   },
   action
 ) => {
@@ -1401,24 +1401,24 @@ const cart = (
         loading: false
       });
     //for termsCondition
-    case cartActions.GET_TERMS_AND_CONDITION_REQUEST:
+    case cartActions.GET_TNC_FOR_BANK_OFFER_REQUEST:
       return Object.assign({}, state, {
-        getTermsAndConditionStatus: action.status,
-        loadingForGetTermsAndCondition: true
+        bankOfferTncStatus: action.status,
+        loadingForBankOfferTNC: true
       });
 
-    case cartActions.GET_TERMS_AND_CONDITION_SUCCESS:
+    case cartActions.GET_TNC_FOR_BANK_OFFER_SUCCESS:
       return Object.assign({}, state, {
-        getTermsAndConditionStatus: action.status,
-        getTermsAndConditionDetails: action.termsAndConditions,
-        loadingForGetTermsAndCondition: false
+        bankOfferTncStatus: action.status,
+        bankOfferTncDetails: action.termsAndConditions,
+        loadingForBankOfferTNC: false
       });
 
-    case cartActions.GET_TERMS_AND_CONDITION_FAILURE:
+    case cartActions.GET_TNC_FOR_BANK_OFFER_FAILURE:
       return Object.assign({}, state, {
-        getTermsAndConditionStatus: action.status,
-        getTermsAndConditionError: action.error,
-        loadingForGetTermsAndCondition: false
+        bankOfferTncStatus: action.status,
+        bankOfferTncError: action.error,
+        loadingForBankOfferTNC: false
       });
 
     //end

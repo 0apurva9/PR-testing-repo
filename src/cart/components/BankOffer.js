@@ -15,9 +15,9 @@ export default class BankOffer extends React.Component {
       this.props.selectItem();
     }
   }
-  openTermsAndCondition() {
-    if (this.props.openTermsAndCondition) {
-      this.props.openTermsAndCondition();
+  openBankOfferTncModal() {
+    if (this.props.openBankOfferTncModal) {
+      this.props.openBankOfferTncModal();
     }
   }
   render() {
@@ -49,7 +49,7 @@ export default class BankOffer extends React.Component {
               <UnderLinedButton
                 label={this.props.labelTermsAndCondition}
                 onClick={() => {
-                  this.props.openTermsAndCondition();
+                  this.props.openBankOfferTncModal();
                 }}
               />
             </div>
