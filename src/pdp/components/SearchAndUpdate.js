@@ -34,6 +34,12 @@ export default class SearchAndUpdate extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+    if (this.state.pinCode && this.state.pinCode.match(/^\d{6}$/)) {
+      if (this.props.checkPinCodeAvailability) {
+        this.props.checkPinCodeAvailability(this.state.pinCode);
+      }
+      this.setState({ errorMessage: null });
+    }
   }
 
   handleKeyUp(event) {
