@@ -68,7 +68,6 @@ export default class KycApplicationForm extends React.Component {
                   onChange={firstName => this.setState({ firstName })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
-                  pattern="[A-Za-z]"
                   type="text"
                   onlyAlphabet={true}
                 />
