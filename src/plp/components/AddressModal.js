@@ -36,6 +36,7 @@ export default class AddressModal extends React.Component {
               checkPinCodeAvailability={pincode =>
                 this.checkPinCodeAvailability(pincode)
               }
+              hasAutoFocus={true}
               labelText={this.props.labelText}
             />
           </div>
