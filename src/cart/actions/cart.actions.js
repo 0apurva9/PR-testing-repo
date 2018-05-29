@@ -2093,9 +2093,8 @@ export function softReservationForPayment(cardDetails, address) {
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(softReservationForPaymentSuccess(resultJson));
       dispatch(
-          jusPayTokenize(cardDetails, address, productItems, paymentMode, false)
-        );
-
+        jusPayTokenize(cardDetails, address, productItems, paymentMode, false)
+      );
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }
@@ -2622,7 +2621,7 @@ export function createJusPayOrderForNetBanking(
   };
 }
 
-export function createJusPayOrderForGiftCardNetBanking(guId,bankCode) {
+export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
   const jusPayUrl = `${
     window.location.origin
   }/checkout/payment-method/cardPayment`;
@@ -2690,7 +2689,23 @@ export function createJusPayOrderForSavedCards(
     dispatch(createJusPayOrderRequest());
     try {
       const result = await api.post(
-        `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${cardDetails.cardIssuer}&cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}&city=&cartGuid=${cartId}&token=&cardRefNo=${cardDetails.cardReferenceNumber}&country=&addressLine1=&access_token=${JSON.parse(customerCookie).access_token}&juspayUrl=${encodeURIComponent(jusPayUrl)}&paymentMode=${currentSelectedPaymentMode}&bankName=${bankName ? bankName : ""}`,
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
+          cardDetails.cardIssuer
+        }&cardFingerPrint=${
+          cardDetails.cardFingerprint
+        }&platform=2&pincode=${localStorage.getItem(
+          DEFAULT_PIN_CODE_LOCAL_STORAGE
+        )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
+          cardDetails.cardReferenceNumber
+        }&country=&addressLine1=&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&juspayUrl=${encodeURIComponent(
+          jusPayUrl
+        )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
+          bankName ? bankName : ""
+        }`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2921,7 +2936,11 @@ export function jusPayPaymentMethodTypeForGiftCard(
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
       cardObject.append("save_to_locker", true);
-      if (cardDetails.is_emi && (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI)) {
+      if (
+        cardDetails.is_emi &&
+        (localStorage.getItem(NO_COST_EMI_COUPON) ||
+          localStorage.getItem(EMI_TYPE) === STANDARD_EMI)
+      ) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
@@ -2967,7 +2986,11 @@ export function jusPayPaymentMethodType(
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
       cardObject.append("save_to_locker", true);
-      if (cardDetails.is_emi && (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI)) {
+      if (
+        cardDetails.is_emi &&
+        (localStorage.getItem(NO_COST_EMI_COUPON) ||
+          localStorage.getItem(EMI_TYPE) === STANDARD_EMI)
+      ) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
@@ -2986,9 +3009,8 @@ export function jusPayPaymentMethodType(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
-        if(localStorage.getItem(EMI_TYPE))
-        {
-        localStorage.removeItem(EMI_TYPE);
+        if (localStorage.getItem(EMI_TYPE)) {
+          localStorage.removeItem(EMI_TYPE);
         }
         dispatch(generateCartIdForLoggedInUser());
       } else {
@@ -3482,8 +3504,8 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
-          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2)
-       {
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+        ) {
           dispatch(updateTransactionDetailsForCODFailure());
 
           return dispatch(
@@ -3497,13 +3519,15 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
       }
 
       const oldUrl = window.location.href;
-      if (oldUrl.includes(JUS_PAY_AUTHENTICATION_FAILED)) {
+      const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
+      if (JUS_PAY_STATUS_REG_EX.test(oldUrl)) {
         let newUrl = oldUrl.replace(
-          JUS_PAY_AUTHENTICATION_FAILED,
-          JUS_PAY_CHARGED
+          JUS_PAY_STATUS_REG_EX,
+          `status=${JUS_PAY_CHARGED}`
         );
         window.location.href = newUrl;
       }
+
       dispatch(setBagCount(0));
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(orderConfirmation(resultJson.orderId));
