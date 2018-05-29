@@ -482,6 +482,7 @@ class CartPage extends React.Component {
                   onCheckout={() => this.renderToCheckOutPage()}
                   label={CHECKOUT_BUTTON_TEXT}
                   isOnCartPage={true}
+                  changePinCode={this.changePinCode}
                 />
               )}
           </div>

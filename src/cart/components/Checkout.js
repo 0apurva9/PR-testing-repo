@@ -29,8 +29,11 @@ export default class Checkout extends React.Component {
     }
   }
   handleFocusOnPinCode() {
-    document.getElementById("searchAndUpdateInput") &&
-      document.getElementById("searchAndUpdateInput").focus();
+    // we don't need to focus on input any more
+    // we have to open user address bottom modal
+    // document.getElementById("searchAndUpdateInput") &&
+    //   document.getElementById("searchAndUpdateInput").focus();
+    this.props.changePinCode();
   }
 
   render() {
