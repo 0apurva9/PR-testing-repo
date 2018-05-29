@@ -5,6 +5,7 @@ import Button from "../../general/components/Button.js";
 import Coupon from "../../general/components/Coupon.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { COUPON_COOKIE } from "../../lib/constants.js";
+const COUPON_SUBTEXT = "Additional Bank offers can be applied during payment";
 export default class SavedProduct extends React.Component {
   handleClick() {
     if (this.props.saveProduct) {
@@ -25,7 +26,11 @@ export default class SavedProduct extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.applyCoupon}>
-          <Coupon heading={couponText} onClick={() => this.onApplyCoupon()} />
+          <Coupon
+            heading={couponText}
+            onClick={() => this.onApplyCoupon()}
+            subText={COUPON_SUBTEXT}
+          />
         </div>
         {this.props.isViewWishList && (
           <div className={styles.buttonHolder}>
@@ -55,7 +60,7 @@ SavedProduct.propTypes = {
   isViewWishList: PropTypes.bool
 };
 SavedProduct.defaultProps = {
-  couponHeading: "View all coupons",
+  couponHeading: "Apply coupon",
   giftCardHeading: "Surprise for a special one ?",
   giftCardLabel: "Gift wrap for free",
   isViewWishList: false
