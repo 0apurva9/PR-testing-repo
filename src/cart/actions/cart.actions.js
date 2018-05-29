@@ -353,6 +353,7 @@ const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 export const CART_ITEM_COOKIE = "cartItems";
 export const ADDRESS_FOR_PLACE_ORDER = "orderAddress";
 export const ANONYMOUS_USER = "anonymous";
+const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -3519,7 +3520,6 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
       }
 
       const oldUrl = window.location.href;
-      const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
       if (JUS_PAY_STATUS_REG_EX.test(oldUrl)) {
         let newUrl = oldUrl.replace(
           JUS_PAY_STATUS_REG_EX,
