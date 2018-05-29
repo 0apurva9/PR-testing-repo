@@ -23,6 +23,7 @@
   margin: auto;
   text-align: left;
   line-height: 25px;
+  text-decoration: underline;
 }
 .couponIcon {
   width: 25px;
