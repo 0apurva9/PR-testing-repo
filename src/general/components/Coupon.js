@@ -24,9 +24,6 @@ export default class Coupon extends React.Component {
             <Icon image={couponIcon} size={25} />
           </div>
           <div className={styles.headingText}>{this.props.heading}</div>
-          <div className={styles.button}>
-            <UnderLinedButton label={this.props.couponButtonText} />
-          </div>
         </div>
       </div>
     );
@@ -37,7 +34,4 @@ Coupon.propTypes = {
   heading: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func
-};
-Coupon.defaultProps = {
-  couponButtonText: "Apply"
 };

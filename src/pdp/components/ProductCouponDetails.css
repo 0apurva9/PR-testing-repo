@@ -34,7 +34,7 @@
 }
 .disclaimer {
   composes: header;
-  font-size: 12px;
+  font-size: 14px;
   padding: 0 15px;
   color: #171d1c;
   margin-bottom: 20px;
