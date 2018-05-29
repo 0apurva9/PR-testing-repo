@@ -40,7 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
-const CHECKOUT_BUTTON_TEXT = "Checkout";
+const CHECKOUT_BUTTON_TEXT = "Continue";
 class CartPage extends React.Component {
   constructor(props) {
     super(props);
