@@ -44,16 +44,15 @@ export default class BankOffer extends React.Component {
               }}
             />
           </div>
-          {this.props.labelTermsAndCondition && (
-            <div className={styles.termsAndConditionButton}>
-              <UnderLinedButton
-                label={this.props.labelTermsAndCondition}
-                onClick={() => {
-                  this.props.openBankOfferTncModal();
-                }}
-              />
-            </div>
-          )}
+
+          <div className={styles.termsAndConditionButton}>
+            <UnderLinedButton
+              label="T&C"
+              onClick={() => {
+                this.props.openBankOfferTncModal();
+              }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -64,6 +63,5 @@ BankOffer.propTypes = {
   bankName: PropTypes.string,
   offerText: PropTypes.string,
   label: PropTypes.string,
-  onClick: PropTypes.func,
-  labelTermsAndCondition: PropTypes.string
+  onClick: PropTypes.func
 };

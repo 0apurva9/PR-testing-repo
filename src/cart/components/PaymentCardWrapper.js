@@ -168,7 +168,6 @@ export default class PaymentCardWrapper extends React.Component {
           bankName={offerTitle}
           offerText={offerDescription}
           label={SEE_ALL_BANK_OFFERS}
-          labelTermsAndCondition="T&C"
           applyBankOffers={() => this.props.openBankOffers()}
           openBankOfferTncModal={() => this.openBankOfferTncModal()}
           value={offerCode}
