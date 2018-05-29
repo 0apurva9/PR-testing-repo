@@ -284,6 +284,7 @@ export default class EditAddressPopUp extends React.Component {
             onChange={firstName => this.onChange({ firstName })}
             textStyle={{ fontSize: 14 }}
             height={33}
+            onlyAlphabet={true}
           />
         </div>
 
@@ -297,6 +298,7 @@ export default class EditAddressPopUp extends React.Component {
             onChange={lastName => this.onChange({ lastName })}
             textStyle={{ fontSize: 14 }}
             height={33}
+            onlyAlphabet={true}
           />
         </div>
         <div className={styles.content}>
@@ -379,7 +381,7 @@ export default class EditAddressPopUp extends React.Component {
         </div>
         <div className={styles.content}>
           <Input2
-            type="number"
+            onlyNumber={true}
             placeholder="Phone number*"
             value={this.props.phone ? this.props.phone : this.state.phone}
             boxy={true}
