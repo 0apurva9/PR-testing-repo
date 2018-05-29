@@ -21,7 +21,9 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   GLOBAL_ACCESS_TOKEN,
   PLAT_FORM_NUMBER,
-  SUCCESS_MESSAGE_IN_CANCELING_ORDER
+  SUCCESS_MESSAGE_IN_CANCELING_ORDER,
+  FEMALE,
+  MALE
 } from "../../lib/constants";
 import {
   showModal,
@@ -239,8 +241,11 @@ const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const CART_GU_ID = "cartGuid";
 const MSD_API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const MAD_UUID = "19267047903874796013507214974570460649";
+const WOMEN = "Women's";
+const MEN = "Men's";
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
 export const MSD_FEEDBACK = "feedback";
+
 // cencel product
 
 export function getDetailsOfCancelledProductRequest() {
@@ -2120,11 +2125,11 @@ export function updateProfileMsd(gender) {
   return async (dispatch, getState, { api }) => {
     dispatch(updateProfileMsdRequest());
     try {
-      if (gender === "FEMALE") {
-        gender = "Women's";
+      if (gender === FEMALE) {
+        gender = WOMEN;
       }
-      if (gender === "MALE") {
-        gender = "Men's";
+      if (gender === MALE) {
+        gender = MEN;
       }
       let msdData = {};
       msdData.fields = "gender";
