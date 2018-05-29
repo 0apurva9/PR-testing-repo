@@ -1,13 +1,13 @@
 import React from "react";
-import { HOME_ROUTER, SUCCESS } from "../../lib/constants";
+import { HOME_ROUTER, SUCCESS, SUCCESS_UPPERCASE } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./LogoutButton.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 const LOGOUT_TEXT = "You have logged out successfully";
 export default class LogoutButton extends React.Component {
   async logoutUser() {
-    if (this.props.logout) {
-      const logoutResponse = await this.props.logout();
+    if (this.props.logoutUser) {
+      const logoutResponse = await this.props.logoutUser();
       this.props.displayToast(LOGOUT_TEXT);
       this.props.history.push(`${HOME_ROUTER}`);
       if (logoutResponse.status === SUCCESS) {
