@@ -517,6 +517,7 @@ export default class ModalRoot extends React.Component {
           loadingForGetOtpToActivateWallet={
             this.props.loadingForGetOtpToActivateWallet
           }
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       verifyOtpForCliqCash: (
@@ -547,6 +548,7 @@ export default class ModalRoot extends React.Component {
           loadingForGetOtpToActivateWallet={
             this.props.loadingForGetOtpToActivateWallet
           }
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       verifyOtp: (
