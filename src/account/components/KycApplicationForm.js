@@ -49,6 +49,7 @@ export default class KycApplicationForm extends React.Component {
                   onChange={firstName => this.setState({ firstName })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
+                  onlyAlphabet={true}
                 />
               </div>
               <div className={styles.inputHolder}>
@@ -63,6 +64,7 @@ export default class KycApplicationForm extends React.Component {
                   onChange={lastName => this.setState({ lastName })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
+                  onlyAlphabet={true}
                 />
               </div>
               <div className={styles.inputHolder}>
@@ -77,6 +79,8 @@ export default class KycApplicationForm extends React.Component {
                   onChange={mobileNumber => this.setState({ mobileNumber })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
+                  onlyNumber={true}
+                  maxLength={10}
                 />
               </div>
             </div>

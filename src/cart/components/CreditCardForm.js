@@ -182,6 +182,7 @@ export default class CreditCardForm extends React.Component {
                     textStyle={{ fontSize: 14 }}
                     height={33}
                     maxLength={"4"}
+                    onlyNumber={true}
                     value={
                       this.props.cvvNumber
                         ? this.props.cvvNumber
