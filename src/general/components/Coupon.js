@@ -13,19 +13,19 @@ export default class Coupon extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        onClick={() => {
+          this.handleClick();
+        }}
+      >
         <div className={styles.couponInnerBox}>
           <div className={styles.couponIcon}>
             <Icon image={couponIcon} size={25} />
           </div>
           <div className={styles.headingText}>{this.props.heading}</div>
           <div className={styles.button}>
-            <UnderLinedButton
-              label={this.props.couponButtonText}
-              onClick={() => {
-                this.handleClick();
-              }}
-            />
+            <UnderLinedButton label={this.props.couponButtonText} />
           </div>
         </div>
       </div>
