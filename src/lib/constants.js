@@ -169,7 +169,7 @@ export const COLLECT_TEXT = "CLiQ & PiQ";
 export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
 
-export const PLAT_FORM_NUMBER = "2";
+export const PLAT_FORM_NUMBER = "5";
 
 export const TRUE = "true";
 

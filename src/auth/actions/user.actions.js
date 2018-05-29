@@ -2,7 +2,8 @@ import {
   SUCCESS,
   REQUESTING,
   ERROR,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  PLAT_FORM_NUMBER
 } from "../../lib/constants";
 import {
   GLOBAL_ACCESS_TOKEN,
@@ -103,7 +104,6 @@ export const SOCIAL_MEDIA_LOGIN_PATH = "v2/mpl/users";
 const COOKIE_POLICY = "single_host_origin";
 const REQUEST_VISIBLE_ACTIONS = "http://schema.org/AddAction";
 const SCOPE = "https://www.googleapis.com/auth/plus.login email";
-const PLATFORM_NUMBER = "2";
 const CLIENT_ID = "gauravj@dewsolutions.in";
 const CUSTOMER_PROFILE_PATH = "v2/mpl/users";
 export const FACEBOOK_PLATFORM = "facebook";
@@ -224,7 +224,7 @@ export function signUpUser(userObj) {
           JSON.parse(globalCookie).access_token
         }&isPwa=true&username=${userObj.username}&password=${
           userObj.password
-        }&platformNumber=${PLATFORM_NUMBER}${suffix}`
+        }&platformNumber=${PLAT_FORM_NUMBER}${suffix}`
       );
 
       const resultJson = await result.json();
@@ -270,7 +270,7 @@ export function otpVerification(otpDetails, userDetails) {
       const result = await api.post(
         `${OTP_VERIFICATION_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&otp=${otpDetails}&isPwa=true&platformNumber=${PLATFORM_NUMBER}&username=${
+        }&otp=${otpDetails}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&username=${
           userDetails.username
         }&password=${userDetails.password}&emailId=${userDetails.emailId}`
       );
@@ -317,7 +317,7 @@ export function forgotPassword(userDetails) {
       const result = await api.post(
         `${FORGOT_PASSWORD_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&platformNumber=2&isPwa=true&username=${userDetails}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&username=${userDetails}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -363,7 +363,7 @@ export function forgotPasswordOtpVerification(otpDetails, userDetails) {
       const result = await api.post(
         `${FORGOT_PASSWORD_OTP_VERIFICATION_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&platformNumber=2&otp=${otpDetails}&isPwa=true&username=${userDetails}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&otp=${otpDetails}&isPwa=true&username=${userDetails}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -781,7 +781,7 @@ export function socialMediaRegistration(
       const result = await api.post(
         `${SOCIAL_MEDIA_REGISTRATION_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&emailId=${userName}&socialMedia=${platForm}&platformNumber=${PLATFORM_NUMBER}&isPwa=true`
+        }&emailId=${userName}&socialMedia=${platForm}&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -831,7 +831,7 @@ export function socialMediaLogin(
     dispatch(socialMediaLoginRequest());
     try {
       const result = await api.post(
-        `${SOCIAL_MEDIA_LOGIN_PATH}/${userName}/loginSocialUser?access_token=${customerAccessToken}&emailId=${userName}&socialMedia=${platform}&platformNumber=${PLATFORM_NUMBER}&isPwa=true`
+        `${SOCIAL_MEDIA_LOGIN_PATH}/${userName}/loginSocialUser?access_token=${customerAccessToken}&emailId=${userName}&socialMedia=${platform}&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true`
       );
       const resultJson = await result.json();
 
