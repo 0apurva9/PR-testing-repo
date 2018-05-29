@@ -1615,7 +1615,8 @@ export function updateProfile(accountDetails, otp) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      if (accountDetails.gender) {
+
+      if (accountDetails.gender && accountDetails.isGenderUpdate) {
         dispatch(updateProfileMsd(accountDetails.gender));
       }
       if (resultJson.status === "OTP SENT TO MOBILE NUMBER: PLEASE VALIDATE") {
@@ -2130,7 +2131,6 @@ export function updateProfileMsd(gender) {
       msdData.values = [gender];
       msdData.action = "follow";
 
-      console.log(msdData);
       let msdRequestObject = new FormData();
       msdRequestObject.append("api_key", MSD_API_KEY);
       msdRequestObject.append("data", JSON.stringify([msdData]));
@@ -2141,7 +2141,6 @@ export function updateProfileMsd(gender) {
         msdRequestObject
       );
       const resultJson = await result.json();
-      console.log(resultJson);
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);

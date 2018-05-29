@@ -48,7 +48,8 @@ export default class EditAccountDetails extends React.Component {
       gender: "",
       mobileNumber: "",
       emailId: "",
-      changePassword: false
+      changePassword: false,
+      isGenderUpdate: false
     };
   }
   componentDidMount() {
@@ -109,7 +110,7 @@ export default class EditAccountDetails extends React.Component {
     }
   }
   onChangeGender(val) {
-    this.setState({ gender: val.value });
+    this.setState({ gender: val.value, isGenderUpdate: true });
   }
   onChange(val) {
     this.setState(val);
