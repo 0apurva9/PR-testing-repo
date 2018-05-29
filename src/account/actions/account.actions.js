@@ -203,6 +203,9 @@ export const LOG_OUT_USER_REQUEST = "LOG_OUT_USER_REQUEST";
 export const LOG_OUT_USER_SUCCESS = "LOG_OUT_USER_SUCCESS";
 export const LOG_OUT_USER_FAILURE = "LOG_OUT_USER_FAILURE";
 
+export const UPDATE_PROFILE_MSD_REQUEST = "UPDATE_PROFILE_MSD_REQUEST";
+export const UPDATE_PROFILE_MSD_SUCCESS = "UPDATE_PROFILE_MSD_SUCCESS";
+export const UPDATE_PROFILE_MSD_FAILURE = "UPDATE_PROFILE_MSD_FAILURE";
 
 export const UPDATE_PROFILE_OTP_VERIFICATION = "UpdateProfileOtpVerification";
 export const CHANGE_PASSWORD_REQUEST = "CHANGE_PASSWORD_REQUEST";
@@ -234,6 +237,10 @@ const UNFOLLOW = "unfollow";
 const DATE_FORMAT_TO_UPDATE_PROFILE = "DD/MM/YYYY";
 const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const CART_GU_ID = "cartGuid";
+const MSD_API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
+const MAD_UUID = "19267047903874796013507214974570460649";
+export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
+export const MSD_FEEDBACK = "feedback";
 // cencel product
 
 export function getDetailsOfCancelledProductRequest() {
@@ -1608,7 +1615,9 @@ export function updateProfile(accountDetails, otp) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
+      if (accountDetails.gender) {
+        dispatch(updateProfileMsd(accountDetails.gender));
+      }
       if (resultJson.status === "OTP SENT TO MOBILE NUMBER: PLEASE VALIDATE") {
         dispatch(showModal(UPDATE_PROFILE_OTP_VERIFICATION, accountDetails));
       } else if (
@@ -2039,7 +2048,6 @@ export function clearPinCodeStatus() {
   };
 }
 
-
 export function logoutUserRequest() {
   return {
     type: LOG_OUT_USER_REQUEST,
@@ -2049,8 +2057,7 @@ export function logoutUserRequest() {
 export function logoutUserSuccess() {
   return {
     type: LOG_OUT_USER_SUCCESS,
-    status: SUCCESS,
-
+    status: SUCCESS
   };
 }
 
@@ -2062,7 +2069,6 @@ export function logoutUserFailure(error) {
   };
 }
 
-
 export function logoutUser() {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -2070,9 +2076,9 @@ export function logoutUser() {
     dispatch(logoutUserRequest());
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/logout?userId=${JSON.parse(userDetails).userName}&access_token=${
-          JSON.parse(globalAccessToken).access_token
-        }`
+        `${USER_PATH}/logout?userId=${
+          JSON.parse(userDetails).userName
+        }&access_token=${JSON.parse(globalAccessToken).access_token}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2080,9 +2086,70 @@ export function logoutUser() {
         throw new Error(resultJsonStatus.message);
       }
 
-      return dispatch(logoutUserSuccess(resultJson));
+      return dispatch(logoutUserSuccess());
     } catch (e) {
       return dispatch(logoutUserFailure(e.message));
+    }
+  };
+}
+
+export function updateProfileMsdRequest() {
+  return {
+    type: UPDATE_PROFILE_MSD_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function updateProfileMsdSuccess() {
+  return {
+    type: UPDATE_PROFILE_MSD_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function updateProfileMsdFailure(error) {
+  return {
+    type: UPDATE_PROFILE_MSD_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateProfileMsd(gender) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateProfileMsdRequest());
+    try {
+      if (gender === "FEMALE") {
+        gender = "Women's";
+      }
+      if (gender === "MALE") {
+        gender = "Men's";
+      }
+      let msdData = {};
+      msdData.fields = "gender";
+      msdData.values = [gender];
+      msdData.action = "follow";
+
+      console.log(msdData);
+      let msdRequestObject = new FormData();
+      msdRequestObject.append("api_key", MSD_API_KEY);
+      msdRequestObject.append("data", JSON.stringify([msdData]));
+      msdRequestObject.append("mad_uuid", MAD_UUID);
+
+      const result = await api.postMsd(
+        `${API_MSD_URL_ROOT}/${MSD_FEEDBACK}`,
+        msdRequestObject
+      );
+      const resultJson = await result.json();
+      console.log(resultJson);
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(updateProfileMsdSuccess());
+    } catch (e) {
+      return dispatch(updateProfileMsdFailure(e.message));
     }
   };
 }

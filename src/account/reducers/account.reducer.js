@@ -136,7 +136,10 @@ const account = (
     loadingForCancelProduct: false,
 
     logoutUserStatus: null,
-    logoutUserError: null
+    logoutUserError: null,
+
+    msdUpdateProfileStatus: null,
+    msdUpdateProfileError: null
   },
   action
 ) => {
@@ -899,6 +902,23 @@ const account = (
         logoutUserError: action.error
       });
     }
+
+    case accountActions.UPDATE_PROFILE_MSD_REQUEST:
+      return Object.assign({}, state, {
+        msdUpdateProfileStatus: action.status
+      });
+
+    case accountActions.UPDATE_PROFILE_MSD_SUCCESS:
+      return Object.assign({}, state, {
+        msdUpdateProfileStatus: action.status
+      });
+
+    case accountActions.UPDATE_PROFILE_MSD_FAILURE:
+      return Object.assign({}, state, {
+        msdUpdateProfileStatus: action.status,
+        msdUpdateProfileError: action.error
+      });
+
     default:
       return state;
   }
