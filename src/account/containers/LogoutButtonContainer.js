@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { logout } from "../actions/account.actions";
+import { logoutUser } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import LogoutButton from "../components/LogoutButton";
 import { displayToast } from "../../general/toast.actions";
@@ -10,8 +10,8 @@ const mapDispatchToProps = dispatch => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    logout: async () => {
-      return await dispatch(logout());
+    logoutUser: async () => {
+      return await dispatch(logoutUser());
     },
     generateCartIdForAnonymous: async () => {
       return await dispatch(generateCartIdForAnonymous());

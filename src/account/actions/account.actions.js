@@ -198,6 +198,12 @@ export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
 export const LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER =
   "LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER";
+
+export const LOG_OUT_USER_REQUEST = "LOG_OUT_USER_REQUEST";
+export const LOG_OUT_USER_SUCCESS = "LOG_OUT_USER_SUCCESS";
+export const LOG_OUT_USER_FAILURE = "LOG_OUT_USER_FAILURE";
+
+
 export const UPDATE_PROFILE_OTP_VERIFICATION = "UpdateProfileOtpVerification";
 export const CHANGE_PASSWORD_REQUEST = "CHANGE_PASSWORD_REQUEST";
 export const CHANGE_PASSWORD_SUCCESS = "CHANGE_PASSWORD_SUCCESS";
@@ -1609,7 +1615,7 @@ export function updateProfile(accountDetails, otp) {
         resultJson.emailId !== JSON.parse(userDetails).userName &&
         !MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
       ) {
-        dispatch(logoutUserByMobileNumber());
+        dispatch(logoutUser());
       } else {
         if (otp) {
           if (
@@ -1619,7 +1625,7 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
               MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
           ) {
-            dispatch(logoutUserByMobileNumber());
+            dispatch(logoutUser());
           }
         } else {
           return dispatch(updateProfileSuccess(resultJson));
@@ -2030,5 +2036,53 @@ export function clearChangePasswordDetails() {
 export function clearPinCodeStatus() {
   return {
     type: CLEAR_PIN_CODE_STATUS
+  };
+}
+
+
+export function logoutUserRequest() {
+  return {
+    type: LOG_OUT_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function logoutUserSuccess() {
+  return {
+    type: LOG_OUT_USER_SUCCESS,
+    status: SUCCESS,
+
+  };
+}
+
+export function logoutUserFailure(error) {
+  return {
+    type: LOG_OUT_USER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+
+export function logoutUser() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    dispatch(logoutUserRequest());
+    try {
+      const result = await api.postFormData(
+        `${USER_PATH}/logout?userId=${JSON.parse(userDetails).userName}&access_token=${
+          JSON.parse(globalAccessToken).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(logoutUserSuccess(resultJson));
+    } catch (e) {
+      return dispatch(logoutUserFailure(e.message));
+    }
   };
 }
