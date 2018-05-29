@@ -238,6 +238,10 @@ export const BIN_VALIDATION_COD_REQUEST = "BIN_VALIDATION_COD_REQUEST";
 export const BIN_VALIDATION_COD_SUCCESS = "BIN_VALIDATION_COD_SUCCESS";
 export const BIN_VALIDATION_COD_FAILURE = "BIN_VALIDATION_COD_FAILURE";
 
+export const GET_TNC_FOR_BANK_OFFER_REQUEST = "GET_TNC_FOR_BANK_OFFER_REQUEST";
+export const GET_TNC_FOR_BANK_OFFER_SUCCESS = "GET_TNC_FOR_BANK_OFFER_SUCCESS";
+export const GET_TNC_FOR_BANK_OFFER_FAILURE = " GET_TNC_FOR_BANK_OFFER_FAILURE";
+
 export const UPDATE_TRANSACTION_DETAILS_FOR_COD_REQUEST =
   "UPDATE_TRANSACTION_DETAILS_FOR_COD_REQUEST";
 export const UPDATE_TRANSACTION_DETAILS_FOR_COD_SUCCESS =
@@ -4274,5 +4278,44 @@ export function getPaymentFailureOrderDetails() {
 export function resetIsSoftReservationFailed() {
   return {
     type: RESET_IS_SOFT_RESERVATION_FAILED
+  };
+}
+
+export function getTncForBankOfferRequest() {
+  return {
+    type: GET_TNC_FOR_BANK_OFFER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getTncForBankOfferSuccess(termsAndConditions) {
+  return {
+    type: GET_TNC_FOR_BANK_OFFER_SUCCESS,
+    status: SUCCESS,
+    termsAndConditions
+  };
+}
+export function getTncForBankOfferFailure(error) {
+  return {
+    type: GET_TNC_FOR_BANK_OFFER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getTncForBankOffer() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getTncForBankOfferRequest());
+    try {
+      const result = await api.get(
+        `v2/mpl/paymentSpecificOffersTermsAndCondition?isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getTncForBankOfferSuccess(resultJson));
+    } catch (e) {
+      dispatch(getTncForBankOfferFailure(e.message));
+    }
   };
 }

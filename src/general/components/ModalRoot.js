@@ -4,6 +4,7 @@ import ModalPanel from "./ModalPanel";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
+import BankOfferTNCModal from "../../cart/components/BankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
 
 import * as Cookie from "../../lib/Cookie.js";
@@ -557,6 +558,13 @@ export default class ModalRoot extends React.Component {
           wrongNumber={() => this.wrongNumber()}
           {...this.props.ownProps}
           loadingForVerifyWallet={this.props.loadingForVerifyWallet}
+        />
+      ),
+      TermsAndConditionForBankOffer: (
+        <BankOfferTNCModal
+          bankOfferTncDetails={this.props.bankOfferTncDetails}
+          getTNCForBankOffer={() => this.props.getTNCForBankOffer()}
+          closeModal={() => this.handleClose()}
         />
       ),
       EmiModal: <EmiModal />,
