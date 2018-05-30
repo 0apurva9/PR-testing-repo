@@ -16,6 +16,9 @@ export default class SizeSelector extends React.Component {
       pathname: `${productUrl}`,
       state: { isSizeSelected: true }
     });
+    if (this.props.displayToast) {
+      this.props.displayToast("Size selected. Please add to bag");
+    }
     if (this.props.closeModal) {
       this.props.closeModal();
     }

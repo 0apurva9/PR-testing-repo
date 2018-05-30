@@ -600,6 +600,7 @@ export default class ModalRoot extends React.Component {
         <SizeSelectModal
           {...this.props.ownProps}
           history={this.props.history}
+          displayToast={message => this.props.displayToast(message)}
           closeModal={() => this.handleClose()}
         />
       ),
