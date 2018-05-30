@@ -79,7 +79,7 @@ class Login extends Component {
   onSubmit = () => {
     if (this.props.onSubmit) {
       let userDetails = {};
-      userDetails.username = this.state.emailValue;
+      userDetails.username = this.state.emailValue.trim();
       userDetails.password = this.state.passwordValue;
       if (!userDetails.username) {
         this.props.displayToast(
