@@ -64,13 +64,13 @@ export default class EmiAccordion extends React.Component {
       });
     } else {
       this.setState({
-        selectedBank: option.emiBank,
+        selectedBank: option.code,
         selectedEmiRate: option.emitermsrate[0].interestRate,
         selectedEmi: option.emitermsrate[0].term,
         selectedPrice: option.emitermsrate[0].monthlyInstallment
       });
       this.onChangeCardDetail({
-        emi_bank: option.emiBank,
+        emi_bank: option.code,
         emi_tenure: option.emitermsrate[0].term,
         is_emi: true
       });
