@@ -12,6 +12,18 @@ export default class CuponDetails extends React.Component {
     }
   }
   render() {
+    let date;
+    let couponExpiryDate =
+      this.props.dateTime && this.props.dateTime.split(" ");
+    if (couponExpiryDate) {
+      date =
+        couponExpiryDate[2] +
+        " " +
+        couponExpiryDate[1] +
+        " " +
+        couponExpiryDate[5];
+    }
+
     return (
       <div className={styles.base}>
         <div
@@ -43,9 +55,7 @@ export default class CuponDetails extends React.Component {
             {this.props.dateTime && (
               <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>Valid till</div>
-                <div className={styles.dataInformation}>
-                  {this.props.dateTime}
-                </div>
+                <div className={styles.dataInformation}>{date}</div>
               </div>
             )}
             {this.props.amount && (

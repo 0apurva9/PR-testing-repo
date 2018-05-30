@@ -182,7 +182,7 @@ class ProductCouponDetails extends Component {
                   <CuponDetails
                     promotionTitle={couponName}
                     promotionDetail={value.description}
-                    dateTime={formattedDate}
+                    dateTime={value.couponExpiryDate}
                     amount={value.maxDiscount}
                     key={i}
                     couponType={value.couponType}
