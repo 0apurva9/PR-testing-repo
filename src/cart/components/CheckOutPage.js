@@ -670,23 +670,22 @@ class CheckOutPage extends React.Component {
       }
     }
 
-
     //update cliqCash Amount
     if (
       nextProps.cart.paymentModes &&
       nextProps.cart.paymentModes.cliqCash &&
       nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance
     ) {
-      this.setState({cliqCashAmount:nextProps.cart.paymentModes.cliqCash
-        .totalCliqCashBalance.value
-        ? Math.round(
-            nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance
-              .value * 100
-          ) / 100
-        : "0.00"})
-
+      this.setState({
+        cliqCashAmount: nextProps.cart.paymentModes.cliqCash
+          .totalCliqCashBalance.value
+          ? Math.round(
+              nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance.value *
+                100
+            ) / 100
+          : "0.00"
+      });
     }
-
 
     this.availabilityOfUserCoupon();
     if (
@@ -1996,17 +1995,21 @@ class CheckOutPage extends React.Component {
       !this.state.isPaymentFailed &&
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
-      (this.props.cart.userAddress && this.props.cart.userAddress.addresses && !this.state.isGiftCard)
+      (this.props.cart.userAddress &&
+        this.props.cart.userAddress.addresses &&
+        !this.state.isGiftCard)
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
       }
 
-      labelForButton = PROCEED;
+      labelForButton = CONTINUE;
     } else if (
-      (this.state.confirmAddress && !this.state.deliverMode &&  !this.state.isGiftCard)
+      this.state.confirmAddress &&
+      !this.state.deliverMode &&
+      !this.state.isGiftCard
     ) {
-      labelForButton = PROCEED;
+      labelForButton = CONTINUE;
     } else if (
       this.state.currentPaymentMode === CASH_ON_DELIVERY_PAYMENT_MODE
     ) {
@@ -2046,12 +2049,12 @@ class CheckOutPage extends React.Component {
         labelForButton = PAY_NOW;
         checkoutButtonStatus = false;
       } else {
-        labelForButton = PROCEED;
+        labelForButton = CONTINUE;
 
         checkoutButtonStatus = true;
       }
     } else if (this.state.currentPaymentMode === null) {
-      labelForButton = PROCEED;
+      labelForButton = CONTINUE;
       checkoutButtonStatus = true;
     } else {
       checkoutButtonStatus = this.validateSubmitButton();

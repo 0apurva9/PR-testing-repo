@@ -34,6 +34,7 @@ export default class SearchAndUpdate extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+    this.onUpdate();
   }
 
   handleKeyUp(event) {

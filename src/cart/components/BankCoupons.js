@@ -12,13 +12,13 @@ export default class BankCoupons extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.cuponCard}>
+        <div
+          className={styles.cuponCard}
+          onClick={val => this.applyCoupons(val)}
+        >
           <div className={styles.headerText}>
             <span>{this.props.offerTitle}</span>
-            <div
-              className={styles.checkBoxHolder}
-              onClick={val => this.applyCoupons(val)}
-            >
+            <div className={styles.checkBoxHolder}>
               <CheckBox selected={this.props.selected} />
             </div>
           </div>

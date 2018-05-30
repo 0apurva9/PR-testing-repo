@@ -13,20 +13,20 @@ export default class Coupon extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        onClick={() => {
+          this.handleClick();
+        }}
+      >
         <div className={styles.couponInnerBox}>
           <div className={styles.couponIcon}>
             <Icon image={couponIcon} size={25} />
           </div>
           <div className={styles.headingText}>{this.props.heading}</div>
-          <div className={styles.button}>
-            <UnderLinedButton
-              label={this.props.couponButtonText}
-              onClick={() => {
-                this.handleClick();
-              }}
-            />
-          </div>
+          {this.props.subText && (
+            <div className={styles.subText}>{this.props.subText}</div>
+          )}
         </div>
       </div>
     );
@@ -36,8 +36,6 @@ Coupon.propTypes = {
   couponImage: PropTypes.string,
   heading: PropTypes.string,
   label: PropTypes.string,
-  onClick: PropTypes.func
-};
-Coupon.defaultProps = {
-  couponButtonText: "Apply"
+  onClick: PropTypes.func,
+  subText: PropTypes.string
 };

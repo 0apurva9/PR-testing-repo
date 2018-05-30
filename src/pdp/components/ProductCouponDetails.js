@@ -18,7 +18,8 @@ import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 import format from "date-fns/format";
 const REMOVE = "Remove";
 const APPLY = "Apply";
-const USER_COUPON_NOTE = "Note : Bank Offers can be applied  during payment";
+const USER_COUPON_NOTE =
+  "Note : Additional Bank Offers can be applied during payment";
 
 class ProductCouponDetails extends Component {
   constructor(props) {
@@ -127,27 +128,29 @@ class ProductCouponDetails extends Component {
       <SlideModal {...this.props}>
         <div className={styles.base}>
           <div className={styles.header}>
-            <StaticDarkHeader text="Apply Coupon" />
+            <StaticDarkHeader text="All Coupons" />
           </div>
-          <div className={styles.searchHolder}>
-            <SearchCupon
-              label={
-                this.state.previousSelectedCouponCode &&
-                this.state.previousSelectedCouponCode ===
-                  this.state.selectedCouponCode
-                  ? REMOVE
-                  : APPLY
-              }
-              disableManualType={false}
-              placeholder="Enter Coupon Code"
-              couponCode={this.state.selectedCouponCode}
-              getValue={selectedCouponCode =>
-                this.setState({ selectedCouponCode })
-              }
-              applyUserCoupon={() => this.applyUserCoupon()}
-            />
+          <div className={styles.stickyPortion}>
+            <div className={styles.searchHolder}>
+              <SearchCupon
+                label={
+                  this.state.previousSelectedCouponCode &&
+                  this.state.previousSelectedCouponCode ===
+                    this.state.selectedCouponCode
+                    ? REMOVE
+                    : APPLY
+                }
+                disableManualType={false}
+                placeholder="Enter Coupon Code"
+                couponCode={this.state.selectedCouponCode}
+                getValue={selectedCouponCode =>
+                  this.setState({ selectedCouponCode })
+                }
+                applyUserCoupon={() => this.applyUserCoupon()}
+              />
+            </div>
+            <div className={styles.disclaimer}>{USER_COUPON_NOTE}</div>
           </div>
-          <div className={styles.disclaimer}>{USER_COUPON_NOTE}</div>
           {!showLogOutUserCoupon && (
             <div className={styles.link} onClick={() => this.navigateToLogin()}>
               <div className={styles.linkArrow}>
