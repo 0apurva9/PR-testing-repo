@@ -601,6 +601,7 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           history={this.props.history}
           closeModal={() => this.handleClose()}
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       GiftCardModal: (
