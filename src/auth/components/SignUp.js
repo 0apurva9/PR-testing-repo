@@ -16,7 +16,10 @@ import {
 import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
 import {
   setDataLayer,
-  ADOBE_LOGIN_AND_SIGN_UP_PAGE
+  ADOBE_LOGIN_AND_SIGN_UP_PAGE,
+  setDataLayerForSignupProcess,
+  ADOBE_SIGN_UP_START,
+  ADOBE_SIGN_UP_SUCCESS
 } from "../../lib/adobeUtils";
 
 class SignUp extends Component {
@@ -34,6 +37,7 @@ class SignUp extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
       if (this.props.redirectToAfterAuthUrl) {
+        setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
         this.props.history.replace(this.props.redirectToAfterAuthUrl);
         this.props.clearUrlToRedirectToAfterAuth();
       } else {

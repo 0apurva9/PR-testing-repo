@@ -669,6 +669,25 @@ class CheckOutPage extends React.Component {
         });
       }
     }
+
+
+    //update cliqCash Amount
+    if (
+      nextProps.cart.paymentModes &&
+      nextProps.cart.paymentModes.cliqCash &&
+      nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance
+    ) {
+      this.setState({cliqCashAmount:nextProps.cart.paymentModes.cliqCash
+        .totalCliqCashBalance.value
+        ? Math.round(
+            nextProps.cart.paymentModes.cliqCash.totalCliqCashBalance
+              .value * 100
+          ) / 100
+        : "0.00"})
+
+    }
+
+
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&
@@ -812,9 +831,9 @@ class CheckOutPage extends React.Component {
             : "0.00";
         }
         if (
-          this.props.cart &&
-          this.props.cart.emiEligibilityDetails &&
-          this.props.cart.emiEligibilityDetails.isNoCostEMIEligible &&
+          nextProps.cart &&
+          nextProps.cart.emiEligibilityDetails &&
+          nextProps.cart.emiEligibilityDetails.isNoCostEMIEligible &&
           nextProps.cart.cartDetailsCNC.cartAmount &&
           nextProps.cart.cartDetailsCNC.cartAmount.noCostEMIDiscountValue
         ) {
@@ -894,34 +913,16 @@ class CheckOutPage extends React.Component {
               nextProps.cart.paymentFailureOrderDetails.cliqCashPaidAmount.value
           });
         }
-        if (
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount &&
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount.value
-        ) {
-          this.setState({
-            couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
-              .couponDiscountAmount
-              ? Math.round(
-                  nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
-                    .value * 100
-                ) / 100
-              : "0.00"
-          });
-        }
-        if (
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount &&
-          nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount.value
-        ) {
-          this.setState({
-            couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
-              .couponDiscountAmount
-              ? Math.round(
-                  nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
-                    .value * 100
-                ) / 100
-              : "0.00"
-          });
-        }
+
+        this.setState({
+          couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
+            .couponDiscountAmount
+            ? Math.round(
+                nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
+                  .value * 100
+              ) / 100
+            : "0.00"
+        });
       }
     }
 
@@ -976,7 +977,8 @@ class CheckOutPage extends React.Component {
     // we have relsease coupon if user applied any coupon
     if (
       this.props.history.action === "POP" &&
-      this.state.selectedBankOfferCode
+      this.state.selectedBankOfferCode &&
+      !this.state.isPaymentFailed
     ) {
       this.props.releaseBankOffer(this.state.selectedBankOfferCode);
     }
@@ -1109,8 +1111,11 @@ class CheckOutPage extends React.Component {
 
       //get the NoCost Emi Coupon Code to release
       let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
-      let cartId = localStorage.getItem(OLD_CART_CART_ID);
-      //  this.props.removeNoCostEmi(noCostEmiCouponCode, carGuId, cartId);
+
+      if (noCostEmiCouponCode) {
+        let cartId = localStorage.getItem(OLD_CART_CART_ID);
+        this.props.removeNoCostEmi(noCostEmiCouponCode, carGuId, cartId);
+      }
     } else {
       let cartDetailsLoggedInUser = Cookie.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
@@ -1193,8 +1198,21 @@ class CheckOutPage extends React.Component {
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value;
       const cartId = localStorage.getItem(OLD_CART_CART_ID);
-      if (this.props.applyNoCostEmi) {
-        this.props.applyNoCostEmi(couponCode, cartGuId, cartId);
+      if (this.props.removeNoCostEmi) {
+        const removeNoCostEmiResponse = this.props.removeNoCostEmi(
+          couponCode,
+          cartGuId,
+          cartId
+        );
+        if (removeNoCostEmiResponse.status === SUCCESS) {
+          this.setState({
+            isNoCostEmiApplied: false,
+            isNoCostEmiProceeded: false,
+            noCostEmiBankName: null,
+            noCostEmiDiscount: "0.00"
+          });
+        }
+        return removeNoCostEmiResponse;
       }
     } else {
       let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -1461,7 +1479,7 @@ class CheckOutPage extends React.Component {
         this.props.createJusPayOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-          localStorage.getItem(SELECTED_BANK_NAME),
+          this.state.bankCodeForNetBanking,
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
@@ -1978,7 +1996,7 @@ class CheckOutPage extends React.Component {
       !this.state.isPaymentFailed &&
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
-      (this.props.cart.userAddress && this.props.cart.userAddress.addresses)
+      (this.props.cart.userAddress && this.props.cart.userAddress.addresses && !this.state.isGiftCard)
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
@@ -1986,8 +2004,7 @@ class CheckOutPage extends React.Component {
 
       labelForButton = PROCEED;
     } else if (
-      (this.state.confirmAddress && !this.state.deliverMode) ||
-      this.state.isGiftCard
+      (this.state.confirmAddress && !this.state.deliverMode &&  !this.state.isGiftCard)
     ) {
       labelForButton = PROCEED;
     } else if (
@@ -2265,6 +2282,7 @@ class CheckOutPage extends React.Component {
                 this.props.cart.emiEligibilityDetails &&
                 this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
               }
+              isNoCostEmiApplied={this.state.isNoCostEmiApplied}
               noCostEmiDiscount={this.state.noCostEmiDiscount}
               amount={this.state.payableAmount}
               bagTotal={this.state.bagAmount}

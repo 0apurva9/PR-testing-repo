@@ -13,6 +13,7 @@ export default class KycDetailsPopup extends React.Component {
       otp: this.props.otp ? this.props.otp : ""
     };
   }
+
   resendOtp() {
     if (this.props.resendOtp) {
       this.props.resendOtp();
@@ -71,7 +72,6 @@ export default class KycDetailsPopup extends React.Component {
               label={"Resend OTP"}
               onClick={() => this.resendOtp()}
             />
-            <div className={Styles.time}>30 sec</div>
           </div>
         </div>
       </div>

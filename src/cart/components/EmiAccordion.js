@@ -4,7 +4,7 @@ import EmiCartSelect from "./EmiCartSelect";
 import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
-import { STANDARD_EMI } from "../../lib/constants";
+import { STANDARD_EMI, EMI_TYPE } from "../../lib/constants";
 const PAYMENT_MODE = "EMI";
 
 const IS_EMI = "1";
@@ -38,6 +38,11 @@ export default class EmiAccordion extends React.Component {
         selectedEmi: val.term,
         selectedPrice: val.monthlyInstallment
       });
+      this.onChangeCardDetail({
+        emi_bank: this.state.selectedBank,
+        emi_tenure: val.term,
+        is_emi: true
+      });
     }
   }
   handleSelectBank(val) {
@@ -66,12 +71,13 @@ export default class EmiAccordion extends React.Component {
       });
       this.onChangeCardDetail({
         emi_bank: option.emiBank,
-        emi_tenure: option.emitermsrate[0].interestRate,
-        is_emi: IS_EMI
+        emi_tenure: option.emitermsrate[0].term,
+        is_emi: true
       });
     }
   }
   handleConfirmPlan() {
+    localStorage.setItem(EMI_TYPE, STANDARD_EMI);
     this.setState({ planSelected: true });
   }
   handleChangePlan() {

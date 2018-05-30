@@ -5,6 +5,7 @@ import {
   releaseUserCoupon,
   removeNoCostEmi
 } from "../actions/cart.actions";
+import { withRouter } from "react-router";
 const mapDispatchToProps = dispatch => {
   return {
     releaseBankOffer: couponCode => {
@@ -24,8 +25,7 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps
   };
 };
-const InvalidCouponPopUpContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InvalidCouponPopUp);
+const InvalidCouponPopUpContainer = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(InvalidCouponPopUp)
+);
 export default InvalidCouponPopUpContainer;

@@ -11,7 +11,8 @@ import {
   SELECTED_BANK_NAME,
   EMI,
   NO_COST_EMI_COUPON,
-  CLIQ_CASH
+  CLIQ_CASH,
+  STANDARD_EMI
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -22,6 +23,7 @@ import {
   EMI_BANK_TERMS_AND_CONDITIONS,
   INVALID_BANK_COUPON_POPUP
 } from "../../general/modal.actions";
+import { displayToast } from "../../general/toast.actions";
 import {
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
@@ -36,7 +38,8 @@ import {
   FAILURE_LOWERCASE,
   SOFT_RESERVATION_ITEM,
   ADDRESS_DETAILS_FOR_PAYMENT,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  EMI_TYPE
 } from "../../lib/constants";
 import queryString, { parse } from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -439,7 +442,13 @@ export function cartDetailsFailure(error) {
   };
 }
 
-export function getCartDetails(userId, accessToken, cartId, pinCode) {
+export function getCartDetails(
+  userId,
+  accessToken,
+  cartId,
+  pinCode,
+  isSetDataLayer
+) {
   return async (dispatch, getState, { api }) => {
     dispatch(cartDetailsRequest());
 
@@ -452,12 +461,14 @@ export function getCartDetails(userId, accessToken, cartId, pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      setDataLayer(
-        ADOBE_CART_TYPE,
-        resultJson,
-        getState().icid.value,
-        getState().icid.icidType
-      );
+      if (isSetDataLayer) {
+        setDataLayer(
+          ADOBE_CART_TYPE,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
+      }
 
       //set the local storage
       //set local storage
@@ -519,39 +530,6 @@ export function getCartDetailsCNC(
         throw new Error(`${resultJson.message}`);
       }
 
-      if (isSoftReservation) {
-        let productItems = {};
-        let item = [];
-        each(resultJson.products, product => {
-          if (product.isGiveAway === NO) {
-            let productDetails = {};
-            productDetails.ussId = product.USSID;
-            productDetails.quantity = product.qtySelectedByUser;
-            productDetails.fulfillmentType = product.fullfillmentType;
-
-            if (
-              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves
-            ) {
-              productDetails.deliveryMode =
-                product.pinCodeResponse.validDeliveryModes[0].type;
-              productDetails.serviceableSlaves =
-                product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-            } else if (
-              product.pinCodeResponse.validDeliveryModes[0]
-                .CNCServiceableSlavesData
-            ) {
-              productDetails.deliveryMode =
-                product.pinCodeResponse.validDeliveryModes[0].type;
-              productDetails.serviceableSlaves =
-                product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-            }
-            item.push(productDetails);
-            productItems.item = item;
-          }
-        });
-
-        dispatch(softReservation(pinCode, productItems));
-      }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -931,15 +909,7 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
         throw new Error(resultJsonStatus.message);
       }
 
-      dispatch(
-        getCartDetailsCNC(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token,
-          JSON.parse(cartDetails).code,
-          pinCode,
-          true
-        )
-      );
+      dispatch(softReservation());
       dispatch(selectDeliveryModeSuccess(resultJson));
       // setting data layer after selecting delivery mode success
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SELECT_DELIVERY_MODE);
@@ -1582,13 +1552,47 @@ export function softReservationFailure(error) {
 }
 
 // Action Creator for Soft Reservation
-export function softReservation(pinCode, payload) {
+export function softReservation() {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartId = JSON.parse(cartDetails).code;
+  let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
-    dispatch(softReservationRequest());
+    //get the body parameters
+    let productItems = {};
+    let item = [];
+    each(
+      getState().cart &&
+        getState().cart.cartDetailsCNC &&
+        getState().cart.cartDetailsCNC.products,
+      product => {
+        if (product.isGiveAway === NO) {
+          let productDetails = {};
+          productDetails.ussId = product.USSID;
+          productDetails.quantity = product.qtySelectedByUser;
+          productDetails.fulfillmentType = product.fullfillmentType;
+
+          if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
+            productDetails.deliveryMode =
+              product.pinCodeResponse.validDeliveryModes[0].type;
+            productDetails.serviceableSlaves =
+              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
+          } else if (
+            product.pinCodeResponse.validDeliveryModes[0]
+              .CNCServiceableSlavesData
+          ) {
+            productDetails.deliveryMode =
+              product.pinCodeResponse.validDeliveryModes[0].type;
+            productDetails.serviceableSlaves =
+              product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
+          }
+          item.push(productDetails);
+          productItems.item = item;
+        }
+      }
+    );
+
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -1596,7 +1600,7 @@ export function softReservation(pinCode, payload) {
         }/carts/${cartId}/softReservation?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=2&pincode=${pinCode}&type=cart`,
-        payload
+        productItems
       );
       const resultJson = await result.json();
 
@@ -1934,27 +1938,28 @@ export function binValidationFailure(error) {
 }
 
 // Action Creator to bin Validation
-export function binValidation(paymentMode, binNo, cartGuId) {
+export function binValidation(paymentMode, binNo) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  if (!cartGuId) {
-    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    cartGuId = JSON.parse(cartDetails).guid;
+
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
   }
 
   return async (dispatch, getState, { api }) => {
-    let paymentTypeObject = new FormData();
-    paymentTypeObject.append("cartGuid", cartGuId);
-    paymentTypeObject.append("binNo", binNo);
     dispatch(binValidationRequest());
     try {
-      const result = await api.postFormData(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}`,
-        paymentTypeObject
+        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1976,20 +1981,22 @@ export function binValidationForNetBanking(paymentMode, bankName) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartId = JSON.parse(cartDetails).guid;
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
   return async (dispatch, getState, { api }) => {
-    let paymentTypeObject = new FormData();
-    paymentTypeObject.append("cartGuid", cartId);
-    paymentTypeObject.append("binNo", "");
     dispatch(binValidationRequest());
     try {
-      const result = await api.postFormData(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/binValidation?channel=mobile&access_token=${
           JSON.parse(customerCookie).access_token
-        }&bankName=${bankName}&paymentMode=${paymentMode}`,
-        paymentTypeObject
+        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2085,22 +2092,10 @@ export function softReservationForPayment(cardDetails, address) {
       }
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(softReservationForPaymentSuccess(resultJson));
-      if (localStorage.getItem(PAYMENT_MODE_TYPE) === EMI) {
-        dispatch(
-          createJusPayOrder(
-            "",
-            productItems,
-            address,
-            cardDetails,
-            paymentMode,
-            false
-          )
-        );
-      } else {
-        dispatch(
+      dispatch(
           jusPayTokenize(cardDetails, address, productItems, paymentMode, false)
         );
-      }
+
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }
@@ -2493,7 +2488,8 @@ export function createJusPayOrder(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(
@@ -2609,7 +2605,8 @@ export function createJusPayOrderForNetBanking(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(
@@ -2644,7 +2641,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId) {
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}$paymentMode=${currentSelectedPaymentMode}`
+        )}&paymentMode=${currentSelectedPaymentMode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2694,24 +2691,7 @@ export function createJusPayOrderForSavedCards(
     dispatch(createJusPayOrderRequest());
     try {
       const result = await api.post(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
-          cardDetails.cardIssuer
-        }&
-        cardFingerPrint=${
-          cardDetails.cardFingerprint
-        }&platform=2&pincode=${localStorage.getItem(
-          DEFAULT_PIN_CODE_LOCAL_STORAGE
-        )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
-          cardDetails.cardReferenceNumber
-        }&country=&addressLine1=&access_token=${
-          JSON.parse(customerCookie).access_token
-        }&juspayUrl=${encodeURIComponent(
-          jusPayUrl
-        )}$paymentMode=${currentSelectedPaymentMode}$bankName=${
-          bankName ? bankName : ""
-        }`,
+        `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${cardDetails.cardIssuer}&cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}&city=&cartGuid=${cartId}&token=&cardRefNo=${cardDetails.cardReferenceNumber}&country=&addressLine1=&access_token=${JSON.parse(customerCookie).access_token}&juspayUrl=${encodeURIComponent(jusPayUrl)}&paymentMode=${currentSelectedPaymentMode}&bankName=${bankName ? bankName : ""}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2728,7 +2708,8 @@ export function createJusPayOrderForSavedCards(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
 
@@ -2760,8 +2741,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           JSON.parse(userDetails).userName
         }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
           cardDetails.cardIssuer
-        }&
-        cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${
+        }&cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${
           cardDetails.pinCode
         }&city=&cartGuid=${guId}&token=&cardRefNo=${
           cardDetails.cardReferenceNumber
@@ -2847,7 +2827,8 @@ export function createJusPayOrderForCliqCash(
             })
           );
         } else {
-          throw new Error(resultJsonStatus.message);
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
         }
       }
       dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
@@ -2987,11 +2968,12 @@ export function jusPayPaymentMethodType(
       cardObject.append("name_on_card", cardDetails.cardName);
       cardObject.append("order_id", juspayOrderId);
       cardObject.append("save_to_locker", "1");
-      if (localStorage.getItem(NO_COST_EMI_COUPON)) {
+      if (localStorage.getItem(NO_COST_EMI_COUPON) || localStorage.getItem(EMI_TYPE) === STANDARD_EMI) {
         cardObject.append("emi_bank", cardDetails.emi_bank);
         cardObject.append("emi_tenure", cardDetails.emi_tenure);
         cardObject.append("is_emi", cardDetails.is_emi);
       }
+
       const result = await api.postJusPay(`txns?`, cardObject);
       const resultJson = await result.json();
 
@@ -3005,6 +2987,10 @@ export function jusPayPaymentMethodType(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
+        if(localStorage.getItem(EMI_TYPE))
+        {
+        localStorage.removeItem(EMI_TYPE);
+        }
         dispatch(generateCartIdForLoggedInUser());
       } else {
         throw new Error(resultJson.error_message);
@@ -3412,21 +3398,24 @@ export function binValidationForCODFailure(error) {
 export function binValidationForCOD(paymentMode) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  const cartId = JSON.parse(cartDetails).guid;
-  return async (dispatch, getState, { api }) => {
-    let paymentTypeObject = new FormData();
-    paymentTypeObject.append("cartGuid", cartId);
 
+  const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
+  return async (dispatch, getState, { api }) => {
     dispatch(binValidationForCODRequest());
     try {
-      const result = await api.postFormData(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}`,
-        paymentTypeObject
+        }&isPwa=true&platformNumber=2&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3494,9 +3483,10 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
-          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
-        ) {
-          dispatch(createJusPayOrderFailure(INVALID_COUPON_ERROR_MESSAGE));
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2)
+       {
+          dispatch(updateTransactionDetailsForCODFailure());
+
           return dispatch(
             showModal(INVALID_BANK_COUPON_POPUP, {
               result: resultJson

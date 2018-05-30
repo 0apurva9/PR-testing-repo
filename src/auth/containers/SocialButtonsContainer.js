@@ -43,7 +43,9 @@ import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.j
 import {
   setDataLayerForLogin,
   ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
+  ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE,
+  setDataLayerForSignupProcess,
+  ADOBE_SIGN_UP_START
 } from "../../lib/adobeUtils";
 
 const mapDispatchToProps = dispatch => {
@@ -70,6 +72,7 @@ const mapDispatchToProps = dispatch => {
       }
 
       if (isSignUp) {
+        setDataLayerForSignupProcess(ADOBE_SIGN_UP_START);
         const signUpResponse = await dispatch(
           socialMediaRegistration(
             facebookResponse.email,
@@ -201,6 +204,7 @@ const mapDispatchToProps = dispatch => {
       }
 
       if (isSignUp) {
+        setDataLayerForSignupProcess(ADOBE_SIGN_UP_START);
         const signUpResponse = await dispatch(
           socialMediaRegistration(
             googlePlusResponse.email,

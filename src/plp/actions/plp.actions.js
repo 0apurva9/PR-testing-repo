@@ -191,7 +191,8 @@ export function getProductListings(
       if (
         resultJson &&
         resultJson.currentQuery &&
-        resultJson.currentQuery.searchQuery
+        resultJson.currentQuery.searchQuery &&
+        !paginated
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,

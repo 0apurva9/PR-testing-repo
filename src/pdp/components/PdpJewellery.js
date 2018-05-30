@@ -182,7 +182,8 @@ export default class PdpJewellery extends React.Component {
         if (
           this.checkIfSizeSelected() ||
           this.checkIfFreeSize() ||
-          this.checkIfNoSize()
+          this.checkIfNoSize() ||
+          this.checkIfSizeDoesNotExist()
         ) {
           if (userDetails) {
             if (
@@ -289,6 +290,15 @@ export default class PdpJewellery extends React.Component {
     } else {
       return false;
     }
+  };
+  checkIfSizeDoesNotExist = () => {
+    return this.props.productDetails.variantOptions
+      ? this.props.productDetails.variantOptions.filter(val => {
+          return val.sizelink.size && val.sizelink.isAvailable;
+        }).length === 0
+        ? true
+        : false
+      : true;
   };
   handleShowPiqPage = () => {
     const eligibleForCNC = find(
@@ -418,7 +428,8 @@ export default class PdpJewellery extends React.Component {
           />
 
           {productData.variantOptions &&
-            !this.checkIfNoSize() && (
+            !this.checkIfNoSize() &&
+            !this.checkIfSizeDoesNotExist() && (
               <React.Fragment>
                 <SizeSelector
                   history={this.props.history}

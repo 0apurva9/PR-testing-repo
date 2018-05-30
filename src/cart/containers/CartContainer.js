@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => {
       setDataLayerForPincode: false
     ) => {
       const cartDetailsObj = await dispatch(
-        getCartDetails(cartId, userId, accessToken, pinCode)
+        getCartDetails(cartId, userId, accessToken, pinCode, true)
       );
       // here we are setting data layer for pincode change on cart page
       if (setDataLayerForPincode) {
