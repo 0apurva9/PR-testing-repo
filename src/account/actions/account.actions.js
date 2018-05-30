@@ -208,7 +208,6 @@ export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
 export const CURRENT_PAGE = 0;
 export const PAGE_SIZE = 10;
-export const PLATFORM_NUMBER = 2;
 export const USER_PATH = "v2/mpl/users";
 export const PRODUCT_PATH = "v2/mpl/products";
 
@@ -1918,7 +1917,7 @@ export function getCliqCashDetails() {
           JSON.parse(userDetails).userName
         }/cliqcash/getUserCliqCashDetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLATFORM_NUMBER}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
