@@ -127,10 +127,20 @@ class ProductCouponDetails extends Component {
     return (
       <SlideModal {...this.props}>
         <div className={styles.base}>
-          <div className={styles.header}>
+          <div
+            className={
+              this.props.navigation ? styles.header : styles.stickyHeader
+            }
+          >
             <StaticDarkHeader text="All Coupons" />
           </div>
-          <div className={styles.stickyPortion}>
+          <div
+            className={
+              this.props.navigation
+                ? styles.normalSection
+                : styles.stickyPortion
+            }
+          >
             <div className={styles.searchHolder}>
               <SearchCupon
                 label={
