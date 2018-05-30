@@ -20,8 +20,9 @@ const REMOVE = "Remove";
 const APPLY = "Apply";
 const USER_COUPON_NOTE =
   "Note : Additional Bank Offers can be applied during payment";
-const isStickyHeader =
-  navigator.userAgent && navigator.userAgent.match(/SamsungBrowser/i);
+const isStickyHeader = !(
+  navigator.userAgent && navigator.userAgent.match(/SamsungBrowser/i)
+);
 class ProductCouponDetails extends Component {
   constructor(props) {
     super(props);
