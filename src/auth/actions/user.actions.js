@@ -2,7 +2,8 @@ import {
   SUCCESS,
   REQUESTING,
   ERROR,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  PLAT_FORM_NUMBER
 } from "../../lib/constants";
 import {
   GLOBAL_ACCESS_TOKEN,
@@ -317,7 +318,7 @@ export function forgotPassword(userDetails) {
       const result = await api.post(
         `${FORGOT_PASSWORD_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&platformNumber=2&isPwa=true&username=${userDetails}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&username=${userDetails}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -363,7 +364,7 @@ export function forgotPasswordOtpVerification(otpDetails, userDetails) {
       const result = await api.post(
         `${FORGOT_PASSWORD_OTP_VERIFICATION_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&platformNumber=2&otp=${otpDetails}&isPwa=true&username=${userDetails}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&otp=${otpDetails}&isPwa=true&username=${userDetails}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
