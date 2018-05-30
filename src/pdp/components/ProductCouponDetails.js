@@ -20,7 +20,8 @@ const REMOVE = "Remove";
 const APPLY = "Apply";
 const USER_COUPON_NOTE =
   "Note : Additional Bank Offers can be applied during payment";
-
+const isStickyHeader =
+  navigator.userAgent && navigator.userAgent.match(/SamsungBrowser/i);
 class ProductCouponDetails extends Component {
   constructor(props) {
     super(props);
@@ -127,18 +128,12 @@ class ProductCouponDetails extends Component {
     return (
       <SlideModal {...this.props}>
         <div className={styles.base}>
-          <div
-            className={
-              this.props.navigation ? styles.header : styles.stickyHeader
-            }
-          >
+          <div className={isStickyHeader ? styles.stickyHeader : styles.header}>
             <StaticDarkHeader text="All Coupons" />
           </div>
           <div
             className={
-              this.props.navigation
-                ? styles.normalSection
-                : styles.stickyPortion
+              isStickyHeader ? styles.stickyPortion : styles.normalSection
             }
           >
             <div className={styles.searchHolder}>
