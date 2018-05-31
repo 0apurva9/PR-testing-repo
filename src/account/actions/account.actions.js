@@ -208,7 +208,6 @@ export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
 export const CURRENT_PAGE = 0;
 export const PAGE_SIZE = 10;
-export const PLATFORM_NUMBER = 2;
 export const USER_PATH = "v2/mpl/users";
 export const PRODUCT_PATH = "v2/mpl/products";
 
@@ -274,7 +273,7 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
           JSON.parse(userDetails).userName
         }/returnProductDetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=2`,
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
         cancelProductObject
       );
       const resultJson = await result.json();
@@ -1107,7 +1106,7 @@ export function getAllOrdersDetails(
           JSON.parse(userDetails).userName
         }/orderhistorylist?currentPage=${currentPage}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${PAGE_SIZE}&isPwa=true&platformNumber=2`
+        }&pageSize=${PAGE_SIZE}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1217,7 +1216,7 @@ export function getUserCoupons() {
           JSON.parse(userDetails).userName
         }/getCoupons?currentPage=${CURRENT_PAGE}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=2&channel=mobile`
+        }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=mobile`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1324,7 +1323,7 @@ export function removeAddress(addressId) {
       const result = await api.postFormData(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/removeAddress?isPwa=true&platformNumber=2&access_token=${
+        }/removeAddress?isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         addressObject
@@ -1918,7 +1917,7 @@ export function getCliqCashDetails() {
           JSON.parse(userDetails).userName
         }/cliqcash/getUserCliqCashDetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLATFORM_NUMBER}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

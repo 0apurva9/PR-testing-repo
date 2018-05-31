@@ -6,7 +6,8 @@ import {
   SUCCESS_UPPERCASE,
   SUCCESS_CAMEL_CASE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  PLAT_FORM_NUMBER
 } from "../../lib/constants";
 import { FAILURE } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
@@ -99,7 +100,7 @@ export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
 export const PRODUCT_PDP_EMI_PATH =
-  "v2/mpl/getBankDetailsforEMI?platformNumber=2";
+  `v2/mpl/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}`;
 export const EMI_TERMS_PATH = "/v2/mpl/cms/products/getEmiTermsAndConditions";
 export const FOLLOW_UN_FOLLOW_PATH = "v2/mpl/products";
 
@@ -282,7 +283,7 @@ export function addProductToCart(userId, cartId, accessToken, productDetails) {
     dispatch(addProductToCartRequest());
     try {
       const result = await api.post(
-        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${cartId}/addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=2&productCode=${
+        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${cartId}/addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity

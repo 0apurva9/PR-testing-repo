@@ -9,13 +9,19 @@
 .header {
   width: 100%;
   height: auto;
+}
+.stickyHeader {
+  composes: header;
   position: sticky;
   top: 0;
   z-index: 5;
 }
-.stickyPortion {
+.normalSection {
   width: 100%;
   height: auto;
+}
+.stickyPortion {
+  composes: normalSection;
   position: sticky;
   top: 45px;
   z-index: 5;
