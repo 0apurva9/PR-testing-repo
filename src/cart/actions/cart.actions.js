@@ -1307,7 +1307,7 @@ export function mergeCartId(cartGuId) {
         }&toMergeCartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
-      if(resultJson.count)
+      if(resultJson.count > 0)
       {
         dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
 
