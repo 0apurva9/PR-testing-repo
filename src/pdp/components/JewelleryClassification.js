@@ -12,16 +12,17 @@ export default class JewelleryClassification extends React.Component {
           return (
             <Accordion key={i} text={datum.key} headerFontSize={16}>
               <div className={styles.holder}>
-                {datum.value.classificationListJwlry.map(val => {
-                  return (
-                    <div className={styles.content}>
-                      <div className={styles.header}>{val.key}</div>
-                      <div className={styles.description}>
-                        {val.value.classificationListValueJwlry[0]}
+                {datum.value.classificationListJwlry &&
+                  datum.value.classificationListJwlry.map(val => {
+                    return (
+                      <div className={styles.content}>
+                        <div className={styles.header}>{val.key}</div>
+                        <div className={styles.description}>
+                          {val.value.classificationListValueJwlry[0]}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             </Accordion>
           );
