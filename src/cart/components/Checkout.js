@@ -49,7 +49,12 @@ export default class Checkout extends React.Component {
     return (
       <React.Fragment>
         <div className={styles.hiddenBase}>
-          <div className={styles.totalPriceButtonHolder}>
+          <div
+            className={styles.totalPriceButtonHolder}
+            style={{
+              padding: this.props.padding
+            }}
+          >
             <div className={styles.checkoutButtonHolder}>
               <Button
                 disabled={this.props.disabled}
@@ -140,7 +145,12 @@ export default class Checkout extends React.Component {
           )}
         </div>
         <div className={styles.base}>
-          <div className={styles.totalPriceButtonHolder}>
+          <div
+            className={styles.totalPriceButtonHolder}
+            style={{
+              padding: this.props.padding
+            }}
+          >
             {!this.props.isOnCartPage && (
               <div className={styles.checkoutButtonHolder}>
                 <Button
@@ -309,9 +319,11 @@ Checkout.propTypes = {
   offers: PropTypes.string,
   payable: PropTypes.string,
   label: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  padding: PropTypes.string
 };
 Checkout.defaultProps = {
   label: "Continue",
-  disabled: false
+  disabled: false,
+  padding: "15px 125px 15px 15px"
 };
