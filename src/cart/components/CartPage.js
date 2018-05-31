@@ -140,6 +140,7 @@ class CartPage extends React.Component {
           this.setState({
             isServiceable: true
           });
+          this.props.displayToast("Items are available at your PIN code");
         }
       }
     }
