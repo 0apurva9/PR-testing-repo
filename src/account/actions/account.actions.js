@@ -56,6 +56,7 @@ import {
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
+import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
@@ -227,6 +228,7 @@ const UNFOLLOW = "unfollow";
 const DATE_FORMAT_TO_UPDATE_PROFILE = "DD/MM/YYYY";
 const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const CART_GU_ID = "cartGuid";
+
 // cencel product
 
 export function getDetailsOfCancelledProductRequest() {
@@ -1535,7 +1537,7 @@ export function updateProfileRequest() {
 
 export function logoutUserByMobileNumber() {
   return {
-    type: LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER
+    type: LOGOUT
   };
 }
 
@@ -1608,6 +1610,7 @@ export function updateProfile(accountDetails, otp) {
         resultJson.emailId !== JSON.parse(userDetails).userName &&
         !MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
       ) {
+        dispatch(setBagCount(0))
         dispatch(logoutUserByMobileNumber());
       } else {
         if (otp) {
@@ -1618,6 +1621,7 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
               MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
           ) {
+            dispatch(setBagCount(0))
             dispatch(logoutUserByMobileNumber());
           }
         } else {

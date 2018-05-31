@@ -13,7 +13,8 @@ import {
   NO_COST_EMI_COUPON,
   CLIQ_CASH,
   STANDARD_EMI,
-  PLAT_FORM_NUMBER
+  PLAT_FORM_NUMBER,
+  TOAST_MESSAGE_AFTER_MERGE_CART
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1306,6 +1307,13 @@ export function mergeCartId(cartGuId) {
         }&toMergeCartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
+      const currentBagCount = localStorage.getItem(CART_BAG_DETAILS)
+      if(currentBagCount && JSON.parse(currentBagCount).length !== 0 && parseInt(resultJson.count,10) > JSON.parse(currentBagCount).length )
+      {
+
+        dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
+
+      }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
