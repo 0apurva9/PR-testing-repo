@@ -23,10 +23,27 @@ export default class TextWithUnderLine extends React.Component {
       this.props.checkPinCodeAvailability(pincode);
     }
   }
-  onFocusInput(x) {
-    this.setState({ borderColor: "red", borderBottom: "1px solid red" });
+  onFocusInput(event) {
+    if (event.target.value.length === 0) {
+      this.setState({ borderColor: "red", borderBottom: "1px solid red" });
+    } else {
+      this.setState({
+        borderColor: "#d2d2d2",
+        borderBottom: "1px solid #d2d2d2"
+      });
+    }
     if (this.props.onFocusInput) {
       this.props.onFocusInput();
+    }
+  }
+  onChange(pinCode) {
+    if (pinCode.length === 0) {
+      this.setState({ borderColor: "red", borderBottom: "1px solid red" });
+    } else {
+      this.setState({
+        borderColor: "#d2d2d2",
+        borderBottom: "1px solid #d2d2d2"
+      });
     }
   }
   onBlur(x) {
@@ -57,12 +74,13 @@ export default class TextWithUnderLine extends React.Component {
             checkPinCodeAvailability={pincode =>
               this.checkPinCodeAvailability(pincode)
             }
-            onFocusInput={() => this.onFocusInput()}
+            onFocusInput={event => this.onFocusInput(event)}
             onBlur={() => this.onBlur()}
             labelText="Submit"
             borderColor={this.state.borderColor}
             borderBottom={this.state.borderBottom}
             onKeyPress={this.props.onKeyPress}
+            onChange={pincode => this.onChange(pincode)}
           />
         )}
 
