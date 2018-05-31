@@ -443,7 +443,7 @@ class CheckOutPage extends React.Component {
     );
   };
   onFocusInput() {
-    this.setState({ showCartDetails: false, padding: "1px 125px 1px 15px" });
+    this.setState({ showCartDetails: false, padding: "6px 125px 6px 15px" });
   }
   onBlue() {
     this.setState({ padding: "15px 125px 15px 15px" });
