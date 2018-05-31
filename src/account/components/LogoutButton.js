@@ -11,6 +11,9 @@ export default class LogoutButton extends React.Component {
       this.props.displayToast(LOGOUT_TEXT);
       this.props.history.push(`${HOME_ROUTER}`);
       if (logoutResponse.status === SUCCESS) {
+        if (this.props.setBagCount) {
+          this.props.setBagCount(0);
+        }
         const generateCartIdForAnonymous = await this.props.generateCartIdForAnonymous();
         if (generateCartIdForAnonymous.status === SUCCESS) {
           this.props.setFalseForAllAuthCallHasSucceedFlag();

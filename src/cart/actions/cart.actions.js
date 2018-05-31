@@ -1307,8 +1307,10 @@ export function mergeCartId(cartGuId) {
         }&toMergeCartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
-      if(resultJson.count > 0)
+      const currentBagCount = localStorage.getItem(CART_BAG_DETAILS)
+      if(currentBagCount && JSON.parse(currentBagCount).length !== 0 && parseInt(resultJson.count,10) > JSON.parse(currentBagCount).length )
       {
+
         dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
 
       }
