@@ -41,6 +41,7 @@ export default class CheckoutCreditCard extends React.Component {
       >
         <CreditCardForm
           onFocusInput={this.props.onFocusInput}
+          onBlur={this.props.onBlur}
           cardDetails={this.props.cardDetails}
           onChangeCvv={i => this.onChangeCvv(i)}
           binValidation={binNo => this.binValidation(binNo)}

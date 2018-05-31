@@ -173,7 +173,8 @@ class CheckOutPage extends React.Component {
       noCostEmiBankName: null,
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
-      showCartDetails: false
+      showCartDetails: false,
+      padding: "15px 125px 15px 15px"
     };
   }
 
@@ -442,7 +443,10 @@ class CheckOutPage extends React.Component {
     );
   };
   onFocusInput() {
-    this.setState({ showCartDetails: false });
+    this.setState({ showCartDetails: false, padding: "6px 125px 6px 15px" });
+  }
+  onBlue() {
+    this.setState({ padding: "15px 125px 15px 15px" });
   }
   renderDeliverModes = () => {
     return (
@@ -2233,6 +2237,7 @@ class CheckOutPage extends React.Component {
                   this.createJusPayOrderForGiftCardNetBanking()
                 }
                 onFocusInput={() => this.onFocusInput()}
+                onBlur={() => this.onBlue()}
                 addGiftCard={() => this.addGiftCard()}
                 binValidationForPaytm={val => this.binValidationForPaytm(val)}
                 displayToast={message => this.props.displayToast(message)}
@@ -2278,6 +2283,7 @@ class CheckOutPage extends React.Component {
 
           {!this.state.showCliqAndPiq && (
             <Checkout
+              padding={this.state.padding}
               disabled={checkoutButtonStatus}
               label={labelForButton}
               noCostEmiEligibility={
