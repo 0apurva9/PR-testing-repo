@@ -91,6 +91,7 @@
     "uat2": " REACT_APP_STAGE=uat2 node scripts/build.js",
     "build": "REACT_APP_STAGE=p2 node scripts/build.js",
     "p2": "REACT_APP_STAGE=p2 node scripts/build.js",
+    "uat": "REACT_APP_STAGE=uat node scripts/build.js",
     "production": "REACT_APP_STAGE=production node scripts/build.js",
     "production-cdn":
       "REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
