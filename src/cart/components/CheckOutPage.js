@@ -958,6 +958,7 @@ class CheckOutPage extends React.Component {
       }
     }
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
+      window.scroll(0, 0);
       this.setState({ orderConfirmation: true });
     }
     if (
@@ -2314,7 +2315,7 @@ class CheckOutPage extends React.Component {
       return (
         <div>
           {this.props.cart.orderConfirmationDetails && (
-            <div className={styles.orderConfirmationHolder}>
+            <div className={styles.orderConfirmationHolder} id="scrollToView">
               <OrderConfirmation
                 clearCartDetails={() => this.props.clearCartDetails()}
                 orderId={this.props.cart.orderConfirmationDetails.orderRefNo}
@@ -2336,7 +2337,7 @@ class CheckOutPage extends React.Component {
             </div>
           )}
           {this.props.cart.cliqCashJusPayDetails && (
-            <div className={styles.orderConfirmationHolder}>
+            <div className={styles.orderConfirmationHolder} id="scrollToView">
               <OrderConfirmation
                 clearCartDetails={this.props.clearCartDetails}
                 orderId={this.props.cart.cliqCashJusPayDetails.orderId}
