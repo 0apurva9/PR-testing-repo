@@ -31,6 +31,7 @@ export default class PickUpDetails extends React.Component {
             textStyle={{ fontSize: 14 }}
             height={33}
             value={this.props.name ? this.props.name : ""}
+            onlyAlphabet={true}
           />
         </div>
         <div className={styles.inputHolder}>
@@ -42,6 +43,8 @@ export default class PickUpDetails extends React.Component {
             textStyle={{ fontSize: 14 }}
             height={33}
             value={this.props.mobile ? this.props.mobile : ""}
+            onlyNumber={true}
+            maxLength={10}
           />
         </div>
         <div
