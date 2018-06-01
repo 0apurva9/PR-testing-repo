@@ -958,6 +958,7 @@ class CheckOutPage extends React.Component {
       }
     }
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
+      window.scroll(0, 0);
       this.setState({ orderConfirmation: true });
     }
     if (
