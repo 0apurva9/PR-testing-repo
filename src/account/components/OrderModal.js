@@ -12,6 +12,9 @@ export default class OrderModal extends React.Component {
             this.props.data.shippingList.map(val => {
               return (
                 <div className={styles.step}>
+                  {val.location && (
+                    <div className={styles.location}>{val.location}</div>
+                  )}
                   <div className={styles.row}>
                     {val.date && <span>{val.date} ,</span>}{" "}
                     {val.time && <span>{val.time}</span>}

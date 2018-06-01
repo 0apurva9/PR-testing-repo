@@ -36,3 +36,8 @@
   font-family: light;
   color: #212121;
 }
+.location {
+  composes: row;
+  font-family: semibold;
+  margin-bottom: 5px;
+}
