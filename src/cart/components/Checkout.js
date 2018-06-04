@@ -8,6 +8,8 @@ import {
   RUPEE_SYMBOL,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
+const DISCLAIMER =
+  "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class Checkout extends React.Component {
   constructor(props) {
     super(props);
@@ -150,9 +152,7 @@ export default class Checkout extends React.Component {
             )}
           </div>
         </div>
-        <div className={styles.disclaimer}>
-          Safe and secure payments. Easy returns. 100% Authentic products.
-        </div>
+        <div className={styles.disclaimer}>{DISCLAIMER}</div>
         <div className={styles.hiddenBase}>
           <div
             className={styles.totalPriceButtonHolder}
