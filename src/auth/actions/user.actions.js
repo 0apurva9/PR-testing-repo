@@ -152,7 +152,7 @@ export function loginUser(userLoginDetails) {
     try {
       let url = `${LOGIN_PATH}/${
         userLoginDetails.username
-      }/customerLogin?access_token=${JSON.parse(customerCookie).access_token}`;
+      }/customerLogin?access_token=${JSON.parse(customerCookie).access_token}&platformNumber=${PLAT_FORM_NUMBER}`;
       if (userLoginDetails.otp) {
         url = `${url}&otp=${userLoginDetails.otp}`;
       }
@@ -412,7 +412,7 @@ export function resetPassword(userDetails) {
         JSON.parse(globalAccessToken).access_token
       }&username=${userDetails.username}&newPassword=${
         userDetails.newPassword
-      }&otp=${userDetails.otp}`;
+      }&otp=${userDetails.otp}&platformNumber=${PLAT_FORM_NUMBER}`;
       const result = await api.post(url);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -456,7 +456,7 @@ export function getGlobalAccessToken() {
     dispatch(globalAccessTokenRequest());
     try {
       const result = await api.post(
-        `${TOKEN_PATH}?grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=secret&isPwa=true`
+        `${TOKEN_PATH}?grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=secret&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
 
@@ -502,7 +502,7 @@ export function refreshToken() {
       const result = await api.post(
         `${TOKEN_PATH}?refresh_token=${
           JSON.parse(customerCookie).refresh_token
-        }&client_id=${CLIENT_ID}&client_secret=secret&grant_type=refresh_token`
+        }&client_id=${CLIENT_ID}&client_secret=secret&grant_type=refresh_token&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -553,7 +553,7 @@ export function customerAccessToken(userDetails) {
       const result = await api.postFormData(
         `${TOKEN_PATH}?grant_type=password&client_id=${CLIENT_ID}&client_secret=secret&access_token=${
           JSON.parse(globalCookie).access_token
-        }`,
+        }&platformNumber=${PLAT_FORM_NUMBER}`,
         userLoginDetails
       );
       const resultJson = await result.json();
@@ -727,7 +727,7 @@ export function generateCustomerLevelAccessTokenForSocialMedia(
     dispatch(customerAccessTokenRequest());
     try {
       const result = await api.post(
-        `${TOKEN_PATH}?grant_type=password&client_id=${CLIENT_ID}&client_secret=secret&username=${userName}&social_token=${accessToken}&isSocialMedia=Y&social_channel=${socialChannel}&userId_param=${id}`
+        `${TOKEN_PATH}?grant_type=password&client_id=${CLIENT_ID}&client_secret=secret&username=${userName}&social_token=${accessToken}&isSocialMedia=Y&social_channel=${socialChannel}&userId_param=${id}&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -878,7 +878,7 @@ export function getCustomerProfile() {
       const result = await api.post(
         `${CUSTOMER_PROFILE_PATH}/9886973967/getMyProfile?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
