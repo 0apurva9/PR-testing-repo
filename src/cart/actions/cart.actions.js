@@ -14,7 +14,8 @@ import {
   CLIQ_CASH,
   STANDARD_EMI,
   PLAT_FORM_NUMBER,
-  TOAST_MESSAGE_AFTER_MERGE_CART
+  TOAST_MESSAGE_AFTER_MERGE_CART,
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -525,7 +526,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       if (resultJson.status === FAILURE) {
@@ -585,7 +586,7 @@ export function applyUserCouponForAnonymous(couponCode) {
     let couponObject = new FormData();
     couponObject.append("access_token", JSON.parse(globalCookie).access_token);
     couponObject.append("couponCode", couponCode);
-    couponObject.append("channel", "Mobile");
+    couponObject.append("channel", CHANNEL);
 
     try {
       const result = await api.postFormData(
@@ -778,7 +779,7 @@ export function getUserAddress(setDataLayerForMyAccount: false) {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/addresses?channel=mobile&emailId=${
+        }/addresses?channel=${CHANNEL}&emailId=${
           JSON.parse(userDetails).userName
         }&access_token=${JSON.parse(customerCookie).access_token}`
       );
@@ -954,7 +955,7 @@ export function addAddressToCart(addressId, pinCode) {
       let access_token = JSON.parse(customerCookie).access_token;
       let cartId = JSON.parse(cartDetails).code;
       const result = await api.post(
-        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=mobile&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0`
+        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=${CHANNEL}&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1002,7 +1003,7 @@ export function getNetBankDetails() {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/netbankingDetails?channel=mobile&access_token=${
+        }/netbankingDetails?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }`
       );
@@ -1252,7 +1253,7 @@ export function getCartId() {
           JSON.parse(userDetails).userName
         }/carts?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1727,7 +1728,7 @@ export function applyBankOffer(couponCode) {
           JSON.parse(userDetails).userName
         }/carts/applyCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1968,7 +1969,7 @@ export function binValidation(paymentMode, binNo) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2003,9 +2004,9 @@ export function binValidationForNetBanking(paymentMode, bankName) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/binValidation?channel=mobile&access_token=${
+        }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
+        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3422,7 +3423,7 @@ export function binValidationForCOD(paymentMode) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3631,7 +3632,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3697,7 +3698,7 @@ export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
           JSON.parse(cartDetailsAnonymous).guid
         }/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

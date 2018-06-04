@@ -8,7 +8,8 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   SUCCESS_FOR_ADDING_TO_WSHLIST,
-  PLAT_FORM_NUMBER
+  PLAT_FORM_NUMBER,
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
@@ -257,7 +258,7 @@ export function createWishlist(productDetails) {
       const result = await api.postFormData(
         `${PRODUCT_DETAILS_PATH}/${
           JSON.parse(userDetails).userName
-        }/CreateWishlist?channel=mobile&access_token=${
+        }/CreateWishlist?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true`,
         createWishlistObj
