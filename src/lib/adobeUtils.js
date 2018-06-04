@@ -1220,7 +1220,6 @@ export function setDataLayerForLogin(type) {
     }
     window.digitalData = data;
     window.digitalData.flag = ADOBE_LOGIN_SUCCESS;
-    debugger;
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_SUCCESS);
     }
