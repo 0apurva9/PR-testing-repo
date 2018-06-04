@@ -979,6 +979,7 @@ function getDigitalDataForPlp(type, response) {
       }
     }
   };
+
   if (response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
@@ -1404,8 +1405,10 @@ export function setDataLayerForMyAccountDirectCalls(
       order: {
         cancellation: {
           reason: productDetails ? productDetails.reasonLabel : ""
-        }
-      }
+        },
+        id: productDetails.orderCode
+      },
+      cpj: { product: { id: productDetails.productcode } }
     });
     window.digitalData = data;
     window._satellite.track(ADOBE_ORDER_CANCEL);
@@ -1420,6 +1423,9 @@ export function setDataLayerForMyAccountDirectCalls(
           id: productDetails.productcode,
           price: productDetails.price
         }
+      },
+      order: {
+        id: reasonObj.orderCode
       }
     };
     window.digitalData = data;

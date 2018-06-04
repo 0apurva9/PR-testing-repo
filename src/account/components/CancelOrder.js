@@ -41,6 +41,7 @@ export default class CancelOrder extends React.Component {
     cancelProductDetails.reasonCode = reason.cancelReasonCode;
     cancelProductDetails.refundType = "";
     cancelProductDetails.reasonLabel = reason.reason;
+
     let orderDetails = {};
     orderDetails.cancelProductDetails = cancelProductDetails;
     orderDetails.productDetails =
@@ -68,6 +69,7 @@ export default class CancelOrder extends React.Component {
     return <Loader />;
   }
   render() {
+    console.log(this.props);
     let cancelProductDetails = this.props.cancelProductDetails;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

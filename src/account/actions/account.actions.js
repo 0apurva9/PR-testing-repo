@@ -313,7 +313,7 @@ export function cancelProductFailure(error) {
     error
   };
 }
-export function cancelProduct(cancelProductDetails) {
+export function cancelProduct(cancelProductDetails, productDetails) {
   let cancelProductObject = new FormData();
   cancelProductObject.append(
     "transactionId",
@@ -348,9 +348,10 @@ export function cancelProduct(cancelProductDetails) {
       }
 
       dispatch(displayToast(SUCCESS_MESSAGE_IN_CANCELING_ORDER));
+      let updatedObj = Object.assign({}, cancelProductDetails, productDetails);
       setDataLayerForMyAccountDirectCalls(
         ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
-        cancelProductDetails
+        updatedObj
       );
       return dispatch(cancelProductSuccess(resultJson));
     } catch (e) {
@@ -1610,7 +1611,7 @@ export function updateProfile(accountDetails, otp) {
         resultJson.emailId !== JSON.parse(userDetails).userName &&
         !MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
       ) {
-        dispatch(setBagCount(0))
+        dispatch(setBagCount(0));
         dispatch(logoutUserByMobileNumber());
       } else {
         if (otp) {
@@ -1621,7 +1622,7 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
               MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
           ) {
-            dispatch(setBagCount(0))
+            dispatch(setBagCount(0));
             dispatch(logoutUserByMobileNumber());
           }
         } else {

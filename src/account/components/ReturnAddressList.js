@@ -28,6 +28,10 @@ import {
   YES,
   NO
 } from "../../lib/constants";
+import {
+  setDataLayerForMyAccountDirectCalls,
+  ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
+} from "../../lib/adobeUtils";
 const REG_X_FOR_ADDRESS = /address/i;
 const REG_X_FOR_DATE_TIME = /dateTime/i;
 const REG_X_FOR_NEW_ADDRESS = /addDeliveryLocation/i;
@@ -330,6 +334,7 @@ export default class ReturnAddressList extends React.Component {
   };
 
   cancel = () => {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     this.props.history.goBack();
   };
   render() {
