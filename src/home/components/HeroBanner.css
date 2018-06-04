@@ -8,3 +8,7 @@
   border-radius: 4px;
   transform: scale(0.86);
 }
+.marginTopWithBase {
+  composes: base;
+  margin-top: 30px;
+}

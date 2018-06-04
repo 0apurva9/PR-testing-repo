@@ -83,6 +83,11 @@ export default class CreditCardForm extends React.Component {
       this.props.onFocusInput();
     }
   }
+  handleOnBlur() {
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.cardDetails &&
@@ -118,6 +123,7 @@ export default class CreditCardForm extends React.Component {
               onFocus={() => {
                 this.handleOnFocusInput();
               }}
+              onBlur={() => this.handleOnBlur()}
               boxy={true}
               onChange={val => this.onChangeCardNumber(val)}
               textStyle={{ fontSize: 14 }}
@@ -140,6 +146,7 @@ export default class CreditCardForm extends React.Component {
               onFocus={() => {
                 this.handleOnFocusInput();
               }}
+              onBlur={() => this.handleOnBlur()}
               onlyAlphabet={true}
             />
           </div>
@@ -191,6 +198,7 @@ export default class CreditCardForm extends React.Component {
                     onFocus={() => {
                       this.handleOnFocusInput();
                     }}
+                    onBlur={() => this.handleOnBlur()}
                   />
                 </div>
               </div>

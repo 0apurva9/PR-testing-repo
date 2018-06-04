@@ -13,7 +13,9 @@ import {
   NO_COST_EMI_COUPON,
   CLIQ_CASH,
   STANDARD_EMI,
-  PLAT_FORM_NUMBER
+  PLAT_FORM_NUMBER,
+  TOAST_MESSAGE_AFTER_MERGE_CART,
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -529,7 +531,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       if (resultJson.status === FAILURE) {
@@ -589,7 +591,7 @@ export function applyUserCouponForAnonymous(couponCode) {
     let couponObject = new FormData();
     couponObject.append("access_token", JSON.parse(globalCookie).access_token);
     couponObject.append("couponCode", couponCode);
-    couponObject.append("channel", "Mobile");
+    couponObject.append("channel", CHANNEL);
 
     try {
       const result = await api.postFormData(
@@ -782,7 +784,7 @@ export function getUserAddress(setDataLayerForMyAccount: false) {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/addresses?channel=mobile&emailId=${
+        }/addresses?channel=${CHANNEL}&emailId=${
           JSON.parse(userDetails).userName
         }&access_token=${JSON.parse(customerCookie).access_token}`
       );
@@ -958,7 +960,7 @@ export function addAddressToCart(addressId, pinCode) {
       let access_token = JSON.parse(customerCookie).access_token;
       let cartId = JSON.parse(cartDetails).code;
       const result = await api.post(
-        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=mobile&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0`
+        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=${CHANNEL}&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1006,7 +1008,7 @@ export function getNetBankDetails() {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/netbankingDetails?channel=mobile&access_token=${
+        }/netbankingDetails?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }`
       );
@@ -1256,7 +1258,7 @@ export function getCartId() {
           JSON.parse(userDetails).userName
         }/carts?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1311,6 +1313,14 @@ export function mergeCartId(cartGuId) {
         }&toMergeCartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
+      const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
+      if (
+        currentBagCount &&
+        JSON.parse(currentBagCount).length !== 0 &&
+        parseInt(resultJson.count, 10) > JSON.parse(currentBagCount).length
+      ) {
+        dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
+      }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -1724,7 +1734,7 @@ export function applyBankOffer(couponCode) {
           JSON.parse(userDetails).userName
         }/carts/applyCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1965,7 +1975,7 @@ export function binValidation(paymentMode, binNo) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2000,9 +2010,9 @@ export function binValidationForNetBanking(paymentMode, bankName) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/binValidation?channel=mobile&access_token=${
+        }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
+        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2641,11 +2651,11 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}`
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2697,9 +2707,7 @@ export function createJusPayOrderForSavedCards(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
-          cardDetails.cardIssuer
-        }&cardFingerPrint=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&cardFingerPrint=${
           cardDetails.cardFingerprint
         }&platformNumber=${PLAT_FORM_NUMBER}&pincode=${localStorage.getItem(
           DEFAULT_PIN_CODE_LOCAL_STORAGE
@@ -2711,7 +2719,7 @@ export function createJusPayOrderForSavedCards(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }`,
+        }&isPwa=true`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2759,13 +2767,11 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
-          cardDetails.cardIssuer
-        }&cardFingerPrint=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&cardFingerPrint=${
           cardDetails.cardFingerprint
-        }&platformNumber=${PLAT_FORM_NUMBER}&pincode=${
-          cardDetails.pinCode
-        }&city=&cartGuid=${guId}&token=&cardRefNo=${
+        }&platformNumber=${PLAT_FORM_NUMBER}&pincode=${localStorage.getItem(
+          DEFAULT_PIN_CODE_LOCAL_STORAGE
+        )}&city=&cartGuid=${guId}&token=&cardRefNo=${
           cardDetails.cardReferenceNumber
         }&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
@@ -2773,7 +2779,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }`
+        }&isPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2831,7 +2837,9 @@ export function createJusPayOrderForCliqCash(
           JSON.parse(userDetails).userName
         }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
-        }&juspayUrl=${encodeURIComponent(jusPayUrl)}&paymentMode=${CLIQ_CASH}`,
+        }&juspayUrl=${encodeURIComponent(
+          jusPayUrl
+        )}&paymentMode=${CLIQ_CASH}&isPwa=true`,
         cartItem
       );
       const resultJson = await result.json();
@@ -3444,7 +3452,7 @@ export function binValidationForCOD(paymentMode) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3654,7 +3662,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3720,7 +3728,7 @@ export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
           JSON.parse(cartDetailsAnonymous).guid
         }/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

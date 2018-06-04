@@ -5,6 +5,7 @@ import LogoutButton from "../components/LogoutButton";
 import { displayToast } from "../../general/toast.actions";
 import { generateCartIdForAnonymous } from "../../cart/actions/cart.actions";
 import { setFalseForAllAuthCallHasSucceedFlag } from "../../auth/actions/auth.actions";
+import { setBagCount } from "../../general/header.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: message => {
@@ -18,6 +19,9 @@ const mapDispatchToProps = dispatch => {
     },
     setFalseForAllAuthCallHasSucceedFlag: () => {
       dispatch(setFalseForAllAuthCallHasSucceedFlag());
+    },
+    setBagCount: bagCount => {
+      dispatch(setBagCount(bagCount));
     }
   };
 };
