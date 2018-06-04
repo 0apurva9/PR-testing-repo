@@ -185,7 +185,6 @@ class ProductListingsPage extends Component {
   componentDidUpdate() {
     let page = null;
     if (this.props.isGoBackFromPdpPage) {
-      console.log("Comes in main page for plp");
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
