@@ -25,12 +25,13 @@
 }
 @media only screen and (min-width: 1024px) {
   .base {
+    display: inline-block;
+    text-align: left;
+  }
+  .productWithFilter {
     padding-left: 345px;
     max-width: 1200px;
     margin: auto;
-  }
-  .productWithFilter {
-    display: inline-block;
-    text-align: left;
+    position: relative;
   }
 }

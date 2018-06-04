@@ -13,6 +13,7 @@ import {
   CATEGORY_CAPTURE_REGEX,
   CATEGORY_REGEX
 } from "../../plp/components/PlpBrandCategoryWrapper";
+import { URL_ROOT } from "../../lib/apiRequest";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 export default class FilterDesktop extends React.Component {
@@ -115,7 +116,9 @@ export default class FilterDesktop extends React.Component {
   onFilterClick = val => {
     const url = val.replace("{pageNo}", 1);
     this.props.setIsNotGoBackFromPDP();
-    this.props.history.push(url, { isFilter: true });
+    this.props.history.push(url, {
+      isFilter: false
+    });
   };
   render() {
     const { facetData, facetdatacategory } = this.props;
@@ -195,7 +198,14 @@ export default class FilterDesktop extends React.Component {
                         {facetDataValues &&
                           facetDataValues.name === COLOUR &&
                           facetDataValues.values.map((val, i) => {
-                            return <ColourSelect colour={val.hexColor} />;
+                            return (
+                              <ColourSelect
+                                colour={val.hexColor}
+                                onSelect={data => this.onFilterClick(data)}
+                                selected={val.selected}
+                                value={val.url}
+                              />
+                            );
                           })}
                         {facetDataValues &&
                           facetDataValues.name !== COLOUR &&
