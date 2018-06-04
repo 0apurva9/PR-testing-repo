@@ -359,7 +359,7 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
     window.digitalData = getDigitalDataForDefaultBlpOrClp(response);
   }
   if (type === ADOBE_LOGIN_AND_SIGN_UP_PAGE) {
-    window.digitalData = getDigitalDataForLoginAndSignup();
+    window.digitalData = getDigitalDataForLoginAndSignup(response);
   }
   if (type === ADOBE_STATIC_PAGE) {
     window.digitalData = getDigitalDataForStatic(response);
@@ -1220,6 +1220,7 @@ export function setDataLayerForLogin(type) {
     }
     window.digitalData = data;
     window.digitalData.flag = ADOBE_LOGIN_SUCCESS;
+    debugger;
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_SUCCESS);
     }
@@ -1698,10 +1699,14 @@ function getDigitalDataForDefaultBlpOrClp(response) {
   return data;
 }
 
-function getDigitalDataForLoginAndSignup() {
+function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
   let pageTitle = window.location.pathname.replace(/\//g, "");
   if (pageTitle === "login") {
-    pageTitle = "login page";
+    if (isLoginFromCheckoutPage) {
+      pageTitle = "checkout-login page";
+    } else {
+      pageTitle = "login page";
+    }
   }
   const data = {
     page: {

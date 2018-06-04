@@ -6,7 +6,10 @@ import Input from "../../general/components/Input";
 import PasswordInput from "./PasswordInput";
 import styles from "./Login.css";
 import LoginButton from "./LogInButton";
-import { CART_DETAILS_FOR_ANONYMOUS } from "../../lib/constants";
+import {
+  CART_DETAILS_FOR_ANONYMOUS,
+  MY_ACCOUNT_CART_PAGE
+} from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
 import AuthFrame from "./AuthFrame.js";
@@ -39,6 +42,7 @@ class Login extends Component {
     };
   }
   componentDidMount() {
+    console.log(this.props);
     const digitalData = window.digitalData;
     if (
       digitalData &&
@@ -47,7 +51,9 @@ class Login extends Component {
       digitalData.page.pageInfo &&
       digitalData.page.pageInfo.pageName !== "login"
     ) {
-      setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
+      let isLoginFromCheckoutPage =
+        this.props.redirectToAfterAuthUrl === MY_ACCOUNT_CART_PAGE;
+      setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE, isLoginFromCheckoutPage);
     }
   }
   componentWillReceiveProps(nextProps) {
