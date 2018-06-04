@@ -71,7 +71,7 @@ class SignUp extends Component {
     } else {
       this.props.onSubmit({
         emailId: this.state.emailValue,
-        username: this.state.phoneNumberValue,
+        username: this.state.phoneNumberValue.trim(),
         password: this.state.passwordValue
       });
     }

@@ -9,3 +9,12 @@
   padding: 0 10px;
   margin-bottom: 20px;
 }
+.labelText {
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 14px;
+  font-family: semibold;
+  margin-bottom: 15px;
+  padding: 0px 10px;
+}

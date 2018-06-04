@@ -40,7 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
-const CHECKOUT_BUTTON_TEXT = "Checkout";
+const CHECKOUT_BUTTON_TEXT = "Continue";
 class CartPage extends React.Component {
   constructor(props) {
     super(props);
@@ -281,7 +281,7 @@ class CartPage extends React.Component {
     // show modal for address here
     this.props.addressModal({
       addressModalForCartPage: true,
-      labelText: "Update",
+      labelText: "Submit",
       checkPinCodeAvailability: pinCode =>
         this.checkPinCodeAvailability(pinCode)
     });
@@ -381,7 +381,7 @@ class CartPage extends React.Component {
           <div className={styles.content}>
             <TextWithUnderLine
               onClick={() => this.changePinCode()}
-              buttonLabel="Change"
+              buttonLabel="Change PIN code"
               checkPinCodeAvailability={pinCode =>
                 this.checkPinCodeAvailability(pinCode)
               }
@@ -482,6 +482,7 @@ class CartPage extends React.Component {
                   onCheckout={() => this.renderToCheckOutPage()}
                   label={CHECKOUT_BUTTON_TEXT}
                   isOnCartPage={true}
+                  changePinCode={this.changePinCode}
                 />
               )}
           </div>

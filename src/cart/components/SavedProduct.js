@@ -5,6 +5,7 @@ import Button from "../../general/components/Button.js";
 import Coupon from "../../general/components/Coupon.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { COUPON_COOKIE } from "../../lib/constants.js";
+const COUPON_SUBTEXT = "Additional Bank offers can be applied during payment";
 export default class SavedProduct extends React.Component {
   handleClick() {
     if (this.props.saveProduct) {
@@ -18,11 +19,9 @@ export default class SavedProduct extends React.Component {
   }
   render() {
     let couponText = this.props.couponHeading;
-    let couponButtonText;
 
     if (this.props.appliedCouponCode) {
       couponText = `Coupon: ${this.props.appliedCouponCode}`;
-      couponButtonText = "Change";
     }
     return (
       <div className={styles.base}>
@@ -30,21 +29,23 @@ export default class SavedProduct extends React.Component {
           <Coupon
             heading={couponText}
             onClick={() => this.onApplyCoupon()}
-            couponButtonText={couponButtonText}
+            subText={COUPON_SUBTEXT}
           />
         </div>
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              type="hollow"
-              height={40}
-              label="View My Wish List"
-              width={200}
-              textStyle={{ color: "#212121", fontSize: 14 }}
-              onClick={() => this.handleClick()}
-            />
+        {this.props.isViewWishList && (
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                type="hollow"
+                height={40}
+                label="View My Wish List"
+                width={200}
+                textStyle={{ color: "#212121", fontSize: 14 }}
+                onClick={() => this.handleClick()}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -55,10 +56,12 @@ SavedProduct.propTypes = {
   onApplyCoupon: PropTypes.func,
   cuponHeading: PropTypes.string,
   giftCardHeading: PropTypes.string,
-  giftCardLabel: PropTypes.string
+  giftCardLabel: PropTypes.string,
+  isViewWishList: PropTypes.bool
 };
 SavedProduct.defaultProps = {
-  couponHeading: "Have a Coupon ?",
+  couponHeading: "Apply coupon",
   giftCardHeading: "Surprise for a special one ?",
-  giftCardLabel: "Gift wrap for free"
+  giftCardLabel: "Gift wrap for free",
+  isViewWishList: false
 };

@@ -12,7 +12,8 @@ import {
   EMI,
   NO_COST_EMI_COUPON,
   CLIQ_CASH,
-  STANDARD_EMI
+  STANDARD_EMI,
+  PLAT_FORM_NUMBER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -39,8 +40,7 @@ import {
   SOFT_RESERVATION_ITEM,
   ADDRESS_DETAILS_FOR_PAYMENT,
   CART_BAG_DETAILS,
-  EMI_TYPE,
-  PLAT_FORM_NUMBER
+  EMI_TYPE
 } from "../../lib/constants";
 import queryString, { parse } from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -2588,7 +2588,7 @@ export function createJusPayOrderForNetBanking(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platform=2&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -2641,7 +2641,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platform=2&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -2701,7 +2701,7 @@ export function createJusPayOrderForSavedCards(
           cardDetails.cardIssuer
         }&cardFingerPrint=${
           cardDetails.cardFingerprint
-        }&platform=2&pincode=${localStorage.getItem(
+        }&platformNumber=${PLAT_FORM_NUMBER}&pincode=${localStorage.getItem(
           DEFAULT_PIN_CODE_LOCAL_STORAGE
         )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
           cardDetails.cardReferenceNumber
@@ -2761,7 +2761,9 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           JSON.parse(userDetails).userName
         }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&bankName=${
           cardDetails.cardIssuer
-        }&cardFingerPrint=${cardDetails.cardFingerprint}&platform=2&pincode=${
+        }&cardFingerPrint=${
+          cardDetails.cardFingerprint
+        }&platformNumber=${PLAT_FORM_NUMBER}&pincode=${
           cardDetails.pinCode
         }&city=&cartGuid=${guId}&token=&cardRefNo=${
           cardDetails.cardReferenceNumber
@@ -2827,7 +2829,7 @@ export function createJusPayOrderForCliqCash(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platform=2&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=true&cardSaved=false&bankName=&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(jusPayUrl)}&paymentMode=${CLIQ_CASH}`,
         cartItem

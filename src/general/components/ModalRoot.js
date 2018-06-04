@@ -14,10 +14,15 @@ import {
   BANK_COUPON_COOKIE,
   COUPON_COOKIE,
   NO_COST_EMI_COUPON,
-  CART_DETAILS_FOR_LOGGED_IN_USER
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  PRODUCT_CART_ROUTER,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  HOME_ROUTER
 } from "../../lib/constants.js";
+
 import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";
+import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
@@ -362,6 +367,19 @@ export default class ModalRoot extends React.Component {
   cancelOrderProduct = (cancelProductDetails, productDetails) => {
     this.props.cancelProduct(cancelProductDetails, productDetails);
   };
+  goToCartPage(productCode) {
+    const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    this.props.history.push({
+      pathname: PRODUCT_CART_ROUTER,
+      state: {
+        ProductCode: productCode,
+        pinCode: defaultPinCode
+      }
+    });
+  }
+  goToHomePage() {
+    this.props.history.push(`${HOME_ROUTER}`);
+  }
   continueWithoutBankCoupon = async () => {
     const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const userCouponCode = localStorage.getItem(COUPON_COOKIE);
@@ -499,6 +517,14 @@ export default class ModalRoot extends React.Component {
           }
         />
       ),
+      GoToCartPagePopUp: (
+        <GoToCartPopUp
+          {...this.props.ownProps}
+          goToCartPage={productCode => this.goToCartPage(productCode)}
+          goToHomePage={() => this.goToHomePage()}
+        />
+      ),
+
       BankOffers: (
         <BankOffersDetails
           closeModal={() => this.handleClose()}
@@ -585,6 +611,7 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           history={this.props.history}
           closeModal={() => this.handleClose()}
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       GiftCardModal: (

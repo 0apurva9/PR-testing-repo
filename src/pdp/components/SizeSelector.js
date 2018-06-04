@@ -5,6 +5,7 @@ import DumbCarousel from "../../general/components/DumbCarousel";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import PropTypes from "prop-types";
 const SIZE_GUIDE = "Size guide";
+const MESSAGE_FOR_SIZE_SELECTOR = "Size selected. Please add to bag";
 export default class SizeSelector extends React.Component {
   handleShowSize() {
     if (this.props.showSizeGuide) {
@@ -16,6 +17,9 @@ export default class SizeSelector extends React.Component {
       pathname: `${productUrl}`,
       state: { isSizeSelected: true }
     });
+    if (this.props.displayToast) {
+      this.props.displayToast(MESSAGE_FOR_SIZE_SELECTOR);
+    }
     if (this.props.closeModal) {
       this.props.closeModal();
     }
