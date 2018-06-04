@@ -291,7 +291,9 @@ class Feed extends Component {
     ) {
       this.props.homeFeed();
     } else {
-      setDataLayer(ADOBE_HOME_TYPE);
+      if (this.props.feedType === HOME_FEED_TYPE) {
+        setDataLayer(ADOBE_HOME_TYPE);
+      }
     }
     if (userDetails && customerCookie && this.props.getWishListItems) {
       this.props.getWishListItems();
