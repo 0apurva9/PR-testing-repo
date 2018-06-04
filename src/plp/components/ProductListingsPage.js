@@ -8,7 +8,8 @@ import {
   CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS,
   CATEGORY_PAGE_WITH_SLUG,
   BRAND_PRODUCT_LISTINGS_WITH_PAGE,
-  BRAND_PAGE_WITH_SLUG
+  BRAND_PAGE_WITH_SLUG,
+  CHANNEL
 } from "../../lib/constants.js";
 import delay from "lodash.delay";
 import {
@@ -21,7 +22,7 @@ import {
 
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
-const SKU_SUFFIX = `&isFilter=false&channel=mobile`;
+const SKU_SUFFIX = `&isFilter=false&channel=${CHANNEL}`;
 const PAGE_REGEX = /page-(\d+)/;
 const MAX_PRICE_FROM_API = "and Above";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
