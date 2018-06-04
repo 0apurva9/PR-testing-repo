@@ -41,6 +41,7 @@ export default class CancelOrder extends React.Component {
     cancelProductDetails.reasonCode = reason.cancelReasonCode;
     cancelProductDetails.refundType = "";
     cancelProductDetails.reasonLabel = reason.reason;
+
     let orderDetails = {};
     orderDetails.cancelProductDetails = cancelProductDetails;
     orderDetails.productDetails =

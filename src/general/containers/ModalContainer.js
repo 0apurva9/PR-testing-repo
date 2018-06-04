@@ -305,12 +305,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeNoCostEmi: (couponCode, cartGuid, cartId) => {
       return dispatch(removeNoCostEmi(couponCode, cartGuid, cartId));
     },
-    cancelProduct: async (cancelProductDetails, productDetials) => {
+    cancelProduct: async (cancelProductDetails, productDetails) => {
       const cancelOrderDetails = await dispatch(
-        cancelProduct(cancelProductDetails)
+        cancelProduct(cancelProductDetails, productDetails)
       );
       if (cancelOrderDetails.status === SUCCESS) {
-        setDataLayerForMyAccountDirectCalls(productDetials);
+        setDataLayerForMyAccountDirectCalls(productDetails);
         ownProps.history.goBack();
       } else {
         dispatch(displayToast(ERROR_MESSAGE_IN_CANCELING_ORDER));

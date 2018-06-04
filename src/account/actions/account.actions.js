@@ -331,7 +331,7 @@ export function cancelProductFailure(error) {
     error
   };
 }
-export function cancelProduct(cancelProductDetails) {
+export function cancelProduct(cancelProductDetails, productDetails) {
   let cancelProductObject = new FormData();
   cancelProductObject.append(
     "transactionId",
@@ -366,9 +366,10 @@ export function cancelProduct(cancelProductDetails) {
       }
 
       dispatch(displayToast(SUCCESS_MESSAGE_IN_CANCELING_ORDER));
+      let updatedObj = Object.assign({}, cancelProductDetails, productDetails);
       setDataLayerForMyAccountDirectCalls(
         ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
-        cancelProductDetails
+        updatedObj
       );
       return dispatch(cancelProductSuccess(resultJson));
     } catch (e) {

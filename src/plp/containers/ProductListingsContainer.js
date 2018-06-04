@@ -26,7 +26,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     searchText: ownProps.searchText ? ownProps.searchText : null,
     isGoBackFromPdpPage: state.productListings.isGoBackFromPdpPage,
-    clickedProductModuleRef: state.productListings.clickedProductModuleRef
+    clickedProductModuleRef: state.productListings.clickedProductModuleRef,
+    productListings: state.productListings.productListings
   };
 };
 
