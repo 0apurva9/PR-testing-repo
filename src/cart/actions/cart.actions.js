@@ -4280,6 +4280,9 @@ export function getPaymentFailureOrderDetails() {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(getPaymentFailureOrderDetailsSuccess(resultJson));
+      setDataLayerForOrderConfirmationDirectCalls(
+        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE
+      );
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
     }

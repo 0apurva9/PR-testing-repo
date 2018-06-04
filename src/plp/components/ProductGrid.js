@@ -10,7 +10,8 @@ import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import {
   PRODUCT_DESCRIPTION_ROUTER,
-  IS_OFFER_EXISTING
+  IS_OFFER_EXISTING,
+  PRODUCT_LISTINGS_WITHOUT_SLASH
 } from "../../lib/constants";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 const LIST = "list";
@@ -41,7 +42,11 @@ export default class ProductGrid extends React.Component {
 
   goToProductDescription = (url, productObj, productModuleId) => {
     // change this
-    setDataLayerForPlpDirectCalls(productObj);
+    if (
+      this.props.history.location.pathname === PRODUCT_LISTINGS_WITHOUT_SLASH
+    ) {
+      setDataLayerForPlpDirectCalls(productObj);
+    }
     this.props.setProductModuleRef(productModuleId);
     this.props.history.push(url, {
       isComingFromPlp: true

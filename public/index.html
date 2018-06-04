@@ -129,7 +129,9 @@
 
         <script type="text/javascript">
           window.digitalData = Object.assign({}, { page: { pageInfo: { pageName: "basepage" } } });
-          _satellite.pageBottom();
+          if (_satellite) {
+            _satellite.pageBottom();
+          }
         </script>
 </body>
 

@@ -35,6 +35,7 @@ import {
 } from "../../lib/seoUtils";
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
+import { setDataLayer, ADOBE_HOME_TYPE } from "../../lib/adobeUtils";
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 
 const typeKeyMapping = {
@@ -289,6 +290,10 @@ class Feed extends Component {
       this.props.homeFeedData.length === 0
     ) {
       this.props.homeFeed();
+    } else {
+      if (this.props.feedType === HOME_FEED_TYPE) {
+        setDataLayer(ADOBE_HOME_TYPE);
+      }
     }
     if (userDetails && customerCookie && this.props.getWishListItems) {
       this.props.getWishListItems();
