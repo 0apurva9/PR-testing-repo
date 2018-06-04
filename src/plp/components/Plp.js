@@ -6,7 +6,7 @@ import styles from "./Plp.css";
 import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
-
+import MediaQuery from "react-responsive";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -195,29 +195,35 @@ export default class Plp extends React.Component {
           {this.props.productListings.seo
             ? renderMetaTags(this.props.productListings)
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}
-          <div className={styles.main}>
-            <ProductGrid
-              history={this.props.history}
-              data={this.props.productListings.searchresult}
-              totalResults={this.props.productListings.pagination.totalResults}
-              setProductModuleRef={this.props.setProductModuleRef}
+          <div className={styles.productWithFilter}>
+            <div className={styles.main}>
+              <ProductGrid
+                history={this.props.history}
+                data={this.props.productListings.searchresult}
+                totalResults={
+                  this.props.productListings.pagination.totalResults
+                }
+                setProductModuleRef={this.props.setProductModuleRef}
+              />
+            </div>
+            <FilterContainer
+              backPage={this.backPage}
+              isFilterOpen={this.props.isFilterOpen}
+              onApply={this.onApply}
+              onClear={this.props.hideFilter}
+              onL3CategorySelect={this.onL3CategorySelect}
             />
           </div>
-          <FilterContainer
-            backPage={this.backPage}
-            isFilterOpen={this.props.isFilterOpen}
-            onApply={this.onApply}
-            onClear={this.props.hideFilter}
-            onL3CategorySelect={this.onL3CategorySelect}
-          />
-          <div className={styles.footer}>
-            <PlpMobileFooter
-              hasFilters={filterSelected && this.props.filterHasBeenClicked}
-              hasSort={hasSorts && this.props.sortHasBeenClicked}
-              onFilter={this.toggleFilter}
-              onSort={this.onSortClick}
-            />
-          </div>
+          <MediaQuery query="(max-device-width:1024px)">
+            <div className={styles.footer}>
+              <PlpMobileFooter
+                hasFilters={filterSelected && this.props.filterHasBeenClicked}
+                hasSort={hasSorts && this.props.sortHasBeenClicked}
+                onFilter={this.toggleFilter}
+                onSort={this.onSortClick}
+              />
+            </div>
+          </MediaQuery>
         </div>
       )
     );

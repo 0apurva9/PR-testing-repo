@@ -1,8 +1,9 @@
 .base {
   width: 50px;
   margin: auto;
-  padding-bottom: 100%;
   position: relative;
+  display: inline-block;
+  height: 50px;
 }
 .textHolder {
   text-align: center;
@@ -17,7 +18,7 @@
   margin: auto;
   line-height: 20px;
   display: inline-block;
-  background: url(../components/img/tick.svg)no-repeat;
+  background: url(../components/img/tick.svg) no-repeat;
   background-position: center;
   background-size: contain;
   opacity: 0;
