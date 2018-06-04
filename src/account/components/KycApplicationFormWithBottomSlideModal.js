@@ -2,6 +2,7 @@ import React from "react";
 import KycApplicationForm from "./KycApplicationForm";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
 import PropTypes from "prop-types";
+
 export default class KycApplicationFormWithBottomSlideModal extends React.Component {
   generateOtp(value) {
     if (this.props.generateOtp) {
@@ -13,6 +14,12 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
       this.props.closeModal();
     }
   }
+
+  displayToast = message => {
+    if (this.props.displayToast) {
+      this.props.displayToast(message);
+    }
+  };
   render() {
     return (
       <BottomSlideModal>
@@ -23,6 +30,7 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
           loadingForGetOtpToActivateWallet={
             this.props.loadingForGetOtpToActivateWallet
           }
+          displayToast={message => this.displayToast(message)}
         />
       </BottomSlideModal>
     );

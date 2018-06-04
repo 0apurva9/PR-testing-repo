@@ -364,6 +364,7 @@ export default class AddDeliveryAddress extends React.Component {
               onFocus={() => {
                 this.handleOnFocusInput();
               }}
+              onlyAlphabet={true}
             />
           </div>
 
@@ -380,6 +381,7 @@ export default class AddDeliveryAddress extends React.Component {
               onFocus={() => {
                 this.handleOnFocusInput();
               }}
+              onlyAlphabet={true}
             />
           </div>
           <div className={styles.content}>
@@ -475,7 +477,7 @@ export default class AddDeliveryAddress extends React.Component {
           </div>
           <div className={styles.content}>
             <Input2
-              type="number"
+              onlyNumber={true}
               placeholder="Phone number*"
               value={this.props.phone ? this.props.phone : this.state.phone}
               boxy={true}

@@ -97,7 +97,7 @@ export default class CliqAndCash extends React.Component {
               <div className={styles.inputTextHolder}>
                 <Input2
                   boxy={true}
-                  type="number"
+                  onlyNumber={true}
                   placeholder="Enter 16 digit card number"
                   value={
                     this.props.cardNumber
@@ -115,7 +115,7 @@ export default class CliqAndCash extends React.Component {
               <div className={styles.inputTextHolder}>
                 <Input2
                   boxy={true}
-                  type="number"
+                  onlyNumber={true}
                   placeholder="Enter 6 digit number"
                   value={
                     this.props.pinNumber

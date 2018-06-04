@@ -15,7 +15,11 @@ export default class BankOffer extends React.Component {
       this.props.selectItem();
     }
   }
-
+  openBankOfferTncModal() {
+    if (this.props.openBankOfferTncModal) {
+      this.props.openBankOfferTncModal();
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -37,6 +41,15 @@ export default class BankOffer extends React.Component {
               label={this.props.label}
               onClick={() => {
                 this.handleClick();
+              }}
+            />
+          </div>
+
+          <div className={styles.termsAndConditionButton}>
+            <UnderLinedButton
+              label="T&C"
+              onClick={() => {
+                this.openBankOfferTncModal();
               }}
             />
           </div>

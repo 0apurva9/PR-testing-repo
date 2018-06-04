@@ -13,7 +13,9 @@ export default class OrderDelivered extends React.Component {
       <div className={styles.base}>
         {deliveredAddress && (
           <div className={styles.addressHolder}>
-            <div className={styles.deliveredTo}>Delivery address: </div>
+            <div className={styles.deliveredTo}>
+              {`${this.props.orderDeliveryHeaderText} :`}
+            </div>
             <div className={styles.address}>{this.props.deliveredAddress}</div>
           </div>
         )}
@@ -37,4 +39,7 @@ OrderDelivered.propTypes = {
   deliveredAddress: PropTypes.string,
   deliveredDate: PropTypes.string,
   soldBy: PropTypes.string
+};
+OrderDelivered.defaultProps = {
+  orderDeliveryHeaderText: "Delivery address"
 };

@@ -9,7 +9,7 @@ import CheckboxAndText from "../../cart/components/CheckboxAndText.js";
 import AccountFooter from "./AccountFooter.js";
 import format from "date-fns/format";
 
-import { LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER } from "../actions/account.actions.js";
+import { LOG_OUT_USER_SUCCESS } from "../actions/account.actions.js";
 import ChangePassword from "./ChangePassword.js";
 import * as Cookie from "../../lib/Cookie";
 import ProfilePicture from "../../blp/components/ProfilePicture.js";
@@ -48,7 +48,8 @@ export default class EditAccountDetails extends React.Component {
       gender: "",
       mobileNumber: "",
       emailId: "",
-      changePassword: false
+      changePassword: false,
+      isGenderUpdate: false
     };
   }
   componentDidMount() {
@@ -93,7 +94,7 @@ export default class EditAccountDetails extends React.Component {
         emailId: email
       });
     }
-    if (nextProps.type === LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER) {
+    if (nextProps.type === LOG_OUT_USER_SUCCESS) {
       if (this.props.clearAccountUpdateType) {
         this.props.clearAccountUpdateType();
       }
@@ -109,7 +110,7 @@ export default class EditAccountDetails extends React.Component {
     }
   }
   onChangeGender(val) {
-    this.setState({ gender: val.value });
+    this.setState({ gender: val.value, isGenderUpdate: true });
   }
   onChange(val) {
     this.setState(val);
@@ -240,6 +241,7 @@ export default class EditAccountDetails extends React.Component {
                   this.onChangeMobileNumber(mobileNumber)
                 }
                 disabled={false}
+                onlyNumber={true}
               />
             </div>
 

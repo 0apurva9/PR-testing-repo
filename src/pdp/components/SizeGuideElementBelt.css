@@ -11,6 +11,7 @@
   text-align: center;
   vertical-align: top;
   padding: 10px 0px;
+  min-height: 300px;
 }
 .grey {
   composes: display;

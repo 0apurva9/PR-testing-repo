@@ -962,6 +962,7 @@ class CheckOutPage extends React.Component {
       }
     }
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
+      window.scroll(0, 0);
       this.setState({ orderConfirmation: true });
     }
     if (
@@ -1475,7 +1476,8 @@ class CheckOutPage extends React.Component {
       if (this.state.isGiftCard) {
         if (this.props.createJusPayOrderForGiftCardNetBanking) {
           this.props.createJusPayOrderForGiftCardNetBanking(
-            this.state.egvCartGuid
+            this.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
           );
         }
       } else {
@@ -1612,7 +1614,8 @@ class CheckOutPage extends React.Component {
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
-            this.props.location.state.egvCartGuid
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
           );
         } else {
           this.softReservationPaymentForNetBanking(
@@ -1633,7 +1636,8 @@ class CheckOutPage extends React.Component {
       if (this.state.paymentModeSelected === PAYTM) {
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
-            this.props.location.state.egvCartGuid
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
           );
         } else {
           this.softReservationPaymentForWallet(PAYTM);
@@ -1873,7 +1877,8 @@ class CheckOutPage extends React.Component {
   createJusPayOrderForGiftCardNetBanking = () => {
     if (this.props.createJusPayOrderForGiftCardNetBanking) {
       this.props.createJusPayOrderForGiftCardNetBanking(
-        this.props.location.state.egvCartGuid
+        this.props.location.state.egvCartGuid,
+        this.state.bankCodeForNetBanking
       );
     }
   };
@@ -2183,6 +2188,7 @@ class CheckOutPage extends React.Component {
             <div className={styles.paymentCardHolderπp}>
               <PaymentCardWrapper
                 applyBankCoupons={val => this.applyBankCoupons(val)}
+                openBankOfferTncModal={() => this.props.openBankOfferTncModal()}
                 isCliqCashApplied={this.state.isCliqCashApplied}
                 isRemainingBalance={this.state.isRemainingAmount}
                 isPaymentFailed={this.state.isPaymentFailed}

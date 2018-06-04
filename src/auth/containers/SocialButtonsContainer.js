@@ -33,7 +33,8 @@ import {
   ERROR,
   FAILURE,
   CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
 } from "../../lib/constants";
 import {
   createWishlist,
@@ -49,6 +50,7 @@ import {
   ADOBE_SIGN_UP_START
 } from "../../lib/adobeUtils";
 const EMAIL_ID_DOSE_NOT_EXIST = "Email ID or phone number does not exist";
+
 const mapDispatchToProps = dispatch => {
   return {
     clearUrlToRedirectToAfterAuth: () => {
@@ -83,8 +85,10 @@ const mapDispatchToProps = dispatch => {
             SOCIAL_CHANNEL_FACEBOOK
           )
         );
-
-        if (signUpResponse.status !== SUCCESS) {
+        if (
+          signUpResponse.status !== SUCCESS &&
+          signUpResponse.error !== EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
+        ) {
           dispatch(singleAuthCallHasFailed(signUpResponse.error));
           return;
         }
@@ -245,7 +249,10 @@ const mapDispatchToProps = dispatch => {
             SOCIAL_CHANNEL_GOOGLE_PLUS
           )
         );
-        if (signUpResponse.status !== SUCCESS) {
+        if (
+          signUpResponse.status !== SUCCESS &&
+          signUpResponse.error !== EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
+        ) {
           dispatch(singleAuthCallHasFailed(signUpResponse.error));
           return;
         }

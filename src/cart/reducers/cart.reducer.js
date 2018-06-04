@@ -185,7 +185,11 @@ const cart = (
     paymentFailureOrderDetails: null,
 
     isSoftReservationFailed: false,
-    isPaymentProceeded: false
+    isPaymentProceeded: false,
+    bankOfferTncDetails: null,
+    bankOfferTncStatus: null,
+    bankOfferTncError: null,
+    loadingForBankOfferTNC: false
   },
   action
 ) => {
@@ -1025,7 +1029,7 @@ const cart = (
         transactionDetailsStatus: action.status,
         transactionDetailsDetails: action.transactionDetails,
         loading: false,
-        isPaymentProceeded:false
+        isPaymentProceeded: false
       });
 
     case cartActions.UPDATE_TRANSACTION_DETAILS_FOR_COD_FAILURE:
@@ -1033,7 +1037,7 @@ const cart = (
         transactionDetailsStatus: action.status,
         transactionDetailsError: action.error,
         loading: false,
-        isPaymentProceeded:false
+        isPaymentProceeded: false
       });
 
     case cartActions.SOFT_RESERVATION_FOR_COD_PAYMENT_REQUEST:
@@ -1396,6 +1400,28 @@ const cart = (
         paymentFailureOrderDetails: action.paymentFailureOrderDetails,
         loading: false
       });
+    //for termsCondition
+    case cartActions.GET_TNC_FOR_BANK_OFFER_REQUEST:
+      return Object.assign({}, state, {
+        bankOfferTncStatus: action.status,
+        loadingForBankOfferTNC: true
+      });
+
+    case cartActions.GET_TNC_FOR_BANK_OFFER_SUCCESS:
+      return Object.assign({}, state, {
+        bankOfferTncStatus: action.status,
+        bankOfferTncDetails: action.termsAndConditions,
+        loadingForBankOfferTNC: false
+      });
+
+    case cartActions.GET_TNC_FOR_BANK_OFFER_FAILURE:
+      return Object.assign({}, state, {
+        bankOfferTncStatus: action.status,
+        bankOfferTncError: action.error,
+        loadingForBankOfferTNC: false
+      });
+
+    //end
 
     case cartActions.PAYMENT_FAILURE_ORDER_DETAILS_FAILURE:
       return Object.assign({}, state, {

@@ -1,0 +1,74 @@
+.base {
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  background: #fff;
+}
+.header {
+  width: 100%;
+  height: 50px;
+  background: #212121;
+  color: #fff;
+  font-family: semibold;
+  font-size: 14px;
+  line-height: 50px;
+  padding: 0 20px;
+}
+.content {
+  width: 100%;
+  height: auto;
+  background: #f8f8f8;
+}
+.dataHolder {
+  width: 100%;
+  height: auto;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #979797;
+}
+.offerDescription {
+  width: 100%;
+  height: auto;
+  color: #000000;
+  font-size: 14px;
+  font-family: regular;
+  padding-left: 15px;
+}
+.questionHolder {
+  width: 100%;
+  height: auto;
+  color: #000000;
+  font-size: 14px;
+  line-height: normal;
+  font-family: semibold;
+  position: relative;
+  padding: 10px 30px 10px 15px;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("./img/down-arrow.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+}
+.iconup {
+  composes: icon;
+  transform: rotate(180deg);
+}
+.answer {
+  width: 100%;
+  height: auto;
+  color: #000000;
+  font-size: 14px;
+  font-family: regular;
+}
+ul {
+  padding-left: 45px;
+}

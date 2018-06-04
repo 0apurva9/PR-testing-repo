@@ -9,7 +9,8 @@ import {
   OTP_VERIFICATION_REQUIRED_CODE,
   OTP_VERIFICATION_REQUIRED_TEXT,
   RESET_PASSWORD_SUCCESS_MESSAGE,
-  PLAT_FORM_NUMBER
+  PLAT_FORM_NUMBER,
+  EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
 } from "../../lib/constants";
 import {
   showModal,
@@ -786,7 +787,10 @@ export function socialMediaRegistration(
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      if (resultJsonStatus.status) {
+      if (
+        resultJsonStatus.status &&
+        resultJsonStatus.message !== EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
+      ) {
         throw new Error(`${resultJsonStatus.message}`);
       }
       return dispatch(socialMediaRegistrationSuccess(resultJson));

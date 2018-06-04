@@ -58,6 +58,11 @@ export default class PaymentCardWrapper extends React.Component {
       this.props.binValidationForPaytm(PAYTM, "", val);
     }
   }
+  openBankOfferTncModal() {
+    if (this.props.openBankOfferTncModal) {
+      this.props.openBankOfferTncModal();
+    }
+  }
   renderPaymentCard = datumType => {
     return (
       <React.Fragment>
@@ -164,6 +169,7 @@ export default class PaymentCardWrapper extends React.Component {
           offerText={offerDescription}
           label={SEE_ALL_BANK_OFFERS}
           applyBankOffers={() => this.props.openBankOffers()}
+          openBankOfferTncModal={() => this.openBankOfferTncModal()}
           value={offerCode}
         />
       </GridSelect>
