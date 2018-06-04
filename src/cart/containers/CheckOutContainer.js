@@ -62,7 +62,8 @@ import {
   showModal,
   BANK_OFFERS,
   GIFT_CARD_MODAL,
-  CLIQ_CASH_AND_NO_COST_EMI_POPUP
+  CLIQ_CASH_AND_NO_COST_EMI_POPUP,
+  TNC_FOR_BANK_OFFER_POPUP
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -196,6 +197,9 @@ const mapDispatchToProps = dispatch => {
     getEmiBankDetails: cartTotalProducts => {
       dispatch(getEmiBankDetails(cartTotalProducts));
     },
+    openBankOfferTncModal: () => {
+      dispatch(showModal(TNC_FOR_BANK_OFFER_POPUP));
+    },
     applyCliqCash: pinCode => {
       dispatch(applyCliqCash(pinCode));
     },
@@ -287,8 +291,8 @@ const mapDispatchToProps = dispatch => {
         )
       );
     },
-    createJusPayOrderForGiftCardNetBanking: guId => {
-      dispatch(createJusPayOrderForGiftCardNetBanking(guId));
+    createJusPayOrderForGiftCardNetBanking: (guId, bankCode) => {
+      dispatch(createJusPayOrderForGiftCardNetBanking(guId, bankCode));
     },
     createJusPayOrderForGiftCardFromSavedCards: (cardDetails, guId) => {
       dispatch(createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId));

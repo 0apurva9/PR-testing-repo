@@ -4,7 +4,12 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Input2 from "../../general/components/Input2.js";
 import MDSpinner from "../../general/components/SecondaryLoader";
-
+import {
+  NAME_TEXT,
+  LAST_NAME_TEXT,
+  PHONE_VALID_TEXT
+} from "../../lib/constants";
+export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 export default class KycApplicationForm extends React.Component {
   constructor(props) {
     super(props);
@@ -15,8 +20,22 @@ export default class KycApplicationForm extends React.Component {
     };
   }
   generateOtp() {
-    if (this.props.generateOtp) {
-      this.props.generateOtp(this.state);
+    if (!this.state.firstName || this.state.firstName === "") {
+      this.props.displayToast(NAME_TEXT);
+      return false;
+    } else if (!this.state.lastName || this.state.lastName === "") {
+      this.props.displayToast(LAST_NAME_TEXT);
+      return false;
+    } else if (
+      !this.state.mobileNumber ||
+      (this.state.mobileNumber && !MOBILE_PATTERN.test(this.state.mobileNumber))
+    ) {
+      this.props.displayToast(PHONE_VALID_TEXT);
+      return false;
+    } else {
+      if (this.props.generateOtp) {
+        this.props.generateOtp(this.state);
+      }
     }
   }
   onCancel() {
@@ -49,6 +68,8 @@ export default class KycApplicationForm extends React.Component {
                   onChange={firstName => this.setState({ firstName })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
+                  type="text"
+                  onlyAlphabet={true}
                 />
               </div>
               <div className={styles.inputHolder}>
@@ -63,6 +84,7 @@ export default class KycApplicationForm extends React.Component {
                   onChange={lastName => this.setState({ lastName })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
+                  onlyAlphabet={true}
                 />
               </div>
               <div className={styles.inputHolder}>
@@ -77,6 +99,8 @@ export default class KycApplicationForm extends React.Component {
                   onChange={mobileNumber => this.setState({ mobileNumber })}
                   textStyle={{ fontSize: 14 }}
                   height={33}
+                  maxLength={10}
+                  onlyNumber={true}
                 />
               </div>
             </div>

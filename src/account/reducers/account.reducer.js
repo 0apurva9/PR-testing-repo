@@ -4,7 +4,9 @@ import * as cartActions from "../../cart/actions/cart.actions";
 import * as Cookie from "../../lib/Cookie.js";
 import {
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
+  CUSTOMER_ACCESS_TOKEN,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants.js";
 import findIndex from "lodash.findindex";
 import { SUCCESS } from "../../lib/constants";
@@ -131,7 +133,13 @@ const account = (
     cancelProduct: null,
     cancelProductStatus: null,
     cancelProductError: null,
-    loadingForCancelProduct: false
+    loadingForCancelProduct: false,
+
+    logoutUserStatus: null,
+    logoutUserError: null,
+
+    msdUpdateProfileStatus: null,
+    msdUpdateProfileError: null
   },
   action
 ) => {
@@ -870,6 +878,46 @@ const account = (
         getPinCodeError: null
       });
     }
+    case accountActions.LOG_OUT_USER_REQUEST: {
+      return Object.assign({}, state, {
+        logoutUserStatus: action.status
+      });
+    }
+    case accountActions.LOG_OUT_USER_SUCCESS: {
+      Cookies.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+      Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+      Cookies.deleteCookie(LOGGED_IN_USER_DETAILS);
+      localStorage.clear();
+
+      return Object.assign({}, state, {
+        logoutUserStatus: action.status,
+        isLoggedIn: false,
+        type: action.type
+      });
+    }
+    case accountActions.LOG_OUT_USER_FAILURE: {
+      return Object.assign({}, state, {
+        logoutUserStatus: action.status,
+        logoutUserError: action.error
+      });
+    }
+
+    case accountActions.UPDATE_PROFILE_MSD_REQUEST:
+      return Object.assign({}, state, {
+        msdUpdateProfileStatus: action.status
+      });
+
+    case accountActions.UPDATE_PROFILE_MSD_SUCCESS:
+      return Object.assign({}, state, {
+        msdUpdateProfileStatus: action.status
+      });
+
+    case accountActions.UPDATE_PROFILE_MSD_FAILURE:
+      return Object.assign({}, state, {
+        msdUpdateProfileStatus: action.status,
+        msdUpdateProfileError: action.error
+      });
 
     default:
       return state;
