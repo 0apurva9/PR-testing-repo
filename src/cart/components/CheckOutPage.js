@@ -2008,13 +2008,13 @@ class CheckOutPage extends React.Component {
         checkoutButtonStatus = true;
       }
 
-      labelForButton = PROCEED;
+      labelForButton = CONTINUE;
     } else if (
       this.state.confirmAddress &&
       !this.state.deliverMode &&
       !this.state.isGiftCard
     ) {
-      labelForButton = PROCEED;
+      labelForButton = CONTINUE;
     } else if (
       this.state.currentPaymentMode === CASH_ON_DELIVERY_PAYMENT_MODE
     ) {
@@ -2054,12 +2054,12 @@ class CheckOutPage extends React.Component {
         labelForButton = PAY_NOW;
         checkoutButtonStatus = false;
       } else {
-        labelForButton = PROCEED;
+        labelForButton = CONTINUE;
 
         checkoutButtonStatus = true;
       }
     } else if (this.state.currentPaymentMode === null) {
-      labelForButton = PROCEED;
+      labelForButton = CONTINUE;
       checkoutButtonStatus = true;
     } else {
       checkoutButtonStatus = this.validateSubmitButton();

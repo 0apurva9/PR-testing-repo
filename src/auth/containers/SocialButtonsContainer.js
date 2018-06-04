@@ -13,7 +13,8 @@ import {
   loginUserRequest,
   customerAccessToken,
   socialMediaRegistration,
-  loadGoogleSignInApi
+  loadGoogleSignInApi,
+  CUSTOMER_ACCESS_TOKEN_FAILURE
 } from "../../auth/actions/user.actions";
 import * as Cookies from "../../lib/Cookie";
 
@@ -47,7 +48,7 @@ import {
   setDataLayerForSignupProcess,
   ADOBE_SIGN_UP_START
 } from "../../lib/adobeUtils";
-
+const EMAIL_ID_DOSE_NOT_EXIST = "Email ID or phone number does not exist";
 const mapDispatchToProps = dispatch => {
   return {
     clearUrlToRedirectToAfterAuth: () => {
@@ -89,7 +90,7 @@ const mapDispatchToProps = dispatch => {
         }
       }
 
-      const customerAccessTokenActionResponse = await dispatch(
+      let customerAccessTokenActionResponse = await dispatch(
         generateCustomerLevelAccessTokenForSocialMedia(
           facebookResponse.email,
           facebookResponse.id,
@@ -98,6 +99,36 @@ const mapDispatchToProps = dispatch => {
           SOCIAL_CHANNEL_FACEBOOK
         )
       );
+
+      if (
+        customerAccessTokenActionResponse.type ===
+          CUSTOMER_ACCESS_TOKEN_FAILURE &&
+        customerAccessTokenActionResponse.error === EMAIL_ID_DOSE_NOT_EXIST
+      ) {
+        const signUpResponse = await dispatch(
+          socialMediaRegistration(
+            facebookResponse.email,
+            facebookResponse.id,
+            facebookResponse.accessToken,
+            FACEBOOK_PLATFORM,
+            SOCIAL_CHANNEL_FACEBOOK
+          )
+        );
+
+        if (signUpResponse.status !== SUCCESS) {
+          dispatch(singleAuthCallHasFailed(signUpResponse.error));
+          return;
+        }
+        customerAccessTokenActionResponse = await dispatch(
+          generateCustomerLevelAccessTokenForSocialMedia(
+            facebookResponse.email,
+            facebookResponse.id,
+            facebookResponse.accessToken,
+            FACEBOOK_PLATFORM,
+            SOCIAL_CHANNEL_FACEBOOK
+          )
+        );
+      }
 
       // now I need to actually login
       let profileImage;
@@ -220,7 +251,7 @@ const mapDispatchToProps = dispatch => {
         }
       }
 
-      const customerAccessTokenActionResponse = await dispatch(
+      let customerAccessTokenActionResponse = await dispatch(
         generateCustomerLevelAccessTokenForSocialMedia(
           googlePlusResponse.email,
           googlePlusResponse.id,
@@ -230,6 +261,34 @@ const mapDispatchToProps = dispatch => {
         )
       );
 
+      if (
+        customerAccessTokenActionResponse.type ===
+          CUSTOMER_ACCESS_TOKEN_FAILURE &&
+        customerAccessTokenActionResponse.error === EMAIL_ID_DOSE_NOT_EXIST
+      ) {
+        const signUpResponse = await dispatch(
+          socialMediaRegistration(
+            googlePlusResponse.email,
+            googlePlusResponse.email,
+            googlePlusResponse.id,
+            GOOGLE_PLUS_PLATFORM,
+            SOCIAL_CHANNEL_GOOGLE_PLUS
+          )
+        );
+        if (signUpResponse.status !== SUCCESS) {
+          dispatch(singleAuthCallHasFailed(signUpResponse.error));
+          return;
+        }
+        customerAccessTokenActionResponse = await dispatch(
+          generateCustomerLevelAccessTokenForSocialMedia(
+            googlePlusResponse.email,
+            googlePlusResponse.id,
+            googlePlusResponse.accessToken,
+            GOOGLE_PLUS_PLATFORM,
+            SOCIAL_CHANNEL_GOOGLE_PLUS
+          )
+        );
+      }
       if (customerAccessTokenActionResponse.status === SUCCESS) {
         const loginUserResponse = await dispatch(
           socialMediaLogin(
