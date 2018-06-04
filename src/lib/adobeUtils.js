@@ -1266,6 +1266,8 @@ export function setDataLayerForOrderConfirmationDirectCalls(
       cpj: {
         order: {
           failureReason: orderConfirmationResponse
+            ? orderConfirmationResponse
+            : ""
         }
       }
     };
