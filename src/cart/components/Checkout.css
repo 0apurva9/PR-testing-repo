@@ -14,6 +14,28 @@
   bottom: initial;
   opacity: 0;
   pointer-events: none;
+  margin-top: 10px;
+}
+.visibleBase {
+  composes: base;
+  background: #fff;
+  position: relative;
+  border-radius: 4px;
+}
+.visibleBase .amount,
+.visibleBase .informationQuestionHolder,
+.visibleBase .informationAnswerHolder {
+  color: #4a4a4a;
+}
+.visibleBase .informationQuestionHolder {
+  font-family: regular;
+}
+.visibleBase .informationAnswerHolder {
+  font-family: regular;
+  font-family: light;
+}
+.visibleBase .detailsHolder {
+  border-top: none;
 }
 .totalPriceButtonHolder {
   width: 100%;
@@ -76,6 +98,28 @@
   display: inline-block;
   margin-bottom: 12px;
 }
+.visiblePayableSection {
+  width: 100%;
+  height: auto;
+  padding: 15px 0;
+  border-top: solid 1px #ececec;
+  border-bottom: solid 1px #ececec;
+}
+.visiblePayableSection .informationQuestionHolder,
+.visiblePayableSection .informationAnswerHolder {
+  font-family: semibold;
+}
+.savingSection {
+  width: 100%;
+  height: auto;
+  padding-top: 15px;
+}
+.savingSection .informationQuestionHolder,
+.savingSection .informationAnswerHolder {
+  font-family: light;
+  color: #417505;
+}
+
 .informationQuestionHolder {
   width: 40%;
   height: auto;
@@ -97,4 +141,17 @@
 .apply {
   composes: informationAnswerHolder;
   color: #ff1744;
+}
+.disclaimer {
+  width: 100%;
+  height: auto;
+  padding-left: 60px;
+  background: url("./img/lock.svg") no-repeat;
+  background-size: 25px;
+  background-position: 15px center;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-family: light;
+  line-height: 20px;
+  margin-top: 20px;
 }
