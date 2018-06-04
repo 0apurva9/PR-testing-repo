@@ -8,7 +8,8 @@ import {
   HOME_FEED_FOLLOW_AND_UN_FOLLOW,
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
-  STORE_NOT_AVAILABLE_TEXT
+  STORE_NOT_AVAILABLE_TEXT,
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import findIndex from "lodash.findindex";
@@ -455,7 +456,7 @@ export function getReturnRequest(orderCode, transactionId) {
           JSON.parse(userDetails).userName
         }/returnRequest?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile&loginId=${
+        }&channel=${CHANNEL}&loginId=${
           JSON.parse(userDetails).userName
         }&orderCode=${orderCode}&transactionId=${transactionId}`
       );
@@ -507,7 +508,7 @@ export function newReturnInitial(returnDetails, product = null) {
           JSON.parse(userDetails).userName
         }/newReturnInitiate?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile`,
+        }&channel=${CHANNEL}`,
         returnDetails
       );
       const resultJson = await result.json();
@@ -903,7 +904,7 @@ export function submitSelfCourierReturnInfo(returnDetails) {
       const result = await api.postFormData(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/submitSelfCourierRetrunInfo?channel=mobile&access_token=${
+        }/submitSelfCourierRetrunInfo?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         returnDetailsObject
@@ -1219,7 +1220,7 @@ export function getUserCoupons() {
           JSON.parse(userDetails).userName
         }/getCoupons?currentPage=${CURRENT_PAGE}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=mobile`
+        }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
