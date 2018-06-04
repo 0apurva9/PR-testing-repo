@@ -42,7 +42,6 @@ class Login extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
     const digitalData = window.digitalData;
     if (
       digitalData &&
