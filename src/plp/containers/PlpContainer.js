@@ -7,7 +7,8 @@ import {
   showFilter,
   hideFilter,
   setIfFilterHasBeenClicked,
-  setProductModuleRef
+  setProductModuleRef,
+  plpHasBeenVisited
 } from "../../plp/actions/plp.actions.js";
 import { displayToast } from "../../general/toast.actions";
 
@@ -27,6 +28,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showFilter: () => {
       dispatch(showFilter());
+    },
+    plpHasBeenVisited: () => {
+      dispatch(plpHasBeenVisited());
     },
     hideFilter: () => {
       dispatch(hideFilter());
@@ -54,7 +58,8 @@ const mapStateToProps = (state, ownProps) => {
     productListings: state.productListings.productListings,
     pageNumber: state.productListings.pageNumber,
     loading: state.productListings.loading,
-    searchresult: state.productListings.searchresult
+    searchresult: state.productListings.searchresult,
+    plpVisted: state.productListings.plpVisted
   };
 };
 

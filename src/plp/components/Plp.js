@@ -69,13 +69,16 @@ export default class Plp extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
+    this.props.plpHasBeenVisited();
   }
 
   componentDidMount() {
     this.throttledScroll = this.handleScroll();
     this.setHeaderText();
     window.addEventListener("scroll", this.throttledScroll);
-    setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+    if (this.props.plpVisted) {
+      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+    }
   }
 
   setHeaderText = () => {
