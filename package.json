@@ -157,5 +157,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "production":
+    "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
+  "production-cdn":
+    "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js"
 }
