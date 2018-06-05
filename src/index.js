@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import AppContainer from "../src/general/containers/AppContainer";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
+import "babel-polyfill";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
