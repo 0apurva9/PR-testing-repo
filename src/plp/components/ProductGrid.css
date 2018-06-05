@@ -53,3 +53,10 @@
   font-size: 14px;
   display: inline-block;
 }
+@media only screen and (min-width: 1024px) {
+  .sort {
+    width: 212px;
+    float: right;
+    height: auto;
+  }
+}

@@ -34,4 +34,12 @@
     margin: auto;
     position: relative;
   }
+  .totalProduct {
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding: 20px;
+  }
 }

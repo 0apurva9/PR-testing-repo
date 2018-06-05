@@ -23,7 +23,6 @@ export default class FilterDesktop extends React.Component {
       brandSearchString: ""
     };
   }
-
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
@@ -62,15 +61,6 @@ export default class FilterDesktop extends React.Component {
       this.props.onClear();
     }
   };
-
-  selectTab(val) {
-    this.props.setFilterSelectedData(false, val);
-    this.setState({ brandSearchString: "" });
-  }
-  selectCategories() {
-    this.props.resetFilterSelectedData();
-    this.setState({ brandSearchString: "" });
-  }
 
   onApply = () => {
     this.props.onApply();
@@ -122,24 +112,6 @@ export default class FilterDesktop extends React.Component {
   };
   render() {
     const { facetData, facetdatacategory } = this.props;
-    let filteredFacetData = null;
-    if (facetData) {
-      filteredFacetData = facetData[this.props.filterSelectedIndex].values;
-      if (
-        facetData &&
-        facetData[this.props.filterSelectedIndex].key === BRAND
-      ) {
-        filteredFacetData = facetData[
-          this.props.filterSelectedIndex
-        ].values.filter(val => {
-          return this.state.brandSearchString === ""
-            ? val
-            : val.name
-                .toLowerCase()
-                .includes(this.state.brandSearchString.toLowerCase());
-        });
-      }
-    }
     const url = this.props.location.pathname;
     let categoryId = null;
     if (CATEGORY_REGEX.test(url)) {
