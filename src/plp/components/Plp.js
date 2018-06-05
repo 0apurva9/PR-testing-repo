@@ -169,6 +169,7 @@ export default class Plp extends React.Component {
   };
 
   render() {
+    let headingText;
     let selectedFilterCount = 0;
     let filterSelected = false;
     let hasSorts = false;
@@ -187,6 +188,30 @@ export default class Plp extends React.Component {
         }
       });
     }
+    if (this.props.productListings !== null) {
+      if (this.props.isFilterOpen) {
+        headingText = "Refine by";
+      } else {
+        if (
+          this.props.productListings.seo &&
+          this.props.productListings.seo.breadcrumbs &&
+          this.props.productListings.seo.breadcrumbs[0] &&
+          this.props.productListings.seo.breadcrumbs[0].name
+        )
+          headingText = `${this.props.productListings.seo.breadcrumbs[0].name}`;
+        else {
+          const slug = this.props.match.params.slug;
+          let splitSlug = "Tata Cliq";
+          if (slug) {
+            splitSlug = this.props.match.params.slug.replace(/-/g, " ");
+            splitSlug = splitSlug.replace(/\b\w/g, l => l.toUpperCase());
+            headingText = `${splitSlug}`;
+          } else {
+            headingText = `Search results`;
+          }
+        }
+      }
+    }
     return (
       this.props.productListings && (
         <div className={styles.base}>
@@ -195,6 +220,7 @@ export default class Plp extends React.Component {
             ? renderMetaTags(this.props.productListings)
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}
           <MediaQuery query="(min-device-width: 1025px)">
+            <div className={styles.headerText}>{headingText}</div>
             <div className={styles.totalProduct}>
               {this.props.productListings &&
               this.props.productListings.pagination &&

@@ -34,6 +34,15 @@
     margin: auto;
     position: relative;
   }
+  .headerText {
+    width: 100%;
+    display: inline-block;
+    height: auto;
+    text-align: center;
+    padding: 10px;
+    font-size: 30px;
+    font-family: regular;
+  }
   .totalProduct {
     text-align: center;
     font-size: 14px;
