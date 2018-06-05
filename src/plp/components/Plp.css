@@ -23,3 +23,23 @@
   bottom: 0;
   z-index: 10;
 }
+@media only screen and (min-width: 1024px) {
+  .base {
+    display: inline-block;
+    text-align: left;
+  }
+  .productWithFilter {
+    padding-left: 345px;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+  }
+  .totalProduct {
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding: 20px;
+  }
+}

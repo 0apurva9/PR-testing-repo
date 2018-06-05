@@ -8,11 +8,16 @@ import Icon from "../../xelpmoc-core/Icon";
 import styles from "./ProductGrid.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
+import MediaQuery from "react-responsive";
+import dropDownSortIcon from "../../cart/components/img/googleSearch.png";
 import {
   PRODUCT_DESCRIPTION_ROUTER,
   IS_OFFER_EXISTING,
   PRODUCT_LISTINGS_WITHOUT_SLASH
 } from "../../lib/constants";
+import queryString from "query-string";
+import { applySortToUrl } from "./SortUtils.js";
+import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 const LIST = "list";
 const GRID = "grid";
@@ -52,7 +57,38 @@ export default class ProductGrid extends React.Component {
       isComingFromPlp: true
     });
   };
+  onClick(val) {
+    let searchText = "";
+    let icid2 = null;
+    let cid = null;
 
+    if (this.props.location.search) {
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      if (parsedQueryString.icid2) {
+        icid2 = parsedQueryString.icid2;
+      }
+      if (parsedQueryString.cid) {
+        cid = parsedQueryString.cid;
+      }
+      if (parsedQueryString.q) {
+        searchText = parsedQueryString.q;
+      } else if (parsedQueryString.text) {
+        searchText = parsedQueryString.text;
+      }
+    }
+
+    const url = applySortToUrl(
+      searchText,
+      this.props.location.pathname,
+      val.value,
+      icid2,
+      cid
+    );
+    this.props.history.push(url, {
+      isFilter: false
+    });
+    this.props.setIfSortHasBeenClicked();
+  }
   renderComponent = data => {
     // if (data.type === PRODUCT) {
     return (
@@ -100,29 +136,44 @@ export default class ProductGrid extends React.Component {
         showWishListButton={false}
       />
     );
-    // } else if (data.type === PLPAD) {
-    //   return <PlpAds imageURL={data.imageURL} />;
-    // } else if (data.type === ICONICFILTER) {
-    //   return <IconicFilter data={data.filterValue} title={data.filterTitle} />;
-    // } else {
-    //   return null;
-    // }
   };
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          <div className={styles.product}>
-            {this.props.totalResults ? this.props.totalResults : 0} Products
-          </div>
-
-          {/* <div className={styles.area}>{this.props.area}</div> */}
-          {/* <div
-            className={styles.areaChange}
-            onClick={() => this.changeAddress()}
-          >
-            Change
-          </div> */}
+          <MediaQuery query="(max-device-width:1024px)">
+            <div className={styles.product}>
+              {this.props.totalResults ? this.props.totalResults : 0} Products
+            </div>
+          </MediaQuery>
+          <MediaQuery query="(min-device-width:1025px)">
+            <div className={styles.sort}>
+              <SelectBoxDesktop
+                value={
+                  this.props.sort &&
+                  this.props.sort.find(item => item.selected === true).code
+                }
+                label={
+                  this.props.sort &&
+                  this.props.sort.find(item => item.selected === true).name
+                }
+                height={40}
+                options={this.props.sort.map((val, i) => {
+                  return {
+                    value: val.code,
+                    label: val.name
+                  };
+                })}
+                image={dropDownSortIcon}
+                onChange={val => this.onClick(val)}
+                size={20}
+                leftChild={"Sort by :"}
+                rightChildSize={35}
+                leftChildSize={80}
+                labelWithLeftChild={true}
+              />
+            </div>
+          </MediaQuery>
           <div className={styles.icon} onClick={() => this.switchView()}>
             {this.state.view === LIST && <Icon image={gridImage} size={20} />}
             {this.state.view === GRID && <Icon image={listImage} size={20} />}
