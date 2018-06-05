@@ -12,7 +12,8 @@ import {
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_SUCCESS = "PRODUCT_LISTINGS_SUCCESS";
 export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
-
+export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
+export const PLP_HAS_NOT_BEEN_VISITED = "PLP_HAS_NOT_BEEN_VISITED";
 export const PRODUCT_LISTINGS_PATH = "v2/mpl/products/searchProducts";
 export const PRODUCT_LISTINGS_SUFFIX = "&isPwa=true&pageSize=20&typeID=all";
 export const SORT_PRODUCT_LISTINGS_PATH = "searchProducts";
@@ -72,6 +73,16 @@ export function setIfSortHasBeenClicked() {
 export function setIfFilterHasBeenClicked() {
   return {
     type: FILTER_HAS_BEEN_CLICKED
+  };
+}
+export function plpHasBeenVisited() {
+  return {
+    type: PLP_HAS_BEEN_VISITED
+  };
+}
+export function plpHasNotBeenVisited() {
+  return {
+    type: PLP_HAS_NOT_BEEN_VISITED
   };
 }
 

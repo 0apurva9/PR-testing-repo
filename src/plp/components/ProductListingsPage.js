@@ -265,7 +265,6 @@ class ProductListingsPage extends Component {
     if (this.props.location.state && this.props.location.state.isFilter) {
       isFilter = true;
     }
-
     return (
       <PlpContainer
         paginate={this.props.paginate}
