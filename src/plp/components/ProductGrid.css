@@ -56,7 +56,9 @@
 @media only screen and (min-width: 1024px) {
   .sort {
     width: 212px;
-    float: right;
+    position: absolute;
+    display: inline-block;
+    right: 50px;
     height: auto;
   }
 }
