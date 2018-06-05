@@ -70,7 +70,6 @@ export default class InvalidCouponPopUp extends React.Component {
     const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
-    console.log(this.props.result);
     if (
       this.props.result &&
       this.props.result.userCoupon &&
