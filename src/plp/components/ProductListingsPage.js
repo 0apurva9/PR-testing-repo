@@ -29,9 +29,6 @@ const MAX_PRICE_FROM_API = "and Above";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 
 class ProductListingsPage extends Component {
-  shouldComponentUpdate() {
-    return false;
-  }
   getSearchTextFromUrl() {
     const parsedQueryString = queryString.parse(this.props.location.search);
 
@@ -92,7 +89,6 @@ class ProductListingsPage extends Component {
     }
 
     if (this.props.isGoBackFromPdpPage) {
-      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
