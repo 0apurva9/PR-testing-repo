@@ -49,7 +49,13 @@ export default class Checkout extends React.Component {
         ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         : null;
     let totalSaving =
-      parseFloat(this.props.bagTotal) - parseFloat(this.props.payable);
+      this.props.bagTotal && this.props.payable
+        ? Math.round(
+            (parseFloat(this.props.bagTotal) - parseFloat(this.props.payable)) *
+              100
+          ) / 100
+        : 0;
+
     return (
       <React.Fragment>
         {this.props.isFromMyBag && (
