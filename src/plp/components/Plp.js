@@ -109,7 +109,6 @@ export default class Plp extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.setHeaderText();
-    setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
   }
   backPage = () => {
     if (this.props.isFilterOpen) {
