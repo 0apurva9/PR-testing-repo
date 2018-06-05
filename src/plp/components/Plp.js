@@ -6,7 +6,7 @@ import styles from "./Plp.css";
 import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
-
+import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -75,6 +75,7 @@ export default class Plp extends React.Component {
     this.throttledScroll = this.handleScroll();
     this.setHeaderText();
     window.addEventListener("scroll", this.throttledScroll);
+    setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
   }
 
   setHeaderText = () => {
@@ -108,6 +109,7 @@ export default class Plp extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.setHeaderText();
+    setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
   }
   backPage = () => {
     if (this.props.isFilterOpen) {

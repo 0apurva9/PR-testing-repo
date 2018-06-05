@@ -3,17 +3,10 @@ import { showModal, SORT } from "../../general/modal.actions";
 import ProductListingsPage from "../components/ProductListingsPage";
 import { withRouter } from "react-router-dom";
 import { setSearchString } from "../../search/actions/search.actions.js";
-import {
-  getProductListings,
-  setPage,
-  setIsNotGoBackFromPDP
-} from "../actions/plp.actions.js";
+import { getProductListings, setPage } from "../actions/plp.actions.js";
 
 const mapDispatchToProps = dispatch => {
   return {
-    setIsNotGoBackFromPDP: () => {
-      dispatch(setIsNotGoBackFromPDP());
-    },
     showSort: () => {
       dispatch(showModal(SORT));
     },
@@ -34,7 +27,6 @@ const mapStateToProps = (state, ownProps) => {
     searchText: ownProps.searchText ? ownProps.searchText : null,
     isGoBackFromPdpPage: state.productListings.isGoBackFromPdpPage,
     clickedProductModuleRef: state.productListings.clickedProductModuleRef
-    // productListings: state.productListings.productListings
   };
 };
 

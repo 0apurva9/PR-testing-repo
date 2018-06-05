@@ -89,16 +89,12 @@ class ProductListingsPage extends Component {
     }
 
     if (this.props.isGoBackFromPdpPage) {
-      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => {
-            clickedElement.scrollIntoView(true);
-            this.props.setIsNotGoBackFromPDP();
-          }, 50);
+          delay(() => clickedElement.scrollIntoView(true), 50);
         }
       }
       return;
@@ -191,10 +187,7 @@ class ProductListingsPage extends Component {
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => {
-            clickedElement.scrollIntoView();
-            this.props.setIsNotGoBackFromPDP();
-          }, 50);
+          delay(() => clickedElement.scrollIntoView(), 50);
         }
       }
     }
