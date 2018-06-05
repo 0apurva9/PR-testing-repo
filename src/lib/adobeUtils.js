@@ -554,6 +554,7 @@ function getDigitalDataForHome() {
   if (
     window.digitalData &&
     window.digitalData.page &&
+    window.digitalData.page.pageInfo &&
     window.digitalData.page.pageInfo.pageName
   ) {
     Object.assign(data, {
@@ -1022,7 +1023,7 @@ function getDigitalDataForPlp(type, response) {
     }
   };
 
-  if (response.searchresult && response.searchresult.length > 0) {
+  if (response && response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
     });
