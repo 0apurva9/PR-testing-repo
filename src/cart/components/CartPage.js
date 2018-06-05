@@ -484,6 +484,7 @@ class CartPage extends React.Component {
                   label={CHECKOUT_BUTTON_TEXT}
                   isOnCartPage={true}
                   changePinCode={this.changePinCode}
+                  isFromMyBag={true}
                 />
               )}
           </div>
