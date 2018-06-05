@@ -2313,6 +2313,7 @@ class CheckOutPage extends React.Component {
               }
               isCliqCashApplied={this.state.isCliqCashApplied}
               cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+              isFromMyBag={false}
             />
           )}
         </div>
