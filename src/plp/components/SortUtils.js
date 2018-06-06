@@ -64,7 +64,7 @@ export function applySortToUrl(query, url, sortValue, icid2, cid) {
   } else {
     // we might have a case where we have a category/brand with a query
     let constructedUrlFromCategoryOrBrandAndQuery;
-    if (CATEGORY_REGEX.test(url) || BRAND_REGEX.test(url)) {
+    if (CATEGORY_REGEX.test(url)) {
       match = CATEGORY_CAPTURE_REGEX.exec(url)[0];
       match = match.replace(BRAND_CATEGORY_PREFIX, "");
       constructedUrlFromCategoryOrBrandAndQuery = createUrlFromQueryAndCategory(
