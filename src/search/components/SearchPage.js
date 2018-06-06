@@ -25,6 +25,7 @@ export default class SearchPage extends React.Component {
   };
 
   handleBrandClick(webURL) {
+    this.props.setIsNotGoBackFromPDP();
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
     this.props.clearSearchResults();
@@ -40,6 +41,7 @@ export default class SearchPage extends React.Component {
   }
 
   handleCategoryClick(webURL) {
+    this.props.setIsNotGoBackFromPDP();
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:category:${categoryCode}`;
@@ -74,6 +76,7 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
+    this.props.setIsNotGoBackFromPDP();
     this.props.history.push(
       `/search/?searchCategory=all&text=${searchString}`,
       {

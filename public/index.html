@@ -118,7 +118,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
       -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"></script>
 
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
     <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js"></script>
@@ -129,7 +128,7 @@
 
         <script type="text/javascript">
           window.digitalData = Object.assign({}, { page: { pageInfo: { pageName: "basepage" } } });
-          if (_satellite) {
+          if (window._satellite) {
             _satellite.pageBottom();
           }
         </script>

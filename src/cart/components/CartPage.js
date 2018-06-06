@@ -140,7 +140,6 @@ class CartPage extends React.Component {
           this.setState({
             isServiceable: true
           });
-          this.props.displayToast("Items are available at your PIN code");
         }
       }
     }
@@ -484,6 +483,7 @@ class CartPage extends React.Component {
                   label={CHECKOUT_BUTTON_TEXT}
                   isOnCartPage={true}
                   changePinCode={this.changePinCode}
+                  isFromMyBag={true}
                 />
               )}
           </div>

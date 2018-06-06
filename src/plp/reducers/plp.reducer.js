@@ -17,7 +17,8 @@ const productListings = (
     filterHasBeenClicked: false,
     sortHasBeenClicked: false,
     isGoBackFromPdpPage: false,
-    clickedProductModuleRef: null
+    clickedProductModuleRef: null,
+    plpVisted: false
   },
   action
 ) => {
@@ -43,6 +44,14 @@ const productListings = (
     case CLEAR_ERROR:
       return Object.assign({}, state, {
         error: null
+      });
+    case plpActions.PLP_HAS_BEEN_VISITED:
+      return Object.assign({}, state, {
+        plpVisted: true
+      });
+    case plpActions.PLP_HAS_NOT_BEEN_VISITED:
+      return Object.assign({}, state, {
+        plpVisted: false
       });
     case plpActions.SORT_HAS_BEEN_CLICKED:
       return Object.assign({}, state, {
