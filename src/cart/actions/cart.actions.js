@@ -632,7 +632,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
 
     couponObject.append("couponCode", couponCode);
     couponObject.append("cartGuid", cartGuId);
-
+    couponObject.append("channel", CHANNEL);
     try {
       const result = await api.postFormData(
         `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts/${
@@ -696,7 +696,7 @@ export function releaseCouponForAnonymous(oldCouponCode, newCouponCode) {
     let couponObject = new FormData();
     couponObject.append("access_token", JSON.parse(globalCookie).access_token);
     couponObject.append("couponCode", oldCouponCode);
-
+    couponObject.append("channel", CHANNEL);
     try {
       const result = await api.postFormData(
         `${USER_CART_PATH}/anonymous/carts/${cartId}/releaseCouponsAnonymous?`,
@@ -734,7 +734,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1805,7 +1805,7 @@ export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
           JSON.parse(userDetails).userName
         }/carts/releaseCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&paymentMode=${PAYMENT_MODE}&couponCode=${previousCouponCode}&cartGuid=${cartId}&isPwa=true`
+        }&paymentMode=${PAYMENT_MODE}&couponCode=${previousCouponCode}&cartGuid=${cartId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4088,7 +4088,7 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/applyNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4154,7 +4154,7 @@ export function removeNoCostEmi(couponCode, cartGuId, cartId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
 
