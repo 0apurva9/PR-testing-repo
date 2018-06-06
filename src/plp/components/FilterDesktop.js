@@ -117,7 +117,6 @@ export default class FilterDesktop extends React.Component {
     if (CATEGORY_REGEX.test(url)) {
       categoryId = url.match(CATEGORY_CAPTURE_REGEX)[0];
     }
-    console.log();
     return (
       <React.Fragment>
         <div className={styles.filterOpen}>
