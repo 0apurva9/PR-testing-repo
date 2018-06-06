@@ -1751,10 +1751,13 @@ class CheckOutPage extends React.Component {
       }
     } else {
      let  bankOffer=localStorage.getItem(BANK_COUPON_COOKIE);
+     if(bankOffer)
+     {
       const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
       if (releaseCouponReq.status === SUCCESS) {
         this.setState({ selectedBankOfferCode: "" });
       }
+    }
     }
   };
   openBankOffers = () => {
