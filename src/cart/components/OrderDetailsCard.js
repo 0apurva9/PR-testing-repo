@@ -104,11 +104,24 @@ export default class OrderDetailsCard extends React.Component {
                       ? "Standard Shipping"
                       : deliveryOption.name === "Express Delivery"
                         ? "Express Shipping"
-                        : deliveryOption.name
+                        : deliveryOption.name === "Click and Collect"
+                          ? "Pickup Details"
+                          : deliveryOption.name
                   } `}
                 </div>
                 <div className={styles.address}>
-                  {this.props.productDetails.selectedDeliveryMode.desc}
+                  {deliveryOption.name === "Click and Collect"
+                    ? `${
+                        this.props.orderDetails.pickupPersonName
+                          ? this.props.orderDetails.pickupPersonName
+                          : ""
+                      },
+                      ${
+                        this.props.orderDetails.pickupPersonMobile
+                          ? this.props.orderDetails.pickupPersonMobile
+                          : ""
+                      }`
+                    : this.props.productDetails.selectedDeliveryMode.desc}
                 </div>
               </div>
             )}
