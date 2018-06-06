@@ -81,8 +81,6 @@ class ProductListingsPage extends Component {
   }
 
   componentDidMount() {
-    console.log("did mount");
-    console.log(this.props.plpVisited);
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true
@@ -90,8 +88,7 @@ class ProductListingsPage extends Component {
       return;
     }
 
-    if (this.props.isGoBackFromPdpPage) {
-      console.log(this.props.isGoBackFromPdpPage);
+    if (this.props.isGoBackFromPdpPage && this.props.plpVisited) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef

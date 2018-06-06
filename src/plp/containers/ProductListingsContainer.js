@@ -23,7 +23,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state.productListings);
   return {
     searchText: ownProps.searchText ? ownProps.searchText : null,
     isGoBackFromPdpPage: state.productListings.isGoBackFromPdpPage,
