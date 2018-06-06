@@ -710,6 +710,7 @@ export function releaseCouponForAnonymous(oldCouponCode, newCouponCode) {
       }
 
       if (newCouponCode) {
+        dispatch(releaseUserCouponSuccess(resultJson));
         return dispatch(applyUserCouponForAnonymous(newCouponCode));
       }
       return dispatch(releaseUserCouponSuccess(resultJson));
@@ -743,6 +744,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
       }
 
       if (newCouponCode) {
+        dispatch(releaseUserCouponSuccess(resultJson));
         return dispatch(applyUserCouponForLoggedInUsers(newCouponCode));
       }
       return dispatch(releaseUserCouponSuccess(resultJson));
