@@ -7,6 +7,7 @@ import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import MediaQuery from "react-responsive";
+import PlpDesktopHeader from "../components/PlpDesktopHeader";
 import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 import {
   renderMetaTags,
@@ -200,6 +201,14 @@ export default class Plp extends React.Component {
             ? renderMetaTags(this.props.productListings)
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}
           <MediaQuery query="(min-device-width: 1025px)">
+            <div className={styles.headerText}>
+              <PlpDesktopHeader
+                productListings={
+                  this.props.productListings && this.props.productListings
+                }
+                match={this.props.match && this.props.match}
+              />
+            </div>
             <div className={styles.totalProduct}>
               {this.props.productListings &&
               this.props.productListings.pagination &&

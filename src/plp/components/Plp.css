@@ -34,12 +34,20 @@
     margin: auto;
     position: relative;
   }
+  .headerText {
+    width: 100%;
+    display: inline-block;
+    height: auto;
+    text-align: center;
+    font-size: 30px;
+    font-family: regular;
+  }
   .totalProduct {
     text-align: center;
     font-size: 14px;
     width: 100%;
     height: auto;
     display: inline-block;
-    padding: 20px;
+    padding: 10px;
   }
 }
