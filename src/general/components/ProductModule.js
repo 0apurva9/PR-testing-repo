@@ -9,7 +9,7 @@ import downloadIconWhite from "./img/downloadWhite.svg";
 import ProductInfo from "./ProductInfo.js";
 import ProductFlags from "./ProductFlags.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-
+import MediaQuery from "react-responsive";
 import {
   ON_EXCLUSIVE,
   DISCOUNT_PERCENT,
@@ -60,50 +60,86 @@ export default class ProductModule extends React.Component {
         onClick={this.onClick}
         id={`ProductModule-${this.props.productId}`}
       >
-        {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
-        <a
-          href={`${window.location.origin}${this.getProductURL()}`}
-          className={styles.aTag}
-          style={{ pointerEvents: "none" }}
-        >
+        <MediaQuery query="(max-device-width:1024px)">
+          <a
+            href={`${window.location.origin}${this.getProductURL()}`}
+            className={styles.aTag}
+            style={{ pointerEvents: "none" }}
+          >
+            <div
+              className={
+                this.props.view === "grid"
+                  ? styles.imageHolder
+                  : styles.ListimageHolder
+              }
+            >
+              <ProductImage image={this.props.productImage} />
+              {this.props.onConnect && (
+                <ConnectButton onClick={this.handleConnect} />
+              )}
+
+              <div className={styles.flagHolder}>
+                <ProductFlags
+                  discountPercent={this.props.discountPercent}
+                  isOfferExisting={this.props.isOfferExisting}
+                  onlineExclusive={this.props.onlineExclusive}
+                  outOfStock={this.props.outOfStock}
+                  newProduct={this.props.newProduct}
+                />
+              </div>
+            </div>
+          </a>
           <div
             className={
-              this.props.view === "grid"
-                ? styles.imageHolder
-                : styles.ListimageHolder
+              this.props.view === "grid" ? styles.content : styles.Listcontent
             }
           >
-            <ProductImage image={this.props.productImage} />
-            {this.props.onConnect && (
-              <ConnectButton onClick={this.handleConnect} />
-            )}
-
-            <div className={styles.flagHolder}>
-              <ProductFlags
-                discountPercent={this.props.discountPercent}
-                isOfferExisting={this.props.isOfferExisting}
-                onlineExclusive={this.props.onlineExclusive}
-                outOfStock={this.props.outOfStock}
-                newProduct={this.props.newProduct}
+            <ProductDescription {...this.props} />
+            {this.props.view === "list" && (
+              <ProductInfo
+                averageRating={this.props.averageRating}
+                totalNoOfReviews={this.props.totalNoOfReviews}
+                offerText={this.props.offerText}
+                bestDeliveryInfo={this.props.bestDeliveryInfo}
               />
-            </div>
+            )}
           </div>
-        </a>
-        <div
-          className={
-            this.props.view === "grid" ? styles.content : styles.Listcontent
-          }
-        >
-          <ProductDescription {...this.props} />
-          {this.props.view === "list" && (
-            <ProductInfo
-              averageRating={this.props.averageRating}
-              totalNoOfReviews={this.props.totalNoOfReviews}
-              offerText={this.props.offerText}
-              bestDeliveryInfo={this.props.bestDeliveryInfo}
-            />
-          )}
-        </div>
+        </MediaQuery>
+        <MediaQuery query="(min-device-width:1025px)">
+          <a
+            href={`${window.location.origin}${this.getProductURL()}`}
+            className={styles.aTag}
+            style={{ pointerEvents: "none" }}
+          >
+            <div className={styles.imageHolder}>
+              <ProductImage image={this.props.productImage} />
+              {this.props.onConnect && (
+                <ConnectButton onClick={this.handleConnect} />
+              )}
+
+              <div className={styles.flagHolder}>
+                <ProductFlags
+                  discountPercent={this.props.discountPercent}
+                  isOfferExisting={this.props.isOfferExisting}
+                  onlineExclusive={this.props.onlineExclusive}
+                  outOfStock={this.props.outOfStock}
+                  newProduct={this.props.newProduct}
+                />
+              </div>
+            </div>
+          </a>
+          <div className={styles.content}>
+            <ProductDescription {...this.props} />
+            {this.props.view === "list" && (
+              <ProductInfo
+                averageRating={this.props.averageRating}
+                totalNoOfReviews={this.props.totalNoOfReviews}
+                offerText={this.props.offerText}
+                bestDeliveryInfo={this.props.bestDeliveryInfo}
+              />
+            )}
+          </div>
+        </MediaQuery>
       </div>
     );
   }

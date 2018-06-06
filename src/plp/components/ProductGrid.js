@@ -29,15 +29,16 @@ export default class ProductGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: GRID
+      view: GRID,
+      viewDesktop: GRID
     };
   }
 
   switchView() {
-    if (this.state.view === LIST) {
-      this.setState({ view: GRID });
+    if (this.state.view === LIST || this.state.viewDesktop === "gridDesktop") {
+      this.setState({ view: GRID, viewDesktop: GRID });
     } else {
-      this.setState({ view: LIST });
+      this.setState({ view: LIST, viewDesktop: "gridDesktop" });
     }
   }
   changeAddress() {
@@ -97,6 +98,7 @@ export default class ProductGrid extends React.Component {
         averageRating={data.averageRating}
         totalNoOfReviews={data.totalNoOfReviews}
         view={this.state.view}
+        viewDesktop={this.state.viewDesktop}
         onClick={(url, data, ref) =>
           this.goToProductDescription(url, data, ref)
         }
@@ -126,37 +128,52 @@ export default class ProductGrid extends React.Component {
           </div>
         </div>
         <div className={styles.content}>
-          <Grid
-            search={this.props.search}
-            offset={0}
-            elementWidthMobile={this.state.view === LIST ? 100 : 50}
-          >
-            {this.props.data &&
-              this.props.data.map((datum, i) => {
-                // if (
-                //   datum.type === PRODUCT ||
-                //   datum.type === PLPAD ||
-                //   datum.type === ICONICFILTER
-                // ) {
-                let widthMobile = false;
-                // if (datum.type === PLPAD || datum.type === ICONICFILTER) {
-                //   widthMobile = 100;
-                // }
-                return (
-                  <PlpComponent
-                    key={i}
-                    gridWidthMobile={widthMobile}
-                    view={this.state.view}
-                    type={datum && datum.type}
-                  >
-                    {this.renderComponent(datum)}
-                  </PlpComponent>
-                );
-                // } else {
-                //   return null;
-                // }
-              })}
-          </Grid>
+          <MediaQuery query="(max-device-width:1024px)">
+            <Grid
+              search={this.props.search}
+              offset={0}
+              elementWidthMobile={this.state.view === LIST ? 100 : 50}
+            >
+              {this.props.data &&
+                this.props.data.map((datum, i) => {
+                  let widthMobile = false;
+                  return (
+                    <PlpComponent
+                      key={i}
+                      gridWidthMobile={widthMobile}
+                      view={this.state.view}
+                      type={datum && datum.type}
+                    >
+                      {this.renderComponent(datum)}
+                    </PlpComponent>
+                  );
+                })}
+            </Grid>
+          </MediaQuery>
+          <MediaQuery query="(min-device-width:1025px)">
+            <Grid
+              search={this.props.search}
+              offset={0}
+              elementWidthDesktop={
+                this.state.viewDesktop === "gridDesktop" ? 33 : 25
+              }
+            >
+              {this.props.data &&
+                this.props.data.map((datum, i) => {
+                  let widthMobile = false;
+                  return (
+                    <PlpComponent
+                      key={i}
+                      gridWidthMobile={widthMobile}
+                      view={this.state.view}
+                      type={datum && datum.type}
+                    >
+                      {this.renderComponent(datum)}
+                    </PlpComponent>
+                  );
+                })}
+            </Grid>
+          </MediaQuery>
         </div>
       </div>
     );
