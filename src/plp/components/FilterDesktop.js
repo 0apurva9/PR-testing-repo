@@ -165,6 +165,7 @@ export default class FilterDesktop extends React.Component {
                         )}
                         {facetDataValues &&
                           facetDataValues.name === COLOUR &&
+                          facetDataValues.values &&
                           facetDataValues.values.map((val, i) => {
                             return (
                               <ColourSelect
@@ -177,6 +178,7 @@ export default class FilterDesktop extends React.Component {
                           })}
                         {facetDataValues &&
                           facetDataValues.name !== COLOUR &&
+                          facetDataValues.values &&
                           facetDataValues.values.map((val, i) => {
                             return (
                               <FilterSelect
