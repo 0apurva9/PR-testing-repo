@@ -59,6 +59,7 @@ export default class ProductModule extends React.Component {
         onClick={this.onClick}
         id={`ProductModule-${this.props.productId}`}
       >
+        {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
         <a
           href={`${window.location.origin}${this.getProductURL()}`}
           className={styles.aTag}
