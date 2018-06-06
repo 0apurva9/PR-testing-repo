@@ -11,6 +11,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^3.1.0",
     "babel-runtime": "6.26.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -91,9 +92,10 @@
     "build": "REACT_APP_STAGE=p2 node scripts/build.js",
     "p2": "REACT_APP_STAGE=p2 node scripts/build.js",
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
-    "production": "REACT_APP_STAGE=production node scripts/build.js",
+    "production":
+      "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
     "production-cdn":
-      "REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
+      "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
     "p2-production-cdn":
       "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
     "test": "cross-env node scripts/test.js --env=jsdom",

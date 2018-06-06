@@ -8,6 +8,7 @@ import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import MediaQuery from "react-responsive";
 import PlpDesktopHeader from "../components/PlpDesktopHeader";
+import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -70,12 +71,16 @@ export default class Plp extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
+    this.props.plpHasBeenVisited();
   }
 
   componentDidMount() {
     this.throttledScroll = this.handleScroll();
     this.setHeaderText();
     window.addEventListener("scroll", this.throttledScroll);
+    if (this.props.plpVisted) {
+      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+    }
   }
 
   setHeaderText = () => {

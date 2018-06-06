@@ -5,6 +5,8 @@ import EmiAccordion from "./EmiAccordion";
 import MenuDetails from "../../general/components/MenuDetails.js";
 import { SUCCESS } from "../../lib/constants";
 import styles from "./CheckoutEmi.css";
+const EMI_ERROR_TEXT =
+  "This order amount doesn't meet the EMI eligibility criterion.";
 
 export default class CheckoutEmi extends React.Component {
   binValidation = (paymentMode, binNo) => {
@@ -41,7 +43,7 @@ export default class CheckoutEmi extends React.Component {
             />
           )}
         {!this.props.cart.emiBankDetails && (
-          <div className={styles.errorText}>{this.props.cart.emiBankError}</div>
+          <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
         )}
       </div>
     );
