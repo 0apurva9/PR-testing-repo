@@ -10,7 +10,7 @@ import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import MediaQuery from "react-responsive";
 import dropDownSortIcon from "../../cart/components/img/googleSearch.png";
-import SortModalDesktopContainers from "../containers/SortModalDesktopContainers";
+import SortDesktopContainer from "../containers/SortDesktopContainer";
 import {
   PRODUCT_DESCRIPTION_ROUTER,
   IS_OFFER_EXISTING,
@@ -117,7 +117,7 @@ export default class ProductGrid extends React.Component {
           </MediaQuery>
           <MediaQuery query="(min-device-width:1025px)">
             <div className={styles.sort}>
-              <SortModalDesktopContainers />
+              <SortDesktopContainer />
             </div>
           </MediaQuery>
           <div className={styles.icon} onClick={() => this.switchView()}>

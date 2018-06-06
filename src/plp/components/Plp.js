@@ -197,7 +197,12 @@ export default class Plp extends React.Component {
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}
           <MediaQuery query="(min-device-width: 1025px)">
             <div className={styles.headerText}>
-              <PlpDesktopHeader {...this.props} />
+              <PlpDesktopHeader
+                productListings={
+                  this.props.productListings && this.props.productListings
+                }
+                match={this.props.match && this.props.match}
+              />
             </div>
             <div className={styles.totalProduct}>
               {this.props.productListings &&

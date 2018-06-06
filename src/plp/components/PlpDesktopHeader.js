@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./PlpDesktopHeader.css";
 
 export default class PlpDesktopHeader extends React.Component {
@@ -25,6 +24,8 @@ export default class PlpDesktopHeader extends React.Component {
           headingText = `Search results`;
         }
       }
+    } else {
+      headingText = "";
     }
     return <div className={styles.base}>{headingText}</div>;
   }
