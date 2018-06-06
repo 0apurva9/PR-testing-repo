@@ -102,7 +102,9 @@ export default class ProductDetailsCard extends React.Component {
               Rating{" "}
               <span>
                 {" "}
-                <span>{Math.floor(this.props.averageRating)}</span>/5
+                <span>
+                  {Math.round(this.props.averageRating * 100) / 100}
+                </span>/5
               </span>
             </div>
           )}
