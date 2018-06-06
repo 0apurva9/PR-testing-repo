@@ -19,7 +19,7 @@ import format from "date-fns/format";
 const REMOVE = "Remove";
 const APPLY = "Apply";
 const USER_COUPON_NOTE =
-  "Note : Additional Bank offers, if applicable, can be applied during payment";
+  "Note: Additional Bank offers, if applicable, can be applied during payment";
 const isStickyHeader = !(
   navigator.userAgent && navigator.userAgent.match(/SamsungBrowser/i)
 );
