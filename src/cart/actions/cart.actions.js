@@ -1106,7 +1106,7 @@ export function generateCartIdForLoggedInUser() {
           JSON.parse(userDetails).userName
         }/carts?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
 
@@ -1155,7 +1155,7 @@ export function generateCartIdForAnonymous() {
       const result = await api.post(
         `${USER_CART_PATH}/anonymous/carts?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1310,7 +1310,7 @@ export function mergeCartId(cartGuId) {
           JSON.parse(userDetails).userName
         }&oldCartId=${
           JSON.parse(cartDetailsAnonymous).guid
-        }&toMergeCartGuid=${cartGuId}`
+        }&toMergeCartGuid=${cartGuId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
@@ -2485,7 +2485,7 @@ export function createJusPayOrder(
           jusPayUrl
         )}&bankName=${
           bankName ? bankName : ""
-        }&paymentMode=${currentSelectedPaymentMode}`,
+        }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2548,7 +2548,7 @@ export function createJusPayOrderForGiftCard(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }`
+        }&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2602,7 +2602,7 @@ export function createJusPayOrderForNetBanking(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true`,
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2655,7 +2655,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true`
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2719,7 +2719,7 @@ export function createJusPayOrderForSavedCards(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true`,
+        }&isPwa=true&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2779,7 +2779,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2839,7 +2839,7 @@ export function createJusPayOrderForCliqCash(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${CLIQ_CASH}&isPwa=true`,
+        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
