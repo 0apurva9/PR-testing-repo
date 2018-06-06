@@ -45,9 +45,6 @@ export default class Sort extends React.Component {
         icid2,
         cid
       );
-
-      console.log("URL");
-      console.log(url);
       this.props.history.push(url, {
         isFilter: false
       });
