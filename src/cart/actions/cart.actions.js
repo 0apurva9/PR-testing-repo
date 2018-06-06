@@ -3514,7 +3514,7 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
           JSON.parse(userDetails).userName
         }/payments/updateTransactionDetailsforCOD?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
