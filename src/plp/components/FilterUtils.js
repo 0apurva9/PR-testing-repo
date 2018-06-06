@@ -34,6 +34,9 @@ export function insertSubStringAt(str, toInsert, index) {
 
 export function createUrlFromQueryAndCategory(query, pathName, val) {
   let url;
+  console.log("CREATE URL FROM QUERY AND CATEGORy");
+  console.log(query);
+  console.log(pathName);
   if (query) {
     // deal with the searchCategory case
     if (query.indexOf("searchCategory") > -1) {
