@@ -1742,6 +1742,7 @@ class CheckOutPage extends React.Component {
     }
   };
   applyBankCoupons = async val => {
+
     if (val.length > 0) {
       const applyCouponReq = await this.props.applyBankOffer(val[0]);
 
@@ -1749,10 +1750,14 @@ class CheckOutPage extends React.Component {
         this.setState({ selectedBankOfferCode: val[0] });
       }
     } else {
-      const releaseCouponReq = await this.props.releaseBankOffer(val[0]);
+     let  bankOffer=localStorage.getItem(BANK_COUPON_COOKIE);
+     if(bankOffer)
+     {
+      const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
       if (releaseCouponReq.status === SUCCESS) {
         this.setState({ selectedBankOfferCode: "" });
       }
+    }
     }
   };
   openBankOffers = () => {
