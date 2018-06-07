@@ -30,7 +30,6 @@ export default class CliqAndCash extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.cliqCashVoucherDetailsStatus);
     if (
       nextProps.cliqCashVoucherDetailsStatus === SUCCESS ||
       nextProps.cliqCashVoucherDetailsStatus === SUCCESS_CAMEL_CASE ||
