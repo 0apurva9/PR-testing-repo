@@ -60,9 +60,6 @@ const mapDispatchToProps = dispatch => {
       const loadGoogleSdkResponse = await loadGoogleSignInApi();
       if (loadGoogleSdkResponse.status === ERROR) {
         dispatch(singleAuthCallHasFailed(loadGoogleSdkResponse.description));
-        // as loading the google sign in api has nothing with redux state
-        // we manually trigger the toast error here
-        dispatch(displayToast("SDK Failed to load, check Google Client ID"));
         return;
       }
     },
