@@ -1510,8 +1510,7 @@ class CheckOutPage extends React.Component {
         true // for payment failure we need to use old cart id
       );
     }
-
-    if (this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+    if (this.state.currentPaymentMode ==="Cash on Delivery" && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
     if (!this.state.isNoCostEmiApplied) {
@@ -1591,7 +1590,7 @@ class CheckOutPage extends React.Component {
           );
         }
       }
-      if (
+       if (
         this.state.currentPaymentMode === CREDIT_CARD ||
         (this.state.currentPaymentMode === EMI &&
           !this.state.isNoCostEmiApplied) ||
@@ -1629,8 +1628,7 @@ class CheckOutPage extends React.Component {
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
-
-      if (this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+      if (this.state.currentPaymentMode ==="Cash on Delivery" && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
         this.softReservationForCODPayment();
       }
       if (this.state.paymentModeSelected === PAYTM) {
