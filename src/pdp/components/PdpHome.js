@@ -5,7 +5,7 @@ import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-
+import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Accordion from "../../general/components/Accordion.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -522,6 +522,9 @@ export default class PdpApparel extends React.Component {
           )}
           <div className={styles.blankSeparator} />
           <PDPRecommendedSectionsContainer />
+          <div className={styles.trustLogo}>
+            <Image image={TrustBadgeImage} fit="cover" />
+          </div>
         </PdpFrame>
       );
     } else {
