@@ -301,7 +301,6 @@ export default class PdpApparel extends React.Component {
     }
   };
   render() {
-    console.log("hereee");
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
       ? productData.galleryImagesList
