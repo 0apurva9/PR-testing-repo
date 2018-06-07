@@ -120,6 +120,7 @@ const PLACE_ORDER = "Place Order";
 const PAY_NOW = "Pay Now";
 const OUT_OF_STOCK_MESSAGE = "Some Products are out of stock";
 export const EGV_GIFT_CART_ID = "giftCartId";
+const CASH_ON_DELIVERY_TEXT="Cash on Delivery"
 class CheckOutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -1510,8 +1511,7 @@ class CheckOutPage extends React.Component {
         true // for payment failure we need to use old cart id
       );
     }
-
-    if (this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+    if (this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
     if (!this.state.isNoCostEmiApplied) {
@@ -1591,7 +1591,7 @@ class CheckOutPage extends React.Component {
           );
         }
       }
-      if (
+       if (
         this.state.currentPaymentMode === CREDIT_CARD ||
         (this.state.currentPaymentMode === EMI &&
           !this.state.isNoCostEmiApplied) ||
@@ -1629,8 +1629,7 @@ class CheckOutPage extends React.Component {
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
-
-      if (this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+      if (this.state.currentPaymentMode ===CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
         this.softReservationForCODPayment();
       }
       if (this.state.paymentModeSelected === PAYTM) {
