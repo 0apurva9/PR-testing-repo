@@ -39,6 +39,11 @@ export default class SocialButtons extends Component {
       js.src = FACEBOOK_SDK;
       fjs.parentNode.insertBefore(js, fjs);
     })(document, SCRIPT, FACEBOOK_JSDK);
+
+    //loadGoogleSdk
+    if (this.props.loadGoogleSdk) {
+      this.props.loadGoogleSdk();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
