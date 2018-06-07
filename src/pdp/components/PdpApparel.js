@@ -5,7 +5,7 @@ import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
 import Accordion from "../../general/components/Accordion.js";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-
+import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import * as Cookie from "../../lib/Cookie";
 import {
   CUSTOMER_ACCESS_TOKEN,
@@ -301,6 +301,7 @@ export default class PdpApparel extends React.Component {
     }
   };
   render() {
+    console.log("hereee");
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
       ? productData.galleryImagesList
@@ -489,6 +490,9 @@ export default class PdpApparel extends React.Component {
           <div className={styles.details} />
           <div className={styles.blankSeparator} />
           <PDPRecommendedSectionsContainer />
+          <div className={styles.trustLogo}>
+            <Image image={TrustBadgeImage} fit="cover" />
+          </div>
         </PdpFrame>
       );
     } else {

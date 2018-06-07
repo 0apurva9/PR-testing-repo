@@ -137,7 +137,7 @@ class HeaderWrapper extends React.Component {
     let isCross = false;
     let isLogo = false;
     let shouldRenderHeader = true;
-    let companyLogoInPdp = false;
+    let companyLogoInPdp = true;
     if (url === PRODUCT_CART_ROUTER) {
       shouldRenderSearch = false;
     }
