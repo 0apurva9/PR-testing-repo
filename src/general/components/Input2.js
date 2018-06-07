@@ -9,6 +9,9 @@ export default class Input2 extends React.Component {
       value: props.value ? props.value : ""
     };
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.value });
+  }
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
