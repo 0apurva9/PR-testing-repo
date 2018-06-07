@@ -60,4 +60,10 @@
     right: 50px;
     height: auto;
   }
+  .header {
+    top: -70px;
+    right: -10px;
+    width: auto;
+    position: absolute;
+  }
 }
