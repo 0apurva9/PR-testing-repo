@@ -11,6 +11,12 @@ export default class OrderCard extends React.Component {
       this.props.onClick();
     }
   }
+
+  reSendEmailForGiftCard = () => {
+    if (this.props.reSendEmailForGiftCard) {
+      this.props.reSendEmailForGiftCard();
+    }
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -47,6 +53,15 @@ export default class OrderCard extends React.Component {
                         this.props.price
                       )}`}
               </div>
+              {this.props.isEgvOrder &&
+                this.props.resendAvailable && (
+                  <div
+                    className={styles.reSendEmail}
+                    onClick={() => this.reSendEmailForGiftCard()}
+                  >
+                    Resend Email
+                  </div>
+                )}
               {this.props.discountPrice &&
                 this.props.discountPrice !== this.props.price && (
                   <div className={styles.discountPrice}>
