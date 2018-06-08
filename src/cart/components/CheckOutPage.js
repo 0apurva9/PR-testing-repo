@@ -1008,7 +1008,7 @@ class CheckOutPage extends React.Component {
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
     this.setState({ orderId: orderId });
-    if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS) {
+    if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS && !this.props.cart.isPaymentProceeded) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
