@@ -80,7 +80,7 @@ export default class Plp extends React.Component {
     this.throttledScroll = this.handleScroll();
     this.setHeaderText();
     window.addEventListener("scroll", this.throttledScroll);
-    if (this.props.plpVisted) {
+    if (this.props.plpVisited) {
       setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
     }
   }

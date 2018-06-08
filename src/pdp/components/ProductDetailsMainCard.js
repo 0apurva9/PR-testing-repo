@@ -47,7 +47,7 @@ export default class ProductDetailsMainCard extends React.Component {
       : this.props.price;
     let averageRating = "";
     if (this.props.averageRating) {
-      averageRating = Math.floor(this.props.averageRating);
+      averageRating = Math.round(this.props.averageRating * 100) / 100;
     }
 
     return (

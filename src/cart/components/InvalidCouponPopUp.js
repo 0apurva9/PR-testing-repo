@@ -167,7 +167,7 @@ export default class InvalidCouponPopUp extends React.Component {
           <div className={styles.headingText}>Different Payment Method</div>
           <div className={styles.descriptionText}>
             <div className={styles.invalidCouponHeading}>
-              The payment mode can not be used because :
+              This payment mode can't be used because:
             </div>
 
             {data &&
@@ -207,13 +207,13 @@ export default class InvalidCouponPopUp extends React.Component {
                   {data.bankOffer &&
                     data.bankOffer.status &&
                     data.bankOffer.status.toLowerCase() === SUCCESS && (
-                      <div>You may have to select a bank offer again."</div>
+                      <div>You may have to select a bank offer again.</div>
                     )}
                   {data.noCostEmiCoupon &&
                     data.noCostEmiCoupon.status &&
                     data.noCostEmiCoupon.status.toLowerCase() === SUCCESS && (
                       <div>
-                        You may have to select a No Cost EMI plan again."
+                        You may have to select a No Cost EMI plan again.
                       </div>
                     )}
                 </div>
@@ -252,7 +252,7 @@ export default class InvalidCouponPopUp extends React.Component {
               <Button
                 type="secondary"
                 height={36}
-                label="Continue without coupon"
+                label="Continue without offers"
                 width={211}
                 onClick={() => this.continueWithoutCoupon()}
               />
