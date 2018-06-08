@@ -25,6 +25,7 @@ export default class OfferCard extends React.Component {
           }
           onClick={this.handleShowDetails}
         >
+          <div className={styles.offerText}>Offer(s)</div>
           {this.props.potentialPromotions && (
             <div
               className={styles.headingText}
