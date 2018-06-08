@@ -87,6 +87,7 @@
     font-family: regular;
     position: relative;
     margin: 5px;
+    cursor: pointer;
   }
   .cancelIcon {
     position: absolute;
