@@ -6,10 +6,10 @@
   left: 0;
   z-index: 70;
   background: #fff;
-  top: -50px;
+  top: 0px;
   right: 0;
   bottom: 0;
-  padding: 95px 20px 20px 20px;
+  padding: 0px 20px 20px 20px;
   background-color: #ececec;
   transition: 300ms;
   transform: translateX(-100%);
