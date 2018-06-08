@@ -7,7 +7,7 @@ import OrderDelivered from "./OrderDelivered.js";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import format from "date-fns/format";
-
+import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { Redirect } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -32,6 +32,13 @@ const dateFormat = "DD MMM YYYY";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
+const Loader = () => {
+  return (
+    <div>
+      <SecondaryLoader />
+    </div>
+  );
+};
 export default class AllOrderDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +46,7 @@ export default class AllOrderDetails extends React.Component {
       showOrder: null
     };
   }
+
   onClickImage(isEgvOrder, productCode) {
     if (!isEgvOrder && productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
@@ -130,6 +138,11 @@ export default class AllOrderDetails extends React.Component {
   navigateToLogin() {
     return <Redirect to={LOGIN_PATH} />;
   }
+  reSendEmailForGiftCard = orderId => {
+    if (this.props.reSendEmailForGiftCard) {
+      this.props.reSendEmailForGiftCard(orderId);
+    }
+  };
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -137,6 +150,9 @@ export default class AllOrderDetails extends React.Component {
       return this.navigateToLogin();
     }
     const orderDetails = this.props.profile.orderDetails;
+    if (this.props.profile.reSendEmailLoader) {
+      return Loader();
+    }
     return (
       <div className={styles.base}>
         {orderDetails && orderDetails.orderData
@@ -210,6 +226,10 @@ export default class AllOrderDetails extends React.Component {
                           orderDetails.products[0].productName
                         }
                         isEgvOrder={orderDetails.isEgvOrder}
+                        resendAvailable={orderDetails.resendAvailable}
+                        reSendEmailForGiftCard={() =>
+                          this.reSendEmailForGiftCard(orderDetails.orderId)
+                        }
                         egvCardNumber={orderDetails.egvCardNumber}
                         onClick={() =>
                           this.onClickImage(
