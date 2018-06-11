@@ -89,6 +89,7 @@ class ProductListingsPage extends Component {
     }
 
     if (this.props.isGoBackFromPdpPage && this.props.plpVisited) {
+      console.log("plp visited");
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
