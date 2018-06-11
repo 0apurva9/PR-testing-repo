@@ -120,7 +120,7 @@ const PLACE_ORDER = "Place Order";
 const PAY_NOW = "Pay Now";
 const OUT_OF_STOCK_MESSAGE = "Some Products are out of stock";
 export const EGV_GIFT_CART_ID = "giftCartId";
-const CASH_ON_DELIVERY_TEXT="Cash on Delivery"
+const CASH_ON_DELIVERY_TEXT = "Cash on Delivery";
 class CheckOutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -1001,14 +1001,22 @@ class CheckOutPage extends React.Component {
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
-    setDataLayerForCheckoutDirectCalls(
-      ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
-    );
+
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
+    if (!orderId) {
+      setDataLayerForCheckoutDirectCalls(
+        ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
+      );
+    }
     this.setState({ orderId: orderId });
-    if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS && !this.props.cart.isPaymentProceeded) {
+    if (
+      value &&
+      value !== JUS_PAY_CHARGED &&
+      value !== JUS_PAY_SUCCESS &&
+      !this.props.cart.isPaymentProceeded
+    ) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
@@ -1511,7 +1519,11 @@ class CheckOutPage extends React.Component {
         true // for payment failure we need to use old cart id
       );
     }
-    if (this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+    if (
+      this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT &&
+      this.state.binValidationCOD &&
+      !this.state.isCliqCashApplied
+    ) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
     if (!this.state.isNoCostEmiApplied) {
@@ -1591,7 +1603,7 @@ class CheckOutPage extends React.Component {
           );
         }
       }
-       if (
+      if (
         this.state.currentPaymentMode === CREDIT_CARD ||
         (this.state.currentPaymentMode === EMI &&
           !this.state.isNoCostEmiApplied) ||
@@ -1629,7 +1641,11 @@ class CheckOutPage extends React.Component {
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
-      if (this.state.currentPaymentMode ===CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+      if (
+        this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT &&
+        this.state.binValidationCOD &&
+        !this.state.isCliqCashApplied
+      ) {
         this.softReservationForCODPayment();
       }
       if (this.state.paymentModeSelected === PAYTM) {
@@ -1741,7 +1757,6 @@ class CheckOutPage extends React.Component {
     }
   };
   applyBankCoupons = async val => {
-
     if (val.length > 0) {
       const applyCouponReq = await this.props.applyBankOffer(val[0]);
 
@@ -1749,14 +1764,13 @@ class CheckOutPage extends React.Component {
         this.setState({ selectedBankOfferCode: val[0] });
       }
     } else {
-     let  bankOffer=localStorage.getItem(BANK_COUPON_COOKIE);
-     if(bankOffer)
-     {
-      const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
-      if (releaseCouponReq.status === SUCCESS) {
-        this.setState({ selectedBankOfferCode: "" });
+      let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);
+      if (bankOffer) {
+        const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
+        if (releaseCouponReq.status === SUCCESS) {
+          this.setState({ selectedBankOfferCode: "" });
+        }
       }
-    }
     }
   };
   openBankOffers = () => {

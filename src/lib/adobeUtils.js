@@ -97,7 +97,7 @@ const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
 
 const SIGN_UP_START = "signup_starts";
 const SIGN_UP_SUCCESS = "signup_successful";
-const LOGOUT_SUCCESS = "logout_successfu";
+const LOGOUT_SUCCESS = "logout_successful";
 
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
@@ -240,6 +240,7 @@ const EMAIL = "email";
 const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
 export function setDataLayer(type, apiResponse, icid, icidType) {
+  console.log(type, apiResponse, icid, icidType);
   const response = cloneDeep(apiResponse);
   const previousDigitalData = cloneDeep(window.digitalData);
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
@@ -1123,6 +1124,9 @@ export function setDataLayerForPlpDirectCalls(response) {
 }
 export function setDataLayerForLogin(type) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+  }
   const data = {};
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
     if (userDetails) {
@@ -1518,6 +1522,7 @@ export function setDataLayerForMyAccountDirectCalls(
       window._satellite.track(ADOBE_ORDER_RETURN);
     }
   }
+  debugger;
 }
 export function getDigitalDataForMyAccount(pageTitle, response) {
   const data = {
