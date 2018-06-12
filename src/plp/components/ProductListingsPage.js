@@ -88,13 +88,15 @@ class ProductListingsPage extends Component {
       return;
     }
 
-    if (this.props.isGoBackFromPdpPage && this.props.plpVisited) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(true), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
       return;
@@ -181,15 +183,18 @@ class ProductListingsPage extends Component {
 
   componentDidUpdate() {
     let page = null;
-    if (this.props.isGoBackFromPdpPage) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
+      return;
     }
 
     if (this.props.match.path === SKU_PAGE) {

@@ -34,11 +34,9 @@ export const SET_PAGE = "SET_PAGE";
 export const FILTER_HAS_BEEN_CLICKED = "FILTER_HAS_BEEN_CLICKED";
 export const SORT_HAS_BEEN_CLICKED = "SORT_HAS_BEEN_CLICKED";
 
-export const IS_GO_BACK_FROM_PDP = "IS_GO_BACK_FROM_PDP";
-export const IS_NOT_GO_BACK_FROM_PDP = "IS_NOT_GO_BACK_FROM_PDP";
-
 export const SET_PRODUCT_MODULE_REF = "SET_PRODUCT_MODULE_REF";
 export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
+export const SET_PLP_PATH = "SET_PLP_PATH";
 
 export function setProductModuleRef(ref) {
   return {
@@ -50,17 +48,6 @@ export function setProductModuleRef(ref) {
 export function clearProductModuleRef() {
   return {
     type: CLEAR_PRODUCT_MODULE_REF
-  };
-}
-export function setIsGoBackFromPDP() {
-  return {
-    type: IS_GO_BACK_FROM_PDP
-  };
-}
-
-export function setIsNotGoBackFromPDP() {
-  return {
-    type: IS_NOT_GO_BACK_FROM_PDP
   };
 }
 
@@ -75,14 +62,11 @@ export function setIfFilterHasBeenClicked() {
     type: FILTER_HAS_BEEN_CLICKED
   };
 }
-export function plpHasBeenVisited() {
+
+export function setLastPlpPath(url) {
   return {
-    type: PLP_HAS_BEEN_VISITED
-  };
-}
-export function plpHasNotBeenVisited() {
-  return {
-    type: PLP_HAS_NOT_BEEN_VISITED
+    type: SET_PLP_PATH,
+    url: url
   };
 }
 
@@ -236,6 +220,7 @@ export function getProductListings(
         dispatch(hideSecondaryLoader());
       } else {
         dispatch(getProductListingsSuccess(resultJson, paginated));
+        dispatch(setLastPlpPath(window.location.href));
         dispatch(hideSecondaryLoader());
       }
     } catch (e) {
