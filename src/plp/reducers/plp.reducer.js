@@ -18,7 +18,8 @@ const productListings = (
     sortHasBeenClicked: false,
     isGoBackFromPdpPage: false,
     clickedProductModuleRef: null,
-    plpVisited: false
+    plpVisited: false,
+    lastVisitedPlp: null
   },
   action
 ) => {
@@ -52,6 +53,10 @@ const productListings = (
     case plpActions.PLP_HAS_NOT_BEEN_VISITED:
       return Object.assign({}, state, {
         plpVisited: false
+      });
+    case plpActions.SET_PLP_PATH:
+      return Object.assign({}, state, {
+        lastVisitedPlp: action.url
       });
     case plpActions.SORT_HAS_BEEN_CLICKED:
       return Object.assign({}, state, {

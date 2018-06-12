@@ -69,7 +69,9 @@ export default class Plp extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
-    this.props.plpHasBeenVisited();
+    if (this.props.setLastPlpPath) {
+      this.props.setLastPlpPath(this.props.location.pathname);
+    }
   }
 
   componentDidMount() {
@@ -173,6 +175,7 @@ export default class Plp extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     let selectedFilterCount = 0;
     let filterSelected = false;
     let hasSorts = false;

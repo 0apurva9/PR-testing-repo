@@ -39,6 +39,7 @@ export const IS_NOT_GO_BACK_FROM_PDP = "IS_NOT_GO_BACK_FROM_PDP";
 
 export const SET_PRODUCT_MODULE_REF = "SET_PRODUCT_MODULE_REF";
 export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
+export const SET_PLP_PATH = "SET_PLP_PATH";
 
 export function setProductModuleRef(ref) {
   return {
@@ -75,14 +76,11 @@ export function setIfFilterHasBeenClicked() {
     type: FILTER_HAS_BEEN_CLICKED
   };
 }
-export function plpHasBeenVisited() {
+
+export function setLastPlpPath(url) {
   return {
-    type: PLP_HAS_BEEN_VISITED
-  };
-}
-export function plpHasNotBeenVisited() {
-  return {
-    type: PLP_HAS_NOT_BEEN_VISITED
+    type: SET_PLP_PATH,
+    url: url
   };
 }
 

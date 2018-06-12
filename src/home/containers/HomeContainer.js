@@ -5,7 +5,6 @@ import {
   setPageFeedSize
 } from "../actions/home.actions";
 import { getCartId } from "../../cart/actions/cart.actions";
-import { plpHasNotBeenVisited } from "../../plp/actions/plp.actions";
 import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
 import Feed from "../components/Feed";
 import { setHeaderText } from "../../general/header.actions";
@@ -31,9 +30,6 @@ const mapDispatchToProps = dispatch => {
     },
     setPageFeedSize: size => {
       dispatch(setPageFeedSize(size));
-    },
-    plpHasNotBeenVisited: () => {
-      dispatch(plpHasNotBeenVisited());
     }
   };
 };

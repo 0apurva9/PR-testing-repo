@@ -88,7 +88,10 @@ class ProductListingsPage extends Component {
       return;
     }
 
-    if (this.props.isGoBackFromPdpPage && this.props.plpVisited) {
+    console.log(this.props.lastVisitedPlp);
+    console.log(this.props.location.pathname);
+    //    if (this.props.isGoBackFromPdpPage && this.props.plpVisited) {
+    if (this.props.lastVisitedPlp === this.props.location.pathname) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
@@ -181,7 +184,7 @@ class ProductListingsPage extends Component {
 
   componentDidUpdate() {
     let page = null;
-    if (this.props.isGoBackFromPdpPage) {
+    if (this.props.lastVisitedPlp === this.props.location.pathname) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
@@ -190,6 +193,7 @@ class ProductListingsPage extends Component {
           delay(() => clickedElement.scrollIntoView(), 50);
         }
       }
+      return;
     }
 
     if (this.props.match.path === SKU_PAGE) {

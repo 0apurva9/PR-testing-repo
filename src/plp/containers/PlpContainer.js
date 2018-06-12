@@ -8,7 +8,7 @@ import {
   hideFilter,
   setIfFilterHasBeenClicked,
   setProductModuleRef,
-  plpHasBeenVisited
+  setLastPlpPath
 } from "../../plp/actions/plp.actions.js";
 import { displayToast } from "../../general/toast.actions";
 
@@ -29,9 +29,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showFilter: () => {
       dispatch(showFilter());
     },
-    plpHasBeenVisited: () => {
-      dispatch(plpHasBeenVisited());
-    },
     hideFilter: () => {
       dispatch(hideFilter());
     },
@@ -40,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setProductModuleRef: ref => {
       dispatch(setProductModuleRef(ref));
+    },
+    setLastPlpPath: url => {
+      dispatch(setLastPlpPath(url));
     }
   };
 };
