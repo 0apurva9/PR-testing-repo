@@ -212,6 +212,9 @@ class Feed extends Component {
         }
       }
     }
+    if (this.props.clearProductModuleRef) {
+      this.props.clearProductModuleRef();
+    }
   }
   componentDidUpdate() {
     if (this.props.homeFeedData && !this.props.headerMessage) {

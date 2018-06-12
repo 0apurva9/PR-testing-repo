@@ -3,7 +3,11 @@ import { showModal, SORT } from "../../general/modal.actions";
 import ProductListingsPage from "../components/ProductListingsPage";
 import { withRouter } from "react-router-dom";
 import { setSearchString } from "../../search/actions/search.actions.js";
-import { getProductListings, setPage } from "../actions/plp.actions.js";
+import {
+  getProductListings,
+  setPage,
+  clearProductModuleRef
+} from "../actions/plp.actions.js";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -18,6 +22,9 @@ const mapDispatchToProps = dispatch => {
     paginate: (page, suffix) => {
       dispatch(setPage(page));
       dispatch(getProductListings(suffix, true, false));
+    },
+    clearProductModuleRef: () => {
+      dispatch(clearProductModuleRef());
     }
   };
 };

@@ -94,7 +94,9 @@ class ProductListingsPage extends Component {
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(true), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
       return;
@@ -187,7 +189,12 @@ class ProductListingsPage extends Component {
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+            setTimeout(() => {
+              this.props.clearProductModuleRef();
+            });
+          }, 50);
         }
       }
       return;
