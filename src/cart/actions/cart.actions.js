@@ -70,7 +70,8 @@ import {
   ADOBE_FINAL_PAYMENT_MODES,
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON,
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF,
-  ADOBE_MY_ACCOUNT_ADDRESS_BOOK
+  ADOBE_MY_ACCOUNT_ADDRESS_BOOK,
+  ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED
 } from "../../lib/adobeUtils";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const USER_CART_PATH = "v2/mpl/users";
@@ -1538,6 +1539,7 @@ export function addPickupPersonCNC(personMobile, personName) {
           false
         )
       );
+      setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED);
       return dispatch(addPickUpPersonSuccess(resultJson));
     } catch (e) {
       return dispatch(addPickUpPersonFailure(e.message));
@@ -2182,6 +2184,7 @@ export function softReservationPaymentForNetBanking(
           pinCode
         )
       );
+      setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }

@@ -156,6 +156,7 @@ export function addProductToWishList(productDetails, setDataLayerType: null) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
       if (setDataLayerType === SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP) {
         setDataLayerForPdpDirectCalls(
           SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP

@@ -55,6 +55,7 @@ const ADOBE_CLIQ_CASH_OFF = "CPJ_Checkout_Payment_ToggleOff";
 const ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS =
   "cpj_checkout_payment_coupon_success";
 const ADOBE_CHECKOUT_APPLY_COUPON_FAILURE = "cpj_checkout_payment_coupon_fail";
+const ADOBE_CHECKOUT_APPLIED_CNC = "CPJ_Checkout_Delivery_CLiQ";
 // end of checkout adobe constants
 // direct call for login tracking
 
@@ -170,6 +171,8 @@ export const ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS =
   "ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS";
 export const ADOBE_CALL_FOR_APPLY_COUPON_FAILURE =
   "ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_FAILURE";
+export const ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED =
+  "ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED";
 
 // end of constants for checkout pages
 
@@ -240,7 +243,6 @@ const EMAIL = "email";
 const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
 export function setDataLayer(type, apiResponse, icid, icidType) {
-  console.log(type, apiResponse, icid, icidType);
   const response = cloneDeep(apiResponse);
   const previousDigitalData = cloneDeep(window.digitalData);
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
@@ -1063,7 +1065,7 @@ export function getDigitalDataForSearchPageSuccess(response) {
     internal: {
       search: {
         category: "all",
-        results: response.searchresult ? response.searchresult.length : 0,
+        results: response.pagination ? response.pagination.totalResults : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null
       }
     }
@@ -1389,6 +1391,11 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       }
     }
   }
+  if (type === ADOBE_CHECKOUT_APPLIED_CNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED);
+    }
+  }
 
   if (type === ADOBE_FINAL_PAYMENT_MODES) {
     const finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
@@ -1431,6 +1438,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       window._satellite.track(ADOBE_FINAL_PAYMENT);
     }
   }
+
   if (type === ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_LANDS_ON_PAYMENT_MODES);
@@ -1522,7 +1530,6 @@ export function setDataLayerForMyAccountDirectCalls(
       window._satellite.track(ADOBE_ORDER_RETURN);
     }
   }
-  debugger;
 }
 export function getDigitalDataForMyAccount(pageTitle, response) {
   const data = {
@@ -1720,6 +1727,7 @@ function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
       display: { hierarchy: `"home"|"${pageTitle}"` }
     }
   };
+
   return data;
 }
 function getDigitalDataForStatic(response) {
