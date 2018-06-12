@@ -7,8 +7,7 @@ import {
   showFilter,
   hideFilter,
   setIfFilterHasBeenClicked,
-  setProductModuleRef,
-  setLastPlpPath
+  setProductModuleRef
 } from "../../plp/actions/plp.actions.js";
 import { displayToast } from "../../general/toast.actions";
 
@@ -37,9 +36,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setProductModuleRef: ref => {
       dispatch(setProductModuleRef(ref));
-    },
-    setLastPlpPath: url => {
-      dispatch(setLastPlpPath(url));
     }
   };
 };
@@ -58,8 +54,7 @@ const mapStateToProps = (state, ownProps) => {
     productListings: state.productListings.productListings,
     pageNumber: state.productListings.pageNumber,
     loading: state.productListings.loading,
-    searchresult: state.productListings.searchresult,
-    plpVisited: state.productListings.plpVisited
+    searchresult: state.productListings.searchresult
   };
 };
 

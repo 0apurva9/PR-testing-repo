@@ -88,7 +88,7 @@ class ProductListingsPage extends Component {
       return;
     }
 
-    if (this.props.lastVisitedPlp === this.props.location.pathname) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
@@ -181,7 +181,7 @@ class ProductListingsPage extends Component {
 
   componentDidUpdate() {
     let page = null;
-    if (this.props.lastVisitedPlp === this.props.location.pathname) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef

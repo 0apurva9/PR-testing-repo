@@ -25,10 +25,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state, ownProps) => {
   return {
     searchText: ownProps.searchText ? ownProps.searchText : null,
-    isGoBackFromPdpPage: state.productListings.isGoBackFromPdpPage,
     clickedProductModuleRef: state.productListings.clickedProductModuleRef,
-    plpVisited: state.productListings.plpVisited,
-    lastVisitedPlp: state.productListings.lastVisitedPlp
+    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl
   };
 };
 
