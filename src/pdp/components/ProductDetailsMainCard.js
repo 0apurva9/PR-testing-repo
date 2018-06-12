@@ -49,7 +49,7 @@ export default class ProductDetailsMainCard extends React.Component {
     if (this.props.averageRating) {
       averageRating = Math.round(this.props.averageRating * 100) / 100;
     }
-    console.log(this.props);
+
     return (
       <div className={styles.base}>
         {this.renderSchemaTags()}
