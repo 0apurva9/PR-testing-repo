@@ -76,11 +76,8 @@ class ProductListingsPage extends Component {
     }
     if (searchText) {
       searchText = searchText.replace("+", " ");
-      searchText = searchText.replace(
-        MAX_PRICE_FROM_API,
-        MAX_PRICE_FROM_API_2,
-        MAX_PRICE_FROM_UI
-      );
+      searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
+      searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
     return encodeURIComponent(searchText);
   }
