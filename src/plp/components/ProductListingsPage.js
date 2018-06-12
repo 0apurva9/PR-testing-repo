@@ -191,9 +191,6 @@ class ProductListingsPage extends Component {
         if (clickedElement) {
           delay(() => {
             clickedElement.scrollIntoView();
-            setTimeout(() => {
-              this.props.clearProductModuleRef();
-            });
           }, 50);
         }
       }
