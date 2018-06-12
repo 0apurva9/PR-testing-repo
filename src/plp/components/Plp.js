@@ -175,7 +175,6 @@ export default class Plp extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     let selectedFilterCount = 0;
     let filterSelected = false;
     let hasSorts = false;
