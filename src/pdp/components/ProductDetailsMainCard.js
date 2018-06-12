@@ -49,7 +49,7 @@ export default class ProductDetailsMainCard extends React.Component {
     if (this.props.averageRating) {
       averageRating = Math.round(this.props.averageRating * 100) / 100;
     }
-
+    console.log(this.props);
     return (
       <div className={styles.base}>
         {this.renderSchemaTags()}
@@ -120,7 +120,7 @@ export default class ProductDetailsMainCard extends React.Component {
                   </span>/5
                   <meta
                     itemProp="reviewCount"
-                    content={this.props.totalNoOfReviews}
+                    content={this.props.numberOfReviews}
                   />
                 </div>
               )}
@@ -138,6 +138,7 @@ ProductDetailsMainCard.propTypes = {
   productName: PropTypes.string,
   productDescription: PropTypes.string,
   price: PropTypes.string,
+  numberOfReviews: PropTypes.number,
   discountPrice: PropTypes.string,
   averageRating: PropTypes.number,
   onClick: PropTypes.func,
