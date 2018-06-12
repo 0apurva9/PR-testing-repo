@@ -230,11 +230,6 @@ class Feed extends Component {
       this.props.setHeaderText(this.props.headerMessage);
     }
   }
-  componentWillUnmount() {
-    if (this.props.plpHasNotBeenVisited) {
-      this.props.plpHasNotBeenVisited();
-    }
-  }
 
   renderFeedComponent = (index, key) => {
     const feedDatum = this.props.homeFeedData[index];
