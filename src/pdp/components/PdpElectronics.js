@@ -334,6 +334,7 @@ export default class PdpElectronics extends React.Component {
                   history={this.props.history}
                   doublePrice={seoDoublePrice}
                   price={price}
+                  numberOfReviews={productData.numberOfReviews}
                   discountPrice={discountPrice}
                   averageRating={productData.averageRating}
                   goToReviewPage={this.goToReviewPage}
@@ -348,6 +349,7 @@ export default class PdpElectronics extends React.Component {
                   history={this.props.history}
                   price={discountPrice}
                   doublePrice={seoDoublePrice}
+                  numberOfReviews={productData.numberOfReviews}
                   discountPrice={price}
                   averageRating={productData.averageRating}
                   goToReviewPage={this.goToReviewPage}
@@ -484,7 +486,11 @@ export default class PdpElectronics extends React.Component {
                     if (val.specifications) {
                       return val.specifications.map(value => {
                         return (
-                          <div style={{ paddingBottom: 10 }}>
+                          <div
+                            style={{
+                              paddingBottom: 10
+                            }}
+                          >
                             <div className={styles.sideHeader}>{value.key}</div>
                             <div className={styles.sideContent}>
                               {value.value}
