@@ -1568,12 +1568,15 @@ class CheckOutPage extends React.Component {
             }
           ).length;
           if (sizeNew === actualProductSize) {
-            this.setState({
-              deliverMode: true
-            });
-            this.props.selectDeliveryMode(
-              this.state.ussIdAndDeliveryModesObj,
-              localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+            this.setState(
+              {
+                deliverMode: true
+              },
+              () =>
+                this.props.selectDeliveryMode(
+                  this.state.ussIdAndDeliveryModesObj,
+                  localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                )
             );
           } else {
             this.props.displayToast(SELECT_DELIVERY_MODE_MESSAGE);
