@@ -96,6 +96,13 @@ const ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME = "UAT_Mobile_Homepage_Mbox";
 const ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "UAT_Mobile_Homepage_Mbox";
 export const CATEGORY_REGEX = /msh[a-zA-Z0-9]+/;
 export const BRAND_REGEX = /mbh[a-zA-Z0-9]+/;
+export const SET_PAGE_FEED_SIZE = "SET_PAGE_FEED_SIZE";
+export function setPageFeedSize(pageSize) {
+  return {
+    type: SET_PAGE_FEED_SIZE,
+    pageSize
+  };
+}
 
 export function setClickedElementId(id) {
   return {

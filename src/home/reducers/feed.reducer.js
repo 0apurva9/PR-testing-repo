@@ -22,7 +22,8 @@ const feed = (
     useBackUpData: false,
     useBackUpHomeFeed: false,
     secondaryFeedStatus: null,
-    clickedElementId: null
+    clickedElementId: null,
+    pageSize: 1
   },
   action
 ) => {
@@ -34,6 +35,10 @@ const feed = (
     secondaryFeedData,
     clonedComponent;
   switch (action.type) {
+    case homeActions.SET_PAGE_FEED_SIZE:
+      return Object.assign({}, state, {
+        pageSize: action.pageSize
+      });
     case homeActions.SET_CLICKED_ELEMENT_ID:
       return Object.assign({}, state, {
         clickedElementId: action.id

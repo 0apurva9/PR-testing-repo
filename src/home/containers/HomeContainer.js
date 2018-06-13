@@ -29,6 +29,9 @@ const mapDispatchToProps = dispatch => {
     setClickedElementId: id => {
       dispatch(setClickedElementId(id));
     },
+    setPageFeedSize: size => {
+      dispatch(setPageFeedSize(size));
+    },
     clearProductModuleRef: () => {
       dispatch(clearProductModuleRef());
     }
@@ -55,7 +58,8 @@ const mapStateToProps = state => {
     loginFromMyBag: state.cart.loginFromMyBag,
     feedType: HOME_FEED_TYPE,
     clickedElementId: state.feed.clickedElementId,
-    pageSize: state.feed.pageSize
+    pageSize: state.feed.pageSize,
+    isHomePage: true
   };
 };
 

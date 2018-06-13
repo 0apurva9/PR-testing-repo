@@ -193,6 +193,13 @@ export const typeComponentMapping = {
 };
 
 class Feed extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 0
+    };
+    this.pageSize = this.props.pageSize;
+  }
   componentDidMount() {
     const titleObj =
       this.props.homeFeedData &&
@@ -238,6 +245,11 @@ class Feed extends Component {
     const feedDatum = this.props.homeFeedData[index];
     if (feedDatum.type === "Product Capsules Component") {
       return <ProductCapsulesContainer positionInFeed={index} />;
+    }
+
+    if (this.pageSize && index > this.pageSize && this.props.isHomePage) {
+      this.pageSize = index;
+      console.log(this.pageSize);
     }
 
     const setClickedElementId = (id => {
@@ -323,8 +335,14 @@ class Feed extends Component {
       ? renderMetaTags(data)
       : renderMetaTagsWithoutSeoObject(data);
   };
-
+  componentWillUnmount() {
+    if (this.props.setPageFeedSize && this.props.isHomePage) {
+      console.log("getting called");
+      this.props.setPageFeedSize(this.pageSize);
+    }
+  }
   render() {
+    console.log(this.props.pageSize);
     if (this.props.loading) {
       return <HomeSkeleton />;
     }
@@ -345,13 +363,12 @@ class Feed extends Component {
         };
       }
     }
-
     return (
       <React.Fragment>
         {this.renderMetaTags()}
         {this.props.homeFeedData ? (
           <List
-            pageSize={2}
+            pageSize={this.props.pageSize ? this.props.pageSize : 1}
             currentLength={this.props.homeFeedData.length}
             itemsRenderer={this.renderFeed}
           >
