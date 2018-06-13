@@ -1301,10 +1301,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       window._satellite.track(ADOBE_CONFIRM_ADDRESS);
     }
   }
-  if (
-    type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE ||
-    type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
-  ) {
+  if (type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE) {
     // herer we are getting all delivery modes and ussid in form of object
     // like {"MP12345678":"home_delivery","MP987654321":"expres_delivery"}
     // so here we need ot pass only "home_delivery"|"express_delivery"
@@ -1332,14 +1329,14 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
     }
 
     window.digitalData = data;
-    if (type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE) {
-      if (window._satellite) {
-        window._satellite.track(ADOBE_SELECT_DELIVERY_MODES);
-      }
-    } else {
-      if (window._satellite) {
-        window._satellite.track(ADOVE_PROCEED_FROM_DELIVERY_MODE);
-      }
+
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SELECT_DELIVERY_MODES);
+    }
+  }
+  if (type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE) {
+    if (window._satellite) {
+      window._satellite.track(ADOVE_PROCEED_FROM_DELIVERY_MODE);
     }
   }
   if (type === ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER) {

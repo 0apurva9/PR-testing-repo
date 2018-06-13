@@ -71,7 +71,8 @@ import {
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON,
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF,
   ADOBE_MY_ACCOUNT_ADDRESS_BOOK,
-  ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED
+  ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
+  ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const USER_CART_PATH = "v2/mpl/users";
@@ -923,7 +924,9 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
       dispatch(softReservation());
       dispatch(selectDeliveryModeSuccess(resultJson));
       // setting data layer after selecting delivery mode success
-      setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SELECT_DELIVERY_MODE);
+      setDataLayerForCheckoutDirectCalls(
+        ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
+      );
     } catch (e) {
       dispatch(selectDeliveryModeFailure(e.message));
     }

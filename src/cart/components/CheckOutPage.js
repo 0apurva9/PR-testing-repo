@@ -771,6 +771,7 @@ class CheckOutPage extends React.Component {
         !this.state.isGiftCard &&
         !this.state.showCliqAndPiq
       ) {
+        console.log("Comes in handle submit ");
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
           defaultSelectedDeliveryModes
@@ -1567,21 +1568,16 @@ class CheckOutPage extends React.Component {
             }
           ).length;
           if (sizeNew === actualProductSize) {
+            this.setState({
+              deliverMode: true
+            });
             this.props.selectDeliveryMode(
               this.state.ussIdAndDeliveryModesObj,
               localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
             );
-            this.setState({
-              deliverMode: true
-            });
           } else {
             this.props.displayToast(SELECT_DELIVERY_MODE_MESSAGE);
           }
-
-          setDataLayerForCheckoutDirectCalls(
-            ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-            this.state.ussIdAndDeliveryModesObj
-          );
         } else {
           if (this.props.displayToast) {
             this.props.displayToast(PRODUCT_NOT_SERVICEABLE_MESSAGE);
