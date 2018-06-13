@@ -58,7 +58,8 @@ const mapStateToProps = state => {
     loginFromMyBag: state.cart.loginFromMyBag,
     feedType: HOME_FEED_TYPE,
     clickedElementId: state.feed.clickedElementId,
-    pageSize: state.feed.pageSize
+    pageSize: state.feed.pageSize,
+    isHomePage: true
   };
 };
 
