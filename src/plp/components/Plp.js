@@ -60,7 +60,10 @@ export default class Plp extends React.Component {
           html.offsetHeight
         );
         const windowBottom = windowHeight + window.pageYOffset;
-        if (windowBottom >= docHeight - OFFSET_BOTTOM) {
+        if (
+          windowBottom >= docHeight - OFFSET_BOTTOM &&
+          docHeight - OFFSET_BOTTOM > 0
+        ) {
           this.props.paginate(this.props.pageNumber + 1, SUFFIX);
         }
       }
