@@ -195,9 +195,6 @@ export const typeComponentMapping = {
 class Feed extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      page: 0
-    };
     this.pageSize = this.props.pageSize;
   }
   componentDidMount() {
@@ -337,7 +334,6 @@ class Feed extends Component {
   };
   componentWillUnmount() {
     if (this.props.setPageFeedSize && this.props.isHomePage) {
-      console.log("getting called");
       this.props.setPageFeedSize(this.pageSize);
     }
   }
