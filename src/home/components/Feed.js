@@ -246,7 +246,6 @@ class Feed extends Component {
 
     if (this.pageSize && index > this.pageSize && this.props.isHomePage) {
       this.pageSize = index;
-      console.log(this.pageSize);
     }
 
     const setClickedElementId = (id => {
@@ -338,7 +337,6 @@ class Feed extends Component {
     }
   }
   render() {
-    console.log(this.props.pageSize);
     if (this.props.loading) {
       return <HomeSkeleton />;
     }
