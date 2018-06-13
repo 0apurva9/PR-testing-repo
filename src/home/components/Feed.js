@@ -240,10 +240,6 @@ class Feed extends Component {
       return <ProductCapsulesContainer positionInFeed={index} />;
     }
 
-    if (this.props.pageSize && index > this.props.pageSize) {
-      this.props.setPageFeedSize(index);
-    }
-
     const setClickedElementId = (id => {
       return () => {
         this.props.setClickedElementId(`Feed-${id}`);
@@ -349,12 +345,13 @@ class Feed extends Component {
         };
       }
     }
+
     return (
       <React.Fragment>
         {this.renderMetaTags()}
         {this.props.homeFeedData ? (
           <List
-            pageSize={this.props.pageSize ? this.props.pageSize : 1}
+            pageSize={2}
             currentLength={this.props.homeFeedData.length}
             itemsRenderer={this.renderFeed}
           >

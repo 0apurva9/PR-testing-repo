@@ -29,9 +29,6 @@ const mapDispatchToProps = dispatch => {
     setClickedElementId: id => {
       dispatch(setClickedElementId(id));
     },
-    setPageFeedSize: size => {
-      dispatch(setPageFeedSize(size));
-    },
     clearProductModuleRef: () => {
       dispatch(clearProductModuleRef());
     }
