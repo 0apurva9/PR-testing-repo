@@ -308,6 +308,7 @@ const mapDispatchToProps = dispatch => {
           )
         );
         if (loginUserResponse.status === SUCCESS) {
+          setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
           const cartVal = await dispatch(getCartId());
           if (
             cartVal.status === SUCCESS &&

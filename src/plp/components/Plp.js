@@ -80,7 +80,14 @@ export default class Plp extends React.Component {
     this.setHeaderText();
     window.addEventListener("scroll", this.throttledScroll);
     if (this.props.lastVisitedPlpUrl === window.location.href) {
-      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+      if (
+        !window.digitalData ||
+        !window.digitalData.page ||
+        !window.digitalData.page.pageInfo ||
+        window.digitalData.page.pageInfo.pageName !== "product grid"
+      ) {
+        setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+      }
     }
   }
 

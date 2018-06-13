@@ -53,7 +53,8 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_DETAILS,
   setDataLayerForFollowAndUnFollowBrand,
   ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-  ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS
+  ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
+  setDataLayerForLogoutSuccess
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -223,7 +224,6 @@ export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
   "RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS";
 export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE =
   "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
-
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
@@ -2105,7 +2105,7 @@ export function logoutUser() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
+      setDataLayerForLogoutSuccess();
       return dispatch(logoutUserSuccess());
     } catch (e) {
       return dispatch(logoutUserFailure(e.message));
@@ -2172,48 +2172,51 @@ export function updateProfileMsd(gender) {
   };
 }
 
-export function reSendEmailForGiftCardRequest()
-{
+export function reSendEmailForGiftCardRequest() {
   return {
     type: RESEND_EMAIL_FOR_GIFT_CARD_REQUEST,
     status: REQUESTING
   };
 }
-export function reSendEmailForGiftCardSuccess()
-{
+export function reSendEmailForGiftCardSuccess() {
   return {
     type: RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS,
     status: SUCCESS
   };
 }
-export function reSendEmailForGiftCardFailure(error)
-{
+export function reSendEmailForGiftCardFailure(error) {
   return {
     type: RESEND_EMAIL_FOR_GIFT_CARD_FAILURE,
     status: ERROR,
     error
   };
 }
-export function reSendEmailForGiftCard(orderId)
-{
+export function reSendEmailForGiftCard(orderId) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(reSendEmailForGiftCardRequest());
     try {
-      let resendEmailObject=new FormData();
-      resendEmailObject.append("access_token",JSON.parse(customerCookie).access_token);
-      resendEmailObject.append("orderId",orderId)
+      let resendEmailObject = new FormData();
+      resendEmailObject.append(
+        "access_token",
+        JSON.parse(customerCookie).access_token
+      );
+      resendEmailObject.append("orderId", orderId);
 
       const result = await api.post(
-        `${USER_PATH}/${JSON.parse(userDetails).userName}/resendEGV?isPwa=true&access_token=${JSON.parse(customerCookie).access_token}&orderId=${orderId}`
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/resendEGV?isPwa=true&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&orderId=${orderId}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(displayToast(EMAIL_SENT_SUCCESS_MESSAGE))
+      dispatch(displayToast(EMAIL_SENT_SUCCESS_MESSAGE));
 
       return dispatch(reSendEmailForGiftCardSuccess());
     } catch (e) {
