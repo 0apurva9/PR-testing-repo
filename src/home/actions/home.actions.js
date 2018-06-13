@@ -630,7 +630,8 @@ export function getComponentData(
       } else {
         delay(() => {
           const isFetchUrlDataLoading = getState().feed.homeFeed[positionInFeed]
-            .loading;
+            ? getState().feed.homeFeed[positionInFeed].loading
+            : null;
           if (isFetchUrlDataLoading && backUpUrl) {
             dispatch(getComponentDataBackUp(backUpUrl, positionInFeed));
           }

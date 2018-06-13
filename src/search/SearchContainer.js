@@ -5,7 +5,7 @@ import {
   getSearchResults,
   clearSearchResults
 } from "./actions/search.actions.js";
-import { setIsNotGoBackFromPDP } from "../plp/actions/plp.actions.js";
+
 import throttle from "lodash.throttle";
 const SEARCH_RESULTS_THROTTLE_TIME = 500;
 const mapStateToProps = (state, ownProps) => {
@@ -25,9 +25,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getSearchResults: throttledSearchResultsFunction,
     clearSearchResults: () => {
       dispatch(clearSearchResults());
-    },
-    setIsNotGoBackFromPDP: () => {
-      dispatch(setIsNotGoBackFromPDP());
     }
   };
 };
