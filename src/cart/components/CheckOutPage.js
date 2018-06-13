@@ -771,7 +771,6 @@ class CheckOutPage extends React.Component {
         !this.state.isGiftCard &&
         !this.state.showCliqAndPiq
       ) {
-        console.log("Comes in handle submit ");
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
           defaultSelectedDeliveryModes
