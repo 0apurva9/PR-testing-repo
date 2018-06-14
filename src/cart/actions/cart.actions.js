@@ -2377,7 +2377,11 @@ export function jusPayTokenize(
         )
       );
     } catch (e) {
-      dispatch(jusPayTokenizeFailure(e.message));
+      let message = e.message;
+      if (message && message.indexOf("Unexpected token") > -1) {
+        message = "Something went wrong. Please retry!";
+      }
+      dispatch(jusPayTokenizeFailure(message));
     }
   };
 }
@@ -2409,7 +2413,11 @@ export function jusPayTokenizeForGiftCard(cardDetails, paymentMode, guId) {
         )
       );
     } catch (e) {
-      dispatch(jusPayTokenizeFailure(e.message));
+      let message = e.message;
+      if (message && message.indexOf("Unexpected token") > -1) {
+        message = "Something went wrong. Please retry!";
+      }
+      dispatch(jusPayTokenizeFailure(message));
     }
   };
 }
