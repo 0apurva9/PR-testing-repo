@@ -60,7 +60,7 @@ export default class AuthFrame extends React.Component {
                   label={this.props.buttonLabel}
                   width={148}
                   height={46}
-                  fontFamily="regular"
+                  textStyle={{ fontFamily: "semibold" }}
                   borderColor="#fff"
                   onClick={() => this.footerClick()}
                 />

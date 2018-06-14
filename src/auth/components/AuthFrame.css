@@ -52,6 +52,9 @@
   width: 100%;
   height: auto;
   margin-top: 35px;
+  position:fixed;
+  left:40px;
+  bottom:40px;
 }
 .linkLabel {
   width: auto;
@@ -100,4 +103,9 @@
 .callUs a {
   text-decoration: none;
   color: #fff !important;
+}
+@media screen and (max-height:640px){
+  .legalLinkHolder{
+    position:static;
+  }
 }
