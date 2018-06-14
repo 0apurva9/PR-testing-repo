@@ -53,6 +53,12 @@
   font-family: regular;
   display: inline-block;
 }
+.viewPrice{
+  composes:totalPriceHeading;
+  display:block;
+  margin-bottom:0;
+  margin-top:5px;
+}
 .amountHolder {
   width: 100%;
   height: auto;
