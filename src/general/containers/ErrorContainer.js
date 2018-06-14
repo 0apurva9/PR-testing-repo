@@ -142,7 +142,7 @@ class ErrorDisplay extends React.Component {
     if (
       message !== FAILED_TO_FETCH &&
       message &&
-      !message.includes("unexpected")
+      !message.includes("Unexpected token")
     ) {
       this.props.displayToast(message);
       delay(() => this.props.clearError(), CLEAR_ERROR_DELAY);
