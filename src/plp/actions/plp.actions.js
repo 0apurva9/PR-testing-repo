@@ -216,11 +216,14 @@ export function getProductListings(
           dispatch(hideSecondaryLoader());
         }
       } else if (isFilter) {
+        dispatch(setLastPlpPath(window.location.href));
         dispatch(updateFacets(resultJson));
+
         dispatch(hideSecondaryLoader());
       } else {
-        dispatch(getProductListingsSuccess(resultJson, paginated));
         dispatch(setLastPlpPath(window.location.href));
+        dispatch(getProductListingsSuccess(resultJson, paginated));
+
         dispatch(hideSecondaryLoader());
       }
     } catch (e) {
