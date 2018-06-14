@@ -139,7 +139,11 @@ class ErrorDisplay extends React.Component {
   }
 
   displayError(message) {
-    if (message !== FAILED_TO_FETCH) {
+    if (
+      message !== FAILED_TO_FETCH &&
+      message &&
+      !message.includes("unexpected")
+    ) {
       this.props.displayToast(message);
       delay(() => this.props.clearError(), CLEAR_ERROR_DELAY);
     }
