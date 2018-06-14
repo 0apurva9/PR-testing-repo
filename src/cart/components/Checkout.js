@@ -344,7 +344,12 @@ export default class Checkout extends React.Component {
                 this.handleShowDetail();
               }}
             >
-              View price details
+              {" "}
+              {this.state.showDetails && <React.Fragment>Hide</React.Fragment>}
+              {!this.state.showDetails && (
+                <React.Fragment>View</React.Fragment>
+              )}{" "}
+              price details
             </div>
           </div>
           {this.state.showDetails && (
