@@ -54,7 +54,7 @@ export default class BrandsLandingPageDefault extends React.Component {
     }
   }
   switchTab(val) {
-    if (val && this.state.currentActiveBrandType !== val) {
+    if (this.state.currentActiveBrandType !== val) {
       this.setState({ currentActiveBrandType: val });
     }
   }
