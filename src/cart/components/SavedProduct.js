@@ -5,7 +5,8 @@ import Button from "../../general/components/Button.js";
 import Coupon from "../../general/components/Coupon.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { COUPON_COOKIE } from "../../lib/constants.js";
-const COUPON_SUBTEXT = "Additional Bank offers can be applied during payment";
+const COUPON_SUBTEXT =
+  "Additional Bank offers, if applicable, can be applied during payment";
 export default class SavedProduct extends React.Component {
   handleClick() {
     if (this.props.saveProduct) {

@@ -27,7 +27,7 @@ export default class RatingAndTextLink extends React.Component {
             <div className={styles.textHolder}>
               <span itemProp="ratingValue">
                 {this.props.averageRating
-                  ? Math.floor(this.props.averageRating)
+                  ? Math.round(this.props.averageRating * 100) / 100
                   : ""}
               </span>{" "}
               based on

@@ -63,7 +63,7 @@ const mapStateToProps = (state, ownProps) => {
     pageNumber: state.productListings.pageNumber,
     loading: state.productListings.loading,
     searchresult: state.productListings.searchresult,
-    plpVisted: state.productListings.plpVisted
+    plpVisited: state.productListings.plpVisited
   };
 };
 

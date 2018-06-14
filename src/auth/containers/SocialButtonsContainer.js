@@ -56,6 +56,13 @@ const mapDispatchToProps = dispatch => {
     clearUrlToRedirectToAfterAuth: () => {
       dispatch(clearUrlToRedirectToAfterAuth());
     },
+    loadGoogleSdk: async () => {
+      const loadGoogleSdkResponse = await loadGoogleSignInApi();
+      if (loadGoogleSdkResponse.status === ERROR) {
+        dispatch(singleAuthCallHasFailed(loadGoogleSdkResponse.description));
+        return;
+      }
+    },
     facebookLogin: async isSignUp => {
       dispatch(authCallsAreInProgress());
       const facebookResponse = await dispatch(facebookLogin(isSignUp));
@@ -222,16 +229,6 @@ const mapDispatchToProps = dispatch => {
     },
     googlePlusLogin: async isSignUp => {
       dispatch(authCallsAreInProgress());
-
-      const loadGoogleSdkResponse = await loadGoogleSignInApi();
-      if (loadGoogleSdkResponse.status === ERROR) {
-        dispatch(singleAuthCallHasFailed(loadGoogleSdkResponse.description));
-        // as loading the google sign in api has nothing with redux state
-        // we manually trigger the toast error here
-        dispatch(displayToast("SDK Failed to load, check Google Client ID"));
-        return;
-      }
-
       const googlePlusResponse = await dispatch(googlePlusLogin(isSignUp));
       if (googlePlusResponse.status && googlePlusResponse.status !== SUCCESS) {
         dispatch(singleAuthCallHasFailed());

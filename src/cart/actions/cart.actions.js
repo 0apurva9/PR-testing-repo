@@ -632,7 +632,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
 
     couponObject.append("couponCode", couponCode);
     couponObject.append("cartGuid", cartGuId);
-
+    couponObject.append("channel", CHANNEL);
     try {
       const result = await api.postFormData(
         `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts/${
@@ -696,7 +696,7 @@ export function releaseCouponForAnonymous(oldCouponCode, newCouponCode) {
     let couponObject = new FormData();
     couponObject.append("access_token", JSON.parse(globalCookie).access_token);
     couponObject.append("couponCode", oldCouponCode);
-
+    couponObject.append("channel", CHANNEL);
     try {
       const result = await api.postFormData(
         `${USER_CART_PATH}/anonymous/carts/${cartId}/releaseCouponsAnonymous?`,
@@ -710,6 +710,7 @@ export function releaseCouponForAnonymous(oldCouponCode, newCouponCode) {
       }
 
       if (newCouponCode) {
+        dispatch(releaseUserCouponSuccess(resultJson));
         return dispatch(applyUserCouponForAnonymous(newCouponCode));
       }
       return dispatch(releaseUserCouponSuccess(resultJson));
@@ -733,7 +734,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -743,6 +744,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
       }
 
       if (newCouponCode) {
+        dispatch(releaseUserCouponSuccess(resultJson));
         return dispatch(applyUserCouponForLoggedInUsers(newCouponCode));
       }
       return dispatch(releaseUserCouponSuccess(resultJson));
@@ -1106,7 +1108,7 @@ export function generateCartIdForLoggedInUser() {
           JSON.parse(userDetails).userName
         }/carts?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
 
@@ -1155,7 +1157,7 @@ export function generateCartIdForAnonymous() {
       const result = await api.post(
         `${USER_CART_PATH}/anonymous/carts?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1310,7 +1312,7 @@ export function mergeCartId(cartGuId) {
           JSON.parse(userDetails).userName
         }&oldCartId=${
           JSON.parse(cartDetailsAnonymous).guid
-        }&toMergeCartGuid=${cartGuId}`
+        }&toMergeCartGuid=${cartGuId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
@@ -1803,7 +1805,7 @@ export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
           JSON.parse(userDetails).userName
         }/carts/releaseCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&paymentMode=${PAYMENT_MODE}&couponCode=${previousCouponCode}&cartGuid=${cartId}&isPwa=true`
+        }&paymentMode=${PAYMENT_MODE}&couponCode=${previousCouponCode}&cartGuid=${cartId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2485,7 +2487,7 @@ export function createJusPayOrder(
           jusPayUrl
         )}&bankName=${
           bankName ? bankName : ""
-        }&paymentMode=${currentSelectedPaymentMode}`,
+        }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2548,7 +2550,7 @@ export function createJusPayOrderForGiftCard(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }`
+        }&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2602,7 +2604,7 @@ export function createJusPayOrderForNetBanking(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true`,
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2655,7 +2657,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true`
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2719,7 +2721,7 @@ export function createJusPayOrderForSavedCards(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true`,
+        }&isPwa=true&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2779,7 +2781,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true`
+        }&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2839,7 +2841,7 @@ export function createJusPayOrderForCliqCash(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${CLIQ_CASH}&isPwa=true`,
+        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}`,
         cartItem
       );
       const resultJson = await result.json();
@@ -3512,7 +3514,7 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
           JSON.parse(userDetails).userName
         }/payments/updateTransactionDetailsforCOD?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4086,7 +4088,7 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/applyNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4152,7 +4154,7 @@ export function removeNoCostEmi(couponCode, cartGuId, cartId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
 
