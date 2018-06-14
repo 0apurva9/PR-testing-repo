@@ -1,6 +1,8 @@
 import React from "react";
-import ContentWidget from "./ContentWidget";
+import ContentWidgetMobile from "./ContentWidgetMobile";
+import ContentWidgetDesktop from "./ContentWidgetDesktop";
 import Loader from "../../general/components/Loader";
+import MediaQuery from "react-responsive";
 import styles from "./ContentWidgetWrapper.css";
 export default class ContentWidgetWrapper extends React.Component {
   renderLoader() {
@@ -21,14 +23,22 @@ export default class ContentWidgetWrapper extends React.Component {
     ) {
       return (
         <div className={styles.base}>
-          <div className={styles.header}>
-            {this.props.feedComponentData.title}
-          </div>
-          <ContentWidget
-            allData={this.props.feedComponentData.items}
-            history={this.props.history}
-            setClickedElementId={this.props.setClickedElementId}
-          />
+          <MediaQuery query="(max-device-width: 1024px)">
+            <div className={styles.header}>
+              {this.props.feedComponentData.title}
+            </div>
+            <ContentWidgetMobile
+              allData={this.props.feedComponentData.items}
+              history={this.props.history}
+              setClickedElementId={this.props.setClickedElementId}
+            />
+          </MediaQuery>
+          <MediaQuery query="(min-device-width: 1025px)">
+            <ContentWidgetDesktop
+              allData={this.props.feedComponentData.items}
+              history={this.props.history}
+            />
+          </MediaQuery>
         </div>
       );
     } else {

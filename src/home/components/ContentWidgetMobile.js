@@ -1,7 +1,7 @@
 import React from "react";
 import ContentCard from "./ContentCard";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import styles from "./ContentWidget.css";
+import styles from "./ContentWidgetMobile.css";
 
 export default class ContentWidget extends React.Component {
   constructor(props) {
