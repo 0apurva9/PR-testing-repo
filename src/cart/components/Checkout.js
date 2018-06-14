@@ -167,9 +167,9 @@ export default class Checkout extends React.Component {
             </div>
           </div>
         )}
-        {this.props.isFromMyBag && (
-          <div className={styles.disclaimer}>{DISCLAIMER}</div>
-        )}
+
+        <div className={styles.disclaimer}>{DISCLAIMER}</div>
+
         <div className={styles.hiddenBase}>
           <div
             className={styles.totalPriceButtonHolder}
