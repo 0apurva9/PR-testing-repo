@@ -2363,6 +2363,12 @@ export function jusPayTokenize(
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
+        if (
+          resultJsonStatus.message &&
+          resultJsonStatus.message.indexOf("Unexpected token") > -1
+        ) {
+          throw new Error("Something went wrong. Please retry!");
+        }
         throw new Error(resultJsonStatus.message);
       }
       dispatch(jusPayTokenizeSuccess(resultJson.token));
@@ -2398,6 +2404,12 @@ export function jusPayTokenizeForGiftCard(cardDetails, paymentMode, guId) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
+        if (
+          resultJsonStatus.message &&
+          resultJsonStatus.message.indexOf("Unexpected token") > -1
+        ) {
+          throw new Error("Something went wrong. Please retry!");
+        }
         throw new Error(resultJsonStatus.message);
       }
       dispatch(
