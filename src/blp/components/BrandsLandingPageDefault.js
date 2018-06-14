@@ -90,7 +90,7 @@ export default class BrandsLandingPageDefault extends React.Component {
       return brandName.subType;
     });
     let currentActiveHeroBanner = [];
-    console.log(this.state.currentActiveBrandType);
+
     if (
       brandsStores[this.state.currentActiveBrandType] &&
       brandsStores[this.state.currentActiveBrandType].items &&
