@@ -2363,12 +2363,6 @@ export function jusPayTokenize(
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        if (
-          resultJsonStatus.message &&
-          resultJsonStatus.message.indexOf("Unexpected token") > -1
-        ) {
-          throw new Error("Something went wrong. Please retry!");
-        }
         throw new Error(resultJsonStatus.message);
       }
       dispatch(jusPayTokenizeSuccess(resultJson.token));
@@ -2383,7 +2377,11 @@ export function jusPayTokenize(
         )
       );
     } catch (e) {
-      dispatch(jusPayTokenizeFailure(e.message));
+      let message = e.message;
+      if (message && message.indexOf("Unexpected token") > -1) {
+        message = "Something went wrong. Please retry!";
+      }
+      dispatch(jusPayTokenizeFailure(message));
     }
   };
 }
@@ -2404,12 +2402,6 @@ export function jusPayTokenizeForGiftCard(cardDetails, paymentMode, guId) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        if (
-          resultJsonStatus.message &&
-          resultJsonStatus.message.indexOf("Unexpected token") > -1
-        ) {
-          throw new Error("Something went wrong. Please retry!");
-        }
         throw new Error(resultJsonStatus.message);
       }
       dispatch(
@@ -2421,7 +2413,11 @@ export function jusPayTokenizeForGiftCard(cardDetails, paymentMode, guId) {
         )
       );
     } catch (e) {
-      dispatch(jusPayTokenizeFailure(e.message));
+      let message = e.message;
+      if (message && message.indexOf("Unexpected token") > -1) {
+        message = "Something went wrong. Please retry!";
+      }
+      dispatch(jusPayTokenizeFailure(message));
     }
   };
 }
