@@ -159,7 +159,8 @@ const productListings = (
       existingProductListings.searchresult = searchResults;
       existingProductListings.pagination = action.productListings.pagination;
       return Object.assign({}, state, {
-        productListings: existingProductListings
+        productListings: existingProductListings,
+        status: action.status
       });
     default:
       return state;

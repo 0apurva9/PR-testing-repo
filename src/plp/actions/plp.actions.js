@@ -114,6 +114,7 @@ export function updateFacets(productListings) {
 export function getProductListingsPaginatedSuccess(productListings) {
   return {
     type: GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS,
+    status: SUCCESS,
     productListings
   };
 }
