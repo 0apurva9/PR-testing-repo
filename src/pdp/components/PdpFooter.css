@@ -7,7 +7,8 @@
   position:fixed;
   box-shadow:0 -1px 8px 0px rgba(0, 0, 0, 0.08);
   z-index:10;
-
+  backface-visibility: hidden;
+  transform:translateZ(0);
 }
 .footerButtonHolder{
   width:50%;
