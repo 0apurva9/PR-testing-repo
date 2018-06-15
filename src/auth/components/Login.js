@@ -113,7 +113,11 @@ class Login extends Component {
         );
         return false;
       } else {
-        this.props.onSubmit(userDetails);
+        if (this.props.location.search === "?frm=pg") {
+          this.props.history.goBack();
+        } else {
+          this.props.onSubmit(userDetails);
+        }
       }
     }
   };
