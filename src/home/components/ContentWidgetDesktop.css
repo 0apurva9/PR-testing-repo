@@ -31,7 +31,13 @@
   border:2px solid rgba(255,255,255,0.6);
   display:inline-block;
   margin-right:20px;
+  border-radius:50%;
   cursor:pointer;
+  transition:200ms;
+}
+.navActive{
+  composes:nav;
+  background:rgba(255,255,255,01);
 }
 .content{
   width:32%;

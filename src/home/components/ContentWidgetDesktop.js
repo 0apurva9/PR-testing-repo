@@ -43,6 +43,11 @@ export default class ContentWidgetDesktop extends React.Component {
       this.setState({ position });
     }
   };
+  swithPosition(i) {
+    if (i !== undefined) {
+      this.setState({ position: i });
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -50,7 +55,19 @@ export default class ContentWidgetDesktop extends React.Component {
           <div className={styles.bannerHolder}>
             <Image image={this.props.allData[this.state.position].imageURL} />;
           </div>
-          <div className={styles.navHolder} />
+          <div className={styles.navHolder}>
+            {this.props.allData &&
+              this.props.allData.map((val, i) => {
+                return (
+                  <div
+                    className={
+                      this.state.position === i ? styles.navActive : styles.nav
+                    }
+                    onClick={() => this.swithPosition(i)}
+                  />
+                );
+              })}
+          </div>
         </div>
         <div className={styles.content}>
           <div className={styles.contentHeader}>
