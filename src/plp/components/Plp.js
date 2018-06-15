@@ -12,9 +12,10 @@ import {
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
 import { URL_ROOT } from "../../lib/apiRequest";
+import { REQUESTING } from "../../lib/constants";
 
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
-const SCROLL_CHECK_INTERVAL = 500;
+const SCROLL_CHECK_INTERVAL = 1000;
 const OFFSET_BOTTOM = 800;
 export default class Plp extends React.Component {
   toggleFilter = () => {
@@ -63,7 +64,8 @@ export default class Plp extends React.Component {
 
         if (
           windowBottom >= docHeight - OFFSET_BOTTOM &&
-          window.pageYOffset > 0
+          window.pageYOffset > 0 &&
+          this.props.status !== REQUESTING
         ) {
           this.props.paginate(this.props.pageNumber + 1, SUFFIX);
         }
