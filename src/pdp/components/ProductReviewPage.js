@@ -99,7 +99,7 @@ class ProductReviewPage extends Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
-      this.props.history.push(LOGIN_PATH);
+      this.props.history.push(LOGIN_PATH + "?frm=pg");
     } else {
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
