@@ -3,7 +3,7 @@ import emiIcon from "./img/emi.svg";
 import PropTypes from "prop-types";
 import EmiAccordion from "./EmiAccordion";
 import MenuDetails from "../../general/components/MenuDetails.js";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, ERROR } from "../../lib/constants";
 import styles from "./CheckoutEmi.css";
 const EMI_ERROR_TEXT =
   "This order amount doesn't meet the EMI eligibility criterion.";
@@ -42,9 +42,10 @@ export default class CheckoutEmi extends React.Component {
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
             />
           )}
-        {!this.props.cart.emiBankDetails && (
-          <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
-        )}
+        {!this.props.cart.emiBankDetails &&
+          this.props.cart.emiBankStatus === ERROR && (
+            <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
+          )}
       </div>
     );
   }

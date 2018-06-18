@@ -2090,7 +2090,8 @@ class CheckOutPage extends React.Component {
         this.props.cart.jusPaymentLoader ||
         this.props.cart.selectDeliveryModeLoader ||
         (!this.props.cart.paymentModes && this.state.deliverMode) ||
-        this.props.cart.isPaymentProceeded
+        this.props.cart.isPaymentProceeded ||
+        this.props.cart.paymentModeLoader
       ) {
         this.props.showSecondaryLoader();
       } else {
