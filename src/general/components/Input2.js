@@ -28,7 +28,19 @@ export default class Input2 extends React.Component {
   }
   handleChange(event) {
     const NUMBER_REGEX = /^[0-9]+$/;
+    const CARD_REGEX = /^[0-9\s]+$/;
     const ALPHABET_REGEX = /^[a-zA-Z ]+$/;
+    if (this.props.isCard) {
+      if (event.target.value === "" || CARD_REGEX.test(event.target.value)) {
+        this.setState({ value: event.target.value }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.value);
+          }
+        });
+      } else {
+        event.preventDefault();
+      }
+    }
     if (this.props.onlyNumber) {
       if (event.target.value === "" || NUMBER_REGEX.test(event.target.value)) {
         this.setState({ value: event.target.value }, () => {
@@ -54,7 +66,11 @@ export default class Input2 extends React.Component {
         event.preventDefault();
       }
     }
-    if (!this.props.onlyAlphabet && !this.props.onlyNumber) {
+    if (
+      !this.props.onlyAlphabet &&
+      !this.props.onlyNumber &&
+      !this.props.isCard
+    ) {
       this.setState({ value: event.target.value }, () => {
         if (this.props.onChange) {
           this.props.onChange(this.state.value);
