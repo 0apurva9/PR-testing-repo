@@ -1514,9 +1514,6 @@ class CheckOutPage extends React.Component {
     if (this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
-    if (!this.state.isNoCostEmiApplied) {
-      this.onChangePaymentMode({ currentPaymentMode: null });
-    }
   };
   handleSubmit = () => {
     localStorage.setItem(
@@ -1608,7 +1605,6 @@ class CheckOutPage extends React.Component {
         } else {
           this.softReservationForPayment(this.state.cardDetails);
         }
-        this.onChangePaymentMode({ currentPaymentMode: null });
       }
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
@@ -1645,9 +1641,6 @@ class CheckOutPage extends React.Component {
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
-    }
-    if (!this.state.isNoCostEmiApplied) {
-      this.onChangePaymentMode({ currentPaymentMode: null });
     }
   };
 
