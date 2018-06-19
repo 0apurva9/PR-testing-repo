@@ -9,7 +9,7 @@ import informationIcon from "../../general/components/img/Info-grey.svg";
 import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
-
+import cardValidator from "simple-card-validator";
 const INSUFFICIENT_DATA_ERROR_MESSAGE = "PLease enter valid card details";
 
 const MERCHANT_ID = "tul_uat2";
@@ -54,7 +54,8 @@ export default class CreditCardForm extends React.Component {
       value: props.value ? props.value : "",
       monthValue: "",
       yearValue: "",
-      isCalledBinValidation: false
+      isCalledBinValidation: false,
+      invalidCard: false
     };
   }
 
@@ -76,6 +77,18 @@ export default class CreditCardForm extends React.Component {
     this.setState(val);
     if (this.props.onChangeCardDetail) {
       this.props.onChangeCardDetail(val);
+    }
+  }
+  onBlurOfCardInput() {
+    const card = new cardValidator(this.state.cardNumber);
+    if (this.state.cardNumber !== "") {
+      if (card.validateCard()) {
+        this.setState({ invalidCard: false });
+      } else {
+        this.setState({ invalidCard: true });
+      }
+    } else {
+      this.setState({ invalidCard: false });
     }
   }
   handleOnFocusInput() {
@@ -130,7 +143,13 @@ export default class CreditCardForm extends React.Component {
               height={33}
               maxLength="19"
               onlyNumber={true}
+              onBlur={() => this.onBlurOfCardInput()}
             />
+            {this.state.invalidCard && (
+              <span className={styles.invalidCardText}>
+                Please enter a valid card number
+              </span>
+            )}
           </div>
 
           <div className={styles.content}>
