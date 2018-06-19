@@ -9,6 +9,10 @@ import {
   FACEBOOK_PLATFORM,
   GOOGLE_PLUS_PLATFORM
 } from "../auth/actions/user.actions";
+import {
+  BRAND_REGEX,
+  CATEGORY_REGEX
+} from "../plp/components/PlpBrandCategoryWrapper.js";
 
 export const ADOBE_TARGET_COOKIE_NAME =
   "AMCV_E9174ABF55BA76BA7F000101%40AdobeOrg";
@@ -1061,12 +1065,25 @@ export function getDigitalDataForSearchPageSuccess(response) {
     },
     internal: {
       search: {
-        category: "all",
         results: response.searchresult ? response.searchresult.length : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null
       }
     }
   };
+  if (
+    ((response || {}).seo || {}).alternateURL &&
+    CATEGORY_REGEX.test(((response || {}).seo || {}).alternateURL)
+  ) {
+    Object.assign(data.internal.search, {
+      category: ((((response || {}).seo || {}).breadcrumbs || {})[0] || {}).name
+        ? ((((response || {}).seo || {}).breadcrumbs || {})[0] || {}).name
+        : "all"
+    });
+  } else {
+    Object.assign(data.internal.search, {
+      category: "all"
+    });
+  }
   if (response && response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
