@@ -646,21 +646,21 @@ const cart = (
     case cartActions.GET_PAYMENT_MODES_REQUEST:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
-        loading: true
+        paymentModeLoader: true
       });
 
     case cartActions.GET_PAYMENT_MODES_SUCCESS:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModes: action.paymentModes,
-        loading: false
+        paymentModeLoader: false
       });
 
     case cartActions.GET_PAYMENT_MODES_FAILURE:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModesError: action.error,
-        loading: false
+        paymentModeLoader: false
       });
 
     case cartActions.APPLY_BANK_OFFER_REQUEST:
@@ -1490,6 +1490,7 @@ const cart = (
         paymentModes: null,
         paymentModesStatus: null,
         paymentModesError: null,
+        paymentModeLoader:false,
 
         bankOffer: null,
         bankOfferStatus: null,
