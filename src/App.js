@@ -251,17 +251,22 @@ class App extends Component {
     } else {
       if (!cartDetailsForAnonymous && globalAccessToken) {
         const parsedQueryString = queryString.parse(this.props.location.search);
-        if (parsedQueryString && parsedQueryString.cartGuid) {
-          Cookies.createCookie(
-            CART_DETAILS_FOR_ANONYMOUS,
-            JSON.stringify({
-              guid: parsedQueryString.cartGuid
-            })
-          );
-        } else {
+        console.log(parsedQueryString && parsedQueryString.cartGuid);
+        if (!parsedQueryString || !parsedQueryString.cartGuid) {
           this.props.generateCartIdForAnonymous();
         }
       }
+    }
+  }
+  componentWillMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    if (parsedQueryString && parsedQueryString.cartGuid) {
+      Cookies.createCookie(
+        CART_DETAILS_FOR_ANONYMOUS,
+        JSON.stringify({
+          guid: parsedQueryString.cartGuid
+        })
+      );
     }
   }
 
