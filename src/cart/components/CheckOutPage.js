@@ -768,7 +768,6 @@ class CheckOutPage extends React.Component {
         !this.state.isGiftCard &&
         !this.state.showCliqAndPiq
       ) {
-        console.log("call me here for the component will recieve props");
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
           defaultSelectedDeliveryModes
