@@ -167,9 +167,9 @@ export default class Checkout extends React.Component {
             </div>
           </div>
         )}
-        {this.props.isFromMyBag && (
-          <div className={styles.disclaimer}>{DISCLAIMER}</div>
-        )}
+
+        <div className={styles.disclaimer}>{DISCLAIMER}</div>
+
         <div className={styles.hiddenBase}>
           <div
             className={styles.totalPriceButtonHolder}
@@ -189,7 +189,7 @@ export default class Checkout extends React.Component {
                 onClick={() => this.handleClick()}
               />
             </div>
-            <div className={styles.totalPriceHeading}>Total</div>
+
             <div className={styles.amountHolder}>
               <div className={styles.amount}>
                 {RUPEE_SYMBOL}
@@ -198,6 +198,14 @@ export default class Checkout extends React.Component {
               <div className={styles.infoIconHolder}>
                 <Icon image={infoIcon} size={22} />
               </div>
+            </div>
+            <div
+              className={styles.viewPrice}
+              onClick={() => {
+                this.handleShowDetail();
+              }}
+            >
+              View price details
             </div>
           </div>
           {this.state.showDetails && (
@@ -298,7 +306,10 @@ export default class Checkout extends React.Component {
                     height={40}
                     label={this.props.label}
                     width={120}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
                     onClick={() => this.handleClick()}
                   />
                 </div>
@@ -312,25 +323,33 @@ export default class Checkout extends React.Component {
                     height={40}
                     label={this.props.label}
                     width={120}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
                     onClick={() => this.handleFocusOnPinCode()}
                   />
                 </div>
               )}
-            <div className={styles.totalPriceHeading}>Total</div>
+
             <div className={styles.amountHolder}>
               <div className={styles.amount}>
                 {RUPEE_SYMBOL}
                 {this.props.amount}
               </div>
-              <div
-                className={styles.infoIconHolder}
-                onClick={() => {
-                  this.handleShowDetail();
-                }}
-              >
-                <Icon image={infoIcon} size={22} />
-              </div>
+            </div>
+            <div
+              className={styles.viewPrice}
+              onClick={() => {
+                this.handleShowDetail();
+              }}
+            >
+              {" "}
+              {this.state.showDetails && <React.Fragment>Hide</React.Fragment>}
+              {!this.state.showDetails && (
+                <React.Fragment>View</React.Fragment>
+              )}{" "}
+              price details
             </div>
           </div>
           {this.state.showDetails && (

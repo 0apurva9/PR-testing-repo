@@ -12,7 +12,7 @@ export default class ShopCollection extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div className={styles.base} onClick={() => this.handleClick()}>
         <div className={styles.imageHolder}>
           <Image image={this.props.image} lazyLoad={true} />
         </div>
@@ -31,9 +31,11 @@ export default class ShopCollection extends React.Component {
               borderRadius={22.5}
               label={this.props.btnText}
               backgroundColor={this.props.backgroundColor}
-              onClick={() => this.handleClick()}
               width={180}
-              textStyle={{ color: this.props.color, fontSize: 14 }}
+              textStyle={{
+                color: this.props.color,
+                fontSize: 14
+              }}
             />
           </div>
         </div>

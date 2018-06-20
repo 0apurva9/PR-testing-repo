@@ -58,7 +58,7 @@ export default class HeroBanner extends React.Component {
     return (
       <div
         className={
-          this.props.positionInFeed === 1
+          this.props.positionInFeed === 0
             ? styles.base
             : styles.marginTopWithBase
         }
