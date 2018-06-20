@@ -54,7 +54,7 @@ export default class BrandsLandingPageDefault extends React.Component {
     }
   }
   switchTab(val) {
-    if (val && this.state.currentActiveBrandType !== val) {
+    if (val !== undefined && this.state.currentActiveBrandType !== val) {
       this.setState({ currentActiveBrandType: val });
     }
   }
@@ -90,7 +90,9 @@ export default class BrandsLandingPageDefault extends React.Component {
       return brandName.subType;
     });
     let currentActiveHeroBanner = [];
+
     if (
+      brandsStores[this.state.currentActiveBrandType] &&
       brandsStores[this.state.currentActiveBrandType].items &&
       brandsStores[this.state.currentActiveBrandType].items[0]
         .heroBannerComponent

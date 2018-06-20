@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import VisibilityChild from "../../home/components/VisibilityChild.js";
 import MediaQuery from "react-responsive";
 import styles from "./Grid.css";
 
@@ -30,7 +29,7 @@ export default class Grid extends React.Component {
                         padding: `${this.props.offset / 2}px`
                       }}
                     >
-                      <VisibilityChild>{child}</VisibilityChild>
+                      {child}
                     </div>
                   </MediaQuery>
                   <MediaQuery query="(max-device-width: 1024px)">
@@ -44,7 +43,7 @@ export default class Grid extends React.Component {
                         padding: `${this.props.offset / 2}px`
                       }}
                     >
-                      <VisibilityChild>{child}</VisibilityChild>
+                      {child}
                     </div>
                   </MediaQuery>
                 </React.Fragment>

@@ -139,7 +139,11 @@ const account = (
     logoutUserError: null,
 
     msdUpdateProfileStatus: null,
-    msdUpdateProfileError: null
+    msdUpdateProfileError: null,
+
+    reSendEmailStatus: null,
+    reSendEmailError: null,
+    reSendEmailLoader: false
   },
   action
 ) => {
@@ -172,7 +176,8 @@ const account = (
         verifyWalletError: null,
         wishlistError: null,
         updateProfileError: null,
-        changePasswordError: null
+        changePasswordError: null,
+        reSendEmailError: null
       });
     case accountActions.GET_RETURN_REQUEST:
     case accountActions.RETURN_PRODUCT_DETAILS_REQUEST:
@@ -917,6 +922,25 @@ const account = (
       return Object.assign({}, state, {
         msdUpdateProfileStatus: action.status,
         msdUpdateProfileError: action.error
+      });
+
+    case accountActions.RESEND_EMAIL_FOR_GIFT_CARD_REQUEST:
+      return Object.assign({}, state, {
+        reSendEmailStatus: action.status,
+        reSendEmailLoader: true
+      });
+
+    case accountActions.RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS:
+      return Object.assign({}, state, {
+        reSendEmailStatus: action.status,
+        reSendEmailLoader: false
+      });
+
+    case accountActions.RESEND_EMAIL_FOR_GIFT_CARD_FAILURE:
+      return Object.assign({}, state, {
+        reSendEmailStatus: action.status,
+        reSendEmailError: action.error,
+        reSendEmailLoader: false
       });
 
     default:

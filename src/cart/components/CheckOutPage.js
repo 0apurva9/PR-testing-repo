@@ -999,14 +999,22 @@ class CheckOutPage extends React.Component {
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
-    setDataLayerForCheckoutDirectCalls(
-      ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
-    );
+
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
+    if (!orderId) {
+      setDataLayerForCheckoutDirectCalls(
+        ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
+      );
+    }
     this.setState({ orderId: orderId });
-    if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS) {
+    if (
+      value &&
+      value !== JUS_PAY_CHARGED &&
+      value !== JUS_PAY_SUCCESS &&
+      !this.props.cart.isPaymentProceeded
+    ) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
@@ -1516,9 +1524,6 @@ class CheckOutPage extends React.Component {
     ) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
-    if (!this.state.isNoCostEmiApplied) {
-      this.onChangePaymentMode({ currentPaymentMode: null });
-    }
   };
   handleSubmit = () => {
     localStorage.setItem(
@@ -1557,21 +1562,19 @@ class CheckOutPage extends React.Component {
             }
           ).length;
           if (sizeNew === actualProductSize) {
-            this.props.selectDeliveryMode(
-              this.state.ussIdAndDeliveryModesObj,
-              localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+            this.setState(
+              {
+                deliverMode: true
+              },
+              () =>
+                this.props.selectDeliveryMode(
+                  this.state.ussIdAndDeliveryModesObj,
+                  localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                )
             );
-            this.setState({
-              deliverMode: true
-            });
           } else {
             this.props.displayToast(SELECT_DELIVERY_MODE_MESSAGE);
           }
-
-          setDataLayerForCheckoutDirectCalls(
-            ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-            this.state.ussIdAndDeliveryModesObj
-          );
         } else {
           if (this.props.displayToast) {
             this.props.displayToast(PRODUCT_NOT_SERVICEABLE_MESSAGE);
@@ -1610,7 +1613,6 @@ class CheckOutPage extends React.Component {
         } else {
           this.softReservationForPayment(this.state.cardDetails);
         }
-        this.onChangePaymentMode({ currentPaymentMode: null });
       }
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
@@ -1651,9 +1653,6 @@ class CheckOutPage extends React.Component {
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
-    }
-    if (!this.state.isNoCostEmiApplied) {
-      this.onChangePaymentMode({ currentPaymentMode: null });
     }
   };
 

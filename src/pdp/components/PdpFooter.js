@@ -27,6 +27,7 @@ export default class PdfFooter extends React.Component {
           <FooterButton
             icon={addToBagIcon}
             backgroundColor="#ff1744"
+            boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
             label="Add to bag"
             disabled={this.props.outOfStock}
             onClick={() => this.onAddToBag()}

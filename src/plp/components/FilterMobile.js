@@ -82,8 +82,6 @@ export default class FilterMobile extends React.Component {
     this.setState({ brandSearchString: val });
   };
   onCategorySelect = (val, isFilter) => {
-    this.props.setIsNotGoBackFromPDP();
-
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
     let url;
@@ -118,7 +116,6 @@ export default class FilterMobile extends React.Component {
 
   onFilterClick = val => {
     const url = val.replace("{pageNo}", 1);
-    this.props.setIsNotGoBackFromPDP();
     this.props.history.push(url, { isFilter: true });
   };
   render() {

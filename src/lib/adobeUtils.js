@@ -59,6 +59,7 @@ const ADOBE_CLIQ_CASH_OFF = "CPJ_Checkout_Payment_ToggleOff";
 const ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS =
   "cpj_checkout_payment_coupon_success";
 const ADOBE_CHECKOUT_APPLY_COUPON_FAILURE = "cpj_checkout_payment_coupon_fail";
+const ADOBE_CHECKOUT_APPLIED_CNC = "CPJ_Checkout_Delivery_CLiQ";
 // end of checkout adobe constants
 // direct call for login tracking
 
@@ -101,8 +102,8 @@ const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
 
 const SIGN_UP_START = "signup_starts";
 const SIGN_UP_SUCCESS = "signup_successful";
-const LOGOUT_SUCCESS = "logout_successfu";
-const ADOBE_CHECKOUT_APPLIED_CNC = "CPJ_Checkout_Delivery_CLiQ";
+const LOGOUT_SUCCESS = "logout_successful";
+
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT";
@@ -1067,7 +1068,8 @@ export function getDigitalDataForSearchPageSuccess(response) {
     },
     internal: {
       search: {
-        results: response.searchresult ? response.searchresult.length : 0,
+        category: "all",
+        results: response.pagination ? response.pagination.totalResults : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null
       }
     }
@@ -1142,6 +1144,9 @@ export function setDataLayerForPlpDirectCalls(response) {
 }
 export function setDataLayerForLogin(type) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+  }
   const data = {};
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
     if (userDetails) {
@@ -1314,10 +1319,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       window._satellite.track(ADOBE_CONFIRM_ADDRESS);
     }
   }
-  if (
-    type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE ||
-    type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
-  ) {
+  if (type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE) {
     // herer we are getting all delivery modes and ussid in form of object
     // like {"MP12345678":"home_delivery","MP987654321":"expres_delivery"}
     // so here we need ot pass only "home_delivery"|"express_delivery"
@@ -1345,14 +1347,14 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
     }
 
     window.digitalData = data;
-    if (type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE) {
-      if (window._satellite) {
-        window._satellite.track(ADOBE_SELECT_DELIVERY_MODES);
-      }
-    } else {
-      if (window._satellite) {
-        window._satellite.track(ADOVE_PROCEED_FROM_DELIVERY_MODE);
-      }
+
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SELECT_DELIVERY_MODES);
+    }
+  }
+  if (type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE) {
+    if (window._satellite) {
+      window._satellite.track(ADOVE_PROCEED_FROM_DELIVERY_MODE);
     }
   }
   if (type === ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER) {
@@ -1451,6 +1453,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       window._satellite.track(ADOBE_FINAL_PAYMENT);
     }
   }
+
   if (type === ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_LANDS_ON_PAYMENT_MODES);
@@ -1739,6 +1742,7 @@ function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
       display: { hierarchy: `"home"|"${pageTitle}"` }
     }
   };
+
   return data;
 }
 function getDigitalDataForStatic(response) {

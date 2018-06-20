@@ -71,7 +71,8 @@ import {
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON,
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF,
   ADOBE_MY_ACCOUNT_ADDRESS_BOOK,
-  ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED
+  ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
+  ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const USER_CART_PATH = "v2/mpl/users";
@@ -923,7 +924,9 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
       dispatch(softReservation());
       dispatch(selectDeliveryModeSuccess(resultJson));
       // setting data layer after selecting delivery mode success
-      setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SELECT_DELIVERY_MODE);
+      setDataLayerForCheckoutDirectCalls(
+        ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
+      );
     } catch (e) {
       dispatch(selectDeliveryModeFailure(e.message));
     }
@@ -1539,7 +1542,6 @@ export function addPickupPersonCNC(personMobile, personName) {
           false
         )
       );
-
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED);
       return dispatch(addPickUpPersonSuccess(resultJson));
     } catch (e) {
@@ -2185,6 +2187,7 @@ export function softReservationPaymentForNetBanking(
           pinCode
         )
       );
+      setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }
@@ -2374,7 +2377,11 @@ export function jusPayTokenize(
         )
       );
     } catch (e) {
-      dispatch(jusPayTokenizeFailure(e.message));
+      let message = e.message;
+      if (message && message.indexOf("Unexpected token") > -1) {
+        message = "Something went wrong. Please retry!";
+      }
+      dispatch(jusPayTokenizeFailure(message));
     }
   };
 }
@@ -2406,7 +2413,11 @@ export function jusPayTokenizeForGiftCard(cardDetails, paymentMode, guId) {
         )
       );
     } catch (e) {
-      dispatch(jusPayTokenizeFailure(e.message));
+      let message = e.message;
+      if (message && message.indexOf("Unexpected token") > -1) {
+        message = "Something went wrong. Please retry!";
+      }
+      dispatch(jusPayTokenizeFailure(message));
     }
   };
 }

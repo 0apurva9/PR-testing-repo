@@ -28,6 +28,7 @@
   composes: base;
   color: #ff1744;
   opacity: 1;
+  pointer-events:none;
 }
 .active::before {
   content: "";

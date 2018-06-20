@@ -136,6 +136,10 @@ export default class JewelleryDetailsAndLink extends React.Component {
                     className={styles.ratingText}
                   >
                     Rating {`${averageRating}`} /5
+                    <meta
+                      itemProp="reviewCount"
+                      content={this.props.numberOfReviews}
+                    />
                   </div>
                 )}
                 <div className={styles.arrowHolder}>
@@ -172,7 +176,8 @@ JewelleryDetailsAndLink.propTypes = {
   onClick: PropTypes.func,
   readMore: PropTypes.func,
   viewPlans: PropTypes.func,
-  informationText: PropTypes.string
+  informationText: PropTypes.string,
+  numberOfReviews: PropTypes.number
 };
 JewelleryDetailsAndLink.defaultProps = {
   label: "Price Breakup"

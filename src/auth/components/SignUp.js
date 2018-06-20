@@ -117,16 +117,19 @@ class SignUp extends Component {
     let footerText = "";
     let footerClick;
     let showSocialButtons;
+    let buttonLabel;
     if (pathName === LOGIN_PATH || MAIN_ROUTER) {
-      footerText = "Don't have an account? Sign up";
+      footerText = "New to Tata CLiQ?";
       footerClick = () => this.navigateToSignUp();
+      buttonLabel = "Sign Up";
       showSocialButtons = true;
     }
 
     if (pathName === SIGN_UP_PATH) {
-      footerText = "Already have an account? Sign in";
+      footerText = "Already have an account?";
       footerClick = () => this.navigateToLogin();
       showSocialButtons = true;
+      buttonLabel = "Sign In";
     }
     if (this.props.authCallsInProcess) {
       return (
@@ -143,6 +146,7 @@ class SignUp extends Component {
         footerClick={footerClick}
         isSignUp={true}
         goBack={() => this.goBack()}
+        buttonLabel={buttonLabel}
       >
         <div>
           <div>
