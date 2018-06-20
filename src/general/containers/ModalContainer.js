@@ -69,10 +69,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
-import {
-  getProductDescription,
-  addProductToCart
-} from "../../pdp/actions/pdp.actions.js";
+
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -319,12 +316,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       } else {
         dispatch(displayToast(ERROR_MESSAGE_IN_CANCELING_ORDER));
       }
-    },
-    getProductDescription: productCode => {
-      return dispatch(getProductDescription(productCode));
-    },
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(addProductToCart(userId, cartId, accessToken, productDetails));
     }
   };
 };

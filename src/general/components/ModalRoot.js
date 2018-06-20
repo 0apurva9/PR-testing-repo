@@ -111,7 +111,7 @@ const ProductCouponDetails = Loadable({
 });
 
 const SizeSelectModal = Loadable({
-  loader: () => import("../../pdp/components/SizeSelectModal.js"),
+  loader: () => import("../../pdp/containers/SizeSelectModalContainer.js"),
   loading() {
     return <Loader />;
   }
@@ -609,12 +609,8 @@ export default class ModalRoot extends React.Component {
       SizeSelector: (
         <SizeSelectModal
           {...this.props.ownProps}
-          isFromModal={true}
-          getProductDescription={this.props.getProductDescription}
-          addProductToCart={this.props.addProductToCart}
           history={this.props.history}
           closeModal={() => this.handleClose()}
-          displayToast={message => this.props.displayToast(message)}
         />
       ),
       GiftCardModal: (
