@@ -61,7 +61,10 @@
   width: auto;
   height: auto;
 }
-
+.description {
+  width: 100%;
+  height: auto;
+}
 @media screen and (min-width: 1025px) {
   .ovalImage {
     width: auto;
@@ -71,6 +74,11 @@
     line-height: 36px;
     left: initial;
     right: 20px;
+    position: initial;
+    margin-bottom: 10px;
+  }
+  .description {
+    display: flex;
   }
   .text {
     width: auto;
@@ -78,7 +86,7 @@
     white-space: nowrap;
   }
   .textLine {
-    padding: 0px 40px 40px 40px;
+    padding: 0px 30px 40px 30px;
     pointer-events: none;
   }
   .overlay {
