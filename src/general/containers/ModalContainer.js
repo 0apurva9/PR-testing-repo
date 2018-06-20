@@ -17,7 +17,6 @@ import {
   removeAddress,
   cancelProduct
 } from "../../account/actions/account.actions";
-import { getTncForBankOffer } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
   FAILURE,
@@ -69,11 +68,9 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
-
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const mapStateToProps = (state, ownProps) => {
   return {
-    bankOfferTncDetails: state.cart.bankOfferTncDetails,
     modalType: state.modal.modalType,
     ownProps: state.modal.ownProps,
     modalStatus: state.modal.modalDisplayed,
@@ -274,9 +271,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
-    getTNCForBankOffer: () => {
-      dispatch(getTncForBankOffer());
-    },
+
     updateProfile: (accountDetails, otp) => {
       dispatch(updateProfile(accountDetails, otp));
     },
@@ -306,12 +301,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeNoCostEmi: (couponCode, cartGuid, cartId) => {
       return dispatch(removeNoCostEmi(couponCode, cartGuid, cartId));
     },
-    cancelProduct: async (cancelProductDetails, productDetails) => {
+    cancelProduct: async (cancelProductDetails, productDetials) => {
       const cancelOrderDetails = await dispatch(
-        cancelProduct(cancelProductDetails, productDetails)
+        cancelProduct(cancelProductDetails)
       );
       if (cancelOrderDetails.status === SUCCESS) {
-        setDataLayerForMyAccountDirectCalls(productDetails);
+        setDataLayerForMyAccountDirectCalls(productDetials);
         ownProps.history.goBack();
       } else {
         dispatch(displayToast(ERROR_MESSAGE_IN_CANCELING_ORDER));
