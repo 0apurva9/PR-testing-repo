@@ -175,10 +175,17 @@ class CheckOutPage extends React.Component {
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
       showCartDetails: false,
-      padding: "15px 125px 15px 15px"
+      padding: "15px 125px 15px 15px",
+
     };
   }
 
+  changeEmiPlan=()=>
+  {
+    this.setState({
+      cardDetails: {}
+    });
+  }
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
@@ -2293,6 +2300,8 @@ class CheckOutPage extends React.Component {
                   this.props.cart.cartDetailsCNC.products &&
                   this.props.cart.cartDetailsCNC.products.length
                 }
+                changeEmiPlan={()=>this.changeEmiPlan()}
+                subEmiOption={this.state.currentSelectedEMIType}
               />
             </div>
           )}
