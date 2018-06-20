@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import queryString, { parse } from "query-string";
 import ModalContainer from "./general/containers/ModalContainer";
 import ToastContainer from "./general/containers/ToastContainer";
 import { Switch } from "react-router-dom";
@@ -16,6 +17,7 @@ import SecondaryLoader from "./general/components/SecondaryLoader";
 import HeaderContainer from "./general/containers/HeaderContainer.js";
 import SecondaryLoaderContainer from "./general/containers/SecondaryLoaderContainer.js";
 import HelpDetailsContainer from "./account/containers/HelpDetailsContainer.js";
+import * as Cookies from "./lib/Cookie.js";
 import {
   HOME_ROUTER,
   PRODUCT_LISTINGS,
@@ -248,7 +250,18 @@ class App extends Component {
       }
     } else {
       if (!cartDetailsForAnonymous && globalAccessToken) {
-        this.props.generateCartIdForAnonymous();
+        const parsedQueryString = queryString.parse(this.props.location.search);
+        console.log(parsedQueryString && parsedQueryString.cartGuid);
+        if (parsedQueryString && parsedQueryString.cartGuid) {
+          Cookies.createCookie(
+            CART_DETAILS_FOR_ANONYMOUS,
+            JSON.stringify({
+              guid: parsedQueryString.cartGuid
+            })
+          );
+        } else {
+          this.props.generateCartIdForAnonymous();
+        }
       }
     }
   }
