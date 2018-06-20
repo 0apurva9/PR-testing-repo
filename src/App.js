@@ -251,7 +251,6 @@ class App extends Component {
     } else {
       if (!cartDetailsForAnonymous && globalAccessToken) {
         const parsedQueryString = queryString.parse(this.props.location.search);
-        console.log(parsedQueryString && parsedQueryString.cartGuid);
         if (!parsedQueryString || !parsedQueryString.cartGuid) {
           this.props.generateCartIdForAnonymous();
         }
