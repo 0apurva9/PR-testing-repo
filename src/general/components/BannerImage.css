@@ -24,12 +24,15 @@
 }
 
 @media screen and (min-width: 1025px) {
+  .base {
+    padding-bottom: 24.5%;
+  }
   .logoAndText {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 50%;
-    padding: 40px;
+    padding: 0px 0px 40px;
   }
   .logo {
     width: 100%;
@@ -55,6 +58,10 @@
   .button {
     margin-top: 30px;
     display: inline-block;
+  }
+  .overlay {
+    max-width: 1200px;
+    margin: auto;
   }
 }
 

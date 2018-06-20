@@ -7,8 +7,10 @@ export default class BannerDesktop extends React.Component {
       position: 0
     };
   }
-  changePosition(val) {
-    this.setState({ position: val });
+  changePosition(i) {
+    if (i !== undefined) {
+      this.setState({ position: i });
+    }
   }
   autoRun = () => {
     setTimeout(() => {
@@ -22,10 +24,26 @@ export default class BannerDesktop extends React.Component {
       this.autoRun();
     }
   }
+  goForward = () => {
+    if (
+      this.props.children &&
+      this.props.children.length - 1 > this.state.position
+    ) {
+      const position = this.state.position + 1;
+      this.setState({ position });
+    }
+  };
+  goBack = () => {
+    if (this.state.position > 0) {
+      const position = this.state.position - 1;
+      this.setState({ position });
+    }
+  };
   render() {
-    const navValues = [0, 1, 2];
     return (
       <div className={styles.base}>
+        <div className={styles.rightArrow} onClick={() => this.goForward()} />
+        <div className={styles.leftArrow} onClick={() => this.goBack()} />
         {this.props.children.map((child, i) => {
           if (this.state.position === i) {
             return (
@@ -36,17 +54,15 @@ export default class BannerDesktop extends React.Component {
           }
         })}
         <div className={styles.nav}>
-          {navValues.map(val => {
-            let navClass = styles.navButton;
-            if (val === this.state.position) {
-              navClass = styles.active;
-            }
+          {this.props.children.map((val, i) => {
             return (
               <div
-                className={navClass}
-                key={val}
+                className={
+                  this.state.position === i ? styles.active : styles.navButton
+                }
+                key={i}
                 onClick={() => {
-                  this.changePosition(val);
+                  this.changePosition(i);
                 }}
               />
             );
