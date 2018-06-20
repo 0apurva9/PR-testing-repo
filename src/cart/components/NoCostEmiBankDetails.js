@@ -16,7 +16,10 @@ export default class NoCostEmiBankDetails extends React.Component {
       selectedMonth:
         (this.props.cardDetails && this.props.cardDetails.selectedMonth) || "",
       showAll: false,
-      selectedBankName: this.props.cardDetails.emi_bank,
+      selectedBankName:
+        this.props.cardDetails && this.props.cardDetails.emi_bank
+          ? this.props.cardDetails.emi_bank
+          : "",
       selectedBankCode:
         (this.props.cardDetails && this.props.cardDetails.emi_bank) || "",
       selectedCouponCode: null,
