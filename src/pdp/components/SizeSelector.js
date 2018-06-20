@@ -23,13 +23,6 @@ export default class SizeSelector extends React.Component {
     }
   }
   async updateSize(productUrl) {
-    // this.props.history.push({
-    //   pathname: `${productUrl}`,
-    //   state: { isSizeSelected: true }
-    // });
-    // if (this.props.displayToast) {
-    //   this.props.displayToast(MESSAGE_FOR_SIZE_SELECTOR);
-    // }
     if (this.props.isFromModal) {
       const productDetailResponse = await this.props.getProductDescription(
         this.props.productId
@@ -83,6 +76,7 @@ export default class SizeSelector extends React.Component {
     }
   }
   render() {
+    console.log(this.props);
     const selectedColour = this.props.data.filter(val => {
       return val.colorlink.selected;
     })[0].colorlink.color;
