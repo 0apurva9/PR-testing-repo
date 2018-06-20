@@ -102,7 +102,7 @@ const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
 const SIGN_UP_START = "signup_starts";
 const SIGN_UP_SUCCESS = "signup_successful";
 const LOGOUT_SUCCESS = "logout_successfu";
-
+const ADOBE_CHECKOUT_APPLIED_CNC = "CPJ_Checkout_Delivery_CLiQ";
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT";
@@ -174,6 +174,8 @@ export const ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS =
   "ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS";
 export const ADOBE_CALL_FOR_APPLY_COUPON_FAILURE =
   "ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_FAILURE";
+export const ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED =
+  "ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED";
 
 // end of constants for checkout pages
 
@@ -1400,6 +1402,11 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       if (window._satellite) {
         window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_FAILURE);
       }
+    }
+  }
+  if (type === ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CHECKOUT_APPLIED_CNC);
     }
   }
 

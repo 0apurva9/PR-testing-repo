@@ -120,7 +120,7 @@ const PLACE_ORDER = "Place Order";
 const PAY_NOW = "Pay Now";
 const OUT_OF_STOCK_MESSAGE = "Some Products are out of stock";
 export const EGV_GIFT_CART_ID = "giftCartId";
-const CASH_ON_DELIVERY_TEXT="Cash on Delivery"
+const CASH_ON_DELIVERY_TEXT = "Cash on Delivery";
 class CheckOutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -351,8 +351,10 @@ class CheckOutPage extends React.Component {
   };
   getAllStores = selectedProductsUssIdForCliqAndPiq => {
     const defalutPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-    this.setState({ showCliqAndPiq: true, selectedProductsUssIdForCliqAndPiq });
-    this.props.getAllStoresCNC(defalutPinCode);
+    this.setState(
+      { showCliqAndPiq: true, selectedProductsUssIdForCliqAndPiq },
+      () => this.props.getAllStoresCNC(defalutPinCode)
+    );
   };
   changePincodeOnCliqAndPiq = pincode => {
     this.updateLocalStoragePinCode(pincode);
@@ -371,11 +373,6 @@ class CheckOutPage extends React.Component {
     this.setState({ selectedSlaveIdObj: currentSelectedSlaveIdObj });
   }
   addStoreCNC(selectedSlaveId) {
-    this.handleSelectDeliveryMode(
-      COLLECT,
-      this.state.selectedProductsUssIdForCliqAndPiq
-    );
-
     const selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
     selectedSlaveIdObj[
       this.state.selectedProductsUssIdForCliqAndPiq
@@ -771,6 +768,7 @@ class CheckOutPage extends React.Component {
         !this.state.isGiftCard &&
         !this.state.showCliqAndPiq
       ) {
+        console.log("call me here for the component will recieve props");
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
           defaultSelectedDeliveryModes
@@ -1511,7 +1509,11 @@ class CheckOutPage extends React.Component {
         true // for payment failure we need to use old cart id
       );
     }
-    if (this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+    if (
+      this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT &&
+      this.state.binValidationCOD &&
+      !this.state.isCliqCashApplied
+    ) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
     if (!this.state.isNoCostEmiApplied) {
@@ -1591,7 +1593,7 @@ class CheckOutPage extends React.Component {
           );
         }
       }
-       if (
+      if (
         this.state.currentPaymentMode === CREDIT_CARD ||
         (this.state.currentPaymentMode === EMI &&
           !this.state.isNoCostEmiApplied) ||
@@ -1629,7 +1631,11 @@ class CheckOutPage extends React.Component {
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
-      if (this.state.currentPaymentMode ===CASH_ON_DELIVERY_TEXT && this.state.binValidationCOD && !this.state.isCliqCashApplied) {
+      if (
+        this.state.currentPaymentMode === CASH_ON_DELIVERY_TEXT &&
+        this.state.binValidationCOD &&
+        !this.state.isCliqCashApplied
+      ) {
         this.softReservationForCODPayment();
       }
       if (this.state.paymentModeSelected === PAYTM) {
@@ -1741,7 +1747,6 @@ class CheckOutPage extends React.Component {
     }
   };
   applyBankCoupons = async val => {
-
     if (val.length > 0) {
       const applyCouponReq = await this.props.applyBankOffer(val[0]);
 
@@ -1749,14 +1754,13 @@ class CheckOutPage extends React.Component {
         this.setState({ selectedBankOfferCode: val[0] });
       }
     } else {
-     let  bankOffer=localStorage.getItem(BANK_COUPON_COOKIE);
-     if(bankOffer)
-     {
-      const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
-      if (releaseCouponReq.status === SUCCESS) {
-        this.setState({ selectedBankOfferCode: "" });
+      let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);
+      if (bankOffer) {
+        const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
+        if (releaseCouponReq.status === SUCCESS) {
+          this.setState({ selectedBankOfferCode: "" });
+        }
       }
-    }
     }
   };
   openBankOffers = () => {
