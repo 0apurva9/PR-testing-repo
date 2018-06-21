@@ -6,6 +6,7 @@
   font-size: 14px;
   font-family: regular;
   display: block;
+  cursor: pointer;
 }
 .itemHasColour {
   composes: item;

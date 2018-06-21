@@ -7,13 +7,16 @@ import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import MediaQuery from "react-responsive";
+import PlpDesktopHeader from "../components/PlpDesktopHeader";
 import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
+import cancelIcon from "../../general/components/img/cancelGrey.svg";
+import Icon from "../../xelpmoc-core/Icon";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
 import { URL_ROOT } from "../../lib/apiRequest";
-
+import SortDesktopContainer from "../containers/SortDesktopContainer";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -110,7 +113,13 @@ export default class Plp extends React.Component {
       }
     }
   };
-
+  onClickCancelIcon(val) {
+    const url = val.replace("{pageNo}", 1);
+    this.props.setIsNotGoBackFromPDP();
+    this.props.history.push(url, {
+      isFilter: false
+    });
+  }
   componentDidUpdate(prevProps) {
     this.setHeaderText();
   }
@@ -175,17 +184,26 @@ export default class Plp extends React.Component {
 
   render() {
     let selectedFilterCount = 0;
+    let selectedFilter = [];
     let filterSelected = false;
     let hasSorts = false;
     if (this.props.productListings && this.props.productListings.facetdata) {
       this.props.productListings.facetdata.forEach(filter => {
         selectedFilterCount += filter.selectedFilterCount;
+        filter.values &&
+          filter.values.forEach(selectedFilterObject => {
+            if (
+              selectedFilterObject &&
+              selectedFilterObject.selected === true
+            ) {
+              selectedFilter.push(selectedFilterObject);
+            }
+          });
       });
 
       if (selectedFilterCount > 0) {
         filterSelected = true;
       }
-
       this.props.productListings.sorts.forEach(sort => {
         if (sort.selected && !hasSorts) {
           hasSorts = true;
@@ -200,6 +218,14 @@ export default class Plp extends React.Component {
             ? renderMetaTags(this.props.productListings)
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}
           <MediaQuery query="(min-device-width: 1025px)">
+            <div className={styles.headerText}>
+              <PlpDesktopHeader
+                productListings={
+                  this.props.productListings && this.props.productListings
+                }
+                match={this.props.match && this.props.match}
+              />
+            </div>
             <div className={styles.totalProduct}>
               {this.props.productListings &&
               this.props.productListings.pagination &&
@@ -207,6 +233,36 @@ export default class Plp extends React.Component {
                 ? this.props.productListings.pagination.totalResults
                 : 0}{" "}
               Products
+            </div>
+          </MediaQuery>
+          <MediaQuery query="(min-device-width:1025px)">
+            <div className={styles.headerSortWithFilter}>
+              <div className={styles.sort}>
+                <SortDesktopContainer />
+              </div>
+              {selectedFilter && (
+                <div className={styles.selectedFilter}>
+                  {selectedFilter.map(selectedFilterData => {
+                    return (
+                      <div
+                        className={styles.selectedFilterWithIcon}
+                        onClick={url =>
+                          this.onClickCancelIcon(selectedFilterData.url)
+                        }
+                      >
+                        {selectedFilterData.name}
+                        <div className={styles.cancelIcon}>
+                          <Icon
+                            image={cancelIcon}
+                            size={10}
+                            backgroundSize="auto 20px"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </MediaQuery>
           <div className={styles.productWithFilter}>

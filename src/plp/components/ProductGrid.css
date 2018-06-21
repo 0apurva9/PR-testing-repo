@@ -55,8 +55,15 @@
 }
 @media only screen and (min-width: 1024px) {
   .sort {
-    width: 212px;
-    float: right;
+    width: 220px;
+    position: absolute;
+    right: 50px;
     height: auto;
+  }
+  .header {
+    top: -70px;
+    right: -10px;
+    width: auto;
+    position: absolute;
   }
 }
