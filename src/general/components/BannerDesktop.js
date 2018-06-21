@@ -40,19 +40,24 @@ export default class BannerDesktop extends React.Component {
     }
   };
   render() {
+    const translationAmount = -(100 * this.state.position);
+    const transform = `translateX(${translationAmount}%)`;
+    const style = {
+      transform: transform
+    };
     return (
       <div className={styles.base}>
         <div className={styles.rightArrow} onClick={() => this.goForward()} />
         <div className={styles.leftArrow} onClick={() => this.goBack()} />
-        {this.props.children.map((child, i) => {
-          if (this.state.position === i) {
+        <div style={style} className={styles.imageHolder}>
+          {this.props.children.map((child, i) => {
             return (
               <div className={styles.item} key={i}>
                 {child}
               </div>
             );
-          }
-        })}
+          })}
+        </div>
         <div className={styles.nav}>
           {this.props.children.map((val, i) => {
             return (

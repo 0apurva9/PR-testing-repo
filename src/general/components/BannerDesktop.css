@@ -1,15 +1,12 @@
 .base {
   width: 100%;
   height: auto;
-  padding-bottom: 24.5%;
   position: relative;
 }
 .item {
   width: 100%;
   height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
+  display: inline-block;
 }
 .nav {
   width: auto;
@@ -58,4 +55,10 @@
   right: initial;
   left: 20px;
   transform: rotate(180deg);
+}
+.imageHolder {
+  width: 100%;
+  height: auto;
+  transition: 300ms;
+  white-space: nowrap;
 }
