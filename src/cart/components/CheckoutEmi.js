@@ -25,6 +25,11 @@ export default class CheckoutEmi extends React.Component {
       this.props.onChangeCardDetail(val);
     }
   };
+  changeEmiPlan = () => {
+    if (this.props.changeEmiPlan) {
+      this.props.changeEmiPlan();
+    }
+  };
   render() {
     return (
       <div>
@@ -40,6 +45,7 @@ export default class CheckoutEmi extends React.Component {
                 this.binValidation(paymentMode, binNo)
               }
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
+              changeEmiPlan={() => this.changeEmiPlan()}
             />
           )}
         {!this.props.cart.emiBankDetails &&

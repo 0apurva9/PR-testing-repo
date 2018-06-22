@@ -12,11 +12,19 @@ export default class EmiAccordion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      planSelected: false,
-      selectedEmi: "",
-      selectedBank: "",
-      selectedEmiRate: "",
-      selectedPrice: ""
+      planSelected: this.props.cardDetails.is_emi ? true : false,
+      selectedEmi: this.props.cardDetails.emi_tenure
+        ? this.props.cardDetails.emi_tenure
+        : "",
+      selectedBank: this.props.cardDetails.emi_bank
+        ? this.props.cardDetails.emi_bank
+        : "",
+      selectedEmiRate: this.props.cardDetails.selectedEmiRate
+        ? this.props.cardDetails.selectedEmiRate
+        : "",
+      selectedPrice: this.props.cardDetails.selectedPrice
+        ? this.props.cardDetails.selectedPrice
+        : ""
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -32,6 +40,7 @@ export default class EmiAccordion extends React.Component {
   }
 
   handleSelectPlan(val) {
+    // this.props.changeEmiPlan();
     if (val) {
       this.setState({
         selectedEmiRate: val.interestRate,
@@ -41,11 +50,14 @@ export default class EmiAccordion extends React.Component {
       this.onChangeCardDetail({
         emi_bank: this.state.selectedBank,
         emi_tenure: val.term,
-        is_emi: true
+        is_emi: true,
+        selectedEmiRate: val.interestRate,
+        selectedPrice: val.monthlyInstallment
       });
     }
   }
   handleSelectBank(val) {
+    // this.props.changeEmiPlan();
     const option = this.props.emiList.filter(data => {
       return data.code === val[0];
     })[0];
@@ -72,7 +84,9 @@ export default class EmiAccordion extends React.Component {
       this.onChangeCardDetail({
         emi_bank: option.code,
         emi_tenure: option.emitermsrate[0].term,
-        is_emi: true
+        is_emi: true,
+        selectedEmiRate: option.emitermsrate[0].interestRate,
+        selectedPrice: option.emitermsrate[0].monthlyInstallment
       });
     }
   }
@@ -81,6 +95,7 @@ export default class EmiAccordion extends React.Component {
     this.setState({ planSelected: true });
   }
   handleChangePlan() {
+    this.props.changeEmiPlan();
     this.setState({ planSelected: false });
   }
 

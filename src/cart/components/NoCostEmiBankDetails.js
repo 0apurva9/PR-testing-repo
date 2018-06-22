@@ -13,12 +13,18 @@ export default class NoCostEmiBankDetails extends React.Component {
     super(props);
     this.state = {
       selectedBankIndex: null,
-      selectedMonth: null,
+      selectedMonth:
+        (this.props.cardDetails && this.props.cardDetails.selectedMonth) || "",
       showAll: false,
-      selectedBankName: null,
-      selectedBankCode: null,
+      selectedBankName:
+        this.props.cardDetails && this.props.cardDetails.emi_bank
+          ? this.props.cardDetails.emi_bank
+          : "",
+      selectedBankCode:
+        (this.props.cardDetails && this.props.cardDetails.emi_bank) || "",
       selectedCouponCode: null,
-      selectedTenure: null,
+      selectedTenure:
+        (this.props.cardDetails && this.props.cardDetails.emi_tenure) || "",
       selectedFromDropDown: false,
       noCostEmiText: ""
     };
@@ -176,7 +182,9 @@ export default class NoCostEmiBankDetails extends React.Component {
         this.onChangeCardDetail({
           is_emi: true,
           emi_bank: this.state.selectedBankCode,
-          emi_tenure: val.tenure
+          emi_tenure: val.tenure,
+          selectedMonth: index,
+          selectedCouponCode: val.emicouponCode
         });
       } else {
         this.setState({
@@ -208,6 +216,11 @@ export default class NoCostEmiBankDetails extends React.Component {
       }
     }
   }
+  changeEmiPlan = () => {
+    if (this.props.changeEmiPlan) {
+      this.props.changeEmiPlan();
+    }
+  };
 
   renderMonthsPlan() {
     let noCostEmiDetails = this.props.noCostEmiDetails.cartAmount;
@@ -299,6 +312,7 @@ export default class NoCostEmiBankDetails extends React.Component {
       selectedCouponCode: null,
       selectedTenure: null
     });
+    this.changeEmiPlan();
     this.props.changeNoCostEmiPlan();
   }
 
@@ -447,6 +461,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                 this.onChangeCardDetail(cardDetails)
               }
               displayToast={this.props.displayToast}
+              cardDetails={this.props.cardDetails}
             />
           </React.Fragment>
         )}
