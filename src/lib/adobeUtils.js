@@ -1075,13 +1075,20 @@ export function getDigitalDataForSearchPageSuccess(response) {
     }
   };
   if (
-    ((response || {}).seo || {}).alternateURL &&
-    CATEGORY_REGEX.test(((response || {}).seo || {}).alternateURL)
+    response &&
+    response.seo &&
+    response.seo.alternateURL &&
+    CATEGORY_REGEX.test(response.seo.alternateURL)
   ) {
     Object.assign(data.internal.search, {
-      category: ((((response || {}).seo || {}).breadcrumbs || {})[0] || {}).name
-        ? ((((response || {}).seo || {}).breadcrumbs || {})[0] || {}).name
-        : "all"
+      category:
+        response &&
+        response.seo &&
+        response.seo.breadcrumbs &&
+        response.seo.breadcrumbs[0] &&
+        response.seo.breadcrumbs[0].name
+          ? response.seo.breadcrumbs[0].name
+          : "all"
     });
   } else {
     Object.assign(data.internal.search, {
