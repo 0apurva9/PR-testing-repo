@@ -1052,7 +1052,8 @@ class CheckOutPage extends React.Component {
         bagAmount: Math.round(this.props.location.state.amount * 100) / 100
       });
     } else {
-      if (this.props.getCartDetailsCNC) {
+      if (!this.props.cart.userAddress
+        && this.props.getCartDetailsCNC && this.props.getUserAddress) {
         let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         let cartDetailsLoggedInUser = Cookie.getCookie(
