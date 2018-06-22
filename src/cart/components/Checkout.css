@@ -53,6 +53,13 @@
   font-family: regular;
   display: inline-block;
 }
+.viewPrice{
+  composes:totalPriceHeading;
+  display:block;
+  margin-bottom:0;
+  margin-top:5px;
+  text-decoration:underline;
+}
 .amountHolder {
   width: 100%;
   height: auto;
@@ -146,6 +153,7 @@
   width: 100%;
   height: auto;
   padding-left: 60px;
+  padding-right:15px;
   background: url("./img/lock.svg") no-repeat;
   background-size: 25px;
   background-position: 15px center;

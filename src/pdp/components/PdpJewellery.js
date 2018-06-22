@@ -389,6 +389,7 @@ export default class PdpJewellery extends React.Component {
               price={price}
               discountPrice={discountPrice}
               averageRating={productData.averageRating}
+              numberOfReviews={productData.numberOfReviews}
               goToReviewPage={this.goToReviewPage}
               doublePrice={seoDoublePrice}
               discount={productData.discount}

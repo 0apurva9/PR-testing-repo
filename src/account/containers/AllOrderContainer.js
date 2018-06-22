@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import {
   getAllOrdersDetails,
-  clearOrderDetails
+  clearOrderDetails,
+  reSendEmailForGiftCard
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -21,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearOrderDetails: () => {
       dispatch(clearOrderDetails());
+    },
+    reSendEmailForGiftCard: orderId => {
+      dispatch(reSendEmailForGiftCard(orderId));
     }
   };
 };

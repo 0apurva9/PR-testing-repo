@@ -79,3 +79,6 @@
   margin: auto;
   transform: rotate(180deg);
 }
+.subText {
+  font-size: 12px;
+}

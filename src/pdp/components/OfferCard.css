@@ -23,10 +23,10 @@
   pointer-events: none;
   color: #fff;
 }
-.headingText:nth-child(2) {
+.headingText:nth-child(3) {
   padding-top: 20px;
 }
-.headingText:nth-child(2):before {
+.headingText:nth-child(3):before {
   content: "";
   width: 100%;
   height: 1px;
@@ -71,7 +71,14 @@
   width: 60px;
   line-height: 20px;
 }
-
+.offerText {
+  width: 100%;
+  height: auto;
+  color: #fff;
+  font-size: 14px;
+  font-family: light;
+  padding-bottom: 5px;
+}
 .iconHolder {
   width: auto;
   height: auto;

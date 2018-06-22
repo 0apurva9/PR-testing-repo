@@ -77,3 +77,11 @@
   composes: price;
   padding-left: 5px;
 }
+.reSendEmail {
+  font-size: 14px;
+  padding-top: 5px;
+  color: #ff1744;
+  text-align: right;
+  margin-top: 20px;
+  padding-right: 30px;
+}

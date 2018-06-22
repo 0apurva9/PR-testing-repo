@@ -135,7 +135,10 @@ export default class PdpApparel extends React.Component {
     }
   };
   updateQuantity = quantity => {
-    this.setState({ productQuantityOption: quantity, quantityError: false });
+    this.setState({
+      productQuantityOption: quantity,
+      quantityError: false
+    });
   };
   updateSize = () => {
     this.setState({ sizeError: false });
@@ -352,6 +355,7 @@ export default class PdpApparel extends React.Component {
                 goToReviewPage={this.goToReviewPage}
                 discountPrice={discountPrice}
                 averageRating={productData.averageRating}
+                numberOfReviews={productData.numberOfReviews}
                 discount={productData.discount}
               />
             </div>

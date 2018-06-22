@@ -27,7 +27,6 @@ export default class PlpBrandCategoryWrapper extends React.Component {
       const url = this.props.location.pathname;
       let categoryOrBrandId = null;
 
-      this.props.plpHasNotBeenVisited();
       if (CATEGORY_REGEX.test(url)) {
         categoryOrBrandId = url.match(CATEGORY_CAPTURE_REGEX)[0];
       }

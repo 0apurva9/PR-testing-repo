@@ -11,7 +11,7 @@
   bottom: 0;
   padding-top: 60px;
   transition: 300ms;
-  transform: translateX(-100%);
+  transform: translateX(-100%) translateZ(0);
 }
 .pageHeader {
   width: 100%;
@@ -21,7 +21,7 @@
 }
 .filterOpen {
   composes: base;
-  transform: translateX(0);
+  transform: translateX(0) translateZ(0);
 }
 .tabHolder {
   width: 40%;
