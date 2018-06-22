@@ -515,8 +515,7 @@ const cart = (
       });
     case cartActions.GET_CART_ID_SUCCESS:
       return Object.assign({}, state, {
-        status: action.status,
-        userCartDetail: action.userCartDetail
+        status: action.status
       });
 
     case cartActions.GET_CART_ID_FAILURE:
