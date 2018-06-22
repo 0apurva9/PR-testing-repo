@@ -305,3 +305,5 @@ export const EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP =
 export const EMAIL_SENT_SUCCESS_MESSAGE = "Email sent successfully";
 export const FEMALE = "FEMALE";
 export const MALE = "MALE";
+
+export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";

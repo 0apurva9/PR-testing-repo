@@ -1413,19 +1413,30 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
   }
 
   if (type === ADOBE_FINAL_PAYMENT_MODES) {
-    const finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
-
-    if (finalPaymentMode) {
+    let finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
+    const cliqCashUsed = localStorage.getItem(
+      constants.CLIQ_CASH_APPLIED_LOCAL_STORAGE
+    );
+    if (finalPaymentMode || cliqCashUsed) {
+      if (finalPaymentMode && cliqCashUsed) {
+        finalPaymentMode = `${finalPaymentMode
+          .replace(/ /g, "_")
+          .toLowerCase()}|cliqcash`;
+      } else if (cliqCashUsed) {
+        finalPaymentMode = "cliqcash";
+      } else {
+        finalPaymentMode = finalPaymentMode.replace(/ /g, "_").toLowerCase();
+      }
       if (data) {
         if (data.cpj) {
           if (data.cpj.payment) {
             Object.assign(data.cpj.payment, {
-              finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+              finalMode: finalPaymentMode
             });
           } else {
             Object.assign(data.cpj, {
               payment: {
-                finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+                finalMode: finalPaymentMode
               }
             });
           }
@@ -1433,7 +1444,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           Object.assign(data, {
             cpj: {
               payment: {
-                finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+                finalMode: finalPaymentMode
               }
             }
           });
@@ -1442,7 +1453,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         Object.assign(data, {
           cpj: {
             payment: {
-              finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+              finalMode: finalPaymentMode
             }
           }
         });

@@ -15,7 +15,8 @@ import {
   STANDARD_EMI,
   PLAT_FORM_NUMBER,
   TOAST_MESSAGE_AFTER_MERGE_CART,
-  CHANNEL
+  CHANNEL,
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1875,6 +1876,7 @@ export function applyCliqCash() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      localStorage.setItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE, true);
       dispatch(applyCliqCashSuccess(resultJson));
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON);
     } catch (e) {
@@ -1929,6 +1931,7 @@ export function removeCliqCash() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF);
       dispatch(removeCliqCashSuccess(resultJson));
     } catch (e) {
