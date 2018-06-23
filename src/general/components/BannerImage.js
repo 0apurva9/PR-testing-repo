@@ -83,5 +83,5 @@ Banner.defaultProps = {
   image: "",
   title: "",
   logo: "",
-  buttonLabel: "Shop Now"
+  buttonLabel: "Shop Beats By Dre"
 };
