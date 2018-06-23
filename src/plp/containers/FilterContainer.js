@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import FilterMobile from "../components/FilterMobile.js";
+import FilterWrapper from "../components/FilterWrapper.js";
 import { withRouter } from "react-router-dom";
 import {
   setFilterSelectedData,
@@ -59,7 +59,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const FilterContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FilterMobile)
+  connect(mapStateToProps, mapDispatchToProps)(FilterWrapper)
 );
 
 export default FilterContainer;

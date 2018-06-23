@@ -7,7 +7,9 @@ import {
   showFilter,
   hideFilter,
   setIfFilterHasBeenClicked,
-  setProductModuleRef
+  setProductModuleRef,
+  plpHasBeenVisited,
+  setIsNotGoBackFromPDP
 } from "../../plp/actions/plp.actions.js";
 import { displayToast } from "../../general/toast.actions";
 
@@ -36,6 +38,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setProductModuleRef: ref => {
       dispatch(setProductModuleRef(ref));
+    },
+    setIsNotGoBackFromPDP: () => {
+      dispatch(setIsNotGoBackFromPDP());
     }
   };
 };

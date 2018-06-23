@@ -6,11 +6,17 @@ import Icon from "../../xelpmoc-core/Icon";
 import styles from "./ProductGrid.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
+import MediaQuery from "react-responsive";
+import dropDownSortIcon from "../../cart/components/img/googleSearch.png";
+
 import {
   PRODUCT_DESCRIPTION_ROUTER,
   IS_OFFER_EXISTING,
   PRODUCT_LISTINGS_WITHOUT_SLASH
 } from "../../lib/constants";
+import queryString from "query-string";
+import { applySortToUrl } from "./SortUtils.js";
+import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 const LIST = "list";
 const GRID = "grid";
@@ -50,7 +56,6 @@ export default class ProductGrid extends React.Component {
       isComingFromPlp: true
     });
   };
-
   renderComponent = data => {
     // if (data.type === PRODUCT) {
     return (
@@ -98,29 +103,17 @@ export default class ProductGrid extends React.Component {
         showWishListButton={false}
       />
     );
-    // } else if (data.type === PLPAD) {
-    //   return <PlpAds imageURL={data.imageURL} />;
-    // } else if (data.type === ICONICFILTER) {
-    //   return <IconicFilter data={data.filterValue} title={data.filterTitle} />;
-    // } else {
-    //   return null;
-    // }
   };
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          <div className={styles.product}>
-            {this.props.totalResults ? this.props.totalResults : 0} Products
-          </div>
+          <MediaQuery query="(max-device-width:1024px)">
+            <div className={styles.product}>
+              {this.props.totalResults ? this.props.totalResults : 0} Products
+            </div>
+          </MediaQuery>
 
-          {/* <div className={styles.area}>{this.props.area}</div> */}
-          {/* <div
-            className={styles.areaChange}
-            onClick={() => this.changeAddress()}
-          >
-            Change
-          </div> */}
           <div className={styles.icon} onClick={() => this.switchView()}>
             {this.state.view === LIST && <Icon image={gridImage} size={20} />}
             {this.state.view === GRID && <Icon image={listImage} size={20} />}
@@ -134,15 +127,7 @@ export default class ProductGrid extends React.Component {
           >
             {this.props.data &&
               this.props.data.map((datum, i) => {
-                // if (
-                //   datum.type === PRODUCT ||
-                //   datum.type === PLPAD ||
-                //   datum.type === ICONICFILTER
-                // ) {
                 let widthMobile = false;
-                // if (datum.type === PLPAD || datum.type === ICONICFILTER) {
-                //   widthMobile = 100;
-                // }
                 return (
                   <PlpComponent
                     key={i}
@@ -153,9 +138,6 @@ export default class ProductGrid extends React.Component {
                     {this.renderComponent(datum)}
                   </PlpComponent>
                 );
-                // } else {
-                //   return null;
-                // }
               })}
           </DumbGrid>
         </div>

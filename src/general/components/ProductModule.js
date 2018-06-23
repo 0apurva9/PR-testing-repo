@@ -9,7 +9,6 @@ import downloadIconWhite from "./img/downloadWhite.svg";
 import ProductInfo from "./ProductInfo.js";
 import ProductFlags from "./ProductFlags.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-
 import {
   ON_EXCLUSIVE,
   DISCOUNT_PERCENT,
