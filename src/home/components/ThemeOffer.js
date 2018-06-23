@@ -44,8 +44,6 @@ export default class ThemeOffer extends React.Component {
     let themeData = [],
       items = [];
     const { feedComponentData, ...rest } = this.props;
-    console.log(this.props);
-
     if (!feedComponentData) {
       return null;
     }
