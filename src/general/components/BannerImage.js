@@ -30,7 +30,7 @@ export default class Banner extends React.Component {
               className={styles.imageHolder}
               style={{ backgroundImage: `url(${this.props.image})` }}
             />
-            <div className={styles.overlay}>
+            <div className={styles.content}>
               <div className={styles.logoAndText}>
                 <div className={styles.logo}>
                   <Logo image={this.props.logo} />
@@ -38,7 +38,8 @@ export default class Banner extends React.Component {
                 <div className={styles.title}>{this.props.title}</div>
                 <div className={styles.button}>
                   <Button
-                    height={50}
+                    width={195}
+                    height={46}
                     label={this.props.buttonLabel}
                     type={"primary"}
                   />
@@ -53,7 +54,7 @@ export default class Banner extends React.Component {
               className={styles.imageHolder}
               style={{ backgroundImage: `url(${this.props.image})` }}
             />
-            <div className={styles.overlay}>
+            <div className={styles.content}>
               <div className={styles.logoAndText}>
                 <div
                   className={styles.logo}
@@ -83,5 +84,5 @@ Banner.defaultProps = {
   image: "",
   title: "",
   logo: "",
-  buttonLabel: "Shop Beats By Dre"
+  buttonLabel: "Shop Now"
 };

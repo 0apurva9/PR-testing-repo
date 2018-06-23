@@ -17,7 +17,7 @@
   background-size: cover;
   overflow: hidden;
 }
-.overlay {
+.content {
   composes: imageHolder;
   width: 100%;
   height: 100%;
@@ -59,7 +59,7 @@
     margin-top: 30px;
     display: inline-block;
   }
-  .overlay {
+  .content {
     max-width: 1200px;
     margin: auto;
   }
