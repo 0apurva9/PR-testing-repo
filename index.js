@@ -51,6 +51,7 @@ function removeWord(originalWord, searchWord) {
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
+  //Code start for AMP
   if (origUrl.search("/amp/") !== -1 && origUrl.search("/p-") !== -1) {
     var productCode = origUrl.split("p-")[1];
     var productDataAPI = "/src/product.json";
@@ -126,11 +127,12 @@ app.get("/*", (req, res) => {
       canonicalAmpUrl: canonicalPlpAmpUrl,
       canonicalPwaUrl: canonicalPlpPwaUrl
     };
-
-    res.render("../build/amp/plp_amp_layout.ejs", data);
-  } else if (origUrl.search("stats")) {
+    res.render("../build/amp/plp_layout.ejs", data);
+  } else if (origUrl.search("stats") !== -1) {
     console.log("STATS ---");
-    res.render("stats.ejs");
+    res.render("../build/amp/stats.ejs");
+
+    //Code end for AMP
   } else {
     res.sendFile(__dirname + "/build/index.html");
   }

@@ -40,6 +40,14 @@
 <style amp-custom>
 body{font-family: regular, sans-serif; font-size:14px; background-color: #ececec;;}
 
+@font-face{font-family:regular;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff')}
+@font-face{font-family:semibold;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2') format('woff2'),
+url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff') format('woff')}
+@font-face{font-family:bolder;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2') format('woff2'),
+url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff') format('woff')}
+@font-face{font-family:light;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff2'),
+url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff')}
+
 .show-content {display: inline;}
 .hide-content {display: none;}
 .products-list amp-list > div {
@@ -55,7 +63,7 @@ body{font-family: regular, sans-serif; font-size:14px; background-color: #ececec
 background-repeat: no-repeat; background-image: url('https://uat2.tataunistore.com/static/media/arrowBack.1607a455.svg');}
 .page-right-search {z-index: 11; position: fixed; right: 0; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
 background-repeat: no-repeat; background-image: url('https://uat2.tataunistore.com/static/media/search.a4309640.svg');}
-.page-header {z-index: 10; line-height: 50px; height: 50px; background-color: #000; color: #fff; text-align: center; font-family: 500; position: fixed; width: 100%;}
+.page-header {z-index: 10; line-height: 50px; height: 50px; background-color: #000; color: #fff; text-align: center; position: fixed; width: 100%;}
 .page-header span {text-transform: capitalize;}
 .page-search-close {z-index: 12; position: fixed; right: 0; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
 background-repeat: no-repeat; background-image: url('https://uat2.tataunistore.com/static/media/cancel.fea9f12f.svg');
@@ -75,7 +83,7 @@ background-color: #000;}
 /*PLP Body*/
 .products_container, .lv-products_container {padding: 15px 0; background-color: #ececec;}
 .products_container a, .lv-products_container a {text-decoration: none; color: #000;}
-.lv-products_container a {width: 30%; display: inline-block; float: left;}
+.lv-products_container .lv-product-img {width: 30%; display: inline-block; float: left;}
 .products_container a amp-img, .lv-products_container a amp-img {background-color: #fff; border-radius: 4px;}
 .product-tile {width: 50%; float: left; margin-bottom: 20px;}
 .product-tile-link {outline: none; -webkit-tap-highlight-color: transparent;}
@@ -171,7 +179,9 @@ color: #fff; background-color: #000;}
 </head>
 
 <body>
-
+  <amp-install-serviceworker src="/service-worker.js"
+    layout="nodisplay">
+  </amp-install-serviceworker>
   <!-- NOTE: AMP SERVICE WORKER -->
    <!-- <amp-install-serviceworker
          src="/sw.js"
@@ -266,14 +276,18 @@ color: #fff; background-color: #000;}
             </div>
             <!-- <div class="hide-content" [class]="{{isOfferExisting}} ? 'product-inoffer' : 'hide-content'">ON <br />OFFER</div> -->
             <div [class]="{{cumulativeStockLevel}} ? '' : 'hide-content'">
+              {{#newProduct}}
               <div class="hide-content" [class]="{{newProduct}} ? 'product-new' : 'hide-content'">
                   <span [class]="{{price.mrpPrice.doubleValue}} != {{price.sellingPrice.doubleValue}} ? 'hide-content' : ''">New</span>
               </div>
+              {{/newProduct}}
             </div>
             <!-- Labels on tiles -->
 
-            <amp-img src="{{imageURL}}" class="" [class]="{{inStockFlag}} ? '' : 'overlay-opaque'" width="252" height="374"
+            <div class="lv-product-img">
+              <amp-img src="{{imageURL}}" class="" [class]="{{inStockFlag}} ? '' : 'overlay-opaque'" width="252" height="374"
                 layout="responsive"></amp-img>
+            </div>
             <div class="product-info" [class]="switchLayout ? 'lv-product-info' : 'product-info'">
               <p class="brand-name" [class]="switchLayout ? 'lv-brand-name' : 'brand-name'">{{brandname}}</p>
               <p class="product-name" [class]="switchLayout ? 'lv-product-name' : 'product-name'">{{productname}}</p>
