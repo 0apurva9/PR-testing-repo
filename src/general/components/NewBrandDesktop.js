@@ -1,9 +1,14 @@
 import React from "react";
 import NewBrand from "./NewBrand.js";
 import styles from "./NewBrandDesktop.css";
+import PropTypes from "prop-types";
 export default class NewBrandDesktop extends React.Component {
+  onClick(val) {
+    if (this.props.onClick) {
+      this.props.onClick(val);
+    }
+  }
   render() {
-    console.log(this.props);
     return (
       <div className={styles.base}>
         <div className={styles.leftSection}>
@@ -16,6 +21,7 @@ export default class NewBrandDesktop extends React.Component {
             webUrl={this.props[0].webURL}
             brandId={this.props[0].id}
             isFollowing={this.props[0].isFollowing}
+            onClick={val => this.onClick(val)}
           />
         </div>
         <div className={styles.rightSection}>
@@ -29,6 +35,7 @@ export default class NewBrandDesktop extends React.Component {
                 webUrl={this.props[1].webURL}
                 brandId={this.props[1].id}
                 isFollowing={this.props[1].isFollowing}
+                onClick={val => this.onClick(val)}
               />
             </div>
             <div className={styles.smallCardHolder}>
@@ -40,6 +47,7 @@ export default class NewBrandDesktop extends React.Component {
                 webUrl={this.props[2].webURL}
                 brandId={this.props[2].id}
                 isFollowing={this.props[2].isFollowing}
+                onClick={val => this.onClick(val)}
               />
             </div>
           </div>
@@ -53,6 +61,7 @@ export default class NewBrandDesktop extends React.Component {
                 webUrl={this.props[3].webURL}
                 brandId={this.props[3].id}
                 isFollowing={this.props[3].isFollowing}
+                onClick={val => this.onClick(val)}
               />
             </div>
             <div className={styles.smallCardHolder}>
@@ -64,6 +73,7 @@ export default class NewBrandDesktop extends React.Component {
                 webUrl={this.props[4].webURL}
                 brandId={this.props[4].id}
                 isFollowing={this.props[4].isFollowing}
+                onClick={val => this.onClick(val)}
               />
             </div>
           </div>
@@ -72,3 +82,10 @@ export default class NewBrandDesktop extends React.Component {
     );
   }
 }
+NewBrandDesktop.propTypes = {
+  onClick: PropTypes.func,
+  imageURL: PropTypes.string,
+  brandLogo: PropTypes.string,
+  title: PropTypes.string,
+  webURL: PropTypes.string
+};

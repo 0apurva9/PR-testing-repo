@@ -27,7 +27,6 @@ export default class FollowBase extends React.Component {
   render() {
     let { feedComponentData, ...rest } = this.props;
     feedComponentData = feedComponentData.data;
-    console.log(this.props);
     return (
       <React.Fragment>
         <MediaQuery query="(max-device-width: 1024px)">
@@ -100,7 +99,21 @@ export default class FollowBase extends React.Component {
                             updateFeed.push(data);
                           }
                         });
-                        return <NewBrandDesktop {...updateFeed} {...rest} />;
+                        return (
+                          <NewBrandDesktop
+                            {...updateFeed}
+                            {...rest}
+                            onClick={() =>
+                              this.handleClick({
+                                itemIds: updateFeed.itemIds,
+                                image: updateFeed.imageURL,
+                                title: updateFeed.title,
+                                brandName: updateFeed.brandName,
+                                history: this.props.history
+                              })
+                            }
+                          />
+                        );
                       }
                     ))}
               </Carousel>
