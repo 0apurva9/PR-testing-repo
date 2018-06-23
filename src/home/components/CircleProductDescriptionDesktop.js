@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./BrandsAndDescriptionDesktop.css";
+import styles from "./CircleProductDescriptionDesktop.css";
 import Image from "../../xelpmoc-core/Image";
 import { RUPEE_SYMBOL } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
-export default class BrandsAndDescriptionDesktop extends React.Component {
+export default class CircleProductDescriptionDesktop extends React.Component {
   onClick() {
     let urlSuffix;
     if (this.props.webURL) {
@@ -14,7 +14,6 @@ export default class BrandsAndDescriptionDesktop extends React.Component {
     } else if (this.props.productListingId) {
       urlSuffix = `p-${this.props.productListingId.toLowerCase()}`;
     }
-    console.log(urlSuffix);
     if (this.props.onRedirect) {
       this.props.onRedirect(urlSuffix);
     }
@@ -65,7 +64,7 @@ export default class BrandsAndDescriptionDesktop extends React.Component {
     );
   }
 }
-BrandsAndDescriptionDesktop.PropTypes = {
+CircleProductDescriptionDesktop.PropTypes = {
   image: PropTypes.string,
   brandsName: PropTypes.string,
   description: PropTypes.string,

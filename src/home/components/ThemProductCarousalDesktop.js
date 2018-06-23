@@ -3,7 +3,7 @@ import Logo from "../../general/components/Logo";
 import Button from "../../general/components/Button.js";
 import PropTypes from "prop-types";
 import styles from "./ThemProductCarousalDesktop.css";
-import BrandsAndDescriptionDesktop from "./BrandsAndDescriptionDesktop.js";
+import CircleProductDescriptionDesktop from "./CircleProductDescriptionDesktop.js";
 export default class ThemProductCarousalDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +67,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
           <div className={styles.carousalHolder}>
             {this.props.items &&
               this.props.items.length > 0 && (
-                <BrandsAndDescriptionDesktop
+                <CircleProductDescriptionDesktop
                   image={this.props.items[this.state.position].imageUrl}
                   brandsName={this.props.items[this.state.position].brandsName}
                   description={
