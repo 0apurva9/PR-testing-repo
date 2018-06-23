@@ -19,17 +19,28 @@ export default class Offer extends React.Component {
           <Image image={datum.imageURL} key={key} />
         </div>
         <div onClick={this.handleClick} />
-
-        {datum.discountText &&
-          datum.discountText !== " " && (
-            <div className={styles.ovalImage}>
-              <div className={styles.text} key={key}>
-                {datum.discountText}
+        <MediaQuery query="(max-device-width: 1024px)">
+          {datum.discountText &&
+            datum.discountText !== " " && (
+              <div className={styles.ovalImage}>
+                <div className={styles.text} key={key}>
+                  {datum.discountText}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+        </MediaQuery>
         <div className={styles.textLine}>
-          {datum.title}
+          <MediaQuery query="(min-device-width: 1025px)">
+            {datum.discountText &&
+              datum.discountText !== " " && (
+                <div className={styles.ovalImage}>
+                  <div className={styles.text} key={key}>
+                    {datum.discountText}
+                  </div>
+                </div>
+              )}
+          </MediaQuery>
+          <div className={styles.description}>{datum.title}</div>
           <MediaQuery query="(max-device-width: 1024px)">
             <div className={styles.buttonHolder}>
               <Button
