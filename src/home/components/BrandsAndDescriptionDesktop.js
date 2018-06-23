@@ -2,11 +2,21 @@ import React from "react";
 import styles from "./BrandsAndDescriptionDesktop.css";
 import Image from "../../xelpmoc-core/Image";
 import { RUPEE_SYMBOL } from "../../lib/constants";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 export default class BrandsAndDescriptionDesktop extends React.Component {
   onClick() {
-    if (this.props.onClick) {
-      this.props.onClick();
+    let urlSuffix;
+    if (this.props.webURL) {
+      urlSuffix = this.props.webURL.replace(TATA_CLIQ_ROOT, "$1");
+    } else if (this.props.productId) {
+      urlSuffix = `p-${this.props.productId.toLowerCase()}`;
+    } else if (this.props.productListingId) {
+      urlSuffix = `p-${this.props.productListingId.toLowerCase()}`;
+    }
+    console.log(urlSuffix);
+    if (this.props.onRedirect) {
+      this.props.onRedirect(urlSuffix);
     }
   }
   render() {

@@ -21,11 +21,17 @@ export default class ThemProductCarousalDesktop extends React.Component {
       this.props.onClick();
     }
   }
-
+  onRedirect(url) {
+    if (this.props.onRedirect) {
+      this.props.onRedirect(url);
+    }
+  }
   render() {
     return (
       <div
-        className={styles.base}
+        className={
+          this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
+        }
         style={{
           backgroundImage: `url(${this.props.imageURL})`,
           backgroundRepeat: "no-repeat",
@@ -71,6 +77,8 @@ export default class ThemProductCarousalDesktop extends React.Component {
                     this.props.items[this.state.position].winningSellerMOP
                   }
                   price={this.props.items[this.state.position].mrp}
+                  webURL={this.props.items[this.state.position].webURL}
+                  onRedirect={url => this.onRedirect(url)}
                 />
               )}
 

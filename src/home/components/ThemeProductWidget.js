@@ -115,6 +115,7 @@ export default class ThemeProductWidget extends React.Component {
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <ThemProductCarousalDesktop
+            {...this.props}
             imageURL={
               widgetData.data
                 ? widgetData.data[0].imageURL
@@ -133,6 +134,7 @@ export default class ThemeProductWidget extends React.Component {
             onClick={() => this.handleClick()}
             label={widgetData.btnText}
             items={items}
+            onRedirect={url => this.handleThemeProductClick(url)}
           />
         </MediaQuery>
       </React.Fragment>
