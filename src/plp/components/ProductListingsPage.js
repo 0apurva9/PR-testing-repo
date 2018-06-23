@@ -26,6 +26,7 @@ const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SKU_SUFFIX = `&isFilter=false&channel=${CHANNEL}`;
 const PAGE_REGEX = /page-(\d+)/;
 const MAX_PRICE_FROM_API = "and Above";
+const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 
 class ProductListingsPage extends Component {
@@ -76,6 +77,7 @@ class ProductListingsPage extends Component {
     if (searchText) {
       searchText = searchText.replace("+", " ");
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
+      searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
     return encodeURIComponent(searchText);
   }
@@ -88,13 +90,15 @@ class ProductListingsPage extends Component {
       return;
     }
 
-    if (this.props.isGoBackFromPdpPage && this.props.plpVisited) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(true), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
       return;
@@ -181,15 +185,18 @@ class ProductListingsPage extends Component {
 
   componentDidUpdate() {
     let page = null;
-    if (this.props.isGoBackFromPdpPage) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
+      return;
     }
 
     if (this.props.match.path === SKU_PAGE) {

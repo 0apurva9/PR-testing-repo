@@ -3,6 +3,9 @@ import FeedComponent from "./FeedComponent";
 import PropTypes from "prop-types";
 import concat from "lodash.concat";
 import { transformData } from "./utils.js";
+import MediaQuery from "react-responsive";
+import ProductImageHeaderDesktop from "../../general/components/ProductImageHeaderDesktop.js";
+import ThemOfferComponentDesktop from "./ThemOfferComponentDesktop.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 
 const OFFER_AND_ITEM_LIMIT = 4;
@@ -56,20 +59,40 @@ export default class ThemeOffer extends React.Component {
     }
     themeData = concat(offers, items);
     return (
-      <FeedComponent
-        backgroundImage={feedComponentData.backgroundImageURL}
-        backgroundColor={feedComponentData.backgroundHexCode}
-        carouselOptions={{
-          header: feedComponentData.title,
-          buttonText: feedComponentData.btnText,
-          isWhite: true,
-          seeAll: () => {
-            this.handleClick();
-          }
-        }}
-        {...rest}
-        data={themeData}
-      />
+      <React.Fragment>
+        <MediaQuery query="(max-device-width: 1024px)">
+          <FeedComponent
+            backgroundImage={feedComponentData.backgroundImageURL}
+            backgroundColor={feedComponentData.backgroundHexCode}
+            carouselOptions={{
+              header: feedComponentData.title,
+              buttonText: feedComponentData.btnText,
+              isWhite: true,
+              seeAll: () => {
+                this.handleClick();
+              }
+            }}
+            {...rest}
+            data={themeData}
+          />
+        </MediaQuery>
+        <MediaQuery query="(min-device-width: 1025px)">
+          <React.Fragment>
+            <ThemOfferComponentDesktop
+              header={feedComponentData.title}
+              buttonText={feedComponentData.btnText}
+              banner={
+                <ProductImageHeaderDesktop
+                  backgroundColor={feedComponentData.backgroundHexCode}
+                  backgroundImage={feedComponentData.backgroundImageURL}
+                />
+              }
+              {...rest}
+              data={offers}
+            />
+          </React.Fragment>
+        </MediaQuery>
+      </React.Fragment>
     );
   }
 }

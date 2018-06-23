@@ -16,9 +16,8 @@ const productListings = (
     selectedFacetKey: null,
     filterHasBeenClicked: false,
     sortHasBeenClicked: false,
-    isGoBackFromPdpPage: false,
     clickedProductModuleRef: null,
-    plpVisited: false
+    lastVisitedPlpUrl: null
   },
   action
 ) => {
@@ -33,25 +32,14 @@ const productListings = (
       return Object.assign({}, state, {
         clickedProductModuleRef: null
       });
-    case plpActions.IS_GO_BACK_FROM_PDP:
-      return Object.assign({}, state, {
-        isGoBackFromPdpPage: true
-      });
-    case plpActions.IS_NOT_GO_BACK_FROM_PDP:
-      return Object.assign({}, state, {
-        isGoBackFromPdpPage: false
-      });
+
     case CLEAR_ERROR:
       return Object.assign({}, state, {
         error: null
       });
-    case plpActions.PLP_HAS_BEEN_VISITED:
+    case plpActions.SET_PLP_PATH:
       return Object.assign({}, state, {
-        plpVisited: true
-      });
-    case plpActions.PLP_HAS_NOT_BEEN_VISITED:
-      return Object.assign({}, state, {
-        plpVisited: false
+        lastVisitedPlpUrl: action.url
       });
     case plpActions.SORT_HAS_BEEN_CLICKED:
       return Object.assign({}, state, {
@@ -171,7 +159,8 @@ const productListings = (
       existingProductListings.searchresult = searchResults;
       existingProductListings.pagination = action.productListings.pagination;
       return Object.assign({}, state, {
-        productListings: existingProductListings
+        productListings: existingProductListings,
+        status: action.status
       });
     default:
       return state;

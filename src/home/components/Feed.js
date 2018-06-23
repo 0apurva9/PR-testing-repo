@@ -193,6 +193,10 @@ export const typeComponentMapping = {
 };
 
 class Feed extends Component {
+  constructor(props) {
+    super(props);
+    this.pageSize = this.props.pageSize;
+  }
   componentDidMount() {
     const titleObj =
       this.props.homeFeedData &&
@@ -211,6 +215,9 @@ class Feed extends Component {
           this.props.setHeaderText(titleObj.title);
         }
       }
+    }
+    if (this.props.clearProductModuleRef) {
+      this.props.clearProductModuleRef();
     }
   }
   componentDidUpdate() {
@@ -237,8 +244,8 @@ class Feed extends Component {
       return <ProductCapsulesContainer positionInFeed={index} />;
     }
 
-    if (this.props.pageSize && index > this.props.pageSize) {
-      this.props.setPageFeedSize(index);
+    if (this.pageSize && index > this.pageSize && this.props.isHomePage) {
+      this.pageSize = index;
     }
 
     const setClickedElementId = (id => {
@@ -324,7 +331,11 @@ class Feed extends Component {
       ? renderMetaTags(data)
       : renderMetaTagsWithoutSeoObject(data);
   };
-
+  componentWillUnmount() {
+    if (this.props.setPageFeedSize && this.props.isHomePage) {
+      this.props.setPageFeedSize(this.pageSize);
+    }
+  }
   render() {
     if (this.props.loading) {
       return <HomeSkeleton />;

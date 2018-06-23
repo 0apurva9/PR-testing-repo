@@ -302,5 +302,6 @@ export const TOAST_MESSAGE_AFTER_MERGE_CART =
   "Your bag contains product from your last visit";
 export const EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP =
   "Email Id already exists, please try with another email Id!";
+export const EMAIL_SENT_SUCCESS_MESSAGE = "Email sent successfully";
 export const FEMALE = "FEMALE";
 export const MALE = "MALE";

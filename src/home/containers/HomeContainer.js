@@ -6,6 +6,7 @@ import {
 } from "../actions/home.actions";
 import { getCartId } from "../../cart/actions/cart.actions";
 import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
+import { clearProductModuleRef } from "../../plp/actions/plp.actions";
 import Feed from "../components/Feed";
 import { setHeaderText } from "../../general/header.actions";
 import { withRouter } from "react-router-dom";
@@ -30,6 +31,9 @@ const mapDispatchToProps = dispatch => {
     },
     setPageFeedSize: size => {
       dispatch(setPageFeedSize(size));
+    },
+    clearProductModuleRef: () => {
+      dispatch(clearProductModuleRef());
     }
   };
 };
@@ -54,7 +58,8 @@ const mapStateToProps = state => {
     loginFromMyBag: state.cart.loginFromMyBag,
     feedType: HOME_FEED_TYPE,
     clickedElementId: state.feed.clickedElementId,
-    pageSize: state.feed.pageSize
+    pageSize: state.feed.pageSize,
+    isHomePage: true
   };
 };
 

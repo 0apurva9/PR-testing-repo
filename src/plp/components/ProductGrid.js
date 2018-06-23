@@ -1,8 +1,6 @@
 import React from "react";
-import Grid from "../../general/components/Grid";
+import DumbGrid from "../../general/components/DumbGrid";
 import ProductModule from "../../general/components/ProductModule";
-import IconicFilter from "./IconicFilter";
-import PlpAds from "./PlpAds";
 import PlpComponent from "./PlpComponent";
 import Icon from "../../xelpmoc-core/Icon";
 import styles from "./ProductGrid.css";
@@ -122,7 +120,7 @@ export default class ProductGrid extends React.Component {
           </div>
         </div>
         <div className={styles.content}>
-          <Grid
+          <DumbGrid
             search={this.props.search}
             offset={0}
             elementWidthMobile={this.state.view === LIST ? 100 : 50}
@@ -141,7 +139,7 @@ export default class ProductGrid extends React.Component {
                   </PlpComponent>
                 );
               })}
-          </Grid>
+          </DumbGrid>
         </div>
       </div>
     );

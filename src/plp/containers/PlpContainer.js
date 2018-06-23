@@ -30,9 +30,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showFilter: () => {
       dispatch(showFilter());
     },
-    plpHasBeenVisited: () => {
-      dispatch(plpHasBeenVisited());
-    },
     hideFilter: () => {
       dispatch(hideFilter());
     },
@@ -63,7 +60,8 @@ const mapStateToProps = (state, ownProps) => {
     pageNumber: state.productListings.pageNumber,
     loading: state.productListings.loading,
     searchresult: state.productListings.searchresult,
-    plpVisited: state.productListings.plpVisited
+    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
+    status: state.productListings.status
   };
 };
 

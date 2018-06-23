@@ -10,4 +10,7 @@
   display: inline-block;
   text-align: center;
   z-index: 100;
+  box-shadow: 0 -2px 8px -3px rgba(0, 0, 0, 0.28);
+  backface-visibility: hidden;
+  transform:translateZ(0);
 }

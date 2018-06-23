@@ -147,10 +147,12 @@ class Login extends Component {
     let footerText = "";
     let footerClick;
     let showSocialButtons;
+    let buttonLabel;
 
     if (pathName === LOGIN_PATH || MAIN_ROUTER) {
-      footerText = "New to Tata CLiQ? Sign Up";
+      footerText = "New to Tata CLiQ? ";
       footerClick = () => this.navigateToSignUp();
+      buttonLabel = "Sign Up";
       showSocialButtons = true;
     }
 
@@ -175,6 +177,7 @@ class Login extends Component {
         footerClick={footerClick}
         type={SOCIAL_LOG_IN}
         goBack={() => this.goBack()}
+        buttonLabel={buttonLabel}
       >
         <React.Fragment>
           <div>

@@ -1,0 +1,8 @@
+.base {
+  width: 100%;
+  height: auto;
+  padding-bottom: 138%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}

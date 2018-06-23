@@ -14,7 +14,8 @@ export default class FooterButton extends React.Component {
         className={this.props.disabled ? styles.disabled : styles.base}
         style={{
           backgroundColor: this.props.backgroundColor,
-          borderRight: `1px solid ${this.props.borderColor}`
+          borderRight: `1px solid ${this.props.borderColor}`,
+          boxShadow: this.props.boxShadow
         }}
         onClick={e => this.handleClick(e)}
       >
@@ -36,6 +37,7 @@ export default class FooterButton extends React.Component {
 FooterButton.propTyes = {
   backgroundColor: PropTypes.string,
   borderColor: PropTypes.string,
+  boxShadow: PropTypes.string,
   icon: PropTypes.string,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
