@@ -28,5 +28,7 @@
 @media screen and (min-width: 1025px) {
   .base {
     background-color: transparent !important;
+    max-width: 1200px;
+    margin: 50px auto 0px;
   }
 }
