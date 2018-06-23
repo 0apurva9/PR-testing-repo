@@ -3,6 +3,7 @@ import Carousel from "../../general/components/Carousel";
 import BannerLink from "./BannerLink.js";
 import styles from "./ShopByPriceDesktop.css";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import PropTypes from "prop-types";
 export default class ShopeByPriceDesktop extends React.Component {
   redirectToLink = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
@@ -30,3 +31,12 @@ export default class ShopeByPriceDesktop extends React.Component {
     );
   }
 }
+ShopeByPriceDesktop.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      imageURL: PropTypes.string,
+      title: PropTypes.string,
+      subItems: PropTypes.string
+    })
+  )
+};

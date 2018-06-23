@@ -61,3 +61,15 @@ export default class BannerLink extends React.Component {
     );
   }
 }
+BannerLink.propTypes = {
+  image: PropTypes.string,
+  linkHeader: PropTypes.string,
+  showSeeAll: PropTypes.func,
+  redirectToLink: PropTypes.func,
+  subItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      webURL: PropTypes.string
+    })
+  )
+};
