@@ -2,9 +2,12 @@ import React from "react";
 import Carousel from "../../general/components/Carousel";
 import ThemeProduct from "../../general/components/ThemeProduct";
 import Logo from "../../general/components/Logo";
+import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";
 import styles from "./ThemeProductWidget.css";
+import ThemProductCarousalDesktop from "./ThemProductCarousalDesktop.js";
 import { transformData } from "./utils.js";
+
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { MSD_WIDGET_PLATFORM } from "../../lib/config.js";
 
@@ -66,45 +69,75 @@ export default class ThemeProductWidget extends React.Component {
     }
 
     return (
-      <div
-        className={styles.base}
-        style={{
-          backgroundImage: `url(${
-            widgetData.data ? widgetData.data[0].imageURL : widgetData.imageURL
-          })`,
-          backgroundSize: "cover",
-          backgroundPosition: "center"
-        }}
-      >
-        <div className={styles.logo}>
-          <Logo image={widgetData.brandLogo} />
-        </div>
-        <Carousel
-          {...this.props}
-          header={this.props.feedComponentData.title}
-          buttonText={this.props.feedComponentData.btnText}
-          seeAll={() => this.handleClick()}
-          elementWidthMobile={45}
-          withFooter={false}
-          isWhite={true}
-        >
-          {items &&
-            items.map((datum, i) => {
-              return (
-                <ThemeProduct
-                  image={datum.image}
-                  label={datum.title}
-                  price={datum.price}
-                  discountPrice={datum.winningSellerMOP}
-                  key={i}
-                  onClick={this.handleThemeProductClick}
-                  isWhite={true}
-                  {...datum}
-                />
-              );
-            })}
-        </Carousel>
-      </div>
+      <React.Fragment>
+        <MediaQuery query="(max-device-width: 1024px)">
+          <div
+            className={styles.base}
+            style={{
+              backgroundImage: `url(${
+                widgetData.data
+                  ? widgetData.data[0].imageURL
+                  : widgetData.imageURL
+              })`,
+              backgroundSize: "cover",
+              backgroundPosition: "center"
+            }}
+          >
+            <div className={styles.logo}>
+              <Logo image={widgetData.brandLogo} />
+            </div>
+            <Carousel
+              {...this.props}
+              header={this.props.feedComponentData.title}
+              buttonText={this.props.feedComponentData.btnText}
+              seeAll={() => this.handleClick()}
+              elementWidthMobile={45}
+              withFooter={false}
+              isWhite={true}
+            >
+              {items &&
+                items.map((datum, i) => {
+                  return (
+                    <ThemeProduct
+                      image={datum.image}
+                      label={datum.title}
+                      price={datum.price}
+                      discountPrice={datum.winningSellerMOP}
+                      key={i}
+                      onClick={this.handleThemeProductClick}
+                      isWhite={true}
+                      {...datum}
+                    />
+                  );
+                })}
+            </Carousel>
+          </div>
+        </MediaQuery>
+        <MediaQuery query="(min-device-width: 1025px)">
+          <ThemProductCarousalDesktop
+            {...this.props}
+            imageURL={
+              widgetData.data
+                ? widgetData.data[0].imageURL
+                : widgetData.imageURL
+            }
+            brandLogo={
+              widgetData.data
+                ? widgetData.data[0].brandLogo
+                : widgetData.brandLogo
+            }
+            description={
+              widgetData.data
+                ? widgetData.data[0].description
+                : widgetData.description
+            }
+            onClick={() => this.handleClick()}
+            label={widgetData.btnText}
+            items={items}
+            onRedirect={url => this.handleThemeProductClick(url)}
+          />
+        </MediaQuery>
+      </React.Fragment>
     );
   }
 }
