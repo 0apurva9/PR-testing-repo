@@ -1,0 +1,41 @@
+.base {
+  width: 100%;
+  height: auto;
+  padding-bottom: 138%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+}
+.logoHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.logo {
+  width: auto;
+  height: auto;
+  display: flex;
+}
+.title {
+  width: 100%;
+  height: auto;
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+  display: flex;
+  line-height: normal;
+  font-family: regular;
+}
