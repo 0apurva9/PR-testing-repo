@@ -203,7 +203,7 @@ class CartPage extends React.Component {
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.replace(LOGIN_PATH);
+    this.props.history.push(LOGIN_PATH);
   }
   onClickImage(productCode) {
     if (productCode) {
