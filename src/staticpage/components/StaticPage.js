@@ -21,6 +21,9 @@ export default class StaticPage extends Component {
     return <Redirect to={NOT_FOUND} />;
   }
   render() {
+    if (this.props.loading || !this.props.data || !this.props.data.length) {
+      return <SecondaryLoader />;
+    }
     if (
       this.props.feedType === SECONDARY_FEED_TYPE &&
       this.props.data &&
@@ -29,18 +32,15 @@ export default class StaticPage extends Component {
     ) {
       return this.navigateTo404();
     }
-    if (this.props.loading || !this.props.data) {
-      return <SecondaryLoader />;
-    } else {
-      return (
-        <div className={styles.base}>
-          <Feed
-            feedType={this.props.feedType}
-            homeFeedData={this.props.data}
-            setHeaderText={this.props.setHeaderText}
-          />
-        </div>
-      );
-    }
+
+    return (
+      <div className={styles.base}>
+        <Feed
+          feedType={this.props.feedType}
+          homeFeedData={this.props.data}
+          setHeaderText={this.props.setHeaderText}
+        />
+      </div>
+    );
   }
 }
