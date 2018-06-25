@@ -11,7 +11,9 @@ import TimerCounter from "../../general/components/TimerCounter.js";
 import Icon from "../../xelpmoc-core/Icon";
 import ClockImage from "../../pdp/components/img/clockWhite.svg";
 import { convertDateTimeFromIndianToAmerican } from "../../home/dateTimeUtils.js";
-
+import FlashSaleLimitedTimeOfferComponent from "../../home/components/FlashSaleLimitedTimeOfferComponent.js";
+import ThemOfferComponentDesktop from "./ThemOfferComponentDesktop.js";
+import MediaQuery from "react-responsive";
 const OFFER_AND_ITEM_LIMIT = 4;
 
 export default class FlashSale extends React.Component {
@@ -108,61 +110,83 @@ export default class FlashSale extends React.Component {
     }
 
     return (
-      <div
-        className={styles.base}
-        style={{
-          background: `${feedComponentData.backgroundHexCode} url(${
-            feedComponentData.backgroundImageURL
-          })`
-        }}
-      >
-        <div className={styles.header}>
-          <div className={styles.headingText}>{feedComponentData.title}</div>
-          <div className={styles.offerTime}>
-            <div className={styles.clock}>
-              <div className={styles.timerHolder}>
-                <Icon image={ClockImage} size={20} />
+      <React.Fragment>
+        <MediaQuery query="(max-device-width: 1024px)">
+          <div
+            className={styles.base}
+            style={{
+              background: `${feedComponentData.backgroundHexCode} url(${
+                feedComponentData.backgroundImageURL
+              })`
+            }}
+          >
+            <div className={styles.header}>
+              <div className={styles.headingText}>
+                {feedComponentData.title}
               </div>
-              <div className={styles.countDownHolder}>
-                <TimerCounter
-                  endTime={endDateTime}
-                  onComplete={this.onComplete}
-                />
+              <div className={styles.offerTime}>
+                <div className={styles.clock}>
+                  <div className={styles.timerHolder}>
+                    <Icon image={ClockImage} size={20} />
+                  </div>
+                  <div className={styles.countDownHolder}>
+                    <TimerCounter
+                      endTime={endDateTime}
+                      onComplete={this.onComplete}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+            <div className={styles.subheader}>
+              {feedComponentData.description}
+            </div>
+            <Grid offset={20}>
+              {offersAndItemsArray &&
+                offersAndItemsArray.map((datum, i) => {
+                  return (
+                    <ProductModule
+                      key={i}
+                      isWhite={true}
+                      productImage={datum.image}
+                      title={datum.title}
+                      price={datum.price}
+                      discountPrice={datum.discountPrice}
+                      description={datum.description}
+                      webURL={datum.webURL}
+                      onClick={this.handleItemClick}
+                      {...rest}
+                      {...datum}
+                    />
+                  );
+                })}
+            </Grid>
+            <div className={styles.button}>
+              <Button
+                type="hollow"
+                width={100}
+                onClick={this.handleClick}
+                label={feedComponentData.btnText}
+                color="white"
+              />
+            </div>
           </div>
-        </div>
-        <div className={styles.subheader}>{feedComponentData.description}</div>
-        <Grid offset={20}>
-          {offersAndItemsArray &&
-            offersAndItemsArray.map((datum, i) => {
-              return (
-                <ProductModule
-                  key={i}
-                  isWhite={true}
-                  productImage={datum.image}
-                  title={datum.title}
-                  price={datum.price}
-                  discountPrice={datum.discountPrice}
-                  description={datum.description}
-                  webURL={datum.webURL}
-                  onClick={this.handleItemClick}
-                  {...rest}
-                  {...datum}
+        </MediaQuery>
+        <MediaQuery query="(min-device-width: 1025px)">
+          <React.Fragment>
+            <ThemOfferComponentDesktop
+              header={feedComponentData.title}
+              banner={
+                <FlashSaleLimitedTimeOfferComponent
+                  onClick={this.handleClick}
                 />
-              );
-            })}
-        </Grid>
-        <div className={styles.button}>
-          <Button
-            type="hollow"
-            width={100}
-            onClick={this.handleClick}
-            label={feedComponentData.btnText}
-            color="white"
-          />
-        </div>
-      </div>
+              }
+              {...rest}
+              data={offersAndItemsArray}
+            />
+          </React.Fragment>
+        </MediaQuery>
+      </React.Fragment>
     );
   }
 }

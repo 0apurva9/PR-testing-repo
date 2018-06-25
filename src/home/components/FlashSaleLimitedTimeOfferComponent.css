@@ -1,0 +1,60 @@
+.base {
+  width: 100%;
+  height: auto;
+  background-color: #000;
+  padding-bottom: 100%;
+  position: relative;
+  border-radius: 4px;
+}
+.limitedTimeHolder {
+  width: 100%;
+  height: auto;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  padding: 63px 73px;
+}
+.limitedTimeText {
+  color: #fff;
+  margin: auto;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  font-family: semibold;
+}
+.countDownTimerHolder {
+  width: 100%;
+  height: auto;
+  padding: 35px 0px;
+}
+.countDownTime {
+  color: #fff;
+  width: 20%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  font-family: regular;
+  margin-right: 30px;
+}
+.countDownSecond {
+  color: #fff;
+  width: 20%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  font-family: regular;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+}
+
+.button {
+  width: auto;
+  height: auto;
+  display: inline-block;
+}
