@@ -163,7 +163,7 @@ class CartPage extends React.Component {
       }
     } else {
       if (this.props.removeItemFromCartLoggedOut) {
-        this.props.removeItemFromCartLoggedOut(cartListItemPosition, "");
+        this.props.removeItemFromCartLoggedOut(cartListItemPosition, pinCode);
       }
     }
   };
