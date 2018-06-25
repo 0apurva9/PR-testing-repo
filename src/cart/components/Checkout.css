@@ -163,3 +163,19 @@
   line-height: 20px;
   margin-top: 20px;
 }
+
+@media only screen and (min-width: 1025px) {
+  .visibleBase{
+    position:fixed;
+    left: initial;
+    top: 65px;
+    width: 30vw;
+    max-width: 440px;
+    bottom: initial;
+    margin-left: 5px;
+  }
+  .hiddenBase{
+    max-width: 730px;
+    width: 70vw;
+  }
+}

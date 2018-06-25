@@ -3,6 +3,7 @@
   height: auto;
   padding: 15px;
   border-bottom: 1px solid #ececec;
+  cursor:pointer;
 }
 
 .titleAddress {
@@ -31,4 +32,12 @@
   height: 25px;
   right: 0px;
   top: 0px;
+}
+@media only screen and (min-width: 1025px) {
+  .base {
+    border:none;
+  }
+  .checkCircle {
+    right:15px;
+  }
 }
