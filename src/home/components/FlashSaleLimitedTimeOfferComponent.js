@@ -17,7 +17,7 @@ export default class FlashSaleLimitedTimeOfferComponent extends React.Component 
           <div className={styles.countDownTimerHolder}>
             <div className={styles.countDownTime}>25</div>
             <div className={styles.countDownTime}>45</div>
-            <div className={styles.countDownSecond}>56</div>
+            <div className={styles.countDown}>56</div>
           </div>
           <div className={styles.buttonHolder}>
             <div className={styles.button}>
