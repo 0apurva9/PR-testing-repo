@@ -82,7 +82,7 @@ export default class CartItem extends React.Component {
         });
       }
     }
-    console.log(styles.deliveryInfo);
+
     return (
       <div className={styles.base}>
         <div className={styles.productInformation}>
