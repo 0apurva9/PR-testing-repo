@@ -16,6 +16,8 @@ const MERCHANT_ID = "tul_uat2";
 
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 9;
+const REGX_FOR_WHITE_SPACE = /\W/gi;
+const REGX_FOR_CARD_FORMATTER = /(.{4})/g;
 
 export default class CreditCardForm extends React.Component {
   constructor(props) {
@@ -46,14 +48,38 @@ export default class CreditCardForm extends React.Component {
     ];
     this.state = {
       selected: false,
-      cardNumber: props.cardNumber ? props.cardNumber : "",
-      cardName: props.cardName ? props.cardName : "",
-      cvvNumber: props.cvvNumber ? props.cvvNumber : "",
-      ExpiryMonth: props.ExpiryMonth ? props.ExpiryMonth : null,
-      ExpiryYear: props.ExpiryYear ? props.ExpiryYear : null,
-      value: props.value ? props.value : "",
-      monthValue: "",
-      yearValue: "",
+      cardNumber:
+        this.props.cardDetails && this.props.cardDetails.cardNumber
+          ? this.props.cardDetails.cardNumber
+          : "",
+      cardName:
+        this.props.cardDetails && this.props.cardDetails.cardName
+          ? this.props.cardDetails.cardName
+          : "",
+      cvvNumber:
+        this.props.cardDetails && this.props.cardDetails.cvvNumber
+          ? this.props.cardDetails.cvvNumber
+          : "",
+      ExpiryMonth:
+        this.props.cardDetails && this.props.cardDetails.monthValue
+          ? this.props.cardDetails.monthValue
+          : null,
+      ExpiryYear:
+        this.props.cardDetails && this.props.cardDetails.yearValue
+          ? this.props.cardDetails.yearValue
+          : null,
+      value:
+        this.props.cardDetails && this.props.cardDetails.value
+          ? props.value
+          : "",
+      monthValue:
+        this.props.cardDetails && this.props.cardDetails.monthValue
+          ? this.props.cardDetails.monthValue
+          : "",
+      yearValue:
+        this.props.cardDetails && this.props.cardDetails.yearValue
+          ? this.props.cardDetails.yearValue
+          : "",
       isCalledBinValidation: false,
       invalidCard: false
     };
@@ -90,6 +116,7 @@ export default class CreditCardForm extends React.Component {
     } else {
       this.setState({ invalidCard: false });
     }
+    this.handleOnBlur();
   }
   handleOnFocusInput() {
     if (this.props.onFocusInput) {
@@ -118,6 +145,16 @@ export default class CreditCardForm extends React.Component {
         monthValue: "Expiry Month",
         yearValue: "Expiry year"
       });
+    } else {
+      this.setState({
+        cardNumber: nextProps.cardDetails && nextProps.cardDetails.cardNumber,
+        cardName: nextProps.cardDetails && nextProps.cardDetails.cardName,
+        cvvNumber: nextProps.cardDetails && nextProps.cardDetails.cvvNumber,
+        ExpiryMonth: nextProps.cardDetails && nextProps.cardDetails.monthValue,
+        ExpiryYear: nextProps.cardDetails && nextProps.cardDetails.yearValue,
+        monthValue: nextProps.cardDetails && nextProps.cardDetails.monthValue,
+        yearValue: nextProps.cardDetails && nextProps.cardDetails.yearValue
+      });
     }
   }
 
@@ -129,20 +166,27 @@ export default class CreditCardForm extends React.Component {
             <Input2
               placeholder="Card Number"
               value={
-                this.props.cardNumber
+                this.props.cardNumber && this.props.cardNumber.length > 0
                   ? this.props.cardNumber
+                      .replace(REGX_FOR_WHITE_SPACE, "")
+                      .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                      .trim()
                   : this.state.cardNumber
+                    ? this.state.cardNumber
+                        .replace(REGX_FOR_WHITE_SPACE, "")
+                        .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                        .trim()
+                    : ""
               }
               onFocus={() => {
                 this.handleOnFocusInput();
               }}
-              onBlur={() => this.handleOnBlur()}
               boxy={true}
               onChange={val => this.onChangeCardNumber(val)}
               textStyle={{ fontSize: 14 }}
               height={33}
-              maxLength="19"
-              onlyNumber={true}
+              maxLength="23"
+              isCard={true}
               onBlur={() => this.onBlurOfCardInput()}
             />
             {this.state.invalidCard && (

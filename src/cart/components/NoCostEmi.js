@@ -7,7 +7,7 @@ export default class NoCostEmi extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: this.props.isOpenSubEMI
     };
   }
 
