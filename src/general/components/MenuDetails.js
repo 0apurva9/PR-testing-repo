@@ -17,7 +17,7 @@ export default class MenuDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: this.props.isOpen
     };
   }
 
@@ -56,7 +56,6 @@ export default class MenuDetails extends React.Component {
       this.setState({ isOpen: nextProps.isOpen });
     }
   }
-
   render() {
     let iconActive = styles.icon;
     if (this.state.isOpen) {

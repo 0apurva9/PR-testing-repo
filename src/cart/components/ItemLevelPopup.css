@@ -14,6 +14,12 @@
   font-family: regular;
   background: #000;
 }
+.stickyHeader {
+  composes: header;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
 .cardOfferDisplay {
   width: 100%;
   height: auto;

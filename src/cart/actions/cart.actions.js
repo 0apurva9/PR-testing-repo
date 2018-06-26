@@ -15,7 +15,8 @@ import {
   STANDARD_EMI,
   PLAT_FORM_NUMBER,
   TOAST_MESSAGE_AFTER_MERGE_CART,
-  CHANNEL
+  CHANNEL,
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -853,14 +854,14 @@ export function addUserAddress(userAddress, fromAccount) {
         }&addressType=${userAddress.addressType}&phone=${
           userAddress.phone
         }&firstName=${userAddress.firstName}&lastName=${userAddress.lastName}
-        &postalCode=${userAddress.postalCode}&line1=${
-          userAddress.line1
-        }&state=${userAddress.state}&line2=${userAddress.line2}&line3=${
+        &postalCode=${userAddress.postalCode}&state=${userAddress.state}&line2=${userAddress.line2}&line3=${
           userAddress.line3
         }&town=${userAddress.town}&landmark=${
           userAddress.landmark ? userAddress.landmark : ""
         }&defaultFlag=${userAddress.defaultFlag}&emailId=${
           JSON.parse(userDetails).userName
+        }&line1=${
+          userAddress.line1
         }`
       );
       const resultJson = await result.json();
@@ -1875,6 +1876,7 @@ export function applyCliqCash() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      localStorage.setItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE, true);
       dispatch(applyCliqCashSuccess(resultJson));
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON);
     } catch (e) {
@@ -1929,6 +1931,7 @@ export function removeCliqCash() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF);
       dispatch(removeCliqCashSuccess(resultJson));
     } catch (e) {
