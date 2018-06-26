@@ -179,6 +179,11 @@ class CheckOutPage extends React.Component {
     };
   }
 
+  changeEmiPlan = () => {
+    this.setState({
+      cardDetails: {}
+    });
+  };
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
@@ -351,8 +356,10 @@ class CheckOutPage extends React.Component {
   };
   getAllStores = selectedProductsUssIdForCliqAndPiq => {
     const defalutPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-    this.setState({ showCliqAndPiq: true, selectedProductsUssIdForCliqAndPiq });
-    this.props.getAllStoresCNC(defalutPinCode);
+    this.setState(
+      { showCliqAndPiq: true, selectedProductsUssIdForCliqAndPiq },
+      () => this.props.getAllStoresCNC(defalutPinCode)
+    );
   };
   changePincodeOnCliqAndPiq = pincode => {
     this.updateLocalStoragePinCode(pincode);
@@ -371,11 +378,6 @@ class CheckOutPage extends React.Component {
     this.setState({ selectedSlaveIdObj: currentSelectedSlaveIdObj });
   }
   addStoreCNC(selectedSlaveId) {
-    this.handleSelectDeliveryMode(
-      COLLECT,
-      this.state.selectedProductsUssIdForCliqAndPiq
-    );
-
     const selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
     selectedSlaveIdObj[
       this.state.selectedProductsUssIdForCliqAndPiq
@@ -1060,7 +1062,11 @@ class CheckOutPage extends React.Component {
         bagAmount: Math.round(this.props.location.state.amount * 100) / 100
       });
     } else {
-      if (this.props.getCartDetailsCNC) {
+      if (
+        !this.props.cart.userAddress &&
+        this.props.getCartDetailsCNC &&
+        this.props.getUserAddress
+      ) {
         let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -1526,9 +1532,6 @@ class CheckOutPage extends React.Component {
     ) {
       this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
     }
-    if (!this.state.isNoCostEmiApplied) {
-      this.onChangePaymentMode({ currentPaymentMode: null });
-    }
   };
   handleSubmit = () => {
     localStorage.setItem(
@@ -1618,7 +1621,6 @@ class CheckOutPage extends React.Component {
         } else {
           this.softReservationForPayment(this.state.cardDetails);
         }
-        this.onChangePaymentMode({ currentPaymentMode: null });
       }
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
@@ -1659,9 +1661,6 @@ class CheckOutPage extends React.Component {
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
-    }
-    if (!this.state.isNoCostEmiApplied) {
-      this.onChangePaymentMode({ currentPaymentMode: null });
     }
   };
 
@@ -2102,7 +2101,8 @@ class CheckOutPage extends React.Component {
         this.props.cart.jusPaymentLoader ||
         this.props.cart.selectDeliveryModeLoader ||
         (!this.props.cart.paymentModes && this.state.deliverMode) ||
-        this.props.cart.isPaymentProceeded
+        this.props.cart.isPaymentProceeded ||
+        this.props.cart.paymentModeLoader
       ) {
         this.props.showSecondaryLoader();
       } else {
@@ -2336,9 +2336,8 @@ class CheckOutPage extends React.Component {
                     ? this.handleSubmitAfterPaymentFailure
                     : this.handleSubmit
                 }
-                isCliqCashApplied={this.state.isCliqCashApplied}
-                cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-                isFromMyBag={false}
+                changeEmiPlan={() => this.changeEmiPlan()}
+                subEmiOption={this.state.currentSelectedEMIType}
               />
             )}
           </div>

@@ -143,7 +143,7 @@ const account = (
 
     reSendEmailStatus: null,
     reSendEmailError: null,
-    reSendEmailLoader:false
+    reSendEmailLoader: false
   },
   action
 ) => {
