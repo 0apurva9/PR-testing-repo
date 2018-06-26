@@ -12,8 +12,9 @@ import Icon from "../../xelpmoc-core/Icon";
 import ClockImage from "../../pdp/components/img/clockWhite.svg";
 import { convertDateTimeFromIndianToAmerican } from "../../home/dateTimeUtils.js";
 import FlashSaleLimitedTimeOfferComponent from "../../home/components/FlashSaleLimitedTimeOfferComponent.js";
-import ThemOfferComponentDesktop from "./ThemOfferComponentDesktop.js";
+import FeedComponent from "./FeedComponent.js";
 import MediaQuery from "react-responsive";
+import Carousel from "../../general/components/Carousel";
 const OFFER_AND_ITEM_LIMIT = 4;
 
 export default class FlashSale extends React.Component {
@@ -174,16 +175,45 @@ export default class FlashSale extends React.Component {
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <React.Fragment>
-            <ThemOfferComponentDesktop
-              header={feedComponentData.title}
-              banner={
-                <FlashSaleLimitedTimeOfferComponent
-                  onClick={this.handleClick}
-                />
+            <div
+              className={
+                this.props.positionInFeed === 1
+                  ? styles.firstItemBase
+                  : styles.base
               }
-              {...rest}
-              data={offersAndItemsArray}
-            />
+            >
+              <Carousel
+                buttonText={this.props.buttonText}
+                header={feedComponentData.title}
+                seeAll={() => this.handleClick()}
+                banner={
+                  <FlashSaleLimitedTimeOfferComponent
+                    onClick={this.handleClick}
+                  />
+                }
+                bannerWidth="32%"
+                elementWidthDesktop={33.33}
+              >
+                {offersAndItemsArray &&
+                  offersAndItemsArray.map((datum, i) => {
+                    return (
+                      <ProductModule
+                        key={i}
+                        isWhite={true}
+                        productImage={datum.image}
+                        title={datum.title}
+                        price={datum.price}
+                        discountPrice={datum.discountPrice}
+                        description={datum.description}
+                        webURL={datum.webURL}
+                        onClick={this.handleItemClick}
+                        {...rest}
+                        {...datum}
+                      />
+                    );
+                  })}
+              </Carousel>
+            </div>
           </React.Fragment>
         </MediaQuery>
       </React.Fragment>
