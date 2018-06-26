@@ -81,7 +81,7 @@ if (
 } else if (process.env.REACT_APP_STAGE === "stage") {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
 } else if (process.env.REACT_APP_STAGE === "uat") {
-  process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
+  process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
 }
 
 if (process.env.REACT_APP_STAGE === "devxelp") {
@@ -104,7 +104,7 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
     "742445068598-7mra85a3m4lervedu7k7ddt7r8knheoi.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "uat") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
-    "970557259016-mrn4j1d4gr0jk2ocka8is4chmts3glf1.apps.googleusercontent.com";
+    "AIzaSyAYOJ5Pa-kx8HoOt_GzZpzTfpTD_q9PlQo";
 } else {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "367761167032-apbr4v0nndom1cafs9inrrnkk7iag5be.apps.googleusercontent.com";
