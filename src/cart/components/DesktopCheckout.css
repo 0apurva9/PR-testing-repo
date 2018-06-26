@@ -1,0 +1,59 @@
+.base{
+  width:100%;
+  height:auto;
+  background:#fff;
+  border-radius:4px;
+}
+.section{
+  width:100%;
+  height:auto;
+  padding:30px;
+}
+.bottomSection{
+  composes:section;
+  border-top:1px solid #ececec;
+  position:relative;
+  padding-right:200px;
+}
+.price{
+  width:100%;
+  color:#212121;
+  font-family:light;
+  font-size:20px;
+}
+.row{
+  width:100%;
+  height:auto;
+  padding-bottom:20px;
+}
+.row:last-child{
+  padding-bottom:0;
+}
+.label{
+  width:50%;
+  display:inline-block;
+  vertical-align:top;
+  color:#212121;
+  font-family:semibold;
+}
+.info{
+  composes:label;
+  text-align:right;
+  font-family:light;
+}
+.priceHeader{
+  composes:info;
+  text-align:left;
+}
+.infoHiglight{
+  composes:info;
+  color:#ff1744;
+}
+.button{
+  position:absolute;
+  height:40px;
+  right:30px;
+  bottom:30px;
+  border-radius: 19px;
+  box-shadow: 0 6px 6px 0 rgba(156, 156, 156, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12);
+}

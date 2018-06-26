@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./Checkout.css";
+
 import Button from "../../general/components/Button.js";
 import infoIcon from "./img/Info.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MediaQuery from "react-responsive";
+import DesktopCheckout from "./DesktopCheckout";
+import styles from "./Checkout.css";
 import {
   RUPEE_SYMBOL,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
@@ -168,9 +170,9 @@ export default class Checkout extends React.Component {
             </div>
           </div>
         )}
-
-        <div className={styles.disclaimer}>{DISCLAIMER}</div>
-
+        <MediaQuery query="(max-device-width: 1024px)">
+          <div className={styles.disclaimer}>{DISCLAIMER}</div>
+        </MediaQuery>
         <div className={styles.hiddenBase}>
           <div
             className={styles.totalPriceButtonHolder}
@@ -292,7 +294,10 @@ export default class Checkout extends React.Component {
                     height={40}
                     label={this.props.label}
                     width={120}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
                     onClick={() => this.handleClick()}
                   />
                 </div>
@@ -455,115 +460,10 @@ export default class Checkout extends React.Component {
           </div>
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
-          <div
-            className={styles.visibleBase}
-            onClick={() => this.handleClick()}
-          >
-            <div className={styles.detailsHolder}>
-              {this.props.bagTotal && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Bag total
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.bagTotal}
-                  </div>
-                </div>
-              )}
-              {this.props.totalDiscount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.totalDiscount}
-                  </div>
-                </div>
-              )}
-              {this.props.discount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.discount}
-                  </div>
-                </div>
-              )}
-              {this.props.delivery && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Shipping fee
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.delivery}
-                  </div>
-                </div>
-              )}
-
-              {this.props.coupons && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>Coupon</div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.coupons}
-                  </div>
-                </div>
-              )}
-
-              {this.props.noCostEmiEligibility &&
-                this.props.isNoCostEmiApplied && (
-                  <div className={styles.informationHolder}>
-                    <div className={styles.informationQuestionHolder}>
-                      No Cost EMI Discount
-                    </div>
-                    <div className={classOffers}>
-                      {RUPEE_SYMBOL}
-                      {this.props.noCostEmiDiscount}
-                    </div>
-                  </div>
-                )}
-              {this.props.isCliqCashApplied && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Cliq Cash
-                  </div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.cliqCashPaidAmount}
-                  </div>
-                </div>
-              )}
-
-              {this.props.payable && (
-                <React.Fragment>
-                  <div className={styles.visiblePayableSection}>
-                    <div className={styles.informationQuestionHolder}>
-                      Total Payable
-                    </div>
-                    <div className={styles.informationAnswerHolder}>
-                      {RUPEE_SYMBOL}
-                      {this.props.payable}
-                    </div>
-                  </div>
-                  {totalSaving > 0 && (
-                    <div className={styles.savingSection}>
-                      <div className={styles.informationQuestionHolder}>
-                        Total savings
-                      </div>
-                      <div className={styles.informationAnswerHolder}>
-                        {RUPEE_SYMBOL}
-                        {totalSaving}
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
-              )}
-            </div>
+          <div className={styles.desktopCheckout}>
+            <DesktopCheckout {...this.props} />
+            <div>{this.props.desktopElement}</div>
+            <div className={styles.disclaimer}>{DISCLAIMER}</div>
           </div>
         </MediaQuery>
       </React.Fragment>
@@ -580,6 +480,7 @@ Checkout.propTypes = {
   payable: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
+  desktopElement: PropTypes.element,
   padding: PropTypes.string
 };
 Checkout.defaultProps = {

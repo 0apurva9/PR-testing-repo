@@ -174,8 +174,15 @@
     bottom: initial;
     margin-left: 5px;
   }
-  .hiddenBase{
-    max-width: 730px;
-    width: 70vw;
+  .desktopCheckout{
+    position:fixed;
+    left: initial;
+    top: 65px;
+    width: 30vw;
+    display:inline-block;
+    max-width: 440px;
+    bottom: initial;
+    margin-left: 5px;
+
   }
 }
