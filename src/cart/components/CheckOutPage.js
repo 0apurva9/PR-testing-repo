@@ -358,8 +358,10 @@ class CheckOutPage extends React.Component {
   };
   getAllStores = selectedProductsUssIdForCliqAndPiq => {
     const defalutPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-    this.setState({ showCliqAndPiq: true, selectedProductsUssIdForCliqAndPiq });
-    this.props.getAllStoresCNC(defalutPinCode);
+    this.setState(
+      { showCliqAndPiq: true, selectedProductsUssIdForCliqAndPiq },
+      () => this.props.getAllStoresCNC(defalutPinCode)
+    );
   };
   changePincodeOnCliqAndPiq = pincode => {
     this.updateLocalStoragePinCode(pincode);
@@ -378,11 +380,6 @@ class CheckOutPage extends React.Component {
     this.setState({ selectedSlaveIdObj: currentSelectedSlaveIdObj });
   }
   addStoreCNC(selectedSlaveId) {
-    this.handleSelectDeliveryMode(
-      COLLECT,
-      this.state.selectedProductsUssIdForCliqAndPiq
-    );
-
     const selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
     selectedSlaveIdObj[
       this.state.selectedProductsUssIdForCliqAndPiq

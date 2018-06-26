@@ -9,6 +9,10 @@ import {
   FACEBOOK_PLATFORM,
   GOOGLE_PLUS_PLATFORM
 } from "../auth/actions/user.actions";
+import {
+  BRAND_REGEX,
+  CATEGORY_REGEX
+} from "../plp/components/PlpBrandCategoryWrapper.js";
 
 export const ADOBE_TARGET_COOKIE_NAME =
   "AMCV_E9174ABF55BA76BA7F000101%40AdobeOrg";
@@ -1070,6 +1074,27 @@ export function getDigitalDataForSearchPageSuccess(response) {
       }
     }
   };
+  if (
+    response &&
+    response.seo &&
+    response.seo.alternateURL &&
+    CATEGORY_REGEX.test(response.seo.alternateURL)
+  ) {
+    Object.assign(data.internal.search, {
+      category:
+        response &&
+        response.seo &&
+        response.seo.breadcrumbs &&
+        response.seo.breadcrumbs[0] &&
+        response.seo.breadcrumbs[0].name
+          ? response.seo.breadcrumbs[0].name
+          : "all"
+    });
+  } else {
+    Object.assign(data.internal.search, {
+      category: "all"
+    });
+  }
   if (response && response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
@@ -1388,26 +1413,37 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       }
     }
   }
-  if (type === ADOBE_CHECKOUT_APPLIED_CNC) {
+  if (type === ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED) {
     if (window._satellite) {
-      window._satellite.track(ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED);
+      window._satellite.track(ADOBE_CHECKOUT_APPLIED_CNC);
     }
   }
 
   if (type === ADOBE_FINAL_PAYMENT_MODES) {
-    const finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
-
-    if (finalPaymentMode) {
+    let finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
+    const cliqCashUsed = localStorage.getItem(
+      constants.CLIQ_CASH_APPLIED_LOCAL_STORAGE
+    );
+    if (finalPaymentMode || cliqCashUsed) {
+      if (finalPaymentMode && cliqCashUsed) {
+        finalPaymentMode = `${finalPaymentMode
+          .replace(/ /g, "_")
+          .toLowerCase()}|cliqcash`;
+      } else if (cliqCashUsed) {
+        finalPaymentMode = "cliqcash";
+      } else {
+        finalPaymentMode = finalPaymentMode.replace(/ /g, "_").toLowerCase();
+      }
       if (data) {
         if (data.cpj) {
           if (data.cpj.payment) {
             Object.assign(data.cpj.payment, {
-              finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+              finalMode: finalPaymentMode
             });
           } else {
             Object.assign(data.cpj, {
               payment: {
-                finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+                finalMode: finalPaymentMode
               }
             });
           }
@@ -1415,7 +1451,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           Object.assign(data, {
             cpj: {
               payment: {
-                finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+                finalMode: finalPaymentMode
               }
             }
           });
@@ -1424,7 +1460,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         Object.assign(data, {
           cpj: {
             payment: {
-              finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+              finalMode: finalPaymentMode
             }
           }
         });
