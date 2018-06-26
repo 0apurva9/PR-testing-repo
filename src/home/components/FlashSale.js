@@ -198,7 +198,6 @@ export default class FlashSale extends React.Component {
                     return (
                       <ProductModule
                         key={i}
-                        isWhite={true}
                         productImage={datum.image}
                         title={datum.title}
                         price={datum.price}
