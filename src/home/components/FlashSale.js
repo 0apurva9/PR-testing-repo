@@ -12,7 +12,6 @@ import Icon from "../../xelpmoc-core/Icon";
 import ClockImage from "../../pdp/components/img/clockWhite.svg";
 import { convertDateTimeFromIndianToAmerican } from "../../home/dateTimeUtils.js";
 import FlashSaleLimitedTimeOfferComponent from "../../home/components/FlashSaleLimitedTimeOfferComponent.js";
-import FeedComponent from "./FeedComponent.js";
 import MediaQuery from "react-responsive";
 import Carousel from "../../general/components/Carousel";
 const OFFER_AND_ITEM_LIMIT = 4;
