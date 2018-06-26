@@ -854,15 +854,15 @@ export function addUserAddress(userAddress, fromAccount) {
         }&addressType=${userAddress.addressType}&phone=${
           userAddress.phone
         }&firstName=${userAddress.firstName}&lastName=${userAddress.lastName}
-        &postalCode=${userAddress.postalCode}&state=${userAddress.state}&line2=${userAddress.line2}&line3=${
-          userAddress.line3
-        }&town=${userAddress.town}&landmark=${
+        &postalCode=${userAddress.postalCode}&state=${
+          userAddress.state
+        }&line2=${userAddress.line2}&line3=${userAddress.line3}&town=${
+          userAddress.town
+        }&landmark=${
           userAddress.landmark ? userAddress.landmark : ""
         }&defaultFlag=${userAddress.defaultFlag}&emailId=${
           JSON.parse(userDetails).userName
-        }&line1=${
-          userAddress.line1
-        }`
+        }&line1=${userAddress.line1}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
