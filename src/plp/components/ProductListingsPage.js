@@ -53,10 +53,32 @@ class ProductListingsPage extends Component {
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
     ) {
       if (searchText) {
-        searchText = searchText.replace(
-          ":relevance",
-          `:relevance:category:${this.props.match.params[0].toUpperCase()}`
-        );
+        if (searchText.includes("relevance")) {
+          searchText = searchText.replace(
+            ":relevance",
+            `:relevance:category:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-asc") &&
+          !searchText.includes(
+            `:price-asc:category:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-asc",
+            `:price-asc:category:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-desc") &&
+          !searchText.includes(
+            `:price-desc:category:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-desc",
+            `:price-desc:category:${this.props.match.params[0].toUpperCase()}`
+          );
+        }
       } else {
         searchText = `:relevance:category:${this.props.match.params[0].toUpperCase()}`;
       }
@@ -66,10 +88,32 @@ class ProductListingsPage extends Component {
       this.props.match.path === BRAND_PAGE_WITH_SLUG
     ) {
       if (searchText) {
-        searchText = searchText.replace(
-          ":relevance",
-          `:relevance:brand:${this.props.match.params[0].toUpperCase()}`
-        );
+        if (searchText.includes("relevance")) {
+          searchText = searchText.replace(
+            ":relevance",
+            `:relevance:brand:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-asc") &&
+          !searchText.includes(
+            `:price-asc:brand:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-asc",
+            `:price-asc:brand:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-desc") &&
+          !searchText.includes(
+            `:price-desc:brand:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-desc",
+            `:price-desc:brand:${this.props.match.params[0].toUpperCase()}`
+          );
+        }
       } else {
         searchText = `:relevance:brand:${this.props.match.params[0].toUpperCase()}`;
       }
