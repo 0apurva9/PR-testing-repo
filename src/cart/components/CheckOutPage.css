@@ -90,14 +90,10 @@
     max-width:1200px;
     padding-right: 25%;
     text-align:left;
-    border:1px solid
   }
   .addDeliveryAddressHolder{
     text-align:center;
   }
-  /* .addInitialAddAddress{
-    width:calc(70% - 30px)
-  } */
   .header {
     padding:20px 30px;
   }
