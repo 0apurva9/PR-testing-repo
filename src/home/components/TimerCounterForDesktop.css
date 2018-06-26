@@ -1,0 +1,20 @@
+.base {
+  width: 100%;
+  height: auto;
+}
+.countDown {
+  color: #fff;
+  width: 25%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  font-family: regular;
+}
+.countDownTime {
+  composes: countDown;
+  margin-right: 25px;
+}
+.text {
+  padding-top: 8px;
+}

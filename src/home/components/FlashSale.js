@@ -187,6 +187,8 @@ export default class FlashSale extends React.Component {
                 seeAll={() => this.handleClick()}
                 banner={
                   <FlashSaleLimitedTimeOfferComponent
+                    endTime={endDateTime}
+                    onComplete={this.onComplete}
                     onClick={this.handleClick}
                   />
                 }

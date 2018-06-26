@@ -27,19 +27,6 @@
   height: auto;
   padding: 35px 0px;
 }
-.countDown {
-  color: #fff;
-  width: 20%;
-  height: auto;
-  display: inline-block;
-  text-align: center;
-  font-size: 14px;
-  font-family: regular;
-}
-.countDownTime {
-  composes: countDown;
-  margin-right: 30px;
-}
 
 .buttonHolder {
   width: 100%;

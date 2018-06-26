@@ -1,10 +1,16 @@
 import React from "react";
 import styles from "./FlashSaleLimitedTimeOfferComponent.css";
 import Button from "../../general/components/Button.js";
+import TimerCounterForDesktop from "./TimerCounterForDesktop.js";
 export default class FlashSaleLimitedTimeOfferComponent extends React.Component {
   onClickViewAll() {
     if (this.props.onClick) {
       this.props.onClick();
+    }
+  }
+  onComplete() {
+    if (this.props.onComplete) {
+      this.props.onComplete();
     }
   }
   render() {
@@ -15,9 +21,10 @@ export default class FlashSaleLimitedTimeOfferComponent extends React.Component 
             Grab these offers for a limited time only!
           </div>
           <div className={styles.countDownTimerHolder}>
-            <div className={styles.countDownTime}>25</div>
-            <div className={styles.countDownTime}>45</div>
-            <div className={styles.countDown}>56</div>
+            <TimerCounterForDesktop
+              endTime={this.props.endTime}
+              onComplete={this.onComplete}
+            />
           </div>
           <div className={styles.buttonHolder}>
             <div className={styles.button}>
