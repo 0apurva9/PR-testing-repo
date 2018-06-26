@@ -4,6 +4,7 @@
   background:#fff;
   border-radius:4px;
   display:inline-block;
+  position:relative;
 }
 .header{
   width:100%;
@@ -36,4 +37,22 @@
   position:absolute;
   right:15px;
   top:0;
+}
+
+
+
+@media only screen and (min-width: 1025px) {
+  .newAddress{
+    top:30px;
+    right:30px;
+  }
+  .base{
+    padding:15px;
+  }
+  .buttonHolder{
+    position:static;
+    height:0;
+    margin:0;
+  }
+
 }

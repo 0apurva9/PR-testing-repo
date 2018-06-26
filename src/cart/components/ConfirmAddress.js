@@ -47,6 +47,7 @@ export default class ConfirmAddress extends React.Component {
             limit={1}
             offset={0}
             elementWidthMobile={100}
+            elementWidthDesktop={50}
             selected={this.props.selected}
             onSelect={addressId => this.onSelectAddress(addressId)}
           >

@@ -66,7 +66,12 @@ export default class NetBanking extends React.Component {
     return (
       <div>
         {this.props.bankList && (
-          <Grid limit={1} offset={30} elementWidthMobile={33.33}>
+          <Grid
+            limit={1}
+            offset={30}
+            elementWidthMobile={33.33}
+            elementWidthDesktop={16.66}
+          >
             {this.props.bankList.find(bank => {
               return bank.bankCode === axisBankCode;
             }) ? (
@@ -150,7 +155,10 @@ export default class NetBanking extends React.Component {
               this.props.bankList
                 .filter(bank => !SHOW_DEFAULT_BANK_LIST.includes(bank.bankCode))
                 .map((val, i) => {
-                  return { value: val.bankCode, label: val.bankName };
+                  return {
+                    value: val.bankCode,
+                    label: val.bankName
+                  };
                 })
             }
             isEnable={this.state.selectedFromDropDown}
