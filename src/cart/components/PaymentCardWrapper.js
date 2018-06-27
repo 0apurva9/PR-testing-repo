@@ -12,6 +12,7 @@ import CheckoutCOD from "./CheckoutCOD.js";
 import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import BankOffer from "./BankOffer.js";
+import BankOfferWrapper from "./BankOfferWrapper.js";
 import GridSelect from "../../general/components/GridSelect";
 import MediaQuery from "react-responsive";
 import CheckOutHeader from "./CheckOutHeader";
@@ -126,56 +127,6 @@ export default class PaymentCardWrapper extends React.Component {
     }
   };
 
-  renderBankOffers = () => {
-    let offerDescription, offerTitle, offerCode;
-    if (
-      this.props.cart.paymentModes &&
-      this.props.cart.paymentModes.paymentOffers &&
-      this.props.cart.paymentModes.paymentOffers.coupons
-    ) {
-      const selectedCoupon = this.props.cart.paymentModes.paymentOffers.coupons.find(
-        coupon => {
-          return coupon.offerCode === localStorage.getItem(BANK_COUPON_COOKIE);
-        }
-      );
-      if (selectedCoupon) {
-        offerDescription = selectedCoupon.offerDescription;
-        offerTitle = selectedCoupon.offerTitle;
-        offerCode = selectedCoupon.offerCode;
-      } else if (localStorage.getItem(BANK_COUPON_COOKIE)) {
-        offerCode = localStorage.getItem(BANK_COUPON_COOKIE);
-        offerDescription = "";
-        offerTitle = "";
-      } else {
-        offerDescription = this.props.cart.paymentModes.paymentOffers.coupons[0]
-          .offerDescription;
-        offerTitle = this.props.cart.paymentModes.paymentOffers.coupons[0]
-          .offerTitle;
-        offerCode = this.props.cart.paymentModes.paymentOffers.coupons[0]
-          .offerCode;
-      }
-    }
-
-    return (
-      <GridSelect
-        elementWidthMobile={100}
-        offset={0}
-        limit={1}
-        onSelect={val => this.props.applyBankCoupons(val)}
-        selected={[localStorage.getItem(BANK_COUPON_COOKIE)]}
-      >
-        <BankOffer
-          bankName={offerTitle}
-          offerText={offerDescription}
-          label={SEE_ALL_BANK_OFFERS}
-          applyBankOffers={() => this.props.openBankOffers()}
-          openBankOfferTncModal={() => this.openBankOfferTncModal()}
-          value={offerCode}
-        />
-      </GridSelect>
-    );
-  };
-
   render() {
     if (this.props.cart.paymentModes) {
       return (
@@ -215,8 +166,14 @@ export default class PaymentCardWrapper extends React.Component {
               !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
               (this.props.cart.paymentModes &&
                 this.props.cart.paymentModes.paymentOffers &&
-                this.props.cart.paymentModes.paymentOffers.coupons) &&
-              this.renderBankOffers()}
+                this.props.cart.paymentModes.paymentOffers.coupons) && (
+                <BankOfferWrapper
+                  cart={this.props.cart}
+                  applyBankCoupons={this.props.applyBankCoupons}
+                  openBankOffers={this.props.openBankOffers}
+                  openBankOfferTncModal={this.props.openBankOfferTncModal}
+                />
+              )}
           </MediaQuery>
           {this.props.isRemainingBalance && (
             <div className={styles.paymentModes}>
