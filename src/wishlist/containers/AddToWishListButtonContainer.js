@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { removeItemFromCartLoggedIn } from "../../cart/actions/cart.actions";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 const toastMessageOnSuccessAddToWishlist = "Added";
 
 const toastMessageOnAlreadyInWishlist = "Already in wishlist";
@@ -36,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };

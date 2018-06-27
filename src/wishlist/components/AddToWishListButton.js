@@ -21,9 +21,16 @@ export default class AddToWishListButton extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
+      //check the view is mobile or Desktop and dispatch modal
+      let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const url = this.props.location.pathname;
       this.props.setUrlToRedirectToAfterAuth(url);
-      this.props.history.push(LOGIN_PATH);
+      if (isMobile) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        this.props.showAuthPopUp();
+        return null;
+      }
     } else {
       const { productListingId, winningUssID, wishlistItems } = this.props;
       const indexOfProduct = wishlistItems.findIndex(item => {

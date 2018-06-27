@@ -64,9 +64,16 @@ export default class MyAccount extends React.Component {
   }
 
   navigateToLogin() {
+    //check the view is mobile or Desktop and dispatch modal
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
-    return <Redirect to={LOGIN_PATH} />;
+    if (isMobile) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      this.props.showAuthPopUp();
+      return null;
+    }
   }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

@@ -50,9 +50,16 @@ class WriteReview extends React.Component {
           headline: this.state.title
         });
       } else {
+        //check the view is mobile or Desktop and dispatch modal
+        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         const url = this.props.location.pathname;
         this.props.setUrlToRedirectToAfterAuth(url);
-        this.props.history.push(LOGIN_PATH);
+        if (isMobile) {
+          this.props.history.push(LOGIN_PATH);
+        } else {
+          this.props.showAuthPopUp();
+          return null;
+        }
       }
     }
   };

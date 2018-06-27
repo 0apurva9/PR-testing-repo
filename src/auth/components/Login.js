@@ -142,12 +142,6 @@ class Login extends Component {
   }
 
   render() {
-    //check the view is mobile or Desktop and dispatch modal
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (!isMobile) {
-      this.props.showAuthPopUp();
-    }
-
     const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
     let footerClick;
