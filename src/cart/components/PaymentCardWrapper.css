@@ -11,3 +11,15 @@
   background-color: #fff;
   padding: 15px;
 }
+
+@media only screen and (min-width:1025px){
+  .base{
+    padding:15px
+  }
+  .paymentModes{
+    padding:0 15px;
+  }
+  .card {
+    padding:15px 30px;
+  }
+}

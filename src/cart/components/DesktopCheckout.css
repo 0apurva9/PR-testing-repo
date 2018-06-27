@@ -35,6 +35,7 @@
   vertical-align:top;
   color:#212121;
   font-family:semibold;
+  font-size:14px;
 }
 .info{
   composes:label;

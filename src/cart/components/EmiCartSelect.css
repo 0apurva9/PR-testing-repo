@@ -37,3 +37,9 @@
 .baseSelected .header {
   font-family: semibold;
 }
+
+@media only screen and (min-width: 1025px){
+  .button{
+    width:160px;
+  }
+}

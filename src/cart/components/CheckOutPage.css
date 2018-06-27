@@ -85,9 +85,9 @@
     text-align:center
   }
   .pageCenter{
-    width:100%;
+    width:1200px;
     display:inline-block;
-    max-width:1200px;
+    max-width:100%;
     padding-right: 31%;
     text-align:left;
   }

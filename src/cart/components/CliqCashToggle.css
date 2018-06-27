@@ -5,6 +5,7 @@
   margin: 15px 0;
   padding: 15px;
   background: #fff;
+
 }
 .cashBalanceTextHolder {
   width: 70%;
@@ -52,4 +53,24 @@
   height: 25px;
   display: inline-block;
   vertical-align: top;
+}
+
+@media only screen and (min-width:1025px){
+  .toggleButtonHolder{
+    width: auto;
+    height: 25px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 30px;;
+  }
+  .base {
+    position:relative;
+    padding-left:100px;
+    margin:0;
+  }
+  .cashBalanceTextHolder{
+    width:100%;
+  }
 }
