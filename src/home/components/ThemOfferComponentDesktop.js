@@ -12,7 +12,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
     }
   };
   render() {
-    const { carouselOptions } = this.props;
+    const carouselOptions = this.props.carouselOptions;
     return (
       <div
         className={
