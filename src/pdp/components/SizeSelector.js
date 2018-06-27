@@ -15,7 +15,7 @@ import {
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 const SIZE_GUIDE = "Size guide";
-const MESSAGE_FOR_SIZE_SELECTOR = "Size selected. Please add to bag";
+const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;
 export default class SizeSelector extends React.Component {
   handleShowSize() {
     if (this.props.showSizeGuide) {
@@ -23,9 +23,21 @@ export default class SizeSelector extends React.Component {
     }
   }
   async updateSize(productUrl) {
+    let productCode;
+    const productCodeArray = productUrl.split("/");
+    if (productCodeArray[1] && PRODUCT_CODE_REG_EX.test(productCodeArray[1])) {
+      productCode = productCodeArray[1].substring(2);
+    } else if (
+      productCodeArray[2] &&
+      PRODUCT_CODE_REG_EX.test(productCodeArray[2])
+    ) {
+      productCode = productCodeArray[2].substring(2);
+    } else {
+      productCode = this.props.productId;
+    }
     if (this.props.isFromModal) {
       const productDetailResponse = await this.props.getProductDescription(
-        this.props.productId
+        productCode
       );
       if (productDetailResponse && productDetailResponse.status === SUCCESS) {
         let { productDescription } = productDetailResponse;
