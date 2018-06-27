@@ -61,7 +61,6 @@ export default class ConnectBaseWidget extends React.Component {
                         <Icon image={data.iconImageURL} size={50} />
                       </div>
                     )}
-                    <div className={styles.text}>Connect</div>
                   </div>
                   {this.props.heading &&
                     !this.props.heading === "" && (
@@ -72,27 +71,19 @@ export default class ConnectBaseWidget extends React.Component {
                     {data.description}
                   </div>
                 </div>
-                {data.items &&
-                  data.items.map((datum, i) => {
-                    return (
-                      <ConnectDescription
-                        key={i}
-                        title={datum.title}
-                        description={datum.description}
-                        imageURL={datum.imageURL}
-                      />
-                    );
-                  })}
-                <div className={styles.buttonBox}>
-                  <div
-                    className={styles.button}
-                    onClick={() => {
-                      this.handleClick();
-                    }}
-                  >
-                    {data.btnText}
-                  </div>
-                </div>
+                {data.btnText &&
+                  !data.btnText === "" && (
+                    <div className={styles.buttonBox}>
+                      <div
+                        className={styles.button}
+                        onClick={() => {
+                          this.handleClick();
+                        }}
+                      >
+                        {data.btnText}
+                      </div>
+                    </div>
+                  )}
               </div>
             </div>
           </MediaQuery>
