@@ -1267,7 +1267,11 @@ export function setDataLayerForLogin(type) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE) {
-    window.digitalData.flag = ADOBE_LOGIN_FAILURE;
+    if (window.digitalData) {
+      window.digitalData.flag = ADOBE_LOGIN_FAILURE;
+    } else {
+      window.digitalData = { flag: ADOBE_LOGIN_FAILURE };
+    }
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_FAILURE);
     }
