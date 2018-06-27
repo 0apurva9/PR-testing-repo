@@ -1,15 +1,20 @@
-.base{
-  width:100%;
+.base {
+  width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   margin-bottom: -20px;
   padding-top: 20px;
   padding-bottom: 20px;
-  display:inline-block;
-  white-space:nowrap;
-  background:#fff;
+  display: inline-block;
+  white-space: nowrap;
+  background: #fff;
 }
 .base::-webkit-scrollbar {
   display: none;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    background: initial;
+  }
 }

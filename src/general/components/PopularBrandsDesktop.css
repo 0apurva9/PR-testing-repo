@@ -1,0 +1,78 @@
+.base {
+  width: 100%;
+  height: auto;
+}
+.nav {
+  float: right;
+}
+.header {
+  width: 100%;
+  float: left;
+  padding: 0 10px;
+  color: #212121;
+  font-family: semibold;
+  position: relative;
+  line-height: 40px;
+  margin-bottom: 30px;
+}
+.showHeaderText {
+  width: auto;
+  height: auto;
+  float: left;
+  font-size: 30px;
+}
+.navButton {
+  width: 40px;
+  height: 40px;
+  background: #fff url(./img/arrow.svg) no-repeat;
+  background-position: center;
+  background-size: 20px;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  float: left;
+}
+.content {
+  width: 100%;
+  height: auto;
+}
+.forward {
+  composes: navButton;
+}
+.back {
+  composes: navButton;
+  margin-right: 2px;
+  margin-left: 40px;
+  transform: rotate(-180deg);
+}
+.staticElement {
+  width: 100%;
+  height: auto;
+}
+.sliderHolder {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  margin-top: 30px;
+}
+.slider {
+  width: 100%;
+  height: auto;
+  white-space: nowrap;
+  transition: 200ms;
+}
+.element {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 10px;
+}
+
+.headerTabHolder {
+  width: 100%;
+  height: auto;
+  padding: 18px 0px;
+  border-bottom: 1px solid #8d8d8d;
+}
+.circleBrandesHolder {
+  width: 100%;
+  height: auto;
+}
