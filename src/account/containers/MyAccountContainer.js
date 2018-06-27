@@ -4,6 +4,7 @@ import MyAccount from "../components/MyAccount";
 import { setHeaderText } from "../../general/header.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { displayToast } from "../../general/toast.actions.js";
+
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: message => {

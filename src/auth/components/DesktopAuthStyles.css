@@ -1,33 +1,54 @@
 .base {
-  width: 960px;
-  height: 560px;
-  position: relative;
-  display: flex;
+  width: 100%;
+  display: inline-block;
+  height: 100%;
+  background: #ffffff;
 }
 .leftDesktopHolder {
-  background: #fff;
   width: 50%;
-  height: 100%;
+  position: absolute;
+  left: 0;
+  background: #ffffff;
 }
 .header {
   color: #212121;
   font-size: 30;
+  position: fixed;
+  padding: 20px;
+  margin-left: 20px;
+  font-weight: bold;
 }
-.authHolder {
-  padding: 80px 80px 0px 80px;
-  align-items: center;
-  justify-content: center;
-}
+
 .rightDesktopHolder {
-  composes: leftDesktopHolder;
-  background: #f3f3f3;
+  width: 50%;
+  position: absolute;
+  right: 0;
+  background: #f9f9f9;
 }
 .socialButtonHolder {
   position: absolute;
-  height: 150px;
-  bottom: 50px;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.popup {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   margin: auto;
-  left: 0px;
-  right: 0px;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.popup_inner {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  top: 10%;
+  bottom: 10%;
+  margin: auto;
+  background: #fff;
 }

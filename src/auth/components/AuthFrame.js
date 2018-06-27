@@ -28,48 +28,55 @@ export default class AuthFrame extends React.Component {
     this.props.history.push(urlSuffix);
   };
   render() {
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const style = isMobile ? styles.base : styles.baseForDesktop;
     return (
-      <div className={styles.base}>
-        {this.props.showCrossIcon && (
-          <div className={styles.goBack} onClick={() => this.goBack()} />
-        )}
-        {this.props.showLogo && (
-          <div className={styles.center}>
-            <div className={styles.logo}>
-              <Icon image={tataLogo} size={65} backgroundSize="auto 50px" />
-            </div>
-          </div>
-        )}
-
-        {this.props.children}
-        {this.props.showSocialButtons && (
-          <div className={styles.socialButtons}>
-            <SocialButtonsContainer isSignUp={this.props.isSignUp} />
-          </div>
-        )}
-
-        {this.props.footerText && (
-          <div className={styles.navigateButtonHolder}>
-            <div className={styles.footer}>{this.props.footerText}</div>
-            <div className={styles.signUpButtonHolder}>
-              <div className={styles.signUpButton}>
-                <CoreButton
-                  backgroundColor={"transparent"}
-                  borderRadius={100}
-                  color="#fff"
-                  label={this.props.buttonLabel}
-                  width={148}
-                  height={46}
-                  textStyle={{ fontFamily: "semibold" }}
-                  borderColor="#fff"
-                  onClick={() => this.footerClick()}
-                />
+      <div className={style}>
+        {this.props.showCrossIcon &&
+          isMobile && (
+            <div className={styles.goBack} onClick={() => this.goBack()} />
+          )}
+        {this.props.showLogo &&
+          isMobile && (
+            <div className={styles.center}>
+              <div className={styles.logo}>
+                <Icon image={tataLogo} size={65} backgroundSize="auto 50px" />
               </div>
             </div>
-          </div>
-        )}
+          )}
+
+        {this.props.children}
+        {this.props.showSocialButtons &&
+          isMobile && (
+            <div className={styles.socialButtons}>
+              <SocialButtonsContainer isSignUp={this.props.isSignUp} />
+            </div>
+          )}
+
+        {this.props.footerText &&
+          isMobile && (
+            <div className={styles.navigateButtonHolder}>
+              <div className={styles.footer}>{this.props.footerText}</div>
+              <div className={styles.signUpButtonHolder}>
+                <div className={styles.signUpButton}>
+                  <CoreButton
+                    backgroundColor={"transparent"}
+                    borderRadius={100}
+                    color="#fff"
+                    label={this.props.buttonLabel}
+                    width={148}
+                    height={46}
+                    textStyle={{ fontFamily: "semibold" }}
+                    borderColor="#fff"
+                    onClick={() => this.footerClick()}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         {this.props.location &&
-          this.props.location.pathname === LOGIN_PATH && (
+          this.props.location.pathname === LOGIN_PATH &&
+          isMobile && (
             <div className={styles.legalLinkHolder}>
               <div className={styles.linkLabel}>
                 <div

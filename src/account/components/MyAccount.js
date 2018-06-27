@@ -74,6 +74,7 @@ export default class MyAccount extends React.Component {
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
+
     const userDetails = JSON.parse(userDetailsCookie);
     return (
       <div className={styles.base}>

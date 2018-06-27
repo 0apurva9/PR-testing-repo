@@ -113,7 +113,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const pathName = this.props.location.pathname;
+    const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
     let footerClick;
     let showSocialButtons;

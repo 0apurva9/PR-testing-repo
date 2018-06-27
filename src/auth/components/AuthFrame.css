@@ -12,6 +12,21 @@
   left: 0;
   right: 0;
 }
+
+.baseForDesktop {
+  width: 100%;
+  padding: 3vh 40px;
+  height: auto;
+  min-height: 540px;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 30px;
+  bottom: -60px;
+  left: 0;
+  right: 0;
+}
 .center {
   width: 100%;
   height: auto;
@@ -52,9 +67,9 @@
   width: 100%;
   height: auto;
   margin-top: 35px;
-  position:fixed;
-  left:40px;
-  bottom:40px;
+  position: fixed;
+  left: 40px;
+  bottom: 40px;
 }
 .linkLabel {
   width: auto;
@@ -104,8 +119,8 @@
   text-decoration: none;
   color: #fff !important;
 }
-@media screen and (max-height:640px){
-  .legalLinkHolder{
-    position:static;
+@media screen and (max-height: 640px) {
+  .legalLinkHolder {
+    position: static;
   }
 }

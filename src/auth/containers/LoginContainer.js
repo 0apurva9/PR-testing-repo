@@ -12,7 +12,11 @@ import {
 import * as Cookies from "../../lib/Cookie";
 
 import { withRouter } from "react-router-dom";
-import { showModal, RESTORE_PASSWORD } from "../../general/modal.actions.js";
+import {
+  showModal,
+  RESTORE_PASSWORD,
+  DESKTOP_AUTH
+} from "../../general/modal.actions.js";
 import { getFeed } from "../../home/actions/home.actions";
 import Login from "../components/Login.js";
 import {
@@ -161,6 +165,9 @@ const mapDispatchToProps = dispatch => {
     },
     refreshToken: sessionData => {
       dispatch(refreshToken(sessionData));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };
