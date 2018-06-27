@@ -5,6 +5,22 @@ import { BANK_COUPON_COOKIE } from "../../lib/constants";
 import styles from "./BankOfferWrapper.css";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 export default class BankOfferWrapper extends React.Component {
+  handleSelect(val) {
+    if (this.props.applyBankCoupons) {
+      this.props.applyBankCoupons(val);
+    }
+  }
+  openBankOffers() {
+    if (this.props.openBankOffers) {
+      this.props.openBankOffers();
+    }
+  }
+  openBankOfferTncModal() {
+    if (this.props.openBankOfferTncModal) {
+      this.props.openBankOfferTncModal();
+    }
+  }
+
   render() {
     let offerDescription, offerTitle, offerCode;
     if (
@@ -42,15 +58,15 @@ export default class BankOfferWrapper extends React.Component {
           elementWidthDesktop={100}
           offset={0}
           limit={1}
-          onSelect={val => this.props.applyBankCoupons(val)}
+          onSelect={val => this.handleSelect(val)}
           selected={[localStorage.getItem(BANK_COUPON_COOKIE)]}
         >
           <BankOffer
             bankName={offerTitle}
             offerText={offerDescription}
             label={SEE_ALL_BANK_OFFERS}
-            applyBankOffers={() => this.props.openBankOffers()}
-            openBankOfferTncModal={() => this.props.openBankOfferTncModal()}
+            applyBankOffers={() => this.openBankOffers()}
+            openBankOfferTncModal={() => this.openBankOfferTncModal()}
             value={offerCode}
           />
         </GridSelect>
