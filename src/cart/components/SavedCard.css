@@ -62,3 +62,31 @@
   display: inline-block;
   vertical-align: top;
 }
+
+@media only screen and (min-width:1025px){
+  .base{
+    padding-left:80px;
+    position:relative;
+  }
+  .cardsSection{
+    width:auto;
+    position:absolute;
+    left:0;
+    top:5px;
+  }
+  .cardCvvHolder {
+    width:50%;
+    text-align:right;
+    margin-bottom: 0;
+  }
+  .cvvInput {
+    width: 110px;
+    text-align:left;
+  }
+  .cardNumber{
+    width:50%;
+    max-width:240px;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+}

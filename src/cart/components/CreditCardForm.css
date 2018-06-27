@@ -95,6 +95,9 @@
 }
 
 @media only screen and (min-width: 1025px){
+  .base{
+    padding:10px 0 0 0;
+  }
   .contentHolder{
     width:50%;
     display:inline-block;

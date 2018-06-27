@@ -126,6 +126,7 @@ export default class EmiAccordion extends React.Component {
         {!this.state.planSelected && (
           <GridSelect
             elementWidthMobile={100}
+            elementWidthDesktop={100}
             offset={0}
             limit={1}
             onSelect={val => {

@@ -13,7 +13,7 @@ import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import BankOffer from "./BankOffer.js";
 import GridSelect from "../../general/components/GridSelect";
-
+import MediaQuery from "react-responsive";
 import CheckOutHeader from "./CheckOutHeader";
 import { getCookie } from "../../lib/Cookie";
 
@@ -180,6 +180,11 @@ export default class PaymentCardWrapper extends React.Component {
     if (this.props.cart.paymentModes) {
       return (
         <div className={styles.base}>
+          <MediaQuery query="(min-device-width: 1025px)">
+            <div className={styles.card}>
+              <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
+            </div>
+          </MediaQuery>
           {!this.props.isFromGiftCard &&
             !this.props.isPaymentFailed && (
               <div>
@@ -204,18 +209,22 @@ export default class PaymentCardWrapper extends React.Component {
                 />
               </div>
             )}
-          {!this.props.isFromGiftCard &&
-            this.props.isRemainingBalance &&
-            !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
-            (this.props.cart.paymentModes &&
-              this.props.cart.paymentModes.paymentOffers &&
-              this.props.cart.paymentModes.paymentOffers.coupons) &&
-            this.renderBankOffers()}
+          <MediaQuery query="(max-device-width: 1024px)">
+            {!this.props.isFromGiftCard &&
+              this.props.isRemainingBalance &&
+              !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
+              (this.props.cart.paymentModes &&
+                this.props.cart.paymentModes.paymentOffers &&
+                this.props.cart.paymentModes.paymentOffers.coupons) &&
+              this.renderBankOffers()}
+          </MediaQuery>
           {this.props.isRemainingBalance && (
             <div className={styles.paymentModes}>
-              <div className={styles.card}>
-                <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
-              </div>
+              <MediaQuery query="(max-device-width: 1024px)">
+                <div className={styles.card}>
+                  <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
+                </div>
+              </MediaQuery>
               {this.props.cart.paymentModes &&
                 this.props.cart.paymentModes.savedCardResponse &&
                 this.props.cart.paymentModes.savedCardResponse

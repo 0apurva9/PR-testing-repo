@@ -32,12 +32,26 @@
   line-height: 20px;
 }
 .arrow {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   position: absolute;
   right: 15px;
   top: 0;
   bottom: 0;
   margin: auto;
   opacity: 0.21;
+}
+
+@media only screen and (min-width:1025px){
+  .icon{
+    left: 0;
+  }
+  .arrow {
+    right:0
+  }
+  .base {
+    padding-left:35px;
+    border:none;
+    border-top: 1px solid #ececec;
+  }
 }
