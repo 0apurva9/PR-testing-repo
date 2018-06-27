@@ -56,7 +56,10 @@ export default class ConnectWidget extends React.Component {
         }}
       >
         <MediaQuery query="(min-device-width: 1025px)">
-          <ConnectBaseWidget {...this.props.feedComponentData} />
+          <ConnectBaseWidget
+            {...this.props.feedComponentData}
+            heading={this.props.feedComponentData.title}
+          />
         </MediaQuery>
         <MediaQuery query="(max-device-width: 1024px)">
           <div className={className}>
