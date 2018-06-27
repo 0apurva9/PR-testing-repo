@@ -70,6 +70,7 @@
   }
   .cardsSection{
     width:auto;
+    border:none;
     position:absolute;
     left:0;
     top:5px;
