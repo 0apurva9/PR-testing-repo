@@ -5,16 +5,6 @@ import ProductModule from "../../general/components/ProductModule";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 export default class ThemOfferComponentDesktop extends React.Component {
-  handleClick() {
-    const urlSuffix = this.props.feedComponentData.webURL.replace(
-      TATA_CLIQ_ROOT,
-      "$1"
-    );
-    this.props.history.push(urlSuffix);
-    if (this.props.setClickedElementId) {
-      this.props.setClickedElementId();
-    }
-  }
   onClick = val => {
     this.props.history.push(val);
     if (this.props.setClickedElementId) {
@@ -22,6 +12,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
     }
   };
   render() {
+    const { carouselOptions } = this.props;
     return (
       <div
         className={
@@ -29,9 +20,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
         }
       >
         <Carousel
-          buttonText={this.props.buttonText}
-          header={this.props.header}
-          seeAll={() => this.handleClick()}
+          {...carouselOptions}
           banner={this.props.banner}
           bannerWidth="23.33%"
           elementWidthDesktop={25}

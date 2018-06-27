@@ -79,8 +79,13 @@ export default class ThemeOffer extends React.Component {
         <MediaQuery query="(min-device-width: 1025px)">
           <React.Fragment>
             <ThemOfferComponentDesktop
-              header={feedComponentData.title}
-              buttonText={feedComponentData.btnText}
+              carouselOptions={{
+                header: feedComponentData.title,
+                buttonText: feedComponentData.btnText,
+                seeAll: () => {
+                  this.handleClick();
+                }
+              }}
               banner={
                 <ProductImageHeaderDesktop
                   backgroundColor={feedComponentData.backgroundHexCode}
