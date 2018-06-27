@@ -12,7 +12,7 @@ import styles from "./CheckOutPage.css";
 import CheckOutHeader from "./CheckOutHeader";
 import PaymentCardWrapper from "./PaymentCardWrapper.js";
 import CartItem from "./CartItem";
-import BankOffer from "./BankOffer.js";
+import BankOfferWrapper from "./BankOfferWrapper.js";
 import GridSelect from "../../general/components/GridSelect";
 import find from "lodash.find";
 import OrderConfirmation from "./OrderConfirmation";
@@ -2338,6 +2338,28 @@ class CheckOutPage extends React.Component {
                 }
                 changeEmiPlan={() => this.changeEmiPlan()}
                 subEmiOption={this.state.currentSelectedEMIType}
+                desktopElement={
+                  <React.Fragment>
+                    {!this.state.isGiftCard &&
+                      this.state.isRemainingAmount &&
+                      !(
+                        this.state.isPaymentFailed &&
+                        this.state.isCliqCashApplied
+                      ) &&
+                      (this.props.cart.paymentModes &&
+                        this.props.cart.paymentModes.paymentOffers &&
+                        this.props.cart.paymentModes.paymentOffers.coupons) && (
+                        <BankOfferWrapper
+                          cart={this.props.cart}
+                          applyBankCoupons={val => this.applyBankCoupons(val)}
+                          openBankOffers={() => this.openBankOffers()}
+                          openBankOfferTncModal={() =>
+                            this.props.openBankOfferTncModal()
+                          }
+                        />
+                      )}
+                  </React.Fragment>
+                }
               />
             )}
           </div>

@@ -67,6 +67,8 @@
   .base{
     padding-left:80px;
     position:relative;
+    border:none;
+    cursor:pointer;
   }
   .cardsSection{
     width:auto;
