@@ -28,7 +28,7 @@
   composes: base;
   color: #ff1744;
   opacity: 1;
-  pointer-events:none;
+  pointer-events: none;
 }
 .active::before {
   content: "";
@@ -40,4 +40,10 @@
   left: 0;
   opacity: 1;
   transition: 300ms;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    min-width: 16.66%;
+    cursor: pointer;
+  }
 }
