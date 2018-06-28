@@ -101,7 +101,7 @@ export default class FollowBase extends React.Component {
                         });
                         return (
                           <NewBrandDesktop
-                            {...updateFeed}
+                            data={{ ...updateFeed }}
                             {...rest}
                             onClick={() =>
                               this.handleClick({
