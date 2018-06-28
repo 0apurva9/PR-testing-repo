@@ -3,6 +3,9 @@ import styles from "./ItemLevelPopup.css";
 import LevelBreakupCard from "./LevelBreakupCard.js";
 import PropTypes from "prop-types";
 import SlideModal from "../../general/components/SlideModal";
+const isStickyHeader = !(
+  navigator.userAgent && navigator.userAgent.match(/SamsungBrowser/i)
+);
 export default class ItemLevelPopup extends React.Component {
   render() {
     let emiItemDetails = this.props.emiItemDetails;
@@ -38,7 +41,9 @@ export default class ItemLevelPopup extends React.Component {
     return (
       <SlideModal closeModal={this.props.closeModal}>
         <div className={styles.base}>
-          <div className={styles.header}>Item Level Breakup</div>
+          <div className={isStickyHeader ? styles.stickyHeader : styles.header}>
+            Item Level Breakup
+          </div>
           <div className={styles.cardOfferDisplay}>
             <div className={styles.cardName}>{`${emiItemDetails.bankName} for ${
               emiItemDetails.tenure

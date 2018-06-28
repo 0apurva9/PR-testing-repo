@@ -1,7 +1,5 @@
 import React from "react";
-import styles from "./CartItem.css";
 import BagPageItem from "./BagPageItem.js";
-
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import BagPageFooter from "../../general/components/BagPageFooter";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
@@ -17,7 +15,7 @@ import {
   YES,
   NO
 } from "../../lib/constants";
-
+import styles from "./CartItem.css";
 export default class CartItem extends React.Component {
   constructor(props) {
     super(props);
@@ -78,7 +76,10 @@ export default class CartItem extends React.Component {
       fetchedQuantityList = [{}];
     } else {
       for (let i = 1; i <= this.props.maxQuantityAllowed; i++) {
-        fetchedQuantityList.push({ value: i.toString(), label: i.toString() });
+        fetchedQuantityList.push({
+          value: i.toString(),
+          label: i.toString()
+        });
       }
     }
 
@@ -102,7 +103,7 @@ export default class CartItem extends React.Component {
         </div>
         {this.props.deliveryInformation &&
           this.props.deliveryInfoToggle && (
-            <div className={styles.deliverTimeAndButton}>
+            <div className={styles.deliveryInfo}>
               {this.props.deliveryInformation.length > 1 && (
                 <div className={styles.hideButton}>
                   <UnderLinedButton
@@ -126,13 +127,15 @@ export default class CartItem extends React.Component {
         {this.props.isGiveAway === NO &&
           this.state.showDelivery &&
           this.props.deliveryInformation && (
-            <DeliveryInfoSelect
-              deliveryInformation={this.props.deliveryInformation}
-              selected={this.props.selected}
-              onSelect={val => this.selectDeliveryMode(val)}
-              onPiq={val => this.getPickUpDetails()}
-              isClickable={this.props.isClickable}
-            />
+            <div className={styles.deliveryInfo}>
+              <DeliveryInfoSelect
+                deliveryInformation={this.props.deliveryInformation}
+                selected={this.props.selected}
+                onSelect={val => this.selectDeliveryMode(val)}
+                onPiq={val => this.getPickUpDetails()}
+                isClickable={this.props.isClickable}
+              />
+            </div>
           )}
         {this.props.isGiveAway === NO &&
           this.props.hasFooter && (

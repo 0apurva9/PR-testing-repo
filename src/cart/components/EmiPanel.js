@@ -12,9 +12,16 @@ export default class EmiPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentSelectedEMIType: null
+      currentSelectedEMIType: this.props.subEmiOption
+        ? this.props.subEmiOption
+        : ""
     };
   }
+  changeEmiPlan = () => {
+    if (this.props.changeEmiPlan) {
+      this.props.changeEmiPlan();
+    }
+  };
 
   componentDidMount = () => {
     if (
@@ -172,6 +179,8 @@ export default class EmiPanel extends React.Component {
                     displayToast={this.props.displayToast}
                     changeNoCostEmiPlan={() => this.changeNoCostEmiPlan()}
                     onChangeCardDetail={val => this.onChangeCardDetail(val)}
+                    cardDetails={this.props.cardDetails}
+                    changeEmiPlan={() => this.changeEmiPlan()}
                   />
                 </NoCostEmi>
               </div>
@@ -193,6 +202,7 @@ export default class EmiPanel extends React.Component {
               <CheckoutEmi
                 {...this.props}
                 selectedEMIType={this.state.currentSelectedEMIType}
+                changeEmiPlan={() => this.changeEmiPlan()}
               />
             </NoCostEmi>
           </div>

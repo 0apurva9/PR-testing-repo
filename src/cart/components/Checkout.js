@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./Checkout.css";
+
 import Button from "../../general/components/Button.js";
 import infoIcon from "./img/Info.svg";
 import Icon from "../../xelpmoc-core/Icon";
+import MediaQuery from "react-responsive";
+import DesktopCheckout from "./DesktopCheckout";
+import styles from "./Checkout.css";
 import {
   RUPEE_SYMBOL,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
@@ -167,9 +170,9 @@ export default class Checkout extends React.Component {
             </div>
           </div>
         )}
-
-        <div className={styles.disclaimer}>{DISCLAIMER}</div>
-
+        <MediaQuery query="(max-device-width: 1024px)">
+          <div className={styles.disclaimer}>{DISCLAIMER}</div>
+        </MediaQuery>
         <div className={styles.hiddenBase}>
           <div
             className={styles.totalPriceButtonHolder}
@@ -274,30 +277,15 @@ export default class Checkout extends React.Component {
             </div>
           )}
         </div>
-        <div className={styles.base}>
-          <div
-            className={styles.totalPriceButtonHolder}
-            style={{
-              padding: this.props.padding
-            }}
-          >
-            {!this.props.isOnCartPage && (
-              <div className={styles.checkoutButtonHolder}>
-                <Button
-                  disabled={this.props.disabled}
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label={this.props.label}
-                  width={120}
-                  textStyle={{ color: "#FFF", fontSize: 14 }}
-                  onClick={() => this.handleClick()}
-                />
-              </div>
-            )}
-
-            {this.props.isOnCartPage &&
-              defaultPinCode && (
+        <MediaQuery query="(max-device-width: 1024px)">
+          <div className={styles.base}>
+            <div
+              className={styles.totalPriceButtonHolder}
+              style={{
+                padding: this.props.padding
+              }}
+            >
+              {!this.props.isOnCartPage && (
                 <div className={styles.checkoutButtonHolder}>
                   <Button
                     disabled={this.props.disabled}
@@ -314,139 +302,170 @@ export default class Checkout extends React.Component {
                   />
                 </div>
               )}
-            {this.props.isOnCartPage &&
-              !defaultPinCode && (
-                <div className={styles.checkoutButtonHolder}>
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label={this.props.label}
-                    width={120}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.handleFocusOnPinCode()}
-                  />
-                </div>
-              )}
 
-            <div className={styles.amountHolder}>
-              <div className={styles.amount}>
-                {RUPEE_SYMBOL}
-                {this.props.amount}
+              {this.props.isOnCartPage &&
+                defaultPinCode && (
+                  <div className={styles.checkoutButtonHolder}>
+                    <Button
+                      disabled={this.props.disabled}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={120}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
+                )}
+              {this.props.isOnCartPage &&
+                !defaultPinCode && (
+                  <div className={styles.checkoutButtonHolder}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={120}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleFocusOnPinCode()}
+                    />
+                  </div>
+                )}
+
+              <div className={styles.amountHolder}>
+                <div className={styles.amount}>
+                  {RUPEE_SYMBOL}
+                  {this.props.amount}
+                </div>
+              </div>
+              <div
+                className={styles.viewPrice}
+                onClick={() => {
+                  this.handleShowDetail();
+                }}
+              >
+                {" "}
+                {this.state.showDetails && (
+                  <React.Fragment>Hide</React.Fragment>
+                )}
+                {!this.state.showDetails && (
+                  <React.Fragment>View</React.Fragment>
+                )}{" "}
+                price details
               </div>
             </div>
-            <div
-              className={styles.viewPrice}
-              onClick={() => {
-                this.handleShowDetail();
-              }}
-            >
-              {" "}
-              {this.state.showDetails && <React.Fragment>Hide</React.Fragment>}
-              {!this.state.showDetails && (
-                <React.Fragment>View</React.Fragment>
-              )}{" "}
-              price details
-            </div>
-          </div>
-          {this.state.showDetails && (
-            <div className={styles.detailsHolder}>
-              {this.props.bagTotal && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Bag total
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.bagTotal}
-                  </div>
-                </div>
-              )}
-              {this.props.totalDiscount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.totalDiscount}
-                  </div>
-                </div>
-              )}
-              {this.props.discount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.discount}
-                  </div>
-                </div>
-              )}
-              {this.props.delivery && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Shipping fee
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.delivery}
-                  </div>
-                </div>
-              )}
-
-              {this.props.coupons && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>Coupon</div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.coupons}
-                  </div>
-                </div>
-              )}
-
-              {this.props.noCostEmiEligibility &&
-                this.props.isNoCostEmiApplied && (
+            {this.state.showDetails && (
+              <div className={styles.detailsHolder}>
+                {this.props.bagTotal && (
                   <div className={styles.informationHolder}>
                     <div className={styles.informationQuestionHolder}>
-                      No Cost EMI Discount
+                      Bag total
                     </div>
-                    <div className={classOffers}>
+                    <div className={styles.informationAnswerHolder}>
                       {RUPEE_SYMBOL}
-                      {this.props.noCostEmiDiscount}
+                      {this.props.bagTotal}
                     </div>
                   </div>
                 )}
-              {this.props.isCliqCashApplied && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Cliq Cash
+                {this.props.totalDiscount && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.totalDiscount}
+                    </div>
                   </div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.cliqCashPaidAmount}
+                )}
+                {this.props.discount && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.discount}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+                {this.props.delivery && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Shipping fee
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.delivery}
+                    </div>
+                  </div>
+                )}
 
-              {this.props.payable && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Total payable
+                {this.props.coupons && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Coupon
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.coupons}
+                    </div>
                   </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.payable}
+                )}
+
+                {this.props.noCostEmiEligibility &&
+                  this.props.isNoCostEmiApplied && (
+                    <div className={styles.informationHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        No Cost EMI Discount
+                      </div>
+                      <div className={classOffers}>
+                        {RUPEE_SYMBOL}
+                        {this.props.noCostEmiDiscount}
+                      </div>
+                    </div>
+                  )}
+                {this.props.isCliqCashApplied && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Cliq Cash
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.cliqCashPaidAmount}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+                )}
+
+                {this.props.payable && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Total payable
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.payable}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </MediaQuery>
+        <MediaQuery query="(min-device-width: 1025px)">
+          <div className={styles.desktopCheckout}>
+            <DesktopCheckout {...this.props} />
+            <div>{this.props.desktopElement}</div>
+            <div className={styles.disclaimer}>{DISCLAIMER}</div>
+          </div>
+        </MediaQuery>
       </React.Fragment>
     );
   }
@@ -461,6 +480,7 @@ Checkout.propTypes = {
   payable: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
+  desktopElement: PropTypes.element,
   padding: PropTypes.string
 };
 Checkout.defaultProps = {

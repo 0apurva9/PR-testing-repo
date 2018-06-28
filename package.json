@@ -34,6 +34,7 @@
     "html-webpack-plugin": "2.29.0",
     "intersection-observer": "^0.5.0",
     "jest": "20.0.4",
+    "lodash-move": "^1.1.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.concat": "^4.5.0",
     "lodash.delay": "^4.1.1",
@@ -83,7 +84,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
+    "start":
+      "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
     "tmpprod": " REACT_APP_STAGE=tmpprod node scripts/build.js",
     "local": " REACT_APP_STAGE=local node scripts/build.js",

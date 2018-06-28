@@ -9,7 +9,8 @@ import {
   COUPON_COOKIE,
   NO_COST_EMI_COUPON,
   OLD_CART_CART_ID,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 
@@ -646,21 +647,21 @@ const cart = (
     case cartActions.GET_PAYMENT_MODES_REQUEST:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
-        loading: true
+        paymentModeLoader: true
       });
 
     case cartActions.GET_PAYMENT_MODES_SUCCESS:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModes: action.paymentModes,
-        loading: false
+        paymentModeLoader: false
       });
 
     case cartActions.GET_PAYMENT_MODES_FAILURE:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModesError: action.error,
-        loading: false
+        paymentModeLoader: false
       });
 
     case cartActions.APPLY_BANK_OFFER_REQUEST:
@@ -869,6 +870,7 @@ const cart = (
       localStorage.removeItem(EGV_GIFT_CART_ID);
       localStorage.removeItem(NO_COST_EMI_COUPON);
       localStorage.removeItem(OLD_CART_CART_ID);
+      localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
       return Object.assign({}, state, {
         jusPayDetails: action.jusPayDetails
       });
@@ -1490,6 +1492,7 @@ const cart = (
         paymentModes: null,
         paymentModesStatus: null,
         paymentModesError: null,
+        paymentModeLoader: false,
 
         bankOffer: null,
         bankOfferStatus: null,

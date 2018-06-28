@@ -9,6 +9,7 @@ import informationIcon from "../../general/components/img/Info-grey.svg";
 import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
+import cardValidator from "simple-card-validator";
 
 const INSUFFICIENT_DATA_ERROR_MESSAGE = "PLease enter valid card details";
 
@@ -16,6 +17,8 @@ const MERCHANT_ID = "tul_uat2";
 
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 9;
+const REGX_FOR_WHITE_SPACE = /\W/gi;
+const REGX_FOR_CARD_FORMATTER = /(.{4})/g;
 
 export default class CreditCardForm extends React.Component {
   constructor(props) {
@@ -46,15 +49,40 @@ export default class CreditCardForm extends React.Component {
     ];
     this.state = {
       selected: false,
-      cardNumber: props.cardNumber ? props.cardNumber : "",
-      cardName: props.cardName ? props.cardName : "",
-      cvvNumber: props.cvvNumber ? props.cvvNumber : "",
-      ExpiryMonth: props.ExpiryMonth ? props.ExpiryMonth : null,
-      ExpiryYear: props.ExpiryYear ? props.ExpiryYear : null,
-      value: props.value ? props.value : "",
-      monthValue: "",
-      yearValue: "",
-      isCalledBinValidation: false
+      cardNumber:
+        this.props.cardDetails && this.props.cardDetails.cardNumber
+          ? this.props.cardDetails.cardNumber
+          : "",
+      cardName:
+        this.props.cardDetails && this.props.cardDetails.cardName
+          ? this.props.cardDetails.cardName
+          : "",
+      cvvNumber:
+        this.props.cardDetails && this.props.cardDetails.cvvNumber
+          ? this.props.cardDetails.cvvNumber
+          : "",
+      ExpiryMonth:
+        this.props.cardDetails && this.props.cardDetails.monthValue
+          ? this.props.cardDetails.monthValue
+          : null,
+      ExpiryYear:
+        this.props.cardDetails && this.props.cardDetails.yearValue
+          ? this.props.cardDetails.yearValue
+          : null,
+      value:
+        this.props.cardDetails && this.props.cardDetails.value
+          ? props.value
+          : "",
+      monthValue:
+        this.props.cardDetails && this.props.cardDetails.monthValue
+          ? this.props.cardDetails.monthValue
+          : "",
+      yearValue:
+        this.props.cardDetails && this.props.cardDetails.yearValue
+          ? this.props.cardDetails.yearValue
+          : "",
+      isCalledBinValidation: false,
+      invalidCard: false
     };
   }
 
@@ -77,6 +105,19 @@ export default class CreditCardForm extends React.Component {
     if (this.props.onChangeCardDetail) {
       this.props.onChangeCardDetail(val);
     }
+  }
+  onBlurOfCardInput() {
+    const card = new cardValidator(this.state.cardNumber);
+    if (this.state.cardNumber !== "") {
+      if (card.validateCard()) {
+        this.setState({ invalidCard: false });
+      } else {
+        this.setState({ invalidCard: true });
+      }
+    } else {
+      this.setState({ invalidCard: false });
+    }
+    this.handleOnBlur();
   }
   handleOnFocusInput() {
     if (this.props.onFocusInput) {
@@ -105,6 +146,16 @@ export default class CreditCardForm extends React.Component {
         monthValue: "Expiry Month",
         yearValue: "Expiry year"
       });
+    } else {
+      this.setState({
+        cardNumber: nextProps.cardDetails && nextProps.cardDetails.cardNumber,
+        cardName: nextProps.cardDetails && nextProps.cardDetails.cardName,
+        cvvNumber: nextProps.cardDetails && nextProps.cardDetails.cvvNumber,
+        ExpiryMonth: nextProps.cardDetails && nextProps.cardDetails.monthValue,
+        ExpiryYear: nextProps.cardDetails && nextProps.cardDetails.yearValue,
+        monthValue: nextProps.cardDetails && nextProps.cardDetails.monthValue,
+        yearValue: nextProps.cardDetails && nextProps.cardDetails.yearValue
+      });
     }
   }
 
@@ -112,94 +163,111 @@ export default class CreditCardForm extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.cardDetails}>
-          <div className={styles.content}>
-            <Input2
-              placeholder="Card Number"
-              value={
-                this.props.cardNumber
-                  ? this.props.cardNumber
-                  : this.state.cardNumber
-              }
-              onFocus={() => {
-                this.handleOnFocusInput();
-              }}
-              onBlur={() => this.handleOnBlur()}
-              boxy={true}
-              onChange={val => this.onChangeCardNumber(val)}
-              textStyle={{ fontSize: 14 }}
-              height={33}
-              maxLength="19"
-              onlyNumber={true}
-            />
-          </div>
-
-          <div className={styles.content}>
-            <Input2
-              placeholder="Name on card*"
-              boxy={true}
-              value={
-                this.props.cardName ? this.props.cardName : this.state.cardName
-              }
-              onChange={cardName => this.onChange({ cardName })}
-              textStyle={{ fontSize: 14 }}
-              height={33}
-              onFocus={() => {
-                this.handleOnFocusInput();
-              }}
-              onBlur={() => this.handleOnBlur()}
-              onlyAlphabet={true}
-            />
-          </div>
-          <div className={styles.dropDownHolder}>
-            <div className={styles.dropDownBox}>
-              <SelectBoxMobile2
-                theme="hollowBox"
-                placeholder="Expiry Month"
-                onChange={monthValue =>
-                  this.onChange({ monthValue: monthValue.value })
+          <div className={styles.contentHolder}>
+            <div className={styles.content}>
+              <Input2
+                placeholder="Card Number"
+                value={
+                  this.props.cardNumber && this.props.cardNumber.length > 0
+                    ? this.props.cardNumber
+                        .replace(REGX_FOR_WHITE_SPACE, "")
+                        .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                        .trim()
+                    : this.state.cardNumber
+                      ? this.state.cardNumber
+                          .replace(REGX_FOR_WHITE_SPACE, "")
+                          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                          .trim()
+                      : ""
                 }
-                options={this.monthOptions}
+                onFocus={() => {
+                  this.handleOnFocusInput();
+                }}
+                boxy={true}
+                onChange={val => this.onChangeCardNumber(val)}
                 textStyle={{ fontSize: 14 }}
-                value={this.state.monthValue}
-                label={this.state.monthValue}
+                height={33}
+                maxLength="23"
+                isCard={true}
+                onBlur={() => this.onBlurOfCardInput()}
               />
+              {this.state.invalidCard && (
+                <span className={styles.invalidCardText}>
+                  Please enter a valid card number
+                </span>
+              )}
             </div>
-            <div className={styles.dropDownBox}>
-              <SelectBoxMobile2
-                theme="hollowBox"
-                placeholder="Expiry year"
-                options={this.expiryYearObject}
-                onChange={yearValue =>
-                  this.onChange({ yearValue: yearValue.value })
+          </div>
+          <div className={styles.contentHolder}>
+            <div className={styles.content}>
+              <Input2
+                placeholder="Name on card*"
+                boxy={true}
+                value={
+                  this.props.cardName
+                    ? this.props.cardName
+                    : this.state.cardName
                 }
-                value={this.state.yearValue}
-                label={this.state.yearValue}
+                onChange={cardName => this.onChange({ cardName })}
+                textStyle={{ fontSize: 14 }}
+                height={33}
+                onFocus={() => {
+                  this.handleOnFocusInput();
+                }}
+                onBlur={() => this.handleOnBlur()}
+                onlyAlphabet={true}
               />
             </div>
           </div>
-          <div className={styles.payCardHolder}>
-            <div className={styles.cardFooterText}>
-              <div className={styles.cvvNumberTextHolder}>
-                <div className={styles.cardFooterInput}>
-                  <Input2
-                    boxy={true}
-                    placeholder="CVV"
-                    type="password"
-                    onChange={cvvNumber => this.onChange({ cvvNumber })}
-                    textStyle={{ fontSize: 14 }}
-                    height={33}
-                    maxLength={"4"}
-                    onlyNumber={true}
-                    value={
-                      this.props.cvvNumber
-                        ? this.props.cvvNumber
-                        : this.state.cvvNumber
-                    }
-                    onFocus={() => {
-                      this.handleOnFocusInput();
-                    }}
-                    onBlur={() => this.handleOnBlur()}
-                  />
+          <div className={styles.contentHolder}>
+            <div className={styles.dropDownHolder}>
+              <div className={styles.dropDownBox}>
+                <SelectBoxMobile2
+                  theme="hollowBox"
+                  placeholder="Expiry Month"
+                  onChange={monthValue =>
+                    this.onChange({
+                      monthValue: monthValue.value
+                    })
+                  }
+                  onFocus={() => {
+                    this.handleOnFocusInput();
+                  }}
+                  onBlur={() => this.handleOnBlur()}
+                  boxy={true}
+                  textStyle={{ fontSize: 14 }}
+                  height={33}
+                  maxLength="19"
+                  onlyNumber={true}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.contentHolder}>
+            <div className={styles.payCardHolder}>
+              <div className={styles.cardFooterText}>
+                <div className={styles.cvvNumberTextHolder}>
+                  <div className={styles.cardFooterInput}>
+                    <Input2
+                      boxy={true}
+                      placeholder="CVV"
+                      type="password"
+                      onChange={cvvNumber => this.onChange({ cvvNumber })}
+                      textStyle={{ fontSize: 14 }}
+                      height={33}
+                      maxLength={"4"}
+                      onlyNumber={true}
+                      value={
+                        this.props.cvvNumber
+                          ? this.props.cvvNumber
+                          : this.state.cvvNumber
+                      }
+                      onFocus={() => {
+                        this.handleOnFocusInput();
+                      }}
+                      onBlur={() => this.handleOnBlur()}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

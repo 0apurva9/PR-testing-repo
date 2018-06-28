@@ -4,6 +4,7 @@
   height: auto;
   background: #ececec;
 }
+
 .row {
   width: 100%;
   height: auto;
@@ -77,4 +78,23 @@
   bottom: 0;
   right: 0;
   margin: auto;
+}
+
+@media only screen and (min-width: 1025px) {
+  .base {
+    text-align:center
+  }
+  .pageCenter{
+    width:1200px;
+    display:inline-block;
+    max-width:100%;
+    padding-right: 31%;
+    text-align:left;
+  }
+  .addDeliveryAddressHolder{
+    text-align:center;
+  }
+  .header {
+    padding:20px 30px;
+  }
 }

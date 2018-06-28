@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Toggle from "../../general/components/Toggle";
+import MediaQuery from "react-responsive";
 import styles from "./CliqCashToggle.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
@@ -42,18 +43,20 @@ export default class CliqCashToggle extends React.Component {
             />
           </div>
         </div>
-        {!this.props.isFromGiftCard && (
-          <div className={styles.actionButtonHolder}>
-            <div className={styles.actionButton}>
-              <UnderLinedButton
-                color="#000"
-                size="14px"
-                label="Add a Gift Card"
-                onClick={() => this.onClick()}
-              />
+        <MediaQuery query="(max-device-width: 1024px)">
+          {!this.props.isFromGiftCard && (
+            <div className={styles.actionButtonHolder}>
+              <div className={styles.actionButton}>
+                <UnderLinedButton
+                  color="#000"
+                  size="14px"
+                  label="Add a Gift Card"
+                  onClick={() => this.onClick()}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </MediaQuery>
       </div>
     );
   }

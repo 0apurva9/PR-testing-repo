@@ -23,7 +23,7 @@
   position: absolute;
   right: 50px;
   margin: auto;
-  background: #ff1744 url(./img/3w.svg)no-repeat;
+  background: #ff1744 url(./img/3w.svg) no-repeat;
   background-size: auto 16px;
   background-position: center;
   transition: 300ms;
@@ -33,4 +33,9 @@
 .checkIconActive {
   composes: checkIcon;
   transform: scale(1);
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    background: #fff;
+  }
 }
