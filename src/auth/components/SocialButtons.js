@@ -91,18 +91,18 @@ export default class SocialButtons extends Component {
             <div className={styles.holder}>
               <CircleButton
                 color={"rgba(0,0,0,0)"}
-                size={100}
+                size={130}
                 onClick={this.facebookLogin}
-                icon={<Icon image={desktopFacebookImage} size={100} />}
+                icon={<Icon image={desktopFacebookImage} size={130} />}
               />
             </div>
             <div className={styles.separator} />
             <div className={styles.holder}>
               <CircleButton
                 color={"rgba(0,0,0,0)"}
-                size={100}
+                size={130}
                 onClick={this.googlePlusLogin}
-                icon={<Icon image={desktopGooglePlus} size={100} />}
+                icon={<Icon image={desktopGooglePlus} size={130} />}
               />
             </div>
           </div>

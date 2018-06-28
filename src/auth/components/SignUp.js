@@ -189,7 +189,7 @@ class SignUp extends Component {
               <MediaQuery query="(min-device-width: 1025px)">
                 <Button
                   label={"Sign Up"}
-                  width={200}
+                  width={180}
                   height={40}
                   borderColor={"#000000"}
                   borderRadius={20}
