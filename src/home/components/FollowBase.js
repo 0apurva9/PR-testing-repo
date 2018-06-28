@@ -72,54 +72,50 @@ export default class FollowBase extends React.Component {
             </Carousel>
           </div>
         </MediaQuery>
-        <React.Fragment>
-          <MediaQuery query="(min-device-width: 1025px)">
-            <div
-              className={
-                this.props.positionInFeed === 1
-                  ? styles.firstItemBase
-                  : styles.base
+        <MediaQuery query="(min-device-width: 1025px)">
+          <div
+            className={
+              this.props.positionInFeed === 1
+                ? styles.firstItemBase
+                : styles.base
+            }
+          >
+            <Carousel
+              elementWidthDesktop={100}
+              header={
+                this.props.feedComponentData.title
+                  ? this.props.feedComponentData.title
+                  : "Fresh from Brands"
               }
             >
-              <Carousel
-                elementWidthDesktop={100}
-                header={
-                  this.props.feedComponentData.title
-                    ? this.props.feedComponentData.title
-                    : "Fresh from Brands"
-                }
-              >
-                {feedComponentData &&
-                  (feedComponentData.length > 0 &&
-                    range(0, feedComponentData.length, 5).map(
-                      (datum, index) => {
-                        let updateFeed = [];
-                        feedComponentData.forEach((data, i) => {
-                          if (datum <= i && i < datum + 5) {
-                            updateFeed.push(data);
-                          }
-                        });
-                        return (
-                          <NewBrandDesktop
-                            data={{ ...updateFeed }}
-                            {...rest}
-                            onClick={() =>
-                              this.handleClick({
-                                itemIds: updateFeed.itemIds,
-                                image: updateFeed.imageURL,
-                                title: updateFeed.title,
-                                brandName: updateFeed.brandName,
-                                history: this.props.history
-                              })
-                            }
-                          />
-                        );
+              {feedComponentData &&
+                (feedComponentData.length > 0 &&
+                  range(0, feedComponentData.length, 5).map((datum, index) => {
+                    let updateFeed = [];
+                    feedComponentData.forEach((data, i) => {
+                      if (datum <= i && i < datum + 5) {
+                        updateFeed.push(data);
                       }
-                    ))}
-              </Carousel>
-            </div>
-          </MediaQuery>
-        </React.Fragment>
+                    });
+                    return (
+                      <NewBrandDesktop
+                        data={{ ...updateFeed }}
+                        {...rest}
+                        onClick={() =>
+                          this.handleClick({
+                            itemIds: updateFeed.itemIds,
+                            image: updateFeed.imageURL,
+                            title: updateFeed.title,
+                            brandName: updateFeed.brandName,
+                            history: this.props.history
+                          })
+                        }
+                      />
+                    );
+                  }))}
+            </Carousel>
+          </div>
+        </MediaQuery>
       </React.Fragment>
     );
   }
