@@ -71,19 +71,18 @@ export default class ConnectBaseWidget extends React.Component {
                     {data.description}
                   </div>
                 </div>
-                {data.btnText &&
-                  !data.btnText === "" && (
-                    <div className={styles.buttonBox}>
-                      <div
-                        className={styles.button}
-                        onClick={() => {
-                          this.handleClick();
-                        }}
-                      >
-                        {data.btnText}
-                      </div>
+                {data.btnText && (
+                  <div className={styles.buttonBox}>
+                    <div
+                      className={styles.button}
+                      onClick={() => {
+                        this.handleClick();
+                      }}
+                    >
+                      {data.btnText}
                     </div>
-                  )}
+                  </div>
+                )}
               </div>
             </div>
           </MediaQuery>
