@@ -29,50 +29,53 @@ export default class GiftCardPopup extends React.Component {
           <div className={styles.iconHolder}>
             <Icon image={giftImageURL} size={30} />
           </div>
-          Gift Card Details
+          {this.props.heading}
         </div>
-        <div className={styles.inputHolder}>
-          <Input2
-            boxy={true}
-            placeholder="Voucher number"
-            value={
-              this.props.voucherNumber
-                ? this.props.voucherNumber
-                : this.state.voucherNumber
-            }
-            onChange={cardNumber => this.setState({ cardNumber })}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-          />
-        </div>
-        <div className={styles.inputHolder}>
-          <Input2
-            boxy={true}
-            placeholder="Voucher pin"
-            value={
-              this.props.voucherPin
-                ? this.props.voucherPin
-                : this.state.voucherPin
-            }
-            onChange={pinNumber => this.setState({ pinNumber })}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-          />
-        </div>
-        <div className={styles.termsAndConditionCheck}>
-          Please read the Terms & Conditions before making your purchase
-        </div>
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              type="primary"
-              backgroundColor="#ff1744"
-              height={36}
-              label="Add Gift Card"
-              width={211}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-              onClick={() => this.addGiftCard()}
+        <div className={styles.content}>
+          <div className={styles.inputHolder}>
+            <Input2
+              boxy={true}
+              placeholder="Voucher number"
+              value={
+                this.props.voucherNumber
+                  ? this.props.voucherNumber
+                  : this.state.voucherNumber
+              }
+              onChange={cardNumber => this.setState({ cardNumber })}
+              textStyle={{ fontSize: 14 }}
+              height={33}
             />
+          </div>
+
+          <div className={styles.inputHolder}>
+            <Input2
+              boxy={true}
+              placeholder="Voucher pin"
+              value={
+                this.props.voucherPin
+                  ? this.props.voucherPin
+                  : this.state.voucherPin
+              }
+              onChange={pinNumber => this.setState({ pinNumber })}
+              textStyle={{ fontSize: 14 }}
+              height={33}
+            />
+          </div>
+          <div className={styles.termsAndConditionCheck}>
+            Please read the Terms & Conditions before making your purchase
+          </div>
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                type="primary"
+                backgroundColor="#ff1744"
+                height={36}
+                label="Add Gift Card"
+                width={211}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+                onClick={() => this.addGiftCard()}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -82,5 +85,9 @@ export default class GiftCardPopup extends React.Component {
 GiftCardPopup.propTypes = {
   voucherNumber: PropTypes.string,
   voucherPin: PropTypes.string,
-  addGiftCard: PropTypes.func
+  addGiftCard: PropTypes.func,
+  heading: PropTypes.string
+};
+GiftCardPopup.defaultProps = {
+  heading: "Gift Card Details"
 };
