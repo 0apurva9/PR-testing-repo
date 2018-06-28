@@ -69,8 +69,6 @@ export default class MyAccount extends React.Component {
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
-    let isMobile = UserAgent.checkUserAgentIsMobile();
-    console.log(isMobile);
     if (UserAgent.checkUserAgentIsMobile()) {
       return <Redirect to={LOGIN_PATH} />;
     } else {
