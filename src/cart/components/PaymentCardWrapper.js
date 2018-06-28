@@ -199,12 +199,14 @@ export default class PaymentCardWrapper extends React.Component {
                 this.renderPaymentCardsComponents()}
             </div>
           )}
-          <GiftCardPopup
-            heading="Have a gift card?"
-            addGiftCard={val => this.redeemCliqVoucher(val)}
-            voucherNumber={this.props.voucherNumber}
-            voucherPin={this.props.voucherPin}
-          />
+          <MediaQuery query="(min-device-width: 1025px)">
+            <GiftCardPopup
+              heading="Have a gift card?"
+              addGiftCard={val => this.redeemCliqVoucher(val)}
+              voucherNumber={this.props.voucherNumber}
+              voucherPin={this.props.voucherPin}
+            />
+          </MediaQuery>
         </div>
       );
     } else {
