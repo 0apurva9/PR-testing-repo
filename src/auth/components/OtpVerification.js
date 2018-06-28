@@ -69,7 +69,7 @@ export default class OtpVerification extends React.Component {
       <AuthPopUp>
         <MediaQuery query="(min-device-width: 1025px)">
           <div className={styles.header}>One last step</div>
-          <div className={styles.content}>
+          <div className={styles.contentOtp}>
             Please enter your OTP sent to {mobileNumber}.<span
               className={ownStyles.span}
             >

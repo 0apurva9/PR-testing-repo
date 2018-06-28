@@ -47,8 +47,17 @@
   bottom: 0;
   margin: auto;
   background-color: #fff;
-
+  transform: translateY(100%);
+  animation: slideInUp 200ms forwards;
   border-radius: 4px;
+}
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
 .closeModal {
   width: 30px;

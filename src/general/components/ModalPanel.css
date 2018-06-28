@@ -10,7 +10,7 @@
   -webkit-align-items: center;
   justify-content: center;
   -webkit-justify-content: center;
-  z-index: 200;
+  z-index: 9999;
   overflow: hidden;
 }
 .background {
@@ -21,6 +21,7 @@
   left: 0;
   top: 0;
 }
+
 @media only screen and (max-width: 1024px) {
   .base {
     width: 100vw;
