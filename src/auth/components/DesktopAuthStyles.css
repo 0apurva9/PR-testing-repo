@@ -1,28 +1,33 @@
 .base {
   width: 100%;
-  display: inline-block;
+  float: left;
   height: 100%;
   background: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
 }
 .leftDesktopHolder {
   width: 50%;
-  position: absolute;
-  left: 0;
+  height: 100%;
+  float: left;
   background: #ffffff;
+  padding: 100px 100px 0px 100px;
 }
 .header {
+  width: 100%;
+  height: auto;
+  text-align: left;
   color: #212121;
-  font-size: 30;
-  position: fixed;
-  padding: 20px;
-  margin-left: 20px;
-  font-weight: bold;
+  font-size: 30px;
+  font-family: regular;
+  margin-bottom: 30px;
 }
 
 .rightDesktopHolder {
   width: 50%;
-  position: absolute;
-  right: 0;
+  float: left;
+  height: 100%;
+  padding: 100px 100px 0px 100px;
   background: #f9f9f9;
 }
 .socialButtonHolder {
@@ -34,21 +39,27 @@
 }
 .popup {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 990px;
+  height: 580px;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #fff;
+
+  border-radius: 4px;
 }
-.popup_inner {
+.closeModal {
+  width: 30px;
+  height: 30px;
   position: absolute;
-  left: 20%;
-  right: 20%;
-  top: 10%;
-  bottom: 10%;
-  margin: auto;
-  background: #fff;
+  right: 0;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.24), 0 0 3px 0 rgba(0, 0, 0, 0.12);
+  top: -40px;
+  background: #ff1744 url(./img/cancel.svg) no-repeat;
+  background-size: auto 18px;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
 }

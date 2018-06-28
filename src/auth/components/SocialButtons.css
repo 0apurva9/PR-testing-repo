@@ -1,6 +1,12 @@
+.base {
+  margin-top: 15px;
+  text-align: center;
+}
+
 @media screen and (min-width: 1025px) {
   .base {
     text-align: center;
+    margin-top: 0px;
   }
   .holder {
     display: inline-block;
@@ -13,6 +19,11 @@
 
   .textHolder {
     text-align: center;
+    transform: translateY(25px);
+  }
+  .textHolder p {
+    font-size: 16px;
+    font-family: semibold;
   }
   .title {
     color: "#212121";
@@ -43,8 +54,4 @@
     font-size: 16px;
     font-family: semibold;
   }
-}
-.base {
-  margin-top: 15px;
-  text-align: center;
 }

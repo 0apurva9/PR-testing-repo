@@ -15,17 +15,8 @@
 
 .baseForDesktop {
   width: 100%;
-  padding: 3vh 40px;
   height: auto;
-  min-height: 540px;
-  background: transparent;
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  top: 30px;
-  bottom: -60px;
-  left: 0;
-  right: 0;
+  float: left;
 }
 .center {
   width: 100%;

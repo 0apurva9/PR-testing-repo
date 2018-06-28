@@ -14,7 +14,7 @@ export default class LogInButton extends React.Component {
         <MediaQuery query="(min-device-width: 1025px)">
           <Button
             label={"Sign in"}
-            width={150}
+            width={180}
             height={40}
             borderRadius={20}
             backgroundColor={"#ff1744"}
