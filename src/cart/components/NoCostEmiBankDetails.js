@@ -76,6 +76,7 @@ export default class NoCostEmiBankDetails extends React.Component {
 
     const selectedBankName = val.label;
     const selectedBankIndex = val.value;
+
     const selectedBankCodeObj = this.props.bankList.find(
       bank => bank.bankName === val.label
     );
@@ -86,6 +87,7 @@ export default class NoCostEmiBankDetails extends React.Component {
     this.setState({
       selectedBankIndex: selectedBankIndex,
       selectedBankName: selectedBankName,
+      selectedBankCode: selectedBankCodeObj.bankCode,
       selectedCode,
       selectedFromDropDown: true,
       selectedMonth: null
@@ -179,6 +181,7 @@ export default class NoCostEmiBankDetails extends React.Component {
           selectedCouponCode: val.emicouponCode,
           selectedTenure: val.tenure
         });
+        debugger;
         this.onChangeCardDetail({
           is_emi: true,
           emi_bank: this.state.selectedBankCode,
@@ -317,6 +320,7 @@ export default class NoCostEmiBankDetails extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     let modifiedBankList;
     let filteredBankListWithLogo =
       this.props.bankList &&
