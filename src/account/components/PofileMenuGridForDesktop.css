@@ -1,12 +1,14 @@
 .base {
   width: 20%;
+  height: auto;
+  position: fixed;
   background-color: #fff;
   height: auto;
-  display: inline-block;
   padding-right: 10px;
   vertical-align: top;
   padding: 20px;
   border-radius: 4px;
+  max-width: 240px;
 }
 .holder {
   width: 100%;

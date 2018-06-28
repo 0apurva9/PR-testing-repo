@@ -1,10 +1,9 @@
 .base {
   width: 20%;
-  background-color: #fff;
   height: auto;
-  display: inline-block;
-  vertical-align: top;
-  border-radius: 4px;
+  position: fixed;
+  max-width: 240px;
+  background-color: #fff;
 }
 .iconHolder {
   width: 100%;
