@@ -10,9 +10,9 @@ dependencies:
 test:
   override:
     - yarn  lint
-    - yarn  test 
+    - yarn  test
 deployment:
   staging:
-    branch: master
+    branch: staging
     commands:
-      - yarn deploy    
+      - yarn deploy
