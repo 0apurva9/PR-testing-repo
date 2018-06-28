@@ -190,9 +190,24 @@ class CheckOutPage extends React.Component {
     }
   }
   navigateToLogin() {
+
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.replace(LOGIN_PATH);
+    if(this.props.setUrlToRedirectToAfterAuth)
+    {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
+
+    if (isMobile) {
+      this.props.history.replace(LOGIN_PATH);
+    } else {
+      if(this.props.showAuthPopUp)
+      {
+        this.props.showAuthPopUp();
+        return null;
+      }
+
+    }
   }
   navigateUserToMyBagAfter15MinOfpaymentFailure() {
     this.props.displayToast(INVALID_CART_ERROR_MESSAGE);

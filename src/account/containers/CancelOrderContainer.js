@@ -11,8 +11,13 @@ import {
   MY_ACCOUNT,
   MY_ACCOUNT_ORDERS_PAGE
 } from "../../lib/constants";
-import { showModal, CANCEL_ORDER_POP_UP } from "../../general/modal.actions";
+import {
+  showModal,
+  CANCEL_ORDER_POP_UP,
+  DESKTOP_AUTH
+} from "../../general/modal.actions";
 import { setDataLayerForMyAccountDirectCalls } from "../../lib/adobeUtils";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -36,6 +41,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showCancelOrderModal: cancelOrderDetails => {
       dispatch(showModal(CANCEL_ORDER_POP_UP, cancelOrderDetails));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

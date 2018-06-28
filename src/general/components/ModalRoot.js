@@ -28,6 +28,7 @@ import { LOGIN_PATH } from "../../lib/constants";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
+const DesktopLogin = "DesktopAuth";
 
 const Loader = () => {
   return (
@@ -360,9 +361,14 @@ export default class ModalRoot extends React.Component {
   }
 
   navigateToLogin = url => {
-    this.props.setUrlToRedirectToAfterAuth(url);
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     this.handleClose();
-    this.props.history.push(LOGIN_PATH);
+    this.props.setUrlToRedirectToAfterAuth(url);
+    if (isMobile) {
+      this.props.history.push(LOGIN_PATH);
+    } else {
+      this.props.showModal(DesktopLogin);
+    }
   };
 
   cancelOrderProduct = (cancelProductDetails, productDetails) => {

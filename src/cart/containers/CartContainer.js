@@ -26,7 +26,8 @@ import {
 import {
   PRODUCT_COUPONS,
   showModal,
-  ADDRESS
+  ADDRESS,
+  DESKTOP_AUTH
 } from "../../general/modal.actions";
 import { SUCCESS } from "../../lib/constants";
 import {
@@ -129,6 +130,9 @@ const mapDispatchToProps = dispatch => {
     },
     addressModal: pinCodeObj => {
       dispatch(showModal(ADDRESS, pinCodeObj));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };

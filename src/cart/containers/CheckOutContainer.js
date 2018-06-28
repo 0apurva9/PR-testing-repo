@@ -63,7 +63,8 @@ import {
   BANK_OFFERS,
   GIFT_CARD_MODAL,
   CLIQ_CASH_AND_NO_COST_EMI_POPUP,
-  TNC_FOR_BANK_OFFER_POPUP
+  TNC_FOR_BANK_OFFER_POPUP,
+  DESKTOP_AUTH
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -416,6 +417,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearPinCodeStatus: () => {
       dispatch(clearPinCodeStatus());
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };

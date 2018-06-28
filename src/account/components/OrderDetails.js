@@ -139,10 +139,21 @@ export default class OrderDetails extends React.Component {
   }
 
   navigateToLogin() {
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
+    if (this.props.setUrlToRedirectToAfterAuth) {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
 
-    return <Redirect to={LOGIN_PATH} />;
+    if (isMobile) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.showAuthPopUp();
+      }
+
+      return null;
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {

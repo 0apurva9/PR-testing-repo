@@ -101,12 +101,17 @@ class ProductReviewPage extends Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
       const url = this.props.location.pathname;
-      this.props.setUrlToRedirectToAfterAuth(url);
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+
       if (isMobile) {
         this.props.history.push(LOGIN_PATH);
       } else {
-        this.props.showAuthPopUp();
-        return null;
+        if (this.props.showAuthPopUp) {
+          this.props.showAuthPopUp();
+          return null;
+        }
       }
     } else {
       this.setState(prevState => ({ visible: !prevState.visible }));

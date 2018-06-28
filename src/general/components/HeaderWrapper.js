@@ -95,7 +95,21 @@ export default class HeaderWrapper extends React.Component {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       if (!userDetails || !customerCookie) {
-        this.props.history.push(LOGIN_PATH);
+        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const url = this.props.location.pathname;
+        if (this.props.setUrlToRedirectToAfterAuth) {
+          this.props.setUrlToRedirectToAfterAuth(url);
+        }
+
+        if (isMobile) {
+          this.props.history.push(LOGIN_PATH);
+        } else {
+          if (this.props.showAuthPopUp) {
+            this.props.showAuthPopUp();
+          }
+
+          return null;
+        }
       } else {
         this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
       }

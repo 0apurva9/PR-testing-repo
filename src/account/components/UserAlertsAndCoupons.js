@@ -43,7 +43,20 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     } else {
-      this.props.history.push(LOGIN_PATH);
+      let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const url = this.props.location.pathname;
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+
+      if (isMobile) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     }
   }
   componentDidUpdate() {

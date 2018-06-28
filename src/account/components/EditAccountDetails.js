@@ -24,6 +24,7 @@ import {
   ERROR,
   REQUESTING
 } from "../../lib/constants";
+
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const OLD_PASSWORD_TEXT = "Please enter old password";
@@ -58,7 +59,19 @@ export default class EditAccountDetails extends React.Component {
     if (userDetails && customerCookie) {
       this.props.getUserDetails();
     } else {
-      this.props.history.push(LOGIN_PATH);
+      let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const url = this.props.location.pathname;
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+      if (isMobile) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     }
     this.props.setHeaderText(ACCOUNT_SETTING_HEADER);
   }

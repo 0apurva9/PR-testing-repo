@@ -24,12 +24,17 @@ export default class AddToWishListButton extends React.Component {
       //check the view is mobile or Desktop and dispatch modal
       let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const url = this.props.location.pathname;
-      this.props.setUrlToRedirectToAfterAuth(url);
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+
       if (isMobile) {
         this.props.history.push(LOGIN_PATH);
       } else {
-        this.props.showAuthPopUp();
-        return null;
+        if (this.props.showAuthPopUp) {
+          this.props.showAuthPopUp();
+          return null;
+        }
       }
     } else {
       const { productListingId, winningUssID, wishlistItems } = this.props;
