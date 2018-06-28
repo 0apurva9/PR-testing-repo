@@ -230,15 +230,24 @@ export default class CreditCardForm extends React.Component {
                       monthValue: monthValue.value
                     })
                   }
-                  onFocus={() => {
-                    this.handleOnFocusInput();
-                  }}
-                  onBlur={() => this.handleOnBlur()}
-                  boxy={true}
+                  options={this.monthOptions}
                   textStyle={{ fontSize: 14 }}
-                  height={33}
-                  maxLength="19"
-                  onlyNumber={true}
+                  value={this.state.monthValue}
+                  label={this.state.monthValue}
+                />
+              </div>
+              <div className={styles.dropDownBox}>
+                <SelectBoxMobile2
+                  theme="hollowBox"
+                  placeholder="Expiry year"
+                  options={this.expiryYearObject}
+                  onChange={yearValue =>
+                    this.onChange({
+                      yearValue: yearValue.value
+                    })
+                  }
+                  value={this.state.yearValue}
+                  label={this.state.yearValue}
                 />
               </div>
             </div>
