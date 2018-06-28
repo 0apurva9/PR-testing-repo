@@ -96,12 +96,18 @@ class ProductReviewPage extends Component {
   }
 
   reviewSection = () => {
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
       const url = this.props.location.pathname;
       this.props.setUrlToRedirectToAfterAuth(url);
-      this.props.history.push(LOGIN_PATH);
+      if (isMobile) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        this.props.showAuthPopUp();
+        return null;
+      }
     } else {
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
@@ -136,6 +142,10 @@ class ProductReviewPage extends Component {
         <WriteReview
           onSubmit={val => this.onSubmit(val)}
           onCancel={() => this.onCancel()}
+          showAuthPopUp={() => this.props.showAuthPopUp()}
+          setUrlToRedirectToAfterAuth={url =>
+            this.props.setUrlToRedirectToAfterAuth(url)
+          }
         />
       );
     }
