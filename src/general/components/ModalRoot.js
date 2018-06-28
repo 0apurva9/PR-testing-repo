@@ -677,7 +677,7 @@ export default class ModalRoot extends React.Component {
           continueWithNoCostEmi={() => this.handleClose()}
         />
       ),
-      DesktopAuth: <DesktopAuth />
+      DesktopAuth: <DesktopAuth closeModal={() => this.handleClose()} />
     };
 
     let SelectedModal = MODAL_COMPONENTS[this.props.modalType];
