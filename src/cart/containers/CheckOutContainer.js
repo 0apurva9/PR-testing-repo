@@ -71,8 +71,10 @@ import {
   getPinCodeSuccess,
   resetAddAddressDetails,
   updateProfile,
-  clearPinCodeStatus
+  clearPinCodeStatus,
+  redeemCliqVoucher
 } from "../../account/actions/account.actions.js";
+
 import { displayToast } from "../../general/toast.actions";
 import { setHeaderText } from "../../general/header.actions.js";
 import {
@@ -232,6 +234,9 @@ const mapDispatchToProps = dispatch => {
       if (response.status === SUCCESS) {
         dispatch(displayToast(response.orderExperience.message));
       }
+    },
+    redeemCliqVoucher: cliqCashDetails => {
+      dispatch(redeemCliqVoucher(cliqCashDetails, true));
     },
     binValidationForNetBanking: (paymentMode, binNo) => {
       dispatch(binValidationForNetBanking(paymentMode, binNo));

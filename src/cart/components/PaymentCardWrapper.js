@@ -13,6 +13,7 @@ import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import BankOffer from "./BankOffer.js";
 import BankOfferWrapper from "./BankOfferWrapper.js";
+import GiftCardPopup from "./GiftCardPopup.js";
 import GridSelect from "../../general/components/GridSelect";
 import MediaQuery from "react-responsive";
 import CheckOutHeader from "./CheckOutHeader";
@@ -126,6 +127,11 @@ export default class PaymentCardWrapper extends React.Component {
       this.props.addGiftCard();
     }
   };
+  redeemCliqVoucher(val) {
+    if (this.props.redeemCliqVoucher) {
+      this.props.redeemCliqVoucher(val);
+    }
+  }
 
   render() {
     if (this.props.cart.paymentModes) {
@@ -193,6 +199,14 @@ export default class PaymentCardWrapper extends React.Component {
                 this.renderPaymentCardsComponents()}
             </div>
           )}
+          <MediaQuery query="(min-device-width: 1025px)">
+            <GiftCardPopup
+              heading="Have a gift card?"
+              addGiftCard={val => this.redeemCliqVoucher(val)}
+              voucherNumber={this.props.voucherNumber}
+              voucherPin={this.props.voucherPin}
+            />
+          </MediaQuery>
         </div>
       );
     } else {
