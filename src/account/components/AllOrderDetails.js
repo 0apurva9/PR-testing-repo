@@ -10,6 +10,7 @@ import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { Redirect } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
+import * as UserAgent from "../../lib/UserAgent.js";
 import {
   MY_ACCOUNT,
   ORDER,
@@ -136,13 +137,12 @@ export default class AllOrderDetails extends React.Component {
     );
   }
   navigateToLogin() {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
 
-    if (isMobile) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       return <Redirect to={LOGIN_PATH} />;
     } else {
       if (this.props.showAuthPopUp) {

@@ -12,6 +12,7 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants.js";
+import * as UserAgent from "../../lib/UserAgent.js";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
@@ -21,14 +22,12 @@ export default class AddToWishListButton extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
-      //check the view is mobile or Desktop and dispatch modal
-      let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const url = this.props.location.pathname;
       if (this.props.setUrlToRedirectToAfterAuth) {
         this.props.setUrlToRedirectToAfterAuth(url);
       }
 
-      if (isMobile) {
+      if (UserAgent.checkUserAgentIsMobile()) {
         this.props.history.push(LOGIN_PATH);
       } else {
         if (this.props.showAuthPopUp) {

@@ -16,7 +16,7 @@ import {
 } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as Cookie from "../../lib/Cookie";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class MyAccountBrands extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(BRANDS);
@@ -31,13 +31,12 @@ export default class MyAccountBrands extends React.Component {
     this.props.setHeaderText(BRANDS);
   }
   navigateToLogin() {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
 
-    if (isMobile) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       return <Redirect to={LOGIN_PATH} />;
     } else {
       if (this.props.showAuthPopUp) {

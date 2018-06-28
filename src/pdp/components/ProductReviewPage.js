@@ -18,6 +18,7 @@ import {
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils";
 import * as Cookie from "../../lib/Cookie";
+import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -96,7 +97,6 @@ class ProductReviewPage extends Component {
   }
 
   reviewSection = () => {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
@@ -105,7 +105,7 @@ class ProductReviewPage extends Component {
         this.props.setUrlToRedirectToAfterAuth(url);
       }
 
-      if (isMobile) {
+      if (UserAgent.checkUserAgentIsMobile()) {
         this.props.history.push(LOGIN_PATH);
       } else {
         if (this.props.showAuthPopUp) {

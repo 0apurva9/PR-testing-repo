@@ -12,6 +12,7 @@ import {
   SIGN_UP_PATH,
   LOGIN_PATH
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class AuthFrame extends React.Component {
   goBack() {
     if (this.props.goBack) {
@@ -28,16 +29,17 @@ export default class AuthFrame extends React.Component {
     this.props.history.push(urlSuffix);
   };
   render() {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const style = isMobile ? styles.base : styles.baseForDesktop;
+    const style = UserAgent.checkUserAgentIsMobile()
+      ? styles.base
+      : styles.baseForDesktop;
     return (
       <div className={style}>
         {this.props.showCrossIcon &&
-          isMobile && (
+          UserAgent.checkUserAgentIsMobile() && (
             <div className={styles.goBack} onClick={() => this.goBack()} />
           )}
         {this.props.showLogo &&
-          isMobile && (
+          UserAgent.checkUserAgentIsMobile() && (
             <div className={styles.center}>
               <div className={styles.logo}>
                 <Icon image={tataLogo} size={65} backgroundSize="auto 50px" />
@@ -47,14 +49,14 @@ export default class AuthFrame extends React.Component {
 
         {this.props.children}
         {this.props.showSocialButtons &&
-          isMobile && (
+          UserAgent.checkUserAgentIsMobile() && (
             <div className={styles.socialButtons}>
               <SocialButtonsContainer isSignUp={this.props.isSignUp} />
             </div>
           )}
 
         {this.props.footerText &&
-          isMobile && (
+          UserAgent.checkUserAgentIsMobile() && (
             <div className={styles.navigateButtonHolder}>
               <div className={styles.footer}>{this.props.footerText}</div>
               <div className={styles.signUpButtonHolder}>
@@ -76,7 +78,7 @@ export default class AuthFrame extends React.Component {
           )}
         {this.props.location &&
           this.props.location.pathname === LOGIN_PATH &&
-          isMobile && (
+          UserAgent.checkUserAgentIsMobile() && (
             <div className={styles.legalLinkHolder}>
               <div className={styles.linkLabel}>
                 <div

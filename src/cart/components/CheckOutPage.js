@@ -99,6 +99,7 @@ import {
   ADDRESS_FOR_PLACE_ORDER,
   CART_PATH
 } from "../actions/cart.actions";
+import * as UserAgent from "../../lib/UserAgent.js";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -191,14 +192,14 @@ class CheckOutPage extends React.Component {
   }
   navigateToLogin() {
 
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
     const url = this.props.location.pathname;
     if(this.props.setUrlToRedirectToAfterAuth)
     {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
 
-    if (isMobile) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.replace(LOGIN_PATH);
     } else {
       if(this.props.showAuthPopUp)

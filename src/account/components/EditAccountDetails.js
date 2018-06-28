@@ -8,7 +8,7 @@ import ShopByBrandLists from "../../blp/components/ShopByBrandLists.js";
 import CheckboxAndText from "../../cart/components/CheckboxAndText.js";
 import AccountFooter from "./AccountFooter.js";
 import format from "date-fns/format";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 import { LOG_OUT_USER_SUCCESS } from "../actions/account.actions.js";
 import ChangePassword from "./ChangePassword.js";
 import * as Cookie from "../../lib/Cookie";
@@ -59,12 +59,11 @@ export default class EditAccountDetails extends React.Component {
     if (userDetails && customerCookie) {
       this.props.getUserDetails();
     } else {
-      let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const url = this.props.location.pathname;
       if (this.props.setUrlToRedirectToAfterAuth) {
         this.props.setUrlToRedirectToAfterAuth(url);
       }
-      if (isMobile) {
+      if (UserAgent.checkUserAgentIsMobile()) {
         this.props.history.push(LOGIN_PATH);
       } else {
         if (this.props.showAuthPopUp) {

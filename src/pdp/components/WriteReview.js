@@ -8,7 +8,7 @@ import Button from "../../general/components/Button";
 import { CUSTOMER_ACCESS_TOKEN, LOGIN_PATH } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 let buttonColor = "#212121";
 class WriteReview extends React.Component {
   constructor(props) {
@@ -50,14 +50,12 @@ class WriteReview extends React.Component {
           headline: this.state.title
         });
       } else {
-        //check the view is mobile or Desktop and dispatch modal
-        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         const url = this.props.location.pathname;
         if (this.props.setUrlToRedirectToAfterAuth) {
           this.props.setUrlToRedirectToAfterAuth(url);
         }
 
-        if (isMobile) {
+        if (UserAgent.checkUserAgentIsMobile()) {
           this.props.history.push(LOGIN_PATH);
         } else {
           if (this.props.showAuthPopUp) {

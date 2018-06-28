@@ -38,6 +38,7 @@ import {
   setDataLayerForCartDirectCalls,
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
@@ -201,13 +202,12 @@ class CartPage extends React.Component {
   };
 
   navigateToLogin() {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
 
-    if (isMobile) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.push(LOGIN_PATH);
     } else {
       if (this.props.showAuthPopUp) {
@@ -281,13 +281,12 @@ class CartPage extends React.Component {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       if (!userDetails || !customerCookie) {
-        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         const url = this.props.location.pathname;
         if (this.props.setUrlToRedirectToAfterAuth) {
           this.props.setUrlToRedirectToAfterAuth(url);
         }
 
-        if (isMobile) {
+        if (UserAgent.checkUserAgentIsMobile()) {
           this.props.history.push(LOGIN_PATH);
         } else {
           if (this.props.showAuthPopUp) {

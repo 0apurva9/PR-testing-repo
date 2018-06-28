@@ -72,8 +72,11 @@ export default class OtpVerification extends React.Component {
           <div className={styles.content}>
             Please enter your OTP sent to {mobileNumber}.<span
               className={ownStyles.span}
+              onClick={() => this.onClickWrongNumber()}
             >
-              Change number
+              {mobileNumber.indexOf("@") !== -1
+                ? "Change Email"
+                : "Change Number"}
             </span>
           </div>
           <div>

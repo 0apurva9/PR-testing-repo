@@ -25,6 +25,7 @@ import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";
 import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
@@ -361,10 +362,9 @@ export default class ModalRoot extends React.Component {
   }
 
   navigateToLogin = url => {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     this.handleClose();
     this.props.setUrlToRedirectToAfterAuth(url);
-    if (isMobile) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.push(LOGIN_PATH);
     } else {
       this.props.showModal(DesktopLogin);

@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import Button from "../../general/components/Button";
+import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -35,13 +36,12 @@ export default class SaveListDetails extends React.Component {
     this.props.setHeaderText(SAVED_LIST);
   }
   navigateToLogin() {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
 
-    if (isMobile) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       return <Redirect to={LOGIN_PATH} />;
     } else {
       if (this.props.showAuthPopUp) {

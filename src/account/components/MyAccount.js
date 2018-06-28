@@ -10,6 +10,7 @@ import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import styles from "./MyAccount.css";
+import * as UserAgent from "../../lib/UserAgent.js";
 import LogoutButtonContainer from "../containers/LogoutButtonContainer";
 import {
   LOGGED_IN_USER_DETAILS,
@@ -64,14 +65,13 @@ export default class MyAccount extends React.Component {
   }
 
   navigateToLogin() {
-    //check the view is mobile or Desktop and dispatch modal
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
-
-    if (isMobile) {
+    let isMobile = UserAgent.checkUserAgentIsMobile();
+    console.log(isMobile);
+    if (UserAgent.checkUserAgentIsMobile()) {
       return <Redirect to={LOGIN_PATH} />;
     } else {
       if (this.props.showAuthPopUp) {
