@@ -1,0 +1,34 @@
+.base {
+  width: 20%;
+  background-color: #fff;
+  height: auto;
+  display: inline-block;
+  padding-right: 10px;
+  vertical-align: top;
+  padding: 20px;
+  border-radius: 4px;
+}
+.holder {
+  width: 100%;
+  height: auto;
+  line-height: 35px;
+  display: inline-block;
+  position: relative;
+  margin-bottom: 25px;
+  cursor: pointer;
+}
+.gridText {
+  width: 100%;
+  height: auto;
+  padding: 0px 20px 0px 30px;
+  font-family: regular;
+  font-size: 14px;
+}
+.gridLogo {
+  width: 20px;
+  height: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+}
