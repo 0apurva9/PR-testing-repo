@@ -181,7 +181,6 @@ export default class NoCostEmiBankDetails extends React.Component {
           selectedCouponCode: val.emicouponCode,
           selectedTenure: val.tenure
         });
-        debugger;
         this.onChangeCardDetail({
           is_emi: true,
           emi_bank: this.state.selectedBankCode,
@@ -320,7 +319,6 @@ export default class NoCostEmiBankDetails extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     let modifiedBankList;
     let filteredBankListWithLogo =
       this.props.bankList &&
