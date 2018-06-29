@@ -100,6 +100,7 @@ a {
   .orderDetailsWithHolder {
     width: 100%;
     height: auto;
+    padding-top: 60px;
   }
   .profileMenu {
     width: 20%;
@@ -127,5 +128,9 @@ a {
   }
   .tabHolder {
     max-width: 690px;
+    position: fixed;
+    top: 131px;
+    z-index: 20;
+    border-radius: 4px;
   }
 }
