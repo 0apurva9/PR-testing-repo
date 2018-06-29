@@ -11,8 +11,7 @@ import {
 import * as user from "../mocks/user.mock";
 import * as Cookie from "../../lib/Cookie";
 const SIGN_UP_PATH = `v2/mpl/users/customerRegistration?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&isPwa=true&username=test@xelpmoc.in&password=123456&platformNumber=${PLAT_FORM_NUMBER}`;
-const LOGIN_PATH =
-  "v2/mpl/users/test@xelpmoc.in/customerLogin?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08";
+const LOGIN_PATH = `v2/mpl/users/test@xelpmoc.in/customerLogin?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&platformNumber=${PLAT_FORM_NUMBER}`;
 const OTP_VERIFICATION_PATH = `/v2/mpl/users/registrationOTPVerification?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&otp=[object Object]&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&username=undefined&password=undefined`;
 import {
   GLOBAL_ACCESS_TOKEN,

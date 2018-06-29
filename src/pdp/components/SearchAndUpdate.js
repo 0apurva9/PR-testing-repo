@@ -18,15 +18,18 @@ export default class SearchAndUpdate extends React.Component {
     if (pinCode.length <= 6) {
       this.setState({ pinCode });
     }
+    if (this.props.onChange) {
+      this.props.onChange(pinCode);
+    }
   }
   getLocation() {
     if (this.props.getLocation) {
       this.props.getLocation();
     }
   }
-  handleOnFocusInput() {
+  handleOnFocusInput(event) {
     if (this.props.onFocusInput) {
-      this.props.onFocusInput();
+      this.props.onFocusInput(event);
     }
   }
 
@@ -75,7 +78,7 @@ export default class SearchAndUpdate extends React.Component {
               boxy={true}
               id={this.props.id}
               value={this.state.pinCode}
-              type="number"
+              onlyNumber={true}
               placeholder="Enter your PIN code"
               onChange={val => this.getValue(val)}
               textStyle={{ fontSize: 14 }}
@@ -84,8 +87,8 @@ export default class SearchAndUpdate extends React.Component {
               rightChildSize={35}
               borderColor={this.props.borderColor}
               borderBottom={this.props.borderBottom}
-              onFocus={() => {
-                this.handleOnFocusInput();
+              onFocus={event => {
+                this.handleOnFocusInput(event);
               }}
               onBlur={() => {
                 this.handleBlurInput();

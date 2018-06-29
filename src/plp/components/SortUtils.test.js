@@ -23,6 +23,22 @@ it("should work with category landing page", () => {
   );
 });
 
+it("should work with a category page that has a query", () => {
+  let url = `/footwear-men-sneakers/c-${DUMMY_CATEGORY_VALUE}`;
+  let endUrl = applySortToUrl(
+    ":relevance:inStockFlag:true:isLuxuryProduct:false",
+    url,
+    ARRAY_OF_SORTS[3],
+    "auto:mul:msd:MSH1311115:all:none:00:030518"
+  );
+
+  expect(endUrl).toEqual(
+    `/search/?q=:${
+      ARRAY_OF_SORTS[3]
+    }:inStockFlag:true:isLuxuryProduct:false:category:${DUMMY_CATEGORY_VALUE.toUpperCase()}&icid2=auto:mul:msd:MSH1311115:all:none:00:030518`
+  );
+});
+
 it("should work with brand landing page", () => {
   let url = `/electronics-mobile-phones/c-${DUMMY_BRAND_VALUE}${DUMMY_ICID2_URL}`;
   let endUrl = applySortToUrl("", url, ARRAY_OF_SORTS[3], DUMMY_ICID2);

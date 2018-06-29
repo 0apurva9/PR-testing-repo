@@ -33,7 +33,8 @@ import {
   ERROR,
   FAILURE,
   CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
 } from "../../lib/constants";
 import {
   createWishlist,
@@ -49,10 +50,18 @@ import {
   ADOBE_SIGN_UP_START
 } from "../../lib/adobeUtils";
 const EMAIL_ID_DOSE_NOT_EXIST = "Email ID or phone number does not exist";
+
 const mapDispatchToProps = dispatch => {
   return {
     clearUrlToRedirectToAfterAuth: () => {
       dispatch(clearUrlToRedirectToAfterAuth());
+    },
+    loadGoogleSdk: async () => {
+      const loadGoogleSdkResponse = await loadGoogleSignInApi();
+      if (loadGoogleSdkResponse.status === ERROR) {
+        dispatch(singleAuthCallHasFailed(loadGoogleSdkResponse.description));
+        return;
+      }
     },
     facebookLogin: async isSignUp => {
       dispatch(authCallsAreInProgress());
@@ -83,8 +92,10 @@ const mapDispatchToProps = dispatch => {
             SOCIAL_CHANNEL_FACEBOOK
           )
         );
-
-        if (signUpResponse.status !== SUCCESS) {
+        if (
+          signUpResponse.status !== SUCCESS &&
+          signUpResponse.error !== EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
+        ) {
           dispatch(singleAuthCallHasFailed(signUpResponse.error));
           return;
         }
@@ -218,16 +229,6 @@ const mapDispatchToProps = dispatch => {
     },
     googlePlusLogin: async isSignUp => {
       dispatch(authCallsAreInProgress());
-
-      const loadGoogleSdkResponse = await loadGoogleSignInApi();
-      if (loadGoogleSdkResponse.status === ERROR) {
-        dispatch(singleAuthCallHasFailed(loadGoogleSdkResponse.description));
-        // as loading the google sign in api has nothing with redux state
-        // we manually trigger the toast error here
-        dispatch(displayToast("SDK Failed to load, check Google Client ID"));
-        return;
-      }
-
       const googlePlusResponse = await dispatch(googlePlusLogin(isSignUp));
       if (googlePlusResponse.status && googlePlusResponse.status !== SUCCESS) {
         dispatch(singleAuthCallHasFailed());
@@ -245,7 +246,10 @@ const mapDispatchToProps = dispatch => {
             SOCIAL_CHANNEL_GOOGLE_PLUS
           )
         );
-        if (signUpResponse.status !== SUCCESS) {
+        if (
+          signUpResponse.status !== SUCCESS &&
+          signUpResponse.error !== EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
+        ) {
           dispatch(singleAuthCallHasFailed(signUpResponse.error));
           return;
         }
@@ -304,6 +308,7 @@ const mapDispatchToProps = dispatch => {
           )
         );
         if (loginUserResponse.status === SUCCESS) {
+          setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
           const cartVal = await dispatch(getCartId());
           if (
             cartVal.status === SUCCESS &&

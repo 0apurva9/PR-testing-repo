@@ -8,6 +8,8 @@ import {
   RUPEE_SYMBOL,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
+const DISCLAIMER =
+  "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class Checkout extends React.Component {
   constructor(props) {
     super(props);
@@ -46,10 +48,135 @@ export default class Checkout extends React.Component {
       localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) !== "undefined"
         ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         : null;
+    let totalSaving =
+      this.props.bagTotal && this.props.payable
+        ? Math.round(
+            (parseFloat(this.props.bagTotal) - parseFloat(this.props.payable)) *
+              100
+          ) / 100
+        : 0;
+
     return (
       <React.Fragment>
+        {this.props.isFromMyBag && (
+          <div className={styles.visibleBase}>
+            <div className={styles.detailsHolder}>
+              {this.props.bagTotal && (
+                <div className={styles.informationHolder}>
+                  <div className={styles.informationQuestionHolder}>
+                    Bag total
+                  </div>
+                  <div className={styles.informationAnswerHolder}>
+                    {RUPEE_SYMBOL}
+                    {this.props.bagTotal}
+                  </div>
+                </div>
+              )}
+              {this.props.totalDiscount && (
+                <div className={styles.informationHolder}>
+                  <div className={styles.informationQuestionHolder}>
+                    Discount
+                  </div>
+                  <div className={styles.informationAnswerHolder}>
+                    {RUPEE_SYMBOL}
+                    {this.props.totalDiscount}
+                  </div>
+                </div>
+              )}
+              {this.props.discount && (
+                <div className={styles.informationHolder}>
+                  <div className={styles.informationQuestionHolder}>
+                    Discount
+                  </div>
+                  <div className={styles.informationAnswerHolder}>
+                    {RUPEE_SYMBOL}
+                    {this.props.discount}
+                  </div>
+                </div>
+              )}
+              {this.props.delivery && (
+                <div className={styles.informationHolder}>
+                  <div className={styles.informationQuestionHolder}>
+                    Shipping fee
+                  </div>
+                  <div className={styles.informationAnswerHolder}>
+                    {RUPEE_SYMBOL}
+                    {this.props.delivery}
+                  </div>
+                </div>
+              )}
+
+              {this.props.coupons && (
+                <div className={styles.informationHolder}>
+                  <div className={styles.informationQuestionHolder}>Coupon</div>
+                  <div className={classOffers}>
+                    {RUPEE_SYMBOL}
+                    {this.props.coupons}
+                  </div>
+                </div>
+              )}
+
+              {this.props.noCostEmiEligibility &&
+                this.props.isNoCostEmiApplied && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      No Cost EMI Discount
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.noCostEmiDiscount}
+                    </div>
+                  </div>
+                )}
+              {this.props.isCliqCashApplied && (
+                <div className={styles.informationHolder}>
+                  <div className={styles.informationQuestionHolder}>
+                    Cliq Cash
+                  </div>
+                  <div className={classOffers}>
+                    {RUPEE_SYMBOL}
+                    {this.props.cliqCashPaidAmount}
+                  </div>
+                </div>
+              )}
+
+              {this.props.payable && (
+                <React.Fragment>
+                  <div className={styles.visiblePayableSection}>
+                    <div className={styles.informationQuestionHolder}>
+                      Total Payable
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.payable}
+                    </div>
+                  </div>
+                  {totalSaving > 0 && (
+                    <div className={styles.savingSection}>
+                      <div className={styles.informationQuestionHolder}>
+                        Total savings
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        {RUPEE_SYMBOL}
+                        {totalSaving}
+                      </div>
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className={styles.disclaimer}>{DISCLAIMER}</div>
+
         <div className={styles.hiddenBase}>
-          <div className={styles.totalPriceButtonHolder}>
+          <div
+            className={styles.totalPriceButtonHolder}
+            style={{
+              padding: this.props.padding
+            }}
+          >
             <div className={styles.checkoutButtonHolder}>
               <Button
                 disabled={this.props.disabled}
@@ -62,7 +189,7 @@ export default class Checkout extends React.Component {
                 onClick={() => this.handleClick()}
               />
             </div>
-            <div className={styles.totalPriceHeading}>Total</div>
+
             <div className={styles.amountHolder}>
               <div className={styles.amount}>
                 {RUPEE_SYMBOL}
@@ -71,6 +198,14 @@ export default class Checkout extends React.Component {
               <div className={styles.infoIconHolder}>
                 <Icon image={infoIcon} size={22} />
               </div>
+            </div>
+            <div
+              className={styles.viewPrice}
+              onClick={() => {
+                this.handleShowDetail();
+              }}
+            >
+              View price details
             </div>
           </div>
           {this.state.showDetails && (
@@ -140,7 +275,12 @@ export default class Checkout extends React.Component {
           )}
         </div>
         <div className={styles.base}>
-          <div className={styles.totalPriceButtonHolder}>
+          <div
+            className={styles.totalPriceButtonHolder}
+            style={{
+              padding: this.props.padding
+            }}
+          >
             {!this.props.isOnCartPage && (
               <div className={styles.checkoutButtonHolder}>
                 <Button
@@ -166,7 +306,10 @@ export default class Checkout extends React.Component {
                     height={40}
                     label={this.props.label}
                     width={120}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
                     onClick={() => this.handleClick()}
                   />
                 </div>
@@ -180,25 +323,33 @@ export default class Checkout extends React.Component {
                     height={40}
                     label={this.props.label}
                     width={120}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
                     onClick={() => this.handleFocusOnPinCode()}
                   />
                 </div>
               )}
-            <div className={styles.totalPriceHeading}>Total</div>
+
             <div className={styles.amountHolder}>
               <div className={styles.amount}>
                 {RUPEE_SYMBOL}
                 {this.props.amount}
               </div>
-              <div
-                className={styles.infoIconHolder}
-                onClick={() => {
-                  this.handleShowDetail();
-                }}
-              >
-                <Icon image={infoIcon} size={22} />
-              </div>
+            </div>
+            <div
+              className={styles.viewPrice}
+              onClick={() => {
+                this.handleShowDetail();
+              }}
+            >
+              {" "}
+              {this.state.showDetails && <React.Fragment>Hide</React.Fragment>}
+              {!this.state.showDetails && (
+                <React.Fragment>View</React.Fragment>
+              )}{" "}
+              price details
             </div>
           </div>
           {this.state.showDetails && (
@@ -309,9 +460,11 @@ Checkout.propTypes = {
   offers: PropTypes.string,
   payable: PropTypes.string,
   label: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  padding: PropTypes.string
 };
 Checkout.defaultProps = {
   label: "Continue",
-  disabled: false
+  disabled: false,
+  padding: "15px 125px 15px 15px"
 };

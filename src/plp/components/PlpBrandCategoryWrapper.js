@@ -22,10 +22,9 @@ export default class PlpBrandCategoryWrapper extends React.Component {
     this.pathname = props.location.pathname;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     try {
       const url = this.props.location.pathname;
-
       let categoryOrBrandId = null;
 
       if (CATEGORY_REGEX.test(url)) {

@@ -9,6 +9,11 @@ export default class Input2 extends React.Component {
       value: props.value ? props.value : ""
     };
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+    }
+  }
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
@@ -22,46 +27,60 @@ export default class Input2 extends React.Component {
     this.setState({ focused: false });
   }
   handleChange(event) {
-    this.setState({ value: event.target.value }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.state.value);
+    const NUMBER_REGEX = /^[0-9]+$/;
+    const CARD_REGEX = /^[0-9\s]+$/;
+    const ALPHABET_REGEX = /^[a-zA-Z ]+$/;
+    if (this.props.isCard) {
+      if (event.target.value === "" || CARD_REGEX.test(event.target.value)) {
+        this.setState({ value: event.target.value }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.value);
+          }
+        });
       } else {
-        this.setState({ value: event.target.value });
+        event.preventDefault();
       }
-    });
+    }
+    if (this.props.onlyNumber) {
+      if (event.target.value === "" || NUMBER_REGEX.test(event.target.value)) {
+        this.setState({ value: event.target.value }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.value);
+          }
+        });
+      } else {
+        event.preventDefault();
+      }
+    }
+    if (this.props.onlyAlphabet) {
+      if (
+        event.target.value === "" ||
+        ALPHABET_REGEX.test(event.target.value)
+      ) {
+        this.setState({ value: event.target.value }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.value);
+          }
+        });
+      } else {
+        event.preventDefault();
+      }
+    }
+    if (
+      !this.props.onlyAlphabet &&
+      !this.props.onlyNumber &&
+      !this.props.isCard
+    ) {
+      this.setState({ value: event.target.value }, () => {
+        if (this.props.onChange) {
+          this.props.onChange(this.state.value);
+        }
+      });
+    }
   }
   handleKeyPress(event) {
     if (this.props.onKeyPress) {
       this.props.onKeyPress(event);
-    }
-    if (this.props.onlyAlphabet) {
-      var regex = new RegExp("^[a-zA-Z\\s]+$");
-      var charCode = event.which ? event.which : event.keyCode;
-      if (
-        (charCode > 64 && charCode < 91) ||
-        (charCode > 96 && charCode < 123)
-      ) {
-        return true;
-      }
-      var key = String.fromCharCode(
-        !event.charCode ? event.which : event.charCode
-      );
-      if (!regex.test(key)) {
-        event.preventDefault();
-      } else {
-        return false;
-      }
-    }
-    if (this.props.onlyNumber) {
-      var number_regex = new RegExp("^[0-9]+$");
-      var keyCode = String.fromCharCode(
-        !event.charCode ? event.which : event.charCode
-      );
-      if (!number_regex.test(keyCode)) {
-        event.preventDefault();
-      } else {
-        return false;
-      }
     }
   }
   handleKeyUp = event => {
@@ -102,7 +121,7 @@ export default class Input2 extends React.Component {
               onChange={event => this.handleChange(event)}
               style={{ ...this.props.textStyle }}
               onKeyUp={event => this.handleKeyUp(event)}
-              value={this.props.value}
+              value={this.props.value ? this.props.value : this.state.value}
               maxLength={this.props.maxLength}
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}

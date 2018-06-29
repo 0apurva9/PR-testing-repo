@@ -4,6 +4,7 @@ import SearchHeader from "./SearchHeader";
 import SearchResultItem from "./SearchResultItem";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { HOME_ROUTER } from "../../lib/constants";
+import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -24,9 +25,13 @@ export default class SearchPage extends React.Component {
     });
   };
 
-  handleBrandClick(webURL) {
+  handleBrandClick(webURL, dtmDataObject, position) {
+    Object.assign(dtmDataObject, {
+      position: position + 1
+    });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
+    setDataLayerForAutoSuggestSearch(dtmDataObject);
     this.props.clearSearchResults();
     this.setState({
       showResults: false,
@@ -39,9 +44,17 @@ export default class SearchPage extends React.Component {
     });
   }
 
-  handleCategoryClick(webURL) {
+  handleCategoryClick(webURL, dtmDataObject, position) {
+    const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
+    Object.assign(dtmDataObject, {
+      position:
+        data && data.topBrands
+          ? data.topBrands.length + position + 1
+          : position + 1
+    });
+    setDataLayerForAutoSuggestSearch(dtmDataObject);
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:category:${categoryCode}`;
     this.props.clearSearchResults();
     this.setState({
@@ -81,7 +94,11 @@ export default class SearchPage extends React.Component {
       }
     );
     this.props.clearSearchResults();
-    this.setState({ showResults: false, searchString, showSearchBar: false });
+    this.setState({
+      showResults: false,
+      searchString,
+      showSearchBar: false
+    });
   }
   render() {
     const data = this.props.searchResult;
@@ -118,7 +135,15 @@ export default class SearchPage extends React.Component {
                     text={val.categoryName}
                     value={val.categoryCode}
                     onClick={() => {
-                      this.handleBrandClick(val.categoryCode);
+                      this.handleBrandClick(
+                        val.categoryCode,
+                        {
+                          term: `${data.suggestionText[0]} in ${
+                            val.categoryName
+                          }`
+                        },
+                        i
+                      );
                     }}
                   />
                 );
@@ -134,7 +159,15 @@ export default class SearchPage extends React.Component {
                     text={val.categoryName}
                     value={val.categoryCode}
                     onClick={() => {
-                      this.handleCategoryClick(val.categoryCode);
+                      this.handleCategoryClick(
+                        val.categoryCode,
+                        {
+                          term: `${data.suggestionText[0]} in ${
+                            val.categoryName
+                          }`
+                        },
+                        i
+                      );
                     }}
                   />
                 );

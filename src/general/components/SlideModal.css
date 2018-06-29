@@ -6,7 +6,7 @@
   top: 0;
   padding-left: 40px;
   transform: translateX(100%);
-  animation: slideIn 300ms forwards;
+  animation: slideIn 200ms forwards;
   background: rgba(0, 0, 0, 0.4);
 }
 .cancel {

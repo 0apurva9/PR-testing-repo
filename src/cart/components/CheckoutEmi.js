@@ -3,8 +3,10 @@ import emiIcon from "./img/emi.svg";
 import PropTypes from "prop-types";
 import EmiAccordion from "./EmiAccordion";
 import MenuDetails from "../../general/components/MenuDetails.js";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, ERROR } from "../../lib/constants";
 import styles from "./CheckoutEmi.css";
+const EMI_ERROR_TEXT =
+  "This order amount doesn't meet the EMI eligibility criterion.";
 
 export default class CheckoutEmi extends React.Component {
   binValidation = (paymentMode, binNo) => {
@@ -23,6 +25,11 @@ export default class CheckoutEmi extends React.Component {
       this.props.onChangeCardDetail(val);
     }
   };
+  changeEmiPlan = () => {
+    if (this.props.changeEmiPlan) {
+      this.props.changeEmiPlan();
+    }
+  };
   render() {
     return (
       <div>
@@ -38,11 +45,13 @@ export default class CheckoutEmi extends React.Component {
                 this.binValidation(paymentMode, binNo)
               }
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
+              changeEmiPlan={() => this.changeEmiPlan()}
             />
           )}
-        {!this.props.cart.emiBankDetails && (
-          <div className={styles.errorText}>{this.props.cart.emiBankError}</div>
-        )}
+        {!this.props.cart.emiBankDetails &&
+          this.props.cart.emiBankStatus === ERROR && (
+            <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
+          )}
       </div>
     );
   }

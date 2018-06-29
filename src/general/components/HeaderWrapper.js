@@ -2,9 +2,7 @@ import React from "react";
 import InformationHeader from "./InformationHeader.js";
 import SearchContainer from "../../search/SearchContainer.js";
 import HollowHeader from "./HollowHeader.js";
-import { connect } from "react-redux";
 import StickyHeader from "./StickyHeader.js";
-import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
@@ -25,14 +23,9 @@ import {
   CHECKOUT_ROUTER_THANKYOU,
   APP_VIEW
 } from "../../../src/lib/constants";
-import {
-  setIsGoBackFromPDP,
-  setIsNotGoBackFromPDP
-} from "../../plp/actions/plp.actions.js";
 
-const PRODUCT_CODE_REGEX = /p-mp(.*)/;
-
-class HeaderWrapper extends React.Component {
+const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+export default class HeaderWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,17 +42,6 @@ class HeaderWrapper extends React.Component {
 
     if (PRODUCT_CODE_REGEX.test(url)) {
       productCode = PRODUCT_CODE_REGEX.exec(url);
-    }
-
-    if (productCode) {
-      if (
-        this.props.location.state &&
-        this.props.location.state.isComingFromPlp
-      ) {
-        this.props.setIsGoBackFromPDP();
-      }
-    } else {
-      this.props.setIsNotGoBackFromPDP();
     }
 
     // here in case of checkout page after payment  success or failure
@@ -139,7 +121,7 @@ class HeaderWrapper extends React.Component {
     let isCross = false;
     let isLogo = false;
     let shouldRenderHeader = true;
-    let companyLogoInPdp = false;
+    let companyLogoInPdp = true;
     if (url === PRODUCT_CART_ROUTER) {
       shouldRenderSearch = false;
     }
@@ -255,16 +237,3 @@ class HeaderWrapper extends React.Component {
     );
   }
 }
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setIsGoBackFromPDP: () => {
-      dispatch(setIsGoBackFromPDP());
-    },
-    setIsNotGoBackFromPDP: () => {
-      dispatch(setIsNotGoBackFromPDP());
-    }
-  };
-};
-
-export default withRouter(connect(null, mapDispatchToProps)(HeaderWrapper));

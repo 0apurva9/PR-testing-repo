@@ -35,6 +35,7 @@ import {
 } from "../../lib/seoUtils";
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
+import { setDataLayer, ADOBE_HOME_TYPE } from "../../lib/adobeUtils";
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 
 const typeKeyMapping = {
@@ -192,6 +193,10 @@ export const typeComponentMapping = {
 };
 
 class Feed extends Component {
+  constructor(props) {
+    super(props);
+    this.pageSize = this.props.pageSize;
+  }
   componentDidMount() {
     const titleObj =
       this.props.homeFeedData &&
@@ -210,6 +215,9 @@ class Feed extends Component {
           this.props.setHeaderText(titleObj.title);
         }
       }
+    }
+    if (this.props.clearProductModuleRef) {
+      this.props.clearProductModuleRef();
     }
   }
   componentDidUpdate() {
@@ -236,8 +244,8 @@ class Feed extends Component {
       return <ProductCapsulesContainer positionInFeed={index} />;
     }
 
-    if (this.props.pageSize && index > this.props.pageSize) {
-      this.props.setPageFeedSize(index);
+    if (this.pageSize && index > this.pageSize && this.props.isHomePage) {
+      this.pageSize = index;
     }
 
     const setClickedElementId = (id => {
@@ -289,6 +297,10 @@ class Feed extends Component {
       this.props.homeFeedData.length === 0
     ) {
       this.props.homeFeed();
+    } else {
+      if (this.props.feedType === HOME_FEED_TYPE) {
+        setDataLayer(ADOBE_HOME_TYPE);
+      }
     }
     if (userDetails && customerCookie && this.props.getWishListItems) {
       this.props.getWishListItems();
@@ -319,7 +331,11 @@ class Feed extends Component {
       ? renderMetaTags(data)
       : renderMetaTagsWithoutSeoObject(data);
   };
-
+  componentWillUnmount() {
+    if (this.props.setPageFeedSize && this.props.isHomePage) {
+      this.props.setPageFeedSize(this.pageSize);
+    }
+  }
   render() {
     if (this.props.loading) {
       return <HomeSkeleton />;

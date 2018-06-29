@@ -12,7 +12,8 @@ import {
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_SUCCESS = "PRODUCT_LISTINGS_SUCCESS";
 export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
-
+export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
+export const PLP_HAS_NOT_BEEN_VISITED = "PLP_HAS_NOT_BEEN_VISITED";
 export const PRODUCT_LISTINGS_PATH = "v2/mpl/products/searchProducts";
 export const PRODUCT_LISTINGS_SUFFIX = "&isPwa=true&pageSize=20&typeID=all";
 export const SORT_PRODUCT_LISTINGS_PATH = "searchProducts";
@@ -33,11 +34,9 @@ export const SET_PAGE = "SET_PAGE";
 export const FILTER_HAS_BEEN_CLICKED = "FILTER_HAS_BEEN_CLICKED";
 export const SORT_HAS_BEEN_CLICKED = "SORT_HAS_BEEN_CLICKED";
 
-export const IS_GO_BACK_FROM_PDP = "IS_GO_BACK_FROM_PDP";
-export const IS_NOT_GO_BACK_FROM_PDP = "IS_NOT_GO_BACK_FROM_PDP";
-
 export const SET_PRODUCT_MODULE_REF = "SET_PRODUCT_MODULE_REF";
 export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
+export const SET_PLP_PATH = "SET_PLP_PATH";
 
 export function setProductModuleRef(ref) {
   return {
@@ -51,17 +50,6 @@ export function clearProductModuleRef() {
     type: CLEAR_PRODUCT_MODULE_REF
   };
 }
-export function setIsGoBackFromPDP() {
-  return {
-    type: IS_GO_BACK_FROM_PDP
-  };
-}
-
-export function setIsNotGoBackFromPDP() {
-  return {
-    type: IS_NOT_GO_BACK_FROM_PDP
-  };
-}
 
 export function setIfSortHasBeenClicked() {
   return {
@@ -72,6 +60,13 @@ export function setIfSortHasBeenClicked() {
 export function setIfFilterHasBeenClicked() {
   return {
     type: FILTER_HAS_BEEN_CLICKED
+  };
+}
+
+export function setLastPlpPath(url) {
+  return {
+    type: SET_PLP_PATH,
+    url: url
   };
 }
 
@@ -119,6 +114,7 @@ export function updateFacets(productListings) {
 export function getProductListingsPaginatedSuccess(productListings) {
   return {
     type: GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS,
+    status: SUCCESS,
     productListings
   };
 }
@@ -222,9 +218,12 @@ export function getProductListings(
         }
       } else if (isFilter) {
         dispatch(updateFacets(resultJson));
+
         dispatch(hideSecondaryLoader());
       } else {
+        dispatch(setLastPlpPath(window.location.href));
         dispatch(getProductListingsSuccess(resultJson, paginated));
+
         dispatch(hideSecondaryLoader());
       }
     } catch (e) {

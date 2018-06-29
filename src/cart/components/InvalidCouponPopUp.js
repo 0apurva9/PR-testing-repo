@@ -10,7 +10,9 @@ import {
   INVALID_NO_COST_EMI_TYPE,
   NO_COST_EMI_COUPON,
   BANK_COUPON_COOKIE,
-  COUPON_COOKIE
+  COUPON_COOKIE,
+  SUCCESS_CAMEL_CASE,
+  SUCCESS_UPPERCASE
 } from "../../lib/constants";
 
 export default class InvalidCouponPopUp extends React.Component {
@@ -68,8 +70,11 @@ export default class InvalidCouponPopUp extends React.Component {
     const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
-
-    if (this.props.result && this.props.result.userCoupon) {
+    if (
+      this.props.result &&
+      this.props.result.userCoupon &&
+      this.props.result.userCoupon.status !== SUCCESS_UPPERCASE
+    ) {
       if (noCostEmiCoupon) {
         releaseStatus = await this.props.releaseNoCostEmiCoupon(
           noCostEmiCoupon
@@ -91,7 +96,11 @@ export default class InvalidCouponPopUp extends React.Component {
           );
         }
       }
-    } else if (this.props.result && this.props.result.bankOffer) {
+    } else if (
+      this.props.result &&
+      this.props.result.bankOffer &&
+      this.props.result.bankOffer.status !== SUCCESS_UPPERCASE
+    ) {
       if (noCostEmiCoupon) {
         releaseStatus = await this.props.releaseNoCostEmiCoupon(
           noCostEmiCoupon
@@ -102,7 +111,11 @@ export default class InvalidCouponPopUp extends React.Component {
           releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
         }
       }
-    } else if (this.props.result && this.props.result.noCostEmiCoupon) {
+    } else if (
+      this.props.result &&
+      this.props.result.noCostEmiCoupon &&
+      this.props.result.noCostEmiCoupon.status !== SUCCESS_UPPERCASE
+    ) {
       if (
         this.props.result.noCostEmiCoupon.couponType ===
         INVALID_NO_COST_EMI_TYPE
@@ -154,7 +167,7 @@ export default class InvalidCouponPopUp extends React.Component {
           <div className={styles.headingText}>Different Payment Method</div>
           <div className={styles.descriptionText}>
             <div className={styles.invalidCouponHeading}>
-              The payment mode can not be used because :
+              This payment mode can't be used because:
             </div>
 
             {data &&
@@ -194,13 +207,13 @@ export default class InvalidCouponPopUp extends React.Component {
                   {data.bankOffer &&
                     data.bankOffer.status &&
                     data.bankOffer.status.toLowerCase() === SUCCESS && (
-                      <div>You may have to select a bank offer again."</div>
+                      <div>You may have to select a bank offer again.</div>
                     )}
                   {data.noCostEmiCoupon &&
                     data.noCostEmiCoupon.status &&
                     data.noCostEmiCoupon.status.toLowerCase() === SUCCESS && (
                       <div>
-                        You may have to select a No Cost EMI plan again."
+                        You may have to select a No Cost EMI plan again.
                       </div>
                     )}
                 </div>
@@ -239,7 +252,7 @@ export default class InvalidCouponPopUp extends React.Component {
               <Button
                 type="secondary"
                 height={36}
-                label="Continue without coupon"
+                label="Continue without offers"
                 width={211}
                 onClick={() => this.continueWithoutCoupon()}
               />

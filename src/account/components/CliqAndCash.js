@@ -11,7 +11,10 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   CLIQ_CASH,
-  SUCCESS
+  SUCCESS,
+  SUCCESS_CAMEL_CASE,
+  SUCCESS_UPPERCASE,
+  FAILURE
 } from "../../lib/constants.js";
 
 const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
@@ -27,7 +30,11 @@ export default class CliqAndCash extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.cliqCashVoucherDetailsStatus === SUCCESS) {
+    if (
+      nextProps.cliqCashVoucherDetailsStatus === SUCCESS ||
+      nextProps.cliqCashVoucherDetailsStatus === SUCCESS_CAMEL_CASE ||
+      nextProps.cliqCashVoucherDetailsStatus === SUCCESS_UPPERCASE
+    ) {
       this.setState({ cardNumber: "", pinNumber: "", cliqCashUpdate: "" });
     }
   }
@@ -97,7 +104,7 @@ export default class CliqAndCash extends React.Component {
               <div className={styles.inputTextHolder}>
                 <Input2
                   boxy={true}
-                  type="number"
+                  onlyNumber={true}
                   placeholder="Enter 16 digit card number"
                   value={
                     this.props.cardNumber
@@ -115,7 +122,7 @@ export default class CliqAndCash extends React.Component {
               <div className={styles.inputTextHolder}>
                 <Input2
                   boxy={true}
-                  type="number"
+                  onlyNumber={true}
                   placeholder="Enter 6 digit number"
                   value={
                     this.props.pinNumber

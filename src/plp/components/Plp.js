@@ -6,12 +6,13 @@ import styles from "./Plp.css";
 import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
-
+import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
 import { URL_ROOT } from "../../lib/apiRequest";
+import { REQUESTING } from "../../lib/constants";
 
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
@@ -60,7 +61,12 @@ export default class Plp extends React.Component {
           html.offsetHeight
         );
         const windowBottom = windowHeight + window.pageYOffset;
-        if (windowBottom >= docHeight - OFFSET_BOTTOM) {
+
+        if (
+          windowBottom >= docHeight - OFFSET_BOTTOM &&
+          window.pageYOffset > 0 &&
+          this.props.status !== REQUESTING
+        ) {
           this.props.paginate(this.props.pageNumber + 1, SUFFIX);
         }
       }
@@ -75,6 +81,16 @@ export default class Plp extends React.Component {
     this.throttledScroll = this.handleScroll();
     this.setHeaderText();
     window.addEventListener("scroll", this.throttledScroll);
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
+      if (
+        !window.digitalData ||
+        !window.digitalData.page ||
+        !window.digitalData.page.pageInfo ||
+        window.digitalData.page.pageInfo.pageName !== "product grid"
+      ) {
+        setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+      }
+    }
   }
 
   setHeaderText = () => {

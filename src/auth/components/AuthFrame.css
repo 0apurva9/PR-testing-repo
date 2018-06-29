@@ -8,7 +8,7 @@
   background-position: center;
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: -60px;
   left: 0;
   right: 0;
 }
@@ -32,15 +32,17 @@
 }
 .footer {
   color: white;
-  font-family: regular;
+  font-family: light;
   font-size: 14px;
   text-align: center;
   display: inline-block;
   width: 100%;
-  margin-top: 3vh;
-  text-decoration: underline;
 }
-
+.navigateButtonHolder {
+  width: 100%;
+  height: auto;
+  margin-top: 3vh;
+}
 .socialButtons {
   display: inline-block;
   width: 100%;
@@ -50,14 +52,48 @@
   width: 100%;
   height: auto;
   margin-top: 35px;
+  position:fixed;
+  left:40px;
+  bottom:40px;
+}
+.linkLabel {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  padding-right: 10px;
+  position: relative;
+  height: 15px;
+}
+.linkLabel1 {
+  display: inline-block;
+  padding-left: 10px;
+}
+.linkLabel::after {
+  content: "";
+  width: 1px;
+  height: 100%;
+  border-left: 1px solid #fff;
+  position: absolute;
+  top: 0;
+  right: 0px;
 }
 .link {
   width: auto;
   height: auto;
   color: #fff;
-  font-size: 12px;
-  text-decoration: underline;
-  font-family: regular;
+  font-size: 14px;
+  font-family: light;
+}
+.signUpButtonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  margin-top: 25px;
+}
+.signUpButton {
+  width: auto;
+  height: auto;
   display: inline-block;
 }
 .callUs {
@@ -68,20 +104,8 @@
   text-decoration: none;
   color: #fff !important;
 }
-.linkLabelLeft {
-  width: 33.33%;
-  height: auto;
-  display: inline-block;
-  text-align: left;
-}
-.linkLabelRight {
-  composes: linkLabelLeft;
-  text-align: right;
-  width: 35%;
-}
-.linkLabelMiddle {
-  composes: linkLabelLeft;
-
-  padding-left: 10px;
-  width: 30%;
+@media screen and (max-height:640px){
+  .legalLinkHolder{
+    position:static;
+  }
 }

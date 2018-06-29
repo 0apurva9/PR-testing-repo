@@ -9,6 +9,10 @@ import {
   FACEBOOK_PLATFORM,
   GOOGLE_PLUS_PLATFORM
 } from "../auth/actions/user.actions";
+import {
+  BRAND_REGEX,
+  CATEGORY_REGEX
+} from "../plp/components/PlpBrandCategoryWrapper.js";
 
 export const ADOBE_TARGET_COOKIE_NAME =
   "AMCV_E9174ABF55BA76BA7F000101%40AdobeOrg";
@@ -55,6 +59,7 @@ const ADOBE_CLIQ_CASH_OFF = "CPJ_Checkout_Payment_ToggleOff";
 const ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS =
   "cpj_checkout_payment_coupon_success";
 const ADOBE_CHECKOUT_APPLY_COUPON_FAILURE = "cpj_checkout_payment_coupon_fail";
+const ADOBE_CHECKOUT_APPLIED_CNC = "CPJ_Checkout_Delivery_CLiQ";
 // end of checkout adobe constants
 // direct call for login tracking
 
@@ -90,6 +95,7 @@ const ADOBE_ON_CLICK_WIDGETS = "cpj_widget_followed";
 // const or adobe call for internal search call
 const ADOBE_INTERNAL_SEARCH_SUCCESS = "internal_search";
 const ADOBE_INTERNAL_SEARCH_NULL = "null_search";
+const AUTO_SUGGEST_SEARCH = "auto_suggest_search_click";
 // end of const or adobe call for internal search call
 
 const ADOBE_NOT_FOUND = "404_error";
@@ -97,6 +103,8 @@ const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
 
 const SIGN_UP_START = "signup_starts";
 const SIGN_UP_SUCCESS = "signup_successful";
+const LOGOUT_SUCCESS = "logout_successful";
+
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT";
@@ -168,6 +176,8 @@ export const ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS =
   "ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS";
 export const ADOBE_CALL_FOR_APPLY_COUPON_FAILURE =
   "ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_FAILURE";
+export const ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED =
+  "ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED";
 
 // end of constants for checkout pages
 
@@ -231,6 +241,8 @@ export const ADOBE_LOGIN_AND_SIGN_UP_PAGE = "ADOBE_LOGIN_AND_SIGN_UP_PAGE";
 export const ADOBE_SIGN_UP_START = "ADOBE_SIGN_UP_START";
 export const ADOBE_SIGN_UP_SUCCESS = "ADOBE_SIGN_UP_SUCCESS";
 
+export const ADOBE_AUTO_SUGGEST_SEARCH = "ADOBE_AUTO_SUGGEST_SEARCH";
+
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -252,11 +264,15 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT) {
     window.digitalData = getDigitalDataForSearchPageSuccess(response);
-    window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
+    }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL) {
     window.digitalData = getDigitalDataForSearchPageForNullResult(response);
-    window._satellite.track(ADOBE_INTERNAL_SEARCH_NULL);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_INTERNAL_SEARCH_NULL);
+    }
   }
 
   if (type === ADOBE_PDP_TYPE) {
@@ -275,16 +291,22 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
     }
     window.digitalData = digitalDataForPDP;
     if (response && response.allOOStock) {
-      window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
+      if (window._satellite) {
+        window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
+      }
     }
-    window._satellite.track(ADOBE_PDP_CPJ);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PDP_CPJ);
+    }
   }
   if (type === ADOBE_CHECKOUT_TYPE) {
     window.digitalData = getDigitalDataForCheckout(type, response);
   }
   if (type === ADOBE_CART_TYPE) {
     window.digitalData = getDigitalDataForCart(type, response);
-    window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
+    }
   }
   if (type === ADOBE_ORDER_CONFIRMATION) {
     window.digitalData = getDigitalDataForOrderConfirmation(type, response);
@@ -330,11 +352,15 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
   }
   if (type === ADOBE_BLP_PAGE_LOAD) {
     window.digitalData = getDigitalDataForBLP(response);
-    window._satellite.track(ADOBE_BLP_DIRECT_CALL);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_BLP_DIRECT_CALL);
+    }
   }
   if (type === ADOBE_CLP_PAGE_LOAD) {
     window.digitalData = getDigitalDataForCLP(response);
-    window._satellite.track(ADOBE_CLP_DIRECT_CALL);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLP_DIRECT_CALL);
+    }
   }
   if (
     type === ADOBE_DEFAULT_BLP_PAGE_LOAD ||
@@ -343,7 +369,7 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
     window.digitalData = getDigitalDataForDefaultBlpOrClp(response);
   }
   if (type === ADOBE_LOGIN_AND_SIGN_UP_PAGE) {
-    window.digitalData = getDigitalDataForLoginAndSignup();
+    window.digitalData = getDigitalDataForLoginAndSignup(response);
   }
   if (type === ADOBE_STATIC_PAGE) {
     window.digitalData = getDigitalDataForStatic(response);
@@ -356,7 +382,9 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
         id: icid
       }
     };
-    window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
+    if (window._satellite) {
+      window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
+    }
   } else if (icidType === CID) {
     window.digitalData.external = {
       campaign: {
@@ -441,7 +469,9 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
     window.digitalData = currentDigitalData;
   }
 
-  window._satellite.track(ADOBE_SATELLITE_CODE);
+  if (window._satellite) {
+    window._satellite.track(ADOBE_SATELLITE_CODE);
+  }
 }
 
 function getDigitalDataForPdp(type, pdpResponse) {
@@ -534,6 +564,7 @@ function getDigitalDataForHome() {
   if (
     window.digitalData &&
     window.digitalData.page &&
+    window.digitalData.page.pageInfo &&
     window.digitalData.page.pageInfo.pageName
   ) {
     Object.assign(data, {
@@ -893,17 +924,23 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   let data = window.digitalData;
 
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
-    window._satellite.track(ADOBE_ADD_TO_CART);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_TO_CART);
+    }
   }
   if (type === SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP) {
-    window._satellite.track(ADOBE_SAVE_PRODUCT);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SAVE_PRODUCT);
+    }
   }
   if (type === SET_DATA_LAYER_FOR_EMI_BANK_EVENT) {
     Object.assign(data.cpj, {
       emi: { bank: layerData.replace(/ /g, "_").toLowerCase() }
     });
     window.digitalData = data;
-    window._satellite.track(ADOBE_EMI_BANK_SELECT_ON_PDP);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_EMI_BANK_SELECT_ON_PDP);
+    }
   }
 }
 
@@ -932,13 +969,19 @@ export function setDataLayerForCartDirectCalls(type, response) {
       });
     }
     window.digitalData = data;
-    window._satellite.track(ADOBE_DIRECT_CALL_ON_CART_FOR_REMOVE_TRIGGER);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_ON_CART_FOR_REMOVE_TRIGGER);
+    }
   }
   if (type === ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT) {
-    window._satellite.track(ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT);
+    if (window._satellite) {
+      window._satellite.track(ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT);
+    }
   }
   if (type === ADOBE_CALLS_FOR_CHANGE_QUANTITY) {
-    window._satellite.track(ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART);
+    if (window._satellite) {
+      window._satellite.track(ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART);
+    }
   }
   if (type === ADOBE_CALLS_FOR_APPLY_COUPON_SUCCESS) {
     Object.assign(data.cpj, {
@@ -946,7 +989,9 @@ export function setDataLayerForCartDirectCalls(type, response) {
     });
     window.digitalData = data;
 
-    window._satellite.track(ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_SUCCESS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_SUCCESS);
+    }
   }
   if (type === ADOBE_CALLS_FOR_APPLY_COUPON_FAIL) {
     Object.assign(data.cpj, {
@@ -954,18 +999,26 @@ export function setDataLayerForCartDirectCalls(type, response) {
     });
     window.digitalData = data;
 
-    window._satellite.track(ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_FAIL);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_FAIL);
+    }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART) {
-    window._satellite.track(ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART);
+    }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS) {
     window.digitalData = setDataLayerForPinCode(response);
-    window._satellite.track(PINCODE_SUCCESS);
+    if (window._satellite) {
+      window._satellite.track(PINCODE_SUCCESS);
+    }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE) {
     window.digitalData = setDataLayerForPinCode(response);
-    window._satellite.track(PINCODE_FAILURE);
+    if (window._satellite) {
+      window._satellite.track(PINCODE_FAILURE);
+    }
   }
 }
 function getDigitalDataForPlp(type, response) {
@@ -979,7 +1032,8 @@ function getDigitalDataForPlp(type, response) {
       }
     }
   };
-  if (response.searchresult && response.searchresult.length > 0) {
+
+  if (response && response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
     });
@@ -1018,11 +1072,32 @@ export function getDigitalDataForSearchPageSuccess(response) {
     internal: {
       search: {
         category: "all",
-        results: response.searchresult ? response.searchresult.length : 0,
+        results: response.pagination ? response.pagination.totalResults : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null
       }
     }
   };
+  if (
+    response &&
+    response.seo &&
+    response.seo.alternateURL &&
+    CATEGORY_REGEX.test(response.seo.alternateURL)
+  ) {
+    Object.assign(data.internal.search, {
+      category:
+        response &&
+        response.seo &&
+        response.seo.breadcrumbs &&
+        response.seo.breadcrumbs[0] &&
+        response.seo.breadcrumbs[0].name
+          ? response.seo.breadcrumbs[0].name
+          : "all"
+    });
+  } else {
+    Object.assign(data.internal.search, {
+      category: "all"
+    });
+  }
   if (response && response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
@@ -1047,8 +1122,8 @@ export function getDigitalDataForSearchPageForNullResult(response) {
   };
   return data;
 }
-export function setDataLayerForPlpDirectCalls(response) {
-  const data = window.digitalData;
+export function setDataLayerForPlpDirectCalls(response, index: 0) {
+  const data = window.digitalData ? window.digitalData : {};
   let badge;
   if (response) {
     if (response.outOfStock) {
@@ -1071,12 +1146,24 @@ export function setDataLayerForPlpDirectCalls(response) {
     } else {
       Object.assign(data, { cpj: { product: { badge } } });
     }
-    window.digitalData = data;
   }
-  window._satellite.track(ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP);
+  Object.assign(data, {
+    internal: {
+      search: {
+        position: index + 1
+      }
+    }
+  });
+  window.digitalData = data;
+  if (window._satellite) {
+    window._satellite.track(ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP);
+  }
 }
 export function setDataLayerForLogin(type) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+  }
   const data = {};
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
     if (userDetails) {
@@ -1175,11 +1262,19 @@ export function setDataLayerForLogin(type) {
     }
     window.digitalData = data;
     window.digitalData.flag = ADOBE_LOGIN_SUCCESS;
-    window._satellite.track(ADOBE_LOGIN_SUCCESS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_LOGIN_SUCCESS);
+    }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE) {
-    window.digitalData.flag = ADOBE_LOGIN_FAILURE;
-    window._satellite.track(ADOBE_LOGIN_FAILURE);
+    if (window.digitalData) {
+      window.digitalData.flag = ADOBE_LOGIN_FAILURE;
+    } else {
+      window.digitalData = { flag: ADOBE_LOGIN_FAILURE };
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_LOGIN_FAILURE);
+    }
   }
 }
 export function setDataLayerForOrderConfirmationDirectCalls(
@@ -1208,35 +1303,44 @@ export function setDataLayerForOrderConfirmationDirectCalls(
       });
     }
     window.digitalData = previousData;
-    window._satellite.track(ADOBE_ORDER_CONFIRMATION_SUCCESS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ORDER_CONFIRMATION_SUCCESS);
+    }
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
     const data = {
       cpj: {
         order: {
           failureReason: orderConfirmationResponse
+            ? orderConfirmationResponse
+            : ""
         }
       }
     };
     window.digitalData = data;
-    window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
+    }
   }
 }
 export function setDataLayerForCheckoutDirectCalls(type, response) {
   let data = cloneDeep(window.digitalData);
   if (type === ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE) {
-    window._satellite.track(ADOBE_LANDING_ON_ADDRESS_PAGE);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_LANDING_ON_ADDRESS_PAGE);
+    }
   }
   if (type === ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE) {
-    window._satellite.track(ADOBE_ADD_NEW_ADDRESS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_NEW_ADDRESS);
+    }
   }
   if (type === ADOBE_ADD_ADDRESS_TO_ORDER) {
-    window._satellite.track(ADOBE_CONFIRM_ADDRESS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CONFIRM_ADDRESS);
+    }
   }
-  if (
-    type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE ||
-    type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
-  ) {
+  if (type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE) {
     // herer we are getting all delivery modes and ussid in form of object
     // like {"MP12345678":"home_delivery","MP987654321":"expres_delivery"}
     // so here we need ot pass only "home_delivery"|"express_delivery"
@@ -1264,20 +1368,30 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
     }
 
     window.digitalData = data;
-    if (type === ADOBE_CALL_FOR_SELECT_DELIVERY_MODE) {
+
+    if (window._satellite) {
       window._satellite.track(ADOBE_SELECT_DELIVERY_MODES);
-    } else {
+    }
+  }
+  if (type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE) {
+    if (window._satellite) {
       window._satellite.track(ADOVE_PROCEED_FROM_DELIVERY_MODE);
     }
   }
   if (type === ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER) {
-    window._satellite.track(ADOBE_SEE_ALL_BANK_OFFERS);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SEE_ALL_BANK_OFFERS);
+    }
   }
   if (type === ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON) {
-    window._satellite.track(ADOBE_CLIQ_CASH_ON);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLIQ_CASH_ON);
+    }
   }
   if (type === ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF) {
-    window._satellite.track(ADOBE_CLIQ_CASH_OFF);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLIQ_CASH_OFF);
+    }
   }
   if (
     type === ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS ||
@@ -1304,26 +1418,46 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
     }
     window.digitalData = data;
     if (type === ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS) {
-      window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS);
+      if (window._satellite) {
+        window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS);
+      }
     } else {
-      window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_FAILURE);
+      if (window._satellite) {
+        window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_FAILURE);
+      }
+    }
+  }
+  if (type === ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CHECKOUT_APPLIED_CNC);
     }
   }
 
   if (type === ADOBE_FINAL_PAYMENT_MODES) {
-    const finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
-
-    if (finalPaymentMode) {
+    let finalPaymentMode = localStorage.getItem(constants.PAYMENT_MODE_TYPE);
+    const cliqCashUsed = localStorage.getItem(
+      constants.CLIQ_CASH_APPLIED_LOCAL_STORAGE
+    );
+    if (finalPaymentMode || cliqCashUsed) {
+      if (finalPaymentMode && cliqCashUsed) {
+        finalPaymentMode = `${finalPaymentMode
+          .replace(/ /g, "_")
+          .toLowerCase()}|cliqcash`;
+      } else if (cliqCashUsed) {
+        finalPaymentMode = "cliqcash";
+      } else {
+        finalPaymentMode = finalPaymentMode.replace(/ /g, "_").toLowerCase();
+      }
       if (data) {
         if (data.cpj) {
           if (data.cpj.payment) {
             Object.assign(data.cpj.payment, {
-              finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+              finalMode: finalPaymentMode
             });
           } else {
             Object.assign(data.cpj, {
               payment: {
-                finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+                finalMode: finalPaymentMode
               }
             });
           }
@@ -1331,7 +1465,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           Object.assign(data, {
             cpj: {
               payment: {
-                finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+                finalMode: finalPaymentMode
               }
             }
           });
@@ -1340,17 +1474,22 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         Object.assign(data, {
           cpj: {
             payment: {
-              finalMode: finalPaymentMode.replace(/ /g, "_").toLowerCase()
+              finalMode: finalPaymentMode
             }
           }
         });
       }
       window.digitalData = data;
     }
-    window._satellite.track(ADOBE_FINAL_PAYMENT);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_FINAL_PAYMENT);
+    }
   }
+
   if (type === ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE) {
-    window._satellite.track(ADOBE_LANDS_ON_PAYMENT_MODES);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_LANDS_ON_PAYMENT_MODES);
+    }
   }
   if (type === ADOBE_CALL_FOR_SELECTING_PAYMENT_MODES) {
     if (response) {
@@ -1390,7 +1529,9 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       }
       window.digitalData = data;
     }
-    window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
+    }
   }
 }
 export function setDataLayerForMyAccountDirectCalls(
@@ -1404,14 +1545,20 @@ export function setDataLayerForMyAccountDirectCalls(
       order: {
         cancellation: {
           reason: productDetails ? productDetails.reasonLabel : ""
-        }
-      }
+        },
+        id: productDetails.orderCode
+      },
+      cpj: { product: { id: productDetails.productcode } }
     });
     window.digitalData = data;
-    window._satellite.track(ADOBE_ORDER_CANCEL);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ORDER_CANCEL);
+    }
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL) {
-    window._satellite.track(ADOBE_ORDER_RETURN_CANCEL);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ORDER_RETURN_CANCEL);
+    }
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_RETURN) {
     data = {
@@ -1420,10 +1567,15 @@ export function setDataLayerForMyAccountDirectCalls(
           id: productDetails.productcode,
           price: productDetails.price
         }
+      },
+      order: {
+        id: reasonObj.orderCode
       }
     };
     window.digitalData = data;
-    window._satellite.track(ADOBE_ORDER_RETURN);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ORDER_RETURN);
+    }
   }
 }
 export function getDigitalDataForMyAccount(pageTitle, response) {
@@ -1539,9 +1691,13 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
       digitalData: { cpj: { brand: { name: response.brandName } } }
     });
     if (response.followStatus) {
-      window._satellite.track(ADOBE_FOLLOW_BRAND);
+      if (window._satellite) {
+        window._satellite.track(ADOBE_FOLLOW_BRAND);
+      }
     } else {
-      window._satellite.track(ADOBE_UN_FOLLOW_BRAND);
+      if (window._satellite) {
+        window._satellite.track(ADOBE_UN_FOLLOW_BRAND);
+      }
     }
   }
 }
@@ -1602,10 +1758,14 @@ function getDigitalDataForDefaultBlpOrClp(response) {
   return data;
 }
 
-function getDigitalDataForLoginAndSignup() {
+function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
   let pageTitle = window.location.pathname.replace(/\//g, "");
   if (pageTitle === "login") {
-    pageTitle = "login page";
+    if (isLoginFromCheckoutPage) {
+      pageTitle = "checkout-login page";
+    } else {
+      pageTitle = "login page";
+    }
   }
   const data = {
     page: {
@@ -1614,6 +1774,7 @@ function getDigitalDataForLoginAndSignup() {
       display: { hierarchy: `"home"|"${pageTitle}"` }
     }
   };
+
   return data;
 }
 function getDigitalDataForStatic(response) {
@@ -1649,13 +1810,38 @@ function getDigitalDataForStatic(response) {
 }
 
 export function setDataLayerForNotFound() {
-  window._satellite.track(ADOBE_NOT_FOUND);
+  if (window._satellite) {
+    window._satellite.track(ADOBE_NOT_FOUND);
+  }
 }
 export function setDataLayerForSignupProcess(type) {
   if (type === ADOBE_SIGN_UP_START) {
-    window._satellite.track(SIGN_UP_START);
+    if (window._satellite) {
+      window._satellite.track(SIGN_UP_START);
+    }
   }
   if (type === ADOBE_SIGN_UP_SUCCESS) {
-    window._satellite.track(SIGN_UP_SUCCESS);
+    if (window._satellite) {
+      window._satellite.track(SIGN_UP_SUCCESS);
+    }
+  }
+}
+export function setDataLayerForLogoutSuccess() {
+  if (window._satellite) {
+    window._satellite.track(LOGOUT_SUCCESS);
+  }
+}
+export function setDataLayerForAutoSuggestSearch(response) {
+  let data = {
+    search: {
+      autosuggest: {
+        term: response ? response.term : "",
+        position: response ? response.position : ""
+      }
+    }
+  };
+  window.digitalData = data;
+  if (window._satellite) {
+    window._satellite.track(AUTO_SUGGEST_SEARCH);
   }
 }

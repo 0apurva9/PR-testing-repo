@@ -2,6 +2,7 @@ import React from "react";
 import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import CoreButton from "../../xelpmoc-core/Button";
 import tataLogo from "./img/tata_Logo.svg";
 import { default as styles } from "./AuthFrame.css";
 import SocialButtonsContainer from "../containers/SocialButtonsContainer.js";
@@ -15,6 +16,11 @@ export default class AuthFrame extends React.Component {
   goBack() {
     if (this.props.goBack) {
       this.props.goBack();
+    }
+  }
+  footerClick() {
+    if (this.props.footerClick) {
+      this.props.footerClick();
     }
   }
   redirectPage = url => {
@@ -43,17 +49,29 @@ export default class AuthFrame extends React.Component {
         )}
 
         {this.props.footerText && (
-          <div
-            onClick={() => this.props.footerClick()}
-            className={styles.footer}
-          >
-            {this.props.footerText}
+          <div className={styles.navigateButtonHolder}>
+            <div className={styles.footer}>{this.props.footerText}</div>
+            <div className={styles.signUpButtonHolder}>
+              <div className={styles.signUpButton}>
+                <CoreButton
+                  backgroundColor={"transparent"}
+                  borderRadius={100}
+                  color="#fff"
+                  label={this.props.buttonLabel}
+                  width={148}
+                  height={46}
+                  textStyle={{ fontFamily: "semibold" }}
+                  borderColor="#fff"
+                  onClick={() => this.footerClick()}
+                />
+              </div>
+            </div>
           </div>
         )}
         {this.props.location &&
           this.props.location.pathname === LOGIN_PATH && (
             <div className={styles.legalLinkHolder}>
-              <div className={styles.linkLabelLeft}>
+              <div className={styles.linkLabel}>
                 <div
                   className={styles.link}
                   onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
@@ -61,12 +79,12 @@ export default class AuthFrame extends React.Component {
                   T&C
                 </div>
               </div>
-              <div className={styles.linkLabelMiddle}>
+              <div className={styles.linkLabel}>
                 <div className={styles.callUs}>
                   <a href="tel:9029108282">Call Us</a>
                 </div>
               </div>
-              <div className={styles.linkLabelRight}>
+              <div className={styles.linkLabel1}>
                 <div
                   className={styles.link}
                   onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}

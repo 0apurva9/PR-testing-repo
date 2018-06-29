@@ -32,6 +32,9 @@ export default class CuratedFeature extends React.Component {
                     onClick={() => this.handleClick(val.webURL)}
                     key={i}
                   >
+                    <div className={styles.imageHolder}>
+                      <Image image={val.imageURL} fit="cover" />
+                    </div>
                     <div className={styles.overlayTextHolder}>
                       {val.title && (
                         <div className={styles.featuresHeader}>{val.title}</div>
@@ -41,10 +44,6 @@ export default class CuratedFeature extends React.Component {
                           {val.description}
                         </div>
                       )}
-                    </div>
-
-                    <div className={styles.imageHolder}>
-                      <Image image={val.imageURL} fit="cover" />
                     </div>
                   </div>
                 );

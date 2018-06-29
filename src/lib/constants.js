@@ -170,6 +170,7 @@ export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
 
 export const PLAT_FORM_NUMBER = "5";
+export const CHANNEL = "web";
 
 export const TRUE = "true";
 
@@ -236,7 +237,7 @@ export const NET_BANKING_PAYMENT_MODE = "Net banking";
 export const SAVED_CARD_PAYMENT_MODE = "Saved Cards";
 export const EMI = "EMI";
 export const NO_COST_EMI = "No Cost Emi";
-export const STANDARD_EMI = "Standard Emi";
+export const STANDARD_EMI = "Standard EMI";
 export const CREDIT_CARD = "Credit Card";
 export const DEBIT_CARD = "Debit Card";
 export const E_WALLET = "E - Wallet";
@@ -297,3 +298,12 @@ export const OTP_VERIFICATION_REQUIRED_TEXT = "OTP VERIFICATION REQUIRED";
 export const STORE_NOT_AVAILABLE_TEXT = "Store Not available";
 export const BACK_END_ISSUE_ERROR_MESSAGE =
   "An exception occurred at back-end.";
+export const TOAST_MESSAGE_AFTER_MERGE_CART =
+  "Your bag contains product from your last visit";
+export const EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP =
+  "Email Id already exists, please try with another email Id!";
+export const EMAIL_SENT_SUCCESS_MESSAGE = "Email sent successfully";
+export const FEMALE = "FEMALE";
+export const MALE = "MALE";
+
+export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";

@@ -6,6 +6,7 @@ import delay from "lodash.delay";
 import keys from "lodash.keys";
 import each from "lodash.foreach";
 const FAILED_TO_FETCH = "Failed to fetch";
+const REG_EX_FOR_UNEXPECTED_TOKEN = /unexpected token/i;
 const CLEAR_ERROR_DELAY = TOAST_DELAY + 1000;
 
 // The errors for user, pdp and plp are universal errors
@@ -29,7 +30,6 @@ const mapStateToProps = state => {
     transactionDetailsError: state.cart.transactionDetailsError,
     orderConfirmationDetailsError: state.cart.orderConfirmationDetailsError,
     jusPayPaymentDetailsError: state.cart.jusPayPaymentDetailsError,
-    binValidationCODError: state.cart.binValidationCODError,
     addItemToWishlistError: state.wishlistItems.addItemError,
     removeWishlistError: state.wishlistItems.removeItemError,
     reviewsError: state.productDescription.reviewsError,
@@ -62,7 +62,6 @@ const mapStateToProps = state => {
     paymentModesError: state.cart.paymentModesError,
     transactionCODError: state.cart.transactionCODError,
     orderExperienceError: state.cart.orderExperienceError,
-    binValidationError: state.cart.binValidationError,
     removeCartItemError: state.cart.removeCartItemError,
     removeCartItemLoggedOutError: state.cart.removeCartItemLoggedOutError,
     jusPayTokenizeError: state.cart.jusPayTokenizeError,
@@ -76,7 +75,8 @@ const mapStateToProps = state => {
     emiTermsAndConditionError: state.cart.emiTermsAndConditionError,
     noCostEmiError: state.cart.noCostEmiError,
     emiItemBreakUpError: state.cart.emiItemBreakUpError,
-    emiBankError: state.cart.emiBankError
+    emiBankError: state.cart.emiBankError,
+    reSendEmailError: state.profile.reSendEmailError
   };
 };
 
@@ -140,7 +140,10 @@ class ErrorDisplay extends React.Component {
   }
 
   displayError(message) {
-    if (message !== FAILED_TO_FETCH) {
+    if (
+      message !== FAILED_TO_FETCH &&
+      !REG_EX_FOR_UNEXPECTED_TOKEN.test(message)
+    ) {
       this.props.displayToast(message);
       delay(() => this.props.clearError(), CLEAR_ERROR_DELAY);
     }

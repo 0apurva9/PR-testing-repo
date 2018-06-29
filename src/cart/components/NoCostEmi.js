@@ -7,7 +7,7 @@ export default class NoCostEmi extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: this.props.isOpenSubEMI
     };
   }
 
@@ -58,7 +58,15 @@ export default class NoCostEmi extends React.Component {
           }}
         >
           <div className={rotateIcon} />
-          <div className={styles.textHolder}>{this.props.EMIText}</div>
+          <div className={styles.textHolder}>
+            {this.props.EMIText === STANDARD_EMI && (
+              <span>
+                {STANDARD_EMI}
+                <span className={styles.subText}> (Credit card only)</span>
+              </span>
+            )}
+            {this.props.EMIText !== STANDARD_EMI && this.props.EMIText}
+          </div>
         </div>
         <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
       </div>

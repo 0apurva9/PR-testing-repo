@@ -5,7 +5,7 @@ import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-
+import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Accordion from "../../general/components/Accordion.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -135,7 +135,10 @@ export default class PdpApparel extends React.Component {
     }
   };
   updateQuantity = quantity => {
-    this.setState({ productQuantityOption: quantity, quantityError: false });
+    this.setState({
+      productQuantityOption: quantity,
+      quantityError: false
+    });
   };
   updateSize = () => {
     this.setState({ sizeError: false });
@@ -352,6 +355,7 @@ export default class PdpApparel extends React.Component {
                 goToReviewPage={this.goToReviewPage}
                 discountPrice={discountPrice}
                 averageRating={productData.averageRating}
+                numberOfReviews={productData.numberOfReviews}
                 discount={productData.discount}
               />
             </div>
@@ -522,6 +526,9 @@ export default class PdpApparel extends React.Component {
           )}
           <div className={styles.blankSeparator} />
           <PDPRecommendedSectionsContainer />
+          <div className={styles.trustLogo}>
+            <Image image={TrustBadgeImage} fit="cover" />
+          </div>
         </PdpFrame>
       );
     } else {

@@ -67,7 +67,7 @@ export default class ProductDescription extends Component {
               <div className={styles.discount}>
                 {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)
                   ? this.props.discountPrice
-                  : `${RUPEE_SYMBOL}${this.props.discountPrice}`}
+                  : `${RUPEE_SYMBOL}${Math.floor(this.props.discountPrice)}`}
               </div>
             )}
 
@@ -76,7 +76,7 @@ export default class ProductDescription extends Component {
               <div className={priceClass}>
                 {this.props.price.toString().includes(RUPEE_SYMBOL)
                   ? this.props.price
-                  : `${RUPEE_SYMBOL}${this.props.price}`}
+                  : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
               </div>
             )}
           {this.props.isRange &&
@@ -104,14 +104,16 @@ export default class ProductDescription extends Component {
                             .toString()
                             .includes(RUPEE_SYMBOL)
                             ? this.props.discountPrice
-                            : `${RUPEE_SYMBOL}${this.props.discountPrice}`}
+                            : `${RUPEE_SYMBOL}${Math.floor(
+                                this.props.discountPrice
+                              )}`}
                         </div>
                       )}
                     {this.props.price && (
                       <div className={priceClass}>
                         {this.props.price.toString().includes(RUPEE_SYMBOL)
                           ? this.props.price
-                          : `${RUPEE_SYMBOL}${this.props.price}`}
+                          : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
                       </div>
                     )}{" "}
                   </React.Fragment>

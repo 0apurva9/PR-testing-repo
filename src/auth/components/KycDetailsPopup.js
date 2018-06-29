@@ -53,7 +53,8 @@ export default class KycDetailsPopup extends React.Component {
             placeholder={"Enter 6-digit code"}
             styles={{ color: "#000000" }}
             onChange={otp => this.setState({ otp })}
-            type="number"
+            onlyNumber={true}
+            maxLength={6}
           />
         </div>
         <div className={Styles.buttonHolder}>

@@ -55,7 +55,17 @@ export default class HeroBanner extends React.Component {
     }
   };
   render() {
-    return <div className={styles.base}>{this.renderBanner()}</div>;
+    return (
+      <div
+        className={
+          this.props.positionInFeed === 0
+            ? styles.base
+            : styles.marginTopWithBase
+        }
+      >
+        {this.renderBanner()}
+      </div>
+    );
   }
 }
 HeroBanner.propTypes = {

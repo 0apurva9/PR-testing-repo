@@ -5,6 +5,7 @@ import {
   getSearchResults,
   clearSearchResults
 } from "./actions/search.actions.js";
+
 import throttle from "lodash.throttle";
 const SEARCH_RESULTS_THROTTLE_TIME = 500;
 const mapStateToProps = (state, ownProps) => {

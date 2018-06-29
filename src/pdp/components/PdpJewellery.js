@@ -6,6 +6,7 @@ import ProductGalleryMobile from "./ProductGalleryMobile";
 import Accordion from "../../general/components/Accordion.js";
 import styles from "./ProductDescriptionPage.css";
 import * as Cookie from "../../lib/Cookie";
+import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
   CUSTOMER_ACCESS_TOKEN,
@@ -388,6 +389,7 @@ export default class PdpJewellery extends React.Component {
               price={price}
               discountPrice={discountPrice}
               averageRating={productData.averageRating}
+              numberOfReviews={productData.numberOfReviews}
               goToReviewPage={this.goToReviewPage}
               doublePrice={seoDoublePrice}
               discount={productData.discount}
@@ -540,6 +542,9 @@ export default class PdpJewellery extends React.Component {
             />
           )}
           <PDPRecommendedSectionsContainer />
+          <div className={styles.trustLogo}>
+            <Image image={TrustBadgeImage} fit="cover" />
+          </div>
         </PdpFrame>
       );
     } else {

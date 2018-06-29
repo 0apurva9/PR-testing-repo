@@ -8,7 +8,8 @@ import {
   CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS,
   CATEGORY_PAGE_WITH_SLUG,
   BRAND_PRODUCT_LISTINGS_WITH_PAGE,
-  BRAND_PAGE_WITH_SLUG
+  BRAND_PAGE_WITH_SLUG,
+  CHANNEL
 } from "../../lib/constants.js";
 import delay from "lodash.delay";
 import {
@@ -18,12 +19,14 @@ import {
   CATEGORY_REGEX,
   BRAND_CATEGORY_PREFIX
 } from "./PlpBrandCategoryWrapper.js";
+import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
-const SKU_SUFFIX = `&isFilter=false&channel=mobile`;
+const SKU_SUFFIX = `&isFilter=false&channel=${CHANNEL}`;
 const PAGE_REGEX = /page-(\d+)/;
 const MAX_PRICE_FROM_API = "and Above";
+const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 
 class ProductListingsPage extends Component {
@@ -50,10 +53,32 @@ class ProductListingsPage extends Component {
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
     ) {
       if (searchText) {
-        searchText = searchText.replace(
-          ":relevance",
-          `:relevance:category:${this.props.match.params[0].toUpperCase()}`
-        );
+        if (searchText.includes("relevance")) {
+          searchText = searchText.replace(
+            ":relevance",
+            `:relevance:category:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-asc") &&
+          !searchText.includes(
+            `:price-asc:category:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-asc",
+            `:price-asc:category:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-desc") &&
+          !searchText.includes(
+            `:price-desc:category:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-desc",
+            `:price-desc:category:${this.props.match.params[0].toUpperCase()}`
+          );
+        }
       } else {
         searchText = `:relevance:category:${this.props.match.params[0].toUpperCase()}`;
       }
@@ -63,10 +88,32 @@ class ProductListingsPage extends Component {
       this.props.match.path === BRAND_PAGE_WITH_SLUG
     ) {
       if (searchText) {
-        searchText = searchText.replace(
-          ":relevance",
-          `:relevance:brand:${this.props.match.params[0].toUpperCase()}`
-        );
+        if (searchText.includes("relevance")) {
+          searchText = searchText.replace(
+            ":relevance",
+            `:relevance:brand:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-asc") &&
+          !searchText.includes(
+            `:price-asc:brand:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-asc",
+            `:price-asc:brand:${this.props.match.params[0].toUpperCase()}`
+          );
+        } else if (
+          searchText.includes("price-desc") &&
+          !searchText.includes(
+            `:price-desc:brand:${this.props.match.params[0].toUpperCase()}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-desc",
+            `:price-desc:brand:${this.props.match.params[0].toUpperCase()}`
+          );
+        }
       } else {
         searchText = `:relevance:brand:${this.props.match.params[0].toUpperCase()}`;
       }
@@ -74,6 +121,7 @@ class ProductListingsPage extends Component {
     if (searchText) {
       searchText = searchText.replace("+", " ");
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
+      searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
     return encodeURIComponent(searchText);
   }
@@ -86,13 +134,15 @@ class ProductListingsPage extends Component {
       return;
     }
 
-    if (this.props.isGoBackFromPdpPage) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(true), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
       return;
@@ -179,15 +229,18 @@ class ProductListingsPage extends Component {
 
   componentDidUpdate() {
     let page = null;
-    if (this.props.isGoBackFromPdpPage) {
+    if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
           this.props.clickedProductModuleRef
         );
         if (clickedElement) {
-          delay(() => clickedElement.scrollIntoView(), 50);
+          delay(() => {
+            clickedElement.scrollIntoView();
+          }, 50);
         }
       }
+      return;
     }
 
     if (this.props.match.path === SKU_PAGE) {
@@ -263,7 +316,6 @@ class ProductListingsPage extends Component {
     if (this.props.location.state && this.props.location.state.isFilter) {
       isFilter = true;
     }
-
     return (
       <PlpContainer
         paginate={this.props.paginate}

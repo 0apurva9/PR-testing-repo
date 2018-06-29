@@ -8,7 +8,9 @@ import {
   HOME_FEED_FOLLOW_AND_UN_FOLLOW,
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
-  STORE_NOT_AVAILABLE_TEXT
+  STORE_NOT_AVAILABLE_TEXT,
+  CHANNEL,
+  EMAIL_SENT_SUCCESS_MESSAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import findIndex from "lodash.findindex";
@@ -21,7 +23,9 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   GLOBAL_ACCESS_TOKEN,
   PLAT_FORM_NUMBER,
-  SUCCESS_MESSAGE_IN_CANCELING_ORDER
+  SUCCESS_MESSAGE_IN_CANCELING_ORDER,
+  FEMALE,
+  MALE
 } from "../../lib/constants";
 import {
   showModal,
@@ -49,13 +53,15 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_DETAILS,
   setDataLayerForFollowAndUnFollowBrand,
   ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-  ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS
+  ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
+  setDataLayerForLogoutSuccess
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
+import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
@@ -198,10 +204,27 @@ export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
 export const LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER =
   "LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER";
+
+export const LOG_OUT_USER_REQUEST = "LOG_OUT_USER_REQUEST";
+export const LOG_OUT_USER_SUCCESS = "LOG_OUT_USER_SUCCESS";
+export const LOG_OUT_USER_FAILURE = "LOG_OUT_USER_FAILURE";
+
+export const UPDATE_PROFILE_MSD_REQUEST = "UPDATE_PROFILE_MSD_REQUEST";
+export const UPDATE_PROFILE_MSD_SUCCESS = "UPDATE_PROFILE_MSD_SUCCESS";
+export const UPDATE_PROFILE_MSD_FAILURE = "UPDATE_PROFILE_MSD_FAILURE";
+
 export const UPDATE_PROFILE_OTP_VERIFICATION = "UpdateProfileOtpVerification";
 export const CHANGE_PASSWORD_REQUEST = "CHANGE_PASSWORD_REQUEST";
 export const CHANGE_PASSWORD_SUCCESS = "CHANGE_PASSWORD_SUCCESS";
 export const CHANGE_PASSWORD_FAILURE = "CHANGE_PASSWORD_FAILURE";
+
+export const RESEND_EMAIL_FOR_GIFT_CARD_REQUEST =
+  "RESEND_EMAIL_FOR_GIFT_CARD_REQUEST";
+export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
+  "RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS";
+export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE =
+  "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
@@ -227,6 +250,13 @@ const UNFOLLOW = "unfollow";
 const DATE_FORMAT_TO_UPDATE_PROFILE = "DD/MM/YYYY";
 const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const CART_GU_ID = "cartGuid";
+const MSD_API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
+const MAD_UUID = "19267047903874796013507214974570460649";
+const WOMEN = "Women's";
+const MEN = "Men's";
+export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
+export const MSD_FEEDBACK = "feedback";
+
 // cencel product
 
 export function getDetailsOfCancelledProductRequest() {
@@ -311,7 +341,7 @@ export function cancelProductFailure(error) {
     error
   };
 }
-export function cancelProduct(cancelProductDetails) {
+export function cancelProduct(cancelProductDetails, productDetails) {
   let cancelProductObject = new FormData();
   cancelProductObject.append(
     "transactionId",
@@ -346,9 +376,10 @@ export function cancelProduct(cancelProductDetails) {
       }
 
       dispatch(displayToast(SUCCESS_MESSAGE_IN_CANCELING_ORDER));
+      let updatedObj = Object.assign({}, cancelProductDetails, productDetails);
       setDataLayerForMyAccountDirectCalls(
         ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
-        cancelProductDetails
+        updatedObj
       );
       return dispatch(cancelProductSuccess(resultJson));
     } catch (e) {
@@ -452,7 +483,7 @@ export function getReturnRequest(orderCode, transactionId) {
           JSON.parse(userDetails).userName
         }/returnRequest?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile&loginId=${
+        }&channel=${CHANNEL}&loginId=${
           JSON.parse(userDetails).userName
         }&orderCode=${orderCode}&transactionId=${transactionId}`
       );
@@ -504,7 +535,7 @@ export function newReturnInitial(returnDetails, product = null) {
           JSON.parse(userDetails).userName
         }/newReturnInitiate?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile`,
+        }&channel=${CHANNEL}`,
         returnDetails
       );
       const resultJson = await result.json();
@@ -900,7 +931,7 @@ export function submitSelfCourierReturnInfo(returnDetails) {
       const result = await api.postFormData(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/submitSelfCourierRetrunInfo?channel=mobile&access_token=${
+        }/submitSelfCourierRetrunInfo?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         returnDetailsObject
@@ -1216,7 +1247,7 @@ export function getUserCoupons() {
           JSON.parse(userDetails).userName
         }/getCoupons?currentPage=${CURRENT_PAGE}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=mobile`
+        }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1535,7 +1566,7 @@ export function updateProfileRequest() {
 
 export function logoutUserByMobileNumber() {
   return {
-    type: LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER
+    type: LOGOUT
   };
 }
 
@@ -1602,12 +1633,16 @@ export function updateProfile(accountDetails, otp) {
         throw new Error(resultJsonStatus.message);
       }
 
+      if (accountDetails.gender && accountDetails.isGenderUpdate) {
+        dispatch(updateProfileMsd(accountDetails.gender));
+      }
       if (resultJson.status === "OTP SENT TO MOBILE NUMBER: PLEASE VALIDATE") {
         dispatch(showModal(UPDATE_PROFILE_OTP_VERIFICATION, accountDetails));
       } else if (
         resultJson.emailId !== JSON.parse(userDetails).userName &&
         !MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
       ) {
+        dispatch(setBagCount(0));
         dispatch(logoutUserByMobileNumber());
       } else {
         if (otp) {
@@ -1618,6 +1653,7 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
               MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
           ) {
+            dispatch(setBagCount(0));
             dispatch(logoutUserByMobileNumber());
           }
         } else {
@@ -2029,5 +2065,162 @@ export function clearChangePasswordDetails() {
 export function clearPinCodeStatus() {
   return {
     type: CLEAR_PIN_CODE_STATUS
+  };
+}
+
+export function logoutUserRequest() {
+  return {
+    type: LOG_OUT_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function logoutUserSuccess() {
+  return {
+    type: LOG_OUT_USER_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function logoutUserFailure(error) {
+  return {
+    type: LOG_OUT_USER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function logoutUser() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    dispatch(logoutUserRequest());
+    try {
+      const result = await api.postFormData(
+        `${USER_PATH}/logout?userId=${
+          JSON.parse(userDetails).userName
+        }&access_token=${JSON.parse(globalAccessToken).access_token}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      setDataLayerForLogoutSuccess();
+      return dispatch(logoutUserSuccess());
+    } catch (e) {
+      return dispatch(logoutUserFailure(e.message));
+    }
+  };
+}
+
+export function updateProfileMsdRequest() {
+  return {
+    type: UPDATE_PROFILE_MSD_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function updateProfileMsdSuccess() {
+  return {
+    type: UPDATE_PROFILE_MSD_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function updateProfileMsdFailure(error) {
+  return {
+    type: UPDATE_PROFILE_MSD_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateProfileMsd(gender) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateProfileMsdRequest());
+    try {
+      if (gender === FEMALE) {
+        gender = WOMEN;
+      }
+      if (gender === MALE) {
+        gender = MEN;
+      }
+      let msdData = {};
+      msdData.fields = "gender";
+      msdData.values = [gender];
+      msdData.action = "follow";
+
+      let msdRequestObject = new FormData();
+      msdRequestObject.append("api_key", MSD_API_KEY);
+      msdRequestObject.append("data", JSON.stringify([msdData]));
+      msdRequestObject.append("mad_uuid", MAD_UUID);
+
+      const result = await api.postMsd(
+        `${API_MSD_URL_ROOT}/${MSD_FEEDBACK}`,
+        msdRequestObject
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(updateProfileMsdSuccess());
+    } catch (e) {
+      return dispatch(updateProfileMsdFailure(e.message));
+    }
+  };
+}
+
+export function reSendEmailForGiftCardRequest() {
+  return {
+    type: RESEND_EMAIL_FOR_GIFT_CARD_REQUEST,
+    status: REQUESTING
+  };
+}
+export function reSendEmailForGiftCardSuccess() {
+  return {
+    type: RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS,
+    status: SUCCESS
+  };
+}
+export function reSendEmailForGiftCardFailure(error) {
+  return {
+    type: RESEND_EMAIL_FOR_GIFT_CARD_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function reSendEmailForGiftCard(orderId) {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    dispatch(reSendEmailForGiftCardRequest());
+    try {
+      let resendEmailObject = new FormData();
+      resendEmailObject.append(
+        "access_token",
+        JSON.parse(customerCookie).access_token
+      );
+      resendEmailObject.append("orderId", orderId);
+
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/resendEGV?isPwa=true&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&orderId=${orderId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(displayToast(EMAIL_SENT_SUCCESS_MESSAGE));
+
+      return dispatch(reSendEmailForGiftCardSuccess());
+    } catch (e) {
+      return dispatch(reSendEmailForGiftCardFailure(e.message));
+    }
   };
 }

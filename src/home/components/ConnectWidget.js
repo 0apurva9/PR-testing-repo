@@ -15,12 +15,24 @@ export default class ConnectWidget extends React.Component {
         TATA_CLIQ_ROOT,
         "$1"
       );
-      this.props.history.push(urlSuffix);
-      if (this.props.setClickedElementId) {
-        this.props.setClickedElementId();
+      if (this.props.feedComponentData.webURL.includes("/que")) {
+        window.open(urlSuffix, "_blank");
+        window.focus();
+      }
+      if (
+        this.props.feedComponentData.webURL.includes("/luxury.tatacliq.com")
+      ) {
+        window.open(this.props.feedComponentData.webURL, "_blank");
+        window.focus();
+      } else {
+        this.props.history.push(urlSuffix);
+        if (this.props.setClickedElementId) {
+          this.props.setClickedElementId();
+        }
       }
     }
   }
+
   render() {
     let className = styles.base;
     if (this.props.feedComponentData["sub-type"] === "bannerInCard") {

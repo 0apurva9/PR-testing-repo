@@ -1,8 +1,6 @@
 import React from "react";
-import Grid from "../../general/components/Grid";
+import DumbGrid from "../../general/components/DumbGrid";
 import ProductModule from "../../general/components/ProductModule";
-import IconicFilter from "./IconicFilter";
-import PlpAds from "./PlpAds";
 import PlpComponent from "./PlpComponent";
 import Icon from "../../xelpmoc-core/Icon";
 import styles from "./ProductGrid.css";
@@ -10,7 +8,8 @@ import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import {
   PRODUCT_DESCRIPTION_ROUTER,
-  IS_OFFER_EXISTING
+  IS_OFFER_EXISTING,
+  PRODUCT_LISTINGS_WITHOUT_SLASH
 } from "../../lib/constants";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 const LIST = "list";
@@ -39,16 +38,20 @@ export default class ProductGrid extends React.Component {
     }
   }
 
-  goToProductDescription = (url, productObj, productModuleId) => {
+  goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
-    setDataLayerForPlpDirectCalls(productObj);
+    if (
+      this.props.history.location.pathname === PRODUCT_LISTINGS_WITHOUT_SLASH
+    ) {
+      setDataLayerForPlpDirectCalls(productObj, index);
+    }
     this.props.setProductModuleRef(productModuleId);
     this.props.history.push(url, {
       isComingFromPlp: true
     });
   };
 
-  renderComponent = data => {
+  renderComponent = (data, index) => {
     // if (data.type === PRODUCT) {
     return (
       <ProductModule
@@ -88,7 +91,7 @@ export default class ProductGrid extends React.Component {
         totalNoOfReviews={data.totalNoOfReviews}
         view={this.state.view}
         onClick={(url, data, ref) =>
-          this.goToProductDescription(url, data, ref)
+          this.goToProductDescription(url, data, ref, index)
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
@@ -124,7 +127,7 @@ export default class ProductGrid extends React.Component {
           </div>
         </div>
         <div className={styles.content}>
-          <Grid
+          <DumbGrid
             search={this.props.search}
             offset={0}
             elementWidthMobile={this.state.view === LIST ? 100 : 50}
@@ -147,14 +150,14 @@ export default class ProductGrid extends React.Component {
                     view={this.state.view}
                     type={datum && datum.type}
                   >
-                    {this.renderComponent(datum)}
+                    {this.renderComponent(datum, i)}
                   </PlpComponent>
                 );
                 // } else {
                 //   return null;
                 // }
               })}
-          </Grid>
+          </DumbGrid>
         </div>
       </div>
     );

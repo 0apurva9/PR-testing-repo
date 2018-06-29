@@ -5,7 +5,7 @@
   left: 0;
   bottom: 0;
   transform: translateY(100%);
-  animation: slideInUp 300ms forwards;
+  animation: slideInUp 200ms forwards;
 }
 .base:before {
   content: "";

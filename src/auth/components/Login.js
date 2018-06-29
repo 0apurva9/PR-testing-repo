@@ -6,7 +6,10 @@ import Input from "../../general/components/Input";
 import PasswordInput from "./PasswordInput";
 import styles from "./Login.css";
 import LoginButton from "./LogInButton";
-import { CART_DETAILS_FOR_ANONYMOUS } from "../../lib/constants";
+import {
+  CART_DETAILS_FOR_ANONYMOUS,
+  MY_ACCOUNT_CART_PAGE
+} from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
 import AuthFrame from "./AuthFrame.js";
@@ -47,7 +50,9 @@ class Login extends Component {
       digitalData.page.pageInfo &&
       digitalData.page.pageInfo.pageName !== "login"
     ) {
-      setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
+      let isLoginFromCheckoutPage =
+        this.props.redirectToAfterAuthUrl === MY_ACCOUNT_CART_PAGE;
+      setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE, isLoginFromCheckoutPage);
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -142,10 +147,12 @@ class Login extends Component {
     let footerText = "";
     let footerClick;
     let showSocialButtons;
+    let buttonLabel;
 
     if (pathName === LOGIN_PATH || MAIN_ROUTER) {
-      footerText = "New to Tata CLiQ? Sign Up";
+      footerText = "New to Tata CLiQ? ";
       footerClick = () => this.navigateToSignUp();
+      buttonLabel = "Sign Up";
       showSocialButtons = true;
     }
 
@@ -170,6 +177,7 @@ class Login extends Component {
         footerClick={footerClick}
         type={SOCIAL_LOG_IN}
         goBack={() => this.goBack()}
+        buttonLabel={buttonLabel}
       >
         <React.Fragment>
           <div>

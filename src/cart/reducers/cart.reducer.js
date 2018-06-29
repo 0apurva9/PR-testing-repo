@@ -9,7 +9,8 @@ import {
   COUPON_COOKIE,
   NO_COST_EMI_COUPON,
   OLD_CART_CART_ID,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 
@@ -185,7 +186,11 @@ const cart = (
     paymentFailureOrderDetails: null,
 
     isSoftReservationFailed: false,
-    isPaymentProceeded: false
+    isPaymentProceeded: false,
+    bankOfferTncDetails: null,
+    bankOfferTncStatus: null,
+    bankOfferTncError: null,
+    loadingForBankOfferTNC: false
   },
   action
 ) => {
@@ -642,21 +647,21 @@ const cart = (
     case cartActions.GET_PAYMENT_MODES_REQUEST:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
-        loading: true
+        paymentModeLoader: true
       });
 
     case cartActions.GET_PAYMENT_MODES_SUCCESS:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModes: action.paymentModes,
-        loading: false
+        paymentModeLoader: false
       });
 
     case cartActions.GET_PAYMENT_MODES_FAILURE:
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModesError: action.error,
-        loading: false
+        paymentModeLoader: false
       });
 
     case cartActions.APPLY_BANK_OFFER_REQUEST:
@@ -865,6 +870,7 @@ const cart = (
       localStorage.removeItem(EGV_GIFT_CART_ID);
       localStorage.removeItem(NO_COST_EMI_COUPON);
       localStorage.removeItem(OLD_CART_CART_ID);
+      localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
       return Object.assign({}, state, {
         jusPayDetails: action.jusPayDetails
       });
@@ -1025,7 +1031,7 @@ const cart = (
         transactionDetailsStatus: action.status,
         transactionDetailsDetails: action.transactionDetails,
         loading: false,
-        isPaymentProceeded:false
+        isPaymentProceeded: false
       });
 
     case cartActions.UPDATE_TRANSACTION_DETAILS_FOR_COD_FAILURE:
@@ -1033,7 +1039,7 @@ const cart = (
         transactionDetailsStatus: action.status,
         transactionDetailsError: action.error,
         loading: false,
-        isPaymentProceeded:false
+        isPaymentProceeded: false
       });
 
     case cartActions.SOFT_RESERVATION_FOR_COD_PAYMENT_REQUEST:
@@ -1396,6 +1402,28 @@ const cart = (
         paymentFailureOrderDetails: action.paymentFailureOrderDetails,
         loading: false
       });
+    //for termsCondition
+    case cartActions.GET_TNC_FOR_BANK_OFFER_REQUEST:
+      return Object.assign({}, state, {
+        bankOfferTncStatus: action.status,
+        loadingForBankOfferTNC: true
+      });
+
+    case cartActions.GET_TNC_FOR_BANK_OFFER_SUCCESS:
+      return Object.assign({}, state, {
+        bankOfferTncStatus: action.status,
+        bankOfferTncDetails: action.termsAndConditions,
+        loadingForBankOfferTNC: false
+      });
+
+    case cartActions.GET_TNC_FOR_BANK_OFFER_FAILURE:
+      return Object.assign({}, state, {
+        bankOfferTncStatus: action.status,
+        bankOfferTncError: action.error,
+        loadingForBankOfferTNC: false
+      });
+
+    //end
 
     case cartActions.PAYMENT_FAILURE_ORDER_DETAILS_FAILURE:
       return Object.assign({}, state, {
@@ -1464,6 +1492,7 @@ const cart = (
         paymentModes: null,
         paymentModesStatus: null,
         paymentModesError: null,
+        paymentModeLoader: false,
 
         bankOffer: null,
         bankOfferStatus: null,
