@@ -46,3 +46,7 @@
   margin: auto;
   position: absolute;
 }
+.textSelect {
+  composes: gridText;
+  color: #ff1744;
+}
