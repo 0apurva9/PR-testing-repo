@@ -66,19 +66,21 @@ export default class PofileMenuGridForDesktop extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.header}>Menu</div>
-        {data.map((datum, i) => {
-          return (
-            <div
-              className={styles.holder}
-              onClick={value => this.onSave(datum.url)}
-            >
-              <div className={styles.gridLogo}>
-                <Icon image={datum.image} size={20} />
+        <div className={styles.profiledata}>
+          {data.map((datum, i) => {
+            return (
+              <div
+                className={styles.holder}
+                onClick={value => this.onSave(datum.url)}
+              >
+                <div className={styles.gridLogo}>
+                  <Icon image={datum.image} size={20} />
+                </div>
+                <div className={styles.gridText}>{datum.text}</div>
               </div>
-              <div className={styles.gridText}>{datum.text}</div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }
