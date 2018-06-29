@@ -7,3 +7,10 @@
   font-size: 14px;
   font-family: regular;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    color: #8d8d8d;
+    font-family: semibold;
+    cursor: pointer;
+  }
+}

@@ -33,6 +33,7 @@
 
 .productName {
   composes: brandName;
+  font-family: regular;
 }
 .producMaterial {
   width: 100%;
@@ -105,4 +106,29 @@
   z-index: 5;
   padding-left: 5px;
   line-height: 20px;
+}
+
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  .productImageHolder {
+    width: 15%;
+  }
+  .productDescriptionHolder {
+    width: 75%;
+    padding-left: 40px;
+  }
+  .brandName {
+    font-size: 14px;
+    font-family: semibold;
+  }
+  .productPrice .onPrice {
+    font-size: 14px;
+    font-family: regular;
+  }
+  .productName {
+    font-family: light;
+  }
 }

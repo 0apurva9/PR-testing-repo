@@ -29,3 +29,23 @@
   opacity: 0.5;
   pointer-events: none;
 }
+
+@media screen and (min-width: 1025px) {
+  .buttonAddToBag {
+    width: auto;
+    height: auto;
+    float: right;
+    padding-left: 25px;
+  }
+  .disableAddToBag {
+    composes: buttonAddToBag;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .removeButton {
+    width: auto;
+    float: right;
+    height: 35px;
+    line-height: 35px;
+  }
+}

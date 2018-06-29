@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ProductDetailsCard from "../../pdp/components/ProductDetailsCard";
 import StarRating from "../../general/components/StarRating.js";
 import OrderReturn from "../../account/components/OrderReturn.js";
+import MediaQuery from "react-responsive";
 export default class SaveListCard extends React.Component {
   addToBagItem() {
     if (this.props.addToBagItem) {
@@ -47,14 +48,33 @@ export default class SaveListCard extends React.Component {
             )}
           </div>
         </div>
-        <div className={styles.textContainer}>
-          <div className={styles.text}>{`Get it by ${this.props.day} , ${
-            this.props.date
-          }`}</div>
-          <div className={styles.offers}>{`${this.props.offer} offers from Rs.${
-            this.props.offerPrice
-          }`}</div>
-        </div>
+
+        <MediaQuery query="(max-device-width: 1024px)">
+          <div className={styles.textContainer}>
+            <div className={styles.text}>{`Get it by ${this.props.day} , ${
+              this.props.date
+            }`}</div>
+            <div className={styles.offers}>{`${
+              this.props.offer
+            } offers from Rs.${this.props.offerPrice}`}</div>
+          </div>
+        </MediaQuery>
+        <MediaQuery query="(min-device-width: 1025px)">
+          <div className={styles.textContainer}>
+            <div className={styles.text}>
+              <span>Get it by</span>{" "}
+              <span className={styles.highlitedDate}>{this.props.day}</span>{" "}
+              <span className={styles.highlitedDate}>{this.props.date}</span>
+            </div>
+            <div className={styles.offers}>
+              <span>{this.props.offer}</span> <span>offers from Rs.</span>{" "}
+              <span className={styles.highlitedDate}>
+                {this.props.offerPrice}
+              </span>
+            </div>
+          </div>
+        </MediaQuery>
+
         <div className={styles.footer}>
           <OrderReturn
             replaceItem={() => this.removeItem()}

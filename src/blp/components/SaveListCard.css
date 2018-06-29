@@ -55,3 +55,22 @@
   display: inline-block;
   padding: 0px 12px 0px 12px;
 }
+@media screen and (min-width: 1025px) {
+  .textContainer {
+    padding: 25px 0px;
+    border-bottom: solid 1px #ecedec;
+  }
+  .text {
+    margin-bottom: 10px;
+    font-family: light;
+  }
+  .offers {
+    font-family: light;
+  }
+  .highlitedDate {
+    font-family: regular;
+  }
+  .footer {
+    padding: 30px 0px 0px;
+  }
+}
