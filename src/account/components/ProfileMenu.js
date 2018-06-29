@@ -65,6 +65,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
 
     return (
       <div className={styles.base}>
+        <div className={styles.header}>Menu</div>
         {data.map((datum, i) => {
           return (
             <div
