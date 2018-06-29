@@ -44,19 +44,20 @@ export default class ProductGrid extends React.Component {
     }
   }
 
-  goToProductDescription = (url, productObj, productModuleId) => {
+  goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
     if (
       this.props.history.location.pathname === PRODUCT_LISTINGS_WITHOUT_SLASH
     ) {
-      setDataLayerForPlpDirectCalls(productObj);
+      setDataLayerForPlpDirectCalls(productObj, index);
     }
     this.props.setProductModuleRef(productModuleId);
     this.props.history.push(url, {
       isComingFromPlp: true
     });
   };
-  renderComponent = data => {
+
+  renderComponent = (data, index) => {
     // if (data.type === PRODUCT) {
     return (
       <ProductModule
@@ -96,7 +97,7 @@ export default class ProductGrid extends React.Component {
         totalNoOfReviews={data.totalNoOfReviews}
         view={this.state.view}
         onClick={(url, data, ref) =>
-          this.goToProductDescription(url, data, ref)
+          this.goToProductDescription(url, data, ref, index)
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
@@ -135,7 +136,7 @@ export default class ProductGrid extends React.Component {
                     view={this.state.view}
                     type={datum && datum.type}
                   >
-                    {this.renderComponent(datum)}
+                    {this.renderComponent(datum, i)}
                   </PlpComponent>
                 );
               })}
