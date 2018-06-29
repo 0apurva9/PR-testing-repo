@@ -14,9 +14,17 @@ import {
   SUCCESS,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  FAILURE
+  FAILURE,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants.js";
-
+import * as Cookie from "../../lib/Cookie";
+import MediaQuery from "react-responsive";
+import ProfileMenu from "./ProfileMenu";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import TabHolder from "./TabHolder";
+import TabData from "./TabData";
+import UserProfile from "./UserProfile";
 const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
 
 export default class CliqAndCash extends React.Component {
@@ -64,6 +72,12 @@ export default class CliqAndCash extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
   render() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    const userData = JSON.parse(userDetails);
     if (this.props.loading) {
       this.props.showSecondaryLoader();
     } else {
@@ -72,94 +86,132 @@ export default class CliqAndCash extends React.Component {
     if (this.props.cliqCashUserDetails) {
       return (
         <div className={styles.base}>
-          <div className={styles.logoHolder}>
-            <Logo image={cliqCashIcon} />
-          </div>
-          <div className={styles.cliqCashBalanceHolder}>
-            {this.props.cliqCashUserDetails.totalCliqCashBalance && (
-              <div className={styles.balance}>{`Rs. ${
-                this.props.cliqCashUserDetails.totalCliqCashBalance
-                  .formattedValue
-              }`}</div>
-            )}
-            {this.props.cliqCashUserDetails.balanceClearedAsOf && (
-              <div
-                className={styles.expiredBalanceText}
-              >{`Balance as of ${format(
-                this.props.cliqCashUserDetails.balanceClearedAsOf,
-                DATE_FORMAT
-              )} Hrs`}</div>
-            )}
-            <div className={styles.informationText}>
-              Once you validate your gift card, the value will automatically be
-              added to your CLiQ Cash
-            </div>
-          </div>
-          <div className={styles.formHolder}>
-            <div className={styles.addBlanceHeader}>
-              Add Balance from Gift Card
-            </div>
-            <div className={styles.inputBoxHolder}>
-              <div className={styles.labelHeader}>Card Number</div>
-              <div className={styles.inputTextHolder}>
-                <Input2
-                  boxy={true}
-                  onlyNumber={true}
-                  placeholder="Enter 16 digit card number"
-                  value={
-                    this.props.cardNumber
-                      ? this.props.cardNumber
-                      : this.state.cardNumber
-                  }
-                  onChange={cardNumber => this.setState({ cardNumber })}
-                  textStyle={{ fontSize: 14 }}
-                  height={33}
-                />
+          <div className={MyAccountStyles.holder}>
+            <MediaQuery query="(min-device-width: 1025px)">
+              <div className={MyAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
               </div>
-            </div>
-            <div className={styles.inputBoxHolder}>
-              <div className={styles.labelHeader}>Card Pin</div>
-              <div className={styles.inputTextHolder}>
-                <Input2
-                  boxy={true}
-                  onlyNumber={true}
-                  placeholder="Enter 6 digit number"
-                  value={
-                    this.props.pinNumber
-                      ? this.props.pinNumber
-                      : this.state.pinNumber
-                  }
-                  onChange={pinNumber => this.setState({ pinNumber })}
-                  textStyle={{ fontSize: 14 }}
-                  height={33}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={styles.buttonHolder}>
-            {this.props.isGiftCard && (
-              <div className={styles.giftCardButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000000"
-                  label="Buy new Gift Card"
-                  onClick={() => this.buyNewGiftCard()}
-                />
-              </div>
-            )}
+            </MediaQuery>
+            <div className={styles.cliqCashDetail}>
+              <div className={styles.cliqCashDetailWithHolder}>
+                <div className={styles.logoHolder}>
+                  <Logo image={cliqCashIcon} />
+                </div>
+                <div className={styles.cliqCashBalanceHolder}>
+                  {this.props.cliqCashUserDetails.totalCliqCashBalance && (
+                    <div className={styles.balance}>{`Rs. ${
+                      this.props.cliqCashUserDetails.totalCliqCashBalance
+                        .formattedValue
+                    }`}</div>
+                  )}
+                  {this.props.cliqCashUserDetails.balanceClearedAsOf && (
+                    <div className={styles.expiredBalanceText}>
+                      <MediaQuery query="(max-device-width: 1024px)">
+                        {`Balance as of ${format(
+                          this.props.cliqCashUserDetails.balanceClearedAsOf,
+                          DATE_FORMAT
+                        )} Hrs`}
+                      </MediaQuery>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        {`(Balance as of ${format(
+                          this.props.cliqCashUserDetails.balanceClearedAsOf,
+                          DATE_FORMAT
+                        )} Hrs)`}
+                      </MediaQuery>
+                    </div>
+                  )}
+                  <div className={styles.informationText}>
+                    Once you validate your gift card, the value will
+                    automatically be added to your CLiQ Cash
+                  </div>
+                </div>
+                <div className={styles.formHolder}>
+                  <div className={styles.addBlanceHeader}>
+                    Add Balance from Gift Card
+                  </div>
+                  <div className={styles.inputBoxHolder}>
+                    <div className={styles.labelHeader}>Card Number</div>
+                    <div className={styles.inputTextHolder}>
+                      <Input2
+                        boxy={true}
+                        onlyNumber={true}
+                        placeholder="Enter 16 digit card number"
+                        value={
+                          this.props.cardNumber
+                            ? this.props.cardNumber
+                            : this.state.cardNumber
+                        }
+                        onChange={cardNumber => this.setState({ cardNumber })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.inputBoxHolder}>
+                    <div className={styles.labelHeader}>Card Pin</div>
+                    <div className={styles.inputTextHolder}>
+                      <Input2
+                        boxy={true}
+                        onlyNumber={true}
+                        placeholder="Enter 6 digit number"
+                        value={
+                          this.props.pinNumber
+                            ? this.props.pinNumber
+                            : this.state.pinNumber
+                        }
+                        onChange={pinNumber => this.setState({ pinNumber })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.buttonHolder}>
+                  {this.props.isGiftCard && (
+                    <div className={styles.giftCardButtonHolder}>
+                      <UnderLinedButton
+                        size="14px"
+                        fontFamily="regular"
+                        color="#000000"
+                        label="Buy new Gift Card"
+                        onClick={() => this.buyNewGiftCard()}
+                      />
+                    </div>
+                  )}
 
-            <div className={styles.addBalanceHolder}>
-              <Button
-                type="primary"
-                backgroundColor="#ff1744"
-                height={40}
-                label="Add Balance"
-                width={120}
-                textStyle={{ color: "#FFF", fontSize: 14 }}
-                onClick={() => this.redeemCliqVoucher()}
-              />
+                  <div className={styles.addBalanceHolder}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label="Add Balance"
+                      width={120}
+                      textStyle={{ color: "#FFF", fontSize: 14 }}
+                      onClick={() => this.redeemCliqVoucher()}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
+            <MediaQuery query="(min-device-width: 1025px)">
+              <div className={MyAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                />
+              </div>
+            </MediaQuery>
           </div>
         </div>
       );
