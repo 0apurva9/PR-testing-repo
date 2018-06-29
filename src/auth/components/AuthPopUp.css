@@ -52,6 +52,10 @@
     justify-content: center;
     -webkit-justify-content: center;
   }
+  .otpHolder {
+    width: 380px;
+    height: auto;
+  }
   .header {
     margin-bottom: 15px;
     font-family: regular;
