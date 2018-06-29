@@ -17,7 +17,7 @@ import addressBook from "./img/addressbook.svg";
 import brands from "./img/brand.svg";
 import orderHistory from "../../general/components/img/order-history.svg";
 import savedPayments from "./img/card.svg";
-import alertsCoupons from "../../general/components/img/notification.svg";
+import alertsCoupons from "./img/alert.svg";
 import cliqCash from "./img/cliqCash.svg";
 import giftCards from "./img/giftCards.svg";
 import settings from "./img/settings.svg";
