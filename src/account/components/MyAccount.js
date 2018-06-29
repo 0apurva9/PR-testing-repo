@@ -114,8 +114,8 @@ export default class MyAccount extends React.Component {
               <ProfileMenu {...this.props} />
             </div>
           </MediaQuery>
-          <div className={MyAccountStyles.orderDetail}>
-            <div className={MyAccountStyles.orderDetailsWithHolder}>
+          <div className={styles.orderDetail}>
+            <div className={styles.orderDetailsWithHolder}>
               <div className={styles.tabHolder}>
                 <TabHolder>
                   <TabData
