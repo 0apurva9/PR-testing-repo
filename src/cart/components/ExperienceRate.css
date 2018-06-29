@@ -22,8 +22,10 @@
   width: 36px;
   height: 36px;
   display: inline-block;
+  cursor:pointer;
 }
 .active {
   composes: hiddenIcon;
   opacity: 1;
 }
+

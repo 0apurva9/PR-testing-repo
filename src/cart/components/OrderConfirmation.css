@@ -31,7 +31,6 @@
     padding-right:40px;
   }
   .dummySection{
-    content:"";
     position: relative;
     opacity: 0;
     pointer-events: none;
@@ -47,11 +46,60 @@
     display: inline-block;
     max-width: 390px;
     bottom: initial;
+    padding-left:20px;
   }
   .addDeliveryAddressHolder{
     text-align:center;
   }
   .header {
     padding:20px 30px;
+  }
+  .linkHolder{
+    width:100%;
+    height:auto;
+    background:#fff;
+    border-radius:4px;
+  }
+  .linkHeader{
+    width:100%;
+    height:auto;
+    font-size: 16px;
+    color:#000000;
+    font-family:semibold;
+    padding:20px 30px;
+  }
+  .link{
+    width:100%;
+    height:65px;
+    font-size: 16px;
+    font-family: light;
+    color:#000000;
+    line-height:65px;
+    padding:0 75px;
+    position:relative;
+    cursor:pointer;
+    border-bottom:1px solid #ececec;
+  }
+  .link:last-child{
+    border:none;
+  }
+  .icon{
+    width:25px;
+    height:25px;
+    position:absolute;
+    left:30px;
+    top:0;
+    bottom:0;
+    margin:auto;
+  }
+  .arrow{
+    composes:icon;
+    left:initial;
+    right:30px;
+    background:url("./img/down-arrow.svg")no-repeat;
+    background-size:15px;
+    background-position:center;
+    opacity:0.2;
+    transform:rotate(-90deg)
   }
 }

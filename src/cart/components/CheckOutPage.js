@@ -2384,6 +2384,7 @@ class CheckOutPage extends React.Component {
                 captureOrderExperience={rating =>
                   this.captureOrderExperience(rating)
                 }
+                history={this.props.history}
                 orderStatusMessage={
                   this.props.cart.orderConfirmationDetails.orderStatusMessage
                 }
@@ -2407,6 +2408,7 @@ class CheckOutPage extends React.Component {
                 captureOrderExperience={rating =>
                   this.captureOrderExperience(rating)
                 }
+                history={this.props.history}
                 continueShopping={() => this.continueShopping()}
                 orderConfirmationUpdate={() => this.orderConfirmationUpdate()}
                 trackOrder={() =>
