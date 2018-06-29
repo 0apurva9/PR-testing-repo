@@ -193,7 +193,7 @@ export default class FlashSale extends React.Component {
                   />
                 }
                 bannerWidth="32%"
-                offSetDesktop={10}
+                offsetDesktop={10}
                 elementWidthDesktop={33.33}
               >
                 {offersAndItemsArray &&

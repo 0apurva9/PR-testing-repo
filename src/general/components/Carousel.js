@@ -18,10 +18,9 @@ export default class Carousel extends React.Component {
     }
   }
   checkUserAgentIsMobile() {
-    let isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
+    return /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
       navigator.userAgent
     );
-    return isMobile;
   }
   slideForward() {
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
@@ -145,8 +144,8 @@ export default class Carousel extends React.Component {
             className={styles.sliderHolder}
             style={{
               paddingLeft: this.checkUserAgentIsMobile()
-                ? `${this.props.offSetMobile}px`
-                : `${this.props.offSetDesktop}px`
+                ? `${this.props.offsetMobile}px`
+                : `${this.props.offsetDesktop}px`
             }}
           >
             <div className={styles.slider} style={style}>
