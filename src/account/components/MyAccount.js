@@ -12,8 +12,9 @@ import TabData from "./TabData";
 import styles from "./MyAccount.css";
 import MediaQuery from "react-responsive";
 import LogoutButtonContainer from "../containers/LogoutButtonContainer";
-import PofileMenuGridForDesktop from "./PofileMenuGridForDesktop";
+import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -80,7 +81,7 @@ export default class MyAccount extends React.Component {
     const userDetails = JSON.parse(userDetailsCookie);
     return (
       <div className={styles.base}>
-        <div className={styles.holder}>
+        <div className={MyAccountStyles.holder}>
           <MediaQuery query="(max-device-width: 1024px)">
             <ProfileMenuGrid {...this.props} />
             <div className={styles.accountHolder}>
@@ -109,12 +110,12 @@ export default class MyAccount extends React.Component {
             </div>
           </MediaQuery>
           <MediaQuery query="(min-device-width: 1025px)">
-            <div className={styles.profileMenu}>
-              <PofileMenuGridForDesktop {...this.props} />
+            <div className={MyAccountStyles.profileMenu}>
+              <ProfileMenu {...this.props} />
             </div>
           </MediaQuery>
-          <div className={styles.orderDetail}>
-            <div className={styles.orderDetailsWithHolder}>
+          <div className={MyAccountStyles.orderDetail}>
+            <div className={MyAccountStyles.orderDetailsWithHolder}>
               <div className={styles.tabHolder}>
                 <TabHolder>
                   <TabData
@@ -143,7 +144,6 @@ export default class MyAccount extends React.Component {
                   />
                 </TabHolder>
               </div>
-
               <div className={styles.dataHolder}>
                 {this.state.isSelected === 0 && (
                   <div className={styles.ordersHolder}>
@@ -226,7 +226,7 @@ export default class MyAccount extends React.Component {
             </div>
           </div>
           <MediaQuery query="(min-device-width: 1025px)">
-            <div className={styles.userProfile}>
+            <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userDetails.imageUrl}
                 onClick={() => this.renderToAccountSetting()}

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./PofileMenuGridForDesktop.css";
+import styles from "./ProfileMenu.css";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
