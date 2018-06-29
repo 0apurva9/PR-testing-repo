@@ -49,6 +49,7 @@ class FeedComponent extends React.Component {
             banner={banner}
             bannerWidth="42%"
             elementWidthDesktop={33.333}
+            offSetDesktop={10}
           >
             {data &&
               data.map((datum, i) => {

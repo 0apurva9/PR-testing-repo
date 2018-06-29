@@ -24,6 +24,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
           banner={this.props.banner}
           bannerWidth="23.33%"
           elementWidthDesktop={25}
+          offSetDesktop={10}
         >
           {this.props.data &&
             this.props.data.map((datum, i) => {

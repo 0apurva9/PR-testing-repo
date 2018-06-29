@@ -17,6 +17,12 @@ export default class Carousel extends React.Component {
       this.setState({ position });
     }
   }
+  checkUserAgentIsMobile() {
+    let isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
+      navigator.userAgent
+    );
+    return isMobile;
+  }
   slideForward() {
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
     if (
@@ -135,7 +141,14 @@ export default class Carousel extends React.Component {
               </div>
             )}
           </MediaQuery>
-          <div className={styles.sliderHolder}>
+          <div
+            className={styles.sliderHolder}
+            style={{
+              paddingLeft: this.checkUserAgentIsMobile()
+                ? `${this.props.offSetMobile}px`
+                : `${this.props.offSetDesktop}px`
+            }}
+          >
             <div className={styles.slider} style={style}>
               {this.props.children &&
                 this.props.children.map((child, i) => {
@@ -196,6 +209,7 @@ Carousel.propTypes = {
   elementWidthDesktop: PropTypes.number,
   elementWidthMobile: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   buttonText: PropTypes.string,
+  offSet: PropTypes.number,
   header: PropTypes.string,
   isWhite: PropTypes.bool,
   seeAll: PropTypes.func,
