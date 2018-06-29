@@ -93,7 +93,7 @@
   width: auto;
   height: 25px;
   position: absolute;
-
+  left: 0;
   top: 0;
   bottom: 0;
   margin: auto;
@@ -117,6 +117,12 @@
     background-color: #fff;
     border-radius: 4px;
     padding: 30px 30px 60px 30px;
+  }
+  .expiredBalanceText:before {
+    content: "(";
+  }
+  .expiredBalanceText:after {
+    content: ")";
   }
   .cliqCashDetail {
     width: 60%;
@@ -143,6 +149,7 @@
   }
   .giftCardButtonHolder {
     right: 150px;
+    left: initial;
   }
 }
 @media screen and (max-width: 1024px) {
@@ -160,8 +167,5 @@
   }
   .labelHeader {
     width: 100%;
-  }
-  .giftCardButtonHolder {
-    left: 0;
   }
 }

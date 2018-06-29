@@ -106,18 +106,10 @@ export default class CliqAndCash extends React.Component {
                   )}
                   {this.props.cliqCashUserDetails.balanceClearedAsOf && (
                     <div className={styles.expiredBalanceText}>
-                      <MediaQuery query="(max-device-width: 1024px)">
-                        {`Balance as of ${format(
-                          this.props.cliqCashUserDetails.balanceClearedAsOf,
-                          DATE_FORMAT
-                        )} Hrs`}
-                      </MediaQuery>
-                      <MediaQuery query="(min-device-width: 1025px)">
-                        {`(Balance as of ${format(
-                          this.props.cliqCashUserDetails.balanceClearedAsOf,
-                          DATE_FORMAT
-                        )} Hrs)`}
-                      </MediaQuery>
+                      {`Balance as of ${format(
+                        this.props.cliqCashUserDetails.balanceClearedAsOf,
+                        DATE_FORMAT
+                      )} Hrs`}
                     </div>
                   )}
                   <div className={styles.informationText}>
