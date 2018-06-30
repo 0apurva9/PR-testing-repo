@@ -8,7 +8,7 @@ import ShopByBrandLists from "../../blp/components/ShopByBrandLists.js";
 import CheckboxAndText from "../../cart/components/CheckboxAndText.js";
 import AccountFooter from "./AccountFooter.js";
 import format from "date-fns/format";
-
+import Button from "../../general/components/Button";
 import { LOG_OUT_USER_SUCCESS } from "../actions/account.actions.js";
 import ChangePassword from "./ChangePassword.js";
 import * as Cookie from "../../lib/Cookie";
@@ -24,6 +24,11 @@ import {
   ERROR,
   REQUESTING
 } from "../../lib/constants";
+import MediaQuery from "react-responsive";
+import ProfileMenu from "./ProfileMenu";
+import * as myAccountStyles from "./MyAccountDesktop.css";
+
+import UserProfile from "./UserProfile";
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const OLD_PASSWORD_TEXT = "Please enter old password";
@@ -177,105 +182,200 @@ export default class EditAccountDetails extends React.Component {
     this.setState({ changePassword: true });
   };
   render() {
+    const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userProfileDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    const userData = JSON.parse(userProfileDetails);
     let userDetails = this.props.userDetails;
     if (userDetails && !this.state.changePassword) {
       return (
         <div className={styles.base}>
-          <div className={styles.profileImage}>
-            <ProfilePicture
-              firstName={
-                this.state.firstName !== "undefined" ? this.state.firstName : ""
-              }
-              lastName={
-                this.state.lastName !== "undefined" ? this.state.lastName : ""
-              }
-            />
+          <div className={myAccountStyles.holder}>
+            <MediaQuery query="(min-device-width: 1025px)">
+              <div className={myAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            </MediaQuery>
+            <div className={styles.editAccountDetail}>
+              <div className={styles.editAccountDetailWithHolder}>
+                <MediaQuery query="(min-device-width: 1025px)">
+                  <div className={styles.infoHeader}>General Information</div>
+                </MediaQuery>
+                <MediaQuery query="(max-device-width: 1024px)">
+                  <div className={styles.profileImage}>
+                    <ProfilePicture
+                      firstName={
+                        this.state.firstName !== "undefined"
+                          ? this.state.firstName
+                          : ""
+                      }
+                      lastName={
+                        this.state.lastName !== "undefined"
+                          ? this.state.lastName
+                          : ""
+                      }
+                    />
+                  </div>
+                </MediaQuery>
+                <div className={styles.userDataHolder}>
+                  <div className={styles.holder}>
+                    <div className={styles.container}>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        <div className={styles.textHolder}>First Name</div>
+                      </MediaQuery>
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="First Name"
+                          value={
+                            this.state.firstName !== "undefined"
+                              ? this.state.firstName
+                              : ""
+                          }
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={firstName => this.onChange({ firstName })}
+                          onlyAlphabet={true}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        <div className={styles.textHolder}>Last Name</div>
+                      </MediaQuery>
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="Last Name"
+                          value={
+                            this.state.lastName !== "undefined"
+                              ? this.state.lastName
+                              : ""
+                          }
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={lastName => this.onChange({ lastName })}
+                          onlyAlphabet={true}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        <div className={styles.textHolder}>Email</div>
+                      </MediaQuery>
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="Email"
+                          value={this.state.emailId}
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={emailId => this.onChange({ emailId })}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        <div className={styles.textHolder}>Phone</div>
+                      </MediaQuery>
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="Mobile Number"
+                          value={this.state.mobileNumber}
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={mobileNumber =>
+                            this.onChangeMobileNumber(mobileNumber)
+                          }
+                          disabled={false}
+                          onlyNumber={true}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        <div className={styles.textHolder}>Gender</div>
+                      </MediaQuery>
+                      <div className={styles.inputHolder}>
+                        <SelectBoxMobile2
+                          placeholder={"Gender"}
+                          label={this.state.gender}
+                          value={this.state.gender}
+                          options={[
+                            { label: "Female", value: "FEMALE" },
+                            { label: "Male", value: "MALE" }
+                          ]}
+                          arrowColour="grey"
+                          height={33}
+                          onChange={gender => this.onChangeGender(gender)}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <MediaQuery query="(min-device-width: 1025px)">
+                        <div className={styles.textHolder}>Date of Birth</div>
+                      </MediaQuery>
+                      <div className={styles.inputHolder}>
+                        <MobileDatePicker
+                          value={this.state.dateOfBirth}
+                          onChange={dateOfBirth =>
+                            this.onChangeDateOfBirth(dateOfBirth)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.changePassword}>
+                    <ShopByBrandLists
+                      brandList={"Change Password"}
+                      onClick={() => this.renderChangePassword()}
+                    />
+                  </div>
+                  <MediaQuery query="(min-device-width: 1025px)">
+                    <div className={styles.updateButtonHolder}>
+                      <div className={styles.updateButton}>
+                        <Button
+                          type="hollow"
+                          color="#000"
+                          label={"Update"}
+                          width={150}
+                          onClick={() => this.updateProfile()}
+                        />
+                      </div>
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery query="(max-device-width: 1024px)">
+                    <AccountFooter
+                      cancel={() => this.cancel()}
+                      update={() => this.updateProfile()}
+                    />
+                  </MediaQuery>
+                </div>
+              </div>
+            </div>
+            <MediaQuery query="(min-device-width: 1025px)">
+              <div className={myAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                />
+              </div>
+            </MediaQuery>
           </div>
-          <div className={styles.holder}>
-            <div className={styles.container}>
-              <Input2
-                placeholder="First Name"
-                value={
-                  this.state.firstName !== "undefined"
-                    ? this.state.firstName
-                    : ""
-                }
-                boxy={true}
-                textStyle={{ fontSize: 14 }}
-                height={33}
-                onChange={firstName => this.onChange({ firstName })}
-                onlyAlphabet={true}
-              />
-            </div>
-            <div className={styles.container}>
-              <Input2
-                placeholder="Last Name"
-                value={
-                  this.state.lastName !== "undefined" ? this.state.lastName : ""
-                }
-                boxy={true}
-                textStyle={{ fontSize: 14 }}
-                height={33}
-                onChange={lastName => this.onChange({ lastName })}
-                onlyAlphabet={true}
-              />
-            </div>
-            <div className={styles.container}>
-              <Input2
-                placeholder="Email"
-                value={this.state.emailId}
-                boxy={true}
-                textStyle={{ fontSize: 14 }}
-                height={33}
-                onChange={emailId => this.onChange({ emailId })}
-              />
-            </div>
-            <div className={styles.container}>
-              <Input2
-                placeholder="Mobile Number"
-                value={this.state.mobileNumber}
-                boxy={true}
-                textStyle={{ fontSize: 14 }}
-                height={33}
-                onChange={mobileNumber =>
-                  this.onChangeMobileNumber(mobileNumber)
-                }
-                disabled={false}
-                onlyNumber={true}
-              />
-            </div>
-
-            <div className={styles.container}>
-              <SelectBoxMobile2
-                placeholder={"Gender"}
-                label={this.state.gender}
-                value={this.state.gender}
-                options={[
-                  { label: "Female", value: "FEMALE" },
-                  { label: "Male", value: "MALE" }
-                ]}
-                arrowColour="grey"
-                height={33}
-                onChange={gender => this.onChangeGender(gender)}
-              />
-            </div>
-            <div className={styles.container}>
-              <MobileDatePicker
-                value={this.state.dateOfBirth}
-                onChange={dateOfBirth => this.onChangeDateOfBirth(dateOfBirth)}
-              />
-            </div>
-          </div>
-          <div className={styles.changePassword}>
-            <ShopByBrandLists
-              brandList={"Change Password"}
-              onClick={() => this.renderChangePassword()}
-            />
-          </div>
-          <AccountFooter
-            cancel={() => this.cancel()}
-            update={() => this.updateProfile()}
-          />
         </div>
       );
     } else if (this.state.changePassword) {
