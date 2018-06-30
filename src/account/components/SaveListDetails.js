@@ -179,7 +179,7 @@ export default class SaveListDetails extends React.Component {
                               product.productcode
                             )
                           }
-                          brandName={product.brandName}
+                          brandName={product.productBrand}
                           onClickImage={() =>
                             this.onClickImage(product.productcode)
                           }
