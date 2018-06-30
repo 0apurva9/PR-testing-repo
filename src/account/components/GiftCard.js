@@ -6,7 +6,6 @@ import Input2 from "../../general/components/Input2.js";
 import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
 import { Redirect } from "react-router-dom";
-import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -108,19 +107,7 @@ export default class GiftCard extends React.Component {
     }
   }
   navigateToLogin() {
-    const url = this.props.location.pathname;
-    if (this.props.setUrlToRedirectToAfterAuth) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
-
-    if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    return <Redirect to={LOGIN_PATH} />;
   }
   render() {
     if (this.props.loadingForGiftCardDetails) {

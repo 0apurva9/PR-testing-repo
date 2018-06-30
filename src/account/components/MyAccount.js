@@ -69,17 +69,8 @@ export default class MyAccount extends React.Component {
 
   navigateToLogin() {
     const url = this.props.location.pathname;
-    if (this.props.setUrlToRedirectToAfterAuth) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
-    if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.setUrlToRedirectToAfterAuth(url);
+    return <Redirect to={LOGIN_PATH} />;
   }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

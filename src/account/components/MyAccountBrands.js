@@ -22,7 +22,6 @@ import * as myAccountStyles from "./MyAccountDesktop.css";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import UserProfile from "./UserProfile";
-
 export default class MyAccountBrands extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(BRANDS);
@@ -36,19 +35,7 @@ export default class MyAccountBrands extends React.Component {
     this.props.setHeaderText(BRANDS);
   }
   navigateToLogin() {
-    const url = this.props.location.pathname;
-    if (this.props.setUrlToRedirectToAfterAuth) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
-
-    if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    return <Redirect to={LOGIN_PATH} />;
   }
   navigateToBLP() {
     this.props.history.push(DEFAULT_BRANDS_LANDING_PAGE);

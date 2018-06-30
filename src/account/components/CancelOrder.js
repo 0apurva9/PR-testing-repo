@@ -11,7 +11,6 @@ import {
 import CancelReasonForm from "./CancelReasonForm";
 import PropTypes from "prop-types";
 import Loader from "../../general/components/Loader";
-import * as UserAgent from "../../lib/UserAgent.js";
 const SELECT_REASON_MESSAGE = "Select the Reason";
 export default class CancelOrder extends React.Component {
   componentDidMount() {
@@ -64,18 +63,7 @@ export default class CancelOrder extends React.Component {
     }
   }
   navigateToLogin() {
-    const url = this.props.location.pathname;
-    if (this.props.setUrlToRedirectToAfterAuth) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
-    if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    return <Redirect to={LOGIN_PATH} />;
   }
   renderLoader() {
     return <Loader />;
