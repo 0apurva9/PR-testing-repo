@@ -3,7 +3,6 @@
   height: auto;
   display: inline-block;
   background-color: #ececec;
-  padding: 15px 15px 70px 15px;
 }
 .order {
   padding: 15px;
@@ -38,4 +37,14 @@
 .continueShoppingButton {
   margin: auto;
   display: inline-block;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 22px 0px 70px 0px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .base {
+    padding: 15px 15px 70px 15px;
+  }
 }

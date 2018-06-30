@@ -15,3 +15,10 @@
   display: inline-block;
   padding: 30px 15px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+}

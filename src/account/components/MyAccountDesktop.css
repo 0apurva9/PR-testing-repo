@@ -1,0 +1,36 @@
+@media screen and (min-width: 1025px) {
+  .holder {
+    max-width: 1200px;
+    margin: auto;
+    height: auto;
+  }
+  .profileMenu {
+    width: 20%;
+    height: 200px;
+    display: inline-block;
+    padding-right: 10px;
+    vertical-align: top;
+    max-width: 240px;
+    border-radius: 4px;
+  }
+  .orderDetailsWithHolder {
+    width: 100%;
+    height: auto;
+    padding-top: 60px;
+  }
+  .orderDetail {
+    width: 60%;
+    margin: auto;
+    display: inline-block;
+    padding: 0px 15px 0px 15px;
+    max-width: 720px;
+  }
+  .userProfile {
+    width: 20%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 4px;
+    max-width: 240px;
+  }
+}

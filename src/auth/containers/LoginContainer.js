@@ -63,6 +63,7 @@ const mapDispatchToProps = dispatch => {
       );
       // checking condition for the failure customer access token api
       if (userDetailsResponse.status === ERROR) {
+        setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
         dispatch(singleAuthCallHasFailed(userDetailsResponse.error));
       } else if (userDetailsResponse.status === SUCCESS) {
         const loginUserResponse = await dispatch(loginUser(userDetails));

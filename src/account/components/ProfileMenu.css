@@ -1,0 +1,52 @@
+.base {
+  width: 20%;
+  height: auto;
+  position: fixed;
+  overflow: hidden;
+  vertical-align: top;
+  border-radius: 4px;
+  max-width: 240px;
+}
+.profiledata {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  height: auto;
+  padding: 20px;
+}
+.header {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: semibold;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+.holder {
+  width: 100%;
+  height: auto;
+  line-height: 35px;
+  display: inline-block;
+  position: relative;
+  margin-bottom: 25px;
+  cursor: pointer;
+}
+.gridText {
+  width: 100%;
+  height: auto;
+  padding: 0px 20px 0px 30px;
+  font-family: regular;
+  font-size: 14px;
+}
+.gridLogo {
+  width: 20px;
+  height: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+}
+.textSelect {
+  composes: gridText;
+  color: #ff1744;
+}

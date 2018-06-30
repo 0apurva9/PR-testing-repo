@@ -16,13 +16,18 @@ import {
 } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as Cookie from "../../lib/Cookie";
-import * as UserAgent from "../../lib/UserAgent.js";
+import MediaQuery from "react-responsive";
+import ProfileMenu from "./ProfileMenu";
+import * as myAccountStyles from "./MyAccountDesktop.css";
+import TabHolder from "./TabHolder";
+import TabData from "./TabData";
+import UserProfile from "./UserProfile";
+
 export default class MyAccountBrands extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(BRANDS);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
     if (userDetails && customerCookie) {
       this.props.getFollowedBrands();
     }
@@ -64,7 +69,7 @@ export default class MyAccountBrands extends React.Component {
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
+    const userData = JSON.parse(userDetails);
     if (this.props.loading) {
       return this.renderLoader();
     }
@@ -80,25 +85,55 @@ export default class MyAccountBrands extends React.Component {
 
     return (
       <div className={styles.base}>
-        <MoreBrands
-          width={170}
-          type="primary"
-          label="More Brands"
-          onClick={() => this.navigateToBLP()}
-        />
-        {followedBrands && (
-          <div className={styles.brandsHolder}>
-            <BrandEdit
-              data={followedBrands}
-              onClick={(brandId, followStatus) =>
-                this.followAndUnFollow(brandId, followStatus)
-              }
-              onRedirectToBrandPage={webURL =>
-                this.onRedirectToBrandPage(webURL)
-              }
-            />
+        <div className={myAccountStyles.holder}>
+          <MediaQuery query="(min-device-width: 1025px)">
+            <div className={myAccountStyles.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+          </MediaQuery>
+          <div className={styles.brandDetail}>
+            <div className={styles.brandDetailWithHolder}>
+              <MoreBrands
+                width={170}
+                type="primary"
+                label="More Brands"
+                onClick={() => this.navigateToBLP()}
+              />
+              {followedBrands && (
+                <div className={styles.brandsHolder}>
+                  <BrandEdit
+                    data={followedBrands}
+                    onClick={(brandId, followStatus) =>
+                      this.followAndUnFollow(brandId, followStatus)
+                    }
+                    onRedirectToBrandPage={webURL =>
+                      this.onRedirectToBrandPage(webURL)
+                    }
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        )}
+          <MediaQuery query="(min-device-width: 1025px)">
+            <div className={myAccountStyles.userProfile}>
+              <UserProfile
+                image={userData.imageUrl}
+                onClick={() => this.renderToAccountSetting()}
+                firstName={
+                  userData &&
+                  userData.firstName &&
+                  userData.firstName.trim().charAt(0)
+                }
+                heading={
+                  userData && userData.firstName && `${userData.firstName} `
+                }
+                lastName={
+                  userData && userData.lastName && `${userData.lastName}`
+                }
+              />
+            </div>
+          </MediaQuery>
+        </div>
       </div>
     );
   }
