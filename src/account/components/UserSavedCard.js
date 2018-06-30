@@ -30,7 +30,7 @@ import {
   JCB_CARD,
   MASTER
 } from "../../lib/constants";
-import MediaQuery from "react-responsive";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
@@ -104,11 +104,11 @@ export default class UserSavedCard extends React.Component {
       return (
         <div className={styles.base}>
           <div className={myAccountStyles.holder}>
-            <MediaQuery query="(min-device-width: 1025px)">
+            <DesktopOnly>
               <div className={myAccountStyles.profileMenu}>
                 <ProfileMenu {...this.props} />
               </div>
-            </MediaQuery>
+            </DesktopOnly>
             <div className={styles.saveCardDetail}>
               <div className={styles.saveCardDetailWithHolder}>
                 {this.props.profile.savedCards.savedCardDetailsMap &&
@@ -147,7 +147,7 @@ export default class UserSavedCard extends React.Component {
                   )}
               </div>
             </div>
-            <MediaQuery query="(min-device-width: 1025px)">
+            <DesktopOnly>
               <div className={myAccountStyles.userProfile}>
                 <UserProfile
                   image={userData.imageUrl}
@@ -165,7 +165,7 @@ export default class UserSavedCard extends React.Component {
                   }
                 />
               </div>
-            </MediaQuery>
+            </DesktopOnly>
           </div>
         </div>
       );

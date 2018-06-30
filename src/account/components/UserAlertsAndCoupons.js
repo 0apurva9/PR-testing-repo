@@ -21,7 +21,6 @@ import {
   ADOBE_MY_ACCOUNT_ALERTS,
   ADOBE_MY_ACCOUNT_COUPONS
 } from "../../lib/adobeUtils";
-import MediaQuery from "react-responsive";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import DesktopOnly from "../../general/components/DesktopOnly";

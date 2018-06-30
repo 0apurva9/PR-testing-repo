@@ -16,11 +16,9 @@ import {
 } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as Cookie from "../../lib/Cookie";
-import MediaQuery from "react-responsive";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
-import TabHolder from "./TabHolder";
-import TabData from "./TabData";
 import UserProfile from "./UserProfile";
 export default class MyAccountBrands extends React.Component {
   componentDidMount() {
@@ -73,11 +71,11 @@ export default class MyAccountBrands extends React.Component {
     return (
       <div className={styles.base}>
         <div className={myAccountStyles.holder}>
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <div className={myAccountStyles.profileMenu}>
               <ProfileMenu {...this.props} />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
           <div className={styles.brandDetail}>
             <div className={styles.brandDetailWithHolder}>
               <MoreBrands
@@ -101,7 +99,7 @@ export default class MyAccountBrands extends React.Component {
               )}
             </div>
           </div>
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <div className={myAccountStyles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
@@ -119,7 +117,7 @@ export default class MyAccountBrands extends React.Component {
                 }
               />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
         </div>
       </div>
     );

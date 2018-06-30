@@ -19,11 +19,9 @@ import {
   LOGGED_IN_USER_DETAILS
 } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
-import MediaQuery from "react-responsive";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
-import TabHolder from "./TabHolder";
-import TabData from "./TabData";
 import UserProfile from "./UserProfile";
 const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
 
@@ -87,11 +85,11 @@ export default class CliqAndCash extends React.Component {
       return (
         <div className={styles.base}>
           <div className={MyAccountStyles.holder}>
-            <MediaQuery query="(min-device-width: 1025px)">
+            <DesktopOnly>
               <div className={MyAccountStyles.profileMenu}>
                 <ProfileMenu {...this.props} />
               </div>
-            </MediaQuery>
+            </DesktopOnly>
             <div className={styles.cliqCashDetail}>
               <div className={styles.cliqCashDetailWithHolder}>
                 <div className={styles.logoHolder}>
@@ -185,7 +183,7 @@ export default class CliqAndCash extends React.Component {
                 </div>
               </div>
             </div>
-            <MediaQuery query="(min-device-width: 1025px)">
+            <DesktopOnly>
               <div className={MyAccountStyles.userProfile}>
                 <UserProfile
                   image={userData.imageUrl}
@@ -203,7 +201,7 @@ export default class CliqAndCash extends React.Component {
                   }
                 />
               </div>
-            </MediaQuery>
+            </DesktopOnly>
           </div>
         </div>
       );

@@ -6,7 +6,6 @@ import { Redirect } from "react-router-dom";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import Button from "../../general/components/Button";
-import MediaQuery from "react-responsive";
 import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import TabHolder from "./TabHolder";
@@ -23,7 +22,7 @@ import {
   SAVED_LIST
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
-
+import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
 const dateFormat = "MMMM DD YYYY";
 const PRODUCT_QUANTITY = "1";
@@ -119,14 +118,14 @@ export default class SaveListDetails extends React.Component {
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <div className={MyAccountStyles.profileMenu}>
               <ProfileMenu {...this.props} />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
           <div className={styles.saveListDetail}>
             <div className={styles.saveListDetailsWithHolder}>
-              <MediaQuery query="(min-device-width: 1025px)">
+              <DesktopOnly>
                 <div className={styles.tabHolder}>
                   <TabHolder>
                     <TabData
@@ -155,7 +154,7 @@ export default class SaveListDetails extends React.Component {
                     />
                   </TabHolder>
                 </div>
-              </MediaQuery>
+              </DesktopOnly>
               <div className={styles.dataHolder}>
                 {this.props.count > 0 &&
                   wishList &&
@@ -215,7 +214,7 @@ export default class SaveListDetails extends React.Component {
               </div>
             </div>
           </div>
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
@@ -233,7 +232,7 @@ export default class SaveListDetails extends React.Component {
                 }
               />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
         </div>
       </div>
     );

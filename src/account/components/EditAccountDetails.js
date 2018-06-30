@@ -24,10 +24,10 @@ import {
   ERROR,
   REQUESTING
 } from "../../lib/constants";
-import MediaQuery from "react-responsive";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
-
 import UserProfile from "./UserProfile";
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
@@ -193,17 +193,17 @@ export default class EditAccountDetails extends React.Component {
       return (
         <div className={styles.base}>
           <div className={myAccountStyles.holder}>
-            <MediaQuery query="(min-device-width: 1025px)">
+            <DesktopOnly>
               <div className={myAccountStyles.profileMenu}>
                 <ProfileMenu {...this.props} />
               </div>
-            </MediaQuery>
+            </DesktopOnly>
             <div className={styles.editAccountDetail}>
               <div className={styles.editAccountDetailWithHolder}>
-                <MediaQuery query="(min-device-width: 1025px)">
+                <DesktopOnly>
                   <div className={styles.infoHeader}>General Information</div>
-                </MediaQuery>
-                <MediaQuery query="(max-device-width: 1024px)">
+                </DesktopOnly>
+                <MobileOnly>
                   <div className={styles.profileImage}>
                     <ProfilePicture
                       firstName={
@@ -218,13 +218,13 @@ export default class EditAccountDetails extends React.Component {
                       }
                     />
                   </div>
-                </MediaQuery>
+                </MobileOnly>
                 <div className={styles.userDataHolder}>
                   <div className={styles.holder}>
                     <div className={styles.container}>
-                      <MediaQuery query="(min-device-width: 1025px)">
+                      <DesktopOnly>
                         <div className={styles.textHolder}>First Name</div>
-                      </MediaQuery>
+                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="First Name"
@@ -242,9 +242,9 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <MediaQuery query="(min-device-width: 1025px)">
+                      <DesktopOnly>
                         <div className={styles.textHolder}>Last Name</div>
-                      </MediaQuery>
+                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="Last Name"
@@ -262,9 +262,9 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <MediaQuery query="(min-device-width: 1025px)">
+                      <DesktopOnly>
                         <div className={styles.textHolder}>Email</div>
-                      </MediaQuery>
+                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="Email"
@@ -277,9 +277,9 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <MediaQuery query="(min-device-width: 1025px)">
+                      <DesktopOnly>
                         <div className={styles.textHolder}>Phone</div>
-                      </MediaQuery>
+                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="Mobile Number"
@@ -296,9 +296,9 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <MediaQuery query="(min-device-width: 1025px)">
+                      <DesktopOnly>
                         <div className={styles.textHolder}>Gender</div>
-                      </MediaQuery>
+                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <SelectBoxMobile2
                           placeholder={"Gender"}
@@ -315,9 +315,9 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <MediaQuery query="(min-device-width: 1025px)">
+                      <DesktopOnly>
                         <div className={styles.textHolder}>Date of Birth</div>
-                      </MediaQuery>
+                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <MobileDatePicker
                           value={this.state.dateOfBirth}
@@ -334,7 +334,7 @@ export default class EditAccountDetails extends React.Component {
                       onClick={() => this.renderChangePassword()}
                     />
                   </div>
-                  <MediaQuery query="(min-device-width: 1025px)">
+                  <DesktopOnly>
                     <div className={styles.updateButtonHolder}>
                       <div className={styles.updateButton}>
                         <Button
@@ -346,17 +346,17 @@ export default class EditAccountDetails extends React.Component {
                         />
                       </div>
                     </div>
-                  </MediaQuery>
-                  <MediaQuery query="(max-device-width: 1024px)">
+                  </DesktopOnly>
+                  <MobileOnly>
                     <AccountFooter
                       cancel={() => this.cancel()}
                       update={() => this.updateProfile()}
                     />
-                  </MediaQuery>
+                  </MobileOnly>
                 </div>
               </div>
             </div>
-            <MediaQuery query="(min-device-width: 1025px)">
+            <DesktopOnly>
               <div className={myAccountStyles.userProfile}>
                 <UserProfile
                   image={userData.imageUrl}
@@ -374,7 +374,7 @@ export default class EditAccountDetails extends React.Component {
                   }
                 />
               </div>
-            </MediaQuery>
+            </DesktopOnly>
           </div>
         </div>
       );
