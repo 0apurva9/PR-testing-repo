@@ -68,7 +68,6 @@
   color: #212121;
   font-family: regular;
   text-align: right;
-  margin-top: 5px;
 }
 .cardNumberHolder {
   composes: bankAndCardHolder;
@@ -112,10 +111,8 @@
 .actionHolder {
   width: 100%;
   height: auto;
-
   display: inline-block;
 }
-
 .edit {
   width: 25px;
   height: 24px;
@@ -155,12 +152,23 @@
   }
   .validityHolder .dataHeader {
     text-align: left;
+    font-family: light;
   }
   .validityHolder .dataHolder {
     text-align: left;
+    font-family: light;
   }
   .actionHolder {
     padding-top: 30px;
+  }
+  .dataHeader {
+    font-family: light;
+  }
+  .dataHolder {
+    font-family: light;
+  }
+  .cardName {
+    font-family: light;
   }
 }
 @media screen and (max-width: 1024px) {
@@ -169,5 +177,8 @@
   }
   .paymentDetailsHolder {
     padding: 15px;
+  }
+  .cardName {
+    margin-top: 5px;
   }
 }
