@@ -1,8 +1,7 @@
 .base {
   width: 100%;
   height: auto;
-  background-color: #ececec;
-  padding: 25px 110px 25px 15px;
+
   position: relative;
 }
 .headerHolder {
@@ -31,4 +30,20 @@
   top: 0;
   bottom: 0;
   margin: auto;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    line-height: 50px;
+    background-color: #f9f9f9;
+  }
+  .heading {
+    padding-left: 15px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .base {
+    background-color: #ececec;
+    padding: 25px 110px 25px 15px;
+  }
 }
