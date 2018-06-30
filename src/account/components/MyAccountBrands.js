@@ -18,7 +18,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as Cookie from "../../lib/Cookie";
 import MediaQuery from "react-responsive";
 import ProfileMenu from "./ProfileMenu";
-import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import * as myAccountStyles from "./MyAccountDesktop.css";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import UserProfile from "./UserProfile";
@@ -72,9 +72,9 @@ export default class MyAccountBrands extends React.Component {
 
     return (
       <div className={styles.base}>
-        <div className={MyAccountStyles.holder}>
+        <div className={myAccountStyles.holder}>
           <MediaQuery query="(min-device-width: 1025px)">
-            <div className={MyAccountStyles.profileMenu}>
+            <div className={myAccountStyles.profileMenu}>
               <ProfileMenu {...this.props} />
             </div>
           </MediaQuery>
@@ -102,7 +102,7 @@ export default class MyAccountBrands extends React.Component {
             </div>
           </div>
           <MediaQuery query="(min-device-width: 1025px)">
-            <div className={MyAccountStyles.userProfile}>
+            <div className={myAccountStyles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
                 onClick={() => this.renderToAccountSetting()}
