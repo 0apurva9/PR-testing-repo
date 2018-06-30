@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Logo from "../../general/components/Logo";
 import styles from "./SavedPaymentCard.css";
 import SavedCardItemFooter from "./SavedCardItemFooter.js";
+import MediaQuery from "react-responsive";
 export default class SavedPaymentCard extends React.Component {
   replaceItem() {
     if (this.props.replaceItem) {
@@ -42,22 +43,36 @@ export default class SavedPaymentCard extends React.Component {
               <div className={styles.cardName}>{this.props.cardName}</div>
             </div>
           </div>
-          <div className={styles.cardNumberHolder}>
-            <div className={styles.cardDataHolder}>
-              <div className={styles.dataHeader}>Card number</div>
-              <div className={styles.dataHolder}>{this.props.cardNumber}</div>
-            </div>
-          </div>
-          <div className={styles.cardNameAndValidityHolder}>
-            <div className={styles.nameOfCardHolder}>
-              <div className={styles.dataHeader}>Name on card</div>
-              <div className={styles.dataHolder}>
-                {this.props.cardHolderName}
+          <div className={styles.cardNameNumberAndValidityHolder}>
+            <div className={styles.cardNumberHolder}>
+              <div className={styles.cardDataHolder}>
+                <div className={styles.dataHeader}>Card number</div>
+                <div className={styles.dataHolder}>{this.props.cardNumber}</div>
               </div>
             </div>
-            <div className={styles.validityHolder}>
-              <div className={styles.dataHeader}>Validity</div>
-              <div className={styles.dataHolder}>{this.props.validityDate}</div>
+            <div className={styles.cardNameAndValidityHolder}>
+              <MediaQuery query="(max-device-width: 1024px)">
+                <div className={styles.nameOfCardHolder}>
+                  <div className={styles.dataHeader}>Name on card</div>
+                  <div className={styles.dataHolder}>
+                    {this.props.cardHolderName}
+                  </div>
+                </div>
+              </MediaQuery>
+              <div className={styles.validityHolder}>
+                <div className={styles.dataHeader}>Validity</div>
+                <div className={styles.dataHolder}>
+                  {this.props.validityDate}
+                </div>
+              </div>
+              <MediaQuery query="(min-device-width: 1025px)">
+                <div className={styles.nameOfCardHolder}>
+                  <div className={styles.dataHeader}>Name on card</div>
+                  <div className={styles.dataHolder}>
+                    {this.props.cardHolderName}
+                  </div>
+                </div>
+              </MediaQuery>
             </div>
           </div>
         </div>

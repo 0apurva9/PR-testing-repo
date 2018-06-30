@@ -9,7 +9,7 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  padding: 15px;
+
   border-bottom: 1px solid #ececec;
 }
 .bankAndCardHolder {
@@ -112,7 +112,7 @@
 .actionHolder {
   width: 100%;
   height: auto;
-  padding: 15px;
+
   display: inline-block;
 }
 
@@ -128,4 +128,46 @@
   letter-spacing: normal;
   text-align: right;
   color: #ff1744;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 30px;
+  }
+  .cardName {
+    font-size: 14px;
+  }
+  .cardLogo {
+    height: auto;
+  }
+  .paymentDetailsHolder {
+    padding-bottom: 30px;
+  }
+  .cardNameNumberAndValidityHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .cardNumberHolder {
+    width: 40%;
+  }
+  .cardNameAndValidityHolder {
+    width: 60%;
+  }
+  .validityHolder .dataHeader {
+    text-align: left;
+  }
+  .validityHolder .dataHolder {
+    text-align: left;
+  }
+  .actionHolder {
+    padding-top: 30px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .actionHolder {
+    padding: 15px;
+  }
+  .paymentDetailsHolder {
+    padding: 15px;
+  }
 }

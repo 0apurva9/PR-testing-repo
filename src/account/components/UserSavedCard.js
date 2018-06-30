@@ -32,7 +32,7 @@ import {
 } from "../../lib/constants";
 import MediaQuery from "react-responsive";
 import ProfileMenu from "./ProfileMenu";
-import { default as MyAccount } from "./MyAccountDesktop.css";
+import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 const CARD_FORMAT = /\B(?=(\d{4})+(?!\d))/g;
 const NO_SAVED_CARDS = "No Saved Cards";
@@ -103,9 +103,9 @@ export default class UserSavedCard extends React.Component {
     ) {
       return (
         <div className={styles.base}>
-          <div className={MyAccount.holder}>
+          <div className={myAccountStyles.holder}>
             <MediaQuery query="(min-device-width: 1025px)">
-              <div className={MyAccount.profileMenu}>
+              <div className={myAccountStyles.profileMenu}>
                 <ProfileMenu {...this.props} />
               </div>
             </MediaQuery>
@@ -148,7 +148,7 @@ export default class UserSavedCard extends React.Component {
               </div>
             </div>
             <MediaQuery query="(min-device-width: 1025px)">
-              <div className={MyAccount.userProfile}>
+              <div className={myAccountStyles.userProfile}>
                 <UserProfile
                   image={userData.imageUrl}
                   onClick={() => this.renderToAccountSetting()}
