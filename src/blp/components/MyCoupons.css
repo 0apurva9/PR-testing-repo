@@ -7,9 +7,9 @@
 .couponInnerBox {
   width: 100%;
   height: auto;
-  min-height: 25px;
   position: relative;
   padding: 0px 0px 0px 40px;
+  min-height: 25px;
   margin-bottom: 10px;
 }
 .headingText {
@@ -63,4 +63,19 @@
 .couponData {
   composes: couponInformation;
   padding-left: 30px;
+}
+@media screen and (min-width: 1025px) {
+  .couponFooter {
+    padding-left: 40px;
+    font-family: light;
+  }
+  .couponNumber {
+    padding-left: 40px;
+  }
+  .couponInformation {
+    width: 20%;
+  }
+  .couponData {
+    width: 60%;
+  }
 }

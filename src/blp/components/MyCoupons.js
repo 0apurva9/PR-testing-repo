@@ -4,6 +4,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import couponIcon from "../../general/components/img/coupon-1.svg";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class MyCoupons extends React.Component {
   constructor(props) {
     super(props);
@@ -24,18 +25,19 @@ export default class MyCoupons extends React.Component {
           <div className={styles.headingText}>{this.props.heading}</div>
         </div>
         <div className={styles.couponNumber}>{this.props.couponNumber}</div>
-        <CopyToClipboard
-          text={this.props.couponNumber}
-          onCopy={() => this.setState({ copied: true })}
-        >
-          <div
-            className={styles.lebelText}
-            onClick={() => this.copyCouponCode()}
+        <MobileOnly>
+          <CopyToClipboard
+            text={this.props.couponNumber}
+            onCopy={() => this.setState({ copied: true })}
           >
-            (Click to copy the coupon code)
-          </div>
-        </CopyToClipboard>
-
+            <div
+              className={styles.lebelText}
+              onClick={() => this.copyCouponCode()}
+            >
+              (Click to copy the coupon code)
+            </div>
+          </CopyToClipboard>
+        </MobileOnly>
         <div className={styles.couponFooter}>
           <div className={styles.couponFooterHolder}>
             <div className={styles.couponInformation}>
