@@ -15,7 +15,8 @@ import {
 import styles from "./OrderConfirmation.css";
 import wishlistIcon from "../../pdp/components/img/Save.svg";
 import orderHistoryIcon from "../../pdp/components/img/order-history.svg";
-import paymentIcon from "./img/debit-card.svg";
+import addressIcon from "../../general/components/img/addressbook.svg";
+import savedPayments from "../../general/components/img/card.svg";
 export default class OrderConfirmation extends React.Component {
   captureOrderExperience = rating => {
     this.props.captureOrderExperience(rating);
@@ -102,7 +103,7 @@ export default class OrderConfirmation extends React.Component {
                     onClick={() => this.goToUrl(MY_ACCOUNT_ADDRESS_PAGE)}
                   >
                     <div className={styles.icon}>
-                      <Icon size={25} image={orderHistoryIcon} />
+                      <Icon size={25} image={addressIcon} />
                     </div>
                     Address Book
                     <div className={styles.arrow} />
@@ -121,8 +122,8 @@ export default class OrderConfirmation extends React.Component {
                     className={styles.link}
                     onClick={() => this.goToUrl(MY_ACCOUNT_SAVED_CARDS_PAGE)}
                   >
-                    <div className={styles.icon} image={paymentIcon}>
-                      <Icon size={25} />
+                    <div className={styles.icon}>
+                      <Icon size={25} image={savedPayments} />
                     </div>
                     Saved Payments
                     <div className={styles.arrow} />

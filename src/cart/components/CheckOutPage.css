@@ -100,4 +100,7 @@
   .header {
     padding:20px 30px;
   }
+  .orderConfirmationHolder{
+    margin-bottom:0;
+  }
 }
