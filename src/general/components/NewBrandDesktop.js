@@ -22,6 +22,7 @@ export default class NewBrandDesktop extends React.Component {
             brandId={this.props.data[0].id}
             isFollowing={this.props.data[0].isFollowing}
             onClick={val => this.onClick(val)}
+            positionInFeed={this.props.positionInFeed}
           />
         </div>
         <div className={styles.rightSection}>
@@ -36,6 +37,7 @@ export default class NewBrandDesktop extends React.Component {
                 brandId={this.props.data[1].id}
                 isFollowing={this.props.data[1].isFollowing}
                 onClick={val => this.onClick(val)}
+                positionInFeed={this.props.positionInFeed}
               />
             </div>
             <div className={styles.smallCardHolder}>
@@ -48,6 +50,7 @@ export default class NewBrandDesktop extends React.Component {
                 brandId={this.props.data[2].id}
                 isFollowing={this.props.data[2].isFollowing}
                 onClick={val => this.onClick(val)}
+                positionInFeed={this.props.positionInFeed}
               />
             </div>
           </div>
@@ -62,6 +65,7 @@ export default class NewBrandDesktop extends React.Component {
                 brandId={this.props.data[3].id}
                 isFollowing={this.props.data[3].isFollowing}
                 onClick={val => this.onClick(val)}
+                positionInFeed={this.props.positionInFeed}
               />
             </div>
             <div className={styles.smallCardHolder}>
@@ -74,6 +78,7 @@ export default class NewBrandDesktop extends React.Component {
                 brandId={this.props.data[4].id}
                 isFollowing={this.props.data[4].isFollowing}
                 onClick={val => this.onClick(val)}
+                positionInFeed={this.props.positionInFeed}
               />
             </div>
           </div>
