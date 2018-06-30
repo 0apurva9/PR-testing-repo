@@ -35,3 +35,8 @@
   margin-top: 18px;
   display: inline-block;
 }
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding:50px 20px;
+  }
+}
