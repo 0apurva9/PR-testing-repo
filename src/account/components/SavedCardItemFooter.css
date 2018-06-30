@@ -14,3 +14,9 @@
   display: inline-block;
   opacity: 0.5;
 }
+@media screen and (min-width: 1025px) {
+  .removeHolder {
+    width: 100%;
+    text-align: right;
+  }
+}

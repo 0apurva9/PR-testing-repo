@@ -30,6 +30,10 @@ import {
   JCB_CARD,
   MASTER
 } from "../../lib/constants";
+import MediaQuery from "react-responsive";
+import ProfileMenu from "./ProfileMenu";
+import * as myAccountStyles from "./MyAccountDesktop.css";
+import UserProfile from "./UserProfile";
 const CARD_FORMAT = /\B(?=(\d{4})+(?!\d))/g;
 const NO_SAVED_CARDS = "No Saved Cards";
 export default class UserSavedCard extends React.Component {
@@ -82,6 +86,12 @@ export default class UserSavedCard extends React.Component {
   };
 
   render() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    const userData = JSON.parse(userDetails);
     if (this.props.profile.loading) {
       this.props.showSecondaryLoader();
     } else {
@@ -93,36 +103,70 @@ export default class UserSavedCard extends React.Component {
     ) {
       return (
         <div className={styles.base}>
-          {this.props.profile.savedCards.savedCardDetailsMap &&
-            this.props.profile.savedCards.savedCardDetailsMap.map((data, i) => {
-              let cardNumber = `${data.value.cardISIN}xx xxxx ${
-                data.value.cardEndingDigits
-              }`.replace(CARD_FORMAT, " ");
-              let cardHolderName = data.value.nameOnCard
-                ? data.value.nameOnCard
-                : "";
-              return (
-                <div className={styles.cardHolder}>
-                  <SavedPaymentCard
-                    key={i}
-                    bankLogo={""}
-                    bankName={data.value.cardIssuer}
-                    cardLogo={this.getCardLogo(data.value.cardBrand)}
-                    cardName={data.value.cardType}
-                    cardHolderName={cardHolderName}
-                    validityDate={`${data.value.expiryMonth}/${
-                      data.value.expiryYear
-                    }`}
-                    cardNumber={cardNumber}
-                    cardImage={data.cardImage}
-                    onChangeCvv={(cvv, cardNo) => this.onChangeCvv(cvv, cardNo)}
-                    removeSavedCardDetails={() =>
-                      this.removeSavedCardDetails(data.value.cardToken)
+          <div className={myAccountStyles.holder}>
+            <MediaQuery query="(min-device-width: 1025px)">
+              <div className={myAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            </MediaQuery>
+            <div className={styles.saveCardDetail}>
+              <div className={styles.saveCardDetailWithHolder}>
+                {this.props.profile.savedCards.savedCardDetailsMap &&
+                  this.props.profile.savedCards.savedCardDetailsMap.map(
+                    (data, i) => {
+                      let cardNumber = `${data.value.cardISIN}xx xxxx ${
+                        data.value.cardEndingDigits
+                      }`.replace(CARD_FORMAT, " ");
+                      let cardHolderName = data.value.nameOnCard
+                        ? data.value.nameOnCard
+                        : "";
+                      return (
+                        <div className={styles.cardHolder}>
+                          <SavedPaymentCard
+                            key={i}
+                            bankLogo={""}
+                            bankName={data.value.cardIssuer}
+                            cardLogo={this.getCardLogo(data.value.cardBrand)}
+                            cardName={data.value.cardType}
+                            cardHolderName={cardHolderName}
+                            validityDate={`${data.value.expiryMonth}/${
+                              data.value.expiryYear
+                            }`}
+                            cardNumber={cardNumber}
+                            cardImage={data.cardImage}
+                            onChangeCvv={(cvv, cardNo) =>
+                              this.onChangeCvv(cvv, cardNo)
+                            }
+                            removeSavedCardDetails={() =>
+                              this.removeSavedCardDetails(data.value.cardToken)
+                            }
+                          />
+                        </div>
+                      );
                     }
-                  />
-                </div>
-              );
-            })}
+                  )}
+              </div>
+            </div>
+            <MediaQuery query="(min-device-width: 1025px)">
+              <div className={myAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                />
+              </div>
+            </MediaQuery>
+          </div>
         </div>
       );
     } else {
