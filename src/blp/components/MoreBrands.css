@@ -27,3 +27,18 @@
   display: inline-block;
   vertical-align: middle;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  .headerText {
+    width: 40%;
+    text-align: left;
+    font-family: semibold;
+  }
+  .buttonHolder {
+    width: 60%;
+    text-align: right;
+  }
+}

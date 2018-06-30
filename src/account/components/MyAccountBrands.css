@@ -11,3 +11,28 @@
   width: 100%;
   height: auto;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    display: inline-block;
+    min-height: 100vh;
+    background-color: #ececec;
+    padding: 80px 0px 0px 0px;
+  }
+  .brandDetailWithHolder {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    padding: 0px 30px 60px 30px;
+  }
+  .brandDetail {
+    width: 60%;
+    margin: auto;
+    display: inline-block;
+    padding: 0px 15px 0px 15px;
+    max-width: 720px;
+    border-radius: 4px;
+  }
+  .brandsHolder {
+    margin-top: 25px;
+  }
+}
