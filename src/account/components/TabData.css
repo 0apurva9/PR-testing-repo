@@ -24,7 +24,6 @@
 }
 .active {
   composes: base;
-  color: #ff1744;
   font-family: semibold;
   opacity: 1;
 }
@@ -38,4 +37,9 @@
   left: 0;
   opacity: 1;
   transition: 300ms;
+}
+@media screen and (max-width: 1024px) {
+  .active {
+    color: #ff1744;
+  }
 }

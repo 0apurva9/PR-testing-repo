@@ -10,6 +10,7 @@ import {
   MY_ACCOUNT_UPDATE_PROFILE_PAGE,
   MY_ACCOUNT_ALERTS_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
+  MY_ACCOUNT_COUPON_PAGE,
   SAVE_LIST_PAGE
 } from "../../lib/constants";
 import savedList from "../../general/components/img/download.svg";
@@ -55,7 +56,10 @@ export default class PofileMenuGridForDesktop extends React.Component {
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`) {
       selected = "Saved Payments";
     }
-    if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`) {
+    if (
+      pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}` ||
+      pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`
+    ) {
       selected = "Alerts & Coupons";
     }
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`) {
@@ -108,7 +112,8 @@ export default class PofileMenuGridForDesktop extends React.Component {
       },
       {
         image:
-          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`
+          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}` ||
+          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`
             ? alertsCouponsRed
             : alertsCoupons,
         text: "Alerts & Coupons",

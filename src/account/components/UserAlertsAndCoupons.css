@@ -2,6 +2,7 @@
   width: 100%;
   height: auto;
   display: inline-block;
+  min-height: 100vh;
 }
 .tabHeader {
   width: 100%;
@@ -10,6 +11,30 @@
   width: 100%;
   height: auto;
   background-color: #ececec;
-  padding: 15px;
   margin-top: 15px;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    background-color: #ececec;
+    padding: 80px 0px 0px 0px;
+  }
+  .alertAndCouponDetailsWithHolder {
+    width: 100%;
+    height: auto;
+  }
+  .alertAndCouponDetail {
+    width: 60%;
+    margin: auto;
+    display: inline-block;
+    padding: 0px 20px;
+    max-width: 720px;
+  }
+  .tabBody {
+    padding-top: 20px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .tabBody {
+    padding: 15px;
+  }
 }

@@ -48,3 +48,12 @@
   color: #000000;
   color: var(--black);
 }
+@media screen and (min-width: 1025px) {
+  .lebelText {
+    font-family: light;
+    padding-left: 40px;
+  }
+  .dayAgo {
+    composes: lebelText;
+  }
+}

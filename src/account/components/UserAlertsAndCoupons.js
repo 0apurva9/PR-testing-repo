@@ -15,14 +15,17 @@ import {
   LOGIN_PATH,
   ALERTS_COUPON
 } from "../../lib/constants";
-
 import * as styles from "./UserAlertsAndCoupons.css";
 import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ALERTS,
   ADOBE_MY_ACCOUNT_COUPONS
 } from "../../lib/adobeUtils";
-
+import MediaQuery from "react-responsive";
+import ProfileMenu from "./ProfileMenu";
+import UserProfile from "./UserProfile";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import * as myAccountStyles from "./MyAccountDesktop.css";
 const URL_PATH_ALERTS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`;
 const URL_PATH_COUPONS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`;
 const COUPONS = "coupons";
@@ -71,31 +74,67 @@ export default class UserAlertsAndCoupons extends React.Component {
     } else if (pathname === URL_PATH_COUPONS) {
       currentActivePath = COUPONS;
     }
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails = JSON.parse(userDetailsCookie);
     return (
       <div className={styles.base}>
-        <div className={styles.tabHeader}>
-          <TabHolder>
-            <TabData
-              width="50%"
-              label="Alerts"
-              selected={currentActivePath === ALERTS}
-              selectItem={() => this.renderToAlerts()}
-            />
-            <TabData
-              width="50%"
-              label="Coupons "
-              selected={currentActivePath === COUPONS}
-              selectItem={() => this.renderToCoupons()}
-            />
-          </TabHolder>
-        </div>
-        <div className={styles.tabBody}>
-          {currentActivePath === ALERTS && (
-            <UserAlerts userAlerts={this.props.userAlerts} />
-          )}
-          {currentActivePath === COUPONS && (
-            <UserCoupons userCoupons={this.props.userCoupons} />
-          )}
+        <div className={myAccountStyles.holder}>
+          <DesktopOnly>
+            <div className={myAccountStyles.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+          </DesktopOnly>
+          <div className={styles.alertAndCouponDetail}>
+            <div className={styles.alertAndCouponDetailsWithHolder}>
+              <div className={styles.tabHeader}>
+                <TabHolder>
+                  <TabData
+                    width="50%"
+                    label="Alerts"
+                    selected={currentActivePath === ALERTS}
+                    selectItem={() => this.renderToAlerts()}
+                  />
+                  <TabData
+                    width="50%"
+                    label="Coupons "
+                    selected={currentActivePath === COUPONS}
+                    selectItem={() => this.renderToCoupons()}
+                  />
+                </TabHolder>
+              </div>
+              <div className={styles.tabBody}>
+                {currentActivePath === ALERTS && (
+                  <UserAlerts userAlerts={this.props.userAlerts} />
+                )}
+                {currentActivePath === COUPONS && (
+                  <UserCoupons userCoupons={this.props.userCoupons} />
+                )}
+              </div>
+            </div>
+          </div>
+          <DesktopOnly>
+            <div className={myAccountStyles.userProfile}>
+              <UserProfile
+                image={userDetails.imageUrl}
+                onClick={() => this.renderToAccountSetting()}
+                firstName={
+                  userDetails &&
+                  userDetails.firstName &&
+                  userDetails.firstName.trim().charAt(0)
+                }
+                heading={
+                  userDetails &&
+                  userDetails.firstName &&
+                  `${userDetails.firstName} `
+                }
+                lastName={
+                  userDetails &&
+                  userDetails.lastName &&
+                  `${userDetails.lastName}`
+                }
+              />
+            </div>
+          </DesktopOnly>
         </div>
       </div>
     );
