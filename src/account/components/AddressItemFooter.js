@@ -1,9 +1,12 @@
 import React from "react";
-import styles from "./OrderReturn.css";
+import styles from "./AddressItemFooter.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import ColourButton from "../../general/components/ColourButton";
 import PropTypes from "prop-types";
-export default class OrderReturn extends React.Component {
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
+import Button from "../../general/components/Button";
+export default class AddressItemFooter extends React.Component {
   editAddress() {
     if (this.props.editAddress) {
       this.props.editAddress();
@@ -27,19 +30,34 @@ export default class OrderReturn extends React.Component {
         </div>
         {this.props.isEditable && (
           <div className={styles.reviewHolder}>
-            <div className={styles.review} onClick={() => this.editAddress()}>
-              <UnderLinedButton
-                label={this.props.underlineButtonLabel}
-                color={this.props.underlineButtonColour}
-              />
-            </div>
+            <MobileOnly>
+              <div className={styles.review} onClick={() => this.editAddress()}>
+                <UnderLinedButton
+                  label={this.props.underlineButtonLabel}
+                  color={this.props.underlineButtonColour}
+                />
+              </div>
+            </MobileOnly>
+            <DesktopOnly>
+              <div className={styles.updateButtonHolder}>
+                <div className={styles.updateButton}>
+                  <Button
+                    type="hollow"
+                    color="#000"
+                    label={"Edit"}
+                    width={150}
+                    onClick={() => this.editAddress()}
+                  />
+                </div>
+              </div>
+            </DesktopOnly>
           </div>
         )}
       </div>
     );
   }
 }
-OrderReturn.propTypes = {
+AddressItemFooter.propTypes = {
   underlineButtonColour: PropTypes.string,
   underlineButtonLabel: PropTypes.string,
   buttonLabel: PropTypes.string,
@@ -47,7 +65,7 @@ OrderReturn.propTypes = {
   writeReview: PropTypes.func,
   isEditable: PropTypes.bool
 };
-OrderReturn.defaultProps = {
+AddressItemFooter.defaultProps = {
   underlineButtonLabel: "Delete",
   buttonLabel: "Edit",
   underlineButtonColour: "#ff1744",

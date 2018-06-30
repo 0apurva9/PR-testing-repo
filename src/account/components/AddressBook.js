@@ -11,6 +11,7 @@ import {
   LOGGED_IN_USER_DETAILS
 } from "../../lib/constants.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -74,17 +75,40 @@ export default class AddressBook extends React.Component {
                         <div className={styles.name}>{`${address.firstName} ${
                           address.lastName
                         }`}</div>
-                        <div className={styles.address}>{`${
-                          address.line1 ? address.line1 : ""
-                        }, ${address.landmark ? address.landmark : ""}, ${
-                          address.city ? address.city : ""
-                        }, ${address.state ? address.state : ""} ,${
-                          address.postalCode ? address.postalCode : ""
-                        } ,${
-                          address.country && address.country.isocode
-                            ? address.country.isocode
-                            : ""
-                        }`}</div>
+                        <MobileOnly>
+                          <div className={styles.address}>{`${
+                            address.line1 ? address.line1 : ""
+                          }, ${address.landmark ? address.landmark : ""}, ${
+                            address.city ? address.city : ""
+                          }, ${address.state ? address.state : ""} ,${
+                            address.postalCode ? address.postalCode : ""
+                          } ,${
+                            address.country && address.country.isocode
+                              ? address.country.isocode
+                              : ""
+                          }`}</div>
+                        </MobileOnly>
+                        <DesktopOnly>
+                          <div className={styles.address}>{`${
+                            address.line1 ? address.line1 : ""
+                          },  ${
+                            address.landmark && address.landmark
+                              ? address.landmark
+                              : ""
+                          }`}</div>
+                          <div className={styles.address}>{` ${
+                            address.city ? address.city : ""
+                          } ,${
+                            address.state && address.state ? address.state : ""
+                          }`}</div>
+                          <div className={styles.address}>{` ${
+                            address.postalCode ? address.postalCode : ""
+                          } ,${
+                            address.country && address.country.isocode
+                              ? address.country.isocode
+                              : ""
+                          }`}</div>
+                        </DesktopOnly>
                         <div className={styles.phoneNumber}>{`Ph. ${
                           address.phone
                         }`}</div>

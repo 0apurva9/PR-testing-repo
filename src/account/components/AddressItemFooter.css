@@ -1,0 +1,56 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+.replaceHolder {
+  height: auto;
+  display: inline-block;
+}
+.replace {
+  font-size: 14px;
+  display: inline-block;
+}
+.reviewHolder {
+  height: auto;
+  display: inline-block;
+  text-align: right;
+}
+.review {
+  font-size: 14px;
+  display: inline-block;
+}
+.reviewDesible {
+  composes: review;
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media screen and (min-width: 1025px) {
+  .updateButtonHolder {
+    width: 100%;
+    height: auto;
+    text-align: right;
+  }
+  .updateButton {
+    display: inline-block;
+  }
+  .replaceHolder {
+    text-align: right;
+    width: 70%;
+  }
+  .reviewHolder {
+    width: 30%;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .replaceHolder {
+    text-align: left;
+    width: 50%;
+  }
+  .replace {
+    opacity: 0.5;
+  }
+  .reviewHolder {
+    width: 50%;
+  }
+}
