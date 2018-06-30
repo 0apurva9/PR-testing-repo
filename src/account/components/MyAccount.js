@@ -10,7 +10,6 @@ import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import styles from "./MyAccount.css";
-import MediaQuery from "react-responsive";
 import LogoutButtonContainer from "../containers/LogoutButtonContainer";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
@@ -28,7 +27,8 @@ import {
   FAQ_URL,
   HELP_URL
 } from "../../lib/constants";
-
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayer,
@@ -82,7 +82,7 @@ export default class MyAccount extends React.Component {
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
-          <MediaQuery query="(max-device-width: 1024px)">
+          <MobileOnly>
             <ProfileMenuGrid {...this.props} />
             <div className={styles.accountHolder}>
               <AccountSetting
@@ -108,12 +108,12 @@ export default class MyAccount extends React.Component {
                 <LogoutButtonContainer />
               </div>
             </div>
-          </MediaQuery>
-          <MediaQuery query="(min-device-width: 1025px)">
+          </MobileOnly>
+          <DesktopOnly>
             <div className={MyAccountStyles.profileMenu}>
               <ProfileMenu {...this.props} />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
           <div className={styles.orderDetail}>
             <div className={styles.orderDetailsWithHolder}>
               <div className={styles.tabHolder}>
@@ -225,7 +225,7 @@ export default class MyAccount extends React.Component {
               </div>
             </div>
           </div>
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userDetails.imageUrl}
@@ -247,7 +247,7 @@ export default class MyAccount extends React.Component {
                 }
               />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
         </div>
       </div>
     );

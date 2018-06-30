@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import Logo from "../../general/components/Logo";
 import styles from "./SavedPaymentCard.css";
 import SavedCardItemFooter from "./SavedCardItemFooter.js";
-import MediaQuery from "react-responsive";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class SavedPaymentCard extends React.Component {
   replaceItem() {
     if (this.props.replaceItem) {
@@ -51,28 +52,28 @@ export default class SavedPaymentCard extends React.Component {
               </div>
             </div>
             <div className={styles.cardNameAndValidityHolder}>
-              <MediaQuery query="(max-device-width: 1024px)">
+              <MobileOnly>
                 <div className={styles.nameOfCardHolder}>
                   <div className={styles.dataHeader}>Name on card</div>
                   <div className={styles.dataHolder}>
                     {this.props.cardHolderName}
                   </div>
                 </div>
-              </MediaQuery>
+              </MobileOnly>
               <div className={styles.validityHolder}>
                 <div className={styles.dataHeader}>Validity</div>
                 <div className={styles.dataHolder}>
                   {this.props.validityDate}
                 </div>
               </div>
-              <MediaQuery query="(min-device-width: 1025px)">
+              <DesktopOnly>
                 <div className={styles.nameOfCardHolder}>
                   <div className={styles.dataHeader}>Name on card</div>
                   <div className={styles.dataHolder}>
                     {this.props.cardHolderName}
                   </div>
                 </div>
-              </MediaQuery>
+              </DesktopOnly>
             </div>
           </div>
         </div>
