@@ -34,7 +34,6 @@ import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_DETAILS
 } from "../../lib/adobeUtils";
-import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
@@ -141,19 +140,9 @@ export default class OrderDetails extends React.Component {
 
   navigateToLogin() {
     const url = this.props.location.pathname;
-    if (this.props.setUrlToRedirectToAfterAuth) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
+    this.props.setUrlToRedirectToAfterAuth(url);
 
-    if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-      }
-
-      return null;
-    }
+    return <Redirect to={LOGIN_PATH} />;
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {

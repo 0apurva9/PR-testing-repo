@@ -12,7 +12,6 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import UserProfile from "./UserProfile";
-
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -51,19 +50,7 @@ export default class SaveListDetails extends React.Component {
     this.props.setHeaderText(SAVED_LIST);
   }
   navigateToLogin() {
-    const url = this.props.location.pathname;
-    if (this.props.setUrlToRedirectToAfterAuth) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
-
-    if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    return <Redirect to={LOGIN_PATH} />;
   }
   addToBagItem(ussid, productcode) {
     const productDetails = {};

@@ -7,8 +7,6 @@ import {
 } from "../actions/account.actions";
 import { SUCCESS, MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW } from "../../lib/constants";
 import { setHeaderText } from "../../general/header.actions";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
     getFollowedBrands: () => {
@@ -25,12 +23,6 @@ const mapDispatchToProps = dispatch => {
           MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW
         )
       );
-    },
-    showAuthPopUp: () => {
-      dispatch(showModal(DESKTOP_AUTH));
-    },
-    setUrlToRedirectToAfterAuth: url => {
-      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

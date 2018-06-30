@@ -7,8 +7,7 @@ import { setHeaderText } from "../../general/header.actions";
 import {
   UPDATE_REFUND_DETAILS_POPUP,
   ORDER_DETAILS_MODAL,
-  showModal,
-  DESKTOP_AUTH
+  showModal
 } from "../../general/modal.actions";
 import {
   showSecondaryLoader,
@@ -44,9 +43,6 @@ const mapDispatchToProps = dispatch => {
     },
     showShippingDetails: data => {
       dispatch(showModal(ORDER_DETAILS_MODAL, data));
-    },
-    showAuthPopUp: () => {
-      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };

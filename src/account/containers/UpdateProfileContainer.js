@@ -11,11 +11,8 @@ import { withRouter } from "react-router-dom";
 import EditAccountDetails from "../components/EditAccountDetails.js";
 import { displayToast } from "../../general/toast.actions";
 import { SUCCESS } from "../../lib/constants.js";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
-
 const mapDispatchToProps = dispatch => {
   return {
     getUserDetails: () => {
@@ -48,12 +45,6 @@ const mapDispatchToProps = dispatch => {
     },
     displayToast: message => {
       dispatch(displayToast(message));
-    },
-    showAuthPopUp: () => {
-      dispatch(showModal(DESKTOP_AUTH));
-    },
-    setUrlToRedirectToAfterAuth: url => {
-      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

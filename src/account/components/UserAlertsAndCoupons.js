@@ -6,7 +6,6 @@ import UserAlerts from "./UserAlerts";
 import UserCoupons from "./UserCoupons";
 import Loader from "../../general/components/Loader";
 import * as Cookie from "../../lib/Cookie";
-import * as UserAgent from "../../lib/UserAgent.js";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ALERTS_PAGE,
@@ -44,19 +43,7 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     } else {
-      const url = this.props.location.pathname;
-      if (this.props.setUrlToRedirectToAfterAuth) {
-        this.props.setUrlToRedirectToAfterAuth(url);
-      }
-
-      if (UserAgent.checkUserAgentIsMobile()) {
-        this.props.history.push(LOGIN_PATH);
-      } else {
-        if (this.props.showAuthPopUp) {
-          this.props.showAuthPopUp();
-          return null;
-        }
-      }
+      this.props.history.push(LOGIN_PATH);
     }
   }
   componentDidUpdate() {

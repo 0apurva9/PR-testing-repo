@@ -8,6 +8,7 @@ import ShopByBrandLists from "../../blp/components/ShopByBrandLists.js";
 import CheckboxAndText from "../../cart/components/CheckboxAndText.js";
 import AccountFooter from "./AccountFooter.js";
 import format from "date-fns/format";
+
 import { LOG_OUT_USER_SUCCESS } from "../actions/account.actions.js";
 import ChangePassword from "./ChangePassword.js";
 import * as Cookie from "../../lib/Cookie";
@@ -23,7 +24,6 @@ import {
   ERROR,
   REQUESTING
 } from "../../lib/constants";
-
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const OLD_PASSWORD_TEXT = "Please enter old password";
