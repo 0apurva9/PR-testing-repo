@@ -6,8 +6,6 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
 import BankOfferTNCModal from "../../cart/components/BankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
-import DesktopAuth from "../../auth/components/DesktopAuth.js";
-
 import * as Cookie from "../../lib/Cookie.js";
 import {
   LOGGED_IN_USER_DETAILS,
@@ -176,6 +174,14 @@ const CliqCashAndNoCostEmiPopup = Loadable({
     return <Loader />;
   }
 });
+
+const DesktopAuth = Loadable({
+  loader: () => import("../../auth/components/DesktopAuth.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
