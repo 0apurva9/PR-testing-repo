@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./OrderDelivered.css";
 import PropTypes from "prop-types";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class OrderDelivered extends React.Component {
   render() {
     let deliveredAddress, address;
@@ -8,7 +10,6 @@ export default class OrderDelivered extends React.Component {
       address = this.props.deliveredAddress;
       deliveredAddress = address.trim();
     }
-
     return (
       <div className={styles.base}>
         {deliveredAddress && (
@@ -16,9 +17,35 @@ export default class OrderDelivered extends React.Component {
             <div className={styles.deliveredTo}>
               {`${this.props.orderDeliveryHeaderText} :`}
             </div>
-            <div className={styles.address}>{this.props.deliveredAddress}</div>
+            <MobileOnly>
+              <div className={styles.address}>
+                {this.props.deliveredAddress}
+              </div>
+            </MobileOnly>
           </div>
         )}
+        <DesktopOnly>
+          <React.Fragment>
+            <div className={styles.deliveredTo}>
+              {`${this.props.orderDeliveryHeaderText} :`}
+            </div>
+            {this.props.deliveredAddress1 && (
+              <div className={styles.address}>
+                {this.props.deliveredAddress1}
+              </div>
+            )}
+            {this.props.deliveredAddress2 && (
+              <div className={styles.address}>
+                {this.props.deliveredAddress2}
+              </div>
+            )}
+            {this.props.deliveredAddress3 && (
+              <div className={styles.address}>
+                {this.props.deliveredAddress3}
+              </div>
+            )}
+          </React.Fragment>
+        </DesktopOnly>
         {this.props.deliveredDate && (
           <div className={styles.deliverDateHolder}>
             <div className={styles.labelText}>Delivered on:</div>

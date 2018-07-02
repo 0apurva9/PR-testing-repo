@@ -42,6 +42,27 @@
   .base {
     padding: 22px 0px 70px 0px;
   }
+  .order {
+    padding: 30px;
+    float: left;
+  }
+  .priceAndInfoHolder {
+    width: 100%;
+    height: auto;
+    float: left;
+    padding-top: 25px;
+    border-top: 1px solid #ececec;
+  }
+  .deliverLeftHolder {
+    width: 50%;
+    height: auto;
+    float: left;
+  }
+  .priceRightHolder {
+    width: 50%;
+    height: auto;
+    float: right;
+  }
 }
 @media screen and (max-width: 1024px) {
   .base {

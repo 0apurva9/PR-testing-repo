@@ -55,3 +55,14 @@
   composes: deliverDateHolder;
   margin-bottom: 0px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 0px;
+  }
+  .deliveredTo {
+    font-family: regular;
+  }
+  .address {
+    font-family: light;
+  }
+}

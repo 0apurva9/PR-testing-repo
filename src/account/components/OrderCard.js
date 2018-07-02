@@ -5,6 +5,8 @@ import CheckBox from "../../general/components/CheckBox.js";
 import styles from "./OrderCard.css";
 import { RUPEE_SYMBOL, NO } from "../../lib/constants";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class OrderCard extends React.Component {
   onClick() {
     if (this.props.onClick) {
@@ -28,6 +30,13 @@ export default class OrderCard extends React.Component {
           />
         </div>
         <div className={styles.productDetails}>
+          <DesktopOnly>
+            {this.props.productBrand && (
+              <div className={styles.productBrand}>
+                {this.props.productBrand}
+              </div>
+            )}
+          </DesktopOnly>
           <div
             className={
               this.props.isSelect ? styles.withCheckBox : styles.productName
