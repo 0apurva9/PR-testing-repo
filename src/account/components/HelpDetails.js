@@ -48,10 +48,12 @@ export default class HelpDetails extends React.Component {
             onClick={() => this.onClick(FAQ_URL)}
           >
             <div className={styles.helpCardWithIcon}>
-              <div className={styles.iconWithTextHolder}>
-                <div className={styles.iconHolder}>
-                  <Icon image={faqIcon} size={25} />
-                </div>
+              <div className={styles.faq}>
+                <MobileOnly>
+                  <div className={styles.iconHolder}>
+                    <Icon image={faqIcon} size={25} />
+                  </div>
+                </MobileOnly>
                 FAQ
               </div>
             </div>
@@ -62,10 +64,12 @@ export default class HelpDetails extends React.Component {
               onClick={() => this.onClick(CONTACT_URL)}
             >
               <div className={styles.helpCardWithIcon}>
-                <div className={styles.iconWithTextHolder}>
-                  <div className={styles.iconHolder}>
-                    <Icon image={faqIcon} size={25} />
-                  </div>
+                <div className={styles.contactUs}>
+                  <MobileOnly>
+                    <div className={styles.iconHolder}>
+                      <Icon image={faqIcon} size={25} />
+                    </div>
+                  </MobileOnly>
                   Contact us
                 </div>
               </div>
@@ -75,10 +79,12 @@ export default class HelpDetails extends React.Component {
               onClick={() => this.onClickCustomerCare()}
             >
               <div className={styles.helpCardWithIcon}>
-                <div className={styles.iconWithTextHolder}>
-                  <div className={styles.iconHolder}>
-                    <Icon image={customerCareIcon} size={25} />
-                  </div>
+                <div className={styles.customerCare}>
+                  <MobileOnly>
+                    <div className={styles.iconHolder}>
+                      <Icon image={customerCareIcon} size={25} />
+                    </div>
+                  </MobileOnly>
                   Customer care
                 </div>
               </div>
@@ -130,10 +136,12 @@ export default class HelpDetails extends React.Component {
             onClick={() => this.onClick(ABOUT_US_URL)}
           >
             <div className={styles.helpCardWithIcon}>
-              <div className={styles.iconWithTextHolder}>
-                <div className={styles.iconHolder}>
-                  <Icon image={aboutUsIcon} size={25} />
-                </div>
+              <div className={styles.aboutUs}>
+                <MobileOnly>
+                  <div className={styles.iconHolder}>
+                    <Icon image={aboutUsIcon} size={25} />
+                  </div>
+                </MobileOnly>
                 About us
               </div>
             </div>

@@ -87,12 +87,33 @@ a {
     position: absolute;
     left: 0;
     right: 0;
-    top: 40%;
+    top: 50%;
     transform: translateY(-50%);
     margin: auto;
-    padding-top: 60px;
+    padding-top: 50px;
     font-family: regular;
     font-size: 20px;
+    line-height: 51px;
+  }
+  .faq {
+    composes: iconWithTextHolder;
+    background: url(./img/faqred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .customerCare {
+    composes: iconWithTextHolder;
+    background: url(./img/callred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .aboutUs {
+    composes: iconWithTextHolder;
+    background: url(./img/aboutusred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .contactUs {
+    composes: iconWithTextHolder;
+    background: url(./img/faqred.svg) no-repeat;
+    background-position: center 20px;
   }
   .bannerHolder {
     padding-bottom: 27%;
