@@ -7,14 +7,12 @@
 }
 .addressBlock {
   background: #fff;
-  margin: 10px;
   border-radius: 4px;
 }
 .addressHolder {
   width: 100%;
   height: auto;
   display: inline-block;
-  padding: 15px;
   border-bottom: 1px solid #ececec;
 }
 .name {
@@ -29,7 +27,7 @@
   width: 100%;
   height: auto;
   color: #000;
-  font-family: regular;
+  font-family: light;
   line-height: 20px;
   font-size: 14px;
 }
@@ -37,12 +35,12 @@
   width: 100%;
   height: auto;
   font-size: 14px;
-  font-family: regular;
+  font-family: light;
 }
 .actionHolder {
   width: 100%;
   height: auto;
-  padding: 15px;
+
   display: inline-block;
 }
 .buttonHolder {
@@ -64,4 +62,54 @@
   margin: 10px;
   padding: 20px;
   border-radius: 4px;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    display: inline-block;
+    min-height: 100vh;
+    background-color: #ececec;
+    padding: 80px 0px 0px 0px;
+  }
+  .editAccountDetail {
+    width: 60%;
+    margin: auto;
+    display: inline-block;
+    padding: 0px 22px;
+    max-width: 720px;
+    border-radius: 4px;
+  }
+  .addressHolder {
+    padding: 28px;
+  }
+  .editAccountDetailWithHolder {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .addressBlock {
+    margin-bottom: 22px;
+  }
+  .buttonHolder {
+    height: 265px;
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .actionHolder {
+    padding: 30px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .addressHolder {
+    padding: 15px;
+  }
+  .addressBlock {
+    margin: 10px;
+  }
+  .actionHolder {
+    padding: 15px;
+  }
 }
