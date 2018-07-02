@@ -72,6 +72,7 @@ export default class MultiClickBanner extends React.Component {
 MultiClickBanner.propTypes = {
   backgroundColor: PropTypes.string,
   backgroundImage: PropTypes.string,
+  positionInFeed: PropTypes.number,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       backgroundImage: PropTypes.string,
