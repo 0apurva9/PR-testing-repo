@@ -1,0 +1,91 @@
+.base{
+  width:25px;
+  height:25px;
+  position:relative;
+  cursor:pointer;
+}
+.background{
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  margin:auto;
+  background:#ff1744;
+  border-radius:50%;
+  transition:200ms;
+  transition-timing-function: ease-in;
+}
+.icon{
+  width:10px;
+  height:10px;
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  margin:auto;
+}
+.icon:before{
+  content:"";
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  background:#fff;
+  border-radius:50%;
+  transition:200ms;
+}
+.icon:after{
+  content:"";
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  background:url("../../pdp/components/img/order-historyWhite.svg")no-repeat;
+  background-position:center;
+  background-size:contain;
+  opacity:0;
+  transition:200ms;
+}
+.content{
+  width:auto;
+  position:absolute;
+  top:0;
+  left:50%;
+  opacity:0;
+  transition:200ms;
+  padding-bottom:25px;
+  transform:translateY(-80%) translateX(-50%);
+  transition-delay:100ms;
+  pointer-events:none;
+}
+.bold{
+  text-align:center;
+  font-size:14px;
+  font-family:semibold;
+  color:#212121;
+  white-space: nowrap;
+}
+.light{
+  composes:bold;
+  font-family:light;
+  margin-top:10px;
+}
+.base:hover .background{
+  transform:scale(2.4)
+}
+.base:hover .content{
+  transform:translateY(-100%) translateX(-50%);
+  opacity:1;
+}
+.base:hover .icon:before{
+  opacity:0;
+}
+.base:hover .icon:after{
+  opacity:1;
+  transform:scale(2.4)
+}
