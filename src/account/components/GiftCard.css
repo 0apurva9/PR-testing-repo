@@ -4,6 +4,10 @@
   display: inline-block;
   padding: 0px 0px 60px 0px;
 }
+.listMobile {
+  width: 100%;
+  height: auto;
+}
 .giftCardImageHolder {
   width: 100%;
   height: auto;
@@ -187,4 +191,111 @@
   background: url(./img/59.svg) no-repeat;
   background-size: auto 40px;
   background-position: 4px -2px;
+}
+.inputTextHolder {
+  width: 100%;
+  height: auto;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 0px;
+  }
+  .giftCardHeader {
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-size: 30px;
+    font-family: semibold;
+  }
+  .giftCardImageHolder {
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;
+    padding-bottom: 25%;
+    position: sticky;
+    top: 90px;
+  }
+  .giftCardDataHolder {
+    width: 60%;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 15%;
+    background: #fff;
+    padding-right: 10%;
+  }
+  .listDesktop {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    position: relative;
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 40px;
+  }
+  .formCard {
+    margin-bottom: 0px;
+    padding: 25px 0px 0px;
+  }
+  .displayAmountHolder {
+    width: 100%;
+    height: auto;
+    padding: 20px 0px 0px;
+  }
+  .amountHeading {
+    color: #212121;
+    font-family: regular;
+    font-size: 30px;
+  }
+  .amountSubHeading {
+    color: #9b9b9b;
+    font-size: 14px;
+    font-family: regular;
+  }
+  .labelHeader {
+    width: 15%;
+    height: 33px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 33px;
+    margin-bottom: 0px;
+    font-family: semibold;
+  }
+  .inputTextHolder {
+    width: 85%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .selectHolder {
+    width: 100%;
+  }
+  .quantityValue {
+    width: 15%;
+    margin-left: 10px;
+  }
+  .buttonBuyNow {
+    width: 100%;
+    height: auto;
+    margin-top: 30px;
+  }
+  .copyRightText {
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-size: 14px;
+    font-family: light;
+    margin-top: 30px;
+  }
+  .highlitedText {
+    font-family: semibold;
+  }
+  .note {
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 30px;
+    font-family: light;
+  }
 }
