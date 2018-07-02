@@ -10,11 +10,12 @@ export default class ShopeByPriceDesktop extends React.Component {
     this.props.history.push(urlSuffix);
   };
   render() {
+    const { feedComponentData } = this.props;
     return (
       <div className={styles.base}>
         <Carousel header="Shope By Price" elementWidthDesktop={50}>
-          {this.props.items &&
-            this.props.items.map((datum, i) => {
+          {feedComponentData.items &&
+            feedComponentData.items.map((datum, i) => {
               return (
                 <BannerLink
                   key={i}

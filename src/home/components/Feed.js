@@ -119,7 +119,24 @@ const LatestCollections = Loadable({
     return <div />;
   }
 });
-
+const ShopeByPriceDesktopComponent = Loadable({
+  loader: () => import("../../home/components/ShopeByPriceDesktop"),
+  loading() {
+    return <div />;
+  }
+});
+const DiscoverMoreL2DesktopComponent = Loadable({
+  loader: () => import("../../home/components/DiscoverMoreL2Desktop"),
+  loading() {
+    return <div />;
+  }
+});
+const PopularBrandsDesktopComponent = Loadable({
+  loader: () => import("../../general/components/PopularBrandsDesktop"),
+  loading() {
+    return <div />;
+  }
+});
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -159,9 +176,17 @@ export const typeComponentMapping = {
     <CuratedProductsComponent {...props} />
   ),
   "Sub Brands Banner Component": props => <SubBrandsBanner {...props} />,
+  "Desktop Sub Brands Component": props => <SubBrandsBanner {...props} />,
   "Landing Page Hierarchy": props => <AllBrandTypes {...props} />,
   "Landing Page Hierarchy Component": props => <AllBrandTypes {...props} />,
   "CMS Paragraph Component": props => <CMSParagraphComponent {...props} />,
+  "Banner And Links Component": props => (
+    <ShopeByPriceDesktopComponent {...props} />
+  ),
+  L2: props => <DiscoverMoreL2DesktopComponent {...props} />,
+  // "Desktop Popular Brands Component": props => (
+  //   <PopularBrandsDesktopComponent {...props} />
+  // ),
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
@@ -240,6 +265,7 @@ class Feed extends Component {
 
   renderFeedComponent = (index, key) => {
     const feedDatum = this.props.homeFeedData[index];
+    console.log(feedDatum.type);
     if (feedDatum.type === "Product Capsules Component") {
       return <ProductCapsulesContainer positionInFeed={index} />;
     }
@@ -269,6 +295,7 @@ class Feed extends Component {
         setClickedElementId
       };
     }
+    // console.log(feedDatum);
     return (
       typeComponentMapping[feedDatum.type] && (
         <WidgetContainer {...props}>
@@ -280,9 +307,11 @@ class Feed extends Component {
   };
 
   renderFeedComponents() {
+    console.log("call me iun render");
     return (
       this.props.homeFeedData &&
       this.props.homeFeedData.map((feedDatum, i) => {
+        debugger;
         return this.renderFeedComponent(feedDatum, i);
       })
     );
@@ -337,6 +366,7 @@ class Feed extends Component {
     }
   }
   render() {
+    // console.log(this.props);
     if (this.props.loading) {
       return <HomeSkeleton />;
     }

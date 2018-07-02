@@ -31,9 +31,10 @@ export default class PopularBrandsDesktop extends React.Component {
     });
   }
   slideForward() {
+    const { feedComponentData } = this.props;
     if (
-      this.props.items &&
-      this.props.items[this.state.position].brands.length > 6
+      feedComponentData.items &&
+      feedComponentData.items[this.state.position].brands.length > 6
     ) {
       const position = this.state.position + 1;
       this.setState({ position });
@@ -41,8 +42,13 @@ export default class PopularBrandsDesktop extends React.Component {
   }
   render() {
     let currentActivePopularBrands = [];
-    if (this.props.items && this.props.items[this.state.isSelect]) {
-      currentActivePopularBrands = this.props.items[this.state.isSelect];
+    const { feedComponentData } = this.props;
+    console.log(feedComponentData);
+    if (
+      feedComponentData.items &&
+      feedComponentData.items[this.state.isSelect]
+    ) {
+      currentActivePopularBrands = feedComponentData.items[this.state.isSelect];
     }
     const translationAmount = -(16.66 * this.state.position);
     const transform = `translateX(${translationAmount}%)`;
@@ -72,17 +78,18 @@ export default class PopularBrandsDesktop extends React.Component {
 
         <div className={styles.staticElement}>
           <div className={styles.headerTabHolder}>
-            {this.props.items.map((val, i) => {
-              return (
-                <BrandsItem
-                  label={val.title}
-                  value={i}
-                  key={i}
-                  selectItem={() => this.switchTab(i)}
-                  selected={this.state.isSelect === i}
-                />
-              );
-            })}
+            {feedComponentData &&
+              feedComponentData.items.map((val, i) => {
+                return (
+                  <BrandsItem
+                    label={val.title}
+                    value={i}
+                    key={i}
+                    selectItem={() => this.switchTab(i)}
+                    selected={this.state.isSelect === i}
+                  />
+                );
+              })}
           </div>
         </div>
 

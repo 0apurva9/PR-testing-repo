@@ -5,11 +5,16 @@ import styles from "./DiscoverMoreL2Desktop.css";
 import PropTypes from "prop-types";
 export default class DiscoverMoreL2Desktop extends React.Component {
   render() {
+    const { feedComponentData, title } = this.props;
+
     return (
       <div className={styles.base}>
-        <Carousel header={this.props.title} elementWidthDesktop={33.33}>
-          {this.props.data &&
-            this.props.data.map((datum, i) => {
+        <Carousel
+          header={feedComponentData && feedComponentData.title}
+          elementWidthDesktop={33.33}
+        >
+          {feedComponentData.items &&
+            feedComponentData.items.map((datum, i) => {
               return (
                 <DiscoverMoreComponentDesktop
                   imageURL={datum.imageURL}

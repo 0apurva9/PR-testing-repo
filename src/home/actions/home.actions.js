@@ -613,7 +613,6 @@ export function getComponentData(
 
         result = await api.postMsd(fetchURL, postData);
         resultJson = await result.json();
-
         if (resultJson.errors) {
           throw new Error(`${resultJson.errors[0].message}`);
         }
@@ -644,12 +643,12 @@ export function getComponentData(
           null,
           false
         );
-
         resultJson = resultJson[0];
         if (resultJson.errors) {
           throw new Error(`${resultJson.errors[0].message}`);
         }
         let parsedResultJson = JSON.parse(resultJson.content);
+
         parsedResultJson = parsedResultJson.items[0];
         if (feedType === SECONDARY_FEED_TYPE) {
           dispatch(
