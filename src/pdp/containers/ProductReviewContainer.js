@@ -12,7 +12,9 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+
 const mapDispatchToProps = dispatch => {
   return {
     addProductToCart: (userId, cartId, accessToken, productDetails) => {
@@ -36,6 +38,10 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));

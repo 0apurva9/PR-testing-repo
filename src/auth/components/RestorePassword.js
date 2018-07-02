@@ -5,6 +5,7 @@ import Button from "../../xelpmoc-core/Button";
 import Icon from "../../xelpmoc-core/Icon";
 import lockIcon from "./img/lock.svg";
 import Input from "../../general/components/Input";
+import MediaQuery from "react-responsive";
 import { default as styles } from "./AuthPopUp.css";
 import { default as ownStyles } from "./RestorePassword.css";
 export default class RestorePassword extends React.Component {
@@ -34,11 +35,13 @@ export default class RestorePassword extends React.Component {
   render() {
     return (
       <AuthPopUp>
-        <div className={ownStyles.iconHolder}>
-          <div className={ownStyles.icon}>
-            <Icon image={lockIcon} size={30} />
+        <MediaQuery query="(max-device-width:1024px)">
+          <div className={ownStyles.iconHolder}>
+            <div className={ownStyles.icon}>
+              <Icon image={lockIcon} size={30} />
+            </div>
           </div>
-        </div>
+        </MediaQuery>
         <div className={styles.header}>Reset your password</div>
         <div className={styles.content}>
           Please enter your email address or phone number to reset your password
@@ -53,34 +56,71 @@ export default class RestorePassword extends React.Component {
             }}
           />
         </div>
-        <div className={styles.button}>
-          <div className={ownStyles.submit}>
-            <Button
-              label={"Reset"}
-              width={150}
-              height={40}
-              borderRadius={20}
-              backgroundColor={"#FF1744"}
-              onClick={() => this.handleRestoreClick()}
-              loading={this.props.loading}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-            />
-          </div>
-        </div>
-        <div className={styles.button}>
-          <div className={ownStyles.cancel}>
-            <Button
-              label={"Cancel"}
-              onClick={() => this.handleCancelClick()}
-              backgroundColor="transparent"
-              width={100}
-              height={40}
-              borderRadius={20}
-              loading={this.props.loading}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-            />
-          </div>
-        </div>
+        <React.Fragment>
+          <MediaQuery query="(max-device-width:1024px)">
+            <div className={styles.button}>
+              <div className={ownStyles.submit}>
+                <Button
+                  label={"Reset"}
+                  width={150}
+                  height={40}
+                  borderRadius={20}
+                  backgroundColor={"#FF1744"}
+                  onClick={() => this.handleRestoreClick()}
+                  loading={this.props.loading}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
+                />
+              </div>
+            </div>
+            <div className={styles.button}>
+              <div className={ownStyles.cancel}>
+                <Button
+                  label={"Cancel"}
+                  onClick={() => this.handleCancelClick()}
+                  backgroundColor="transparent"
+                  width={100}
+                  height={40}
+                  borderRadius={20}
+                  loading={this.props.loading}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
+                />
+              </div>
+            </div>
+          </MediaQuery>
+          <MediaQuery query="(min-device-width: 1025px)">
+            <div className={ownStyles.desktopButtonHolder}>
+              <div className={ownStyles.leftButton}>
+                <Button
+                  label={"Reset"}
+                  width={180}
+                  height={40}
+                  borderRadius={20}
+                  backgroundColor={"#FF1744"}
+                  onClick={() => this.handleRestoreClick()}
+                  loading={this.props.loading}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
+                />
+              </div>
+              <div className={ownStyles.rightButton}>
+                <Button
+                  label={"Cancel"}
+                  onClick={() => this.handleCancelClick()}
+                  backgroundColor="transparent"
+                  borderColor={"#000000"}
+                  width={180}
+                  height={40}
+                  borderRadius={20}
+                  loading={this.props.loading}
+                  textStyle={{
+                    color: "#000000",
+                    fontSize: 14,
+                    fontFamily: "regular"
+                  }}
+                />
+              </div>
+            </div>
+          </MediaQuery>
+        </React.Fragment>
       </AuthPopUp>
     );
   }

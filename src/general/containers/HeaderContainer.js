@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import HeaderWrapper from "../components/HeaderWrapper";
 import { setHeaderText } from "../header.actions.js";
 import { showFilter, hideFilter } from "../../plp/actions/plp.actions.js";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
     setHeaderText: text => {
@@ -13,6 +15,12 @@ const mapDispatchToProps = dispatch => {
     },
     hideFilter: () => {
       dispatch(hideFilter());
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

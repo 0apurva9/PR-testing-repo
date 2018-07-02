@@ -12,6 +12,7 @@ import {
   SIGN_UP_PATH,
   LOGIN_PATH
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class AuthFrame extends React.Component {
   goBack() {
     if (this.props.goBack) {
@@ -28,48 +29,56 @@ export default class AuthFrame extends React.Component {
     this.props.history.push(urlSuffix);
   };
   render() {
+    const style = UserAgent.checkUserAgentIsMobile()
+      ? styles.base
+      : styles.baseForDesktop;
     return (
-      <div className={styles.base}>
-        {this.props.showCrossIcon && (
-          <div className={styles.goBack} onClick={() => this.goBack()} />
-        )}
-        {this.props.showLogo && (
-          <div className={styles.center}>
-            <div className={styles.logo}>
-              <Icon image={tataLogo} size={65} backgroundSize="auto 50px" />
-            </div>
-          </div>
-        )}
-
-        {this.props.children}
-        {this.props.showSocialButtons && (
-          <div className={styles.socialButtons}>
-            <SocialButtonsContainer isSignUp={this.props.isSignUp} />
-          </div>
-        )}
-
-        {this.props.footerText && (
-          <div className={styles.navigateButtonHolder}>
-            <div className={styles.footer}>{this.props.footerText}</div>
-            <div className={styles.signUpButtonHolder}>
-              <div className={styles.signUpButton}>
-                <CoreButton
-                  backgroundColor={"transparent"}
-                  borderRadius={100}
-                  color="#fff"
-                  label={this.props.buttonLabel}
-                  width={148}
-                  height={46}
-                  textStyle={{ fontFamily: "semibold" }}
-                  borderColor="#fff"
-                  onClick={() => this.footerClick()}
-                />
+      <div className={style}>
+        {this.props.showCrossIcon &&
+          UserAgent.checkUserAgentIsMobile() && (
+            <div className={styles.goBack} onClick={() => this.goBack()} />
+          )}
+        {this.props.showLogo &&
+          UserAgent.checkUserAgentIsMobile() && (
+            <div className={styles.center}>
+              <div className={styles.logo}>
+                <Icon image={tataLogo} size={65} backgroundSize="auto 50px" />
               </div>
             </div>
-          </div>
-        )}
+          )}
+
+        {this.props.children}
+        {this.props.showSocialButtons &&
+          UserAgent.checkUserAgentIsMobile() && (
+            <div className={styles.socialButtons}>
+              <SocialButtonsContainer isSignUp={this.props.isSignUp} />
+            </div>
+          )}
+
+        {this.props.footerText &&
+          UserAgent.checkUserAgentIsMobile() && (
+            <div className={styles.navigateButtonHolder}>
+              <div className={styles.footer}>{this.props.footerText}</div>
+              <div className={styles.signUpButtonHolder}>
+                <div className={styles.signUpButton}>
+                  <CoreButton
+                    backgroundColor={"transparent"}
+                    borderRadius={100}
+                    color="#fff"
+                    label={this.props.buttonLabel}
+                    width={148}
+                    height={46}
+                    textStyle={{ fontFamily: "semibold" }}
+                    borderColor="#fff"
+                    onClick={() => this.footerClick()}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         {this.props.location &&
-          this.props.location.pathname === LOGIN_PATH && (
+          this.props.location.pathname === LOGIN_PATH &&
+          UserAgent.checkUserAgentIsMobile() && (
             <div className={styles.legalLinkHolder}>
               <div className={styles.linkLabel}>
                 <div

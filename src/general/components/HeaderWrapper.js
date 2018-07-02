@@ -23,7 +23,7 @@ import {
   CHECKOUT_ROUTER_THANKYOU,
   APP_VIEW
 } from "../../../src/lib/constants";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
 export default class HeaderWrapper extends React.Component {
   constructor(props) {
@@ -95,7 +95,20 @@ export default class HeaderWrapper extends React.Component {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       if (!userDetails || !customerCookie) {
-        this.props.history.push(LOGIN_PATH);
+        const url = this.props.location.pathname;
+        if (this.props.setUrlToRedirectToAfterAuth) {
+          this.props.setUrlToRedirectToAfterAuth(url);
+        }
+
+        if (UserAgent.checkUserAgentIsMobile()) {
+          this.props.history.push(LOGIN_PATH);
+        } else {
+          if (this.props.showAuthPopUp) {
+            this.props.showAuthPopUp();
+          }
+
+          return null;
+        }
       } else {
         this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
       }

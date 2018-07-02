@@ -113,7 +113,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const pathName = this.props.location.pathname;
+    const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
     let footerClick;
     let showSocialButtons;
@@ -189,7 +189,7 @@ class SignUp extends Component {
               <MediaQuery query="(min-device-width: 1025px)">
                 <Button
                   label={"Sign Up"}
-                  width={200}
+                  width={180}
                   height={40}
                   borderColor={"#000000"}
                   borderRadius={20}

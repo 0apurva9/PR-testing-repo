@@ -8,7 +8,7 @@ import Button from "../../general/components/Button";
 import { CUSTOMER_ACCESS_TOKEN, LOGIN_PATH } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 let buttonColor = "#212121";
 class WriteReview extends React.Component {
   constructor(props) {
@@ -51,8 +51,18 @@ class WriteReview extends React.Component {
         });
       } else {
         const url = this.props.location.pathname;
-        this.props.setUrlToRedirectToAfterAuth(url);
-        this.props.history.push(LOGIN_PATH);
+        if (this.props.setUrlToRedirectToAfterAuth) {
+          this.props.setUrlToRedirectToAfterAuth(url);
+        }
+
+        if (UserAgent.checkUserAgentIsMobile()) {
+          this.props.history.push(LOGIN_PATH);
+        } else {
+          if (this.props.showAuthPopUp) {
+            this.props.showAuthPopUp();
+            return null;
+          }
+        }
       }
     }
   };

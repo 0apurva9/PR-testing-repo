@@ -18,6 +18,7 @@ import {
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils";
 import * as Cookie from "../../lib/Cookie";
+import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -100,8 +101,18 @@ class ProductReviewPage extends Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
       const url = this.props.location.pathname;
-      this.props.setUrlToRedirectToAfterAuth(url);
-      this.props.history.push(LOGIN_PATH);
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     } else {
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
@@ -136,6 +147,10 @@ class ProductReviewPage extends Component {
         <WriteReview
           onSubmit={val => this.onSubmit(val)}
           onCancel={() => this.onCancel()}
+          showAuthPopUp={() => this.props.showAuthPopUp()}
+          setUrlToRedirectToAfterAuth={url =>
+            this.props.setUrlToRedirectToAfterAuth(url)
+          }
         />
       );
     }

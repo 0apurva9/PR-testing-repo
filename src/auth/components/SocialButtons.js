@@ -5,9 +5,9 @@ import MediaQuery from "react-responsive";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import Icon from "../../xelpmoc-core/Icon";
 import facebookImage from "./img/facebook.svg";
-import desktopFacebookImage from "./img/facebook_desktop.svg";
+import desktopFacebookImage from "./img/facebookForDesktop.svg";
 import googlePlus from "./img/googlePlus.svg";
-import desktopGooglePlus from "./img/googlePlus_desktop.svg";
+import desktopGooglePlus from "./img/googleForDesktop.svg";
 import PropTypes from "prop-types";
 
 import { SOCIAL_SIGN_UP, HOME_ROUTER } from "../../lib/constants";
@@ -75,6 +75,7 @@ export default class SocialButtons extends Component {
   };
 
   render() {
+    let width = window.innerWidth;
     let titleText =
       this.props.type === SOCIAL_SIGN_UP
         ? this.props.titleTextSignIp
@@ -89,18 +90,18 @@ export default class SocialButtons extends Component {
             <div className={styles.holder}>
               <CircleButton
                 color={"rgba(0,0,0,0)"}
-                size={50}
+                size={130}
                 onClick={this.facebookLogin}
-                icon={<Icon image={desktopFacebookImage} size={50} />}
+                icon={<Icon image={desktopFacebookImage} size={130} />}
               />
             </div>
             <div className={styles.separator} />
             <div className={styles.holder}>
               <CircleButton
                 color={"rgba(0,0,0,0)"}
-                size={50}
+                size={130}
                 onClick={this.googlePlusLogin}
-                icon={<Icon image={desktopGooglePlus} size={50} />}
+                icon={<Icon image={desktopGooglePlus} size={130} />}
               />
             </div>
           </div>

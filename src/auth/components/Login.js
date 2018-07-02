@@ -11,7 +11,6 @@ import {
   MY_ACCOUNT_CART_PAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
-
 import AuthFrame from "./AuthFrame.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 
@@ -143,7 +142,7 @@ class Login extends Component {
   }
 
   render() {
-    const pathName = this.props.location.pathname;
+    const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
     let footerClick;
     let showSocialButtons;
