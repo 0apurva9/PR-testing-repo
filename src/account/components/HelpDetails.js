@@ -29,6 +29,7 @@ export default class HelpDetails extends React.Component {
   componentDidUpdate() {
     this.props.setHeaderText(HELP);
   }
+  onClickCustomerCare() {}
   onClick = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -69,6 +70,19 @@ export default class HelpDetails extends React.Component {
                 </div>
               </div>
             </div>
+            <div
+              className={styles.helpCard}
+              onClick={() => this.onClickCustomerCare()}
+            >
+              <div className={styles.helpCardWithIcon}>
+                <div className={styles.iconWithTextHolder}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={customerCareIcon} size={25} />
+                  </div>
+                  Customer care
+                </div>
+              </div>
+            </div>
           </DesktopOnly>
           <MobileOnly>
             <div
@@ -98,17 +112,19 @@ export default class HelpDetails extends React.Component {
               </div>
               Returns
             </div>
-          </MobileOnly>
-          <div className={styles.helpCardCall}>
-            <div className={styles.helpCardWithIcon}>
-              <div className={styles.iconWithTextHolder}>
-                <div className={styles.iconHolder}>
-                  <Icon image={customerCareIcon} size={25} />
+
+            <div className={styles.helpCardCall}>
+              <div className={styles.helpCardWithIcon}>
+                <div className={styles.iconWithTextHolder}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={customerCareIcon} size={25} />
+                  </div>
+
+                  <a href="tel:9029108282">Call Customer care</a>
                 </div>
-                <a href="tel:9029108282">Call Customer care</a>
               </div>
             </div>
-          </div>
+          </MobileOnly>
           <div
             className={styles.helpCard}
             onClick={() => this.onClick(ABOUT_US_URL)}
