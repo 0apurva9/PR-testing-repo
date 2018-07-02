@@ -16,8 +16,11 @@ import {
   CANCEL_URL,
   RETURN_URL,
   FAQ_URL,
+  CONTACT_URL,
   HELP
 } from "../../lib/constants";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class HelpDetails extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(HELP);
@@ -43,53 +46,81 @@ export default class HelpDetails extends React.Component {
             className={styles.helpCard}
             onClick={() => this.onClick(FAQ_URL)}
           >
-            <div className={styles.iconHolder}>
-              <Icon image={faqIcon} size={25} />
+            <div className={styles.helpCardWithIcon}>
+              <div className={styles.iconWithTextHOlder}>
+                <div className={styles.iconHolder}>
+                  <Icon image={faqIcon} size={25} />
+                </div>
+                FAQ
+              </div>
             </div>
-            FAQ
           </div>
-          <div
-            className={styles.helpCard}
-            onClick={() => this.goToOrdersPage()}
-          >
-            <div className={styles.iconHolder}>
-              <Icon image={trackOrderIcon} size={25} />
+          <DesktopOnly>
+            <div
+              className={styles.helpCard}
+              onClick={() => this.onClick(CONTACT_URL)}
+            >
+              <div className={styles.helpCardWithIcon}>
+                <div className={styles.iconWithTextHOlder}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={faqIcon} size={25} />
+                  </div>
+                  Contact us
+                </div>
+              </div>
             </div>
-            Track Order
-          </div>
-          <div
-            className={styles.helpCard}
-            onClick={() => this.onClick(CANCEL_URL)}
-          >
-            <div className={styles.iconHolder}>
-              <Icon image={cancelIcon} size={25} />
+          </DesktopOnly>
+          <MobileOnly>
+            <div
+              className={styles.helpCard}
+              onClick={() => this.goToOrdersPage()}
+            >
+              <div className={styles.iconHolder}>
+                <Icon image={trackOrderIcon} size={25} />
+              </div>
+              Track Order
             </div>
-            Cancellations
-          </div>
-          <div
-            className={styles.helpCard}
-            onClick={() => this.onClick(RETURN_URL)}
-          >
-            <div className={styles.iconHolder}>
-              <Icon image={returnIcon} size={25} />
+            <div
+              className={styles.helpCard}
+              onClick={() => this.onClick(CANCEL_URL)}
+            >
+              <div className={styles.iconHolder}>
+                <Icon image={cancelIcon} size={25} />
+              </div>
+              Cancellations
             </div>
-            Returns
-          </div>
+            <div
+              className={styles.helpCard}
+              onClick={() => this.onClick(RETURN_URL)}
+            >
+              <div className={styles.iconHolder}>
+                <Icon image={returnIcon} size={25} />
+              </div>
+              Returns
+            </div>
+          </MobileOnly>
           <div className={styles.helpCardCall}>
-            <div className={styles.iconHolder}>
-              <Icon image={customerCareIcon} size={25} />
+            <div className={styles.helpCardWithIcon}>
+              <div className={styles.iconWithTextHOlder}>
+                <div className={styles.iconHolder}>
+                  <Icon image={customerCareIcon} size={25} />
+                </div>
+                <a href="tel:9029108282">Call Customer care</a>
+              </div>
             </div>
-            <a href="tel:9029108282">Call Customer care</a>
           </div>
-
           <div
             className={styles.helpCard}
             onClick={() => this.onClick(ABOUT_US_URL)}
           >
-            <div className={styles.iconHolder}>
-              <Icon image={aboutUsIcon} size={25} />
+            <div className={styles.helpCardWithIcon}>
+              <div className={styles.iconWithTextHOlder}>
+                <div className={styles.iconHolder}>
+                  <Icon image={aboutUsIcon} size={25} />
+                </div>
+                About us
+              </div>
             </div>
-            About us
           </div>
         </div>
       </div>

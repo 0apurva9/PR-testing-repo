@@ -10,22 +10,15 @@
   background: url(./img/hero-banner.png) no-repeat;
   background-size: cover;
   background-position: center;
-  padding-bottom: 146px;
 }
 .helpListHolder {
   width: 100%;
   height: auto;
-  padding: 20px 15px;
 }
 .helpCard {
-  width: 100%;
-  height: 80px;
-  background: #fff;
   margin-bottom: 20px;
   border-radius: 4px;
   position: relative;
-  padding-left: 60px;
-  line-height: 80px;
   color: #212121;
   font-size: 16px;
   font-family: light;
@@ -51,4 +44,65 @@
 a {
   text-decoration: none !important;
   color: initial !important;
+}
+@media screen and (min-width: 1025px) {
+  .helpListHolder {
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 80px;
+  }
+  .helpCard {
+    width: 25%;
+    height: 172px;
+    line-height: 172px;
+    padding-right: 22px;
+    display: inline-block;
+    text-align: center;
+  }
+  .helpCardWithIcon {
+    background: #fff;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .iconHolder {
+    right: 0;
+    left: 0;
+    margin: auto;
+    top: 0;
+  }
+  .iconWithTextHOlder {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    transform: translateY(-50%);
+    margin: auto;
+    padding-top: 60px;
+    font-family: regular;
+    font-size: 20px;
+  }
+  .bannerHolder {
+    padding-bottom: 30%;
+    max-width: 1600px;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .helpCard {
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    padding-left: 60px;
+    line-height: 80px;
+  }
+  .helpListHolder {
+    width: 100%;
+    height: auto;
+    padding: 20px 15px;
+  }
+  .bannerHolder {
+    padding-bottom: 146px;
+  }
 }
