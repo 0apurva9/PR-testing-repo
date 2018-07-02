@@ -57,6 +57,17 @@ url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff
     user-select: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #000 inset;
+    -webkit-text-fill-color: #fff;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
 .amp-carousel-button {display: none;}
 amp-carousel > div::-webkit-scrollbar {display:none}
 .header-backspace {height: 70px; display: block;}
@@ -154,12 +165,16 @@ width: 110px;}
 
 <body>
 <div>
-  <div class="hide-content" [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"></div>
+  <div class="hide-content" on="tap:autoSearch.submit" role="search-submit" tabindex="1"
+    [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"></div>
   <div class="hide-content" [class]="searchClicked ? 'page-search-box' : 'hide-content'">
-    <input id="searchInput" placeholder="What are you looking for?" class="search-input" name="search" type="text" />
+    <form id="autoSearch" method="get" action="/amp/search/?searchCategory=all" target="_top">
+      <input id="searchInput" placeholder="What are you looking for?" class="search-input" name="text" type="text" />
+    </form>
   </div>
+
   <div id="searchClose" class="hide-content" [class]="searchClicked ? 'page-search-close' : 'hide-content'"
-  on="tap:AMP.setState({searchClicked : false}),searchClose.hide" role="search-close" tabindex="0"></div>
+  on="tap:AMP.setState({searchClicked : false}),searchClose.hide,autoSearch.clear" role="search-close" tabindex="0"></div>
 
   <div class="page-left-logo" on="tap:AMP.goBack" role="go-back" tabindex="0"></div>
   <div class="page-right-search" role="search-open" tabindex="0"
