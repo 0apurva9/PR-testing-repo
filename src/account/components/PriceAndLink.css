@@ -56,3 +56,48 @@
   font-family: semibold;
   display: inline-block;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 100%;
+    height: auto;
+    float: left;
+    padding: 0px;
+    border-bottom: none;
+    border-top: none;
+  }
+  .buttonHolder {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: initial;
+    text-align: right;
+  }
+  .priceTextHolder {
+    width: 100%;
+    height: auto;
+    float: left;
+    text-align: right;
+    display: initial;
+    margin-bottom: 10px;
+  }
+  .priceAmount {
+    display: initial;
+    float: left;
+  }
+  .priceHeader {
+    display: initial;
+    float: left;
+    margin-bottom: 6px;
+  }
+  .statusHolder {
+    width: 100%;
+    height: auto;
+    float: left;
+    text-align: right;
+  }
+
+  .statusFailed {
+    display: initial;
+    float: left;
+  }
+}

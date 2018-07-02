@@ -9,6 +9,8 @@ import Button from "../../general/components/Button";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { Redirect } from "react-router-dom";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
 import {
   MY_ACCOUNT,
@@ -153,10 +155,15 @@ export default class AllOrderDetails extends React.Component {
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }
+
     return (
       <div className={styles.base}>
         {orderDetails && orderDetails.orderData
           ? orderDetails.orderData.map((orderDetails, i) => {
+              let userName = `${orderDetails.deliveryAddress.firstName} ${
+                orderDetails.deliveryAddress.lastName
+              }`;
+
               let deliveryAddress =
                 orderDetails.pickupPersonName || orderDetails.pickupPersonMobile
                   ? `${
@@ -225,6 +232,12 @@ export default class AllOrderDetails extends React.Component {
                           orderDetails.products[0] &&
                           orderDetails.products[0].productName
                         }
+                        productBrand={
+                          orderDetails &&
+                          orderDetails.products &&
+                          orderDetails.products[0] &&
+                          orderDetails.products[0].productBrand
+                        }
                         isEgvOrder={orderDetails.isEgvOrder}
                         resendAvailable={orderDetails.resendAvailable}
                         reSendEmailForGiftCard={() =>
@@ -243,24 +256,75 @@ export default class AllOrderDetails extends React.Component {
                         }
                       />
                     )}
-
-                  <PriceAndLink
-                    onViewDetails={() =>
-                      this.onViewDetails(orderDetails && orderDetails.orderId)
-                    }
-                    isEgvOrder={orderDetails.isEgvOrder}
-                    status={orderDetails.giftCardStatus}
-                    price={orderDetails && orderDetails.totalOrderAmount}
-                  />
-
-                  {!orderDetails.isEgvOrder &&
-                    orderDetails &&
-                    orderDetails.billingAddress && (
-                      <OrderDelivered
-                        deliveredAddress={deliveryAddress}
-                        orderDeliveryHeaderText={placeHolder}
+                  <MobileOnly>
+                    <React.Fragment>
+                      <PriceAndLink
+                        onViewDetails={() =>
+                          this.onViewDetails(
+                            orderDetails && orderDetails.orderId
+                          )
+                        }
+                        isEgvOrder={orderDetails.isEgvOrder}
+                        status={orderDetails.giftCardStatus}
+                        price={orderDetails && orderDetails.totalOrderAmount}
                       />
-                    )}
+
+                      {!orderDetails.isEgvOrder &&
+                        orderDetails &&
+                        orderDetails.billingAddress && (
+                          <OrderDelivered
+                            deliveredAddress={deliveryAddress}
+                            orderDeliveryHeaderText={placeHolder}
+                          />
+                        )}
+                    </React.Fragment>
+                  </MobileOnly>
+                  <DesktopOnly>
+                    <div className={styles.priceAndInfoHolder}>
+                      <div className={styles.deliverLeftHolder}>
+                        {!orderDetails.isEgvOrder &&
+                          orderDetails && (
+                            <OrderDelivered
+                              deliveredAddress1={userName}
+                              deliveredAddress2={
+                                orderDetails &&
+                                orderDetails.billingAddress.addressLine1
+                                  ? orderDetails.billingAddress.addressLine1
+                                  : ""
+                              }
+                              deliveredAddress3={`${
+                                orderDetails &&
+                                orderDetails.billingAddress.state
+                                  ? orderDetails.billingAddress.state
+                                  : ""
+                              }, ${
+                                orderDetails && orderDetails.billingAddress.town
+                                  ? orderDetails.billingAddress.town
+                                  : ""
+                              }, ${
+                                orderDetails &&
+                                orderDetails.billingAddress.postalcode
+                                  ? orderDetails.billingAddress.postalcode
+                                  : ""
+                              }`}
+                              orderDeliveryHeaderText={placeHolder}
+                            />
+                          )}
+                      </div>
+                      <div className={styles.priceRightHolder}>
+                        <PriceAndLink
+                          onViewDetails={() =>
+                            this.onViewDetails(
+                              orderDetails && orderDetails.orderId
+                            )
+                          }
+                          isEgvOrder={orderDetails.isEgvOrder}
+                          status={orderDetails.giftCardStatus}
+                          price={orderDetails && orderDetails.totalOrderAmount}
+                        />
+                      </div>
+                    </div>
+                  </DesktopOnly>
                 </div>
               );
             })
