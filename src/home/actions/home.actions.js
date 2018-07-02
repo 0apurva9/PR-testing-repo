@@ -91,7 +91,7 @@ const AUTO_PRODUCT_RECOMMENDATION_COMPONENT =
   "Auto Product Recommendation Component";
 // TODO Followed Widget
 
-const ADOBE_TARGET_HOME_FEED_MBOX_NAME = "mboxPOCTest1"; // for local/devxelp/uat2tmpprod
+const ADOBE_TARGET_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop"; // for local/devxelp/uat2tmpprod
 const ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop";
 const ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "UAT_Mobile_Homepage_Mbox";
 const ADOBE_TARGET_P2_HOME_FEED_NAME_FOR_DESKTOP = "dev_POC_New_UIUX_Desktop";
