@@ -10,6 +10,7 @@ export default class ProductImageAndLogo extends React.Component {
     }
   }
   render() {
+    console.log(this.props);
     return (
       <div className={styles.base} onClick={() => this.handleClick()}>
         <div className={styles.imageCircleHolder}>

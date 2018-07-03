@@ -137,6 +137,12 @@ const PopularBrandsDesktopComponent = Loadable({
     return <div />;
   }
 });
+const SplitBannerForDesktopComponent = Loadable({
+  loader: () => import("../../home/components/SplitBannerForDesktop"),
+  loading() {
+    return <div />;
+  }
+});
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -186,6 +192,9 @@ export const typeComponentMapping = {
   L2: props => <DiscoverMoreL2DesktopComponent {...props} />,
   "Desktop Popular Brands Component": props => (
     <PopularBrandsDesktopComponent {...props} />
+  ),
+  "Split Banner Component": props => (
+    <SplitBannerForDesktopComponent {...props} />
   ),
   "Simple Banner Component": props => {
     return (
