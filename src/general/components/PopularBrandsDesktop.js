@@ -58,7 +58,9 @@ export default class PopularBrandsDesktop extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          <div className={styles.showHeaderText}>{this.props.title}</div>
+          <div className={styles.showHeaderText}>
+            {feedComponentData && feedComponentData.title}
+          </div>
           <div className={styles.nav}>
             <div
               className={styles.back}
@@ -95,6 +97,7 @@ export default class PopularBrandsDesktop extends React.Component {
         <div className={styles.sliderHolder}>
           <div className={styles.slider} style={style}>
             {currentActivePopularBrands &&
+              currentActivePopularBrands.brands &&
               currentActivePopularBrands.brands.map((val, i) => {
                 return (
                   <React.Fragment key={i}>
