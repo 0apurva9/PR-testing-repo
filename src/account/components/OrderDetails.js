@@ -610,7 +610,6 @@ export default class OrderDetails extends React.Component {
                               />
                             </div>
                           </div>
-
                           <div className={styles.reviewHolder}>
                             {products.isReturned && (
                               <div
