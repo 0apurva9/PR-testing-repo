@@ -360,6 +360,8 @@ export default class EditAccountDetails extends React.Component {
               <div className={myAccountStyles.userProfile}>
                 <UserProfile
                   image={userData.imageUrl}
+                  userLogin={userData.userName}
+                  loginType={userData.loginType}
                   onClick={() => this.renderToAccountSetting()}
                   firstName={
                     userData &&

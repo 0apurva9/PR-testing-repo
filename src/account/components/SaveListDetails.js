@@ -186,6 +186,8 @@ export default class SaveListDetails extends React.Component {
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
+                userLogin={userData.userName}
+                loginType={userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&

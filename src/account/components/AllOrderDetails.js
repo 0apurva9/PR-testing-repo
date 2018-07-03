@@ -175,10 +175,8 @@ export default class AllOrderDetails extends React.Component {
     const orderDetails = this.props.profile.orderDetails;
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
-      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     }
     const userData = JSON.parse(userDetails);
-
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -488,6 +486,8 @@ export default class AllOrderDetails extends React.Component {
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
+                userLogin={userData.userName}
+                loginType={userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&

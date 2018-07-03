@@ -115,6 +115,8 @@ export default class UserAlertsAndCoupons extends React.Component {
             <div className={myAccountStyles.userProfile}>
               <UserProfile
                 image={userDetails.imageUrl}
+                userLogin={userDetails.userName}
+                loginType={userDetails.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userDetails &&
