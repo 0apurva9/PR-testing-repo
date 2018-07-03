@@ -21,6 +21,7 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { SUCCESS } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
+
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   CASH_ON_DELIVERY,
@@ -34,6 +35,8 @@ import {
   SHORT_URL_ORDER_DETAIL,
   SEARCH_RESULTS_PAGE,
   PRODUCT_REVIEWS_PATH_SUFFIX,
+  MY_ACCOUNT_ORDERS_PAGE,
+  MY_ACCOUNT_PAGE,
   CANCEL
 } from "../../lib/constants";
 import {
@@ -64,7 +67,7 @@ export default class OrderDetails extends React.Component {
     }
   }
   backToOrderHistory() {
-    this.props.history.goBack();
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
     if (sellerorderno) {
