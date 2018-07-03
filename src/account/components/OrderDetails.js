@@ -171,6 +171,7 @@ export default class OrderDetails extends React.Component {
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
+    const userData = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
     return (
       <div className={styles.base}>
@@ -240,15 +241,17 @@ export default class OrderDetails extends React.Component {
                           </span>
                           <span>{orderDetails.orderId}</span>
                         </div>
-                        <div className={styles.buttonGoToBack}>
-                          <UnderLinedButton
-                            size="14px"
-                            fontFamily="light"
-                            color="#000000"
-                            label="Back to Order History"
-                            onClick={() => this.backToOrderHistory()}
-                          />
-                        </div>
+                        {this.props.history && (
+                          <div className={styles.buttonGoToBack}>
+                            <UnderLinedButton
+                              size="14px"
+                              fontFamily="light"
+                              color="#000000"
+                              label="Back to Order History"
+                              onClick={() => this.backToOrderHistory()}
+                            />
+                          </div>
+                        )}
                       </div>
                     </DesktopOnly>
                     <OrderCard
@@ -471,43 +474,46 @@ export default class OrderDetails extends React.Component {
                     {products.awbPopupLink === AWB_POPUP_FALSE && (
                       <div className={styles.buttonHolder}>
                         <div className={styles.buttonHolderForUpdate}>
-                          <div className={styles.replaceHolder}>
-                            {products.isReturned &&
-                              isOrderReturnable && (
+                          <MobileOnly>
+                            <div className={styles.replaceHolder}>
+                              {products.isReturned &&
+                                isOrderReturnable && (
+                                  <div
+                                    className={styles.review}
+                                    onClick={() =>
+                                      this.replaceItem(
+                                        products.sellerorderno,
+                                        orderDetails.paymentMethod,
+                                        products.transactionId
+                                      )
+                                    }
+                                  >
+                                    <UnderLinedButton
+                                      label={PRODUCT_RETURN}
+                                      color="#000"
+                                    />
+                                  </div>
+                                )}
+
+                              {products.cancel && (
                                 <div
                                   className={styles.review}
                                   onClick={() =>
-                                    this.replaceItem(
-                                      products.sellerorderno,
-                                      orderDetails.paymentMethod,
-                                      products.transactionId
+                                    this.cancelItem(
+                                      products.transactionId,
+                                      products.USSID,
+                                      products.sellerorderno
                                     )
                                   }
                                 >
                                   <UnderLinedButton
-                                    label={PRODUCT_RETURN}
+                                    label={PRODUCT_CANCEL}
                                     color="#000"
                                   />
                                 </div>
                               )}
-                            {products.cancel && (
-                              <div
-                                className={styles.review}
-                                onClick={() =>
-                                  this.cancelItem(
-                                    products.transactionId,
-                                    products.USSID,
-                                    products.sellerorderno
-                                  )
-                                }
-                              >
-                                <UnderLinedButton
-                                  label={PRODUCT_CANCEL}
-                                  color="#000"
-                                />
-                              </div>
-                            )}
-                          </div>
+                            </div>
+                          </MobileOnly>
                           {!isReturned && (
                             <React.Fragment>
                               <MobileOnly>
@@ -525,7 +531,6 @@ export default class OrderDetails extends React.Component {
                                   </div>
                                 </div>
                               </MobileOnly>
-
                               <DesktopOnly>
                                 <div className={styles.writeReviedButton}>
                                   <Button
@@ -548,6 +553,37 @@ export default class OrderDetails extends React.Component {
                               </DesktopOnly>
                             </React.Fragment>
                           )}
+                          <DesktopOnly>
+                            {products.cancel && (
+                              <div
+                                className={styles.cancelProduct}
+                                onClick={() =>
+                                  this.cancelItem(
+                                    products.transactionId,
+                                    products.USSID,
+                                    products.sellerorderno
+                                  )
+                                }
+                              >
+                                {PRODUCT_CANCEL}
+                              </div>
+                            )}
+                            {products.isReturned &&
+                              isOrderReturnable && (
+                                <div
+                                  className={styles.cancelProduct}
+                                  onClick={() =>
+                                    this.replaceItem(
+                                      products.sellerorderno,
+                                      orderDetails.paymentMethod,
+                                      products.transactionId
+                                    )
+                                  }
+                                >
+                                  {PRODUCT_RETURN}
+                                </div>
+                              )}
+                          </DesktopOnly>
                         </div>
                       </div>
                     )}
@@ -617,22 +653,18 @@ export default class OrderDetails extends React.Component {
           <DesktopOnly>
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
-                image={userDetails.imageUrl}
+                image={userData.imageUrl}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
-                  userDetails &&
-                  userDetails.firstName &&
-                  userDetails.firstName.trim().charAt(0)
+                  userData &&
+                  userData.firstName &&
+                  userData.firstName.trim().charAt(0)
                 }
                 heading={
-                  userDetails &&
-                  userDetails.firstName &&
-                  `${userDetails.firstName} `
+                  userData && userData.firstName && `${userData.firstName} `
                 }
                 lastName={
-                  userDetails &&
-                  userDetails.lastName &&
-                  `${userDetails.lastName}`
+                  userData && userData.lastName && `${userData.lastName}`
                 }
               />
             </div>

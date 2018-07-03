@@ -115,4 +115,15 @@
     height: auto;
     float: right;
   }
+  .cancelProduct {
+    width: auto;
+    height: auto;
+    float: right;
+    padding-right: 40px;
+    color: #8d8d8d;
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 35px;
+    cursor: pointer;
+  }
 }
