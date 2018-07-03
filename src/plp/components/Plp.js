@@ -176,8 +176,26 @@ export default class Plp extends React.Component {
       const nextUrl = url.replace("{pageNo}", page + 1);
       return (
         <Helmet>
-          <link rel="next" id="next" href={nextUrl} />
-          <link rel="prev" id="prev" href={prevUrl} />
+          <link
+            rel="next"
+            id="next"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relNext
+                ? this.props.productListings.seo.relNext
+                : nextUrl
+            }
+          />
+          <link
+            rel="prev"
+            id="prev"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relPrev
+                ? this.props.productListings.seo.relPrev
+                : prevUrl
+            }
+          />
         </Helmet>
       );
     }
@@ -203,7 +221,7 @@ export default class Plp extends React.Component {
         }
       });
     }
-
+    console.log(this.props.productListings);
     return (
       this.props.productListings && (
         <div className={styles.base}>
