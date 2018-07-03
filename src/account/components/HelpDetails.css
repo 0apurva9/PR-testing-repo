@@ -15,20 +15,22 @@
 .helpListHolder {
   width: 100%;
   height: auto;
+  width: 100%;
+  height: auto;
   padding: 20px 15px;
 }
 .helpCard {
   width: 100%;
   height: 80px;
-  background: #fff;
   margin-bottom: 20px;
   border-radius: 4px;
   position: relative;
-  padding-left: 60px;
-  line-height: 80px;
   color: #212121;
   font-size: 16px;
   font-family: light;
+  padding-left: 60px;
+  background: #fff;
+  line-height: 80px;
 }
 .helpCardCall {
   composes: helpCard;
@@ -51,4 +53,71 @@
 a {
   text-decoration: none !important;
   color: initial !important;
+}
+@media screen and (min-width: 1025px) {
+  .helpListHolder {
+    max-width: 1200px;
+    margin: auto;
+    padding: 80px 0px 0px 0px;
+  }
+  .helpCard {
+    width: 25%;
+    height: auto;
+    padding-right: 22px;
+    display: inline-block;
+    text-align: center;
+    padding-left: 0px;
+    background: #ececec;
+  }
+  .helpCardWithIcon {
+    background: #fff;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-bottom: 61%;
+  }
+  .iconHolder {
+    right: 0;
+    left: 0;
+    margin: auto;
+    top: 0;
+  }
+  .iconWithTextHolder {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+    padding-top: 50px;
+    font-family: regular;
+    font-size: 20px;
+    line-height: 51px;
+  }
+  .faq {
+    composes: iconWithTextHolder;
+    background: url(./img/faqred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .customerCare {
+    composes: iconWithTextHolder;
+    background: url(./img/callred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .aboutUs {
+    composes: iconWithTextHolder;
+    background: url(./img/aboutusred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .contactUs {
+    composes: iconWithTextHolder;
+    background: url(./img/faqred.svg) no-repeat;
+    background-position: center 20px;
+  }
+  .bannerHolder {
+    padding-bottom: 27%;
+    max-width: 1600px;
+    margin: auto;
+  }
 }

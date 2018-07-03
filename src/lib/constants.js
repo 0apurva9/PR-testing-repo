@@ -230,7 +230,7 @@ export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq-page";
 export const HELP_URL = "/help";
-
+export const CONTACT_URL = "/contact";
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
 export const NET_BANKING_PAYMENT_MODE = "Net banking";
