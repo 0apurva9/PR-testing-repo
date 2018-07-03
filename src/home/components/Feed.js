@@ -309,7 +309,6 @@ class Feed extends Component {
     return (
       this.props.homeFeedData &&
       this.props.homeFeedData.map((feedDatum, i) => {
-        debugger;
         return this.renderFeedComponent(feedDatum, i);
       })
     );

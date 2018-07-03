@@ -43,7 +43,6 @@ export default class PopularBrandsDesktop extends React.Component {
   render() {
     let currentActivePopularBrands = [];
     const { feedComponentData } = this.props;
-    console.log(feedComponentData);
     if (
       feedComponentData.items &&
       feedComponentData.items[this.state.isSelect]
