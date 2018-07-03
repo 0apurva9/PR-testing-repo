@@ -7,7 +7,7 @@ export default class TopSellingBrandSlider extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <Carousel header={this.props.title} elementWidthDesktop={33.33}>
+        <Carousel header={this.props.title} elementWidthDesktop={25}>
           {this.props.data &&
             this.props.data.map((datum, i) => {
               return (
