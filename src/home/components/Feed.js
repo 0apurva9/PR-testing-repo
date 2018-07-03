@@ -184,9 +184,9 @@ export const typeComponentMapping = {
     <ShopeByPriceDesktopComponent {...props} />
   ),
   L2: props => <DiscoverMoreL2DesktopComponent {...props} />,
-  // "Desktop Popular Brands Component": props => (
-  //   <PopularBrandsDesktopComponent {...props} />
-  // ),
+  "Desktop Popular Brands Component": props => (
+    <PopularBrandsDesktopComponent {...props} />
+  ),
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
