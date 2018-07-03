@@ -5,9 +5,12 @@ import styles from "./ShopByPriceDesktop.css";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 export default class ShopeByPriceDesktop extends React.Component {
-  redirectToLink = url => {
+  showSeeAll = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
+    if (this.props.setClickedElementId) {
+      this.props.setClickedElementId();
+    }
   };
   render() {
     const { feedComponentData } = this.props;
@@ -20,10 +23,11 @@ export default class ShopeByPriceDesktop extends React.Component {
                 <BannerLink
                   key={i}
                   image={datum.imageURL}
-                  redirectToLink={() => this.redirectToLink(datum.webURL)}
+                  showSeeAll={() => this.showSeeAll(datum.webURL)}
                   linkHeader={datum.title}
                   subItems={datum.subItems}
                   history={this.props.history}
+                  setClickedElementId={this.props.setClickedElementId}
                 />
               );
             })}

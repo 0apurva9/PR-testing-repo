@@ -190,8 +190,7 @@ export const typeComponentMapping = {
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
-        {" "}
-        <SimpleBannerComponent {...props} />{" "}
+        <SimpleBannerComponent {...props} />
       </div>
     );
   },
@@ -265,7 +264,7 @@ class Feed extends Component {
 
   renderFeedComponent = (index, key) => {
     const feedDatum = this.props.homeFeedData[index];
-    console.log(feedDatum.type);
+
     if (feedDatum.type === "Product Capsules Component") {
       return <ProductCapsulesContainer positionInFeed={index} />;
     }
@@ -295,7 +294,7 @@ class Feed extends Component {
         setClickedElementId
       };
     }
-    // console.log(feedDatum);
+
     return (
       typeComponentMapping[feedDatum.type] && (
         <WidgetContainer {...props}>
@@ -307,7 +306,6 @@ class Feed extends Component {
   };
 
   renderFeedComponents() {
-    console.log("call me iun render");
     return (
       this.props.homeFeedData &&
       this.props.homeFeedData.map((feedDatum, i) => {
@@ -366,7 +364,6 @@ class Feed extends Component {
     }
   }
   render() {
-    // console.log(this.props);
     if (this.props.loading) {
       return <HomeSkeleton />;
     }

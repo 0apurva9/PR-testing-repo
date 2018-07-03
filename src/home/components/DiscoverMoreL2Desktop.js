@@ -23,6 +23,7 @@ export default class DiscoverMoreL2Desktop extends React.Component {
                   btnText={datum.btnText}
                   items={datum.items}
                   history={this.props.history}
+                  setClickedElementId={this.props.setClickedElementId}
                 />
               );
             })}

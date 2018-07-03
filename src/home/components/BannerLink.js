@@ -13,12 +13,11 @@ export default class BannerLink extends React.Component {
   linkDetails = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
-  };
-  redirectToLink() {
-    if (this.props.redirectToLink) {
-      this.props.redirectToLink();
+    if (this.props.setClickedElementId) {
+      this.props.setClickedElementId();
     }
-  }
+  };
+
   render() {
     return (
       <div className={styles.base}>
@@ -31,7 +30,7 @@ export default class BannerLink extends React.Component {
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center"
             }}
-            onClick={() => this.redirectToLink()}
+            onClick={() => this.showSeeAll()}
           />
         </div>
         <div className={styles.linkDetailsHolder}>
