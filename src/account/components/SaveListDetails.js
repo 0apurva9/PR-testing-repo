@@ -8,8 +8,6 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import Button from "../../general/components/Button";
 import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
-import TabHolder from "./TabHolder";
-import TabData from "./TabData";
 import UserProfile from "./UserProfile";
 import {
   CUSTOMER_ACCESS_TOKEN,
@@ -125,36 +123,6 @@ export default class SaveListDetails extends React.Component {
           </DesktopOnly>
           <div className={styles.saveListDetail}>
             <div className={styles.saveListDetailsWithHolder}>
-              <DesktopOnly>
-                <div className={styles.tabHolder}>
-                  <TabHolder>
-                    <TabData
-                      width="40%"
-                      label="Recent Orders "
-                      selected={this.state.isSelected === 0}
-                      selectItem={() => this.tabSelect(0)}
-                    />
-                    <TabData
-                      width="40%"
-                      label="Useful Links "
-                      selected={this.state.isSelected === 3}
-                      selectItem={() => this.tabSelect(3)}
-                    />
-                    <TabData
-                      width="40%"
-                      label="Alerts "
-                      selected={this.state.isSelected === 1}
-                      selectItem={() => this.tabSelect(1)}
-                    />
-                    <TabData
-                      width="40%"
-                      label="Coupons "
-                      selected={this.state.isSelected === 2}
-                      selectItem={() => this.tabSelect(2)}
-                    />
-                  </TabHolder>
-                </div>
-              </DesktopOnly>
               <div className={styles.dataHolder}>
                 {this.props.count > 0 &&
                   wishList &&

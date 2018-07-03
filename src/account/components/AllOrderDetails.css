@@ -38,10 +38,12 @@
   margin: auto;
   display: inline-block;
 }
+.tabHolder {
+  width: 100%;
+  height: 60px;
+  background: #fff;
+}
 @media screen and (min-width: 1025px) {
-  .base {
-    padding: 22px 0px 70px 0px;
-  }
   .order {
     padding: 30px;
     float: left;
@@ -62,6 +64,70 @@
     width: 50%;
     height: auto;
     float: right;
+  }
+  .base {
+    background-color: #ececec;
+    padding: 80px 0px 0px 0px;
+    min-height: 100vh;
+  }
+  .orderDetailsWithHolder {
+    width: 100%;
+    height: auto;
+    padding-top: 80px;
+  }
+  .orderDetail {
+    width: 60%;
+    margin: auto;
+    display: inline-block;
+    padding: 0px 15px 0px 15px;
+    max-width: 720px;
+  }
+  .tabHolder {
+    max-width: 690px;
+    position: fixed;
+    top: 131px;
+    z-index: 20;
+    border-radius: 4px;
+  }
+  .dataHolder {
+    width: 100%;
+    height: auto;
+    background: #ececec;
+  }
+  .alertsHolder {
+    width: 100%;
+    height: auto;
+    padding: 15px 15px 70px;
+    display: inline-block;
+  }
+  .couponHolder {
+    composes: alertsHolder;
+  }
+  .useFulLinkHolder {
+    width: 100%;
+    height: auto;
+    padding: 20px 0px 80px 0px;
+  }
+  .linkTabHolder {
+    width: 100%;
+    height: auto;
+    padding: 10px 0px;
+    background: #fff;
+    margin-top: 20px;
+  }
+  .linkTabHolder:first-child {
+    margin-top: 0px;
+  }
+  .usefulLinkText {
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-size: 16px;
+    font-family: light;
+  }
+  a {
+    text-decoration: none;
+    color: initial;
   }
 }
 @media screen and (max-width: 1024px) {
