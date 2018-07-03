@@ -160,7 +160,16 @@ export default class Plp extends React.Component {
       url = url.replace("{pageNo}", page + 1);
       return (
         <Helmet>
-          <link rel="next" id="next" href={url} />
+          <link
+            rel="next"
+            id="next"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relNext
+                ? this.props.productListings.seo.relNext
+                : url
+            }
+          />
         </Helmet>
       );
     } else if (page === lastPage) {
@@ -168,7 +177,16 @@ export default class Plp extends React.Component {
 
       return (
         <Helmet>
-          <link rel="prev" id="prev" href={url} />
+          <link
+            rel="prev"
+            id="prev"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relPrev
+                ? this.props.productListings.seo.relPrev
+                : url
+            }
+          />
         </Helmet>
       );
     } else if (page > 1 && page < lastPage) {
@@ -221,7 +239,7 @@ export default class Plp extends React.Component {
         }
       });
     }
-    console.log(this.props.productListings);
+
     return (
       this.props.productListings && (
         <div className={styles.base}>
