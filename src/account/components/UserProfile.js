@@ -42,6 +42,11 @@ export default class UserProfile extends React.Component {
               this.props.lastName !== "undefined" &&
               this.props.lastName}
           </div>
+          <div className={styles.login}>
+            {this.props.userLogin && this.props.loginType === "mobile"
+              ? `Ph.: ${this.props.userLogin}`
+              : this.props.userLogin}
+          </div>
         </div>
       </div>
     );
