@@ -176,6 +176,7 @@ export default class OrderDetails extends React.Component {
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
+          {/* this is for profile menu show only desktop */}
           <DesktopOnly>
             <div className={MyAccountStyles.profileMenu}>
               <ProfileMenu {...this.props} />
@@ -474,6 +475,7 @@ export default class OrderDetails extends React.Component {
                     {products.awbPopupLink === AWB_POPUP_FALSE && (
                       <div className={styles.buttonHolder}>
                         <div className={styles.buttonHolderForUpdate}>
+                          {/* showing write a review and cancel or return only for mobile */}
                           <MobileOnly>
                             <div className={styles.replaceHolder}>
                               {products.isReturned &&
@@ -531,6 +533,7 @@ export default class OrderDetails extends React.Component {
                                   </div>
                                 </div>
                               </MobileOnly>
+                              {/* showing write a review only for desktop */}
                               <DesktopOnly>
                                 <div className={styles.writeReviedButton}>
                                   <Button
@@ -553,6 +556,7 @@ export default class OrderDetails extends React.Component {
                               </DesktopOnly>
                             </React.Fragment>
                           )}
+                          {/* showing cancel or return only for desktop */}
                           <DesktopOnly>
                             {products.cancel && (
                               <div
@@ -650,10 +654,13 @@ export default class OrderDetails extends React.Component {
                 );
               })}
           </div>
+          {/* showing user details only for desktop */}
           <DesktopOnly>
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
+                userLogin={userData.userName}
+                loginType={userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&
