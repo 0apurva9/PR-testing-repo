@@ -1685,7 +1685,7 @@ class CheckOutPage extends React.Component {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (address && !address.line1) {
+    if (address && !address.line1.trim()) {
       this.props.displayToast(ADDRESS_TEXT);
       return false;
     }
