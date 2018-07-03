@@ -143,6 +143,12 @@ const SplitBannerForDesktopComponent = Loadable({
     return <div />;
   }
 });
+const TopSellingBrandSliderComponent = Loadable({
+  loader: () => import("../../home/components/TopSellingBrandSlider"),
+  loading() {
+    return <div />;
+  }
+});
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -195,6 +201,9 @@ export const typeComponentMapping = {
   ),
   "Split Banner Component": props => (
     <SplitBannerForDesktopComponent {...props} />
+  ),
+  "Desktop Top Selling Brands Component": props => (
+    <TopSellingBrandSliderComponent {...props} />
   ),
   "Simple Banner Component": props => {
     return (

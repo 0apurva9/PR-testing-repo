@@ -25,7 +25,6 @@ export default class SplitBannerForDesktop extends React.Component {
 
   render() {
     let { feedComponentData } = this.props;
-    console.log(feedComponentData);
     return (
       <div
         className={
