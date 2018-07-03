@@ -6,7 +6,6 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
 import BankOfferTNCModal from "../../cart/components/BankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
-
 import * as Cookie from "../../lib/Cookie.js";
 import {
   LOGGED_IN_USER_DETAILS,
@@ -24,9 +23,11 @@ import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";
 import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
+const DesktopLogin = "DesktopAuth";
 
 const Loader = () => {
   return (
@@ -173,6 +174,14 @@ const CliqCashAndNoCostEmiPopup = Loadable({
     return <Loader />;
   }
 });
+
+const DesktopAuth = Loadable({
+  loader: () => import("../../auth/components/DesktopAuth.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -359,9 +368,13 @@ export default class ModalRoot extends React.Component {
   }
 
   navigateToLogin = url => {
-    this.props.setUrlToRedirectToAfterAuth(url);
     this.handleClose();
-    this.props.history.push(LOGIN_PATH);
+    this.props.setUrlToRedirectToAfterAuth(url);
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+    } else {
+      this.props.showModal(DesktopLogin);
+    }
   };
 
   cancelOrderProduct = (cancelProductDetails, productDetails) => {
@@ -675,7 +688,8 @@ export default class ModalRoot extends React.Component {
           removeNoCostEmi={couponCode => this.props.removeNoCostEmi(couponCode)}
           continueWithNoCostEmi={() => this.handleClose()}
         />
-      )
+      ),
+      DesktopAuth: <DesktopAuth closeModal={() => this.handleClose()} />
     };
 
     let SelectedModal = MODAL_COMPONENTS[this.props.modalType];

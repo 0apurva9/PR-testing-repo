@@ -12,6 +12,7 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants.js";
+import * as UserAgent from "../../lib/UserAgent.js";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
@@ -22,8 +23,18 @@ export default class AddToWishListButton extends React.Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
       const url = this.props.location.pathname;
-      this.props.setUrlToRedirectToAfterAuth(url);
-      this.props.history.push(LOGIN_PATH);
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     } else {
       const { productListingId, winningUssID, wishlistItems } = this.props;
       const indexOfProduct = wishlistItems.findIndex(item => {

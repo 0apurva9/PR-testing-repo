@@ -38,6 +38,7 @@ import {
   setDataLayerForCartDirectCalls,
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
@@ -202,8 +203,18 @@ class CartPage extends React.Component {
 
   navigateToLogin() {
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
+    if (this.props.setUrlToRedirectToAfterAuth) {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
+
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   onClickImage(productCode) {
     if (productCode) {
@@ -270,7 +281,19 @@ class CartPage extends React.Component {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       if (!userDetails || !customerCookie) {
-        this.props.history.push(LOGIN_PATH);
+        const url = this.props.location.pathname;
+        if (this.props.setUrlToRedirectToAfterAuth) {
+          this.props.setUrlToRedirectToAfterAuth(url);
+        }
+
+        if (UserAgent.checkUserAgentIsMobile()) {
+          this.props.history.push(LOGIN_PATH);
+        } else {
+          if (this.props.showAuthPopUp) {
+            this.props.showAuthPopUp();
+            return null;
+          }
+        }
       } else {
         this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
       }

@@ -99,6 +99,7 @@ import {
   ADDRESS_FOR_PLACE_ORDER,
   CART_PATH
 } from "../actions/cart.actions";
+import * as UserAgent from "../../lib/UserAgent.js";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -190,9 +191,24 @@ class CheckOutPage extends React.Component {
     }
   }
   navigateToLogin() {
+
+
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.replace(LOGIN_PATH);
+    if(this.props.setUrlToRedirectToAfterAuth)
+    {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
+
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.replace(LOGIN_PATH);
+    } else {
+      if(this.props.showAuthPopUp)
+      {
+        this.props.showAuthPopUp();
+        return null;
+      }
+
+    }
   }
   navigateUserToMyBagAfter15MinOfpaymentFailure() {
     this.props.displayToast(INVALID_CART_ERROR_MESSAGE);

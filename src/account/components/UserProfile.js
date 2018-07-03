@@ -16,15 +16,24 @@ export default class UserProfile extends React.Component {
       <div className={styles.base}>
         <div className={styles.iconHolder}>
           <div className={styles.holder} />
-          <div className={styles.accountImage}>
-            {this.props.image && <ProfileImage image={this.props.image} />}
-            {name &&
-              name !== "undefined" && (
-                <div className={styles.accountImageText}>
-                  {this.props.firstName}
-                </div>
-              )}
-          </div>
+          {(this.props.image || name) && (
+            <div className={styles.userWithOutIcon}>
+              {this.props.image && <ProfileImage image={this.props.image} />}
+              {name &&
+                name !== "undefined" && (
+                  <div className={styles.accountImageText}>
+                    {this.props.firstName}
+                  </div>
+                )}
+            </div>
+          )}
+          {!this.props.image &&
+            !this.props.firstName &&
+            !this.props.lastName && (
+              <div className={styles.accountImage}>
+                <ProfileImage image={userIcon} size={2} />
+              </div>
+            )}
         </div>
         <div className={styles.headindTextWithLink}>
           <div className={styles.headingText}>
@@ -32,6 +41,11 @@ export default class UserProfile extends React.Component {
             {this.props.lastName &&
               this.props.lastName !== "undefined" &&
               this.props.lastName}
+          </div>
+          <div className={styles.login}>
+            {this.props.userLogin && this.props.loginType === "mobile"
+              ? `Ph.: ${this.props.userLogin}`
+              : this.props.userLogin}
           </div>
         </div>
       </div>

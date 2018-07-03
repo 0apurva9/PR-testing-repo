@@ -9,7 +9,11 @@ import Button from "../../general/components/Button";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { Redirect } from "react-router-dom";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
+import UserCouponsContainer from "../containers/UserCouponsContainer";
+import UserAlertsContainer from "../containers/UserAlertsContainer";
 import {
   MY_ACCOUNT,
   ORDER,
@@ -21,13 +25,26 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
-
-import { HOME_ROUTER } from "../../lib/constants";
+import ProfileMenu from "./ProfileMenu";
+import UserProfile from "./UserProfile";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import {
+  HOME_ROUTER,
+  TERMS_AND_CONDITION_URL,
+  ABOUT_US_URL,
+  PRIVACY_POLICY_URL,
+  FAQ_URL,
+  HELP_URL
+} from "../../lib/constants";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY
 } from "../../lib/adobeUtils";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import AccountUsefulLink from "./AccountUsefulLink.js";
+import TabHolder from "./TabHolder";
+import TabData from "./TabData";
 const dateFormat = "DD MMM YYYY";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
@@ -43,10 +60,13 @@ export default class AllOrderDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showOrder: null
+      showOrder: null,
+      isSelected: 0
     };
   }
-
+  tabSelect(val) {
+    this.setState({ isSelected: val });
+  }
   onClickImage(isEgvOrder, productCode) {
     if (!isEgvOrder && productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
@@ -80,7 +100,10 @@ export default class AllOrderDetails extends React.Component {
       this.props.setHeaderText(ORDER_HISTORY);
     }
   }
-
+  redirectToHelp = url => {
+    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    this.props.history.push(urlSuffix);
+  };
   renderToContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
@@ -153,118 +176,334 @@ export default class AllOrderDetails extends React.Component {
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }
+    const userData = JSON.parse(userDetails);
     return (
       <div className={styles.base}>
-        {orderDetails && orderDetails.orderData
-          ? orderDetails.orderData.map((orderDetails, i) => {
-              let deliveryAddress =
-                orderDetails.pickupPersonName || orderDetails.pickupPersonMobile
-                  ? `${
-                      orderDetails.pickupPersonName
-                        ? orderDetails.pickupPersonName
-                        : ""
-                    }, ${
-                      orderDetails.pickupPersonMobile
-                        ? orderDetails.pickupPersonMobile
-                        : ""
-                    }`
-                  : `${
-                      orderDetails && orderDetails.billingAddress.addressLine1
-                        ? orderDetails.billingAddress.addressLine1
-                        : ""
-                    } ${
-                      orderDetails && orderDetails.billingAddress.town
-                        ? orderDetails.billingAddress.town
-                        : ""
-                    } ${
-                      orderDetails && orderDetails.billingAddress.state
-                        ? orderDetails.billingAddress.state
-                        : ""
-                    } ${
-                      orderDetails && orderDetails.billingAddress.postalcode
-                        ? orderDetails.billingAddress.postalcode
-                        : ""
-                    }`;
-
-              let placeHolder =
-                orderDetails.pickupPersonName || orderDetails.pickupPersonMobile
-                  ? "Pickup Details"
-                  : "Delivery address";
-              let formattedDate = "";
-              if (orderDetails && orderDetails.orderDate) {
-                formattedDate = format(orderDetails.orderDate, dateFormat);
-              }
-              return (
-                <div className={styles.order} key={i}>
-                  <div className={styles.orderIdHolder}>
-                    <OrderPlacedAndId
-                      placedTime={formattedDate}
-                      orderId={orderDetails && orderDetails.orderId}
+        <div className={MyAccountStyles.holder}>
+          <DesktopOnly>
+            <div className={MyAccountStyles.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+          </DesktopOnly>
+          <div className={styles.orderDetail}>
+            <div className={styles.orderDetailsWithHolder}>
+              <DesktopOnly>
+                <div className={styles.tabHolder}>
+                  <TabHolder>
+                    <TabData
+                      width="40%"
+                      label="Recent Orders "
+                      selected={this.state.isSelected === 0}
+                      selectItem={() => this.tabSelect(0)}
+                    />
+                    <TabData
+                      width="40%"
+                      label="Useful Links "
+                      selected={this.state.isSelected === 3}
+                      selectItem={() => this.tabSelect(3)}
+                    />
+                    <TabData
+                      width="40%"
+                      label="Alerts "
+                      selected={this.state.isSelected === 1}
+                      selectItem={() => this.tabSelect(1)}
+                    />
+                    <TabData
+                      width="40%"
+                      label="Coupons "
+                      selected={this.state.isSelected === 2}
+                      selectItem={() => this.tabSelect(2)}
+                    />
+                  </TabHolder>
+                </div>
+              </DesktopOnly>
+              <div className={styles.dataHolder}>
+                {this.state.isSelected === 1 && (
+                  <div className={styles.alertsHolder}>
+                    <UserAlertsContainer />
+                  </div>
+                )}
+                {this.state.isSelected === 2 && (
+                  <div className={styles.couponHolder}>
+                    <UserCouponsContainer
+                      displayToast={message => this.props.displayToast(message)}
                     />
                   </div>
-                  {orderDetails &&
-                    orderDetails.products && (
-                      <OrderCard
-                        imageUrl={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0].imageURL
-                        }
-                        hasProduct={orderDetails && orderDetails.products}
-                        isGiveAway={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].isGiveAway
-                        }
-                        price={orderDetails && orderDetails.totalOrderAmount}
-                        discountPrice={""}
-                        productName={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].productName
-                        }
-                        isEgvOrder={orderDetails.isEgvOrder}
-                        resendAvailable={orderDetails.resendAvailable}
-                        reSendEmailForGiftCard={() =>
-                          this.reSendEmailForGiftCard(orderDetails.orderId)
-                        }
-                        egvCardNumber={orderDetails.egvCardNumber}
+                )}
+                {this.state.isSelected === 3 && (
+                  <div className={styles.useFulLinkHolder}>
+                    <div className={styles.linkTabHolder}>
+                      <a target="_blank" href="https://www.tatacliq.com/que">
+                        <AccountUsefulLink>
+                          <div className={styles.usefulLinkText}>
+                            Que Magazine
+                          </div>
+                        </AccountUsefulLink>
+                      </a>
+                    </div>
+                    <div className={styles.linkTabHolder}>
+                      <AccountUsefulLink
+                        onClick={() => this.redirectToHelp(HELP_URL)}
+                      >
+                        <div className={styles.usefulLinkText}>
+                          Help & Services
+                        </div>
+                      </AccountUsefulLink>
+                      <AccountUsefulLink
+                        onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}
+                      >
+                        <div className={styles.usefulLinkText}>
+                          Privacy policy
+                        </div>
+                      </AccountUsefulLink>
+                      <AccountUsefulLink>
+                        <div className={styles.usefulLinkText}>
+                          <div className={styles.callClass}>
+                            <a href="tel:9029108282">Call Tata CLIQ Care</a>
+                          </div>
+                        </div>
+                      </AccountUsefulLink>
+                      <AccountUsefulLink
                         onClick={() =>
-                          this.onClickImage(
-                            orderDetails.isEgvOrder,
-                            orderDetails &&
-                              orderDetails.products &&
-                              orderDetails.products[0] &&
-                              orderDetails.products.length &&
-                              orderDetails.products[0].productcode
-                          )
+                          this.redirectPage(TERMS_AND_CONDITION_URL)
                         }
-                      />
-                    )}
+                      >
+                        <div className={styles.usefulLinkText}>
+                          Terms & Conditions
+                        </div>
+                      </AccountUsefulLink>
+                      <AccountUsefulLink
+                        onClick={() => this.redirectPage(ABOUT_US_URL)}
+                      >
+                        <div className={styles.usefulLinkText}>About us</div>
+                      </AccountUsefulLink>
+                      <AccountUsefulLink
+                        onClick={() => this.redirectPage(FAQ_URL)}
+                      >
+                        <div className={styles.usefulLinkText}>FAQ</div>
+                      </AccountUsefulLink>
+                    </div>
+                  </div>
+                )}
+                {this.state.isSelected === 0 &&
+                orderDetails &&
+                orderDetails.orderData
+                  ? orderDetails.orderData.map((orderDetails, i) => {
+                      let userName = `${
+                        orderDetails.deliveryAddress.firstName
+                      } ${orderDetails.deliveryAddress.lastName}`;
 
-                  <PriceAndLink
-                    onViewDetails={() =>
-                      this.onViewDetails(orderDetails && orderDetails.orderId)
-                    }
-                    isEgvOrder={orderDetails.isEgvOrder}
-                    status={orderDetails.giftCardStatus}
-                    price={orderDetails && orderDetails.totalOrderAmount}
-                  />
+                      let deliveryAddress =
+                        orderDetails.pickupPersonName ||
+                        orderDetails.pickupPersonMobile
+                          ? `${
+                              orderDetails.pickupPersonName
+                                ? orderDetails.pickupPersonName
+                                : ""
+                            }, ${
+                              orderDetails.pickupPersonMobile
+                                ? orderDetails.pickupPersonMobile
+                                : ""
+                            }`
+                          : `${
+                              orderDetails &&
+                              orderDetails.billingAddress.addressLine1
+                                ? orderDetails.billingAddress.addressLine1
+                                : ""
+                            } ${
+                              orderDetails && orderDetails.billingAddress.town
+                                ? orderDetails.billingAddress.town
+                                : ""
+                            } ${
+                              orderDetails && orderDetails.billingAddress.state
+                                ? orderDetails.billingAddress.state
+                                : ""
+                            } ${
+                              orderDetails &&
+                              orderDetails.billingAddress.postalcode
+                                ? orderDetails.billingAddress.postalcode
+                                : ""
+                            }`;
 
-                  {!orderDetails.isEgvOrder &&
-                    orderDetails &&
-                    orderDetails.billingAddress && (
-                      <OrderDelivered
-                        deliveredAddress={deliveryAddress}
-                        orderDeliveryHeaderText={placeHolder}
-                      />
-                    )}
-                </div>
-              );
-            })
-          : this.renderNoOrder()}
+                      let placeHolder =
+                        orderDetails.pickupPersonName ||
+                        orderDetails.pickupPersonMobile
+                          ? "Pickup Details"
+                          : "Delivery address";
+                      let formattedDate = "";
+                      if (orderDetails && orderDetails.orderDate) {
+                        formattedDate = format(
+                          orderDetails.orderDate,
+                          dateFormat
+                        );
+                      }
+                      return (
+                        <div className={styles.order} key={i}>
+                          <div className={styles.orderIdHolder}>
+                            <OrderPlacedAndId
+                              placedTime={formattedDate}
+                              orderId={orderDetails && orderDetails.orderId}
+                            />
+                          </div>
+                          {orderDetails &&
+                            orderDetails.products && (
+                              <OrderCard
+                                imageUrl={
+                                  orderDetails &&
+                                  orderDetails.products &&
+                                  orderDetails.products[0].imageURL
+                                }
+                                hasProduct={
+                                  orderDetails && orderDetails.products
+                                }
+                                isGiveAway={
+                                  orderDetails &&
+                                  orderDetails.products &&
+                                  orderDetails.products[0] &&
+                                  orderDetails.products[0].isGiveAway
+                                }
+                                price={
+                                  orderDetails && orderDetails.totalOrderAmount
+                                }
+                                discountPrice={""}
+                                productName={
+                                  orderDetails &&
+                                  orderDetails.products &&
+                                  orderDetails.products[0] &&
+                                  orderDetails.products[0].productName
+                                }
+                                productBrand={
+                                  orderDetails &&
+                                  orderDetails.products &&
+                                  orderDetails.products[0] &&
+                                  orderDetails.products[0].productBrand
+                                }
+                                isEgvOrder={orderDetails.isEgvOrder}
+                                resendAvailable={orderDetails.resendAvailable}
+                                reSendEmailForGiftCard={() =>
+                                  this.reSendEmailForGiftCard(
+                                    orderDetails.orderId
+                                  )
+                                }
+                                egvCardNumber={orderDetails.egvCardNumber}
+                                onClick={() =>
+                                  this.onClickImage(
+                                    orderDetails.isEgvOrder,
+                                    orderDetails &&
+                                      orderDetails.products &&
+                                      orderDetails.products[0] &&
+                                      orderDetails.products.length &&
+                                      orderDetails.products[0].productcode
+                                  )
+                                }
+                              />
+                            )}
+                          <MobileOnly>
+                            <React.Fragment>
+                              <PriceAndLink
+                                onViewDetails={() =>
+                                  this.onViewDetails(
+                                    orderDetails && orderDetails.orderId
+                                  )
+                                }
+                                isEgvOrder={orderDetails.isEgvOrder}
+                                status={orderDetails.giftCardStatus}
+                                price={
+                                  orderDetails && orderDetails.totalOrderAmount
+                                }
+                              />
+
+                              {!orderDetails.isEgvOrder &&
+                                orderDetails &&
+                                orderDetails.billingAddress && (
+                                  <OrderDelivered
+                                    deliveredAddress={deliveryAddress}
+                                    orderDeliveryHeaderText={placeHolder}
+                                  />
+                                )}
+                            </React.Fragment>
+                          </MobileOnly>
+                          <DesktopOnly>
+                            <div className={styles.priceAndInfoHolder}>
+                              <div className={styles.deliverLeftHolder}>
+                                {!orderDetails.isEgvOrder &&
+                                  orderDetails && (
+                                    <OrderDelivered
+                                      deliveredAddress1={userName}
+                                      deliveredAddress2={
+                                        orderDetails &&
+                                        orderDetails.billingAddress.addressLine1
+                                          ? orderDetails.billingAddress
+                                              .addressLine1
+                                          : ""
+                                      }
+                                      deliveredAddress3={`${
+                                        orderDetails &&
+                                        orderDetails.billingAddress.state
+                                          ? orderDetails.billingAddress.state
+                                          : ""
+                                      }, ${
+                                        orderDetails &&
+                                        orderDetails.billingAddress.town
+                                          ? orderDetails.billingAddress.town
+                                          : ""
+                                      }, ${
+                                        orderDetails &&
+                                        orderDetails.billingAddress.postalcode
+                                          ? orderDetails.billingAddress
+                                              .postalcode
+                                          : ""
+                                      }`}
+                                      orderDeliveryHeaderText={placeHolder}
+                                    />
+                                  )}
+                              </div>
+                              <div className={styles.priceRightHolder}>
+                                <PriceAndLink
+                                  onViewDetails={() =>
+                                    this.onViewDetails(
+                                      orderDetails && orderDetails.orderId
+                                    )
+                                  }
+                                  isEgvOrder={orderDetails.isEgvOrder}
+                                  status={orderDetails.giftCardStatus}
+                                  price={
+                                    orderDetails &&
+                                    orderDetails.totalOrderAmount
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </DesktopOnly>
+                        </div>
+                      );
+                    })
+                  : this.state.isSelected === 0 && this.renderNoOrder()}
+              </div>
+            </div>
+          </div>
+          <DesktopOnly>
+            <div className={MyAccountStyles.userProfile}>
+              <UserProfile
+                image={userData.imageUrl}
+                userLogin={userData.userName}
+                loginType={userData.loginType}
+                onClick={() => this.renderToAccountSetting()}
+                firstName={
+                  userData &&
+                  userData.firstName &&
+                  userData.firstName.trim().charAt(0)
+                }
+                heading={
+                  userData && userData.firstName && `${userData.firstName} `
+                }
+                lastName={
+                  userData && userData.lastName && `${userData.lastName}`
+                }
+              />
+            </div>
+          </DesktopOnly>
+        </div>
       </div>
     );
   }

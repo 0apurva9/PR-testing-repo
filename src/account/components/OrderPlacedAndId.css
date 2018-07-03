@@ -28,3 +28,20 @@
   composes: orderPlacedHolder;
   margin-bottom: 0px;
 }
+@media screen and (min-width: 1025px) {
+  .dataHolder {
+    width: 100%;
+    height: auto;
+    float: left;
+  }
+  .orderPlacedHolder {
+    width: auto;
+    display: initial;
+    float: left;
+    margin-bottom: 0;
+  }
+  .orderIdHolder {
+    composes: orderPlacedHolder;
+    float: right;
+  }
+}
