@@ -74,3 +74,45 @@
   color: #212121;
   line-height: 24px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 80px 0px;
+  }
+  .orderIdAndPlacedHolder {
+    width: 100%;
+    height: auto;
+    padding-right: 150px;
+    position: relative;
+  }
+  .orderIdHolder {
+    width: 100%;
+    height: auto;
+    color: #181818;
+    font-family: light;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .orderIdHolder:last-child {
+    margin-bottom: 0px;
+  }
+  .highlitedText {
+    font-family: regular;
+  }
+  .buttonGoToBack {
+    width: 140px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .order {
+    padding: 30px;
+  }
+  .writeReviedButton {
+    width: auto;
+    height: auto;
+    float: right;
+  }
+}

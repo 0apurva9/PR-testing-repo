@@ -7,6 +7,7 @@ import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVertical";
 import OrderStatusHorizontal from "./OrderStatusHorizontal";
+import Button from "../../xelpmoc-core/Button";
 import OrderReturn from "./OrderReturn.js";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
@@ -14,8 +15,13 @@ import each from "lodash.foreach";
 import queryString from "query-string";
 import { Redirect } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { SUCCESS } from "../../lib/constants";
+import ProfileMenu from "./ProfileMenu";
+import UserProfile from "./UserProfile";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -57,7 +63,9 @@ export default class OrderDetails extends React.Component {
       this.props.showShippingDetails(val);
     }
   }
-
+  backToOrderHistory() {
+    this.props.history.goBack();
+  }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
     if (sellerorderno) {
       let isCOD = false;
@@ -163,367 +171,470 @@ export default class OrderDetails extends React.Component {
     const orderDetails = this.props.orderDetails;
     return (
       <div className={styles.base}>
-        {orderDetails &&
-          orderDetails.products.map((products, i) => {
-            let isOrderReturnable = false;
-            let isReturned = false;
+        <div className={MyAccountStyles.holder}>
+          <DesktopOnly>
+            <div className={MyAccountStyles.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+          </DesktopOnly>
+          <div className={MyAccountStyles.orderDetail}>
+            {orderDetails &&
+              orderDetails.products.map((products, i) => {
+                let isOrderReturnable = false;
+                let isReturned = false;
 
-            if (
-              products.statusDisplayMsg
-                .map(val => {
-                  return val.key;
-                })
-                .includes(RETURN)
-            )
-              isReturned = products.statusDisplayMsg
-                .map(val => {
-                  return val.key;
-                })
-                .includes(RETURN);
+                if (
+                  products.statusDisplayMsg
+                    .map(val => {
+                      return val.key;
+                    })
+                    .includes(RETURN)
+                )
+                  isReturned = products.statusDisplayMsg
+                    .map(val => {
+                      return val.key;
+                    })
+                    .includes(RETURN);
 
-            each(products && products.statusDisplayMsg, orderStatus => {
-              each(
-                orderStatus &&
-                  orderStatus.value &&
-                  orderStatus.value.statusList,
-                status => {
-                  if (status.responseCode === "DELIVERED") {
-                    isOrderReturnable = true;
-                  }
-                }
-              );
-            });
-            return (
-              <div className={styles.order} key={i}>
-                <div className={styles.orderIdHolder}>
-                  <OrderPlacedAndId
-                    placedTime={format(orderDetails.orderDate, dateFormat)}
-                    orderId={orderDetails.orderId}
-                  />
-                </div>
-                <OrderCard
-                  imageUrl={products.imageURL}
-                  price={products.price}
-                  discountPrice={""}
-                  productName={products.productName}
-                  isGiveAway={products.isGiveAway}
-                  onClick={() => this.onClickImage(products.productcode)}
-                />
-                <div className={styles.payment}>
-                  <OrderViewPaymentDetails
-                    SubTotal={
-                      orderDetails.orderAmount &&
-                      orderDetails.orderAmount.bagTotal &&
-                      orderDetails.orderAmount.bagTotal.value
-                        ? Math.round(
-                            orderDetails.orderAmount.bagTotal.value * 100
-                          ) / 100
-                        : "0.00"
+                each(products && products.statusDisplayMsg, orderStatus => {
+                  each(
+                    orderStatus &&
+                      orderStatus.value &&
+                      orderStatus.value.statusList,
+                    status => {
+                      if (status.responseCode === "DELIVERED") {
+                        isOrderReturnable = true;
+                      }
                     }
-                    DeliveryCharges={orderDetails.deliveryCharge}
-                    Discount={
-                      orderDetails.orderAmount &&
-                      orderDetails.orderAmount.totalDiscountAmount &&
-                      orderDetails.orderAmount.totalDiscountAmount.value
-                        ? Math.round(
-                            orderDetails.orderAmount.totalDiscountAmount.value *
-                              100
-                          ) / 100
-                        : "0.00"
-                    }
-                    coupon={
-                      orderDetails.orderAmount &&
-                      orderDetails.orderAmount.couponDiscountAmount &&
-                      orderDetails.orderAmount.couponDiscountAmount.value
-                        ? Math.round(
-                            orderDetails.orderAmount.couponDiscountAmount
-                              .value * 100
-                          ) / 100
-                        : "0.00"
-                    }
-                    ConvenienceCharges={orderDetails.convenienceCharge}
-                    Total={
-                      orderDetails.orderAmount &&
-                      orderDetails.orderAmount.paybleAmount &&
-                      orderDetails.orderAmount.paybleAmount.value
-                        ? Math.round(
-                            orderDetails.orderAmount.paybleAmount.value * 100
-                          ) / 100
-                        : "0.00"
-                    }
-                    cliqCashAmountDeducted={
-                      orderDetails && orderDetails.cliqCashAmountDeducted
-                    }
-                  />
-                </div>
-                <OrderPaymentMethod
-                  phoneNumber={
-                    orderDetails.deliveryAddress &&
-                    orderDetails.deliveryAddress.phone
-                  }
-                  paymentMethod={orderDetails.paymentMethod}
-                  isInvoiceAvailable={products.isInvoiceAvailable}
-                  statusDisplay={products.statusDisplayMsg}
-                  request={() =>
-                    this.requestInvoice(
-                      products.transactionId,
-                      products.sellerorderno
-                    )
-                  }
-                />
-                {orderDetails.billingAddress &&
-                  Object.keys(orderDetails.billingAddress).length !== 0 && (
-                    <OrderDelivered
-                      deliveredAddress={`${
-                        orderDetails.billingAddress.addressLine1
-                          ? orderDetails.billingAddress.addressLine1
-                          : ""
-                      } ${
-                        orderDetails.billingAddress.town
-                          ? orderDetails.billingAddress.town
-                          : ""
-                      } ${
-                        orderDetails.billingAddress.state
-                          ? orderDetails.billingAddress.state
-                          : ""
-                      } ${
-                        orderDetails.billingAddress.postalcode
-                          ? orderDetails.billingAddress.postalcode
-                          : ""
-                      }`}
+                  );
+                });
+                return (
+                  <div className={styles.order} key={i}>
+                    <MobileOnly>
+                      <div className={styles.orderIdHolder}>
+                        <OrderPlacedAndId
+                          placedTime={format(
+                            orderDetails.orderDate,
+                            dateFormat
+                          )}
+                          orderId={orderDetails.orderId}
+                        />
+                      </div>
+                    </MobileOnly>
+                    <DesktopOnly>
+                      <div className={styles.orderIdAndPlacedHolder}>
+                        <div className={styles.orderIdHolder}>
+                          <span className={styles.highlitedText}>
+                            Order Placed:
+                          </span>
+                          <span>
+                            {format(orderDetails.orderDate, dateFormat)}
+                          </span>
+                        </div>
+                        <div className={styles.orderIdHolder}>
+                          <span className={styles.highlitedText}>
+                            Order ID:
+                          </span>
+                          <span>{orderDetails.orderId}</span>
+                        </div>
+                        <div className={styles.buttonGoToBack}>
+                          <UnderLinedButton
+                            size="14px"
+                            fontFamily="light"
+                            color="#000000"
+                            label="Back to Order History"
+                            onClick={() => this.backToOrderHistory()}
+                          />
+                        </div>
+                      </div>
+                    </DesktopOnly>
+                    <OrderCard
+                      imageUrl={products.imageURL}
+                      productBrand={products.productBrand}
+                      price={products.price}
+                      discountPrice={""}
+                      productName={products.productName}
+                      isGiveAway={products.isGiveAway}
+                      onClick={() => this.onClickImage(products.productcode)}
                     />
-                  )}
-                {products.statusDisplayMsg &&
-                  products.selectedDeliveryMode.code !== CLICK_COLLECT && (
-                    <div className={styles.orderStatusVertical}>
-                      {/* This block of code needs to be duplicated below for CNC as well */}
-                      {!products.statusDisplayMsg
-                        .map(val => {
-                          return val.key;
-                        })
-                        .includes(RETURN) && (
-                        <OrderStatusVertical
-                          isCNC={false}
-                          statusMessageList={products.statusDisplayMsg}
-                          logisticName={products.logisticName}
-                          trackingAWB={products.trackingAWB}
-                          showShippingDetails={this.props.showShippingDetails}
-                          orderCode={orderDetails.orderId}
+                    <div className={styles.payment}>
+                      <OrderViewPaymentDetails
+                        SubTotal={
+                          orderDetails.orderAmount &&
+                          orderDetails.orderAmount.bagTotal &&
+                          orderDetails.orderAmount.bagTotal.value
+                            ? Math.round(
+                                orderDetails.orderAmount.bagTotal.value * 100
+                              ) / 100
+                            : "0.00"
+                        }
+                        DeliveryCharges={orderDetails.deliveryCharge}
+                        Discount={
+                          orderDetails.orderAmount &&
+                          orderDetails.orderAmount.totalDiscountAmount &&
+                          orderDetails.orderAmount.totalDiscountAmount.value
+                            ? Math.round(
+                                orderDetails.orderAmount.totalDiscountAmount
+                                  .value * 100
+                              ) / 100
+                            : "0.00"
+                        }
+                        coupon={
+                          orderDetails.orderAmount &&
+                          orderDetails.orderAmount.couponDiscountAmount &&
+                          orderDetails.orderAmount.couponDiscountAmount.value
+                            ? Math.round(
+                                orderDetails.orderAmount.couponDiscountAmount
+                                  .value * 100
+                              ) / 100
+                            : "0.00"
+                        }
+                        ConvenienceCharges={orderDetails.convenienceCharge}
+                        Total={
+                          orderDetails.orderAmount &&
+                          orderDetails.orderAmount.paybleAmount &&
+                          orderDetails.orderAmount.paybleAmount.value
+                            ? Math.round(
+                                orderDetails.orderAmount.paybleAmount.value *
+                                  100
+                              ) / 100
+                            : "0.00"
+                        }
+                        cliqCashAmountDeducted={
+                          orderDetails && orderDetails.cliqCashAmountDeducted
+                        }
+                      />
+                    </div>
+                    <OrderPaymentMethod
+                      phoneNumber={
+                        orderDetails.deliveryAddress &&
+                        orderDetails.deliveryAddress.phone
+                      }
+                      paymentMethod={orderDetails.paymentMethod}
+                      isInvoiceAvailable={products.isInvoiceAvailable}
+                      statusDisplay={products.statusDisplayMsg}
+                      request={() =>
+                        this.requestInvoice(
+                          products.transactionId,
+                          products.sellerorderno
+                        )
+                      }
+                    />
+                    {orderDetails.billingAddress &&
+                      Object.keys(orderDetails.billingAddress).length !== 0 && (
+                        <OrderDelivered
+                          deliveredAddress={`${
+                            orderDetails.billingAddress.addressLine1
+                              ? orderDetails.billingAddress.addressLine1
+                              : ""
+                          } ${
+                            orderDetails.billingAddress.town
+                              ? orderDetails.billingAddress.town
+                              : ""
+                          } ${
+                            orderDetails.billingAddress.state
+                              ? orderDetails.billingAddress.state
+                              : ""
+                          } ${
+                            orderDetails.billingAddress.postalcode
+                              ? orderDetails.billingAddress.postalcode
+                              : ""
+                          }`}
                         />
                       )}
-                      {products.statusDisplayMsg
-                        .map(val => {
-                          return val.key;
-                        })
-                        .includes(RETURN) && (
-                        <OrderStatusHorizontal
-                          trackingAWB={products.trackingAWB}
-                          courier={products.reverseLogisticName}
-                          statusMessageList={products.statusDisplayMsg.filter(
-                            val => {
-                              return val.key === RETURN;
-                            }
+                    {products.statusDisplayMsg &&
+                      products.selectedDeliveryMode.code !== CLICK_COLLECT && (
+                        <div className={styles.orderStatusVertical}>
+                          {/* This block of code needs to be duplicated below for CNC as well */}
+                          {!products.statusDisplayMsg
+                            .map(val => {
+                              return val.key;
+                            })
+                            .includes(RETURN) && (
+                            <OrderStatusVertical
+                              isCNC={false}
+                              statusMessageList={products.statusDisplayMsg}
+                              logisticName={products.logisticName}
+                              trackingAWB={products.trackingAWB}
+                              showShippingDetails={
+                                this.props.showShippingDetails
+                              }
+                              orderCode={orderDetails.orderId}
+                            />
                           )}
-                        />
-                      )}
-                      {/* Block of code ends here */}
-                    </div>
-                  )}
-                {products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                  products.storeDetails && (
-                    <div className={styles.orderStatusVertical}>
-                      <div className={styles.header}>Store details:</div>
-                      <div className={styles.row}>
-                        {products.storeDetails.displayName &&
-                          products.storeDetails.displayName !== undefined &&
-                          products.storeDetails.displayName !== "undefined" && (
-                            <span>{products.storeDetails.displayName} ,</span>
-                          )}{" "}
-                        {products.storeDetails.returnAddress1 &&
-                          products.storeDetails.returnAddress1 !== undefined &&
-                          products.storeDetails.returnAddress1 !==
-                            "undefined" && (
-                            <span>
-                              {products.storeDetails.returnAddress1} ,
-                            </span>
-                          )}{" "}
-                        {products.storeDetails.returnAddress2 &&
-                          products.storeDetails.returnAddress2 !== undefined &&
-                          products.storeDetails.returnAddress2 !==
-                            "undefined" && (
-                            <span>{products.storeDetails.returnAddress2}</span>
-                          )}{" "}
-                      </div>
-                      <div className={styles.row}>
-                        {products.storeDetails.returnCity}{" "}
-                        {products.storeDetails.returnPin}
-                      </div>
-                    </div>
-                  )}
-                {products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                  (orderDetails.pickupPersonName ||
-                    orderDetails.pickupPersonMobile) && (
-                    <div className={styles.orderStatusVertical}>
-                      <div className={styles.header}>Pickup details:</div>
-                      <div className={styles.row}>
-                        {orderDetails.pickupPersonName}
-                      </div>
-                      <div className={styles.row}>
-                        {orderDetails.pickupPersonMobile}
-                      </div>
-                      {/* This block of code needs to be duplicated above for non CNC as well */}
-                      {!products.statusDisplayMsg
-                        .map(val => {
-                          return val.key;
-                        })
-                        .includes(RETURN) && (
-                        <OrderStatusVertical
-                          isCNC={true}
-                          statusMessageList={products.statusDisplayMsg}
-                          logisticName={products.logisticName}
-                          trackingAWB={products.trackingAWB}
-                          showShippingDetails={this.props.showShippingDetails}
-                          orderCode={orderDetails.orderId}
-                        />
-                      )}
-                      {products.statusDisplayMsg
-                        .map(val => {
-                          return val.key;
-                        })
-                        .includes(RETURN) && (
-                        <OrderStatusHorizontal
-                          trackingAWB={products.trackingAWB}
-                          courier={products.reverseLogisticName}
-                          statusMessageList={products.statusDisplayMsg.filter(
-                            val => {
-                              return val.key === RETURN;
-                            }
+                          {products.statusDisplayMsg
+                            .map(val => {
+                              return val.key;
+                            })
+                            .includes(RETURN) && (
+                            <OrderStatusHorizontal
+                              trackingAWB={products.trackingAWB}
+                              courier={products.reverseLogisticName}
+                              statusMessageList={products.statusDisplayMsg.filter(
+                                val => {
+                                  return val.key === RETURN;
+                                }
+                              )}
+                            />
                           )}
-                        />
+                          {/* Block of code ends here */}
+                        </div>
                       )}
-                      {/* Block of code ends here */}
-                    </div>
-                  )}
+                    {products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                      products.storeDetails && (
+                        <div className={styles.orderStatusVertical}>
+                          <div className={styles.header}>Store details:</div>
+                          <div className={styles.row}>
+                            {products.storeDetails.displayName &&
+                              products.storeDetails.displayName !== undefined &&
+                              products.storeDetails.displayName !==
+                                "undefined" && (
+                                <span>
+                                  {products.storeDetails.displayName} ,
+                                </span>
+                              )}{" "}
+                            {products.storeDetails.returnAddress1 &&
+                              products.storeDetails.returnAddress1 !==
+                                undefined &&
+                              products.storeDetails.returnAddress1 !==
+                                "undefined" && (
+                                <span>
+                                  {products.storeDetails.returnAddress1} ,
+                                </span>
+                              )}{" "}
+                            {products.storeDetails.returnAddress2 &&
+                              products.storeDetails.returnAddress2 !==
+                                undefined &&
+                              products.storeDetails.returnAddress2 !==
+                                "undefined" && (
+                                <span>
+                                  {products.storeDetails.returnAddress2}
+                                </span>
+                              )}{" "}
+                          </div>
+                          <div className={styles.row}>
+                            {products.storeDetails.returnCity}{" "}
+                            {products.storeDetails.returnPin}
+                          </div>
+                        </div>
+                      )}
+                    {products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                      (orderDetails.pickupPersonName ||
+                        orderDetails.pickupPersonMobile) && (
+                        <div className={styles.orderStatusVertical}>
+                          <div className={styles.header}>Pickup details:</div>
+                          <div className={styles.row}>
+                            {orderDetails.pickupPersonName}
+                          </div>
+                          <div className={styles.row}>
+                            {orderDetails.pickupPersonMobile}
+                          </div>
+                          {/* This block of code needs to be duplicated above for non CNC as well */}
+                          {!products.statusDisplayMsg
+                            .map(val => {
+                              return val.key;
+                            })
+                            .includes(RETURN) && (
+                            <OrderStatusVertical
+                              isCNC={true}
+                              statusMessageList={products.statusDisplayMsg}
+                              logisticName={products.logisticName}
+                              trackingAWB={products.trackingAWB}
+                              showShippingDetails={
+                                this.props.showShippingDetails
+                              }
+                              orderCode={orderDetails.orderId}
+                            />
+                          )}
+                          {products.statusDisplayMsg
+                            .map(val => {
+                              return val.key;
+                            })
+                            .includes(RETURN) && (
+                            <OrderStatusHorizontal
+                              trackingAWB={products.trackingAWB}
+                              courier={products.reverseLogisticName}
+                              statusMessageList={products.statusDisplayMsg.filter(
+                                val => {
+                                  return val.key === RETURN;
+                                }
+                              )}
+                            />
+                          )}
+                          {/* Block of code ends here */}
+                        </div>
+                      )}
 
-                {products.awbPopupLink === AWB_POPUP_FALSE && (
-                  <div className={styles.buttonHolder}>
-                    <div className={styles.buttonHolderForUpdate}>
-                      <div className={styles.replaceHolder}>
-                        {products.isReturned &&
-                          isOrderReturnable && (
+                    {products.awbPopupLink === AWB_POPUP_FALSE && (
+                      <div className={styles.buttonHolder}>
+                        <div className={styles.buttonHolderForUpdate}>
+                          <div className={styles.replaceHolder}>
+                            {products.isReturned &&
+                              isOrderReturnable && (
+                                <div
+                                  className={styles.review}
+                                  onClick={() =>
+                                    this.replaceItem(
+                                      products.sellerorderno,
+                                      orderDetails.paymentMethod,
+                                      products.transactionId
+                                    )
+                                  }
+                                >
+                                  <UnderLinedButton
+                                    label={PRODUCT_RETURN}
+                                    color="#000"
+                                  />
+                                </div>
+                              )}
+                            {products.cancel && (
+                              <div
+                                className={styles.review}
+                                onClick={() =>
+                                  this.cancelItem(
+                                    products.transactionId,
+                                    products.USSID,
+                                    products.sellerorderno
+                                  )
+                                }
+                              >
+                                <UnderLinedButton
+                                  label={PRODUCT_CANCEL}
+                                  color="#000"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          {!isReturned && (
+                            <React.Fragment>
+                              <MobileOnly>
+                                <div className={styles.reviewHolder}>
+                                  <div
+                                    className={styles.replace}
+                                    onClick={val =>
+                                      this.writeReview(products.productcode)
+                                    }
+                                  >
+                                    <UnderLinedButton
+                                      label="Write a review"
+                                      color="#ff1744"
+                                    />
+                                  </div>
+                                </div>
+                              </MobileOnly>
+
+                              <DesktopOnly>
+                                <div className={styles.writeReviedButton}>
+                                  <Button
+                                    label={"Write a review"}
+                                    width={147}
+                                    height={36}
+                                    borderColor={"#000000"}
+                                    borderRadius={20}
+                                    backgroundColor={"#ffffff"}
+                                    onClick={val =>
+                                      this.writeReview(products.productcode)
+                                    }
+                                    textStyle={{
+                                      color: "#000000",
+                                      fontSize: 14,
+                                      fontFamily: "regular"
+                                    }}
+                                  />
+                                </div>
+                              </DesktopOnly>
+                            </React.Fragment>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {products.awbPopupLink === AWB_POPUP_TRUE && (
+                      <div className={styles.buttonHolder}>
+                        <div className={styles.buttonHolderForUpdate}>
+                          <div className={styles.replaceHolder}>
                             <div
-                              className={styles.review}
+                              className={styles.replace}
                               onClick={() =>
-                                this.replaceItem(
-                                  products.sellerorderno,
-                                  orderDetails.paymentMethod,
+                                this.updateRefundDetailsPopUp(
+                                  orderDetails.orderId,
                                   products.transactionId
                                 )
                               }
                             >
                               <UnderLinedButton
-                                label={PRODUCT_RETURN}
+                                label="Update Return Details"
                                 color="#000"
                               />
                             </div>
-                          )}
-                        {products.cancel && (
-                          <div
-                            className={styles.review}
-                            onClick={() =>
-                              this.cancelItem(
-                                products.transactionId,
-                                products.USSID,
-                                products.sellerorderno
-                              )
-                            }
-                          >
-                            <UnderLinedButton
-                              label={PRODUCT_CANCEL}
-                              color="#000"
-                            />
                           </div>
-                        )}
-                      </div>
-                      {!isReturned && (
-                        <div className={styles.reviewHolder}>
-                          <div
-                            className={styles.replace}
-                            onClick={val =>
-                              this.writeReview(products.productcode)
-                            }
-                          >
-                            <UnderLinedButton
-                              label="Write a review"
-                              color="#ff1744"
-                            />
+
+                          <div className={styles.reviewHolder}>
+                            {products.isReturned && (
+                              <div
+                                className={styles.review}
+                                onClick={() =>
+                                  this.replaceItem(
+                                    products.sellerorderno,
+                                    orderDetails.paymentMethod,
+                                    products.transactionId
+                                  )
+                                }
+                              >
+                                <UnderLinedButton
+                                  label={PRODUCT_RETURN}
+                                  color="#ff1744"
+                                />
+                              </div>
+                            )}
+                            {products.cancel && (
+                              <div
+                                className={styles.review}
+                                onClick={() =>
+                                  this.cancelItem(
+                                    products.transactionId,
+                                    products.USSID,
+                                    products.sellerorderno
+                                  )
+                                }
+                              >
+                                <UnderLinedButton
+                                  label={PRODUCT_CANCEL}
+                                  color="#ff1744"
+                                />
+                              </div>
+                            )}
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-                {products.awbPopupLink === AWB_POPUP_TRUE && (
-                  <div className={styles.buttonHolder}>
-                    <div className={styles.buttonHolderForUpdate}>
-                      <div className={styles.replaceHolder}>
-                        <div
-                          className={styles.replace}
-                          onClick={() =>
-                            this.updateRefundDetailsPopUp(
-                              orderDetails.orderId,
-                              products.transactionId
-                            )
-                          }
-                        >
-                          <UnderLinedButton
-                            label="Update Return Details"
-                            color="#000"
-                          />
-                        </div>
                       </div>
-                      <div className={styles.reviewHolder}>
-                        {products.isReturned && (
-                          <div
-                            className={styles.review}
-                            onClick={() =>
-                              this.replaceItem(
-                                products.sellerorderno,
-                                orderDetails.paymentMethod,
-                                products.transactionId
-                              )
-                            }
-                          >
-                            <UnderLinedButton
-                              label={PRODUCT_RETURN}
-                              color="#ff1744"
-                            />
-                          </div>
-                        )}
-                        {products.cancel && (
-                          <div
-                            className={styles.review}
-                            onClick={() =>
-                              this.cancelItem(
-                                products.transactionId,
-                                products.USSID,
-                                products.sellerorderno
-                              )
-                            }
-                          >
-                            <UnderLinedButton
-                              label={PRODUCT_CANCEL}
-                              color="#ff1744"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                );
+              })}
+          </div>
+          <DesktopOnly>
+            <div className={MyAccountStyles.userProfile}>
+              <UserProfile
+                image={userDetails.imageUrl}
+                onClick={() => this.renderToAccountSetting()}
+                firstName={
+                  userDetails &&
+                  userDetails.firstName &&
+                  userDetails.firstName.trim().charAt(0)
+                }
+                heading={
+                  userDetails &&
+                  userDetails.firstName &&
+                  `${userDetails.firstName} `
+                }
+                lastName={
+                  userDetails &&
+                  userDetails.lastName &&
+                  `${userDetails.lastName}`
+                }
+              />
+            </div>
+          </DesktopOnly>
+        </div>
       </div>
     );
   }
