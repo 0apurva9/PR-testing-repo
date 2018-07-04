@@ -212,7 +212,9 @@ export const typeComponentMapping = {
   "Desktop Top Selling Brands Component": props => (
     <TopSellingBrandSliderComponent {...props} />
   ),
-  multiClickBanner: props => <MultiClickBannerComponent {...props} />,
+  "Multi Click Banner Component": props => (
+    <MultiClickBannerComponent {...props} />
+  ),
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
