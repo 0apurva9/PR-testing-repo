@@ -60,7 +60,6 @@ export default class ThemeOffer extends React.Component {
     }
 
     themeData = concat(offers, items);
-    console.log(feedComponentData);
     return (
       <React.Fragment>
         <MediaQuery query="(max-device-width: 1024px)">
@@ -92,7 +91,7 @@ export default class ThemeOffer extends React.Component {
               banner={
                 <ProductImageHeaderDesktop
                   backgroundColor={feedComponentData.backgroundHexCode}
-                  backgroundImage={feedComponentData.imageURL}
+                  backgroundImage={feedComponentData.backgroundImageURL}
                 />
               }
               {...rest}

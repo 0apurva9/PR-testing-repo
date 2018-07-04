@@ -48,7 +48,7 @@ class FeedComponent extends React.Component {
             {...carouselOptions}
             banner={banner}
             bannerWidth="42%"
-            elementWidthDesktop={33.333}
+            elementWidthDesktop={this.props.elementWidthDesktop}
             offsetDesktop={10}
           >
             {data &&
@@ -109,4 +109,8 @@ FeedComponent.propTypes = {
     isWhite: PropTypes.bool,
     seeAll: PropTypes.func
   })
+};
+
+FeedComponent.defaultProps = {
+  elementWidthDesktop: 33.33
 };
