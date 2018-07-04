@@ -23,7 +23,6 @@ export default class MultiClickBanner extends React.Component {
   }
   render() {
     const { feedComponentData } = this.props;
-    console.log(feedComponentData);
     return (
       <div
         className={
