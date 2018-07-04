@@ -50,23 +50,21 @@ export default class Banner extends React.Component {
             </div>
           </div>
           {(this.props.isFollow || this.props.newProducts) && (
-            <div className={styles.content}>
-              <div className={styles.followButtonWithText}>
-                {this.props.isFollow && (
-                  <div className={styles.followButton}>
-                    <Button
-                      width={80}
-                      height={30}
-                      color={"#fff"}
-                      label={"Follow"}
-                      type={"hollow"}
-                    />
-                  </div>
-                )}
-                {this.props.newProducts && (
-                  <div className={styles.followText}>24 new products</div>
-                )}
-              </div>
+            <div className={styles.followButtonWithText}>
+              {this.props.isFollow && (
+                <div className={styles.followButton}>
+                  <Button
+                    width={80}
+                    height={30}
+                    color={"#fff"}
+                    label={"Follow"}
+                    type={"hollow"}
+                  />
+                </div>
+              )}
+              {this.props.newProducts && (
+                <div className={styles.followText}>24 new products</div>
+              )}
             </div>
           )}
         </MediaQuery>
