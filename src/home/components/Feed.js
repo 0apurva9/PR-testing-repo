@@ -155,6 +155,12 @@ const MultiClickBannerComponent = Loadable({
     return <div />;
   }
 });
+const DiscoverMoreL1ForDesktopComponent = Loadable({
+  loader: () => import("../../home/components/DiscoverMoreL1ForDesktop"),
+  loading() {
+    return <div />;
+  }
+});
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -203,6 +209,7 @@ export const typeComponentMapping = {
     <ShopeByPriceDesktopComponent {...props} />
   ),
   L2: props => <DiscoverMoreL2DesktopComponent {...props} />,
+  L1: props => <DiscoverMoreL1ForDesktopComponent {...props} />,
   "Desktop Popular Brands Component": props => (
     <PopularBrandsDesktopComponent {...props} />
   ),
