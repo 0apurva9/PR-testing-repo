@@ -149,6 +149,12 @@ const TopSellingBrandSliderComponent = Loadable({
     return <div />;
   }
 });
+const MultiClickBannerComponent = Loadable({
+  loader: () => import("../../home/components/MultiClickBanner"),
+  loading() {
+    return <div />;
+  }
+});
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -206,6 +212,7 @@ export const typeComponentMapping = {
   "Desktop Top Selling Brands Component": props => (
     <TopSellingBrandSliderComponent {...props} />
   ),
+  multiClickBanner: props => <MultiClickBannerComponent {...props} />,
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
