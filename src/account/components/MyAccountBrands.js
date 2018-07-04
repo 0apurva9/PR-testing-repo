@@ -27,6 +27,7 @@ export default class MyAccountBrands extends React.Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie) {
       this.props.getFollowedBrands();
+      this.props.getUserAddress();
     }
   }
   componentDidUpdate() {
@@ -117,6 +118,7 @@ export default class MyAccountBrands extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

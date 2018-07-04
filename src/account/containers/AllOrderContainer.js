@@ -7,6 +7,7 @@ import {
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
 import { setHeaderText } from "../../general/header.actions";
+import { getUserAddress } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllOrdersDetails: () => {
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     reSendEmailForGiftCard: orderId => {
       dispatch(reSendEmailForGiftCard(orderId));
+    },
+    getUserAddress: () => {
+      dispatch(getUserAddress(true));
     }
   };
 };
@@ -32,6 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     loadingForClearOrderDetails: state.profile.loadingForClearOrderDetails,
     profile: state.profile,
+    userAddress: state.profile.userAddress,
     ...ownProps
   };
 };

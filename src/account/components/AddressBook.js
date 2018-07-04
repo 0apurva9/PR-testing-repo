@@ -56,6 +56,7 @@ export default class AddressBook extends React.Component {
   renderAddressBook = () => {
     const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userData = JSON.parse(userProfileDetails);
+
     return (
       <div className={styles.base}>
         <div className={myAccountStyles.holder}>
@@ -161,6 +162,7 @@ export default class AddressBook extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

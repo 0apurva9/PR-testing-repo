@@ -62,6 +62,7 @@ export default class MyAccount extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(MY_CLIQ);
     setDataLayer(ADOBE_MY_ACCOUNT_LANDING_PAGE);
+    this.props.getUserAddress();
   }
 
   navigateToLogin() {

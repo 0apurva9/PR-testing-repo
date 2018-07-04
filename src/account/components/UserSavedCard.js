@@ -73,6 +73,7 @@ export default class UserSavedCard extends React.Component {
           JSON.parse(customerCookie).access_token
         );
       }
+      this.props.getUserAddress();
     }
   }
 
@@ -165,6 +166,7 @@ export default class UserSavedCard extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.userAddress}
                 />
               </div>
             </DesktopOnly>
@@ -172,7 +174,44 @@ export default class UserSavedCard extends React.Component {
         </div>
       );
     } else {
-      return <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>;
+      return (
+        <div className={styles.base}>
+          <div className={myAccountStyles.holder}>
+            <DesktopOnly>
+              <div className={myAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            </DesktopOnly>
+            <div className={styles.saveCardDetail}>
+              <div className={styles.saveCardDetailWithHolder}>
+                <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
+              </div>
+            </div>
+            <DesktopOnly>
+              <div className={myAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  userLogin={userData.userName}
+                  loginType={userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                  userAddress={this.props.userAddress}
+                />
+              </div>
+            </DesktopOnly>
+          </div>
+        </div>
+      );
     }
   }
 }

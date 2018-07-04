@@ -12,6 +12,7 @@ import {
 } from "../../general/secondaryLoader.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
+import { getUserAddress } from "../../cart/actions/cart.actions";
 const CLIQ_CASH_REDEEM_SUCCESS =
   "Congrats!  Money has been added to your Cliq Cash balance";
 const mapDispatchToProps = dispatch => {
@@ -41,6 +42,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    getUserAddress: () => {
+      dispatch(getUserAddress(true));
     }
   };
 };
@@ -51,6 +55,7 @@ const mapStateToProps = state => {
     cliqCashVoucherDetailsStatus: state.profile.cliqCashVoucherDetailsStatus,
     cliqCashVoucherDetails: state.profile.cliqCashVoucherDetails,
     cliqCashVoucherDetailsError: state.profile.cliqCashVoucherDetailsError,
+    userAddress: state.profile.userAddress,
     loading: state.profile.loading
   };
 };

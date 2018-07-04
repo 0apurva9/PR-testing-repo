@@ -62,6 +62,7 @@ export default class EditAccountDetails extends React.Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie) {
       this.props.getUserDetails();
+      this.props.getUserAddress();
     } else {
       this.props.history.push(LOGIN_PATH);
     }
@@ -374,6 +375,7 @@ export default class EditAccountDetails extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.userAddress}
                 />
               </div>
             </DesktopOnly>

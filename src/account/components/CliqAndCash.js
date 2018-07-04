@@ -52,6 +52,7 @@ export default class CliqAndCash extends React.Component {
     if (this.props.getCliqCashDetails) {
       this.props.getCliqCashDetails();
     }
+    this.props.getUserAddress();
   }
   gitCard() {
     if (this.props.gitCard) {
@@ -201,6 +202,7 @@ export default class CliqAndCash extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.userAddress}
                 />
               </div>
             </DesktopOnly>

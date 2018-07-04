@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import UserSavedCard from "../components/UserSavedCard.js";
 import { setHeaderText } from "../../general/header.actions";
+import { getUserAddress } from "../../cart/actions/cart.actions";
 import {
   getSavedCardDetails,
   removeSavedCardDetails
@@ -26,13 +27,17 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    getUserAddress: () => {
+      dispatch(getUserAddress(true));
     }
   };
 };
 
 const mapStateToProps = state => {
   return {
-    profile: state.profile
+    profile: state.profile,
+    userAddress: state.profile.userAddress
   };
 };
 

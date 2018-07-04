@@ -11,6 +11,7 @@ import { withRouter } from "react-router-dom";
 import EditAccountDetails from "../components/EditAccountDetails.js";
 import { displayToast } from "../../general/toast.actions";
 import { SUCCESS } from "../../lib/constants.js";
+import { getUserAddress } from "../../cart/actions/cart.actions";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapDispatchToProps = dispatch => {
@@ -43,6 +44,9 @@ const mapDispatchToProps = dispatch => {
     setHeaderText: text => {
       dispatch(setHeaderText(text));
     },
+    getUserAddress: () => {
+      dispatch(getUserAddress(true));
+    },
     displayToast: message => {
       dispatch(displayToast(message));
     }
@@ -53,7 +57,8 @@ const mapStateToProps = state => {
   return {
     changePasswordStatus: state.profile.changePasswordStatus,
     userDetails: state.profile.userDetails,
-    type: state.profile.type
+    type: state.profile.type,
+    userAddress: state.profile.userAddress
   };
 };
 
