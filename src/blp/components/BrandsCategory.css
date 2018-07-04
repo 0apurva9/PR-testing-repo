@@ -23,3 +23,13 @@
   height: auto;
   display: inline-block;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding-left: 170px;
+    margin-bottom: 90px;
+  }
+  .brandIndex {
+    font-size: 30px;
+    line-height: 40px;
+  }
+}

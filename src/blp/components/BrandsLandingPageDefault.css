@@ -14,7 +14,6 @@
 }
 .header {
   width: 100%;
-  position: fixed;
   left: 0;
   top: 50px;
   z-index: 10;
@@ -68,4 +67,177 @@
   width: 100%;
   height: auto;
   padding: 20px;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    padding-top: 0px;
+  }
+  .bannerHolder {
+    max-width: 1600px;
+    margin: auto;
+  }
+  .bannerHolderDetails {
+    width: 100%;
+    height: auto;
+    background: #ececec;
+  }
+  .category {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0px 0px 0px 130px;
+  }
+  .header {
+    max-width: 1200px;
+    margin: auto;
+    border-top: 1px solid #ececec;
+  }
+  .following {
+    width: 100%;
+    height: auto;
+    background: #ececec;
+  }
+  .followingHolder {
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 0px;
+  }
+  .followingHeader {
+    font-size: 30px;
+  }
+  .arrow {
+    left: 300px;
+    right: initial;
+  }
+  .countFollowBrands {
+    width: auto;
+    height: 36px;
+    line-height: 36px;
+    color: #212121;
+    font-size: 16px;
+    font-family: light;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .followingBrandsWithHeader {
+    width: 100%;
+    height: auto;
+  }
+  .headerWithFollowing {
+    width: calc(100% - 100px);
+    transform: translateY(40px);
+    height: 36px;
+    display: flex;
+    z-index: 5;
+    position: relative;
+  }
+  .headerText {
+    width: auto;
+    position: absolute;
+    padding-right: 35px;
+    color: #212121;
+    font-size: 30px;
+    font-family: semibold;
+    height: 36px;
+    line-height: 36px;
+    display: flex;
+    cursor: pointer;
+    left: 0;
+    top: 0;
+  }
+  .followingHeader {
+    width: auto;
+    position: relative;
+    padding-right: 35px;
+    color: #212121;
+    font-size: 30px;
+    font-family: semibold;
+    height: 36px;
+    line-height: 36px;
+    display: flex;
+    cursor: pointer;
+    left: 0;
+    top: 0;
+    margin-bottom: 0;
+  }
+  .arrow {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: url(../../general/components/img/down-arrow.svg) no-repeat;
+    background-size: auto 13px;
+    transition: 300ms;
+    background-position: center;
+    transform: rotate(180deg);
+  }
+  .downArrow {
+    composes: arrow;
+    transform: rotate(0);
+  }
+  .countFollowBrands {
+    width: auto;
+    height: 36px;
+    line-height: 36px;
+    color: #212121;
+    font-size: 16px;
+    font-family: light;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .brandsList {
+    width: 100%;
+    height: auto;
+  }
+  .searchInputWithText {
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 0px;
+  }
+  .textWithCircle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #8d8d8d;
+    text-align: center;
+    line-height: 38px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    color: #8d8d8d;
+    cursor: pointer;
+  }
+  .activeTextWithCircle {
+    composes: textWithCircle;
+    border: 2px solid #ff1744;
+    color: #ff1744;
+  }
+  .searchInputWithTextHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    position: relative;
+  }
+  .searchInput {
+    width: 25%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 10px 10px;
+  }
+  .noResultHolder {
+    height: 100px;
+    padding-bottom: 100px;
+  }
+  .downArrow {
+  }
+}
+@media screen and (max-width: 1024px) {
+  .header {
+    position: fixed;
+  }
 }
