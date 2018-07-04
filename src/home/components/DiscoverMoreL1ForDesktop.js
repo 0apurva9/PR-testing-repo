@@ -19,7 +19,6 @@ export default class DiscoverMoreL1ForDesktop extends React.Component {
 
   render() {
     const { feedComponentData } = this.props;
-    console.log(feedComponentData);
     return (
       <div className={styles.base}>
         <Carousel
@@ -74,18 +73,16 @@ export default class DiscoverMoreL1ForDesktop extends React.Component {
                           })}
                         </div>
                       )}
-                    {feedComponentData.btnText &&
-                      feedComponentData.specificWebUrl && (
+                    {feedData.btnText &&
+                      feedData.webURL && (
                         <div className={styles.buttonHolder}>
                           <div className={styles.button}>
                             <Button
                               type="hollow"
                               color="#000"
-                              label={feedComponentData.btnText}
+                              label={feedData.btnText}
                               width={130}
-                              onClick={() =>
-                                this.onClick(feedComponentData.specificWebUrl)
-                              }
+                              onClick={() => this.onClick(feedData.webURL)}
                             />
                           </div>
                         </div>
