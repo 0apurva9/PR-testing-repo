@@ -24,6 +24,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state);
   let isCategorySelected;
   if (!state.productListings.productListings.facetdatacategory) {
     isCategorySelected = false;
@@ -48,7 +49,6 @@ const mapStateToProps = (state, ownProps) => {
     }
     filterSelectedIndex = indexOfKey;
   }
-
   return {
     ...ownProps,
     facetData: state.productListings.productListings.facetdata,

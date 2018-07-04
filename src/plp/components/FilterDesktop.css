@@ -4,15 +4,9 @@
   height: auto;
   min-height: 100vh;
   left: 0;
-  z-index: 70;
-  background: #fff;
   top: 0px;
   right: 0;
   bottom: 0;
-  padding: 0px 20px 20px 20px;
-  background-color: #ececec;
-  transition: 300ms;
-  transform: translateX(-100%);
 }
 .pageHeader {
   width: 100%;
@@ -30,11 +24,18 @@
 }
 .filterDetails {
   padding: 10px;
-  background-color: #f9f9f9;
   border-radius: 4px;
 }
-.facetdatacategory {
+.filtersOptions {
+  padding: 0px 20px 20px 20px;
+  background-color: #fff;
   border-bottom: 1px solid #ececec;
+  margin-bottom: 20px;
+}
+.filterHeader {
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
 }
 .facetData {
   padding-top: 10px;

@@ -3,7 +3,7 @@ import FilterMobile from "../components/FilterMobile";
 import FilterDesktop from "../components/FilterDesktop";
 import MediaQuery from "react-responsive";
 import styles from "./FilterWrapper.css";
-export default class PlpWrapper extends React.Component {
+export default class FilterWrapper extends React.Component {
   render() {
     return (
       <div className={styles.base}>
