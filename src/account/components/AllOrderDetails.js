@@ -88,7 +88,6 @@ export default class AllOrderDetails extends React.Component {
       this.throttledScroll = this.handleScroll();
       window.addEventListener("scroll", this.throttledScroll);
       this.props.getAllOrdersDetails();
-      this.props.getUserAddress();
     }
   }
   componentWillUnmount() {
@@ -503,7 +502,7 @@ export default class AllOrderDetails extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
-                userAddress={this.props.profile.userAddress}
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

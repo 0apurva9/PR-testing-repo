@@ -41,7 +41,6 @@ export default class SaveListDetails extends React.Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie) {
       this.props.getWishList();
-      this.props.getUserAddress();
     }
   }
   componentDidUpdate() {

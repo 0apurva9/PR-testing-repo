@@ -44,7 +44,6 @@ export default class UserAlertsAndCoupons extends React.Component {
     if (userDetails && customerCookie) {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
-      this.props.getUserAddress();
     } else {
       this.props.history.push(LOGIN_PATH);
     }

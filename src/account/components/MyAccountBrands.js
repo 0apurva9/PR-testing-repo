@@ -27,7 +27,6 @@ export default class MyAccountBrands extends React.Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie) {
       this.props.getFollowedBrands();
-      this.props.getUserAddress();
     }
   }
   componentDidUpdate() {

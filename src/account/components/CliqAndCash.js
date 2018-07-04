@@ -52,7 +52,6 @@ export default class CliqAndCash extends React.Component {
     if (this.props.getCliqCashDetails) {
       this.props.getCliqCashDetails();
     }
-    this.props.getUserAddress();
   }
   gitCard() {
     if (this.props.gitCard) {

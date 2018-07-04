@@ -73,7 +73,6 @@ export default class UserSavedCard extends React.Component {
           JSON.parse(customerCookie).access_token
         );
       }
-      this.props.getUserAddress();
     }
   }
 
@@ -166,7 +165,7 @@ export default class UserSavedCard extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
-                  userAddress={this.props.userAddress}
+                  userAddress={this.props.profile.userAddress}
                 />
               </div>
             </DesktopOnly>

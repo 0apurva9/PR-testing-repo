@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import UserAlertsAndCoupons from "../components/UserAlertsAndCoupons";
 import { getUserCoupons, getUserAlerts } from "../actions/account.actions";
 import { setHeaderText } from "../../general/header.actions";
-import { getUserAddress } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getUserCoupons: () => {
@@ -14,9 +13,6 @@ const mapDispatchToProps = dispatch => {
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
-    },
-    getUserAddress: () => {
-      dispatch(getUserAddress(true));
     }
   };
 };

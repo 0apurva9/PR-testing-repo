@@ -7,7 +7,6 @@ import {
 } from "../actions/account.actions";
 import { SUCCESS, MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW } from "../../lib/constants";
 import { setHeaderText } from "../../general/header.actions";
-import { getUserAddress } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getFollowedBrands: () => {
@@ -24,9 +23,6 @@ const mapDispatchToProps = dispatch => {
           MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW
         )
       );
-    },
-    getUserAddress: () => {
-      dispatch(getUserAddress(true));
     }
   };
 };

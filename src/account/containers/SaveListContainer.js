@@ -9,7 +9,6 @@ import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
 import { addProductToCart } from "../../pdp/actions/pdp.actions";
 import { SUCCESS } from "../../lib/constants";
-import { getUserAddress } from "../../cart/actions/cart.actions";
 import { SUCCESS_FOR_ADDING_TO_BAG } from "../../lib/constants.js";
 const REMOVED_SAVELIST = "Removed Successfully";
 
@@ -40,9 +39,6 @@ const mapDispatchToProps = dispatch => {
           dispatch(displayToast(REMOVED_SAVELIST));
         }
       });
-    },
-    getUserAddress: () => {
-      dispatch(getUserAddress(true));
     }
   };
 };
