@@ -10,11 +10,17 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
     }
+    if (this.props.setClickedElementId) {
+      this.props.setClickedElementId();
+    }
   };
   showSeeAll = webURL => {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
+    }
+    if (this.props.setClickedElementId) {
+      this.props.setClickedElementId();
     }
   };
   render() {
@@ -22,7 +28,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       <div className={styles.base}>
         <div className={styles.imageHolder}>
           <CircleProductDescriptionDesktop
-            onRedirect={() => this.onRedirect()}
+            onRedirect={() => this.showSeeAll(this.props.webURL)}
             image={this.props.imageURL}
           />
         </div>

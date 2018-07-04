@@ -119,7 +119,42 @@ const LatestCollections = Loadable({
     return <div />;
   }
 });
-
+const ShopeByPriceDesktopComponent = Loadable({
+  loader: () => import("../../home/components/ShopeByPriceDesktop"),
+  loading() {
+    return <div />;
+  }
+});
+const DiscoverMoreL2DesktopComponent = Loadable({
+  loader: () => import("../../home/components/DiscoverMoreL2Desktop"),
+  loading() {
+    return <div />;
+  }
+});
+const PopularBrandsDesktopComponent = Loadable({
+  loader: () => import("../../general/components/PopularBrandsDesktop"),
+  loading() {
+    return <div />;
+  }
+});
+const SplitBannerForDesktopComponent = Loadable({
+  loader: () => import("../../home/components/SplitBannerForDesktop"),
+  loading() {
+    return <div />;
+  }
+});
+const TopSellingBrandSliderComponent = Loadable({
+  loader: () => import("../../home/components/TopSellingBrandSlider"),
+  loading() {
+    return <div />;
+  }
+});
+const MultiClickBannerComponent = Loadable({
+  loader: () => import("../../home/components/MultiClickBanner"),
+  loading() {
+    return <div />;
+  }
+});
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -129,6 +164,7 @@ export const typeComponentMapping = {
   },
   "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
   "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
+  "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,
   "Auto Product Recommendation Component": props => (
     <RecommendationWidget {...props} />
   ),
@@ -159,14 +195,30 @@ export const typeComponentMapping = {
     <CuratedProductsComponent {...props} />
   ),
   "Sub Brands Banner Component": props => <SubBrandsBanner {...props} />,
+  "Desktop Sub Brands Component": props => <SubBrandsBanner {...props} />,
   "Landing Page Hierarchy": props => <AllBrandTypes {...props} />,
   "Landing Page Hierarchy Component": props => <AllBrandTypes {...props} />,
   "CMS Paragraph Component": props => <CMSParagraphComponent {...props} />,
+  "Banner And Links Component": props => (
+    <ShopeByPriceDesktopComponent {...props} />
+  ),
+  L2: props => <DiscoverMoreL2DesktopComponent {...props} />,
+  "Desktop Popular Brands Component": props => (
+    <PopularBrandsDesktopComponent {...props} />
+  ),
+  "Split Banner Component": props => (
+    <SplitBannerForDesktopComponent {...props} />
+  ),
+  "Desktop Top Selling Brands Component": props => (
+    <TopSellingBrandSliderComponent {...props} />
+  ),
+  "Multi Click Banner Component": props => (
+    <MultiClickBannerComponent {...props} />
+  ),
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
-        {" "}
-        <SimpleBannerComponent {...props} />{" "}
+        <SimpleBannerComponent {...props} />
       </div>
     );
   },
@@ -240,6 +292,7 @@ class Feed extends Component {
 
   renderFeedComponent = (index, key) => {
     const feedDatum = this.props.homeFeedData[index];
+
     if (feedDatum.type === "Product Capsules Component") {
       return <ProductCapsulesContainer positionInFeed={index} />;
     }
@@ -269,6 +322,7 @@ class Feed extends Component {
         setClickedElementId
       };
     }
+
     return (
       typeComponentMapping[feedDatum.type] && (
         <WidgetContainer {...props}>
@@ -369,6 +423,7 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
+        <div style={{ width: "100%", height: 100 }} />
       </React.Fragment>
     );
   }
