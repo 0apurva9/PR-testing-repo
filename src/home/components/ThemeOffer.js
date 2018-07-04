@@ -41,6 +41,7 @@ export default class ThemeOffer extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     let themeData = [],
       items = [];
     const { feedComponentData, ...rest } = this.props;
@@ -57,7 +58,9 @@ export default class ThemeOffer extends React.Component {
         return transformData(offer);
       });
     }
+
     themeData = concat(offers, items);
+    console.log(feedComponentData);
     return (
       <React.Fragment>
         <MediaQuery query="(max-device-width: 1024px)">
@@ -89,11 +92,11 @@ export default class ThemeOffer extends React.Component {
               banner={
                 <ProductImageHeaderDesktop
                   backgroundColor={feedComponentData.backgroundHexCode}
-                  backgroundImage={feedComponentData.backgroundImageURL}
+                  backgroundImage={feedComponentData.imageURL}
                 />
               }
               {...rest}
-              data={offers}
+              data={themeData}
             />
           </React.Fragment>
         </MediaQuery>

@@ -158,6 +158,7 @@ export const typeComponentMapping = {
   },
   "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
   "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
+  "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,
   "Auto Product Recommendation Component": props => (
     <RecommendationWidget {...props} />
   ),

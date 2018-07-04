@@ -13,7 +13,6 @@ export default class SubBrandsBanner extends React.Component {
     }
   }
   render() {
-    console.log(this.props.feedComponentData);
     return (
       <div
         className={
