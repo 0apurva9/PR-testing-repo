@@ -1690,7 +1690,7 @@ class CheckOutPage extends React.Component {
     if (
       !address.line1 ||
       !address.line1.trim() ||
-      !ADDRESS_VALIDATION.test(address.trim())
+      !ADDRESS_VALIDATION.test(address.line1.trim())
     ) {
       this.props.displayToast(ADDRESS_TEXT);
       return false;
