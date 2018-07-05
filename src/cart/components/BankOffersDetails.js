@@ -119,31 +119,29 @@ class BankOffersDetails extends Component {
               />
             </div>
           </div>
-          <div className={styles.scrollContent}>
-            <GridSelect
-              elementWidthMobile={100}
-              elementWidthDesktop={100}
-              offset={0}
-              limit={1}
-              onSelect={val => this.onSelectCouponCode(val)}
-              selected={[this.state.selectedBankOfferCode]}
-            >
-              {this.props.coupons &&
-                this.props.coupons.coupons.map((value, i) => {
-                  return (
-                    <BankCoupons
-                      offerDescription={value.offerDescription}
-                      offerCode={value.offerCode}
-                      offerMinCartValue={value.offerMinCartValue}
-                      offerMaxDiscount={value.offerMaxDiscount}
-                      offerTitle={value.offerTitle}
-                      key={i}
-                      value={value.offerCode}
-                    />
-                  );
-                })}
-            </GridSelect>
-          </div>
+          <GridSelect
+            elementWidthMobile={100}
+            elementWidthDesktop={100}
+            offset={0}
+            limit={1}
+            onSelect={val => this.onSelectCouponCode(val)}
+            selected={[this.state.selectedBankOfferCode]}
+          >
+            {this.props.coupons &&
+              this.props.coupons.coupons.map((value, i) => {
+                return (
+                  <BankCoupons
+                    offerDescription={value.offerDescription}
+                    offerCode={value.offerCode}
+                    offerMinCartValue={value.offerMinCartValue}
+                    offerMaxDiscount={value.offerMaxDiscount}
+                    offerTitle={value.offerTitle}
+                    key={i}
+                    value={value.offerCode}
+                  />
+                );
+              })}
+          </GridSelect>
         </div>
       </SlideModal>
     );

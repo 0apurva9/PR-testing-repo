@@ -57,12 +57,10 @@
   .dataHolder{
     min-height:100%;
     background:#f9f9f9;
-
   }
   .searchHolder {
     background:#fff;
   }
-
   .fixedContent{
     width:100%;
     position:sticky;
@@ -70,10 +68,4 @@
     top:0;
     z-index:5;
   }
-  .scrollContent{
-    width:100%;
-    min-height:100%;
-    overflow:auto;
-  }
-
 }
