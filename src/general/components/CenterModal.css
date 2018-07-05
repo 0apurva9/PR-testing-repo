@@ -15,8 +15,9 @@
   position: absolute;
   right: 40px;
   top: 20px;
-  background: url(../../home/components/img/cancel.svg) no-repeat;
+  background: url(./img/cancelBlack.svg) no-repeat;
   background-position: center;
+  background-size: 20px;
   z-index: 2;
   cursor: pointer;
 }
