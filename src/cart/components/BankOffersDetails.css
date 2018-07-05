@@ -24,22 +24,42 @@
   font-family: semibold;
   text-align: left;
   padding-left: 20px;
-  position: sticky;
-  z-index: 5;
-  top: 0;
 }
 .searchHolder {
   width: 100%;
   height: auto;
   padding: 20px;
   background: #ececec;
-  position: sticky;
-  z-index: 5;
-  top: 50px;
 }
 .dataHolder {
   width: 100%;
   height: auto;
   min-height: 100vh;
+  position:relative;
   background: #ececec;
+}
+.fixedContent{
+  width:100%;
+  position:sticky;
+  left:0;
+  top:0;
+  z-index:5;
+}
+@media only screen and (min-width: 1025px) {
+  .couponHeader {
+    height:60px;
+    background-color:#f9f9f9;
+    font-size:20px;
+    line-height:60px;
+    color:#212121;
+    z-index:initial;
+  }
+  .dataHolder{
+    min-height:100%;
+    background:#f9f9f9;
+  }
+  .searchHolder {
+    background:#fff;
+  }
+
 }

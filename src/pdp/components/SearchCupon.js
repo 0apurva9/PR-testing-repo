@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
+import Button from "../../general/components/Button.js";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./SearchCupon.css";
 export default class SearchCupon extends React.Component {
   constructor(props) {
@@ -33,13 +36,23 @@ export default class SearchCupon extends React.Component {
       <div className={styles.base}>
         <div className={styles.buttonHolder}>
           <div className={styles.buttonCover}>
-            <UnderLinedButton
-              size="14px"
-              fontFamily="regular"
-              color="#000"
-              label={this.props.label}
-              onClick={() => this.onApply()}
-            />
+            <MobileOnly>
+              <UnderLinedButton
+                size="14px"
+                fontFamily="regular"
+                color="#000"
+                label={this.props.label}
+                onClick={() => this.onApply()}
+              />
+            </MobileOnly>
+            <DesktopOnly>
+              <Button
+                type="tertiary"
+                width={120}
+                label={this.props.label}
+                onClick={() => this.onApply()}
+              />
+            </DesktopOnly>
           </div>
         </div>
         <div className={styles.inputHolder}>
