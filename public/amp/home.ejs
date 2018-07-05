@@ -89,7 +89,8 @@ background-color: #000;}
 background-repeat: no-repeat; background-image: url('https://pwassets.tatacliq.com/static/media/searchRed.950023de.svg');
 background-color: #000;}
 .top-space {margin-top: 30px;}
-.hero-banner {padding: 0 25px;}
+.hero-banner {margin: 0 25px;}
+/* .hero-banner[aria-hidden="true"] {margin: 0 -15px; width: -webkit-fill-available; height: 86%;} */
 .hero-banner amp-img {border-radius: 4px;}
 .hero-content, .offer-content {position: absolute; color: #fff; vertical-align: bottom; padding: 20px;
   font-size: 20px; z-index: 2; display: inline-block; bottom: 0;}
@@ -205,6 +206,15 @@ width: 110px;}
           {{/heroBannerComponent.items}}
         </amp-carousel>
       {{/heroBannerComponent}}
+
+      {{#multiPurposeBanner}}
+      <!-- NOTE: Multi Purpose Banner -->
+      <div class="top-space">
+        <a class="no-select" href="{{webURL}}">
+          <amp-img class="contain" src="{{multiPurposeBanner.backgroundImageURL}}" width="360" height="140" layout="responsive"></amp-img>
+        </a>
+      </div>
+      {{/multiPurposeBanner}}
 
       {{#offersComponent}}
         <!-- NOTE: Offer Component -->
