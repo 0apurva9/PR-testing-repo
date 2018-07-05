@@ -48,3 +48,15 @@
   font-size: 14px;
   padding-top: 20px;
 }
+@media screen and (min-width: 1025px) {
+  .grey .header {
+    background-color: #f8f8f8;
+  }
+  .white .header {
+    background-color: #ffffff;
+  }
+  .header {
+    position: sticky;
+    top: 90px;
+  }
+}
