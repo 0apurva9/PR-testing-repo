@@ -46,3 +46,11 @@
 .sizeNumber:before {
   content: ": ";
 }
+@media screen and (min-width: 1025px) {
+  .sizeText {
+    font-family: light;
+  }
+  .sizeNumber {
+    font-family: light;
+  }
+}

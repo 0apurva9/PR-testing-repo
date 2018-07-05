@@ -7,7 +7,7 @@
 .imageHolder {
   width: 100%;
   height: auto;
-  padding-bottom: 56.5%;
+
   position: relative;
   margin-bottom: 10px;
 }
@@ -51,8 +51,45 @@
   text-align: center;
   transform: translate(-50%, -50%);
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    display: inline-block;
+    border-radius: 4px;
+  }
+  .imageWithSize {
+    width: 100%;
+    height: auto;
+    padding: 30px 35px;
+  }
+  .imageHolder {
+    width: 50%;
+    height: 322px;
+    margin-bottom: 0px;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 15px;
+  }
+  .sizeList {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 15px;
+  }
+  .header {
+    height: 60px;
+    background: #f9f9f9;
+    color: #000;
+    font-size: 20px;
+    line-height: 60px;
+    padding: 0 40px 0px 20px;
+  }
+}
 @media screen and (max-width: 1024px) {
   .base {
-    min-height: 100vh;
+    max-height: 100%;
+  }
+  .imageHolder {
+    padding-bottom: 56.5%;
   }
 }

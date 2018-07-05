@@ -9,8 +9,25 @@
   left: 0;
   margin: auto;
 }
+.cancel {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  background: url(../../home/components/img/cancel.svg) no-repeat;
+  background-position: center;
+}
 .content {
   width: 100%;
   height: 450px;
   overflow: auto;
+}
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
