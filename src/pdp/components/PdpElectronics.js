@@ -9,6 +9,7 @@ import Accordion from "../../general/components/Accordion.js";
 import styles from "./ProductDescriptionPage.css";
 import * as Cookie from "../../lib/Cookie";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
+import queryString, { parse } from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
   CUSTOMER_ACCESS_TOKEN,
@@ -233,6 +234,22 @@ export default class PdpElectronics extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    //show the pinCodeModal if showAmpPincode is true
+    if (parsedQueryString.showAmpPincode === "true") {
+      this.showPincodeModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+    }
+  }
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList

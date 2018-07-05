@@ -25,6 +25,7 @@ import {
 } from "../../lib/constants";
 
 import styles from "./ProductDescriptionPage.css";
+import queryString, { parse } from "query-string";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -295,11 +296,27 @@ export default class PdpApparel extends React.Component {
         return deliveryMode.code === COLLECT;
       }
     );
-    if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
+    if (eligibleForCNC && this.props.getAllStoresForCliqPAndPiq) {
       this.props.showPdpPiqPage();
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    //show the pinCodeModal if showAmpPincode is true
+    if (parsedQueryString.showAmpPincode === "true") {
+      this.showPincodeModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+    }
+  }
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList

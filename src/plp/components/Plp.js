@@ -7,6 +7,7 @@ import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
+import queryString, { parse } from "query-string";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -90,6 +91,12 @@ export default class Plp extends React.Component {
       ) {
         setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
       }
+    }
+
+    //show refine if filtersOpenAmp is true
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    if (parsedQueryString.filtersOpenAmp === "true") {
+      this.props.showFilter();
     }
   }
 

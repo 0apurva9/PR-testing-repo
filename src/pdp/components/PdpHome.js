@@ -28,7 +28,7 @@ import {
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import styles from "./ProductDescriptionPage.css";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-
+import queryString, { parse } from "query-string";
 const ProductFeatures = LoadableVisibility({
   loader: () => import("./ProductFeatures"),
   loading: () => <div />,
@@ -275,6 +275,24 @@ export default class PdpApparel extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    //show the pinCodeModal if showAmpPincode is true
+    if (parsedQueryString.showAmpPincode === "true") {
+      this.showPincodeModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+    }
+  }
+
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
