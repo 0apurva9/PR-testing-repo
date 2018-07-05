@@ -80,7 +80,8 @@ import {
   OTHER_LANDMARK,
   BANK_COUPON_COOKIE,
   SELECTED_BANK_NAME,
-  MY_ACCOUNT_CART_PAGE
+  MY_ACCOUNT_CART_PAGE,
+  ADDRESS_VALIDATION
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -175,17 +176,15 @@ class CheckOutPage extends React.Component {
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
       showCartDetails: false,
-      padding: "15px 125px 15px 15px",
-
+      padding: "15px 125px 15px 15px"
     };
   }
 
-  changeEmiPlan=()=>
-  {
+  changeEmiPlan = () => {
     this.setState({
       cardDetails: {}
     });
-  }
+  };
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
@@ -1064,8 +1063,11 @@ class CheckOutPage extends React.Component {
         bagAmount: Math.round(this.props.location.state.amount * 100) / 100
       });
     } else {
-      if (!this.props.cart.userAddress
-        && this.props.getCartDetailsCNC && this.props.getUserAddress) {
+      if (
+        !this.props.cart.userAddress &&
+        this.props.getCartDetailsCNC &&
+        this.props.getUserAddress
+      ) {
         let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -1684,7 +1686,8 @@ class CheckOutPage extends React.Component {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (address && !address.line1) {
+
+    if (!address.trim() || !ADDRESS_VALIDATION.test(address.trim())) {
       this.props.displayToast(ADDRESS_TEXT);
       return false;
     }
@@ -2298,7 +2301,7 @@ class CheckOutPage extends React.Component {
                   this.props.cart.cartDetailsCNC.products &&
                   this.props.cart.cartDetailsCNC.products.length
                 }
-                changeEmiPlan={()=>this.changeEmiPlan()}
+                changeEmiPlan={() => this.changeEmiPlan()}
                 subEmiOption={this.state.currentSelectedEMIType}
               />
             </div>
