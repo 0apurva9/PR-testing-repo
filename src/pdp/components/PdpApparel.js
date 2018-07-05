@@ -313,7 +313,12 @@ export default class PdpApparel extends React.Component {
     // add the product to bag and make the popup (View bag and Continue shopping) open.
     if (parsedQueryString.addToBagAmp === "true") {
       this.addToCart();
-      this.props.history.replace(this.props.location.pathname);
+      console.log(this.props.location.pathname);
+      let pathName = this.props.location.pathname;
+      this.props.history.replace({
+        pathname: `${pathName}`,
+        search: "?isSizeSelected=true"
+      });
     }
   }
   render() {
