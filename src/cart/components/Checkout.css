@@ -184,4 +184,11 @@
     max-width: 390px;
     bottom: initial;
   }
+  .desktopCart{
+       composes:desktopCheckout;
+       top:120px
+     }
+     .disclaimer {
+       font-size:14px;
+       }
 }

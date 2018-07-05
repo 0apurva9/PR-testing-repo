@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Button from "../../general/components/Button.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
 import infoIcon from "./img/Info.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MediaQuery from "react-responsive";
@@ -61,118 +63,121 @@ export default class Checkout extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.isFromMyBag && (
-          <div className={styles.visibleBase}>
-            <div className={styles.detailsHolder}>
-              {this.props.bagTotal && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Bag total
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.bagTotal}
-                  </div>
-                </div>
-              )}
-              {this.props.totalDiscount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.totalDiscount}
-                  </div>
-                </div>
-              )}
-              {this.props.discount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.discount}
-                  </div>
-                </div>
-              )}
-              {this.props.delivery && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Shipping fee
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.delivery}
-                  </div>
-                </div>
-              )}
-
-              {this.props.coupons && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>Coupon</div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.coupons}
-                  </div>
-                </div>
-              )}
-
-              {this.props.noCostEmiEligibility &&
-                this.props.isNoCostEmiApplied && (
+        <MobileOnly>
+          {this.props.isFromMyBag && (
+            <div className={styles.visibleBase}>
+              <div className={styles.detailsHolder}>
+                {this.props.bagTotal && (
                   <div className={styles.informationHolder}>
                     <div className={styles.informationQuestionHolder}>
-                      No Cost EMI Discount
-                    </div>
-                    <div className={classOffers}>
-                      {RUPEE_SYMBOL}
-                      {this.props.noCostEmiDiscount}
-                    </div>
-                  </div>
-                )}
-              {this.props.isCliqCashApplied && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Cliq Cash
-                  </div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.cliqCashPaidAmount}
-                  </div>
-                </div>
-              )}
-
-              {this.props.payable && (
-                <React.Fragment>
-                  <div className={styles.visiblePayableSection}>
-                    <div className={styles.informationQuestionHolder}>
-                      Total Payable
+                      Bag total
                     </div>
                     <div className={styles.informationAnswerHolder}>
                       {RUPEE_SYMBOL}
-                      {this.props.payable}
+                      {this.props.bagTotal}
                     </div>
                   </div>
-                  {totalSaving > 0 && (
-                    <div className={styles.savingSection}>
+                )}
+                {this.props.totalDiscount && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.totalDiscount}
+                    </div>
+                  </div>
+                )}
+                {this.props.discount && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.discount}
+                    </div>
+                  </div>
+                )}
+                {this.props.delivery && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Shipping fee
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {this.props.delivery}
+                    </div>
+                  </div>
+                )}
+
+                {this.props.coupons && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Coupon
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.coupons}
+                    </div>
+                  </div>
+                )}
+
+                {this.props.noCostEmiEligibility &&
+                  this.props.isNoCostEmiApplied && (
+                    <div className={styles.informationHolder}>
                       <div className={styles.informationQuestionHolder}>
-                        Total savings
+                        No Cost EMI Discount
                       </div>
-                      <div className={styles.informationAnswerHolder}>
+                      <div className={classOffers}>
                         {RUPEE_SYMBOL}
-                        {totalSaving}
+                        {this.props.noCostEmiDiscount}
                       </div>
                     </div>
                   )}
-                </React.Fragment>
-              )}
+                {this.props.isCliqCashApplied && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Cliq Cash
+                    </div>
+                    <div className={classOffers}>
+                      {RUPEE_SYMBOL}
+                      {this.props.cliqCashPaidAmount}
+                    </div>
+                  </div>
+                )}
+
+                {this.props.payable && (
+                  <React.Fragment>
+                    <div className={styles.visiblePayableSection}>
+                      <div className={styles.informationQuestionHolder}>
+                        Total Payable
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        {RUPEE_SYMBOL}
+                        {this.props.payable}
+                      </div>
+                    </div>
+                    {totalSaving > 0 && (
+                      <div className={styles.savingSection}>
+                        <div className={styles.informationQuestionHolder}>
+                          Total savings
+                        </div>
+                        <div className={styles.informationAnswerHolder}>
+                          {RUPEE_SYMBOL}
+                          {totalSaving}
+                        </div>
+                      </div>
+                    )}
+                  </React.Fragment>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        <MediaQuery query="(max-device-width: 1024px)">
+          )}
+
           <div className={styles.disclaimer}>{DISCLAIMER}</div>
-        </MediaQuery>
+        </MobileOnly>
         <div className={styles.hiddenBase}>
           <div
             className={styles.totalPriceButtonHolder}
@@ -460,7 +465,10 @@ export default class Checkout extends React.Component {
           </div>
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
-          <div className={styles.desktopCheckout}>
+          <div
+            className={styles.desktopCheckout}
+            style={{ top: this.props.isFromMyBag ? 135 : 65 }}
+          >
             <DesktopCheckout {...this.props} />
             <div>{this.props.desktopElement}</div>
             <div className={styles.disclaimer}>{DISCLAIMER}</div>
