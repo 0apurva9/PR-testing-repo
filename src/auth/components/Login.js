@@ -152,7 +152,7 @@ class Login extends Component {
     if (pathName === LOGIN_PATH || MAIN_ROUTER) {
       footerText = "New to Tata CLiQ? ";
       footerClick = () => this.navigateToSignUp();
-      buttonLabel = "Sign Up";
+      buttonLabel = "New to TataCLiQ ? Sign Up";
       showSocialButtons = true;
     }
 

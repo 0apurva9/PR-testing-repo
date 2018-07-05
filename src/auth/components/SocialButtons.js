@@ -4,9 +4,9 @@ import styles from "./SocialButtons.css";
 import MediaQuery from "react-responsive";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import Icon from "../../xelpmoc-core/Icon";
-import facebookImage from "./img/facebook.svg";
+import facebookImage from "./img/ficon.png";
 import desktopFacebookImage from "./img/facebook_desktop.svg";
-import googlePlus from "./img/googlePlus.svg";
+import googlePlus from "./img/glogo.png";
 import desktopGooglePlus from "./img/googlePlus_desktop.svg";
 import PropTypes from "prop-types";
 
@@ -111,23 +111,32 @@ export default class SocialButtons extends Component {
           </div>
           <div className={styles.base}>
             <div className={styles.holder}>
-              <CircleButton
+              <div className={styles.button} onClick={this.facebookLogin}>
+                <div className={styles.iconHolderFacebook} />
+                Facebook
+              </div>
+              {/* <CircleButton
                 color={"rgba(0,0,0,0)"}
                 size={45}
                 onClick={this.facebookLogin}
                 icon={<Icon image={facebookImage} size={45} />}
-              />
+              /> */}
             </div>
-            <div className={styles.separator} />
+            <div className={styles.separator}>
+              <div className={styles.button} onClick={this.googlePlusLogin}>
+                <div className={styles.iconHolderGoogle} />
+                Google
+              </div>
+            </div>
 
-            <div className={styles.holder}>
+            {/* <div className={styles.holder}>
               <CircleButton
                 color={"rgba(0,0,0,0)"}
                 size={45}
                 onClick={this.googlePlusLogin}
                 icon={<Icon image={googlePlus} size={45} />}
               />
-            </div>
+            </div> */}
           </div>
         </MediaQuery>
       </div>

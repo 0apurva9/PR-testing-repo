@@ -42,15 +42,8 @@ export default class AuthFrame extends React.Component {
         )}
 
         {this.props.children}
-        {this.props.showSocialButtons && (
-          <div className={styles.socialButtons}>
-            <SocialButtonsContainer isSignUp={this.props.isSignUp} />
-          </div>
-        )}
-
         {this.props.footerText && (
           <div className={styles.navigateButtonHolder}>
-            <div className={styles.footer}>{this.props.footerText}</div>
             <div className={styles.signUpButtonHolder}>
               <div className={styles.signUpButton}>
                 <CoreButton
@@ -58,7 +51,7 @@ export default class AuthFrame extends React.Component {
                   borderRadius={100}
                   color="#fff"
                   label={this.props.buttonLabel}
-                  width={148}
+                  width="100%"
                   height={46}
                   textStyle={{ fontFamily: "semibold" }}
                   borderColor="#fff"
@@ -68,6 +61,12 @@ export default class AuthFrame extends React.Component {
             </div>
           </div>
         )}
+        {this.props.showSocialButtons && (
+          <div className={styles.socialButtons}>
+            <SocialButtonsContainer isSignUp={this.props.isSignUp} />
+          </div>
+        )}
+
         {this.props.location &&
           this.props.location.pathname === LOGIN_PATH && (
             <div className={styles.legalLinkHolder}>

@@ -46,12 +46,8 @@ class SignUp extends Component {
     }
   }
   onSubmit() {
-    if (!this.state.phoneNumberValue) {
-      this.props.displayToast("Please enter a valid phone number ");
-      return false;
-    }
-    if (!MOBILE_PATTERN.test(this.state.phoneNumberValue)) {
-      this.props.displayToast("Please enter a valid phone number");
+    if (!this.state.emailValue) {
+      this.props.displayToast("Please enter email address ");
       return false;
     }
     if (this.state.emailValue) {
@@ -129,7 +125,7 @@ class SignUp extends Component {
       footerText = "Already have an account?";
       footerClick = () => this.navigateToLogin();
       showSocialButtons = true;
-      buttonLabel = "Sign In";
+      buttonLabel = "Already have an account? LOGIN";
     }
     if (this.props.authCallsInProcess) {
       return (
@@ -152,20 +148,7 @@ class SignUp extends Component {
           <div>
             <div className={styles.input}>
               <Input
-                value={
-                  this.props.phoneNumberValue
-                    ? this.props.phoneNumberValue
-                    : this.state.phoneNumberValue
-                }
-                placeholder={"Phone number"}
-                type={"number"}
-                onChange={val => this.onPhoneNumberChange(val)}
-                maxLength={"10"}
-              />
-            </div>
-            <div className={styles.input}>
-              <Input
-                placeholder={"Email (optional)"}
+                placeholder={"Enter Email"}
                 value={
                   this.props.emailValue
                     ? this.props.emailValue
@@ -175,7 +158,7 @@ class SignUp extends Component {
               />
             </div>
             <PasswordInput
-              placeholder={"Password"}
+              placeholder={"Enter Password"}
               password={
                 this.props.passwordValue
                   ? this.props.passwordValue
@@ -207,7 +190,7 @@ class SignUp extends Component {
                 <Button
                   backgroundColor={"#FF1744"}
                   label={"Sign Up"}
-                  width={150}
+                  width="100%"
                   height={45}
                   borderRadius={22.5}
                   onClick={() => this.onSubmit()}

@@ -27,7 +27,7 @@ export default class LogInButton extends React.Component {
           <Button
             backgroundColor={"#FF1744"}
             label={"Login"}
-            width={150}
+            width="100%"
             height={45}
             borderRadius={22.5}
             onClick={this.onClick}
