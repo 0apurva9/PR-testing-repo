@@ -233,7 +233,8 @@
     height: 100px;
     padding-bottom: 100px;
   }
-  .downArrow {
+  .brandDetails {
+    margin-top: 49px;
   }
 }
 @media screen and (max-width: 1024px) {

@@ -38,6 +38,9 @@
   .imageHolder {
     cursor: pointer;
   }
+  /* .base {
+    margin-top: 49px;
+  } */
   .imageHolder {
     width: 60%;
     height: 60%;

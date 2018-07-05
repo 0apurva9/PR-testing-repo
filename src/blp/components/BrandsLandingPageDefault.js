@@ -286,14 +286,16 @@ export default class BrandsLandingPageDefault extends React.Component {
                             <Carousel elementWidthDesktop={16.66}>
                               {showFollowBrands.map((brand, index) => {
                                 return (
-                                  <BrandImage
-                                    key={index}
-                                    isFollowing={brand.isFollowing}
-                                    image={brand.imageURL}
-                                    onClick={() =>
-                                      this.handleClick(brand.webURL)
-                                    }
-                                  />
+                                  <div className={styles.brandDetails}>
+                                    <BrandImage
+                                      key={index}
+                                      isFollowing={brand.isFollowing}
+                                      image={brand.imageURL}
+                                      onClick={() =>
+                                        this.handleClick(brand.webURL)
+                                      }
+                                    />
+                                  </div>
                                 );
                               })}
                             </Carousel>
