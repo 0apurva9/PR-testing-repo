@@ -1,7 +1,7 @@
 .base {
   width: 100%;
   height: auto;
-  min-height: 100vh;
+
   background: #fff;
 }
 .imageHolder {
@@ -50,4 +50,9 @@
   left: 50%;
   text-align: center;
   transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 1024px) {
+  .base {
+    min-height: 100vh;
+  }
 }
