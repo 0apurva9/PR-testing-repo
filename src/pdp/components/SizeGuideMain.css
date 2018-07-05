@@ -1,13 +1,11 @@
 .base {
   width: 100%;
   height: auto;
-
   background: #fff;
 }
 .imageHolder {
   width: 100%;
   height: auto;
-
   position: relative;
   margin-bottom: 10px;
 }
@@ -68,6 +66,8 @@
     display: inline-block;
     vertical-align: top;
     padding-left: 15px;
+    position: sticky;
+    top: 90px;
   }
   .sizeList {
     width: 50%;
@@ -83,9 +83,15 @@
     font-size: 20px;
     line-height: 60px;
     padding: 0 40px 0px 20px;
+    top: 0px;
+    position: sticky;
+    z-index: 1;
   }
 }
 @media screen and (max-width: 1024px) {
+  .base::-webkit-scrollbar {
+    display: none;
+  }
   .base {
     max-height: 100%;
   }
