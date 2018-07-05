@@ -37,13 +37,16 @@
   color: #181818;
   font-family: regular;
   line-height: normal;
-  margin-bottom: 10px;
   line-height: 22px;
 }
 .dataHolder {
   width: 100%;
   height: auto;
   display: inline-block;
+  margin-top: 10px;
+}
+.dataHolder:empty {
+  display:none;
 }
 .amountExpireHolder {
   width: 50%;
@@ -68,4 +71,14 @@
   color: #181818;
   font-size: 13px;
   font-family: regular;
+}
+@media only screen and (min-width: 1025px) {
+  .base {
+    background:#f9f9f9;
+    padding:25px 40px 0 40px;
+  }
+  .cuponCard {
+    padding:0;
+    padding-bottom:25px;
+  }
 }
