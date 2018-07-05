@@ -296,7 +296,7 @@ export default class PdpApparel extends React.Component {
         return deliveryMode.code === COLLECT;
       }
     );
-    if (eligibleForCNC && this.props.getAllStoresForCliqPAndPiq) {
+    if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
       this.props.showPdpPiqPage();
       this.props.getAllStoresForCliqAndPiq();
     }
