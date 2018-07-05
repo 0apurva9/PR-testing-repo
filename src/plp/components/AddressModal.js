@@ -28,7 +28,7 @@ export default class AddressModal extends React.Component {
   }
   render() {
     return (
-      <BottomSlideModal>
+      <BottomSlideModal heading={"Pick an address"}>
         <div className={styles.base}>
           <div className={styles.labelText}>Please enter your PIN code</div>
           <div className={styles.searchHolder}>
