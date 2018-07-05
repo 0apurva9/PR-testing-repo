@@ -213,7 +213,6 @@ export default class AddDeliveryAddress extends React.Component {
     }
   };
   addNewAddress = () => {
-    console.log(ADDRESS_VALIDATION.test(this.state.line1));
     if (!this.state.postalCode) {
       this.props.displayToast(PINCODE_TEXT);
       return false;
