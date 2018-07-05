@@ -16,5 +16,8 @@
 @media screen and (min-width: 1025px) {
   .base {
     background: initial;
+    border-bottom: 1px solid #ececec;
+    display: flex;
+    margin-bottom: 70px;
   }
 }

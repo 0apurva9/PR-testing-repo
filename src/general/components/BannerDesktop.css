@@ -63,3 +63,8 @@
   transition: 300ms;
   white-space: nowrap;
 }
+@media screen and (min-width: 1025px) {
+  .item {
+    position: relative;
+  }
+}
