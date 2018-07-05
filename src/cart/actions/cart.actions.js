@@ -879,7 +879,7 @@ export function addUserAddress(userAddress, fromAccount) {
     } else {
       addressObject.append("landmark", "");
     }
-    addressObject.append("emailId", userAddress.emailId);
+    addressObject.append("emailId", JSON.parse(userDetails).userName);
     try {
       const result = await api.postFormData(
         `${USER_CART_PATH}/${
