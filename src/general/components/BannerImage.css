@@ -30,7 +30,7 @@
 .followButtonWithText {
   margin-top: 50px;
   display: inline-block;
-  width: 100%;
+  width: auto;
   height: auto;
   position: absolute;
   top: 0;
