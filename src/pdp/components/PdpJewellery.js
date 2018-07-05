@@ -317,18 +317,14 @@ export default class PdpJewellery extends React.Component {
   };
   componentDidMount() {
     const parsedQueryString = queryString.parse(this.props.location.search);
-
     //show the EmiModal if showAmpEmi is true
     if (parsedQueryString.showAmpEmi === "true") {
       this.showEmiModal();
     }
-    //show the pinCodeModal if showAmpPincode is true
-    if (parsedQueryString.showAmpPincode === "true") {
-      this.showPincodeModal();
-    }
     // add the product to bag and make the popup (View bag and Continue shopping) open.
     if (parsedQueryString.addToBagAmp === "true") {
       this.addToCart();
+      this.props.history.replace(this.props.location.pathname);
     }
   }
   render() {

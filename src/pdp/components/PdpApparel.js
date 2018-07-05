@@ -149,6 +149,7 @@ export default class PdpApparel extends React.Component {
   };
 
   addToCart = () => {
+    const parsedQueryString = queryString.parse(this.props.location.search);
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -174,7 +175,8 @@ export default class PdpApparel extends React.Component {
           this.checkIfSizeSelected() ||
           this.checkIfSizeDoesNotExist() ||
           this.checkIfFreeSize() ||
-          this.checkIfNoSize()
+          this.checkIfNoSize() ||
+          parsedQueryString.addToBagAmp === "true"
         ) {
           if (userDetails) {
             if (cartDetailsLoggedInUser && customerCookie) {
@@ -308,13 +310,10 @@ export default class PdpApparel extends React.Component {
     if (parsedQueryString.showAmpEmi === "true") {
       this.showEmiModal();
     }
-    //show the pinCodeModal if showAmpPincode is true
-    if (parsedQueryString.showAmpPincode === "true") {
-      this.showPincodeModal();
-    }
     // add the product to bag and make the popup (View bag and Continue shopping) open.
     if (parsedQueryString.addToBagAmp === "true") {
       this.addToCart();
+      this.props.history.replace(this.props.location.pathname);
     }
   }
   render() {
