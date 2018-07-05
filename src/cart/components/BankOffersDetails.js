@@ -96,9 +96,9 @@ class BankOffersDetails extends Component {
   };
   render() {
     return (
-      <div className={styles.base}>
-        <SlideModal {...this.props}>
-          <div className={styles.dataHolder}>
+      <SlideModal {...this.props}>
+        <div className={styles.dataHolder}>
+          <div className={styles.fixedContent}>
             <div className={styles.couponHeader}>{COUPON_HEADER}</div>
             <div className={styles.searchHolder}>
               <SearchCupon
@@ -118,8 +118,11 @@ class BankOffersDetails extends Component {
                 applyUserCoupon={() => this.applyUserCoupon()}
               />
             </div>
+          </div>
+          <div className={styles.scrollContent}>
             <GridSelect
               elementWidthMobile={100}
+              elementWidthDesktop={100}
               offset={0}
               limit={1}
               onSelect={val => this.onSelectCouponCode(val)}
@@ -141,8 +144,8 @@ class BankOffersDetails extends Component {
                 })}
             </GridSelect>
           </div>
-        </SlideModal>
-      </div>
+        </div>
+      </SlideModal>
     );
   }
 }

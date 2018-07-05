@@ -10,13 +10,13 @@ export default class SlideModal extends React.Component {
   render() {
     return (
       <div className={styles.base}>
+        <div className={styles.content}>{this.props.children}</div>
         <div
           className={styles.cancel}
           onClick={() => {
             this.handleClose();
           }}
         />
-        <div className={styles.content}>{this.props.children}</div>
       </div>
     );
   }
