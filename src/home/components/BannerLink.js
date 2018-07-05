@@ -26,7 +26,7 @@ export default class BannerLink extends React.Component {
             className={styles.imageHolder}
             style={{
               backgroundImage: `url(${this.props.image})`,
-              backgroundSize: "auto 80%",
+              backgroundSize: " 80%",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center"
             }}
