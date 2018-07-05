@@ -5,17 +5,19 @@ import Carousel from "../../general/components/Carousel";
 import TopSellingBrandComponent from "../../general/components/TopSellingBrandComponent";
 export default class TopSellingBrandSlider extends React.Component {
   render() {
+    let { feedComponentData } = this.props;
     return (
       <div className={styles.base}>
-        <Carousel header={this.props.title} elementWidthDesktop={25}>
-          {this.props.data &&
-            this.props.data.map((datum, i) => {
+        <Carousel header={feedComponentData.title} elementWidthDesktop={25}>
+          {feedComponentData.items &&
+            feedComponentData.items.map((datum, i) => {
               return (
                 <TopSellingBrandComponent
                   imageURL={datum.imageURL}
                   webURL={datum.webURL}
                   logoImageURL={datum.logoImageURL}
                   history={this.props.history}
+                  setClickedElementId={this.props.setClickedElementId}
                 />
               );
             })}

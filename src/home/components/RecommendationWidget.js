@@ -42,6 +42,7 @@ export default class RecommendationWidget extends React.Component {
 
     return (
       <FeedComponent
+        elementWidthDesktop={25}
         carouselOptions={{
           header: this.props.feedComponentData.title,
           buttonText: this.props.feedComponentData.btnText,
