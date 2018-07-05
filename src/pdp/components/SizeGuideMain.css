@@ -89,9 +89,6 @@
   }
 }
 @media screen and (max-width: 1024px) {
-  .base::-webkit-scrollbar {
-    display: none;
-  }
   .base {
     max-height: 100%;
   }
