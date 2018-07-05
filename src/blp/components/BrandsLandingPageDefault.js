@@ -35,7 +35,7 @@ export default class BrandsLandingPageDefault extends React.Component {
       showFollowing: true,
       currentActiveBrandType: 0,
       searchBy: null,
-      selectedCatagory: null
+      selectedBrandType: null
     };
   }
   handleClick = webURL => {
@@ -70,8 +70,12 @@ export default class BrandsLandingPageDefault extends React.Component {
   renderLoader() {
     return <Loader />;
   }
-  findSelectedText(catagoryIndex) {
-    this.setState({ selectedCatagory: catagoryIndex });
+  findSelectedText(selectedBrandType) {
+    if (this.state.selectedBrandType !== selectedBrandType) {
+      this.setState({ selectedBrandType: selectedBrandType });
+    } else {
+      this.setState({ selectedBrandType: null });
+    }
   }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -118,18 +122,18 @@ export default class BrandsLandingPageDefault extends React.Component {
           .includes(this.state.searchBy.toLowerCase());
       });
     }
-    if (this.state.selectedCatagory) {
+    if (this.state.selectedBrandType) {
       currentActiveBrandList = filter(currentActiveBrandList, brand => {
         return brand.brandName
           .toLowerCase()
-          .startsWith(this.state.selectedCatagory.toLowerCase());
+          .startsWith(this.state.selectedBrandType.toLowerCase());
       });
     }
     currentActiveBrandList = groupBy(currentActiveBrandList, list => {
-      return list.brandName[0];
+      return list.brandName[0].toUpperCase();
     });
     selectedBrand = groupBy(selectedBrand, list => {
-      return list.brandName[0];
+      return list.brandName[0].toUpperCase();
     });
     const parentBrandsLabel = Object.keys(currentActiveBrandList);
     const presentLabel = Object.keys(selectedBrand);
@@ -183,8 +187,6 @@ export default class BrandsLandingPageDefault extends React.Component {
                               key={i}
                               url={datum.webURL}
                               showButton={false}
-                              isFollow={true}
-                              newProducts={true}
                               {...this.props}
                             />
                           );
@@ -256,55 +258,48 @@ export default class BrandsLandingPageDefault extends React.Component {
                   </MobileOnly>
                   <DesktopOnly>
                     <div className={styles.followingBrandsWithHeader}>
-                      {this.props.followedBrands && (
-                        <div className={styles.followingBrandsWithHeader}>
-                          <div className={styles.headerWithFollowing}>
+                      <div className={styles.followingBrandsWithHeader}>
+                        <div className={styles.headerWithFollowing}>
+                          <div
+                            className={
+                              this.state.showFollowing
+                                ? styles.headerText
+                                : styles.followingHeader
+                            }
+                            onClick={() => this.handleShowFollow()}
+                          >
+                            Following brands
                             <div
                               className={
                                 this.state.showFollowing
-                                  ? styles.headerText
-                                  : styles.followingHeader
+                                  ? styles.arrow
+                                  : styles.downArrow
                               }
-                              onClick={() => this.handleShowFollow()}
-                            >
-                              Following brands
-                              <div
-                                className={
-                                  this.state.showFollowing
-                                    ? styles.arrow
-                                    : styles.downArrow
-                                }
-                              />
-                            </div>
-                            <div className={styles.countFollowBrands}>{`${
-                              this.props.followedBrands.length
-                            } Brands`}</div>
+                            />
                           </div>
-                          {this.state.showFollowing && (
-                            <div className={styles.brandsList}>
-                              <Carousel elementWidthDesktop={16.66}>
-                                {this.props.followedBrands &&
-                                  this.props.followedBrands.length > 0 &&
-                                  this.props.followedBrands
-                                    .filter(brand => {
-                                      return brand.isFollowing === "true";
-                                    })
-                                    .map(brand => {
-                                      return (
-                                        <BrandImage
-                                          isFollowing={brand.isFollowing}
-                                          image={brand.imageURL}
-                                          onClick={() =>
-                                            this.handleClick(brand.webURL)
-                                          }
-                                        />
-                                      );
-                                    })}
-                              </Carousel>
-                            </div>
-                          )}
+                          <div className={styles.countFollowBrands}>{`${
+                            showFollowBrands.length
+                          } Brands`}</div>
                         </div>
-                      )}
+                        {this.state.showFollowing && (
+                          <div className={styles.brandsList}>
+                            <Carousel elementWidthDesktop={16.66}>
+                              {showFollowBrands.map((brand, index) => {
+                                return (
+                                  <BrandImage
+                                    key={index}
+                                    isFollowing={brand.isFollowing}
+                                    image={brand.imageURL}
+                                    onClick={() =>
+                                      this.handleClick(brand.webURL)
+                                    }
+                                  />
+                                );
+                              })}
+                            </Carousel>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </DesktopOnly>
                 </React.Fragment>
@@ -316,17 +311,17 @@ export default class BrandsLandingPageDefault extends React.Component {
             <DesktopOnly>
               {presentLabel &&
                 presentLabel.length !== 0 &&
-                presentLabel.map((catagory, i) => {
+                presentLabel.map((brandInitials, i) => {
                   return (
                     <div
                       className={
-                        catagory === this.state.selectedCatagory
+                        brandInitials === this.state.selectedBrandType
                           ? styles.activeTextWithCircle
                           : styles.textWithCircle
                       }
-                      onClick={() => this.findSelectedText(catagory)}
+                      onClick={() => this.findSelectedText(brandInitials)}
                     >
-                      {catagory}
+                      {brandInitials}
                     </div>
                   );
                 })}
