@@ -6,6 +6,8 @@ import Accordion from "../../general/components/Accordion.js";
 import Loader from "../../general/components/Loader";
 import SizeGuideElementFootwear from "./SizeGuideElementFootwear";
 import SizeGuideElementBelt from "./SizeGuideElementBelt";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 export default class SizeGuideMain extends React.Component {
   componentDidMount() {
     this.props.getSizeGuide(this.props.productCode);
@@ -20,57 +22,68 @@ export default class SizeGuideMain extends React.Component {
           <div className={styles.header}>
             {this.props.productName} Size Guide
           </div>
-          <div className={styles.imageHolder}>
-            <div className={styles.image}>
-              <Image fit="contain" image={this.props.sizeData.imageURL} />
-            </div>
+          <div className={styles.imageWithSize}>
+            <MobileOnly>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image fit="contain" image={this.props.sizeData.imageURL} />
+                </div>
+              </div>
+            </MobileOnly>
+            {this.props.category !== "Footwear" &&
+              this.props.category !== "Accessories" &&
+              this.props.sizeData.sizeGuideList && (
+                <div className={styles.sizeList}>
+                  {this.props.sizeData.sizeGuideList.map((list, i) => {
+                    return (
+                      <Accordion
+                        text={list.dimensionSize}
+                        key={i}
+                        offset={20}
+                        activeBackground="#f8f8f8"
+                      >
+                        {this.props.category !== "Footwear" && (
+                          <SizeGuideElement
+                            data={list.dimensionList}
+                            category={this.props.category}
+                          />
+                        )}
+                      </Accordion>
+                    );
+                  })}
+                </div>
+              )}
+            {this.props.category === "Footwear" &&
+              this.props.sizeData.sizeGuideList && (
+                <div className={styles.sizeList}>
+                  {this.props.sizeData.sizeGuideList.map((list, i) => {
+                    return (
+                      <SizeGuideElementFootwear
+                        data={list.dimensionList}
+                        key={i}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            {this.props.category === "Accessories" &&
+              this.props.sizeData.sizeGuideList && (
+                <div className={styles.sizeList}>
+                  {this.props.sizeData.sizeGuideList.map((list, i) => {
+                    return (
+                      <SizeGuideElementBelt data={list.dimensionList} key={i} />
+                    );
+                  })}
+                </div>
+              )}
+            <DesktopOnly>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image fit="contain" image={this.props.sizeData.imageURL} />
+                </div>
+              </div>
+            </DesktopOnly>
           </div>
-          {this.props.category !== "Footwear" &&
-            this.props.category !== "Accessories" &&
-            this.props.sizeData.sizeGuideList && (
-              <div className={styles.sizeList}>
-                {this.props.sizeData.sizeGuideList.map((list, i) => {
-                  return (
-                    <Accordion
-                      text={list.dimensionSize}
-                      key={i}
-                      offset={20}
-                      activeBackground="#f8f8f8"
-                    >
-                      {this.props.category !== "Footwear" && (
-                        <SizeGuideElement
-                          data={list.dimensionList}
-                          category={this.props.category}
-                        />
-                      )}
-                    </Accordion>
-                  );
-                })}
-              </div>
-            )}
-          {this.props.category === "Footwear" &&
-            this.props.sizeData.sizeGuideList && (
-              <div className={styles.sizeList}>
-                {this.props.sizeData.sizeGuideList.map((list, i) => {
-                  return (
-                    <SizeGuideElementFootwear
-                      data={list.dimensionList}
-                      key={i}
-                    />
-                  );
-                })}
-              </div>
-            )}
-          {this.props.category === "Accessories" &&
-            this.props.sizeData.sizeGuideList && (
-              <div className={styles.sizeList}>
-                {this.props.sizeData.sizeGuideList.map((list, i) => {
-                  return (
-                    <SizeGuideElementBelt data={list.dimensionList} key={i} />
-                  );
-                })}
-              </div>
-            )}
         </div>
       );
     } else {
