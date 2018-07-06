@@ -113,11 +113,15 @@
     max-width: 1200px;
     margin: auto;
     display: inherit;
-    height: 475px;
-    padding-bottom: 475px;
+    height: auto;
+    padding: 40px 0px 40px;
+  }
+  .productImageHolder {
+    width: 25%;
   }
   .productDescriptionHolder {
     padding-left: 135px;
+    width: 75%;
   }
   .brandName {
     margin-bottom: 20px;

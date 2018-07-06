@@ -49,7 +49,11 @@
   width: 100%;
   display: inline-block;
 }
-
+.dropdownWithButton {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
 @media screen and (min-width: 1025px) {
   .dropDownHolder {
     background: #ececec;
@@ -92,6 +96,7 @@
     float: left;
     font-family: semibold;
     font-size: 30px;
+    margin-bottom: 15px;
   }
   .ratngAndReviews {
     width: 100%;
@@ -107,5 +112,10 @@
     width: 50%;
     height: auto;
     display: inline-block;
+    vertical-align: top;
+  }
+  .headerWrapper {
+    width: 100%;
+    height: auto;
   }
 }
