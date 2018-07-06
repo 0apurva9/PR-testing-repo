@@ -18,3 +18,8 @@
   margin-bottom: 15px;
   padding: 0px 10px;
 }
+@media only screen and (min-width:1024px){
+  .base{
+    border-radius:0 0 4px 4px;
+  }
+}

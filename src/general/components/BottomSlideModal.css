@@ -57,6 +57,7 @@
     position:sticky;
     top:0;
     padding:0 20px;
+    border-radius: 4px 4px 0 0;
   }
   .cancel{
     width:25px;
