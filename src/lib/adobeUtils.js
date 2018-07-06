@@ -1832,16 +1832,18 @@ export function setDataLayerForLogoutSuccess() {
   }
 }
 export function setDataLayerForAutoSuggestSearch(response) {
-  let data = {
+  let data = window.digitalData;
+  Object.assign(data, {
     search: {
       autosuggest: {
         term: response ? response.term : "",
         position: response ? response.position : ""
       }
     }
-  };
+  });
   window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);
+    debugger;
   }
 }
