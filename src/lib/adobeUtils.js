@@ -95,6 +95,7 @@ const ADOBE_ON_CLICK_WIDGETS = "cpj_widget_followed";
 // const or adobe call for internal search call
 const ADOBE_INTERNAL_SEARCH_SUCCESS = "internal_search";
 const ADOBE_INTERNAL_SEARCH_NULL = "null_search";
+const AUTO_SUGGEST_SEARCH = "auto_suggest_search_click";
 // end of const or adobe call for internal search call
 
 const ADOBE_NOT_FOUND = "404_error";
@@ -239,6 +240,8 @@ export const ADOBE_LOGIN_AND_SIGN_UP_PAGE = "ADOBE_LOGIN_AND_SIGN_UP_PAGE";
 
 export const ADOBE_SIGN_UP_START = "ADOBE_SIGN_UP_START";
 export const ADOBE_SIGN_UP_SUCCESS = "ADOBE_SIGN_UP_SUCCESS";
+
+export const ADOBE_AUTO_SUGGEST_SEARCH = "ADOBE_AUTO_SUGGEST_SEARCH";
 
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
@@ -1119,8 +1122,8 @@ export function getDigitalDataForSearchPageForNullResult(response) {
   };
   return data;
 }
-export function setDataLayerForPlpDirectCalls(response) {
-  const data = window.digitalData;
+export function setDataLayerForPlpDirectCalls(response, index: 0) {
+  const data = window.digitalData ? window.digitalData : {};
   let badge;
   if (response) {
     if (response.outOfStock) {
@@ -1143,8 +1146,15 @@ export function setDataLayerForPlpDirectCalls(response) {
     } else {
       Object.assign(data, { cpj: { product: { badge } } });
     }
-    window.digitalData = data;
   }
+  Object.assign(data, {
+    internal: {
+      search: {
+        position: index + 1
+      }
+    }
+  });
+  window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP);
   }
@@ -1257,7 +1267,11 @@ export function setDataLayerForLogin(type) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE) {
-    window.digitalData.flag = ADOBE_LOGIN_FAILURE;
+    if (window.digitalData) {
+      window.digitalData.flag = ADOBE_LOGIN_FAILURE;
+    } else {
+      window.digitalData = { flag: ADOBE_LOGIN_FAILURE };
+    }
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_FAILURE);
     }
@@ -1815,5 +1829,19 @@ export function setDataLayerForSignupProcess(type) {
 export function setDataLayerForLogoutSuccess() {
   if (window._satellite) {
     window._satellite.track(LOGOUT_SUCCESS);
+  }
+}
+export function setDataLayerForAutoSuggestSearch(response) {
+  let data = {
+    search: {
+      autosuggest: {
+        term: response ? response.term : "",
+        position: response ? response.position : ""
+      }
+    }
+  };
+  window.digitalData = data;
+  if (window._satellite) {
+    window._satellite.track(AUTO_SUGGEST_SEARCH);
   }
 }
