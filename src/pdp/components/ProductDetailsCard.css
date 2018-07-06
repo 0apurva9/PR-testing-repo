@@ -116,6 +116,11 @@
     height: auto;
     padding: 40px 0px 40px;
   }
+  .productImagWithDataHolder {
+    max-width: 75%;
+    margin: auto;
+    height: auto;
+  }
   .productImageHolder {
     width: 25%;
   }
