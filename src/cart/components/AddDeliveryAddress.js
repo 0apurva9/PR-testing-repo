@@ -38,7 +38,8 @@ import {
   SELECT_ADDRESS_TYPE,
   ISO_CODE,
   OTHER_LANDMARK,
-  ADDRESS_VALIDATION
+  ADDRESS_VALIDATION,
+  NAME_VALIDATION
 } from "../../lib/constants";
 
 export default class AddDeliveryAddress extends React.Component {
@@ -221,11 +222,17 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.displayToast(PINCODE_VALID_TEXT);
       return false;
     }
-    if (!this.state.firstName) {
+    if (
+      !this.state.firstName.trim() ||
+      !NAME_VALIDATION.test(this.state.firstName.trim())
+    ) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.lastName) {
+    if (
+      !this.state.lastName.trim() ||
+      !NAME_VALIDATION.test(this.state.lastName.trim())
+    ) {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }

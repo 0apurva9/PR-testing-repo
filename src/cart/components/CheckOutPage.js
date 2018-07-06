@@ -81,7 +81,8 @@ import {
   BANK_COUPON_COOKIE,
   SELECTED_BANK_NAME,
   MY_ACCOUNT_CART_PAGE,
-  ADDRESS_VALIDATION
+  ADDRESS_VALIDATION,
+  NAME_VALIDATION
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1678,11 +1679,21 @@ class CheckOutPage extends React.Component {
       this.props.displayToast(PINCODE_VALID_TEXT);
       return false;
     }
-    if (address && !address.firstName) {
+    if (
+      !address ||
+      !address.firstName ||
+      !address.firstName.trim() ||
+      !NAME_VALIDATION.test(address.firstName.trim())
+    ) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (address && !address.lastName) {
+    if (
+      address ||
+      !address.lastName ||
+      !address.lastName.trim() ||
+      !NAME_VALIDATION.test(address.lastName.trim())
+    ) {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
