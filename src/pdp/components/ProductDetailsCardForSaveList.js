@@ -1,12 +1,10 @@
 import React from "react";
-import styles from "./ProductDetailsCard.css";
+import styles from "./ProductDetailsCardForSaveList.css";
 import ProductImage from "../../general/components/ProductImage.js";
 import StarRating from "../../general/components/StarRating.js";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants";
-import MobileOnly from "../../general/components/MobileOnly";
-import DesktopOnly from "../../general/components/DesktopOnly";
-export default class ProductDetailsCard extends React.Component {
+export default class ProductDetailsCardForSaveList extends React.Component {
   onClickImage() {
     if (this.props.onClickImage) {
       this.props.onClickImage();
@@ -79,57 +77,41 @@ export default class ProductDetailsCard extends React.Component {
                 </del>
               )}
           </div>
-          <div className={styles.displayRatingWithRatingText}>
-            <div
-              className={styles.displayRating}
-              itemProp="aggregateRating"
-              itemScope
-              itemType="http://schema.org/AggregateRating"
-            >
-              <meta
-                itemProp="ratingValue"
-                content={
-                  this.props.averageRating ? this.props.averageRating : 0
-                }
-              />
-              <meta
-                itemProp="reviewCount"
-                content={
-                  this.props.numberOfReviews ? this.props.numberOfReviews : 0
-                }
-              />
-              {this.props.averageRating && (
-                <React.Fragment>
-                  <MobileOnly>
-                    <StarRating averageRating={this.props.averageRating} />
-                  </MobileOnly>
-                  <DesktopOnly>
-                    <StarRating
-                      averageRating={this.props.averageRating}
-                      size={20}
-                    />
-                  </DesktopOnly>
-                </React.Fragment>
-              )}
-            </div>
+          <div
+            className={styles.displayRating}
+            itemProp="aggregateRating"
+            itemScope
+            itemType="http://schema.org/AggregateRating"
+          >
+            <meta
+              itemProp="ratingValue"
+              content={this.props.averageRating ? this.props.averageRating : 0}
+            />
+            <meta
+              itemProp="reviewCount"
+              content={
+                this.props.numberOfReviews ? this.props.numberOfReviews : 0
+              }
+            />
             {this.props.averageRating && (
-              <div className={styles.displayRatingText}>
-                Rating{" "}
-                <span>
-                  {" "}
-                  <span>
-                    {Math.round(this.props.averageRating * 10) / 10}
-                  </span>/5
-                </span>
-              </div>
+              <StarRating averageRating={this.props.averageRating} />
             )}
           </div>
+          {this.props.averageRating && (
+            <div className={styles.displayRatingText}>
+              Rating{" "}
+              <span>
+                {" "}
+                <span>{Math.round(this.props.averageRating * 10) / 10}</span>/5
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
-ProductDetailsCard.propTypes = {
+ProductDetailsCardForSaveList.propTypes = {
   productImage: PropTypes.string,
   brandName: PropTypes.string,
   productName: PropTypes.string,

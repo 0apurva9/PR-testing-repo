@@ -12,13 +12,13 @@ export default class StarRating extends React.Component {
       if (i <= rating) {
         starSpans.push(
           <div key={i} className={styles.star}>
-            <Icon image={FilledStar} size={15} />
+            <Icon image={FilledStar} size={this.props.size} />
           </div>
         );
       } else {
         starSpans.push(
           <div key={i} className={styles.star}>
-            <Icon image={Star} size={15} />
+            <Icon image={Star} size={this.props.size} />
           </div>
         );
       }
@@ -35,4 +35,7 @@ export default class StarRating extends React.Component {
 }
 StarRating.propTypes = {
   averageRating: PropTypes.number
+};
+StarRating.defaultProps = {
+  size: 15
 };

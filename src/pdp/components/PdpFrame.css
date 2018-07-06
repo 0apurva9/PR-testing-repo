@@ -12,3 +12,8 @@
   top: 0;
   z-index: 10;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    background: #fff;
+  }
+}

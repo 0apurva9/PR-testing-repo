@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./SaveListCard.css";
 import PropTypes from "prop-types";
-import ProductDetailsCard from "../../pdp/components/ProductDetailsCard";
+import ProductDetailsCardForSaveList from "../../pdp/components/ProductDetailsCardForSaveList";
 import StarRating from "../../general/components/StarRating.js";
 import OrderReturn from "../../account/components/OrderReturn.js";
 import MediaQuery from "react-responsive";
@@ -29,7 +29,7 @@ export default class SaveListCard extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.imageHolder}>
-          <ProductDetailsCard
+          <ProductDetailsCardForSaveList
             productImage={this.props.image}
             outOfStock={this.props.outOfStock}
             productName={this.props.productName}
