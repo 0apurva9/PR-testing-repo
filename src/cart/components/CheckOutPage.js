@@ -1689,7 +1689,7 @@ class CheckOutPage extends React.Component {
       return false;
     }
     if (
-      address ||
+      !address ||
       !address.lastName ||
       !address.lastName.trim() ||
       !NAME_VALIDATION.test(address.lastName.trim())

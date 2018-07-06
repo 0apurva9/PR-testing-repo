@@ -850,14 +850,14 @@ export function addUserAddress(userAddress, fromAccount) {
       addressObject.append("phone", userAddress.phone);
     }
     if (userAddress.firstName) {
-      addressObject.append("firstName", userAddress.firstName);
+      addressObject.append("firstName", userAddress.firstName.trim());
     }
     if (userAddress.lastName) {
-      addressObject.append("lastName", userAddress.lastName);
+      addressObject.append("lastName", userAddress.lastName.trim());
     }
     addressObject.append("postalCode", userAddress.postalCode);
     if (userAddress.line1) {
-      addressObject.append("line1", userAddress.line1);
+      addressObject.append("line1", userAddress.line1.trim());
     } else {
       addressObject.append("line1", "");
     }
