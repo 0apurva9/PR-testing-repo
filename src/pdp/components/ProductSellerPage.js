@@ -286,6 +286,7 @@ class ProductSellerPage extends Component {
                             height={30}
                             onChange={val => this.onSortByPrice(val)}
                             value={this.state.sortOption}
+                            arrowColour={"black"}
                             options={[
                               {
                                 label: PRICE_LOW_TO_HIGH,
