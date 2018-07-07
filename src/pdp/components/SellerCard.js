@@ -17,11 +17,6 @@ export default class SellerCard extends React.Component {
       this.props.addToBag();
     }
   }
-  addToWishList() {
-    if (this.props.addToWishList) {
-      this.props.addToWishList();
-    }
-  }
   render() {
     let priceClass = styles.priceHolder;
     if (
@@ -139,10 +134,7 @@ export default class SellerCard extends React.Component {
                   onClick={() => this.addToBag()}
                 />
               </div>
-              <div
-                className={styles.saveListIcon}
-                onClick={() => this.addToWishList()}
-              >
+              <div className={styles.saveListIcon}>
                 <AddToWishListButtonContainer
                   productListingId={this.props.productListingId}
                   winningUssID={this.props.winningUssID}
