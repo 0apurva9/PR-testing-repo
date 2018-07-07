@@ -6,6 +6,8 @@ import SellerCard from "./SellerCard";
 import PdpFrame from "./PdpFrame";
 import * as Cookie from "../../lib/Cookie";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -183,40 +185,69 @@ class ProductSellerPage extends Component {
               averageRating={this.props.productDetails.averageRating}
               totalNoOfReviews={this.props.productDetails.productReviewsCount}
             />
-            <div className={styles.OtherSeller}>Other sellers</div>
-            <div className={styles.priceWithSeller}>
-              <div className={styles.seller}>
-                {availableSeller.length} Other Sellers available starting at ₹
-                {price}
+            <MobileOnly>
+              <div className={styles.OtherSeller}>Other sellers</div>
+              <div className={styles.priceWithSeller}>
+                <div className={styles.seller}>
+                  {availableSellers.length} Other Sellers available starting at
+                  ₹
+                  {price}
+                </div>
+                <div className={styles.price}>
+                  <SelectBoxMobile2
+                    label={this.state.sortOption}
+                    height={30}
+                    onChange={val => this.onSortByPrice(val)}
+                    theme={"hollowBox"}
+                    arrowColour={"black"}
+                    value={this.state.sortOption}
+                    options={[
+                      { label: PRICE_LOW_TO_HIGH, value: PRICE_LOW_TO_HIGH },
+                      { label: PRICE_HIGH_TO_LOW, value: PRICE_HIGH_TO_LOW }
+                    ]}
+                  />
+                </div>
               </div>
-              <div className={styles.price}>
-                <SelectBoxMobile2
-                  label={this.state.sortOption}
-                  height={30}
-                  onChange={val => this.onSortByPrice(val)}
-                  theme={"hollowBox"}
-                  arrowColour={"black"}
-                  value={this.state.sortOption}
-                  options={[
-                    { label: PRICE_LOW_TO_HIGH, value: PRICE_LOW_TO_HIGH },
-                    { label: PRICE_HIGH_TO_LOW, value: PRICE_HIGH_TO_LOW }
-                  ]}
-                />
+              <div>
+                {sortedAvailableSellers && (
+                  <SellerWithMultiSelect
+                    limit={1}
+                    onSelect={val => {
+                      this.selectSeller(val);
+                    }}
+                  >
+                    {sortedAvailableSellers.map((value, index) => {
+                      return (
+                        <SellerCard
+                          heading={value.sellerName}
+                          priceTitle={PRICE_TEXT}
+                          discountPrice={
+                            value.specialPriceSeller.formattedValueNoDecimal
+                          }
+                          price={value.mrpSeller.formattedValueNoDecimal}
+                          offerText={OFFER_AVAILABLE}
+                          deliveryText={DELIVERY_INFORMATION_TEXT}
+                          hasCod={value.isCOD === "Y"}
+                          hasEmi={value.isEMIEligible === "Y"}
+                          eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          cashText={CASH_TEXT}
+                          policyText={DELIVERY_RATES}
+                          key={index}
+                          value={value}
+                        />
+                      );
+                    })}
+                  </SellerWithMultiSelect>
+                )}
               </div>
-            </div>
-            <div>
-              {sortedAvailableSellers && (
-                <SellerWithMultiSelect
-                  limit={1}
-                  onSelect={val => {
-                    this.selectSeller(val);
-                  }}
-                >
-                  {sortedAvailableSellers.map((value, index) => {
+              {sortedUnAvailableSellers && (
+                <div>
+                  {sortedUnAvailableSellers.map((value, index) => {
                     return (
                       <SellerCard
                         heading={value.sellerName}
                         priceTitle={PRICE_TEXT}
+                        disabled={true}
                         discountPrice={
                           value.specialPriceSeller.formattedValueNoDecimal
                         }
@@ -233,36 +264,112 @@ class ProductSellerPage extends Component {
                       />
                     );
                   })}
-                </SellerWithMultiSelect>
+                </div>
               )}
-            </div>
-
-            {sortedUnAvailableSellers && (
-              <div>
-                {sortedUnAvailableSellers.map((value, index) => {
-                  return (
-                    <SellerCard
-                      heading={value.sellerName}
-                      priceTitle={PRICE_TEXT}
-                      disabled={true}
-                      discountPrice={
-                        value.specialPriceSeller.formattedValueNoDecimal
-                      }
-                      price={value.mrpSeller.formattedValueNoDecimal}
-                      offerText={OFFER_AVAILABLE}
-                      deliveryText={DELIVERY_INFORMATION_TEXT}
-                      hasCod={value.isCOD === "Y"}
-                      hasEmi={value.isEMIEligible === "Y"}
-                      eligibleDeliveryModes={value.eligibleDeliveryModes}
-                      cashText={CASH_TEXT}
-                      policyText={DELIVERY_RATES}
-                      key={index}
-                      value={value}
-                    />
-                  );
-                })}
+            </MobileOnly>
+            <DesktopOnly>
+              <div className={styles.OtherSellerHolder}>
+                <div className={styles.OtherSellerHolderWithText}>
+                  <div className={styles.headerWrapper}>
+                    <div className={styles.headerWithSellerAvailable}>
+                      <div className={styles.header}>Other sellers</div>
+                      <div className={styles.availableSeller}>
+                        {availableSellers.length} Other Sellers available
+                        starting at ₹ {price}
+                      </div>
+                    </div>
+                    <div className={styles.dropdownWithButton}>
+                      <div className={styles.dropdown}>
+                        <div className={styles.dropDownBox}>
+                          <SelectBoxMobile2
+                            label={this.state.sortOption}
+                            height={30}
+                            onChange={val => this.onSortByPrice(val)}
+                            value={this.state.sortOption}
+                            options={[
+                              {
+                                label: PRICE_LOW_TO_HIGH,
+                                value: PRICE_LOW_TO_HIGH
+                              },
+                              {
+                                label: PRICE_HIGH_TO_LOW,
+                                value: PRICE_HIGH_TO_LOW
+                              }
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.sellerCardHeader}>
+                    <div className={styles.sellerCardHeaderText}>
+                      Seller’s Name
+                    </div>
+                    <div className={styles.sellerCardHeaderText}>Price</div>
+                    <div className={styles.sellerCardHeaderText}>
+                      Delivery Information
+                    </div>
+                    <div className={styles.sellerCardHeaderText}>
+                      Buying option
+                    </div>
+                  </div>
+                  {sortedAvailableSellers &&
+                    sortedAvailableSellers.map((value, index) => {
+                      return (
+                        <SellerCard
+                          heading={value.sellerName}
+                          priceTitle={PRICE_TEXT}
+                          discountPrice={
+                            value.specialPriceSeller.formattedValueNoDecimal
+                          }
+                          price={value.mrpSeller.formattedValueNoDecimal}
+                          offerText={OFFER_AVAILABLE}
+                          deliveryText={DELIVERY_INFORMATION_TEXT}
+                          hasCod={value.isCOD === "Y"}
+                          hasEmi={value.isEMIEligible === "Y"}
+                          eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          cashText={CASH_TEXT}
+                          policyText={DELIVERY_RATES}
+                          key={index}
+                          value={value}
+                          addToBag={() => this.addToCart()}
+                          productListingId={
+                            this.props.productDetails.productListingId
+                          }
+                          winningUssID={
+                            this.state.winningUssID
+                              ? this.state.winningUssID
+                              : this.props.productDetails.winningUssID
+                          }
+                        />
+                      );
+                    })}
+                  {sortedUnAvailableSellers &&
+                    sortedUnAvailableSellers.map((value, index) => {
+                      return (
+                        <SellerCard
+                          heading={value.sellerName}
+                          priceTitle={PRICE_TEXT}
+                          disabled={true}
+                          discountPrice={
+                            value.specialPriceSeller.formattedValueNoDecimal
+                          }
+                          price={value.mrpSeller.formattedValueNoDecimal}
+                          offerText={OFFER_AVAILABLE}
+                          deliveryText={DELIVERY_INFORMATION_TEXT}
+                          hasCod={value.isCOD === "Y"}
+                          hasEmi={value.isEMIEligible === "Y"}
+                          eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          cashText={CASH_TEXT}
+                          policyText={DELIVERY_RATES}
+                          key={index}
+                          value={value}
+                        />
+                      );
+                    })}
+                </div>
               </div>
-            )}
+            </DesktopOnly>
           </div>
         </PdpFrame>
       )
