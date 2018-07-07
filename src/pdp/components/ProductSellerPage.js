@@ -283,7 +283,7 @@ class ProductSellerPage extends Component {
                         <div className={styles.dropDownBox}>
                           <SelectBoxMobile2
                             label={this.state.sortOption}
-                            height={30}
+                            height={35}
                             onChange={val => this.onSortByPrice(val)}
                             value={this.state.sortOption}
                             arrowColour={"black"}
