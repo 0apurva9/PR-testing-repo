@@ -161,7 +161,6 @@ export default class ReturnReasonAndModes extends React.Component {
     );
 
     let data = this.props.returnProductDetails;
-    console.log(data);
     return (
       <React.Fragment>
         <DeskTopOnly>
