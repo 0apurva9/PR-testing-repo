@@ -3,6 +3,7 @@ import InformationHeader from "./InformationHeader.js";
 import SearchContainer from "../../search/SearchContainer.js";
 import HollowHeader from "./HollowHeader.js";
 import StickyHeader from "./StickyHeader.js";
+import DesktopHeader from "./DesktopHeader.js";
 import * as Cookie from "../../lib/Cookie";
 import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
@@ -23,6 +24,9 @@ import {
   CHECKOUT_ROUTER_THANKYOU,
   APP_VIEW
 } from "../../../src/lib/constants";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
+
 import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
 export default class HeaderWrapper extends React.Component {
@@ -83,6 +87,7 @@ export default class HeaderWrapper extends React.Component {
   componentDidMount() {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
+
     window.addEventListener("scroll", this.throttledScroll);
   }
 
@@ -114,7 +119,17 @@ export default class HeaderWrapper extends React.Component {
       }
     }
   };
+  openSignUp = () => {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.showAuthPopUp();
+      }
 
+      return null;
+    }
+  };
   render() {
     const searchQuery = queryString.parse(this.props.history.location.search);
     const hasAppView = searchQuery.appview;
@@ -241,10 +256,22 @@ export default class HeaderWrapper extends React.Component {
     return (
       shouldRenderHeader && (
         <React.Fragment>
-          {!productCode && <div className={styles.hiddenHeader} />}
-          <div className={!productCode ? styles.base : styles.absoluteHeader}>
-            {headerToRender}
-          </div>
+          <MobileOnly>
+            <React.Fragment>
+              {!productCode && <div className={styles.hiddenHeader} />}
+              <div
+                className={!productCode ? styles.base : styles.absoluteHeader}
+              >
+                {headerToRender}
+              </div>
+            </React.Fragment>
+          </MobileOnly>
+          <DesktopOnly>
+            <DesktopHeader
+              openSignUp={this.openSignUp}
+              redirectToHome={this.redirectToHome}
+            />
+          </DesktopOnly>
         </React.Fragment>
       )
     );
