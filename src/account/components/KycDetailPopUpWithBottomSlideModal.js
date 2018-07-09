@@ -20,7 +20,7 @@ export default class KycDetailPopUpWithBottomSlideModal extends React.Component 
   }
   render() {
     return (
-      <BottomSlideModal>
+      <BottomSlideModal heading="KYC Verification">
         <KycDetailsPopup
           mobileNumber={this.props.mobileNumber}
           submitOtp={value => this.submitOtp(value)}
