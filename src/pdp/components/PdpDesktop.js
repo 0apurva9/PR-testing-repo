@@ -3,6 +3,7 @@ import PdpFrame from "./PdpFrame";
 import find from "lodash.find";
 import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
+import JewelleryCertification from "./JewelleryCertification";
 import Accordion from "../../general/components/Accordion.js";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
@@ -115,6 +116,12 @@ const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
 export default class PdpApparel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showProductDetails: false
+    };
+  }
   visitBrand() {
     if (this.props.visitBrandStore) {
       this.props.visitBrandStore();
@@ -207,6 +214,9 @@ export default class PdpApparel extends React.Component {
     }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
+  renderRatings = () => {
+    return null;
+  };
 
   showPincodeModal() {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
@@ -217,6 +227,9 @@ export default class PdpApparel extends React.Component {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
   }
+  showProductDetails = () => {
+    this.setState({ showProductDetails: true });
+  };
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -349,149 +362,197 @@ export default class PdpApparel extends React.Component {
           }
           ussId={productData.winningUssID}
         >
-          <div className={styles.gallery}>
-            <ProductGalleryMobile>
-              {mobileGalleryImages.map((val, idx) => {
-                return <Image lazyLoad={true} image={val} key={idx} />;
-              })}
-            </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              (productData.winningSellerAvailableStock === "0" &&
-                this.checkIfSizeSelected())) && (
-              <div className={styles.flag}>Out of stock</div>
-            )}
-            {!productData.winningSellerPrice && (
-              <div className={styles.flag}>Not Saleable</div>
-            )}
-          </div>
-          <div className={styles.content}>
-            <ProductDetailsMainCard
-              brandName={productData.brandName}
-              productName={productData.productName}
-              brandUrl={productData.brandURL}
-              history={this.props.history}
-              price={price}
-              doublePrice={seoDoublePrice}
-              discountPrice={discountPrice}
-              averageRating={productData.averageRating}
-              numberOfReviews={productData.numberOfReviews}
-              goToReviewPage={this.goToReviewPage}
-              discount={productData.discount}
-            />
-          </div>
-          <PdpPaymentInfo
-            hasEmi={productData.isEMIEligible}
-            hasCod={productData.isCOD}
-            showEmiModal={() => this.showEmiModal()}
-          />
-          <OfferCard
-            showDetails={this.props.showOfferDetails}
-            potentialPromotions={productData.potentialPromotions}
-            secondaryPromotions={productData.productOfferMsg}
-          />
-          {productData.variantOptions && (
-            <React.Fragment>
-              {!this.checkIfNoSize() &&
-                !this.checkIfSizeDoesNotExist() && (
-                  <SizeSelector
-                    history={this.props.history}
-                    sizeSelected={this.checkIfSizeSelected()}
-                    productId={productData.productListingId}
-                    hasSizeGuide={productData.showSizeGuide}
-                    showSizeGuide={this.props.showSizeGuide}
-                    data={productData.variantOptions}
+          <div className={styles.base}>
+            <div className={styles.pageCenter}>
+              <div className={styles.gallery}>
+                <ProductGalleryMobile>
+                  {mobileGalleryImages.map((val, idx) => {
+                    return <Image lazyLoad={true} image={val} key={idx} />;
+                  })}
+                </ProductGalleryMobile>
+                {(productData.allOOStock ||
+                  (productData.winningSellerAvailableStock === "0" &&
+                    this.checkIfSizeSelected())) && (
+                  <div className={styles.flag}>Out of stock</div>
+                )}
+                {!productData.winningSellerPrice && (
+                  <div className={styles.flag}>Not Saleable</div>
+                )}
+              </div>
+              <div className={styles.content}>
+                <ProductDetailsMainCard
+                  brandName={productData.brandName}
+                  productName={productData.productName}
+                  brandUrl={productData.brandURL}
+                  history={this.props.history}
+                  price={price}
+                  doublePrice={seoDoublePrice}
+                  discountPrice={discountPrice}
+                  averageRating={productData.averageRating}
+                  numberOfReviews={productData.numberOfReviews}
+                  goToReviewPage={this.goToReviewPage}
+                  discount={productData.discount}
+                />
+                {productData.details &&
+                  (productData.rootCategory === "FineJewellery" ||
+                    productData.rootCategory === "FashionJewellery") &&
+                  productData.details.length > 0 && (
+                    <div className={styles.info}>
+                      <span className={styles.textOffset}>
+                        {productData.details[0].value}
+                      </span>
+                      {this.state.showProductDetails && (
+                        <div>{productData.productDescription}</div>
+                      )}
+                      {!this.state.showProductDetails && (
+                        <span
+                          className={styles.link}
+                          onClick={this.showProductDetails}
+                        >
+                          Read More
+                        </span>
+                      )}
+                    </div>
+                  )}
+                <PdpPaymentInfo
+                  hasEmi={productData.isEMIEligible}
+                  hasCod={productData.isCOD}
+                  showEmiModal={() => this.showEmiModal()}
+                />
+                <OfferCard
+                  showDetails={this.props.showOfferDetails}
+                  potentialPromotions={productData.potentialPromotions}
+                  secondaryPromotions={productData.productOfferMsg}
+                />
+                {productData.variantOptions && (
+                  <React.Fragment>
+                    {!this.checkIfNoSize() &&
+                      !this.checkIfSizeDoesNotExist() && (
+                        <SizeSelector
+                          history={this.props.history}
+                          sizeSelected={this.checkIfSizeSelected()}
+                          productId={productData.productListingId}
+                          hasSizeGuide={productData.showSizeGuide}
+                          showSizeGuide={this.props.showSizeGuide}
+                          data={productData.variantOptions}
+                        />
+                      )}
+
+                    <ColourSelector
+                      data={productData.variantOptions}
+                      productId={productData.productListingId}
+                      history={this.props.history}
+                      updateColour={val => {}}
+                      getProductSpecification={
+                        this.props.getProductSpecification
+                      }
+                    />
+                  </React.Fragment>
+                )}
+                {productData.certificationMapFrJwlry && (
+                  <JewelleryCertification
+                    certifications={productData.certificationMapFrJwlry}
                   />
                 )}
-
-              <ColourSelector
-                data={productData.variantOptions}
-                productId={productData.productListingId}
-                history={this.props.history}
-                updateColour={val => {}}
-                getProductSpecification={this.props.getProductSpecification}
-              />
-            </React.Fragment>
-          )}
-          {this.props.productDetails.isServiceableToPincode &&
-          this.props.productDetails.isServiceableToPincode.pinCode ? (
-            <PdpPincode
-              hasPincode={true}
-              pincode={this.props.productDetails.isServiceableToPincode.pinCode}
-              onClick={() => this.showPincodeModal()}
-            />
-          ) : (
-            <PdpPincode onClick={() => this.showPincodeModal()} />
-          )}
-          {this.props.productDetails.isServiceableToPincode &&
-          this.props.productDetails.isServiceableToPincode.status === NO ? (
-            <Overlay labelText="This item can't be delivered to your PIN code">
-              <PdpDeliveryModes
-                eligibleDeliveryModes={productData.eligibleDeliveryModes}
-                deliveryModesATP={productData.deliveryModesATP}
-              />
-            </Overlay>
-          ) : (
-            <PdpDeliveryModes
-              onPiq={this.handleShowPiqPage}
-              eligibleDeliveryModes={productData.eligibleDeliveryModes}
-              deliveryModesATP={productData.deliveryModesATP}
-            />
-          )}
-          <div className={styles.separator}>
-            <OtherSellersLink
-              otherSellers={productData.otherSellers}
-              winningSeller={productData.winningSellerName}
-            />
-          </div>
-          <div className={styles.details}>
-            {productData.details && (
-              <Accordion
-                text="Product Description"
-                headerFontSize={16}
-                isOpen={true}
-              >
-                <div className={styles.accordionContent} itemProp="description">
-                  {productData.productDescription}
+                <div className={styles.separator}>
+                  <OtherSellersLink
+                    otherSellers={productData.otherSellers}
+                    winningSeller={productData.winningSellerName}
+                  />
                 </div>
-              </Accordion>
-            )}
-            {productData.details && (
-              <ProductDetails data={productData.details} />
-            )}
-            {productData.knowMore && (
-              <Accordion text="Know More" headerFontSize={16}>
-                {productData.knowMore &&
-                  productData.knowMore.map(val => {
-                    return (
-                      <div className={styles.list}>{val.knowMoreItem}</div>
-                    );
-                  })}
-              </Accordion>
-            )}
-            {productData.brandInfo && (
-              <ProductFeature
-                heading="Brand Info"
-                content={productData.brandInfo}
-              />
-            )}
-          </div>
-          <div className={styles.separator}>
-            <RatingAndTextLink
-              onClick={this.goToReviewPage}
-              averageRating={productData.averageRating}
-              numberOfReview={productData.numberOfReviews}
-            />
-          </div>
-          {productData.APlusContent && (
-            <AllDescription
-              productContent={productData.APlusContent.productContent}
-            />
-          )}
-          <div className={styles.details} />
-          <div className={styles.blankSeparator} />
-          <PDPRecommendedSectionsContainer />
-          <div className={styles.trustLogo}>
-            <Image image={TrustBadgeImage} fit="cover" />
+                {this.props.productDetails.isServiceableToPincode &&
+                this.props.productDetails.isServiceableToPincode.pinCode ? (
+                  <PdpPincode
+                    hasPincode={true}
+                    pincode={
+                      this.props.productDetails.isServiceableToPincode.pinCode
+                    }
+                    onClick={() => this.showPincodeModal()}
+                  />
+                ) : (
+                  <PdpPincode onClick={() => this.showPincodeModal()} />
+                )}
+                {this.props.productDetails.isServiceableToPincode &&
+                this.props.productDetails.isServiceableToPincode.status ===
+                  NO ? (
+                  <Overlay labelText="This item can't be delivered to your PIN code">
+                    <PdpDeliveryModes
+                      eligibleDeliveryModes={productData.eligibleDeliveryModes}
+                      deliveryModesATP={productData.deliveryModesATP}
+                    />
+                  </Overlay>
+                ) : (
+                  <PdpDeliveryModes
+                    onPiq={this.handleShowPiqPage}
+                    eligibleDeliveryModes={productData.eligibleDeliveryModes}
+                    deliveryModesATP={productData.deliveryModesATP}
+                  />
+                )}
+              </div>
+            </div>
+            <div className={styles.details}>
+              <div className={styles.pageCenter}>
+                <div className={styles.detailsHolder}>
+                  <div className={styles.detailsCard}>
+                    {productData.details && (
+                      <Accordion
+                        text="Product Description"
+                        headerFontSize={20}
+                        isOpen={true}
+                      >
+                        <div
+                          className={styles.accordionContent}
+                          itemProp="description"
+                        >
+                          {productData.productDescription}
+                        </div>
+                      </Accordion>
+                    )}
+                    {productData.details && (
+                      <ProductDetails
+                        headerFontSize={20}
+                        data={productData.details}
+                      />
+                    )}
+                    {productData.knowMore && (
+                      <Accordion text="Know More" headerFontSize={20}>
+                        {productData.knowMore &&
+                          productData.knowMore.map(val => {
+                            return (
+                              <div className={styles.list}>
+                                {val.knowMoreItem}
+                              </div>
+                            );
+                          })}
+                      </Accordion>
+                    )}
+                    {productData.brandInfo && (
+                      <Accordion
+                        text="Brand Info"
+                        headerFontSize={20}
+                        isOpen={true}
+                      >
+                        <div className={styles.accordionContent}>
+                          {productData.brandInfo}
+                        </div>
+                      </Accordion>
+                    )}
+                  </div>
+                  {this.renderRatings}
+                </div>
+
+                <div className={styles.details}>
+                  {productData.APlusContent && (
+                    <AllDescription
+                      productContent={productData.APlusContent.productContent}
+                    />
+                  )}
+
+                  <div className={styles.blankSeparator} />
+                  <PDPRecommendedSectionsContainer />
+                </div>
+              </div>
+            </div>
           </div>
         </PdpFrame>
       );

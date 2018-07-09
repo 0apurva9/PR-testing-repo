@@ -19,3 +19,13 @@
   top: -5px;
   right: 20px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    background-color:transparent;
+    padding:10px 0;
+  }
+  .header {
+    padding:0;
+    margin-bottom:10px;
+  }
+}

@@ -38,3 +38,11 @@
   left: 0;
   bottom: 0;
 }
+
+@media screen and (min-width: 1025px) {
+  .content{
+    width:33.33%;
+    display:inline-block;
+    min-width:250px;
+  }
+}
