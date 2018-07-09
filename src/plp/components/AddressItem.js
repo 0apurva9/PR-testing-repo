@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./AddressItem.css";
 
-export default class AddressList extends React.Component {
+export default class AddressItem extends React.Component {
   handleClick() {
     if (this.props.selectItem) {
       this.props.selectItem();
@@ -14,7 +15,7 @@ export default class AddressList extends React.Component {
           {this.props.heading}
           <div
             className={
-              this.props.active ? styles.activeCheckBox : styles.checkBox
+              this.props.selected ? styles.activeCheckBox : styles.checkBox
             }
             onClick={() => this.handleClick()}
           />
@@ -24,3 +25,9 @@ export default class AddressList extends React.Component {
     );
   }
 }
+AddressItem.propTypes = {
+  heading: PropTypes.string,
+  address: PropTypes.string,
+  selectItem: PropTypes.func,
+  selected: PropTypes.bool
+};
