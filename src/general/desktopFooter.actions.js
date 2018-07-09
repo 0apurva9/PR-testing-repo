@@ -30,12 +30,11 @@ export function getDesktopFooter() {
     dispatch(getDesktopFooterRequest());
     try {
       const result = await api.getFooter(FOOTER_URL);
-      const resultJson = await result;
+      const resultJson = await result.text();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       return dispatch(getDesktopFooterSuccess(resultJson));
     } catch (e) {
       dispatch(getDesktopFooterFailure(e.message));
