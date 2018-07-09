@@ -81,7 +81,34 @@ class ProductSellerPage extends Component {
       );
     }
   };
-
+  addToCartAccordingToTheUssid(USSID) {
+    let productDetails = {};
+    productDetails.code = this.props.productDetails.productListingId;
+    productDetails.quantity = PRODUCT_QUANTITY;
+    productDetails.ussId = USSID;
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let cartDetailsLoggedInUser = Cookie.getCookie(
+      CART_DETAILS_FOR_LOGGED_IN_USER
+    );
+    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    if (userDetails) {
+      this.props.addProductToCart(
+        JSON.parse(userDetails).userName,
+        JSON.parse(cartDetailsLoggedInUser).code,
+        JSON.parse(customerCookie).access_token,
+        productDetails
+      );
+    } else {
+      this.props.addProductToCart(
+        ANONYMOUS_USER,
+        JSON.parse(cartDetailsAnonymous).guid,
+        JSON.parse(globalCookie).access_token,
+        productDetails
+      );
+    }
+  }
   addToWishList = () => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
@@ -333,15 +360,14 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
-                          addToBag={() => this.addToCart()}
+                          addToBag={() =>
+                            this.addToCartAccordingToTheUssid(value.USSID)
+                          }
                           productListingId={
+                            this.props.productDetails &&
                             this.props.productDetails.productListingId
                           }
-                          winningUssID={
-                            this.state.winningUssID
-                              ? this.state.winningUssID
-                              : this.props.productDetails.winningUssID
-                          }
+                          winningUssID={value.USSID}
                         />
                       );
                     })}
