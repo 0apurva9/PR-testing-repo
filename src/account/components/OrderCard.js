@@ -22,11 +22,6 @@ export default class OrderCard extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <DesktopOnly>
-          <div className={styles.orderPlacedText}>
-            Order Placed: 10 Sept 2017
-          </div>
-        </DesktopOnly>
         <div className={styles.productImageHolder}>
           <ProductImage
             image={this.props.imageUrl}
