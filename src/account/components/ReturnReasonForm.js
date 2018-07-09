@@ -6,10 +6,14 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import styles from "./ReturnReasonForm.css";
 import ReverseSealYesNo from "./ReverseSealYesNo.js";
+import DeskTopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DummyTab from "../../cart/components/DummyTab.js";
+const MODE_OF_RETURN = "Select mode of return";
+const REFUND_DETAILS = "Refund Details";
 export default class ReturnReasonForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       displaySecondary: false,
       secondaryReasons: null,
@@ -81,49 +85,63 @@ export default class ReturnReasonForm extends React.Component {
     const data = this.props.returnProductDetails;
     return (
       <div className={styles.base}>
-        <div className={styles.header}>
-          Select reason for your return
-          <div className={styles.cancelHolder}>
-            <UnderLinedButton
-              label="Cancel"
-              color="#ff1744"
-              onClick={() => this.handleCancel()}
-            />
+        <MobileOnly>
+          <div className={styles.header}>
+            Select reason for your return
+            <div className={styles.cancelHolder}>
+              <UnderLinedButton
+                label="Cancel"
+                color="#ff1744"
+                onClick={() => this.handleCancel()}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
+
         <div className={styles.content}>
-          <OrderCard
-            imageUrl={
-              data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].imageURL
-            }
-            productName={`${data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].productBrand} ${data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].productName}`}
-            price={
-              data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].price
-            }
-            isSelect={true}
-            quantity={true}
-          >
-            {data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].quantity && (
-                <div className={styles.quantity}>
-                  Qty {data.orderProductWsDTO[0].quantity}
-                </div>
-              )}
-          </OrderCard>
+          <DeskTopOnly>
+            <div className={styles.header}>
+              <div className={styles.circleHolder}>
+                <div className={styles.circle}>1</div>
+              </div>
+              Select reason for your return
+            </div>
+          </DeskTopOnly>
+          <MobileOnly>
+            <OrderCard
+              imageUrl={
+                data &&
+                data.orderProductWsDTO &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].imageURL
+              }
+              productName={`${data &&
+                data.orderProductWsDTO &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].productBrand} ${data &&
+                data.orderProductWsDTO &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].productName}`}
+              price={
+                data &&
+                data.orderProductWsDTO &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].price
+              }
+              isSelect={true}
+              quantity={true}
+            >
+              {data &&
+                data.orderProductWsDTO &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].quantity && (
+                  <div className={styles.quantity}>
+                    Qty {data.orderProductWsDTO[0].quantity}
+                  </div>
+                )}
+            </OrderCard>
+          </MobileOnly>
+
           <div className={styles.select}>
             <SelectBoxMobile2
               placeholder={"Select a reason"}
@@ -153,6 +171,32 @@ export default class ReturnReasonForm extends React.Component {
           <div className={styles.textArea}>
             <TextArea onChange={val => this.handleChange(val)} />
           </div>
+
+          <DeskTopOnly>
+            <div className={styles.buttonHolder}>
+              <div className={styles.cancelButtonHolder}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000000"
+                  label="Cancel"
+                  onClick={() => this.handleCancel()}
+                />
+              </div>
+
+              <div className={styles.continueButtonHolder}>
+                <Button
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Continue"
+                  width={120}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
+                  onClick={() => this.handleContinue()}
+                />
+              </div>
+            </div>
+          </DeskTopOnly>
         </div>
         {data &&
           data.showReverseSealFrJwlry === "yes" && (
@@ -163,16 +207,23 @@ export default class ReturnReasonForm extends React.Component {
             </div>
           )}
 
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              width={175}
-              type="primary"
-              label="Continue"
-              onClick={() => this.handleContinue()}
-            />
+        <MobileOnly>
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                width={175}
+                type="primary"
+                label="Continue"
+                onClick={() => this.handleContinue()}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
+
+        <DeskTopOnly>
+          <DummyTab title={MODE_OF_RETURN} number={2} />
+          <DummyTab title={REFUND_DETAILS} number={3} />
+        </DeskTopOnly>
       </div>
     );
   }

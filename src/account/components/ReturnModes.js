@@ -5,6 +5,9 @@ import SelectReturnDate from "./SelectReturnDate";
 import ReturnsFrame from "./ReturnsFrame";
 import PropTypes from "prop-types";
 import styles from "./ReturnModes.css";
+import DeskTopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DummyTab from "../../cart/components/DummyTab.js";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -62,31 +65,33 @@ export default class ReturnModes extends React.Component {
         onCancel={() => this.handleCancel()}
       >
         <div className={styles.content}>
-          <div className={styles.card}>
-            <OrderCard
-              imageUrl={
-                data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].imageURL
-              }
-              productName={
-                productInfo && productInfo.product && productInfo.product.name
-              }
-              price={
-                productInfo &&
-                productInfo.totalPrice &&
-                productInfo.totalPrice.value
-              }
-            >
-              {productInfo &&
-                productInfo.quantity && (
-                  <div className={styles.quantity}>
-                    Qty {productInfo.quantity}
-                  </div>
-                )}
-            </OrderCard>
-          </div>
+          <MobileOnly>
+            <div className={styles.card}>
+              <OrderCard
+                imageUrl={
+                  data &&
+                  data.orderProductWsDTO &&
+                  data.orderProductWsDTO[0] &&
+                  data.orderProductWsDTO[0].imageURL
+                }
+                productName={
+                  productInfo && productInfo.product && productInfo.product.name
+                }
+                price={
+                  productInfo &&
+                  productInfo.totalPrice &&
+                  productInfo.totalPrice.value
+                }
+              >
+                {productInfo &&
+                  productInfo.quantity && (
+                    <div className={styles.quantity}>
+                      Qty {productInfo.quantity}
+                    </div>
+                  )}
+              </OrderCard>
+            </div>
+          </MobileOnly>
           {this.isReturnModesEnabled() && (
             <div>
               {data.returnModes.quickDrop && (

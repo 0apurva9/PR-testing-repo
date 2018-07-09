@@ -4,15 +4,7 @@
   padding: 25px 15px 85px 15px;
   background: #ececec;
 }
-.header {
-  width: 100%;
-  font-size: 18px;
-  color: #000000;
-  font-family: semibold;
-  position: relative;
-  padding-right: 60px;
-  margin-bottom: 25px;
-}
+
 .cancelHolder {
   position: absolute;
   right: 0;
@@ -48,4 +40,60 @@
   height: auto;
   margin-top: 15px;
   border-radius: 4px;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  position: relative;
+  padding-left: 125px;
+  text-align: right;
+  margin-top: 28px;
+}
+
+.cancelButtonHolder {
+  width: auto;
+  height: 25px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 150px;
+}
+
+.continueButtonHolder {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.header {
+  width: 100%;
+  height: auto;
+  font-size: 16px;
+  font-family: semibold;
+  line-height: 25px;
+  position: relative;
+  padding-bottom: 36px;
+}
+
+.circleHolder {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  margin-right: 10px;
+}
+.circle {
+  width: 23px;
+  height: 23px;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 14px;
+  color: #000000;
+  font-size: 14px;
+  font-family: semibold;
+  line-height: 21px;
 }
