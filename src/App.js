@@ -69,7 +69,9 @@ import Loadable from "react-loadable";
 import StaticPageContainer from "./staticpage/containers/StaticPageContainer.js";
 import PlpBrandCategoryWrapperContainer from "./plp/containers/PlpBrandCategoryWrapperContainer";
 import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDescriptionPageWrapperContainer";
-
+import DesktopFooterContainer from "./general/containers/DesktopFooterContainer";
+import MobileOnly from "./general/components/MobileOnly";
+import DesktopOnly from "./general/components/DesktopOnly";
 const Loader = () => {
   return (
     <div className={AppStyles.loadingIndicator}>
@@ -456,8 +458,12 @@ class App extends Component {
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
           <SecondaryLoaderContainer />
-          <MobileFooter />
-
+          <MobileOnly>
+            <MobileFooter />
+          </MobileOnly>
+          <DesktopOnly>
+            <DesktopFooterContainer />
+          </DesktopOnly>
           <ModalContainer />
           <ErrorContainer />
           <ToastContainer />

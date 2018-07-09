@@ -121,7 +121,9 @@ export async function coreGet(url) {
     }
   });
 }
-
+export async function getFooter(url) {
+  return await fetch(`${url}`);
+}
 export async function get(url) {
   const result = await coreGet(url);
   const resultClone = result.clone();
