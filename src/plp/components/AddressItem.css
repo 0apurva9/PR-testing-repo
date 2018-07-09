@@ -1,0 +1,72 @@
+.base{
+  width: 100% ;
+  height: auto;
+}
+
+.head{
+  width:100%;
+  height:auto;
+  padding:20px 50px 10px 0;
+  position:relative;
+  font-size:14px;
+  color:#212121;
+  font-family:semibold;
+}
+.address{
+  width:100%;
+  height:auto;
+  font-family:light;
+  color:#212121;
+  padding-bottom:20px;
+  font-size:14px;
+  line-height:21px;
+  border-bottom:1px solid rgba(0,0,0,0.2);
+}
+.base:last-child .address{
+  border:none;
+}
+.checkBox{
+  width:18px;
+  height:18px;
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  margin:auto;
+  cursor:pointer;
+}
+.checkBox:after{
+  content:"";
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border: solid 1.4px #8d8d8d;
+  transition:200ms;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.checkBox:before{
+  content:"";
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:url("../../general/components/img/checkbox-tick.svg")no-repeat;
+  background-size:contain;
+  background-position:center;
+  opacity:0;
+  transition:200ms;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.activeCheckbox{
+  composes:checkBox;
+
+}
+.activeCheckbox:after{
+  opacity:0;
+}
+.activeCheckbox:before{
+  opacity:1;
+}

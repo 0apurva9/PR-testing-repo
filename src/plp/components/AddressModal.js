@@ -1,6 +1,9 @@
 import React from "react";
 import AddressCarousel from "./AddressCarousel";
+import AddressList from "./AddressList";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import PropTypes from "prop-types";
 import styles from "./AddressModal.css";
@@ -30,7 +33,9 @@ export default class AddressModal extends React.Component {
     return (
       <BottomSlideModal heading={"Pick an address"}>
         <div className={styles.base}>
-          <div className={styles.labelText}>Please enter your PIN code</div>
+          <MobileOnly>
+            <div className={styles.labelText}>Please enter your PIN code</div>
+          </MobileOnly>
           <div className={styles.searchHolder}>
             <SearchAndUpdate
               checkPinCodeAvailability={pincode =>
@@ -41,10 +46,24 @@ export default class AddressModal extends React.Component {
             />
           </div>
           {this.props.userAddress && (
-            <AddressCarousel
-              data={this.props.userAddress.addresses}
-              selectAddress={pincode => this.checkPinCodeAvailability(pincode)}
-            />
+            <React.Fragment>
+              <MobileOnly>
+                <AddressCarousel
+                  data={this.props.userAddress.addresses}
+                  selectAddress={pincode =>
+                    this.checkPinCodeAvailability(pincode)
+                  }
+                />
+              </MobileOnly>
+              <DesktopOnly>
+                <AddressList
+                  data={this.props.userAddress.addresses}
+                  selectAddress={pincode =>
+                    this.checkPinCodeAvailability(pincode)
+                  }
+                />
+              </DesktopOnly>
+            </React.Fragment>
           )}
         </div>
       </BottomSlideModal>
