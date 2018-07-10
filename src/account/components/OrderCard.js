@@ -138,5 +138,5 @@ OrderCard.defaultProps = {
   quantity: false,
   numberOfQuantity: 1,
   onHollow: false,
-  showQuantity: false
+  showQuantity: true
 };
