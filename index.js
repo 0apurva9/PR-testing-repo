@@ -52,33 +52,12 @@ app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
   //Code start for AMP
-  if(origUrl.search("/amp/home") !== -1){
-
-    var metaKeywords = "Tatacliq, Online Shopping, Online Shopping India";
-    var metaDescription = "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
-    var canonicalHomeAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
-    var canonicalHomePwaUrl = req.protocol + "://" + req.get("host");
-
-    var data = {
-      metaKeywords: metaKeywords,
-      metaDescription: metaDescription,
-      canonicalAmpUrl: canonicalHomeAmpUrl,
-      canonicalPwaUrl: canonicalHomePwaUrl
-    };
-
-    console.log("Home Loading");
-    res.render("../build/amp/home.ejs", data);
-
-  } else if (origUrl.search("/amp/") !== -1 && origUrl.search("/p-") !== -1) {
+  if (origUrl.search("/amp/") !== -1 && origUrl.search("/p-") !== -1) {
     var productCode = origUrl.split("p-")[1];
     var productDataAPI = "/src/product.json";
     var canonicalAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
     var canonicalPwaUrl =
       req.protocol + "://" + req.get("host") + removeWord(origUrl, "/amp");
-
-    console.log("--------------------- PDP ------------------");
-    console.log(canonicalAmpUrl);
-    console.log(canonicalPwaUrl);
 
     var pdpUrl =
       "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/productDetails/amp/" +
@@ -104,7 +83,6 @@ app.get("/*", (req, res) => {
   ) {
     var searchService =
       "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
-    //'https://uat2.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=shirt&pageSize=20&page=0&isTextSearch=true&isPwa=true';
     var pageSize = 20;
     var pageNo = 0;
     var middleUrlPart = "&pageSize=20&page=";
@@ -114,7 +92,6 @@ app.get("/*", (req, res) => {
     var canonicalPlpPwaUrl =
       req.protocol + "://" + req.get("host") + removeWord(origUrl, "/amp");
     var q = url.parse(canonicalPlpAmpUrl, true);
-
     //Meta Text for search
     var metaKeywords =
       q.query.text +
@@ -126,12 +103,6 @@ app.get("/*", (req, res) => {
       q.query.text +
       " on discount";
     var metaDescription = "Search results for " + q.query.text + " on null";
-
-    console.log("--------------------- PLP ------------------");
-    console.log("Canonical AMP : " + canonicalPlpAmpUrl);
-    console.log("Canonical PWA : " + canonicalPlpPwaUrl);
-    console.log("Meta Keywords : " + metaKeywords);
-    console.log("Meta Description : " + metaDescription);
 
     var data = {
       metaKeywords: metaKeywords,
@@ -145,7 +116,11 @@ app.get("/*", (req, res) => {
       canonicalPwaUrl: canonicalPlpPwaUrl
     };
     res.render("../build/amp/plp_layout.ejs", data);
-  } else if (origUrl.search("/amp/") !== -1 && origUrl.search("/c-") !== -1) {
+  } else if (
+    origUrl.search("/amp/") !== -1 &&
+    origUrl.search("/c-") !== -1 &&
+    origUrl.search("/b-") == -1
+  ) {
     var searchService =
       "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
     //'https://uat2.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=shirt&pageSize=20&page=0&isTextSearch=true&isPwa=true';
@@ -162,14 +137,13 @@ app.get("/*", (req, res) => {
     //Meta Text for search
     var metaKeywords = "";
     var metaDescription = "";
-
-    var urlPathName = q.pathname.split("/");
-    var urlPathText = urlPathName[3].split("-");
+    var urlPathName = q.pathname.split("c-");
+    var urlPathText = urlPathName[1];
 
     var categoryText = "";
-    if (urlPathText[1].search("msh") !== -1) {
+    if (urlPathText.search("msh") !== -1) {
       categoryText = "category";
-    } else if (urlPathText[1].search("mbh") !== -1) {
+    } else if (urlPathText.search("mbh") !== -1) {
       categoryText = "brand";
     }
     var data = {
@@ -177,7 +151,50 @@ app.get("/*", (req, res) => {
       metaDescription: metaDescription,
       searchService: searchService,
       searchTerm:
-        "%3Arelevance%3A" + categoryText + "%3A" + urlPathText[1].toUpperCase(),
+        ":relevance:" + categoryText + ":" + urlPathText.toUpperCase(),
+      middleUrlPart: middleUrlPart,
+      tailUrlPart: tailUrlPart,
+      pageNo: pageNo,
+      canonicalAmpUrl: canonicalPlpAmpUrl,
+      canonicalPwaUrl: canonicalPlpPwaUrl
+    };
+    res.render("../build/amp/plp_layout.ejs", data);
+  } else if (
+    origUrl.search("/amp/") !== -1 &&
+    origUrl.search("/c-") !== -1 &&
+    origUrl.search("/b-") !== -1
+  ) {
+    var searchService =
+      "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
+    var pageSize = 20;
+    var pageNo = 0;
+    var middleUrlPart = "&pageSize=20&page=";
+    var tailUrlPart = "&isTextSearch=false&isPwa=true";
+    var canonicalPlpAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
+    var canonicalPlpPwaUrl =
+      req.protocol + "://" + req.get("host") + removeWord(origUrl, "/amp");
+    var q = url.parse(canonicalPlpAmpUrl, true);
+
+    var metaKeywords = "";
+    var metaDescription = "";
+    var urlSearch = q.pathname.split("/c-");
+    var urlSearchCode = urlSearch[1].split("/b-");
+    var categoryText = "";
+    if (
+      urlSearch[1].search("msh") !== -1 &&
+      urlSearch[1].search("mbh") !== -1
+    ) {
+      categoryText =
+        ":relevance:category:" +
+        urlSearchCode[0].toUpperCase() +
+        ":brand:" +
+        urlSearchCode[1].toUpperCase();
+    }
+    var data = {
+      metaKeywords: metaKeywords,
+      metaDescription: metaDescription,
+      searchService: searchService,
+      searchTerm: categoryText,
       middleUrlPart: middleUrlPart,
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
