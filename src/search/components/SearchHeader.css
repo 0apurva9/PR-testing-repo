@@ -83,3 +83,30 @@
   top: 7px;
   position: absolute;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    height: 60px;
+    padding: 15px 20px;
+    float: right;
+    transition: 300ms;
+    width: 245px;
+  }
+  .increase {
+    composes: base;
+    width: 470px;
+    background: #fff;
+  }
+  .searchRedHolder {
+    cursor: pointer;
+  }
+  .InformationHeader {
+    height: 30px;
+    padding: 0px 40px 0px 0px;
+    border-bottom: 1px solid #fff;
+  }
+  .searchRedHolder {
+    right: 0px;
+    margin: auto;
+    left: initial;
+  }
+}
