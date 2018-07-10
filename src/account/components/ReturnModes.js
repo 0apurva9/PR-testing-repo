@@ -35,13 +35,11 @@ export default class ReturnModes extends React.Component {
   }
   handleSelect(val) {
     if (checkUserAgentIsMobile()) {
-      console.log("Is Mobile");
       if (this.props.selectMode) {
         this.props.selectMode(val);
       }
     }
 
-    console.log("Is Desktop");
     this.setState({ selectedMode: val });
   }
   handleCancel() {
@@ -149,7 +147,7 @@ export default class ReturnModes extends React.Component {
                   size="14px"
                   fontFamily="regular"
                   color="#000000"
-                  label="Cancel"
+                  label="Change"
                   onClick={() => this.handleCancel()}
                 />
               </div>
@@ -157,7 +155,7 @@ export default class ReturnModes extends React.Component {
                 <Icon image={checkIcon} size={40} />
               </div>
               <div className={styles.defectiveProductData}>
-                Defective product received.
+                {this.props.selectedReason}
               </div>
             </div>
           </DeskTopOnly>

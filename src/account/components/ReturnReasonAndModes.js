@@ -42,6 +42,7 @@ import DeskTopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import OrderCard from "./OrderCard";
 import format from "date-fns/format";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
 const dateFormat = "DD MMM YYYY";
@@ -51,7 +52,8 @@ export default class ReturnReasonAndModes extends React.Component {
     super();
     this.orderCode = props.location.pathname.split("/")[2];
     this.state = {
-      isReasonSelected: false
+      isReasonSelected: false,
+      selectedReason: null
     };
   }
   renderLoader() {
@@ -81,7 +83,7 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.displayToast("Please Select Reverse Seal ");
       return false;
     } else {
-      this.setState({ isReasonSelected: true });
+      this.setState({ isReasonSelected: true, selectedReason: data.reason });
       this.props.onChange({ data });
       if (this.props.isCOD) {
         this.props.history.push({
@@ -184,6 +186,7 @@ export default class ReturnReasonAndModes extends React.Component {
         }
         selectMode={mode => this.onSelectMode(mode)}
         onCancel={() => this.onCancel()}
+        selectedReason={this.state.selectedReason}
       />
     );
 
