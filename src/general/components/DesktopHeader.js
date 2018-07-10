@@ -11,6 +11,16 @@ export default class DesktopHeader extends React.Component {
       this.props.openSignUp();
     }
   }
+  handleSelect() {
+    if (this.props.onSelect) {
+      this.props.onSelect();
+    }
+  }
+  goToTrackOrders() {
+    if (this.props.goToTrackOrders) {
+      this.props.goToTrackOrders();
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -29,21 +39,35 @@ export default class DesktopHeader extends React.Component {
               >
                 Sign in / Sign Up
               </div>
-              <div className={styles.loginTab}>Track Orders</div>
+              <div
+                className={styles.loginTab}
+                onClick={() => this.goToTrackOrders()}
+              >
+                Track Orders
+              </div>
             </div>
           </div>
           <div className={styles.lowerHeader}>
-            <div className={styles.cataGoryAndBrand}>Categories</div>
-            <div className={styles.cataGoryAndBrand}>Brands</div>
-            <div className={styles.myBagShow}>(0)</div>
-            <div className={styles.mywishList} />
-            <div className={styles.searchHolder}>
-              <input
-                type="text"
-                className={styles.inputText}
-                placeholder="Search"
-              />
+            <div className={styles.leftTabHolder}>
+              <div className={styles.cataGoryAndBrand}>Categories</div>
+              <div className={styles.cataGoryAndBrand}>Brands</div>
             </div>
+            <div className={styles.rightTabHolder}>
+              <div
+                className={styles.myBagShow}
+                onClick={() => this.handleSelect()}
+              >
+                {`(${this.props.bagCount})`}
+              </div>
+              <div className={styles.mywishList} />
+            </div>
+            {this.props.searchHolder && (
+              <div className={styles.searchHolder}>
+                <div className={styles.searchWrapper}>
+                  {this.props.searchHolder}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

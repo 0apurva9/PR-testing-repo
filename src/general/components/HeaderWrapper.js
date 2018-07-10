@@ -22,7 +22,9 @@ import {
   MY_ACCOUNT_PAGE,
   CHECKOUT_ROUTER,
   CHECKOUT_ROUTER_THANKYOU,
-  APP_VIEW
+  APP_VIEW,
+  CART_BAG_DETAILS,
+  MY_ACCOUNT_ORDERS_PAGE
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -83,7 +85,15 @@ export default class HeaderWrapper extends React.Component {
       }
     }, 50);
   };
-
+  handleSelect(val) {
+    if (this.props.history) {
+      this.props.history.push(val);
+    }
+  }
+  goToOrdersPage = () => {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`;
+    this.props.history.push(url);
+  };
   componentDidMount() {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
@@ -270,6 +280,14 @@ export default class HeaderWrapper extends React.Component {
             <DesktopHeader
               openSignUp={this.openSignUp}
               redirectToHome={this.redirectToHome}
+              bagCount={
+                localStorage.getItem(CART_BAG_DETAILS) &&
+                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
+                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)).length
+              }
+              onSelect={val => this.handleSelect(PRODUCT_CART_ROUTER)}
+              goToTrackOrders={() => this.goToOrdersPage()}
+              searchHolder={<SearchContainer />}
             />
           </DesktopOnly>
         </React.Fragment>
