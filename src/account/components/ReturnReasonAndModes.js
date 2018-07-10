@@ -164,10 +164,23 @@ export default class ReturnReasonAndModes extends React.Component {
     const renderReturnMode = (
       <ReturnModes
         {...this.props}
+        returnProductDetails={this.props.returnProductDetails}
+        onHollow={true}
         productInfo={
           this.props.returnRequest &&
           this.props.returnRequest.returnEntry &&
           this.props.returnRequest.returnEntry.orderEntries[0]
+        }
+        orderDate={
+          this.props.orderDetails &&
+          format(this.props.orderDetails.orderDate, dateFormat)
+        }
+        orderId={this.props.orderDetails && this.props.orderDetails.orderId}
+        productBrand={
+          this.props.orderDetails &&
+          this.props.orderDetails.products &&
+          this.props.orderDetails.products[0] &&
+          this.props.orderDetails.products[0].productBrand
         }
         selectMode={mode => this.onSelectMode(mode)}
         onCancel={() => this.onCancel()}

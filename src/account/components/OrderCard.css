@@ -151,4 +151,7 @@
     width: auto;
     float: right;
   }
+  .base {
+    margin-bottom: 0px;
+  }
 }

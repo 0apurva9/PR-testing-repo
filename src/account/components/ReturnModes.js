@@ -8,6 +8,8 @@ import styles from "./ReturnModes.css";
 import DeskTopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import Button from "../../general/components/Button";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -60,67 +62,103 @@ export default class ReturnModes extends React.Component {
     const { productInfo } = this.props;
     const data = this.props.returnProductDetails;
     return (
-      <ReturnsFrame
-        headerText="Select mode of return"
-        onCancel={() => this.handleCancel()}
-      >
-        <div className={styles.content}>
-          <MobileOnly>
-            <div className={styles.card}>
-              <OrderCard
-                imageUrl={
-                  data &&
-                  data.orderProductWsDTO &&
-                  data.orderProductWsDTO[0] &&
-                  data.orderProductWsDTO[0].imageURL
-                }
-                productName={
-                  productInfo && productInfo.product && productInfo.product.name
-                }
-                price={
-                  productInfo &&
-                  productInfo.totalPrice &&
-                  productInfo.totalPrice.value
-                }
-              >
-                {productInfo &&
-                  productInfo.quantity && (
-                    <div className={styles.quantity}>
-                      Qty {productInfo.quantity}
-                    </div>
-                  )}
-              </OrderCard>
+      <div className={styles.base}>
+        <MobileOnly>
+          <div className={styles.header}>
+            Select mode of return
+            <div className={styles.cancel}>
+              <UnderLinedButton
+                label="Cancel"
+                color="#ff1744"
+                onClick={() => this.handleCancel()}
+              />
             </div>
-          </MobileOnly>
+          </div>
+          {this.props.onContinue && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label={this.props.buttonText}
+                  onClick={() => this.handleContinue()}
+                />
+              </div>
+            </div>
+          )}
+        </MobileOnly>
+        <div className={styles.content}>
+          <div className={styles.card}>
+            <OrderCard
+              imageUrl={
+                data &&
+                data.orderProductWsDTO &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].imageURL
+              }
+              productName={
+                productInfo && productInfo.product && productInfo.product.name
+              }
+              price={
+                productInfo &&
+                productInfo.totalPrice &&
+                productInfo.totalPrice.value
+              }
+              isSelect={true}
+              quantity={true}
+              onHollow={this.props.onHollow}
+              orderPlace={this.props.orderDate}
+              orderId={this.props.orderId}
+              productBrand={this.props.productBrand}
+            >
+              {productInfo &&
+                productInfo.quantity && (
+                  <div className={styles.quantity}>
+                    Qty {productInfo.quantity}
+                  </div>
+                )}
+            </OrderCard>
+          </div>
+
           {this.isReturnModesEnabled() && (
-            <div>
-              {data.returnModes.quickDrop && (
-                <SelectReturnDate
-                  label="Return to store"
-                  selected={this.props.selectedMode === QUICK_DROP}
-                  selectItem={() => {
-                    this.handleSelect(QUICK_DROP);
-                  }}
-                />
-              )}
-              {data.returnModes.schedulePickup && (
-                <SelectReturnDate
-                  label="Tata CliQ Pick Up"
-                  selectItem={() => {
-                    this.handleSelect(SCHEDULED_PICKUP);
-                  }}
-                  selected={this.props.selectedMode === SCHEDULED_PICKUP}
-                />
-              )}
-              {data.returnModes.selfCourier && (
-                <SelectReturnDate
-                  selectItem={() => {
-                    this.handleSelect(SELF_COURIER);
-                  }}
-                  label="Self Courier"
-                  selected={this.props.selectedMode === SELF_COURIER}
-                />
-              )}
+            <div className={styles.returnModes}>
+              <DeskTopOnly>
+                <div className={styles.header}>
+                  <div className={styles.circleHolder}>
+                    <div className={styles.circle}>2</div>
+                  </div>
+                  Select mode of return
+                </div>
+              </DeskTopOnly>
+              <div className={styles.returnModesWithBorder}>
+                {data.returnModes.quickDrop && (
+                  <SelectReturnDate
+                    label="Return to store"
+                    selected={this.props.selectedMode === QUICK_DROP}
+                    selectItem={() => {
+                      this.handleSelect(QUICK_DROP);
+                    }}
+                  />
+                )}
+                {data.returnModes.schedulePickup && (
+                  <SelectReturnDate
+                    label="Tata CliQ Pick Up"
+                    selectItem={() => {
+                      this.handleSelect(SCHEDULED_PICKUP);
+                    }}
+                    selected={this.props.selectedMode === SCHEDULED_PICKUP}
+                  />
+                )}
+                {data.returnModes.selfCourier && (
+                  <SelectReturnDate
+                    selectItem={() => {
+                      this.handleSelect(SELF_COURIER);
+                    }}
+                    label="Self Courier"
+                    selected={this.props.selectedMode === SELF_COURIER}
+                  />
+                )}
+              </div>
             </div>
           )}
           {!this.isReturnModesEnabled() && (
@@ -130,7 +168,7 @@ export default class ReturnModes extends React.Component {
             </div>
           )}
         </div>
-      </ReturnsFrame>
+      </div>
     );
   }
 }
