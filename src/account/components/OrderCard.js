@@ -116,6 +116,7 @@ export default class OrderCard extends React.Component {
             )}
           </div>
           {this.props.children &&
+            this.props.showQuantity &&
             this.props.productName !== "Gift Card" && (
               <div className={styles.additionalContent}>
                 {this.props.children}
@@ -136,5 +137,6 @@ OrderCard.propTypes = {
 OrderCard.defaultProps = {
   quantity: false,
   numberOfQuantity: 1,
-  onHollow: false
+  onHollow: false,
+  showQuantity: false
 };

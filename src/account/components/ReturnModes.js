@@ -112,6 +112,7 @@ export default class ReturnModes extends React.Component {
               orderPlace={this.props.orderDate}
               orderId={this.props.orderId}
               productBrand={this.props.productBrand}
+              showQuantity={false}
             >
               {productInfo &&
                 productInfo.quantity && (
