@@ -3,17 +3,30 @@ import FilterSelect from "./FilterSelect";
 import SearchInput from "../../general/components/SearchInput";
 import styles from "./BrandFilterTabDesktop.css";
 class BrandFilterTabDesktop extends React.Component {
-  onBrandSearch = value => {
-    if (this.props.onBrandSearch) {
-      this.props.onBrandSearch(value);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      brandSearchString: ""
+    };
+  }
+  onBrandSearch = val => {
+    this.setState({ brandSearchString: val });
   };
+
   onFilterClick = val => {
     if (this.props.onFilterClick) {
       this.props.onFilterClick(val);
     }
   };
   render() {
+    let brandsList = this.props.brandsList;
+    if (this.state.brandSearchString !== "") {
+      brandsList = brandsList.filter(brand => {
+        return brand.name
+          .toLowerCase()
+          .includes(this.state.brandSearchString.toLowerCase());
+      });
+    }
     return (
       <div className={styles.base}>
         <div className={styles.search}>
@@ -23,8 +36,8 @@ class BrandFilterTabDesktop extends React.Component {
           />
         </div>
         <div className={styles.brandsList}>
-          {this.props.brandsList &&
-            this.props.brandsList.map((val, i) => {
+          {brandsList &&
+            brandsList.map((val, i) => {
               return (
                 <FilterSelect
                   onClick={this.onFilterClick}

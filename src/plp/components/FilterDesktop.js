@@ -21,12 +21,6 @@ const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
 export default class FilterDesktop extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      brandSearchString: ""
-    };
-  }
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
@@ -69,9 +63,7 @@ export default class FilterDesktop extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
-  onBrandSearch = val => {
-    this.setState({ brandSearchString: val });
-  };
+
   onCategorySelect = (val, isFilter) => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
