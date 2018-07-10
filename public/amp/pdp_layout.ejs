@@ -548,8 +548,8 @@ position: absolute; right: 10px; background-position: 50%; background-size: auto
             </a>
           </div>
           {{/averageRating}}
-          <div class="hide-content" [class]="'{{rootCategory}}' == 'FineJewellery' ? 'pd-details-4' : 'hide-content'">
-            <div class="price-breakup">
+          <div class="hide-content" [class]="'{{rootCategory}}' == 'FineJewellery' || '{{rootCategory}}' == 'FashionJewellery' ? 'pd-details-4' : 'hide-content'">
+            <div class="price-breakup" [class]="'{{rootCategory}}' == 'FashionJewellery' ? 'hide-content' : 'price-breakup'">
               <span on="tap:AMP.setState({showPriceOptions:true})" role="price-breakup" tabindex="0">Price Breakup</span>
             </div>
             {{details.0.value}} <span class="desc-readmore" [class]="descReadMore ? 'hide-content' : 'desc-readmore'" on="tap:AMP.setState({descReadMore : true})" role="read-desc" tabindex="0">Read More</span>
@@ -596,7 +596,7 @@ position: absolute; right: 10px; background-position: 50%; background-size: auto
           <amp-selector layout="container" on="select:AMP.setState({selectedVariant : event.targetOption})">
             {{#variantOptionsAMP.variantSizes}}
             <div class="variant-option no-select" option="{{productCode}}">
-              <div [class]="{{isAvailable}} ? '' : 'not-available'"><a href="/amp{{url}}"><div class="variant-option-in" [class]="{{isSelected}} ? 'variant-option-active' : 'variant-option-in'"><span>{{size}}</span></div></a></div>
+              <div [class]="{{isAvailable}} ? '' : 'not-available'"><a href="/amp{{url}}"><div class="variant-option-in" [class]="{{isSelected}} ? 'variant-option-in' : 'variant-option-in'"><span>{{size}}</span></div></a></div>
             </div>
             {{/variantOptionsAMP.variantSizes}}
           </amp-selector>
