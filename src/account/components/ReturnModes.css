@@ -60,7 +60,7 @@
   }
   .returnModes {
     background: #fff;
-    padding: 30px;
+    padding: 20px;
     border-radius: 4px;
   }
   .returnModesWithBorder {
@@ -94,5 +94,41 @@
     font-family: semibold;
     line-height: 25px;
     position: relative;
+  }
+  .selectedDefectiveNode {
+    background: #fff;
+    padding: 25px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .headerForDefectiveReason {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: semibold;
+    line-height: 25px;
+    padding: 0px 80px 0px 40px;
+  }
+  .cancelButtonHolder {
+    width: auto;
+    height: auto;
+    right: 25px;
+    position: absolute;
+    top: 25px;
+  }
+  .checkIcon {
+    width: auto;
+    height: auto;
+    left: 25px;
+    position: absolute;
+    top: 20px;
+  }
+  .defectiveProductData {
+    font-family: light;
+    font-size: 14px;
+    padding-top: 20px;
+    padding-left: 40px;
+    width: 100%;
   }
 }

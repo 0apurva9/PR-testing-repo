@@ -10,6 +10,8 @@ import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
+import checkIcon from "../../general/components/img/check.svg";
+import Icon from "../../xelpmoc-core/Icon";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -18,7 +20,7 @@ import {
   RETURN_LANDING,
   RETURNS_REASON
 } from "../../lib/constants";
-
+const REFUND_DETAILS = "Refund Details";
 export default class ReturnModes extends React.Component {
   handleSelect(val) {
     if (this.props.selectMode) {
@@ -119,7 +121,28 @@ export default class ReturnModes extends React.Component {
                 )}
             </OrderCard>
           </div>
-
+          <DeskTopOnly>
+            <div className={styles.selectedDefectiveNode}>
+              <div className={styles.headerForDefectiveReason}>
+                Select reason for your return
+              </div>
+              <div className={styles.cancelButtonHolder}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000000"
+                  label="Cancel"
+                  onClick={() => this.handleCancel()}
+                />
+              </div>
+              <div className={styles.checkIcon}>
+                <Icon image={checkIcon} size={40} />
+              </div>
+              <div className={styles.defectiveProductData}>
+                Defective product received.
+              </div>
+            </div>
+          </DeskTopOnly>
           {this.isReturnModesEnabled() && (
             <div className={styles.returnModes}>
               <DeskTopOnly>
@@ -167,6 +190,9 @@ export default class ReturnModes extends React.Component {
               care 90291 08282
             </div>
           )}
+          <DeskTopOnly>
+            <DummyTab title={REFUND_DETAILS} number={3} />
+          </DeskTopOnly>
         </div>
       </div>
     );
