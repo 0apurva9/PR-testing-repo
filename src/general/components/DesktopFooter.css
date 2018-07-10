@@ -5,8 +5,14 @@
   background: #fff;
   max-width: 1600px;
   margin: auto;
+  /* padding: 35px 0px; */
 }
-
+.contentHolder:nth-child(1) {
+  float: right;
+}
+/* .contentHolder:first-child {
+  float: right;
+} */
 .contentHolder h2 {
   margin-bottom: 15px;
   font-size: 20px;
@@ -14,10 +20,10 @@
   margin-top: 0px;
 }
 .contentHolder h3 {
-  margin-bottom: 15px;
-  font-size: 20px;
+  font-size: 14px;
   font-family: semibold;
   margin-top: 0px;
+  margin-bottom: 10px;
 }
 .contentHolder p {
   padding-bottom: 5px;
@@ -29,13 +35,17 @@
 .contentHolder ul {
   width: auto;
   height: auto;
-  line-height: 25px;
+  padding-left: 0px;
 }
-.contentHolder .right {
-  width: auto;
-  height: auto;
-  float: right;
-}
-.contentHolder li {
+.contentHolder ul li {
   font-family: light;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 100px;
+}
+.contentHolder ul li ul li {
+  display: inherit;
+  font-family: light;
+  padding-left: unset;
+  line-height: 35px;
 }
