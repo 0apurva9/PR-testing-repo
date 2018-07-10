@@ -11,6 +11,8 @@
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
   margin-bottom:2px;
   transition: 200ms;
+  cursor:pointer;
+  user-select: none;
 }
 .disabled {
   composes: base;
@@ -37,4 +39,10 @@
   composes: base;
   background-color: #212121;
   box-shadow: inset 0 0 0 2px #000;
+}
+
+@media screen and (min-width: 1025px){
+  .base {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
+  }
 }

@@ -4,6 +4,7 @@
   background: #fff;
   padding: 15px 40px 15px 10px;
   position: relative;
+  cursor:pointer;
 }
 .linkArrow {
   width: 12px;
@@ -14,4 +15,17 @@
   bottom: 0;
   margin: auto;
   transform: rotate(-90deg);
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    padding:15px 10px;
+    white-space:nowrap;
+    width: auto;
+    display: inline-block;
+  }
+  .linkArrow {
+    position:static;
+    display:inline-block;
+    margin-left:15px;
+  }
 }

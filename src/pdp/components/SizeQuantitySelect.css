@@ -46,3 +46,14 @@
   composes: select;
   padding-left: 10px;
 }
+
+@media screen and (min-width: 1025px) {
+  .header{
+    padding:0;
+  }
+  .selectHolder{
+    padding:0;
+    max-width:360px;
+  }
+
+}
