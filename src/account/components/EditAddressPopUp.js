@@ -12,7 +12,12 @@ import TextArea from "../../general/components/TextArea.js";
 import cloneDeep from "lodash.clonedeep";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
-import { SUCCESS, ERROR } from "../../lib/constants.js";
+import {
+  SUCCESS,
+  ERROR,
+  ADDRESS_VALIDATION,
+  NAME_VALIDATION
+} from "../../lib/constants.js";
 import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -166,15 +171,24 @@ export default class EditAddressPopUp extends React.Component {
       this.props.displayToast(PINCODE_VALID_TEXT);
       return false;
     }
-    if (!this.state.firstName) {
+    if (
+      !this.state.firstName.trim() ||
+      !NAME_VALIDATION.test(this.state.firstName.trim())
+    ) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.lastName) {
+    if (
+      !this.state.lastName.trim() ||
+      !NAME_VALIDATION.test(this.state.lastName.trim())
+    ) {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (!this.state.line1) {
+    if (
+      !this.state.line1.trim() ||
+      !ADDRESS_VALIDATION.test(this.state.line1.trim())
+    ) {
       this.props.displayToast(ADDRESS_TEXT);
       return false;
     }

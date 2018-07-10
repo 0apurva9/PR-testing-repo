@@ -9,7 +9,7 @@ import informationIcon from "../../general/components/img/Info-grey.svg";
 import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
-
+import cardValidator from "simple-card-validator";
 const INSUFFICIENT_DATA_ERROR_MESSAGE = "PLease enter valid card details";
 
 const MERCHANT_ID = "tul_uat2";
@@ -80,20 +80,21 @@ export default class CreditCardForm extends React.Component {
         this.props.cardDetails && this.props.cardDetails.yearValue
           ? this.props.cardDetails.yearValue
           : "",
-      isCalledBinValidation: false
+      isCalledBinValidation: false,
+      invalidCard: false
     };
   }
 
   onChangeCardNumber(val) {
     this.setState({ cardNumber: val });
     this.onChange({ cardNumber: val });
-    if (val.length < 6) {
+    if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
-    if (val.length >= 6) {
+    if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
       if (!this.state.isCalledBinValidation) {
-        this.props.binValidation(val.substring(0, 6));
+        this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
       }
     }
   }
@@ -103,6 +104,19 @@ export default class CreditCardForm extends React.Component {
     if (this.props.onChangeCardDetail) {
       this.props.onChangeCardDetail(val);
     }
+  }
+  onBlurOfCardInput() {
+    const card = new cardValidator(this.state.cardNumber);
+    if (this.state.cardNumber !== "") {
+      if (card.validateCard()) {
+        this.setState({ invalidCard: false });
+      } else {
+        this.setState({ invalidCard: true });
+      }
+    } else {
+      this.setState({ invalidCard: false });
+    }
+    this.handleOnBlur();
   }
   handleOnFocusInput() {
     if (this.props.onFocusInput) {
@@ -167,14 +181,19 @@ export default class CreditCardForm extends React.Component {
               onFocus={() => {
                 this.handleOnFocusInput();
               }}
-              onBlur={() => this.handleOnBlur()}
               boxy={true}
               onChange={val => this.onChangeCardNumber(val)}
               textStyle={{ fontSize: 14 }}
               height={33}
               maxLength="23"
               isCard={true}
+              onBlur={() => this.onBlurOfCardInput()}
             />
+            {this.state.invalidCard && (
+              <span className={styles.invalidCardText}>
+                Please enter a valid card number
+              </span>
+            )}
           </div>
 
           <div className={styles.content}>

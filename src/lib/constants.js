@@ -307,3 +307,5 @@ export const FEMALE = "FEMALE";
 export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
+export const ADDRESS_VALIDATION = /^[#./0-9a-zA-Z\s,-]{15,}$/;
+export const NAME_VALIDATION = /^[A-Za-z]+$/;

@@ -1429,14 +1429,14 @@ export function editAddress(addressDetails) {
       addressObject.append("phone", addressDetails.phone);
     }
     if (addressDetails.firstName) {
-      addressObject.append("firstName", addressDetails.firstName);
+      addressObject.append("firstName", addressDetails.firstName.trim());
     }
     if (addressDetails.lastName) {
-      addressObject.append("lastName", addressDetails.lastName);
+      addressObject.append("lastName", addressDetails.lastName.trim());
     }
     addressObject.append("postalCode", addressDetails.postalCode);
     if (addressDetails.line1) {
-      addressObject.append("line1", addressDetails.line1);
+      addressObject.append("line1", addressDetails.line1.trim());
     } else {
       addressObject.append("line1", "");
     }
