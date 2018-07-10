@@ -145,6 +145,7 @@ export default class ReturnReasonAndModes extends React.Component {
         onChangePrimary={reason => this.onChange({ reason })}
         onContinue={data => this.renderToModes(data)}
         onCancel={() => this.onCancel()}
+        onHollow={true}
       />
     );
     const renderReturnMode = (
@@ -171,40 +172,6 @@ export default class ReturnReasonAndModes extends React.Component {
               </div>
               <div className={styles.saveListDetail}>
                 <div className={styles.saveListDetailsWithHolder}>
-                  <div className={styles.ordercard}>
-                    <OrderCard
-                      imageUrl={
-                        data &&
-                        data.orderProductWsDTO &&
-                        data.orderProductWsDTO[0] &&
-                        data.orderProductWsDTO[0].imageURL
-                      }
-                      productName={`${data &&
-                        data.orderProductWsDTO &&
-                        data.orderProductWsDTO[0] &&
-                        data.orderProductWsDTO[0].productBrand} ${data &&
-                        data.orderProductWsDTO &&
-                        data.orderProductWsDTO[0] &&
-                        data.orderProductWsDTO[0].productName}`}
-                      price={
-                        data &&
-                        data.orderProductWsDTO &&
-                        data.orderProductWsDTO[0] &&
-                        data.orderProductWsDTO[0].price
-                      }
-                      isSelect={true}
-                      quantity={true}
-                    >
-                      {data &&
-                        data.orderProductWsDTO &&
-                        data.orderProductWsDTO[0] &&
-                        data.orderProductWsDTO[0].quantity && (
-                          <div className={styles.quantity}>
-                            Qty {data.orderProductWsDTO[0].quantity}
-                          </div>
-                        )}
-                    </OrderCard>
-                  </div>
                   {!this.state.isReasonSelected && renderReasonForm}
                   {this.state.isReasonSelected && renderReturnMode}
                 </div>

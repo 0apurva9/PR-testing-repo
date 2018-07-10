@@ -3,6 +3,7 @@
   height: auto;
   padding: 25px 15px 85px 15px;
   background: #ececec;
+  min-height: 100vh;
 }
 
 .cancelHolder {
@@ -46,28 +47,8 @@
   height: auto;
   display: inline-block;
   position: relative;
-  padding-left: 125px;
-  text-align: right;
   margin-top: 28px;
 }
-
-.cancelButtonHolder {
-  width: auto;
-  height: 25px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  right: 150px;
-}
-
-.continueButtonHolder {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  vertical-align: middle;
-}
-
 .header {
   width: 100%;
   height: auto;
@@ -77,23 +58,56 @@
   position: relative;
   padding-bottom: 36px;
 }
-
-.circleHolder {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  margin-right: 10px;
-}
-.circle {
-  width: 23px;
-  height: 23px;
-  background-color: #fff;
-  border: 2px solid black;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 14px;
-  color: #000000;
-  font-size: 14px;
-  font-family: semibold;
-  line-height: 21px;
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 0px;
+  }
+  .content {
+    padding: 0px;
+    background: #ececec;
+  }
+  .selectReasonWithText {
+    background: #fff;
+    padding: 30px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  .buttonHolder {
+    padding-left: 125px;
+    text-align: right;
+  }
+  .cancelButtonHolder {
+    width: auto;
+    height: 25px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 150px;
+  }
+  .continueButtonHolder {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .circleHolder {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .circle {
+    width: 23px;
+    height: 23px;
+    background-color: #fff;
+    border: 2px solid black;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 23px;
+  }
 }

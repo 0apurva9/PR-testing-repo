@@ -83,6 +83,7 @@ export default class ReturnReasonForm extends React.Component {
   }
   render() {
     const data = this.props.returnProductDetails;
+
     return (
       <div className={styles.base}>
         <MobileOnly>
@@ -97,106 +98,107 @@ export default class ReturnReasonForm extends React.Component {
             </div>
           </div>
         </MobileOnly>
-
         <div className={styles.content}>
-          <DeskTopOnly>
-            <div className={styles.header}>
-              <div className={styles.circleHolder}>
-                <div className={styles.circle}>1</div>
+          <OrderCard
+            imageUrl={
+              data &&
+              data.orderProductWsDTO &&
+              data.orderProductWsDTO[0] &&
+              data.orderProductWsDTO[0].imageURL
+            }
+            productName={`${data &&
+              data.orderProductWsDTO &&
+              data.orderProductWsDTO[0] &&
+              data.orderProductWsDTO[0].productBrand} ${data &&
+              data.orderProductWsDTO &&
+              data.orderProductWsDTO[0] &&
+              data.orderProductWsDTO[0].productName}`}
+            price={
+              data &&
+              data.orderProductWsDTO &&
+              data.orderProductWsDTO[0] &&
+              data.orderProductWsDTO[0].price
+            }
+            isSelect={true}
+            quantity={true}
+            onHollow={this.props.onHollow}
+            orderPlace={"10 Sept 2017"}
+            orderId={"#32u4902u093"}
+            productBrand={"dfsdfsdf"}
+          >
+            {data &&
+              data.orderProductWsDTO &&
+              data.orderProductWsDTO[0] &&
+              data.orderProductWsDTO[0].quantity && (
+                <div className={styles.quantity}>
+                  Qty {data.orderProductWsDTO[0].quantity}
+                </div>
+              )}
+          </OrderCard>
+          <div className={styles.selectReasonWithText}>
+            <DeskTopOnly>
+              <div className={styles.header}>
+                <div className={styles.circleHolder}>
+                  <div className={styles.circle}>1</div>
+                </div>
+                Select reason for your return
               </div>
-              Select reason for your return
-            </div>
-          </DeskTopOnly>
-          <MobileOnly>
-            <OrderCard
-              imageUrl={
-                data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].imageURL
-              }
-              productName={`${data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].productBrand} ${data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].productName}`}
-              price={
-                data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].price
-              }
-              isSelect={true}
-              quantity={true}
-            >
-              {data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].quantity && (
-                  <div className={styles.quantity}>
-                    Qty {data.orderProductWsDTO[0].quantity}
-                  </div>
-                )}
-            </OrderCard>
-          </MobileOnly>
-
-          <div className={styles.select}>
-            <SelectBoxMobile2
-              placeholder={"Select a reason"}
-              options={
-                data &&
-                data.returnReasonMap &&
-                data.returnReasonMap.map((val, i) => {
-                  return {
-                    value: val.parentReasonCode,
-                    label: val.parentReturnReason
-                  };
-                })
-              }
-              onChange={val => this.onChangePrimary(val)}
-            />
-          </div>
-          {this.state.secondaryReasons && (
+            </DeskTopOnly>
             <div className={styles.select}>
               <SelectBoxMobile2
                 placeholder={"Select a reason"}
-                options={this.state.secondaryReasons}
-                onChange={val => this.onChangeSecondary(val)}
-                isEnable={this.state.isEnable}
+                options={
+                  data &&
+                  data.returnReasonMap &&
+                  data.returnReasonMap.map((val, i) => {
+                    return {
+                      value: val.parentReasonCode,
+                      label: val.parentReturnReason
+                    };
+                  })
+                }
+                onChange={val => this.onChangePrimary(val)}
               />
             </div>
-          )}
-          <div className={styles.textArea}>
-            <TextArea onChange={val => this.handleChange(val)} />
-          </div>
-
-          <DeskTopOnly>
-            <div className={styles.buttonHolder}>
-              <div className={styles.cancelButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000000"
-                  label="Cancel"
-                  onClick={() => this.handleCancel()}
+            {this.state.secondaryReasons && (
+              <div className={styles.select}>
+                <SelectBoxMobile2
+                  placeholder={"Select a reason"}
+                  options={this.state.secondaryReasons}
+                  onChange={val => this.onChangeSecondary(val)}
+                  isEnable={this.state.isEnable}
                 />
               </div>
-
-              <div className={styles.continueButtonHolder}>
-                <Button
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label="Continue"
-                  width={120}
-                  textStyle={{ color: "#FFF", fontSize: 14 }}
-                  onClick={() => this.handleContinue()}
-                />
-              </div>
+            )}
+            <div className={styles.textArea}>
+              <TextArea onChange={val => this.handleChange(val)} />
             </div>
-          </DeskTopOnly>
+            <DeskTopOnly>
+              <div className={styles.buttonHolder}>
+                <div className={styles.cancelButtonHolder}>
+                  <UnderLinedButton
+                    size="14px"
+                    fontFamily="regular"
+                    color="#000000"
+                    label="Cancel"
+                    onClick={() => this.handleCancel()}
+                  />
+                </div>
+
+                <div className={styles.continueButtonHolder}>
+                  <Button
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Continue"
+                    width={120}
+                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    onClick={() => this.handleContinue()}
+                  />
+                </div>
+              </div>
+            </DeskTopOnly>
+          </div>
         </div>
         {data &&
           data.showReverseSealFrJwlry === "yes" && (
