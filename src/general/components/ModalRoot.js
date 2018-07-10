@@ -378,7 +378,7 @@ export default class ModalRoot extends React.Component {
     });
   }
   goToHomePage() {
-    this.props.history.push(`${HOME_ROUTER}`);
+    this.handleClose();
   }
   continueWithoutBankCoupon = async () => {
     const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);

@@ -843,26 +843,51 @@ export function addUserAddress(userAddress, fromAccount) {
 
   return async (dispatch, getState, { api }) => {
     dispatch(addUserAddressRequest());
+    let addressObject = new FormData();
+    addressObject.append("countryIso", userAddress.countryIso);
+    addressObject.append("addressType", userAddress.addressType);
+    if (userAddress.phone) {
+      addressObject.append("phone", userAddress.phone);
+    }
+    if (userAddress.firstName) {
+      addressObject.append("firstName", userAddress.firstName.trim());
+    }
+    if (userAddress.lastName) {
+      addressObject.append("lastName", userAddress.lastName.trim());
+    }
+    addressObject.append("postalCode", userAddress.postalCode);
+    if (userAddress.line1) {
+      addressObject.append("line1", userAddress.line1.trim());
+    } else {
+      addressObject.append("line1", "");
+    }
+    if (userAddress.line2) {
+      addressObject.append("line2", userAddress.line2);
+    } else {
+      addressObject.append("line2", "");
+    }
+    if (userAddress.line3) {
+      addressObject.append("line3", userAddress.line3);
+    } else {
+      addressObject.append("line3", "");
+    }
+    addressObject.append("state", userAddress.state);
+    addressObject.append("town", userAddress.town);
+    addressObject.append("defaultFlag", userAddress.defaultFlag);
+    if (userAddress.landmark) {
+      addressObject.append("landmark", userAddress.landmark);
+    } else {
+      addressObject.append("landmark", "");
+    }
+    addressObject.append("emailId", JSON.parse(userDetails).userName);
     try {
-      const result = await api.post(
+      const result = await api.postFormData(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/addAddress?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&countryIso=${
-          userAddress.countryIso
-        }&addressType=${userAddress.addressType}&phone=${
-          userAddress.phone
-        }&firstName=${userAddress.firstName}&lastName=${userAddress.lastName}
-        &postalCode=${userAddress.postalCode}&state=${
-          userAddress.state
-        }&line2=${userAddress.line2}&line3=${userAddress.line3}&town=${
-          userAddress.town
-        }&landmark=${
-          userAddress.landmark ? userAddress.landmark : ""
-        }&defaultFlag=${userAddress.defaultFlag}&emailId=${
-          JSON.parse(userDetails).userName
-        }&line1=${userAddress.line1}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
+        addressObject
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

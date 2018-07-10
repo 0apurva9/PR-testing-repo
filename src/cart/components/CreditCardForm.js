@@ -88,13 +88,13 @@ export default class CreditCardForm extends React.Component {
   onChangeCardNumber(val) {
     this.setState({ cardNumber: val });
     this.onChange({ cardNumber: val });
-    if (val.length < 6) {
+    if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
-    if (val.length >= 6) {
+    if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
       if (!this.state.isCalledBinValidation) {
-        this.props.binValidation(val.substring(0, 6));
+        this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
       }
     }
   }
