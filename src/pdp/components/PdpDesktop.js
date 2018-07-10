@@ -607,7 +607,7 @@ export default class PdpApparel extends React.Component {
                           {productData.classificationList &&
                             productData.classificationList.map(value => {
                               return (
-                                <div>
+                                <div className={styles.featureHolder}>
                                   <div className={styles.header}>
                                     {value.key}
                                   </div>

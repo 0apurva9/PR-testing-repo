@@ -226,10 +226,8 @@
     height: 10px;
     display: inline-block;
     margin-left: 10px;
-    -webkit-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
     transform: rotate(-90deg);
-    background: url(/static/media/down-arrow-red.43cd5a4e.svg)no-repeat;
+    background:url("../../general/components/img/down-arrow-red.svg")no-repeat;
     background-position: center;
     background-size: contain;
   }
