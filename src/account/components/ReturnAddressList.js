@@ -53,7 +53,8 @@ export default class ReturnAddressList extends React.Component {
       addNewAddress: false,
       errorMessage: "",
       error: false,
-      userEmailId: ""
+      userEmailId: "",
+      isReturnAddressSelected: false
     };
   }
 
@@ -66,7 +67,9 @@ export default class ReturnAddressList extends React.Component {
     if (nextProps.addUserAddressStatus === SUCCESS) {
       if (this.state.addNewAddress === true) {
         this.setState({ addNewAddress: false });
-        this.props.history.goBack();
+        if (checkUserAgentIsMobile()) {
+          this.props.history.goBack();
+        }
       }
     }
     if (nextProps.userDetails) {
@@ -78,17 +81,21 @@ export default class ReturnAddressList extends React.Component {
         errorMessage: nextProps.returnPinCodeError,
         error: true
       });
-      this.props.history.goBack();
+      if (checkUserAgentIsMobile()) {
+        this.props.history.goBack();
+      }
     } else if (
       nextProps.returnPinCodeStatus === SUCCESS &&
       !this.state.addressSelectedByUser
     ) {
       this.setState({ addressSelectedByUser: true });
-      this.props.history.push(
-        `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_DATE}`
-      );
+      if (checkUserAgentIsMobile()) {
+        this.props.history.push(
+          `${RETURNS_PREFIX}/${
+            this.orderCode
+          }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_DATE}`
+        );
+      }
     }
   }
 
@@ -189,7 +196,6 @@ export default class ReturnAddressList extends React.Component {
       );
 
       this.props.addUserAddress(address, true);
-      // this.setState({ addNewAddress: false });
     }
   };
 
@@ -351,7 +357,11 @@ export default class ReturnAddressList extends React.Component {
       const { pathname } = this.props.location;
       return (
         <div>
-          <DesktopOnly>{this.renderAddress()}</DesktopOnly>
+          <DesktopOnly>
+            {this.renderAddress()}
+            {this.renderDateTime()}
+            {this.renderReturnSummary()}
+          </DesktopOnly>
           <MobileOnly>
             <Error message={this.state.errorMessage} show={this.state.error} />
             <React.Fragment>
