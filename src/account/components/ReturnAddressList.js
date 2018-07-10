@@ -356,10 +356,12 @@ export default class ReturnAddressList extends React.Component {
     if (this.props.returnRequest && this.props.returnProducts) {
       const { pathname } = this.props.location;
       return (
-        <div>
+        <React.Fragment>
           <DesktopOnly>
             {this.renderAddress()}
-            {this.renderDateTime()}
+            <div className={styles.renderDateAndTime}>
+              {this.renderDateTime()}
+            </div>
             {this.renderReturnSummary()}
           </DesktopOnly>
           <MobileOnly>
@@ -372,7 +374,7 @@ export default class ReturnAddressList extends React.Component {
                 this.renderReturnSummary()}
             </React.Fragment>
           </MobileOnly>
-        </div>
+        </React.Fragment>
       );
     } else {
       return null;

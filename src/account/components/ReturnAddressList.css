@@ -38,3 +38,10 @@
   bottom: 0;
   margin: auto;
 }
+@media only screen and (min-width: 1025px) {
+  .renderDateAndTime {
+    width: 100%;
+    height: auto;
+    padding: 0px 30px;
+  }
+}

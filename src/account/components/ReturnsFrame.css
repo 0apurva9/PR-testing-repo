@@ -29,3 +29,10 @@
 .button {
   display: inline-block;
 }
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding: 0px;
+    background: #fff;
+    min-height: 0px;
+  }
+}
