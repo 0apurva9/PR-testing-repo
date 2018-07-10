@@ -1,0 +1,110 @@
+.base{
+  width:100%;
+  height:auto;
+  padding:0 80px;
+  position:relative;
+}
+.content{
+  width:100%;
+  height:auto;
+  padding-bottom:133%;
+  position:relative;
+  overflow:hidden;
+}
+.image{
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.nav{
+  width:100%;
+  height:auto;
+  text-align:center;
+  margin-top:20px;
+}
+.navImage{
+  width:40px;
+  height:40px;
+  margin:0 20px;
+  display:inline-block;
+  vertical-align:top;
+  transition:300ms;
+  opacity:0.3;
+  cursor:pointer;
+}
+.navActive{
+  composes:navImage;
+  opacity:1;
+}
+
+.navArrow{
+  width:35px;
+  height:35px;
+  position:absolute;
+  top:-40px;
+  bottom:0;
+  right:0;
+  margin:auto;
+  background:url("../../general/components/img/down-arrow-grey.svg");
+  background-position:center;
+  background-size:contain;
+  transform:rotate(-90deg);
+}
+.navArrowBack{
+  composes:navArrow;
+  transform:rotate(90deg);
+  right:initial;
+  left:0;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.slideInRight{
+  composes:image;
+  /* transform: translateX(100%); */
+  animation: slideInRight 200ms forwards;
+}
+.slideInLeft{
+  composes:image;
+  animation: slideInLeft 200ms forwards;
+}
+.slideOutRight{
+  composes:image;
+  animation: slideOutRight 200ms forwards;
+}
+.slideOutLeft{
+  composes:image;
+  animation: slideOutLeft 200ms forwards;
+}

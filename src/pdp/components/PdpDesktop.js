@@ -2,7 +2,7 @@ import React from "react";
 import PdpFrame from "./PdpFrame";
 import find from "lodash.find";
 import Image from "../../xelpmoc-core/Image";
-import ProductGalleryMobile from "./ProductGalleryMobile";
+import ProductGalleryDesktop from "./ProductGalleryDesktop";
 import JewelleryCertification from "./JewelleryCertification";
 import ProductFeatures from "./ProductFeatures";
 import Accordion from "../../general/components/Accordion.js";
@@ -393,11 +393,13 @@ export default class PdpApparel extends React.Component {
           <div className={styles.base}>
             <div className={styles.pageCenter}>
               <div className={styles.gallery}>
-                <ProductGalleryMobile>
+                {/* <ProductGalleryDesktop>
                   {mobileGalleryImages.map((val, idx) => {
                     return <Image lazyLoad={true} image={val} key={idx} />;
                   })}
-                </ProductGalleryMobile>
+                </ProductGalleryDesktop> */}
+
+                <ProductGalleryDesktop />
                 {(productData.allOOStock ||
                   (productData.winningSellerAvailableStock === "0" &&
                     this.checkIfSizeSelected())) && (
