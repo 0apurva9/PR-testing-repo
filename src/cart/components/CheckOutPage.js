@@ -12,7 +12,7 @@ import styles from "./CheckOutPage.css";
 import CheckOutHeader from "./CheckOutHeader";
 import PaymentCardWrapper from "./PaymentCardWrapper.js";
 import CartItem from "./CartItem";
-import BankOffer from "./BankOffer.js";
+import CheckoutStaticSection from "./CheckoutStaticSection.js";
 import GridSelect from "../../general/components/GridSelect";
 import find from "lodash.find";
 import OrderConfirmation from "./OrderConfirmation";
@@ -366,6 +366,9 @@ class CheckOutPage extends React.Component {
   changePincodeOnCliqAndPiq = pincode => {
     this.updateLocalStoragePinCode(pincode);
     this.props.getAllStoresCNC(pincode);
+  };
+  showHideDetails = () => {
+    this.setState({ showCartDetails: !this.state.showCartDetails });
   };
   togglePickupPersonForm() {
     const currentSelectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
@@ -2161,6 +2164,36 @@ class CheckOutPage extends React.Component {
     ) {
       return (
         <div className={styles.base}>
+          {!this.state.showCliqAndPiq && (
+            <Checkout
+              padding={this.state.padding}
+              disabled={checkoutButtonStatus}
+              label={labelForButton}
+              noCostEmiEligibility={
+                this.props.cart &&
+                this.props.cart.emiEligibilityDetails &&
+                this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+              }
+              isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+              noCostEmiDiscount={this.state.noCostEmiDiscount}
+              amount={this.state.payableAmount}
+              bagTotal={this.state.bagAmount}
+              payable={this.state.payableAmount}
+              coupons={this.state.couponDiscount}
+              discount={this.state.totalDiscount}
+              delivery={this.state.deliveryCharge}
+              showDetails={this.state.showCartDetails}
+              showHideDetails={this.showHideDetails}
+              onCheckout={
+                this.state.isPaymentFailed
+                  ? this.handleSubmitAfterPaymentFailure
+                  : this.handleSubmit
+              }
+              isCliqCashApplied={this.state.isCliqCashApplied}
+              cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+              isFromMyBag={false}
+            />
+          )}
           {!this.state.isPaymentFailed &&
             !this.state.confirmAddress &&
             !this.state.isGiftCard &&
@@ -2316,9 +2349,8 @@ class CheckOutPage extends React.Component {
               />
             </div>
           )}
-
           {!this.state.showCliqAndPiq && (
-            <Checkout
+            <CheckoutStaticSection
               padding={this.state.padding}
               disabled={checkoutButtonStatus}
               label={labelForButton}

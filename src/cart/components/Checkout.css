@@ -7,21 +7,29 @@
   bottom: 0;
   left: 0;
   transform: translateZ(0);
+  z-index:10;
 }
 .hiddenBase {
   composes: base;
   position: relative;
+  height:260px;
   left: initial;
   bottom: initial;
   opacity: 0;
   pointer-events: none;
   margin-top: 10px;
 }
+.hiddenBaseContracted{
+  composes:hiddenBase;
+  height:75px;
+}
 .visibleBase {
   composes: base;
   background: #fff;
   position: relative;
   border-radius: 4px;
+  z-index:initial;
+  margin-top:20px;
 }
 .visibleBase .amount,
 .visibleBase .informationQuestionHolder,

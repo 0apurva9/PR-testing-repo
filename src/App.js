@@ -308,6 +308,7 @@ class App extends Component {
       <React.Fragment>
         <div className={className} style={{ transform: appTransform }}>
           <HeaderContainer />
+          <MobileFooter />
           <Switch>
             <Route path={MY_ACCOUNT} component={MyAccountWrapper} />{" "}
             <Route
@@ -472,7 +473,6 @@ class App extends Component {
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
           <SecondaryLoaderContainer />
-          <MobileFooter />
 
           <ModalContainer />
           <ErrorContainer />
