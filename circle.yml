@@ -13,6 +13,6 @@ test:
     - yarn  test
 deployment:
   staging:
-    branch: staging
+    branch: desktop
     commands:
       - yarn deploy
