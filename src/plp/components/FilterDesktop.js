@@ -189,7 +189,8 @@ export default class FilterDesktop extends React.Component {
                           facetDataValues.values && (
                             <PriceFilterTabDesktop
                               priceList={facetDataValues.values}
-                              onBrandSearch={this.onBrandSearch}
+                              history={this.props.history}
+                              onFilterClick={this.onFilterClick}
                             />
                           )}
                         {facetDataValues &&
