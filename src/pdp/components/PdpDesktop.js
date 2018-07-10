@@ -4,7 +4,12 @@ import find from "lodash.find";
 import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
 import JewelleryCertification from "./JewelleryCertification";
+import ProductFeatures from "./ProductFeatures";
 import Accordion from "../../general/components/Accordion.js";
+import JewelleryClassification from "./JewelleryClassification";
+import PriceBreakUp from "./PriceBreakUp";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import SizeQuantitySelect from "./SizeQuantitySelect";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import * as Cookie from "../../lib/Cookie";
@@ -119,6 +124,9 @@ export default class PdpApparel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      productQuantityOption: "Quantity",
+      sizeError: false,
+      quantityError: false,
       showProductDetails: false
     };
   }
@@ -217,7 +225,27 @@ export default class PdpApparel extends React.Component {
   renderRatings = () => {
     return null;
   };
-
+  // Functions only used in HomeFurnishings
+  checkIfQuantitySelected = () => {
+    if (
+      this.props.location.state &&
+      this.props.location.state.isQuantitySelected
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  updateQuantity = quantity => {
+    this.setState({
+      productQuantityOption: quantity,
+      quantityError: false
+    });
+  };
+  updateSize = () => {
+    this.setState({ sizeError: false });
+  };
+  //--------------- Ends here---------------------
   showPincodeModal() {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
       this.props.showPincodeModal(this.props.match.params[0]);
@@ -425,17 +453,66 @@ export default class PdpApparel extends React.Component {
                   secondaryPromotions={productData.productOfferMsg}
                 />
                 {productData.variantOptions && (
-                  <React.Fragment>
+                  <div className={styles.separator}>
                     {!this.checkIfNoSize() &&
                       !this.checkIfSizeDoesNotExist() && (
-                        <SizeSelector
-                          history={this.props.history}
-                          sizeSelected={this.checkIfSizeSelected()}
-                          productId={productData.productListingId}
-                          hasSizeGuide={productData.showSizeGuide}
-                          showSizeGuide={this.props.showSizeGuide}
-                          data={productData.variantOptions}
-                        />
+                        <React.Fragment>
+                          {productData.rootCategory !== "HomeFurnishing" && (
+                            <SizeSelector
+                              history={this.props.history}
+                              sizeSelected={this.checkIfSizeSelected()}
+                              productId={productData.productListingId}
+                              hasSizeGuide={productData.showSizeGuide}
+                              showSizeGuide={this.props.showSizeGuide}
+                              data={productData.variantOptions}
+                            />
+                          )}
+                          {productData.rootCategory === "HomeFurnishing" && (
+                            <React.Fragment>
+                              <SizeQuantitySelect
+                                history={this.props.history}
+                                sizeError={this.state.sizeError}
+                                quantityError={this.state.quantityError}
+                                showSizeGuide={
+                                  productData.showSizeGuide
+                                    ? this.props.showSizeGuide
+                                    : null
+                                }
+                                data={productData.variantOptions}
+                                maxQuantity={productData.maxQuantityAllowed}
+                                updateQuantity={this.updateQuantity}
+                                updateSize={this.updateSize}
+                                checkIfSizeSelected={this.checkIfSizeSelected}
+                                checkIfQuantitySelected={
+                                  this.checkIfQuantitySelected
+                                }
+                                productQuantity={
+                                  this.state.productQuantityOption
+                                }
+                              />
+
+                              <div className={styles.customisation}>
+                                <div className={styles.customiseText}>
+                                  Customisation available - Contact seller for
+                                  Free Monogramming
+                                </div>
+                                {productData.buyingGuideUrl && (
+                                  <div className={styles.customisationButton}>
+                                    <UnderLinedButton
+                                      label="Checkout our buying guide"
+                                      onClick={() =>
+                                        this.goToBuyingGuide(
+                                          productData.buyingGuideUrl
+                                        )
+                                      }
+                                      color="#ff1744"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </React.Fragment>
+                          )}
+                        </React.Fragment>
                       )}
 
                     <ColourSelector
@@ -447,7 +524,7 @@ export default class PdpApparel extends React.Component {
                         this.props.getProductSpecification
                       }
                     />
-                  </React.Fragment>
+                  </div>
                 )}
                 {productData.certificationMapFrJwlry && (
                   <JewelleryCertification
@@ -494,7 +571,7 @@ export default class PdpApparel extends React.Component {
               <div className={styles.pageCenter}>
                 <div className={styles.detailsHolder}>
                   <div className={styles.detailsCard}>
-                    {productData.details && (
+                    {productData.productDescription && (
                       <Accordion
                         text="Product Description"
                         headerFontSize={20}
@@ -505,15 +582,135 @@ export default class PdpApparel extends React.Component {
                           itemProp="description"
                         >
                           {productData.productDescription}
+                          {productData.rootCategory === "Electronics" && (
+                            <div
+                              style={{
+                                marginTop: 10
+                              }}
+                            >
+                              {productData.details &&
+                                productData.details.map(val => {
+                                  return (
+                                    <div className={styles.list}>
+                                      {val.value}
+                                    </div>
+                                  );
+                                })}
+                            </div>
+                          )}
                         </div>
                       </Accordion>
                     )}
-                    {productData.details && (
-                      <ProductDetails
+                    {productData.rootCategory === "HomeFurnishing" &&
+                      productData.classificationList && (
+                        <Accordion text="Overview" headerFontSize={20}>
+                          {productData.classificationList &&
+                            productData.classificationList.map(value => {
+                              return (
+                                <div>
+                                  <div className={styles.header}>
+                                    {value.key}
+                                  </div>
+                                  {value.value.classificationList &&
+                                    value.value.classificationList.map(val => {
+                                      return (
+                                        <div>
+                                          <div
+                                            className={
+                                              styles.contentTextForHome
+                                            }
+                                          >
+                                            {val.key}
+                                            :
+                                            {val.value}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  {value.value.classificationValues &&
+                                    value.value.classificationValues.map(
+                                      val => {
+                                        return (
+                                          <div>
+                                            <div
+                                              className={
+                                                styles.contentTextForHome
+                                              }
+                                            >
+                                              {val}
+                                            </div>
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  <div className={styles.blankSeparator} />
+                                </div>
+                              );
+                            })}
+                        </Accordion>
+                      )}
+                    {productData.rootCategory !== "Electronics" &&
+                      productData.classifications && (
+                        <Accordion
+                          text="Features & Functions"
+                          headerFontSize={20}
+                          isOpen={false}
+                        >
+                          {productData.classifications.map(val => {
+                            if (val.specifications) {
+                              return val.specifications.map(value => {
+                                return (
+                                  <div className={styles.featureHolder}>
+                                    <div className={styles.sideHeader}>
+                                      {value.key}
+                                    </div>
+                                    <div className={styles.sideContent}>
+                                      {value.value}
+                                    </div>
+                                  </div>
+                                );
+                              });
+                            } else {
+                              return null;
+                            }
+                          })}
+                        </Accordion>
+                      )}
+                    {productData.fineJewelleryClassificationList && (
+                      <JewelleryClassification
                         headerFontSize={20}
-                        data={productData.details}
+                        data={productData.fineJewelleryClassificationList}
                       />
                     )}
+                    {productData.priceBreakUpDetailsMap &&
+                      productData.showPriceBrkUpPDP === "Yes" && (
+                        <PriceBreakUp
+                          data={productData.priceBreakUpDetailsMap}
+                        />
+                      )}
+                    {productData.returnAndRefund && (
+                      <Accordion text="Return & Refunds" headerFontSize={20}>
+                        {productData.returnAndRefund.map(val => {
+                          return (
+                            <div
+                              className={styles.list}
+                              dangerouslySetInnerHTML={{
+                                __html: val.refundReturnItem
+                              }}
+                            />
+                          );
+                        })}
+                      </Accordion>
+                    )}
+                    {productData.rootCategory !== "Electronics" &&
+                      productData.rootCategory !== "FashionJewellery" &&
+                      productData.rootCategory !== "FineJewellery" &&
+                      productData.details && (
+                        <ProductDetails
+                          headerFontSize={20}
+                          data={productData.details}
+                        />
+                      )}
                     {productData.knowMore && (
                       <Accordion text="Know More" headerFontSize={20}>
                         {productData.knowMore &&
@@ -526,6 +723,14 @@ export default class PdpApparel extends React.Component {
                           })}
                       </Accordion>
                     )}
+                    {productData.warranty &&
+                      productData.warranty.length > 0 && (
+                        <ProductFeature
+                          headerFontSize={20}
+                          heading="Warranty"
+                          content={productData.warranty[0]}
+                        />
+                      )}
                     {productData.brandInfo && (
                       <Accordion
                         text="Brand Info"
@@ -540,7 +745,19 @@ export default class PdpApparel extends React.Component {
                   </div>
                   {this.renderRatings}
                 </div>
-
+                {productData.rootCategory === "Electronics" && (
+                  <div className={styles.detailsHolder}>
+                    <div className={styles.detailsCard}>
+                      {productData.classifications && (
+                        <ProductFeatures
+                          headerFontSize={20}
+                          features={productData.classifications}
+                        />
+                      )}
+                    </div>
+                    {this.renderRatings}
+                  </div>
+                )}
                 <div className={styles.details}>
                   {productData.APlusContent && (
                     <AllDescription

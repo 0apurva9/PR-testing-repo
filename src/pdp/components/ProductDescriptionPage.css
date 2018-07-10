@@ -238,7 +238,7 @@
     font-family:light;
   }
   .details {
-    padding:40px 0;
+
     background:#ececec;
   }
   .detailsCard{
@@ -248,9 +248,24 @@
     border-radius:4px;
   }
   .detailsHolder{
+    margin-top:60px;
     display:flex;
   }
   .detailsHolder .detailsCard:first-child{
     margin-right:20px;
+  }
+  .sideContent {
+    width:100%;
+    margin:0;
+  }
+  .featureHolder{
+    width: 33.33%;
+    display: inline-block;
+    min-width: 250px;
+    vertical-align: top;
+    padding-bottom:10px;
+  }
+  .customisation{
+    padding:10px 0;
   }
 }

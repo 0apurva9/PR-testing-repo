@@ -28,4 +28,8 @@
     padding:0;
     margin-bottom:10px;
   }
+  .size{
+    display:inline-block;
+    margin-right:10px;
+  }
 }

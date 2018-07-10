@@ -7,7 +7,7 @@ export default class ProductFeature extends React.Component {
     return (
       <Accordion
         text={this.props.heading}
-        headerFontSize={16}
+        headerFontSize={this.props.headerFontSize}
         isOpen={this.props.isOpen}
       >
         <div className={styles.holder}>
@@ -22,5 +22,10 @@ export default class ProductFeature extends React.Component {
 ProductFeature.propTypes = {
   isOpen: PropTypes.bool,
   heading: PropTypes.string,
-  content: PropTypes.string
+  content: PropTypes.string,
+  headerFontSize: PropTypes.number
+};
+
+ProductFeature.defaultProps = {
+  headerFontSize: 16
 };

@@ -29,4 +29,8 @@
     padding:0;
     margin-bottom:10px;
   }
+  .colour{
+    display:inline-block;
+    margin-right:10px;
+  }
 }
