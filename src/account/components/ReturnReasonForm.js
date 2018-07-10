@@ -122,9 +122,9 @@ export default class ReturnReasonForm extends React.Component {
             isSelect={true}
             quantity={true}
             onHollow={this.props.onHollow}
-            orderPlace={"10 Sept 2017"}
-            orderId={"#32u4902u093"}
-            productBrand={"dfsdfsdf"}
+            orderPlace={this.props.orderDate}
+            orderId={this.props.orderId}
+            productBrand={this.props.productBrand}
           >
             {data &&
               data.orderProductWsDTO &&

@@ -41,8 +41,10 @@ import UserProfile from "./UserProfile";
 import DeskTopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import OrderCard from "./OrderCard";
+import format from "date-fns/format";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
+const dateFormat = "DD MMM YYYY";
 
 export default class ReturnReasonAndModes extends React.Component {
   constructor(props) {
@@ -141,6 +143,17 @@ export default class ReturnReasonAndModes extends React.Component {
     const renderReasonForm = (
       <ReturnReasonForm
         returnProductDetails={this.props.returnProductDetails}
+        orderDate={
+          this.props.orderDetails &&
+          format(this.props.orderDetails.orderDate, dateFormat)
+        }
+        orderId={this.props.orderDetails && this.props.orderDetails.orderId}
+        productBrand={
+          this.props.orderDetails &&
+          this.props.orderDetails.products &&
+          this.props.orderDetails.products[0] &&
+          this.props.orderDetails.products[0].productBrand
+        }
         onChange={comment => this.onChange({ comment })}
         onChangePrimary={reason => this.onChange({ reason })}
         onContinue={data => this.renderToModes(data)}
