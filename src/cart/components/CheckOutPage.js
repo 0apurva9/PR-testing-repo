@@ -80,7 +80,9 @@ import {
   OTHER_LANDMARK,
   BANK_COUPON_COOKIE,
   SELECTED_BANK_NAME,
-  MY_ACCOUNT_CART_PAGE
+  MY_ACCOUNT_CART_PAGE,
+  ADDRESS_VALIDATION,
+  NAME_VALIDATION
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1003,7 +1005,6 @@ class CheckOutPage extends React.Component {
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
-
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
@@ -1062,11 +1063,7 @@ class CheckOutPage extends React.Component {
         bagAmount: Math.round(this.props.location.state.amount * 100) / 100
       });
     } else {
-      if (
-        !this.props.cart.userAddress &&
-        this.props.getCartDetailsCNC &&
-        this.props.getUserAddress
-      ) {
+      if (this.props.getCartDetailsCNC && this.props.getUserAddress) {
         let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -1087,7 +1084,7 @@ class CheckOutPage extends React.Component {
             false
           );
         }
-        if (!this.state.isPaymentFailed) {
+        if (!this.props.cart.userAddress && !this.state.isPaymentFailed) {
           this.props.getUserAddress(
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           );
@@ -1677,15 +1674,30 @@ class CheckOutPage extends React.Component {
       this.props.displayToast(PINCODE_VALID_TEXT);
       return false;
     }
-    if (address && !address.firstName) {
+    if (
+      !address ||
+      !address.firstName ||
+      !address.firstName.trim() ||
+      !NAME_VALIDATION.test(address.firstName.trim())
+    ) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (address && !address.lastName) {
+    if (
+      !address ||
+      !address.lastName ||
+      !address.lastName.trim() ||
+      !NAME_VALIDATION.test(address.lastName.trim())
+    ) {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (address && !address.line1.trim()) {
+
+    if (
+      !address.line1 ||
+      !address.line1.trim() ||
+      !ADDRESS_VALIDATION.test(address.line1.trim())
+    ) {
       this.props.displayToast(ADDRESS_TEXT);
       return false;
     }
