@@ -1,12 +1,17 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import PiqPage from "../../cart/components/PiqPage";
+import CliqAndPiqForReturn from "./CliqAndPiqForReturn.js";
 import Loader from "../../general/components/Loader";
 import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import * as styles from "./ReturnToStore.css";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import SearchLocationByPincode from "../../cart/components/SearchLocationByPincode";
+import PickUpLocation from "../../cart/components/PickUpLocation";
+import GridSelect from "../../general/components/GridSelect.js";
+
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -142,7 +147,6 @@ export default class ReturnToStore extends React.Component {
     }
   };
   render() {
-    console.log("Inside Map");
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -169,21 +173,90 @@ export default class ReturnToStore extends React.Component {
 
     const { pathname } = this.props.location;
     const renderStoresMap = (
-      <PiqPage
-        {...this.props}
-        productName={
-          this.props.returnProductDetails.orderProductWsDTO[0].productName
-        }
-        productColour={
-          this.props.returnProductDetails.orderProductWsDTO[0].productColour
-        }
-        availableStores={this.props.returnRequest.returnStoreDetailsList}
-        numberOfStores={noOfStories}
-        pincode={this.state.pincode}
-        addStoreCNC={storeId => this.selectStore(storeId)}
-        changePincode={pincode => this.quickDropStore(pincode)}
-        getLocation={() => this.getLocation()}
-      />
+      <React.Fragment>
+        <MobileOnly>
+          <PiqPage
+            {...this.props}
+            productName={
+              this.props.returnProductDetails.orderProductWsDTO[0].productName
+            }
+            productColour={
+              this.props.returnProductDetails.orderProductWsDTO[0].productColour
+            }
+            availableStores={this.props.returnRequest.returnStoreDetailsList}
+            numberOfStores={noOfStories}
+            pincode={this.state.pincode}
+            addStoreCNC={storeId => this.selectStore(storeId)}
+            changePincode={pincode => this.quickDropStore(pincode)}
+            getLocation={() => this.getLocation()}
+          />
+        </MobileOnly>
+        <DesktopOnly>
+          <CliqAndPiqForReturn
+            {...this.props}
+            availableStores={this.props.returnRequest.returnStoreDetailsList}
+            numberOfStores={noOfStories}
+            addStoreCNC={storeId => this.selectStore(storeId)}
+            changePincode={pincode => this.quickDropStore(pincode)}
+            getLocation={() => this.getLocation()}
+          />
+          <div className={styles.location}>
+            <div className={styles.locationWithPincode}>
+              <SearchLocationByPincode
+                header={`${
+                  this.props.returnProductDetails.orderProductWsDTO[0]
+                    .productName
+                    ? this.props.returnProductDetails.orderProductWsDTO[0]
+                        .productName
+                    : ""
+                } ${
+                  this.props.returnProductDetails.orderProductWsDTO[0]
+                    .productColour
+                    ? this.props.returnProductDetails.orderProductWsDTO[0]
+                        .productColour
+                    : ""
+                }`}
+                pincode={this.state.pincode}
+                changePincode={pincode => this.quickDropStore(pincode)}
+              />
+            </div>
+          </div>
+          {this.props.returnRequest &&
+            this.props.returnRequest.returnStoreDetailsList &&
+            !this.props.showPickupPerson && (
+              <GridSelect
+                limit={1}
+                offset={0}
+                elementWidthDesktop={100}
+                onSelect={val => this.selectStoreForDesktop(val)}
+              >
+                {this.props.returnRequest.returnStoreDetailsList.map(
+                  (val, i) => {
+                    console.log(val);
+                    return (
+                      <PickUpLocation
+                        key={i}
+                        address={`${val.address.line1} ${val.address.line2}, `}
+                        PickUpKey="Open on: "
+                        workingDays={val.mplWorkingDays}
+                        openingTime={val.mplOpeningTime}
+                        closingTime={val.mplClosingTime}
+                        address2={`${val.returnCity} ${val.returnPin}`}
+                        iconText="C"
+                        headingText={val.displayName}
+                        buttonText="Select"
+                        canSelectStore={this.props.canSelectStore}
+                        onClick={() => {
+                          this.selectStore(val.slaveId);
+                        }}
+                      />
+                    );
+                  }
+                )}
+              </GridSelect>
+            )}
+        </DesktopOnly>
+      </React.Fragment>
     );
 
     const renderFinalSubmit = (

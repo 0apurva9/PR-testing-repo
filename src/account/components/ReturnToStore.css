@@ -1,0 +1,24 @@
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 100%;
+    height: auto;
+    padding: 30px 0px;
+  }
+  .location {
+    width: 100%;
+    height: auto;
+    left: 0;
+    bottom: 0px;
+    padding: 30px 0px;
+    border-bottom: 1px solid #d2d2d2;
+  }
+  .locationWithPincode {
+    width: 50%;
+    height: auto;
+  }
+  .singleCardHolder {
+    width: 100%;
+    padding: 30px 0px;
+    border-bottom: 1px solid #d2d2d2;
+  }
+}
