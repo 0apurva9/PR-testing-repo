@@ -8,6 +8,11 @@ class BrandFilterTabDesktop extends React.Component {
       this.props.onBrandSearch(value);
     }
   };
+  onFilterClick = val => {
+    if (this.props.onFilterClick) {
+      this.props.onFilterClick(val);
+    }
+  };
   render() {
     return (
       <div className={styles.base}>

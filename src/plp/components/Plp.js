@@ -127,7 +127,6 @@ export default class Plp extends React.Component {
   };
   onClickCancelIcon(val) {
     const url = val.replace("{pageNo}", 1);
-    this.props.setIsNotGoBackFromPDP();
     this.props.history.push(url, {
       isFilter: false
     });
