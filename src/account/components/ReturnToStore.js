@@ -6,6 +6,7 @@ import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import * as styles from "./ReturnToStore.css";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -34,7 +35,8 @@ export default class ReturnToStore extends React.Component {
           ? this.props.returnRequest.deliveryAddressesList &&
             this.props.returnRequest.deliveryAddressesList[0] &&
             this.props.returnRequest.deliveryAddressesList[0].postalCode
-          : ""
+          : "",
+      isStoreSelected: false
     };
   }
 
@@ -53,16 +55,20 @@ export default class ReturnToStore extends React.Component {
   }
 
   selectStore(storeId) {
-    this.setState({ storeId }, () => {
-      this.props.history.push({
-        pathname: `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_TO_STORE}${RETURNS_STORE_FINAL}`,
-        state: {
-          authorizedRequest: true
-        }
+    if (checkUserAgentIsMobile()) {
+      this.setState({ storeId }, () => {
+        this.props.history.push({
+          pathname: `${RETURNS_PREFIX}/${
+            this.orderCode
+          }${RETURN_TO_STORE}${RETURNS_STORE_FINAL}`,
+          state: {
+            authorizedRequest: true
+          }
+        });
       });
-    });
+    } else {
+      this.setState({ isStoreSelected: true, storeId });
+    }
   }
   // i am using this function becasue of on pincode section i don't have any
   // update button we ll change this function when we ll have update button
@@ -127,7 +133,7 @@ export default class ReturnToStore extends React.Component {
   }
 
   quickDropStore = pincode => {
-    this.setState({ pincode });
+    this.setState({ pincode, isStoreSelected: false });
     if (pincode.length === 6) {
       this.props.quickDropStore(
         pincode,
@@ -190,7 +196,10 @@ export default class ReturnToStore extends React.Component {
     );
     return (
       <div className={styles.base}>
-        <DesktopOnly>{renderStoresMap}</DesktopOnly>
+        <DesktopOnly>
+          {!this.state.isStoreSelected && renderStoresMap}
+          {this.state.isStoreSelected && renderFinalSubmit}
+        </DesktopOnly>
         <MobileOnly>
           {pathname.match(REG_X_FOR_STORE_PICKUP) && renderStoresMap}
           {pathname.match(REG_X_FOR_FINAL_SUBMIT) && renderFinalSubmit}

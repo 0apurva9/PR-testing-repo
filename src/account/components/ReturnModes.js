@@ -203,6 +203,9 @@ export default class ReturnModes extends React.Component {
               {this.state.selectedMode === QUICK_DROP && (
                 <ReturnToStoreContainer {...this.state} {...this.props} />
               )}
+              {this.state.selectedMode === SCHEDULED_PICKUP && (
+                <ReturnCliqAndPiqContainer {...this.state} {...this.props} />
+              )}
             </div>
           )}
           {!this.isReturnModesEnabled() && (

@@ -10,6 +10,9 @@ import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress.js";
 import * as Cookie from "../../lib/Cookie.js";
 import ReturnSummary from "./ReturnSummary.js";
 import Error from "../../general/components/Error.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 
 import {
   RETURN_CLIQ_PIQ,
@@ -348,14 +351,17 @@ export default class ReturnAddressList extends React.Component {
       const { pathname } = this.props.location;
       return (
         <div>
-          <Error message={this.state.errorMessage} show={this.state.error} />
-          <React.Fragment>
-            {pathname.match(REG_X_FOR_ADDRESS) && this.renderAddress()}
-            {pathname.match(REG_X_FOR_DATE_TIME) && this.renderDateTime()}
-            {pathname.match(REG_X_FOR_NEW_ADDRESS) && this.renderNewAddress()}
-            {pathname.match(REG_X_FOR_RETURN_SUMMARY) &&
-              this.renderReturnSummary()}
-          </React.Fragment>
+          <DesktopOnly>{this.renderAddress()}</DesktopOnly>
+          <MobileOnly>
+            <Error message={this.state.errorMessage} show={this.state.error} />
+            <React.Fragment>
+              {pathname.match(REG_X_FOR_ADDRESS) && this.renderAddress()}
+              {pathname.match(REG_X_FOR_DATE_TIME) && this.renderDateTime()}
+              {pathname.match(REG_X_FOR_NEW_ADDRESS) && this.renderNewAddress()}
+              {pathname.match(REG_X_FOR_RETURN_SUMMARY) &&
+                this.renderReturnSummary()}
+            </React.Fragment>
+          </MobileOnly>
         </div>
       );
     } else {
