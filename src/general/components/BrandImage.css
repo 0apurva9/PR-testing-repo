@@ -35,6 +35,9 @@
   transform: scale(1);
 }
 @media screen and (min-width: 1025px) {
+  .base {
+    background: #fff;
+  }
   .imageHolder {
     cursor: pointer;
   }
