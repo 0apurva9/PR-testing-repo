@@ -4,6 +4,8 @@ import PiqPage from "../../cart/components/PiqPage";
 import Loader from "../../general/components/Loader";
 import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import * as styles from "./ReturnToStore.css";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -134,6 +136,7 @@ export default class ReturnToStore extends React.Component {
     }
   };
   render() {
+    console.log("Inside Map");
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -187,8 +190,11 @@ export default class ReturnToStore extends React.Component {
     );
     return (
       <div className={styles.base}>
-        {pathname.match(REG_X_FOR_STORE_PICKUP) && renderStoresMap}
-        {pathname.match(REG_X_FOR_FINAL_SUBMIT) && renderFinalSubmit}
+        <DesktopOnly>{renderStoresMap}</DesktopOnly>
+        <MobileOnly>
+          {pathname.match(REG_X_FOR_STORE_PICKUP) && renderStoresMap}
+          {pathname.match(REG_X_FOR_FINAL_SUBMIT) && renderFinalSubmit}
+        </MobileOnly>
       </div>
     );
   }

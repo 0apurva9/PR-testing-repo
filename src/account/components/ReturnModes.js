@@ -9,6 +9,11 @@ import DeskTopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
+import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
+import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
+import SelfCourierContainer from "../containers/SelfCourierContainer.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+
 import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -22,10 +27,22 @@ import {
 } from "../../lib/constants";
 const REFUND_DETAILS = "Refund Details";
 export default class ReturnModes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedMode: null
+    };
+  }
   handleSelect(val) {
-    if (this.props.selectMode) {
-      this.props.selectMode(val);
+    if (checkUserAgentIsMobile()) {
+      console.log("Is Mobile");
+      if (this.props.selectMode) {
+        this.props.selectMode(val);
+      }
     }
+
+    console.log("Is Desktop");
+    this.setState({ selectedMode: val });
   }
   handleCancel() {
     if (this.props.onCancel) {
@@ -158,7 +175,7 @@ export default class ReturnModes extends React.Component {
                 {data.returnModes.quickDrop && (
                   <SelectReturnDate
                     label="Return to store"
-                    selected={this.props.selectedMode === QUICK_DROP}
+                    selected={this.state.selectedMode === QUICK_DROP}
                     selectItem={() => {
                       this.handleSelect(QUICK_DROP);
                     }}
@@ -170,7 +187,7 @@ export default class ReturnModes extends React.Component {
                     selectItem={() => {
                       this.handleSelect(SCHEDULED_PICKUP);
                     }}
-                    selected={this.props.selectedMode === SCHEDULED_PICKUP}
+                    selected={this.state.selectedMode === SCHEDULED_PICKUP}
                   />
                 )}
                 {data.returnModes.selfCourier && (
@@ -179,10 +196,13 @@ export default class ReturnModes extends React.Component {
                       this.handleSelect(SELF_COURIER);
                     }}
                     label="Self Courier"
-                    selected={this.props.selectedMode === SELF_COURIER}
+                    selected={this.state.selectedMode === SELF_COURIER}
                   />
                 )}
               </div>
+              {this.state.selectedMode === QUICK_DROP && (
+                <ReturnToStoreContainer {...this.state} {...this.props} />
+              )}
             </div>
           )}
           {!this.isReturnModesEnabled() && (
