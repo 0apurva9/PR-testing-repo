@@ -98,8 +98,6 @@ export default class CliqAndPiqForReturn extends React.Component {
       });
     }
 
-    console.log(this.props.availableStores);
-
     return (
       <div className={styles.base}>
         <div className={styles.map}>
