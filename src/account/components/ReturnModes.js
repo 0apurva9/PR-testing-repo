@@ -18,6 +18,7 @@ import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
+import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -148,67 +149,24 @@ export default class ReturnModes extends React.Component {
             </OrderCard>
           </div>
           <DeskTopOnly>
-            <div className={styles.selectedDefectiveNode}>
-              <div className={styles.headerForDefectiveReason}>
-                Select reason for your return
-              </div>
-              <div className={styles.cancelButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000000"
-                  label="Change"
-                  onClick={() => this.handleCancel()}
-                />
-              </div>
-              <div className={styles.checkIcon}>
-                <Icon image={checkIcon} size={40} />
-              </div>
-              <div className={styles.defectiveProductData}>
-                {this.props.selectedReason}
-              </div>
-            </div>
-
+            <SelectedReasonForReturn
+              header={"Select reason for your return"}
+              titleDescription={this.props.selectedReason}
+              handleCancel={() => this.handleCancel()}
+            />
             {this.state.isModeSelected && (
               <React.Fragment>
-                <div className={styles.selectedDefectiveNode}>
-                  <div className={styles.headerForDefectiveReason}>
-                    Select mode of return
-                  </div>
-                  <div className={styles.cancelButtonHolder}>
-                    <UnderLinedButton
-                      size="14px"
-                      fontFamily="regular"
-                      color="#000000"
-                      label="Change"
-                      onClick={() => this.handleCancel()}
-                    />
-                  </div>
-                  <div className={styles.checkIcon}>
-                    <Icon image={checkIcon} size={40} />
-                  </div>
-                  <div className={styles.defectiveProductData}>
-                    <div className={styles.titleAddress}>{"Home"}</div>
-                    <div className={styles.titleDescription}>
-                      {"Lal Bahadur Shastri Marg, Chandan Nagar,"}
-                    </div>
-                    <div className={styles.subTitleDescription}>
-                      {" Vikhroli West, Mumbai, Maharashtra 400012"}
-                    </div>
-                  </div>
-                  <div className={styles.dateAndTimeHolder}>
-                    <div className={styles.date}>
-                      <div className={styles.dateHeader}>Date:</div>
-                      <div className={styles.dateAndTimeDetail}>
-                        9th Dec 2018
-                      </div>
-                    </div>
-                    <div className={styles.time}>
-                      <div className={styles.TimeHeader}>Time:</div>
-                      <div className={styles.dateAndTimeDetail}>11:00 AM</div>
-                    </div>
-                  </div>
-                </div>
+                <SelectedReasonForReturn
+                  header={"Select reason for your return"}
+                  title={"Home"}
+                  titleDescription={"Lal Bahadur Shastri Marg, Chandan Nagar,"}
+                  subTitleDescription={
+                    " Vikhroli West, Mumbai, Maharashtra 400012"
+                  }
+                  date={"9th Dec 2018"}
+                  time={"11:00 AM"}
+                  handleCancel={() => this.handleCancel()}
+                />
                 <div>
                   <ReturnStoreConfirmation
                     {...this.props}
