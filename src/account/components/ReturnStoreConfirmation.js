@@ -13,6 +13,10 @@ import repayLogo from "../../cart/components/img/rupay.svg";
 import dinersLogo from "../../cart/components/img/diners.svg";
 import discoverLogo from "../../cart/components/img/discover.svg";
 import jcbLogo from "../../cart/components/img/jcb.svg";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import Button from "../../general/components/Button";
 import {
   RUPAY_CARD,
   VISA_CARD,
@@ -80,21 +84,23 @@ export default class ReturnsStoreConfirmation extends React.Component {
       >
         <OrderReturnAddressDetails />
         <div className={styles.card}>
-          <OrderCard
-            imageUrl={
-              data &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].imageURL
-            }
-            productName={`${data.orderProductWsDTO[0].productBrand} ${
-              data.orderProductWsDTO[0].productName
-            }`}
-            price={data.orderProductWsDTO[0].price}
-          >
-            {data.orderProductWsDTO[0].quantity && (
-              <div>Qty {data.orderProductWsDTO[0].quantity}</div>
-            )}
-          </OrderCard>
+          <MobileOnly>
+            <OrderCard
+              imageUrl={
+                data &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].imageURL
+              }
+              productName={`${data.orderProductWsDTO[0].productBrand} ${
+                data.orderProductWsDTO[0].productName
+              }`}
+              price={data.orderProductWsDTO[0].price}
+            >
+              {data.orderProductWsDTO[0].quantity && (
+                <div>Qty {data.orderProductWsDTO[0].quantity}</div>
+              )}
+            </OrderCard>
+          </MobileOnly>
           {this.props.orderDetails &&
             this.props.orderDetails.paymentCardDigit && (
               <ReturnsToBank
@@ -107,6 +113,30 @@ export default class ReturnsStoreConfirmation extends React.Component {
                 )}
               />
             )}
+          <DesktopOnly>
+            <div className={styles.buttonHolder}>
+              <div className={styles.continueButtonHolder}>
+                <Button
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Continue"
+                  width={175}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
+                  onClick={() => this.handleContinue()}
+                />
+              </div>
+              <div className={styles.cancelButtonHolder}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000000"
+                  label="Cancel"
+                  onClick={() => this.handleCancel()}
+                />
+              </div>
+            </div>
+          </DesktopOnly>
         </div>
       </ReturnsFrame>
     );
