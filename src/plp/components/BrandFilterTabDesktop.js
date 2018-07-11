@@ -47,8 +47,6 @@ class BrandFilterTabDesktop extends React.Component {
                   count={val.count}
                   url={val.url}
                   value={val.value}
-                  // isBrand={facetDataValues.name === BRAND}
-                  // categoryId={categoryId}
                   history={this.props.history}
                 />
               );
