@@ -309,3 +309,9 @@ export const MALE = "MALE";
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
 export const ADDRESS_VALIDATION = /^[#./0-9a-zA-Z\s,-]{15,}$/;
 export const NAME_VALIDATION = /^[A-Za-z]+$/;
+
+export const AMP_BRAND_AND_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+\/b-mbh[0-9a-zA-Z]+/;
+export const AMP_BRAND_REG_EX = /\/[a-zA-z0-9-]+\/c-mbh[0-9a-zA-Z]+/;
+export const AMP_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+/;
+export const AMP_SEARCH_REG_EX = /\/search\//;
+export const AMP_PRODUCT_CODE_REG_EX = /\/p-mp[0-9]+/;

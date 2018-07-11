@@ -13,11 +13,18 @@ import {
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
 import { URL_ROOT } from "../../lib/apiRequest";
-import { REQUESTING } from "../../lib/constants";
+import {
+  REQUESTING,
+  AMP_BRAND_AND_CATEGORY_REG_EX,
+  AMP_CATEGORY_REG_EX,
+  AMP_BRAND_REG_EX,
+  AMP_SEARCH_REG_EX
+} from "../../lib/constants";
 
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
+
 export default class Plp extends React.Component {
   toggleFilter = () => {
     if (this.props.isFilterOpen) {
@@ -188,9 +195,33 @@ export default class Plp extends React.Component {
         </Helmet>
       );
     }
+
     return null;
   };
-
+  renderAmpTags = () => {
+    console.log(this.props);
+    if (
+      AMP_BRAND_AND_CATEGORY_REG_EX.test(
+        this.props.history.location.pathname
+      ) ||
+      AMP_CATEGORY_REG_EX.test(this.props.history.location.pathname) ||
+      AMP_BRAND_REG_EX.test(this.props.history.location.pathname) ||
+      AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)
+    ) {
+      return (
+        <Helmet>
+          <link
+            rel="amphtml"
+            href={"/amp/search/?searchCategory=all&text=shirt"}
+          />
+          <link
+            rel="canonical"
+            href={"/amp/search/?searchCategory=all&text=shirt"}
+          />
+        </Helmet>
+      );
+    }
+  };
   render() {
     let selectedFilterCount = 0;
     let filterSelected = false;
@@ -215,6 +246,7 @@ export default class Plp extends React.Component {
       this.props.productListings && (
         <div className={styles.base}>
           {this.renderPageTags()}
+          {this.renderAmpTags()}
           {this.props.productListings.seo
             ? renderMetaTags(this.props.productListings)
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}
