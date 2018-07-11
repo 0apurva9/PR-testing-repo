@@ -12,6 +12,8 @@ import SearchLocationByPincode from "../../cart/components/SearchLocationByPinco
 import PickUpLocation from "../../cart/components/PickUpLocation";
 import GridSelect from "../../general/components/GridSelect.js";
 import DumbGrid from "../../general/components/DumbGrid";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import Button from "../../general/components/Button";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -146,6 +148,15 @@ export default class ReturnToStore extends React.Component {
       );
     }
   };
+
+  handleContinue = () => {
+    if (this.state.storeId) {
+      this.setState({ isStoreSelected: true });
+    }
+  };
+  handleCancel = () => {
+    this.setState({ isStoreSelected: false });
+  };
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -224,9 +235,11 @@ export default class ReturnToStore extends React.Component {
                 <DumbGrid limit={1} offset={0} elementWidthDesktop={100}>
                   {this.props.returnRequest.returnStoreDetailsList.map(
                     (val, i) => {
+                      console.log(val);
                       return (
                         <PickUpLocation
                           key={i}
+                          slaveId={val.slaveId}
                           address={`${val.address.line1} ${
                             val.address.line2
                           }, `}
@@ -235,13 +248,13 @@ export default class ReturnToStore extends React.Component {
                           openingTime={val.mplOpeningTime}
                           closingTime={val.mplClosingTime}
                           address2={`${val.returnCity} ${val.returnPin}`}
-                          iconText="C"
                           headingText={val.displayName}
                           buttonText="Select"
                           canSelectStore={this.props.canSelectStore}
-                          onClick={() => {
-                            this.selectStore(val.slaveId);
-                          }}
+                          handleClickForDesktop={val =>
+                            this.setState({ storeId: val })
+                          }
+                          selectedId={this.state.storeId}
                         />
                       );
                     }

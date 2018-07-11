@@ -13,7 +13,7 @@ import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
 import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
 import SelfCourierContainer from "../containers/SelfCourierContainer.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-
+import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -30,7 +30,8 @@ export default class ReturnModes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedMode: null
+      selectedMode: null,
+      isModeSelected: false
     };
   }
   handleSelect(val) {
@@ -56,6 +57,14 @@ export default class ReturnModes extends React.Component {
       />
     );
   }
+
+  handleContinuePickUp = () => {
+    this.setState({ isModeSelected: true });
+  };
+
+  handleCancelPickUP = () => {
+    this.setState({ selectedMode: null, isModeSelected: false });
+  };
 
   isReturnModesEnabled = () => {
     const data = this.props.returnProductDetails;
@@ -159,113 +168,133 @@ export default class ReturnModes extends React.Component {
               </div>
             </div>
 
-            <div className={styles.selectedDefectiveNode}>
-              <div className={styles.headerForDefectiveReason}>
-                Select mode of return
-              </div>
-              <div className={styles.cancelButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000000"
-                  label="Change"
-                  onClick={() => this.handleCancel()}
-                />
-              </div>
-              <div className={styles.checkIcon}>
-                <Icon image={checkIcon} size={40} />
-              </div>
-              <div className={styles.defectiveProductData}>
-                <div className={styles.titleAddress}>{"Home"}</div>
-                <div className={styles.titleDescription}>
-                  {"Lal Bahadur Shastri Marg, Chandan Nagar,"}
-                </div>
-                <div className={styles.subTitleDescription}>
-                  {" Vikhroli West, Mumbai, Maharashtra 400012"}
-                </div>
-              </div>
-              <div className={styles.dateAndTimeHolder}>
-                <div className={styles.date}>
-                  <div className={styles.dateHeader}>Date:</div>
-                  <div className={styles.dateAndTimeDetail}>9th Dec 2018</div>
-                </div>
-                <div className={styles.time}>
-                  <div className={styles.TimeHeader}>Time:</div>
-                  <div className={styles.dateAndTimeDetail}>11:00 AM</div>
-                </div>
-              </div>
-            </div>
-          </DeskTopOnly>
-          {this.isReturnModesEnabled() && (
-            <div className={styles.returnModes}>
-              <DeskTopOnly>
-                <div className={styles.header}>
-                  <div className={styles.circleHolder}>
-                    <div className={styles.circle}>2</div>
+            {this.state.isModeSelected && (
+              <React.Fragment>
+                <div className={styles.selectedDefectiveNode}>
+                  <div className={styles.headerForDefectiveReason}>
+                    Select mode of return
                   </div>
-                  Select mode of return
+                  <div className={styles.cancelButtonHolder}>
+                    <UnderLinedButton
+                      size="14px"
+                      fontFamily="regular"
+                      color="#000000"
+                      label="Change"
+                      onClick={() => this.handleCancel()}
+                    />
+                  </div>
+                  <div className={styles.checkIcon}>
+                    <Icon image={checkIcon} size={40} />
+                  </div>
+                  <div className={styles.defectiveProductData}>
+                    <div className={styles.titleAddress}>{"Home"}</div>
+                    <div className={styles.titleDescription}>
+                      {"Lal Bahadur Shastri Marg, Chandan Nagar,"}
+                    </div>
+                    <div className={styles.subTitleDescription}>
+                      {" Vikhroli West, Mumbai, Maharashtra 400012"}
+                    </div>
+                  </div>
+                  <div className={styles.dateAndTimeHolder}>
+                    <div className={styles.date}>
+                      <div className={styles.dateHeader}>Date:</div>
+                      <div className={styles.dateAndTimeDetail}>
+                        9th Dec 2018
+                      </div>
+                    </div>
+                    <div className={styles.time}>
+                      <div className={styles.TimeHeader}>Time:</div>
+                      <div className={styles.dateAndTimeDetail}>11:00 AM</div>
+                    </div>
+                  </div>
                 </div>
-              </DeskTopOnly>
-              <div className={styles.returnModesWithBorder}>
-                {data.returnModes.quickDrop && (
-                  <SelectReturnDate
-                    label="Return to store"
-                    selected={this.state.selectedMode === QUICK_DROP}
-                    selectItem={() => {
-                      this.handleSelect(QUICK_DROP);
-                    }}
+                <div>
+                  <ReturnStoreConfirmation
+                    {...this.props}
+                    orderDetails={this.props.orderDetails}
+                    onContinue={() => this.finalSubmit()}
+                    cancel={() => this.cancel()}
                   />
-                )}
-                {data.returnModes.schedulePickup && (
-                  <SelectReturnDate
-                    label="Tata CliQ Pick Up"
-                    selectItem={() => {
-                      this.handleSelect(SCHEDULED_PICKUP);
-                    }}
-                    selected={this.state.selectedMode === SCHEDULED_PICKUP}
-                  />
-                )}
-                {data.returnModes.selfCourier && (
-                  <SelectReturnDate
-                    selectItem={() => {
-                      this.handleSelect(SELF_COURIER);
-                    }}
-                    label="Self Courier"
-                    selected={this.state.selectedMode === SELF_COURIER}
-                  />
-                )}
-              </div>
-              {this.state.selectedMode === QUICK_DROP && (
-                <ReturnToStoreContainer {...this.state} {...this.props} />
-              )}
-              {this.state.selectedMode === SCHEDULED_PICKUP && (
-                <ReturnCliqAndPiqContainer {...this.state} {...this.props} />
-              )}
-              <DeskTopOnly>
-                {this.state.selectedMode === SCHEDULED_PICKUP && (
-                  <div className={styles.cancelPickUpButtonHolder}>
-                    <div className={styles.continuePickup}>
-                      <div className={styles.button}>
-                        <Button
-                          width={175}
-                          type="primary"
-                          label={"Continue"}
-                          onClick={() => this.handleContinuePickUp()}
+                </div>
+              </React.Fragment>
+            )}
+          </DeskTopOnly>
+          {this.isReturnModesEnabled() &&
+            !this.state.isModeSelected && (
+              <div className={styles.returnModes}>
+                <DeskTopOnly>
+                  <div className={styles.header}>
+                    <div className={styles.circleHolder}>
+                      <div className={styles.circle}>2</div>
+                    </div>
+                    Select mode of return
+                  </div>
+                </DeskTopOnly>
+                <div className={styles.returnModesWithBorder}>
+                  {data.returnModes.quickDrop && (
+                    <SelectReturnDate
+                      label="Return to store"
+                      selected={this.state.selectedMode === QUICK_DROP}
+                      selectItem={() => {
+                        this.handleSelect(QUICK_DROP);
+                      }}
+                    />
+                  )}
+                  {data.returnModes.schedulePickup && (
+                    <SelectReturnDate
+                      label="Tata CliQ Pick Up"
+                      selectItem={() => {
+                        this.handleSelect(SCHEDULED_PICKUP);
+                      }}
+                      selected={this.state.selectedMode === SCHEDULED_PICKUP}
+                    />
+                  )}
+                  {data.returnModes.selfCourier && (
+                    <SelectReturnDate
+                      selectItem={() => {
+                        this.handleSelect(SELF_COURIER);
+                      }}
+                      label="Self Courier"
+                      selected={this.state.selectedMode === SELF_COURIER}
+                    />
+                  )}
+                </div>
+
+                <DeskTopOnly>
+                  {this.state.selectedMode === QUICK_DROP && (
+                    <ReturnToStoreContainer {...this.state} {...this.props} />
+                  )}
+                  {this.state.selectedMode === SCHEDULED_PICKUP && (
+                    <ReturnCliqAndPiqContainer
+                      {...this.state}
+                      {...this.props}
+                    />
+                  )}
+                  {(this.state.selectedMode === SCHEDULED_PICKUP ||
+                    this.state.selectedMode === QUICK_DROP) && (
+                    <div className={styles.cancelPickUpButtonHolder}>
+                      <div className={styles.continuePickup}>
+                        <div className={styles.button}>
+                          <Button
+                            width={175}
+                            type="primary"
+                            label={"Continue"}
+                            onClick={() => this.handleContinuePickUp()}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.cancelPickUp}>
+                        <UnderLinedButton
+                          label="Cancel"
+                          color="#000000"
+                          onClick={() => this.handleCancelPickUP()}
                         />
                       </div>
                     </div>
-                    <div className={styles.cancelPickUp}>
-                      <UnderLinedButton
-                        label="Cancel"
-                        color="#000000"
-                        onClick={() => this.handleCancelPickUP()}
-                      />
-                    </div>
-                  </div>
-                )}
-              </DeskTopOnly>
-            </div>
-          )}
+                  )}
+                </DeskTopOnly>
+              </div>
+            )}
           {!this.isReturnModesEnabled() && (
             <div className={styles.text}>
               sorry we are not able to process your request, contact customer
@@ -273,7 +302,9 @@ export default class ReturnModes extends React.Component {
             </div>
           )}
           <DeskTopOnly>
-            <DummyTab title={REFUND_DETAILS} number={3} />
+            {!this.state.isModeSelected && (
+              <DummyTab title={REFUND_DETAILS} number={3} />
+            )}
           </DeskTopOnly>
         </div>
       </div>
