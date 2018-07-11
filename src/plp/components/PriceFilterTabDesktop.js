@@ -5,6 +5,7 @@ import Input2 from "../../general/components/Input2";
 import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import ApplyPriceFilterIcon from "./img/arrow.svg";
+const PRICE_FILTER_REG_EX = /(price:[,₹0-9]+-[,₹0-9]+)/;
 export default class PriceFilterTabDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -17,18 +18,33 @@ export default class PriceFilterTabDesktop extends React.Component {
     this.setState(val);
   };
   applyPriceManually = () => {
-    console.log("click me in circle button", this.state);
     if (
       this.state.minRange &&
       this.state.maxRange &&
       parseInt(this.state.minRange, 10) < parseInt(this.state.maxRange, 10)
     ) {
-      console.log(this.state);
+      let currentUrl = decodeURIComponent(this.props.history.location.search);
+      if (PRICE_FILTER_REG_EX.test(currentUrl)) {
+        currentUrl = currentUrl
+          .substring(3)
+          .replace(
+            PRICE_FILTER_REG_EX,
+            `price:${this.state.minRange}-${this.state.maxRange}`
+          );
+      } else {
+        currentUrl = `${currentUrl.substring(3)}:price:${this.state.minRange}-${
+          this.state.maxRange
+        }`;
+      }
+
+      this.props.history.push({
+        pathname: this.props.history.location.pathname,
+        search: `q=${encodeURIComponent(currentUrl)}`
+      });
     }
   };
   onFilterClick = val => {
     if (this.props.onFilterClick) {
-      console.log(val);
       this.props.onFilterClick(val);
     }
   };
@@ -69,7 +85,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                 placeholder="1200"
                 onlyNumber
                 maxLength={7}
-                value={this.state.minRange}
+                value={this.state.maxRange}
                 onChange={maxRange => this.onChangeOfRange({ maxRange })}
               />
             </div>

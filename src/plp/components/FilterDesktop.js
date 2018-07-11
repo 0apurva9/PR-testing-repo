@@ -244,7 +244,18 @@ export default class FilterDesktop extends React.Component {
                             />
                           )}
                         {facetDataValues &&
+                          facetDataValues.name === PRICE &&
+                          facetDataValues.values && (
+                            <PriceFilterTabDesktop
+                              priceList={facetDataValues.values}
+                              history={this.props.history}
+                              onFilterClick={this.onFilterClick}
+                            />
+                          )}
+                        {facetDataValues &&
                           facetDataValues.name !== COLOUR &&
+                          facetDataValues.name !== BRAND &&
+                          facetDataValues.name !== PRICE &&
                           facetDataValues.values &&
                           facetDataValues.values.map((val, i) => {
                             return (
