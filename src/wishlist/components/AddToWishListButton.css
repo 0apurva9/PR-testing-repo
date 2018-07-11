@@ -25,3 +25,11 @@
   font-family: regular;
   font-size: 14px;
 }
+@media screen and (min-width: 1025px) {
+  .iconButton{
+    width:45px;
+    height:45px;
+    padding:12px;
+    cursor:pointer;
+  }
+}
