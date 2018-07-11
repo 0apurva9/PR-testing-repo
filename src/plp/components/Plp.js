@@ -199,7 +199,6 @@ export default class Plp extends React.Component {
     return null;
   };
   renderAmpTags = () => {
-    console.log(this.props);
     if (
       AMP_BRAND_AND_CATEGORY_REG_EX.test(
         this.props.history.location.pathname
@@ -208,15 +207,13 @@ export default class Plp extends React.Component {
       AMP_BRAND_REG_EX.test(this.props.history.location.pathname) ||
       AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)
     ) {
+      let ampUrl = this.props.history.location.pathname;
       return (
         <Helmet>
-          <link
-            rel="amphtml"
-            href={"/amp/search/?searchCategory=all&text=shirt"}
-          />
+          <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
           <link
             rel="canonical"
-            href={"/amp/search/?searchCategory=all&text=shirt"}
+            href={`${window.location.origin}/amp${ampUrl}`}
           />
         </Helmet>
       );
