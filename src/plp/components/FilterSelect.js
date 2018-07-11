@@ -68,7 +68,7 @@ export default class FilterSelect extends React.Component {
         <a
           className={this.props.hexColor ? styles.itemHasColour : styles.item}
           onClick={this.handleUrlClick}
-          href={this.constructCategoryAndBrandUrl()}
+          href={this.props.webURL}
         >
           {this.renderBody()}
         </a>
