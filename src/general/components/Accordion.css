@@ -16,6 +16,7 @@
   font-family: regular;
   text-align: left;
   transition: 300ms;
+  user-select: none;
 }
 .textBoxActive {
   composes: textBox;
@@ -54,4 +55,13 @@
   padding: 15px 30px 15px 15px;
   line-height: normal;
   font-size: 13px;
+}
+@media screen and (min-width: 1025px) {
+  .textBox{
+    font-family:light;
+    cursor:pointer;
+  }
+  .textBoxActive {
+    font-family:semibold;
+  }
 }

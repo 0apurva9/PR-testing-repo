@@ -36,17 +36,37 @@ export default class Banner extends React.Component {
                   <Logo image={this.props.logo} />
                 </div>
                 <div className={styles.title}>{this.props.title}</div>
-                <div className={styles.button}>
-                  <Button
-                    width={195}
-                    height={46}
-                    label={this.props.buttonLabel}
-                    type={"primary"}
-                  />
-                </div>
+                {this.props.showButton && (
+                  <div className={styles.button}>
+                    <Button
+                      width={195}
+                      height={46}
+                      label={this.props.buttonLabel}
+                      type={"primary"}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
+          {(this.props.isFollow || this.props.newProducts) && (
+            <div className={styles.followButtonWithText}>
+              {this.props.isFollow && (
+                <div className={styles.followButton}>
+                  <Button
+                    width={80}
+                    height={30}
+                    color={"#fff"}
+                    label={"Follow"}
+                    type={"hollow"}
+                  />
+                </div>
+              )}
+              {this.props.newProducts && (
+                <div className={styles.followText}>24 new products</div>
+              )}
+            </div>
+          )}
         </MediaQuery>
         <MediaQuery query="(max-device-width: 1024px)">
           <div className={styles.base} onClick={this.onClick}>
@@ -84,5 +104,8 @@ Banner.defaultProps = {
   image: "",
   title: "",
   logo: "",
-  buttonLabel: "Shop Now"
+  buttonLabel: "Shop Now",
+  showButton: true,
+  isFollow: false,
+  newProducts: false
 };

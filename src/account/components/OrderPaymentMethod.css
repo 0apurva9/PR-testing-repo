@@ -51,3 +51,12 @@
   font-size: 14px;
   font-family: regular;
 }
+
+@media screen and (min-width: 1025px) {
+  .cashText {
+    font-family: light;
+  }
+  .mobileNumber {
+    font-family: light;
+  }
+}

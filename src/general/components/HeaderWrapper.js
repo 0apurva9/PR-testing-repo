@@ -3,6 +3,7 @@ import InformationHeader from "./InformationHeader.js";
 import SearchContainer from "../../search/SearchContainer.js";
 import HollowHeader from "./HollowHeader.js";
 import StickyHeader from "./StickyHeader.js";
+import DesktopHeader from "./DesktopHeader.js";
 import * as Cookie from "../../lib/Cookie";
 import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
@@ -21,8 +22,13 @@ import {
   MY_ACCOUNT_PAGE,
   CHECKOUT_ROUTER,
   CHECKOUT_ROUTER_THANKYOU,
-  APP_VIEW
+  APP_VIEW,
+  CART_BAG_DETAILS,
+  MY_ACCOUNT_ORDERS_PAGE
 } from "../../../src/lib/constants";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
+
 import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
 export default class HeaderWrapper extends React.Component {
@@ -79,10 +85,19 @@ export default class HeaderWrapper extends React.Component {
       }
     }, 50);
   };
-
+  handleSelect(val) {
+    if (this.props.history) {
+      this.props.history.push(val);
+    }
+  }
+  goToOrdersPage = () => {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`;
+    this.props.history.push(url);
+  };
   componentDidMount() {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
+
     window.addEventListener("scroll", this.throttledScroll);
   }
 
@@ -114,7 +129,17 @@ export default class HeaderWrapper extends React.Component {
       }
     }
   };
+  openSignUp = () => {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.showAuthPopUp();
+      }
 
+      return null;
+    }
+  };
   render() {
     const searchQuery = queryString.parse(this.props.history.location.search);
     const hasAppView = searchQuery.appview;
@@ -241,10 +266,30 @@ export default class HeaderWrapper extends React.Component {
     return (
       shouldRenderHeader && (
         <React.Fragment>
-          {!productCode && <div className={styles.hiddenHeader} />}
-          <div className={!productCode ? styles.base : styles.absoluteHeader}>
-            {headerToRender}
-          </div>
+          <MobileOnly>
+            <React.Fragment>
+              {!productCode && <div className={styles.hiddenHeader} />}
+              <div
+                className={!productCode ? styles.base : styles.absoluteHeader}
+              >
+                {headerToRender}
+              </div>
+            </React.Fragment>
+          </MobileOnly>
+          <DesktopOnly>
+            <DesktopHeader
+              openSignUp={this.openSignUp}
+              redirectToHome={this.redirectToHome}
+              bagCount={
+                localStorage.getItem(CART_BAG_DETAILS) &&
+                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
+                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)).length
+              }
+              onSelect={val => this.handleSelect(PRODUCT_CART_ROUTER)}
+              goToTrackOrders={() => this.goToOrdersPage()}
+              searchHolder={<SearchContainer />}
+            />
+          </DesktopOnly>
         </React.Fragment>
       )
     );

@@ -14,6 +14,7 @@ body {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
 @media only screen and (max-width: 1024px) {
   .blur {
     composes: base;
@@ -27,6 +28,29 @@ body {
     left: 0;
     top: 0;
     transition-delay: 100ms;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding-top: 100px;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    opacity: 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.3);
+  }
+  ::-webkit-scrollbar-thumb:window-inactive {
+    opacity: 0;
   }
 }
 p {

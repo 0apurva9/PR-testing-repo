@@ -22,6 +22,11 @@
   height: auto;
   padding: 15px;
 }
+.pincodeHolder{
+  width: 100%;
+  height: auto;
+  padding: 15px;
+}
 .disabled {
   composes: content;
   opacity: 0.5;
@@ -61,3 +66,34 @@
   text-align: center;
   color: #212121;
 }
+@media only screen and (min-width: 1025px) {
+    .base {
+      text-align:center;
+      padding-top:70px;
+    }
+    .pageCenter{
+      width:1200px;
+      display:inline-block;
+      max-width:100%;
+      text-align:left;
+    }
+    .content{
+      width: 70%;
+      display: inline-block;
+      padding-right: 70px;
+    }
+    .couponWrapper{
+      margin-top:30px;
+    }
+    .checkoutHolder{
+      margin-right: -20px;
+    }
+    .pincodeHolder{
+      position:fixed;
+      top:50px;
+      padding:0;
+      background:#fff;
+
+    }
+
+  }

@@ -5,6 +5,8 @@ import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import styles from "./CartPage.css";
 import PropTypes from "prop-types";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
+import MobileOnly from "../../general/components/MobileOnly";
+
 import {
   SUCCESS,
   HOME_ROUTER,
@@ -206,7 +208,6 @@ class CartPage extends React.Component {
     if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
-
     if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.push(LOGIN_PATH);
     } else {
@@ -285,7 +286,6 @@ class CartPage extends React.Component {
         if (this.props.setUrlToRedirectToAfterAuth) {
           this.props.setUrlToRedirectToAfterAuth(url);
         }
-
         if (UserAgent.checkUserAgentIsMobile()) {
           this.props.history.push(LOGIN_PATH);
         } else {
@@ -329,11 +329,13 @@ class CartPage extends React.Component {
             buttonLabel="Change"
           />
         </div>
-        <div className={styles.content}>
-          <EmptyBag
-            onContinueShopping={() => this.navigateToHome()}
-            viewSavedProduct={() => this.goToWishList()}
-          />
+        <div clasName={styles.pageCenter}>
+          <div className={styles.content}>
+            <EmptyBag
+              onContinueShopping={() => this.navigateToHome()}
+              viewSavedProduct={() => this.goToWishList()}
+            />
+          </div>
         </div>
       </div>
     );
@@ -401,114 +403,134 @@ class CartPage extends React.Component {
       }
       return (
         <div className={styles.base}>
-          <div className={styles.content}>
-            <TextWithUnderLine
-              onClick={() => this.changePinCode()}
-              buttonLabel="Change PIN code"
-              checkPinCodeAvailability={pinCode =>
-                this.checkPinCodeAvailability(pinCode)
-              }
-              onFocusInput={() => this.onFocusInput()}
-              onBlur={() => this.onBlur()}
-              onKeyPress={e => this.onKeyPress()}
-            />
-          </div>
-          <div className={styles.content}>
-            {cartDetails.products &&
-              cartDetails.products.map((product, i) => {
-                let serviceable = false;
-                if (product.pinCodeResponse) {
-                  if (product.pinCodeResponse.isServicable === YES) {
-                    serviceable = true;
-                  }
+          <div className={styles.pincodeHolder}>
+            <div className={styles.pageCenter}>
+              <TextWithUnderLine
+                onClick={() => this.changePinCode()}
+                buttonLabel="Change PIN code"
+                checkPinCodeAvailability={pinCode =>
+                  this.checkPinCodeAvailability(pinCode)
                 }
+                onFocusInput={() => this.onFocusInput()}
+                onBlur={() => this.onBlur()}
+                onKeyPress={e => this.onKeyPress()}
+              />
+            </div>
+          </div>
+          <div className={styles.pageCenter}>
+            <div className={styles.content}>
+              {cartDetails.products &&
+                cartDetails.products.map((product, i) => {
+                  let serviceable = false;
+                  if (product.pinCodeResponse) {
+                    if (product.pinCodeResponse.isServicable === YES) {
+                      serviceable = true;
+                    }
+                  }
 
-                return (
-                  <div className={styles.cartItem} key={i}>
-                    <CartItem
-                      pinCode={defaultPinCode}
-                      product={product}
-                      productIsServiceable={serviceable}
-                      productImage={product.imageURL}
-                      productDetails={product.description}
-                      productName={product.productName}
-                      color={product.color}
-                      size={product.size}
-                      price={product.price}
-                      offerPrice={product.offerPrice}
-                      isGiveAway={product.isGiveAway}
-                      index={i}
-                      entryNumber={product.entryNumber}
-                      deliveryInformation={product.elligibleDeliveryMode}
-                      deliverTime={
-                        product.elligibleDeliveryMode &&
-                        product.elligibleDeliveryMode[0].desc
+                  return (
+                    <div className={styles.cartItem} key={i}>
+                      <CartItem
+                        pinCode={defaultPinCode}
+                        product={product}
+                        productIsServiceable={serviceable}
+                        productImage={product.imageURL}
+                        productDetails={product.description}
+                        productName={product.productName}
+                        color={product.color}
+                        size={product.size}
+                        price={product.price}
+                        offerPrice={product.offerPrice}
+                        isGiveAway={product.isGiveAway}
+                        index={i}
+                        entryNumber={product.entryNumber}
+                        deliveryInformation={product.elligibleDeliveryMode}
+                        deliverTime={
+                          product.elligibleDeliveryMode &&
+                          product.elligibleDeliveryMode[0].desc
+                        }
+                        deliveryType={
+                          product.elligibleDeliveryMode &&
+                          product.elligibleDeliveryMode[0].code
+                        }
+                        onRemove={this.removeItemFromCart}
+                        onQuantityChange={this.updateQuantityInCart}
+                        maxQuantityAllowed={
+                          parseInt(product.maxQuantityAllowed, 10) <
+                          product.availableStockCount
+                            ? parseInt(product.maxQuantityAllowed, 10)
+                            : product.availableStockCount
+                        }
+                        isOutOfStock={product.isOutOfStock}
+                        qtySelectedByUser={product.qtySelectedByUser}
+                        isClickable={false}
+                        onClickImage={() =>
+                          this.onClickImage(product.productcode)
+                        }
+                      />
+                    </div>
+                  );
+                })}
+              <MobileOnly>
+                {cartDetails.products && (
+                  <SavedProduct
+                    saveProduct={() => this.goToWishList()}
+                    onApplyCoupon={() => this.goToCouponPage()}
+                    appliedCouponCode={this.state.appliedCouponCode}
+                  />
+                )}
+              </MobileOnly>
+
+              {this.state.showCheckoutSection &&
+                cartDetails.products &&
+                cartDetails.cartAmount && (
+                  <div className={styles.checkoutHolder}>
+                    <Checkout
+                      disabled={!this.state.isServiceable}
+                      amount={
+                        cartDetails.cartAmount.paybleAmount.value
+                          ? Math.round(
+                              cartDetails.cartAmount.paybleAmount.value * 100
+                            ) / 100
+                          : "0.00"
                       }
-                      deliveryType={
-                        product.elligibleDeliveryMode &&
-                        product.elligibleDeliveryMode[0].code
+                      bagTotal={
+                        cartDetails.cartAmount.bagTotal.value
+                          ? Math.round(
+                              cartDetails.cartAmount.bagTotal.value * 100
+                            ) / 100
+                          : "0.00"
                       }
-                      onRemove={this.removeItemFromCart}
-                      onQuantityChange={this.updateQuantityInCart}
-                      maxQuantityAllowed={
-                        parseInt(product.maxQuantityAllowed, 10) <
-                        product.availableStockCount
-                          ? parseInt(product.maxQuantityAllowed, 10)
-                          : product.availableStockCount
+                      coupons={couponDiscount}
+                      discount={totalDiscount}
+                      delivery={deliveryCharge}
+                      payable={
+                        cartDetails.cartAmount.paybleAmount.value
+                          ? Math.round(
+                              cartDetails.cartAmount.paybleAmount.value * 100
+                            ) / 100
+                          : "0.00"
                       }
-                      isOutOfStock={product.isOutOfStock}
-                      qtySelectedByUser={product.qtySelectedByUser}
-                      isClickable={false}
-                      onClickImage={() =>
-                        this.onClickImage(product.productcode)
+                      onCheckout={() => this.renderToCheckOutPage()}
+                      label={CHECKOUT_BUTTON_TEXT}
+                      isOnCartPage={true}
+                      changePinCode={this.changePinCode}
+                      isFromMyBag={true}
+                      desktopElement={
+                        cartDetails.products && (
+                          <div className={styles.couponWrapper}>
+                            <SavedProduct
+                              saveProduct={() => this.goToWishList()}
+                              onApplyCoupon={() => this.goToCouponPage()}
+                              appliedCouponCode={this.state.appliedCouponCode}
+                            />
+                          </div>
+                        )
                       }
                     />
                   </div>
-                );
-              })}
-            {cartDetails.products && (
-              <SavedProduct
-                saveProduct={() => this.goToWishList()}
-                onApplyCoupon={() => this.goToCouponPage()}
-                appliedCouponCode={this.state.appliedCouponCode}
-              />
-            )}
-            {this.state.showCheckoutSection &&
-              cartDetails.products &&
-              cartDetails.cartAmount && (
-                <Checkout
-                  disabled={!this.state.isServiceable}
-                  amount={
-                    cartDetails.cartAmount.paybleAmount.value
-                      ? Math.round(
-                          cartDetails.cartAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  bagTotal={
-                    cartDetails.cartAmount.bagTotal.value
-                      ? Math.round(
-                          cartDetails.cartAmount.bagTotal.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  coupons={couponDiscount}
-                  discount={totalDiscount}
-                  delivery={deliveryCharge}
-                  payable={
-                    cartDetails.cartAmount.paybleAmount.value
-                      ? Math.round(
-                          cartDetails.cartAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  onCheckout={() => this.renderToCheckOutPage()}
-                  label={CHECKOUT_BUTTON_TEXT}
-                  isOnCartPage={true}
-                  changePinCode={this.changePinCode}
-                  isFromMyBag={true}
-                />
-              )}
+                )}
+            </div>
           </div>
         </div>
       );

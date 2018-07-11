@@ -189,3 +189,81 @@
   height: 150px;
   margin-top: 30px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    text-align:center;
+  }
+  .pageCenter{
+    width:100%;
+    display:inline-block;
+    max-width:1200px;
+    text-align:left;
+  }
+  .gallery{
+    width:50%;
+    display:inline-block;
+    vertical-align:top;
+  }
+  .content{
+    width:50%;
+    display:inline-block;
+    vertical-align:top;
+  }
+  .separator{
+    margin-top:15px;
+    border-bottom:1px solid #e2e2e2;
+  }
+  .sellers{
+    display:inline-block;
+    font-family:light;
+  }
+  .info{
+    padding:0;
+  }
+  .link:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-left: 10px;
+    transform: rotate(-90deg);
+    background:url("../../general/components/img/down-arrow-red.svg")no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  .link{
+    cursor:pointer;
+    font-family:light;
+  }
+  .details {
+
+    background:#ececec;
+  }
+  .detailsCard{
+    width:100%;
+    background:#fff;
+    padding:40px;
+    border-radius:4px;
+  }
+  .detailsHolder{
+    margin-top:60px;
+    display:flex;
+  }
+  .detailsHolder .detailsCard:first-child{
+    margin-right:20px;
+  }
+  .sideContent {
+    width:100%;
+    margin:0;
+  }
+  .featureHolder{
+    width: 33.33%;
+    display: inline-block;
+    min-width: 250px;
+    vertical-align: top;
+    padding-bottom:10px;
+  }
+  .customisation{
+    padding:10px 0;
+  }
+}

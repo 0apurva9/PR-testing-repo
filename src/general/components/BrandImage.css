@@ -39,6 +39,9 @@
     background: #fff;
   }
   .imageHolder {
+    cursor: pointer;
+  }
+  .imageHolder {
     width: 60%;
     height: 60%;
   }

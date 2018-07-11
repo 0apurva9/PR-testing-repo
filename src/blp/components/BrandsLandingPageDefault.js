@@ -24,13 +24,18 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import BannerImage from "../../general/components/BannerImage";
+import Banner from "../../general/components/Banner";
 export default class BrandsLandingPageDefault extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showFollowing: true,
       currentActiveBrandType: 0,
-      searchBy: null
+      searchBy: null,
+      selectedBrandType: null
     };
   }
   handleClick = webURL => {
@@ -65,7 +70,13 @@ export default class BrandsLandingPageDefault extends React.Component {
   renderLoader() {
     return <Loader />;
   }
-
+  findSelectedText(selectedBrandType) {
+    if (this.state.selectedBrandType !== selectedBrandType) {
+      this.setState({ selectedBrandType: selectedBrandType });
+    } else {
+      this.setState({ selectedBrandType: null });
+    }
+  }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -103,6 +114,7 @@ export default class BrandsLandingPageDefault extends React.Component {
     }
     let currentActiveBrandList =
       brandsStores[this.state.currentActiveBrandType].brands;
+    let selectedBrand = brandsStores[this.state.currentActiveBrandType].brands;
     if (this.state.searchBy) {
       currentActiveBrandList = filter(currentActiveBrandList, brand => {
         return brand.brandName
@@ -110,34 +122,85 @@ export default class BrandsLandingPageDefault extends React.Component {
           .includes(this.state.searchBy.toLowerCase());
       });
     }
-
+    if (this.state.selectedBrandType) {
+      currentActiveBrandList = filter(currentActiveBrandList, brand => {
+        return brand.brandName
+          .toLowerCase()
+          .startsWith(this.state.selectedBrandType.toLowerCase());
+      });
+    }
     currentActiveBrandList = groupBy(currentActiveBrandList, list => {
-      return list.brandName[0];
+      return list.brandName[0].toUpperCase();
+    });
+    selectedBrand = groupBy(selectedBrand, list => {
+      return list.brandName[0].toUpperCase();
     });
     const parentBrandsLabel = Object.keys(currentActiveBrandList);
+    const presentLabel = Object.keys(selectedBrand);
     return (
       <div className={styles.base}>
-        <div className={styles.header}>
-          <BrandsSelect
-            limit={1}
-            onSelect={val => this.switchTab(val[0])}
-            selected={[this.state.currentActiveBrandType]}
-          >
-            {brandList.map((val, id) => {
-              return <BrandsItem label={val} value={id} key={id} />;
-            })}
-          </BrandsSelect>
-        </div>
-        {/* we need to show this once api will be work and at that
-        time also need some modification in integration */}
-
-        <div className={styles.bannerHolder}>
-          {currentActiveHeroBanner &&
-            currentActiveHeroBanner.length > 1 && (
-              <BannerMobile bannerHeight="45vw">
-                {currentActiveHeroBanner &&
-                  currentActiveHeroBanner.map(heroBanner => {
-                    return (
+        <MobileOnly>
+          <div className={styles.header}>
+            <BrandsSelect
+              limit={1}
+              onSelect={val => this.switchTab(val[0])}
+              selected={[this.state.currentActiveBrandType]}
+            >
+              {brandList.map((val, id) => {
+                return <BrandsItem label={val} value={id} key={id} />;
+              })}
+            </BrandsSelect>
+          </div>
+        </MobileOnly>
+        <div className={styles.bannerHolderDetails}>
+          <div className={styles.bannerHolder}>
+            {currentActiveHeroBanner &&
+              currentActiveHeroBanner.length > 1 && (
+                <React.Fragment>
+                  <MobileOnly>
+                    <BannerMobile bannerHeight="45vw">
+                      {currentActiveHeroBanner &&
+                        currentActiveHeroBanner.map(heroBanner => {
+                          return (
+                            <BrandBanner
+                              image={heroBanner.imageURL}
+                              logo={heroBanner.brandLogo}
+                              title={heroBanner.title}
+                              onClick={() =>
+                                this.renderToAnotherURL(heroBanner.webURL)
+                              }
+                            />
+                          );
+                        })}
+                    </BannerMobile>
+                  </MobileOnly>
+                  <DesktopOnly>
+                    <Banner>
+                      {currentActiveHeroBanner &&
+                        currentActiveHeroBanner.map((datum, i) => {
+                          return (
+                            <BannerImage
+                              logo={datum.brandLogo}
+                              title={datum.title}
+                              subTitle={datum.subTitle}
+                              image={datum.imageURL}
+                              key={i}
+                              url={datum.webURL}
+                              showButton={false}
+                              {...this.props}
+                            />
+                          );
+                        })}
+                    </Banner>
+                  </DesktopOnly>
+                </React.Fragment>
+              )}
+            <MobileOnly>
+              {currentActiveHeroBanner &&
+                currentActiveHeroBanner.length < 2 &&
+                currentActiveHeroBanner.map(heroBanner => {
+                  return (
+                    <div className={styles.monoBannerHolder}>
                       <BrandBanner
                         image={heroBanner.imageURL}
                         logo={heroBanner.brandLogo}
@@ -146,77 +209,155 @@ export default class BrandsLandingPageDefault extends React.Component {
                           this.renderToAnotherURL(heroBanner.webURL)
                         }
                       />
-                    );
-                  })}
-              </BannerMobile>
-            )}
-          {currentActiveHeroBanner &&
-            currentActiveHeroBanner.length < 2 &&
-            currentActiveHeroBanner.map(heroBanner => {
-              return (
-                <div className={styles.monoBannerHolder}>
-                  <BrandBanner
-                    image={heroBanner.imageURL}
-                    logo={heroBanner.brandLogo}
-                    title={heroBanner.title}
-                    onClick={() => this.renderToAnotherURL(heroBanner.webURL)}
-                  />
-                </div>
-              );
-            })}
+                    </div>
+                  );
+                })}
+            </MobileOnly>
+          </div>
         </div>
         {userDetails &&
           customerCookie &&
           showFollowBrands &&
           showFollowBrands.length > 0 && (
             <div className={styles.following}>
-              <div
-                className={
-                  this.state.showFollowing
-                    ? styles.followVisible
-                    : styles.followingHeader
-                }
-                onClick={() => this.handleShowFollow()}
-              >
-                Brands You Follow
-                <div className={styles.arrow}>
-                  <Icon image={arrowIcon} size={18} />
-                </div>
+              <div className={styles.followingHolder}>
+                <React.Fragment>
+                  <MobileOnly>
+                    <div
+                      className={
+                        this.state.showFollowing
+                          ? styles.followVisible
+                          : styles.followingHeader
+                      }
+                      onClick={() => this.handleShowFollow()}
+                    >
+                      Brands You Follow
+                      <div className={styles.arrow}>
+                        <Icon image={arrowIcon} size={18} />
+                      </div>
+                    </div>
+                    {this.state.showFollowing && (
+                      <Carousel elementWidthMobile={30}>
+                        {this.props.followedBrands &&
+                          this.props.followedBrands.length > 0 &&
+                          this.props.followedBrands
+                            .filter(brand => {
+                              return brand.isFollowing === "true";
+                            })
+                            .map(brand => {
+                              return (
+                                <BrandImage
+                                  isFollowing={brand.isFollowing}
+                                  image={brand.imageURL}
+                                  onClick={() => this.handleClick(brand.webURL)}
+                                />
+                              );
+                            })}
+                      </Carousel>
+                    )}
+                  </MobileOnly>
+                  <DesktopOnly>
+                    <div className={styles.followingBrandsWithHeader}>
+                      <div className={styles.followingBrandsWithHeader}>
+                        <div className={styles.headerWithFollowing}>
+                          <div
+                            className={
+                              this.state.showFollowing
+                                ? styles.headerText
+                                : styles.followingHeader
+                            }
+                            onClick={() => this.handleShowFollow()}
+                          >
+                            Following brands
+                            <div
+                              className={
+                                this.state.showFollowing
+                                  ? styles.arrow
+                                  : styles.downArrow
+                              }
+                            />
+                          </div>
+                          <div className={styles.countFollowBrands}>{`${
+                            showFollowBrands.length
+                          } Brands`}</div>
+                        </div>
+                        {this.state.showFollowing && (
+                          <div className={styles.brandsList}>
+                            <Carousel elementWidthDesktop={16.66}>
+                              {showFollowBrands.map((brand, index) => {
+                                return (
+                                  <div className={styles.brandDetails}>
+                                    <BrandImage
+                                      key={index}
+                                      isFollowing={brand.isFollowing}
+                                      image={brand.imageURL}
+                                      onClick={() =>
+                                        this.handleClick(brand.webURL)
+                                      }
+                                    />
+                                  </div>
+                                );
+                              })}
+                            </Carousel>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </DesktopOnly>
+                </React.Fragment>
               </div>
-              {this.state.showFollowing && (
-                <Carousel elementWidthMobile={30}>
-                  {this.props.followedBrands &&
-                    this.props.followedBrands.length > 0 &&
-                    this.props.followedBrands
-                      .filter(brand => {
-                        return brand.isFollowing === "true";
-                      })
-                      .map(brand => {
-                        return (
-                          <BrandImage
-                            isFollowing={brand.isFollowing}
-                            image={brand.imageURL}
-                            onClick={() => this.handleClick(brand.webURL)}
-                          />
-                        );
-                      })}
-                </Carousel>
-              )}
             </div>
           )}
-        <div className={styles.searchInput}>
-          <Input2
-            placeholder="Find your favourite brands"
-            onChange={val => this.setState({ searchBy: val })}
-            rightChild={
-              <div className={styles.searchIcon}>
-                <Icon image={searchIcon} size={15} />
-              </div>
-            }
-            rightChildSize={40}
-          />
+        <div className={styles.searchInputWithText}>
+          <div className={styles.searchInputWithTextHolder}>
+            <DesktopOnly>
+              {presentLabel &&
+                presentLabel.length !== 0 &&
+                presentLabel.map((brandInitials, i) => {
+                  return (
+                    <div
+                      className={
+                        brandInitials === this.state.selectedBrandType
+                          ? styles.activeTextWithCircle
+                          : styles.textWithCircle
+                      }
+                      onClick={() => this.findSelectedText(brandInitials)}
+                    >
+                      {brandInitials}
+                    </div>
+                  );
+                })}
+            </DesktopOnly>
+            <div className={styles.searchInput}>
+              <Input2
+                placeholder="Find your favourite brands"
+                onChange={val => this.setState({ searchBy: val })}
+                rightChild={
+                  <div className={styles.searchIcon}>
+                    <Icon image={searchIcon} size={15} />
+                  </div>
+                }
+                rightChildSize={40}
+              />
+            </div>
+          </div>
         </div>
-        <div className={styles.following} />
+        <DesktopOnly>
+          <div className={styles.header}>
+            <BrandsSelect
+              limit={1}
+              onSelect={val => this.switchTab(val[0])}
+              selected={[this.state.currentActiveBrandType]}
+            >
+              {brandList.map((val, id) => {
+                return <BrandsItem label={val} value={id} key={id} />;
+              })}
+            </BrandsSelect>
+          </div>
+        </DesktopOnly>
+        <MobileOnly>
+          <div className={styles.following} />
+        </MobileOnly>
         <div className={styles.category}>
           {parentBrandsLabel && parentBrandsLabel.length !== 0 ? (
             parentBrandsLabel.map((val, i) => {
