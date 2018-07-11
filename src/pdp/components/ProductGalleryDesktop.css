@@ -1,0 +1,153 @@
+.base{
+  width:100%;
+  height:auto;
+  padding:0 80px;
+  position:relative;
+}
+.content{
+  width:100%;
+  height:auto;
+  padding-bottom:133%;
+  position:relative;
+  overflow:hidden;
+}
+.image{
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.nav{
+  width:100%;
+  height:auto;
+  text-align:center;
+  margin-top:20px;
+}
+.navImage{
+  width:40px;
+  height:60px;
+  margin:0 15px;
+  display:inline-block;
+  vertical-align:top;
+  transition:300ms;
+  opacity:0.3;
+  position:relative;
+  cursor:pointer;
+}
+.navActive{
+  composes:navImage;
+  opacity:1;
+}
+
+.navArrow{
+  width:35px;
+  height:35px;
+  position:absolute;
+  top:-40px;
+  bottom:0;
+  right:20px;
+  margin:auto;
+  background:url("../../general/components/img/down-arrow-grey.svg");
+  background-position:center;
+  background-size:contain;
+  transform:rotate(-90deg);
+  cursor:pointer;
+  opacity:0.6;
+}
+.navArrowBack{
+  composes:navArrow;
+  transform:rotate(90deg);
+  right:initial;
+  left:20px;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.slideInRight{
+  composes:image;
+  animation: slideInRight 200ms forwards;
+}
+.slideInLeft{
+  composes:image;
+  animation: slideInLeft 200ms forwards;
+}
+.slideOutRight{
+  composes:image;
+  animation: slideOutRight 200ms forwards;
+}
+.slideOutLeft{
+  composes:image;
+  animation: slideOutLeft 200ms forwards;
+}
+
+.zoom{
+  width:100%;
+  height:auto;
+  padding-bottom:100%;
+  position:absolute;
+  top:0;
+  left:100%;
+  z-index:10;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  box-shadow:0 0 10px 0 rgba(0,0,0,0.2)
+}
+.zoomVisible{
+  composes:zoom;
+  opacity:1;
+}
+.zoomer{
+  width:200%;
+  height:266%;
+  will-change: left , top;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.zoomArea{
+  width:50%;
+  padding-bottom:50%;
+  position:absolute;
+  will-change: transform;
+  cursor:zoom-in;
+  top:0;
+  left:0;
+  background:rgba(255,255,255,0.6);
+}
+.hideZoomArea{
+  composes:zoomArea;
+  opacity:0;
+  pointer-events:none;
+}

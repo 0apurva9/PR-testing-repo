@@ -2,7 +2,7 @@ import React from "react";
 import PdpFrame from "./PdpFrame";
 import find from "lodash.find";
 import Image from "../../xelpmoc-core/Image";
-import ProductGalleryMobile from "./ProductGalleryMobile";
+import ProductGalleryDesktop from "./ProductGalleryDesktop";
 import JewelleryCertification from "./JewelleryCertification";
 import ProductFeatures from "./ProductFeatures";
 import Accordion from "../../general/components/Accordion.js";
@@ -343,20 +343,38 @@ export default class PdpApparel extends React.Component {
   };
   render() {
     const productData = this.props.productDetails;
-    const mobileGalleryImages = productData.galleryImagesList
-      ? productData.galleryImagesList
-          .filter(val => {
-            return val.mediaType === IMAGE;
-          })
-          .map(galleryImageList => {
-            return galleryImageList.galleryImages.filter(galleryImages => {
-              return galleryImages.key === "product";
-            });
-          })
-          .map(image => {
-            return image[0].value;
-          })
+    const images = productData.galleryImagesList
+      ? productData.galleryImagesList.filter(val => {
+          return val.mediaType === IMAGE;
+        })
       : [];
+    const productImages = images
+      .map(galleryImageList => {
+        return galleryImageList.galleryImages.filter(galleryImages => {
+          return galleryImages.key === "product";
+        });
+      })
+      .map(image => {
+        return image[0].value;
+      });
+    const thumbNailImages = images
+      .map(galleryImageList => {
+        return galleryImageList.galleryImages.filter(galleryImages => {
+          return galleryImages.key === "thumbnail";
+        });
+      })
+      .map(image => {
+        return image[0].value;
+      });
+    const zoomImages = images
+      .map(galleryImageList => {
+        return galleryImageList.galleryImages.filter(galleryImages => {
+          return galleryImages.key === "superZoom";
+        });
+      })
+      .map(image => {
+        return image[0].value;
+      });
 
     if (productData) {
       let price = "";
@@ -393,11 +411,12 @@ export default class PdpApparel extends React.Component {
           <div className={styles.base}>
             <div className={styles.pageCenter}>
               <div className={styles.gallery}>
-                <ProductGalleryMobile>
-                  {mobileGalleryImages.map((val, idx) => {
-                    return <Image lazyLoad={true} image={val} key={idx} />;
-                  })}
-                </ProductGalleryMobile>
+                <ProductGalleryDesktop
+                  data={productData.galleryImagesList}
+                  productImages={productImages}
+                  thumbNailImages={thumbNailImages}
+                  zoomImages={zoomImages}
+                />
                 {(productData.allOOStock ||
                   (productData.winningSellerAvailableStock === "0" &&
                     this.checkIfSizeSelected())) && (
