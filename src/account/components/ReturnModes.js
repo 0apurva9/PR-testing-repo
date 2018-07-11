@@ -170,39 +170,40 @@ export default class ReturnModes extends React.Component {
                   </div>
                 </DeskTopOnly>
               )}
-
-              <div className={styles.returnModesWithBorder}>
-                {data.returnModes.quickDrop &&
-                  !this.state.isModeSelected && (
-                    <SelectReturnDate
-                      label="Return to store"
-                      selected={this.state.selectedMode === QUICK_DROP}
-                      selectItem={() => {
-                        this.handleSelect(QUICK_DROP);
-                      }}
-                    />
-                  )}
-                {data.returnModes.schedulePickup &&
-                  !this.state.isModeSelected && (
-                    <SelectReturnDate
-                      label="Tata CliQ Pick Up"
-                      selectItem={() => {
-                        this.handleSelect(SCHEDULED_PICKUP);
-                      }}
-                      selected={this.state.selectedMode === SCHEDULED_PICKUP}
-                    />
-                  )}
-                {data.returnModes.selfCourier &&
-                  !this.state.isModeSelected && (
-                    <SelectReturnDate
-                      selectItem={() => {
-                        this.handleSelect(SELF_COURIER);
-                      }}
-                      label="Self Courier"
-                      selected={this.state.selectedMode === SELF_COURIER}
-                    />
-                  )}
-              </div>
+              {!this.state.isModeSelected && (
+                <div className={styles.returnModesWithBorder}>
+                  {data.returnModes.quickDrop &&
+                    !this.state.isModeSelected && (
+                      <SelectReturnDate
+                        label="Return to store"
+                        selected={this.state.selectedMode === QUICK_DROP}
+                        selectItem={() => {
+                          this.handleSelect(QUICK_DROP);
+                        }}
+                      />
+                    )}
+                  {data.returnModes.schedulePickup &&
+                    !this.state.isModeSelected && (
+                      <SelectReturnDate
+                        label="Tata CliQ Pick Up"
+                        selectItem={() => {
+                          this.handleSelect(SCHEDULED_PICKUP);
+                        }}
+                        selected={this.state.selectedMode === SCHEDULED_PICKUP}
+                      />
+                    )}
+                  {data.returnModes.selfCourier &&
+                    !this.state.isModeSelected && (
+                      <SelectReturnDate
+                        selectItem={() => {
+                          this.handleSelect(SELF_COURIER);
+                        }}
+                        label="Self Courier"
+                        selected={this.state.selectedMode === SELF_COURIER}
+                      />
+                    )}
+                </div>
+              )}
               <DeskTopOnly>
                 {this.state.selectedMode === QUICK_DROP && (
                   <ReturnToStoreContainer

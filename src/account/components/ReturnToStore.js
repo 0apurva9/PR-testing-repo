@@ -248,7 +248,6 @@ export default class ReturnToStore extends React.Component {
                 <DumbGrid limit={1} offset={0} elementWidthDesktop={100}>
                   {this.props.returnRequest.returnStoreDetailsList.map(
                     (val, i) => {
-                      console.log(val);
                       return (
                         <PickUpLocation
                           key={i}
