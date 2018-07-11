@@ -193,12 +193,8 @@ export default class ReturnToStore extends React.Component {
         </MobileOnly>
         <DesktopOnly>
           <CliqAndPiqForReturn
-            {...this.props}
             availableStores={this.props.returnRequest.returnStoreDetailsList}
             numberOfStores={noOfStories}
-            addStoreCNC={storeId => this.selectStore(storeId)}
-            changePincode={pincode => this.quickDropStore(pincode)}
-            getLocation={() => this.getLocation()}
           />
           <div className={styles.location}>
             <div className={styles.locationWithPincode}>
@@ -224,36 +220,40 @@ export default class ReturnToStore extends React.Component {
           {this.props.returnRequest &&
             this.props.returnRequest.returnStoreDetailsList &&
             !this.props.showPickupPerson && (
-              <GridSelect
-                limit={1}
-                offset={0}
-                elementWidthDesktop={100}
-                onSelect={val => this.selectStoreForDesktop(val)}
-              >
-                {this.props.returnRequest.returnStoreDetailsList.map(
-                  (val, i) => {
-                    console.log(val);
-                    return (
-                      <PickUpLocation
-                        key={i}
-                        address={`${val.address.line1} ${val.address.line2}, `}
-                        PickUpKey="Open on: "
-                        workingDays={val.mplWorkingDays}
-                        openingTime={val.mplOpeningTime}
-                        closingTime={val.mplClosingTime}
-                        address2={`${val.returnCity} ${val.returnPin}`}
-                        iconText="C"
-                        headingText={val.displayName}
-                        buttonText="Select"
-                        canSelectStore={this.props.canSelectStore}
-                        onClick={() => {
-                          this.selectStore(val.slaveId);
-                        }}
-                      />
-                    );
-                  }
-                )}
-              </GridSelect>
+              <div className={styles.abcd}>
+                <GridSelect
+                  limit={1}
+                  offset={0}
+                  elementWidthDesktop={100}
+                  onSelect={val => this.selectStoreForDesktop(val)}
+                >
+                  {this.props.returnRequest.returnStoreDetailsList.map(
+                    (val, i) => {
+                      console.log(val);
+                      return (
+                        <PickUpLocation
+                          key={i}
+                          address={`${val.address.line1} ${
+                            val.address.line2
+                          }, `}
+                          PickUpKey="Open on: "
+                          workingDays={val.mplWorkingDays}
+                          openingTime={val.mplOpeningTime}
+                          closingTime={val.mplClosingTime}
+                          address2={`${val.returnCity} ${val.returnPin}`}
+                          iconText="C"
+                          headingText={val.displayName}
+                          buttonText="Select"
+                          canSelectStore={this.props.canSelectStore}
+                          onClick={() => {
+                            this.selectStore(val.slaveId);
+                          }}
+                        />
+                      );
+                    }
+                  )}
+                </GridSelect>
+              </div>
             )}
         </DesktopOnly>
       </React.Fragment>

@@ -97,6 +97,9 @@ export default class CliqAndPiqForReturn extends React.Component {
         return store.slaveId === this.props.selectedSlaveId;
       });
     }
+
+    console.log(this.props.availableStores);
+
     return (
       <div className={styles.base}>
         <div className={styles.map}>
@@ -108,40 +111,11 @@ export default class CliqAndPiqForReturn extends React.Component {
                     lat={val.geoPoint.latitude}
                     lng={val.geoPoint.longitude}
                     image={WestSideIcon}
+                    key={i}
                   />
                 );
               })}
           </Map>
-        </div>
-        <div className={styles.bannerMobileHolder}>
-          {this.props.showPickupPerson && (
-            <div className={styles.getLocationDetailsHolder}>
-              <div className={styles.getLocationDetails}>
-                <GetLocationDetails
-                  changeLocation={() => {
-                    this.changeStore();
-                  }}
-                  headingText={selectedStore.displayName}
-                  address={`${selectedStore.returnAddress1} ${
-                    selectedStore.returnAddress2
-                  } ${selectedStore.returnCity}`}
-                  pickUpKey="Open on: "
-                  pickUpValue={selectedStore.selectedStoreTime}
-                  workingDays={selectedStore.mplWorkingDays}
-                  openingTime={selectedStore.mplOpeningTime}
-                  closingTime={selectedStore.mplClosingTime}
-                />
-              </div>
-              <div className={styles.pickUpDetails}>
-                <PickUpDetails
-                  getValue={val => this.getValue(val)}
-                  onSubmit={() => this.handleSubmit()}
-                  name={this.state.name}
-                  mobile={this.state.mobile}
-                />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     );
