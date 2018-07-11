@@ -23,23 +23,41 @@ export default class PriceFilterTabDesktop extends React.Component {
       this.state.maxRange &&
       parseInt(this.state.minRange, 10) < parseInt(this.state.maxRange, 10)
     ) {
-      let currentUrl = decodeURIComponent(this.props.history.location.search);
-      if (PRICE_FILTER_REG_EX.test(currentUrl)) {
-        currentUrl = currentUrl
-          .substring(3)
-          .replace(
-            PRICE_FILTER_REG_EX,
-            `price:${this.state.minRange}-${this.state.maxRange}`
-          );
+      let currentAppliedFilters = decodeURIComponent(
+        this.props.history.location.search
+      );
+      if (currentAppliedFilters) {
+        if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
+          currentAppliedFilters = currentAppliedFilters
+            .substring(3)
+            .replace(
+              PRICE_FILTER_REG_EX,
+              `price:${this.state.minRange}-${this.state.maxRange}`
+            );
+        } else {
+          currentAppliedFilters = `${currentAppliedFilters.substring(
+            3
+          )}:price:${this.state.minRange}-${this.state.maxRange}`;
+        }
       } else {
-        currentUrl = `${currentUrl.substring(3)}:price:${this.state.minRange}-${
-          this.state.maxRange
-        }`;
+        if (this.props.priceList[0] && this.props.priceList[0].url) {
+          let newSearchUrl = decodeURIComponent(
+            this.props.priceList[0].url.substring(
+              this.props.priceList[0].url.indexOf("?")
+            )
+          );
+          currentAppliedFilters = newSearchUrl
+            .substring(3)
+            .replace(
+              PRICE_FILTER_REG_EX,
+              `price:${this.state.minRange}-${this.state.maxRange}`
+            );
+        }
       }
 
       this.props.history.push({
         pathname: this.props.history.location.pathname,
-        search: `q=${encodeURIComponent(currentUrl)}`
+        search: `q=${encodeURIComponent(currentAppliedFilters)}`
       });
     }
   };
