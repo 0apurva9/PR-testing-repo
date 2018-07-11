@@ -15,8 +15,7 @@ import discoverLogo from "../../cart/components/img/discover.svg";
 import jcbLogo from "../../cart/components/img/jcb.svg";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Button from "../../general/components/Button";
+import CancelAndContinueButton from "./CancelAndContinueButton";
 import {
   RUPAY_CARD,
   VISA_CARD,
@@ -115,26 +114,10 @@ export default class ReturnsStoreConfirmation extends React.Component {
             )}
           <DesktopOnly>
             <div className={styles.buttonHolder}>
-              <div className={styles.continueButtonHolder}>
-                <Button
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label="Continue"
-                  width={175}
-                  textStyle={{ color: "#FFF", fontSize: 14 }}
-                  onClick={() => this.handleContinue()}
-                />
-              </div>
-              <div className={styles.cancelButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000000"
-                  label="Cancel"
-                  onClick={() => this.handleCancel()}
-                />
-              </div>
+              <CancelAndContinueButton
+                handleCancel={() => this.handleCancel()}
+                handleContinue={() => this.handleContinue()}
+              />
             </div>
           </DesktopOnly>
         </div>

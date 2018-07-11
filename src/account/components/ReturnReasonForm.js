@@ -4,6 +4,7 @@ import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import TextArea from "../../general/components/TextArea";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
+import CancelAndContinueButton from "./CancelAndContinueButton";
 import styles from "./ReturnReasonForm.css";
 import ReverseSealYesNo from "./ReverseSealYesNo.js";
 import DeskTopOnly from "../../general/components/DesktopOnly.js";
@@ -175,27 +176,10 @@ export default class ReturnReasonForm extends React.Component {
             </div>
             <DeskTopOnly>
               <div className={styles.buttonHolder}>
-                <div className={styles.cancelButtonHolder}>
-                  <UnderLinedButton
-                    size="14px"
-                    fontFamily="regular"
-                    color="#000000"
-                    label="Cancel"
-                    onClick={() => this.handleCancel()}
-                  />
-                </div>
-
-                <div className={styles.continueButtonHolder}>
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label="Continue"
-                    width={120}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
-                    onClick={() => this.handleContinue()}
-                  />
-                </div>
+                <CancelAndContinueButton
+                  handleCancel={() => this.handleCancel()}
+                  handleContinue={() => this.handleContinue()}
+                />
               </div>
             </DeskTopOnly>
           </div>

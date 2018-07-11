@@ -25,22 +25,4 @@
     height: auto;
     width: 100%;
   }
-  .buttonHolder {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-  }
-  .cancelButtonHolder {
-    width: auto;
-    height: auto;
-    padding-right: 30px;
-    float: right;
-    margin: auto;
-    padding-top: 8px;
-  }
-  .continueButtonHolder {
-    width: auto;
-    height: auto;
-    float: right;
-  }
 }

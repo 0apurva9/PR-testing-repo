@@ -73,23 +73,9 @@
     margin-top: 10px;
   }
   .buttonHolder {
-    padding-left: 125px;
-    text-align: right;
-  }
-  .cancelButtonHolder {
-    width: auto;
-    height: 25px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    right: 150px;
-  }
-  .continueButtonHolder {
-    width: auto;
+    width: 100%;
     height: auto;
-    display: inline-block;
-    vertical-align: middle;
+    padding: 0px 0px 20px 0px;
   }
   .circleHolder {
     width: auto;

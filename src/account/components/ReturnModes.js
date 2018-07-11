@@ -13,6 +13,7 @@ import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
 import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
 import SelfCourierContainer from "../containers/SelfCourierContainer.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import CancelAndContinueButton from "./CancelAndContinueButton";
 import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
@@ -273,23 +274,10 @@ export default class ReturnModes extends React.Component {
                   {(this.state.selectedMode === SCHEDULED_PICKUP ||
                     this.state.selectedMode === QUICK_DROP) && (
                     <div className={styles.cancelPickUpButtonHolder}>
-                      <div className={styles.continuePickup}>
-                        <div className={styles.button}>
-                          <Button
-                            width={175}
-                            type="primary"
-                            label={"Continue"}
-                            onClick={() => this.handleContinuePickUp()}
-                          />
-                        </div>
-                      </div>
-                      <div className={styles.cancelPickUp}>
-                        <UnderLinedButton
-                          label="Cancel"
-                          color="#000000"
-                          onClick={() => this.handleCancelPickUP()}
-                        />
-                      </div>
+                      <CancelAndContinueButton
+                        handleCancel={() => this.handleCancel()}
+                        handleContinue={() => this.handleContinue()}
+                      />
                     </div>
                   )}
                 </DeskTopOnly>
