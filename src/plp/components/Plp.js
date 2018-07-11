@@ -204,10 +204,23 @@ export default class Plp extends React.Component {
         this.props.history.location.pathname
       ) ||
       AMP_CATEGORY_REG_EX.test(this.props.history.location.pathname) ||
-      AMP_BRAND_REG_EX.test(this.props.history.location.pathname) ||
-      AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)
+      AMP_BRAND_REG_EX.test(this.props.history.location.pathname)
     ) {
       let ampUrl = this.props.history.location.pathname;
+      return (
+        <Helmet>
+          <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
+          <link
+            rel="canonical"
+            href={`${window.location.origin}/amp${ampUrl}`}
+          />
+        </Helmet>
+      );
+    }
+    if (AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)) {
+      let ampUrl = `${this.props.history.location.pathname}${
+        this.props.location.search
+      }`;
       return (
         <Helmet>
           <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
