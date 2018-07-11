@@ -37,6 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps);
   return {
     ...ownProps,
     orderDetails: state.profile.fetchOrderDetails

@@ -13,7 +13,7 @@ import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
 import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
 import SelfCourierContainer from "../containers/SelfCourierContainer.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-import CancelAndContinueButton from "./CancelAndContinueButton";
+
 import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
@@ -60,14 +60,6 @@ export default class ReturnModes extends React.Component {
     );
   }
 
-  handleContinuePickUp = () => {
-    this.setState({ isModeSelected: true });
-  };
-
-  handleCancelPickUP = () => {
-    this.setState({ selectedMode: null, isModeSelected: false });
-  };
-
   isReturnModesEnabled = () => {
     const data = this.props.returnProductDetails;
     if (
@@ -78,6 +70,15 @@ export default class ReturnModes extends React.Component {
       return true;
     }
     return false;
+  };
+
+  selectReturnMode = () => {
+    console.log("Continue Button clicked in reurn mode");
+    this.setState({ isModeSelected: true });
+  };
+  cancelReturnMode = () => {
+    console.log("Continue Button clicked in reurn mode");
+    this.setState({ isModeSelected: false });
   };
   render() {
     // Preventing user to open this page direct by hitting URL
@@ -167,20 +168,12 @@ export default class ReturnModes extends React.Component {
                   time={"11:00 AM"}
                   handleCancel={() => this.handleCancel()}
                 />
-                <div>
-                  <ReturnStoreConfirmation
-                    {...this.props}
-                    orderDetails={this.props.orderDetails}
-                    onContinue={() => this.finalSubmit()}
-                    cancel={() => this.cancel()}
-                  />
-                </div>
               </React.Fragment>
             )}
           </DeskTopOnly>
-          {this.isReturnModesEnabled() &&
-            !this.state.isModeSelected && (
-              <div className={styles.returnModes}>
+          {this.isReturnModesEnabled() && (
+            <div className={styles.returnModes}>
+              {!this.state.isModeSelected && (
                 <DeskTopOnly>
                   <div className={styles.header}>
                     <div className={styles.circleHolder}>
@@ -189,8 +182,11 @@ export default class ReturnModes extends React.Component {
                     Select mode of return
                   </div>
                 </DeskTopOnly>
-                <div className={styles.returnModesWithBorder}>
-                  {data.returnModes.quickDrop && (
+              )}
+
+              <div className={styles.returnModesWithBorder}>
+                {data.returnModes.quickDrop &&
+                  !this.state.isModeSelected && (
                     <SelectReturnDate
                       label="Return to store"
                       selected={this.state.selectedMode === QUICK_DROP}
@@ -199,7 +195,8 @@ export default class ReturnModes extends React.Component {
                       }}
                     />
                   )}
-                  {data.returnModes.schedulePickup && (
+                {data.returnModes.schedulePickup &&
+                  !this.state.isModeSelected && (
                     <SelectReturnDate
                       label="Tata CliQ Pick Up"
                       selectItem={() => {
@@ -208,7 +205,8 @@ export default class ReturnModes extends React.Component {
                       selected={this.state.selectedMode === SCHEDULED_PICKUP}
                     />
                   )}
-                  {data.returnModes.selfCourier && (
+                {data.returnModes.selfCourier &&
+                  !this.state.isModeSelected && (
                     <SelectReturnDate
                       selectItem={() => {
                         this.handleSelect(SELF_COURIER);
@@ -217,30 +215,27 @@ export default class ReturnModes extends React.Component {
                       selected={this.state.selectedMode === SELF_COURIER}
                     />
                   )}
-                </div>
-
-                <DeskTopOnly>
-                  {this.state.selectedMode === QUICK_DROP && (
-                    <ReturnToStoreContainer {...this.state} {...this.props} />
-                  )}
-                  {this.state.selectedMode === SCHEDULED_PICKUP && (
-                    <ReturnCliqAndPiqContainer
-                      {...this.state}
-                      {...this.props}
-                    />
-                  )}
-                  {(this.state.selectedMode === SCHEDULED_PICKUP ||
-                    this.state.selectedMode === QUICK_DROP) && (
-                    <div className={styles.cancelPickUpButtonHolder}>
-                      <CancelAndContinueButton
-                        handleCancel={() => this.handleCancelPickUP()}
-                        handleContinue={() => this.handleContinuePickUp()}
-                      />
-                    </div>
-                  )}
-                </DeskTopOnly>
               </div>
-            )}
+              <DeskTopOnly>
+                {this.state.selectedMode === QUICK_DROP && (
+                  <ReturnToStoreContainer
+                    {...this.state}
+                    {...this.props}
+                    selectReturnMode={() => this.selectReturnMode()}
+                    cancelReturnMode={() => this.cancelReturnMode()}
+                  />
+                )}
+                {this.state.selectedMode === SCHEDULED_PICKUP && (
+                  <ReturnCliqAndPiqContainer
+                    {...this.state}
+                    {...this.props}
+                    selectReturnMode={() => this.selectReturnMode()}
+                    cancelReturnMode={() => this.cancelReturnMode()}
+                  />
+                )}
+              </DeskTopOnly>
+            </div>
+          )}
           {!this.isReturnModesEnabled() && (
             <div className={styles.text}>
               sorry we are not able to process your request, contact customer

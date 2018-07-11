@@ -14,6 +14,7 @@ import GridSelect from "../../general/components/GridSelect.js";
 import DumbGrid from "../../general/components/DumbGrid";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
+import CancelAndContinueButton from "./CancelAndContinueButton";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -74,7 +75,7 @@ export default class ReturnToStore extends React.Component {
         });
       });
     } else {
-      this.setState({ isStoreSelected: true, storeId });
+      this.setState({ storeId });
     }
   }
   // i am using this function becasue of on pincode section i don't have any
@@ -149,14 +150,16 @@ export default class ReturnToStore extends React.Component {
     }
   };
 
-  handleContinue = () => {
-    if (this.state.storeId) {
-      this.setState({ isStoreSelected: true });
-    }
+  handleContinuePickUp = () => {
+    this.setState({ isStoreSelected: true });
+    console.log("Continue Button clicked");
+    this.props.selectReturnMode();
   };
-  handleCancel = () => {
-    this.setState({ isStoreSelected: false });
+
+  handleCancelPickUP = () => {
+    this.props.cancelReturnMode();
   };
+
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -274,11 +277,19 @@ export default class ReturnToStore extends React.Component {
         cancel={() => this.cancel()}
       />
     );
+
     return (
       <div className={styles.base}>
         <DesktopOnly>
           {!this.state.isStoreSelected && renderStoresMap}
           {this.state.isStoreSelected && renderFinalSubmit}
+
+          <div className={styles.cancelPickUpButtonHolder}>
+            <CancelAndContinueButton
+              handleCancel={() => this.handleCancelPickUP()}
+              handleContinue={() => this.handleContinuePickUp()}
+            />
+          </div>
         </DesktopOnly>
         <MobileOnly>
           {pathname.match(REG_X_FOR_STORE_PICKUP) && renderStoresMap}
