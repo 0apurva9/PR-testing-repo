@@ -42,9 +42,7 @@ export default class ProductGalleryDesktop extends React.Component {
   getPosition(element) {
     let xPosition = 0;
     let yPosition = 0;
-    const scrollTop =
-      (window.pageYOffset || element.scrollTop) - (element.clientTop || 0);
-    console.log(scrollTop);
+
     while (element) {
       xPosition += element.offsetLeft - element.scrollLeft + element.clientLeft;
       yPosition += element.offsetTop - element.scrollTop + element.clientTop;
@@ -59,23 +57,27 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomWidth = element.offsetWidth;
   }
   componentDidMount() {
-    //console.log(this.refs.zoom);
     this.getPosition(this.refs.zoom);
     this.getDimensions(this.refs.zoom);
   }
   handleZoomMove(evt) {
-    const zoomX = // Math.floor(
+    const scrollTop =
+      (window.pageYOffset || this.refs.zoom.scrollTop) -
+      (this.refs.zoom.clientTop || 0);
+    const zoomX =
       (evt.clientX - this.zoomPositionX) / this.zoomWidth * -100 + 25;
-    const zoomY = // Math.floor(
-      (evt.clientY - this.zoomPositionY) / this.zoomHeight * -100 + 25;
+    const zoomY =
+      (evt.clientY - this.zoomPositionY + scrollTop) / this.zoomHeight * -100 +
+      25;
+    setTimeout(() => {
+      if (zoomX <= 0 && zoomX >= -51) {
+        this.setState({ zoomX });
+      }
 
-    if (zoomX <= 0 && zoomX >= -51) {
-      this.setState({ zoomX });
-    }
-    console.log(zoomY);
-    if (zoomY <= 0 && zoomY >= -63) {
-      this.setState({ zoomY });
-    }
+      if (zoomY <= 0 && zoomY >= -63) {
+        this.setState({ zoomY });
+      }
+    }, 0);
   }
   handleMouseEnter() {
     this.setState({ isZoom: true });
@@ -87,7 +89,7 @@ export default class ProductGalleryDesktop extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.content}>
-          {data.map((val, i) => {
+          {this.props.productImages.map((val, i) => {
             let imageClass = styles.image;
             if (
               this.state.position === i ||
@@ -138,7 +140,7 @@ export default class ProductGalleryDesktop extends React.Component {
           </div>
         </div>
         <div className={styles.nav}>
-          {data.map((val, i) => {
+          {this.props.thumbNailImages.map((val, i) => {
             const position = this.state.position;
             return (
               <div
@@ -175,7 +177,7 @@ export default class ProductGalleryDesktop extends React.Component {
               }%)`
             }}
           >
-            <Image image={zoomData[this.state.position]} />
+            <Image image={this.props.zoomImages[this.state.position]} />
           </div>
         </div>
       </div>

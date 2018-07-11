@@ -343,20 +343,39 @@ export default class PdpApparel extends React.Component {
   };
   render() {
     const productData = this.props.productDetails;
-    const mobileGalleryImages = productData.galleryImagesList
-      ? productData.galleryImagesList
-          .filter(val => {
-            return val.mediaType === IMAGE;
-          })
-          .map(galleryImageList => {
-            return galleryImageList.galleryImages.filter(galleryImages => {
-              return galleryImages.key === "product";
-            });
-          })
-          .map(image => {
-            return image[0].value;
-          })
+    console.log(productData.galleryImagesList);
+    const images = productData.galleryImagesList
+      ? productData.galleryImagesList.filter(val => {
+          return val.mediaType === IMAGE;
+        })
       : [];
+    const productImages = images
+      .map(galleryImageList => {
+        return galleryImageList.galleryImages.filter(galleryImages => {
+          return galleryImages.key === "product";
+        });
+      })
+      .map(image => {
+        return image[0].value;
+      });
+    const thumbNailImages = images
+      .map(galleryImageList => {
+        return galleryImageList.galleryImages.filter(galleryImages => {
+          return galleryImages.key === "thumbnail";
+        });
+      })
+      .map(image => {
+        return image[0].value;
+      });
+    const zoomImages = images
+      .map(galleryImageList => {
+        return galleryImageList.galleryImages.filter(galleryImages => {
+          return galleryImages.key === "superZoom";
+        });
+      })
+      .map(image => {
+        return image[0].value;
+      });
 
     if (productData) {
       let price = "";
@@ -399,7 +418,12 @@ export default class PdpApparel extends React.Component {
                   })}
                 </ProductGalleryDesktop> */}
 
-                <ProductGalleryDesktop />
+                <ProductGalleryDesktop
+                  data={productData.galleryImagesList}
+                  productImages={productImages}
+                  thumbNailImages={thumbNailImages}
+                  zoomImages={zoomImages}
+                />
                 {(productData.allOOStock ||
                   (productData.winningSellerAvailableStock === "0" &&
                     this.checkIfSizeSelected())) && (

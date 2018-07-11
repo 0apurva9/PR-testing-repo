@@ -198,11 +198,15 @@
     display:inline-block;
     max-width:1200px;
     text-align:left;
+    position:relative;
   }
   .gallery{
     width:50%;
     display:inline-block;
     vertical-align:top;
+    position:sticky;
+    top:0;
+    z-index:5;
   }
   .content{
     width:50%;
