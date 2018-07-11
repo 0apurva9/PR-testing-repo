@@ -26,12 +26,13 @@
 }
 .navImage{
   width:40px;
-  height:40px;
-  margin:0 20px;
+  height:60px;
+  margin:0 15px;
   display:inline-block;
   vertical-align:top;
   transition:300ms;
   opacity:0.3;
+  position:relative;
   cursor:pointer;
 }
 .navActive{
@@ -45,18 +46,20 @@
   position:absolute;
   top:-40px;
   bottom:0;
-  right:0;
+  right:20px;
   margin:auto;
   background:url("../../general/components/img/down-arrow-grey.svg");
   background-position:center;
   background-size:contain;
   transform:rotate(-90deg);
+  cursor:pointer;
+  opacity:0.6;
 }
 .navArrowBack{
   composes:navArrow;
   transform:rotate(90deg);
   right:initial;
-  left:0;
+  left:20px;
 }
 
 @keyframes slideInRight {
@@ -107,4 +110,45 @@
 .slideOutLeft{
   composes:image;
   animation: slideOutLeft 200ms forwards;
+}
+
+.zoom{
+  width:100%;
+  height:auto;
+  padding-bottom:100%;
+  position:absolute;
+  top:0;
+  left:100%;
+  z-index:10;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+}
+.zoomVisible{
+  composes:zoom;
+  opacity:1;
+}
+.zoomer{
+  width:200%;
+  height:266%;
+  /* will-change: transform; */
+  will-change:transform, left , top;
+  position:absolute;
+  left:0;
+  top:0;
+}
+.zoomArea{
+  width:50%;
+  padding-bottom:50%;
+  position:absolute;
+  will-change: transform;
+  cursor:zoom-in;
+  top:0;
+  left:0;
+  background:rgba(255,255,255,0.6);
+}
+.hideZoomArea{
+  composes:zoomArea;
+  opacity:0;
+  pointer-events:none;
 }
