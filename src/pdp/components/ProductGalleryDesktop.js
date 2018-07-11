@@ -1,20 +1,7 @@
 import React from "react";
 import Image from "../../xelpmoc-core/Image";
 import styles from "./ProductGalleryDesktop.css";
-const data = [
-  "https://i.pinimg.com/564x/eb/3a/2c/eb3a2c2b981176de7a5c83024c1f0614.jpg",
-  "https://i.pinimg.com/564x/8d/0a/14/8d0a1416ff5bb5f91c745560323c3dd2.jpg",
-  "https://i.pinimg.com/564x/2b/a4/37/2ba4372c8829cb44b66ad65a7eabe784.jpg",
-  "https://i.pinimg.com/564x/f3/b2/61/f3b261b5e3911b5a1f2c062cc4a12414.jpg",
-  "https://i.pinimg.com/564x/3d/bc/92/3dbc92f28e29c04805efcf6bc398ae8b.jpg"
-];
-const zoomData = [
-  "https://i.pinimg.com/564x/eb/3a/2c/eb3a2c2b981176de7a5c83024c1f0614.jpg",
-  "https://i.pinimg.com/564x/8d/0a/14/8d0a1416ff5bb5f91c745560323c3dd2.jpg",
-  "https://i.pinimg.com/564x/2b/a4/37/2ba4372c8829cb44b66ad65a7eabe784.jpg",
-  "https://i.pinimg.com/564x/f3/b2/61/f3b261b5e3911b5a1f2c062cc4a12414.jpg",
-  "https://i.pinimg.com/564x/3d/bc/92/3dbc92f28e29c04805efcf6bc398ae8b.jpg"
-];
+
 export default class ProductGalleryDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +18,12 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomWidth = null;
   }
   swapViews(prev, next) {
-    if (prev > -1 && next > -1 && next < data.length && prev !== next) {
+    if (
+      prev > -1 &&
+      next > -1 &&
+      next < this.props.productImages.length &&
+      prev !== next
+    ) {
       this.setState({
         previousPage: prev,
         nextPage: next,
@@ -131,8 +123,6 @@ export default class ProductGalleryDesktop extends React.Component {
                 this.state.isZoom ? styles.zoomArea : styles.hideZoomArea
               }
               style={{
-                // transform: `translateX(${-this.state
-                //     .zoomX}%) translateY(${-this.state.zoomY}%)`
                 left: `${-this.state.zoomX}%`,
                 top: `${-this.state.zoomY}%`
               }}

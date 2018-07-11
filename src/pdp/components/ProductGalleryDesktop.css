@@ -96,7 +96,6 @@
 }
 .slideInRight{
   composes:image;
-  /* transform: translateX(100%); */
   animation: slideInRight 200ms forwards;
 }
 .slideInLeft{
@@ -123,6 +122,7 @@
   overflow:hidden;
   opacity:0;
   pointer-events:none;
+  box-shadow:0 0 10px 0 rgba(0,0,0,0.2)
 }
 .zoomVisible{
   composes:zoom;
@@ -131,8 +131,7 @@
 .zoomer{
   width:200%;
   height:266%;
-  /* will-change: transform; */
-  will-change:transform, left , top;
+  will-change: left , top;
   position:absolute;
   left:0;
   top:0;
