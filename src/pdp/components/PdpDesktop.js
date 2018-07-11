@@ -343,7 +343,6 @@ export default class PdpApparel extends React.Component {
   };
   render() {
     const productData = this.props.productDetails;
-    console.log(productData.galleryImagesList);
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
           return val.mediaType === IMAGE;
