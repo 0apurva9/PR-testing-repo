@@ -135,19 +135,7 @@
     width: 100%;
     height: auto;
     display: inline-block;
-  }
-  .cancelPickUp {
-    width: auto;
-    height: auto;
-    float: right;
-    padding-right: 30px;
-    display: inline-block;
-  }
-  .continuePickup {
-    width: auto;
-    height: auto;
-    float: right;
-    display: inline-block;
+    padding-bottom: 25px;
   }
   .titleAddress {
     width: 100%;

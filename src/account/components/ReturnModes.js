@@ -275,8 +275,8 @@ export default class ReturnModes extends React.Component {
                     this.state.selectedMode === QUICK_DROP) && (
                     <div className={styles.cancelPickUpButtonHolder}>
                       <CancelAndContinueButton
-                        handleCancel={() => this.handleCancel()}
-                        handleContinue={() => this.handleContinue()}
+                        handleCancel={() => this.handleCancelPickUP()}
+                        handleContinue={() => this.handleContinuePickUp()}
                       />
                     </div>
                   )}
