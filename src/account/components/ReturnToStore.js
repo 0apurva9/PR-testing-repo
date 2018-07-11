@@ -11,7 +11,7 @@ import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import SearchLocationByPincode from "../../cart/components/SearchLocationByPincode";
 import PickUpLocation from "../../cart/components/PickUpLocation";
 import GridSelect from "../../general/components/GridSelect.js";
-
+import DumbGrid from "../../general/components/DumbGrid";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -220,16 +220,10 @@ export default class ReturnToStore extends React.Component {
           {this.props.returnRequest &&
             this.props.returnRequest.returnStoreDetailsList &&
             !this.props.showPickupPerson && (
-              <div className={styles.abcd}>
-                <GridSelect
-                  limit={1}
-                  offset={0}
-                  elementWidthDesktop={100}
-                  onSelect={val => this.selectStoreForDesktop(val)}
-                >
+              <div className={styles.addressDetail}>
+                <DumbGrid limit={1} offset={0} elementWidthDesktop={100}>
                   {this.props.returnRequest.returnStoreDetailsList.map(
                     (val, i) => {
-                      console.log(val);
                       return (
                         <PickUpLocation
                           key={i}
@@ -252,7 +246,7 @@ export default class ReturnToStore extends React.Component {
                       );
                     }
                   )}
-                </GridSelect>
+                </DumbGrid>
               </div>
             )}
         </DesktopOnly>
