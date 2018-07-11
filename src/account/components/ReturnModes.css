@@ -131,4 +131,22 @@
     padding-left: 40px;
     width: 100%;
   }
+  .cancelPickUpButtonHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .cancelPickUp {
+    width: auto;
+    height: auto;
+    float: right;
+    padding-right: 30px;
+    display: inline-block;
+  }
+  .continuePickup {
+    width: auto;
+    height: auto;
+    float: right;
+    display: inline-block;
+  }
 }

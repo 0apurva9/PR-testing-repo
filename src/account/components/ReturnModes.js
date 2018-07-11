@@ -204,6 +204,29 @@ export default class ReturnModes extends React.Component {
               {this.state.selectedMode === SCHEDULED_PICKUP && (
                 <ReturnCliqAndPiqContainer {...this.state} {...this.props} />
               )}
+              <DeskTopOnly>
+                {this.state.selectedMode === SCHEDULED_PICKUP && (
+                  <div className={styles.cancelPickUpButtonHolder}>
+                    <div className={styles.continuePickup}>
+                      <div className={styles.button}>
+                        <Button
+                          width={175}
+                          type="primary"
+                          label={"Continue"}
+                          onClick={() => this.handleContinuePickUp()}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.cancelPickUp}>
+                      <UnderLinedButton
+                        label="Cancel"
+                        color="#000000"
+                        onClick={() => this.handleCancelPickUP()}
+                      />
+                    </div>
+                  </div>
+                )}
+              </DeskTopOnly>
             </div>
           )}
           {!this.isReturnModesEnabled() && (
