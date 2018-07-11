@@ -127,8 +127,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
 
     return <React.Fragment>{pdpToRender({ ...this.props })}</React.Fragment>;
   };
-  renderTags = () => {
-    console.log(this.props);
+  renderAmpTags = () => {
     if (AMP_PRODUCT_CODE_REG_EX.test(this.props.history.location.pathname)) {
       let productCode = /mp[0-9]+/i.test(this.props.match.params[0])
         ? this.props.match.params[0]
@@ -162,7 +161,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       if (!this.props.showPiqPage) {
         return (
           <div itemScope itemType="http://schema.org/Product">
-            {this.renderTags()}
+            {this.renderAmpTags()}
             {this.props.productDetails.seo
               ? renderMetaTags(this.props.productDetails)
               : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
