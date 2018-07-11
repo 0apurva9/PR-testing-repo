@@ -164,9 +164,9 @@ export function getProductListings(
   isFilter: false
 ) {
   return async (dispatch, getState, { api }) => {
+    dispatch(showSecondaryLoader());
     if (checkUserAgentIsMobile()) {
       dispatch(getProductListingsRequest(paginated, isFilter));
-      dispatch(showSecondaryLoader());
     } else {
       dispatch(getProductListingsRequestWithoutClear(paginated, isFilter));
     }
@@ -232,29 +232,19 @@ export function getProductListings(
       if (paginated) {
         if (resultJson.searchresult) {
           dispatch(getProductListingsPaginatedSuccess(resultJson, true));
-          if (checkUserAgentIsMobile()) {
-            dispatch(hideSecondaryLoader());
-          }
+          dispatch(hideSecondaryLoader());
         }
       } else if (isFilter) {
         dispatch(updateFacets(resultJson));
-
-        if (checkUserAgentIsMobile()) {
-          dispatch(hideSecondaryLoader());
-        }
+        dispatch(hideSecondaryLoader());
       } else {
         dispatch(setLastPlpPath(window.location.href));
         dispatch(getProductListingsSuccess(resultJson, paginated));
-
-        if (checkUserAgentIsMobile()) {
-          dispatch(hideSecondaryLoader());
-        }
+        dispatch(hideSecondaryLoader());
       }
     } catch (e) {
       dispatch(getProductListingsFailure(e.message, paginated));
-      if (checkUserAgentIsMobile()) {
-        dispatch(hideSecondaryLoader());
-      }
+      dispatch(hideSecondaryLoader());
     }
   };
 }

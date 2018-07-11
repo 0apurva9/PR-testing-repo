@@ -221,6 +221,12 @@ export default class FilterDesktop extends React.Component {
                         key={i}
                         text={facetDataValues.name}
                         headerFontSize={16}
+                        isOpen={
+                          facetDataValues.values &&
+                          facetDataValues.values.filter(filter => {
+                            return filter.selected;
+                          }).length > 0
+                        }
                       >
                         {facetDataValues &&
                           facetDataValues.name === COLOUR &&
