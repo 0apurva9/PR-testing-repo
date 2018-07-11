@@ -199,8 +199,8 @@ export default class ReturnReasonAndModes extends React.Component {
               <div className={MyAccountStyles.profileMenu}>
                 <ProfileMenu {...this.props} />
               </div>
-              <div className={styles.saveListDetail}>
-                <div className={styles.saveListDetailsWithHolder}>
+              <div className={styles.returnReasonDetail}>
+                <div className={styles.returnReasonDetailHolder}>
                   {!this.state.isReasonSelected && renderReasonForm}
                   {this.state.isReasonSelected && renderReturnMode}
                 </div>

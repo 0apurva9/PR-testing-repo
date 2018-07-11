@@ -158,6 +158,43 @@ export default class ReturnModes extends React.Component {
                 {this.props.selectedReason}
               </div>
             </div>
+
+            <div className={styles.selectedDefectiveNode}>
+              <div className={styles.headerForDefectiveReason}>
+                Select mode of return
+              </div>
+              <div className={styles.cancelButtonHolder}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000000"
+                  label="Change"
+                  onClick={() => this.handleCancel()}
+                />
+              </div>
+              <div className={styles.checkIcon}>
+                <Icon image={checkIcon} size={40} />
+              </div>
+              <div className={styles.defectiveProductData}>
+                <div className={styles.titleAddress}>{"Home"}</div>
+                <div className={styles.titleDescription}>
+                  {"Lal Bahadur Shastri Marg, Chandan Nagar,"}
+                </div>
+                <div className={styles.subTitleDescription}>
+                  {" Vikhroli West, Mumbai, Maharashtra 400012"}
+                </div>
+              </div>
+              <div className={styles.dateAndTimeHolder}>
+                <div className={styles.date}>
+                  <div className={styles.dateHeader}>Date:</div>
+                  <div className={styles.dateAndTimeDetail}>9th Dec 2018</div>
+                </div>
+                <div className={styles.time}>
+                  <div className={styles.TimeHeader}>Time:</div>
+                  <div className={styles.dateAndTimeDetail}>11:00 AM</div>
+                </div>
+              </div>
+            </div>
           </DeskTopOnly>
           {this.isReturnModesEnabled() && (
             <div className={styles.returnModes}>

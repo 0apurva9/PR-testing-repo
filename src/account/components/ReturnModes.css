@@ -149,4 +149,58 @@
     float: right;
     display: inline-block;
   }
+  .titleAddress {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    font-family: semibold;
+  }
+  .titleDescription,
+  .subTitleDescription {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    font-family: light;
+    line-height: 20px;
+  }
+  .dateAndTimeHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding-left: 40px;
+    padding-top: 30px;
+  }
+  .dateHeader {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    font-size: 14px;
+    font-family: semibold;
+  }
+  .TimeHeader {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    font-size: 14px;
+    font-family: semibold;
+  }
+  .date {
+    width: auto;
+    height: auto;
+    display: inline-block;
+  }
+  .time {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    padding-left: 50px;
+  }
+  .dateAndTimeDetail {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    font-size: 14px;
+    font-family: light;
+    padding-left: 10px;
+  }
 }
