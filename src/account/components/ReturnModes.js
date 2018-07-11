@@ -13,12 +13,13 @@ import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
 import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
 import SelfCourierContainer from "../containers/SelfCourierContainer.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-
+import _ from "lodash";
 import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
+
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -59,6 +60,9 @@ export default class ReturnModes extends React.Component {
       />
     );
   }
+  handleCancelForReturn = () => {
+    this.setState({ isModeSelected: false });
+  };
 
   isReturnModesEnabled = () => {
     const data = this.props.returnProductDetails;
@@ -72,13 +76,11 @@ export default class ReturnModes extends React.Component {
     return false;
   };
 
-  selectReturnMode = () => {
-    console.log("Continue Button clicked in reurn mode");
+  selectReturnMode = id => {
     this.setState({ isModeSelected: true });
   };
   cancelReturnMode = () => {
-    console.log("Continue Button clicked in reurn mode");
-    this.setState({ isModeSelected: false });
+    this.setState({ isModeSelected: false, selectedMode: null });
   };
   render() {
     // Preventing user to open this page direct by hitting URL
@@ -155,21 +157,6 @@ export default class ReturnModes extends React.Component {
               titleDescription={this.props.selectedReason}
               handleCancel={() => this.handleCancel()}
             />
-            {this.state.isModeSelected && (
-              <React.Fragment>
-                <SelectedReasonForReturn
-                  header={"Select reason for your return"}
-                  title={"Home"}
-                  titleDescription={"Lal Bahadur Shastri Marg, Chandan Nagar,"}
-                  subTitleDescription={
-                    " Vikhroli West, Mumbai, Maharashtra 400012"
-                  }
-                  date={"9th Dec 2018"}
-                  time={"11:00 AM"}
-                  handleCancel={() => this.handleCancel()}
-                />
-              </React.Fragment>
-            )}
           </DeskTopOnly>
           {this.isReturnModesEnabled() && (
             <div className={styles.returnModes}>
@@ -221,7 +208,7 @@ export default class ReturnModes extends React.Component {
                   <ReturnToStoreContainer
                     {...this.state}
                     {...this.props}
-                    selectReturnMode={() => this.selectReturnMode()}
+                    selectReturnMode={storeId => this.selectReturnMode(storeId)}
                     cancelReturnMode={() => this.cancelReturnMode()}
                   />
                 )}

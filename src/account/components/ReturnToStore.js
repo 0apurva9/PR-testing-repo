@@ -15,6 +15,8 @@ import DumbGrid from "../../general/components/DumbGrid";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import CancelAndContinueButton from "./CancelAndContinueButton";
+import SelectedReasonForReturn from "./SelectedReasonForReturn";
+import find from "lodash.find";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -88,7 +90,11 @@ export default class ReturnToStore extends React.Component {
   }
 
   cancel = () => {
-    this.props.history.goBack();
+    if (checkUserAgentIsMobile()) {
+      this.props.history.goBack();
+    } else {
+      this.handleCancelForReturn();
+    }
   };
 
   finalSubmit() {
@@ -153,13 +159,17 @@ export default class ReturnToStore extends React.Component {
   handleContinuePickUp = () => {
     this.setState({ isStoreSelected: true });
     console.log("Continue Button clicked");
-    this.props.selectReturnMode();
+    this.props.selectReturnMode(this.state.storeId);
   };
 
   handleCancelPickUP = () => {
     this.props.cancelReturnMode();
   };
 
+  handleCancelForReturn = () => {
+    this.setState({ isStoreSelected: false, storeId: null });
+    this.props.cancelReturnMode();
+  };
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -277,11 +287,33 @@ export default class ReturnToStore extends React.Component {
         cancel={() => this.cancel()}
       />
     );
+    let returnAddressDetails =
+      this.props.returnRequest &&
+      this.props.returnRequest.returnStoreDetailsList &&
+      this.props.returnRequest.returnStoreDetailsList.find(store => {
+        return store.slaveId === this.state.storeId;
+      });
 
     return (
       <div className={styles.base}>
         <DesktopOnly>
           {!this.state.isStoreSelected && renderStoresMap}
+          {this.state.isStoreSelected && (
+            <React.Fragment>
+              <SelectedReasonForReturn
+                header={"Select reason for your return"}
+                title={returnAddressDetails.displayName}
+                titleDescription={`${returnAddressDetails.address.line1}, ${
+                  returnAddressDetails.address.line2
+                }`}
+                subTitleDescription={`${returnAddressDetails.address.city}
+                    , ${returnAddressDetails.address.postalCode}`}
+                date={"9th Dec 2018"}
+                time={"11:00 AM"}
+                handleCancel={() => this.handleCancelForReturn()}
+              />
+            </React.Fragment>
+          )}
           {this.state.isStoreSelected && renderFinalSubmit}
 
           <div className={styles.cancelPickUpButtonHolder}>
