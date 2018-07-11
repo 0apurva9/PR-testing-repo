@@ -412,12 +412,6 @@ export default class PdpApparel extends React.Component {
           <div className={styles.base}>
             <div className={styles.pageCenter}>
               <div className={styles.gallery}>
-                {/* <ProductGalleryDesktop>
-                  {mobileGalleryImages.map((val, idx) => {
-                    return <Image lazyLoad={true} image={val} key={idx} />;
-                  })}
-                </ProductGalleryDesktop> */}
-
                 <ProductGalleryDesktop
                   data={productData.galleryImagesList}
                   productImages={productImages}

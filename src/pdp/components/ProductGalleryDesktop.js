@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "../../xelpmoc-core/Image";
+import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
 
 export default class ProductGalleryDesktop extends React.Component {
@@ -174,3 +175,9 @@ export default class ProductGalleryDesktop extends React.Component {
     );
   }
 }
+
+ProductGalleryDesktop = {
+  productImages: PropTypes.arrayOf(PropTypes.string),
+  thumbNailImages: PropTypes.arrayOf(PropTypes.string),
+  zoomImages: PropTypes.arrayOf(PropTypes.string)
+};
