@@ -30,6 +30,7 @@ import {
 } from "../../lib/constants";
 const REG_X_FOR_STORE_PICKUP = /storePick/i;
 const REG_X_FOR_FINAL_SUBMIT = /submit/i;
+const ERROR_MESSAGE = "Please select Store";
 
 export default class ReturnToStore extends React.Component {
   constructor(props) {
@@ -157,9 +158,12 @@ export default class ReturnToStore extends React.Component {
   };
 
   handleContinuePickUp = () => {
-    this.setState({ isStoreSelected: true });
-    console.log("Continue Button clicked");
-    this.props.selectReturnMode(this.state.storeId);
+    if (this.state.storeId) {
+      this.setState({ isStoreSelected: true });
+      this.props.selectReturnMode(this.state.storeId);
+    } else {
+      this.props.displayToast(ERROR_MESSAGE);
+    }
   };
 
   handleCancelPickUP = () => {
@@ -297,22 +301,23 @@ export default class ReturnToStore extends React.Component {
       <div className={styles.base}>
         <DesktopOnly>
           {!this.state.isStoreSelected && renderStoresMap}
-          {this.state.isStoreSelected && (
-            <React.Fragment>
-              <SelectedReasonForReturn
-                header={"Select reason for your return"}
-                title={returnAddressDetails.displayName}
-                titleDescription={`${returnAddressDetails.address.line1}, ${
-                  returnAddressDetails.address.line2
-                }`}
-                subTitleDescription={`${returnAddressDetails.address.city}
+          {this.state.isStoreSelected &&
+            returnAddressDetails && (
+              <React.Fragment>
+                <SelectedReasonForReturn
+                  header={"Select reason for your return"}
+                  title={returnAddressDetails.displayName}
+                  titleDescription={`${returnAddressDetails.address.line1}, ${
+                    returnAddressDetails.address.line2
+                  }`}
+                  subTitleDescription={`${returnAddressDetails.address.city}
                     , ${returnAddressDetails.address.postalCode}`}
-                date={"9th Dec 2018"}
-                time={"11:00 AM"}
-                handleCancel={() => this.handleCancelForReturn()}
-              />
-            </React.Fragment>
-          )}
+                  date={"9th Dec 2018"}
+                  time={"11:00 AM"}
+                  handleCancel={() => this.handleCancelForReturn()}
+                />
+              </React.Fragment>
+            )}
           {this.state.isStoreSelected && renderFinalSubmit}
 
           <div className={styles.cancelPickUpButtonHolder}>
