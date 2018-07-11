@@ -7,6 +7,10 @@
   top: 0;
   background: #212121;
 }
+.CheckoutHeader {
+  composes: base;
+  height: 75px;
+}
 .dummyColorHeader {
   width: 30%;
   height: 40px;
@@ -22,6 +26,11 @@
   margin: auto;
   padding-left: 185px;
   position: relative;
+}
+.headerFunctionality {
+  width: 100%;
+  height: auto;
+  float: left;
 }
 .logoHolder {
   width: 85px;
@@ -87,6 +96,7 @@
   float: right;
   padding: 15px 0px;
 }
+
 .myBagShow {
   width: auto;
   height: 30px;
@@ -126,7 +136,6 @@
   width: auto;
   height: 30px;
   color: #fff;
-
   padding-right: 20px;
   line-height: 30px;
   margin-right: 25px;
@@ -137,4 +146,36 @@
   background-position: right center;
   font-size: 14px;
   font-family: semibold;
+}
+.profileWonerHolder {
+  width: auto;
+  height: 100%;
+  float: right;
+  padding: 25px 0px;
+}
+.nameAndContact {
+  width: auto;
+  height: 25px;
+  float: left;
+  position: relative;
+  padding-left: 35px;
+  color: #fff;
+  font-size: 14px;
+  font-family: light;
+  line-height: 25px;
+}
+.nameSpan {
+  font-family: semibold;
+  padding-right: 10px;
+}
+.iconPersonHolder {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: #fff url(./img/profile.png) no-repeat;
+  background-size: cover;
+  background-position: center;
 }
