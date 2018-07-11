@@ -1,7 +1,6 @@
 import React from "react";
 import PdpFrame from "./PdpFrame";
 import find from "lodash.find";
-import Image from "../../xelpmoc-core/Image";
 import ProductGalleryDesktop from "./ProductGalleryDesktop";
 import JewelleryCertification from "./JewelleryCertification";
 import ProductFeatures from "./ProductFeatures";
@@ -12,6 +11,10 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
+import Button from "../../general/components/Button";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+
 import * as Cookie from "../../lib/Cookie";
 import {
   CUSTOMER_ACCESS_TOKEN,
@@ -36,7 +39,7 @@ const ProductDetailsMainCard = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+const WISHLIST_ICON_TYPE = "wishlistIcon";
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
   loading: () => <div />,
@@ -409,14 +412,6 @@ export default class PdpApparel extends React.Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
-          productListingId={productData.productListingId}
-          outOfStock={
-            productData.allOOStock ||
-            !productData.winningSellerPrice ||
-            (productData.winningSellerAvailableStock === "0" &&
-              this.checkIfSizeSelected())
-          }
           ussId={productData.winningUssID}
         >
           <div className={styles.base}>
@@ -489,7 +484,7 @@ export default class PdpApparel extends React.Component {
                   />
                 </div>
                 {productData.variantOptions && (
-                  <div className={styles.separator}>
+                  <div>
                     {!this.checkIfNoSize() &&
                       !this.checkIfSizeDoesNotExist() && (
                         <React.Fragment>
@@ -588,14 +583,43 @@ export default class PdpApparel extends React.Component {
                     />
                   </div>
                 )}
-                <div className={styles.separator}>
-                  <div className={styles.horizontalOffset}>
+
+                <div className={styles.horizontalOffset}>
+                  <div className={styles.buttonHolder}>
+                    <Button
+                      type="primary"
+                      height={45}
+                      width={195}
+                      label="Add to bag"
+                      onClick={() => this.addToCart()}
+                      disabled={
+                        productData.allOOStock ||
+                        !productData.winningSellerPrice ||
+                        (productData.winningSellerAvailableStock === "0" &&
+                          this.checkIfSizeSelected())
+                      }
+                    />
+                  </div>
+                  <div className={styles.buttonHolder}>
+                    <AddToWishListButtonContainer
+                      type={WISHLIST_ICON_TYPE}
+                      productListingId={this.props.productListingId}
+                      winningUssID={this.props.winningUssID}
+                      setDataLayerType={
+                        SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                      }
+                    />
+                  </div>
+                </div>
+                <div className={styles.horizontalOffset}>
+                  <div className={styles.separator}>
                     <OtherSellersLink
                       otherSellers={productData.otherSellers}
                       winningSeller={productData.winningSellerName}
                     />
                   </div>
                 </div>
+
                 <div className={styles.horizontalOffset}>
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.pinCode ? (
