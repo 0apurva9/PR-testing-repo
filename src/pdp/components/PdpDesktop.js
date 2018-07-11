@@ -190,27 +190,38 @@ export default class PdpApparel extends React.Component {
           this.checkIfFreeSize() ||
           this.checkIfNoSize()
         ) {
-          if (userDetails) {
-            if (cartDetailsLoggedInUser && customerCookie) {
-              this.props.addProductToCart(
-                JSON.parse(userDetails).userName,
-                JSON.parse(cartDetailsLoggedInUser).code,
-                JSON.parse(customerCookie).access_token,
-                productDetails
-              );
-            }
+          if (
+            (!this.checkIfQuantitySelected() ||
+              this.state.productQuantityOption === "Quantity") &&
+            this.props.productDetails.rootCategory === "HomeFurnishing"
+          ) {
+            this.props.displayToast("Please select a quantity to continue");
+            this.setState({ quantityError: true });
           } else {
-            if (cartDetailsAnonymous && globalCookie) {
-              this.props.addProductToCart(
-                ANONYMOUS_USER,
-                JSON.parse(cartDetailsAnonymous).guid,
-                JSON.parse(globalCookie).access_token,
-                productDetails
-              );
+            if (userDetails) {
+              if (cartDetailsLoggedInUser && customerCookie) {
+                this.props.addProductToCart(
+                  JSON.parse(userDetails).userName,
+                  JSON.parse(cartDetailsLoggedInUser).code,
+                  JSON.parse(customerCookie).access_token,
+                  productDetails
+                );
+              }
+            } else {
+              if (cartDetailsAnonymous && globalCookie) {
+                this.props.addProductToCart(
+                  ANONYMOUS_USER,
+                  JSON.parse(cartDetailsAnonymous).guid,
+                  JSON.parse(globalCookie).access_token,
+                  productDetails
+                );
+              }
             }
           }
+          this.setState({ sizeError: false });
         } else {
-          this.showSizeSelector();
+          this.props.displayToast("Please select a size to continue");
+          this.setState({ sizeError: true });
         }
       }
     }
@@ -245,7 +256,7 @@ export default class PdpApparel extends React.Component {
   updateSize = () => {
     this.setState({ sizeError: false });
   };
-  //--------------- Ends here---------------------
+  //---------------Functions used only in HomeFurnishings Ends here---------------------
   showPincodeModal() {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
       this.props.showPincodeModal(this.props.match.params[0]);
@@ -427,163 +438,196 @@ export default class PdpApparel extends React.Component {
                 )}
               </div>
               <div className={styles.content}>
-                <ProductDetailsMainCard
-                  brandName={productData.brandName}
-                  productName={productData.productName}
-                  brandUrl={productData.brandURL}
-                  history={this.props.history}
-                  price={price}
-                  doublePrice={seoDoublePrice}
-                  discountPrice={discountPrice}
-                  averageRating={productData.averageRating}
-                  numberOfReviews={productData.numberOfReviews}
-                  goToReviewPage={this.goToReviewPage}
-                  discount={productData.discount}
-                />
+                <div className={styles.horizontalOffset}>
+                  <ProductDetailsMainCard
+                    brandName={productData.brandName}
+                    productName={productData.productName}
+                    brandUrl={productData.brandURL}
+                    history={this.props.history}
+                    price={price}
+                    doublePrice={seoDoublePrice}
+                    discountPrice={discountPrice}
+                    averageRating={productData.averageRating}
+                    numberOfReviews={productData.numberOfReviews}
+                    goToReviewPage={this.goToReviewPage}
+                    discount={productData.discount}
+                  />
+                </div>
                 {productData.details &&
                   (productData.rootCategory === "FineJewellery" ||
                     productData.rootCategory === "FashionJewellery") &&
                   productData.details.length > 0 && (
-                    <div className={styles.info}>
-                      <span className={styles.textOffset}>
-                        {productData.details[0].value}
-                      </span>
-                      {this.state.showProductDetails && (
-                        <div>{productData.productDescription}</div>
-                      )}
-                      {!this.state.showProductDetails && (
-                        <span
-                          className={styles.link}
-                          onClick={this.showProductDetails}
-                        >
-                          Read More
+                    <div className={styles.horizontalOffset}>
+                      <div className={styles.info}>
+                        <span className={styles.textOffset}>
+                          {productData.details[0].value}
                         </span>
-                      )}
+                        {this.state.showProductDetails && (
+                          <div>{productData.productDescription}</div>
+                        )}
+                        {!this.state.showProductDetails && (
+                          <span
+                            className={styles.link}
+                            onClick={this.showProductDetails}
+                          >
+                            Read More
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )}
-                <PdpPaymentInfo
-                  hasEmi={productData.isEMIEligible}
-                  hasCod={productData.isCOD}
-                  showEmiModal={() => this.showEmiModal()}
-                />
-                <OfferCard
-                  showDetails={this.props.showOfferDetails}
-                  potentialPromotions={productData.potentialPromotions}
-                  secondaryPromotions={productData.productOfferMsg}
-                />
+                <div className={styles.horizontalOffset}>
+                  <PdpPaymentInfo
+                    hasEmi={productData.isEMIEligible}
+                    hasCod={productData.isCOD}
+                    showEmiModal={() => this.showEmiModal()}
+                  />
+                  <OfferCard
+                    showDetails={this.props.showOfferDetails}
+                    potentialPromotions={productData.potentialPromotions}
+                    secondaryPromotions={productData.productOfferMsg}
+                  />
+                </div>
                 {productData.variantOptions && (
                   <div className={styles.separator}>
                     {!this.checkIfNoSize() &&
                       !this.checkIfSizeDoesNotExist() && (
                         <React.Fragment>
                           {productData.rootCategory !== "HomeFurnishing" && (
-                            <SizeSelector
-                              history={this.props.history}
-                              sizeSelected={this.checkIfSizeSelected()}
-                              productId={productData.productListingId}
-                              hasSizeGuide={productData.showSizeGuide}
-                              showSizeGuide={this.props.showSizeGuide}
-                              data={productData.variantOptions}
-                            />
+                            <div
+                              className={
+                                this.state.sizeError
+                                  ? styles.sizeError
+                                  : styles.sizeHolder
+                              }
+                            >
+                              <SizeSelector
+                                history={this.props.history}
+                                sizeSelected={this.checkIfSizeSelected()}
+                                productId={productData.productListingId}
+                                hasSizeGuide={productData.showSizeGuide}
+                                showSizeGuide={this.props.showSizeGuide}
+                                data={productData.variantOptions}
+                              />
+                            </div>
                           )}
                           {productData.rootCategory === "HomeFurnishing" && (
                             <React.Fragment>
-                              <SizeQuantitySelect
-                                history={this.props.history}
-                                sizeError={this.state.sizeError}
-                                quantityError={this.state.quantityError}
-                                showSizeGuide={
-                                  productData.showSizeGuide
-                                    ? this.props.showSizeGuide
-                                    : null
+                              <div
+                                className={
+                                  this.state.sizeError ||
+                                  this.state.quantityError
+                                    ? styles.sizeError
+                                    : styles.sizeHolder
                                 }
-                                data={productData.variantOptions}
-                                maxQuantity={productData.maxQuantityAllowed}
-                                updateQuantity={this.updateQuantity}
-                                updateSize={this.updateSize}
-                                checkIfSizeSelected={this.checkIfSizeSelected}
-                                checkIfQuantitySelected={
-                                  this.checkIfQuantitySelected
-                                }
-                                productQuantity={
-                                  this.state.productQuantityOption
-                                }
-                              />
-
-                              <div className={styles.customisation}>
-                                <div className={styles.customiseText}>
-                                  Customisation available - Contact seller for
-                                  Free Monogramming
-                                </div>
-                                {productData.buyingGuideUrl && (
-                                  <div className={styles.customisationButton}>
-                                    <UnderLinedButton
-                                      label="Checkout our buying guide"
-                                      onClick={() =>
-                                        this.goToBuyingGuide(
-                                          productData.buyingGuideUrl
-                                        )
-                                      }
-                                      color="#ff1744"
-                                    />
+                              >
+                                <SizeQuantitySelect
+                                  history={this.props.history}
+                                  sizeError={this.state.sizeError}
+                                  quantityError={this.state.quantityError}
+                                  showSizeGuide={
+                                    productData.showSizeGuide
+                                      ? this.props.showSizeGuide
+                                      : null
+                                  }
+                                  data={productData.variantOptions}
+                                  maxQuantity={productData.maxQuantityAllowed}
+                                  updateQuantity={this.updateQuantity}
+                                  updateSize={this.updateSize}
+                                  checkIfSizeSelected={this.checkIfSizeSelected}
+                                  checkIfQuantitySelected={
+                                    this.checkIfQuantitySelected
+                                  }
+                                  productQuantity={
+                                    this.state.productQuantityOption
+                                  }
+                                />
+                              </div>
+                              <div className={styles.horizontalOffset}>
+                                <div className={styles.customisation}>
+                                  <div className={styles.customiseText}>
+                                    Customisation available - Contact seller for
+                                    Free Monogramming
                                   </div>
-                                )}
+                                  {productData.buyingGuideUrl && (
+                                    <div className={styles.customisationButton}>
+                                      <UnderLinedButton
+                                        label="Checkout our buying guide"
+                                        onClick={() =>
+                                          this.goToBuyingGuide(
+                                            productData.buyingGuideUrl
+                                          )
+                                        }
+                                        color="#ff1744"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </React.Fragment>
                           )}
                         </React.Fragment>
                       )}
-
-                    <ColourSelector
-                      data={productData.variantOptions}
-                      productId={productData.productListingId}
-                      history={this.props.history}
-                      updateColour={val => {}}
-                      getProductSpecification={
-                        this.props.getProductSpecification
-                      }
-                    />
+                    <div className={styles.horizontalOffset}>
+                      <ColourSelector
+                        data={productData.variantOptions}
+                        productId={productData.productListingId}
+                        history={this.props.history}
+                        updateColour={val => {}}
+                        getProductSpecification={
+                          this.props.getProductSpecification
+                        }
+                      />
+                    </div>
                   </div>
                 )}
                 {productData.certificationMapFrJwlry && (
-                  <JewelleryCertification
-                    certifications={productData.certificationMapFrJwlry}
-                  />
+                  <div className={styles.horizontalOffset}>
+                    <JewelleryCertification
+                      certifications={productData.certificationMapFrJwlry}
+                    />
+                  </div>
                 )}
                 <div className={styles.separator}>
-                  <OtherSellersLink
-                    otherSellers={productData.otherSellers}
-                    winningSeller={productData.winningSellerName}
-                  />
+                  <div className={styles.horizontalOffset}>
+                    <OtherSellersLink
+                      otherSellers={productData.otherSellers}
+                      winningSeller={productData.winningSellerName}
+                    />
+                  </div>
                 </div>
-                {this.props.productDetails.isServiceableToPincode &&
-                this.props.productDetails.isServiceableToPincode.pinCode ? (
-                  <PdpPincode
-                    hasPincode={true}
-                    pincode={
-                      this.props.productDetails.isServiceableToPincode.pinCode
-                    }
-                    onClick={() => this.showPincodeModal()}
-                  />
-                ) : (
-                  <PdpPincode onClick={() => this.showPincodeModal()} />
-                )}
-                {this.props.productDetails.isServiceableToPincode &&
-                this.props.productDetails.isServiceableToPincode.status ===
-                  NO ? (
-                  <Overlay labelText="This item can't be delivered to your PIN code">
+                <div className={styles.horizontalOffset}>
+                  {this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode.pinCode ? (
+                    <PdpPincode
+                      hasPincode={true}
+                      pincode={
+                        this.props.productDetails.isServiceableToPincode.pinCode
+                      }
+                      onClick={() => this.showPincodeModal()}
+                    />
+                  ) : (
+                    <PdpPincode onClick={() => this.showPincodeModal()} />
+                  )}
+                  {this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode.status ===
+                    NO ? (
+                    <Overlay labelText="This item can't be delivered to your PIN code">
+                      <PdpDeliveryModes
+                        eligibleDeliveryModes={
+                          productData.eligibleDeliveryModes
+                        }
+                        deliveryModesATP={productData.deliveryModesATP}
+                      />
+                    </Overlay>
+                  ) : (
                     <PdpDeliveryModes
+                      onPiq={this.handleShowPiqPage}
                       eligibleDeliveryModes={productData.eligibleDeliveryModes}
                       deliveryModesATP={productData.deliveryModesATP}
                     />
-                  </Overlay>
-                ) : (
-                  <PdpDeliveryModes
-                    onPiq={this.handleShowPiqPage}
-                    eligibleDeliveryModes={productData.eligibleDeliveryModes}
-                    deliveryModesATP={productData.deliveryModesATP}
-                  />
-                )}
+                  )}
+                </div>
               </div>
             </div>
             <div className={styles.details}>

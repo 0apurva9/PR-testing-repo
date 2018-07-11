@@ -1,7 +1,7 @@
 .base{
   width:100%;
   height:auto;
-  padding:0 80px;
+  padding:0 50px;
   position:relative;
 }
 .content{
@@ -46,7 +46,7 @@
   position:absolute;
   top:-40px;
   bottom:0;
-  right:20px;
+  right:10px;
   margin:auto;
   background:url("../../general/components/img/down-arrow-grey.svg");
   background-position:center;
@@ -59,7 +59,7 @@
   composes:navArrow;
   transform:rotate(90deg);
   right:initial;
-  left:20px;
+  left:10px;
 }
 
 @keyframes slideInRight {
