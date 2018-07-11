@@ -10,6 +10,7 @@
     bottom: 0px;
     padding: 30px 0px;
     border-bottom: 1px solid #a3a3a3;
+    background: #fff;
   }
   .locationWithPincode {
     width: 50%;
@@ -28,5 +29,7 @@
     width: 100%;
     height: auto;
     display: inline-block;
+    background: #fff;
+    padding: 20px 25px 50px 25px;
   }
 }

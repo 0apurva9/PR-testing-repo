@@ -83,6 +83,7 @@ export default class ReturnModes extends React.Component {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
   render() {
+    console.log(this.state);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -159,7 +160,13 @@ export default class ReturnModes extends React.Component {
             />
           </DeskTopOnly>
           {this.isReturnModesEnabled() && (
-            <div className={styles.returnModes}>
+            <div
+              className={
+                !this.state.isModeSelected
+                  ? styles.refundableModes
+                  : styles.returnModes
+              }
+            >
               {!this.state.isModeSelected && (
                 <DeskTopOnly>
                   <div className={styles.header}>
@@ -204,6 +211,7 @@ export default class ReturnModes extends React.Component {
                     )}
                 </div>
               )}
+
               <DeskTopOnly>
                 {this.state.selectedMode === QUICK_DROP && (
                   <ReturnToStoreContainer

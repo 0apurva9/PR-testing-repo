@@ -58,15 +58,21 @@
     margin-bottom: 10px;
     border-radius: 4px;
   }
-  .returnModes {
+  .returnModesWithHeader {
     background: #fff;
     padding: 20px;
-    border-radius: 4px;
   }
   .returnModesWithBorder {
     border-bottom: 1px solid #ececec;
     border-top: 1px solid #ececec;
     padding: 0px 20px;
+  }
+  .refundableModes {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
   }
   .circleHolder {
     width: auto;
