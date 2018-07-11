@@ -145,6 +145,7 @@ export default class HeaderWrapper extends React.Component {
       return null;
     }
   };
+
   render() {
     const searchQuery = queryString.parse(this.props.history.location.search);
     const hasAppView = searchQuery.appview;

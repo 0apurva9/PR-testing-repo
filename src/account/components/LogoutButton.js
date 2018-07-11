@@ -3,6 +3,9 @@ import { HOME_ROUTER, SUCCESS, SUCCESS_UPPERCASE } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./LogoutButton.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
+import Button from "../../general/components/Button";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 const LOGOUT_TEXT = "You have logged out successfully";
 export default class LogoutButton extends React.Component {
   async logoutUser() {
@@ -23,15 +26,29 @@ export default class LogoutButton extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base}>
-        <UnderLinedButton
-          size={this.props.size}
-          fontFamily={this.props.fontFamily}
-          color={this.props.color}
-          label={this.props.label}
-          onClick={() => this.logoutUser()}
-        />
-      </div>
+      <React.Fragment>
+        <MobileOnly>
+          <div className={styles.base}>
+            <UnderLinedButton
+              size={this.props.size}
+              fontFamily={this.props.fontFamily}
+              color={this.props.color}
+              label={this.props.label}
+              onClick={() => this.logoutUser()}
+            />
+          </div>
+        </MobileOnly>
+        <DesktopOnly>
+          <div className={styles.logoutHolder}>
+            <Button
+              width={126}
+              type="secondary"
+              label="Logout"
+              onClick={() => this.logoutUser()}
+            />
+          </div>
+        </DesktopOnly>
+      </React.Fragment>
     );
   }
 }
