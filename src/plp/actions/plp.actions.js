@@ -9,7 +9,6 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL
 } from "../../lib/adobeUtils";
-import { displayToast } from "../../general/toast.actions.js";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_SUCCESS = "PRODUCT_LISTINGS_SUCCESS";
 export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
@@ -148,8 +147,7 @@ export function getProductListingsFailure(error, isPaginated) {
 export function getProductListings(
   suffix: null,
   paginated: false,
-  isFilter: false,
-  isApiCall = 0
+  isFilter: false
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductListingsRequest(paginated, isFilter));
@@ -171,7 +169,6 @@ export function getProductListings(
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
       const resultJson = await result.json();
-
       if (resultJson.error) {
         if (
           resultJson &&
