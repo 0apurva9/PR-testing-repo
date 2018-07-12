@@ -31,7 +31,8 @@ const productDescription = (
     storeError: null,
     showPiqPage: false,
     loadingForCliqAndPiq: false,
-    visitedNewProduct: false
+    visitedNewProduct: false,
+    getProductDetailsLoading: false
   },
   action
 ) => {
@@ -70,6 +71,7 @@ const productDescription = (
     case pdpActions.PRODUCT_DESCRIPTION_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
+        getProductDetailsLoading: true,
         loading: true,
         productDetails: null
       });
@@ -79,6 +81,7 @@ const productDescription = (
         status: action.status,
         productDetails: action.productDescription,
         loading: false,
+        getProductDetailsLoading: false,
         visitedNewProduct: true
       });
 
@@ -87,6 +90,7 @@ const productDescription = (
         status: action.status,
         error: action.error,
         loading: false,
+        getProductDetailsLoading: false,
         visitedNewProduct: true
       });
     case pdpActions.SET_TO_OLD:
