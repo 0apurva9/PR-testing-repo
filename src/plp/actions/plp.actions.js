@@ -1,4 +1,10 @@
-import { SUCCESS, REQUESTING, ERROR } from "../../lib/constants";
+import {
+  SUCCESS,
+  REQUESTING,
+  ERROR,
+  TIME_OUT_FOR_APIS,
+  LOW_INTERNET_CONNECTION_MESSAGE
+} from "../../lib/constants";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
@@ -9,6 +15,7 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL
 } from "../../lib/adobeUtils";
+import { displayToast } from "../../general/toast.actions.js";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_SUCCESS = "PRODUCT_LISTINGS_SUCCESS";
 export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
@@ -147,12 +154,18 @@ export function getProductListingsFailure(error, isPaginated) {
 export function getProductListings(
   suffix: null,
   paginated: false,
-  isFilter: false
+  isFilter: false,
+  isApiCall = 0
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductListingsRequest(paginated, isFilter));
     dispatch(showSecondaryLoader());
     try {
+      setTimeout(() => {
+        if (getState().productListings.isPlpLoading) {
+          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
+        }
+      }, TIME_OUT_FOR_APIS);
       const searchState = getState().search;
       const pageNumber = getState().productListings.pageNumber;
       const encodedString =
@@ -169,20 +182,34 @@ export function getProductListings(
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
       const resultJson = await result.json();
+
       if (resultJson.error) {
-        if (
-          resultJson &&
-          resultJson.currentQuery &&
-          resultJson.currentQuery.searchQuery
-        ) {
-          setDataLayer(
-            ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
-            resultJson,
-            getState().icid.value,
-            getState().icid.icidType
+        if (resultJson.status === 404 && isApiCall === 0) {
+          isApiCall = isApiCall + 1;
+          dispatch(
+            getProductListings(
+              (suffix: null),
+              (paginated: false),
+              (isFilter: false),
+              (isApiCall = 0),
+              isApiCall
+            )
           );
+        } else {
+          if (
+            resultJson &&
+            resultJson.currentQuery &&
+            resultJson.currentQuery.searchQuery
+          ) {
+            setDataLayer(
+              ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
+              resultJson,
+              getState().icid.value,
+              getState().icid.icidType
+            );
+          }
+          throw new Error(`${resultJson.error}`);
         }
-        throw new Error(`${resultJson.error}`);
       }
       if (
         resultJson &&
