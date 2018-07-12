@@ -14,3 +14,11 @@
   height: 50px;
   display: hidden;
 }
+.hiddenHeaderDesktop {
+  composes: hiddenHeader;
+  height: 100px;
+}
+.hiddenHeaderCheckout {
+  composes: hiddenHeader;
+  height: 75px;
+}
