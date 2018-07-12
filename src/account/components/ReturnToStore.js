@@ -134,6 +134,7 @@ export default class ReturnToStore extends React.Component {
     // and product is actual object
     this.props.newReturnInitial(productObj, product);
   }
+
   renderLoader() {
     return <Loader />;
   }
