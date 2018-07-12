@@ -24,6 +24,7 @@ import {
   ERROR,
   REQUESTING
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -179,7 +180,13 @@ export default class EditAccountDetails extends React.Component {
     }
   }
   renderChangePassword = () => {
-    this.setState({ changePassword: true });
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.setState({ changePassword: true });
+    } else {
+      if (this.props.showChangePasswordModal) {
+        this.props.showChangePasswordModal();
+      }
+    }
   };
   render() {
     const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -382,16 +389,18 @@ export default class EditAccountDetails extends React.Component {
       );
     } else if (this.state.changePassword) {
       return (
-        <div className={styles.changePasswordPageHolder}>
-          <ChangePassword
-            updatePassword={passwordDetails =>
-              this.changePassword(passwordDetails)
-            }
-            clearChangePasswordDetails={() =>
-              this.props.clearChangePasswordDetails()
-            }
-          />
-        </div>
+        <MobileOnly>
+          <div className={styles.changePasswordPageHolder}>
+            <ChangePassword
+              updatePassword={passwordDetails =>
+                this.changePassword(passwordDetails)
+              }
+              clearChangePasswordDetails={() =>
+                this.props.clearChangePasswordDetails()
+              }
+            />
+          </div>
+        </MobileOnly>
       );
     } else {
       return null;

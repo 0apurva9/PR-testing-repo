@@ -11,6 +11,7 @@ import { withRouter } from "react-router-dom";
 import EditAccountDetails from "../components/EditAccountDetails.js";
 import { displayToast } from "../../general/toast.actions";
 import { SUCCESS } from "../../lib/constants.js";
+import { showModal, CHANGE_PASSWORD_POP_UP } from "../../general/modal.actions";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapDispatchToProps = dispatch => {
@@ -45,6 +46,9 @@ const mapDispatchToProps = dispatch => {
     },
     displayToast: message => {
       dispatch(displayToast(message));
+    },
+    showChangePasswordModal: () => {
+      dispatch(showModal(CHANGE_PASSWORD_POP_UP));
     }
   };
 };
