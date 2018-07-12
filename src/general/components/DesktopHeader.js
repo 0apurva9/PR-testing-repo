@@ -126,8 +126,8 @@ export default class DesktopHeader extends React.Component {
               </div>
               <div className={styles.lowerHeader}>
                 <div className={styles.leftTabHolder}>
-                  <div className={styles.CateGoryAndBrand}>Categories</div>
-                  <div className={styles.CateGoryAndBrand}>Brands</div>
+                  <div className={styles.categoryAndBrand}>Categories</div>
+                  <div className={styles.categoryAndBrand}>Brands</div>
                 </div>
                 <div className={styles.rightTabHolder}>
                   <div

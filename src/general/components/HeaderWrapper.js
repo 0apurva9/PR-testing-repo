@@ -153,7 +153,7 @@ export default class HeaderWrapper extends React.Component {
       Cookie.createCookie(APP_VIEW, true);
     }
     const url = this.props.location.pathname;
-    console.log(url);
+
     let shouldRenderSearch = false;
 
     let productCode = null;
