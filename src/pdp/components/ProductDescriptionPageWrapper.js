@@ -1,6 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
-
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./ProductDescriptionPageWrapper.css";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
@@ -16,6 +17,7 @@ import PdpElectronics from "./PdpElectronics";
 import PdpJewellery from "./PdpJewellery";
 import PdpApparel from "./PdpApparel";
 import PdpHome from "./PdpHome";
+import PdpDesktop from "./PdpDesktop";
 // prettier-ignore
 
 const PiqPageForPdp = Loadable({
@@ -130,10 +132,15 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       if (!this.props.showPiqPage) {
         return (
           <div itemScope itemType="http://schema.org/Product">
-            {this.props.productDetails.seo
-              ? renderMetaTags(this.props.productDetails)
-              : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
-            {this.renderRootCategory(this.props.productDetails.rootCategory)}
+            <MobileOnly>
+              {this.props.productDetails.seo
+                ? renderMetaTags(this.props.productDetails)
+                : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
+              {this.renderRootCategory(this.props.productDetails.rootCategory)}
+            </MobileOnly>
+            <DesktopOnly>
+              <PdpDesktop {...this.props} />
+            </DesktopOnly>
           </div>
         );
       } else {

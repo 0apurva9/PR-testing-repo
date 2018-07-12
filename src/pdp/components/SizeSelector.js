@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./SizeSelector.css";
 import SizeSelect from "./SizeSelect";
 import DumbCarousel from "../../general/components/DumbCarousel";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import PropTypes from "prop-types";
 import {
@@ -87,6 +89,23 @@ export default class SizeSelector extends React.Component {
       this.props.closeModal();
     }
   }
+  renderSize(datum, i) {
+    return (
+      <SizeSelect
+        key={i}
+        disabled={!datum.sizelink.isAvailable}
+        selected={
+          datum.colorlink.selected && this.props.history.location.state
+            ? this.props.history.location.state.isSizeSelected
+            : false
+        }
+        size={datum.sizelink.size}
+        value={datum.sizelink.size}
+        fontSize={this.props.textSize}
+        onSelect={() => this.updateSize(datum.sizelink.url)}
+      />
+    );
+  }
   render() {
     const selectedColour = this.props.data.filter(val => {
       return val.colorlink.selected;
@@ -115,26 +134,22 @@ export default class SizeSelector extends React.Component {
               />
             </div>
           </div>
-          <DumbCarousel elementWidth="auto">
-            {sizes.map((datum, i) => {
-              return (
-                <SizeSelect
-                  key={i}
-                  disabled={!datum.sizelink.isAvailable}
-                  selected={
-                    datum.colorlink.selected &&
-                    this.props.history.location.state
-                      ? this.props.history.location.state.isSizeSelected
-                      : false
-                  }
-                  size={datum.sizelink.size}
-                  value={datum.sizelink.size}
-                  fontSize={this.props.textSize}
-                  onSelect={() => this.updateSize(datum.sizelink.url)}
-                />
-              );
-            })}
-          </DumbCarousel>
+          <MobileOnly>
+            <DumbCarousel elementWidth="auto">
+              {sizes.map((datum, i) => {
+                return this.renderSize(datum, i);
+              })}
+            </DumbCarousel>
+          </MobileOnly>
+          <DesktopOnly>
+            <div>
+              {sizes.map((datum, i) => {
+                return (
+                  <div className={styles.size}>{this.renderSize(datum, i)}</div>
+                );
+              })}
+            </div>
+          </DesktopOnly>
         </div>
       );
     } else {

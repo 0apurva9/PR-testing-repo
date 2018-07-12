@@ -1,0 +1,140 @@
+.base {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  background: #212121;
+}
+.dummyColorHeader {
+  width: 30%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #000000;
+}
+.headerHolder {
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding-left: 185px;
+  position: relative;
+}
+.logoHolder {
+  width: 85px;
+  height: 55px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: url(./img/group.svg) no-repeat;
+  background-size: auto 40px;
+  background-position: center;
+  cursor: pointer;
+}
+.upperHeader {
+  width: 100%;
+  height: 40px;
+  float: left;
+  background: #000000;
+  padding: 0px 20px;
+}
+.luxeryTab {
+  width: auto;
+  height: 100%;
+  float: left;
+  line-height: 40px;
+  color: #fff;
+  font-size: 12px;
+  font-family: semibold;
+  cursor: pointer;
+}
+.loginAndTrackTab {
+  width: auto;
+  height: 100%;
+  float: right;
+}
+.loginTab {
+  width: auto;
+  height: 100%;
+  float: right;
+  line-height: 40px;
+  color: #fff;
+  font-size: 12px;
+  font-family: semibold;
+  padding-left: 30px;
+  cursor: pointer;
+}
+.lowerHeader {
+  width: 100%;
+  height: 60px;
+  float: left;
+  padding: 0px 20px;
+}
+.leftTabHolder {
+  width: auto;
+  height: 100%;
+  float: left;
+  padding: 15px 0px;
+}
+.rightTabHolder {
+  width: auto;
+  height: 100%;
+  float: right;
+  padding: 15px 0px;
+}
+.myBagShow {
+  width: auto;
+  height: 30px;
+  color: #fff;
+  font-size: 14px;
+  font-family: semibold;
+  line-height: 33px;
+  background: url(./img/orderhistorywhite.svg) no-repeat;
+  background-size: auto 18px;
+  background-position: left center;
+  padding-left: 30px;
+  float: right;
+  margin-left: 35px;
+  cursor: pointer;
+}
+.mywishList {
+  width: 30px;
+  height: 30px;
+  background: url(./img/savewhite.svg) no-repeat;
+  background-size: auto 18px;
+  background-position: center 8px;
+  cursor: pointer;
+  float: right;
+}
+.searchHolder {
+  width: auto;
+  height: 100%;
+  float: right;
+}
+.searchWrapper {
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #fff;
+  float: left;
+}
+.CateGoryAndBrand {
+  width: auto;
+  height: 30px;
+  color: #fff;
+
+  padding-right: 20px;
+  line-height: 30px;
+  margin-right: 25px;
+  cursor: pointer;
+  float: left;
+  background: url(./img/down-arrow-white.svg) no-repeat;
+  background-size: auto 12px;
+  background-position: right center;
+  font-size: 14px;
+  font-family: semibold;
+}

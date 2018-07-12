@@ -13,7 +13,7 @@ export default class ProductFeatures extends React.Component {
               data={data}
               key={i}
               text={datum.groupName}
-              headerFontSize={16}
+              headerFontSize={this.props.headerFontSize}
             >
               <div className={styles.holder}>
                 {datum.specifications.map(val => {
@@ -38,5 +38,10 @@ ProductFeatures.propTypes = {
       feature: PropTypes.string,
       description: PropTypes.string
     })
-  )
+  ),
+  headerFontSize: PropTypes.number
+};
+
+ProductFeatures.defaultProps = {
+  headerFontSize: 16
 };

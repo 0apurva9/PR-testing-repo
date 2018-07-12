@@ -75,7 +75,7 @@ export default class AddToWishListButton extends React.Component {
       );
     }
     return (
-      <div onClick={e => this.onClick(e)}>
+      <div className={styles.iconButton} onClick={e => this.onClick(e)}>
         <Icon
           image={this.props.isWhite ? downloadIconWhite : downloadIcon}
           size={this.props.size}

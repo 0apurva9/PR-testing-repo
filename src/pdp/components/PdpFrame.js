@@ -1,5 +1,6 @@
 import React from "react";
 import PdpFooter from "./PdpFooter";
+import MobileOnly from "../../general/components/MobileOnly";
 import styles from "./PdpFrame.css";
 import PropTypes from "prop-types";
 import { MetaTags } from "react-meta-tags";
@@ -40,18 +41,20 @@ export default class PdpFrame extends React.Component {
       <div className={styles.base}>
         {this.props.children}
         {!this.props.outOfStock && this.renderAvailabilityMetaTag()}
-        <PdpFooter
-          onAddToBag={() => this.onAddToBag()}
-          productListingId={this.props.productListingId}
-          outOfStock={this.props.outOfStock}
-          winningUssID={
-            this.props.ussId
-              ? this.props.ussId
-              : this.props.winningUssID
-                ? this.props.winningUssID
-                : this.props.USSID
-          }
-        />
+        <MobileOnly>
+          <PdpFooter
+            onAddToBag={() => this.onAddToBag()}
+            productListingId={this.props.productListingId}
+            outOfStock={this.props.outOfStock}
+            winningUssID={
+              this.props.ussId
+                ? this.props.ussId
+                : this.props.winningUssID
+                  ? this.props.winningUssID
+                  : this.props.USSID
+            }
+          />
+        </MobileOnly>
       </div>
     );
   }
