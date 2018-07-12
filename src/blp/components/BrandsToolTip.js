@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import styles from "./BrandsToolTip.css";
 import deleteIcon from "../../general/components/img/delete.svg";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 export default class BrandsToolTip extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -14,9 +16,16 @@ export default class BrandsToolTip extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.iconAndToolTip}>
-          <div className={this.props.onDelete ? styles.onDelete : className}>
-            <Icon image={deleteIcon} size={18} />
-          </div>
+          <DesktopOnly>
+            <div className={styles.onDelete}>
+              <Icon image={deleteIcon} size={20} />
+            </div>
+          </DesktopOnly>
+          <MobileOnly>
+            <div className={this.props.onDelete ? styles.onDelete : className}>
+              <Icon image={deleteIcon} size={18} />
+            </div>
+          </MobileOnly>
           <div className={styles.brandsIconHolder}>
             <div
               className={styles.logoHolder}
