@@ -1059,7 +1059,6 @@ function getDigitalDataForPlp(type, response) {
   return data;
 }
 export function getDigitalDataForSearchPageSuccess(response) {
-  console.log(response);
   const offersCount =
     response &&
     response.searchresult &&
