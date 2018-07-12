@@ -293,6 +293,13 @@ export default class HeaderWrapper extends React.Component {
             </React.Fragment>
           </MobileOnly>
           <DesktopOnly>
+            <div
+              className={
+                url === CHECKOUT_ROUTER
+                  ? styles.hiddenHeaderCheckout
+                  : styles.hiddenHeaderDesktop
+              }
+            />
             <DesktopHeader
               openSignUp={this.openSignUp}
               redirectToHome={this.redirectToHome}
