@@ -106,7 +106,6 @@ const user = (
 
       return Object.assign({}, state, {
         status: action.status,
-        user: action.user,
         loading: false,
         isLoggedIn: true
       });

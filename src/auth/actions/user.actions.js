@@ -232,7 +232,6 @@ export function signUpUser(userObj) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      // dispatch(showModal(SIGN_UP_OTP_VERIFICATION, userObj));
       return dispatch(
         signUpUserSuccess(resultJson.customerId, userObj.emailId)
       );
