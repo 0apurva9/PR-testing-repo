@@ -1,10 +1,4 @@
-import {
-  SUCCESS,
-  REQUESTING,
-  ERROR,
-  TIME_OUT_FOR_APIS,
-  LOW_INTERNET_CONNECTION_MESSAGE
-} from "../../lib/constants";
+import { SUCCESS, REQUESTING, ERROR } from "../../lib/constants";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
@@ -161,11 +155,6 @@ export function getProductListings(
     dispatch(getProductListingsRequest(paginated, isFilter));
     dispatch(showSecondaryLoader());
     try {
-      setTimeout(() => {
-        if (getState().productListings.isPlpLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const searchState = getState().search;
       const pageNumber = getState().productListings.pageNumber;
       const encodedString =
@@ -184,32 +173,19 @@ export function getProductListings(
       const resultJson = await result.json();
 
       if (resultJson.error) {
-        if (resultJson.status === 404 && isApiCall === 0) {
-          isApiCall = isApiCall + 1;
-          dispatch(
-            getProductListings(
-              (suffix: null),
-              (paginated: false),
-              (isFilter: false),
-              (isApiCall = 0),
-              isApiCall
-            )
+        if (
+          resultJson &&
+          resultJson.currentQuery &&
+          resultJson.currentQuery.searchQuery
+        ) {
+          setDataLayer(
+            ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
+            resultJson,
+            getState().icid.value,
+            getState().icid.icidType
           );
-        } else {
-          if (
-            resultJson &&
-            resultJson.currentQuery &&
-            resultJson.currentQuery.searchQuery
-          ) {
-            setDataLayer(
-              ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType
-            );
-          }
-          throw new Error(`${resultJson.error}`);
         }
+        throw new Error(`${resultJson.error}`);
       }
       if (
         resultJson &&

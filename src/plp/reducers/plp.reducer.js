@@ -17,8 +17,7 @@ const productListings = (
     filterHasBeenClicked: false,
     sortHasBeenClicked: false,
     clickedProductModuleRef: null,
-    lastVisitedPlpUrl: null,
-    isPlpLoading: false
+    lastVisitedPlpUrl: null
   },
   action
 ) => {
@@ -102,7 +101,7 @@ const productListings = (
       if (!action.isPaginated && !action.isFilter) {
         toUpdate.productListings = null;
       }
-      return Object.assign({}, state, { toUpdate, isPlpLoading: true });
+      return Object.assign({}, state, toUpdate);
     case plpActions.PRODUCT_LISTINGS_SUCCESS:
       toUpdate = {
         status: action.status
@@ -120,8 +119,7 @@ const productListings = (
         productListings: action.productListings,
         isGoBackFromPdpPage: false,
         clickedProductModuleRef: null,
-        loading: false,
-        isPlpLoading: false
+        loading: false
       });
 
     case plpActions.PRODUCT_LISTINGS_FAILURE:
@@ -145,8 +143,7 @@ const productListings = (
         selectedFacetKey: null,
         pageNumber: 0,
         filterTabIndex: 0,
-        paginatedLoading: false,
-        isPlpLoading: false
+        paginatedLoading: false
       });
     case plpActions.SET_PAGE:
       return Object.assign({}, state, {

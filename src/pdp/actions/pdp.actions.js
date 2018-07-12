@@ -148,14 +148,13 @@ export function getProductDescriptionSuccess(productDescription) {
 }
 
 export function getProductDescriptionFailure(error) {
-  console.log(error);
   return {
     type: PRODUCT_DESCRIPTION_FAILURE,
     status: ERROR,
     error
   };
 }
-export function getProductDescription(productCode, isApiCall = 0) {
+export function getProductDescription(productCode, isApiCall: 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
     try {
