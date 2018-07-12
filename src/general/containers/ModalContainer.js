@@ -53,7 +53,8 @@ import {
 import {
   getOtpToActivateWallet,
   verifyWallet,
-  submitSelfCourierReturnInfo
+  submitSelfCourierReturnInfo,
+  changePassword
 } from "../../account/actions/account.actions";
 import {
   createWishlist,
@@ -70,6 +71,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
+const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
   return {
     bankOfferTncDetails: state.cart.bankOfferTncDetails,
@@ -95,6 +97,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hideModal: () => {
       dispatch(modalActions.hideModal());
+    },
+    changePassword: async passwordDetails => {
+      const response = await dispatch(changePassword(passwordDetails));
+      if (response && response.status === SUCCESS) {
+        dispatch(displayToast(UPDATE_PASSWORD));
+        dispatch(modalActions.hideModal());
+      } else {
+        dispatch(displayToast(response.error));
+      }
     },
     loginUser: async userDetails => {
       const loginResponse = await dispatch(loginUser(userDetails));
