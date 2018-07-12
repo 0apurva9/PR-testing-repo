@@ -138,7 +138,7 @@
     height: auto;
     position: absolute;
     right: 65px;
-    top: 10px;
+    top: 0;
     cursor: pointer;
   }
   .faded {

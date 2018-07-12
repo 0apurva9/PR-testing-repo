@@ -22,9 +22,8 @@
 }
 .hollow {
   composes: base;
-  border: 2px;
-  border-color: #d3d3d3;
-  border-style: solid;
+  border:none;
+  border-bottom: 2px solid #d3d3d3 ;
 }
 
 .whiteHollow {

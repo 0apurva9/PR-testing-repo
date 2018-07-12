@@ -2,9 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
-import gpsIcon from "../../general/components/img/GPS.svg";
-import Icon from "../../xelpmoc-core/Icon";
-import CircleButton from "../../xelpmoc-core/CircleButton";
 import styles from "./SearchAndUpdate.css";
 export default class SearchAndUpdate extends React.Component {
   constructor(props) {
@@ -56,6 +53,7 @@ export default class SearchAndUpdate extends React.Component {
     }
   }
   render() {
+    console.log(this.props);
     return (
       <div className={styles.base}>
         {this.state.errorMessage && (
@@ -64,22 +62,29 @@ export default class SearchAndUpdate extends React.Component {
         <div className={styles.inputSearchHolder}>
           <div className={styles.buttonHolder}>
             <div className={styles.buttonCover}>
-              <UnderLinedButton
-                size="14px"
-                fontFamily="regular"
-                color="#000"
-                label={this.props.labelText}
-                onClick={() => this.onUpdate()}
-              />
+              {this.props.uiType === "default" ? (
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000"
+                  label={this.props.labelText}
+                  onClick={() => this.onUpdate()}
+                />
+              ) : (
+                <div className={styles.button} onClick={() => this.onUpdate()}>
+                  {this.props.labelText}
+                </div>
+              )}
             </div>
           </div>
           <div className={styles.inputHolder}>
             <Input2
-              boxy={true}
+              boxy={this.props.uiType === "default" ? true : false}
+              hollow={this.props.uiType === "hollow" ? true : false}
               id={this.props.id}
               value={this.state.pinCode}
               onlyNumber={true}
-              placeholder="Enter your PIN code"
+              placeholder={this.props.placeHolder}
               onChange={val => this.getValue(val)}
               textStyle={{ fontSize: 14 }}
               height={35}
@@ -108,10 +113,14 @@ SearchAndUpdate.propTypes = {
   getLocation: PropTypes.func,
   onUpdate: PropTypes.func,
   errorMessage: PropTypes.string,
-  hasAutoFocus: PropTypes.bool
+  hasAutoFocus: PropTypes.bool,
+  uiType: PropTypes.oneOf(["default", "hollow"]),
+  placeHolder: PropTypes.string
 };
 
 SearchAndUpdate.defaultProps = {
   labelText: "Check",
-  hasAutoFocus: false
+  hasAutoFocus: false,
+  uiType: "default",
+  placeHolder: "Enter your PIN code"
 };

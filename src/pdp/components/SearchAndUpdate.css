@@ -41,3 +41,10 @@
   font-size: 9px;
   font-family: semibold;
 }
+.button{
+  width:auto;
+  font-size:14px;
+  font-family:semibold;
+  color:#ff1744;
+  cursor:pointer;
+}

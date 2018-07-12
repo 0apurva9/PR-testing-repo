@@ -97,6 +97,7 @@ export default class Input2 extends React.Component {
     if (this.props.isWhite && this.props.boxy) {
       className = styles.whiteBox;
     }
+    console.log(this.props);
     return (
       <div className={className}>
         <div className={this.state.focused ? styles.focused : styles.wrapper}>
