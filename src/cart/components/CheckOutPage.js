@@ -65,6 +65,9 @@ import {
   NAME_TEXT,
   LAST_NAME_TEXT,
   ADDRESS_TEXT,
+  ADDRESS_VALIDATION_TEXT,
+  ADDRESS_MINLENGTH_VALID_TEXT,
+  ADDRESS_MAXLENGTH_VALID_TEXT,
   EMAIL_TEXT,
   LANDMARK_TEXT,
   LANDMARK_ENTER_TEXT,
@@ -1696,12 +1699,22 @@ class CheckOutPage extends React.Component {
       return false;
     }
 
-    if (
-      !address.line1 ||
-      !address.line1.trim() ||
-      !ADDRESS_VALIDATION.test(address.line1.trim())
-    ) {
+    if (!address.line1 || !address.line1.trim()) {
       this.props.displayToast(ADDRESS_TEXT);
+      return false;
+    }
+
+    if (address.line1.length < 15) {
+      this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (address.line1.length > 120) {
+      this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
+      return false;
+    }
+
+    if (!ADDRESS_VALIDATION.test(address.line1.trim())) {
+      this.props.displayToast(ADDRESS_VALIDATION_TEXT);
       return false;
     }
 
