@@ -39,6 +39,6 @@
 .backButton {
   composes: forwardButton;
   transform: rotate(180deg);
-  right: initail;
+  right: initial;
   left: 0;
 }
