@@ -96,7 +96,7 @@ export const RESET_PASSWORD =
   "v2/mpl/forgottenpasswordtokens/forgotPassword?access_token=";
 export const OTP_VERIFICATION_PATH = "v2/mpl/users/registrationOTPVerification";
 export const TOKEN_PATH = "oauth/token";
-export const SIGN_UP = "v2/mpl/users/customerRegistration";
+export const SIGN_UP = "v2/mpl/users/registration";
 export const SOCIAL_MEDIA_REGISTRATION_PATH =
   "v2/mpl/users/socialMediaRegistration";
 export const SOCIAL_MEDIA_LOGIN_PATH = "v2/mpl/users";
@@ -196,10 +196,12 @@ export function signUpUserRequest() {
     status: REQUESTING
   };
 }
-export function signUpUserSuccess() {
+export function signUpUserSuccess(customerId, userName) {
   return {
     type: SIGN_UP_USER_SUCCESS,
-    status: SUCCESS
+    status: SUCCESS,
+    customerId,
+    userName
   };
 }
 
@@ -216,16 +218,13 @@ export function signUpUser(userObj) {
   return async (dispatch, getState, { api }) => {
     dispatch(signUpUserRequest());
     try {
-      let suffix = "";
-      if (userObj.emailId) {
-        suffix = `&emailId=${userObj.emailId}`;
-      }
-      let result = await api.post(
-        `${SIGN_UP}?access_token=${
-          JSON.parse(globalCookie).access_token
-        }&isPwa=true&username=${userObj.username}&password=${
-          userObj.password
-        }&platformNumber=${PLAT_FORM_NUMBER}${suffix}`
+      let userDetails = new FormData();
+      userDetails.append("emailId", userObj.emailId);
+      userDetails.append("password", userObj.password);
+
+      let result = await api.postFormData(
+        `${SIGN_UP}?access_token=${JSON.parse(globalCookie).access_token}`,
+        userDetails
       );
 
       const resultJson = await result.json();
@@ -233,10 +232,12 @@ export function signUpUser(userObj) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(showModal(SIGN_UP_OTP_VERIFICATION, userObj));
-      dispatch(signUpUserSuccess());
+      // dispatch(showModal(SIGN_UP_OTP_VERIFICATION, userObj));
+      return dispatch(
+        signUpUserSuccess(resultJson.customerId, userObj.emailId)
+      );
     } catch (e) {
-      dispatch(signUpUserFailure(e.message));
+      return dispatch(signUpUserFailure(e.message));
     }
   };
 }

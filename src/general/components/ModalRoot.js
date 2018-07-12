@@ -445,6 +445,7 @@ export default class ModalRoot extends React.Component {
         <RestorePassword
           handleCancel={() => this.handleClose()}
           handleRestoreClick={userId => this.handleRestoreClick(userId)}
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       NewPassword: (
