@@ -6,6 +6,8 @@ import SellerCard from "./SellerCard";
 import PdpFrame from "./PdpFrame";
 import * as Cookie from "../../lib/Cookie";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -79,7 +81,34 @@ class ProductSellerPage extends Component {
       );
     }
   };
-
+  addToCartAccordingToTheUssid(USSID) {
+    let productDetails = {};
+    productDetails.code = this.props.productDetails.productListingId;
+    productDetails.quantity = PRODUCT_QUANTITY;
+    productDetails.ussId = USSID;
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let cartDetailsLoggedInUser = Cookie.getCookie(
+      CART_DETAILS_FOR_LOGGED_IN_USER
+    );
+    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    if (userDetails) {
+      this.props.addProductToCart(
+        JSON.parse(userDetails).userName,
+        JSON.parse(cartDetailsLoggedInUser).code,
+        JSON.parse(customerCookie).access_token,
+        productDetails
+      );
+    } else {
+      this.props.addProductToCart(
+        ANONYMOUS_USER,
+        JSON.parse(cartDetailsAnonymous).guid,
+        JSON.parse(globalCookie).access_token,
+        productDetails
+      );
+    }
+  }
   addToWishList = () => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
@@ -183,40 +212,69 @@ class ProductSellerPage extends Component {
               averageRating={this.props.productDetails.averageRating}
               totalNoOfReviews={this.props.productDetails.productReviewsCount}
             />
-            <div className={styles.OtherSeller}>Other sellers</div>
-            <div className={styles.priceWithSeller}>
-              <div className={styles.seller}>
-                {availableSeller.length} Other Sellers available starting at ₹
-                {price}
+            <MobileOnly>
+              <div className={styles.OtherSeller}>Other sellers</div>
+              <div className={styles.priceWithSeller}>
+                <div className={styles.seller}>
+                  {availableSellers.length} Other Sellers available starting at
+                  ₹
+                  {price}
+                </div>
+                <div className={styles.price}>
+                  <SelectBoxMobile2
+                    label={this.state.sortOption}
+                    height={30}
+                    onChange={val => this.onSortByPrice(val)}
+                    theme={"hollowBox"}
+                    arrowColour={"black"}
+                    value={this.state.sortOption}
+                    options={[
+                      { label: PRICE_LOW_TO_HIGH, value: PRICE_LOW_TO_HIGH },
+                      { label: PRICE_HIGH_TO_LOW, value: PRICE_HIGH_TO_LOW }
+                    ]}
+                  />
+                </div>
               </div>
-              <div className={styles.price}>
-                <SelectBoxMobile2
-                  label={this.state.sortOption}
-                  height={30}
-                  onChange={val => this.onSortByPrice(val)}
-                  theme={"hollowBox"}
-                  arrowColour={"black"}
-                  value={this.state.sortOption}
-                  options={[
-                    { label: PRICE_LOW_TO_HIGH, value: PRICE_LOW_TO_HIGH },
-                    { label: PRICE_HIGH_TO_LOW, value: PRICE_HIGH_TO_LOW }
-                  ]}
-                />
+              <div>
+                {sortedAvailableSellers && (
+                  <SellerWithMultiSelect
+                    limit={1}
+                    onSelect={val => {
+                      this.selectSeller(val);
+                    }}
+                  >
+                    {sortedAvailableSellers.map((value, index) => {
+                      return (
+                        <SellerCard
+                          heading={value.sellerName}
+                          priceTitle={PRICE_TEXT}
+                          discountPrice={
+                            value.specialPriceSeller.formattedValueNoDecimal
+                          }
+                          price={value.mrpSeller.formattedValueNoDecimal}
+                          offerText={OFFER_AVAILABLE}
+                          deliveryText={DELIVERY_INFORMATION_TEXT}
+                          hasCod={value.isCOD === "Y"}
+                          hasEmi={value.isEMIEligible === "Y"}
+                          eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          cashText={CASH_TEXT}
+                          policyText={DELIVERY_RATES}
+                          key={index}
+                          value={value}
+                        />
+                      );
+                    })}
+                  </SellerWithMultiSelect>
+                )}
               </div>
-            </div>
-            <div>
-              {sortedAvailableSellers && (
-                <SellerWithMultiSelect
-                  limit={1}
-                  onSelect={val => {
-                    this.selectSeller(val);
-                  }}
-                >
-                  {sortedAvailableSellers.map((value, index) => {
+              {sortedUnAvailableSellers && (
+                <div>
+                  {sortedUnAvailableSellers.map((value, index) => {
                     return (
                       <SellerCard
                         heading={value.sellerName}
                         priceTitle={PRICE_TEXT}
+                        disabled={true}
                         discountPrice={
                           value.specialPriceSeller.formattedValueNoDecimal
                         }
@@ -233,36 +291,112 @@ class ProductSellerPage extends Component {
                       />
                     );
                   })}
-                </SellerWithMultiSelect>
+                </div>
               )}
-            </div>
-
-            {sortedUnAvailableSellers && (
-              <div>
-                {sortedUnAvailableSellers.map((value, index) => {
-                  return (
-                    <SellerCard
-                      heading={value.sellerName}
-                      priceTitle={PRICE_TEXT}
-                      disabled={true}
-                      discountPrice={
-                        value.specialPriceSeller.formattedValueNoDecimal
-                      }
-                      price={value.mrpSeller.formattedValueNoDecimal}
-                      offerText={OFFER_AVAILABLE}
-                      deliveryText={DELIVERY_INFORMATION_TEXT}
-                      hasCod={value.isCOD === "Y"}
-                      hasEmi={value.isEMIEligible === "Y"}
-                      eligibleDeliveryModes={value.eligibleDeliveryModes}
-                      cashText={CASH_TEXT}
-                      policyText={DELIVERY_RATES}
-                      key={index}
-                      value={value}
-                    />
-                  );
-                })}
+            </MobileOnly>
+            <DesktopOnly>
+              <div className={styles.OtherSellerHolder}>
+                <div className={styles.OtherSellerHolderWithText}>
+                  <div className={styles.headerWrapper}>
+                    <div className={styles.headerWithSellerAvailable}>
+                      <div className={styles.header}>Other sellers</div>
+                      <div className={styles.availableSeller}>
+                        {availableSellers.length} Other Sellers available
+                        starting at ₹ {price}
+                      </div>
+                    </div>
+                    <div className={styles.dropdownWithButton}>
+                      <div className={styles.dropdown}>
+                        <div className={styles.dropDownBox}>
+                          <SelectBoxMobile2
+                            label={this.state.sortOption}
+                            height={35}
+                            onChange={val => this.onSortByPrice(val)}
+                            value={this.state.sortOption}
+                            arrowColour={"black"}
+                            options={[
+                              {
+                                label: PRICE_LOW_TO_HIGH,
+                                value: PRICE_LOW_TO_HIGH
+                              },
+                              {
+                                label: PRICE_HIGH_TO_LOW,
+                                value: PRICE_HIGH_TO_LOW
+                              }
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.sellerCardHeader}>
+                    <div className={styles.sellerCardHeaderText}>
+                      Seller’s Name
+                    </div>
+                    <div className={styles.sellerCardHeaderText}>Price</div>
+                    <div className={styles.sellerCardHeaderText}>
+                      Delivery Information
+                    </div>
+                    <div className={styles.sellerCardHeaderText}>
+                      Buying option
+                    </div>
+                  </div>
+                  {sortedAvailableSellers &&
+                    sortedAvailableSellers.map((value, index) => {
+                      return (
+                        <SellerCard
+                          heading={value.sellerName}
+                          priceTitle={PRICE_TEXT}
+                          discountPrice={
+                            value.specialPriceSeller.formattedValueNoDecimal
+                          }
+                          price={value.mrpSeller.formattedValueNoDecimal}
+                          offerText={OFFER_AVAILABLE}
+                          deliveryText={DELIVERY_INFORMATION_TEXT}
+                          hasCod={value.isCOD === "Y"}
+                          hasEmi={value.isEMIEligible === "Y"}
+                          eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          cashText={CASH_TEXT}
+                          policyText={DELIVERY_RATES}
+                          key={index}
+                          value={value}
+                          addToBag={() =>
+                            this.addToCartAccordingToTheUssid(value.USSID)
+                          }
+                          productListingId={
+                            this.props.productDetails &&
+                            this.props.productDetails.productListingId
+                          }
+                          winningUssID={value.USSID}
+                        />
+                      );
+                    })}
+                  {sortedUnAvailableSellers &&
+                    sortedUnAvailableSellers.map((value, index) => {
+                      return (
+                        <SellerCard
+                          heading={value.sellerName}
+                          priceTitle={PRICE_TEXT}
+                          disabled={true}
+                          discountPrice={
+                            value.specialPriceSeller.formattedValueNoDecimal
+                          }
+                          price={value.mrpSeller.formattedValueNoDecimal}
+                          offerText={OFFER_AVAILABLE}
+                          deliveryText={DELIVERY_INFORMATION_TEXT}
+                          hasCod={value.isCOD === "Y"}
+                          hasEmi={value.isEMIEligible === "Y"}
+                          eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          cashText={CASH_TEXT}
+                          policyText={DELIVERY_RATES}
+                          key={index}
+                          value={value}
+                        />
+                      );
+                    })}
+                </div>
               </div>
-            )}
+            </DesktopOnly>
           </div>
         </PdpFrame>
       )
