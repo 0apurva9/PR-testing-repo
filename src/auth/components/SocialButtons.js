@@ -11,7 +11,7 @@ import desktopGooglePlus from "./img/googlePlus_desktop.svg";
 import PropTypes from "prop-types";
 
 import { SOCIAL_SIGN_UP, HOME_ROUTER } from "../../lib/constants";
-const FACEBOOK_VERSION = "v2.11";
+const FACEBOOK_VERSION = "v3.0";
 const FACEBOOK_SDK = "https://connect.facebook.net/en_US/sdk.js";
 const SCRIPT = "script";
 const FACEBOOK_JSDK = "facebook-jssdk";

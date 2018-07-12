@@ -1059,6 +1059,18 @@ function getDigitalDataForPlp(type, response) {
   return data;
 }
 export function getDigitalDataForSearchPageSuccess(response) {
+  const offersCount =
+    response &&
+    response.searchresult &&
+    response.searchresult.filter(product => {
+      return product.discountPercent && product.discountPercent !== "0";
+    }).length;
+  const newCount =
+    response &&
+    response.searchresult &&
+    response.searchresult.filter(product => {
+      return product.newProduct;
+    }).length;
   const data = {
     page: {
       pageInfo: { pageName: "search results page" },
@@ -1073,7 +1085,9 @@ export function getDigitalDataForSearchPageSuccess(response) {
       search: {
         category: "all",
         results: response.pagination ? response.pagination.totalResults : 0,
-        term: response.currentQuery ? response.currentQuery.searchQuery : null
+        term: response.currentQuery ? response.currentQuery.searchQuery : null,
+        offersCount,
+        newCount
       }
     }
   };
@@ -1541,7 +1555,7 @@ export function setDataLayerForMyAccountDirectCalls(
 ) {
   let data = cloneDeep(window.digitalData);
   if (type === ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS) {
-    data = Object.assign(data, {
+    Object.assign(data, {
       order: {
         cancellation: {
           reason: productDetails ? productDetails.reasonLabel : ""
@@ -1561,7 +1575,7 @@ export function setDataLayerForMyAccountDirectCalls(
     }
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_RETURN) {
-    data = {
+    Object.assign(data, {
       cpj: {
         product: {
           id: productDetails.productcode,
@@ -1571,7 +1585,7 @@ export function setDataLayerForMyAccountDirectCalls(
       order: {
         id: reasonObj.orderCode
       }
-    };
+    });
     window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_RETURN);
@@ -1832,14 +1846,15 @@ export function setDataLayerForLogoutSuccess() {
   }
 }
 export function setDataLayerForAutoSuggestSearch(response) {
-  let data = {
+  let data = window.digitalData;
+  Object.assign(data, {
     search: {
       autosuggest: {
         term: response ? response.term : "",
         position: response ? response.position : ""
       }
     }
-  };
+  });
   window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);

@@ -38,8 +38,6 @@ export default class PdpFrame extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        {this.props.children}
-        {!this.props.outOfStock && this.renderAvailabilityMetaTag()}
         <PdpFooter
           onAddToBag={() => this.onAddToBag()}
           productListingId={this.props.productListingId}
@@ -52,6 +50,8 @@ export default class PdpFrame extends React.Component {
                 : this.props.USSID
           }
         />
+        {this.props.children}
+        {!this.props.outOfStock && this.renderAvailabilityMetaTag()}
       </div>
     );
   }
