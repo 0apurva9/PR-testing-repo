@@ -112,14 +112,6 @@ export default class ReturnsStoreConfirmation extends React.Component {
                 )}
               />
             )}
-          {/* <DesktopOnly>
-            <div className={styles.buttonHolder}>
-              <CancelAndContinueButton
-                handleCancel={() => this.handleCancel()}
-                handleContinue={() => this.handleContinue()}
-              />
-            </div>
-          </DesktopOnly> */}
         </div>
       </ReturnsFrame>
     );
