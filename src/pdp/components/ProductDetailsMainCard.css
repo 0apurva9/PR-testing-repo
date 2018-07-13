@@ -118,7 +118,12 @@
   }
   .productPriceSection {
     width:100%;
-
+    position:relative;
+  }
+  .priceBreakUp{
+    position:absolute;
+    right:0;
+    top:0;
   }
   .price{
     width:auto;
