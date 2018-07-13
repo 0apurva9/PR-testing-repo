@@ -16,7 +16,7 @@
 }
 
 .observer {
-  min-height: 30px;
+  min-height: 80px;
 }
 .brandLogoSection {
   width: 100%;
@@ -59,4 +59,37 @@
 
 .brandProductCarousel {
   margin-top: 20px;
+}
+
+@media  screen  and (min-width:1025px){
+  .brandSection {
+    background:transparent;
+  }
+  .brandHeader{
+    font-size:30px;
+    position:relative;
+    padding-right:250px;
+
+  }
+  .banner{
+    width:43%;
+    display:inline-block;
+    vertical-align:top;
+    padding-right:10px;
+    margin-top:20px;
+  }
+  .sliderHolder{
+    width:57%;
+    vertical-align:top;
+    display:inline-block;
+  }
+  .followButton{
+    position:static;
+    margin-top:20px;
+  }
+  .headerButton{
+    position:absolute;
+    bottom:0;
+    right:125px;
+  }
 }

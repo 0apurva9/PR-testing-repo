@@ -67,15 +67,18 @@ export default class SizeQuantitySelect extends React.Component {
       <div className={styles.base}>
         <div className={styles.header}>
           Select a size & quantity
-          <div className={styles.button}>
-            <UnderLinedButton
-              disabled={!this.props.showSizeGuide}
-              label="Size Guide"
-              onClick={() => {
-                this.handleShowSize();
-              }}
-            />
-          </div>
+          {!this.props.noQuantity && (
+            <div className={styles.button}>
+              <UnderLinedButton
+                disabled={!this.props.showSizeGuide}
+                label="Size Guide"
+                fontFamily="light"
+                onClick={() => {
+                  this.handleShowSize();
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className={styles.selectHolder}>
           <div className={styles.sizeSelect}>
@@ -95,34 +98,47 @@ export default class SizeQuantitySelect extends React.Component {
               />
             </div>
           </div>
-
-          <div className={styles.sizeQuantity}>
-            <div
-              className={
-                this.props.quantityError
-                  ? styles.errorBoundary
-                  : styles.boundary
-              }
-            >
-              <SelectBoxMobile2
-                theme="hollowBox"
-                value={
-                  this.props.checkIfQuantitySelected()
-                    ? this.props.productQuantity.value
-                    : "quantity"
+          {!this.props.noQuantity && (
+            <div className={styles.sizeQuantity}>
+              <div
+                className={
+                  this.props.quantityError
+                    ? styles.errorBoundary
+                    : styles.boundary
                 }
-                label={
-                  this.props.checkIfQuantitySelected() &&
-                  this.props.productQuantity.label &&
-                  this.props.productQuantity.label !== undefined
-                    ? this.props.productQuantity.label
-                    : "Quantity"
-                }
-                options={fetchedQuantityList}
-                onChange={value => this.updateQuantity(value)}
+              >
+                <SelectBoxMobile2
+                  theme="hollowBox"
+                  value={
+                    this.props.checkIfQuantitySelected()
+                      ? this.props.productQuantity.value
+                      : "quantity"
+                  }
+                  label={
+                    this.props.checkIfQuantitySelected() &&
+                    this.props.productQuantity.label &&
+                    this.props.productQuantity.label !== undefined
+                      ? this.props.productQuantity.label
+                      : "Quantity"
+                  }
+                  options={fetchedQuantityList}
+                  onChange={value => this.updateQuantity(value)}
+                />
+              </div>
+            </div>
+          )}
+          {this.props.noQuantity && (
+            <div className={styles.inLineButton}>
+              <UnderLinedButton
+                disabled={!this.props.showSizeGuide}
+                label="Size Guide"
+                fontFamily="light"
+                onClick={() => {
+                  this.handleShowSize();
+                }}
               />
             </div>
-          </div>
+          )}
         </div>
       </div>
     );

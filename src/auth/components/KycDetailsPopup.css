@@ -79,3 +79,17 @@
   right: 0;
   margin: auto;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 30px 50px;
+    border-radius: 0px 0px 4px 4px;
+  }
+  .header {
+    text-align: center;
+  }
+  .span,
+  .leftButton,
+  .rightButton {
+    cursor: pointer;
+  }
+}

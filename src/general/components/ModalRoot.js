@@ -28,7 +28,12 @@ const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
 const DesktopLogin = "DesktopAuth";
-
+const MINIMUM_PASSWORD_LENGTH = 8;
+const OLD_PASSWORD_TEXT = "Please enter old password";
+const NEW_PASSWORD_TEXT = "Please enter new password";
+const PASSWORD_LENGTH_TEXT = "Password length should be minimum 8 character";
+const CONFIRM_PASSWORD_TEXT = "Please confirm your passowrd";
+const PASSWORD_MATCH_TEXT = "Password did not match";
 const Loader = () => {
   return (
     <div>
@@ -181,7 +186,12 @@ const DesktopAuth = Loadable({
     return <Loader />;
   }
 });
-
+const ChangePasswordForDesktop = Loadable({
+  loader: () => import("../../general/components/ChangePasswordForDesktop"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -376,7 +386,32 @@ export default class ModalRoot extends React.Component {
       this.props.showModal(DesktopLogin);
     }
   };
-
+  updateProfile(passwordDetails) {
+    const oldPassword = passwordDetails.oldPassword;
+    const newPassword = passwordDetails.newPassword;
+    const confirmedPassword = passwordDetails.confirmPassword;
+    if (!oldPassword) {
+      this.props.displayToast(OLD_PASSWORD_TEXT);
+      return false;
+    }
+    if (!newPassword) {
+      this.props.displayToast(NEW_PASSWORD_TEXT);
+      return false;
+    }
+    if (newPassword.length < MINIMUM_PASSWORD_LENGTH) {
+      this.props.displayToast(PASSWORD_LENGTH_TEXT);
+      return false;
+    }
+    if (!confirmedPassword) {
+      this.props.displayToast(CONFIRM_PASSWORD_TEXT);
+      return false;
+    }
+    if (newPassword !== confirmedPassword) {
+      this.props.displayToast(PASSWORD_MATCH_TEXT);
+    } else {
+      this.props.changePassword(passwordDetails);
+    }
+  }
   cancelOrderProduct = (cancelProductDetails, productDetails) => {
     this.props.cancelProduct(cancelProductDetails, productDetails);
   };
@@ -689,7 +724,13 @@ export default class ModalRoot extends React.Component {
           continueWithNoCostEmi={() => this.handleClose()}
         />
       ),
-      DesktopAuth: <DesktopAuth closeModal={() => this.handleClose()} />
+      DesktopAuth: <DesktopAuth closeModal={() => this.handleClose()} />,
+      ChangePasswordForDesktop: (
+        <ChangePasswordForDesktop
+          closeModal={() => this.handleClose()}
+          updateProfile={passwordDetails => this.updateProfile(passwordDetails)}
+        />
+      )
     };
 
     let SelectedModal = MODAL_COMPONENTS[this.props.modalType];

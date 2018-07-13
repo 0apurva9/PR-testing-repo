@@ -22,7 +22,10 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
   };
   render() {
     return (
-      <BottomSlideModal>
+      <BottomSlideModal
+        heading="KYC Verification"
+        closeModal={value => this.onCancel()}
+      >
         <KycApplicationForm
           onCancel={value => this.onCancel()}
           generateOtp={value => this.generateOtp(value)}

@@ -31,6 +31,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 
 import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+
 export default class HeaderWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -94,6 +95,10 @@ export default class HeaderWrapper extends React.Component {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`;
     this.props.history.push(url);
   };
+  goToDefaultWishList = () => {
+    const url = `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`;
+    this.props.history.push(url);
+  };
   componentDidMount() {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
@@ -140,6 +145,7 @@ export default class HeaderWrapper extends React.Component {
       return null;
     }
   };
+
   render() {
     const searchQuery = queryString.parse(this.props.history.location.search);
     const hasAppView = searchQuery.appview;
@@ -147,6 +153,7 @@ export default class HeaderWrapper extends React.Component {
       Cookie.createCookie(APP_VIEW, true);
     }
     const url = this.props.location.pathname;
+
     let shouldRenderSearch = false;
 
     let productCode = null;
@@ -160,8 +167,17 @@ export default class HeaderWrapper extends React.Component {
     let isLogo = false;
     let shouldRenderHeader = true;
     let companyLogoInPdp = true;
+    let isSearch = true;
+    let profileDetails = false;
     if (url === PRODUCT_CART_ROUTER) {
       shouldRenderSearch = false;
+    }
+    if (url === PRODUCT_CART_ROUTER) {
+      isSearch = false;
+    }
+    if (url === CHECKOUT_ROUTER) {
+      isSearch = false;
+      profileDetails = true;
     }
     if (
       url === DEFAULT_BRANDS_LANDING_PAGE &&
@@ -277,6 +293,13 @@ export default class HeaderWrapper extends React.Component {
             </React.Fragment>
           </MobileOnly>
           <DesktopOnly>
+            <div
+              className={
+                url === CHECKOUT_ROUTER
+                  ? styles.hiddenHeaderCheckout
+                  : styles.hiddenHeaderDesktop
+              }
+            />
             <DesktopHeader
               openSignUp={this.openSignUp}
               redirectToHome={this.redirectToHome}
@@ -287,7 +310,10 @@ export default class HeaderWrapper extends React.Component {
               }
               onSelect={val => this.handleSelect(PRODUCT_CART_ROUTER)}
               goToTrackOrders={() => this.goToOrdersPage()}
+              isSearch={isSearch}
+              profileDetails={profileDetails}
               searchHolder={<SearchContainer />}
+              goToWishList={() => this.goToDefaultWishList()}
             />
           </DesktopOnly>
         </React.Fragment>

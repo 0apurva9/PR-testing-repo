@@ -31,9 +31,6 @@ body {
   }
 }
 @media only screen and (min-width: 1025px) {
-  .base {
-    padding-top: 100px;
-  }
   ::-webkit-scrollbar {
     width: 5px;
   }

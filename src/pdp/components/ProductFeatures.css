@@ -13,6 +13,14 @@
   height: auto;
   padding-bottom: 10px;
 }
+.sideBySideContent{
+  composes:content;
+}
+.sideBySideContent .header , .sideBySideContent .description{
+  width:50%;
+  display:inline-block;
+  vertical-align:top;
+}
 .description {
   width: 100%;
   line-height: 24px;

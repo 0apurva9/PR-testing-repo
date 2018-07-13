@@ -19,3 +19,10 @@
   vertical-align: top;
   padding: 0 10px;
 }
+
+@media  screen  and (min-width:1025px){
+  .slider {
+    overflow:visible;
+    transition:300ms;
+  }
+}

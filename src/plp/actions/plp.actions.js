@@ -9,7 +9,10 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL
 } from "../../lib/adobeUtils";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
+export const PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR =
+  "PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR";
 export const PRODUCT_LISTINGS_SUCCESS = "PRODUCT_LISTINGS_SUCCESS";
 export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
 export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
@@ -126,6 +129,17 @@ export function getProductListingsRequest(paginated: false, isFilter: false) {
     isPaginated: paginated
   };
 }
+export function getProductListingsRequestWithoutClear(
+  paginated: false,
+  isFilter: false
+) {
+  return {
+    type: PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR,
+    status: REQUESTING,
+    isFilter,
+    isPaginated: paginated
+  };
+}
 export function getProductListingsSuccess(productListings, isPaginated: false) {
   return {
     type: PRODUCT_LISTINGS_SUCCESS,
@@ -150,8 +164,12 @@ export function getProductListings(
   isFilter: false
 ) {
   return async (dispatch, getState, { api }) => {
-    dispatch(getProductListingsRequest(paginated, isFilter));
     dispatch(showSecondaryLoader());
+    if (checkUserAgentIsMobile()) {
+      dispatch(getProductListingsRequest(paginated, isFilter));
+    } else {
+      dispatch(getProductListingsRequestWithoutClear(paginated, isFilter));
+    }
     try {
       const searchState = getState().search;
       const pageNumber = getState().productListings.pageNumber;
@@ -218,12 +236,10 @@ export function getProductListings(
         }
       } else if (isFilter) {
         dispatch(updateFacets(resultJson));
-
         dispatch(hideSecondaryLoader());
       } else {
         dispatch(setLastPlpPath(window.location.href));
         dispatch(getProductListingsSuccess(resultJson, paginated));
-
         dispatch(hideSecondaryLoader());
       }
     } catch (e) {

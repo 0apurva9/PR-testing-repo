@@ -295,4 +295,29 @@
   .saveListButton{
     cursor:pointer;
   }
+  .updatePincodeHolder{
+    width:360px;
+    position:relative;
+    padding-left:75px;
+    margin:15px 0;
+  }
+  .updatePincodeHolder:before{
+    content:"Delivery";
+    position:absolute;
+    left:0;
+    bottom:0;
+    font-size:14px;
+    line-height:30px;
+    color:#212121;
+    font-family:semibold;
+  }
+  .updatePincodeHolder:after{
+    content:"";
+    width:285px;
+    height:1px;
+    background:#212121;
+    position:absolute;
+    bottom:0;
+    right:0;
+  }
 }

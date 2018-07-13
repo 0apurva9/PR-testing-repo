@@ -40,6 +40,10 @@ export default class SearchHeader extends React.Component {
       this.setState({ isWhite: true, isRed: false, increase: false });
     }
   }
+  onFocus() {
+    this.setState({ increase: true });
+  }
+
   redirectToHome() {
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
@@ -174,6 +178,7 @@ export default class SearchHeader extends React.Component {
                     borderBottom={"none"}
                     onKeyUp={event => this.handleKeyUp(event.key)}
                     value={this.state.value}
+                    onFocus={() => this.onFocus()}
                   />
                 </div>
               </div>

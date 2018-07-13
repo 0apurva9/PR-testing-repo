@@ -1,6 +1,11 @@
 import React from "react";
-import DumbCarousel from "../../general/components/DumbCarousel.js";
+import CarouselWithControls from "../../general/components/CarouselWithControls.js";
 import ProductModule from "../../general/components/ProductModule.js";
+import ProductImageHeader from "../../general/components/ProductImageHeader.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import UnderLinedButton from "../../general/components/UnderLinedButton.js";
+import Logo from "../../general/components/Logo";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { transformData } from "../../home/components/utils.js";
 import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
@@ -43,56 +48,105 @@ class PDPRecommendedSections extends React.Component {
     return (
       this.props.aboutTheBrand && (
         <div className={styles.brandSection}>
-          <h3 className={styles.brandHeader}>About the Brand</h3>
-          <div className={styles.brandLogoSection}>
-            {this.props.aboutTheBrand.brandLogo && (
-              <div
-                className={styles.brandLogoHolder}
-                style={{
-                  backgroundImage: `url(${this.props.aboutTheBrand.brandLogo})`
-                }}
-              />
+          <h3 className={styles.brandHeader}>
+            <span>About the Brand</span>
+            <DesktopOnly>
+              {brandId && (
+                <div className={styles.headerButton}>
+                  <UnderLinedButton
+                    fontFamily="light"
+                    label="Visit Brand Store"
+                    onClick={() => this.visitBrand()}
+                  />
+                </div>
+              )}
+            </DesktopOnly>
+          </h3>
+          <MobileOnly>
+            <div className={styles.brandLogoSection}>
+              {this.props.aboutTheBrand.brandLogo && (
+                <div
+                  className={styles.brandLogoHolder}
+                  style={{
+                    backgroundImage: `url(${
+                      this.props.aboutTheBrand.brandLogo
+                    })`
+                  }}
+                />
+              )}
+              {brandId && (
+                <div className={styles.followButton}>
+                  <FollowUnFollowButtonContainer
+                    color="#212121"
+                    brandId={brandId}
+                    isFollowing={this.props.aboutTheBrand.isFollowing}
+                    pageType={PDP_FOLLOW_AND_UN_FOLLOW}
+                  />
+                </div>
+              )}
+            </div>
+            {this.props.aboutTheBrand.description && (
+              <h3 className={styles.brandDescription}>
+                {this.props.aboutTheBrand.description}
+              </h3>
             )}
-            {brandId && (
-              <div className={styles.followButton}>
-                <FollowUnFollowButtonContainer
-                  color="#212121"
-                  brandId={brandId}
-                  isFollowing={this.props.aboutTheBrand.isFollowing}
-                  pageType={PDP_FOLLOW_AND_UN_FOLLOW}
+          </MobileOnly>
+          <div>
+            <DesktopOnly>
+              <div className={styles.banner}>
+                <ProductImageHeader
+                  logo={
+                    <Logo
+                      height={40}
+                      image={this.props.aboutTheBrand.brandLogo}
+                    />
+                  }
+                  description={this.props.aboutTheBrand.description}
+                  bottomContent={
+                    <div className={styles.followButton}>
+                      <FollowUnFollowButtonContainer
+                        color="#fff"
+                        brandId={brandId}
+                        isFollowing={this.props.aboutTheBrand.isFollowing}
+                        pageType={PDP_FOLLOW_AND_UN_FOLLOW}
+                      />
+                    </div>
+                  }
                 />
               </div>
-            )}
-          </div>
-          {this.props.aboutTheBrand.description && (
-            <h3 className={styles.brandDescription}>
-              {this.props.aboutTheBrand.description}
-            </h3>
-          )}
-
-          {this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY] &&
-            this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY].length > 0 &&
-            this.renderCarousel(
-              this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY]
-            )}
-          {brandId && (
-            <div className={styles.visitBrandButton}>
-              <Button
-                type="secondary"
-                label="Visit Brand Store"
-                onClick={() => this.visitBrand()}
-              />
+            </DesktopOnly>
+            <div className={styles.sliderHolder}>
+              {this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY] &&
+                this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY].length > 0 &&
+                this.renderCarousel(
+                  this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY],
+                  33.33
+                )}
+              <MobileOnly>
+                {brandId && (
+                  <div className={styles.visitBrandButton}>
+                    <Button
+                      type="secondary"
+                      label="Visit Brand Store"
+                      onClick={() => this.visitBrand()}
+                    />
+                  </div>
+                )}
+              </MobileOnly>
             </div>
-          )}
+          </div>
         </div>
       )
     );
   }
 
-  renderCarousel(items) {
+  renderCarousel(items, elementWidthDesktop) {
     return (
       <div className={styles.brandProductCarousel}>
-        <DumbCarousel elementWidth={45}>
+        <CarouselWithControls
+          elementWidth={45}
+          elementWidthDesktop={elementWidthDesktop ? elementWidthDesktop : 25}
+        >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             const productImage = transformedDatum.image;
@@ -108,7 +162,7 @@ class PDPRecommendedSections extends React.Component {
               />
             );
           })}
-        </DumbCarousel>
+        </CarouselWithControls>
       </div>
     );
   }

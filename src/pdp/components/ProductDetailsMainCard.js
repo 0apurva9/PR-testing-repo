@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./ProductDetailsMainCard.css";
 import StarRating from "../../general/components/StarRating.js";
 import Icon from "../../xelpmoc-core/Icon";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import arrowIcon from "../../general/components/img/arrow.svg";
@@ -18,6 +20,11 @@ export default class ProductDetailsMainCard extends React.Component {
     if (this.props.brandUrl) {
       const urlSuffix = this.props.brandUrl.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
+    }
+  }
+  handlePriceBreakup() {
+    if (this.props.showPriceBreakUp) {
+      this.props.showPriceBreakUp();
     }
   }
   handleRatingLink() {
@@ -97,6 +104,20 @@ export default class ProductDetailsMainCard extends React.Component {
                   </span>
                 </div>
               )}
+            <DesktopOnly>
+              {this.props.hasPriceBreakUp && (
+                <div className={styles.priceBreakUp}>
+                  <UnderLinedButton
+                    label="Price Breakup"
+                    fontFamily="light"
+                    color="#ff1744"
+                    onClick={() => {
+                      this.handlePriceBreakup();
+                    }}
+                  />
+                </div>
+              )}
+            </DesktopOnly>
           </div>
         </div>
 

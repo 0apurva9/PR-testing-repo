@@ -12,6 +12,7 @@ import SizeQuantitySelect from "./SizeQuantitySelect";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
+import SearchAndUpdate from "./SearchAndUpdate";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 
@@ -141,11 +142,12 @@ export default class PdpApparel extends React.Component {
   gotoPreviousPage = () => {
     this.props.history.goBack();
   };
-  goToSellerPage(count) {
+  goToSellerPage = count => {
     if (count !== 0) {
       let expressionRuleFirst = "/p-(.*)/(.*)";
       let expressionRuleSecond = "/p-(.*)";
       let productId;
+
       if (this.props.location.pathname.match(expressionRuleFirst)) {
         productId = this.props.location.pathname.match(expressionRuleFirst)[1];
       } else {
@@ -153,7 +155,7 @@ export default class PdpApparel extends React.Component {
       }
       this.props.history.push(`/p-${productId}${PRODUCT_SELLER_ROUTER_SUFFIX}`);
     }
-  }
+  };
   goToCart = () => {
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
@@ -164,7 +166,13 @@ export default class PdpApparel extends React.Component {
       }
     });
   };
-
+  checkPinCodeAvailability(pincode, productCode) {
+    if (this.props.addressModalForCartPage) {
+      this.props.checkPinCodeAvailability(pincode);
+      return;
+    }
+    this.props.getProductPinCode(pincode, productCode);
+  }
   addToCart = () => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
@@ -294,6 +302,13 @@ export default class PdpApparel extends React.Component {
         hasSizeGuide: this.props.productDetails.showSizeGuide,
         data: this.props.productDetails.variantOptions
       });
+    }
+  };
+  showPriceBreakup = () => {
+    if (this.props.showPriceBreakup) {
+      this.props.showPriceBreakup(
+        this.props.productDetails.priceBreakUpDetailsMap
+      );
     }
   };
   handleShowSizeguide() {
@@ -446,6 +461,8 @@ export default class PdpApparel extends React.Component {
                     numberOfReviews={productData.numberOfReviews}
                     goToReviewPage={this.goToReviewPage}
                     discount={productData.discount}
+                    hasPriceBreakUp={productData.showPriceBrkUpPDP === "Yes"}
+                    showPriceBreakUp={this.showPriceBreakup}
                   />
                 </div>
                 {productData.details &&
@@ -488,25 +505,30 @@ export default class PdpApparel extends React.Component {
                     {!this.checkIfNoSize() &&
                       !this.checkIfSizeDoesNotExist() && (
                         <React.Fragment>
-                          {productData.rootCategory !== "HomeFurnishing" && (
-                            <div
-                              className={
-                                this.state.sizeError
-                                  ? styles.sizeError
-                                  : styles.sizeHolder
-                              }
-                            >
-                              <SizeSelector
-                                history={this.props.history}
-                                sizeSelected={this.checkIfSizeSelected()}
-                                productId={productData.productListingId}
-                                hasSizeGuide={productData.showSizeGuide}
-                                showSizeGuide={this.props.showSizeGuide}
-                                data={productData.variantOptions}
-                              />
-                            </div>
-                          )}
-                          {productData.rootCategory === "HomeFurnishing" && (
+                          {productData.rootCategory !== "HomeFurnishing" &&
+                            productData.rootCategory !== "FineJewellery" &&
+                            productData.rootCategory !== "FashionJewellery" && (
+                              <div
+                                className={
+                                  this.state.sizeError
+                                    ? styles.sizeError
+                                    : styles.sizeHolder
+                                }
+                              >
+                                <SizeSelector
+                                  history={this.props.history}
+                                  sizeSelected={this.checkIfSizeSelected()}
+                                  productId={productData.productListingId}
+                                  hasSizeGuide={productData.showSizeGuide}
+                                  showSizeGuide={this.props.showSizeGuide}
+                                  data={productData.variantOptions}
+                                />
+                              </div>
+                            )}
+                          {(productData.rootCategory === "HomeFurnishing" ||
+                            productData.rootCategory === "FineJewellery" ||
+                            productData.rootCategory ===
+                              "FashionJewellery") && (
                             <React.Fragment>
                               <div
                                 className={
@@ -536,30 +558,37 @@ export default class PdpApparel extends React.Component {
                                   productQuantity={
                                     this.state.productQuantityOption
                                   }
+                                  noQuantity={
+                                    "FineJewellery" ||
+                                    productData.rootCategory ===
+                                      "FashionJewellery"
+                                  }
                                 />
                               </div>
-                              <div className={styles.horizontalOffset}>
-                                <div className={styles.customisation}>
-                                  <div className={styles.customiseText}>
-                                    Customisation available - Contact seller for
-                                    Free Monogramming
-                                  </div>
-                                  {productData.buyingGuideUrl && (
-                                    <div className={styles.customisationButton}>
-                                      <UnderLinedButton
-                                        label="Checkout our buying guide"
-                                        onClick={() =>
-                                          this.goToBuyingGuide(
-                                            productData.buyingGuideUrl
-                                          )
-                                        }
-                                        color="#ff1744"
-                                      />
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
                             </React.Fragment>
+                          )}
+                          {productData.rootCategory === "HomeFurnishing" && (
+                            <div className={styles.horizontalOffset}>
+                              <div className={styles.customisation}>
+                                <div className={styles.customiseText}>
+                                  Customisation available - Contact seller for
+                                  Free Monogramming
+                                </div>
+                                {productData.buyingGuideUrl && (
+                                  <div className={styles.customisationButton}>
+                                    <UnderLinedButton
+                                      label="Checkout our buying guide"
+                                      onClick={() =>
+                                        this.goToBuyingGuide(
+                                          productData.buyingGuideUrl
+                                        )
+                                      }
+                                      color="#ff1744"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           )}
                         </React.Fragment>
                       )}
@@ -614,6 +643,7 @@ export default class PdpApparel extends React.Component {
                 <div className={styles.horizontalOffset}>
                   <div className={styles.separator}>
                     <OtherSellersLink
+                      onClick={this.goToSellerPage}
                       otherSellers={productData.otherSellers}
                       winningSeller={productData.winningSellerName}
                     />
@@ -621,18 +651,41 @@ export default class PdpApparel extends React.Component {
                 </div>
 
                 <div className={styles.horizontalOffset}>
-                  {this.props.productDetails.isServiceableToPincode &&
-                  this.props.productDetails.isServiceableToPincode.pinCode ? (
-                    <PdpPincode
-                      hasPincode={true}
-                      pincode={
-                        this.props.productDetails.isServiceableToPincode.pinCode
-                      }
-                      onClick={() => this.showPincodeModal()}
-                    />
-                  ) : (
-                    <PdpPincode onClick={() => this.showPincodeModal()} />
-                  )}
+                  <div className={styles.updatePincodeHolder}>
+                    {productData.isServiceableToPincode &&
+                    productData.isServiceableToPincode.pinCode ? (
+                      <SearchAndUpdate
+                        uiType="hollow"
+                        checkPinCodeAvailability={pincode =>
+                          this.checkPinCodeAvailability(
+                            pincode,
+                            productData.productListingId
+                          )
+                        }
+                        placeholder={productData.isServiceableToPincode.pinCode}
+                        value={productData.isServiceableToPincode.pinCode}
+                        hasAutoFocus={false}
+                        labelText={"Check"}
+                        borderColor="transparent"
+                        borderBottom="0px solid #transparent"
+                      />
+                    ) : (
+                      <SearchAndUpdate
+                        uiType="hollow"
+                        checkPinCodeAvailability={pincode =>
+                          this.checkPinCodeAvailability(
+                            pincode,
+                            productData.productListingId
+                          )
+                        }
+                        placeholder={"Enter your PIN code"}
+                        hasAutoFocus={false}
+                        labelText={"Check"}
+                        borderColor="transparent"
+                        borderBottom="0px solid #transparent"
+                      />
+                    )}
+                  </div>
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
@@ -767,12 +820,15 @@ export default class PdpApparel extends React.Component {
                       <JewelleryClassification
                         headerFontSize={20}
                         data={productData.fineJewelleryClassificationList}
+                        sideBySide={true}
                       />
                     )}
                     {productData.priceBreakUpDetailsMap &&
                       productData.showPriceBrkUpPDP === "Yes" && (
                         <PriceBreakUp
+                          headerFontSize={20}
                           data={productData.priceBreakUpDetailsMap}
+                          sideBySide={true}
                         />
                       )}
                     {productData.returnAndRefund && (
