@@ -27,3 +27,29 @@
   padding: 20px;
   margin-bottom: 15px;
 }
+.left,
+.right {
+  composes: container;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    border-radius: 4px;
+  }
+  .holder {
+    padding: 20px 30px;
+    display: inline-block;
+    margin-bottom: 0px;
+  }
+  .left {
+    width: 50%;
+    display: inline-block;
+    padding-right: 10px;
+    float: left;
+  }
+  .right {
+    padding-left: 10px;
+    width: 50%;
+    display: inline-block;
+    float: right;
+  }
+}
