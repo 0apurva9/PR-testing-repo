@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import PiqPage from "../../cart/components/PiqPage";
-import CliqAndPiqForReturn from "./CliqAndPiqForReturn.js";
+import CliqAndPiqMap from "./CliqAndPiqMap.js";
 import Loader from "../../general/components/Loader";
 import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import * as styles from "./ReturnToStore.css";
@@ -221,7 +221,7 @@ export default class ReturnToStore extends React.Component {
           />
         </MobileOnly>
         <DesktopOnly>
-          <CliqAndPiqForReturn
+          <CliqAndPiqMap
             availableStores={this.props.returnRequest.returnStoreDetailsList}
             numberOfStores={noOfStories}
           />
