@@ -304,6 +304,13 @@ export default class PdpApparel extends React.Component {
       });
     }
   };
+  showPriceBreakup = () => {
+    if (this.props.showPriceBreakup) {
+      this.props.showPriceBreakup(
+        this.props.productDetails.priceBreakUpDetailsMap
+      );
+    }
+  };
   handleShowSizeguide() {
     if (this.props.getProductSizeGuide) {
       this.props.getProductSizeGuide();
@@ -454,6 +461,8 @@ export default class PdpApparel extends React.Component {
                     numberOfReviews={productData.numberOfReviews}
                     goToReviewPage={this.goToReviewPage}
                     discount={productData.discount}
+                    hasPriceBreakUp={productData.showPriceBrkUpPDP === "Yes"}
+                    showPriceBreakUp={this.showPriceBreakup}
                   />
                 </div>
                 {productData.details &&
@@ -496,25 +505,31 @@ export default class PdpApparel extends React.Component {
                     {!this.checkIfNoSize() &&
                       !this.checkIfSizeDoesNotExist() && (
                         <React.Fragment>
-                          {productData.rootCategory !== "HomeFurnishing" && (
-                            <div
-                              className={
-                                this.state.sizeError
-                                  ? styles.sizeError
-                                  : styles.sizeHolder
-                              }
-                            >
-                              <SizeSelector
-                                history={this.props.history}
-                                sizeSelected={this.checkIfSizeSelected()}
-                                productId={productData.productListingId}
-                                hasSizeGuide={productData.showSizeGuide}
-                                showSizeGuide={this.props.showSizeGuide}
-                                data={productData.variantOptions}
-                              />
-                            </div>
-                          )}
-                          {productData.rootCategory === "HomeFurnishing" && (
+                          {productData.rootCategory !== "HomeFurnishing" &&
+                            productData.rootCategory !== "FineJewellery" &&
+                            productData.rootCategory !==
+                              "FashionJewellery"(
+                                <div
+                                  className={
+                                    this.state.sizeError
+                                      ? styles.sizeError
+                                      : styles.sizeHolder
+                                  }
+                                >
+                                  <SizeSelector
+                                    history={this.props.history}
+                                    sizeSelected={this.checkIfSizeSelected()}
+                                    productId={productData.productListingId}
+                                    hasSizeGuide={productData.showSizeGuide}
+                                    showSizeGuide={this.props.showSizeGuide}
+                                    data={productData.variantOptions}
+                                  />
+                                </div>
+                              )}
+                          {(productData.rootCategory === "HomeFurnishing" ||
+                            productData.rootCategory === "FineJewellery" ||
+                            productData.rootCategory ===
+                              "FashionJewellery") && (
                             <React.Fragment>
                               <div
                                 className={
@@ -544,30 +559,37 @@ export default class PdpApparel extends React.Component {
                                   productQuantity={
                                     this.state.productQuantityOption
                                   }
+                                  noQuantity={
+                                    "FineJewellery" ||
+                                    productData.rootCategory ===
+                                      "FashionJewellery"
+                                  }
                                 />
                               </div>
-                              <div className={styles.horizontalOffset}>
-                                <div className={styles.customisation}>
-                                  <div className={styles.customiseText}>
-                                    Customisation available - Contact seller for
-                                    Free Monogramming
-                                  </div>
-                                  {productData.buyingGuideUrl && (
-                                    <div className={styles.customisationButton}>
-                                      <UnderLinedButton
-                                        label="Checkout our buying guide"
-                                        onClick={() =>
-                                          this.goToBuyingGuide(
-                                            productData.buyingGuideUrl
-                                          )
-                                        }
-                                        color="#ff1744"
-                                      />
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
                             </React.Fragment>
+                          )}
+                          {productData.rootCategory === "HomeFurnishing" && (
+                            <div className={styles.horizontalOffset}>
+                              <div className={styles.customisation}>
+                                <div className={styles.customiseText}>
+                                  Customisation available - Contact seller for
+                                  Free Monogramming
+                                </div>
+                                {productData.buyingGuideUrl && (
+                                  <div className={styles.customisationButton}>
+                                    <UnderLinedButton
+                                      label="Checkout our buying guide"
+                                      onClick={() =>
+                                        this.goToBuyingGuide(
+                                          productData.buyingGuideUrl
+                                        )
+                                      }
+                                      color="#ff1744"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           )}
                         </React.Fragment>
                       )}
@@ -799,12 +821,15 @@ export default class PdpApparel extends React.Component {
                       <JewelleryClassification
                         headerFontSize={20}
                         data={productData.fineJewelleryClassificationList}
+                        sideBySide={true}
                       />
                     )}
                     {productData.priceBreakUpDetailsMap &&
                       productData.showPriceBrkUpPDP === "Yes" && (
                         <PriceBreakUp
+                          headerFontSize={20}
                           data={productData.priceBreakUpDetailsMap}
+                          sideBySide={true}
                         />
                       )}
                     {productData.returnAndRefund && (

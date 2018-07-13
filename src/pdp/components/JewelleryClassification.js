@@ -19,7 +19,13 @@ export default class JewelleryClassification extends React.Component {
                 {datum.value.classificationListJwlry &&
                   datum.value.classificationListJwlry.map(val => {
                     return (
-                      <div className={styles.content}>
+                      <div
+                        className={
+                          this.props.sideBySide
+                            ? styles.sideBySideContent
+                            : styles.content
+                        }
+                      >
                         <div className={styles.header}>{val.key}</div>
                         <div className={styles.description}>
                           {val.value.classificationListValueJwlry[0]}
@@ -52,8 +58,10 @@ JewelleryClassification.propTypes = {
       })
     })
   ),
-  headerFontSize: PropTypes.number
+  headerFontSize: PropTypes.number,
+  sideBySide: PropTypes.bool
 };
 JewelleryClassification.defaultProps = {
-  headerFontSize: 16
+  headerFontSize: 16,
+  sideBySide: false
 };
