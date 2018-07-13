@@ -9,26 +9,6 @@ import styles from "./CliqAndPiqMap.css";
 import WestSideIcon from "../../cart/components/img/googleSearch.png";
 
 export default class CliqAndPiqMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lat: this.props.lat ? this.props.lat : 28.6129918,
-      lng: this.props.lng ? this.props.lng : 77.2310456,
-
-      position: 0,
-      selected: false,
-      selectedAddress: "",
-      selectedStoreTime: "",
-      workingDays: "",
-      openingTime: "",
-      closingTime: "",
-      headingText: "",
-      displayName: "",
-      name: "",
-      mobile: ""
-    };
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.userDetails) {
       this.setState({
