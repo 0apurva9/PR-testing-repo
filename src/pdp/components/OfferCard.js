@@ -1,4 +1,6 @@
 import React from "react";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import styles from "./OfferCard.css";
 import PropTypes from "prop-types";
 
@@ -25,13 +27,16 @@ export default class OfferCard extends React.Component {
           }
           onClick={this.handleShowDetails}
         >
-          <div className={styles.offerText}>Offer(s)</div>
+          <MobileOnly>
+            <div className={styles.offerText}>Offer(s)</div>
+          </MobileOnly>
           {this.props.potentialPromotions && (
             <div
               className={styles.headingText}
               dangerouslySetInnerHTML={{
                 __html: this.props.potentialPromotions.title
               }}
+              onClick={this.handleShowDetails}
             />
           )}
           {this.props.secondaryPromotions && (
@@ -40,6 +45,7 @@ export default class OfferCard extends React.Component {
               dangerouslySetInnerHTML={{
                 __html: this.props.secondaryPromotions.messageID
               }}
+              onClick={this.handleShowDetails}
             />
           )}
         </div>

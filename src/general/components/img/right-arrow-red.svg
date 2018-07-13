@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" fill-rule="nonzero">
+            <rect id="Rectangle" x="0" y="0" width="50" height="50"></rect>
+            <path d="M21.9927707,38.2550207 L1.09865112,17.0166556 C-0.36621704,15.5338684 -0.36621704,13.1083031 1.09865112,11.625516 C2.56351928,10.124828 4.93430591,10.124828 6.41617254,11.625516 L24.9955004,30.4940073 L43.5918267,11.6265105 C45.0596946,10.1258225 47.4094831,10.1258225 48.8743513,11.6265105 C50.3752162,13.1092976 50.3752162,15.5348629 48.8743513,17.0176501 L27.9822316,38.2560151 C26.3323801,39.9148273 23.6526213,39.9148273 21.9927707,38.2550207 Z" id="Down-arrow" fill="#FF1744" transform="translate(25.000000, 25.000000) scale(-1, 1) rotate(90.000000) translate(-25.000000, -25.000000) "></path>
+        </g>
+    </g>
+</svg>
