@@ -21,7 +21,27 @@ export default class OrderCard extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div className={this.props.onHollow ? styles.onHollow : styles.base}>
+        <DesktopOnly>
+          {(this.props.orderPlace || this.props.orderId) && (
+            <div className={styles.orderPlaceAndId}>
+              {this.props.orderPlace && (
+                <div className={styles.orderPlace}>
+                  <span className={styles.orderHeader}>Order Placed: </span>
+                  <span className={styles.orderText}>
+                    {this.props.orderPlace}
+                  </span>
+                </div>
+              )}
+              {this.props.orderId && (
+                <div className={styles.orderId}>
+                  <span className={styles.orderHeader}>Order ID: </span>
+                  <span className={styles.orderText}>{this.props.orderId}</span>
+                </div>
+              )}
+            </div>
+          )}
+        </DesktopOnly>
         <div className={styles.productImageHolder}>
           <ProductImage
             image={this.props.imageUrl}
@@ -49,51 +69,54 @@ export default class OrderCard extends React.Component {
             )}
             {this.props.productName}
           </div>
-          {this.props.isGiveAway === NO || !this.props.isGiveAway ? (
-            <div className={styles.priceHolder}>
-              <div className={styles.price}>
-                {this.props.isEgvOrder && this.props.egvCardNumber
-                  ? this.props.egvCardNumber
-                  : this.props.isGiveAway === NO &&
-                    !this.props.isEgvOrder &&
-                    this.props.productName === "Gift Card"
-                    ? "Gift card detail will be sent you on your specified email id shortly."
-                    : `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+          <div className={styles.priceWithQuantity}>
+            {this.props.isGiveAway === NO || !this.props.isGiveAway ? (
+              <div className={styles.priceHolder}>
+                <div className={styles.price}>
+                  {this.props.isEgvOrder && this.props.egvCardNumber
+                    ? this.props.egvCardNumber
+                    : this.props.isGiveAway === NO &&
+                      !this.props.isEgvOrder &&
+                      this.props.productName === "Gift Card"
+                      ? "Gift card detail will be sent you on your specified email id shortly."
+                      : `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                          this.props.price
+                        )}`}
+                </div>
+                {this.props.isEgvOrder &&
+                  this.props.resendAvailable && (
+                    <div
+                      className={styles.reSendEmail}
+                      onClick={() => this.reSendEmailForGiftCard()}
+                    >
+                      Resend Email
+                    </div>
+                  )}
+                {this.props.discountPrice &&
+                  this.props.discountPrice !== this.props.price && (
+                    <div className={styles.discountPrice}>
+                      {`${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
                         this.props.price
                       )}`}
+                    </div>
+                  )}
               </div>
-              {this.props.isEgvOrder &&
-                this.props.resendAvailable && (
-                  <div
-                    className={styles.reSendEmail}
-                    onClick={() => this.reSendEmailForGiftCard()}
-                  >
-                    Resend Email
-                  </div>
-                )}
-              {this.props.discountPrice &&
-                this.props.discountPrice !== this.props.price && (
-                  <div className={styles.discountPrice}>
-                    {`${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                      this.props.price
-                    )}`}
-                  </div>
-                )}
-            </div>
-          ) : (
-            <div className={styles.priceHolder}>
-              <div className={styles.price}>Free</div>
-            </div>
-          )}
-          {this.props.quantity && (
-            <div className={styles.quantityHolder}>
-              <div className={styles.price}>Qty</div>
-              <div className={styles.quantity}>
-                {this.props.numberOfQuantity}
+            ) : (
+              <div className={styles.priceHolder}>
+                <div className={styles.price}>Free</div>
               </div>
-            </div>
-          )}
+            )}
+            {this.props.quantity && (
+              <div className={styles.quantityHolder}>
+                <div className={styles.price}>Qty</div>
+                <div className={styles.quantity}>
+                  {this.props.numberOfQuantity}
+                </div>
+              </div>
+            )}
+          </div>
           {this.props.children &&
+            this.props.showQuantity &&
             this.props.productName !== "Gift Card" && (
               <div className={styles.additionalContent}>
                 {this.props.children}
@@ -113,5 +136,7 @@ OrderCard.propTypes = {
 };
 OrderCard.defaultProps = {
   quantity: false,
-  numberOfQuantity: 1
+  numberOfQuantity: 1,
+  onHollow: false,
+  showQuantity: true
 };

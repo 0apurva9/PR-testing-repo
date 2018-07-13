@@ -35,7 +35,8 @@ const mapStateToProps = state => {
     returnRequest: state.profile.returnRequest,
     returnProductDetails: state.profile.returnProductDetails,
     loading: state.profile.loading,
-    error: state.profile.error
+    error: state.profile.error,
+    orderDetails: state.profile.fetchOrderDetails
   };
 };
 

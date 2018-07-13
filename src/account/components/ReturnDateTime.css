@@ -23,3 +23,19 @@
   padding: 15px;
   border-bottom: 1px solid #ececec;
 }
+@media only screen and (min-width: 1025px) {
+  .cardOffset {
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 0px;
+  }
+  .card {
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 20px;
+  }
+  .header {
+    border-bottom: none;
+    padding: 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+}

@@ -19,3 +19,15 @@
   bottom: 0;
   margin: auto;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    border-bottom: none;
+    width: 33.3%;
+    font-size: 14px;
+    padding: 0px 0px 0px 35px;
+  }
+  .checkBoxHolder {
+    left: 0px;
+    right: initial;
+  }
+}

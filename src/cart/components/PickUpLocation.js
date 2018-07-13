@@ -2,15 +2,39 @@ import React from "react";
 import styles from "./PickUpLocation.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
+import MobileOnly from "../../general/components/MobileOnly";
+import GridSelect from "../../general/components/GridSelect.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import CheckBox from "../../general/components/CheckBox.js";
 const integerDayMapping = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri"];
 
 export default class PickUpLocation extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isCheckBoxSelected: false
+    };
+  }
+
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
     }
   }
 
+  handleClickForDesktop() {
+    this.setState({ isCheckBoxSelected: !this.state.isCheckBoxSelected });
+    if (this.state.isCheckBoxSelected) {
+      if (this.props.handleClickForDesktop) {
+        this.props.handleClickForDesktop();
+      }
+    } else {
+      if (this.props.handleClickForDesktop) {
+        this.props.handleClickForDesktop(this.props.slaveId);
+      }
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -18,6 +42,18 @@ export default class PickUpLocation extends React.Component {
           {this.props.headingText && (
             <div className={styles.headingText}>{this.props.headingText}</div>
           )}
+          <DesktopOnly>
+            <div
+              className={styles.checkBoxHolder}
+              onClick={() => this.handleClickForDesktop()}
+            >
+              <CheckBox
+                selected={
+                  this.props.selectedId === this.props.slaveId ? true : false
+                }
+              />
+            </div>
+          </DesktopOnly>
           {this.props.iconText && (
             <div className={styles.textIcon}>{this.props.iconText}</div>
           )}
@@ -51,19 +87,21 @@ export default class PickUpLocation extends React.Component {
           )}
         </div>
         {this.props.canSelectStore && (
-          <div className={styles.buttonHolder}>
-            <div
-              className={styles.buttonContainer}
-              onClick={() => this.handleClick()}
-            >
-              <Button
-                type="primary"
-                color="#fff"
-                label={this.props.buttonText}
-                width={121}
-              />
+          <MobileOnly>
+            <div className={styles.buttonHolder}>
+              <div
+                className={styles.buttonContainer}
+                onClick={() => this.handleClick()}
+              >
+                <Button
+                  type="primary"
+                  color="#fff"
+                  label={this.props.buttonText}
+                  width={121}
+                />
+              </div>
             </div>
-          </div>
+          </MobileOnly>
         )}
       </div>
     );

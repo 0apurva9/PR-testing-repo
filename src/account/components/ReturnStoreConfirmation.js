@@ -13,6 +13,9 @@ import repayLogo from "../../cart/components/img/rupay.svg";
 import dinersLogo from "../../cart/components/img/diners.svg";
 import discoverLogo from "../../cart/components/img/discover.svg";
 import jcbLogo from "../../cart/components/img/jcb.svg";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import CancelAndContinueButton from "./CancelAndContinueButton";
 import {
   RUPAY_CARD,
   VISA_CARD,
@@ -80,21 +83,23 @@ export default class ReturnsStoreConfirmation extends React.Component {
       >
         <OrderReturnAddressDetails />
         <div className={styles.card}>
-          <OrderCard
-            imageUrl={
-              data &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].imageURL
-            }
-            productName={`${data.orderProductWsDTO[0].productBrand} ${
-              data.orderProductWsDTO[0].productName
-            }`}
-            price={data.orderProductWsDTO[0].price}
-          >
-            {data.orderProductWsDTO[0].quantity && (
-              <div>Qty {data.orderProductWsDTO[0].quantity}</div>
-            )}
-          </OrderCard>
+          <MobileOnly>
+            <OrderCard
+              imageUrl={
+                data &&
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].imageURL
+              }
+              productName={`${data.orderProductWsDTO[0].productBrand} ${
+                data.orderProductWsDTO[0].productName
+              }`}
+              price={data.orderProductWsDTO[0].price}
+            >
+              {data.orderProductWsDTO[0].quantity && (
+                <div>Qty {data.orderProductWsDTO[0].quantity}</div>
+              )}
+            </OrderCard>
+          </MobileOnly>
           {this.props.orderDetails &&
             this.props.orderDetails.paymentCardDigit && (
               <ReturnsToBank
