@@ -507,25 +507,24 @@ export default class PdpApparel extends React.Component {
                         <React.Fragment>
                           {productData.rootCategory !== "HomeFurnishing" &&
                             productData.rootCategory !== "FineJewellery" &&
-                            productData.rootCategory !==
-                              "FashionJewellery"(
-                                <div
-                                  className={
-                                    this.state.sizeError
-                                      ? styles.sizeError
-                                      : styles.sizeHolder
-                                  }
-                                >
-                                  <SizeSelector
-                                    history={this.props.history}
-                                    sizeSelected={this.checkIfSizeSelected()}
-                                    productId={productData.productListingId}
-                                    hasSizeGuide={productData.showSizeGuide}
-                                    showSizeGuide={this.props.showSizeGuide}
-                                    data={productData.variantOptions}
-                                  />
-                                </div>
-                              )}
+                            productData.rootCategory !== "FashionJewellery" && (
+                              <div
+                                className={
+                                  this.state.sizeError
+                                    ? styles.sizeError
+                                    : styles.sizeHolder
+                                }
+                              >
+                                <SizeSelector
+                                  history={this.props.history}
+                                  sizeSelected={this.checkIfSizeSelected()}
+                                  productId={productData.productListingId}
+                                  hasSizeGuide={productData.showSizeGuide}
+                                  showSizeGuide={this.props.showSizeGuide}
+                                  data={productData.variantOptions}
+                                />
+                              </div>
+                            )}
                           {(productData.rootCategory === "HomeFurnishing" ||
                             productData.rootCategory === "FineJewellery" ||
                             productData.rootCategory ===
