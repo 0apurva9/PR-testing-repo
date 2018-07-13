@@ -17,3 +17,26 @@
 .awbText span {
   font-family: semibold;
 }
+@media screen and (min-width: 1025px) {
+  .cardWithAwbDetails {
+    width: 100%;
+    height: auto;
+    padding: 30px;
+  }
+  .card {
+    margin-bottom: 0px;
+  }
+  .awbText,
+  .or,
+  .subAwbText {
+    width: 100%;
+    height: auto;
+    color: #000;
+    font-size: 14px;
+    font-family: light;
+    padding-top: 10px;
+  }
+  .subAwbText span {
+    font-family: semibold;
+  }
+}
