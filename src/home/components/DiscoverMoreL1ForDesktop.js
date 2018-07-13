@@ -5,7 +5,6 @@ import CircleProductImage from "../../general/components/CircleProductImage";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import Button from "../../general/components/Button.js";
 import PropTypes from "prop-types";
-import move from "lodash-move";
 export default class DiscoverMoreL1ForDesktop extends React.Component {
   onClick = webURL => {
     if (webURL) {
