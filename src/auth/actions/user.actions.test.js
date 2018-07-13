@@ -10,7 +10,7 @@ import {
 } from "../../lib/constants";
 import * as user from "../mocks/user.mock";
 import * as Cookie from "../../lib/Cookie";
-const SIGN_UP_PATH = `v2/mpl/users/customerRegistration?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&isPwa=true&username=test@xelpmoc.in&password=123456&platformNumber=${PLAT_FORM_NUMBER}`;
+const SIGN_UP_PATH = `v2/mpl/users/registration?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08`;
 const LOGIN_PATH = `v2/mpl/users/test@xelpmoc.in/customerLogin?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&platformNumber=${PLAT_FORM_NUMBER}`;
 const OTP_VERIFICATION_PATH = `/v2/mpl/users/registrationOTPVerification?access_token=d2470a48-e71e-41b7-b6b2-a083af3d8c08&otp=[object Object]&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&username=undefined&password=undefined`;
 import {
@@ -38,6 +38,7 @@ describe("User Actions", () => {
     inputDetails = {};
     inputDetails.username = "test@xelpmoc.in";
     inputDetails.password = "123456";
+    inputDetails.emailId = "test@xelpmoc.in";
 
     initialState = {
       user: null,
@@ -144,7 +145,7 @@ describe("User Actions", () => {
     postMock.mockReturnValueOnce(result);
 
     apiMock = {
-      post: postMock
+      postFormData: postMock
     };
 
     middleWares = [
@@ -158,14 +159,10 @@ describe("User Actions", () => {
     const expectedActions = [
       { type: userActions.SIGN_UP_USER_REQUEST, status: REQUESTING },
       {
-        modalType: SIGN_UP_OTP_VERIFICATION,
-        ownProps: { password: "123456", username: "test@xelpmoc.in" },
-        type: SHOW_MODAL,
-        scrollPosition: 0
-      },
-      {
+        customerId: undefined,
+        status: "success",
         type: userActions.SIGN_UP_USER_SUCCESS,
-        status: SUCCESS
+        userName: "test@xelpmoc.in"
       }
     ];
 
@@ -189,7 +186,7 @@ it("SIGN_UP_FAILURE", () => {
   postMock.mockReturnValueOnce(result);
 
   apiMock = {
-    post: postMock
+    postFormData: postMock
   };
 
   middleWares = [
