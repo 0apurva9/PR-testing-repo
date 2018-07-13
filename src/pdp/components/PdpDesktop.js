@@ -566,28 +566,30 @@ export default class PdpApparel extends React.Component {
                                   }
                                 />
                               </div>
-                              <div className={styles.horizontalOffset}>
-                                <div className={styles.customisation}>
-                                  <div className={styles.customiseText}>
-                                    Customisation available - Contact seller for
-                                    Free Monogramming
-                                  </div>
-                                  {productData.buyingGuideUrl && (
-                                    <div className={styles.customisationButton}>
-                                      <UnderLinedButton
-                                        label="Checkout our buying guide"
-                                        onClick={() =>
-                                          this.goToBuyingGuide(
-                                            productData.buyingGuideUrl
-                                          )
-                                        }
-                                        color="#ff1744"
-                                      />
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
                             </React.Fragment>
+                          )}
+                          {productData.rootCategory === "HomeFurnishing" && (
+                            <div className={styles.horizontalOffset}>
+                              <div className={styles.customisation}>
+                                <div className={styles.customiseText}>
+                                  Customisation available - Contact seller for
+                                  Free Monogramming
+                                </div>
+                                {productData.buyingGuideUrl && (
+                                  <div className={styles.customisationButton}>
+                                    <UnderLinedButton
+                                      label="Checkout our buying guide"
+                                      onClick={() =>
+                                        this.goToBuyingGuide(
+                                          productData.buyingGuideUrl
+                                        )
+                                      }
+                                      color="#ff1744"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           )}
                         </React.Fragment>
                       )}
