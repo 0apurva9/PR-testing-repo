@@ -1,0 +1,62 @@
+.storeListForDesktop {
+  width: 30%;
+  display: inline-block;
+  vertical-align: top;
+  height: 50vh;
+  overflow: auto;
+  border-radius: 4px;
+}
+.mapDesktop {
+  width: 70%;
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 20px;
+}
+.mapButton {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  position: relative;
+}
+.mapDesktopWithPincode {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-top: 20px;
+}
+.cliqPiqText {
+  font-size: 30px;
+  width: 100%;
+  height: auto;
+  padding-right: 150px;
+}
+.closeButton {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 10px;
+}
+.container {
+  height: 50px;
+  width: 100%;
+  padding: 10px 10px;
+  margin-top: 50px;
+  position: fixed;
+}
+.base {
+  width: 80vw;
+  height: 60vh;
+  position: fixed;
+  background-color: transparent;
+  overflow: hidden;
+}
+.searchPincode {
+  width: 100%;
+  position: sticky;
+  height: auto;
+  top: 0px;
+  z-index: 1;
+  border-bottom: 1px solid #ececec;
+}

@@ -12,21 +12,8 @@ export default class CliqAndPiqMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lat:
-        this.props.availableStores &&
-        this.props.availableStores.length > 0 &&
-        this.props.availableStores[0]
-          ? this.props.availableStores &&
-            this.props.availableStores[0].geoPoint.latitude
-          : 28.6129918,
-
-      lng:
-        this.props.availableStores &&
-        this.props.availableStores.length > 0 &&
-        this.props.availableStores[0]
-          ? this.props.availableStores &&
-            this.props.availableStores[0].geoPoint.longitude
-          : 77.2310456,
+      lat: this.props.lat ? this.props.lat : 28.6129918,
+      lng: this.props.lng ? this.props.lng : 77.2310456,
 
       position: 0,
       selected: false,
@@ -62,13 +49,6 @@ export default class CliqAndPiqMap extends React.Component {
       this.props.getUserDetails();
     }
   };
-  handleSwipe(val) {
-    const lat = this.props.availableStores[val % this.props.numberOfStores]
-      .geoPoint.latitude;
-    const lng = this.props.availableStores[val % this.props.numberOfStores]
-      .geoPoint.longitude;
-    this.setState({ lat, lng });
-  }
 
   getValue(val) {
     this.setState(val);
@@ -101,7 +81,7 @@ export default class CliqAndPiqMap extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.map}>
-          <Map lat={this.state.lat} lng={this.state.lng} zoom={16}>
+          <Map lat={this.props.lat} lng={this.props.lng} zoom={16}>
             {this.props.availableStores &&
               this.props.availableStores.map((val, i) => {
                 return (

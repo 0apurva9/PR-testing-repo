@@ -191,23 +191,18 @@ class CheckOutPage extends React.Component {
     }
   }
   navigateToLogin() {
-
-
     const url = this.props.location.pathname;
-    if(this.props.setUrlToRedirectToAfterAuth)
-    {
+    if (this.props.setUrlToRedirectToAfterAuth) {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
 
     if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.replace(LOGIN_PATH);
     } else {
-      if(this.props.showAuthPopUp)
-      {
+      if (this.props.showAuthPopUp) {
         this.props.showAuthPopUp();
         return null;
       }
-
     }
   }
   navigateUserToMyBagAfter15MinOfpaymentFailure() {

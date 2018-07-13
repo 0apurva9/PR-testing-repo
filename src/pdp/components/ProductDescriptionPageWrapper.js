@@ -18,6 +18,7 @@ import PdpJewellery from "./PdpJewellery";
 import PdpApparel from "./PdpApparel";
 import PdpHome from "./PdpHome";
 import PdpDesktop from "./PdpDesktop";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 // prettier-ignore
 
 const PiqPageForPdp = Loadable({
@@ -103,6 +104,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
   hideLoader = () => {
     this.props.hideSecondaryLoader();
   };
+
   renderRootCategory = datumType => {
     let pdpToRender = typeComponentMapping[datumType];
     if (!pdpToRender) {
@@ -128,6 +130,15 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
+    if (!checkUserAgentIsMobile() && this.props.showPiqPage) {
+      let cliqAndPiqDetails = {};
+      cliqAndPiqDetails.loadingForCliqAndPiq = this.props.loadingForCliqAndPiq;
+      cliqAndPiqDetails.productDetails = this.props.productDetails;
+      cliqAndPiqDetails.stores = this.props.stores;
+      cliqAndPiqDetails.pinCodeUpdateDisabled = true;
+      cliqAndPiqDetails.getAllStoresForCliqAndPiq = this.props.getAllStoresForCliqAndPiq;
+      this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
+    }
     if (this.props.productDetails) {
       if (!this.props.showPiqPage) {
         return (
@@ -145,15 +156,19 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         );
       } else {
         return (
-          <PiqPageForPdp
-            loadingForCliqAndPiq={this.props.loadingForCliqAndPiq}
-            productDetails={this.props.productDetails}
-            stores={this.props.stores}
-            displayToast={this.props.displayToast}
-            getAllStoresForCliqAndPiq={this.props.getAllStoresForCliqAndPiq}
-            removeCliqAndPiq={() => this.removeCliqAndPiq()}
-            hidePdpPiqPage={this.props.hidePdpPiqPage}
-          />
+          <div>
+            <MobileOnly>
+              <PiqPageForPdp
+                loadingForCliqAndPiq={this.props.loadingForCliqAndPiq}
+                productDetails={this.props.productDetails}
+                stores={this.props.stores}
+                displayToast={this.props.displayToast}
+                getAllStoresForCliqAndPiq={this.props.getAllStoresForCliqAndPiq}
+                removeCliqAndPiq={() => this.removeCliqAndPiq()}
+                hidePdpPiqPage={this.props.hidePdpPiqPage}
+              />
+            </MobileOnly>
+          </div>
         );
       }
     } else {

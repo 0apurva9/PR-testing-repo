@@ -2,6 +2,9 @@ import React from "react";
 import styles from "./PickUpLocation.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import CheckBox from "../../general/components/CheckBox.js";
 const integerDayMapping = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri"];
 
 export default class PickUpLocation extends React.Component {
@@ -11,13 +14,32 @@ export default class PickUpLocation extends React.Component {
     }
   }
 
+  handleClickForDesktop() {
+    if (this.props.selectItem) {
+      this.props.selectItem();
+    }
+    if (this.props.canSelectStore) {
+      if (this.props.onClick) {
+        this.props.onClick();
+      }
+    }
+  }
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.holder}>
           {this.props.headingText && (
             <div className={styles.headingText}>{this.props.headingText}</div>
-          )}
+          )}{" "}
+          <DesktopOnly>
+            <div
+              className={styles.checkBoxHolder}
+              onClick={() => this.handleClickForDesktop()}
+            >
+              <CheckBox selected={this.props.selected} />
+            </div>
+          </DesktopOnly>
           {this.props.iconText && (
             <div className={styles.textIcon}>{this.props.iconText}</div>
           )}
@@ -51,19 +73,21 @@ export default class PickUpLocation extends React.Component {
           )}
         </div>
         {this.props.canSelectStore && (
-          <div className={styles.buttonHolder}>
-            <div
-              className={styles.buttonContainer}
-              onClick={() => this.handleClick()}
-            >
-              <Button
-                type="primary"
-                color="#fff"
-                label={this.props.buttonText}
-                width={121}
-              />
+          <MobileOnly>
+            <div className={styles.buttonHolder}>
+              <div
+                className={styles.buttonContainer}
+                onClick={() => this.handleClick()}
+              >
+                <Button
+                  type="primary"
+                  color="#fff"
+                  label={this.props.buttonText}
+                  width={121}
+                />
+              </div>
             </div>
-          </div>
+          </MobileOnly>
         )}
       </div>
     );

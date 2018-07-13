@@ -25,7 +25,8 @@ import {
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
-  SIZE_GUIDE
+  SIZE_GUIDE,
+  CLIQ_PIQ_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -105,6 +106,9 @@ const mapDispatchToProps = dispatch => {
     },
     hidePdpPiqPage: () => {
       dispatch(hidePdpPiqPage());
+    },
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
     }
   };
 };
