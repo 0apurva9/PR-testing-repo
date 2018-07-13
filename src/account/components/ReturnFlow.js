@@ -9,8 +9,6 @@ import ReturnBankForm from "./ReturnBankForm";
 import ReturnReasonAndModes from "./ReturnReasonAndModes";
 import Loader from "../../general/components/Loader";
 import SelfCourierContainer from "../containers/SelfCourierContainer";
-import DeskTopOnly from "../../general/components/DesktopOnly.js";
-import MobileOnly from "../../general/components/MobileOnly.js";
 import {
   RETURNS,
   RETURNS_REASON,

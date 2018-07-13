@@ -38,7 +38,7 @@ import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import styles from "./ReturnReasonAndModes.css";
 import UserProfile from "./UserProfile";
-import DeskTopOnly from "../../general/components/DesktopOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import OrderCard from "./OrderCard";
 import format from "date-fns/format";
@@ -193,7 +193,7 @@ export default class ReturnReasonAndModes extends React.Component {
     let data = this.props.returnProductDetails;
     return (
       <React.Fragment>
-        <DeskTopOnly>
+        <DesktopOnly>
           <div className={styles.base}>
             <div className={MyAccountStyles.holder}>
               <div className={MyAccountStyles.profileMenu}>
@@ -227,7 +227,7 @@ export default class ReturnReasonAndModes extends React.Component {
               </div>
             </div>
           </div>
-        </DeskTopOnly>
+        </DesktopOnly>
         <MobileOnly>
           {pathname.match(REG_X_FOR_REASON) && renderReasonForm}
           {pathname.match(REG_X_FOR_MODES) && renderReturnMode}

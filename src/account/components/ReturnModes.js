@@ -5,7 +5,7 @@ import SelectReturnDate from "./SelectReturnDate";
 import ReturnsFrame from "./ReturnsFrame";
 import PropTypes from "prop-types";
 import styles from "./ReturnModes.css";
-import DeskTopOnly from "../../general/components/DesktopOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -151,13 +151,13 @@ export default class ReturnModes extends React.Component {
                 )}
             </OrderCard>
           </div>
-          <DeskTopOnly>
+          <DesktopOnly>
             <SelectedReasonForReturn
               header={"Select reason for your return"}
               titleDescription={this.props.selectedReason}
               handleCancel={() => this.handleCancel()}
             />
-          </DeskTopOnly>
+          </DesktopOnly>
           {this.isReturnModesEnabled() && (
             <div
               className={
@@ -167,14 +167,14 @@ export default class ReturnModes extends React.Component {
               }
             >
               {!this.state.isModeSelected && (
-                <DeskTopOnly>
+                <DesktopOnly>
                   <div className={styles.header}>
                     <div className={styles.circleHolder}>
                       <div className={styles.circle}>2</div>
                     </div>
                     Select mode of return
                   </div>
-                </DeskTopOnly>
+                </DesktopOnly>
               )}
               {!this.state.isModeSelected && (
                 <div className={styles.returnModesWithBorder}>
@@ -211,7 +211,7 @@ export default class ReturnModes extends React.Component {
                 </div>
               )}
 
-              <DeskTopOnly>
+              <DesktopOnly>
                 {this.state.selectedMode === QUICK_DROP && (
                   <ReturnToStoreContainer
                     {...this.state}
@@ -231,7 +231,7 @@ export default class ReturnModes extends React.Component {
                 {this.state.selectedMode === SELF_COURIER && (
                   <SelfCourierContainer {...this.state} {...this.props} />
                 )}
-              </DeskTopOnly>
+              </DesktopOnly>
             </div>
           )}
           {!this.isReturnModesEnabled() && (
@@ -240,11 +240,11 @@ export default class ReturnModes extends React.Component {
               care 90291 08282
             </div>
           )}
-          <DeskTopOnly>
+          <DesktopOnly>
             {!this.state.isModeSelected && (
               <DummyTab title={REFUND_DETAILS} number={3} />
             )}
-          </DeskTopOnly>
+          </DesktopOnly>
         </div>
       </div>
     );
