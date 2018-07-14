@@ -3,11 +3,22 @@ import styles from "./PickUpLocation.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import MobileOnly from "../../general/components/MobileOnly";
+
+import GridSelect from "../../general/components/GridSelect.js";
+
 import DesktopOnly from "../../general/components/DesktopOnly";
 import CheckBox from "../../general/components/CheckBox.js";
 const integerDayMapping = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri"];
 
 export default class PickUpLocation extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isCheckBoxSelected: false
+    };
+  }
+
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
@@ -15,6 +26,7 @@ export default class PickUpLocation extends React.Component {
   }
 
   handleClickForDesktop() {
+
     if (this.props.selectItem) {
       this.props.selectItem();
     }
@@ -25,19 +37,23 @@ export default class PickUpLocation extends React.Component {
     }
   }
 
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.holder}>
           {this.props.headingText && (
             <div className={styles.headingText}>{this.props.headingText}</div>
-          )}{" "}
+
+          )}
+
           <DesktopOnly>
             <div
               className={styles.checkBoxHolder}
               onClick={() => this.handleClickForDesktop()}
             >
               <CheckBox selected={this.props.selected} />
+
             </div>
           </DesktopOnly>
           {this.props.iconText && (

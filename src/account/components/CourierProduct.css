@@ -37,3 +37,20 @@
 .form {
   display: inline-block;
 }
+@media screen and (min-width: 1025px) {
+  .header {
+    margin-bottom: 20px;
+  }
+  .text {
+    font-size: 14px;
+    font-family: light;
+    padding-bottom: 15px;
+  }
+  .formHolder {
+    width: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 0px;
+  }
+}

@@ -10,6 +10,9 @@ import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress.js";
 import * as Cookie from "../../lib/Cookie.js";
 import ReturnSummary from "./ReturnSummary.js";
 import Error from "../../general/components/Error.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 
 import {
   RETURN_CLIQ_PIQ,
@@ -50,7 +53,8 @@ export default class ReturnAddressList extends React.Component {
       addNewAddress: false,
       errorMessage: "",
       error: false,
-      userEmailId: ""
+      userEmailId: "",
+      isReturnAddressSelected: false
     };
   }
 
@@ -63,7 +67,9 @@ export default class ReturnAddressList extends React.Component {
     if (nextProps.addUserAddressStatus === SUCCESS) {
       if (this.state.addNewAddress === true) {
         this.setState({ addNewAddress: false });
-        this.props.history.goBack();
+        if (checkUserAgentIsMobile()) {
+          this.props.history.goBack();
+        }
       }
     }
     if (nextProps.userDetails) {
@@ -75,17 +81,21 @@ export default class ReturnAddressList extends React.Component {
         errorMessage: nextProps.returnPinCodeError,
         error: true
       });
-      this.props.history.goBack();
+      if (checkUserAgentIsMobile()) {
+        this.props.history.goBack();
+      }
     } else if (
       nextProps.returnPinCodeStatus === SUCCESS &&
       !this.state.addressSelectedByUser
     ) {
       this.setState({ addressSelectedByUser: true });
-      this.props.history.push(
-        `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_DATE}`
-      );
+      if (checkUserAgentIsMobile()) {
+        this.props.history.push(
+          `${RETURNS_PREFIX}/${
+            this.orderCode
+          }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_DATE}`
+        );
+      }
     }
   }
 
@@ -186,7 +196,6 @@ export default class ReturnAddressList extends React.Component {
       );
 
       this.props.addUserAddress(address, true);
-      // this.setState({ addNewAddress: false });
     }
   };
 
@@ -347,16 +356,25 @@ export default class ReturnAddressList extends React.Component {
     if (this.props.returnRequest && this.props.returnProducts) {
       const { pathname } = this.props.location;
       return (
-        <div>
-          <Error message={this.state.errorMessage} show={this.state.error} />
-          <React.Fragment>
-            {pathname.match(REG_X_FOR_ADDRESS) && this.renderAddress()}
-            {pathname.match(REG_X_FOR_DATE_TIME) && this.renderDateTime()}
-            {pathname.match(REG_X_FOR_NEW_ADDRESS) && this.renderNewAddress()}
-            {pathname.match(REG_X_FOR_RETURN_SUMMARY) &&
-              this.renderReturnSummary()}
-          </React.Fragment>
-        </div>
+        <React.Fragment>
+          <DesktopOnly>
+            {this.renderAddress()}
+            <div className={styles.renderDateAndTime}>
+              {this.renderDateTime()}
+            </div>
+            {this.renderReturnSummary()}
+          </DesktopOnly>
+          <MobileOnly>
+            <Error message={this.state.errorMessage} show={this.state.error} />
+            <React.Fragment>
+              {pathname.match(REG_X_FOR_ADDRESS) && this.renderAddress()}
+              {pathname.match(REG_X_FOR_DATE_TIME) && this.renderDateTime()}
+              {pathname.match(REG_X_FOR_NEW_ADDRESS) && this.renderNewAddress()}
+              {pathname.match(REG_X_FOR_RETURN_SUMMARY) &&
+                this.renderReturnSummary()}
+            </React.Fragment>
+          </MobileOnly>
+        </React.Fragment>
       );
     } else {
       return null;

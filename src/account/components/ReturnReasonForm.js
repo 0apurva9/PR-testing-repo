@@ -4,12 +4,17 @@ import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import TextArea from "../../general/components/TextArea";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
+import CancelAndContinueButton from "./CancelAndContinueButton";
 import styles from "./ReturnReasonForm.css";
 import ReverseSealYesNo from "./ReverseSealYesNo.js";
+import DeskTopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DummyTab from "../../cart/components/DummyTab.js";
+const MODE_OF_RETURN = "Select mode of return";
+const REFUND_DETAILS = "Refund Details";
 export default class ReturnReasonForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       displaySecondary: false,
       secondaryReasons: null,
@@ -79,18 +84,21 @@ export default class ReturnReasonForm extends React.Component {
   }
   render() {
     const data = this.props.returnProductDetails;
+
     return (
       <div className={styles.base}>
-        <div className={styles.header}>
-          Select reason for your return
-          <div className={styles.cancelHolder}>
-            <UnderLinedButton
-              label="Cancel"
-              color="#ff1744"
-              onClick={() => this.handleCancel()}
-            />
+        <MobileOnly>
+          <div className={styles.header}>
+            Select reason for your return
+            <div className={styles.cancelHolder}>
+              <UnderLinedButton
+                label="Cancel"
+                color="#ff1744"
+                onClick={() => this.handleCancel()}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
         <div className={styles.content}>
           <OrderCard
             imageUrl={
@@ -114,6 +122,10 @@ export default class ReturnReasonForm extends React.Component {
             }
             isSelect={true}
             quantity={true}
+            onHollow={this.props.onHollow}
+            orderPlace={this.props.orderDate}
+            orderId={this.props.orderId}
+            productBrand={this.props.productBrand}
           >
             {data &&
               data.orderProductWsDTO &&
@@ -124,34 +136,52 @@ export default class ReturnReasonForm extends React.Component {
                 </div>
               )}
           </OrderCard>
-          <div className={styles.select}>
-            <SelectBoxMobile2
-              placeholder={"Select a reason"}
-              options={
-                data &&
-                data.returnReasonMap &&
-                data.returnReasonMap.map((val, i) => {
-                  return {
-                    value: val.parentReasonCode,
-                    label: val.parentReturnReason
-                  };
-                })
-              }
-              onChange={val => this.onChangePrimary(val)}
-            />
-          </div>
-          {this.state.secondaryReasons && (
+          <div className={styles.selectReasonWithText}>
+            <DeskTopOnly>
+              <div className={styles.header}>
+                <div className={styles.circleHolder}>
+                  <div className={styles.circle}>1</div>
+                </div>
+                Select reason for your return
+              </div>
+            </DeskTopOnly>
             <div className={styles.select}>
               <SelectBoxMobile2
                 placeholder={"Select a reason"}
-                options={this.state.secondaryReasons}
-                onChange={val => this.onChangeSecondary(val)}
-                isEnable={this.state.isEnable}
+                options={
+                  data &&
+                  data.returnReasonMap &&
+                  data.returnReasonMap.map((val, i) => {
+                    return {
+                      value: val.parentReasonCode,
+                      label: val.parentReturnReason
+                    };
+                  })
+                }
+                onChange={val => this.onChangePrimary(val)}
               />
             </div>
-          )}
-          <div className={styles.textArea}>
-            <TextArea onChange={val => this.handleChange(val)} />
+            {this.state.secondaryReasons && (
+              <div className={styles.select}>
+                <SelectBoxMobile2
+                  placeholder={"Select a reason"}
+                  options={this.state.secondaryReasons}
+                  onChange={val => this.onChangeSecondary(val)}
+                  isEnable={this.state.isEnable}
+                />
+              </div>
+            )}
+            <div className={styles.textArea}>
+              <TextArea onChange={val => this.handleChange(val)} />
+            </div>
+            <DeskTopOnly>
+              <div className={styles.buttonHolder}>
+                <CancelAndContinueButton
+                  handleCancel={() => this.handleCancel()}
+                  handleContinue={() => this.handleContinue()}
+                />
+              </div>
+            </DeskTopOnly>
           </div>
         </div>
         {data &&
@@ -163,16 +193,23 @@ export default class ReturnReasonForm extends React.Component {
             </div>
           )}
 
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              width={175}
-              type="primary"
-              label="Continue"
-              onClick={() => this.handleContinue()}
-            />
+        <MobileOnly>
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                width={175}
+                type="primary"
+                label="Continue"
+                onClick={() => this.handleContinue()}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
+
+        <DeskTopOnly>
+          <DummyTab title={MODE_OF_RETURN} number={2} />
+          <DummyTab title={REFUND_DETAILS} number={3} />
+        </DeskTopOnly>
       </div>
     );
   }

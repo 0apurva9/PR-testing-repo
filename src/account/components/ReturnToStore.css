@@ -1,0 +1,35 @@
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 100%;
+    height: auto;
+  }
+  .location {
+    width: 100%;
+    height: auto;
+    left: 0;
+    bottom: 0px;
+    padding: 30px 0px;
+    border-bottom: 1px solid #a3a3a3;
+    background: #fff;
+  }
+  .locationWithPincode {
+    width: 50%;
+    height: auto;
+  }
+  .singleCardHolder {
+    width: 100%;
+    padding: 30px 0px;
+    border-bottom: 1px solid #d2d2d2;
+  }
+  .addressDetail {
+    height: auto;
+    width: 100%;
+  }
+  .cancelPickUpButtonHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    background: #fff;
+    padding: 20px 25px 50px 25px;
+  }
+}
