@@ -8,6 +8,7 @@ import Accordion from "../../general/components/Accordion.js";
 import JewelleryClassification from "./JewelleryClassification";
 import PriceBreakUp from "./PriceBreakUp";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
+import ProductReviewListContainer from "../containers/ProductReviewListContainer";
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
@@ -901,6 +902,27 @@ export default class PdpApparel extends React.Component {
                     {this.renderRatings}
                   </div>
                 )}
+                {productData.numberOfReviews &&
+                (productData.numberOfReviews !== 0 ||
+                  productData.numberOfReviews !== "0") ? (
+                  <div className={styles.reviewsHolder}>
+                    <div className={styles.reviewsHeader}>
+                      Ratings and Reviews
+                      <div className={styles.reviewsButton}>
+                        <UnderLinedButton
+                          color="#ff1744"
+                          label="See All"
+                          fontFamily="light"
+                          onClick={this.goToReviewPage}
+                        />
+                      </div>
+                    </div>
+                    <ProductReviewListContainer
+                      productId={productData.productListingId}
+                    />
+                  </div>
+                ) : null}
+
                 <div className={styles.details}>
                   {productData.APlusContent && (
                     <AllDescription
