@@ -45,6 +45,7 @@
   position: absolute;
   top: 90px;
   left: 0px;
+  pointer-events:none;
 }
 .link {
   font-size: 14px;
@@ -240,21 +241,38 @@
     font-family:light;
   }
   .details {
-
     background:#ececec;
   }
   .detailsCard{
     width:100%;
     background:#fff;
-    padding:40px;
+    padding:20px 40px;
     border-radius:4px;
   }
   .detailsHolder{
     margin-top:60px;
     display:flex;
   }
-  .detailsHolder .detailsCard:first-child{
-    margin-right:20px;
+  .detailsCard:empty{
+   display:none;
+  }
+  .reviewsHolder{
+    composes:detailsCard;
+    margin-top:60px;
+    padding-top:40px;
+  }
+  .reviewsHeader{
+    width:100%;
+    font-size:20px;
+    color:#212121;
+    font-family:semibold;
+    margin-bottom:10px;
+    position:relative;
+  }
+  .reviewsButton{
+    position:absolute;
+    bottom:0;
+    right:0;
   }
   .sideContent {
     width:100%;
