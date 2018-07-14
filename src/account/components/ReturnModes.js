@@ -89,7 +89,6 @@ export default class ReturnModes extends React.Component {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
   render() {
-    console.log(this.props.bankDetails);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||

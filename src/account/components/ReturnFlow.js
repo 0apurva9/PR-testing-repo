@@ -62,7 +62,6 @@ export default class ReturnFlow extends React.Component {
     this.props.getReturnRequest(orderCode, transactionId);
   }
   onChangeBankingDetail(val) {
-    console.log(val);
     let bankDetail = cloneDeep(this.state.bankDetail);
     Object.assign(bankDetail, val);
     this.setState({ bankDetail });

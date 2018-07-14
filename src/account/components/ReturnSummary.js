@@ -70,7 +70,6 @@ export default class ReturnSummary extends React.Component {
     }
   }
   render() {
-    console.log(this.props.isCod);
     return (
       <ReturnsFrame
         headerText="Return summary"

@@ -198,7 +198,6 @@ export default class ReturnReasonAndModes extends React.Component {
     );
 
     let data = this.props.returnProductDetails;
-    console.log(this.props.isCOD);
     return (
       <React.Fragment>
         <DesktopOnly>
