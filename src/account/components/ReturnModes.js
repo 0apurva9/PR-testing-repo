@@ -51,6 +51,11 @@ export default class ReturnModes extends React.Component {
       this.props.onCancel();
     }
   }
+  onChangeBankDetails = val => {
+    if (this.props.onChangeBankDetails) {
+      this.props.onChangeBankDetails(val);
+    }
+  };
   navigateToReturnLanding() {
     return (
       <Redirect
@@ -83,6 +88,7 @@ export default class ReturnModes extends React.Component {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
   render() {
+    console.log(this.props.bankDetails, this.props.userName);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -176,6 +182,7 @@ export default class ReturnModes extends React.Component {
                   </div>
                 </DesktopOnly>
               )}
+
               {!this.state.isModeSelected && (
                 <div className={styles.returnModesWithBorder}>
                   {data.returnModes.quickDrop &&
@@ -218,6 +225,7 @@ export default class ReturnModes extends React.Component {
                     {...this.props}
                     selectReturnMode={storeId => this.selectReturnMode(storeId)}
                     cancelReturnMode={() => this.cancelReturnMode()}
+                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
                   />
                 )}
                 {this.state.selectedMode === SCHEDULED_PICKUP && (
