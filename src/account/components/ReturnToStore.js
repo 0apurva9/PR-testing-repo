@@ -262,14 +262,13 @@ export default class ReturnToStore extends React.Component {
   };
 
   getStoreDetails = val => {
-    console.log(val);
     if (val.length > 0) {
       let selectedStore =
         this.props.returnRequest &&
         this.props.returnRequest.returnStoreDetailsList.find(
           store => store.slaveId === val
         );
-      console.log(selectedStore);
+
       this.setState({
         storeId: val,
         lat: selectedStore.geoPoint.latitude,
