@@ -11,6 +11,7 @@ import GridSelect from "../../general/components/GridSelect.js";
 import PickUpLocation from "../../cart/components/PickUpLocation.js";
 import GetLocationDetails from "../../cart/components/GetLocationDetails.js";
 import Button from "../../general/components/Button.js";
+import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -71,7 +72,13 @@ export default class ReturnToStore extends React.Component {
   };
   render() {
     let storeDetails = this.props && this.props.stores;
-
+    if (!storeDetails) {
+      return (
+        <div className={styles.loadingIndicator}>
+          <SecondaryLoader />
+        </div>
+      );
+    }
     return (
       <div className={styles.base}>
         <div className={styles.mapButton}>

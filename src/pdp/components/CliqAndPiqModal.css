@@ -60,3 +60,9 @@
   z-index: 1;
   border-bottom: 1px solid #ececec;
 }
+.loadingIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}

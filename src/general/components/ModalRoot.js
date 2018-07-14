@@ -193,7 +193,7 @@ const ChangePasswordForDesktop = Loadable({
   }
 });
 const CliqAndPiq = Loadable({
-  loader: () => import("../../pdp/components/CliqandPiqModal.js"),
+  loader: () => import("../../pdp/containers/CliqAndPiqModalContainer.js"),
   loading() {
     return <Loader />;
   }
@@ -742,9 +742,6 @@ export default class ModalRoot extends React.Component {
       ),
       CliqAndPiqModal: (
         <CliqAndPiq
-          getAllStoresForCliqAndPiq={pinCode =>
-            this.props.getAllStoresForCliqAndPiq(pinCode)
-          }
           CloseCliqAndPiqModal={() => this.handleClose()}
           {...this.props.ownProps}
         />
