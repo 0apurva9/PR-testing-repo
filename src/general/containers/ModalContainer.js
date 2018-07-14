@@ -31,7 +31,10 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   ERROR
 } from "../../lib/constants";
-
+import {
+  getAllStoresForCliqAndPiq,
+  hidePdpPiqPage
+} from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -83,7 +86,8 @@ const mapStateToProps = (state, ownProps) => {
       state.profile.loadingForGetOtpToActivateWallet,
     loadingForVerifyWallet: state.profile.loadingForverifyWallet,
     loadingForCancelProduct: state.profile.loadingForCancelProduct,
-    loading: state.profile.loading
+    loading: state.profile.loading,
+    stores: state.productDescription.storeDetails
   };
 };
 
@@ -326,6 +330,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       } else {
         dispatch(displayToast(ERROR_MESSAGE_IN_CANCELING_ORDER));
       }
+    },
+    getAllStoresForCliqAndPiq: pinCode => {
+      dispatch(getAllStoresForCliqAndPiq(pinCode));
+    },
+    hidePdpPiqPage: () => {
+      dispatch(hidePdpPiqPage());
     }
   };
 };

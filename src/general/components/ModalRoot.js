@@ -192,6 +192,12 @@ const ChangePasswordForDesktop = Loadable({
     return <Loader />;
   }
 });
+const CliqAndPiq = Loadable({
+  loader: () => import("../../pdp/containers/CliqAndPiqModalContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -220,6 +226,9 @@ export default class ModalRoot extends React.Component {
   }
 
   handleClose() {
+    if (this.props.hidePdpPiqPage) {
+      this.props.hidePdpPiqPage();
+    }
     if (this.props.hideModal) {
       this.props.hideModal();
     }
@@ -729,6 +738,12 @@ export default class ModalRoot extends React.Component {
         <ChangePasswordForDesktop
           closeModal={() => this.handleClose()}
           updateProfile={passwordDetails => this.updateProfile(passwordDetails)}
+        />
+      ),
+      CliqAndPiqModal: (
+        <CliqAndPiq
+          CloseCliqAndPiqModal={() => this.handleClose()}
+          {...this.props.ownProps}
         />
       )
     };
