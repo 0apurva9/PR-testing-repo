@@ -51,6 +51,11 @@ export default class ReturnModes extends React.Component {
       this.props.onCancel();
     }
   }
+  onChangeBankDetails = val => {
+    if (this.props.onChangeBankDetails) {
+      this.props.onChangeBankDetails(val);
+    }
+  };
   navigateToReturnLanding() {
     return (
       <Redirect
@@ -76,9 +81,10 @@ export default class ReturnModes extends React.Component {
     return false;
   };
 
-  selectReturnMode = id => {
+  selectReturnMode = () => {
     this.setState({ isModeSelected: true });
   };
+
   cancelReturnMode = () => {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
@@ -176,6 +182,7 @@ export default class ReturnModes extends React.Component {
                   </div>
                 </DesktopOnly>
               )}
+
               {!this.state.isModeSelected && (
                 <div className={styles.returnModesWithBorder}>
                   {data.returnModes.quickDrop &&
@@ -216,8 +223,9 @@ export default class ReturnModes extends React.Component {
                   <ReturnToStoreContainer
                     {...this.state}
                     {...this.props}
-                    selectReturnMode={storeId => this.selectReturnMode(storeId)}
+                    selectReturnMode={() => this.selectReturnMode()}
                     cancelReturnMode={() => this.cancelReturnMode()}
+                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
                   />
                 )}
                 {this.state.selectedMode === SCHEDULED_PICKUP && (
@@ -226,6 +234,7 @@ export default class ReturnModes extends React.Component {
                     {...this.props}
                     selectReturnMode={() => this.selectReturnMode()}
                     cancelReturnMode={() => this.cancelReturnMode()}
+                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
                   />
                 )}
                 {this.state.selectedMode === SELF_COURIER && (

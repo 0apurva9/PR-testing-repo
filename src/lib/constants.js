@@ -307,3 +307,12 @@ export const FEMALE = "FEMALE";
 export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
+export const IFSC_PATTERN = /^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/;
+export const ACCOUNT_NUMBER = "Please enter account number";
+export const RE_ENTER_ACCOUNT_NUMBER = "Please re-enter account number";
+export const ACCOUNT_NUMBER_MATCH_TEXT = "Account number did not match";
+export const ACCOUNT_HOLDER_NAME = "Please enter account holder name";
+export const BANK_NAME = "Please enter bank name";
+export const IFSC_CODE_TEXT = "Please enter ifsc code";
+export const IFSC_CODE_VALID_TEXT = "Please enter valid ifsc code";
+export const REFUND_MODE_TEXT = "please select refund mode";

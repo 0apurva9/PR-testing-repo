@@ -70,6 +70,12 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.onChange(val);
     }
   }
+
+  onChangeBankDetails(val) {
+    if (this.props.onChangeBankDetails) {
+      this.props.onChangeBankDetails(val);
+    }
+  }
   renderToModes(data) {
     if (!data.reason) {
       this.props.displayToast("Please select reason ");
@@ -85,7 +91,7 @@ export default class ReturnReasonAndModes extends React.Component {
     } else {
       this.setState({ isReasonSelected: true, selectedReason: data.reason });
       this.props.onChange({ data });
-      if (this.props.isCOD) {
+      if (this.props.isCOD && checkUserAgentIsMobile()) {
         this.props.history.push({
           pathname: `${RETURNS_PREFIX}/${
             this.orderCode
@@ -187,6 +193,7 @@ export default class ReturnReasonAndModes extends React.Component {
         selectMode={mode => this.onSelectMode(mode)}
         onCancel={() => this.onCancel()}
         selectedReason={this.state.selectedReason}
+        onChangeBankDetails={val => this.props.onChangeBankDetails(val)}
       />
     );
 

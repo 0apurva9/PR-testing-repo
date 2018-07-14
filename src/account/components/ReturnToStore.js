@@ -17,6 +17,7 @@ import Button from "../../general/components/Button";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import find from "lodash.find";
+import BankDetails from "./BankDetails.js";
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -26,7 +27,16 @@ import {
   QUICK_DROP,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   YES,
-  NO
+  NO,
+  IFSC_PATTERN,
+  ACCOUNT_NUMBER,
+  RE_ENTER_ACCOUNT_NUMBER,
+  ACCOUNT_NUMBER_MATCH_TEXT,
+  ACCOUNT_HOLDER_NAME,
+  BANK_NAME,
+  IFSC_CODE_TEXT,
+  IFSC_CODE_VALID_TEXT,
+  REFUND_MODE_TEXT
 } from "../../lib/constants";
 const REG_X_FOR_STORE_PICKUP = /storePick/i;
 const REG_X_FOR_FINAL_SUBMIT = /submit/i;
@@ -130,6 +140,7 @@ export default class ReturnToStore extends React.Component {
         comment: this.props.data.comment
       });
     }
+
     // here we are product object has all data we we need to send in api for return product
     // and product is actual object
     this.props.newReturnInitial(productObj, product);
@@ -160,8 +171,63 @@ export default class ReturnToStore extends React.Component {
 
   handleContinuePickUp = () => {
     if (this.state.storeId) {
-      this.setState({ isStoreSelected: true });
-      this.props.selectReturnMode(this.state.storeId);
+      if (this.props.isCOD) {
+        if (!this.state.isStoreSelected) {
+          this.setState({
+            isStoreSelected: true
+          });
+          this.props.selectReturnMode(this.state.storeId);
+        }
+        if (this.state.isStoreSelected) {
+          if (!this.props.bankDetail.accountNumber) {
+            this.props.displayToast(ACCOUNT_NUMBER);
+            return false;
+          }
+          if (!this.props.bankDetail.reEnterAccountNumber) {
+            this.props.displayToast(RE_ENTER_ACCOUNT_NUMBER);
+            return false;
+          }
+          if (
+            this.props.bankDetail.accountNumber !==
+            this.props.bankDetail.reEnterAccountNumber
+          ) {
+            this.props.displayToast(ACCOUNT_NUMBER_MATCH_TEXT);
+            return false;
+          }
+          if (!this.props.bankDetail.userName) {
+            this.props.displayToast(ACCOUNT_HOLDER_NAME);
+            return false;
+          }
+          if (!this.props.bankDetail.mode) {
+            this.props.displayToast(REFUND_MODE_TEXT);
+            return false;
+          }
+          if (!this.props.bankDetail.bankName) {
+            this.props.displayToast(BANK_NAME);
+            return false;
+          }
+          if (!this.props.bankDetail.code) {
+            this.props.displayToast(IFSC_CODE_TEXT);
+            return false;
+          }
+          if (
+            this.props.bankDetail.code &&
+            !IFSC_PATTERN.test(this.props.bankDetail.code)
+          ) {
+            this.props.displayToast(IFSC_CODE_VALID_TEXT);
+            return false;
+          } else {
+            this.finalSubmit();
+          }
+        }
+      } else {
+        if (!this.state.isStoreSelected) {
+          this.setState({ isStoreSelected: true });
+          this.props.selectReturnMode(this.state.storeId);
+        } else {
+          this.finalSubmit();
+        }
+      }
     } else {
       this.props.displayToast(ERROR_MESSAGE);
     }
@@ -306,7 +372,7 @@ export default class ReturnToStore extends React.Component {
             returnAddressDetails && (
               <React.Fragment>
                 <SelectedReasonForReturn
-                  header={"Select reason for your return"}
+                  header={"Select mode of return "}
                   title={returnAddressDetails.displayName}
                   titleDescription={`${returnAddressDetails.address.line1}, ${
                     returnAddressDetails.address.line2
@@ -318,6 +384,12 @@ export default class ReturnToStore extends React.Component {
                   handleCancel={() => this.handleCancelForReturn()}
                 />
               </React.Fragment>
+            )}
+          {this.state.isStoreSelected &&
+            this.props.isCOD && (
+              <BankDetails
+                onChange={val => this.props.onChangeBankDetails(val)}
+              />
             )}
           {this.state.isStoreSelected && renderFinalSubmit}
 
