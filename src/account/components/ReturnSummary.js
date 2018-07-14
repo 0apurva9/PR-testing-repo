@@ -13,6 +13,10 @@ import repayLogo from "../../cart/components/img/rupay.svg";
 import dinersLogo from "../../cart/components/img/diners.svg";
 import discoverLogo from "../../cart/components/img/discover.svg";
 import jcbLogo from "../../cart/components/img/jcb.svg";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import BankDetails from "./BankDetails.js";
 import {
   RUPAY_CARD,
   VISA_CARD,
@@ -66,65 +70,79 @@ export default class ReturnSummary extends React.Component {
     }
   }
   render() {
+    console.log(this.props.isCod);
     return (
       <ReturnsFrame
         headerText="Return summary"
         onContinue={() => this.onContinue()}
         onCancel={() => this.handleCancel()}
       >
-        <div className={styles.card}>
-          <OrderReturnAddressDetails
-            addressType={this.props.selectedAddress.addressType}
-            address={`${
-              this.props.selectedAddress.line1
-                ? this.props.selectedAddress.line1
-                : ""
-            }, ${
-              this.props.selectedAddress.landmark
-                ? this.props.selectedAddress.landmark
-                : ""
-            }`}
-            subAddress={`${
-              this.props.selectedAddress.state
-                ? this.props.selectedAddress.state
-                : ""
-            } ${
-              this.props.selectedAddress.city
-                ? this.props.selectedAddress.city
-                : ""
-            } ${
-              this.props.selectedAddress.postalCode
-                ? this.props.selectedAddress.postalCode
-                : ""
-            }`}
-          />
-          <OrderReturnDateAndTimeDetails
-            date={this.props.dateSelected}
-            time={this.props.timeSelected}
-            underlineButtonLabel="change"
-            onCancel={() => this.onChangeAddress()}
-          />
-        </div>
+        <MobileOnly>
+          <div className={styles.card}>
+            <OrderReturnAddressDetails
+              addressType={this.props.selectedAddress.addressType}
+              address={`${
+                this.props.selectedAddress.line1
+                  ? this.props.selectedAddress.line1
+                  : ""
+              }, ${
+                this.props.selectedAddress.landmark
+                  ? this.props.selectedAddress.landmark
+                  : ""
+              }`}
+              subAddress={`${
+                this.props.selectedAddress.state
+                  ? this.props.selectedAddress.state
+                  : ""
+              } ${
+                this.props.selectedAddress.city
+                  ? this.props.selectedAddress.city
+                  : ""
+              } ${
+                this.props.selectedAddress.postalCode
+                  ? this.props.selectedAddress.postalCode
+                  : ""
+              }`}
+            />
+
+            <OrderReturnDateAndTimeDetails
+              date={this.props.dateSelected}
+              time={this.props.timeSelected}
+              underlineButtonLabel="change"
+              onCancel={() => this.onChangeAddress()}
+            />
+          </div>
+        </MobileOnly>
 
         <div className={styles.card}>
-          <OrderCard
-            imageUrl={
-              this.props.returnProducts &&
-              this.props.returnProducts.orderProductWsDTO &&
-              this.props.returnProducts.orderProductWsDTO[0] &&
-              this.props.returnProducts.orderProductWsDTO[0].imageURL
-            }
-            productName={`${
-              this.props.returnProducts.orderProductWsDTO[0].productBrand
-            } ${this.props.returnProducts.orderProductWsDTO[0].productName}`}
-            price={this.props.returnProducts.orderProductWsDTO[0].price}
-          >
-            {this.props.returnProducts.orderProductWsDTO[0].quantity && (
-              <div>
-                Qty {this.props.returnProducts.orderProductWsDTO[0].quantity}
-              </div>
+          <MobileOnly>
+            <OrderCard
+              imageUrl={
+                this.props.returnProducts &&
+                this.props.returnProducts.orderProductWsDTO &&
+                this.props.returnProducts.orderProductWsDTO[0] &&
+                this.props.returnProducts.orderProductWsDTO[0].imageURL
+              }
+              productName={`${
+                this.props.returnProducts.orderProductWsDTO[0].productBrand
+              } ${this.props.returnProducts.orderProductWsDTO[0].productName}`}
+              price={this.props.returnProducts.orderProductWsDTO[0].price}
+            >
+              {this.props.returnProducts.orderProductWsDTO[0].quantity && (
+                <div>
+                  Qty {this.props.returnProducts.orderProductWsDTO[0].quantity}
+                </div>
+              )}
+            </OrderCard>
+          </MobileOnly>
+          <DesktopOnly>
+            {this.props.isCod && (
+              <BankDetails
+                onChange={val => this.props.onChangeBankDetails(val)}
+              />
             )}
-          </OrderCard>
+          </DesktopOnly>
+
           {this.props.orderDetails &&
             this.props.orderDetails.paymentCardDigit && (
               <ReturnsToBank

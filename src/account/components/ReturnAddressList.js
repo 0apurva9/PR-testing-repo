@@ -13,7 +13,8 @@ import Error from "../../general/components/Error.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-
+import CancelAndContinueButton from "./CancelAndContinueButton";
+import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import {
   RETURN_CLIQ_PIQ,
   RETURN_CLIQ_PIQ_DATE,
@@ -35,6 +36,7 @@ import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
+import { CREATE_JUS_PAY_ORDER_FAILURE } from "../../cart/actions/cart.actions";
 const REG_X_FOR_ADDRESS = /address/i;
 const REG_X_FOR_DATE_TIME = /dateTime/i;
 const REG_X_FOR_NEW_ADDRESS = /addDeliveryLocation/i;
@@ -54,7 +56,8 @@ export default class ReturnAddressList extends React.Component {
       errorMessage: "",
       error: false,
       userEmailId: "",
-      isReturnAddressSelected: false
+      isReturnAddressSelected: false,
+      isContinueForDesktop: false
     };
   }
 
@@ -248,11 +251,13 @@ export default class ReturnAddressList extends React.Component {
 
   onSelectTime = val => {
     this.setState({ selectedTime: val });
-    this.props.history.push(
-      `${RETURNS_PREFIX}/${
-        this.orderCode
-      }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_RETURN_SUMMARY}`
-    );
+    if (checkUserAgentIsMobile()) {
+      this.props.history.push(
+        `${RETURNS_PREFIX}/${
+          this.orderCode
+        }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_RETURN_SUMMARY}`
+      );
+    }
   };
   renderDateTime = () => {
     if (this.props.returnRequest) {
@@ -321,6 +326,7 @@ export default class ReturnAddressList extends React.Component {
         returnCliqAndPiqObject.IFSCCode = this.props.bankDetail.code;
       }
     }
+
     this.props.newReturnInitial(
       returnCliqAndPiqObject,
       this.props.returnProductDetails.orderProductWsDTO[0]
@@ -338,8 +344,38 @@ export default class ReturnAddressList extends React.Component {
         returnProducts={this.props.returnProducts}
         returnRequest={this.props.returnRequest}
         orderDetails={this.props.orderDetails}
+        isCod={this.props.isCOD}
+        onChangeBankDetails={val => this.props.onChangeBankDetails(val)}
       />
     );
+  };
+
+  handleContinuePickUp = () => {
+    if (!this.state.isContinueForDesktop) {
+      this.setState({ isContinueForDesktop: true });
+      if (this.props.selectReturnMode) {
+        this.props.selectReturnMode();
+      }
+    } else {
+      this.newReturnInitiate();
+    }
+  };
+
+  handleCancelPickUP = () => {
+    this.setState({ isContinueForDesktop: false });
+    if (this.props.cancelReturnMode) {
+      this.props.cancelReturnMode();
+    }
+  };
+
+  handleCancelForReturn = () => {
+    this.setState({
+      selectedAddress: "",
+      selectedDate: "",
+      selectedTime: "",
+      isContinueForDesktop: false
+    });
+    this.props.cancelReturnMode();
   };
 
   cancel = () => {
@@ -358,11 +394,37 @@ export default class ReturnAddressList extends React.Component {
       return (
         <React.Fragment>
           <DesktopOnly>
-            {this.renderAddress()}
-            <div className={styles.renderDateAndTime}>
-              {this.renderDateTime()}
+            {!this.state.isContinueForDesktop && this.renderAddress()}
+            {!this.state.isContinueForDesktop &&
+              this.state.selectedAddress && (
+                <div className={styles.renderDateAndTime}>
+                  {this.renderDateTime()}
+                </div>
+              )}
+            {this.state.isContinueForDesktop && (
+              <React.Fragment>
+                <SelectedReasonForReturn
+                  header={"Select mode of return "}
+                  title={this.state.selectedAddress.addressType}
+                  titleDescription={`${this.state.selectedAddress.line1} ,${
+                    this.state.selectedAddress.landmark
+                  }`}
+                  subTitleDescription={`${this.state.selectedAddress.city} ,${
+                    this.state.selectedAddress.state
+                  } ,${this.state.selectedAddress.postalCode}`}
+                  date={this.state.selectedDate}
+                  time={this.state.selectedTime}
+                  handleCancel={() => this.handleCancelForReturn()}
+                />
+              </React.Fragment>
+            )}
+            {this.state.isContinueForDesktop && this.renderReturnSummary()}
+            <div className={styles.cancelPickUpButtonHolder}>
+              <CancelAndContinueButton
+                handleCancel={() => this.handleCancelPickUP()}
+                handleContinue={() => this.handleContinuePickUp()}
+              />
             </div>
-            {this.renderReturnSummary()}
           </DesktopOnly>
           <MobileOnly>
             <Error message={this.state.errorMessage} show={this.state.error} />

@@ -81,14 +81,15 @@ export default class ReturnModes extends React.Component {
     return false;
   };
 
-  selectReturnMode = id => {
+  selectReturnMode = () => {
     this.setState({ isModeSelected: true });
   };
+
   cancelReturnMode = () => {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
   render() {
-    console.log(this.props.bankDetails, this.props.userName);
+    console.log(this.props.bankDetails);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -223,7 +224,7 @@ export default class ReturnModes extends React.Component {
                   <ReturnToStoreContainer
                     {...this.state}
                     {...this.props}
-                    selectReturnMode={storeId => this.selectReturnMode(storeId)}
+                    selectReturnMode={() => this.selectReturnMode()}
                     cancelReturnMode={() => this.cancelReturnMode()}
                     onChangeBankDetails={val => this.onChangeBankDetails(val)}
                   />
@@ -234,6 +235,7 @@ export default class ReturnModes extends React.Component {
                     {...this.props}
                     selectReturnMode={() => this.selectReturnMode()}
                     cancelReturnMode={() => this.cancelReturnMode()}
+                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
                   />
                 )}
                 {this.state.selectedMode === SELF_COURIER && (

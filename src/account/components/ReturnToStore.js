@@ -57,8 +57,7 @@ export default class ReturnToStore extends React.Component {
             this.props.returnRequest.deliveryAddressesList[0] &&
             this.props.returnRequest.deliveryAddressesList[0].postalCode
           : "",
-      isStoreSelected: false,
-      isHavingAccountDetails: this.props.isCOD ? false : true
+      isStoreSelected: false
     };
   }
 
@@ -141,6 +140,7 @@ export default class ReturnToStore extends React.Component {
         comment: this.props.data.comment
       });
     }
+
     // here we are product object has all data we we need to send in api for return product
     // and product is actual object
     this.props.newReturnInitial(productObj, product);
@@ -170,17 +170,15 @@ export default class ReturnToStore extends React.Component {
   };
 
   handleContinuePickUp = () => {
-    console.log(this.props);
     if (this.state.storeId) {
       if (this.props.isCOD) {
-        if (!this.state.isHavingAccountDetails) {
+        if (!this.state.isStoreSelected) {
           this.setState({
-            isStoreSelected: true,
-            isHavingAccountDetails: true
+            isStoreSelected: true
           });
           this.props.selectReturnMode(this.state.storeId);
         }
-        if (this.state.isHavingAccountDetails) {
+        if (this.state.isStoreSelected) {
           if (!this.props.bankDetail.accountNumber) {
             this.props.displayToast(ACCOUNT_NUMBER);
             return false;
@@ -223,7 +221,12 @@ export default class ReturnToStore extends React.Component {
           }
         }
       } else {
-        this.setState({ isStoreSelected: true });
+        if (!this.state.isStoreSelected) {
+          this.setState({ isStoreSelected: true });
+          this.props.selectReturnMode(this.state.storeId);
+        } else {
+          this.finalSubmit();
+        }
       }
     } else {
       this.props.displayToast(ERROR_MESSAGE);
@@ -369,7 +372,7 @@ export default class ReturnToStore extends React.Component {
             returnAddressDetails && (
               <React.Fragment>
                 <SelectedReasonForReturn
-                  header={"Select reason for your return"}
+                  header={"Select mode of return "}
                   title={returnAddressDetails.displayName}
                   titleDescription={`${returnAddressDetails.address.line1}, ${
                     returnAddressDetails.address.line2
