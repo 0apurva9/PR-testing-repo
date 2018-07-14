@@ -26,17 +26,29 @@ export default class PickUpLocation extends React.Component {
   }
 
   handleClickForDesktop() {
-
-    if (this.props.selectItem) {
-      this.props.selectItem();
-    }
-    if (this.props.canSelectStore) {
-      if (this.props.onClick) {
-        this.props.onClick();
+    if (this.props.isReturn) {
+      this.setState(
+        { isCheckBoxSelected: !this.state.isCheckBoxSelected },
+        function() {
+          if (this.props.handleClickForDesktop) {
+            let slaveId = this.state.isCheckBoxSelected
+              ? this.props.slaveId
+              : "";
+            this.props.handleClickForDesktop(slaveId);
+          }
+        }
+      );
+    } else {
+      if (this.props.selectItem) {
+        this.props.selectItem();
+      }
+      if (this.props.canSelectStore) {
+        if (this.props.onClick) {
+          this.props.onClick();
+        }
       }
     }
   }
-
 
   render() {
     return (
@@ -44,7 +56,6 @@ export default class PickUpLocation extends React.Component {
         <div className={styles.holder}>
           {this.props.headingText && (
             <div className={styles.headingText}>{this.props.headingText}</div>
-
           )}
 
           <DesktopOnly>
@@ -52,8 +63,15 @@ export default class PickUpLocation extends React.Component {
               className={styles.checkBoxHolder}
               onClick={() => this.handleClickForDesktop()}
             >
-              <CheckBox selected={this.props.selected} />
-
+              <CheckBox
+                selected={
+                  this.props.isReturn
+                    ? this.props.selectedId === this.props.slaveId
+                      ? true
+                      : false
+                    : this.props.selected
+                }
+              />
             </div>
           </DesktopOnly>
           {this.props.iconText && (

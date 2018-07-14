@@ -57,7 +57,26 @@ export default class ReturnToStore extends React.Component {
             this.props.returnRequest.deliveryAddressesList[0] &&
             this.props.returnRequest.deliveryAddressesList[0].postalCode
           : "",
-      isStoreSelected: false
+      isStoreSelected: false,
+      lat:
+        this.props.returnRequest &&
+        this.props.returnRequest.returnStoreDetailsList &&
+        this.props.returnRequest.returnStoreDetailsList[0] &&
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
+          ? this.props.returnRequest &&
+            this.props.returnRequest.returnStoreDetailsList &&
+            this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
+          : 28.6129918,
+      lng:
+        this.props.returnRequest &&
+        this.props.returnRequest.returnStoreDetailsList &&
+        this.props.returnRequest.returnStoreDetailsList[0] &&
+        this.props.returnRequest.returnStoreDetailsList.geoPoint.longitude
+          ? this.props.returnRequest &&
+            this.props.returnRequest.returnStoreDetailsList &&
+            this.props.returnRequest.returnStoreDetailsList[0].geoPoint
+              .longitude
+          : 77.2310456
     };
   }
 
@@ -241,6 +260,29 @@ export default class ReturnToStore extends React.Component {
     this.setState({ isStoreSelected: false, storeId: null });
     this.props.cancelReturnMode();
   };
+
+  getStoreDetails = val => {
+    console.log(val);
+    if (val.length > 0) {
+      let selectedStore =
+        this.props.returnRequest &&
+        this.props.returnRequest.returnStoreDetailsList.find(
+          store => store.slaveId === val
+        );
+      console.log(selectedStore);
+      this.setState({
+        storeId: val,
+        lat: selectedStore.geoPoint.latitude,
+        lng: selectedStore.geoPoint.longitude
+      });
+    } else {
+      this.setState({
+        storeId: "",
+        lat: "28.6129918",
+        lng: "77.2310456"
+      });
+    }
+  };
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -288,8 +330,12 @@ export default class ReturnToStore extends React.Component {
         </MobileOnly>
         <DesktopOnly>
           <CliqAndPiqMap
-            availableStores={this.props.returnRequest.returnStoreDetailsList}
-            numberOfStores={noOfStories}
+            availableStores={
+              this.props.returnRequest &&
+              this.props.returnRequest.returnStoreDetailsList
+            }
+            lat={this.state.lat}
+            lng={this.state.lng}
           />
           <div className={styles.location}>
             <div className={styles.locationWithPincode}>
@@ -335,9 +381,10 @@ export default class ReturnToStore extends React.Component {
                           buttonText="Select"
                           canSelectStore={this.props.canSelectStore}
                           handleClickForDesktop={val =>
-                            this.setState({ storeId: val })
+                            this.getStoreDetails(val)
                           }
                           selectedId={this.state.storeId}
+                          isReturn={true}
                         />
                       );
                     }
