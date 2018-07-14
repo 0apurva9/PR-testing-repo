@@ -6,7 +6,6 @@ import { getProductReviews } from "../actions/pdp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductReviews: (pageIndex, orderBy, sortBy) => {
-      console.log(ownProps.productId);
       dispatch(
         getProductReviews(ownProps.productId, pageIndex, orderBy, sortBy)
       );
