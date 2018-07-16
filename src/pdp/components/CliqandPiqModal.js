@@ -30,36 +30,30 @@ export default class ReturnToStore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lat:
-        this.props &&
-        this.props.stores &&
-        this.props.stores[0].geoPoint.latitude
-          ? this.props &&
-            this.props.stores &&
-            this.props.stores[0].geoPoint.latitude
-          : 28.6129918,
-      lng:
-        this.props &&
-        this.props.stores &&
-        this.props.stores[0].geoPoint.longitude
-          ? this.props &&
-            this.props.stores &&
-            this.props.stores[0].geoPoint.longitude
-          : 77.2310456,
-      availableStores: []
+      lat: 28.6129918,
+      lng: 77.2310456,
+      availableStores: [],
+      storeId: null
     };
   }
 
   selectStoreForDesktop = val => {
     if (val.length > 0) {
-      const lat =
+      let selectedStore =
         this.state.availableStores &&
-        this.state.availableStores[val].geoPoint.latitude;
-      const lng =
-        this.state.availableStores &&
-        this.state.availableStores[val].geoPoint.longitude;
+        this.state.availableStores.find(store => {
+          return store.slaveId === val[0];
+        });
 
-      this.setState({ lat, lng });
+      const lat = selectedStore && selectedStore.geoPoint.latitude;
+      const lng = selectedStore && selectedStore.geoPoint.longitude;
+      const storeId = selectedStore && selectedStore.slaveId;
+
+      this.setState({
+        lat,
+        lng,
+        storeId
+      });
     }
   };
 
@@ -108,7 +102,14 @@ export default class ReturnToStore extends React.Component {
           return allStoreIds.includes(val.slaveId);
         })
       : [];
-    this.setState({ availableStores: availableStores });
+    const lat = availableStores && availableStores[0].geoPoint.latitude;
+    const lng = availableStores && availableStores[0].geoPoint.longitude;
+    this.setState({
+      availableStores: availableStores,
+      lat,
+      lng,
+      storeId: availableStores[0].slaveId
+    });
   }
   render() {
     if (!this.state.availableStores) {
@@ -161,6 +162,7 @@ export default class ReturnToStore extends React.Component {
                   offset={0}
                   elementWidthDesktop={100}
                   onSelect={val => this.selectStoreForDesktop(val)}
+                  selected={[this.state.storeId]}
                 >
                   {this.state.availableStores.map((val, i) => {
                     return (
@@ -175,38 +177,12 @@ export default class ReturnToStore extends React.Component {
                         closingTime={val.mplClosingTime}
                         address2={`${val.returnCity} ${val.returnPin}`}
                         headingText={val.displayName}
-                        value={i}
+                        value={val.slaveId}
                         canSelectStore={this.props.canSelectStore}
                       />
                     );
                   })}
                 </GridSelect>
-              )}
-            {this.state.availableStores &&
-              this.state.availableStores.length === 1 &&
-              !this.props.showPickupPerson && (
-                <div className={styles.singleCardHolder}>
-                  {this.state.availableStores &&
-                    this.state.availableStores.map((val, i) => {
-                      return (
-                        <PickUpLocation
-                          key={i}
-                          address={`${val.address.line1} ${
-                            val.address.line2
-                          }, `}
-                          PickUpKey="Open on: "
-                          workingDays={val.mplWorkingDays}
-                          openingTime={val.mplOpeningTime}
-                          closingTime={val.mplClosingTime}
-                          address2={`${val.returnCity} ${val.returnPin}`}
-                          iconText="C"
-                          headingText={val.displayName}
-                          canSelectStore={this.props.canSelectStore}
-                          buttonText="Select"
-                        />
-                      );
-                    })}
-                </div>
               )}
           </div>
         </div>
