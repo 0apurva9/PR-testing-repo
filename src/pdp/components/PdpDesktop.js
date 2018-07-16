@@ -679,7 +679,13 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId
                           )
                         }
-                        placeholder={"Enter your PIN code"}
+                        placeholder={
+                          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                            ? localStorage.getItem(
+                                DEFAULT_PIN_CODE_LOCAL_STORAGE
+                              )
+                            : "Enter your PIN code"
+                        }
                         hasAutoFocus={false}
                         labelText={"Check"}
                         borderColor="transparent"
