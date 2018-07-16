@@ -130,10 +130,16 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
-    if (!checkUserAgentIsMobile() && this.props.showPiqPage) {
+    if (
+      !checkUserAgentIsMobile() &&
+      this.props.showPiqPage &&
+      this.props.stores &&
+      this.props.stores.length > 0
+    ) {
       let cliqAndPiqDetails = {};
       cliqAndPiqDetails.loadingForCliqAndPiq = this.props.loadingForCliqAndPiq;
       cliqAndPiqDetails.stores = this.props.stores;
+      cliqAndPiqDetails.productDetails = this.props.productDetails;
       cliqAndPiqDetails.pinCodeUpdateDisabled = true;
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
