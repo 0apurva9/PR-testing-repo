@@ -1357,14 +1357,28 @@ export function setDataLayerForOrderConfirmationDirectCalls(
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
     const data = {
+      page: {
+        pageInfo: {
+          pageName: "order failed"
+        },
+        category: {
+          primaryCategory: "orderfailed"
+        }
+      },
       cpj: {
         order: {
-          failureReason: orderConfirmationResponse
-            ? orderConfirmationResponse
-            : ""
+          failureReason:
+            orderConfirmationResponse && orderConfirmationResponse.failureReason
+              ? orderConfirmationResponse.failureReason
+              : "",
+          id:
+            orderConfirmationResponse && orderConfirmationResponse.orderId
+              ? orderConfirmationResponse.orderId
+              : ""
         }
       }
     };
+
     window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
