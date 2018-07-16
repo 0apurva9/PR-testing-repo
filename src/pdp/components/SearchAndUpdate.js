@@ -83,7 +83,7 @@ export default class SearchAndUpdate extends React.Component {
               id={this.props.id}
               value={this.state.pinCode}
               onlyNumber={true}
-              placeholder={this.props.placeHolder}
+              placeholder={this.props.placeholder}
               onChange={val => this.getValue(val)}
               textStyle={{ fontSize: 14 }}
               height={35}
@@ -114,12 +114,12 @@ SearchAndUpdate.propTypes = {
   errorMessage: PropTypes.string,
   hasAutoFocus: PropTypes.bool,
   uiType: PropTypes.oneOf(["default", "hollow"]),
-  placeHolder: PropTypes.string
+  placeholder: PropTypes.string
 };
 
 SearchAndUpdate.defaultProps = {
   labelText: "Check",
   hasAutoFocus: false,
   uiType: "default",
-  placeHolder: "Enter your PIN code"
+  placeholder: "Enter your PIN code"
 };
