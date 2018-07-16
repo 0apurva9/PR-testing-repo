@@ -634,8 +634,8 @@ export default class PdpApparel extends React.Component {
                   <div className={styles.buttonHolder}>
                     <AddToWishListButtonContainer
                       type={WISHLIST_ICON_TYPE}
-                      productListingId={this.props.productListingId}
-                      winningUssID={this.props.winningUssID}
+                      productListingId={productData.productListingId}
+                      winningUssID={productData.winningUssID}
                       setDataLayerType={
                         SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
                       }
