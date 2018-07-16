@@ -242,6 +242,7 @@
   }
   .details {
     background:#ececec;
+    padding:0;
   }
   .detailsCard{
     width:100%;
