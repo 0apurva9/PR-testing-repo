@@ -15,7 +15,8 @@ import styles from "./PDPRecommendedSections.css";
 import {
   PDP_FOLLOW_AND_UN_FOLLOW,
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
-  PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE
+  PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
+  RUPEE_SYMBOL
 } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 
@@ -96,6 +97,17 @@ class PDPRecommendedSections extends React.Component {
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             const productImage = transformedDatum.image;
+            const discountedPrice = transformedDatum.discountPrice;
+            const mrpInteger = parseInt(
+              transformedDatum.price.replace(RUPEE_SYMBOL, ""),
+              10
+            );
+            const discount = Math.floor(
+              (mrpInteger -
+                parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+                mrpInteger *
+                100
+            );
             return (
               <ProductModule
                 key={i}
@@ -104,6 +116,7 @@ class PDPRecommendedSections extends React.Component {
                 productImage={productImage}
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
+                discountPercent={discount}
                 onClick={url => this.goToProductDescription(url)}
               />
             );
