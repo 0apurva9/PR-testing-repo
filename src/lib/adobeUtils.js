@@ -1127,6 +1127,7 @@ export function getDigitalDataForSearchPageSuccess(response) {
 }
 
 export function getDigitalDataForSearchPageForNullResult(response) {
+  const previousDigitalData = cloneDeep(window.digitalData);
   let data = {
     page: {
       pageInfo: {
@@ -1153,6 +1154,20 @@ export function getDigitalDataForSearchPageForNullResult(response) {
       }
     }
   });
+  if (
+    previousDigitalData &&
+    previousDigitalData.page &&
+    previousDigitalData.page.pageInfo &&
+    previousDigitalData.page.pageInfo.pageName
+  ) {
+    Object.assign(data, {
+      cpj: {
+        pdp: {
+          findingMethod: previousDigitalData.page.pageInfo.pageName
+        }
+      }
+    });
+  }
   return data;
 }
 export function setDataLayerForPlpDirectCalls(response, index: 0) {
