@@ -30,6 +30,7 @@ import {
   JCB_CARD,
   MASTER
 } from "../../lib/constants";
+import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -172,7 +173,41 @@ export default class UserSavedCard extends React.Component {
         </div>
       );
     } else {
-      return <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>;
+      return (
+        <div className={styles.base}>
+          <div className={myAccountStyles.holder}>
+            <DesktopOnly>
+              <div className={myAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            </DesktopOnly>
+            <div className={styles.saveCardDetail}>
+              <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
+            </div>
+            <DesktopOnly>
+              <div className={myAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  userLogin={userData.userName}
+                  loginType={userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                />
+              </div>
+            </DesktopOnly>
+          </div>{" "}
+        </div>
+      );
     }
   }
 }

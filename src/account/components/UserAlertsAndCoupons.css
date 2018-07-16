@@ -30,7 +30,12 @@
     max-width: 720px;
   }
   .tabBody {
-    padding-top: 20px;
+    padding-top: 80px;
+    margin-top: 0px;
+  }
+  .tabHeader {
+    position: fixed;
+    max-width: 680px;
   }
 }
 @media screen and (max-width: 1024px) {
