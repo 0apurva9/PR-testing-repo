@@ -1127,11 +1127,29 @@ export function getDigitalDataForSearchPageSuccess(response) {
 }
 
 export function getDigitalDataForSearchPageForNullResult(response) {
-  const data = window.digitalData ? window.digitalData : {};
+  let data = {
+    page: {
+      pageInfo: {
+        pathname: "search results page"
+      },
+      category: {
+        primaryCategory: "productsearch"
+      },
+      display: {
+        hierarchy: `home,${
+          response.currentQuery ? response.currentQuery.searchQuery : null
+        }`
+      }
+    }
+  };
+
   Object.assign(data, {
     internal: {
       search: {
-        term: response.currentQuery ? response.currentQuery.searchQuery : null
+        term: response.currentQuery ? response.currentQuery.searchQuery : null,
+        results: 0,
+        offersCount: 0,
+        newCount: 0
       }
     }
   });
