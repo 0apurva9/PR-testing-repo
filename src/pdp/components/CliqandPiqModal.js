@@ -26,37 +26,34 @@ import {
 const REG_X_FOR_STORE_PICKUP = /storePick/i;
 const REG_X_FOR_FINAL_SUBMIT = /submit/i;
 const ERROR_MESSAGE = "Please select Store";
-
 export default class ReturnToStore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lat:
-        this.props &&
-        this.props.stores &&
-        this.props.stores[0].geoPoint.latitude
-          ? this.props &&
-            this.props.stores &&
-            this.props.stores[0].geoPoint.latitude
-          : 28.6129918,
-      lng:
-        this.props &&
-        this.props.stores &&
-        this.props.stores[0].geoPoint.longitude
-          ? this.props &&
-            this.props.stores &&
-            this.props.stores[0].geoPoint.longitude
-          : 77.2310456
+      lat: 28.6129918,
+      lng: 77.2310456,
+      availableStores: [],
+      storeId: null
     };
   }
 
   selectStoreForDesktop = val => {
     if (val.length > 0) {
-      let storeDetails = this.props && this.props.stores;
-      const lat = storeDetails[val].geoPoint.latitude;
-      const lng = storeDetails[val].geoPoint.longitude;
+      let selectedStore =
+        this.state.availableStores &&
+        this.state.availableStores.find(store => {
+          return store.slaveId === val[0];
+        });
 
-      this.setState({ lat, lng });
+      const lat = selectedStore && selectedStore.geoPoint.latitude;
+      const lng = selectedStore && selectedStore.geoPoint.longitude;
+      const storeId = selectedStore && selectedStore.slaveId;
+
+      this.setState({
+        lat,
+        lng,
+        storeId
+      });
     }
   };
 
@@ -70,9 +67,52 @@ export default class ReturnToStore extends React.Component {
       this.props.CloseCliqAndPiqModal();
     }
   };
+  componentDidMount() {
+    const firstSlaveData = this.props.productDetails.slaveData;
+    const someData = firstSlaveData
+      .map(slaves => {
+        return (
+          slaves.CNCServiceableSlavesData &&
+          slaves.CNCServiceableSlavesData.map(slave => {
+            return (
+              slave &&
+              slave.serviceableSlaves.map(serviceableSlave => {
+                return serviceableSlave;
+              })
+            );
+          })
+        );
+      })
+      .map(val => {
+        return (
+          val &&
+          val.map(v => {
+            return v;
+          })
+        );
+      });
+
+    const allStoreIds = [].concat
+      .apply([], [].concat.apply([], someData))
+      .map(store => {
+        return store && store.slaveId;
+      });
+    const availableStores = this.props.stores
+      ? this.props.stores.filter(val => {
+          return allStoreIds.includes(val.slaveId);
+        })
+      : [];
+    const lat = availableStores && availableStores[0].geoPoint.latitude;
+    const lng = availableStores && availableStores[0].geoPoint.longitude;
+    this.setState({
+      availableStores: availableStores,
+      lat,
+      lng,
+      storeId: availableStores[0].slaveId
+    });
+  }
   render() {
-    let storeDetails = this.props && this.props.stores;
-    if (!storeDetails) {
+    if (!this.state.availableStores) {
       return (
         <div className={styles.loadingIndicator}>
           <SecondaryLoader />
@@ -98,7 +138,7 @@ export default class ReturnToStore extends React.Component {
         <div className={styles.mapDesktopWithPincode}>
           <div className={styles.mapDesktop}>
             <CliqAndPiqMap
-              availableStores={storeDetails}
+              availableStores={this.state.availableStores}
               lat={this.state.lat}
               lng={this.state.lng}
             />
@@ -114,16 +154,17 @@ export default class ReturnToStore extends React.Component {
                 changePincode={pincode => this.getPinCodeDetails(pincode)}
               />
             </div>
-            {storeDetails &&
-              storeDetails.length > 1 &&
+            {this.state.availableStores &&
+              this.state.availableStores.length > 1 &&
               !this.props.showPickupPerson && (
                 <GridSelect
                   limit={1}
                   offset={0}
                   elementWidthDesktop={100}
                   onSelect={val => this.selectStoreForDesktop(val)}
+                  selected={[this.state.storeId]}
                 >
-                  {storeDetails.map((val, i) => {
+                  {this.state.availableStores.map((val, i) => {
                     return (
                       <PickUpLocation
                         key={i}
@@ -136,38 +177,12 @@ export default class ReturnToStore extends React.Component {
                         closingTime={val.mplClosingTime}
                         address2={`${val.returnCity} ${val.returnPin}`}
                         headingText={val.displayName}
-                        value={i}
+                        value={val.slaveId}
                         canSelectStore={this.props.canSelectStore}
                       />
                     );
                   })}
                 </GridSelect>
-              )}
-            {storeDetails &&
-              storeDetails.length === 1 &&
-              !this.props.showPickupPerson && (
-                <div className={styles.singleCardHolder}>
-                  {storeDetails &&
-                    storeDetails.map((val, i) => {
-                      return (
-                        <PickUpLocation
-                          key={i}
-                          address={`${val.address.line1} ${
-                            val.address.line2
-                          }, `}
-                          PickUpKey="Open on: "
-                          workingDays={val.mplWorkingDays}
-                          openingTime={val.mplOpeningTime}
-                          closingTime={val.mplClosingTime}
-                          address2={`${val.returnCity} ${val.returnPin}`}
-                          iconText="C"
-                          headingText={val.displayName}
-                          canSelectStore={this.props.canSelectStore}
-                          buttonText="Select"
-                        />
-                      );
-                    })}
-                </div>
               )}
           </div>
         </div>
