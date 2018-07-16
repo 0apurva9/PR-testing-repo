@@ -1375,6 +1375,12 @@ export function setDataLayerForOrderConfirmationDirectCalls(
             orderConfirmationResponse && orderConfirmationResponse.orderId
               ? orderConfirmationResponse.orderId
               : ""
+        },
+        product: {
+          price:
+            orderConfirmationResponse && orderConfirmationResponse.price
+              ? orderConfirmationResponse.price
+              : ""
         }
       }
     };

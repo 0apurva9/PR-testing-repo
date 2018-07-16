@@ -4333,8 +4333,13 @@ export function getPaymentFailureOrderDetails() {
       setDataLayerForOrderConfirmationDirectCalls(
         ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE,
         {
-          orderId: parsedQueryString.order_id,
-          failureReason: value
+          failureReason: value,
+          price:
+            resultJson.cartAmount &&
+            resultJson.cartAmount.paybleAmount &&
+            resultJson.cartAmount.paybleAmount.value
+              ? resultJson.cartAmount.paybleAmount.value
+              : ""
         }
       );
     } catch (e) {
