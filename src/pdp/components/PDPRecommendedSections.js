@@ -97,10 +97,11 @@ class PDPRecommendedSections extends React.Component {
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             const productImage = transformedDatum.image;
-            const discountedPrice = val.winningSellerSpecialPrice
-              ? val.winningSellerSpecialPrice
-              : val.winningSellerMOP;
-            const mrpInteger = parseInt(val.mrp.replace(RUPEE_SYMBOL, ""), 10);
+            const discountedPrice = transformedDatum.discountPrice;
+            const mrpInteger = parseInt(
+              transformedDatum.price.replace(RUPEE_SYMBOL, ""),
+              10
+            );
             const discount = Math.floor(
               (mrpInteger -
                 parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
