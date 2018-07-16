@@ -3258,11 +3258,13 @@ export function updateTransactionDetails(paymentMode, juspayOrderID, cartId) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         setDataLayerForOrderConfirmationDirectCalls(
           ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE,
-          resultJsonStatus.message
+          {
+            failureReason: resultJsonStatus.message,
+            orderId: resultJson.orderId
+          }
         );
         throw new Error(resultJsonStatus.message);
       }
@@ -4326,8 +4328,19 @@ export function getPaymentFailureOrderDetails() {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(getPaymentFailureOrderDetailsSuccess(resultJson));
+      const parsedQueryString = queryString.parse(window.location.search);
+      const value = parsedQueryString.status;
       setDataLayerForOrderConfirmationDirectCalls(
-        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE
+        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE,
+        {
+          failureReason: value,
+          price:
+            resultJson.cartAmount &&
+            resultJson.cartAmount.paybleAmount &&
+            resultJson.cartAmount.paybleAmount.value
+              ? resultJson.cartAmount.paybleAmount.value
+              : ""
+        }
       );
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));

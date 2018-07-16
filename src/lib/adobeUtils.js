@@ -1357,14 +1357,34 @@ export function setDataLayerForOrderConfirmationDirectCalls(
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
     const data = {
+      page: {
+        pageInfo: {
+          pageName: "order failed"
+        },
+        category: {
+          primaryCategory: "orderfailed"
+        }
+      },
       cpj: {
         order: {
-          failureReason: orderConfirmationResponse
-            ? orderConfirmationResponse
-            : ""
+          failureReason:
+            orderConfirmationResponse && orderConfirmationResponse.failureReason
+              ? orderConfirmationResponse.failureReason
+              : "",
+          id:
+            orderConfirmationResponse && orderConfirmationResponse.orderId
+              ? orderConfirmationResponse.orderId
+              : ""
+        },
+        product: {
+          price:
+            orderConfirmationResponse && orderConfirmationResponse.price
+              ? orderConfirmationResponse.price
+              : ""
         }
       }
     };
+
     window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
@@ -1545,12 +1565,12 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         if (data.cpj) {
           if (data.cpj.payment) {
             Object.assign(data.cpj.payment, {
-              finalMode: response.replace(/ /g, "_").toLowerCase()
+              mode: response.replace(/ /g, "_").toLowerCase()
             });
           } else {
             Object.assign(data.cpj, {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             });
           }
@@ -1558,7 +1578,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           Object.assign(data, {
             cpj: {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             }
           });
@@ -1569,7 +1589,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           {
             cpj: {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             }
           }
