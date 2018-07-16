@@ -1565,12 +1565,12 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         if (data.cpj) {
           if (data.cpj.payment) {
             Object.assign(data.cpj.payment, {
-              finalMode: response.replace(/ /g, "_").toLowerCase()
+              mode: response.replace(/ /g, "_").toLowerCase()
             });
           } else {
             Object.assign(data.cpj, {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             });
           }
@@ -1578,7 +1578,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           Object.assign(data, {
             cpj: {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             }
           });
@@ -1589,7 +1589,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           {
             cpj: {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             }
           }
