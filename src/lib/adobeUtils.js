@@ -1127,13 +1127,14 @@ export function getDigitalDataForSearchPageSuccess(response) {
 }
 
 export function getDigitalDataForSearchPageForNullResult(response) {
-  const data = {
+  const data = window.digitalData ? window.digitalData : {};
+  Object.assign(data, {
     internal: {
       search: {
         term: response.currentQuery ? response.currentQuery.searchQuery : null
       }
     }
-  };
+  });
   return data;
 }
 export function setDataLayerForPlpDirectCalls(response, index: 0) {
