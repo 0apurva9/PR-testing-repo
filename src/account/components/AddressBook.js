@@ -18,7 +18,6 @@ import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
-import { Redirect } from "react-router-dom";
 import UserProfile from "./UserProfile";
 import * as UserAgent from "../../lib/UserAgent.js";
 const ADDRESS_BOOK_HEADER = "Add a new address";
@@ -60,7 +59,8 @@ export default class AddressBook extends React.Component {
   };
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

@@ -31,7 +31,6 @@ import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
-import { Redirect } from "react-router-dom";
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const OLD_PASSWORD_TEXT = "Please enter old password";
@@ -200,7 +199,8 @@ export default class EditAccountDetails extends React.Component {
   };
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

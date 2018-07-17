@@ -26,7 +26,6 @@ import {
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import { Redirect } from "react-router-dom";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 const URL_PATH_ALERTS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`;
 const URL_PATH_COUPONS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`;
@@ -74,7 +73,8 @@ export default class UserAlertsAndCoupons extends React.Component {
   }
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

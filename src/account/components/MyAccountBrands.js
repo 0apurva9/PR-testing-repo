@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import MoreBrands from "../../blp/components/MoreBrands";
 import BrandEdit from "../../blp/components/BrandEdit";
 import ProfilePicture from "../../blp/components/ProfilePicture";
@@ -36,7 +35,8 @@ export default class MyAccountBrands extends React.Component {
   }
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

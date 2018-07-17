@@ -21,7 +21,6 @@ import {
   HOME_ROUTER
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
-import { Redirect } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -75,7 +74,8 @@ export default class CliqAndCash extends React.Component {
   };
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

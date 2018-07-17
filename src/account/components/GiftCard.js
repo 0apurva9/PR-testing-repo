@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
-import { Redirect } from "react-router-dom";
 import MediaQuery from "react-responsive";
 import Button from "../../xelpmoc-core/Button";
 import {
@@ -115,7 +114,8 @@ export default class GiftCard extends React.Component {
   }
   navigateToLogin() {
     if (this.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

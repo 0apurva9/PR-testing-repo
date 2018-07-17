@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
-import { Redirect } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
@@ -161,7 +160,8 @@ export default class AllOrderDetails extends React.Component {
   }
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);

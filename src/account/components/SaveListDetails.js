@@ -2,7 +2,6 @@ import React from "react";
 import SaveListCard from "../../blp/components/SaveListCard";
 import styles from "./SaveListDetails.css";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import Button from "../../general/components/Button";
@@ -49,7 +48,8 @@ export default class SaveListDetails extends React.Component {
   }
   navigateToLogin() {
     if (UserAgent.checkUserAgentIsMobile()) {
-      return <Redirect to={LOGIN_PATH} />;
+      this.props.history.push(LOGIN_PATH);
+      return null;
     } else {
       if (this.props.showAuthPopUp) {
         this.props.history.push(HOME_ROUTER);
