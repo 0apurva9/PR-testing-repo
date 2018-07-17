@@ -40,7 +40,8 @@ const mapDispatchToProps = dispatch => {
       const productDetailsResponse = await dispatch(
         getProductDescription(productCode)
       );
-      if (productDetailsResponse.status === SUCCESS) {
+
+      if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
           dispatch(getProductPinCode(pinCode, productCode));

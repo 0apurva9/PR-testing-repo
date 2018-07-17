@@ -151,7 +151,7 @@ class Login extends Component {
     if (pathName === LOGIN_PATH || MAIN_ROUTER) {
       footerText = "New to Tata CLiQ? ";
       footerClick = () => this.navigateToSignUp();
-      buttonLabel = "Sign Up";
+      buttonLabel = "New to TataCLiQ ? Sign Up";
       showSocialButtons = true;
     }
 
@@ -182,7 +182,7 @@ class Login extends Component {
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Email or phone number"}
+                placeholder={"Enter Email or Mobile number"}
                 emailValue={
                   this.props.emailValue
                     ? this.props.emailValue

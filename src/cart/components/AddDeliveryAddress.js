@@ -25,6 +25,9 @@ import {
   NAME_TEXT,
   LAST_NAME_TEXT,
   ADDRESS_TEXT,
+  ADDRESS_VALIDATION_TEXT,
+  ADDRESS_MINLENGTH_VALID_TEXT,
+  ADDRESS_MAXLENGTH_VALID_TEXT,
   EMAIL_TEXT,
   LANDMARK_TEXT,
   LANDMARK_ENTER_TEXT,
@@ -37,7 +40,9 @@ import {
   STATE_TEXT,
   SELECT_ADDRESS_TYPE,
   ISO_CODE,
-  OTHER_LANDMARK
+  OTHER_LANDMARK,
+  ADDRESS_VALIDATION,
+  NAME_VALIDATION
 } from "../../lib/constants";
 
 export default class AddDeliveryAddress extends React.Component {
@@ -220,16 +225,34 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.displayToast(PINCODE_VALID_TEXT);
       return false;
     }
-    if (!this.state.firstName) {
+    if (
+      !this.state.firstName.trim() ||
+      !NAME_VALIDATION.test(this.state.firstName.trim())
+    ) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.lastName) {
+    if (
+      !this.state.lastName.trim() ||
+      !NAME_VALIDATION.test(this.state.lastName.trim())
+    ) {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (!this.state.line1) {
+    if (!this.state.line1.trim()) {
       this.props.displayToast(ADDRESS_TEXT);
+      return false;
+    }
+    if (this.state.line1.length < 15) {
+      this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (this.state.line1.length > 120) {
+      this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (!ADDRESS_VALIDATION.test(this.state.line1.trim())) {
+      this.props.displayToast(ADDRESS_VALIDATION_TEXT);
       return false;
     }
 
@@ -393,6 +416,10 @@ export default class AddDeliveryAddress extends React.Component {
                 this.handleOnFocusInput();
               }}
             />
+          </div>
+          <div className={styles.addressValidMsg}>Character Limit : 120</div>
+          <div className={styles.addressValidMsg}>
+            Special characters allowed are - # & ( ) ' ' . , \ / + _
           </div>
           <div className={styles.content}>
             <SelectBoxMobile2
