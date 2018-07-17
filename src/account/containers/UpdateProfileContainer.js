@@ -11,7 +11,11 @@ import { withRouter } from "react-router-dom";
 import EditAccountDetails from "../components/EditAccountDetails.js";
 import { displayToast } from "../../general/toast.actions";
 import { SUCCESS } from "../../lib/constants.js";
-import { showModal, CHANGE_PASSWORD_POP_UP } from "../../general/modal.actions";
+import {
+  DESKTOP_AUTH,
+  showModal,
+  CHANGE_PASSWORD_POP_UP
+} from "../../general/modal.actions";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapDispatchToProps = dispatch => {
@@ -19,7 +23,9 @@ const mapDispatchToProps = dispatch => {
     getUserDetails: () => {
       dispatch(getUserDetails(true)); //second param for setData Layer
     },
-
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
+    },
     updateProfile: async accountDetails => {
       const response = await dispatch(updateProfile(accountDetails));
       if (response && response.status === SUCCESS) {

@@ -16,8 +16,12 @@ import {
   SUCCESS_UPPERCASE,
   FAILURE,
   CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  LOGIN_PATH,
+  HOME_ROUTER
 } from "../../lib/constants.js";
+import * as UserAgent from "../../lib/UserAgent.js";
+import { Redirect } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -69,6 +73,17 @@ export default class CliqAndCash extends React.Component {
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

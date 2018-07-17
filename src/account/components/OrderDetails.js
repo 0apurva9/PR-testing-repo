@@ -18,10 +18,10 @@ import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   CASH_ON_DELIVERY,
@@ -153,7 +153,15 @@ export default class OrderDetails extends React.Component {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
 
-    return <Redirect to={LOGIN_PATH} />;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {

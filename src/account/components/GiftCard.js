@@ -13,7 +13,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   LOGIN_PATH,
   CHECKOUT_ROUTER,
-  GIFT_CARD
+  GIFT_CARD,
+  HOME_ROUTER
 } from "../../lib/constants";
 import { SUCCESS } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
@@ -113,7 +114,15 @@ export default class GiftCard extends React.Component {
     }
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (this.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   render() {
     if (this.props.loadingForGiftCardDetails) {

@@ -41,6 +41,7 @@ import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
@@ -159,7 +160,15 @@ export default class AllOrderDetails extends React.Component {
     );
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   reSendEmailForGiftCard = orderId => {
     if (this.props.reSendEmailForGiftCard) {

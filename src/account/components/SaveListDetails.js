@@ -19,6 +19,7 @@ import {
   LOGIN_PATH,
   SAVED_LIST
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
@@ -47,7 +48,15 @@ export default class SaveListDetails extends React.Component {
     this.props.setHeaderText(SAVED_LIST);
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   addToBagItem(ussid, productcode) {
     const productDetails = {};

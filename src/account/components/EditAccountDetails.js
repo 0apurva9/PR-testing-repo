@@ -22,6 +22,7 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   ERROR,
+  HOME_ROUTER,
   REQUESTING
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -30,6 +31,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import { Redirect } from "react-router-dom";
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const OLD_PASSWORD_TEXT = "Please enter old password";
@@ -64,7 +66,15 @@ export default class EditAccountDetails extends React.Component {
     if (userDetails && customerCookie) {
       this.props.getUserDetails();
     } else {
-      this.props.history.push(LOGIN_PATH);
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.history.push(HOME_ROUTER);
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     }
     this.props.setHeaderText(ACCOUNT_SETTING_HEADER);
   }
@@ -188,6 +198,17 @@ export default class EditAccountDetails extends React.Component {
       }
     }
   };
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
     const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

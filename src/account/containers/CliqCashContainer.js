@@ -10,6 +10,7 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 const CLIQ_CASH_REDEEM_SUCCESS =
@@ -41,6 +42,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };

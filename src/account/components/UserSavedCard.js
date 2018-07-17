@@ -28,9 +28,13 @@ import {
   DINERS_CARD,
   DISCOVER_CARD,
   JCB_CARD,
-  MASTER
+  MASTER,
+  LOGIN_PATH,
+  HOME_ROUTER
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import MobileOnly from "../../general/components/MobileOnly";
+import { Redirect } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -85,7 +89,17 @@ export default class UserSavedCard extends React.Component {
       this.props.removeSavedCardDetails(cardToken);
     }
   };
-
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

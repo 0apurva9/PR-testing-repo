@@ -13,8 +13,10 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
-  ALERTS_COUPON
+  ALERTS_COUPON,
+  HOME_ROUTER
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import * as styles from "./UserAlertsAndCoupons.css";
 import {
   setDataLayer,
@@ -24,6 +26,7 @@ import {
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import { Redirect } from "react-router-dom";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 const URL_PATH_ALERTS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`;
 const URL_PATH_COUPONS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`;
@@ -45,7 +48,15 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     } else {
-      this.props.history.push(LOGIN_PATH);
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.history.push(HOME_ROUTER);
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     }
   }
   componentDidUpdate() {
@@ -61,8 +72,23 @@ export default class UserAlertsAndCoupons extends React.Component {
   renderLoader() {
     return <Loader />;
   }
-
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return <Redirect to={LOGIN_PATH} />;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetailsCookie || !customerCookie) {
+      return this.navigateToLogin();
+    }
     if (this.props.loadingForUserCoupons || this.props.loadingForUserAlerts) {
       return this.renderLoader();
     }
@@ -73,7 +99,7 @@ export default class UserAlertsAndCoupons extends React.Component {
     } else if (pathname === URL_PATH_COUPONS) {
       currentActivePath = COUPONS;
     }
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
     const userDetails = JSON.parse(userDetailsCookie);
     return (
       <div className={styles.base}>
