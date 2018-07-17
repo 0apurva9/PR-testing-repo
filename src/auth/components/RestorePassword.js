@@ -23,10 +23,6 @@ export default class RestorePassword extends React.Component {
   }
 
   handleRestoreClick() {
-    if (!EMAIL_REGULAR_EXPRESSION.test(this.state.userId)) {
-      this.props.displayToast("Please enter a valid email address");
-      return false;
-    }
     if (this.props.handleRestoreClick) {
       this.props.handleRestoreClick(this.state.userId);
     }
@@ -51,7 +47,7 @@ export default class RestorePassword extends React.Component {
         <div className={styles.input}>
           <Input
             hollow={true}
-            placeholder="Email"
+            placeholder="Enter Email or Mobile Number"
             onChange={val => this.setState({ userId: val })}
             onKeyUp={event => {
               this.enterPassword(event.key);
