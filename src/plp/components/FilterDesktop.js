@@ -17,10 +17,39 @@ import {
 import { URL_ROOT } from "../../lib/apiRequest";
 import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
 import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
+import Observer from "@researchgate/react-intersection-observer";
+
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
 export default class FilterDesktop extends React.Component {
+  constructor(props) {
+    super();
+    this.state = { fixedScroll: false };
+  }
+  handleScroll = () => {
+    const filterSectionHeight = document.getElementById("filter").offsetHeight;
+    const pageHeight = window.pageYOffset;
+    console.log(filterSectionHeight, pageHeight);
+    if (filterSectionHeight - 250 <= pageHeight) {
+      if (!this.state.fixedScroll) {
+        this.setState({ fixedScroll: true });
+      }
+    } else {
+      if (this.state.fixedScroll) {
+        this.setState({ fixedScroll: false });
+      }
+    }
+  };
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.throttledScroll);
+  }
+
+  componentDidMount() {
+    this.throttledScroll = () => this.handleScroll();
+    window.addEventListener("scroll", this.throttledScroll);
+  }
+
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
@@ -104,6 +133,16 @@ export default class FilterDesktop extends React.Component {
       isFilter: false
     });
   };
+  stopScroll = val => {
+    if (val.isIntersecting) {
+      // this.fixedScroll = true;
+      this.setState({ fixedScroll: true });
+    } else {
+      this.setState({ fixedScroll: false });
+      // this.fixedScroll = false;
+    }
+    console.log(val.isIntersecting);
+  };
   render() {
     const { facetData, facetdatacategory } = this.props;
 
@@ -118,8 +157,12 @@ export default class FilterDesktop extends React.Component {
     filterWithCollapse = cloneDeep(facetData).splice(3, 20);
     return (
       <React.Fragment>
-        <div className={styles.filterOpen}>
-          <div className={styles.filterDetails}>
+        <div
+          className={`${
+            this.state.fixedScroll ? styles.filterFixed : styles.filterScroll
+          }`}
+        >
+          <div className={styles.filterDetails} id="filter">
             <div className={styles.filtersOptions}>
               <Accordion text="Refine" isOpen={true} headerFontSize={16}>
                 <div className={styles.filterHeader}>Category</div>
