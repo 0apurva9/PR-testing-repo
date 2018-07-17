@@ -10,6 +10,7 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getSavedCardDetails: (userId, customerAccessToken) => {
@@ -26,6 +27,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };
