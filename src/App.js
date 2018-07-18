@@ -296,8 +296,6 @@ class App extends Component {
     ) {
       if (checkUserAgentIsMobile()) {
         return <HomeSkeleton />;
-      } else {
-        return null;
       }
     }
 
