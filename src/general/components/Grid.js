@@ -5,9 +5,21 @@ import MediaQuery from "react-responsive";
 import styles from "./Grid.css";
 
 export default class Grid extends React.Component {
+  checkUserAgentIsMobile() {
+    return /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
+      navigator.userAgent
+    );
+  }
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{
+          padding: !this.checkUserAgentIsMobile()
+            ? this.props.offsetDesktop
+            : this.props.offsetMobile
+        }}
+      >
         <div
           className={styles.gridHolder}
           style={{
@@ -58,7 +70,8 @@ export default class Grid extends React.Component {
 Grid.propTypes = {
   elementWidthDesktop: PropTypes.number,
   elementWidthMobile: PropTypes.number,
-  offset: PropTypes.number
+  offset: PropTypes.number,
+  offsetDesktop: PropTypes.string
 };
 
 Grid.defaultProps = {

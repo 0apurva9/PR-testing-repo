@@ -6,7 +6,9 @@ import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import styles from "./CartPage.css";
 import PropTypes from "prop-types";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
+import DesktopCheckout from "./DesktopCheckout.js";
 import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 
 import {
   SUCCESS,
@@ -42,6 +44,8 @@ import {
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
+const DISCLAIMER =
+  "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
@@ -448,18 +452,36 @@ class CartPage extends React.Component {
                 />
               )}
           </MobileOnly>
-          <div className={styles.content}>
-            <TextWithUnderLine
-              onClick={() => this.changePinCode()}
-              buttonLabel="Change PIN code"
-              checkPinCodeAvailability={pinCode =>
-                this.checkPinCodeAvailability(pinCode)
-              }
-              onFocusInput={() => this.onFocusInput()}
-              onBlur={() => this.onBlur()}
-              onKeyPress={e => this.onKeyPress()}
-            />
-          </div>
+          <DesktopOnly>
+            <div className={styles.changePinCodeHolder}>
+              <div className={styles.checkHolder}>
+                <TextWithUnderLine
+                  onClick={() => this.changePinCode()}
+                  buttonLabel="Change PIN code"
+                  checkPinCodeAvailability={pinCode =>
+                    this.checkPinCodeAvailability(pinCode)
+                  }
+                  onFocusInput={() => this.onFocusInput()}
+                  onBlur={() => this.onBlur()}
+                  onKeyPress={e => this.onKeyPress()}
+                />
+              </div>
+            </div>
+          </DesktopOnly>
+          <MobileOnly>
+            <div className={styles.content}>
+              <TextWithUnderLine
+                onClick={() => this.changePinCode()}
+                buttonLabel="Change PIN code"
+                checkPinCodeAvailability={pinCode =>
+                  this.checkPinCodeAvailability(pinCode)
+                }
+                onFocusInput={() => this.onFocusInput()}
+                onBlur={() => this.onBlur()}
+                onKeyPress={e => this.onKeyPress()}
+              />
+            </div>
+          </MobileOnly>
           <div className={styles.pageCenter}>
             <div className={styles.content}>
               {cartDetails.products &&
@@ -574,51 +596,112 @@ class CartPage extends React.Component {
                     </div>
                   )}
               </MobileOnly>
-              {cartDetails.products && (
-                <SavedProduct
-                  saveProduct={() => this.goToWishList()}
-                  onApplyCoupon={() => this.goToCouponPage()}
-                  appliedCouponCode={this.state.appliedCouponCode}
-                />
-              )}
-              {this.state.showCheckoutSection &&
-                cartDetails.products &&
-                cartDetails.cartAmount && (
-                  <CheckoutStaticSection
-                    disabled={!this.state.isServiceable}
-                    amount={
-                      cartDetails.cartAmount.paybleAmount.value
-                        ? Math.round(
-                            cartDetails.cartAmount.paybleAmount.value * 100
-                          ) / 100
-                        : "0.00"
-                    }
-                    bagTotal={
-                      cartDetails.cartAmount.bagTotal.value
-                        ? Math.round(
-                            cartDetails.cartAmount.bagTotal.value * 100
-                          ) / 100
-                        : "0.00"
-                    }
-                    coupons={couponDiscount}
-                    discount={totalDiscount}
-                    delivery={deliveryCharge}
-                    payable={
-                      cartDetails.cartAmount.paybleAmount.value
-                        ? Math.round(
-                            cartDetails.cartAmount.paybleAmount.value * 100
-                          ) / 100
-                        : "0.00"
-                    }
-                    onCheckout={() => this.renderToCheckOutPage()}
-                    label={CHECKOUT_BUTTON_TEXT}
-                    isOnCartPage={true}
-                    changePinCode={this.changePinCode}
-                    isFromMyBag={true}
-                    showDetails={this.state.showCartDetails}
+              <MobileOnly>
+                {cartDetails.products && (
+                  <SavedProduct
+                    saveProduct={() => this.goToWishList()}
+                    onApplyCoupon={() => this.goToCouponPage()}
+                    appliedCouponCode={this.state.appliedCouponCode}
                   />
                 )}
+              </MobileOnly>
+              <MobileOnly>
+                {this.state.showCheckoutSection &&
+                  cartDetails.products &&
+                  cartDetails.cartAmount && (
+                    <CheckoutStaticSection
+                      disabled={!this.state.isServiceable}
+                      amount={
+                        cartDetails.cartAmount.paybleAmount.value
+                          ? Math.round(
+                              cartDetails.cartAmount.paybleAmount.value * 100
+                            ) / 100
+                          : "0.00"
+                      }
+                      bagTotal={
+                        cartDetails.cartAmount.bagTotal.value
+                          ? Math.round(
+                              cartDetails.cartAmount.bagTotal.value * 100
+                            ) / 100
+                          : "0.00"
+                      }
+                      coupons={couponDiscount}
+                      discount={totalDiscount}
+                      delivery={deliveryCharge}
+                      payable={
+                        cartDetails.cartAmount.paybleAmount.value
+                          ? Math.round(
+                              cartDetails.cartAmount.paybleAmount.value * 100
+                            ) / 100
+                          : "0.00"
+                      }
+                      onCheckout={() => this.renderToCheckOutPage()}
+                      label={CHECKOUT_BUTTON_TEXT}
+                      isOnCartPage={true}
+                      changePinCode={this.changePinCode}
+                      isFromMyBag={true}
+                      showDetails={this.state.showCartDetails}
+                    />
+                  )}
+              </MobileOnly>
             </div>
+            <DesktopOnly>
+              <div className={styles.bagTotal}>
+                <div className={styles.bagTotalFixed}>
+                  {this.state.showCheckoutSection &&
+                    cartDetails.products &&
+                    cartDetails.cartAmount && (
+                      <div className={styles.amountDetails}>
+                        <DesktopCheckout
+                          disabled={!this.state.isServiceable}
+                          amount={
+                            cartDetails.cartAmount.paybleAmount.value
+                              ? Math.round(
+                                  cartDetails.cartAmount.paybleAmount.value *
+                                    100
+                                ) / 100
+                              : "0.00"
+                          }
+                          bagTotal={
+                            cartDetails.cartAmount.bagTotal.value
+                              ? Math.round(
+                                  cartDetails.cartAmount.bagTotal.value * 100
+                                ) / 100
+                              : "0.00"
+                          }
+                          coupons={couponDiscount}
+                          discount={totalDiscount}
+                          delivery={deliveryCharge}
+                          payable={
+                            cartDetails.cartAmount.paybleAmount.value
+                              ? Math.round(
+                                  cartDetails.cartAmount.paybleAmount.value *
+                                    100
+                                ) / 100
+                              : "0.00"
+                          }
+                          onCheckout={() => this.renderToCheckOutPage()}
+                          label={CHECKOUT_BUTTON_TEXT}
+                          isOnCartPage={true}
+                          changePinCode={this.changePinCode}
+                          isFromMyBag={true}
+                          showDetails={this.state.showCartDetails}
+                        />
+                      </div>
+                    )}
+                  {cartDetails.products && (
+                    <div className={styles.couponCard}>
+                      <SavedProduct
+                        saveProduct={() => this.goToWishList()}
+                        onApplyCoupon={() => this.goToCouponPage()}
+                        appliedCouponCode={this.state.appliedCouponCode}
+                      />
+                    </div>
+                  )}
+                  <div className={styles.disclaimer}>{DISCLAIMER}</div>
+                </div>
+              </div>
+            </DesktopOnly>
           </div>
         </div>
       );
