@@ -1,7 +1,5 @@
 const express = require("express");
-const path = require("path");
 const app = express();
-app.use("/public", express.static(path.join(__dirname, "public")));
 app.get("*.js", function(req, res, next) {
   const encodings = req.acceptsEncodings();
   if (req.url !== "/service-worker.js") {
