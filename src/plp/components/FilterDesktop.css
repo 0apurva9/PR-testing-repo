@@ -1,5 +1,6 @@
 .baseScroll {
-  width: 370px;
+  max-width: 360px;
+  width: 30%;
   position: absolute;
   height: auto;
   min-height: 100vh;
@@ -9,7 +10,8 @@
   text-align: left;
 }
 .baseFixed {
-  width: 370px;
+  max-width: 360px;
+  width: 30%;
   position: fixed;
   height: auto;
   min-height: 100vh;
