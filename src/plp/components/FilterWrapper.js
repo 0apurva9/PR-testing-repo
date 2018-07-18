@@ -6,14 +6,14 @@ import styles from "./FilterWrapper.css";
 export default class FilterWrapper extends React.Component {
   render() {
     return (
-      <div className={styles.base}>
+      <React.Fragment>
         <MediaQuery query="(max-device-width:1024px)">
           <FilterMobile {...this.props} />
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <FilterDesktop {...this.props} />
         </MediaQuery>
-      </div>
+      </React.Fragment>
     );
   }
 }

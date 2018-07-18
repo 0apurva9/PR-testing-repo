@@ -17,7 +17,6 @@ import {
 import { URL_ROOT } from "../../lib/apiRequest";
 import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
 import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
-import Observer from "@researchgate/react-intersection-observer";
 
 const BRAND = "Brand";
 const COLOUR = "Colour";
@@ -25,13 +24,15 @@ const PRICE = "Price";
 export default class FilterDesktop extends React.Component {
   constructor(props) {
     super();
-    this.state = { fixedScroll: false };
+    this.state = {
+      fixedScroll: false,
+      openedFilters: []
+    };
   }
   handleScroll = () => {
     const filterSectionHeight = document.getElementById("filter").offsetHeight;
     const pageHeight = window.pageYOffset;
-    console.log(filterSectionHeight, pageHeight);
-    if (filterSectionHeight - 250 <= pageHeight) {
+    if (filterSectionHeight - 400 <= pageHeight) {
       if (!this.state.fixedScroll) {
         this.setState({ fixedScroll: true });
       }
@@ -133,15 +134,16 @@ export default class FilterDesktop extends React.Component {
       isFilter: false
     });
   };
-  stopScroll = val => {
-    if (val.isIntersecting) {
-      // this.fixedScroll = true;
-      this.setState({ fixedScroll: true });
+  onOpenAccordion = filterName => {
+    const openedFilters = cloneDeep(this.state.openedFilters);
+    const indexOfFilter = this.state.openedFilters.indexOf(filterName);
+    if (indexOfFilter >= 0) {
+      openedFilters.splice(indexOfFilter, 1);
+      this.setState({ openedFilters });
     } else {
-      this.setState({ fixedScroll: false });
-      // this.fixedScroll = false;
+      openedFilters.push(filterName);
+      this.setState({ openedFilters });
     }
-    console.log(val.isIntersecting);
   };
   render() {
     const { facetData, facetdatacategory } = this.props;
@@ -156,45 +158,123 @@ export default class FilterDesktop extends React.Component {
     autoShowFilters = cloneDeep(facetData).splice(0, 4);
     filterWithCollapse = cloneDeep(facetData).splice(3, 20);
     return (
-      <React.Fragment>
-        <div
-          className={`${
-            this.state.fixedScroll ? styles.filterFixed : styles.filterScroll
-          }`}
-        >
-          <div className={styles.filterDetails} id="filter">
-            <div className={styles.filtersOptions}>
-              <Accordion text="Refine" isOpen={true} headerFontSize={16}>
-                <div className={styles.filterHeader}>Category</div>
+      <div
+        className={`${
+          this.state.fixedScroll ? styles.filterFixed : styles.filterScroll
+        }`}
+      >
+        <div className={styles.filterDetails} id="filter">
+          <div className={styles.filtersOptions}>
+            <Accordion text="Refine" isOpen={true} headerFontSize={16}>
+              <div className={styles.filterHeader}>Category</div>
 
-                {this.props.isCategorySelected &&
-                  facetdatacategory &&
-                  facetdatacategory.filters &&
-                  facetdatacategory.filters.map((val, i) => {
-                    return (
-                      <FilterCategoryL1
-                        name={val.categoryName}
-                        count={val.quantity}
-                        value={val.categoryCode}
-                        onClick={this.onL1Click}
-                        isOpen={val.selected}
-                      >
-                        <FilterCategory
-                          onClick={this.onL2Click}
-                          onL3Click={this.onL3Click}
-                          categoryTypeList={val.childFilters}
-                        />
-                      </FilterCategoryL1>
-                    );
-                  })}
-                {autoShowFilters.map((facetDataValues, i) => {
+              {this.props.isCategorySelected &&
+                facetdatacategory &&
+                facetdatacategory.filters &&
+                facetdatacategory.filters.map((val, i) => {
                   return (
-                    facetDataValues && (
-                      <div className={styles.facetData}>
-                        <div className={styles.filterHeader}>
-                          {facetDataValues.name}
-                        </div>
+                    <FilterCategoryL1
+                      name={val.categoryName}
+                      count={val.quantity}
+                      value={val.categoryCode}
+                      onClick={this.onL1Click}
+                      isOpen={val.selected}
+                    >
+                      <FilterCategory
+                        onClick={this.onL2Click}
+                        onL3Click={this.onL3Click}
+                        categoryTypeList={val.childFilters}
+                      />
+                    </FilterCategoryL1>
+                  );
+                })}
+              {autoShowFilters.map((facetDataValues, i) => {
+                return (
+                  facetDataValues && (
+                    <div className={styles.facetData}>
+                      <div className={styles.filterHeader}>
+                        {facetDataValues.name}
+                      </div>
 
+                      {facetDataValues &&
+                        facetDataValues.name === COLOUR &&
+                        facetDataValues.values &&
+                        facetDataValues.values.map((val, i) => {
+                          return (
+                            <ColourSelect
+                              colour={val.hexColor}
+                              onSelect={data => this.onFilterClick(data)}
+                              selected={val.selected}
+                              value={val.url}
+                            />
+                          );
+                        })}
+
+                      {facetDataValues &&
+                        facetDataValues.name === BRAND &&
+                        facetDataValues.values && (
+                          <BrandFilterTabDesktop
+                            onFilterClick={this.onFilterClick}
+                            brandsList={facetDataValues.values}
+                            onBrandSearch={this.onBrandSearch}
+                            history={this.props.history}
+                          />
+                        )}
+                      {facetDataValues &&
+                        facetDataValues.name === PRICE &&
+                        facetDataValues.values && (
+                          <PriceFilterTabDesktop
+                            priceList={facetDataValues.values}
+                            history={this.props.history}
+                            onFilterClick={this.onFilterClick}
+                          />
+                        )}
+                      {facetDataValues &&
+                        facetDataValues.name !== COLOUR &&
+                        facetDataValues.name !== BRAND &&
+                        facetDataValues.name !== PRICE &&
+                        facetDataValues.values &&
+                        facetDataValues.values.map((val, i) => {
+                          return (
+                            <FilterSelect
+                              onClick={this.onFilterClick}
+                              selected={val.selected}
+                              hexColor={val.hexColor}
+                              label={val.name}
+                              count={val.count}
+                              url={val.url}
+                              value={val.value}
+                              isBrand={facetDataValues.name === BRAND}
+                              categoryId={categoryId}
+                              history={this.props.history}
+                            />
+                          );
+                        })}
+                    </div>
+                  )
+                );
+              })}
+            </Accordion>
+          </div>
+          <div className={styles.filtersOptions}>
+            {filterWithCollapse.map((facetDataValues, i) => {
+              return (
+                facetDataValues && (
+                  <div className={styles.facetData}>
+                    <Accordion
+                      key={i}
+                      text={facetDataValues.name}
+                      headerFontSize={16}
+                      isOpen={
+                        (facetDataValues.values &&
+                          facetDataValues.values.filter(filter => {
+                            return filter.selected;
+                          }).length > 0) ||
+                        this.state.openedFilters.includes(facetDataValues.name)
+                      }
+                      onOpen={() => this.onOpenAccordion(facetDataValues.name)}
+                    >
+                      <div className={styles.filtersSubTab}>
                         {facetDataValues &&
                           facetDataValues.name === COLOUR &&
                           facetDataValues.values &&
@@ -208,15 +288,12 @@ export default class FilterDesktop extends React.Component {
                               />
                             );
                           })}
-
                         {facetDataValues &&
                           facetDataValues.name === BRAND &&
                           facetDataValues.values && (
                             <BrandFilterTabDesktop
-                              onFilterClick={this.onFilterClick}
                               brandsList={facetDataValues.values}
                               onBrandSearch={this.onBrandSearch}
-                              history={this.props.history}
                             />
                           )}
                         {facetDataValues &&
@@ -250,87 +327,14 @@ export default class FilterDesktop extends React.Component {
                             );
                           })}
                       </div>
-                    )
-                  );
-                })}
-              </Accordion>
-            </div>
-            <div className={styles.filtersOptions}>
-              {filterWithCollapse.map((facetDataValues, i) => {
-                return (
-                  facetDataValues && (
-                    <div className={styles.facetData}>
-                      <Accordion
-                        key={i}
-                        text={facetDataValues.name}
-                        headerFontSize={16}
-                        isOpen={
-                          facetDataValues.values &&
-                          facetDataValues.values.filter(filter => {
-                            return filter.selected;
-                          }).length > 0
-                        }
-                      >
-                        {facetDataValues &&
-                          facetDataValues.name === COLOUR &&
-                          facetDataValues.values &&
-                          facetDataValues.values.map((val, i) => {
-                            return (
-                              <ColourSelect
-                                colour={val.hexColor}
-                                onSelect={data => this.onFilterClick(data)}
-                                selected={val.selected}
-                                value={val.url}
-                              />
-                            );
-                          })}
-                        {facetDataValues &&
-                          facetDataValues.name === BRAND &&
-                          facetDataValues.values && (
-                            <BrandFilterTabDesktop
-                              brandsList={facetDataValues.values}
-                              onBrandSearch={this.onBrandSearch}
-                            />
-                          )}
-                        {facetDataValues &&
-                          facetDataValues.name === PRICE &&
-                          facetDataValues.values && (
-                            <PriceFilterTabDesktop
-                              priceList={facetDataValues.values}
-                              history={this.props.history}
-                              onFilterClick={this.onFilterClick}
-                            />
-                          )}
-                        {facetDataValues &&
-                          facetDataValues.name !== COLOUR &&
-                          facetDataValues.name !== BRAND &&
-                          facetDataValues.name !== PRICE &&
-                          facetDataValues.values &&
-                          facetDataValues.values.map((val, i) => {
-                            return (
-                              <FilterSelect
-                                onClick={this.onFilterClick}
-                                selected={val.selected}
-                                hexColor={val.hexColor}
-                                label={val.name}
-                                count={val.count}
-                                url={val.url}
-                                value={val.value}
-                                isBrand={facetDataValues.name === BRAND}
-                                categoryId={categoryId}
-                                history={this.props.history}
-                              />
-                            );
-                          })}
-                      </Accordion>
-                    </div>
-                  )
-                );
-              })}
-            </div>
+                    </Accordion>
+                  </div>
+                )
+              );
+            })}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -1,19 +1,19 @@
 .baseScroll {
-  width: 30%;
+  width: 370px;
   position: absolute;
   height: auto;
   min-height: 100vh;
-  left: 0;
+  left: initial;
   top: 0px;
   bottom: 0;
   text-align: left;
 }
 .baseFixed {
-  width: 30%;
+  width: 370px;
   position: fixed;
   height: auto;
   min-height: 100vh;
-  left: 0;
+  left: initial;
   bottom: 0px;
   text-align: left;
 }
@@ -62,4 +62,8 @@
 }
 .fixed {
   position: fixed;
+}
+.filtersSubTab {
+  max-height: 450px;
+  overflow-y: scroll;
 }

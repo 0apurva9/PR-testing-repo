@@ -94,6 +94,7 @@
   width: 100%;
   max-width: 1200px;
   position: relative;
+  display: inline-block;
 }
 .productGridDesktop {
   width: 70%;
