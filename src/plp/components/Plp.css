@@ -56,16 +56,19 @@
     text-align: left;
   }
   .sort {
-    width: 220px;
-    position: absolute;
-    right: 50px;
+    width: 25%;
+    right: 35px;
     height: auto;
+    display: inline-block;
+    position: absolute;
   }
-
+  .gridIcon {
+    width: 3%;
+    display: inline-block;
+  }
   .selectedFilter {
-    width: 100%;
+    width: 70%;
     height: 50px;
-    padding: 1px 280px 0px 0px;
     left: 0px;
     display: inline-block;
   }

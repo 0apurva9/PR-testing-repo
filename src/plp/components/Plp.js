@@ -251,12 +251,9 @@ export default class Plp extends React.Component {
           </MediaQuery>
           <MediaQuery query="(min-device-width:1025px)">
             <div className={styles.headerSortWithFilter}>
-              <div className={styles.sort}>
-                <SortDesktopContainer />
-              </div>
-              {selectedFilter && (
-                <div className={styles.selectedFilter}>
-                  {selectedFilter.map(selectedFilterData => {
+              <div className={styles.selectedFilter}>
+                {selectedFilter &&
+                  selectedFilter.map(selectedFilterData => {
                     return (
                       <div
                         className={styles.selectedFilterWithIcon}
@@ -275,8 +272,11 @@ export default class Plp extends React.Component {
                       </div>
                     );
                   })}
-                </div>
-              )}
+              </div>
+              <div className={styles.sort}>
+                <SortDesktopContainer />
+              </div>
+              <div className={styles.gridIcon} />
             </div>
           </MediaQuery>
           <MobileOnly>
