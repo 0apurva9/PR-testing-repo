@@ -60,9 +60,6 @@
 .facetDataHeader {
   padding-bottom: 10px;
 }
-.fixed {
-  position: fixed;
-}
 .filtersSubTab {
   max-height: 450px;
   overflow-y: scroll;
