@@ -279,44 +279,42 @@ export default class DesktopHeader extends React.Component {
                         )}
                       </div>
                       <div className={styles.subCategoryDetailsHolder}>
-                        <div className={styles.subCategoryDetailWithFixed}>
-                          {currentCategory.subCategories.map(
-                            (subCategoriesHeader, val) => {
-                              return (
-                                <React.Fragment>
-                                  <div
-                                    className={styles.subCategoryDetailsHeader}
-                                    onClick={() =>
-                                      this.renderToAnotherURL(
-                                        subCategoriesHeader.webURL
-                                      )
-                                    }
-                                  >
-                                    {subCategoriesHeader.category_name}
-                                  </div>
-                                  {subCategoriesHeader.subCategories.map(
-                                    (subCategoryDetails, value) => {
-                                      return (
-                                        <div
-                                          className={
-                                            styles.subCategoryDetailsValues
-                                          }
-                                          onClick={() =>
-                                            this.renderToAnotherURL(
-                                              subCategoryDetails.webURL
-                                            )
-                                          }
-                                        >
-                                          {subCategoryDetails.category_name}
-                                        </div>
-                                      );
-                                    }
-                                  )}
-                                </React.Fragment>
-                              );
-                            }
-                          )}
-                        </div>
+                        {currentCategory.subCategories.map(
+                          (subCategoriesHeader, val) => {
+                            return (
+                              <React.Fragment>
+                                <div
+                                  className={styles.subCategoryDetailsHeader}
+                                  onClick={() =>
+                                    this.renderToAnotherURL(
+                                      subCategoriesHeader.webURL
+                                    )
+                                  }
+                                >
+                                  {subCategoriesHeader.category_name}
+                                </div>
+                                {subCategoriesHeader.subCategories.map(
+                                  (subCategoryDetails, value) => {
+                                    return (
+                                      <div
+                                        className={
+                                          styles.subCategoryDetailsValues
+                                        }
+                                        onClick={() =>
+                                          this.renderToAnotherURL(
+                                            subCategoryDetails.webURL
+                                          )
+                                        }
+                                      >
+                                        {subCategoryDetails.category_name}
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </React.Fragment>
+                            );
+                          }
+                        )}
                       </div>
                     </div>
                   )}

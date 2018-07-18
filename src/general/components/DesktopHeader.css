@@ -288,7 +288,6 @@
   font-size: 14px;
   font-family: semibold;
   display: flex;
-  flex-direction: column;
   color: #8d8d8d;
   cursor: pointer;
 }
@@ -304,7 +303,6 @@
   font-size: 14px;
   font-family: semibold;
   display: flex;
-  flex-direction: column;
   color: #000;
   cursor: pointer;
   padding-right: 25px;
@@ -332,14 +330,7 @@
   width: 80%;
   height: auto;
   display: flex;
-  flex-direction: column;
   padding-left: 45px;
-  overflow: hidden;
-}
-.subCategoryDetailWithFixed {
-  width: 100%;
-  height: auto;
-  display: flex;
   overflow: hidden;
   flex-direction: column;
   flex-wrap: wrap;
