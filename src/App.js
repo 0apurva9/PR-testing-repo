@@ -286,15 +286,18 @@ class App extends Component {
       cartIdForLoggedInUserStatus,
       cartIdForAnonymousUserStatus
     } = this.props;
-    if (checkUserAgentIsMobile()) {
-      if (
-        globalAccessTokenStatus === REQUESTING ||
-        customerAccessTokenStatus === REQUESTING ||
-        refreshCustomerAccessTokenStatus === REQUESTING ||
-        cartIdForLoggedInUserStatus === REQUESTING ||
-        cartIdForAnonymousUserStatus === REQUESTING
-      ) {
+
+    if (
+      globalAccessTokenStatus === REQUESTING ||
+      customerAccessTokenStatus === REQUESTING ||
+      refreshCustomerAccessTokenStatus === REQUESTING ||
+      cartIdForLoggedInUserStatus === REQUESTING ||
+      cartIdForAnonymousUserStatus === REQUESTING
+    ) {
+      if (checkUserAgentIsMobile()) {
         return <HomeSkeleton />;
+      } else {
+        return null;
       }
     }
 
