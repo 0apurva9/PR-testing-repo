@@ -301,6 +301,7 @@ export default class HeaderWrapper extends React.Component {
               }
             />
             <DesktopHeader
+              history={this.props.history}
               openSignUp={this.openSignUp}
               redirectToHome={this.redirectToHome}
               bagCount={
@@ -313,7 +314,9 @@ export default class HeaderWrapper extends React.Component {
               isSearch={isSearch}
               profileDetails={profileDetails}
               searchHolder={<SearchContainer />}
+              getCategories={() => this.props.getCategories()}
               goToWishList={() => this.goToDefaultWishList()}
+              categories={this.props.categories}
             />
           </DesktopOnly>
         </React.Fragment>
