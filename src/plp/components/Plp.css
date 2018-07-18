@@ -26,13 +26,7 @@
 @media only screen and (min-width: 1024px) {
   .base {
     display: inline-block;
-    text-align: left;
-  }
-  .productWithFilter {
-    padding-left: 345px;
-    max-width: 1200px;
-    margin: auto;
-    position: relative;
+    text-align: center;
   }
   .headerText {
     width: 100%;
@@ -59,18 +53,22 @@
     max-width: 1200px;
     margin: auto;
     margin-bottom: 25px;
+    text-align: left;
   }
   .sort {
-    width: 220px;
-    position: absolute;
-    right: 50px;
+    width: 25%;
+    right: 35px;
     height: auto;
+    display: inline-block;
+    position: absolute;
   }
-
+  .gridIcon {
+    width: 3%;
+    display: inline-block;
+  }
   .selectedFilter {
-    width: 100%;
+    width: 70%;
     height: 50px;
-    padding: 1px 280px 0px 0px;
     left: 0px;
     display: inline-block;
   }
@@ -94,4 +92,19 @@
     right: 10px;
     top: 10px;
   }
+}
+.productWithFilterDesktop {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  display: inline-block;
+}
+.productGridDesktop {
+  width: 70%;
+  display: inline-block;
+  text-align: left;
+}
+.filterDesktopWrapper {
+  width: 30%;
+  display: inline-block;
 }

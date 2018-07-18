@@ -1,12 +1,23 @@
-.base {
-  width: 354px;
+.baseScroll {
+  max-width: 360px;
+  width: 30%;
   position: absolute;
   height: auto;
   min-height: 100vh;
-  left: 0;
+  left: initial;
   top: 0px;
-  right: 0;
   bottom: 0;
+  text-align: left;
+}
+.baseFixed {
+  max-width: 360px;
+  width: 30%;
+  position: fixed;
+  height: auto;
+  min-height: 100vh;
+  left: initial;
+  bottom: 0px;
+  text-align: left;
 }
 .pageHeader {
   width: 100%;
@@ -14,8 +25,12 @@
   left: 0;
   top: 0;
 }
-.filterOpen {
-  composes: base;
+.filterScroll {
+  composes: baseScroll;
+  transform: translateX(0);
+}
+.filterFixed {
+  composes: baseFixed;
   transform: translateX(0);
 }
 .search {
@@ -46,4 +61,8 @@
 }
 .facetDataHeader {
   padding-bottom: 10px;
+}
+.filtersSubTab {
+  max-height: 450px;
+  overflow-y: scroll;
 }
