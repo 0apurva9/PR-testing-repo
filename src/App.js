@@ -67,7 +67,7 @@ import {
   NOT_FOUND
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
-
+import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
 import StaticPageContainer from "./staticpage/containers/StaticPageContainer.js";
 import PlpBrandCategoryWrapperContainer from "./plp/containers/PlpBrandCategoryWrapperContainer";
 import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDescriptionPageWrapperContainer";
@@ -286,15 +286,16 @@ class App extends Component {
       cartIdForLoggedInUserStatus,
       cartIdForAnonymousUserStatus
     } = this.props;
-
-    if (
-      globalAccessTokenStatus === REQUESTING ||
-      customerAccessTokenStatus === REQUESTING ||
-      refreshCustomerAccessTokenStatus === REQUESTING ||
-      cartIdForLoggedInUserStatus === REQUESTING ||
-      cartIdForAnonymousUserStatus === REQUESTING
-    ) {
-      return <HomeSkeleton />;
+    if (checkUserAgentIsMobile()) {
+      if (
+        globalAccessTokenStatus === REQUESTING ||
+        customerAccessTokenStatus === REQUESTING ||
+        refreshCustomerAccessTokenStatus === REQUESTING ||
+        cartIdForLoggedInUserStatus === REQUESTING ||
+        cartIdForAnonymousUserStatus === REQUESTING
+      ) {
+        return <HomeSkeleton />;
+      }
     }
 
     if (this.props.modalStatus) {
