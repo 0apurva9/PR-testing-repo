@@ -32,7 +32,8 @@ export default class FilterDesktop extends React.Component {
   handleScroll = () => {
     const filterSectionHeight = document.getElementById("filter").offsetHeight;
     const pageHeight = window.pageYOffset;
-    if (filterSectionHeight - 400 <= pageHeight) {
+    const subTractOffset = window.screen.height - 400;
+    if (filterSectionHeight - subTractOffset <= pageHeight) {
       if (!this.state.fixedScroll) {
         this.setState({ fixedScroll: true });
       }
