@@ -96,7 +96,5 @@ UserProfile.propTypes = {
 };
 UserProfile.defaultProps = {
   color: "#fff",
-  backgroundColor: "#ff1744",
-  addressHeader: "Home",
-  addressLine1: "Tata Unistore Ltd, 1st Floor, "
+  backgroundColor: "#ff1744"
 };
