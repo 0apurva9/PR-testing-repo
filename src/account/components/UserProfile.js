@@ -62,9 +62,9 @@ export default class UserProfile extends React.Component {
                   .map((datum, i) => {
                     return (
                       <div className={styles.addressWrap}>
-                        {datum.addressHeader && (
+                        {datum.addressType && (
                           <div className={styles.defaultAddressHeader}>
-                            {datum.addressHeader}
+                            {datum.addressType}
                           </div>
                         )}
                         <div className={styles.addressLine1}>{datum.line1}</div>
