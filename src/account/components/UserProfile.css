@@ -11,6 +11,7 @@
   width: 100%;
   height: auto;
   background-color: #fff;
+  border-radius: 4px;
 }
 .iconHolder {
   width: 100%;
@@ -102,12 +103,12 @@
   color: #181818;
   font-size: 14px;
   margin-bottom: 7px;
-  font-family: regular;
+  font-family: semibold;
 }
 .addressWrap {
   width: 100%;
   height: auto;
-  padding: 20px;
+  padding: 10px 20px 20px 20px;
   background: #fff;
 }
 .addressLine1 {
