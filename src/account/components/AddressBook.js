@@ -8,7 +8,10 @@ import {
   MY_ACCOUNT_ADDRESS_EDIT_PAGE,
   MY_ACCOUNT_ADDRESS_ADD_PAGE,
   ADDRESS_BOOK,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  LOGIN_PATH,
+  CUSTOMER_ACCESS_TOKEN,
+  HOME_ROUTER
 } from "../../lib/constants.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -16,6 +19,7 @@ import * as Cookie from "../../lib/Cookie";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import * as UserAgent from "../../lib/UserAgent.js";
 const ADDRESS_BOOK_HEADER = "Add a new address";
 const DELETE_LABEL = "Delete";
 const EDIT_LABEL = "Edit";
@@ -31,6 +35,7 @@ export default class AddressBook extends React.Component {
   removeAddress = addressId => {
     if (this.props.removeAddress) {
       this.props.removeAddress(addressId);
+      this.props.getUserAddress();
     }
   };
 
@@ -52,8 +57,24 @@ export default class AddressBook extends React.Component {
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`
     });
   };
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   renderAddressBook = () => {
     const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userProfileDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
     const userData = JSON.parse(userProfileDetails);
 
     return (

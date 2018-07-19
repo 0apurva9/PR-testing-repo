@@ -30,3 +30,13 @@
   display: inline-block;
   vertical-align: sub;
 }
+
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding-right:150px;
+  }
+  .buttonHolder {
+    width:120px;
+  }
+
+}

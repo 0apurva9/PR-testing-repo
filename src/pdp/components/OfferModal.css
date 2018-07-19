@@ -70,3 +70,19 @@
   font-size: 14px;
   line-height: 22px;
 }
+
+@media  screen  and (min-width:1025px){
+  .header{
+    height:60px;
+    background:#f9f9f9;
+    font-size:20px;
+    line-height:60px;
+    color:#212121;
+    position:sticky;
+    z-index:5;
+    top:0;
+  }
+  .base {
+    min-height:initial;
+  }
+}

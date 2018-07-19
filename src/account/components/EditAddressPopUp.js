@@ -12,7 +12,12 @@ import TextArea from "../../general/components/TextArea.js";
 import cloneDeep from "lodash.clonedeep";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
-import { SUCCESS, ERROR } from "../../lib/constants.js";
+import {
+  SUCCESS,
+  ERROR,
+  ADDRESS_VALIDATION,
+  NAME_VALIDATION
+} from "../../lib/constants.js";
 import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -24,6 +29,10 @@ const PINCODE_TEXT = "Please enter pincode";
 const NAME_TEXT = "Please enter first name";
 const LAST_NAME_TEXT = "plese enter last name";
 const ADDRESS_TEXT = "Please enter address";
+const ADDRESS_MINLENGTH_VALID_TEXT = "Minimum address length is 15 characters";
+const ADDRESS_MAXLENGTH_VALID_TEXT = "Address should not exceed 120 characters";
+const ADDRESS_VALIDATION_TEXT =
+  "Special characters accepted are - # & ( ) ' ' . ,  / \\ + _ . Please remove other special characters";
 const EMAIL_TEXT = "Please enter email id";
 const LANDMARK_TEXT = "Please select landmark";
 const LANDMARK_ENTER_TEXT = "Please enter landmark";
@@ -166,16 +175,34 @@ export default class EditAddressPopUp extends React.Component {
       this.props.displayToast(PINCODE_VALID_TEXT);
       return false;
     }
-    if (!this.state.firstName) {
+    if (
+      !this.state.firstName.trim() ||
+      !NAME_VALIDATION.test(this.state.firstName.trim())
+    ) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.lastName) {
+    if (
+      !this.state.lastName.trim() ||
+      !NAME_VALIDATION.test(this.state.lastName.trim())
+    ) {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (!this.state.line1) {
+    if (!this.state.line1.trim()) {
       this.props.displayToast(ADDRESS_TEXT);
+      return false;
+    }
+    if (this.state.line1.length < 15) {
+      this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (this.state.line1.length > 120) {
+      this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (!ADDRESS_VALIDATION.test(this.state.line1.trim())) {
+      this.props.displayToast(ADDRESS_VALIDATION_TEXT);
       return false;
     }
 
@@ -307,6 +334,10 @@ export default class EditAddressPopUp extends React.Component {
             value={this.props.line1 ? this.props.line1 : this.state.line1}
             onChange={line1 => this.onChange({ line1 })}
           />
+        </div>
+        <div className={styles.addressValidMsg}>Character Limit : 120</div>
+        <div className={styles.addressValidMsg}>
+          Special characters allowed are - # & ( ) ' ' . , \ / + _
         </div>
         <div className={styles.content}>
           {this.state.postalCode.length === 6 &&

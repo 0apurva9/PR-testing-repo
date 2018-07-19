@@ -57,6 +57,7 @@ export default class ThemeOffer extends React.Component {
         return transformData(offer);
       });
     }
+
     themeData = concat(offers, items);
     return (
       <React.Fragment>
@@ -93,7 +94,7 @@ export default class ThemeOffer extends React.Component {
                 />
               }
               {...rest}
-              data={offers}
+              data={themeData}
             />
           </React.Fragment>
         </MediaQuery>

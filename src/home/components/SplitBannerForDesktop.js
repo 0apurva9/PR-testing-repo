@@ -24,17 +24,17 @@ export default class SplitBannerForDesktop extends React.Component {
   }
 
   render() {
-    let feedComponentData = this.props.items;
+    let { feedComponentData } = this.props;
     return (
       <div
         className={
           this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
         }
       >
-        <div className={styles.shopeRangeHeader}>{this.props.title}</div>
+        <div className={styles.shopeRangeHeader}>{feedComponentData.title}</div>
 
-        {feedComponentData &&
-          feedComponentData.map((datum, i) => {
+        {feedComponentData.items &&
+          feedComponentData.items.map((datum, i) => {
             return (
               <div className={styles.splitBannerHolder}>
                 <SplitBanner

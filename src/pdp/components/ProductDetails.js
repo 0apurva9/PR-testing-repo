@@ -6,7 +6,10 @@ export default class ProductDetails extends React.Component {
   render() {
     const data = this.props.data;
     return (
-      <Accordion text="Product Details" headerFontSize={16}>
+      <Accordion
+        text="Product Details"
+        headerFontSize={this.props.headerFontSize}
+      >
         {data.map(val => {
           return (
             <div className={styles.content}>
@@ -22,4 +25,7 @@ export default class ProductDetails extends React.Component {
 ProductDetails.propTypes = {
   title: PropTypes.string,
   details: PropTypes.string
+};
+ProductDetails.propTypes = {
+  headerFontSize: 16
 };

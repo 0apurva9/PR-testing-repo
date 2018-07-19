@@ -11,6 +11,9 @@ import PlpDesktopHeader from "../components/PlpDesktopHeader";
 import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
+
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -127,7 +130,6 @@ export default class Plp extends React.Component {
   };
   onClickCancelIcon(val) {
     const url = val.replace("{pageNo}", 1);
-    this.props.setIsNotGoBackFromPDP();
     this.props.history.push(url, {
       isFilter: false
     });
@@ -170,7 +172,16 @@ export default class Plp extends React.Component {
       url = url.replace("{pageNo}", page + 1);
       return (
         <Helmet>
-          <link rel="next" id="next" href={url} />
+          <link
+            rel="next"
+            id="next"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relNext
+                ? this.props.productListings.seo.relNext
+                : url
+            }
+          />
         </Helmet>
       );
     } else if (page === lastPage) {
@@ -178,7 +189,16 @@ export default class Plp extends React.Component {
 
       return (
         <Helmet>
-          <link rel="prev" id="prev" href={url} />
+          <link
+            rel="prev"
+            id="prev"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relPrev
+                ? this.props.productListings.seo.relPrev
+                : url
+            }
+          />
         </Helmet>
       );
     } else if (page > 1 && page < lastPage) {
@@ -186,8 +206,26 @@ export default class Plp extends React.Component {
       const nextUrl = url.replace("{pageNo}", page + 1);
       return (
         <Helmet>
-          <link rel="next" id="next" href={nextUrl} />
-          <link rel="prev" id="prev" href={prevUrl} />
+          <link
+            rel="next"
+            id="next"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relNext
+                ? this.props.productListings.seo.relNext
+                : nextUrl
+            }
+          />
+          <link
+            rel="prev"
+            id="prev"
+            href={
+              this.props.productListings.seo &&
+              this.props.productListings.seo.relPrev
+                ? this.props.productListings.seo.relPrev
+                : prevUrl
+            }
+          />
         </Helmet>
       );
     }
@@ -249,12 +287,9 @@ export default class Plp extends React.Component {
           </MediaQuery>
           <MediaQuery query="(min-device-width:1025px)">
             <div className={styles.headerSortWithFilter}>
-              <div className={styles.sort}>
-                <SortDesktopContainer />
-              </div>
-              {selectedFilter && (
-                <div className={styles.selectedFilter}>
-                  {selectedFilter.map(selectedFilterData => {
+              <div className={styles.selectedFilter}>
+                {selectedFilter &&
+                  selectedFilter.map(selectedFilterData => {
                     return (
                       <div
                         className={styles.selectedFilterWithIcon}
@@ -273,34 +308,67 @@ export default class Plp extends React.Component {
                       </div>
                     );
                   })}
-                </div>
-              )}
+              </div>
+              <div className={styles.sort}>
+                <SortDesktopContainer />
+              </div>
+              <div className={styles.gridIcon} />
             </div>
           </MediaQuery>
-          <div className={styles.productWithFilter}>
-            <div className={styles.main}>
-              <ProductGrid
-                history={this.props.history}
-                location={this.props.location}
-                data={this.props.productListings.searchresult}
-                totalResults={
-                  this.props.productListings.pagination.totalResults
-                }
-                setProductModuleRef={this.props.setProductModuleRef}
-                sort={this.props.productListings.sorts}
-                setIfSortHasBeenClicked={() =>
-                  this.props.setIfSortHasBeenClicked()
-                }
+          <MobileOnly>
+            <div className={styles.productWithFilter}>
+              <div className={styles.main}>
+                <ProductGrid
+                  history={this.props.history}
+                  location={this.props.location}
+                  data={this.props.productListings.searchresult}
+                  totalResults={
+                    this.props.productListings.pagination.totalResults
+                  }
+                  setProductModuleRef={this.props.setProductModuleRef}
+                  sort={this.props.productListings.sorts}
+                  setIfSortHasBeenClicked={() =>
+                    this.props.setIfSortHasBeenClicked()
+                  }
+                />
+              </div>
+              <FilterContainer
+                backPage={this.backPage}
+                isFilterOpen={this.props.isFilterOpen}
+                onApply={this.onApply}
+                onClear={this.props.hideFilter}
+                onL3CategorySelect={this.onL3CategorySelect}
               />
             </div>
-            <FilterContainer
-              backPage={this.backPage}
-              isFilterOpen={this.props.isFilterOpen}
-              onApply={this.onApply}
-              onClear={this.props.hideFilter}
-              onL3CategorySelect={this.onL3CategorySelect}
-            />
-          </div>
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.productWithFilterDesktop}>
+              <div className={styles.filterDesktopWrapper}>
+                <FilterContainer
+                  backPage={this.backPage}
+                  isFilterOpen={this.props.isFilterOpen}
+                  onApply={this.onApply}
+                  onClear={this.props.hideFilter}
+                  onL3CategorySelect={this.onL3CategorySelect}
+                />
+              </div>
+              <div className={styles.productGridDesktop}>
+                <ProductGrid
+                  history={this.props.history}
+                  location={this.props.location}
+                  data={this.props.productListings.searchresult}
+                  totalResults={
+                    this.props.productListings.pagination.totalResults
+                  }
+                  setProductModuleRef={this.props.setProductModuleRef}
+                  sort={this.props.productListings.sorts}
+                  setIfSortHasBeenClicked={() =>
+                    this.props.setIfSortHasBeenClicked()
+                  }
+                />
+              </div>
+            </div>
+          </DesktopOnly>
           <MediaQuery query="(max-device-width:1024px)">
             <div className={styles.footer}>
               <PlpMobileFooter

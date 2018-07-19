@@ -1,6 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
-
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./ProductDescriptionPageWrapper.css";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
@@ -16,6 +17,8 @@ import PdpElectronics from "./PdpElectronics";
 import PdpJewellery from "./PdpJewellery";
 import PdpApparel from "./PdpApparel";
 import PdpHome from "./PdpHome";
+import PdpDesktop from "./PdpDesktop";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 // prettier-ignore
 
 const PiqPageForPdp = Loadable({
@@ -101,6 +104,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
   hideLoader = () => {
     this.props.hideSecondaryLoader();
   };
+
   renderRootCategory = datumType => {
     let pdpToRender = typeComponentMapping[datumType];
     if (!pdpToRender) {
@@ -126,27 +130,49 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
+    if (
+      !checkUserAgentIsMobile() &&
+      this.props.showPiqPage &&
+      this.props.stores &&
+      this.props.stores.length > 0
+    ) {
+      let cliqAndPiqDetails = {};
+      cliqAndPiqDetails.loadingForCliqAndPiq = this.props.loadingForCliqAndPiq;
+      cliqAndPiqDetails.stores = this.props.stores;
+      cliqAndPiqDetails.productDetails = this.props.productDetails;
+      cliqAndPiqDetails.pinCodeUpdateDisabled = true;
+      this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
+    }
     if (this.props.productDetails) {
       if (!this.props.showPiqPage) {
         return (
           <div itemScope itemType="http://schema.org/Product">
-            {this.props.productDetails.seo
-              ? renderMetaTags(this.props.productDetails)
-              : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
-            {this.renderRootCategory(this.props.productDetails.rootCategory)}
+            <MobileOnly>
+              {this.props.productDetails.seo
+                ? renderMetaTags(this.props.productDetails)
+                : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
+              {this.renderRootCategory(this.props.productDetails.rootCategory)}
+            </MobileOnly>
+            <DesktopOnly>
+              <PdpDesktop {...this.props} />
+            </DesktopOnly>
           </div>
         );
       } else {
         return (
-          <PiqPageForPdp
-            loadingForCliqAndPiq={this.props.loadingForCliqAndPiq}
-            productDetails={this.props.productDetails}
-            stores={this.props.stores}
-            displayToast={this.props.displayToast}
-            getAllStoresForCliqAndPiq={this.props.getAllStoresForCliqAndPiq}
-            removeCliqAndPiq={() => this.removeCliqAndPiq()}
-            hidePdpPiqPage={this.props.hidePdpPiqPage}
-          />
+          <div>
+            <MobileOnly>
+              <PiqPageForPdp
+                loadingForCliqAndPiq={this.props.loadingForCliqAndPiq}
+                productDetails={this.props.productDetails}
+                stores={this.props.stores}
+                displayToast={this.props.displayToast}
+                getAllStoresForCliqAndPiq={this.props.getAllStoresForCliqAndPiq}
+                removeCliqAndPiq={() => this.removeCliqAndPiq()}
+                hidePdpPiqPage={this.props.hidePdpPiqPage}
+              />
+            </MobileOnly>
+          </div>
         );
       }
     } else {

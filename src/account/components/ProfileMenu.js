@@ -11,7 +11,9 @@ import {
   MY_ACCOUNT_ALERTS_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   MY_ACCOUNT_COUPON_PAGE,
-  SAVE_LIST_PAGE
+  SAVE_LIST_PAGE,
+  ORDER_PREFIX,
+  RETURNS
 } from "../../lib/constants";
 import savedList from "../../general/components/img/download.svg";
 import savedListRed from "./img/SaveListRed.png";
@@ -39,12 +41,16 @@ export default class PofileMenuGridForDesktop extends React.Component {
     }
   }
   render() {
-    const pathName = this.props.location.pathname;
+    const pathName = this.props.match.path;
     let selected = null;
     if (pathName === `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`) {
       selected = "Saved List";
     }
-    if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`) {
+    if (
+      pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}` ||
+      pathName === ORDER_PREFIX ||
+      pathName === RETURNS
+    ) {
       selected = "Order History";
     }
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_PAGE}`) {
@@ -79,7 +85,9 @@ export default class PofileMenuGridForDesktop extends React.Component {
       },
       {
         image:
-          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`
+          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}` ||
+          pathName === ORDER_PREFIX ||
+          pathName === RETURNS
             ? orderHistoryRed
             : orderHistory,
         text: "Order History",

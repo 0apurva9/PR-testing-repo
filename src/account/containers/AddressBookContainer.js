@@ -11,7 +11,7 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
-
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getUserAddress: () => {
@@ -31,6 +31,9 @@ const mapDispatchToProps = dispatch => {
     },
     resetAddAddressDetails: () => {
       dispatch(resetAddAddressDetails());
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };

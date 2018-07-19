@@ -27,3 +27,12 @@
   margin: auto;
   left: -20px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 33.3%;
+    margin-top: 0;
+    line-height: 33px;
+    font-family: light;
+    cursor: pointer;
+  }
+}

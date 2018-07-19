@@ -15,9 +15,29 @@
   font-family: light;
   display: inline-block;
   margin-left: 10px;
+  cursor:pointer;
 }
 .content {
   width: 100%;
   height: auto;
   font-family: light;
 }
+
+@media screen and (min-width: 1025px) {
+  .base{
+    padding:0;
+  }
+  .link:after{
+    content:"";
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-left: 5px;
+    background:url("../../general/components/img/right-arrow-red.svg")no-repeat;
+    background-position:center;
+    background-size:contain;
+  }
+
+}
+
+

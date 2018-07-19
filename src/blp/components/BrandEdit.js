@@ -3,6 +3,7 @@ import styles from "./BrandEdit.css";
 import FollowedBrand from "./FollowedBrand";
 import BrandsToolTip from "./BrandsToolTip";
 import PropTypes from "prop-types";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class BrandEdit extends React.Component {
   constructor(props) {
     super(props);
@@ -13,10 +14,14 @@ export default class BrandEdit extends React.Component {
     };
   }
   onClickButton(brandId, followStatus, webURL) {
-    if (this.state.brandEdit === true) {
-      this.props.onClick(brandId, followStatus);
+    if (UserAgent.checkUserAgentIsMobile()) {
+      if (this.state.brandEdit === true) {
+        this.props.onClick(brandId, followStatus);
+      } else {
+        this.props.onRedirectToBrandPage(webURL);
+      }
     } else {
-      this.props.onRedirectToBrandPage(webURL);
+      this.props.onClick(brandId, followStatus);
     }
   }
   onShowDelete() {

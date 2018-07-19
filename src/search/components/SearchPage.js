@@ -5,6 +5,8 @@ import SearchResultItem from "./SearchResultItem";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -122,7 +124,61 @@ export default class SearchPage extends React.Component {
             searchString={this.state.searchString}
           />
         </div>
-        {this.state.showResults && (
+        <MobileOnly>
+          {this.state.showResults && (
+            <div className={styles.searchResults}>
+              {data &&
+                data.topBrands &&
+                data.topBrands.map((val, i) => {
+                  return (
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={data.suggestionText[0]}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      text={val.categoryName}
+                      value={val.categoryCode}
+                      onClick={() => {
+                        this.handleBrandClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i
+                        );
+                      }}
+                    />
+                  );
+                })}
+              {data &&
+                data.topCategories &&
+                data.topCategories.map((val, i) => {
+                  return (
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={data.suggestionText[0]}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      text={val.categoryName}
+                      value={val.categoryCode}
+                      onClick={() => {
+                        this.handleCategoryClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i
+                        );
+                      }}
+                    />
+                  );
+                })}
+            </div>
+          )}
+        </MobileOnly>
+        <DesktopOnly>
           <div className={styles.searchResults}>
             {data &&
               data.topBrands &&
@@ -173,7 +229,7 @@ export default class SearchPage extends React.Component {
                 );
               })}
           </div>
-        )}
+        </DesktopOnly>
       </div>
     );
   }

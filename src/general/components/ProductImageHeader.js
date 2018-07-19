@@ -38,6 +38,7 @@ export default class ProductImageHeader extends React.Component {
                   )}
                 </MediaQuery>
                 {this.props.description}
+                {this.props.bottomContent}
               </div>
             )}
           </div>
@@ -52,5 +53,6 @@ ProductImageHeader.propTypes = {
   label: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.string,
-  logo: PropTypes.element
+  logo: PropTypes.element,
+  bottomContent: PropTypes.element
 };

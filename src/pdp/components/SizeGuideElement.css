@@ -3,7 +3,6 @@
   height: auto;
   padding: 10px 0;
 }
-
 .textBox {
   height: auto;
   color: #212121;
@@ -45,4 +44,12 @@
 }
 .sizeNumber:before {
   content: ": ";
+}
+@media screen and (min-width: 1025px) {
+  .sizeText {
+    font-family: light;
+  }
+  .sizeNumber {
+    font-family: light;
+  }
 }

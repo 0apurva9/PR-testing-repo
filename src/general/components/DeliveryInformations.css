@@ -12,6 +12,7 @@
 .notAvailable {
   composes: dataHolder;
   opacity: 0.4;
+  pointer-events:none;
 }
 .placeTime {
   width: 100%;

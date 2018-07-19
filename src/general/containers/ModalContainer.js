@@ -31,7 +31,10 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   ERROR
 } from "../../lib/constants";
-
+import {
+  getAllStoresForCliqAndPiq,
+  hidePdpPiqPage
+} from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -53,7 +56,8 @@ import {
 import {
   getOtpToActivateWallet,
   verifyWallet,
-  submitSelfCourierReturnInfo
+  submitSelfCourierReturnInfo,
+  changePassword
 } from "../../account/actions/account.actions";
 import {
   createWishlist,
@@ -70,6 +74,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
+const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
   return {
     bankOfferTncDetails: state.cart.bankOfferTncDetails,
@@ -81,7 +86,8 @@ const mapStateToProps = (state, ownProps) => {
       state.profile.loadingForGetOtpToActivateWallet,
     loadingForVerifyWallet: state.profile.loadingForverifyWallet,
     loadingForCancelProduct: state.profile.loadingForCancelProduct,
-    loading: state.profile.loading
+    loading: state.profile.loading,
+    stores: state.productDescription.storeDetails
   };
 };
 
@@ -95,6 +101,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hideModal: () => {
       dispatch(modalActions.hideModal());
+    },
+    changePassword: async passwordDetails => {
+      const response = await dispatch(changePassword(passwordDetails));
+      if (response && response.status === SUCCESS) {
+        dispatch(displayToast(UPDATE_PASSWORD));
+        dispatch(modalActions.hideModal());
+      } else {
+        dispatch(displayToast(response.error));
+      }
     },
     loginUser: async userDetails => {
       const loginResponse = await dispatch(loginUser(userDetails));
@@ -315,6 +330,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       } else {
         dispatch(displayToast(ERROR_MESSAGE_IN_CANCELING_ORDER));
       }
+    },
+    getAllStoresForCliqAndPiq: pinCode => {
+      dispatch(getAllStoresForCliqAndPiq(pinCode));
+    },
+    hidePdpPiqPage: () => {
+      dispatch(hidePdpPiqPage());
     }
   };
 };

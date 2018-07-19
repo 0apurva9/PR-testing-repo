@@ -110,25 +110,54 @@
 
 @media screen and (min-width: 1025px) {
   .base {
-    padding: 10px;
-    margin-bottom: 20px;
+    max-width: 1200px;
+    margin: auto;
+    display: inherit;
+    height: auto;
+    padding: 40px 0px 40px;
+  }
+  .productImagWithDataHolder {
+    max-width: 75%;
+    margin: auto;
+    height: auto;
   }
   .productImageHolder {
-    width: 15%;
+    width: 25%;
   }
   .productDescriptionHolder {
+    padding-left: 135px;
     width: 75%;
-    padding-left: 40px;
   }
   .brandName {
-    font-size: 14px;
-    font-family: semibold;
-  }
-  .productPrice .onPrice {
-    font-size: 14px;
-    font-family: regular;
+    margin-bottom: 20px;
+    font-size: 30px;
+    line-height: 20px;
   }
   .productName {
     font-family: light;
+    line-height: 40px;
+  }
+  .productPrice {
+    margin-top: 0px;
+    margin-bottom: 25px;
+  }
+  .productPrice .onPrice,
+  .productPrice .deletePrice {
+    font-size: 30px;
+    font-family: light;
+  }
+  .displayRatingWithRatingText {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .displayRating {
+    width: auto;
+    display: inline-block;
+  }
+  .displayRatingText {
+    padding-left: 15px;
+    width: auto;
+    display: inline-block;
   }
 }

@@ -2,7 +2,6 @@ import React from "react";
 import SaveListCard from "../../blp/components/SaveListCard";
 import styles from "./SaveListDetails.css";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import Button from "../../general/components/Button";
@@ -19,6 +18,7 @@ import {
   LOGIN_PATH,
   SAVED_LIST
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
@@ -47,7 +47,16 @@ export default class SaveListDetails extends React.Component {
     this.props.setHeaderText(SAVED_LIST);
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   addToBagItem(ussid, productcode) {
     const productDetails = {};

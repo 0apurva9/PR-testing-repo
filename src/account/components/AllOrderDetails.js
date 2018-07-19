@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
-import { Redirect } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
@@ -41,6 +40,7 @@ import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
@@ -159,7 +159,16 @@ export default class AllOrderDetails extends React.Component {
     );
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   reSendEmailForGiftCard = orderId => {
     if (this.props.reSendEmailForGiftCard) {
@@ -252,7 +261,7 @@ export default class AllOrderDetails extends React.Component {
                         </div>
                       </AccountUsefulLink>
                       <AccountUsefulLink
-                        onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}
+                        onClick={() => this.redirectToHelp(PRIVACY_POLICY_URL)}
                       >
                         <div className={styles.usefulLinkText}>
                           Privacy policy
@@ -267,7 +276,7 @@ export default class AllOrderDetails extends React.Component {
                       </AccountUsefulLink>
                       <AccountUsefulLink
                         onClick={() =>
-                          this.redirectPage(TERMS_AND_CONDITION_URL)
+                          this.redirectToHelp(TERMS_AND_CONDITION_URL)
                         }
                       >
                         <div className={styles.usefulLinkText}>
@@ -275,12 +284,12 @@ export default class AllOrderDetails extends React.Component {
                         </div>
                       </AccountUsefulLink>
                       <AccountUsefulLink
-                        onClick={() => this.redirectPage(ABOUT_US_URL)}
+                        onClick={() => this.redirectToHelp(ABOUT_US_URL)}
                       >
                         <div className={styles.usefulLinkText}>About us</div>
                       </AccountUsefulLink>
                       <AccountUsefulLink
-                        onClick={() => this.redirectPage(FAQ_URL)}
+                        onClick={() => this.redirectToHelp(FAQ_URL)}
                       >
                         <div className={styles.usefulLinkText}>FAQ</div>
                       </AccountUsefulLink>

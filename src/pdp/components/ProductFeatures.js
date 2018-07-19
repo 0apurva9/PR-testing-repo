@@ -13,12 +13,18 @@ export default class ProductFeatures extends React.Component {
               data={data}
               key={i}
               text={datum.groupName}
-              headerFontSize={16}
+              headerFontSize={this.props.headerFontSize}
             >
               <div className={styles.holder}>
                 {datum.specifications.map(val => {
                   return (
-                    <div className={styles.content}>
+                    <div
+                      className={
+                        this.props.sideBySide
+                          ? styles.sideBySideContent
+                          : styles.content
+                      }
+                    >
                       <div className={styles.header}>{val.key}</div>
                       <div className={styles.description}>{val.value}</div>
                     </div>
@@ -38,5 +44,12 @@ ProductFeatures.propTypes = {
       feature: PropTypes.string,
       description: PropTypes.string
     })
-  )
+  ),
+  headerFontSize: PropTypes.number,
+  sideBySide: PropTypes.bool
+};
+
+ProductFeatures.defaultProps = {
+  headerFontSize: 16,
+  sideBySide: false
 };

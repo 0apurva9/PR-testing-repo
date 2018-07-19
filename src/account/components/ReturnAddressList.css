@@ -38,3 +38,17 @@
   bottom: 0;
   margin: auto;
 }
+@media only screen and (min-width: 1025px) {
+  .renderDateAndTime {
+    width: 100%;
+    height: auto;
+    padding: 0px 30px;
+  }
+  .cancelPickUpButtonHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    background: #fff;
+    padding: 20px 25px 50px 25px;
+  }
+}

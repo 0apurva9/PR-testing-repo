@@ -85,9 +85,13 @@
   margin-top: 20px;
   padding-right: 30px;
 }
+.onHollow {
+  composes: base;
+}
 @media screen and (min-width: 1025px) {
   .productImageHolder {
     width: 16%;
+    cursor: pointer;
   }
   .productDetails {
     width: 84%;
@@ -103,5 +107,52 @@
   }
   .productName {
     font-family: light;
+  }
+  .onHollow {
+    composes: base;
+    background: #fff;
+    padding: 30px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  .orderPlaceAndId {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+  .orderPlace {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    font-size: 14px;
+  }
+  .orderId {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    float: right;
+    font-size: 14px;
+  }
+  .orderHeader {
+    font-family: regular;
+  }
+  .orderText {
+    font-family: light;
+  }
+  .priceWithQuantity {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .priceHolder {
+    width: auto;
+  }
+  .quantityHolder {
+    width: auto;
+    float: right;
+  }
+  .base {
+    margin-bottom: 0px;
   }
 }

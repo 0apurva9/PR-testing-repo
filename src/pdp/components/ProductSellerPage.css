@@ -38,3 +38,71 @@
   text-align: right;
   font-family: regular;
 }
+@media screen and (min-width: 1025px) {
+  .OtherSellerHolder {
+    background: #ececec;
+    padding: 0px;
+    padding: 40px 0px;
+  }
+  .OtherSellerHolderWithText {
+    max-width: 1200px;
+    background: #fff;
+    margin: auto;
+    padding: 50px 40px;
+    border-radius: 4px;
+  }
+  .headerWrapper {
+    width: 100%;
+    height: auto;
+  }
+  .header {
+    width: 100%;
+    height: auto;
+    float: left;
+    font-family: semibold;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+  .headerWithSellerAvailable,
+  .dropdownWithButton {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .availableSeller {
+    width: 100%;
+    height: auto;
+    float: left;
+    font-family: semibold;
+    font-size: 14px;
+    line-height: 14px;
+    font-family: light;
+  }
+  .dropdown {
+    width: 45%;
+    height: auto;
+    float: right;
+  }
+  .dropDownBox {
+    width: 100%;
+    height: auto;
+    float: right;
+  }
+  .sellerCardHeader {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    border-bottom: 1px solid #d2d2d2;
+    padding-top: 40px;
+    padding-bottom: 25px;
+  }
+  .sellerCardHeaderText {
+    width: 25%;
+    height: auto;
+    text-align: left;
+    display: inline-block;
+    font-size: 20px;
+    font-family: semibold;
+  }
+}

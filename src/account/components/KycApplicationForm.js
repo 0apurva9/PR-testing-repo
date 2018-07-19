@@ -9,6 +9,8 @@ import {
   LAST_NAME_TEXT,
   PHONE_VALID_TEXT
 } from "../../lib/constants";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 export default class KycApplicationForm extends React.Component {
   constructor(props) {
@@ -104,38 +106,71 @@ export default class KycApplicationForm extends React.Component {
                 />
               </div>
             </div>
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                {this.props.loadingForGetOtpToActivateWallet && (
-                  <div className={styles.loader}>
-                    <MDSpinner />
+            <React.Fragment>
+              <MobileOnly>
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    {this.props.loadingForGetOtpToActivateWallet && (
+                      <div className={styles.loader}>
+                        <MDSpinner />
+                      </div>
+                    )}
+                    {!this.props.loadingForGetOtpToActivateWallet && (
+                      <Button
+                        type="primary"
+                        backgroundColor="#ff1744"
+                        height={36}
+                        label="Generate OTP"
+                        width={211}
+                        textStyle={{ color: "#FFF", fontSize: 14 }}
+                        onClick={() => this.generateOtp()}
+                      />
+                    )}
                   </div>
-                )}
-                {!this.props.loadingForGetOtpToActivateWallet && (
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={36}
-                    label="Generate OTP"
-                    width={211}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
-                    onClick={() => this.generateOtp()}
-                  />
-                )}
-              </div>
-            </div>
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  type="hollow"
-                  height={36}
-                  label="Cancel"
-                  width={211}
-                  textStyle={{ color: "#212121", fontSize: 14 }}
-                  onClick={() => this.onCancel()}
-                />
-              </div>
-            </div>
+                </div>
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    <Button
+                      type="hollow"
+                      height={36}
+                      label="Cancel"
+                      width={211}
+                      textStyle={{ color: "#212121", fontSize: 14 }}
+                      onClick={() => this.onCancel()}
+                    />
+                  </div>
+                </div>
+              </MobileOnly>
+              <DesktopOnly>
+                <div className={styles.buttonHolder}>
+                  <div className={styles.buttonleft}>
+                    <div className={styles.button}>
+                      <Button
+                        type="hollow"
+                        height={36}
+                        label="Cancel"
+                        width={160}
+                        textStyle={{ color: "#212121", fontSize: 14 }}
+                        onClick={() => this.onCancel()}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.buttonRight}>
+                    <div className={styles.button}>
+                      <Button
+                        type="primary"
+                        backgroundColor="#ff1744"
+                        height={36}
+                        label="Generate OTP"
+                        width={160}
+                        textStyle={{ color: "#FFF", fontSize: 14 }}
+                        onClick={() => this.generateOtp()}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </DesktopOnly>
+            </React.Fragment>
           </div>
         </div>
       </div>

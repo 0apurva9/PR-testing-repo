@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./FollowedBrand.css";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class FollowedBrand extends React.Component {
   handleClick = () => {
     if (this.props.onClick) {
@@ -14,24 +15,26 @@ export default class FollowedBrand extends React.Component {
         <div className={styles.headerHolder}>
           <div className={styles.heading}>{this.props.header}</div>
         </div>
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              borderRadius={14}
-              label={this.props.btnText}
-              backgroundColor={this.props.backgroundColor}
-              onClick={() => this.handleClick()}
-              width={89}
-              height={27}
-              borderColor={this.props.borderColor}
-              textStyle={{
-                color: this.props.color,
-                fontSize: 14,
-                fontFamily: this.props.fontFamily
-              }}
-            />
+        <MobileOnly>
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                borderRadius={14}
+                label={this.props.btnText}
+                backgroundColor={this.props.backgroundColor}
+                onClick={() => this.handleClick()}
+                width={89}
+                height={27}
+                borderColor={this.props.borderColor}
+                textStyle={{
+                  color: this.props.color,
+                  fontSize: 14,
+                  fontFamily: this.props.fontFamily
+                }}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
       </div>
     );
   }

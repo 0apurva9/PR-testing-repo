@@ -1,58 +1,55 @@
-.base{
-  width:100%;
-  height:auto;
-  background:#fff;
-  border-radius:4px;
-  display:inline-block;
-  position:relative;
+.base {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
 }
-.header{
-  width:100%;
-  height:auto;
-  padding:15px 15px 5px 15px;
-  display:inline-block;
+.header {
+  width: 100%;
+  height: auto;
+  padding: 15px 15px 5px 15px;
+  display: inline-block;
 }
-.addressHolder{
-  width:100%;
-  height:auto;
-  display:inline-block;
+.addressHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
 }
-.buttonHolder{
-  width:100%;
-  height:25px;
-  display:inline-block;
-  position:relative;
+.buttonHolder {
+  width: 100%;
+  height: 25px;
+  display: inline-block;
+  position: relative;
   margin: 20px 0px;
 }
-.moreButtonHolder{
-  width:auto;
-  height:25px;
+.moreButtonHolder {
+  width: auto;
+  height: 25px;
   position: absolute;
-  top:0;
-  left:15px;
+  top: 0;
+  left: 15px;
 }
-.newAddress{
-  width:auto;
-  height:25px;
-  position:absolute;
-  right:15px;
-  top:0;
+.newAddress {
+  width: auto;
+  height: 25px;
+  position: absolute;
+  right: 15px;
+  top: 0;
 }
-
-
 
 @media only screen and (min-width: 1025px) {
-  .newAddress{
-    top:30px;
-    right:30px;
+  .newAddress {
+    top: 30px;
+    right: 30px;
   }
-  .base{
-    padding:15px;
+  .base {
+    padding: 15px;
   }
-  .buttonHolder{
-    position:static;
-    height:0;
-    margin:0;
+  .buttonHolder {
+    position: static;
+    height: 0;
+    margin: 0;
   }
-
 }

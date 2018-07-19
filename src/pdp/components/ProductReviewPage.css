@@ -34,17 +34,88 @@
   padding: 10px;
 }
 .dropDownBox {
-  width: 50%;
+  width: 100%;
   height: auto;
   display: inline-block;
   border: grey;
 }
 .dropdown {
-  width: 100%;
-  flex-direction: row;
+  width: 50%;
+  height: auto;
+  float: left;
   padding: 10px 0px 0px 0px;
 }
-.reviews {
+* .reviews {
   width: 100%;
   display: inline-block;
+}
+.dropdownWithButton {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+@media screen and (min-width: 1025px) {
+  .dropDownHolder {
+    background: #ececec;
+    padding: 0px;
+    padding: 40px 0px;
+  }
+  .dropDownHolderWithReviewText {
+    max-width: 1200px;
+    background: #fff;
+    margin: auto;
+    padding: 45px 35px;
+    border-radius: 4px;
+  }
+  .dropdown {
+    width: 50%;
+    height: auto;
+    float: right;
+    margin-left: 50px;
+    flex-direction: row-reverse;
+    padding: 0px;
+  }
+  .dropDownBox {
+    width: 100%;
+    height: auto;
+    float: right;
+  }
+  .reviewText {
+    width: auto;
+    height: auto;
+    float: right;
+  }
+  .reviewText {
+    font-family: light;
+    font-size: 14px;
+    margin-left: 0%;
+  }
+  .header {
+    width: 100%;
+    height: auto;
+    float: left;
+    font-family: semibold;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+  .ratngAndReviews {
+    width: 100%;
+    height: auto;
+    float: left;
+    font-family: semibold;
+    font-size: 14px;
+    line-height: 14px;
+    font-family: light;
+  }
+  .headerWithRating,
+  .dropdownWithButton {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .headerWrapper {
+    width: 100%;
+    height: auto;
+  }
 }

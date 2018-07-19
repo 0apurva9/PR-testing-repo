@@ -3,15 +3,7 @@
   height: auto;
   padding: 25px 15px 85px 15px;
   background: #ececec;
-}
-.header {
-  width: 100%;
-  font-size: 18px;
-  color: #000000;
-  font-family: semibold;
-  position: relative;
-  padding-right: 60px;
-  margin-bottom: 25px;
+  min-height: 100vh;
 }
 .cancelHolder {
   position: absolute;
@@ -48,4 +40,60 @@
   height: auto;
   margin-top: 15px;
   border-radius: 4px;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  position: relative;
+  margin-top: 28px;
+}
+.header {
+  width: 100%;
+  height: auto;
+  font-size: 16px;
+  font-family: semibold;
+  line-height: 25px;
+  position: relative;
+  padding-bottom: 36px;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 0px;
+  }
+  .content {
+    padding: 0px;
+    background: #ececec;
+  }
+  .selectReasonWithText {
+    background: #fff;
+    padding: 30px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  .buttonHolder {
+    width: 100%;
+    height: auto;
+    padding: 0px 0px 20px 0px;
+  }
+  .circleHolder {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .circle {
+    width: 23px;
+    height: 23px;
+    background-color: #fff;
+    border: 2px solid black;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 23px;
+  }
 }

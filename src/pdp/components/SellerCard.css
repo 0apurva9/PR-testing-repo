@@ -86,3 +86,64 @@
   right: 0px;
   top: 0;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    background-color: #fff;
+    color: #000000;
+    padding: 40px 0px;
+    overflow: auto;
+    display: inline-block;
+    border-bottom: 1px solid #d2d2d2;
+  }
+  .base:last-child {
+    border-bottom: none;
+  }
+  .sellerCardDetails {
+    width: 25%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    font-size: 14px;
+  }
+  .sellerCardHeading {
+    font-family: semibold;
+    width: auto;
+    height: auto;
+  }
+  .offerText {
+    font-family: light;
+    line-height: 25px;
+    margin-top: 0px;
+  }
+  .shippingText {
+    margin-top: 0px;
+    font-family: light;
+  }
+  .buttonHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    position: relative;
+  }
+  .button {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 80px;
+  }
+  .saveListIcon {
+    width: auto;
+    height: auto;
+    position: absolute;
+    right: 65px;
+    top: 0;
+    cursor: pointer;
+  }
+  .faded {
+    composes: sellerCardDetails;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}

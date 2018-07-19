@@ -22,25 +22,58 @@ import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
+
+import {
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  GLOBAL_ACCESS_TOKEN,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CART_DETAILS_FOR_ANONYMOUS,
+  ANONYMOUS_USER,
+  LOGIN_PATH,
+  SAVED_LIST
+} from "../../lib/constants";
+import * as Cookie from "../../lib/Cookie";
+import ProfileMenu from "./ProfileMenu";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import styles from "./ReturnReasonAndModes.css";
+import UserProfile from "./UserProfile";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import OrderCard from "./OrderCard";
+import format from "date-fns/format";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
+const dateFormat = "DD MMM YYYY";
 
 export default class ReturnReasonAndModes extends React.Component {
   constructor(props) {
     super();
     this.orderCode = props.location.pathname.split("/")[2];
+    this.state = {
+      isReasonSelected: false,
+      selectedReason: null
+    };
   }
   renderLoader() {
     return <Loader />;
   }
 
   onCancel() {
+    this.setState({ isReasonSelected: false });
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     this.props.history.goBack();
   }
   onChange(val) {
     if (this.props.onChange) {
       this.props.onChange(val);
+    }
+  }
+
+  onChangeBankDetails(val) {
+    if (this.props.onChangeBankDetails) {
+      this.props.onChangeBankDetails(val);
     }
   }
   renderToModes(data) {
@@ -56,8 +89,9 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.displayToast("Please Select Reverse Seal ");
       return false;
     } else {
+      this.setState({ isReasonSelected: true, selectedReason: data.reason });
       this.props.onChange({ data });
-      if (this.props.isCOD) {
+      if (this.props.isCOD && checkUserAgentIsMobile()) {
         this.props.history.push({
           pathname: `${RETURNS_PREFIX}/${
             this.orderCode
@@ -108,32 +142,103 @@ export default class ReturnReasonAndModes extends React.Component {
   }
   render() {
     const { pathname } = this.props.location;
-
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    const userData = JSON.parse(userDetails);
     const renderReasonForm = (
       <ReturnReasonForm
         returnProductDetails={this.props.returnProductDetails}
+        orderDate={
+          this.props.orderDetails &&
+          format(this.props.orderDetails.orderDate, dateFormat)
+        }
+        orderId={this.props.orderDetails && this.props.orderDetails.orderId}
+        productBrand={
+          this.props.orderDetails &&
+          this.props.orderDetails.products &&
+          this.props.orderDetails.products[0] &&
+          this.props.orderDetails.products[0].productBrand
+        }
         onChange={comment => this.onChange({ comment })}
         onChangePrimary={reason => this.onChange({ reason })}
         onContinue={data => this.renderToModes(data)}
         onCancel={() => this.onCancel()}
+        onHollow={true}
       />
     );
     const renderReturnMode = (
       <ReturnModes
         {...this.props}
+        returnProductDetails={this.props.returnProductDetails}
+        onHollow={true}
         productInfo={
           this.props.returnRequest &&
           this.props.returnRequest.returnEntry &&
           this.props.returnRequest.returnEntry.orderEntries[0]
         }
+        orderDate={
+          this.props.orderDetails &&
+          format(this.props.orderDetails.orderDate, dateFormat)
+        }
+        orderId={this.props.orderDetails && this.props.orderDetails.orderId}
+        productBrand={
+          this.props.orderDetails &&
+          this.props.orderDetails.products &&
+          this.props.orderDetails.products[0] &&
+          this.props.orderDetails.products[0].productBrand
+        }
         selectMode={mode => this.onSelectMode(mode)}
         onCancel={() => this.onCancel()}
+        selectedReason={this.state.selectedReason}
+        onChangeBankDetails={val => this.props.onChangeBankDetails(val)}
       />
     );
+
+    let data = this.props.returnProductDetails;
     return (
       <React.Fragment>
-        {pathname.match(REG_X_FOR_REASON) && renderReasonForm}
-        {pathname.match(REG_X_FOR_MODES) && renderReturnMode}
+        <DesktopOnly>
+          <div className={styles.base}>
+            <div className={MyAccountStyles.holder}>
+              <div className={MyAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+              <div className={styles.returnReasonDetail}>
+                <div className={styles.returnReasonDetailHolder}>
+                  {!this.state.isReasonSelected && renderReasonForm}
+                  {this.state.isReasonSelected && renderReturnMode}
+                </div>
+              </div>
+
+              <div className={MyAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  userLogin={userData.userName}
+                  loginType={userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </DesktopOnly>
+        <MobileOnly>
+          {pathname.match(REG_X_FOR_REASON) && renderReasonForm}
+          {pathname.match(REG_X_FOR_MODES) && renderReturnMode}
+        </MobileOnly>
       </React.Fragment>
     );
   }

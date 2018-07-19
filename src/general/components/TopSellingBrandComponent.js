@@ -10,6 +10,9 @@ export default class TopSellingBrandComponent extends React.Component {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
     }
+    if (this.props.setClickedElementId) {
+      this.props.setClickedElementId();
+    }
   };
   render() {
     return (

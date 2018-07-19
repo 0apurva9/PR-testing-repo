@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import RatingHolder from "./RatingHolder";
 import PdpFrame from "./PdpFrame";
 import throttle from "lodash/throttle";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -300,34 +302,48 @@ class ProductReviewPage extends Component {
               <RatingHolder ratingData={this.props.ratingData} />
             </div>
             <div className={styles.dropDownHolder}>
-              <div className={styles.dropdown}>
-                <div className={styles.dropDownBox}>
-                  <SelectBoxMobile2
-                    value={this.state.sortValue}
-                    label={this.state.sortLabel}
-                    onChange={changedValue =>
-                      this.changeFilterValues(changedValue)
-                    }
-                    options={this.filterOptions}
-                    textStyle={{ fontSize: 14 }}
-                  />
-                </div>
-                <div className={styles.reviewText} onClick={this.reviewSection}>
-                  {WRITE_REVIEW_TEXT}
+              <div className={styles.dropDownHolderWithReviewText}>
+                <div className={styles.headerWrapper}>
+                  <DesktopOnly>
+                    <div className={styles.headerWithRating}>
+                      <div className={styles.header}>All Reviews</div>
+                    </div>
+                  </DesktopOnly>
+                  <div className={styles.dropdownWithButton}>
+                    <div className={styles.dropdown}>
+                      <div className={styles.dropDownBox}>
+                        <SelectBoxMobile2
+                          value={this.state.sortValue}
+                          label={this.state.sortLabel}
+                          onChange={changedValue =>
+                            this.changeFilterValues(changedValue)
+                          }
+                          options={this.filterOptions}
+                          textStyle={{ fontSize: 14 }}
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className={styles.reviewText}
+                      onClick={this.reviewSection}
+                    >
+                      {WRITE_REVIEW_TEXT}
+                    </div>
+                  </div>
                 </div>
                 {this.state.visible && (
                   <div className={styles.reviewHolder}>
                     {this.renderReviewSection()}
                   </div>
                 )}
-              </div>
-              <div className={styles.reviews}>
-                {this.props.reviews && (
-                  <ReviewList
-                    reviewList={this.props.reviews.reviews}
-                    totalNoOfReviews={this.props.reviews.totalNoOfPages}
-                  />
-                )}
+                <div className={styles.reviews}>
+                  {this.props.reviews && (
+                    <ReviewList
+                      reviewList={this.props.reviews.reviews}
+                      totalNoOfReviews={this.props.reviews.totalNoOfPages}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>

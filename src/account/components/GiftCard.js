@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
-import { Redirect } from "react-router-dom";
 import MediaQuery from "react-responsive";
 import Button from "../../xelpmoc-core/Button";
 import {
@@ -13,7 +12,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   LOGIN_PATH,
   CHECKOUT_ROUTER,
-  GIFT_CARD
+  GIFT_CARD,
+  HOME_ROUTER
 } from "../../lib/constants";
 import { SUCCESS } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
@@ -113,7 +113,16 @@ export default class GiftCard extends React.Component {
     }
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (this.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   render() {
     if (this.props.loadingForGiftCardDetails) {

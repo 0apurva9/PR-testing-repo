@@ -4,7 +4,7 @@ export const SUCCESS = "success";
 export const SUCCESS_UPPERCASE = "SUCCESS";
 export const SUCCESS_CAMEL_CASE = "Success";
 export const SUCCESS_FOR_ADDING_TO_WSHLIST =
-  "Product added successfully to the wishlist";
+    "Product added successfully to the wishlist";
 export const SUCCESS_FOR_ADDING_TO_BAG = "Product added successfully to bag";
 export const REQUESTING = "requesting";
 export const ERROR = "error";
@@ -19,11 +19,11 @@ export const JUS_PAY_AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED";
 export const JUS_PAY_AUTHORIZATION_FAILED = "JUS_PAY_AUTHORIZATION_FAILED";
 export const SINGLE_SELECT_HEADING_COPY = "Thanks!!!";
 export const SINGLE_SELECT_DESCRIPTION_COPY =
-  "We will curate the experience based on your choices. Loading products...";
+    "We will curate the experience based on your choices. Loading products...";
 
 export const MULTI_SELECT_HEADING_COPY = "Thanks!!!";
 export const MULTI_SELECT_DESCRIPTION_COPY =
-  "We will curate the experience based on your choices. Loading products...";
+    "We will curate the experience based on your choices. Loading products...";
 export const MOBILE_PDP_VIEW = "mobilePdpView";
 export const MAIN_ROUTER = "/";
 export const CUSTOMER_ACCESS_TOKEN = "customerAccessToken";
@@ -40,7 +40,7 @@ export const BRAND_PAGE_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
 export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
 
 export const BRAND_AND_CATEGORY_PAGE =
-  "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
+    "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
 
 export const CATEGORY_PAGE = "/c-(msh[0-9A-Za-z]+)";
 export const CATEGORY_PAGE_WITH_SLUG = `/:slug/c-(msh[0-9a-zA-Z]+)`;
@@ -50,10 +50,10 @@ export const PRODUCT_LISTINGS = "/search/(.*)";
 export const PRODUCT_LISTINGS_WITHOUT_SLASH = "/search/";
 export const SKU_PAGE_FILTER = "/CustomSkuCollection/:slug/page-([0-9]+)";
 export const CATEGORY_PRODUCT_LISTINGS_WITH_PAGE =
-  "/:slug/c-(msh[0-9a-zA-Z]+)/page-([0-9]+)?";
+    "/:slug/c-(msh[0-9a-zA-Z]+)/page-([0-9]+)?";
 
 export const BRAND_PRODUCT_LISTINGS_WITH_PAGE =
-  "/:slug/c-(mbh[0-9a-zA-Z]+)/page-([0-9]+)?";
+    "/:slug/c-(mbh[0-9a-zA-Z]+)/page-([0-9]+)?";
 
 export const SEARCH_RESULTS_PAGE = "/search/";
 export const HOME_ROUTER = "/";
@@ -65,7 +65,7 @@ export const PRODUCT_DESCRIPTION_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/
 export const PRODUCT_DESCRIPTION_REVIEWS_WITH_SLUG = `/:slug${PRODUCT_DESCRIPTION_REVIEWS}`;
 export const PRODUCT_OTHER_SELLER_ROUTER = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/viewSellers`;
 export const PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE =
-  "/:slug/(p-)([a-zA-Z0-9]+)";
+    "/:slug/(p-)([a-zA-Z0-9]+)";
 export const PRODUCT_REVIEWS_PATH_SUFFIX = "product-reviews";
 export const PRODUCT_DESCRIPTION_ROUTER = PRODUCT_DESCRIPTION_PRODUCT_CODE; //TODO remove this
 export const PRODUCT_REVIEW_ROUTER = "/productReview";
@@ -110,7 +110,7 @@ export const RETURN_CLIQ_PIQ = "/cliqpiq";
 export const RETURN_CLIQ_PIQ_ADDRESS = "/address";
 export const RETURN_CLIQ_PIQ_DATE = "/dateTime";
 export const SUCCESS_MESSAGE_IN_CANCELING_ORDER =
-  "Your order cancelled successfully";
+    "Your order cancelled successfully";
 export const RETURN_CLIQ_PIQ_RETURN_SUMMARY = "/returnSummary";
 
 export const RETURN_TO_STORE = "/store";
@@ -217,10 +217,10 @@ export const HELP = "Help";
 export const STATIC_PAGE = "/:slug";
 export const NOT_FOUND = "/404-not-found";
 export const REVIEW_SUBMIT_TOAST_TEXT =
-  "Your review has been submitted and will be displayed after moderation";
+    "Your review has been submitted and will be displayed after moderation";
 
 export const CDN_URL_ROOT =
-  "https://assets.tatacliq.com/medias/sys_master/pwaImg/";
+    "https://assets.tatacliq.com/medias/sys_master/pwaImg/";
 export const QUE_MAGAZINE = "https://www.tatacliq.com/que";
 
 export const TERMS_AND_CONDITION_URL = "/terms-of-use";
@@ -247,9 +247,9 @@ export const RUPEE_SYMBOL = "₹";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =
-  "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
+    "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
 export const GOOGLE_TAG_IMAGE_DEFAULT =
-  "https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg";
+    "https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg";
 export const TWITTER_TAG_TITLE_DEFAULT = GOOGLE_TAG_TITLE_DEFAULT;
 export const TWITTER_TAG_IMAGE_DEFAULT = GOOGLE_TAG_IMAGE_DEFAULT;
 export const FACEBOOK_TAG_IMAGE_DEFAULT = GOOGLE_TAG_IMAGE_DEFAULT;
@@ -278,6 +278,12 @@ export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
 export const LAST_NAME_TEXT = "plese enter last name";
 export const ADDRESS_TEXT = "Please enter address";
+export const ADDRESS_MINLENGTH_VALID_TEXT =
+    "Minimum address length is 15 characters";
+export const ADDRESS_MAXLENGTH_VALID_TEXT =
+    "Address should not exceed 120 characters";
+export const ADDRESS_VALIDATION_TEXT =
+    "Special characters accepted are - # & ( ) ' ' . ,  / \\ + _ . Please remove other special characters";
 export const EMAIL_TEXT = "Please enter email id";
 export const LANDMARK_TEXT = "Please select landmark";
 export const LANDMARK_ENTER_TEXT = "Please enter landmark";
@@ -293,17 +299,31 @@ export const ISO_CODE = "IN";
 export const OTHER_LANDMARK = "other";
 export const OTP_VERIFICATION_REQUIRED_CODE = "NU0002";
 export const RESET_PASSWORD_SUCCESS_MESSAGE =
-  "Password reset successfully. Kindly login with your new password";
+    "Password reset successfully. Kindly login with your new password";
 export const OTP_VERIFICATION_REQUIRED_TEXT = "OTP VERIFICATION REQUIRED";
 export const STORE_NOT_AVAILABLE_TEXT = "Store Not available";
 export const BACK_END_ISSUE_ERROR_MESSAGE =
-  "An exception occurred at back-end.";
+    "An exception occurred at back-end.";
 export const TOAST_MESSAGE_AFTER_MERGE_CART =
-  "Your bag contains product from your last visit";
+    "Your bag contains product from your last visit";
 export const EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP =
-  "Email Id already exists, please try with another email Id!";
+    "Email Id already exists, please try with another email Id!";
 export const EMAIL_SENT_SUCCESS_MESSAGE = "Email sent successfully";
 export const FEMALE = "FEMALE";
 export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
+export const IFSC_PATTERN = /^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/;
+export const ACCOUNT_NUMBER = "Please enter account number";
+export const RE_ENTER_ACCOUNT_NUMBER = "Please re-enter account number";
+export const ACCOUNT_NUMBER_MATCH_TEXT = "Account number did not match";
+export const ACCOUNT_HOLDER_NAME = "Please enter account holder name";
+export const BANK_NAME = "Please enter bank name";
+export const IFSC_CODE_TEXT = "Please enter ifsc code";
+export const IFSC_CODE_VALID_TEXT = "Please enter valid ifsc code";
+export const REFUND_MODE_TEXT = "please select refund mode";
+export const ADDRESS_VALIDATION = /^[\\&()''+_#./0-9a-zA-Z\s,-]{15,}$/;
+export const NAME_VALIDATION = /^[A-Za-z]+$/;
+export const TIME_OUT_FOR_APIS = 5000;
+export const LOW_INTERNET_CONNECTION_MESSAGE =
+    "Slow Internet Connection Detected";

@@ -25,7 +25,7 @@ export default class BankDetails extends React.Component {
       <div className={styles.base}>
         <div className={styles.holder}>
           <div className={styles.header}>Bank Details</div>
-          <div className={styles.container}>
+          <div className={styles.left}>
             <Input2
               placeholder={this.props.accountNumber}
               boxy={true}
@@ -36,7 +36,7 @@ export default class BankDetails extends React.Component {
               onlyNumber={true}
             />
           </div>
-          <div className={styles.container}>
+          <div className={styles.right}>
             <Input2
               placeholder={this.props.reEnterAccountNumber}
               boxy={true}
@@ -49,7 +49,7 @@ export default class BankDetails extends React.Component {
               onlyNumber={true}
             />
           </div>
-          <div className={styles.container}>
+          <div className={styles.left}>
             <Input2
               placeholder={this.props.userName}
               boxy={true}
@@ -59,7 +59,7 @@ export default class BankDetails extends React.Component {
               onlyAlphabet={true}
             />
           </div>
-          <div className={styles.container}>
+          <div className={styles.right}>
             <SelectBoxMobile2
               placeholder="Refund Mode"
               arrowColour="grey"
@@ -73,7 +73,7 @@ export default class BankDetails extends React.Component {
               onChange={mode => this.onChange({ mode })}
             />
           </div>
-          <div className={styles.container}>
+          <div className={styles.left}>
             <Input2
               placeholder={this.props.bankName}
               boxy={true}
@@ -83,7 +83,7 @@ export default class BankDetails extends React.Component {
               onlyAlphabet={true}
             />
           </div>
-          <div className={styles.container}>
+          <div className={styles.right}>
             <Input2
               placeholder={this.props.code}
               boxy={true}

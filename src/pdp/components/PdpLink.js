@@ -14,12 +14,12 @@ export default class PdpLink extends React.Component {
   render() {
     return (
       <div className={styles.base} onClick={() => this.onClick()}>
+        {this.props.children}
         {!this.props.noLink && (
           <div className={styles.linkArrow}>
             <Icon image={arrowIcon} size={10} />
           </div>
         )}
-        {this.props.children}
       </div>
     );
   }

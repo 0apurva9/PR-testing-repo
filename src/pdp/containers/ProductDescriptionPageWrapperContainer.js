@@ -25,7 +25,8 @@ import {
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
-  SIZE_GUIDE
+  SIZE_GUIDE,
+  CLIQ_PIQ_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -39,7 +40,8 @@ const mapDispatchToProps = dispatch => {
       const productDetailsResponse = await dispatch(
         getProductDescription(productCode)
       );
-      if (productDetailsResponse.status === SUCCESS) {
+
+      if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
           dispatch(getProductPinCode(pinCode, productCode));
@@ -105,6 +107,9 @@ const mapDispatchToProps = dispatch => {
     },
     hidePdpPiqPage: () => {
       dispatch(hidePdpPiqPage());
+    },
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
     }
   };
 };
