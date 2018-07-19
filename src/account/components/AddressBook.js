@@ -36,6 +36,7 @@ export default class AddressBook extends React.Component {
   removeAddress = addressId => {
     if (this.props.removeAddress) {
       this.props.removeAddress(addressId);
+      this.props.getUserAddress();
     }
   };
 
