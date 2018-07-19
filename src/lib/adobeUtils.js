@@ -1067,7 +1067,7 @@ function getDigitalDataForPlp(type, response) {
   } else {
     Object.assign(data.page, {
       pageInfo: {
-        pageName: `product grid: ${null}: ${null}: ${null}`
+        pageName: "product grid"
       }
     });
   }
