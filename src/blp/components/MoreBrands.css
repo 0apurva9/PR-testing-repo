@@ -41,4 +41,7 @@
     width: 60%;
     text-align: right;
   }
+  .button {
+    cursor: pointer;
+  }
 }

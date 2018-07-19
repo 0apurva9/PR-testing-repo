@@ -91,6 +91,7 @@
 @media screen and (min-width: 1025px) {
   .productImageHolder {
     width: 16%;
+    cursor: pointer;
   }
   .productDetails {
     width: 84%;
