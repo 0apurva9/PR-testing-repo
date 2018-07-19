@@ -124,15 +124,31 @@
       <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js"></script>
 
       <% } %>
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+      
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        
+      <% if(htmlWebpackPlugin.options.stage === "production") { %>
         <script type="text/javascript">
           var OneSignal = window.OneSignal || [];
           OneSignal.push(function() {
-            OneSignal.init({
-              appId: "e1a9c7e3-b1a8-41fe-b242-9517584f7108",
-            });
+              OneSignal.init({
+                  appId: "79d85d57-3321-4bd3-b7c3-400a1daa3932",
+                  autoRegister: false
+              });
           });
         </script>
+      <% } else { %>
+        <script type="text/javascript">
+          var OneSignal = window.OneSignal || [];
+          OneSignal.push(function() {
+              OneSignal.init({
+                  appId: "e1a9c7e3-b1a8-41fe-b242-9517584f7108",
+                  autoRegister: false
+              });
+          });
+        </script>
+      <% } %>
+
         <script type="text/javascript">
           window.digitalData = Object.assign({}, { page: { pageInfo: { pageName: "basepage" } } });
           if (window._satellite) {
