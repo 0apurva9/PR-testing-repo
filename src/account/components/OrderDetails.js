@@ -680,6 +680,7 @@ export default class OrderDetails extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

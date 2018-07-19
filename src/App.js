@@ -81,7 +81,7 @@ const Loader = () => {
 };
 
 const MyAccountWrapper = Loadable({
-  loader: () => import("./account/components/MyAccountWrapper"),
+  loader: () => import("./account/containers/MyAccountWrapperContainer.js"),
   loading() {
     return <Loader />;
   }

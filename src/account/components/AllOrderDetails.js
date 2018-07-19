@@ -185,7 +185,9 @@ export default class AllOrderDetails extends React.Component {
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }
+
     const userData = JSON.parse(userDetails);
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -509,6 +511,7 @@ export default class AllOrderDetails extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

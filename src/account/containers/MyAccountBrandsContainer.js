@@ -33,7 +33,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     followedBrands: state.profile.followedBrands,
-    loading: state.profile.loadingForFollowedBrands
+    loading: state.profile.loadingForFollowedBrands,
+    userAddress: state.profile.userAddress
   };
 };
 const MyAccountBrandsContainer = withRouter(

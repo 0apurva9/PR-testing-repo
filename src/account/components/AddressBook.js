@@ -24,7 +24,6 @@ const ADDRESS_BOOK_HEADER = "Add a new address";
 const DELETE_LABEL = "Delete";
 const EDIT_LABEL = "Edit";
 const NO_ADDRESS_TEXT = "No Saved Address";
-
 export default class AddressBook extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(ADDRESS_BOOK);
@@ -39,11 +38,9 @@ export default class AddressBook extends React.Component {
       this.props.getUserAddress();
     }
   };
-
   renderLoader = () => {
     return <Loader />;
   };
-
   editAddress = address => {
     this.props.history.push({
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_EDIT_PAGE}`,
@@ -52,7 +49,6 @@ export default class AddressBook extends React.Component {
       }
     });
   };
-
   addAddress = () => {
     this.props.history.push({
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`
@@ -182,6 +178,7 @@ export default class AddressBook extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>
@@ -195,7 +192,6 @@ export default class AddressBook extends React.Component {
     } else {
       this.props.hideSecondaryLoader();
     }
-
     return this.renderAddressBook();
   }
 }

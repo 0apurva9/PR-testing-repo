@@ -55,7 +55,8 @@ const mapStateToProps = state => {
   return {
     orderDetails: state.profile.fetchOrderDetails,
     loadingForFetchOrderDetails: state.profile.loadingForFetchOrderDetails,
-    sendInvoiceSatus: state.profile.sendInvoiceStatus
+    sendInvoiceSatus: state.profile.sendInvoiceStatus,
+    userAddress: state.profile.userAddress
   };
 };
 
