@@ -132,10 +132,10 @@
   float: left;
 }
 .categoryAndBrand {
-  width: 50%;
+  width: auto;
   height: auto;
   color: #fff;
-  padding-right: 20px;
+  padding-right: 30px;
   line-height: 60px;
   margin-right: 25px;
   cursor: pointer;
@@ -144,6 +144,7 @@
   font-family: semibold;
   display: flex;
   position: relative;
+  padding-left: 15px;
 }
 .categoryAndBrandWithArrow {
   composes: categoryAndBrand;
@@ -156,8 +157,8 @@
   width: 20px;
   height: 20px;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 10px;
+  top: 0px;
   bottom: 0;
   margin: auto;
   background: url(./img/down-arrow-white.svg) no-repeat;
@@ -172,7 +173,7 @@
   width: 20px;
   height: 20px;
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 0;
   bottom: 0;
   margin: auto;
