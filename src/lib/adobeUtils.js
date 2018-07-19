@@ -1055,6 +1055,21 @@ function getDigitalDataForPlp(type, response) {
   const subCategories = getSubCategories(response);
   if (subCategories) {
     Object.assign(data.page.category, { ...subCategories });
+    Object.assign(data.page, {
+      pageInfo: {
+        pageName: `product grid:${
+          subCategories.subCategory1 ? subCategories.subCategory1 : ""
+        }:${subCategories.subCategory2 ? subCategories.subCategory2 : ""}:${
+          subCategories.subCategory3 ? subCategories.subCategory3 : ""
+        }`
+      }
+    });
+  } else {
+    Object.assign(data.page, {
+      pageInfo: {
+        pageName: `product grid: ${null}: ${null}: ${null}`
+      }
+    });
   }
   return data;
 }
