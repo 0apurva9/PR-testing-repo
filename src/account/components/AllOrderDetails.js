@@ -259,7 +259,7 @@ export default class AllOrderDetails extends React.Component {
                         </div>
                       </AccountUsefulLink>
                       <AccountUsefulLink
-                        onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}
+                        onClick={() => this.redirectToHelp(PRIVACY_POLICY_URL)}
                       >
                         <div className={styles.usefulLinkText}>
                           Privacy policy
@@ -274,7 +274,7 @@ export default class AllOrderDetails extends React.Component {
                       </AccountUsefulLink>
                       <AccountUsefulLink
                         onClick={() =>
-                          this.redirectPage(TERMS_AND_CONDITION_URL)
+                          this.redirectToHelp(TERMS_AND_CONDITION_URL)
                         }
                       >
                         <div className={styles.usefulLinkText}>
@@ -282,12 +282,12 @@ export default class AllOrderDetails extends React.Component {
                         </div>
                       </AccountUsefulLink>
                       <AccountUsefulLink
-                        onClick={() => this.redirectPage(ABOUT_US_URL)}
+                        onClick={() => this.redirectToHelp(ABOUT_US_URL)}
                       >
                         <div className={styles.usefulLinkText}>About us</div>
                       </AccountUsefulLink>
                       <AccountUsefulLink
-                        onClick={() => this.redirectPage(FAQ_URL)}
+                        onClick={() => this.redirectToHelp(FAQ_URL)}
                       >
                         <div className={styles.usefulLinkText}>FAQ</div>
                       </AccountUsefulLink>

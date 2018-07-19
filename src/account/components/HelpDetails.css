@@ -73,6 +73,7 @@
     height: 100%;
     position: relative;
     padding-bottom: 61%;
+    cursor: pointer;
   }
   .iconHolder {
     right: 0;
