@@ -118,4 +118,5 @@
   font-family: light;
   margin-bottom: 5px;
   line-height: normal;
+  word-wrap: break-word;
 }
