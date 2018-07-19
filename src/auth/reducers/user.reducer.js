@@ -98,11 +98,19 @@ const user = (
         loading: true
       });
 
-    case userActions.SIGN_UP_USER_SUCCESS:
+    case userActions.SIGN_UP_USER_SUCCESS: {
+      userDetails = {};
+      userDetails.userName = action.userName;
+      userDetails.customerId = action.customerId;
+      Cookies.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
+
       return Object.assign({}, state, {
         status: action.status,
-        loading: false
+        loading: false,
+        isLoggedIn: true
       });
+    }
+
     case userActions.SIGN_UP_USER_FAILURE:
       return Object.assign({}, state, {
         status: action.status,

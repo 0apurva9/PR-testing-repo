@@ -278,6 +278,12 @@ export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
 export const LAST_NAME_TEXT = "plese enter last name";
 export const ADDRESS_TEXT = "Please enter address";
+export const ADDRESS_MINLENGTH_VALID_TEXT =
+  "Minimum address length is 15 characters";
+export const ADDRESS_MAXLENGTH_VALID_TEXT =
+  "Address should not exceed 120 characters";
+export const ADDRESS_VALIDATION_TEXT =
+  "Special characters accepted are - # & ( ) ' ' . ,  / \\ + _ . Please remove other special characters";
 export const EMAIL_TEXT = "Please enter email id";
 export const LANDMARK_TEXT = "Please select landmark";
 export const LANDMARK_ENTER_TEXT = "Please enter landmark";
@@ -307,5 +313,8 @@ export const FEMALE = "FEMALE";
 export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
-export const ADDRESS_VALIDATION = /^[#./0-9a-zA-Z\s,-]{15,}$/;
+export const ADDRESS_VALIDATION = /^[\\&()''+_#./0-9a-zA-Z\s,-]{15,}$/;
 export const NAME_VALIDATION = /^[A-Za-z]+$/;
+export const TIME_OUT_FOR_APIS = 5000;
+export const LOW_INTERNET_CONNECTION_MESSAGE =
+  "Slow Internet Connection Detected";
