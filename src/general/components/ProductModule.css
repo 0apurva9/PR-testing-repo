@@ -30,3 +30,8 @@
   left: 0;
   top: 0;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    cursor: pointer;
+  }
+}
