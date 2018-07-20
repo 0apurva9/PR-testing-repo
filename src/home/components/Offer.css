@@ -66,6 +66,9 @@
   height: auto;
 }
 @media screen and (min-width: 1025px) {
+  .base {
+    cursor: pointer;
+  }
   .ovalImage {
     width: auto;
     height: 36px;
