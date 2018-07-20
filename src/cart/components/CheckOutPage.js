@@ -85,7 +85,11 @@ import {
   SELECTED_BANK_NAME,
   MY_ACCOUNT_CART_PAGE,
   ADDRESS_VALIDATION,
-  NAME_VALIDATION
+  NAME_VALIDATION,
+  SELECTED_DELIVERY_MODE,
+  SHORT_EXPRESS,
+  SHORT_COLLECT,
+  SHORT_HOME_DELIVERY
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -336,6 +340,13 @@ class CheckOutPage extends React.Component {
   };
 
   handleSelectDeliveryMode(deliveryMode, ussId, cartId) {
+    let deliverModeInShortTerm;
+    if (deliveryMode === HOME_DELIVERY) {
+      deliverModeInShortTerm = SHORT_HOME_DELIVERY;
+    } else {
+      deliverModeInShortTerm = SHORT_EXPRESS;
+    }
+    localStorage.setItem(SELECTED_DELIVERY_MODE, deliverModeInShortTerm);
     let newDeliveryObj = {};
     newDeliveryObj[ussId] = deliveryMode;
     let currentSelectedDeliveryModes = cloneDeep(
@@ -397,6 +408,7 @@ class CheckOutPage extends React.Component {
     );
   }
   async addPickupPersonCNC(mobile, name, productObj) {
+    localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_COLLECT);
     if (name.length < 4) {
       return this.props.displayToast(ERROR_MESSAGE_FOR_PICK_UP_PERSON_NAME);
     } else if (mobile.length !== 10) {
@@ -758,6 +770,7 @@ class CheckOutPage extends React.Component {
                 return mode.code === EXPRESS;
               }) >= 0
             ) {
+              localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_EXPRESS);
               let newObjectAdd = {};
               newObjectAdd[product.USSID] = EXPRESS;
               Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
@@ -767,6 +780,7 @@ class CheckOutPage extends React.Component {
                 return mode.code === HOME_DELIVERY;
               }) >= 0
             ) {
+              localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_HOME_DELIVERY);
               let newObjectAdd = {};
               newObjectAdd[product.USSID] = HOME_DELIVERY;
               Object.assign(defaultSelectedDeliveryModes, newObjectAdd);

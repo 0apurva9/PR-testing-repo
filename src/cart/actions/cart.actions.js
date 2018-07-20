@@ -43,7 +43,8 @@ import {
   SOFT_RESERVATION_ITEM,
   ADDRESS_DETAILS_FOR_PAYMENT,
   CART_BAG_DETAILS,
-  EMI_TYPE
+  EMI_TYPE,
+  SELECTED_DELIVERY_MODE
 } from "../../lib/constants";
 import queryString, { parse } from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -1623,16 +1624,18 @@ export function softReservation() {
           productDetails.fulfillmentType = product.fullfillmentType;
 
           if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-            productDetails.deliveryMode =
-              product.pinCodeResponse.validDeliveryModes[0].type;
+            productDetails.deliveryMode = localStorage.getItem(
+              SELECTED_DELIVERY_MODE
+            );
             productDetails.serviceableSlaves =
               product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
           } else if (
             product.pinCodeResponse.validDeliveryModes[0]
               .CNCServiceableSlavesData
           ) {
-            productDetails.deliveryMode =
-              product.pinCodeResponse.validDeliveryModes[0].type;
+            productDetails.deliveryMode = localStorage.getItem(
+              SELECTED_DELIVERY_MODE
+            );
             productDetails.serviceableSlaves =
               product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
           }
@@ -2104,15 +2107,17 @@ export function softReservationForPayment(cardDetails, address) {
         productDetails.quantity = product.qtySelectedByUser;
         productDetails.fulfillmentType = product.fullfillmentType;
         if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
         } else if (
           product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
         ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
         }
@@ -2170,15 +2175,17 @@ export function softReservationPaymentForNetBanking(
         productDetails.quantity = product.qtySelectedByUser;
         productDetails.fulfillmentType = product.fullfillmentType;
         if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
         } else if (
           product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
         ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
         }
@@ -2239,15 +2246,17 @@ export function softReservationPaymentForSavedCard(
         productDetails.quantity = product.qtySelectedByUser;
         productDetails.fulfillmentType = product.fullfillmentType;
         if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
         } else if (
           product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
         ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
         }
@@ -2297,15 +2306,17 @@ export function softReservationForCliqCash(pinCode) {
         productDetails.fulfillmentType = product.fullfillmentType;
 
         if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
         } else if (
           product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
         ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
+          productDetails.deliveryMode = localStorage.getItem(
+            SELECTED_DELIVERY_MODE
+          );
           productDetails.serviceableSlaves =
             product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
         }
@@ -3637,8 +3648,9 @@ export function softReservationForCODPayment(pinCode) {
         let productDetails = {};
         productDetails.ussId = product.USSID;
         productDetails.quantity = product.qtySelectedByUser;
-        productDetails.deliveryMode =
-          product.pinCodeResponse.validDeliveryModes[0].type;
+        productDetails.deliveryMode = localStorage.getItem(
+          SELECTED_DELIVERY_MODE
+        );
         productDetails.serviceableSlaves =
           product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
         productDetails.fulfillmentType = product.fullfillmentType;
