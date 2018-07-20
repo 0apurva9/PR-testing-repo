@@ -257,6 +257,8 @@ const MEN = "Men's";
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
 export const MSD_FEEDBACK = "feedback";
 
+const NEFT = "NEFT";
+const TITLE_NAME_ARRAY = ["Ms.", "Mr.", "Mr. & Mrs."];
 // cencel product
 
 export function getDetailsOfCancelledProductRequest() {
@@ -528,7 +530,12 @@ export function newReturnInitial(returnDetails, product = null) {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(newReturnInitiateRequest());
-
+    if (returnDetails) {
+      Object.assign(returnDetails, {
+        RefundMode: NEFT,
+        title: TITLE_NAME_ARRAY[Math.floor(Math.random() * 3)] // title name we need to send random because we are not capturing anywhere
+      });
+    }
     try {
       const result = await api.post(
         `${USER_PATH}/${
