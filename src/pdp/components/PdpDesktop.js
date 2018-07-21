@@ -10,7 +10,7 @@ import PriceBreakUp from "./PriceBreakUp";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import ProductReviewListContainer from "../containers/ProductReviewListContainer";
 import SizeQuantitySelect from "./SizeQuantitySelect";
-import APlusTemplate1 from "./APlusTemplate1";
+import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
@@ -928,11 +928,11 @@ export default class PdpApparel extends React.Component {
 
                 <div className={styles.details}>
                   {productData.APlusContent && (
-                    <APlusTemplate1
+                    <APlusTemplate
                       productContent={productData.APlusContent.productContent}
+                      template={productData.APlusContent.temlateName}
                     />
                   )}
-
                   <div className={styles.blankSeparator} />
                   <PDPRecommendedSectionsContainer />
                 </div>

@@ -3,29 +3,7 @@ import ProductVideo from "../../general/components/ProductVideo";
 import styles from "./APlusTemplates.css";
 export default class APlusTemplate1 extends React.Component {
   render() {
-    const data = {};
-    this.props.productContent
-      .sort((a, b) => {
-        if (a.key < b.key) {
-          return -1;
-        }
-        if (a.key > b.key) {
-          return 1;
-        }
-        return 0;
-      })
-      .map(val => {
-        return val;
-      })
-      .forEach((val, i) => {
-        if (val.key.slice(0, -1) in data) {
-          data[val.key.slice(0, -1)].push(val);
-        } else {
-          data[val.key.slice(0, -1)] = [];
-          data[val.key.slice(0, -1)].push(val);
-        }
-      });
-
+    let data = this.props.data;
     return (
       <div className={styles.base}>
         {data["Section1"] && (
