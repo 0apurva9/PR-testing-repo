@@ -7,11 +7,35 @@
   height: auto;
   margin-top: 80px;
 }
+.section1 {
+  width: 100%;
+  height: auto;
+  margin-top: 60px;
+}
+.section3 {
+  width: 100%;
+  height: auto;
+  margin-top: 50px;
+}
+.section4 {
+  width: 100%;
+  height: auto;
+  margin-top: 35px;
+}
+.section2 {
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+}
 .jointSection {
   composes: section;
   margin-top: 20px;
 }
 .section img {
+  width: 100%;
+  height: auto;
+}
+.section1 img {
   width: 100%;
   height: auto;
 }

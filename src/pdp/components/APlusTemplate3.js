@@ -7,7 +7,7 @@ export default class APlusTemplate3 extends React.Component {
     return (
       <div className={styles.base}>
         {data["Section1"] && (
-          <div className={styles.section}>
+          <div className={styles.section1}>
             <div className={styles.leftMiddleSection}>
               {data["Section1"] &&
               data["Section1"][0] &&
@@ -29,7 +29,7 @@ export default class APlusTemplate3 extends React.Component {
           </div>
         )}
         {data["Section2"] && (
-          <div className={styles.section}>
+          <div className={styles.section2}>
             <div className={styles.leftMiddleSection}>
               {data["Section2"] &&
               data["Section2"][0] &&
@@ -80,7 +80,7 @@ export default class APlusTemplate3 extends React.Component {
           </div>
         )}
         {data["Section4"] && (
-          <div className={styles.section}>
+          <div className={styles.section1}>
             <div className={styles.leftShortSection}>
               {data["Section4"] &&
               data["Section4"][0] &&
@@ -111,7 +111,7 @@ export default class APlusTemplate3 extends React.Component {
           </div>
         )}
         {data["Section5"] && (
-          <div className={styles.section}>
+          <div className={styles.section3}>
             <div className={styles.leftShortSectionHeaderCenter}>
               {data["Section5"] &&
               data["Section5"][0] &&
@@ -157,7 +157,7 @@ export default class APlusTemplate3 extends React.Component {
           </div>
         )}
         {data["Section6"] && (
-          <div className={styles.section}>
+          <div className={styles.section1}>
             {data["Section6"] &&
             data["Section6"][0] &&
             data["Section6"][0].value &&
@@ -173,7 +173,7 @@ export default class APlusTemplate3 extends React.Component {
           </div>
         )}
         {data["Section7"] && (
-          <div className={styles.section}>
+          <div className={styles.section4}>
             <div className={styles.longSectionOfImage}>
               {data["Section7"] &&
               data["Section7"][0] &&
