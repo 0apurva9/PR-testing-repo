@@ -4280,8 +4280,16 @@ export function getValidDeliveryModeDetails(cartProductDetails) {
         productDetails.serviceableSlaves =
           selectedDeliveryModeDetails.serviceableSlaves;
       } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
+        let selectedStoreDetails = selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
+          storeDetails => {
+            return (
+              storeDetails.serviceableSlaves[0].slaveId ===
+              product.storeDetails.slaveId
+            );
+          }
+        );
         productDetails.serviceableSlaves =
-          selectedDeliveryModeDetails.CNCServiceableSlavesData[0].serviceableSlaves;
+          selectedStoreDetails.serviceableSlaves;
       }
       item.push(productDetails);
       productItems.item = item;
