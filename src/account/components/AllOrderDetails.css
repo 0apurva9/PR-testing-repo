@@ -74,6 +74,7 @@
     width: 100%;
     height: auto;
     padding-top: 80px;
+    display: inline-block;
   }
   .orderDetail {
     width: 60%;
@@ -88,11 +89,13 @@
     top: 180px;
     z-index: 20;
     border-radius: 4px;
+    width: calc(60% - 44px);
   }
   .dataHolder {
     width: 100%;
     height: auto;
     background: #ececec;
+    display: inline-block;
   }
   .alertsHolder {
     width: 100%;
