@@ -4282,10 +4282,7 @@ export function getValidDeliveryModeDetails(cartProductDetails) {
       } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
         let selectedStoreDetails = selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
           storeDetails => {
-            return (
-              storeDetails.serviceableSlaves[0].slaveId ===
-              product.storeDetails.slaveId
-            );
+            return storeDetails.storeId === product.storeDetails.slaveId;
           }
         );
         productDetails.serviceableSlaves =
