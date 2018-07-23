@@ -1,6 +1,7 @@
 import React from "react";
 import APlusTemplate1 from "./APlusTemplate1";
 import APlusTemplate2 from "./APlusTemplate2";
+import APlusTemplate3 from "./APlusTemplate3";
 export default class APlusTemplate extends React.Component {
   render() {
     const data = {};
@@ -27,10 +28,12 @@ export default class APlusTemplate extends React.Component {
       });
     let APlusContentType =
       this.props.template && this.props.template.split("_")[2];
+
     return (
       <div>
         {data && APlusContentType === "1" && <APlusTemplate1 data={data} />}
         {data && APlusContentType === "2" && <APlusTemplate2 data={data} />}
+        {data && APlusContentType === "3" && <APlusTemplate3 data={data} />}
       </div>
     );
   }
