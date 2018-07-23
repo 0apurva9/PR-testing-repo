@@ -34,3 +34,9 @@
     max-width: 240px;
   }
 }
+@media screen and (max-height: 780px) {
+  .profileMenu {
+    position: sticky;
+    top: -180px;
+  }
+}
