@@ -50,7 +50,7 @@
   composes: gridText;
   color: #ff1744;
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 780px) and (min-width: 1025px) {
   .base {
     width: 100%;
     position: relative;

@@ -34,16 +34,9 @@
     max-width: 240px;
   }
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 780px) and (min-width: 1025px) {
   .profileMenu {
     position: sticky;
     top: -180px;
-    width: 20%;
-    height: 200px;
-    display: inline-block;
-    padding-right: 10px;
-    vertical-align: top;
-    max-width: 240px;
-    border-radius: 4px;
   }
 }
