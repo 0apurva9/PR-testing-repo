@@ -162,6 +162,7 @@ export const COLLECT = "click-and-collect";
 export const HOME_DELIVERY = "home-delivery";
 export const SHORT_EXPRESS = "ED";
 export const SHORT_COLLECT = "CNC";
+export const SHORT_HOME_DELIVERY = "HD";
 export const EXPRESS_TEXT = "Express Shipping";
 export const HOME_TEXT = "Standard Shipping";
 export const STANDARD_SHIPPING = "Standard delivery";
@@ -318,3 +319,4 @@ export const NAME_VALIDATION = /^[A-Za-z]+$/;
 export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";
+export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
