@@ -4287,6 +4287,5 @@ export function getValidDeliveryModeDetails(cartProductDetails) {
       productItems.item = item;
     }
   });
-  console.log(productItems);
   return productItems;
 }
