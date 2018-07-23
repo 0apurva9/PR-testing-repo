@@ -532,7 +532,7 @@ export function newReturnInitial(returnDetails, product = null) {
     dispatch(newReturnInitiateRequest());
     if (returnDetails) {
       Object.assign(returnDetails, {
-        RefundMode: NEFT,
+        refundMode: NEFT,
         title: TITLE_NAME_ARRAY[Math.floor(Math.random() * 3)] // title name we need to send random because we are not capturing anywhere
       });
     }
