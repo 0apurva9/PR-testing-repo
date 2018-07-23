@@ -1610,41 +1610,11 @@ export function softReservation() {
   let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     //get the body parameters
-    let productItems = {};
-    let item = [];
-    each(
+    let productItems = getValidDeliveryModeDetails(
       getState().cart &&
         getState().cart.cartDetailsCNC &&
-        getState().cart.cartDetailsCNC.products,
-      product => {
-        if (product.isGiveAway === NO) {
-          let productDetails = {};
-          productDetails.ussId = product.USSID;
-          productDetails.quantity = product.qtySelectedByUser;
-          productDetails.fulfillmentType = product.fullfillmentType;
-
-          if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-            productDetails.deliveryMode = localStorage.getItem(
-              SELECTED_DELIVERY_MODE
-            );
-            productDetails.serviceableSlaves =
-              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-          } else if (
-            product.pinCodeResponse.validDeliveryModes[0]
-              .CNCServiceableSlavesData
-          ) {
-            productDetails.deliveryMode = localStorage.getItem(
-              SELECTED_DELIVERY_MODE
-            );
-            productDetails.serviceableSlaves =
-              product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-          }
-          item.push(productDetails);
-          productItems.item = item;
-        }
-      }
+        getState().cart.cartDetailsCNC.products
     );
-
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -2098,34 +2068,9 @@ export function softReservationForPayment(cardDetails, address) {
   const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2166,34 +2111,9 @@ export function softReservationPaymentForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
 
@@ -2237,34 +2157,9 @@ export function softReservationPaymentForSavedCard(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2296,36 +2191,9 @@ export function softReservationForCliqCash(pinCode) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode = localStorage.getItem(
-            SELECTED_DELIVERY_MODE
-          );
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -3641,24 +3509,9 @@ export function softReservationForCODPayment(pinCode) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.deliveryMode = localStorage.getItem(
-          SELECTED_DELIVERY_MODE
-        );
-        productDetails.serviceableSlaves =
-          product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     const cartId = JSON.parse(cartDetails).guid;
 
@@ -4403,4 +4256,37 @@ export function getTncForBankOffer() {
       dispatch(getTncForBankOfferFailure(e.message));
     }
   };
+}
+
+export function getValidDeliveryModeDetails(cartProductDetails) {
+  let productItems = {};
+  let item = [];
+  each(cartProductDetails, product => {
+    if (product.isGiveAway === NO) {
+      //get the selected delivery Mode
+      let selectedDeliverMode = localStorage.getItem(SELECTED_DELIVERY_MODE);
+      let selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
+        validDeliveryMode => {
+          return validDeliveryMode.type === selectedDeliverMode;
+        }
+      );
+
+      let productDetails = {};
+      productDetails.ussId = product.USSID;
+      productDetails.quantity = product.qtySelectedByUser;
+      productDetails.fulfillmentType = product.fullfillmentType;
+      productDetails.deliveryMode = selectedDeliveryModeDetails.type;
+      if (selectedDeliveryModeDetails.serviceableSlaves) {
+        productDetails.serviceableSlaves =
+          selectedDeliveryModeDetails.serviceableSlaves;
+      } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
+        productDetails.serviceableSlaves =
+          selectedDeliveryModeDetails.CNCServiceableSlavesData[0].serviceableSlaves;
+      }
+      item.push(productDetails);
+      productItems.item = item;
+    }
+  });
+  console.log(productItems);
+  return productItems;
 }

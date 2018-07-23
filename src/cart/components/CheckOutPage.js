@@ -408,7 +408,6 @@ class CheckOutPage extends React.Component {
     );
   }
   async addPickupPersonCNC(mobile, name, productObj) {
-    localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_COLLECT);
     if (name.length < 4) {
       return this.props.displayToast(ERROR_MESSAGE_FOR_PICK_UP_PERSON_NAME);
     } else if (mobile.length !== 10) {
@@ -423,11 +422,16 @@ class CheckOutPage extends React.Component {
         this.state.selectedProductsUssIdForCliqAndPiq
       ] = COLLECT;
 
-      this.setState({
-        ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
-        cliqPiqSelected: true,
-        isDeliveryModeSelected: true
-      });
+      this.setState(
+        {
+          ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
+          cliqPiqSelected: true,
+          isDeliveryModeSelected: true
+        },
+        () => {
+          localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_COLLECT);
+        }
+      );
     }
   }
   removeCliqAndPiq() {
@@ -674,6 +678,7 @@ class CheckOutPage extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.state.isDeliveryModeSelected);
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
     }
