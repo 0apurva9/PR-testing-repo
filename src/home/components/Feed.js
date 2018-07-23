@@ -380,7 +380,13 @@ class Feed extends Component {
 
   renderFeed = (items, ref) => {
     return (
-      <div className={styles.base} ref={ref}>
+      <div
+        className={styles.base}
+        ref={ref}
+        style={{
+          background: this.props.background ? this.props.background : "#ececec"
+        }}
+      >
         <div className={styles.center}>{items}</div>
       </div>
     );

@@ -57,11 +57,14 @@
   font-size: 13px;
 }
 @media screen and (min-width: 1025px) {
-  .textBox{
-    font-family:light;
-    cursor:pointer;
+  .textBox {
+    font-family: light;
+    cursor: pointer;
   }
   .textBoxActive {
-    font-family:semibold;
+    font-family: semibold;
+  }
+  .faqQuestion {
+    font-size: 14px;
   }
 }
