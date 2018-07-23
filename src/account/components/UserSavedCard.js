@@ -180,6 +180,7 @@ export default class UserSavedCard extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.profile.userAddress}
                 />
               </div>
             </DesktopOnly>
@@ -196,7 +197,9 @@ export default class UserSavedCard extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
-              <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
+              <div className={styles.saveCardDetailWithHolder}>
+                <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
+              </div>
             </div>
             <DesktopOnly>
               <div className={myAccountStyles.userProfile}>
@@ -216,10 +219,11 @@ export default class UserSavedCard extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.userAddress}
                 />
               </div>
             </DesktopOnly>
-          </div>{" "}
+          </div>
         </div>
       );
     }

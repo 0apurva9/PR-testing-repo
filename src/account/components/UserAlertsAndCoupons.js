@@ -159,6 +159,7 @@ export default class UserAlertsAndCoupons extends React.Component {
                   userDetails.lastName &&
                   `${userDetails.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

@@ -50,7 +50,8 @@ const mapStateToProps = state => {
   return {
     wishList: state.wishlistItems.wishlistItems,
     loading: state.wishlistItems.loading,
-    count: state.wishlistItems.count
+    count: state.wishlistItems.count,
+    userAddress: state.profile.userAddress
   };
 };
 

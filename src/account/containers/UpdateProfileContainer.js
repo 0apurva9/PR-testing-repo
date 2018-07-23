@@ -50,6 +50,7 @@ const mapDispatchToProps = dispatch => {
     setHeaderText: text => {
       dispatch(setHeaderText(text));
     },
+
     displayToast: message => {
       dispatch(displayToast(message));
     },
@@ -63,7 +64,8 @@ const mapStateToProps = state => {
   return {
     changePasswordStatus: state.profile.changePasswordStatus,
     userDetails: state.profile.userDetails,
-    type: state.profile.type
+    type: state.profile.type,
+    userAddress: state.profile.userAddress
   };
 };
 

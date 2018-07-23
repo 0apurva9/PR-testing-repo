@@ -36,7 +36,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    profile: state.profile
+    profile: state.profile,
+    userAddress: state.profile.userAddress
   };
 };
 

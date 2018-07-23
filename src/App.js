@@ -67,7 +67,7 @@ import {
   NOT_FOUND
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
-
+import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
 import StaticPageContainer from "./staticpage/containers/StaticPageContainer.js";
 import PlpBrandCategoryWrapperContainer from "./plp/containers/PlpBrandCategoryWrapperContainer";
 import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDescriptionPageWrapperContainer";
@@ -81,7 +81,7 @@ const Loader = () => {
 };
 
 const MyAccountWrapper = Loadable({
-  loader: () => import("./account/components/MyAccountWrapper"),
+  loader: () => import("./account/containers/MyAccountWrapperContainer.js"),
   loading() {
     return <Loader />;
   }
@@ -294,7 +294,9 @@ class App extends Component {
       cartIdForLoggedInUserStatus === REQUESTING ||
       cartIdForAnonymousUserStatus === REQUESTING
     ) {
-      return <HomeSkeleton />;
+      if (checkUserAgentIsMobile()) {
+        return <HomeSkeleton />;
+      }
     }
 
     if (this.props.modalStatus) {

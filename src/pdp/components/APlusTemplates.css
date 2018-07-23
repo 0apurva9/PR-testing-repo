@@ -1,81 +1,168 @@
-.base{
-  width:100%;
-  height:auto;
+.base {
+  width: 100%;
+  height: auto;
 }
-.section{
-  width:100%;
-  height:auto;
-  margin-top:80px;
+.section {
+  width: 100%;
+  height: auto;
+  margin-top: 80px;
 }
-.jointSection{
-  composes:section;
-  margin-top:20px;
+.section1 {
+  width: 100%;
+  height: auto;
+  margin-top: 60px;
 }
-.section img{
-  width:100%;
-  height:auto;
+.section3 {
+  width: 100%;
+  height: auto;
+  margin-top: 50px;
 }
-.longSection{
-  width:67%;
-  height:auto;
-  display:inline-block;
-  vertical-align:top;
+.section4 {
+  width: 100%;
+  height: auto;
+  margin-top: 35px;
 }
-.longSection:first-child{
-  padding-right:40px;
+.section2 {
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
 }
-.longSection:nth-child(2){
-  padding-left:40px;
+.jointSection {
+  composes: section;
+  margin-top: 20px;
 }
-.shortSection{
-  height:auto;
-  display:inline-block;
-  vertical-align:top;
-  width:33%;
+.section img {
+  width: 100%;
+  height: auto;
+}
+.section1 img {
+  width: 100%;
+  height: auto;
+}
+.longSection,
+.longSectionWithRightHeading {
+  width: 67%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.longSection:first-child {
+  padding-right: 40px;
+}
+.longSection:nth-child(2) {
+  padding-left: 40px;
+}
+.longSectionWithRightHeading:first-child {
+  padding-right: 40px;
+  text-align: right;
+}
+.longSectionWithRightHeading:nth-child(2) {
+  padding-left: 40px;
+}
+.shortSection {
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  width: 33%;
 }
 
-.textSection{
-  composes:base;
-  color:#212121;
+.textSection {
+  composes: base;
+  color: #212121;
 }
-.textSection h3  {
-  margin:0;
-  font-weight:initial;
-  font-family:semibold;
-  font-size:20px;
-  margin-bottom:20px;
+.textSection h3 {
+  margin: 0;
+  font-weight: initial;
+  font-family: semibold;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
-.textSection h4 , .textSection h2{
-  margin:0;
-  font-weight:initial;
-  font-family:semibold;
-  font-size:20px;
+.textSectionWithCenter {
+  composes: textSection;
+  text-align: center;
 }
-.textSection p{
-  font-weight:initial;
-  font-family:light;
-  font-size:14px;
-  line-height:21px;
+.textSection h4,
+.textSection h2 {
+  margin: 0;
+  font-weight: initial;
+  font-family: semibold;
+  font-size: 20px;
 }
-.longImage{
-  composes:shortSection;
-  text-align:right;
+.textSection p {
+  font-weight: initial;
+  font-family: light;
+  font-size: 14px;
+  line-height: 21px;
 }
-.longImage img{
-  max-height:250px;
-  max-width:160px;
-  display:inline-block;
+.longImage {
+  composes: shortSection;
+  text-align: right;
+}
+.longImage img {
+  max-height: 250px;
+  max-width: 160px;
+  display: inline-block;
 }
 
-.leftShortSection{
-  composes:shortSection;
-  padding-right:50px;
+.leftShortSection {
+  composes: shortSection;
+  padding-right: 50px;
 }
-.rightShortSection{
-  composes:shortSection;
-  padding-left:50px;
+.rightShortSection {
+  composes: shortSection;
+  padding-left: 50px;
 }
-.centerShortSection{
-  composes:shortSection;
-  padding:0 25px;
+.centerShortSection {
+  composes: shortSection;
+  padding: 0 25px;
+}
+.leftShortSectionHeaderCenter {
+  composes: leftShortSection;
+}
+.leftShortSectionHeaderCenter .textSection h3 {
+  text-align: center;
+  padding: 0px 25px;
+}
+.rightShortSectionHeaderCenter {
+  composes: rightShortSection;
+  padding-left: 50px;
+}
+.rightShortSectionHeaderCenter .textSection h3 {
+  text-align: center;
+  padding: 0px 25px;
+}
+.centerShortSectionHeaderCenter {
+  composes: centerShortSection;
+  padding: 0 25px;
+}
+.centerShortSectionHeaderCenter .textSection h3 {
+  text-align: center;
+  padding: 0px 25px;
+}
+.longSectionOfImage {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.leftMiddleSection {
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+.rightMiddleSection {
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  padding-left: 90px;
+}
+.leftMiddleSection .textSection h3 {
+  text-align: center;
+  padding: 0px 25px;
+}
+.rightMiddleSection .textSection h3 {
+  text-align: center;
+  padding: 0px 25px;
 }

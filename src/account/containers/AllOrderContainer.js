@@ -36,6 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     loadingForClearOrderDetails: state.profile.loadingForClearOrderDetails,
     profile: state.profile,
+    userAddress: state.profile.userAddress,
     ...ownProps
   };
 };

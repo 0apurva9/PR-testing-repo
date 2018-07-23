@@ -25,7 +25,8 @@ const mapStateToProps = state => {
     userCoupons: state.profile.userCoupons,
     userAlerts: state.profile.userAlerts,
     loadingForUserCoupons: state.profile.loadingForUserCoupons,
-    loadingForUserAlerts: state.profile.loadingForUserAlerts
+    loadingForUserAlerts: state.profile.loadingForUserAlerts,
+    userAddress: state.profile.userAddress
   };
 };
 const UserAlertsAndCouponsContainer = withRouter(
