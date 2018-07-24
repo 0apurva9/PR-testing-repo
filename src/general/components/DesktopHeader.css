@@ -264,7 +264,8 @@
   background-position: center;
 }
 .categoriesHolder {
-  width: 1013px;
+  min-width: 1013px;
+  width: 100%;
   position: absolute;
   height: 490px;
   background: #fff;
@@ -359,7 +360,8 @@
   color: #ff1744;
 }
 .brandDetailsHolder {
-  width: 1013px;
+  min-width: 1013px;
+  width: 100%;
   position: absolute;
   height: 490px;
   background: #fff;
@@ -377,7 +379,6 @@
   padding: 20px 0px 20px 20px;
 }
 .subBrandsDetailsHolder {
-  /* width: 80%; */
   width: 50%;
   height: auto;
   display: flex;
@@ -392,7 +393,6 @@
 .popularBrands {
   width: 33.3%;
   height: auto;
-  /* padding: 20px 0px 0px 0px; */
   max-height: 490px;
   overflow: hidden;
 }

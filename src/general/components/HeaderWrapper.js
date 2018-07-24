@@ -103,8 +103,8 @@ export default class HeaderWrapper extends React.Component {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
-    if (this.props.getHeaderDetails) {
-      this.props.getHeaderDetails();
+    if (this.props.headerDetails) {
+      this.props.headerDetails();
     }
   }
   componentWillUnmount() {
@@ -315,7 +315,7 @@ export default class HeaderWrapper extends React.Component {
               isSearch={isSearch}
               profileDetails={profileDetails}
               searchHolder={<SearchContainer />}
-              getHeaderBrandAndCategoryDetails={this.props.getHeaderData}
+              getHeaderBrandAndCategoryDetails={this.props.getHeaderDetails}
               goToWishList={() => this.goToDefaultWishList()}
             />
           </DesktopOnly>

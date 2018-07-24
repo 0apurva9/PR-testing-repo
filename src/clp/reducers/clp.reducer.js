@@ -4,10 +4,10 @@ const categoryDefault = (
     status: null,
     error: null,
     categories: null,
-    getHeaderStatus: null,
-    getHeaderError: null,
-    getHeaderDetails: null,
-    loadingForGetHeaderDetails: false
+    headerStatus: null,
+    headerError: null,
+    headerDetails: null,
+    loadingForHeader: false
   },
   action
 ) => {
@@ -28,20 +28,20 @@ const categoryDefault = (
       });
     case categoriesActions.GET_HEADER_REQUEST:
       return Object.assign({}, state, {
-        getHeaderStatus: action.status,
-        loadingForGetHeaderDetails: true
+        headerStatus: action.status,
+        loadingForHeader: true
       });
     case categoriesActions.GET_HEADER_FAILURE:
       return Object.assign({}, state, {
-        getHeaderStatus: action.status,
-        getHeaderError: action.error,
-        loadingForGetHeaderDetails: false
+        headerStatus: action.status,
+        headerError: action.error,
+        loadingForHeader: false
       });
     case categoriesActions.GET_HEADER_SUCCESS:
       return Object.assign({}, state, {
-        getHeaderStatus: action.status,
-        getHeaderDetails: action.getHeaderDetails,
-        loadingForGetHeaderDetails: false
+        headerStatus: action.status,
+        headerDetails: action.headerDetails,
+        loadingForHeader: false
       });
     default:
       return state;

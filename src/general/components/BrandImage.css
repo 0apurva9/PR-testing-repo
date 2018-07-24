@@ -45,9 +45,9 @@
   font-size: 14px;
 }
 @media screen and (min-width: 1025px) {
-  /* .base {
+  .base {
     background: #fff;
-  } */
+  }
   .imageHolder {
     cursor: pointer;
   }

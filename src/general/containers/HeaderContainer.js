@@ -5,7 +5,7 @@ import { setHeaderText } from "../header.actions.js";
 import { showFilter, hideFilter } from "../../plp/actions/plp.actions.js";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
-import { getHeaderDetails } from "../../clp/actions/clp.actions";
+import { headerDetails } from "../../clp/actions/clp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     setHeaderText: text => {
@@ -23,8 +23,8 @@ const mapDispatchToProps = dispatch => {
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
-    getHeaderDetails: () => {
-      dispatch(getHeaderDetails());
+    headerDetails: () => {
+      dispatch(headerDetails());
     }
   };
 };
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
     bagCount: state.header.bagCount,
     orderConfirmationDetails: state.cart.orderConfirmationDetails,
     cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails,
-    getHeaderData: state.categoryDefault.getHeaderDetails
+    getHeaderDetails: state.categoryDefault.headerDetails
   };
 };
 

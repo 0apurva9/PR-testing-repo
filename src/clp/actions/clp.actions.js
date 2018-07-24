@@ -54,21 +54,21 @@ export function getCategories(userId, accessToken, cartId) {
   };
 }
 
-export function getHeaderRequest() {
+export function headerDetailsRequest() {
   return {
     type: GET_HEADER_REQUEST,
     status: REQUESTING
   };
 }
-export function getHeaderSuccess(getHeaderDetails) {
+export function headerDetailsSuccess(headerDetails) {
   return {
     type: GET_HEADER_SUCCESS,
     status: SUCCESS,
-    getHeaderDetails
+    headerDetails
   };
 }
 
-export function getHeaderFailure(error) {
+export function headerDetailsFailure(error) {
   return {
     type: GET_HEADER_FAILURE,
     status: ERROR,
@@ -76,9 +76,9 @@ export function getHeaderFailure(error) {
   };
 }
 
-export function getHeaderDetails(userId, accessToken, cartId) {
+export function headerDetails() {
   return async (dispatch, getState, { api }) => {
-    dispatch(getHeaderRequest());
+    dispatch(headerDetailsRequest());
     try {
       const result = api.get("header");
       const resultJson = result.json();
@@ -86,10 +86,9 @@ export function getHeaderDetails(userId, accessToken, cartId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getHeaderSuccess(resultJson));
-      setDataLayer(ADOBE_DEFAULT_CLP_PAGE_LOAD, resultJson);
+      dispatch(headerDetailsSuccess(resultJson));
     } catch (e) {
-      dispatch(getHeaderFailure(e.message));
+      dispatch(headerDetailsFailure(e.message));
     }
   };
 }
