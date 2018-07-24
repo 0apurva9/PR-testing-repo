@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./ColourSelector.css";
 import ColourSelect from "./ColourSelect";
 import Carousel from "../../general/components/Carousel";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
 export default class ColourSelector extends React.Component {
   constructor(props) {
@@ -24,6 +26,19 @@ export default class ColourSelector extends React.Component {
         this.props.history.push({ pathname: productUrl });
       }
     }
+  }
+  renderColours(datum, i, selectedColour) {
+    return (
+      <ColourSelect
+        key={i}
+        colour={datum.colorHexCode}
+        value={datum.color}
+        selected={datum.color === selectedColour}
+        onSelect={() =>
+          this.updateColour(datum.colorurl, selectedColour, datum.color)
+        }
+      />
+    );
   }
   render() {
     const selectedSize = this.props.data.filter(val => {
@@ -48,33 +63,37 @@ export default class ColourSelector extends React.Component {
             this.props.noBackground ? styles.noBackground : styles.base
           }
         >
-          <Carousel
-            elementWidthMobile="auto"
-            headerComponent={
-              <div className={styles.header}>
-                Colour:{" "}
-                <span className={styles.colourName}>{selectedColour}</span>
-              </div>
-            }
-          >
-            {colors.map((datum, i) => {
-              return (
-                <ColourSelect
-                  key={i}
-                  colour={datum.colorHexCode}
-                  value={datum.color}
-                  selected={datum.color === selectedColour}
-                  onSelect={() =>
-                    this.updateColour(
-                      datum.colorurl,
-                      selectedColour,
-                      datum.color
-                    )
-                  }
-                />
-              );
-            })}
-          </Carousel>
+          <MobileOnly>
+            <Carousel
+              elementWidthMobile="auto"
+              elementWidthDesktop="auto"
+              headerComponent={
+                <div className={styles.header}>
+                  Colour:{" "}
+                  <span className={styles.colourName}>{selectedColour}</span>
+                </div>
+              }
+            >
+              {colors.map((datum, i) => {
+                return this.renderColours(datum, i, selectedColour);
+              })}
+            </Carousel>
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.header}>
+              Colour:{" "}
+              <span className={styles.colourName}>{selectedColour}</span>
+            </div>
+            <div className={styles.colorHolder}>
+              {colors.map((datum, i) => {
+                return (
+                  <div className={styles.colour}>
+                    {this.renderColours(datum, i, selectedColour)}
+                  </div>
+                );
+              })}
+            </div>
+          </DesktopOnly>
         </div>
       );
     } else {

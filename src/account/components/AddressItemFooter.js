@@ -20,14 +20,16 @@ export default class AddressItemFooter extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.replaceHolder}>
-          <div className={styles.replace}>
-            <ColourButton
-              label={this.props.buttonLabel}
-              onClick={() => this.removeAddress()}
-            />
+        <MobileOnly>
+          <div className={styles.replaceHolder}>
+            <div className={styles.replace}>
+              <ColourButton
+                label={this.props.buttonLabel}
+                onClick={() => this.removeAddress()}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
         {this.props.isEditable && (
           <div className={styles.reviewHolder}>
             <MobileOnly>
@@ -53,6 +55,16 @@ export default class AddressItemFooter extends React.Component {
             </DesktopOnly>
           </div>
         )}
+        <DesktopOnly>
+          <div className={styles.replaceHolder}>
+            <div className={styles.replace}>
+              <ColourButton
+                label={this.props.buttonLabel}
+                onClick={() => this.removeAddress()}
+              />
+            </div>
+          </div>
+        </DesktopOnly>
       </div>
     );
   }

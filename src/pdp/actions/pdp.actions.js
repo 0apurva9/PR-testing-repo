@@ -24,14 +24,16 @@ import {
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  ANONYMOUS_USER
+  ANONYMOUS_USER,
+  TIME_OUT_FOR_APIS,
+  LOW_INTERNET_CONNECTION_MESSAGE
 } from "../../lib/constants";
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
-import { displayToast } from "../../general/toast.actions.js";
+import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
   "Thanks for submitting the review. Your review will start appearing shortly";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
@@ -152,14 +154,21 @@ export function getProductDescriptionFailure(error) {
     error
   };
 }
-export function getProductDescription(productCode) {
+export function getProductDescription(productCode, isApiCall: 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
     try {
+      setTimeout(() => {
+        if (getState().productDescription.getProductDetailsLoading) {
+          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
+        }
+      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
+
       const resultJson = await result.json();
+
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -178,9 +187,15 @@ export function getProductDescription(productCode) {
             getState().icid.icidType
           );
         }
+
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
-        throw new Error(`${resultJson.error}`);
+        if (resultJson.status === 404 && isApiCall === 0) {
+          isApiCall = isApiCall + 1;
+          dispatch(getProductDescription(productCode, isApiCall));
+        } else {
+          throw new Error(`${resultJson.error}`);
+        }
       }
     } catch (e) {
       return dispatch(getProductDescriptionFailure(e.message));

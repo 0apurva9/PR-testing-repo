@@ -11,6 +11,11 @@ import { withRouter } from "react-router-dom";
 import EditAccountDetails from "../components/EditAccountDetails.js";
 import { displayToast } from "../../general/toast.actions";
 import { SUCCESS } from "../../lib/constants.js";
+import {
+  DESKTOP_AUTH,
+  showModal,
+  CHANGE_PASSWORD_POP_UP
+} from "../../general/modal.actions";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapDispatchToProps = dispatch => {
@@ -18,7 +23,9 @@ const mapDispatchToProps = dispatch => {
     getUserDetails: () => {
       dispatch(getUserDetails(true)); //second param for setData Layer
     },
-
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
+    },
     updateProfile: async accountDetails => {
       const response = await dispatch(updateProfile(accountDetails));
       if (response && response.status === SUCCESS) {
@@ -43,8 +50,12 @@ const mapDispatchToProps = dispatch => {
     setHeaderText: text => {
       dispatch(setHeaderText(text));
     },
+
     displayToast: message => {
       dispatch(displayToast(message));
+    },
+    showChangePasswordModal: () => {
+      dispatch(showModal(CHANGE_PASSWORD_POP_UP));
     }
   };
 };
@@ -53,7 +64,8 @@ const mapStateToProps = state => {
   return {
     changePasswordStatus: state.profile.changePasswordStatus,
     userDetails: state.profile.userDetails,
-    type: state.profile.type
+    type: state.profile.type,
+    userAddress: state.profile.userAddress
   };
 };
 

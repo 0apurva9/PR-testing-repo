@@ -5,6 +5,21 @@ import SelectReturnDate from "./SelectReturnDate";
 import ReturnsFrame from "./ReturnsFrame";
 import PropTypes from "prop-types";
 import styles from "./ReturnModes.css";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DummyTab from "../../cart/components/DummyTab.js";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
+import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
+import SelfCourierContainer from "../containers/SelfCourierContainer.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import _ from "lodash";
+import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
+import Button from "../../general/components/Button";
+import checkIcon from "../../general/components/img/check.svg";
+import Icon from "../../xelpmoc-core/Icon";
+import SelectedReasonForReturn from "./SelectedReasonForReturn";
+
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -13,18 +28,34 @@ import {
   RETURN_LANDING,
   RETURNS_REASON
 } from "../../lib/constants";
-
+const REFUND_DETAILS = "Refund Details";
 export default class ReturnModes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedMode: null,
+      isModeSelected: false
+    };
+  }
   handleSelect(val) {
-    if (this.props.selectMode) {
-      this.props.selectMode(val);
+    if (checkUserAgentIsMobile()) {
+      if (this.props.selectMode) {
+        this.props.selectMode(val);
+      }
     }
+
+    this.setState({ selectedMode: val });
   }
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+  onChangeBankDetails = val => {
+    if (this.props.onChangeBankDetails) {
+      this.props.onChangeBankDetails(val);
+    }
+  };
   navigateToReturnLanding() {
     return (
       <Redirect
@@ -34,6 +65,9 @@ export default class ReturnModes extends React.Component {
       />
     );
   }
+  handleCancelForReturn = () => {
+    this.setState({ isModeSelected: false });
+  };
 
   isReturnModesEnabled = () => {
     const data = this.props.returnProductDetails;
@@ -46,6 +80,14 @@ export default class ReturnModes extends React.Component {
     }
     return false;
   };
+
+  selectReturnMode = () => {
+    this.setState({ isModeSelected: true });
+  };
+
+  cancelReturnMode = () => {
+    this.setState({ isModeSelected: false, selectedMode: null });
+  };
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -57,10 +99,31 @@ export default class ReturnModes extends React.Component {
     const { productInfo } = this.props;
     const data = this.props.returnProductDetails;
     return (
-      <ReturnsFrame
-        headerText="Select mode of return"
-        onCancel={() => this.handleCancel()}
-      >
+      <div className={styles.base}>
+        <MobileOnly>
+          <div className={styles.header}>
+            Select mode of return
+            <div className={styles.cancel}>
+              <UnderLinedButton
+                label="Cancel"
+                color="#ff1744"
+                onClick={() => this.handleCancel()}
+              />
+            </div>
+          </div>
+          {this.props.onContinue && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label={this.props.buttonText}
+                  onClick={() => this.handleContinue()}
+                />
+              </div>
+            </div>
+          )}
+        </MobileOnly>
         <div className={styles.content}>
           <div className={styles.card}>
             <OrderCard
@@ -78,6 +141,13 @@ export default class ReturnModes extends React.Component {
                 productInfo.totalPrice &&
                 productInfo.totalPrice.value
               }
+              isSelect={true}
+              quantity={true}
+              onHollow={this.props.onHollow}
+              orderPlace={this.props.orderDate}
+              orderId={this.props.orderId}
+              productBrand={this.props.productBrand}
+              showQuantity={false}
             >
               {productInfo &&
                 productInfo.quantity && (
@@ -87,35 +157,90 @@ export default class ReturnModes extends React.Component {
                 )}
             </OrderCard>
           </div>
+          <DesktopOnly>
+            <SelectedReasonForReturn
+              header={"Select reason for your return"}
+              titleDescription={this.props.selectedReason}
+              handleCancel={() => this.handleCancel()}
+            />
+          </DesktopOnly>
           {this.isReturnModesEnabled() && (
-            <div>
-              {data.returnModes.quickDrop && (
-                <SelectReturnDate
-                  label="Return to store"
-                  selected={this.props.selectedMode === QUICK_DROP}
-                  selectItem={() => {
-                    this.handleSelect(QUICK_DROP);
-                  }}
-                />
+            <div
+              className={
+                !this.state.isModeSelected
+                  ? styles.refundableModes
+                  : styles.returnModes
+              }
+            >
+              {!this.state.isModeSelected && (
+                <DesktopOnly>
+                  <div className={styles.header}>
+                    <div className={styles.circleHolder}>
+                      <div className={styles.circle}>2</div>
+                    </div>
+                    Select mode of return
+                  </div>
+                </DesktopOnly>
               )}
-              {data.returnModes.schedulePickup && (
-                <SelectReturnDate
-                  label="Tata CliQ Pick Up"
-                  selectItem={() => {
-                    this.handleSelect(SCHEDULED_PICKUP);
-                  }}
-                  selected={this.props.selectedMode === SCHEDULED_PICKUP}
-                />
+
+              {!this.state.isModeSelected && (
+                <div className={styles.returnModesWithBorder}>
+                  {data.returnModes.quickDrop &&
+                    !this.state.isModeSelected && (
+                      <SelectReturnDate
+                        label="Return to store"
+                        selected={this.state.selectedMode === QUICK_DROP}
+                        selectItem={() => {
+                          this.handleSelect(QUICK_DROP);
+                        }}
+                      />
+                    )}
+                  {data.returnModes.schedulePickup &&
+                    !this.state.isModeSelected && (
+                      <SelectReturnDate
+                        label="Tata CliQ Pick Up"
+                        selectItem={() => {
+                          this.handleSelect(SCHEDULED_PICKUP);
+                        }}
+                        selected={this.state.selectedMode === SCHEDULED_PICKUP}
+                      />
+                    )}
+                  {data.returnModes.selfCourier &&
+                    !this.state.isModeSelected && (
+                      <SelectReturnDate
+                        selectItem={() => {
+                          this.handleSelect(SELF_COURIER);
+                        }}
+                        label="Self Courier"
+                        selected={this.state.selectedMode === SELF_COURIER}
+                      />
+                    )}
+                </div>
               )}
-              {data.returnModes.selfCourier && (
-                <SelectReturnDate
-                  selectItem={() => {
-                    this.handleSelect(SELF_COURIER);
-                  }}
-                  label="Self Courier"
-                  selected={this.props.selectedMode === SELF_COURIER}
-                />
-              )}
+
+              <DesktopOnly>
+                {this.state.selectedMode === QUICK_DROP && (
+                  <ReturnToStoreContainer
+                    {...this.state}
+                    {...this.props}
+                    selectReturnMode={() => this.selectReturnMode()}
+                    cancelReturnMode={() => this.cancelReturnMode()}
+                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
+                  />
+                )}
+                {this.state.selectedMode === SCHEDULED_PICKUP && (
+                  <ReturnCliqAndPiqContainer
+                    {...this.state}
+                    {...this.props}
+                    selectReturnMode={() => this.selectReturnMode()}
+                    cancelReturnMode={() => this.cancelReturnMode()}
+                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
+                  />
+                )}
+                {this.state.selectedMode === SELF_COURIER && (
+                  <SelfCourierContainer {...this.state} {...this.props} />
+                )}
+              </DesktopOnly>
             </div>
           )}
           {!this.isReturnModesEnabled() && (
@@ -124,8 +249,13 @@ export default class ReturnModes extends React.Component {
               care 90291 08282
             </div>
           )}
+          <DesktopOnly>
+            {!this.state.isModeSelected && (
+              <DummyTab title={REFUND_DETAILS} number={3} />
+            )}
+          </DesktopOnly>
         </div>
-      </ReturnsFrame>
+      </div>
     );
   }
 }

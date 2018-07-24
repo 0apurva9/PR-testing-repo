@@ -32,6 +32,9 @@ export function transformData(datum) {
   if (datum.winningSellerMOP) {
     discountPrice = datum.winningSellerMOP;
   }
+  if (datum.winningSellerSpecialPrice) {
+    discountPrice = datum.winningSellerSpecialPrice;
+  }
   if (datum.discountedPrice) {
     discountPrice = datum.discountedPrice.doubleValue;
   }

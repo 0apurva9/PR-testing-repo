@@ -10,6 +10,8 @@ import {
   RETURN_LANDING,
   RETURNS_REASON
 } from "../../lib/constants";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 const NEFT = "NEFT";
 const SELF_SHIPMENT = "selfShipment";
 export default class SelfCourier extends React.Component {
@@ -73,29 +75,44 @@ export default class SelfCourier extends React.Component {
         buttonText="Initiate Return"
         onCancel={() => this.onCancel()}
       >
-        <div className={styles.card}>
-          <CourierProduct
-            indexNumber="1"
-            header="Courier the product"
-            text="Use any courier services to ship back the products to our address. "
-            subText="Please use the form sent along with the invoice or
+        <div className={styles.cardWithAwbDetails}>
+          <div className={styles.card}>
+            <CourierProduct
+              indexNumber="1"
+              header="Courier the product"
+              text="Use any courier services to ship back the products to our address. "
+              subText="Please use the form sent along with the invoice or
             Re-download the form again from below"
-            underlineButtonLabel="Download form"
-            underlineButtonColour="#ff1744"
-            selfCourierDocumentLink={
-              this.props.returnRequest &&
-              this.props.returnRequest.selfCourierDocumentLink
-            }
-          />
-        </div>
-        <div className={styles.card}>
-          <CourierProduct indexNumber="2" header="Update the AWB number">
-            <div className={styles.awbText}>
-              Please update the AWB number provided by the courier service in
-              the <span>Order history</span> section of My Account against the
-              order
-            </div>
-          </CourierProduct>
+              underlineButtonLabel="Download form"
+              underlineButtonColour="#ff1744"
+              selfCourierDocumentLink={
+                this.props.returnRequest &&
+                this.props.returnRequest.selfCourierDocumentLink
+              }
+            />
+          </div>
+          <div className={styles.card}>
+            <CourierProduct indexNumber="2" header="Update the AWB number">
+              <MobileOnly>
+                <div className={styles.awbText}>
+                  Please update the AWB number provided by the courier service
+                  in the <span>Order history</span> section of My Account
+                  against the order
+                </div>
+              </MobileOnly>
+              <DesktopOnly>
+                <div className={styles.awbText}>
+                  Please update the AWB number provided by the courier service
+                  below
+                </div>
+                <div className={styles.or}> or </div>
+                <div v className={styles.subAwbText}>
+                  in the <span>Order history</span> details against the order in
+                  the My Account section{" "}
+                </div>
+              </DesktopOnly>
+            </CourierProduct>
+          </div>
         </div>
       </ReturnsFrame>
     );

@@ -8,11 +8,12 @@
   font-size: 14px;
   font-family: regular;
   user-select: none;
-  cursor:pointer;
+  cursor: pointer;
 }
 .disabled {
   composes: base;
   opacity: 0.5;
+  pointer-events: none;
 }
 .underline {
   width: 100%;

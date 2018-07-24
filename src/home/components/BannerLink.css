@@ -10,12 +10,12 @@
 .bannerImageHolder {
   width: 50%;
   height: auto;
-  padding-bottom: 51%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #fff;
   position: relative;
+  cursor: pointer;
 }
 .imageHolder {
   width: 100%;

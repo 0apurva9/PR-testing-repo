@@ -14,6 +14,9 @@
   .buttonSignup {
     text-align: center;
   }
+  .buttonHolder {
+    width: 100%;
+  }
 }
 
 .loadingIndicator {

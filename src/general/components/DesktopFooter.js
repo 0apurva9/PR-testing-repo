@@ -7,8 +7,8 @@ class DesktopFooter extends React.Component {
       this.props.getDesktopFooter();
     }
   }
-
   render() {
+    console.log(this.props.DesktopFooterDetails);
     return (
       <div
         className={styles.contentHolder}

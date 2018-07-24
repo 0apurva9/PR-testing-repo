@@ -15,5 +15,6 @@
 @media screen and (min-width: 1025px) {
   .base {
     background: #fff;
+    padding-top:30px;
   }
 }

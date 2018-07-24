@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import MoreBrands from "../../blp/components/MoreBrands";
 import BrandEdit from "../../blp/components/BrandEdit";
 import ProfilePicture from "../../blp/components/ProfilePicture";
@@ -12,8 +11,10 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   DEFAULT_BRANDS_LANDING_PAGE,
-  BRANDS
+  BRANDS,
+  HOME_ROUTER
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -33,7 +34,16 @@ export default class MyAccountBrands extends React.Component {
     this.props.setHeaderText(BRANDS);
   }
   navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
   }
   navigateToBLP() {
     this.props.history.push(DEFAULT_BRANDS_LANDING_PAGE);
@@ -54,7 +64,6 @@ export default class MyAccountBrands extends React.Component {
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const userData = JSON.parse(userDetails);
     if (this.props.loading) {
       return this.renderLoader();
     }
@@ -67,7 +76,7 @@ export default class MyAccountBrands extends React.Component {
         brand => brand.isFollowing === "true"
       );
     }
-
+    const userData = JSON.parse(userDetails);
     return (
       <div className={styles.base}>
         <div className={myAccountStyles.holder}>
@@ -117,6 +126,7 @@ export default class MyAccountBrands extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

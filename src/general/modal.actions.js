@@ -33,6 +33,8 @@ export const CANCEL_ORDER_POP_UP = "CancelOrderPopUp";
 export const STORY_MODAL = "StoryModal";
 export const CLIQ_CASH_AND_NO_COST_EMI_POPUP = "CliqCashAndNoCostEmiPopup";
 export const DESKTOP_AUTH = "DesktopAuth";
+export const CHANGE_PASSWORD_POP_UP = "ChangePasswordForDesktop";
+export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;

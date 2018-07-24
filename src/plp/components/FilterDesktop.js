@@ -1,4 +1,5 @@
 import React from "react";
+import cloneDeep from "lodash.clonedeep";
 import FilterTab from "./FilterTab";
 import FilterSelect from "./FilterSelect";
 import FilterCategory from "./FilterCategory";
@@ -14,15 +15,46 @@ import {
   CATEGORY_REGEX
 } from "../../plp/components/PlpBrandCategoryWrapper";
 import { URL_ROOT } from "../../lib/apiRequest";
+import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
+import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
+
 const BRAND = "Brand";
 const COLOUR = "Colour";
+const PRICE = "Price";
 export default class FilterDesktop extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
-      brandSearchString: ""
+      fixedScroll: false,
+      openedFilters: []
     };
   }
+  handleScroll = () => {
+    const filterDOM = document.getElementById("filter");
+    if (filterDOM) {
+      const filterSectionHeight = filterDOM.offsetHeight;
+      const pageHeight = window.pageYOffset;
+      const subTractOffset = window.screen.height - 400;
+      if (filterSectionHeight - subTractOffset <= pageHeight) {
+        if (!this.state.fixedScroll) {
+          this.setState({ fixedScroll: true });
+        }
+      } else {
+        if (this.state.fixedScroll) {
+          this.setState({ fixedScroll: false });
+        }
+      }
+    }
+  };
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.throttledScroll);
+  }
+
+  componentDidMount() {
+    this.throttledScroll = () => this.handleScroll();
+    window.addEventListener("scroll", this.throttledScroll);
+  }
+
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
@@ -65,9 +97,7 @@ export default class FilterDesktop extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
-  onBrandSearch = val => {
-    this.setState({ brandSearchString: val });
-  };
+
   onCategorySelect = (val, isFilter) => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
@@ -108,59 +138,151 @@ export default class FilterDesktop extends React.Component {
       isFilter: false
     });
   };
+  onOpenAccordion = filterName => {
+    const openedFilters = cloneDeep(this.state.openedFilters);
+    const indexOfFilter = this.state.openedFilters.indexOf(filterName);
+    if (indexOfFilter >= 0) {
+      openedFilters.splice(indexOfFilter, 1);
+      this.setState({ openedFilters });
+    } else {
+      openedFilters.push(filterName);
+      this.setState({ openedFilters });
+    }
+  };
   render() {
     const { facetData, facetdatacategory } = this.props;
+
     const url = this.props.location.pathname;
     let categoryId = null;
     if (CATEGORY_REGEX.test(url)) {
       categoryId = url.match(CATEGORY_CAPTURE_REGEX)[0];
     }
+    let autoShowFilters = [],
+      filterWithCollapse = [];
+    if (facetData) {
+      autoShowFilters = cloneDeep(facetData).splice(0, 4);
+      filterWithCollapse = cloneDeep(facetData).splice(3, 20);
+    } else {
+      return <div />;
+    }
     return (
-      <React.Fragment>
-        <div className={styles.filterOpen}>
-          <div className={styles.filterDetails}>
-            <div className={styles.facetdatacategory}>
-              <Accordion text="Categories" headerFontSize={16}>
-                {this.props.isCategorySelected &&
-                  facetdatacategory &&
-                  facetdatacategory.filters &&
-                  facetdatacategory.filters.map((val, i) => {
-                    return (
-                      <FilterCategoryL1
-                        name={val.categoryName}
-                        count={val.quantity}
-                        value={val.categoryCode}
-                        onClick={this.onL1Click}
-                        isOpen={val.selected}
-                      >
-                        <FilterCategory
-                          onClick={this.onL2Click}
-                          onL3Click={this.onL3Click}
-                          categoryTypeList={val.childFilters}
-                        />
-                      </FilterCategoryL1>
-                    );
-                  })}
-              </Accordion>
-            </div>
-            {this.props.facetData &&
-              facetData.map((facetDataValues, i) => {
+      <div
+        className={`${
+          this.state.fixedScroll ? styles.filterFixed : styles.filterScroll
+        }`}
+      >
+        <div className={styles.filterDetails} id="filter">
+          <div className={styles.filtersOptions}>
+            <Accordion text="Refine" isOpen={true} headerFontSize={16}>
+              <div className={styles.filterHeader}>Category</div>
+
+              {this.props.isCategorySelected &&
+                facetdatacategory &&
+                facetdatacategory.filters &&
+                facetdatacategory.filters.map((val, i) => {
+                  return (
+                    <FilterCategoryL1
+                      name={val.categoryName}
+                      count={val.quantity}
+                      value={val.categoryCode}
+                      onClick={this.onL1Click}
+                      isOpen={val.selected}
+                    >
+                      <FilterCategory
+                        onClick={this.onL2Click}
+                        onL3Click={this.onL3Click}
+                        categoryTypeList={val.childFilters}
+                      />
+                    </FilterCategoryL1>
+                  );
+                })}
+              {autoShowFilters.map((facetDataValues, i) => {
                 return (
                   facetDataValues && (
                     <div className={styles.facetData}>
-                      <Accordion
-                        key={i}
-                        text={facetDataValues.name}
-                        headerFontSize={16}
-                      >
-                        {facetDataValues.name === BRAND && (
-                          <div className={styles.search}>
-                            <SearchInput
-                              placeholder="Search by brands"
-                              onChange={val => this.onBrandSearch(val)}
+                      <div className={styles.filterHeader}>
+                        {facetDataValues.name}
+                      </div>
+
+                      {facetDataValues &&
+                        facetDataValues.name === COLOUR &&
+                        facetDataValues.values &&
+                        facetDataValues.values.map((val, i) => {
+                          return (
+                            <ColourSelect
+                              colour={val.hexColor}
+                              onSelect={data => this.onFilterClick(data)}
+                              selected={val.selected}
+                              value={val.url}
                             />
-                          </div>
+                          );
+                        })}
+
+                      {facetDataValues &&
+                        facetDataValues.name === BRAND &&
+                        facetDataValues.values && (
+                          <BrandFilterTabDesktop
+                            onFilterClick={this.onFilterClick}
+                            brandsList={facetDataValues.values}
+                            onBrandSearch={this.onBrandSearch}
+                            history={this.props.history}
+                          />
                         )}
+                      {facetDataValues &&
+                        facetDataValues.name === PRICE &&
+                        facetDataValues.values && (
+                          <PriceFilterTabDesktop
+                            priceList={facetDataValues.values}
+                            history={this.props.history}
+                            onFilterClick={this.onFilterClick}
+                          />
+                        )}
+                      {facetDataValues &&
+                        facetDataValues.name !== COLOUR &&
+                        facetDataValues.name !== BRAND &&
+                        facetDataValues.name !== PRICE &&
+                        facetDataValues.values &&
+                        facetDataValues.values.map((val, i) => {
+                          return (
+                            <FilterSelect
+                              onClick={this.onFilterClick}
+                              selected={val.selected}
+                              hexColor={val.hexColor}
+                              label={val.name}
+                              count={val.count}
+                              url={val.url}
+                              value={val.value}
+                              isBrand={facetDataValues.name === BRAND}
+                              categoryId={categoryId}
+                              history={this.props.history}
+                            />
+                          );
+                        })}
+                    </div>
+                  )
+                );
+              })}
+            </Accordion>
+          </div>
+          <div className={styles.filtersOptions}>
+            {filterWithCollapse.map((facetDataValues, i) => {
+              return (
+                facetDataValues && (
+                  <div className={styles.facetData}>
+                    <Accordion
+                      key={i}
+                      text={facetDataValues.name}
+                      headerFontSize={16}
+                      isOpen={
+                        (facetDataValues.values &&
+                          facetDataValues.values.filter(filter => {
+                            return filter.selected;
+                          }).length > 0) ||
+                        this.state.openedFilters.includes(facetDataValues.name)
+                      }
+                      onOpen={() => this.onOpenAccordion(facetDataValues.name)}
+                    >
+                      <div className={styles.filtersSubTab}>
                         {facetDataValues &&
                           facetDataValues.name === COLOUR &&
                           facetDataValues.values &&
@@ -175,7 +297,26 @@ export default class FilterDesktop extends React.Component {
                             );
                           })}
                         {facetDataValues &&
+                          facetDataValues.name === BRAND &&
+                          facetDataValues.values && (
+                            <BrandFilterTabDesktop
+                              brandsList={facetDataValues.values}
+                              onBrandSearch={this.onBrandSearch}
+                            />
+                          )}
+                        {facetDataValues &&
+                          facetDataValues.name === PRICE &&
+                          facetDataValues.values && (
+                            <PriceFilterTabDesktop
+                              priceList={facetDataValues.values}
+                              history={this.props.history}
+                              onFilterClick={this.onFilterClick}
+                            />
+                          )}
+                        {facetDataValues &&
                           facetDataValues.name !== COLOUR &&
+                          facetDataValues.name !== BRAND &&
+                          facetDataValues.name !== PRICE &&
                           facetDataValues.values &&
                           facetDataValues.values.map((val, i) => {
                             return (
@@ -193,30 +334,15 @@ export default class FilterDesktop extends React.Component {
                               />
                             );
                           })}
-                      </Accordion>
-                    </div>
-                  )
-                );
-              })}
+                      </div>
+                    </Accordion>
+                  </div>
+                )
+              );
+            })}
           </div>
         </div>
-        {/* <div
-          className={
-            this.props.isFilterOpen ? styles.footerOpen : styles.footer
-          }
-        >
-          <div className={styles.buttonHolder}>
-            <div className={styles.button} onClick={this.onClear}>
-              Reset
-            </div>
-          </div>
-          <div className={styles.buttonHolder}>
-            <div className={styles.redButton} onClick={() => this.onApply()}>
-              Apply
-            </div>
-          </div>
-        </div> */}
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -23,18 +23,19 @@ import {
   RETURNS_SELF_COURIER,
   MY_ACCOUNT,
   MY_ACCOUNT_ORDERS_PAGE,
-  BACK_END_ISSUE_ERROR_MESSAGE
+  BACK_END_ISSUE_ERROR_MESSAGE,
+  IFSC_PATTERN,
+  ACCOUNT_NUMBER,
+  RE_ENTER_ACCOUNT_NUMBER,
+  ACCOUNT_NUMBER_MATCH_TEXT,
+  ACCOUNT_HOLDER_NAME,
+  BANK_NAME,
+  IFSC_CODE_TEXT,
+  IFSC_CODE_VALID_TEXT,
+  REFUND_MODE_TEXT
 } from "../../lib/constants";
 const RETURN_FLAG = "R";
-const IFSC_PATTERN = /^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/;
-const ACCOUNT_NUMBER = "Please enter account number";
-const RE_ENTER_ACCOUNT_NUMBER = "Please re-enter account number";
-const ACCOUNT_NUMBER_MATCH_TEXT = "Account number did not match";
-const ACCOUNT_HOLDER_NAME = "Please enter account holder name";
-const BANK_NAME = "Please enter bank name";
-const IFSC_CODE_TEXT = "Please enter ifsc code";
-const IFSC_CODE_VALID_TEXT = "Please enter valid ifsc code";
-const REFUND_MODE_TEXT = "please select refund mode";
+
 export default class ReturnFlow extends React.Component {
   constructor(props) {
     super(props);
@@ -59,6 +60,9 @@ export default class ReturnFlow extends React.Component {
 
     this.props.returnProductDetailsFunc(productDetails);
     this.props.getReturnRequest(orderCode, transactionId);
+    if (this.props.getUserAddress) {
+      this.props.getUserAddress();
+    }
   }
   onChangeBankingDetail(val) {
     let bankDetail = cloneDeep(this.state.bankDetail);
@@ -149,6 +153,7 @@ export default class ReturnFlow extends React.Component {
               {...this.state}
               {...this.props}
               onChange={val => this.onChangeReasonAndMode(val)}
+              onChangeBankDetails={val => this.onChangeBankingDetail(val)}
             />
           )}
         />
@@ -182,6 +187,7 @@ export default class ReturnFlow extends React.Component {
             <SelfCourierContainer {...this.state} {...this.props} />
           )}
         />
+
         {/* end of need to call return bia store pick up  routes */}
       </React.Fragment>
     );

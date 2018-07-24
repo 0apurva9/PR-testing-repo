@@ -28,8 +28,12 @@ import {
   DINERS_CARD,
   DISCOVER_CARD,
   JCB_CARD,
-  MASTER
+  MASTER,
+  LOGIN_PATH,
+  HOME_ROUTER
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
+import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -84,7 +88,18 @@ export default class UserSavedCard extends React.Component {
       this.props.removeSavedCardDetails(cardToken);
     }
   };
-
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -165,6 +180,7 @@ export default class UserSavedCard extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.profile.userAddress}
                 />
               </div>
             </DesktopOnly>
@@ -172,7 +188,44 @@ export default class UserSavedCard extends React.Component {
         </div>
       );
     } else {
-      return <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>;
+      return (
+        <div className={styles.base}>
+          <div className={myAccountStyles.holder}>
+            <DesktopOnly>
+              <div className={myAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            </DesktopOnly>
+            <div className={styles.saveCardDetail}>
+              <div className={styles.saveCardDetailWithHolder}>
+                <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
+              </div>
+            </div>
+            <DesktopOnly>
+              <div className={myAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData.imageUrl}
+                  userLogin={userData.userName}
+                  loginType={userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                  userAddress={this.props.userAddress}
+                />
+              </div>
+            </DesktopOnly>
+          </div>
+        </div>
+      );
     }
   }
 }

@@ -5,6 +5,7 @@ import {
   getFollowedBrands,
   followAndUnFollowBrand
 } from "../actions/account.actions";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 import { SUCCESS, MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW } from "../../lib/constants";
 import { setHeaderText } from "../../general/header.actions";
 const mapDispatchToProps = dispatch => {
@@ -14,6 +15,9 @@ const mapDispatchToProps = dispatch => {
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     },
     followAndUnFollowBrand: (brandId, followStatus) => {
       dispatch(
@@ -29,7 +33,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     followedBrands: state.profile.followedBrands,
-    loading: state.profile.loadingForFollowedBrands
+    loading: state.profile.loadingForFollowedBrands,
+    userAddress: state.profile.userAddress
   };
 };
 const MyAccountBrandsContainer = withRouter(

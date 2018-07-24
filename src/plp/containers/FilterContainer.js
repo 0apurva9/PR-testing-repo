@@ -48,7 +48,6 @@ const mapStateToProps = (state, ownProps) => {
     }
     filterSelectedIndex = indexOfKey;
   }
-
   return {
     ...ownProps,
     facetData: state.productListings.productListings.facetdata,

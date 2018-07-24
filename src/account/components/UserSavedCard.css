@@ -38,4 +38,7 @@
     max-width: 720px;
     border-radius: 4px;
   }
+  .noSavedCardBlock {
+    margin: 0px;
+  }
 }

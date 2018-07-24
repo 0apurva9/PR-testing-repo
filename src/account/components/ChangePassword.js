@@ -21,6 +21,7 @@ class ChangePassword extends Component {
   };
 
   updatePassword = () => {
+    console.log(this.state);
     if (this.props.updatePassword) {
       this.props.updatePassword(this.state);
     }

@@ -60,3 +60,34 @@
   background-color: #ff1744;
   border-radius: 18px;
 }
+@media screen and (min-width: 1025px) {
+  .applicationForm {
+    padding: 30px 50px;
+    border-radius: 0px 0px 4px 4px;
+  }
+  .header {
+    font-size: 13px;
+    text-align: center;
+  }
+  .formHolder {
+    padding: 0px 35px;
+    margin-top: 30px;
+  }
+  .labelHedaer {
+    text-align: center;
+  }
+  .buttonleft {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+  }
+  .buttonRight {
+    composes: buttonleft;
+    text-align: right;
+  }
+  .buttonHolder {
+    margin-top: 20px;
+  }
+}

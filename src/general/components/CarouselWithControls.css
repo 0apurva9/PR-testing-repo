@@ -1,0 +1,44 @@
+.base{
+  width:100%;
+  height:auto;
+  position:relative;
+}
+
+.buttons {
+  width: 80px;
+  height: 36px;
+  border-radius: 18px;
+  border: 2px solid #ececec;
+  background:#fff;
+  position: absolute;
+  right: 0;
+  top: -56px;
+}
+.buttons:after {
+  content: "";
+  height: 100%;
+  width: 2px;
+  background: #ececec;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.forwardButton {
+  width: 36px;
+  height: 32px;
+  background: url("./img/arrow.svg") no-repeat;
+  background-size: 18px;
+  background-position: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.backButton {
+  composes: forwardButton;
+  transform: rotate(180deg);
+  right: initial;
+  left: 0;
+}

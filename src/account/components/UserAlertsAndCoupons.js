@@ -13,8 +13,10 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
-  ALERTS_COUPON
+  ALERTS_COUPON,
+  HOME_ROUTER
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import * as styles from "./UserAlertsAndCoupons.css";
 import {
   setDataLayer,
@@ -45,7 +47,15 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     } else {
-      this.props.history.push(LOGIN_PATH);
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.history.push(HOME_ROUTER);
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     }
   }
   componentDidUpdate() {
@@ -61,8 +71,24 @@ export default class UserAlertsAndCoupons extends React.Component {
   renderLoader() {
     return <Loader />;
   }
-
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetailsCookie || !customerCookie) {
+      return this.navigateToLogin();
+    }
     if (this.props.loadingForUserCoupons || this.props.loadingForUserAlerts) {
       return this.renderLoader();
     }
@@ -73,7 +99,7 @@ export default class UserAlertsAndCoupons extends React.Component {
     } else if (pathname === URL_PATH_COUPONS) {
       currentActivePath = COUPONS;
     }
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
     const userDetails = JSON.parse(userDetailsCookie);
     return (
       <div className={styles.base}>
@@ -133,6 +159,7 @@ export default class UserAlertsAndCoupons extends React.Component {
                   userDetails.lastName &&
                   `${userDetails.lastName}`
                 }
+                userAddress={this.props.userAddress}
               />
             </div>
           </DesktopOnly>

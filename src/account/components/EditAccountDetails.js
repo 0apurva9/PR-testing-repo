@@ -22,8 +22,10 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   ERROR,
+  HOME_ROUTER,
   REQUESTING
 } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -63,7 +65,15 @@ export default class EditAccountDetails extends React.Component {
     if (userDetails && customerCookie) {
       this.props.getUserDetails();
     } else {
-      this.props.history.push(LOGIN_PATH);
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        if (this.props.showAuthPopUp) {
+          this.props.history.push(HOME_ROUTER);
+          this.props.showAuthPopUp();
+          return null;
+        }
+      }
     }
     this.props.setHeaderText(ACCOUNT_SETTING_HEADER);
   }
@@ -179,8 +189,26 @@ export default class EditAccountDetails extends React.Component {
     }
   }
   renderChangePassword = () => {
-    this.setState({ changePassword: true });
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.setState({ changePassword: true });
+    } else {
+      if (this.props.showChangePasswordModal) {
+        this.props.showChangePasswordModal();
+      }
+    }
   };
+  navigateToLogin() {
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    } else {
+      if (this.props.showAuthPopUp) {
+        this.props.history.push(HOME_ROUTER);
+        this.props.showAuthPopUp();
+        return null;
+      }
+    }
+  }
   render() {
     const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -374,6 +402,7 @@ export default class EditAccountDetails extends React.Component {
                   lastName={
                     userData && userData.lastName && `${userData.lastName}`
                   }
+                  userAddress={this.props.userAddress}
                 />
               </div>
             </DesktopOnly>
@@ -382,16 +411,18 @@ export default class EditAccountDetails extends React.Component {
       );
     } else if (this.state.changePassword) {
       return (
-        <div className={styles.changePasswordPageHolder}>
-          <ChangePassword
-            updatePassword={passwordDetails =>
-              this.changePassword(passwordDetails)
-            }
-            clearChangePasswordDetails={() =>
-              this.props.clearChangePasswordDetails()
-            }
-          />
-        </div>
+        <MobileOnly>
+          <div className={styles.changePasswordPageHolder}>
+            <ChangePassword
+              updatePassword={passwordDetails =>
+                this.changePassword(passwordDetails)
+              }
+              clearChangePasswordDetails={() =>
+                this.props.clearChangePasswordDetails()
+              }
+            />
+          </div>
+        </MobileOnly>
       );
     } else {
       return null;

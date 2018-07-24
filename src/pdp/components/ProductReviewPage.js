@@ -307,14 +307,6 @@ class ProductReviewPage extends Component {
                   <DesktopOnly>
                     <div className={styles.headerWithRating}>
                       <div className={styles.header}>All Reviews</div>
-                      <div className={styles.ratngAndReviews}>
-                        {this.props.reviews &&
-                          this.props.reviews.reviews &&
-                          `${this.props.reviews.reviews.length} Ratings`}
-
-                        {this.props.reviews.totalNoOfReviews &&
-                          ` & ${this.props.reviews.totalNoOfReviews} Reviews`}
-                      </div>
                     </div>
                   </DesktopOnly>
                   <div className={styles.dropdownWithButton}>

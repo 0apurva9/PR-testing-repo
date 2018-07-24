@@ -34,6 +34,9 @@ import AddressBookContainer from "../containers/AddressBookContainer.js";
 import OrderDetailsContainer from "../containers/OrderDetailsContainer.js";
 
 export default class MyAccountWrapper extends React.Component {
+  componentDidMount() {
+    this.props.getUserAddress();
+  }
   render() {
     return (
       <Switch>

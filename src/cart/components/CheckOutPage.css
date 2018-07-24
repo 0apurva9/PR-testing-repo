@@ -82,25 +82,26 @@
 
 @media only screen and (min-width: 1025px) {
   .base {
-    text-align:center
+    text-align: center;
+    padding-top: 75px;
   }
-  .pageCenter{
-    width:1200px;
-    display:inline-block;
-    max-width:100%;
-    text-align:left;
+  .pageCenter {
+    width: 1200px;
+    display: inline-block;
+    max-width: 100%;
+    text-align: left;
   }
-  .leftSection{
-    width:70%;
-    padding-right:40px;
+  .leftSection {
+    width: 70%;
+    padding-right: 40px;
   }
-  .addDeliveryAddressHolder{
-    text-align:center;
+  .addDeliveryAddressHolder {
+    text-align: center;
   }
   .header {
-    padding:20px 30px;
+    padding: 20px 30px;
   }
-  .orderConfirmationHolder{
-    margin-bottom:0;
+  .orderConfirmationHolder {
+    margin-bottom: 0;
   }
 }

@@ -35,11 +35,14 @@
     display: inline-block;
   }
   .replaceHolder {
-    text-align: right;
-    width: 70%;
+    float: right;
+    width: auto;
+    padding-right: 40px;
+    padding-top: 10px;
   }
   .reviewHolder {
-    width: 30%;
+    width: auto;
+    float: right;
   }
 }
 @media screen and (max-width: 1024px) {

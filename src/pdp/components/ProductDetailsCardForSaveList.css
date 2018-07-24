@@ -115,6 +115,7 @@
   }
   .productImageHolder {
     width: 15%;
+    cursor: pointer;
   }
   .productDescriptionHolder {
     width: 75%;

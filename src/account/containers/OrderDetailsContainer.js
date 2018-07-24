@@ -7,7 +7,8 @@ import { setHeaderText } from "../../general/header.actions";
 import {
   UPDATE_REFUND_DETAILS_POPUP,
   ORDER_DETAILS_MODAL,
-  showModal
+  showModal,
+  DESKTOP_AUTH
 } from "../../general/modal.actions";
 import {
   showSecondaryLoader,
@@ -43,6 +44,10 @@ const mapDispatchToProps = dispatch => {
     },
     showShippingDetails: data => {
       dispatch(showModal(ORDER_DETAILS_MODAL, data));
+    },
+
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     }
   };
 };
@@ -50,7 +55,8 @@ const mapStateToProps = state => {
   return {
     orderDetails: state.profile.fetchOrderDetails,
     loadingForFetchOrderDetails: state.profile.loadingForFetchOrderDetails,
-    sendInvoiceSatus: state.profile.sendInvoiceStatus
+    sendInvoiceSatus: state.profile.sendInvoiceStatus,
+    userAddress: state.profile.userAddress
   };
 };
 

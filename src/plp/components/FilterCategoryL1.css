@@ -11,6 +11,7 @@
   padding-right: 50px;
   font-size: 14px;
   color: #212121;
+  cursor: pointer;
 }
 .count {
   width: 50px;

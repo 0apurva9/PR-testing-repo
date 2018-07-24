@@ -66,3 +66,50 @@
   line-height: normal;
   margin-top: 25px;
 }
+@media screen and (min-width: 1025px) {
+  .footerText {
+    font-size: 14px;
+    font-family: light;
+    margin-bottom: 30px;
+  }
+  .cardLogo {
+    width: 66px;
+    height: 43px;
+  }
+  .dummyCardDataHolder,
+  .cardNumber {
+    line-height: 35px;
+    height: 35px;
+  }
+  .circleHolder {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .circle {
+    width: 23px;
+    height: 23px;
+    background-color: #fff;
+    border: 2px solid black;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 23px;
+  }
+  .header {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: semibold;
+    line-height: 25px;
+    position: relative;
+    padding-bottom: 30px;
+  }
+  .base {
+    border-bottom: 1px solid #ececec;
+  }
+}

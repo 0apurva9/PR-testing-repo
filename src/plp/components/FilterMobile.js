@@ -229,6 +229,7 @@ export default class FilterMobile extends React.Component {
                           }
                           categoryId={categoryId}
                           history={this.props.history}
+                          webURL={val.webURL}
                         />
                       );
                     })}

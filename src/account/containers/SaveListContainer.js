@@ -10,6 +10,7 @@ import { displayToast } from "../../general/toast.actions";
 import { addProductToCart } from "../../pdp/actions/pdp.actions";
 import { SUCCESS } from "../../lib/constants";
 import { SUCCESS_FOR_ADDING_TO_BAG } from "../../lib/constants.js";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 const REMOVED_SAVELIST = "Removed Successfully";
 
 const mapDispatchToProps = dispatch => {
@@ -19,6 +20,9 @@ const mapDispatchToProps = dispatch => {
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     },
     addProductToCart: (userId, cartId, accessToken, productDetails) => {
       dispatch(
@@ -46,7 +50,8 @@ const mapStateToProps = state => {
   return {
     wishList: state.wishlistItems.wishlistItems,
     loading: state.wishlistItems.loading,
-    count: state.wishlistItems.count
+    count: state.wishlistItems.count,
+    userAddress: state.profile.userAddress
   };
 };
 

@@ -18,9 +18,18 @@ export default class KycDetailPopUpWithBottomSlideModal extends React.Component 
       this.props.wrongNumber();
     }
   }
+  onCancel() {
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
+  }
+
   render() {
     return (
-      <BottomSlideModal>
+      <BottomSlideModal
+        heading="KYC Verification"
+        closeModal={value => this.onCancel()}
+      >
         <KycDetailsPopup
           mobileNumber={this.props.mobileNumber}
           submitOtp={value => this.submitOtp(value)}

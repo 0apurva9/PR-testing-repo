@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import queryString, { parse } from "query-string";
 import ModalContainer from "./general/containers/ModalContainer";
 import ToastContainer from "./general/containers/ToastContainer";
 import { Switch } from "react-router-dom";
@@ -16,6 +17,7 @@ import SecondaryLoader from "./general/components/SecondaryLoader";
 import HeaderContainer from "./general/containers/HeaderContainer.js";
 import SecondaryLoaderContainer from "./general/containers/SecondaryLoaderContainer.js";
 import HelpDetailsContainer from "./account/containers/HelpDetailsContainer.js";
+import * as Cookies from "./lib/Cookie.js";
 import {
   HOME_ROUTER,
   PRODUCT_LISTINGS,
@@ -65,7 +67,7 @@ import {
   NOT_FOUND
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
-
+import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
 import StaticPageContainer from "./staticpage/containers/StaticPageContainer.js";
 import PlpBrandCategoryWrapperContainer from "./plp/containers/PlpBrandCategoryWrapperContainer";
 import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDescriptionPageWrapperContainer";
@@ -81,7 +83,7 @@ const Loader = () => {
 };
 
 const MyAccountWrapper = Loadable({
-  loader: () => import("./account/components/MyAccountWrapper"),
+  loader: () => import("./account/containers/MyAccountWrapperContainer.js"),
   loading() {
     return <Loader />;
   }
@@ -250,8 +252,22 @@ class App extends Component {
       }
     } else {
       if (!cartDetailsForAnonymous && globalAccessToken) {
-        this.props.generateCartIdForAnonymous();
+        const parsedQueryString = queryString.parse(this.props.location.search);
+        if (!parsedQueryString || !parsedQueryString.cartGuid) {
+          this.props.generateCartIdForAnonymous();
+        }
       }
+    }
+  }
+  componentWillMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    if (parsedQueryString && parsedQueryString.cartGuid) {
+      Cookies.createCookie(
+        CART_DETAILS_FOR_ANONYMOUS,
+        JSON.stringify({
+          guid: parsedQueryString.cartGuid
+        })
+      );
     }
   }
 
@@ -280,7 +296,9 @@ class App extends Component {
       cartIdForLoggedInUserStatus === REQUESTING ||
       cartIdForAnonymousUserStatus === REQUESTING
     ) {
-      return <HomeSkeleton />;
+      if (checkUserAgentIsMobile()) {
+        return <HomeSkeleton />;
+      }
     }
 
     if (this.props.modalStatus) {
@@ -294,6 +312,7 @@ class App extends Component {
       <React.Fragment>
         <div className={className} style={{ transform: appTransform }}>
           <HeaderContainer />
+          <MobileFooter />
           <Switch>
             <Route path={MY_ACCOUNT} component={MyAccountWrapper} />{" "}
             <Route

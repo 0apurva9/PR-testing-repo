@@ -4,6 +4,8 @@ import {
   returnProductDetails
 } from "../actions/account.actions.js";
 import { connect } from "react-redux";
+
+import { getUserAddress } from "../../cart/actions/cart.actions";
 import ReturnFlow from "../components/ReturnFlow";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -26,6 +28,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    getUserAddress: () => {
+      dispatch(getUserAddress(true));
     }
   };
 };
@@ -35,7 +40,9 @@ const mapStateToProps = state => {
     returnRequest: state.profile.returnRequest,
     returnProductDetails: state.profile.returnProductDetails,
     loading: state.profile.loading,
-    error: state.profile.error
+    error: state.profile.error,
+    orderDetails: state.profile.fetchOrderDetails,
+    userAddress: state.cart.userAddress
   };
 };
 

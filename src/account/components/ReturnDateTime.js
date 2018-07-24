@@ -4,8 +4,12 @@ import SelectReturnDate from "./SelectReturnDate";
 import OrderReturnAddressDetails from "./OrderReturnAddressDetails";
 import PropTypes from "prop-types";
 import styles from "./ReturnDateTime.css";
+import MobileOnly from "../../general/components/MobileOnly.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 const PICK_UP_TIME = "Select Pick Up Time";
 const PICK_UP_DATE = "Select Pick Up DATE";
+
 export default class ReturnDateTime extends React.Component {
   constructor(props) {
     super(props);
@@ -38,18 +42,20 @@ export default class ReturnDateTime extends React.Component {
     let header = this.state.selectedDate ? PICK_UP_TIME : PICK_UP_DATE;
     return (
       <ReturnsFrame headerText={header} onCancel={() => this.handleCancel()}>
-        <div className={styles.cardOffset}>
-          <div className={styles.content}>
-            <OrderReturnAddressDetails
-              isSelect={true}
-              addressType={this.props.selectedAddress.addressType}
-              address={this.props.selectedAddress.line1}
-              subAddress={`${this.props.selectedAddress.state} ${
-                this.props.selectedAddress.city
-              } ${this.props.selectedAddress.postalCode}`}
-            />
+        <MobileOnly>
+          <div className={styles.cardOffset}>
+            <div className={styles.content}>
+              <OrderReturnAddressDetails
+                isSelect={true}
+                addressType={this.props.selectedAddress.addressType}
+                address={this.props.selectedAddress.line1}
+                subAddress={`${this.props.selectedAddress.state} ${
+                  this.props.selectedAddress.city
+                } ${this.props.selectedAddress.postalCode}`}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
         <div className={styles.cardOffset}>
           <div className={styles.header}>Select return date</div>
           {this.props.dateSlot &&
@@ -68,18 +74,19 @@ export default class ReturnDateTime extends React.Component {
 
         <div className={styles.card}>
           <div className={styles.header}>Select return time</div>
-          {this.state.selectedDate &&
-            this.props.timeSlot.map(val => {
-              return (
-                <SelectReturnDate
-                  label={val}
-                  selected={val === this.state.selectedTime}
-                  selectItem={() => {
-                    this.handleTimeSelect(val);
-                  }}
-                />
-              );
-            })}
+          {(checkUserAgentIsMobile() && this.state.selectedDate) ||
+            (!checkUserAgentIsMobile() &&
+              this.props.timeSlot.map(val => {
+                return (
+                  <SelectReturnDate
+                    label={val}
+                    selected={val === this.state.selectedTime}
+                    selectItem={() => {
+                      this.handleTimeSelect(val);
+                    }}
+                  />
+                );
+              }))}
         </div>
       </ReturnsFrame>
     );

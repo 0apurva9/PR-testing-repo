@@ -1,18 +1,23 @@
-.base {
-  width: 354px;
+.baseScroll {
+  max-width: 360px;
+  width: 30%;
   position: absolute;
   height: auto;
   min-height: 100vh;
-  left: 0;
-  z-index: 70;
-  background: #fff;
+  left: initial;
   top: 0px;
-  right: 0;
   bottom: 0;
-  padding: 0px 20px 20px 20px;
-  background-color: #ececec;
-  transition: 300ms;
-  transform: translateX(-100%);
+  text-align: left;
+}
+.baseFixed {
+  max-width: 360px;
+  width: 30%;
+  position: fixed;
+  height: auto;
+  min-height: 100vh;
+  left: initial;
+  bottom: 0px;
+  text-align: left;
 }
 .pageHeader {
   width: 100%;
@@ -20,8 +25,12 @@
   left: 0;
   top: 0;
 }
-.filterOpen {
-  composes: base;
+.filterScroll {
+  composes: baseScroll;
+  transform: translateX(0);
+}
+.filterFixed {
+  composes: baseFixed;
   transform: translateX(0);
 }
 .search {
@@ -30,11 +39,18 @@
 }
 .filterDetails {
   padding: 10px;
-  background-color: #f9f9f9;
   border-radius: 4px;
 }
-.facetdatacategory {
+.filtersOptions {
+  padding: 0px 20px 20px 20px;
+  background-color: #fff;
   border-bottom: 1px solid #ececec;
+  margin-bottom: 20px;
+}
+.filterHeader {
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
 }
 .facetData {
   padding-top: 10px;
@@ -45,4 +61,8 @@
 }
 .facetDataHeader {
   padding-bottom: 10px;
+}
+.filtersSubTab {
+  max-height: 450px;
+  overflow-y: scroll;
 }

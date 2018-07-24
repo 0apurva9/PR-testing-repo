@@ -32,6 +32,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           }
         }
       });
+    },
+    displayToast: message => {
+      dispatch(displayToast(message));
     }
   };
 };
