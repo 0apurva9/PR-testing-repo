@@ -92,7 +92,7 @@ export default class DesktopHeader extends React.Component {
         });
       }
     }
-    if (this.state.hoverInType === "Brands") {
+    if (this.state.hoverInType === BRANDS) {
       this.setState({
         hoverInType: null,
         hovered: null
