@@ -264,7 +264,7 @@
   background-position: center;
 }
 .categoriesHolder {
-  width: 100%;
+  width: 1013px;
   position: absolute;
   height: 490px;
   background: #fff;
@@ -272,6 +272,7 @@
   padding: 20px;
   display: flex;
   border-radius: 0px 0px 4px 4px;
+  left: 0;
 }
 .categoryDetails {
   width: 20%;
@@ -356,4 +357,75 @@
 }
 .subCategoryDetailsValues:hover {
   color: #ff1744;
+}
+.brandDetailsHolder {
+  width: 1013px;
+  position: absolute;
+  height: 490px;
+  background: #fff;
+  top: 60px;
+  display: flex;
+  border-radius: 0px 0px 4px 4px;
+  left: -143px;
+}
+.brandLeftDetails {
+  width: 20%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 20px 0px 20px 20px;
+}
+.subBrandsDetailsHolder {
+  /* width: 80%; */
+  width: 50%;
+  height: auto;
+  display: flex;
+  padding-left: 45px;
+  overflow: hidden;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.featureBrands,
+.popularBrands {
+  width: 33.3%;
+  height: auto;
+  /* padding: 20px 0px 0px 0px; */
+  max-height: 490px;
+  overflow: hidden;
+}
+.brandsHeader {
+  width: auto;
+  vertical-align: top;
+  height: auto;
+  font-family: semibold;
+  font-size: 14px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.brandsDetails {
+  width: auto;
+  vertical-align: top;
+  height: auto;
+  font-family: light;
+  font-size: 14px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.brandsDetails:hover {
+  color: #ff1744;
+}
+.subBrandsLogoHolder {
+  width: 30%;
+  height: auto;
+  background-color: #f9f9f9;
+  padding: 30px;
+}
+.brandLogoDetails {
+  width: 50%;
+  height: auto;
+  padding: 15px 10px;
+  float: left;
 }
