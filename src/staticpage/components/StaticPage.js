@@ -5,7 +5,9 @@ import styles from "./StaticPage.css";
 import Icon from "../../xelpmoc-core/Icon";
 import customerCareIcon from "../../account/components/img/callred.svg";
 import contactUsIcon from "../../account/components/img/contactred.svg";
+import callUsIcon from "../../account/components/img/contactblack.svg";
 import aboutUsIcon from "../../account/components/img/aboutusred.svg";
+import arrowLeft from "../../cart/components/img/down-arrow.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import {
@@ -61,6 +63,11 @@ export default class StaticPage extends Component {
         return listMenuDetails.type === "Landing Page Title Component";
       }
     );
+    let question = this.props.data && this.props.data[3];
+    console.log(question);
+    let linkCall = this.props.data && this.props.data[0];
+    console.log(linkCall);
+    let linkChat = this.props.data && this.props.data[1];
     if (this.props.loading || !this.props.data) {
       return <SecondaryLoader />;
     }
@@ -85,13 +92,85 @@ export default class StaticPage extends Component {
           />
         </MobileOnly>
         <DesktopOnly>
-          <div className={styles.pageHolder}>
-            <div className={styles.header}>Frequently Asked Question</div>
-            <div className={styles.dataHolder}>
-              <div className={styles.listHolder}>
-                {listMenu &&
-                  listMenu.nodeList &&
-                  listMenu.nodeList.length > 0 && (
+          <div
+            className={styles.pageHolder}
+            style={{
+              maxWidth:
+                this.props.location.pathname === "/contact" ? "" : "1200px",
+              margin: this.props.location.pathname === "/contact" ? "" : "auto",
+              paddingTop:
+                this.props.location.pathname === "/contact" ? "0px" : "60px"
+            }}
+          >
+            {this.props.location.pathname !== "/contact" && (
+              <div className={styles.header}>
+                {" "}
+                {listTitle && listTitle.title}
+              </div>
+            )}
+            <div
+              className={styles.dataHolder}
+              style={{
+                paddingBottom:
+                  this.props.location.pathname === "/contact" ? "0px" : "80px"
+              }}
+            >
+              {this.props.location.pathname === "/contact" && (
+                <div className={styles.contactUsHolder}>
+                  <div className={styles.questionArea}>
+                    {question && (
+                      <div className={styles.displayQuestion}>
+                        <div
+                          className={styles.question}
+                          dangerouslySetInnerHTML={{
+                            __html: question.content
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    <div className={styles.chatAndCallOption}>
+                      {linkCall && (
+                        <div className={styles.linkAndIconHolder}>
+                          <div className={styles.linkIconHolder}>
+                            <Icon image={callUsIcon} size={20} />
+                          </div>
+                          <div className={styles.arrowIconHolder}>
+                            <Icon image={arrowLeft} size={15} />
+                          </div>
+                          <div
+                            className={styles.chatAndCallLink}
+                            dangerouslySetInnerHTML={{
+                              __html: linkCall.content
+                            }}
+                          />
+                        </div>
+                      )}
+                      {linkChat && (
+                        <div className={styles.linkAndIconHolder}>
+                          <div className={styles.linkIconHolder}>
+                            <Icon image={callUsIcon} size={20} />
+                          </div>
+                          <div className={styles.arrowIconHolder}>
+                            <Icon image={arrowLeft} size={15} />
+                          </div>
+                          <div
+                            className={styles.chatAndCallLink}
+                            dangerouslySetInnerHTML={{
+                              __html: linkChat.content
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {listMenu &&
+                listMenu.nodeList &&
+                listMenu.nodeList.length > 0 && (
+                  <div className={styles.listHolder}>
                     <div className={styles.linkNameHolder}>
                       <div className={styles.linkHeaderHolder}>Faq Topics</div>
                       {listMenu.nodeList.map((val, i) => {
@@ -107,27 +186,40 @@ export default class StaticPage extends Component {
                         );
                       })}
                     </div>
-                  )}
-              </div>
-              <div className={styles.contentHolder}>
-                {this.props.location.pathname !== "/faq" && (
-                  <React.Fragment>
-                    <div className={styles.tabHeaderHolder}>
-                      {listTitle && listTitle.title}
-                    </div>
-                    <div className={styles.dropdownHolder}>
-                      <Feed
-                        background="#fff"
-                        feedType={this.props.feedType}
-                        homeFeedData={this.props.data}
-                        setHeaderText={this.props.setHeaderText}
-                      />
-                    </div>
-                  </React.Fragment>
+                  </div>
                 )}
-              </div>
+              {this.props.location.pathname !== "/faq" &&
+                this.props.location.pathname !== "/contact" && (
+                  <div className={styles.contentHolder}>
+                    <React.Fragment>
+                      <div className={styles.tabHeaderHolder}>
+                        {listTitle && listTitle.title}
+                      </div>
+                      <div className={styles.dropdownHolder}>
+                        <Feed
+                          background="#fff"
+                          feedType={this.props.feedType}
+                          homeFeedData={this.props.data}
+                          setHeaderText={this.props.setHeaderText}
+                        />
+                      </div>
+                    </React.Fragment>
+                  </div>
+                )}
             </div>
-            <div className={styles.sectionHolder}>
+            <div
+              className={styles.sectionHolder}
+              style={{
+                maxWidth:
+                  this.props.location.pathname === "/contact" ? "1200px" : "",
+                margin:
+                  this.props.location.pathname === "/contact" ? "auto" : "",
+                borderTop:
+                  this.props.location.pathname === "/contact"
+                    ? "none"
+                    : "1px solid #979797;"
+              }}
+            >
               <div
                 className={styles.sectionPart}
                 onClick={() => this.onClick(CONTACT_URL)}
