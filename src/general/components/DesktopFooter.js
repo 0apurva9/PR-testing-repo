@@ -19,7 +19,7 @@ class DesktopFooter extends React.Component {
   };
   render() {
     let footerData = this.props && this.props.DesktopFooterDetails;
-    console.log(footerData);
+
     return (
       <div className={styles.contentHolder}>
         <div className={styles.linkAndSuscribeHolder}>
