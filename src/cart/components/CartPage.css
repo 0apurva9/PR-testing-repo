@@ -80,7 +80,42 @@
   .content {
     width: 70%;
     display: inline-block;
-    padding-right: 70px;
+    padding: 0px 25px 0px 0px;
+  }
+  .bagTotal {
+    width: 30%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    min-height: 300px;
+  }
+  .bagTotalFixed {
+    width: 30%;
+    max-width: 360px;
+    position: fixed;
+  }
+  .amountDetails {
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+  }
+  .couponCard {
+    width: 100%;
+    height: auto;
+  }
+  .changePinCodeHolder {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 75px;
+    left: 0;
+    z-index: 5;
+    background: #fff;
+  }
+  .checkHolder {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
   }
   .couponWrapper {
     margin-top: 30px;
@@ -93,5 +128,22 @@
     top: 50px;
     padding: 0;
     background: #fff;
+  }
+  .cartItem {
+    margin-bottom: 10px;
+  }
+  .disclaimer {
+    width: 100%;
+    height: auto;
+    padding-left: 60px;
+    padding-right: 15px;
+    background: url("./img/lock.svg") no-repeat;
+    background-size: 25px;
+    background-position: 15px center;
+    color: #4a4a4a;
+    font-size: 14px;
+    font-family: light;
+    line-height: 20px;
+    margin-top: 20px;
   }
 }
