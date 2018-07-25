@@ -1,51 +1,130 @@
 .contentHolder {
   width: 100%;
   height: auto;
-  font-size: 14px;
   background: #fff;
-  max-width: 1600px;
+}
+.linkAndSuscribeHolder {
+  width: 100%;
+  height: auto;
+  max-width: 1200px;
   margin: auto;
-  /* padding: 35px 0px; */
+  padding: 45px 0px;
+  display: flex;
+  flex-direction: row;
 }
-.contentHolder:nth-child(1) {
-  float: right;
+.linkHolder {
+  width: 60%;
+  height: auto;
+  display: flex;
+
+  flex-wrap: wrap;
 }
-/* .contentHolder:first-child {
-  float: right;
-} */
-.contentHolder h2 {
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-family: semibold;
-  margin-top: 0px;
+.newsLetterSection {
+  width: 40%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
-.contentHolder h3 {
+.newsLetterHeading {
+  width: 100%;
+  height: auto;
+  color: #212121;
   font-size: 14px;
   font-family: semibold;
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-.contentHolder p {
-  padding-bottom: 5px;
+.linkSection {
+  width: 33.33%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
-
-.contentHolder strong {
+.linkHeader {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 14px;
   font-family: semibold;
+  margin-bottom: 20px;
+  text-transform: capitalize;
 }
-.contentHolder ul {
+.buttonAndTextBoxHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+.textBoxHolder {
+  width: 50%;
+  height: 33px;
+  display: flex;
+}
+.buttonHolder {
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.button {
   width: auto;
   height: auto;
-  padding-left: 0px;
+  display: flex;
 }
-.contentHolder ul li {
+.link {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 13px;
   font-family: light;
-  display: inline-block;
-  vertical-align: top;
-  padding-left: 100px;
+  margin-bottom: 15px;
+  cursor: pointer;
 }
-.contentHolder ul li ul li {
-  display: inherit;
+.footerBottomHolder {
+  width: 100%;
+  height: 100px;
+  background: #f9f9f9;
+}
+.socialLinkAndLogoHolder {
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  padding-left: 90px;
+  display: flex;
+  flex-direction: row;
+}
+.socialIconHolder {
+  width: 75%;
+  height: 100%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+.socialIcon {
+  width: 20px;
+  height: 20px;
+  border: 1px solid red;
+  display: flex;
+  margin-right: 10px;
+}
+.companyLogo {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.copyRightText {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #212121;
+  font-size: 14px;
   font-family: light;
-  padding-left: unset;
-  line-height: 35px;
 }
