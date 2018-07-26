@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => {
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
-    headerDetails: () => {
+    getHeaderDetails: () => {
       dispatch(headerDetails());
     }
   };
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
     bagCount: state.header.bagCount,
     orderConfirmationDetails: state.cart.orderConfirmationDetails,
     cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails,
-    getHeaderDetails: state.categoryDefault.headerDetails
+    headerDetails: state.categoryDefault.headerDetails
   };
 };
 
