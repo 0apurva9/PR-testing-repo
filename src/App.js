@@ -118,13 +118,22 @@ const CancelOrderContainer = Loadable({
   }
 });
 
-const ReturnFlowContainer = Loadable({
-  loader: () => import("./account/containers/ReturnFlowContainer.js"),
-  loading() {
-    return <Loader />;
-  }
-});
-
+let ReturnFlowContainer;
+if (checkUserAgentIsMobile()) {
+  ReturnFlowContainer = Loadable({
+    loader: () => import("./account/containers/ReturnFlowContainer.js"),
+    loading() {
+      return <Loader />;
+    }
+  });
+} else {
+  ReturnFlowContainer = Loadable({
+    loader: () => import("./return/containers/ReturnFlowDesktopContainer.ts"),
+    loading() {
+      return <Loader />;
+    }
+  });
+}
 const OrderDetailsContainer = Loadable({
   loader: () => import("./account/containers/OrderDetailsContainer.js"),
   loading() {
