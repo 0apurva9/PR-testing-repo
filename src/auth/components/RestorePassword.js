@@ -7,6 +7,7 @@ import lockIcon from "./img/lock.svg";
 import Input from "../../general/components/Input";
 import { default as styles } from "./AuthPopUp.css";
 import { default as ownStyles } from "./RestorePassword.css";
+import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
 export default class RestorePassword extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +47,7 @@ export default class RestorePassword extends React.Component {
         <div className={styles.input}>
           <Input
             hollow={true}
-            placeholder="Email or phone number"
+            placeholder="Enter Email or Mobile Number"
             onChange={val => this.setState({ userId: val })}
             onKeyUp={event => {
               this.enterPassword(event.key);

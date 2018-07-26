@@ -43,7 +43,8 @@ import {
   SOFT_RESERVATION_ITEM,
   ADDRESS_DETAILS_FOR_PAYMENT,
   CART_BAG_DETAILS,
-  EMI_TYPE
+  EMI_TYPE,
+  SELECTED_DELIVERY_MODE
 } from "../../lib/constants";
 import queryString, { parse } from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -1609,39 +1610,11 @@ export function softReservation() {
   let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     //get the body parameters
-    let productItems = {};
-    let item = [];
-    each(
+    let productItems = getValidDeliveryModeDetails(
       getState().cart &&
         getState().cart.cartDetailsCNC &&
-        getState().cart.cartDetailsCNC.products,
-      product => {
-        if (product.isGiveAway === NO) {
-          let productDetails = {};
-          productDetails.ussId = product.USSID;
-          productDetails.quantity = product.qtySelectedByUser;
-          productDetails.fulfillmentType = product.fullfillmentType;
-
-          if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-            productDetails.deliveryMode =
-              product.pinCodeResponse.validDeliveryModes[0].type;
-            productDetails.serviceableSlaves =
-              product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-          } else if (
-            product.pinCodeResponse.validDeliveryModes[0]
-              .CNCServiceableSlavesData
-          ) {
-            productDetails.deliveryMode =
-              product.pinCodeResponse.validDeliveryModes[0].type;
-            productDetails.serviceableSlaves =
-              product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-          }
-          item.push(productDetails);
-          productItems.item = item;
-        }
-      }
+        getState().cart.cartDetailsCNC.products
     );
-
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -2095,32 +2068,9 @@ export function softReservationForPayment(cardDetails, address) {
   const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2161,32 +2111,9 @@ export function softReservationPaymentForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
 
@@ -2230,32 +2157,9 @@ export function softReservationPaymentForSavedCard(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2287,34 +2191,9 @@ export function softReservationForCliqCash(pinCode) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.fulfillmentType = product.fullfillmentType;
-
-        if (product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        } else if (
-          product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData
-        ) {
-          productDetails.deliveryMode =
-            product.pinCodeResponse.validDeliveryModes[0].type;
-          productDetails.serviceableSlaves =
-            product.pinCodeResponse.validDeliveryModes[0].CNCServiceableSlavesData[0].serviceableSlaves;
-        }
-        item.push(productDetails);
-
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2517,13 +2396,13 @@ export function createJusPayOrder(
           JSON.parse(customerCookie).access_token
         }&firstName=${address.firstName}&lastName=${
           address.lastName
-        }&addressLine1=${address.line1 ? address.line1 : ""}&addressLine2=${
-          address.line2 ? address.line2 : ""
-        }&addressLine3=${address.line3 ? address.line3 : ""}&country=${
-          address.country.isocode
-        }&city=${address.city ? address.city : ""}&state=${
-          address.state ? address.state : ""
-        }&pincode=${
+        }&addressLine1=${
+          address.line1 ? encodeURIComponent(address.line1) : ""
+        }&addressLine2=${address.line2 ? address.line2 : ""}&addressLine3=${
+          address.line3 ? address.line3 : ""
+        }&country=${address.country.isocode}&city=${
+          address.city ? address.city : ""
+        }&state=${address.state ? address.state : ""}&pincode=${
           address.postalCode
         }&cardSaved=true&sameAsShipping=true&cartGuid=${cartId}&token=${token}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -2535,6 +2414,7 @@ export function createJusPayOrder(
       const resultJson = await result.json();
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
@@ -2768,6 +2648,7 @@ export function createJusPayOrderForSavedCards(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
@@ -3256,11 +3137,13 @@ export function updateTransactionDetails(paymentMode, juspayOrderID, cartId) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         setDataLayerForOrderConfirmationDirectCalls(
           ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE,
-          resultJsonStatus.message
+          {
+            failureReason: resultJsonStatus.message,
+            orderId: resultJson.orderId
+          }
         );
         throw new Error(resultJsonStatus.message);
       }
@@ -3626,23 +3509,9 @@ export function softReservationForCODPayment(pinCode) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = {};
-    let item = [];
-    each(getState().cart.cartDetailsCNC.products, product => {
-      if (product.isGiveAway === NO) {
-        let productDetails = {};
-        productDetails.ussId = product.USSID;
-        productDetails.quantity = product.qtySelectedByUser;
-        productDetails.deliveryMode =
-          product.pinCodeResponse.validDeliveryModes[0].type;
-        productDetails.serviceableSlaves =
-          product.pinCodeResponse.validDeliveryModes[0].serviceableSlaves;
-        productDetails.fulfillmentType = product.fullfillmentType;
-        item.push(productDetails);
-        productItems.item = item;
-      }
-    });
-
+    let productItems = getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     const cartId = JSON.parse(cartDetails).guid;
 
@@ -4324,8 +4193,19 @@ export function getPaymentFailureOrderDetails() {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(getPaymentFailureOrderDetailsSuccess(resultJson));
+      const parsedQueryString = queryString.parse(window.location.search);
+      const value = parsedQueryString.status;
       setDataLayerForOrderConfirmationDirectCalls(
-        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE
+        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE,
+        {
+          failureReason: value,
+          price:
+            resultJson.cartAmount &&
+            resultJson.cartAmount.paybleAmount &&
+            resultJson.cartAmount.paybleAmount.value
+              ? resultJson.cartAmount.paybleAmount.value
+              : ""
+        }
       );
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
@@ -4376,4 +4256,41 @@ export function getTncForBankOffer() {
       dispatch(getTncForBankOfferFailure(e.message));
     }
   };
+}
+
+export function getValidDeliveryModeDetails(cartProductDetails) {
+  let productItems = {};
+  let item = [];
+  each(cartProductDetails, product => {
+    if (product.isGiveAway === NO) {
+      //get the selected delivery Mode
+      let selectedDeliverMode = localStorage.getItem(SELECTED_DELIVERY_MODE);
+      let selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
+        validDeliveryMode => {
+          return validDeliveryMode.type === selectedDeliverMode;
+        }
+      );
+
+      let productDetails = {};
+      productDetails.ussId = product.USSID;
+      productDetails.quantity = product.qtySelectedByUser;
+      productDetails.fulfillmentType = product.fullfillmentType;
+      productDetails.deliveryMode = selectedDeliveryModeDetails.type;
+      if (selectedDeliveryModeDetails.serviceableSlaves) {
+        productDetails.serviceableSlaves =
+          selectedDeliveryModeDetails.serviceableSlaves;
+      } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
+        let selectedStoreDetails = selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
+          storeDetails => {
+            return storeDetails.storeId === product.storeDetails.slaveId;
+          }
+        );
+        productDetails.serviceableSlaves =
+          selectedStoreDetails.serviceableSlaves;
+      }
+      item.push(productDetails);
+      productItems.item = item;
+    }
+  });
+  return productItems;
 }

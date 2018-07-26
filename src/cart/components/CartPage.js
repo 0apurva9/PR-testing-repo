@@ -1,6 +1,7 @@
 import React from "react";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
+import CheckoutStaticSection from "./CheckoutStaticSection.js";
 import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import styles from "./CartPage.css";
 import PropTypes from "prop-types";
@@ -49,9 +50,13 @@ class CartPage extends React.Component {
       isServiceable: false,
       changePinCode: false,
       appliedCouponCode: null,
-      showCheckoutSection: true
+      showCheckoutSection: true,
+      showCartDetails: false
     };
   }
+  showHideDetails = () => {
+    this.setState({ showCartDetails: !this.state.showCartDetails });
+  };
   navigateToHome() {
     this.props.history.push(HOME_ROUTER);
   }
@@ -378,6 +383,43 @@ class CartPage extends React.Component {
       }
       return (
         <div className={styles.base}>
+          {this.state.showCheckoutSection &&
+            cartDetails.products &&
+            cartDetails.cartAmount && (
+              <Checkout
+                disabled={!this.state.isServiceable}
+                amount={
+                  cartDetails.cartAmount.paybleAmount.value
+                    ? Math.round(
+                        cartDetails.cartAmount.paybleAmount.value * 100
+                      ) / 100
+                    : "0.00"
+                }
+                bagTotal={
+                  cartDetails.cartAmount.bagTotal.value
+                    ? Math.round(cartDetails.cartAmount.bagTotal.value * 100) /
+                      100
+                    : "0.00"
+                }
+                coupons={couponDiscount}
+                discount={totalDiscount}
+                delivery={deliveryCharge}
+                payable={
+                  cartDetails.cartAmount.paybleAmount.value
+                    ? Math.round(
+                        cartDetails.cartAmount.paybleAmount.value * 100
+                      ) / 100
+                    : "0.00"
+                }
+                onCheckout={() => this.renderToCheckOutPage()}
+                label={CHECKOUT_BUTTON_TEXT}
+                isOnCartPage={true}
+                changePinCode={this.changePinCode}
+                isFromMyBag={true}
+                showDetails={this.state.showCartDetails}
+                showHideDetails={this.showHideDetails}
+              />
+            )}
           <div className={styles.content}>
             <TextWithUnderLine
               onClick={() => this.changePinCode()}
@@ -453,7 +495,7 @@ class CartPage extends React.Component {
             {this.state.showCheckoutSection &&
               cartDetails.products &&
               cartDetails.cartAmount && (
-                <Checkout
+                <CheckoutStaticSection
                   disabled={!this.state.isServiceable}
                   amount={
                     cartDetails.cartAmount.paybleAmount.value
@@ -484,6 +526,7 @@ class CartPage extends React.Component {
                   isOnCartPage={true}
                   changePinCode={this.changePinCode}
                   isFromMyBag={true}
+                  showDetails={this.state.showCartDetails}
                 />
               )}
           </div>

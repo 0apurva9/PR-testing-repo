@@ -25,6 +25,9 @@ import {
   NAME_TEXT,
   LAST_NAME_TEXT,
   ADDRESS_TEXT,
+  ADDRESS_VALIDATION_TEXT,
+  ADDRESS_MINLENGTH_VALID_TEXT,
+  ADDRESS_MAXLENGTH_VALID_TEXT,
   EMAIL_TEXT,
   LANDMARK_TEXT,
   LANDMARK_ENTER_TEXT,
@@ -236,11 +239,20 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.displayToast(LAST_NAME_TEXT);
       return false;
     }
-    if (
-      !this.state.line1.trim() ||
-      !ADDRESS_VALIDATION.test(this.state.line1.trim())
-    ) {
+    if (!this.state.line1.trim()) {
       this.props.displayToast(ADDRESS_TEXT);
+      return false;
+    }
+    if (this.state.line1.length < 15) {
+      this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (this.state.line1.length > 120) {
+      this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (!ADDRESS_VALIDATION.test(this.state.line1.trim())) {
+      this.props.displayToast(ADDRESS_VALIDATION_TEXT);
       return false;
     }
 
@@ -404,6 +416,10 @@ export default class AddDeliveryAddress extends React.Component {
                 this.handleOnFocusInput();
               }}
             />
+          </div>
+          <div className={styles.addressValidMsg}>Character Limit : 120</div>
+          <div className={styles.addressValidMsg}>
+            Special characters allowed are - # & ( ) ' ' . , \ / + _
           </div>
           <div className={styles.content}>
             <SelectBoxMobile2

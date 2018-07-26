@@ -516,7 +516,7 @@ export default class PdpJewellery extends React.Component {
                 <PriceBreakUp data={productData.priceBreakUpDetailsMap} />
               )}
             {productData.returnAndRefund && (
-              <Accordion text="Return & Refunds" headerFontSize={16}>
+              <Accordion text="Returns & Policies" headerFontSize={16}>
                 {productData.returnAndRefund.map(val => {
                   return (
                     <div

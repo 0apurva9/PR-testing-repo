@@ -1055,10 +1055,37 @@ function getDigitalDataForPlp(type, response) {
   const subCategories = getSubCategories(response);
   if (subCategories) {
     Object.assign(data.page.category, { ...subCategories });
+    Object.assign(data.page, {
+      pageInfo: {
+        pageName: `product grid:${
+          subCategories.subCategory1 ? subCategories.subCategory1 : ""
+        }:${subCategories.subCategory2 ? subCategories.subCategory2 : ""}:${
+          subCategories.subCategory3 ? subCategories.subCategory3 : ""
+        }`
+      }
+    });
+  } else {
+    Object.assign(data.page, {
+      pageInfo: {
+        pageName: "product grid"
+      }
+    });
   }
   return data;
 }
 export function getDigitalDataForSearchPageSuccess(response) {
+  const offersCount =
+    response &&
+    response.searchresult &&
+    response.searchresult.filter(product => {
+      return product.discountPercent && product.discountPercent !== "0";
+    }).length;
+  const newCount =
+    response &&
+    response.searchresult &&
+    response.searchresult.filter(product => {
+      return product.newProduct;
+    }).length;
   const data = {
     page: {
       pageInfo: { pageName: "search results page" },
@@ -1073,7 +1100,9 @@ export function getDigitalDataForSearchPageSuccess(response) {
       search: {
         category: "all",
         results: response.pagination ? response.pagination.totalResults : 0,
-        term: response.currentQuery ? response.currentQuery.searchQuery : null
+        term: response.currentQuery ? response.currentQuery.searchQuery : null,
+        offersCount,
+        newCount
       }
     }
   };
@@ -1113,13 +1142,47 @@ export function getDigitalDataForSearchPageSuccess(response) {
 }
 
 export function getDigitalDataForSearchPageForNullResult(response) {
-  const data = {
-    internal: {
-      search: {
-        term: response.currentQuery ? response.currentQuery.searchQuery : null
+  const previousDigitalData = cloneDeep(window.digitalData);
+  let data = {
+    page: {
+      pageInfo: {
+        pathname: "search results page"
+      },
+      category: {
+        primaryCategory: "productsearch"
+      },
+      display: {
+        hierarchy: `home,${
+          response.currentQuery ? response.currentQuery.searchQuery : null
+        }`
       }
     }
   };
+
+  Object.assign(data, {
+    internal: {
+      search: {
+        term: response.currentQuery ? response.currentQuery.searchQuery : null,
+        results: 0,
+        offersCount: 0,
+        newCount: 0
+      }
+    }
+  });
+  if (
+    previousDigitalData &&
+    previousDigitalData.page &&
+    previousDigitalData.page.pageInfo &&
+    previousDigitalData.page.pageInfo.pageName
+  ) {
+    Object.assign(data, {
+      cpj: {
+        pdp: {
+          findingMethod: previousDigitalData.page.pageInfo.pageName
+        }
+      }
+    });
+  }
   return data;
 }
 export function setDataLayerForPlpDirectCalls(response, index: 0) {
@@ -1309,14 +1372,34 @@ export function setDataLayerForOrderConfirmationDirectCalls(
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
     const data = {
+      page: {
+        pageInfo: {
+          pageName: "order failed"
+        },
+        category: {
+          primaryCategory: "orderfailed"
+        }
+      },
       cpj: {
         order: {
-          failureReason: orderConfirmationResponse
-            ? orderConfirmationResponse
-            : ""
+          failureReason:
+            orderConfirmationResponse && orderConfirmationResponse.failureReason
+              ? orderConfirmationResponse.failureReason
+              : "",
+          id:
+            orderConfirmationResponse && orderConfirmationResponse.orderId
+              ? orderConfirmationResponse.orderId
+              : ""
+        },
+        product: {
+          price:
+            orderConfirmationResponse && orderConfirmationResponse.price
+              ? orderConfirmationResponse.price
+              : ""
         }
       }
     };
+
     window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
@@ -1497,12 +1580,12 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         if (data.cpj) {
           if (data.cpj.payment) {
             Object.assign(data.cpj.payment, {
-              finalMode: response.replace(/ /g, "_").toLowerCase()
+              mode: response.replace(/ /g, "_").toLowerCase()
             });
           } else {
             Object.assign(data.cpj, {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             });
           }
@@ -1510,7 +1593,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           Object.assign(data, {
             cpj: {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             }
           });
@@ -1521,7 +1604,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           {
             cpj: {
               payment: {
-                finalMode: response.replace(/ /g, "_").toLowerCase()
+                mode: response.replace(/ /g, "_").toLowerCase()
               }
             }
           }
@@ -1541,7 +1624,7 @@ export function setDataLayerForMyAccountDirectCalls(
 ) {
   let data = cloneDeep(window.digitalData);
   if (type === ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS) {
-    data = Object.assign(data, {
+    Object.assign(data, {
       order: {
         cancellation: {
           reason: productDetails ? productDetails.reasonLabel : ""
@@ -1561,7 +1644,7 @@ export function setDataLayerForMyAccountDirectCalls(
     }
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_RETURN) {
-    data = {
+    Object.assign(data, {
       cpj: {
         product: {
           id: productDetails.productcode,
@@ -1571,7 +1654,7 @@ export function setDataLayerForMyAccountDirectCalls(
       order: {
         id: reasonObj.orderCode
       }
-    };
+    });
     window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_RETURN);
@@ -1832,14 +1915,15 @@ export function setDataLayerForLogoutSuccess() {
   }
 }
 export function setDataLayerForAutoSuggestSearch(response) {
-  let data = {
+  let data = window.digitalData;
+  Object.assign(data, {
     search: {
       autosuggest: {
         term: response ? response.term : "",
         position: response ? response.position : ""
       }
     }
-  };
+  });
   window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);
