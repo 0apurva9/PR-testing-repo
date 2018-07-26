@@ -1,3 +1,4 @@
+import "./entry";
 import React, { Component } from "react";
 import queryString, { parse } from "query-string";
 import ModalContainer from "./general/containers/ModalContainer";
@@ -74,6 +75,7 @@ import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDesc
 import DesktopFooterContainer from "./general/containers/DesktopFooterContainer";
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
+import HomeApp from "./homeApp.tsx";
 const Loader = () => {
   return (
     <div className={AppStyles.loadingIndicator}>
@@ -315,6 +317,7 @@ class App extends Component {
           <MobileOnly>
             <MobileFooter />
           </MobileOnly>
+          <HomeApp />
           <Switch>
             <Route path={MY_ACCOUNT} component={MyAccountWrapper} />{" "}
             <Route
