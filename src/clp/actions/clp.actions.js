@@ -54,13 +54,13 @@ export function getCategories(userId, accessToken, cartId) {
   };
 }
 
-export function headerDetailsRequest() {
+export function getHeaderRequest() {
   return {
     type: GET_HEADER_REQUEST,
     status: REQUESTING
   };
 }
-export function headerDetailsSuccess(headerDetails) {
+export function getHeaderSuccess(headerDetails) {
   return {
     type: GET_HEADER_SUCCESS,
     status: SUCCESS,
@@ -68,7 +68,7 @@ export function headerDetailsSuccess(headerDetails) {
   };
 }
 
-export function headerDetailsFailure(error) {
+export function getHeaderFailure(error) {
   return {
     type: GET_HEADER_FAILURE,
     status: ERROR,
@@ -76,9 +76,9 @@ export function headerDetailsFailure(error) {
   };
 }
 
-export function headerDetails() {
+export function getHeader() {
   return async (dispatch, getState, { api }) => {
-    dispatch(headerDetailsRequest());
+    dispatch(getHeaderRequest());
     try {
       const result = api.get("header");
       const resultJson = result.json();
@@ -86,9 +86,9 @@ export function headerDetails() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(headerDetailsSuccess(resultJson));
+      dispatch(getHeaderSuccess(resultJson));
     } catch (e) {
-      dispatch(headerDetailsFailure(e.message));
+      dispatch(getHeaderFailure(e.message));
     }
   };
 }
