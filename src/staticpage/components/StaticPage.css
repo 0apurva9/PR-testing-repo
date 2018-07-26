@@ -25,6 +25,9 @@ table th {
   text-align: center;
 }
 @media screen and (min-width: 1025px) {
+  .base {
+    min-height: 0px;
+  }
   .pageHolder {
     width: 100%;
     height: auto;
