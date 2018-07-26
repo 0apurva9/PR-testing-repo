@@ -108,6 +108,7 @@ import {
   ADDRESS_FOR_PLACE_ORDER,
   CART_PATH
 } from "../actions/cart.actions";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -1974,6 +1975,11 @@ class CheckOutPage extends React.Component {
   addGiftCard = () => {
     this.props.addGiftCard();
   };
+  redeemCliqVoucher = cliqCashDetails => {
+    if (this.props.redeemCliqVoucher) {
+      this.props.redeemCliqVoucher(cliqCashDetails);
+    }
+  };
 
   orderConfirmationUpdate = () => {
     if (this.props.clearCaptureOrderExperience) {
@@ -2152,7 +2158,8 @@ class CheckOutPage extends React.Component {
         this.props.cart.selectDeliveryModeLoader ||
         (!this.props.cart.paymentModes && this.state.deliverMode) ||
         this.props.cart.isPaymentProceeded ||
-        this.props.cart.paymentModeLoader
+        this.props.cart.paymentModeLoader ||
+        this.props.loading
       ) {
         this.props.showSecondaryLoader();
       } else {
@@ -2353,6 +2360,9 @@ class CheckOutPage extends React.Component {
                     onFocusInput={() => this.onFocusInput()}
                     onBlur={() => this.onBlue()}
                     addGiftCard={() => this.addGiftCard()}
+                    redeemCliqVoucher={cliqCashDetails =>
+                      this.redeemCliqVoucher(cliqCashDetails)
+                    }
                     binValidationForPaytm={val =>
                       this.binValidationForPaytm(val)
                     }
