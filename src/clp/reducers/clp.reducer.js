@@ -3,7 +3,11 @@ const categoryDefault = (
   state = {
     status: null,
     error: null,
-    categories: null
+    categories: null,
+    headerStatus: null,
+    headerError: null,
+    headerDetails: null,
+    loadingForHeader: false
   },
   action
 ) => {
@@ -21,6 +25,23 @@ const categoryDefault = (
       return Object.assign({}, state, {
         status: action.status,
         categories: action.categories
+      });
+    case categoriesActions.GET_HEADER_REQUEST:
+      return Object.assign({}, state, {
+        headerStatus: action.status,
+        loadingForHeader: true
+      });
+    case categoriesActions.GET_HEADER_FAILURE:
+      return Object.assign({}, state, {
+        headerStatus: action.status,
+        headerError: action.error,
+        loadingForHeader: false
+      });
+    case categoriesActions.GET_HEADER_SUCCESS:
+      return Object.assign({}, state, {
+        headerStatus: action.status,
+        headerDetails: action.headerDetails,
+        loadingForHeader: false
       });
     default:
       return state;

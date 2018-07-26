@@ -5,6 +5,7 @@ import { setHeaderText } from "../header.actions.js";
 import { showFilter, hideFilter } from "../../plp/actions/plp.actions.js";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
+import { getHeader } from "../../clp/actions/clp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     setHeaderText: text => {
@@ -21,6 +22,9 @@ const mapDispatchToProps = dispatch => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    getHeader: () => {
+      dispatch(getHeader());
     }
   };
 };
@@ -30,7 +34,8 @@ const mapStateToProps = state => {
     isPlpFilterOpen: state.productListings.isFilterOpen,
     bagCount: state.header.bagCount,
     orderConfirmationDetails: state.cart.orderConfirmationDetails,
-    cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails
+    cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails,
+    headerDetails: state.categoryDefault.headerDetails
   };
 };
 
