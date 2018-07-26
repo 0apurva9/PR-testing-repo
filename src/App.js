@@ -128,7 +128,7 @@ if (checkUserAgentIsMobile()) {
   });
 } else {
   ReturnFlowContainer = Loadable({
-    loader: () => import("./return/containers/ReturnFlowDesktopContainer.ts"),
+    loader: () => import("./return/containers/ReturnFlowDesktopContainer.js"),
     loading() {
       return <Loader />;
     }

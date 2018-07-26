@@ -472,11 +472,13 @@ export function getReturnRequestFailure(error) {
 }
 
 export function getReturnRequest(orderCode, transactionId) {
+  console.log("Comes in action");
   return async (dispatch, getState, { api }) => {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    console.log(customerCookie);
     dispatch(getReturnRequestRequest());
-
+    console.log(customerCookie);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -489,6 +491,7 @@ export function getReturnRequest(orderCode, transactionId) {
       );
 
       const resultJson = await result.json();
+      console.log(resultJson);
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
