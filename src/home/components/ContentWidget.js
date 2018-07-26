@@ -6,6 +6,8 @@ import styles from "./ContentWidget.css";
 export default class ContentWidget extends React.Component {
   constructor(props) {
     super(props);
+
+    // this.
     this.state = {
       goLeft: false,
       goRight: false,
@@ -21,7 +23,10 @@ export default class ContentWidget extends React.Component {
       length: this.props.allData.length,
       position: 0
     };
+    this.head = null;
+    this.tail = null;
   }
+
   handleReadMore(webURL) {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
@@ -64,6 +69,7 @@ export default class ContentWidget extends React.Component {
     if (!this.state.goLeft || !this.state.goRight) {
       const position = this.state.position + 1;
       const currentData = this.state.data;
+
       this.setState(
         {
           goLeft: true,
@@ -74,15 +80,30 @@ export default class ContentWidget extends React.Component {
         () => {
           let data = [];
 
-          data[0] = this.props.allData[
-            (1 + this.state.position) % this.state.length
-          ];
-          data[1] = currentData[1];
-          data[2] = currentData[0];
-
+          // data[0] = this.props.allData[
+          //     (1 + this.state.position) % this.state.length
+          // ];
+          // data[1] = currentData[1];
+          // data[2] = currentData[0];
+          // console.log(
+          //     this.props.allData[
+          //         (1 + this.state.position) % this.state.length
+          //     ].title
+          // );
+          // console.log(this.head.next.next.value.title);
+          // console.log(currentData[1].title);
+          // console.log(this.head.next.value.title);
+          // console.log(currentData[0].title);
+          // console.log(this.head.prev.value.title);
+          data[0] = this.head.next.next.value;
+          data[1] = this.head.next.value;
+          data[2] = this.head.prev.value;
+          // this.head = Object.assign({}, this.head.next);
           this.setState({ data });
         }
       );
+
+      console.log(this.props.allData);
     }
   }
   goRight() {
@@ -101,12 +122,26 @@ export default class ContentWidget extends React.Component {
         },
         () => {
           let data = [];
-          data[0] = this.props.allData[position % this.state.length];
-          data[1] = currentData[1];
-          data[2] = currentData[0];
+          // console.log(currentData);
+          // data[0] = this.props.allData[position % this.state.length];
+          // data[1] = currentData[1];
+          // data[2] = currentData[0];
+
+          data[0] = this.head.prev.value;
+          data[1] = this.head.next.value;
+          data[2] = this.head.prev.prev.value;
+
           this.setState({ data });
+          // this.head = Object.assign({}, this.head.prev);
         }
       );
+      console.log(this.props.allData);
+      console.log(this.props.allData[position % this.state.length].title);
+      console.log("1", this.head.prev.prev.value.title);
+      console.log(currentData[1].title);
+      console.log("2", this.head.prev.value.title);
+      console.log(currentData[0].title);
+      console.log("3", this.head.value.title);
     }
   }
 
@@ -114,8 +149,26 @@ export default class ContentWidget extends React.Component {
     evt.stopPropagation();
     this.revert();
   }
+
+  addToHead = value => {
+    const newNode = { value };
+
+    if (this.head) {
+      newNode.next = this.head;
+      newNode.prev = this.head.prev;
+      this.head.prev.next = newNode;
+      this.head.prev = newNode;
+    } else {
+      this.head = newNode;
+      newNode.next = newNode;
+      newNode.prev = newNode;
+    }
+  };
   componentDidMount = () => {
     this.registerAnimationELement();
+    this.props.allData.forEach(val => {
+      this.addToHead(val);
+    });
   };
   componentWillReceiveProps(props) {
     if (this.state.position < props.position) {
@@ -137,18 +190,39 @@ export default class ContentWidget extends React.Component {
     const currentData = this.state.data;
     let data = [];
     if (this.state.goLeft) {
-      data[0] = currentData[2];
-      data[1] = currentData[0];
-      data[2] = currentData[1];
+      // data[0] = currentData[2];
+      // data[1] = currentData[0];
+      // data[2] = currentData[1];
+      // console.log(currentData[2].title);
+      // console.log(this.head.prev.value.title);
+      // console.log(currentData[0].title);
+      // console.log(this.head.next.next.value.title);
+      // console.log(currentData[1].title);
+      // console.log(this.head.next.value.title);
+
+      data[0] = this.head.prev.value;
+      data[1] = this.head.next.next.value;
+      data[2] = this.head.next.value;
+
+      // this.setState({ data });
+      this.head = Object.assign({}, this.head.next);
     } else if (this.state.goRight) {
-      data[0] = currentData[1];
-      data[1] = currentData[2];
-      data[2] = currentData[0];
+      // data[0] = currentData[1];
+      // data[1] = currentData[2];
+      // data[2] = currentData[0];
+      data[0] = this.head.next.value;
+      data[1] = this.head.prev.prev.value;
+      data[2] = this.head.prev.value;
+
+      //this.setState({ data });
+      this.head = Object.assign({}, this.head.prev);
     }
 
     this.setState({ data, goLeft: false, goRight: false });
   };
   render() {
+    console.log(this.head);
+    console.log(this.props);
     let direction = styles.base;
     if (this.state.goLeft) {
       direction = styles.goingLeft;
