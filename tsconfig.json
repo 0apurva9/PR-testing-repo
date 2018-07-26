@@ -5,6 +5,8 @@
     "noImplicitAny": true,
     "allowJs": true,
     "jsx": "react",
-    "lib": ["es5", "es2015", "es6", "dom"]
-  }
+    "lib": ["es5", "es2015", "es6", "dom"],
+    "typeRoots": ["./node_modules/@types", "./@types/"]
+  },
+  "exclude": ["dist", "build", "node_modules"]
 }

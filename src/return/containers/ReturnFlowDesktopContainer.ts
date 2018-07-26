@@ -1,16 +1,17 @@
 import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 import { withRouter } from "react-router-dom";
 import ReturnFlowDesktop from "../components/ReturnFlowDesktop";
 import { getReturnRequest } from "../../account/actions/account.actions";
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     getReturnRequest: (orderCode: string, transactionId: string) => {
-      dispatch(getReturnRequest(orderCode, transactionId));
+      bindActionCreators(getReturnRequest(orderCode, transactionId), dispatch);
     }
   };
 };
-const mapStateToProps = state => {
+const mapStateToProps = (state: any) => {
   return {
     returnRequest: state.profile.returnRequest,
     returnProductDetails: state.profile.returnProductDetails,
