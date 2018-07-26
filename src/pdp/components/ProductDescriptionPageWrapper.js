@@ -1,12 +1,13 @@
 import React from "react";
 import Loadable from "react-loadable";
-
+import Helmet from "react-helmet";
 import styles from "./ProductDescriptionPageWrapper.css";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  AMP_PRODUCT_CODE_REG_EX
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -126,6 +127,19 @@ export default class ProductDescriptionPageWrapper extends React.Component {
 
     return <React.Fragment>{pdpToRender({ ...this.props })}</React.Fragment>;
   };
+  renderAmpTags = () => {
+    if (AMP_PRODUCT_CODE_REG_EX.test(this.props.history.location.pathname)) {
+      let productCode = /mp[0-9]+/i.test(this.props.match.params[0])
+        ? this.props.match.params[0]
+        : this.props.match.params[1];
+      return (
+        <Helmet>
+          <link rel="amphtml" href={`/amp/p-${productCode}`} />
+          <link rel="canonical" href={`/amp/p-${productCode}`} />
+        </Helmet>
+      );
+    }
+  };
   renderLoader() {
     return (
       <div className={styles.loadingIndicator}>
@@ -147,6 +161,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       if (!this.props.showPiqPage) {
         return (
           <div itemScope itemType="http://schema.org/Product">
+            {this.renderAmpTags()}
             {this.props.productDetails.seo
               ? renderMetaTags(this.props.productDetails)
               : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
