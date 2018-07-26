@@ -2464,10 +2464,10 @@ class CheckOutPage extends React.Component {
                   cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                   isFromMyBag={false}
                 />
-                {!this.props.isFromGiftCard &&
-                  this.props.isRemainingBalance &&
+                {!this.state.isGiftCard &&
+                  this.state.isRemainingAmount &&
                   !(
-                    this.props.isPaymentFailed && this.props.isCliqCashApplied
+                    this.state.isPaymentFailed && this.state.isCliqCashApplied
                   ) &&
                   (this.props.cart.paymentModes &&
                     this.props.cart.paymentModes.paymentOffers &&

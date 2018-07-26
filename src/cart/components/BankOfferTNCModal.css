@@ -78,3 +78,13 @@
 ul {
   padding-left: 45px;
 }
+
+@media only screen and (min-width: 1025px){
+  .stickyHeader{
+    height: 60px;
+    background-color: #f9f9f9;
+    font-size: 20px;
+    line-height: 60px;
+    color: #212121;
+  }
+}
