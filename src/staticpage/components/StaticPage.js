@@ -3,6 +3,7 @@ import SecondaryLoader from "../../general/components/SecondaryLoader.js";
 import Feed from "../../home/components/Feed";
 import styles from "./StaticPage.css";
 import Icon from "../../xelpmoc-core/Icon";
+import Image from "../../xelpmoc-core/Image";
 import customerCareIcon from "../../account/components/img/callred.svg";
 import contactUsIcon from "../../account/components/img/contactred.svg";
 import callUsIcon from "../../account/components/img/contactblack.svg";
@@ -63,10 +64,21 @@ export default class StaticPage extends Component {
         return listMenuDetails.type === "Landing Page Title Component";
       }
     );
+    let aboutUsImage = find(
+      this.props && this.props.data.length > 0 && this.props.data,
+      listMenuDetails => {
+        return listMenuDetails.type === "Simple Banner Component";
+      }
+    );
+    let aboutUsText = find(
+      this.props && this.props.data.length > 0 && this.props.data,
+      aboutUsText => {
+        return aboutUsText.type === "CMS Paragraph Component";
+      }
+    );
+    console.log(aboutUsText);
     let question = this.props.data && this.props.data[3];
-    console.log(question);
     let linkCall = this.props.data && this.props.data[0];
-    console.log(linkCall);
     let linkChat = this.props.data && this.props.data[1];
     if (this.props.loading || !this.props.data) {
       return <SecondaryLoader />;
@@ -92,160 +104,226 @@ export default class StaticPage extends Component {
           />
         </MobileOnly>
         <DesktopOnly>
-          <div
-            className={styles.pageHolder}
-            style={{
-              maxWidth:
-                this.props.location.pathname === "/contact" ? "" : "1200px",
-              margin: this.props.location.pathname === "/contact" ? "" : "auto",
-              paddingTop:
-                this.props.location.pathname === "/contact" ? "0px" : "60px"
-            }}
-          >
-            {this.props.location.pathname !== "/contact" && (
-              <div className={styles.header}>
-                {" "}
-                {listTitle && listTitle.title}
-              </div>
-            )}
+          {this.props.location.pathname !== "/aboutus" && (
             <div
-              className={styles.dataHolder}
-              style={{
-                paddingBottom:
-                  this.props.location.pathname === "/contact" ? "0px" : "80px"
-              }}
-            >
-              {this.props.location.pathname === "/contact" && (
-                <div className={styles.contactUsHolder}>
-                  <div className={styles.questionArea}>
-                    {question && (
-                      <div className={styles.displayQuestion}>
-                        <div
-                          className={styles.question}
-                          dangerouslySetInnerHTML={{
-                            __html: question.content
-                          }}
-                        />
-                      </div>
-                    )}
-
-                    <div className={styles.chatAndCallOption}>
-                      {linkCall && (
-                        <div className={styles.linkAndIconHolder}>
-                          <div className={styles.linkIconHolder}>
-                            <Icon image={callUsIcon} size={20} />
-                          </div>
-                          <div className={styles.arrowIconHolder}>
-                            <Icon image={arrowLeft} size={15} />
-                          </div>
-                          <div
-                            className={styles.chatAndCallLink}
-                            dangerouslySetInnerHTML={{
-                              __html: linkCall.content
-                            }}
-                          />
-                        </div>
-                      )}
-                      {linkChat && (
-                        <div className={styles.linkAndIconHolder}>
-                          <div className={styles.linkIconHolder}>
-                            <Icon image={callUsIcon} size={20} />
-                          </div>
-                          <div className={styles.arrowIconHolder}>
-                            <Icon image={arrowLeft} size={15} />
-                          </div>
-                          <div
-                            className={styles.chatAndCallLink}
-                            dangerouslySetInnerHTML={{
-                              __html: linkChat.content
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {listMenu &&
-                listMenu.nodeList &&
-                listMenu.nodeList.length > 0 && (
-                  <div className={styles.listHolder}>
-                    <div className={styles.linkNameHolder}>
-                      <div className={styles.linkHeaderHolder}>Faq Topics</div>
-                      {listMenu.nodeList.map((val, i) => {
-                        return (
-                          <div className={styles.linkHolder}>
-                            <div
-                              onClick={() => this.onRedirect(val.url)}
-                              className={styles.link}
-                            >
-                              {val.linkName}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              {this.props.location.pathname !== "/faq" &&
-                this.props.location.pathname !== "/contact" && (
-                  <div className={styles.contentHolder}>
-                    <React.Fragment>
-                      <div className={styles.tabHeaderHolder}>
-                        {listTitle && listTitle.title}
-                      </div>
-                      <div className={styles.dropdownHolder}>
-                        <Feed
-                          background="#fff"
-                          feedType={this.props.feedType}
-                          homeFeedData={this.props.data}
-                          setHeaderText={this.props.setHeaderText}
-                        />
-                      </div>
-                    </React.Fragment>
-                  </div>
-                )}
-            </div>
-            <div
-              className={styles.sectionHolder}
+              className={styles.pageHolder}
               style={{
                 maxWidth:
-                  this.props.location.pathname === "/contact" ? "1200px" : "",
+                  this.props.location.pathname === "/contact" ? "" : "1200px",
                 margin:
-                  this.props.location.pathname === "/contact" ? "auto" : "",
-                borderTop:
-                  this.props.location.pathname === "/contact"
-                    ? "none"
-                    : "1px solid #979797;"
+                  this.props.location.pathname === "/contact" ? "" : "auto",
+                paddingTop:
+                  this.props.location.pathname === "/contact" ? "0px" : "60px"
               }}
             >
+              {this.props.location.pathname !== "/contact" &&
+                this.props.location.pathname !== "/aboutus" && (
+                  <div className={styles.header}>
+                    {" "}
+                    {listTitle && listTitle.title}
+                  </div>
+                )}
               <div
-                className={styles.sectionPart}
-                onClick={() => this.onClick(CONTACT_URL)}
+                className={styles.dataHolder}
+                style={{
+                  paddingBottom:
+                    this.props.location.pathname === "/contact" ? "0px" : "80px"
+                }}
               >
-                <div className={styles.iconHolder}>
-                  <Icon image={contactUsIcon} size={30} />
-                </div>
-                <div className={styles.sectionLabel}>Contact us</div>
+                {this.props.location.pathname === "/contact" && (
+                  <div className={styles.contactUsHolder}>
+                    <div className={styles.questionArea}>
+                      {question && (
+                        <div className={styles.displayQuestion}>
+                          <div
+                            className={styles.question}
+                            dangerouslySetInnerHTML={{
+                              __html: question.content
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      <div className={styles.chatAndCallOption}>
+                        {linkCall && (
+                          <div className={styles.linkAndIconHolder}>
+                            <div className={styles.linkIconHolder}>
+                              <Icon image={callUsIcon} size={20} />
+                            </div>
+                            <div className={styles.arrowIconHolder}>
+                              <Icon image={arrowLeft} size={15} />
+                            </div>
+                            <div
+                              className={styles.chatAndCallLink}
+                              dangerouslySetInnerHTML={{
+                                __html: linkCall.content
+                              }}
+                            />
+                          </div>
+                        )}
+                        {linkChat && (
+                          <div className={styles.linkAndIconHolder}>
+                            <div className={styles.linkIconHolder}>
+                              <Icon image={callUsIcon} size={20} />
+                            </div>
+                            <div className={styles.arrowIconHolder}>
+                              <Icon image={arrowLeft} size={15} />
+                            </div>
+                            <div
+                              className={styles.chatAndCallLink}
+                              dangerouslySetInnerHTML={{
+                                __html: linkChat.content
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {listMenu &&
+                  listMenu.nodeList &&
+                  listMenu.nodeList.length > 0 && (
+                    <div className={styles.listHolder}>
+                      <div className={styles.linkNameHolder}>
+                        <div className={styles.linkHeaderHolder}>
+                          Faq Topics
+                        </div>
+                        {listMenu.nodeList.map((val, i) => {
+                          return (
+                            <div className={styles.linkHolder}>
+                              <div
+                                onClick={() => this.onRedirect(val.url)}
+                                className={styles.link}
+                              >
+                                {val.linkName}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                {this.props.location.pathname !== "/faq" &&
+                  this.props.location.pathname !== "/contact" &&
+                  this.props.location.pathname !== "/aboutus" && (
+                    <div className={styles.contentHolder}>
+                      <React.Fragment>
+                        <div className={styles.tabHeaderHolder}>
+                          {listTitle && listTitle.title}
+                        </div>
+                        <div className={styles.dropdownHolder}>
+                          <Feed
+                            background="#fff"
+                            feedType={this.props.feedType}
+                            homeFeedData={this.props.data}
+                            setHeaderText={this.props.setHeaderText}
+                          />
+                        </div>
+                      </React.Fragment>
+                    </div>
+                  )}
               </div>
               <div
-                className={styles.sectionPart}
-                onClick={() => this.onClick(ABOUT_US_URL)}
+                className={styles.sectionHolder}
+                style={{
+                  maxWidth:
+                    this.props.location.pathname === "/contact" ? "1200px" : "",
+                  margin:
+                    this.props.location.pathname === "/contact" ? "auto" : "",
+                  borderTop:
+                    this.props.location.pathname === "/contact"
+                      ? "none"
+                      : "1px solid #979797;"
+                }}
               >
-                <div className={styles.iconHolder}>
-                  <Icon image={aboutUsIcon} size={30} />
+                <div
+                  className={styles.sectionPart}
+                  onClick={() => this.onClick(CONTACT_URL)}
+                >
+                  <div className={styles.iconHolder}>
+                    <Icon image={contactUsIcon} size={30} />
+                  </div>
+                  <div className={styles.sectionLabel}>Contact us</div>
                 </div>
-                <div className={styles.sectionLabel}>About us</div>
-              </div>
-              <div className={styles.sectionPart}>
-                <div className={styles.iconHolder}>
-                  <Icon image={customerCareIcon} size={30} />
+                <div
+                  className={styles.sectionPart}
+                  onClick={() => this.onClick(ABOUT_US_URL)}
+                >
+                  <div className={styles.iconHolder}>
+                    <Icon image={aboutUsIcon} size={30} />
+                  </div>
+                  <div className={styles.sectionLabel}>About us</div>
                 </div>
-                <div className={styles.sectionLabel}>Customer care</div>
+                <div className={styles.sectionPart}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={customerCareIcon} size={30} />
+                  </div>
+                  <div className={styles.sectionLabel}>Customer care</div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+          {this.props.location.pathname === "/aboutus" && (
+            <div>
+              {aboutUsImage &&
+                aboutUsImage.media && (
+                  <div className={styles.aboutUsImageHolder}>
+                    <div className={styles.aboutUsTextWrap}>
+                      <div className={styles.aboutUsTextHolder}>
+                        {listTitle && listTitle.title}
+                      </div>
+                    </div>
+                    <div className={styles.abouUsImageContainer}>
+                      <Image image={aboutUsImage.media} fit="cover" />
+                    </div>
+                  </div>
+                )}
+              {aboutUsText &&
+                aboutUsText.content && (
+                  <div className={styles.aboutUsDataHolder}>
+                    <div
+                      className={styles.aboutUsTxtWrp}
+                      dangerouslySetInnerHTML={{ __html: aboutUsText.content }}
+                    />
+                  </div>
+                )}
+              <div
+                className={styles.sectionHolder}
+                style={{
+                  maxWidth: "1200px",
+                  margin: "auto",
+                  borderTop: "none"
+                }}
+              >
+                <div
+                  className={styles.sectionPart}
+                  onClick={() => this.onClick(CONTACT_URL)}
+                >
+                  <div className={styles.iconHolder}>
+                    <Icon image={contactUsIcon} size={30} />
+                  </div>
+                  <div className={styles.sectionLabel}>Contact us</div>
+                </div>
+                <div
+                  className={styles.sectionPart}
+                  onClick={() => this.onClick(ABOUT_US_URL)}
+                >
+                  <div className={styles.iconHolder}>
+                    <Icon image={aboutUsIcon} size={30} />
+                  </div>
+                  <div className={styles.sectionLabel}>About us</div>
+                </div>
+                <div className={styles.sectionPart}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={customerCareIcon} size={30} />
+                  </div>
+                  <div className={styles.sectionLabel}>Customer care</div>
+                </div>
+              </div>
+            </div>
+          )}
         </DesktopOnly>
       </div>
     );
