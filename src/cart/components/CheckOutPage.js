@@ -1976,7 +1976,6 @@ class CheckOutPage extends React.Component {
     this.props.addGiftCard();
   };
   redeemCliqVoucher = cliqCashDetails => {
-    console.log(cliqCashDetails);
     if (this.props.redeemCliqVoucher) {
       this.props.redeemCliqVoucher(cliqCashDetails);
     }
