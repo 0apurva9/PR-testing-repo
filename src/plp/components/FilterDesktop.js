@@ -30,16 +30,19 @@ export default class FilterDesktop extends React.Component {
     };
   }
   handleScroll = () => {
-    const filterSectionHeight = document.getElementById("filter").offsetHeight;
-    const pageHeight = window.pageYOffset;
-    const subTractOffset = window.screen.height - 400;
-    if (filterSectionHeight - subTractOffset <= pageHeight) {
-      if (!this.state.fixedScroll) {
-        this.setState({ fixedScroll: true });
-      }
-    } else {
-      if (this.state.fixedScroll) {
-        this.setState({ fixedScroll: false });
+    const filterDOM = document.getElementById("filter");
+    if (filterDOM) {
+      const filterSectionHeight = filterDOM.offsetHeight;
+      const pageHeight = window.pageYOffset;
+      const subTractOffset = window.screen.height - 400;
+      if (filterSectionHeight - subTractOffset <= pageHeight) {
+        if (!this.state.fixedScroll) {
+          this.setState({ fixedScroll: true });
+        }
+      } else {
+        if (this.state.fixedScroll) {
+          this.setState({ fixedScroll: false });
+        }
       }
     }
   };
@@ -156,8 +159,12 @@ export default class FilterDesktop extends React.Component {
     }
     let autoShowFilters = [],
       filterWithCollapse = [];
-    autoShowFilters = cloneDeep(facetData).splice(0, 4);
-    filterWithCollapse = cloneDeep(facetData).splice(3, 20);
+    if (facetData) {
+      autoShowFilters = cloneDeep(facetData).splice(0, 4);
+      filterWithCollapse = cloneDeep(facetData).splice(3, 20);
+    } else {
+      return <div />;
+    }
     return (
       <div
         className={`${

@@ -15,7 +15,8 @@ import BankOffer from "./BankOffer.js";
 import BankOfferWrapper from "./BankOfferWrapper.js";
 import GiftCardPopup from "./GiftCardPopup.js";
 import GridSelect from "../../general/components/GridSelect";
-import MediaQuery from "react-responsive";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import CheckOutHeader from "./CheckOutHeader";
 import { getCookie } from "../../lib/Cookie";
 
@@ -137,11 +138,11 @@ export default class PaymentCardWrapper extends React.Component {
     if (this.props.cart.paymentModes) {
       return (
         <div className={styles.base}>
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <div className={styles.card}>
               <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
             </div>
-          </MediaQuery>
+          </DesktopOnly>
           {!this.props.isFromGiftCard &&
             !this.props.isPaymentFailed && (
               <div>
@@ -166,7 +167,7 @@ export default class PaymentCardWrapper extends React.Component {
                 />
               </div>
             )}
-          <MediaQuery query="(max-device-width: 1024px)">
+          <MobileOnly>
             {!this.props.isFromGiftCard &&
               this.props.isRemainingBalance &&
               !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
@@ -180,14 +181,14 @@ export default class PaymentCardWrapper extends React.Component {
                   openBankOfferTncModal={this.props.openBankOfferTncModal}
                 />
               )}
-          </MediaQuery>
+          </MobileOnly>
           {this.props.isRemainingBalance && (
             <div className={styles.paymentModes}>
-              <MediaQuery query="(max-device-width: 1024px)">
+              <MobileOnly>
                 <div className={styles.card}>
                   <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
                 </div>
-              </MediaQuery>
+              </MobileOnly>
               {this.props.cart.paymentModes &&
                 this.props.cart.paymentModes.savedCardResponse &&
                 this.props.cart.paymentModes.savedCardResponse
@@ -199,14 +200,14 @@ export default class PaymentCardWrapper extends React.Component {
                 this.renderPaymentCardsComponents()}
             </div>
           )}
-          <MediaQuery query="(min-device-width: 1025px)">
+          <DesktopOnly>
             <GiftCardPopup
               heading="Have a gift card?"
               addGiftCard={val => this.redeemCliqVoucher(val)}
               voucherNumber={this.props.voucherNumber}
               voucherPin={this.props.voucherPin}
             />
-          </MediaQuery>
+          </DesktopOnly>
         </div>
       );
     } else {

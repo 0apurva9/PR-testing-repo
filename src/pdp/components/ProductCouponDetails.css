@@ -63,3 +63,23 @@
   composes: header;
   padding: 20px;
 }
+@media only screen and (min-width: 1025px) {
+  .base {
+    background: #f9f9f9;
+  }
+  .searchHolder {
+    padding: 25px 35px;
+  }
+  .heading {
+    width: 100%;
+    height: 60px;
+    color: #212121;
+    font-size: 20px;
+    font-family: semibold;
+    line-height: 60px;
+    padding-left: 20px;
+  }
+  .stickyPortion {
+    top: 60px;
+  }
+}

@@ -16,6 +16,8 @@ import {
 } from "../../cart/actions/cart.actions";
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 import format from "date-fns/format";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 const REMOVE = "Remove";
 const APPLY = "Apply";
 const USER_COUPON_NOTE =
@@ -130,7 +132,12 @@ class ProductCouponDetails extends Component {
       <SlideModal {...this.props}>
         <div className={styles.base}>
           <div className={isStickyHeader ? styles.stickyHeader : styles.header}>
-            <StaticDarkHeader text="All Coupons" />
+            <MobileOnly>
+              <StaticDarkHeader text="All Coupons" />
+            </MobileOnly>
+            <DesktopOnly>
+              <div className={styles.heading}>All Coupons</div>
+            </DesktopOnly>
           </div>
           <div
             className={
@@ -155,7 +162,9 @@ class ProductCouponDetails extends Component {
                 applyUserCoupon={() => this.applyUserCoupon()}
               />
             </div>
-            <div className={styles.disclaimer}>{USER_COUPON_NOTE}</div>
+            <MobileOnly>
+              <div className={styles.disclaimer}>{USER_COUPON_NOTE}</div>
+            </MobileOnly>
           </div>
           {!showLogOutUserCoupon && (
             <div className={styles.link} onClick={() => this.navigateToLogin()}>
@@ -166,7 +175,9 @@ class ProductCouponDetails extends Component {
           )}
           <GridSelect
             elementWidthMobile={100}
+            elementWidthDesktop={100}
             offset={0}
+            offsetDesktop="0px 35px 0px 35px"
             limit={1}
             onSelect={val => this.onSelectCouponCode(val)}
             selected={[this.state.selectedCouponCode]}

@@ -34,6 +34,16 @@
   composes: checkIcon;
   transform: scale(1);
 }
+.seeAllDetailsText {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff1744;
+  font-size: 14px;
+}
 @media screen and (min-width: 1025px) {
   .base {
     background: #fff;

@@ -1,0 +1,130 @@
+.contentHolder {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+.linkAndSuscribeHolder {
+  width: 100%;
+  height: auto;
+  max-width: 1200px;
+  margin: auto;
+  padding: 45px 0px;
+  display: flex;
+  flex-direction: row;
+}
+.linkHolder {
+  width: 60%;
+  height: auto;
+  display: flex;
+
+  flex-wrap: wrap;
+}
+.newsLetterSection {
+  width: 40%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.newsLetterHeading {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 14px;
+  font-family: semibold;
+  margin-bottom: 20px;
+}
+.linkSection {
+  width: 33.33%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.linkHeader {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 14px;
+  font-family: semibold;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+}
+.buttonAndTextBoxHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+.textBoxHolder {
+  width: 50%;
+  height: 33px;
+  display: flex;
+}
+.buttonHolder {
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.button {
+  width: auto;
+  height: auto;
+  display: flex;
+}
+.link {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 13px;
+  font-family: light;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+.footerBottomHolder {
+  width: 100%;
+  height: 100px;
+  background: #f9f9f9;
+}
+.socialLinkAndLogoHolder {
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  padding-left: 90px;
+  display: flex;
+  flex-direction: row;
+}
+.socialIconHolder {
+  width: 75%;
+  height: 100%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+.socialIcon {
+  width: 20px;
+  height: 20px;
+  border: 1px solid red;
+  display: flex;
+  margin-right: 10px;
+}
+.companyLogo {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.copyRightText {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #212121;
+  font-size: 14px;
+  font-family: light;
+}
