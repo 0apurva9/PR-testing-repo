@@ -29,7 +29,7 @@ import Toast from "./general/components/Toast";
 import delay from "lodash.delay";
 import { TOAST_DELAY } from "./general/toast.actions";
 import "intersection-observer";
-
+import desktopFooter from "./general/desktopFooter.reducer";
 const rootReducer = combineReducers({
   auth,
   user,
@@ -46,7 +46,8 @@ const rootReducer = combineReducers({
   profile,
   wishlistItems,
   header,
-  icid
+  icid,
+  desktopFooter
 });
 
 let store = createStore(

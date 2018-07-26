@@ -23,6 +23,8 @@ import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
 import map from "lodash.map";
+import MobileOnly from "../../general/components/MobileOnly";
+
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -430,7 +432,9 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
-        <div style={{ width: "100%", height: 100 }} />
+        <MobileOnly>
+          <div style={{ width: "100%", height: 100 }} />
+        </MobileOnly>
       </React.Fragment>
     );
   }
