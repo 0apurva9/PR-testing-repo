@@ -22,11 +22,9 @@
 .listCardHolder {
   padding: 30px;
 }
-.ordercard {
+.orderCardWrapper {
   border-radius: 4px;
   margin-bottom: 12px;
-  margin-left: 22px;
-  margin-right: 22px;
   background: #fff;
   padding: 25px 15px 10px 15px;
 }

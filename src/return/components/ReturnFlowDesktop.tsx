@@ -1,7 +1,8 @@
 import * as React from "react";
 import { IProps, IProductDetailsObj } from "./interface/ReturnFlowDesktop";
-import ProfileMenu from "../../account/components/ProfileMenu";
-import UserProfile from "../../account/components/UserProfile";
+import ProfileMenu from "../../account/components/ProfileMenu.js";
+import UserProfile from "../../account/components/UserProfile.js";
+import OrderCard from "../../account/components/OrderCard";
 import { default as MyAccountStyles } from "../../account/components/MyAccountDesktop.css";
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
@@ -56,14 +57,11 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
   private renderToAccountSetting() {
     console.log("go to my account setting");
   }
-  public render() {
-    const { pathname } = this.props.location;
+  public renderComponentWithLeftAndRightCard(component: any) {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
     const userData = JSON.parse(userDetails);
+    const data = this.props.returnProductDetails;
+    console.log(data, this.props.orderDetails);
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -72,11 +70,44 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
           </div>
           <div className={styles.returnReasonDetail}>
             <div className={styles.returnReasonDetailHolder}>
-              {!this.state.isReasonSelected ? (
-                <div>solved</div>
-              ) : (
-                <div>solved</div>
-              )}
+              <div className={styles.orderCardWrapper}>
+                <OrderCard
+                  imageUrl={
+                    data &&
+                    data.orderProductWsDTO &&
+                    data.orderProductWsDTO[0] &&
+                    data.orderProductWsDTO[0].imageURL
+                  }
+                  productName={`${data &&
+                    data.orderProductWsDTO &&
+                    data.orderProductWsDTO[0] &&
+                    data.orderProductWsDTO[0].productBrand} ${data &&
+                    data.orderProductWsDTO &&
+                    data.orderProductWsDTO[0] &&
+                    data.orderProductWsDTO[0].productName}`}
+                  price={
+                    data &&
+                    data.orderProductWsDTO &&
+                    data.orderProductWsDTO[0] &&
+                    data.orderProductWsDTO[0].price
+                  }
+                  isSelect={true}
+                  quantity={true}
+                  orderPlace={"this.props.orderDate"}
+                  orderId={this.orderCode}
+                  productBrand={"this.props.productBrand"}
+                >
+                  {data &&
+                    data.orderProductWsDTO &&
+                    data.orderProductWsDTO[0] &&
+                    data.orderProductWsDTO[0].quantity && (
+                      <div className={styles.quantity}>
+                        Qty {data.orderProductWsDTO[0].quantity}
+                      </div>
+                    )}
+                </OrderCard>
+              </div>
+              {component}
             </div>
           </div>
 
@@ -101,5 +132,13 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
         </div>
       </div>
     );
+  }
+  public render() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    return this.renderComponentWithLeftAndRightCard(<div>name</div>);
   }
 }

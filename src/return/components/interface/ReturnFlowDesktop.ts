@@ -17,4 +17,6 @@ export interface IProps {
   history: any;
   location: any;
   userAddress: any;
+  returnProductDetails: any;
+  orderDetails: any;
 }
