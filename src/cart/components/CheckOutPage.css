@@ -85,23 +85,59 @@
     text-align: center;
     padding-top: 75px;
   }
+  .noSubHeader{
+    composes:base;
+    padding-top:30px;
+  }
   .pageCenter {
     width: 1200px;
     display: inline-block;
     max-width: 100%;
     text-align: left;
+    position:relative;
+  }
+  .products , .deliveryAddress{
+    padding:0;
   }
   .leftSection {
     width: 70%;
-    padding-right: 40px;
+    padding-right: 30px;
+    display:inline-block;
+    vertical-align:top;
+  }
+  .rightSection{
+    width:30%;
+    display:inline-block;
+    position:sticky;
+    top:105px;
+    vertical-align:top;
   }
   .addDeliveryAddressHolder {
     text-align: center;
   }
   .header {
     padding: 20px 30px;
+    border-radius:4px 4px 0 0;
   }
   .orderConfirmationHolder {
     margin-bottom: 0;
   }
+  .addInitialAddAddress{
+    padding:0;
+  }
+  .disclaimer {
+    width: 100%;
+    height: auto;
+    padding-left: 60px;
+    padding-right: 15px;
+    background: url("./img/lock.svg") no-repeat;
+    background-size: 25px;
+    background-position: 15px center;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-family: light;
+    line-height: 20px;
+    margin-top: 20px;
+  }
+
 }
