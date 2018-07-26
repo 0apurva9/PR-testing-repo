@@ -6,7 +6,6 @@
   "dependencies": {
     "@researchgate/react-intersection-list": "^1.0.2",
     "@researchgate/react-intersection-observer": "^0.6.1",
-    "@storybook/react": "4.0.0-alpha.3",
     "@types/react": "^16.4.7",
     "autoprefixer": "7.1.6",
     "awesome-typescript-loader": "^5.2.0",
