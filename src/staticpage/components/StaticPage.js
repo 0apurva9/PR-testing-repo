@@ -51,7 +51,7 @@ export default class StaticPage extends Component {
   }
   render() {
     const data = this.props;
-    console.log(data);
+
     let listMenu = find(
       this.props && this.props.data.length > 0 && this.props.data,
       listMenuDetails => {
@@ -76,7 +76,7 @@ export default class StaticPage extends Component {
         return aboutUsText.type === "CMS Paragraph Component";
       }
     );
-    console.log(aboutUsText);
+
     let question = this.props.data && this.props.data[3];
     let linkCall = this.props.data && this.props.data[0];
     let linkChat = this.props.data && this.props.data[1];
