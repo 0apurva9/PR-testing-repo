@@ -1,7 +1,7 @@
 import * as React from "react";
 import ReturnBankForm from "../../account/components/ReturnBankForm";
 import DummyTab from "../../cart/components/DummyTab.js";
-import { IProps, IState } from "./interface/ReturnBankFormForDesktop";
+import { IProps, IStateForBank } from "./interface/ReturnBankFormForDesktop";
 import { MODE_OF_RETURN, REFUND_DETAILS } from "../../lib/constants.js";
 import {
   IFSC_PATTERN,
@@ -17,7 +17,7 @@ import {
 
 export default class ReturnBankFormForDesktop extends React.Component<
   IProps,
-  IState
+  IStateForBank
 > {
   constructor(props: IProps) {
     super(props);
@@ -29,7 +29,7 @@ export default class ReturnBankFormForDesktop extends React.Component<
       code: ""
     };
   }
-  private onChangeBankDetail(val: IState) {
+  private onChangeBankDetail(val: IStateForBank) {
     this.setState(val);
   }
   private onContinue() {
@@ -75,7 +75,7 @@ export default class ReturnBankFormForDesktop extends React.Component<
           headerText="Refund Details"
           onContinue={() => this.onContinue()}
           onCancel={() => this.props.onCancel()}
-          onChange={(val: IState) => this.onChangeBankDetail(val)}
+          onChange={(val: IStateForBank) => this.onChangeBankDetail(val)}
         />
         <DummyTab title={MODE_OF_RETURN} number={2} />
         <DummyTab title={REFUND_DETAILS} number={3} />
