@@ -6,8 +6,6 @@ import styles from "./ContentWidget.css";
 export default class ContentWidget extends React.Component {
   constructor(props) {
     super(props);
-
-    // this.
     this.state = {
       goLeft: false,
       goRight: false,
@@ -24,7 +22,6 @@ export default class ContentWidget extends React.Component {
       position: 0
     };
     this.head = null;
-    this.tail = null;
   }
 
   handleReadMore(webURL) {
