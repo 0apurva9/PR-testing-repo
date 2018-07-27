@@ -5,21 +5,16 @@ import CancelAndContinueButton from "../../account/components/CancelAndContinueB
 import ReverseSealYesNo from "../../account/components/ReverseSealYesNo";
 import DummyTab from "../../cart/components/DummyTab.js";
 import * as styles from "./ReturnReasonFormForDesktop.css";
-import { IProps, IPCommentDetailsObj } from "./interface/ReturnReasonForm";
+import {
+  IProps,
+  IPReturnCommentsObj,
+  IState,
+  returnReasonMapItem,
+  returnSubReasons,
+  returnSubReasonWithLabel
+} from "./interface/ReturnReasonForm";
 const MODE_OF_RETURN = "Select mode of return";
 const REFUND_DETAILS = "Refund Details";
-
-interface IState {
-  displaySecondary?: boolean;
-  secondaryReasons?: string;
-  comment: string;
-  reverseSeal: string;
-  returnReasonCode: string;
-  subReasonCode: string;
-  isEnable: boolean;
-  reason: string;
-  subReason: string;
-}
 
 export default class ReturnReasonForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -38,7 +33,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
   }
   handleContinue() {
     if (this.props.onContinue) {
-      let reasonAndCommentObj: IPCommentDetailsObj = Object.assign({
+      let reasonAndCommentObj: IPReturnCommentsObj = Object.assign({
         returnReasonCode: this.state.returnReasonCode,
         subReasonCode: this.state.subReasonCode,
         comment: this.state.comment,
@@ -48,23 +43,23 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
       this.props.onContinue(reasonAndCommentObj);
     }
   }
-  onChangePrimary(val: any) {
+  onChangePrimary(val: returnSubReasonWithLabel) {
     const code = val.value;
     const label = val.label;
-    const data = this.props.returnProductDetails;
+    const returnProductDetails = this.props.returnProductDetails;
     this.setState({
       subReasonCode: "",
       subReason: "",
       returnReasonCode: code,
       reason: label,
       isEnable: false,
-      secondaryReasons: data.returnReasonMap
-        .filter((val: any) => {
+      secondaryReasons: returnProductDetails.returnReasonMap
+        .filter((val: returnReasonMapItem) => {
           return val.parentReasonCode === code;
         })
         .map((val: any) => {
           if (val.subReasons) {
-            return val.subReasons.map((value: any) => {
+            return val.subReasons.map((value: returnSubReasons) => {
               return {
                 value: value.subReasonCode,
                 label: value.subReturnReason
@@ -80,7 +75,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
   selectReverseSeal(val: string) {
     this.setState({ reverseSeal: val });
   }
-  onChangeSecondary(val: any) {
+  onChangeSecondary(val: returnSubReasonWithLabel) {
     const code = val.value;
     const label = val.label;
     this.setState({ subReasonCode: code, subReason: label, isEnable: true });
@@ -91,7 +86,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
     }
   }
   render() {
-    const data = this.props.returnProductDetails;
+    const returnProductDetails = this.props.returnProductDetails;
 
     return (
       <div className={styles.base}>
@@ -108,16 +103,20 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
               <SelectBoxMobile2
                 placeholder={"Select a reason"}
                 options={
-                  data &&
-                  data.returnReasonMap &&
-                  data.returnReasonMap.map((val: any, i: number) => {
-                    return {
-                      value: val.parentReasonCode,
-                      label: val.parentReturnReason
-                    };
-                  })
+                  returnProductDetails &&
+                  returnProductDetails.returnReasonMap &&
+                  returnProductDetails.returnReasonMap.map(
+                    (val: returnReasonMapItem, i: number) => {
+                      return {
+                        value: val.parentReasonCode,
+                        label: val.parentReturnReason
+                      };
+                    }
+                  )
                 }
-                onChange={(val: any) => this.onChangePrimary(val)}
+                onChange={(val: returnSubReasonWithLabel) =>
+                  this.onChangePrimary(val)
+                }
               />
             </div>
             {this.state.secondaryReasons && (
@@ -125,7 +124,9 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
                 <SelectBoxMobile2
                   placeholder={"Select a reason"}
                   options={this.state.secondaryReasons}
-                  onChange={(val: string) => this.onChangeSecondary(val)}
+                  onChange={(val: returnSubReasonWithLabel) =>
+                    this.onChangeSecondary(val)
+                  }
                   isEnable={this.state.isEnable}
                 />
               </div>
@@ -142,8 +143,8 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
             </div>
           </div>
         </div>
-        {data &&
-          data.showReverseSealFrJwlry === "yes" && (
+        {returnProductDetails &&
+          returnProductDetails.showReverseSealFrJwlry === "yes" && (
             <div className={styles.reverseSealHolder}>
               <ReverseSealYesNo
                 selectReverseSeal={(val: string) => this.selectReverseSeal(val)}
