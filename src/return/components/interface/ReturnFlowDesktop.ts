@@ -14,6 +14,9 @@ export interface IProps {
     productDetails: IProductDetailsObj
   ) => (dispatch: Dispatch<any>) => Promise<void>;
   getUserAddress?: () => (dispatch: Dispatch<any>) => Promise<void>;
+  displayToast: (
+    errorMessage: string
+  ) => (dispatch: Dispatch<any>) => Promise<void>;
   history: any;
   location: any;
   userAddress: any;
