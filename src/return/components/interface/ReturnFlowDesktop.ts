@@ -14,9 +14,39 @@ export interface IProps {
     productDetails: IProductDetailsObj
   ) => (dispatch: Dispatch<any>) => Promise<void>;
   getUserAddress?: () => (dispatch: Dispatch<any>) => Promise<void>;
+  displayToast: (
+    errorMessage: string
+  ) => (dispatch: Dispatch<any>) => Promise<void>;
   history: any;
   location: any;
   userAddress: any;
   returnProductDetails: any;
   orderDetails: any;
+}
+export interface IState {
+  orderCode?: string;
+  isCOD?: boolean;
+  bankDetail: any;
+  returnProgressStatus: ReturnStatus;
+}
+
+export enum ReturnStatus {
+  SHOW_SELECT_REASON_AND_COMMENT_SECTION,
+  SHOW_BANK_DETAIL_SECTION,
+  SHOW_SELECT_MODE_SECTION,
+  SHOW_FINAL_SUMMARY_SECTION
+}
+
+export interface IBankDetails {
+  accountNumber: string;
+  bankName: string;
+  code: string;
+  userName: string;
+}
+export interface IReturnSelectedReason {
+  comment: string;
+  reason: string;
+  returnReasonCode: string;
+  reverseSeal: string;
+  subReasonCode: string;
 }

@@ -1,23 +1,28 @@
 import * as React from "react";
-import { IProps, IProductDetailsObj } from "./interface/ReturnFlowDesktop";
+import {
+  IProps,
+  IProductDetailsObj,
+  ReturnStatus,
+  IState,
+  IReturnSelectedReason
+} from "./interface/ReturnFlowDesktop";
+import { IStateForBank } from "./interface/ReturnBankFormForDesktop";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
 import OrderCard from "../../account/components/OrderCard";
 import { default as MyAccountStyles } from "../../account/components/MyAccountDesktop.css";
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
+import ReturnReasonFormForDesktop from "./ReturnReasonFormForDesktop";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import ReturnBankFormForDesktop from "./ReturnBankFormForDesktop";
+import * as format from "date-fns/format";
 const RETURN_FLAG: string = "R";
+const dateFormat = "DD MMM YYYY";
 
-interface IState {
-  orderCode?: string;
-  isCOD?: boolean;
-  isReasonSelected: boolean;
-  bankDetail: any;
-}
 export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
   orderCode: string;
   transactionId: string;
@@ -32,7 +37,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     this.state = {
       bankDetail: {},
       isCOD: this.isCOD,
-      isReasonSelected: false
+      returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION
     };
   }
   componentDidMount() {
@@ -54,14 +59,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
   private navigateToLogin() {
     return <div />;
   }
-  private renderToAccountSetting() {
-    console.log("go to my account setting");
-  }
+  private renderToAccountSetting() {}
   public renderComponentWithLeftAndRightCard(component: any) {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userData = JSON.parse(userDetails);
     const data = this.props.returnProductDetails;
-    console.log(data, this.props.orderDetails);
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -133,12 +136,89 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
       </div>
     );
   }
+
+  handleContinueForReason = (returnSelectedReason: IReturnSelectedReason) => {
+    if (returnSelectedReason.reason) {
+      this.setState({
+        returnProgressStatus: this.state.isCOD
+          ? ReturnStatus.SHOW_BANK_DETAIL_SECTION
+          : ReturnStatus.SHOW_SELECT_MODE_SECTION
+      });
+    } else {
+      this.props.displayToast("Please select reason ");
+    }
+  };
+  handleCancelForReason = () => {
+    this.props.history.goBack();
+  };
+  handleContinueForBankForm = (BankDetails: IStateForBank) => {
+    if (BankDetails) {
+      this.setState({
+        returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION
+      });
+    }
+  };
+  handleCancelForBankForm = () => {
+    this.setState({
+      returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION
+    });
+  };
+  private renderReturnForms = () => {
+    switch (this.state.returnProgressStatus) {
+      case ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION: {
+        return (
+          <ReturnReasonFormForDesktop
+            returnProductDetails={this.props.returnProductDetails}
+            orderDate={
+              this.props.orderDetails &&
+              format(this.props.orderDetails.orderDate, dateFormat)
+            }
+            orderId={this.props.orderDetails && this.props.orderDetails.orderId}
+            productBrand={
+              this.props.orderDetails &&
+              this.props.orderDetails.products &&
+              this.props.orderDetails.products[0] &&
+              this.props.orderDetails.products[0].productBrand
+            }
+            onContinue={(returnSelectedReason: IReturnSelectedReason) =>
+              this.handleContinueForReason(returnSelectedReason)
+            }
+            onCancel={() => this.handleCancelForReason()}
+            onHollow={true}
+          />
+        );
+        break;
+      }
+      case ReturnStatus.SHOW_BANK_DETAIL_SECTION: {
+        return (
+          <ReturnBankFormForDesktop
+            onContinue={(BankDetails: IStateForBank) =>
+              this.handleContinueForBankForm(BankDetails)
+            }
+            onCancel={() => this.handleCancelForBankForm()}
+            displayToast={(val: string) => this.props.displayToast(val)}
+            history={this.props.history}
+            orderCode={this.orderCode}
+          />
+        );
+        break;
+      }
+      case ReturnStatus.SHOW_SELECT_MODE_SECTION: {
+        return <div>"reurn Mode"</div>;
+        break;
+      }
+      default: {
+        //statements;
+        break;
+      }
+    }
+  };
   public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
-    return this.renderComponentWithLeftAndRightCard(<div>name</div>);
+    return this.renderComponentWithLeftAndRightCard(this.renderReturnForms());
   }
 }
