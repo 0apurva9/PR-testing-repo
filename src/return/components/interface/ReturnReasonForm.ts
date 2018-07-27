@@ -8,32 +8,26 @@ export interface IPReturnCommentsObj {
   reverseSeal: string;
 }
 
-export interface IState {
+export interface IState extends IPReturnCommentsObj {
   displaySecondary?: boolean;
   secondaryReasons?: string;
-  comment: string;
-  reverseSeal: string;
-  returnReasonCode: string;
-  subReasonCode: string;
   isEnable: boolean;
-  reason: string;
   subReason: string;
 }
-export interface returnReasonMapItem {
+export interface IReturnReasonMapItem {
   parentReasonCode: string;
   parentReturnReason: string;
 }
 
-export interface returnSubReasons {
+export interface IReturnSubReasons {
   subReasonCode: string;
   subReturnReason: string;
 }
 
-export interface returnSubReasonWithLabel {
+export interface IReturnSubReasonWithLabel {
   value: string;
   label: string;
 }
-
 export interface IProps {
   onContinue: (
     reasonAndCommentObj: IPReturnCommentsObj
