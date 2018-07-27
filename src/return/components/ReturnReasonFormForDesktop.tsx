@@ -24,7 +24,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
       displaySecondary: false,
       secondaryReasons: "",
       comment: "",
-      reverseSeal: ReverseSealYesNo,
+      reverseSeal: "",
       returnReasonCode: "",
       subReasonCode: "",
       isEnable: false,
