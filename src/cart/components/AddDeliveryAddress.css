@@ -121,13 +121,64 @@
   vertical-align: middle;
   box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12);
 }
-.addressValidMsg{
+.addressValidMsg {
   font-size: 11px;
   opacity: 0.8;
   padding: 0 15px;
 }
 @media only screen and (min-width: 1025px) {
   .base {
-    display:inline-block;
+    display: inline-block;
+    padding: 0px;
+  }
+  .content {
+    width: 50%;
+    vertical-align: top;
+    margin-top: 30px;
+  }
+  .threeSection {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .leftFirst {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .leftSecond {
+    composes: leftFirst;
+    margin-top: 30px;
+  }
+  .defaultText {
+    margin-top: 20px;
+    padding: 30px 15px 30px 15px;
+  }
+  .defaultTextWithButton {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+  }
+  .buttonHolder {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    text-align: right;
+    vertical-align: top;
+    margin: 0px;
+  }
+  .formHolder {
+    padding: 15px;
+  }
+  .header {
+    width: 100%;
+    color: #000000;
+    font-size: 16px;
+    font-family: semibold;
+    margin: auto;
+    text-align: left;
+    line-height: 25px;
+    position: relative;
   }
 }
