@@ -14,15 +14,13 @@
 @media screen and (min-width: 1025px) {
   .base {
     display: inline-block;
-    min-height: 100vh;
     background-color: #ececec;
-    padding: 80px 0px 0px 0px;
+    padding: 80px 0px 100px 0px;
   }
   .brandDetailWithHolder {
     width: 100%;
     height: auto;
     border-radius: 4px;
-    padding: 0px 0px 60px 0px;
   }
   .brandDetail {
     width: 60%;
