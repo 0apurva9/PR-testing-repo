@@ -1,6 +1,5 @@
 import * as React from "react";
 import ReturnBankForm from "../../account/components/ReturnBankForm";
-import * as styles from "./ReturnBankFormForDesktop.css";
 import DummyTab from "../../cart/components/DummyTab.js";
 import { IProps, IState } from "./interface/ReturnBankFormForDesktop";
 import { MODE_OF_RETURN, REFUND_DETAILS } from "../../lib/constants.js";
@@ -71,7 +70,7 @@ export default class ReturnBankFormForDesktop extends React.Component<
   }
   public render() {
     return (
-      <div className={styles.base}>
+      <React.Fragment>
         <ReturnBankForm
           headerText="Refund Details"
           onContinue={() => this.onContinue()}
@@ -80,7 +79,7 @@ export default class ReturnBankFormForDesktop extends React.Component<
         />
         <DummyTab title={MODE_OF_RETURN} number={2} />
         <DummyTab title={REFUND_DETAILS} number={3} />
-      </div>
+      </React.Fragment>
     );
   }
 }
