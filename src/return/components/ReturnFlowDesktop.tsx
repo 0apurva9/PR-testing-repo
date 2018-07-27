@@ -56,16 +56,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
   private navigateToLogin() {
     return <div />;
   }
-  private renderToAccountSetting() {
-    console.log("go to my account setting");
-  }
+  private renderToAccountSetting() {}
   public renderComponentWithLeftAndRightCard(component: any) {
-    console.log(component);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userData = JSON.parse(userDetails);
     const data = this.props.returnProductDetails;
-    console.log(data);
-    console.log(data, this.props.orderDetails);
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -138,6 +134,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     );
   }
 
+  handleContinue = () => {
+    this.setState({ isReasonSelected: true });
+  };
+  handleCancel = () => {
+    this.props.history.goBack();
+  };
   private renderReturnReasonFormForDesktop = () => {
     return (
       <ReturnReasonFormForDesktop
@@ -153,8 +155,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
           this.props.orderDetails.products[0] &&
           this.props.orderDetails.products[0].productBrand
         }
-        onContinue={data => console.log(data)}
-        onCancel={() => console.log("Cancel")}
+        onContinue={data => this.handleContinue()}
+        onCancel={() => this.handleCancel()}
         onHollow={true}
       />
     );
