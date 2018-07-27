@@ -11,8 +11,7 @@ import {
   IState,
   IReturnReasonMapItem,
   IReturnSubReasons,
-  IReturnSubReasonWithLabel,
-  IReturnReasonList
+  IReturnSubReasonWithLabel
 } from "./interface/ReturnReasonForm";
 const MODE_OF_RETURN = "Select mode of return";
 const REFUND_DETAILS = "Refund Details";
@@ -22,7 +21,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       displaySecondary: false,
-      secondaryReasons: "",
+      secondaryReasons: [],
       comment: "",
       reverseSeal: "",
       returnReasonCode: "",
@@ -48,26 +47,28 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
     const code = val.value;
     const label = val.label;
     const returnProductDetails = this.props.returnProductDetails;
+    const selectedReason = returnProductDetails.returnReasonMap.find(
+      (val: IReturnReasonMapItem) => {
+        return val.parentReasonCode === code;
+      }
+    );
+
+    let selectedSubReasonList =
+      selectedReason.subReasons &&
+      selectedReason.subReasons.map((value: IReturnSubReasons) => {
+        return {
+          value: value.subReasonCode,
+          label: value.subReturnReason
+        };
+      });
+
     this.setState({
       subReasonCode: "",
       subReason: "",
       returnReasonCode: code,
       reason: label,
       isEnable: false,
-      secondaryReasons: returnProductDetails.returnReasonMap
-        .filter((val: IReturnReasonMapItem) => {
-          return val.parentReasonCode === code;
-        })
-        .filter((val: IReturnReasonList) => {
-          if (val.subReasons) {
-            return val.subReasons.map((value: IReturnSubReasons) => {
-              return {
-                value: value.subReasonCode,
-                label: value.subReturnReason
-              };
-            });
-          }
-        })[0]
+      secondaryReasons: selectedSubReasonList
     });
   }
   handleChange(val: string) {
@@ -88,7 +89,6 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
   }
   render() {
     const returnProductDetails = this.props.returnProductDetails;
-
     return (
       <div className={styles.base}>
         <div className={styles.content}>
@@ -120,18 +120,19 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
                 }
               />
             </div>
-            {this.state.secondaryReasons && (
-              <div className={styles.select}>
-                <SelectBoxMobile2
-                  placeholder={"Select a reason"}
-                  options={this.state.secondaryReasons}
-                  onChange={(val: IReturnSubReasonWithLabel) =>
-                    this.onChangeSecondary(val)
-                  }
-                  isEnable={this.state.isEnable}
-                />
-              </div>
-            )}
+            {this.state.secondaryReasons &&
+              this.state.secondaryReasons.length > 0 && (
+                <div className={styles.select}>
+                  <SelectBoxMobile2
+                    placeholder={"Select a reason"}
+                    options={this.state.secondaryReasons}
+                    onChange={(val: IReturnSubReasonWithLabel) =>
+                      this.onChangeSecondary(val)
+                    }
+                    isEnable={this.state.isEnable}
+                  />
+                </div>
+              )}
             <div className={styles.textArea}>
               <TextArea onChange={(val: string) => this.handleChange(val)} />
             </div>

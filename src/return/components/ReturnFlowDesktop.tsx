@@ -6,12 +6,14 @@ import OrderCard from "../../account/components/OrderCard";
 import { default as MyAccountStyles } from "../../account/components/MyAccountDesktop.css";
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
+import ReturnReasonFormForDesktop from "./ReturnReasonFormForDesktop";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import * as format from "date-fns/format";
 const RETURN_FLAG: string = "R";
-
+const dateFormat = "DD MMM YYYY";
 interface IState {
   orderCode?: string;
   isCOD?: boolean;
@@ -58,9 +60,11 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     console.log("go to my account setting");
   }
   public renderComponentWithLeftAndRightCard(component: any) {
+    console.log(component);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userData = JSON.parse(userDetails);
     const data = this.props.returnProductDetails;
+    console.log(data);
     console.log(data, this.props.orderDetails);
     return (
       <div className={styles.base}>
@@ -133,12 +137,36 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
       </div>
     );
   }
+
+  private renderReturnReasonFormForDesktop = () => {
+    return (
+      <ReturnReasonFormForDesktop
+        returnProductDetails={this.props.returnProductDetails}
+        orderDate={
+          this.props.orderDetails &&
+          format(this.props.orderDetails.orderDate, dateFormat)
+        }
+        orderId={this.props.orderDetails && this.props.orderDetails.orderId}
+        productBrand={
+          this.props.orderDetails &&
+          this.props.orderDetails.products &&
+          this.props.orderDetails.products[0] &&
+          this.props.orderDetails.products[0].productBrand
+        }
+        onContinue={data => console.log(data)}
+        onCancel={() => console.log("Cancel")}
+        onHollow={true}
+      />
+    );
+  };
   public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
-    return this.renderComponentWithLeftAndRightCard(<div>name</div>);
+    return this.renderComponentWithLeftAndRightCard(
+      this.renderReturnReasonFormForDesktop()
+    );
   }
 }
