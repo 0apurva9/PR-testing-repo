@@ -11,7 +11,8 @@ import {
   IState,
   IReturnReasonMapItem,
   IReturnSubReasons,
-  IReturnSubReasonWithLabel
+  IReturnSubReasonWithLabel,
+  IReturnReasonList
 } from "./interface/ReturnReasonForm";
 const MODE_OF_RETURN = "Select mode of return";
 const REFUND_DETAILS = "Refund Details";
@@ -57,7 +58,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
         .filter((val: IReturnReasonMapItem) => {
           return val.parentReasonCode === code;
         })
-        .map((val: any) => {
+        .filter((val: IReturnReasonList) => {
           if (val.subReasons) {
             return val.subReasons.map((value: IReturnSubReasons) => {
               return {

@@ -28,6 +28,10 @@ export interface IReturnSubReasonWithLabel {
   value: string;
   label: string;
 }
+
+export interface IReturnReasonList {
+  subReasons?: Array<IReturnSubReasons>;
+}
 export interface IProps {
   onContinue: (
     reasonAndCommentObj: IPReturnCommentsObj
