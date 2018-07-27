@@ -26,7 +26,6 @@ import size from "lodash.size";
 import TransactionFailed from "./TransactionFailed.js";
 import cardValidator from "simple-card-validator";
 import * as Cookies from "../../lib/Cookie";
-import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -186,8 +185,7 @@ class CheckOutPage extends React.Component {
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
       showCartDetails: false,
-      padding: "15px 125px 15px 15px",
-      addNewAddressForDesktop: false
+      padding: "15px 125px 15px 15px"
     };
   }
 
@@ -1784,17 +1782,15 @@ class CheckOutPage extends React.Component {
           isSoftReservation: false
         };
         this.props.addUserAddress(address, getCartDetailCNCObj);
-        this.setState({ addNewAddress: false, addNewAddressForDesktop: false });
+        this.setState({ addNewAddress: false });
       }
     }
   };
-
+  handleCancelAddress() {
+    this.setState({ addNewAddress: false });
+  }
   addNewAddress = () => {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.setState({ addNewAddress: true });
-    } else {
-      this.setState({ addNewAddressForDesktop: true });
-    }
+    this.setState({ addNewAddress: true });
   };
   binValidationForPaytm = val => {
     if (val) {
@@ -2074,7 +2070,6 @@ class CheckOutPage extends React.Component {
     }
   }
   render() {
-    console.log(this.state);
     let labelForButton,
       checkoutButtonStatus = false;
 
@@ -2185,6 +2180,7 @@ class CheckOutPage extends React.Component {
       return (
         <div className={styles.addDeliveryAddressHolder}>
           <AddDeliveryAddress
+            handleCancelAddress={() => this.handleCancelAddress()}
             addUserAddress={address => this.addAddress(address)}
             {...this.state}
             showSecondaryLoader={this.props.showSecondaryLoader}
@@ -2201,6 +2197,32 @@ class CheckOutPage extends React.Component {
             getUserDetails={() => this.getUserDetails()}
             userDetails={this.props.userDetails}
             clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
+            padding={this.state.padding}
+            disabled={checkoutButtonStatus}
+            label={labelForButton}
+            noCostEmiEligibility={
+              this.props.cart &&
+              this.props.cart.emiEligibilityDetails &&
+              this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+            }
+            isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+            noCostEmiDiscount={this.state.noCostEmiDiscount}
+            amount={this.state.payableAmount}
+            bagTotal={this.state.bagAmount}
+            payable={this.state.payableAmount}
+            coupons={this.state.couponDiscount}
+            discount={this.state.totalDiscount}
+            delivery={this.state.deliveryCharge}
+            showDetails={this.state.showCartDetails}
+            showHideDetails={this.showHideDetails}
+            onCheckout={
+              this.state.isPaymentFailed
+                ? this.handleSubmitAfterPaymentFailure
+                : this.handleSubmit
+            }
+            isCliqCashApplied={this.state.isCliqCashApplied}
+            cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+            isFromMyBag={false}
           />
         </div>
       );
@@ -2250,7 +2272,6 @@ class CheckOutPage extends React.Component {
               {!this.state.isPaymentFailed &&
                 !this.state.confirmAddress &&
                 !this.state.isGiftCard &&
-                !this.state.addNewAddressForDesktop &&
                 (this.props.cart.userAddress &&
                 this.props.cart.userAddress.addresses
                   ? this.renderCheckoutAddress()
@@ -2258,7 +2279,6 @@ class CheckOutPage extends React.Component {
 
               {!this.state.isPaymentFailed &&
                 this.state.confirmAddress &&
-                !this.state.addNewAddressForDesktop &&
                 !this.state.isGiftCard &&
                 !this.state.showCliqAndPiq && (
                   <div className={styles.deliveryAddress}>
@@ -2273,7 +2293,6 @@ class CheckOutPage extends React.Component {
               {!this.state.isPaymentFailed &&
                 this.props.cart.cartDetailsCNC &&
                 this.state.confirmAddress &&
-                !this.state.addNewAddressForDesktop &&
                 !this.state.deliverMode &&
                 !this.state.isGiftCard &&
                 (this.state.showCliqAndPiq
@@ -2282,7 +2301,6 @@ class CheckOutPage extends React.Component {
 
               {!this.state.isPaymentFailed &&
                 this.state.deliverMode &&
-                !this.state.addNewAddressForDesktop &&
                 !this.state.isGiftCard && (
                   <div className={styles.deliveryAddress}>
                     <DeliveryModeSet
@@ -2295,38 +2313,13 @@ class CheckOutPage extends React.Component {
                   </div>
                 )}
 
-              {this.state.isPaymentFailed &&
-                !this.state.addNewAddressForDesktop && (
-                  <div className={styles.paymentFailedCardHolder}>
-                    <TransactionFailed />
-                  </div>
-                )}
-              {this.state.addNewAddressForDesktop && (
-                <div className={styles.addDeliveryAddressHolder}>
-                  <AddDeliveryAddress
-                    addUserAddress={address => this.addAddress(address)}
-                    {...this.state}
-                    showSecondaryLoader={this.props.showSecondaryLoader}
-                    hideSecondaryLoader={this.props.hideSecondaryLoader}
-                    loading={this.props.cart.loading}
-                    onChange={val => this.onChange(val)}
-                    isFirstAddress={false}
-                    displayToast={message => this.props.displayToast(message)}
-                    getPinCode={val => this.getPinCodeDetails(val)}
-                    getPinCodeDetails={this.props.getPinCodeDetails}
-                    getPincodeStatus={this.props.getPincodeStatus}
-                    onFocusInput={() => this.onFocusInput()}
-                    resetAddAddressDetails={() =>
-                      this.props.resetAddAddressDetails()
-                    }
-                    getUserDetails={() => this.getUserDetails()}
-                    userDetails={this.props.userDetails}
-                    clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
-                  />
+              {this.state.isPaymentFailed && (
+                <div className={styles.paymentFailedCardHolder}>
+                  <TransactionFailed />
                 </div>
               )}
+
               {((!this.state.paymentMethod &&
-                !this.state.addNewAddressForDesktop &&
                 (this.state.confirmAddress && this.state.deliverMode)) ||
                 this.state.isPaymentFailed ||
                 this.state.isGiftCard) && (
