@@ -3,6 +3,7 @@ import { IProps, IProductDetailsObj } from "./interface/ReturnFlowDesktop";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
 import OrderCard from "../../account/components/OrderCard";
+import ReturnBankFormForDesktop from "./ReturnBankFormForDesktop";
 import { default as MyAccountStyles } from "../../account/components/MyAccountDesktop.css";
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
@@ -139,6 +140,14 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
-    return this.renderComponentWithLeftAndRightCard(<div>name</div>);
+    return this.renderComponentWithLeftAndRightCard(
+      <ReturnBankFormForDesktop
+        onContinue={() => console.log("Comes in main")}
+        onCancel={() => console.log("cancel me ")}
+        displayToast={(val: string) => this.props.displayToast(val)}
+        history={this.props.history}
+        orderCode={this.orderCode}
+      />
+    );
   }
 }
