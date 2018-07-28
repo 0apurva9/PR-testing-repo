@@ -205,8 +205,7 @@ export default class StaticPage extends Component {
                       </div>
                     </div>
                   )}
-                {this.props.location.pathname !== "/faq" &&
-                  this.props.location.pathname !== "/contact" &&
+                {this.props.location.pathname !== "/contact" &&
                   this.props.location.pathname !== "/aboutus" && (
                     <div className={styles.contentHolder}>
                       <React.Fragment>
