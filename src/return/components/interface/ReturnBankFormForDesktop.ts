@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { IReturnSelectedReason } from "./ReturnFlowDesktop";
 
 export interface IProps {
   onContinue: (bankDetails: IStateForBank) => void;
@@ -6,6 +7,8 @@ export interface IProps {
   displayToast: (val: string) => (dispatch: Dispatch<any>) => Promise<void>;
   history: any;
   orderCode: string;
+  selectedReasonAndCommentObj: null | IReturnSelectedReason;
+  changeReturnReason: () => void;
 }
 export interface ModeInterface {
   label: string;

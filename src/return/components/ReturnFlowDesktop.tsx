@@ -37,7 +37,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     this.state = {
       bankDetail: {},
       isCOD: this.isCOD,
-      returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION
+      returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
+      selectedReasonAndCommentObj: null
     };
   }
   componentDidMount() {
@@ -142,7 +143,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
       this.setState({
         returnProgressStatus: this.state.isCOD
           ? ReturnStatus.SHOW_BANK_DETAIL_SECTION
-          : ReturnStatus.SHOW_SELECT_MODE_SECTION
+          : ReturnStatus.SHOW_SELECT_MODE_SECTION,
+        selectedReasonAndCommentObj: returnSelectedReason
       });
     } else {
       this.props.displayToast("Please select reason ");
@@ -161,6 +163,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
   handleCancelForBankForm = () => {
     this.setState({
       returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION
+    });
+  };
+  changeReturnReason = () => {
+    this.setState({
+      returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
+      selectedReasonAndCommentObj: null
     });
   };
   private renderReturnForms = () => {
@@ -187,7 +195,6 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
             onHollow={true}
           />
         );
-        break;
       }
       case ReturnStatus.SHOW_BANK_DETAIL_SECTION: {
         return (
@@ -199,13 +206,13 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
             displayToast={(val: string) => this.props.displayToast(val)}
             history={this.props.history}
             orderCode={this.orderCode}
+            selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
+            changeReturnReason={() => this.changeReturnReason()}
           />
         );
-        break;
       }
       case ReturnStatus.SHOW_SELECT_MODE_SECTION: {
         return <div>"reurn Mode"</div>;
-        break;
       }
       default: {
         //statements;

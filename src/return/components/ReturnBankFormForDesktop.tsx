@@ -3,6 +3,8 @@ import ReturnBankForm from "../../account/components/ReturnBankForm";
 import DummyTab from "../../cart/components/DummyTab.js";
 import { IProps, IStateForBank } from "./interface/ReturnBankFormForDesktop";
 import { MODE_OF_RETURN, REFUND_DETAILS } from "../../lib/constants.js";
+import SelectedReasonForReturn from "../../account/components/SelectedReasonForReturn";
+
 import {
   IFSC_PATTERN,
   ACCOUNT_NUMBER,
@@ -29,6 +31,7 @@ export default class ReturnBankFormForDesktop extends React.Component<
       code: ""
     };
   }
+
   private onChangeBankDetail(val: IStateForBank) {
     this.setState(val);
   }
@@ -71,6 +74,14 @@ export default class ReturnBankFormForDesktop extends React.Component<
   public render() {
     return (
       <React.Fragment>
+        <SelectedReasonForReturn
+          header={"Select reason for your return"}
+          titleDescription={
+            this.props.selectedReasonAndCommentObj &&
+            this.props.selectedReasonAndCommentObj.reason
+          }
+          handleCancel={() => this.props.changeReturnReason()}
+        />
         <ReturnBankForm
           headerText="Refund Details"
           onContinue={() => this.onContinue()}
