@@ -282,7 +282,6 @@ export default class ReturnAddressList extends React.Component {
   };
 
   newReturnInitiate = () => {
-    console.log(this.props);
     let isCodOrder = NO;
     let reverseSealAvailable = "N";
     if (this.props.orderDetails.paymentMethod === "COD") {
@@ -336,11 +335,6 @@ export default class ReturnAddressList extends React.Component {
         returnCliqAndPiqObject.IFSCCode = this.props.bankDetail.code;
       }
     }
-    console.log(
-      returnCliqAndPiqObject,
-      this.props.returnProductDetails.orderProductWsDTO[0]
-    );
-
     this.props.newReturnInitial(
       returnCliqAndPiqObject,
       this.props.returnProductDetails.orderProductWsDTO[0]

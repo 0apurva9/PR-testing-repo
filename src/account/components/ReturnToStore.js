@@ -157,7 +157,6 @@ export default class ReturnToStore extends React.Component {
         comment: this.props.data.comment
       });
     }
-    console.log(productObj, product);
     // here we are product object has all data we we need to send in api for return product
     // and product is actual object
     this.props.newReturnInitial(productObj, product);
@@ -281,7 +280,6 @@ export default class ReturnToStore extends React.Component {
     }
   };
   render() {
-    console.log(this.state.isStoreSelected);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
