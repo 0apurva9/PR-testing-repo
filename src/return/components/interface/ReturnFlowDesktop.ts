@@ -28,6 +28,7 @@ export interface IState {
   isCOD?: boolean;
   bankDetail: any;
   returnProgressStatus: ReturnStatus;
+  selectedReasonAndCommentObj: IReturnSelectedReason | null;
 }
 
 export enum ReturnStatus {
