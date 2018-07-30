@@ -140,11 +140,14 @@ export default class ReturnAddressList extends React.Component {
 
   addNewAddress = () => {
     this.setState({ addNewAddress: true });
-    this.props.history.push(
-      `${RETURNS_PREFIX}/${
-        this.orderCode
-      }${RETURN_CLIQ_PIQ}${RETURNS_NEW_ADDRESS}`
-    );
+
+    if (checkUserAgentIsMobile()) {
+      this.props.history.push(
+        `${RETURNS_PREFIX}/${
+          this.orderCode
+        }${RETURN_CLIQ_PIQ}${RETURNS_NEW_ADDRESS}`
+      );
+    }
   };
   renderAddress = () => {
     let defaultAddress =
@@ -402,13 +405,17 @@ export default class ReturnAddressList extends React.Component {
       return (
         <React.Fragment>
           <DesktopOnly>
-            {!this.state.isContinueForDesktop && this.renderAddress()}
             {!this.state.isContinueForDesktop &&
+              !this.state.addNewAddress &&
+              this.renderAddress()}
+            {!this.state.isContinueForDesktop &&
+              !this.state.addNewAddress &&
               this.state.selectedAddress && (
                 <div className={styles.renderDateAndTime}>
                   {this.renderDateTime()}
                 </div>
               )}
+            {this.state.addNewAddress && this.renderNewAddress()}
             {this.state.isContinueForDesktop && (
               <React.Fragment>
                 <SelectedReasonForReturn
