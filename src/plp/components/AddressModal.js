@@ -31,20 +31,35 @@ export default class AddressModal extends React.Component {
   }
   render() {
     return (
-      <BottomSlideModal heading={"Pick an address"}>
+      <BottomSlideModal
+        heading={"Pick an address"}
+        closeModal={() => this.props.closeModal()}
+      >
         <div className={styles.base}>
           <MobileOnly>
             <div className={styles.labelText}>Please enter your PIN code</div>
+
+            <div className={styles.searchHolder}>
+              <SearchAndUpdate
+                checkPinCodeAvailability={pincode =>
+                  this.checkPinCodeAvailability(pincode)
+                }
+                hasAutoFocus={true}
+                labelText={this.props.labelText}
+              />
+            </div>
           </MobileOnly>
-          <div className={styles.searchHolder}>
-            <SearchAndUpdate
-              checkPinCodeAvailability={pincode =>
-                this.checkPinCodeAvailability(pincode)
-              }
-              hasAutoFocus={true}
-              labelText={this.props.labelText}
-            />
-          </div>
+          <DesktopOnly>
+            <div className={styles.searchHolder}>
+              <SearchAndUpdate
+                checkPinCodeAvailability={pincode =>
+                  this.checkPinCodeAvailability(pincode)
+                }
+                hasAutoFocus={false}
+                labelText={this.props.labelText}
+              />
+            </div>
+          </DesktopOnly>
           {this.props.userAddress && (
             <React.Fragment>
               <MobileOnly>
