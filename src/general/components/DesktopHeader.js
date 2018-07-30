@@ -157,7 +157,10 @@ export default class DesktopHeader extends React.Component {
                   </div>
                 </div>
                 <div className={styles.dropDownArrow} />
-                <div className={styles.iconPersonHolder} />
+                <div
+                  className={styles.iconPersonHolder}
+                  onClick={() => this.goToMyAccount()}
+                />
                 <span className={styles.nameSpan}>
                   <span>
                     {userCookie &&
