@@ -5,6 +5,7 @@
   font-size: 14px;
   color: #8d8d8d;
   display: inline-block;
+  cursor: pointer;
 }
 .base {
   width: 100%;
