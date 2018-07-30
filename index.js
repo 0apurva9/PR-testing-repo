@@ -81,7 +81,7 @@ app.get("/*", (req, res) => {
       "?isPwa=true";
     var sizeGuideURL =
       "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/" +
-      productCode +
+      productCode.toUpperCase() +
       "/sizeGuide/amp/?isPwa=true";
 
     var data = {
