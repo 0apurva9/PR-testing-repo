@@ -43,7 +43,7 @@ url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff
 .header-content-black .left-back, .header-content-black .right-save, .header-content-black .right-bag {
   background-size: contain;  width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;
 }
-.header-content .left-logo, .header-content-black .left-logo {
+.header-content .left-logo, .header-content-black .left-logo { margin-top: 15px; margin-left: 10px;
   background-size: contain;  width: 35px; height: 35px; background-repeat: no-repeat; display: inline-block;
 }
 .header-content .left-back {margin: 10px; margin-right: 5px; background-image: url('https://pwassets.tatacliq.com/static/media/back-with-bg.3bb6fef7.svg');}
@@ -219,7 +219,7 @@ position: absolute; right: 10px; background-position: 50%; background-size: auto
 <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
 <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
 <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
-<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>
+<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
 <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
 <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
@@ -467,35 +467,35 @@ position: absolute; right: 10px; background-position: 50%; background-size: auto
 
       <div [class]="checkPincode ? 'background-blr' : ''">
         <div class="header-content">
-          <div class="left-back">
+          <!-- <div class="left-back">
             <span></span>
-          </div>
+          </div> -->
           <div class="left-logo">
             <span></span>
           </div>
-          <div class="right-save">
+          <a href="/my-account/default/wishList" class="no-select"><div class="right-save">
             <span></span>
-          </div>
-          <div class="right-bag">
+          </div></a>
+          <a href="/cart" class="no-select"><div class="right-bag">
             <span></span>
-          </div>
+          </div><a/>
         </div>
         <div id="headerContentBlack" class="header-content-black">
-          <div class="left-back">
+          <!-- <div class="left-back">
             <span></span>
-          </div>
+          </div> -->
           <div class="left-logo">
             <span></span>
           </div>
           <div class="middle-title">
             {{productName}}
           </div>
-          <div class="right-save">
+          <a href="/my-account/default/wishList" class="no-select"><div class="right-save">
             <span></span>
-          </div>
-          <div class="right-bag">
+          </div></a>
+          <a href="/cart" class="no-select"><div class="right-bag">
             <span></span>
-          </div>
+          </div></a>
         </div>
       </div>
 
@@ -507,10 +507,12 @@ position: absolute; right: 10px; background-position: 50%; background-size: auto
         <amp-carousel class="image-container" width="380" height="480" layout="responsive" type="slides" controls>
           {{#galleryImagesList}}
             <div>
-              <amp-img class="contain" src="{{galleryImages.0.value}}" width="380" height="480" layout="responsive"></amp-img>
+              <amp-img on="tap:pdpImageLightbox" class="contain" src="{{galleryImages.0.value}}"
+                role="image-lightbox" tabindex="1" width="380" height="480" layout="responsive"></amp-img>
             </div>
           {{/galleryImagesList}}
         </amp-carousel>
+        <amp-image-lightbox id="pdpImageLightbox" layout="nodisplay"></amp-image-lightbox>
       </div>
 
       <!-- NOTE: Price Details -->

@@ -52,10 +52,10 @@ app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
   //Code start for AMP
-  if(origUrl.search("/amp/home") !== -1){
-
+  if (origUrl.search("/amp/home") !== -1) {
     var metaKeywords = "Tatacliq, Online Shopping, Online Shopping India";
-    var metaDescription = "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
+    var metaDescription =
+      "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
     var canonicalHomeAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
     var canonicalHomePwaUrl = req.protocol + "://" + req.get("host");
 
@@ -65,9 +65,8 @@ app.get("/*", (req, res) => {
       canonicalAmpUrl: canonicalHomeAmpUrl,
       canonicalPwaUrl: canonicalHomePwaUrl
     };
-    
-    res.render("../build/amp/home.ejs", data);
 
+    res.render("../build/amp/home.ejs", data);
   } else if (origUrl.search("/amp/") !== -1 && origUrl.search("/p-") !== -1) {
     var productCode = origUrl.split("p-")[1];
     var productDataAPI = "/src/product.json";
@@ -81,7 +80,7 @@ app.get("/*", (req, res) => {
       "?isPwa=true";
     var sizeGuideURL =
       "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/" +
-      productCode +
+      productCode.toUpperCase() +
       "/sizeGuide/amp/?isPwa=true";
 
     var data = {

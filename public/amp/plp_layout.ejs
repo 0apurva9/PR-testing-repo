@@ -173,7 +173,7 @@ color: #fff; background-color: #000;}
 <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
 <script async custom-element="amp-image-lightbox" src="https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js"></script>
 <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
-<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>
+<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
 <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
 <script async custom-element="amp-install-serviceworker" src="https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js"></script>
@@ -338,7 +338,7 @@ color: #fff; background-color: #000;}
 
     <ul>
       {{#sorts}}
-        <li><a href="https://www.tatacliq.com/search/?q={{currentQuery.searchQuery}}:{{code}}" on="tap:AMP.setState({sortVisible : false})" role="plp-main" tabindex="2">{{name}}</a></li>
+        <li><a href="/search/?q={{currentQuery.searchQuery}}:{{code}}:{{currentQuery.appliedFilters}}">{{name}}</a></li>
       {{/sorts}}
     </ul>
   </div>
