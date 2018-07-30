@@ -14,6 +14,7 @@ import { default as MyAccountStyles } from "../../account/components/MyAccountDe
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
 import ReturnReasonFormForDesktop from "./ReturnReasonFormForDesktop";
+import ReturnModesForDesktop from "./ReturnModesForDesktop";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
@@ -212,7 +213,14 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
         );
       }
       case ReturnStatus.SHOW_SELECT_MODE_SECTION: {
-        return <div>"reurn Mode"</div>;
+        return (
+          <ReturnModesForDesktop
+            changeReturnReason={() => this.changeReturnReason()}
+            orderCode={this.orderCode}
+            selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
+            returnRequest={this.props.returnProductDetails}
+          />
+        );
       }
       default: {
         //statements;
