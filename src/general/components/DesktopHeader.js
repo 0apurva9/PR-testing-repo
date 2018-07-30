@@ -43,6 +43,11 @@ export default class DesktopHeader extends React.Component {
       this.props.goToWishList();
     }
   }
+  goToMyAccount() {
+    if (this.props.goToMyAccount) {
+      this.props.goToMyAccount();
+    }
+  }
   onHoverCategory(value) {
     if (this.state.hoverInType === CATEGORY) {
       this.setState({
@@ -193,7 +198,10 @@ export default class DesktopHeader extends React.Component {
                             </div>
                           </div>
                           <div className={styles.dropDownArrow} />
-                          <div className={styles.iconPersonHolder} />
+                          <div
+                            className={styles.iconPersonHolder}
+                            onClick={() => this.goToMyAccount()}
+                          />
                           <span className={styles.nameSpan}>
                             <span>
                               {userCookie &&

@@ -13,7 +13,7 @@ import {
   SAVE_LIST_PAGE
 } from "../../lib/constants";
 import styles from "./OrderConfirmation.css";
-import wishlistIcon from "../../pdp/components/img/Save.svg";
+import wishlistIcon from "../../general/components/img/download.svg";
 import orderHistoryIcon from "../../pdp/components/img/order-history.svg";
 import addressIcon from "../../general/components/img/addressbook.svg";
 import savedPayments from "../../general/components/img/card.svg";
