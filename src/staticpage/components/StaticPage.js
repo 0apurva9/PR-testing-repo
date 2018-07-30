@@ -76,7 +76,6 @@ export default class StaticPage extends Component {
         return aboutUsText.type === "CMS Paragraph Component";
       }
     );
-
     let question = this.props.data && this.props.data[3];
     let linkCall = this.props.data && this.props.data[0];
     let linkChat = this.props.data && this.props.data[1];
@@ -119,7 +118,6 @@ export default class StaticPage extends Component {
               {this.props.location.pathname !== "/contact" &&
                 this.props.location.pathname !== "/aboutus" && (
                   <div className={styles.header}>
-                    {" "}
                     {listTitle && listTitle.title}
                   </div>
                 )}
@@ -195,7 +193,12 @@ export default class StaticPage extends Component {
                             <div className={styles.linkHolder}>
                               <div
                                 onClick={() => this.onRedirect(val.url)}
-                                className={styles.link}
+                                className={
+                                  aboutUsText &&
+                                  aboutUsText.content === val.linkName
+                                    ? styles.textBold
+                                    : styles.link
+                                }
                               >
                                 {val.linkName}
                               </div>

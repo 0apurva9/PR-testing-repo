@@ -94,6 +94,7 @@ table th {
     composes: dropdownHolder;
     padding: 10px 20px;
   }
+
   .link {
     width: 100%;
     height: auto;
@@ -102,6 +103,10 @@ table th {
     font-family: light;
     line-height: 20px;
     cursor: pointer;
+  }
+  .textBold {
+    composes: link;
+    font-family: semibold;
   }
   .sectionHolder {
     width: 100%;
