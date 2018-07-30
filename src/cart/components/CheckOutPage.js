@@ -26,6 +26,7 @@ import size from "lodash.size";
 import TransactionFailed from "./TransactionFailed.js";
 import cardValidator from "simple-card-validator";
 import * as Cookies from "../../lib/Cookie";
+import Button from "../../general/components/Button";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -131,6 +132,8 @@ const PAY_NOW = "Pay Now";
 const OUT_OF_STOCK_MESSAGE = "Some Products are out of stock";
 export const EGV_GIFT_CART_ID = "giftCartId";
 const CASH_ON_DELIVERY_TEXT = "Cash on Delivery";
+const FAILURE_TEXT =
+  "We're sorry, an internal error occurred that prevents the request to complete.";
 class CheckOutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -185,7 +188,8 @@ class CheckOutPage extends React.Component {
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
       showCartDetails: false,
-      padding: "15px 125px 15px 15px"
+      padding: "15px 125px 15px 15px",
+      isOpenTransactionFailedPopUp: true
     };
   }
 
@@ -1789,6 +1793,9 @@ class CheckOutPage extends React.Component {
   handleCancelAddress() {
     this.setState({ addNewAddress: false });
   }
+  onCloseTransactionFailed() {
+    this.setState({ isOpenTransactionFailedPopUp: false });
+  }
   addNewAddress = () => {
     this.setState({ addNewAddress: true });
   };
@@ -2234,12 +2241,284 @@ class CheckOutPage extends React.Component {
       this.state.isGiftCard
     ) {
       return (
-        <div className={styles.noSubHeader}>
-          <div className={styles.pageCenter}>
-            <div className={styles.leftSection}>
-              <MobileOnly>
-                {!this.state.showCliqAndPiq && (
-                  <Checkout
+        <React.Fragment>
+          <DesktopOnly>
+            {this.state.isPaymentFailed && (
+              <div
+                className={
+                  this.state.isOpenTransactionFailedPopUp
+                    ? styles.paymentFailure
+                    : styles.paymentFailureClose
+                }
+              >
+                <div className={styles.paymentFailureWrap}>
+                  <div className={styles.paymentText}>{FAILURE_TEXT}</div>
+                  <div className={styles.paymentFailButtonHolder}>
+                    <div className={styles.closeButton}>
+                      <Button
+                        type="hollow"
+                        color="#000"
+                        label="Close"
+                        height={36}
+                        width={121}
+                        onClick={() => this.onCloseTransactionFailed()}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </DesktopOnly>
+
+          <div className={styles.noSubHeader}>
+            <div className={styles.pageCenter}>
+              <div className={styles.leftSection}>
+                <MobileOnly>
+                  {!this.state.showCliqAndPiq && (
+                    <Checkout
+                      padding={this.state.padding}
+                      disabled={checkoutButtonStatus}
+                      label={labelForButton}
+                      noCostEmiEligibility={
+                        this.props.cart &&
+                        this.props.cart.emiEligibilityDetails &&
+                        this.props.cart.emiEligibilityDetails
+                          .isNoCostEMIEligible
+                      }
+                      isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+                      noCostEmiDiscount={this.state.noCostEmiDiscount}
+                      amount={this.state.payableAmount}
+                      bagTotal={this.state.bagAmount}
+                      payable={this.state.payableAmount}
+                      coupons={this.state.couponDiscount}
+                      discount={this.state.totalDiscount}
+                      delivery={this.state.deliveryCharge}
+                      showDetails={this.state.showCartDetails}
+                      showHideDetails={this.showHideDetails}
+                      onCheckout={
+                        this.state.isPaymentFailed
+                          ? this.handleSubmitAfterPaymentFailure
+                          : this.handleSubmit
+                      }
+                      isCliqCashApplied={this.state.isCliqCashApplied}
+                      cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+                      isFromMyBag={false}
+                    />
+                  )}
+                </MobileOnly>
+                {!this.state.isPaymentFailed &&
+                  !this.state.confirmAddress &&
+                  !this.state.isGiftCard &&
+                  (this.props.cart.userAddress &&
+                  this.props.cart.userAddress.addresses
+                    ? this.renderCheckoutAddress()
+                    : this.renderInitialAddAddressForm())}
+
+                {!this.state.isPaymentFailed &&
+                  this.state.confirmAddress &&
+                  !this.state.isGiftCard &&
+                  !this.state.showCliqAndPiq && (
+                    <div className={styles.deliveryAddress}>
+                      <DeliveryAddressSet
+                        addressType={this.state.selectedAddress.addressType}
+                        address={this.state.selectedAddress.line1}
+                        changeDeliveryAddress={() =>
+                          this.changeDeliveryAddress()
+                        }
+                      />
+                    </div>
+                  )}
+
+                {!this.state.isPaymentFailed &&
+                  this.props.cart.cartDetailsCNC &&
+                  this.state.confirmAddress &&
+                  !this.state.deliverMode &&
+                  !this.state.isGiftCard &&
+                  (this.state.showCliqAndPiq
+                    ? this.renderCliqAndPiq()
+                    : this.renderDeliverModes())}
+
+                {!this.state.isPaymentFailed &&
+                  this.state.deliverMode &&
+                  !this.state.isGiftCard && (
+                    <div className={styles.deliveryAddress}>
+                      <DeliveryModeSet
+                        productDelivery={
+                          this.props.cart.cartDetailsCNC.products
+                        }
+                        changeDeliveryModes={() => this.changeDeliveryModes()}
+                        selectedDeliveryDetails={
+                          this.state.ussIdAndDeliveryModesObj
+                        }
+                      />
+                    </div>
+                  )}
+                <MobileOnly>
+                  {this.state.isPaymentFailed && (
+                    <div className={styles.paymentFailedCardHolder}>
+                      <TransactionFailed />
+                    </div>
+                  )}
+                </MobileOnly>
+
+                {((!this.state.paymentMethod &&
+                  (this.state.confirmAddress && this.state.deliverMode)) ||
+                  this.state.isPaymentFailed ||
+                  this.state.isGiftCard) && (
+                  <div className={styles.paymentCardHolderπp}>
+                    <PaymentCardWrapper
+                      applyBankCoupons={val => this.applyBankCoupons(val)}
+                      openBankOfferTncModal={() =>
+                        this.props.openBankOfferTncModal()
+                      }
+                      isCliqCashApplied={this.state.isCliqCashApplied}
+                      isRemainingBalance={this.state.isRemainingAmount}
+                      isPaymentFailed={this.state.isPaymentFailed}
+                      isFromGiftCard={this.state.isGiftCard}
+                      isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+                      cart={this.props.cart}
+                      paymentModeSelected={this.state.paymentModeSelected}
+                      changeSubEmiOption={currentSelectedEMIType =>
+                        this.changeSubEmiOption(currentSelectedEMIType)
+                      }
+                      selectedSavedCardDetails={this.state.savedCardDetails}
+                      selectedBankOfferCode={this.state.selectedBankOfferCode}
+                      openBankOffers={() => this.openBankOffers()}
+                      cliqCashAmount={this.state.cliqCashAmount}
+                      userCliqCashAmount={this.state.userCliqCashAmount}
+                      applyCliqCash={() => this.applyCliqCash()}
+                      removeCliqCash={() => this.removeCliqCash()}
+                      currentPaymentMode={this.state.currentPaymentMode}
+                      cardDetails={this.state.cardDetails}
+                      captchaReseponseForCOD={this.state.captchaReseponseForCOD}
+                      verifyCaptcha={captchaReseponseForCOD =>
+                        this.setState({
+                          captchaReseponseForCOD
+                        })
+                      }
+                      onChange={val => this.onChangePaymentMode(val)}
+                      bankCodeForNetBanking={this.state.bankCodeForNetBanking}
+                      onSelectBankForNetBanking={bankCodeForNetBanking =>
+                        this.setState({
+                          bankCodeForNetBanking
+                        })
+                      }
+                      onChangeCardDetail={val => this.onChangeCardDetail(val)}
+                      binValidation={(paymentMode, binNo) =>
+                        this.binValidation(paymentMode, binNo)
+                      }
+                      binValidationForCOD={paymentMode =>
+                        this.binValidationForCOD(paymentMode)
+                      }
+                      softReservationForPayment={cardDetails =>
+                        this.softReservationForPayment(cardDetails)
+                      }
+                      softReservationForCODPayment={() =>
+                        this.softReservationForCODPayment()
+                      }
+                      binValidationForNetBank={(paymentMode, bankName) =>
+                        this.binValidationForNetBank(paymentMode, bankName)
+                      }
+                      softReservationPaymentForNetBanking={bankName =>
+                        this.softReservationPaymentForNetBanking(bankName)
+                      }
+                      binValidationForSavedCard={cardDetails =>
+                        this.binValidationForSavedCard(cardDetails)
+                      }
+                      createJusPayOrderForGiftCardNetBanking={() =>
+                        this.createJusPayOrderForGiftCardNetBanking()
+                      }
+                      onFocusInput={() => this.onFocusInput()}
+                      onBlur={() => this.onBlue()}
+                      addGiftCard={() => this.addGiftCard()}
+                      redeemCliqVoucher={cliqCashDetails =>
+                        this.redeemCliqVoucher(cliqCashDetails)
+                      }
+                      binValidationForPaytm={val =>
+                        this.binValidationForPaytm(val)
+                      }
+                      displayToast={message => this.props.displayToast(message)}
+                      getCODEligibility={() => this.getCODEligibility()}
+                      getNetBankDetails={() => this.getNetBankDetails()}
+                      getEmiBankDetails={() => this.getEmiBankDetails()}
+                      getEmiEligibility={() => this.getEmiEligibility()}
+                      getBankAndTenureDetails={() =>
+                        this.getBankAndTenureDetails()
+                      }
+                      getEmiTermsAndConditionsForBank={(bankCode, bankName) =>
+                        this.getEmiTermsAndConditionsForBank(bankCode, bankName)
+                      }
+                      applyNoCostEmi={(couponCode, bankName) =>
+                        this.applyNoCostEmi(couponCode, bankName)
+                      }
+                      removeNoCostEmi={couponCode =>
+                        this.removeNoCostEmi(couponCode)
+                      }
+                      getItemBreakUpDetails={(
+                        couponCode,
+                        noCostEmiText,
+                        noCostProductCount
+                      ) =>
+                        this.getItemBreakUpDetails(
+                          couponCode,
+                          noCostEmiText,
+                          noCostProductCount
+                        )
+                      }
+                      isNoCostEmiProceeded={this.state.isNoCostEmiProceeded}
+                      changeNoCostEmiPlan={() =>
+                        this.setState({
+                          isNoCostEmiApplied: false,
+                          isNoCostEmiProceeded: false
+                        })
+                      }
+                      totalProductCount={
+                        this.props.cart &&
+                        this.props.cart.cartDetailsCNC &&
+                        this.props.cart.cartDetailsCNC.products &&
+                        this.props.cart.cartDetailsCNC.products.length
+                      }
+                      changeEmiPlan={() => this.changeEmiPlan()}
+                      subEmiOption={this.state.currentSelectedEMIType}
+                    />
+                  </div>
+                )}
+                <MobileOnly>
+                  {!this.state.showCliqAndPiq && (
+                    <CheckoutStaticSection
+                      padding={this.state.padding}
+                      disabled={checkoutButtonStatus}
+                      label={labelForButton}
+                      noCostEmiEligibility={
+                        this.props.cart &&
+                        this.props.cart.emiEligibilityDetails &&
+                        this.props.cart.emiEligibilityDetails
+                          .isNoCostEMIEligible
+                      }
+                      isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+                      noCostEmiDiscount={this.state.noCostEmiDiscount}
+                      amount={this.state.payableAmount}
+                      bagTotal={this.state.bagAmount}
+                      payable={this.state.payableAmount}
+                      coupons={this.state.couponDiscount}
+                      discount={this.state.totalDiscount}
+                      delivery={this.state.deliveryCharge}
+                      showDetails={this.state.showCartDetails}
+                      onCheckout={
+                        this.state.isPaymentFailed
+                          ? this.handleSubmitAfterPaymentFailure
+                          : this.handleSubmit
+                      }
+                      isCliqCashApplied={this.state.isCliqCashApplied}
+                      cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+                      isFromMyBag={false}
+                    />
+                  )}
+                </MobileOnly>
+              </div>
+              <DesktopOnly>
+                <div className={styles.rightSection}>
+                  <DesktopCheckout
                     padding={this.state.padding}
                     disabled={checkoutButtonStatus}
                     label={labelForButton}
@@ -2267,263 +2546,28 @@ class CheckOutPage extends React.Component {
                     cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                     isFromMyBag={false}
                   />
-                )}
-              </MobileOnly>
-              {!this.state.isPaymentFailed &&
-                !this.state.confirmAddress &&
-                !this.state.isGiftCard &&
-                (this.props.cart.userAddress &&
-                this.props.cart.userAddress.addresses
-                  ? this.renderCheckoutAddress()
-                  : this.renderInitialAddAddressForm())}
-
-              {!this.state.isPaymentFailed &&
-                this.state.confirmAddress &&
-                !this.state.isGiftCard &&
-                !this.state.showCliqAndPiq && (
-                  <div className={styles.deliveryAddress}>
-                    <DeliveryAddressSet
-                      addressType={this.state.selectedAddress.addressType}
-                      address={this.state.selectedAddress.line1}
-                      changeDeliveryAddress={() => this.changeDeliveryAddress()}
-                    />
-                  </div>
-                )}
-
-              {!this.state.isPaymentFailed &&
-                this.props.cart.cartDetailsCNC &&
-                this.state.confirmAddress &&
-                !this.state.deliverMode &&
-                !this.state.isGiftCard &&
-                (this.state.showCliqAndPiq
-                  ? this.renderCliqAndPiq()
-                  : this.renderDeliverModes())}
-
-              {!this.state.isPaymentFailed &&
-                this.state.deliverMode &&
-                !this.state.isGiftCard && (
-                  <div className={styles.deliveryAddress}>
-                    <DeliveryModeSet
-                      productDelivery={this.props.cart.cartDetailsCNC.products}
-                      changeDeliveryModes={() => this.changeDeliveryModes()}
-                      selectedDeliveryDetails={
-                        this.state.ussIdAndDeliveryModesObj
-                      }
-                    />
-                  </div>
-                )}
-
-              {this.state.isPaymentFailed && (
-                <div className={styles.paymentFailedCardHolder}>
-                  <TransactionFailed />
+                  {!this.state.isGiftCard &&
+                    this.state.isRemainingAmount &&
+                    !(
+                      this.state.isPaymentFailed && this.state.isCliqCashApplied
+                    ) &&
+                    (this.props.cart.paymentModes &&
+                      this.props.cart.paymentModes.paymentOffers &&
+                      this.props.cart.paymentModes.paymentOffers.coupons) && (
+                      <BankOfferWrapper
+                        cart={this.props.cart}
+                        applyBankCoupons={val => this.applyBankCoupons(val)}
+                        openBankOffers={() => this.openBankOffers()}
+                        openBankOfferTncModal={() =>
+                          this.props.openBankOfferTncModal()
+                        }
+                      />
+                    )}
                 </div>
-              )}
-
-              {((!this.state.paymentMethod &&
-                (this.state.confirmAddress && this.state.deliverMode)) ||
-                this.state.isPaymentFailed ||
-                this.state.isGiftCard) && (
-                <div className={styles.paymentCardHolderπp}>
-                  <PaymentCardWrapper
-                    applyBankCoupons={val => this.applyBankCoupons(val)}
-                    openBankOfferTncModal={() =>
-                      this.props.openBankOfferTncModal()
-                    }
-                    isCliqCashApplied={this.state.isCliqCashApplied}
-                    isRemainingBalance={this.state.isRemainingAmount}
-                    isPaymentFailed={this.state.isPaymentFailed}
-                    isFromGiftCard={this.state.isGiftCard}
-                    isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                    cart={this.props.cart}
-                    paymentModeSelected={this.state.paymentModeSelected}
-                    changeSubEmiOption={currentSelectedEMIType =>
-                      this.changeSubEmiOption(currentSelectedEMIType)
-                    }
-                    selectedSavedCardDetails={this.state.savedCardDetails}
-                    selectedBankOfferCode={this.state.selectedBankOfferCode}
-                    openBankOffers={() => this.openBankOffers()}
-                    cliqCashAmount={this.state.cliqCashAmount}
-                    userCliqCashAmount={this.state.userCliqCashAmount}
-                    applyCliqCash={() => this.applyCliqCash()}
-                    removeCliqCash={() => this.removeCliqCash()}
-                    currentPaymentMode={this.state.currentPaymentMode}
-                    cardDetails={this.state.cardDetails}
-                    captchaReseponseForCOD={this.state.captchaReseponseForCOD}
-                    verifyCaptcha={captchaReseponseForCOD =>
-                      this.setState({
-                        captchaReseponseForCOD
-                      })
-                    }
-                    onChange={val => this.onChangePaymentMode(val)}
-                    bankCodeForNetBanking={this.state.bankCodeForNetBanking}
-                    onSelectBankForNetBanking={bankCodeForNetBanking =>
-                      this.setState({
-                        bankCodeForNetBanking
-                      })
-                    }
-                    onChangeCardDetail={val => this.onChangeCardDetail(val)}
-                    binValidation={(paymentMode, binNo) =>
-                      this.binValidation(paymentMode, binNo)
-                    }
-                    binValidationForCOD={paymentMode =>
-                      this.binValidationForCOD(paymentMode)
-                    }
-                    softReservationForPayment={cardDetails =>
-                      this.softReservationForPayment(cardDetails)
-                    }
-                    softReservationForCODPayment={() =>
-                      this.softReservationForCODPayment()
-                    }
-                    binValidationForNetBank={(paymentMode, bankName) =>
-                      this.binValidationForNetBank(paymentMode, bankName)
-                    }
-                    softReservationPaymentForNetBanking={bankName =>
-                      this.softReservationPaymentForNetBanking(bankName)
-                    }
-                    binValidationForSavedCard={cardDetails =>
-                      this.binValidationForSavedCard(cardDetails)
-                    }
-                    createJusPayOrderForGiftCardNetBanking={() =>
-                      this.createJusPayOrderForGiftCardNetBanking()
-                    }
-                    onFocusInput={() => this.onFocusInput()}
-                    onBlur={() => this.onBlue()}
-                    addGiftCard={() => this.addGiftCard()}
-                    redeemCliqVoucher={cliqCashDetails =>
-                      this.redeemCliqVoucher(cliqCashDetails)
-                    }
-                    binValidationForPaytm={val =>
-                      this.binValidationForPaytm(val)
-                    }
-                    displayToast={message => this.props.displayToast(message)}
-                    getCODEligibility={() => this.getCODEligibility()}
-                    getNetBankDetails={() => this.getNetBankDetails()}
-                    getEmiBankDetails={() => this.getEmiBankDetails()}
-                    getEmiEligibility={() => this.getEmiEligibility()}
-                    getBankAndTenureDetails={() =>
-                      this.getBankAndTenureDetails()
-                    }
-                    getEmiTermsAndConditionsForBank={(bankCode, bankName) =>
-                      this.getEmiTermsAndConditionsForBank(bankCode, bankName)
-                    }
-                    applyNoCostEmi={(couponCode, bankName) =>
-                      this.applyNoCostEmi(couponCode, bankName)
-                    }
-                    removeNoCostEmi={couponCode =>
-                      this.removeNoCostEmi(couponCode)
-                    }
-                    getItemBreakUpDetails={(
-                      couponCode,
-                      noCostEmiText,
-                      noCostProductCount
-                    ) =>
-                      this.getItemBreakUpDetails(
-                        couponCode,
-                        noCostEmiText,
-                        noCostProductCount
-                      )
-                    }
-                    isNoCostEmiProceeded={this.state.isNoCostEmiProceeded}
-                    changeNoCostEmiPlan={() =>
-                      this.setState({
-                        isNoCostEmiApplied: false,
-                        isNoCostEmiProceeded: false
-                      })
-                    }
-                    totalProductCount={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.products &&
-                      this.props.cart.cartDetailsCNC.products.length
-                    }
-                    changeEmiPlan={() => this.changeEmiPlan()}
-                    subEmiOption={this.state.currentSelectedEMIType}
-                  />
-                </div>
-              )}
-              <MobileOnly>
-                {!this.state.showCliqAndPiq && (
-                  <CheckoutStaticSection
-                    padding={this.state.padding}
-                    disabled={checkoutButtonStatus}
-                    label={labelForButton}
-                    noCostEmiEligibility={
-                      this.props.cart &&
-                      this.props.cart.emiEligibilityDetails &&
-                      this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
-                    }
-                    isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                    noCostEmiDiscount={this.state.noCostEmiDiscount}
-                    amount={this.state.payableAmount}
-                    bagTotal={this.state.bagAmount}
-                    payable={this.state.payableAmount}
-                    coupons={this.state.couponDiscount}
-                    discount={this.state.totalDiscount}
-                    delivery={this.state.deliveryCharge}
-                    showDetails={this.state.showCartDetails}
-                    onCheckout={
-                      this.state.isPaymentFailed
-                        ? this.handleSubmitAfterPaymentFailure
-                        : this.handleSubmit
-                    }
-                    isCliqCashApplied={this.state.isCliqCashApplied}
-                    cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-                    isFromMyBag={false}
-                  />
-                )}
-              </MobileOnly>
+              </DesktopOnly>
             </div>
-            <DesktopOnly>
-              <div className={styles.rightSection}>
-                <DesktopCheckout
-                  padding={this.state.padding}
-                  disabled={checkoutButtonStatus}
-                  label={labelForButton}
-                  noCostEmiEligibility={
-                    this.props.cart &&
-                    this.props.cart.emiEligibilityDetails &&
-                    this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
-                  }
-                  isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                  noCostEmiDiscount={this.state.noCostEmiDiscount}
-                  amount={this.state.payableAmount}
-                  bagTotal={this.state.bagAmount}
-                  payable={this.state.payableAmount}
-                  coupons={this.state.couponDiscount}
-                  discount={this.state.totalDiscount}
-                  delivery={this.state.deliveryCharge}
-                  showDetails={this.state.showCartDetails}
-                  showHideDetails={this.showHideDetails}
-                  onCheckout={
-                    this.state.isPaymentFailed
-                      ? this.handleSubmitAfterPaymentFailure
-                      : this.handleSubmit
-                  }
-                  isCliqCashApplied={this.state.isCliqCashApplied}
-                  cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-                  isFromMyBag={false}
-                />
-                {!this.state.isGiftCard &&
-                  this.state.isRemainingAmount &&
-                  !(
-                    this.state.isPaymentFailed && this.state.isCliqCashApplied
-                  ) &&
-                  (this.props.cart.paymentModes &&
-                    this.props.cart.paymentModes.paymentOffers &&
-                    this.props.cart.paymentModes.paymentOffers.coupons) && (
-                    <BankOfferWrapper
-                      cart={this.props.cart}
-                      applyBankCoupons={val => this.applyBankCoupons(val)}
-                      openBankOffers={() => this.openBankOffers()}
-                      openBankOfferTncModal={() =>
-                        this.props.openBankOfferTncModal()
-                      }
-                    />
-                  )}
-              </div>
-            </DesktopOnly>
           </div>
-        </div>
+        </React.Fragment>
       );
     } else if (this.state.orderConfirmation) {
       return (
