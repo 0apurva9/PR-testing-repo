@@ -86,6 +86,11 @@ export default class ReturnAddressList extends React.Component {
       });
       if (checkUserAgentIsMobile()) {
         this.props.history.goBack();
+      } else {
+        this.setState({ isContinueForDesktop: false });
+        if (this.props.cancelReturnMode) {
+          this.props.cancelReturnMode();
+        }
       }
     } else if (
       nextProps.returnPinCodeStatus === SUCCESS &&
@@ -277,21 +282,26 @@ export default class ReturnAddressList extends React.Component {
   };
 
   newReturnInitiate = () => {
+    console.log(this.props);
     let isCodOrder = NO;
     let reverseSealAvailable = "N";
     if (this.props.orderDetails.paymentMethod === "COD") {
       isCodOrder = YES;
     }
+    let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
+      ? this.props.selectedReasonAndCommentObj
+      : this.props.data;
     if (
-      this.props.data &&
-      this.props.data.reverseSeal &&
-      this.props.data.reverseSeal[0] === "Yes"
+      reasonAndCommentDetails &&
+      reasonAndCommentDetails.reverseSeal &&
+      reasonAndCommentDetails.reverseSeal[0] === "Yes"
     ) {
       reverseSealAvailable = "Y";
     }
-
     let returnCliqAndPiqObject = {};
-    returnCliqAndPiqObject.returnReasonCode = this.props.data.returnReasonCode;
+    returnCliqAndPiqObject.returnReasonCode =
+      reasonAndCommentDetails.returnReasonCode;
+
     returnCliqAndPiqObject.refundType = "R";
     returnCliqAndPiqObject.isCODorder = isCodOrder;
     returnCliqAndPiqObject.orderCode = this.props.returnProducts.orderProductWsDTO[0].sellerorderno;
@@ -300,7 +310,7 @@ export default class ReturnAddressList extends React.Component {
     returnCliqAndPiqObject.transactionType = "01";
     returnCliqAndPiqObject.returnMethod = "schedule";
     returnCliqAndPiqObject.subReasonCode = this.props.subReasonCode;
-    returnCliqAndPiqObject.comment = this.props.data.comment;
+    returnCliqAndPiqObject.comment = reasonAndCommentDetails.comment;
     returnCliqAndPiqObject.addressType = this.state.selectedAddress.addressType;
     returnCliqAndPiqObject.firstName = this.state.selectedAddress.firstName;
     returnCliqAndPiqObject.lastName = this.state.selectedAddress.lastName;
@@ -326,6 +336,10 @@ export default class ReturnAddressList extends React.Component {
         returnCliqAndPiqObject.IFSCCode = this.props.bankDetail.code;
       }
     }
+    console.log(
+      returnCliqAndPiqObject,
+      this.props.returnProductDetails.orderProductWsDTO[0]
+    );
 
     this.props.newReturnInitial(
       returnCliqAndPiqObject,

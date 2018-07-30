@@ -62,19 +62,17 @@ export default class ReturnToStore extends React.Component {
         this.props.returnRequest &&
         this.props.returnRequest.returnStoreDetailsList &&
         this.props.returnRequest.returnStoreDetailsList[0] &&
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint &&
         this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
-          ? this.props.returnRequest &&
-            this.props.returnRequest.returnStoreDetailsList &&
-            this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
+          ? this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
           : 28.6129918,
       lng:
         this.props.returnRequest &&
         this.props.returnRequest.returnStoreDetailsList &&
         this.props.returnRequest.returnStoreDetailsList[0] &&
-        this.props.returnRequest.returnStoreDetailsList.geoPoint.longitude
-          ? this.props.returnRequest &&
-            this.props.returnRequest.returnStoreDetailsList &&
-            this.props.returnRequest.returnStoreDetailsList[0].geoPoint
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint &&
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint.longitude
+          ? this.props.returnRequest.returnStoreDetailsList[0].geoPoint
               .longitude
           : 77.2310456
     };
@@ -159,7 +157,7 @@ export default class ReturnToStore extends React.Component {
         comment: this.props.data.comment
       });
     }
-
+    console.log(productObj, product);
     // here we are product object has all data we we need to send in api for return product
     // and product is actual object
     this.props.newReturnInitial(productObj, product);
@@ -283,6 +281,7 @@ export default class ReturnToStore extends React.Component {
     }
   };
   render() {
+    console.log(this.state.isStoreSelected);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -401,6 +400,7 @@ export default class ReturnToStore extends React.Component {
         orderDetails={this.props.orderDetails}
         onContinue={() => this.finalSubmit()}
         cancel={() => this.cancel()}
+        isFooterNeeded={checkUserAgentIsMobile() ? true : false}
       />
     );
     let returnAddressDetails =
@@ -431,12 +431,7 @@ export default class ReturnToStore extends React.Component {
                 />
               </React.Fragment>
             )}
-          {this.state.isStoreSelected &&
-            this.props.isCOD && (
-              <BankDetails
-                onChange={val => this.props.onChangeBankDetails(val)}
-              />
-            )}
+
           {this.state.isStoreSelected && renderFinalSubmit}
 
           <div className={styles.cancelPickUpButtonHolder}>

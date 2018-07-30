@@ -157,7 +157,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
   handleContinueForBankForm = (BankDetails: IStateForBank) => {
     if (BankDetails) {
       this.setState({
-        returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION
+        returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION,
+        bankDetail: BankDetails
       });
     }
   };
@@ -215,6 +216,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
       case ReturnStatus.SHOW_SELECT_MODE_SECTION: {
         return (
           <ReturnModesForDesktop
+            {...this.state}
+            {...this.props}
             changeReturnReason={() => this.changeReturnReason()}
             orderCode={this.orderCode}
             selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
