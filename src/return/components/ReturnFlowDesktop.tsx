@@ -218,7 +218,10 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
             changeReturnReason={() => this.changeReturnReason()}
             orderCode={this.orderCode}
             selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
-            returnRequest={this.props.returnProductDetails}
+            returnProductDetails={this.props.returnProductDetails}
+            returnRequest={this.props.returnRequest}
+            showSecondaryLoader={this.props.showSecondaryLoader}
+            hideSecondaryLoader={this.props.hideSecondaryLoader}
           />
         );
       }

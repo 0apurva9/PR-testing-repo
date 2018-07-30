@@ -14,6 +14,8 @@ export interface IProps {
     productDetails: IProductDetailsObj
   ) => (dispatch: Dispatch<any>) => Promise<void>;
   getUserAddress?: () => (dispatch: Dispatch<any>) => Promise<void>;
+  showSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
+  hideSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
   displayToast: (
     errorMessage: string
   ) => (dispatch: Dispatch<any>) => Promise<void>;
@@ -22,6 +24,7 @@ export interface IProps {
   userAddress: any;
   returnProductDetails: any;
   orderDetails: any;
+  returnRequest: any;
 }
 export interface IState {
   orderCode?: string;

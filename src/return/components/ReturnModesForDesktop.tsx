@@ -27,7 +27,7 @@ export default class ReturnModesForDesktop extends React.Component<
   }
 
   private isReturnModesEnabled = () => {
-    const data = this.props.returnRequest;
+    const data = this.props.returnProductDetails;
     if (
       (data && data.returnModes && data.returnModes.quickDrop) ||
       (data && data.returnModes && data.returnModes.schedulePickup) ||
@@ -45,7 +45,7 @@ export default class ReturnModesForDesktop extends React.Component<
     this.setState({ selectedMode: "" });
   };
   public render() {
-    const data = this.props.returnRequest;
+    const data = this.props.returnProductDetails;
     return (
       <div className={styles.base}>
         <SelectedReasonForReturn
