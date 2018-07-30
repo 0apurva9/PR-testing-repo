@@ -2531,6 +2531,7 @@ class CheckOutPage extends React.Component {
           {this.props.cart.orderConfirmationDetails && (
             <div className={styles.orderConfirmationHolder}>
               <OrderConfirmation
+                history={this.props.history}
                 clearCartDetails={() => this.props.clearCartDetails()}
                 orderId={this.props.cart.orderConfirmationDetails.orderRefNo}
                 captureOrderExperience={rating =>
@@ -2553,6 +2554,7 @@ class CheckOutPage extends React.Component {
           {this.props.cart.cliqCashJusPayDetails && (
             <div className={styles.orderConfirmationHolder}>
               <OrderConfirmation
+                history={this.props.history}
                 clearCartDetails={this.props.clearCartDetails}
                 orderId={this.props.cart.cliqCashJusPayDetails.orderId}
                 orderStatusMessage={this.props.orderConfirmationText}
