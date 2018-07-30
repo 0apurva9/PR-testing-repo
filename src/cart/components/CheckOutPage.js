@@ -1786,7 +1786,9 @@ class CheckOutPage extends React.Component {
       }
     }
   };
-
+  handleCancelAddress() {
+    this.setState({ addNewAddress: false });
+  }
   addNewAddress = () => {
     this.setState({ addNewAddress: true });
   };
@@ -2178,6 +2180,7 @@ class CheckOutPage extends React.Component {
       return (
         <div className={styles.addDeliveryAddressHolder}>
           <AddDeliveryAddress
+            handleCancelAddress={() => this.handleCancelAddress()}
             addUserAddress={address => this.addAddress(address)}
             {...this.state}
             showSecondaryLoader={this.props.showSecondaryLoader}
@@ -2194,6 +2197,32 @@ class CheckOutPage extends React.Component {
             getUserDetails={() => this.getUserDetails()}
             userDetails={this.props.userDetails}
             clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
+            padding={this.state.padding}
+            disabled={checkoutButtonStatus}
+            label={labelForButton}
+            noCostEmiEligibility={
+              this.props.cart &&
+              this.props.cart.emiEligibilityDetails &&
+              this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+            }
+            isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+            noCostEmiDiscount={this.state.noCostEmiDiscount}
+            amount={this.state.payableAmount}
+            bagTotal={this.state.bagAmount}
+            payable={this.state.payableAmount}
+            coupons={this.state.couponDiscount}
+            discount={this.state.totalDiscount}
+            delivery={this.state.deliveryCharge}
+            showDetails={this.state.showCartDetails}
+            showHideDetails={this.showHideDetails}
+            onCheckout={
+              this.state.isPaymentFailed
+                ? this.handleSubmitAfterPaymentFailure
+                : this.handleSubmit
+            }
+            isCliqCashApplied={this.state.isCliqCashApplied}
+            cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+            isFromMyBag={false}
           />
         </div>
       );

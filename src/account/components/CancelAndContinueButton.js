@@ -21,7 +21,7 @@ export default class CancelAndContinueButton extends React.Component {
             type="primary"
             backgroundColor="#ff1744"
             height={40}
-            label="Continue"
+            label={this.props.continueText}
             width={175}
             textStyle={{ color: "#FFF", fontSize: 14 }}
             onClick={() => this.handleContinue()}
@@ -32,7 +32,7 @@ export default class CancelAndContinueButton extends React.Component {
             size="14px"
             fontFamily="regular"
             color="#000000"
-            label="Cancel"
+            label={this.props.cancelText}
             onClick={() => this.handleCancel()}
           />
         </div>
@@ -40,3 +40,7 @@ export default class CancelAndContinueButton extends React.Component {
     );
   }
 }
+CancelAndContinueButton.defaultProps = {
+  continueText: "Continue",
+  cancelText: "Cancel"
+};

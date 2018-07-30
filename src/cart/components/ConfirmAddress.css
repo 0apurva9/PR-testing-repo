@@ -52,4 +52,13 @@
     height: 0;
     margin: 0;
   }
+  .moreButtonHolder {
+    width: auto;
+    height: 25px;
+    position: absolute;
+    right: 15px;
+    bottom: 50px;
+    top: unset;
+    left: initial;
+  }
 }

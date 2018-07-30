@@ -85,45 +85,48 @@
     text-align: center;
     padding-top: 75px;
   }
-  .noSubHeader{
-    composes:base;
-    padding-top:30px;
+  .noSubHeader {
+    composes: base;
+    padding-top: 30px;
+    min-height: 0px;
+    padding-bottom: 100px;
   }
   .pageCenter {
     width: 1200px;
     display: inline-block;
     max-width: 100%;
     text-align: left;
-    position:relative;
+    position: relative;
   }
-  .products , .deliveryAddress{
-    padding:0;
+  .products,
+  .deliveryAddress {
+    padding: 0;
   }
   .leftSection {
     width: 70%;
     padding-right: 30px;
-    display:inline-block;
-    vertical-align:top;
+    display: inline-block;
+    vertical-align: top;
   }
-  .rightSection{
-    width:30%;
-    display:inline-block;
-    position:sticky;
-    top:105px;
-    vertical-align:top;
+  .rightSection {
+    width: 30%;
+    display: inline-block;
+    position: sticky;
+    top: 105px;
+    vertical-align: top;
   }
   .addDeliveryAddressHolder {
     text-align: center;
   }
   .header {
     padding: 20px 30px;
-    border-radius:4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
   }
   .orderConfirmationHolder {
     margin-bottom: 0;
   }
-  .addInitialAddAddress{
-    padding:0;
+  .addInitialAddAddress {
+    padding: 0;
   }
   .disclaimer {
     width: 100%;
@@ -139,5 +142,4 @@
     line-height: 20px;
     margin-top: 20px;
   }
-
 }

@@ -1,4 +1,4 @@
-.base{
+.base {
   width: 100%;
   height: auto;
   font-size: 14px;
@@ -7,16 +7,21 @@
   padding-left: 30px;
   position: relative;
   color: #000000;
-  line-height:25px;
+  line-height: 25px;
   margin-bottom: 10px;
 }
 .checkboxHolder {
   width: 20px;
-  height: 20px;;
+  height: 20px;
   border: none;
   position: absolute;
   left: 0;
-  top:0;
-  bottom:0;
-  margin:auto;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+@media only screen and (min-width: 1025px) {
+  .base {
+    text-align: left;
+  }
 }
