@@ -3,7 +3,7 @@ import { IProps } from "./interface/OrderCancelWrapper";
 
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
-import { default as OrderCancelWrapperForDesktop } from "./OrderCancelWrapperForDesktop.css";
+import * as styles from "./OrderCancelWrapperForDesktop.css";
 import * as Cookie from "../../lib/Cookie";
 
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
@@ -23,8 +23,8 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
 
     return (
       <div className={styles.base}>
-        <div className={OrderCancelWrapperForDesktop.holder}>
-          <div className={OrderCancelWrapperForDesktop.profileMenu}>
+        <div className={styles.holder}>
+          <div className={styles.profileMenu}>
             <ProfileMenu {...this.props} />
           </div>
           <div className={styles.returnReasonDetail}>
@@ -33,7 +33,7 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
             </div>
           </div>
 
-          <div className={OrderCancelWrapperForDesktop.userProfile}>
+          <div className={styles.userProfile}>
             <UserProfile
               image={userAccountDetails.imageUrl}
               userLogin={userAccountDetails.userName}
