@@ -14,20 +14,22 @@ body {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+.blur {
+  composes: base;
+  filter: url("./general/components/img/blur.svg#");
+  pointer-events: none;
+  transition: 200ms filter linear;
+  transition: 200ms -webkit-filter linear;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition-delay: 100ms;
+}
 
 @media only screen and (max-width: 1024px) {
   .blur {
-    composes: base;
     -webkit-filter: blur(10px);
-    filter: url("./general/components/img/blur.svg#");
     filter: blur(10px);
-    pointer-events: none;
-    transition: 200ms filter linear;
-    transition: 200ms -webkit-filter linear;
-    position: fixed;
-    left: 0;
-    top: 0;
-    transition-delay: 100ms;
   }
 }
 @media only screen and (min-width: 1025px) {
