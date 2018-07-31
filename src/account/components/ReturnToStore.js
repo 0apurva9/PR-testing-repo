@@ -18,6 +18,7 @@ import CancelAndContinueButton from "./CancelAndContinueButton";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import find from "lodash.find";
 import BankDetails from "./BankDetails.js";
+
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -41,6 +42,7 @@ import {
 const REG_X_FOR_STORE_PICKUP = /storePick/i;
 const REG_X_FOR_FINAL_SUBMIT = /submit/i;
 const ERROR_MESSAGE = "Please select Store";
+const integerDayMapping = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri"];
 
 export default class ReturnToStore extends React.Component {
   constructor(props) {
@@ -62,19 +64,17 @@ export default class ReturnToStore extends React.Component {
         this.props.returnRequest &&
         this.props.returnRequest.returnStoreDetailsList &&
         this.props.returnRequest.returnStoreDetailsList[0] &&
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint &&
         this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
-          ? this.props.returnRequest &&
-            this.props.returnRequest.returnStoreDetailsList &&
-            this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
+          ? this.props.returnRequest.returnStoreDetailsList[0].geoPoint.latitude
           : 28.6129918,
       lng:
         this.props.returnRequest &&
         this.props.returnRequest.returnStoreDetailsList &&
         this.props.returnRequest.returnStoreDetailsList[0] &&
-        this.props.returnRequest.returnStoreDetailsList.geoPoint.longitude
-          ? this.props.returnRequest &&
-            this.props.returnRequest.returnStoreDetailsList &&
-            this.props.returnRequest.returnStoreDetailsList[0].geoPoint
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint &&
+        this.props.returnRequest.returnStoreDetailsList[0].geoPoint.longitude
+          ? this.props.returnRequest.returnStoreDetailsList[0].geoPoint
               .longitude
           : 77.2310456
     };
@@ -128,6 +128,10 @@ export default class ReturnToStore extends React.Component {
   };
 
   finalSubmit() {
+    let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
+      ? this.props.selectedReasonAndCommentObj
+      : this.props.data;
+
     // submit form here
     const product = this.props.returnProductDetails.orderProductWsDTO[0];
     const productObj = Object.assign(
@@ -152,14 +156,13 @@ export default class ReturnToStore extends React.Component {
         IFSCCode: this.props.bankDetail.code
       });
     }
-    if (this.props.data) {
+    if (reasonAndCommentDetails) {
       Object.assign(productObj, {
-        subReasonCode: this.props.data.subReasonCode,
-        returnReasonCode: this.props.data.returnReasonCode,
-        comment: this.props.data.comment
+        subReasonCode: reasonAndCommentDetails.subReasonCode,
+        returnReasonCode: reasonAndCommentDetails.returnReasonCode,
+        comment: reasonAndCommentDetails.comment
       });
     }
-
     // here we are product object has all data we we need to send in api for return product
     // and product is actual object
     this.props.newReturnInitial(productObj, product);
@@ -401,6 +404,7 @@ export default class ReturnToStore extends React.Component {
         orderDetails={this.props.orderDetails}
         onContinue={() => this.finalSubmit()}
         cancel={() => this.cancel()}
+        isFooterNeeded={checkUserAgentIsMobile() ? true : false}
       />
     );
     let returnAddressDetails =
@@ -425,18 +429,28 @@ export default class ReturnToStore extends React.Component {
                   }`}
                   subTitleDescription={`${returnAddressDetails.address.city}
                     , ${returnAddressDetails.address.postalCode}`}
-                  date={"9th Dec 2018"}
-                  time={"11:00 AM"}
+                  date={
+                    returnAddressDetails.mplWorkingDays === "7"
+                      ? "all days"
+                      : returnAddressDetails.mplWorkingDays
+                          .split("")
+                          .map(val => {
+                            if (val !== ",") {
+                              return integerDayMapping[parseInt(val)];
+                            } else {
+                              return ", ";
+                            }
+                          })
+                  }
+                  idReturnToStore={true}
+                  time={`${returnAddressDetails.mplOpeningTime} - to ${
+                    returnAddressDetails.mplClosingTime
+                  } Hrs`}
                   handleCancel={() => this.handleCancelForReturn()}
                 />
               </React.Fragment>
             )}
-          {this.state.isStoreSelected &&
-            this.props.isCOD && (
-              <BankDetails
-                onChange={val => this.props.onChangeBankDetails(val)}
-              />
-            )}
+
           {this.state.isStoreSelected && renderFinalSubmit}
 
           <div className={styles.cancelPickUpButtonHolder}>

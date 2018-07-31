@@ -15,9 +15,9 @@
   padding: 20px;
 }
 .returnModesWithBorder {
-  border-bottom: 1px solid #ececec;
   border-top: 1px solid #ececec;
   padding: 0px 20px;
+  margin-top: 25px;
 }
 .refundableModes {
   width: 100%;

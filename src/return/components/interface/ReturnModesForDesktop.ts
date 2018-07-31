@@ -12,4 +12,5 @@ export interface IProps {
 }
 export interface IState {
   selectedMode: string;
+  isReturnModeSelected: boolean;
 }
