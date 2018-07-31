@@ -3,10 +3,10 @@
   height: auto;
   min-height: 90px;
   background: #fff;
-  border-radius: 4px;
   position: relative;
   padding: 20px;
   display: inline-block;
+  border-bottom: 1px solid #ececec;
 }
 .address {
   width: 100%;

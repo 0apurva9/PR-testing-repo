@@ -51,7 +51,9 @@ export default class PickUpDetails extends React.Component {
           className={styles.buttonContainer}
           onClick={() => this.handleClick()}
         >
-          <Button type="primary" label="Continue" color="#fff" width={121} />
+          <div className={styles.button}>
+            <Button type="primary" label="Continue" color="#fff" width={121} />
+          </div>
         </div>
       </div>
     );

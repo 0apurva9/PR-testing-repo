@@ -26,6 +26,9 @@ import size from "lodash.size";
 import TransactionFailed from "./TransactionFailed.js";
 import cardValidator from "simple-card-validator";
 import * as Cookies from "../../lib/Cookie";
+
+import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
+import ModalPanel from "../../general/components/ModalPanel.js";
 import Button from "../../general/components/Button";
 import {
   CUSTOMER_ACCESS_TOKEN,
@@ -533,74 +536,103 @@ class CheckOutPage extends React.Component {
       }
     );
 
-    const firstSlaveData =
-      currentSelectedProduct.pinCodeResponse.validDeliveryModes;
-    const someData = firstSlaveData
-      .map(slaves => {
-        return (
-          slaves.CNCServiceableSlavesData &&
-          slaves.CNCServiceableSlavesData.map(slave => {
-            return (
-              slave &&
-              slave.serviceableSlaves.map(serviceableSlave => {
-                return serviceableSlave;
-              })
-            );
-          })
-        );
-      })
-      .map(val => {
-        return (
-          val &&
-          val.map(v => {
-            return v;
-          })
-        );
-      });
-
-    const allStoreIds = [].concat
-      .apply([], [].concat.apply([], someData))
-      .map(store => {
-        return store && store.slaveId;
-      });
-    const availableStores = this.props.cart.storeDetails
-      ? this.props.cart.storeDetails.filter(val => {
-          return allStoreIds.includes(val.slaveId);
+    if (checkUserAgentIsMobile()) {
+      const firstSlaveData =
+        currentSelectedProduct.pinCodeResponse.validDeliveryModes;
+      const someData = firstSlaveData
+        .map(slaves => {
+          return (
+            slaves.CNCServiceableSlavesData &&
+            slaves.CNCServiceableSlavesData.map(slave => {
+              return (
+                slave &&
+                slave.serviceableSlaves.map(serviceableSlave => {
+                  return serviceableSlave;
+                })
+              );
+            })
+          );
         })
-      : [];
-    return (
-      <PiqPage
-        availableStores={availableStores}
-        selectedSlaveId={
-          this.state.selectedSlaveIdObj[
-            this.state.selectedProductsUssIdForCliqAndPiq
-          ] &&
-          this.state.selectedSlaveIdObj[
-            this.state.selectedProductsUssIdForCliqAndPiq
-          ]
+        .map(val => {
+          return (
+            val &&
+            val.map(v => {
+              return v;
+            })
+          );
+        });
+
+      const allStoreIds = [].concat
+        .apply([], [].concat.apply([], someData))
+        .map(store => {
+          return store && store.slaveId;
+        });
+      const availableStores = this.props.cart.storeDetails
+        ? this.props.cart.storeDetails.filter(val => {
+            return allStoreIds.includes(val.slaveId);
+          })
+        : [];
+      return (
+        <PiqPage
+          availableStores={availableStores}
+          selectedSlaveId={
+            this.state.selectedSlaveIdObj[
+              this.state.selectedProductsUssIdForCliqAndPiq
+            ] &&
+            this.state.selectedSlaveIdObj[
+              this.state.selectedProductsUssIdForCliqAndPiq
+            ]
+          }
+          pinCodeUpdateDisabled={true}
+          numberOfStores={availableStores.length}
+          showPickupPerson={
+            this.state.selectedSlaveIdObj[
+              this.state.selectedProductsUssIdForCliqAndPiq
+            ]
+              ? true
+              : false
+          }
+          productName={currentSelectedProduct.productName}
+          productColour={currentSelectedProduct.color}
+          hidePickupPersonDetail={() => this.togglePickupPersonForm()}
+          addStoreCNC={slavesId => this.addStoreCNC(slavesId)}
+          addPickupPersonCNC={(mobile, name) =>
+            this.addPickupPersonCNC(mobile, name, currentSelectedProduct)
+          }
+          changePincode={pincode => this.changePincodeOnCliqAndPiq(pincode)}
+          goBack={() => this.removeCliqAndPiq()}
+          getUserDetails={() => this.getUserDetails()}
+          userDetails={this.props.userDetails}
+        />
+      );
+    } else {
+      let currentSelectedProduct = this.props.cart.cartDetailsCNC.products.find(
+        product => {
+          return (
+            product.USSID === this.state.selectedProductsUssIdForCliqAndPiq
+          );
         }
-        pinCodeUpdateDisabled={true}
-        numberOfStores={availableStores.length}
-        showPickupPerson={
-          this.state.selectedSlaveIdObj[
-            this.state.selectedProductsUssIdForCliqAndPiq
-          ]
-            ? true
-            : false
-        }
-        productName={currentSelectedProduct.productName}
-        productColour={currentSelectedProduct.color}
-        hidePickupPersonDetail={() => this.togglePickupPersonForm()}
-        addStoreCNC={slavesId => this.addStoreCNC(slavesId)}
-        addPickupPersonCNC={(mobile, name) =>
-          this.addPickupPersonCNC(mobile, name, currentSelectedProduct)
-        }
-        changePincode={pincode => this.changePincodeOnCliqAndPiq(pincode)}
-        goBack={() => this.removeCliqAndPiq()}
-        getUserDetails={() => this.getUserDetails()}
-        userDetails={this.props.userDetails}
-      />
-    );
+      );
+
+      return (
+        <ModalPanel>
+          <CliqandPiqModal
+            stores={this.props.cart.storeDetails}
+            productDetails={currentSelectedProduct}
+            pinCodeUpdateDisabled={true}
+            userDetails={this.props.userDetails}
+            from="Checkout"
+            addPickupPersonCNC={(mobile, name) =>
+              this.addPickupPersonCNC(mobile, name, currentSelectedProduct)
+            }
+            addStoreCNC={slavesId => this.addStoreCNC(slavesId)}
+            CloseCliqAndPiqModal={() =>
+              this.setState({ showCliqAndPiq: false })
+            }
+          />
+        </ModalPanel>
+      );
+    }
   }
   renderPaymentModes = () => {
     if (this.state.paymentMethod) {
