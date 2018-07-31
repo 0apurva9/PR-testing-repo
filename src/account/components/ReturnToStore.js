@@ -161,9 +161,10 @@ export default class ReturnToStore extends React.Component {
         comment: reasonAndCommentDetails.comment
       });
     }
+    console.log(productObj, product);
     // here we are product object has all data we we need to send in api for return product
     // and product is actual object
-    this.props.newReturnInitial(productObj, product);
+    // this.props.newReturnInitial(productObj, product);
   }
 
   renderLoader() {
