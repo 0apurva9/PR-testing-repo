@@ -17,11 +17,8 @@ export default class MyAccountWithLeftAndRightSection extends React.Component<
   IProps,
   any
 > {
-  orderCode: string;
-
   constructor(props: IProps) {
     super(props);
-    this.orderCode = props.location.pathname.split("/")[2];
   }
   componentDidMount() {
     if (this.props.getUserAddress) {
@@ -35,7 +32,7 @@ export default class MyAccountWithLeftAndRightSection extends React.Component<
   public renderComponentWithLeftAndRightCard(component: any) {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userData = JSON.parse(userDetails);
-    const data = this.props.returnProductDetails;
+    const data = this.props.orderDetails;
 
     return (
       <div className={styles.base}>
@@ -69,7 +66,7 @@ export default class MyAccountWithLeftAndRightSection extends React.Component<
                   isSelect={true}
                   quantity={true}
                   orderPlace={"this.props.orderDate"}
-                  orderId={this.orderCode}
+                  orderId={this.props.orderId}
                   productBrand={"this.props.productBrand"}
                 >
                   {data &&
