@@ -122,7 +122,12 @@ export default class ReturnModesForDesktop extends React.Component<
             />
           )}
           {this.state.selectedMode === SELF_COURIER && (
-            <SelfCourierContainer {...this.state} {...this.props} />
+            <SelfCourierContainer
+              {...this.state}
+              {...this.props}
+              selectReturnMode={() => this.selectReturnMode()}
+              cancelReturnMode={() => this.cancelReturnMode()}
+            />
           )}
         </div>
         {!this.isReturnModesEnabled() && (

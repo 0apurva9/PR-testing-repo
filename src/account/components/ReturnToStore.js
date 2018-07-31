@@ -126,6 +126,10 @@ export default class ReturnToStore extends React.Component {
   };
 
   finalSubmit() {
+    let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
+      ? this.props.selectedReasonAndCommentObj
+      : this.props.data;
+
     // submit form here
     const product = this.props.returnProductDetails.orderProductWsDTO[0];
     const productObj = Object.assign(
@@ -150,11 +154,11 @@ export default class ReturnToStore extends React.Component {
         IFSCCode: this.props.bankDetail.code
       });
     }
-    if (this.props.data) {
+    if (reasonAndCommentDetails) {
       Object.assign(productObj, {
-        subReasonCode: this.props.data.subReasonCode,
-        returnReasonCode: this.props.data.returnReasonCode,
-        comment: this.props.data.comment
+        subReasonCode: reasonAndCommentDetails.subReasonCode,
+        returnReasonCode: reasonAndCommentDetails.returnReasonCode,
+        comment: reasonAndCommentDetails.comment
       });
     }
     // here we are product object has all data we we need to send in api for return product
