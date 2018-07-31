@@ -6,7 +6,7 @@ import {
 import { connect } from "react-redux";
 
 import { getUserAddress } from "../../cart/actions/cart.actions";
-import ReturnFlowDesktop from "../components/OrderCancelWrapper";
+import ReturnFlowDesktop from "../components/ReturnFlowDesktop";
 import { displayToast } from "../../general/toast.actions.js";
 import {
   showSecondaryLoader,
