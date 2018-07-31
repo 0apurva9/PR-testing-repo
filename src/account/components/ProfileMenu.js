@@ -41,7 +41,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
     }
   }
   render() {
-    const pathName = this.props.match.path;
+    const pathName = this.props && this.props.match && this.props.match.path;
     let selected = null;
     if (pathName === `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`) {
       selected = "Saved List";
