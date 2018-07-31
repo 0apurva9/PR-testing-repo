@@ -5,4 +5,5 @@ export interface IProps {
   userAddress: any;
   orderDetails: any;
   orderId: string;
+  userDetails: any;
 }

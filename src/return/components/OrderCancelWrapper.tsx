@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IProps } from "./interface/MyAccountWithLeftAndRightSection";
+import { IProps } from "./interface/OrderCancelWrapper";
 
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
@@ -8,28 +8,21 @@ import { default as MyAccountStyles } from "../../account/components/MyAccountDe
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
 
-import {
-  LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
-} from "../../lib/constants";
+import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 
-export default class MyAccountWithLeftAndRightSection extends React.Component<
-  IProps,
-  any
-> {
+export default class OrderCancelWrapper extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
   }
   componentDidMount() {
-    if (this.props.getUserAddress) {
-      this.props.getUserAddress();
+    if (!this.props.userDetails) {
+      if (this.props.getUserAddress) {
+        this.props.getUserAddress();
+      }
     }
   }
-  private navigateToLogin() {
-    return <div />;
-  }
-  private renderToAccountSetting() {}
-  public renderComponentWithLeftAndRightCard(component: any) {
+
+  public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userData = JSON.parse(userDetails);
     const data = this.props.orderDetails;
@@ -79,7 +72,7 @@ export default class MyAccountWithLeftAndRightSection extends React.Component<
                     )}
                 </OrderCard>
               </div>
-              {component}
+              {this.props.children}
             </div>
           </div>
 
@@ -88,7 +81,6 @@ export default class MyAccountWithLeftAndRightSection extends React.Component<
               image={userData.imageUrl}
               userLogin={userData.userName}
               loginType={userData.loginType}
-              onClick={() => this.renderToAccountSetting()}
               firstName={
                 userData &&
                 userData.firstName &&
@@ -104,14 +96,5 @@ export default class MyAccountWithLeftAndRightSection extends React.Component<
         </div>
       </div>
     );
-  }
-
-  public render() {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
-    return this.renderComponentWithLeftAndRightCard(<div />);
   }
 }
