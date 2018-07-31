@@ -4,7 +4,6 @@ import { IProps } from "./interface/OrderCancelWrapper";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
 import { default as OrderCancelWrapperForDesktop } from "./OrderCancelWrapperForDesktop.css";
-import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
 
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
