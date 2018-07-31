@@ -18,6 +18,7 @@ import CancelAndContinueButton from "./CancelAndContinueButton";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import find from "lodash.find";
 import BankDetails from "./BankDetails.js";
+
 import {
   RETURNS_PREFIX,
   RETURN_TO_STORE,
@@ -41,6 +42,7 @@ import {
 const REG_X_FOR_STORE_PICKUP = /storePick/i;
 const REG_X_FOR_FINAL_SUBMIT = /submit/i;
 const ERROR_MESSAGE = "Please select Store";
+const integerDayMapping = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri"];
 
 export default class ReturnToStore extends React.Component {
   constructor(props) {
@@ -427,8 +429,23 @@ export default class ReturnToStore extends React.Component {
                   }`}
                   subTitleDescription={`${returnAddressDetails.address.city}
                     , ${returnAddressDetails.address.postalCode}`}
-                  date={"9th Dec 2018"}
-                  time={"11:00 AM"}
+                  date={
+                    returnAddressDetails.mplWorkingDays === "7"
+                      ? "all days"
+                      : returnAddressDetails.mplWorkingDays
+                          .split("")
+                          .map(val => {
+                            if (val !== ",") {
+                              return integerDayMapping[parseInt(val)];
+                            } else {
+                              return ", ";
+                            }
+                          })
+                  }
+                  idReturnToStore={true}
+                  time={`${returnAddressDetails.mplOpeningTime} - to ${
+                    returnAddressDetails.mplClosingTime
+                  } Hrs`}
                   handleCancel={() => this.handleCancelForReturn()}
                 />
               </React.Fragment>

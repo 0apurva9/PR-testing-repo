@@ -48,7 +48,9 @@ export default class SelectedReasonForReturn extends React.Component {
           <div className={styles.dateAndTimeHolder}>
             {this.props.date && (
               <div className={styles.date}>
-                <div className={styles.dateHeader}>Date:</div>
+                <div className={styles.dateHeader}>
+                  {this.props.idReturnToStore ? "Open On:" : "Date:"}
+                </div>
                 <div className={styles.dateAndTimeDetail}>
                   {this.props.date}
                 </div>
