@@ -3,17 +3,13 @@ import { IProps } from "./interface/OrderCancelWrapper";
 
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
-import OrderCard from "../../account/components/OrderCard";
-import { default as MyAccountStyles } from "../../account/components/MyAccountDesktop.css";
+import { default as OrderCancelWrapperForDesktop } from "./OrderCancelWrapperForDesktop.css";
 import * as styles from "./ReturnFlowDesktop.css";
 import * as Cookie from "../../lib/Cookie";
 
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 
 export default class OrderCancelWrapper extends React.Component<IProps, any> {
-  constructor(props: IProps) {
-    super(props);
-  }
   componentDidMount() {
     if (!this.props.userDetails) {
       if (this.props.getUserAddress) {
@@ -24,72 +20,40 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
 
   public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const userData = JSON.parse(userDetails);
-    const data = this.props.orderDetails;
+    const userAccountDetails = JSON.parse(userDetails);
 
     return (
       <div className={styles.base}>
-        <div className={MyAccountStyles.holder}>
-          <div className={MyAccountStyles.profileMenu}>
+        <div className={OrderCancelWrapperForDesktop.holder}>
+          <div className={OrderCancelWrapperForDesktop.profileMenu}>
             <ProfileMenu {...this.props} />
           </div>
           <div className={styles.returnReasonDetail}>
             <div className={styles.returnReasonDetailHolder}>
-              <div className={styles.orderCardWrapper}>
-                <OrderCard
-                  imageUrl={
-                    data &&
-                    data.orderProductWsDTO &&
-                    data.orderProductWsDTO[0] &&
-                    data.orderProductWsDTO[0].imageURL
-                  }
-                  productName={`${data &&
-                    data.orderProductWsDTO &&
-                    data.orderProductWsDTO[0] &&
-                    data.orderProductWsDTO[0].productBrand} ${data &&
-                    data.orderProductWsDTO &&
-                    data.orderProductWsDTO[0] &&
-                    data.orderProductWsDTO[0].productName}`}
-                  price={
-                    data &&
-                    data.orderProductWsDTO &&
-                    data.orderProductWsDTO[0] &&
-                    data.orderProductWsDTO[0].price
-                  }
-                  isSelect={true}
-                  quantity={true}
-                  orderPlace={"this.props.orderDate"}
-                  orderId={this.props.orderId}
-                  productBrand={"this.props.productBrand"}
-                >
-                  {data &&
-                    data.orderProductWsDTO &&
-                    data.orderProductWsDTO[0] &&
-                    data.orderProductWsDTO[0].quantity && (
-                      <div className={styles.quantity}>
-                        Qty {data.orderProductWsDTO[0].quantity}
-                      </div>
-                    )}
-                </OrderCard>
-              </div>
               {this.props.children}
             </div>
           </div>
 
-          <div className={MyAccountStyles.userProfile}>
+          <div className={OrderCancelWrapperForDesktop.userProfile}>
             <UserProfile
-              image={userData.imageUrl}
-              userLogin={userData.userName}
-              loginType={userData.loginType}
+              image={userAccountDetails.imageUrl}
+              userLogin={userAccountDetails.userName}
+              loginType={userAccountDetails.loginType}
               firstName={
-                userData &&
-                userData.firstName &&
-                userData.firstName.trim().charAt(0)
+                userAccountDetails &&
+                userAccountDetails.firstName &&
+                userAccountDetails.firstName.trim().charAt(0)
               }
               heading={
-                userData && userData.firstName && `${userData.firstName} `
+                userAccountDetails &&
+                userAccountDetails.firstName &&
+                `${userAccountDetails.firstName} `
               }
-              lastName={userData && userData.lastName && `${userData.lastName}`}
+              lastName={
+                userAccountDetails &&
+                userAccountDetails.lastName &&
+                `${userAccountDetails.lastName}`
+              }
               userAddress={this.props.userAddress}
             />
           </div>
