@@ -26,7 +26,6 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<
     const userAccountDetails = JSON.parse(userDetails);
     const returnProductDetails = this.props.returnProductDetails;
     const orderDetails = this.props.orderDetails;
-    console.log(returnProductDetails);
     return (
       <div className={styles.base}>
         <div className={styles.holder}>
