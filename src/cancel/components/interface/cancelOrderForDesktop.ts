@@ -12,7 +12,6 @@ export interface IProps {
   error: string;
   loadingForCancelProductDetails: boolean;
   history: any;
-  location: any;
   match: any;
   getDetailsOfCancelledProduct: (
     cancelProductDetails: ICancelProductDetailsObj
