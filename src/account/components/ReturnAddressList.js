@@ -57,7 +57,7 @@ export default class ReturnAddressList extends React.Component {
       error: false,
       userEmailId: "",
       isReturnAddressSelected: false,
-      isContinueForDesktop: false
+      isReturnModeProcessCompleted: false
     };
   }
 
@@ -87,7 +87,7 @@ export default class ReturnAddressList extends React.Component {
       if (checkUserAgentIsMobile()) {
         this.props.history.goBack();
       } else {
-        this.setState({ isContinueForDesktop: false });
+        this.setState({ isReturnModeProcessCompleted: false });
         if (this.props.cancelReturnMode) {
           this.props.cancelReturnMode();
         }
@@ -200,12 +200,6 @@ export default class ReturnAddressList extends React.Component {
 
   addAddress = address => {
     if (this.props.addUserAddress) {
-      let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-      let cartDetailsLoggedInUser = Cookie.getCookie(
-        CART_DETAILS_FOR_LOGGED_IN_USER
-      );
-
       this.props.addUserAddress(address, true);
     }
   };
@@ -362,8 +356,8 @@ export default class ReturnAddressList extends React.Component {
   };
 
   handleContinuePickUp = () => {
-    if (!this.state.isContinueForDesktop) {
-      this.setState({ isContinueForDesktop: true });
+    if (!this.state.isReturnModeProcessCompleted) {
+      this.setState({ isReturnModeProcessCompleted: true });
       if (this.props.selectReturnMode) {
         this.props.selectReturnMode();
       }
@@ -373,7 +367,7 @@ export default class ReturnAddressList extends React.Component {
   };
 
   handleCancelPickUP = () => {
-    this.setState({ isContinueForDesktop: false });
+    this.setState({ isReturnModeProcessCompleted: false });
     if (this.props.cancelReturnMode) {
       this.props.cancelReturnMode();
     }
@@ -384,7 +378,7 @@ export default class ReturnAddressList extends React.Component {
       selectedAddress: "",
       selectedDate: "",
       selectedTime: "",
-      isContinueForDesktop: false
+      isReturnModeProcessCompleted: false
     });
     this.props.cancelReturnMode();
   };
@@ -405,10 +399,10 @@ export default class ReturnAddressList extends React.Component {
       return (
         <React.Fragment>
           <DesktopOnly>
-            {!this.state.isContinueForDesktop &&
+            {!this.state.isReturnModeProcessCompleted &&
               !this.state.addNewAddress &&
               this.renderAddress()}
-            {!this.state.isContinueForDesktop &&
+            {!this.state.isReturnModeProcessCompleted &&
               !this.state.addNewAddress &&
               this.state.selectedAddress && (
                 <div className={styles.renderDateAndTime}>
@@ -416,7 +410,7 @@ export default class ReturnAddressList extends React.Component {
                 </div>
               )}
             {this.state.addNewAddress && this.renderNewAddress()}
-            {this.state.isContinueForDesktop && (
+            {this.state.isReturnModeProcessCompleted && (
               <React.Fragment>
                 <SelectedReasonForReturn
                   header={"Select mode of return "}
@@ -433,7 +427,8 @@ export default class ReturnAddressList extends React.Component {
                 />
               </React.Fragment>
             )}
-            {this.state.isContinueForDesktop && this.renderReturnSummary()}
+            {this.state.isReturnModeProcessCompleted &&
+              this.renderReturnSummary()}
             <div className={styles.cancelPickUpButtonHolder}>
               <CancelAndContinueButton
                 handleCancel={() => this.handleCancelPickUP()}

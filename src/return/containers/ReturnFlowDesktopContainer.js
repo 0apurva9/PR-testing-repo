@@ -1,7 +1,8 @@
 import { withRouter } from "react-router-dom";
 import {
   getReturnRequest,
-  returnProductDetails
+  returnProductDetails,
+  fetchOrderDetails
 } from "../../account/actions/account.actions.js";
 import { connect } from "react-redux";
 
@@ -31,6 +32,9 @@ const mapDispatchToProps = dispatch => {
     },
     getUserAddress: () => {
       dispatch(getUserAddress(true));
+    },
+    fetchOrderDetails: orderCode => {
+      dispatch(fetchOrderDetails(orderCode));
     }
   };
 };
