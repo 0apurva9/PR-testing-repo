@@ -49,7 +49,8 @@ const mapStateToProps = state => {
     loadingForCancelProductDetails:
       state.profile.loadingForCancelProductDetails,
     error: state.profile.cancelProductDetailsError,
-    userAddress: state.cart.userAddress
+    userAddress: state.cart.userAddress,
+    orderDetails: state.profile.fetchOrderDetails
   };
 };
 

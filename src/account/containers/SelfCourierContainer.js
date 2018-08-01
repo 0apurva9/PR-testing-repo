@@ -7,6 +7,7 @@ import {
   MY_ACCOUNT,
   MY_ACCOUNT_ORDERS_PAGE
 } from "../../lib/constants.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 import { displayToast } from "../../general/toast.actions.js";
 const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -15,10 +16,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const returnInitiate = await dispatch(newReturnInitial(returnDetails));
       if (returnInitiate.status === SUCCESS) {
         dispatch(displayToast(RETURN_SUCCESS_MESSAGE));
-        if (ownProps.isCOD) {
-          ownProps.history.go(-4);
+        if (checkUserAgentIsMobile()) {
+          if (ownProps.isCOD) {
+            ownProps.history.go(-4);
+          } else {
+            ownProps.history.go(-3);
+          }
         } else {
-          ownProps.history.go(-3);
+          ownProps.history.go(-2);
         }
       }
     }

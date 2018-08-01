@@ -157,11 +157,12 @@ export default class cancelOrderForDesktop extends React.Component<
     return (
       <ReturnAndOrderCancelWrapper
         userAddress={this.props.userAddress}
-        orderDetails={cancelProductDetails}
+        returnProductDetails={cancelProductDetails}
+        orderPlace={this.props.history.location.state.orderDate}
         orderId={this.props.history.location.state.orderId}
         userDetails={userDetails}
         history={this.props.history}
-        orderPlace={this.props.history.location.state.orderDate}
+        orderDetails={""}
       >
         {this.renderCancel()}
       </ReturnAndOrderCancelWrapper>

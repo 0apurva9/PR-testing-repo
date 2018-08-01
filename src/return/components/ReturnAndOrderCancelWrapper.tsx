@@ -3,12 +3,16 @@ import { IProps } from "./interface/ReturnAndOrderCancelWrapper";
 
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
-import * as styles from "./OrderCancelWrapperForDesktop.css";
+import * as styles from "./ReturnAndOrderCancelWrapper.css";
 import * as Cookie from "../../lib/Cookie";
 import OrderCard from "../../account/components/OrderCard";
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
-
-export default class OrderCancelWrapper extends React.Component<IProps, any> {
+import * as format from "date-fns/format";
+const dateFormat = "DD MMM YYYY";
+export default class ReturnAndOrderCancelWrapper extends React.Component<
+  IProps,
+  any
+> {
   componentDidMount() {
     if (!this.props.userDetails) {
       if (this.props.getUserAddress) {
@@ -24,8 +28,8 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
   public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userAccountDetails = JSON.parse(userDetails);
+    const returnProductDetails = this.props.returnProductDetails;
     const orderDetails = this.props.orderDetails;
-
     return (
       <div className={styles.base}>
         <div className={styles.holder}>
@@ -34,38 +38,45 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
           </div>
           <div className={styles.returnReasonDetail}>
             <div className={styles.returnReasonDetailHolder}>
-              {orderDetails && (
+              {returnProductDetails && (
                 <div className={styles.orderCardWrapper}>
                   <OrderCard
                     imageUrl={
-                      orderDetails &&
-                      orderDetails.orderProductWsDTO &&
-                      orderDetails.orderProductWsDTO[0] &&
-                      orderDetails.orderProductWsDTO[0].imageURL
+                      returnProductDetails &&
+                      returnProductDetails.orderProductWsDTO &&
+                      returnProductDetails.orderProductWsDTO[0] &&
+                      returnProductDetails.orderProductWsDTO[0].imageURL
                     }
-                    productName={`${orderDetails &&
-                      orderDetails.orderProductWsDTO &&
-                      orderDetails.orderProductWsDTO[0] &&
-                      orderDetails.orderProductWsDTO[0]
-                        .productBrand} ${orderDetails &&
-                      orderDetails.orderProductWsDTO &&
-                      orderDetails.orderProductWsDTO[0] &&
-                      orderDetails.orderProductWsDTO[0].productName}`}
+                    productName={`${returnProductDetails &&
+                      returnProductDetails.orderProductWsDTO &&
+                      returnProductDetails.orderProductWsDTO[0] &&
+                      returnProductDetails.orderProductWsDTO[0]
+                        .productBrand} ${returnProductDetails &&
+                      returnProductDetails.orderProductWsDTO &&
+                      returnProductDetails.orderProductWsDTO[0] &&
+                      returnProductDetails.orderProductWsDTO[0].productName}`}
                     price={
-                      orderDetails &&
-                      orderDetails.orderProductWsDTO &&
-                      orderDetails.orderProductWsDTO[0] &&
-                      orderDetails.orderProductWsDTO[0].price
+                      returnProductDetails &&
+                      returnProductDetails.orderProductWsDTO &&
+                      returnProductDetails.orderProductWsDTO[0] &&
+                      returnProductDetails.orderProductWsDTO[0].price
                     }
                     isSelect={true}
                     quantity={true}
-                    orderPlace={this.props.orderPlace}
+                    orderPlace={
+                      orderDetails && orderDetails.orderDate
+                        ? orderDetails &&
+                          format(orderDetails.orderDate, dateFormat)
+                        : this.props.orderPlace
+                    }
                     orderId={this.props.orderId}
                     productBrand={
-                      orderDetails &&
-                      orderDetails.orderProductWsDTO &&
-                      orderDetails.orderProductWsDTO[0] &&
-                      orderDetails.orderProductWsDTO[0].productBrand
+                      orderDetails && orderDetails.productBrand
+                        ? orderDetails.productBrand
+                        : returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0].productBrand
                     }
                     onHollow={true}
                     onClick={() =>
@@ -77,12 +88,13 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
                       )
                     }
                   >
-                    {orderDetails &&
-                      orderDetails.orderProductWsDTO &&
-                      orderDetails.orderProductWsDTO[0] &&
-                      orderDetails.orderProductWsDTO[0].quantity && (
+                    {returnProductDetails &&
+                      returnProductDetails.orderProductWsDTO &&
+                      returnProductDetails.orderProductWsDTO[0] &&
+                      returnProductDetails.orderProductWsDTO[0].quantity && (
                         <div className={styles.quantity}>
-                          Qty {orderDetails.orderProductWsDTO[0].quantity}
+                          Qty{" "}
+                          {returnProductDetails.orderProductWsDTO[0].quantity}
                         </div>
                       )}
                   </OrderCard>

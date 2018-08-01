@@ -41,7 +41,6 @@ const mapStateToProps = state => {
     returnProductDetails: state.profile.returnProductDetails,
     loading: state.profile.loading,
     error: state.profile.error,
-    orderDetails: state.profile.fetchOrderDetails,
     userAddress: state.cart.userAddress
   };
 };

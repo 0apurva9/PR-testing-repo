@@ -334,7 +334,7 @@ export default class ReturnAddressList extends React.Component {
     }
     this.props.newReturnInitial(
       returnCliqAndPiqObject,
-      this.props.returnProductDetails.orderProductWsDTO[0]
+      this.props.returnProducts.orderProductWsDTO[0]
     );
   };
   renderReturnSummary = () => {
