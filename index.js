@@ -48,6 +48,14 @@ function removeWord(originalWord, searchWord) {
   return str;
 }
 
+var ampServicesStartPoint = "https://tmppprd.tataunistore.com";
+if (
+  process.env.REACT_APP_STAGE === "p2" ||
+  process.env.REACT_APP_STAGE === "production"
+) {
+  ampServicesStartPoint = "https://www.tatacliq.com";
+}
+
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
@@ -75,11 +83,13 @@ app.get("/*", (req, res) => {
       req.protocol + "://" + req.get("host") + removeWord(origUrl, "/amp");
 
     var pdpUrl =
-      "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/productDetails/amp/" +
+      ampServicesStartPoint +
+      "/marketplacewebservices/v2/mpl/products/productDetails/amp/" +
       productCode +
       "?isPwa=true";
     var sizeGuideURL =
-      "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/" +
+      ampServicesStartPoint +
+      "/marketplacewebservices/v2/mpl/products/" +
       productCode.toUpperCase() +
       "/sizeGuide/amp/?isPwa=true";
 
@@ -97,7 +107,8 @@ app.get("/*", (req, res) => {
     origUrl.search("search/") !== -1
   ) {
     var searchService =
-      "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
+      ampServicesStartPoint +
+      "/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
     var pageSize = 20;
     var pageNo = 0;
     var middleUrlPart = "&pageSize=20&page=";
@@ -137,7 +148,8 @@ app.get("/*", (req, res) => {
     origUrl.search("/b-") == -1
   ) {
     var searchService =
-      "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
+      ampServicesStartPoint +
+      "/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
     //'https://uat2.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=shirt&pageSize=20&page=0&isTextSearch=true&isPwa=true';
     var pageSize = 20;
     var pageNo = 0;
@@ -180,7 +192,8 @@ app.get("/*", (req, res) => {
     origUrl.search("/b-") !== -1
   ) {
     var searchService =
-      "https://tmppprd.tataunistore.com/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
+      ampServicesStartPoint +
+      "/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
     var pageSize = 20;
     var pageNo = 0;
     var middleUrlPart = "&pageSize=20&page=";
