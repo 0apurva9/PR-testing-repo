@@ -161,7 +161,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     return (
       <ReturnAndOrderCancelWrapper
         userAddress={this.props.userAddress}
-        orderDetails={this.props.returnProductDetails}
+        returnProductDetails={this.props.returnProductDetails}
+        orderDetails={this.props.orderDetails}
         orderId={this.orderCode}
         userDetails={userDetails}
         history={this.props.history}
