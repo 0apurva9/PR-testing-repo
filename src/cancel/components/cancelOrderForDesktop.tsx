@@ -64,12 +64,15 @@ export default class cancelOrderForDesktop extends React.Component<
   renderLoader() {
     return <Loader />;
   }
+  onClickImage(productCode: string) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
   onCancel() {
     this.props.history.goBack();
   }
   onContinue() {
-    console.log("here");
-    console.log(this.state);
     if (!this.state.reason) {
       this.props.displayToast(SELECT_REASON_MESSAGE);
     } else {
@@ -89,14 +92,12 @@ export default class cancelOrderForDesktop extends React.Component<
           this.props.cancelProductDetails.orderProductWsDTO &&
           this.props.cancelProductDetails.orderProductWsDTO[0]
       };
-      console.log(orderDetailsObject);
-      // if (this.props.showCancelOrderModal) {
-      //   this.props.showCancelOrderModal(orderDetailsObject);
-      // }
+      if (this.props.showCancelOrderModal) {
+        this.props.showCancelOrderModal(orderDetailsObject);
+      }
     }
   }
   renderCancel() {
-    console.log(this.state);
     return (
       <div className={styles.selectReasonHolder}>
         <div className={styles.header}>
@@ -133,7 +134,7 @@ export default class cancelOrderForDesktop extends React.Component<
         <div className={styles.CancelAndContinueButton}>
           <CancelAndContinueButton
             handleCancel={() => this.onCancel()}
-            handleContinue={this.onContinue()}
+            handleContinue={() => this.onContinue()}
           />
         </div>
       </div>
@@ -142,7 +143,6 @@ export default class cancelOrderForDesktop extends React.Component<
 
   public render() {
     let cancelProductDetails = this.props.cancelProductDetails;
-    console.log(this.props);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (this.props.error) {

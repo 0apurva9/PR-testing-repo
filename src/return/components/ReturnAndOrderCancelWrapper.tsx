@@ -16,7 +16,11 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
       }
     }
   }
-
+  onClickImage(productCode: string) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
   public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userAccountDetails = JSON.parse(userDetails);
@@ -64,6 +68,14 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
                       orderDetails.orderProductWsDTO[0].productBrand
                     }
                     onHollow={true}
+                    onClick={() =>
+                      this.onClickImage(
+                        orderDetails &&
+                          orderDetails.orderProductWsDTO &&
+                          orderDetails.orderProductWsDTO[0] &&
+                          orderDetails.orderProductWsDTO[0].productcode
+                      )
+                    }
                   >
                     {orderDetails &&
                       orderDetails.orderProductWsDTO &&
