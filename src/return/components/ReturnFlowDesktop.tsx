@@ -57,6 +57,9 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     if (this.props.getUserAddress) {
       this.props.getUserAddress();
     }
+    if(this.props.orderDetails){
+      this.props.fetchOrderDetails(this.orderCode)
+    }
   }
   private navigateToLogin() {
     return <div />;
