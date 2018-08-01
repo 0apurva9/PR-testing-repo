@@ -50,7 +50,6 @@ export default class EmiModal extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <React.Fragment>
         <MobileOnly>

@@ -10,11 +10,11 @@ export default class EmiSectionDesktop extends React.Component {
     };
   }
   tabChange(val) {
-    console.log(val);
     this.setState({ isSelect: val });
   }
   render() {
     const bankListData = this.props && this.props.emiData;
+
     const bankDetails =
       bankListData &&
       bankListData.bankList &&
@@ -88,3 +88,20 @@ export default class EmiSectionDesktop extends React.Component {
     );
   }
 }
+EmiSectionDesktop.propTypes = {
+  bankListData: PropTypes.shape({
+    bankList: PropTypes.arrayOf(
+      PropTypes.shape({
+        emiBank: PropTypes.string,
+        emitermsrate: PropTypes.arrayOf(
+          PropTypes.shape({
+            interestPayable: PropTypes.string,
+            interestRate: PropTypes.string,
+            monthlyInstallment: PropTypes.string,
+            term: PropTypes.string
+          })
+        )
+      })
+    )
+  })
+};
