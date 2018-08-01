@@ -84,12 +84,14 @@ export default class OrderDetails extends React.Component {
       });
     }
   }
-  cancelItem(transactionId, ussid, orderCode) {
+  cancelItem(transactionId, ussid, orderCode, orderId, orderDate) {
     this.props.history.push({
       pathname: `${CANCEL}/${orderCode}`,
       state: {
         transactionId: transactionId,
-        ussid: ussid
+        ussid: ussid,
+        orderId: orderId,
+        orderDate: orderDate
       }
     });
   }
@@ -512,7 +514,9 @@ export default class OrderDetails extends React.Component {
                                     this.cancelItem(
                                       products.transactionId,
                                       products.USSID,
-                                      products.sellerorderno
+                                      products.sellerorderno,
+                                      orderDetails.orderId,
+                                      format(orderDetails.orderDate, dateFormat)
                                     )
                                   }
                                 >
@@ -573,7 +577,9 @@ export default class OrderDetails extends React.Component {
                                   this.cancelItem(
                                     products.transactionId,
                                     products.USSID,
-                                    products.sellerorderno
+                                    products.sellerorderno,
+                                    orderDetails.orderId,
+                                    format(orderDetails.orderDate, dateFormat)
                                   )
                                 }
                               >
@@ -643,7 +649,9 @@ export default class OrderDetails extends React.Component {
                                   this.cancelItem(
                                     products.transactionId,
                                     products.USSID,
-                                    products.sellerorderno
+                                    products.sellerorderno,
+                                    orderDetails.orderId,
+                                    format(orderDetails.orderDate, dateFormat)
                                   )
                                 }
                               >

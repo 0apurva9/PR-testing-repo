@@ -55,9 +55,15 @@ export default class OrderCancelWrapper extends React.Component<IProps, any> {
                     }
                     isSelect={true}
                     quantity={true}
-                    orderPlace={"this.props.orderDate"}
+                    orderPlace={this.props.orderPlace}
                     orderId={this.props.orderId}
-                    productBrand={"this.props.productBrand"}
+                    productBrand={
+                      orderDetails &&
+                      orderDetails.orderProductWsDTO &&
+                      orderDetails.orderProductWsDTO[0] &&
+                      orderDetails.orderProductWsDTO[0].productBrand
+                    }
+                    onHollow={true}
                   >
                     {orderDetails &&
                       orderDetails.orderProductWsDTO &&

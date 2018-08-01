@@ -110,14 +110,23 @@ const ProductListingsContainer = Loadable({
     return <Loader />;
   }
 });
-
-const CancelOrderContainer = Loadable({
-  loader: () => import("./account/containers/CancelOrderContainer"),
-  loading() {
-    return <Loader />;
-  }
-});
-
+let CancelOrderContainer;
+if (checkUserAgentIsMobile()) {
+  CancelOrderContainer = Loadable({
+    loader: () => import("./account/containers/CancelOrderContainer"),
+    loading() {
+      return <Loader />;
+    }
+  });
+} else {
+  CancelOrderContainer = Loadable({
+    loader: () =>
+      import("./cancel/container/cancelOrderForDesktopContainer.js"),
+    loading() {
+      return <Loader />;
+    }
+  });
+}
 let ReturnFlowContainer;
 if (checkUserAgentIsMobile()) {
   ReturnFlowContainer = Loadable({

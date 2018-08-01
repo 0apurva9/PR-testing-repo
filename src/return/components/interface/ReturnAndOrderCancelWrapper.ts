@@ -7,4 +7,5 @@ export interface IProps {
   orderId: string;
   userDetails: any;
   history: any;
+  orderPlace: string;
 }
