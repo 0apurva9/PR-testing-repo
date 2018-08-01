@@ -119,6 +119,9 @@ export default class ReturnModesForDesktop extends React.Component<
                 this.props.selectedReasonAndCommentObj &&
                 this.props.selectedReasonAndCommentObj.reason
               }
+              selectedReasonAndCommentObj={
+                this.props.selectedReasonAndCommentObj
+              }
               bankDetail={this.props.bankDetail}
               selectReturnMode={() => this.selectReturnMode()}
               cancelReturnMode={() => this.cancelReturnMode()}
