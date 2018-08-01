@@ -16,9 +16,6 @@ export interface IProps {
   getUserAddress?: () => (dispatch: Dispatch<any>) => Promise<void>;
   showSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
   hideSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
-  fetchOrderDetails: (
-    orderCode: string
-  ) => (dispatch: Dispatch<any>) => Promise<void>;
   displayToast: (
     errorMessage: string
   ) => (dispatch: Dispatch<any>) => Promise<void>;
