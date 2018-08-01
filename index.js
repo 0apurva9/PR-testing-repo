@@ -66,12 +66,16 @@ app.get("/*", (req, res) => {
       "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
     var canonicalHomeAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
     var canonicalHomePwaUrl = req.protocol + "://" + req.get("host");
+    var defaultPageUrl =
+      ampServicesStartPoint +
+      "/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=defaulthomepage";
 
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
       canonicalAmpUrl: canonicalHomeAmpUrl,
-      canonicalPwaUrl: canonicalHomePwaUrl
+      canonicalPwaUrl: canonicalHomePwaUrl,
+      defaultPageUrl: defaultPageUrl
     };
 
     res.render("../build/amp/home.ejs", data);
