@@ -14,6 +14,7 @@ export default class ReturnBankForm extends React.Component {
         headerText="Refund Details"
         onContinue={this.props.onContinue}
         onCancel={() => this.handleCancel()}
+        isFooterNeeded={true}
       >
         <BankDetails onChange={this.props.onChange} />
       </ReturnsFrame>

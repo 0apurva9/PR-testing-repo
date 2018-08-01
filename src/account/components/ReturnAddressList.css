@@ -42,8 +42,14 @@
   .renderDateAndTime {
     width: 100%;
     height: auto;
-    padding: 0px 30px;
   }
+  .renderDateAndTime {
+    width: 100%;
+    height: auto;
+    padding: 0px 30px;
+    background: #fff;
+  }
+
   .cancelPickUpButtonHolder {
     width: 100%;
     height: auto;

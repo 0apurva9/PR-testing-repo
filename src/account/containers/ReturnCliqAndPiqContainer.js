@@ -21,6 +21,10 @@ import {
   resetAddAddressDetails,
   clearPinCodeStatus
 } from "../../account/actions/account.actions.js";
+import {
+  hideSecondaryLoader,
+  showSecondaryLoader
+} from "../../general/secondaryLoader.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addUserAddress: (addressDetails, fromAccount) => {
@@ -98,6 +102,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearPinCodeStatus: () => {
       dispatch(clearPinCodeStatus());
+    },
+    hideSecondaryLoader: () => {
+      dispatch(hideSecondaryLoader());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
     }
   };
 };

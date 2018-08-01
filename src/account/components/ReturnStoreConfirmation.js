@@ -80,6 +80,7 @@ export default class ReturnsStoreConfirmation extends React.Component {
         headerText="Return to store"
         onContinue={this.props.onContinue}
         onCancel={this.props.cancel}
+        isFooterNeeded={this.props.isFooterNeeded}
       >
         <OrderReturnAddressDetails />
         <div className={styles.card}>

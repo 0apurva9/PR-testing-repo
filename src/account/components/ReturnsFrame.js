@@ -46,25 +46,27 @@ export default class ReturnsFrame extends React.Component {
             </div>
           )}
         </MobileOnly>
-        <DesktopOnly>
-          <div className={styles.bankDetailFooter}>
-            <div className={styles.cancelButton}>
-              <UnderLinedButton
-                label="Cancel"
-                onClick={() => this.handleCancel()}
-              />
-            </div>
+        {this.props.isFooterNeeded && (
+          <DesktopOnly>
+            <div className={styles.bankDetailFooter}>
+              <div className={styles.cancelButton}>
+                <UnderLinedButton
+                  label="Cancel"
+                  onClick={() => this.handleCancel()}
+                />
+              </div>
 
-            <div className={styles.continueButton}>
-              <Button
-                width={175}
-                type="primary"
-                label={this.props.buttonText}
-                onClick={() => this.handleContinue()}
-              />
+              <div className={styles.continueButton}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label={this.props.buttonText}
+                  onClick={() => this.handleContinue()}
+                />
+              </div>
             </div>
-          </div>
-        </DesktopOnly>
+          </DesktopOnly>
+        )}
       </div>
     );
   }
