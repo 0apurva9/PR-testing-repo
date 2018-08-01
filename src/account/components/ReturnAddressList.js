@@ -357,9 +357,17 @@ export default class ReturnAddressList extends React.Component {
 
   handleContinuePickUp = () => {
     if (!this.state.isReturnModeProcessCompleted) {
-      this.setState({ isReturnModeProcessCompleted: true });
-      if (this.props.selectReturnMode) {
-        this.props.selectReturnMode();
+      if (
+        this.state.selectedAddress !== "" &&
+        this.state.selectedDate !== "" &&
+        this.state.selectedTime !== ""
+      ) {
+        this.setState({ isReturnModeProcessCompleted: true });
+        if (this.props.selectReturnMode) {
+          this.props.selectReturnMode();
+        }
+      } else {
+        this.props.displayToast("Please Select all detail.");
       }
     } else {
       this.newReturnInitiate();
