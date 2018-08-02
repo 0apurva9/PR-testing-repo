@@ -7,6 +7,7 @@
   height: 50px;
   transition: 300ms;
   position: relative;
+  padding-right: 30px;
 }
 .textBox {
   height: auto;
@@ -55,6 +56,18 @@
   padding: 15px 30px 15px 15px;
   line-height: normal;
   font-size: 13px;
+}
+.text1 {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+.text2 {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: right;
 }
 @media screen and (min-width: 1025px) {
   .textBox {

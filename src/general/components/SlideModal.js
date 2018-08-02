@@ -9,7 +9,10 @@ export default class SlideModal extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{ width: this.props.width, height: this.props.height }}
+      >
         <div className={styles.content}>{this.props.children}</div>
         <div
           className={styles.cancel}
@@ -23,5 +26,6 @@ export default class SlideModal extends React.Component {
 }
 
 SlideModal.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  width: PropTypes.string
 };
