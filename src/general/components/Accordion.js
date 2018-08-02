@@ -55,6 +55,12 @@ export default class Accordion extends React.Component {
             {this.props.text && (
               <h3 className={styles.text}>{this.props.text}</h3>
             )}
+            {this.props.text1 && (
+              <div className={styles.text1}>{this.props.text1}</div>
+            )}
+            {this.props.text2 && (
+              <div className={styles.text2}>{this.props.text2}</div>
+            )}
             {this.props.headerElement && (
               <div
                 className={styles.faqQuestion}

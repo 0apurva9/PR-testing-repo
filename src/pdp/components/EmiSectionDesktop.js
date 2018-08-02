@@ -49,9 +49,10 @@ export default class EmiSectionDesktop extends React.Component {
                 return (
                   <div className={styles.dropdownDataHolder}>
                     <Accordion
-                      text={`${val.term} EMI @ ${interestRate} %`}
+                      text1={`${val.term} EMI @ ${interestRate} %`}
+                      text2={`Rs ${val.monthlyInstallment} / Month`}
                       key={i}
-                      offset={20}
+                      offset={15}
                       activeBackground="#f9f9f9"
                     >
                       <div className={styles.tenureDataHolder}>
