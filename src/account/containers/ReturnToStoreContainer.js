@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
               ownProps.history.go(-4);
             }
           } else {
-            ownProps.history.go(-2);
+            ownProps.history.go(-1);
           }
         }
       });

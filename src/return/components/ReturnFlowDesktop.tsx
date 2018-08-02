@@ -39,6 +39,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     };
   }
   componentDidMount() {
+    window.addEventListener("resize", this.handleWindowSizeChange);
     let orderCode = this.orderCode;
     let transactionId = this.transactionId;
 
@@ -54,6 +55,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
       this.props.getUserAddress();
     }
   }
+  handleWindowSizeChange = () => {
+    if (window.innerWidth < 1025) {
+      window.location.reload();
+    }
+  };
+
   private navigateToLogin() {
     return <div />;
   }
