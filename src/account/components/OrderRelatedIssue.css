@@ -19,10 +19,10 @@
 }
 .selectedOrder {
   width: 100%;
-  height: 70px;
+  height: auto;
   display: inline-block;
   background: #fff;
-  padding: 20px 60px 20px 20px;
+  padding: 20px 20px 20px 20px;
   border-radius: 4px;
   overflow: hidden;
   position: relative;
@@ -35,7 +35,7 @@
   position: absolute;
   background-size: auto 14px;
   background-repeat: no-repeat;
-  right: 50px;
+  right: 0px;
   top: 0;
   bottom: 0;
   margin: auto;
@@ -100,4 +100,51 @@
   height: auto;
   text-align: center;
   display: inline-block;
+}
+.otherIssueHolder {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+}
+.textInformationHolder {
+  width: 100%;
+  height: auto;
+  position: relative;
+  margin-top: 22px;
+}
+.orderCardHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 10px 0px;
+}
+.imageHolder {
+  width: 40%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.dataHolder {
+  width: 60%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 10px 0px 10px;
+}
+.dataDescription {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 14px;
+  font-family: light;
+  margin-bottom: 10px;
+  line-height: 20px;
+}
+.dataDescription:last-child {
+  margin-bottom: 0px;
+}
+.headingHolder {
+  width: 100%;
+  height: auto;
+  position: relative;
 }
