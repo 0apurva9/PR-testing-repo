@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./FloatingLabelInput.css";
+import PropTypes from "prop-types";
 export default class FloatingLabelInput extends React.Component {
   constructor(props) {
     super(props);
@@ -34,11 +35,19 @@ export default class FloatingLabelInput extends React.Component {
       this.props.onKeyPress(event);
     }
   }
+  handleKeyUp = event => {
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(event);
+    }
+  };
   handleChange(event) {
     const NUMBER_REGEX = /^[0-9]+$/;
     const ALPHABET_REGEX = /^[a-zA-Z ]+$/;
-    if (this.props.onlyNumber) {
-      if (event.target.value === "" || NUMBER_REGEX.test(event.target.value)) {
+    if (this.props.onlyAlphabet) {
+      if (
+        event.target.value === "" ||
+        ALPHABET_REGEX.test(event.target.value)
+      ) {
         this.setState({ value: event.target.value }, () => {
           if (this.props.onChange) {
             this.props.onChange(this.state.value);
@@ -48,11 +57,8 @@ export default class FloatingLabelInput extends React.Component {
         event.preventDefault();
       }
     }
-    if (this.props.onlyAlphabet) {
-      if (
-        event.target.value === "" ||
-        ALPHABET_REGEX.test(event.target.value)
-      ) {
+    if (this.props.onlyNumber) {
+      if (event.target.value === "" || NUMBER_REGEX.test(event.target.value)) {
         this.setState({ value: event.target.value }, () => {
           if (this.props.onChange) {
             this.props.onChange(this.state.value);
@@ -88,6 +94,7 @@ export default class FloatingLabelInput extends React.Component {
           {this.props.label}
         </span>
         <input
+          onKeyUp={event => this.handleKeyUp(event)}
           onKeyPress={event => this.handleKeyPress(event)}
           type={this.props.type}
           maxLength={this.props.maxLength}
@@ -100,6 +107,20 @@ export default class FloatingLabelInput extends React.Component {
     );
   }
 }
+FloatingLabelInput.propTypes = {
+  maxLength: PropTypes.string,
+  type: PropTypes.string,
+  onlyAlphabet: PropTypes.bool,
+  onlyNumber: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  height: PropTypes.string
+};
 FloatingLabelInput.defaultProps = {
   type: "text",
   onlyAlphabet: false,

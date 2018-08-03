@@ -15,7 +15,12 @@ export default class OrderRelatedIssue extends React.Component {
     this.state = {
       isSelected: 0,
       isSelectedOrder: false,
-      name: ""
+      name: "",
+      phone: "",
+      email: "",
+      name1: "",
+      phone1: "",
+      email1: ""
     };
   }
   tabSelect(val) {
@@ -157,7 +162,7 @@ export default class OrderRelatedIssue extends React.Component {
               <div className={styles.textInformationHolder}>
                 <FloatingLabelInput
                   label="Phone*"
-                  maxLength={10}
+                  maxLength={"10"}
                   value={this.state.phone}
                   onChange={phone => this.onChange({ phone })}
                   onlyNumber={true}
@@ -250,7 +255,7 @@ export default class OrderRelatedIssue extends React.Component {
               <div className={styles.textInformationHolder}>
                 <FloatingLabelInput
                   label="Phone*"
-                  maxLength={10}
+                  maxLength={"10"}
                   value={this.state.phone1}
                   onChange={phone1 => this.onChange({ phone1 })}
                   onlyNumber={true}
