@@ -240,10 +240,15 @@ color: #fff; background-color: #000;}
   </div>
 <div id="productsListContainer" class="products-list">
   <div class="" [class]="sortVisible ? 'products-list-blr' : ''">
-    <div class="hide-content" [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"></div>
+    <div class="hide-content" [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"
+     on="tap:autoSearch.submit" role="search-submit" tabindex="1"></div>
+
     <div class="hide-content" [class]="searchClicked ? 'page-search-box' : 'hide-content'">
-      <input id="searchInput" placeholder="What are you looking for?" class="search-input" name="search" type="text" />
+      <form id="autoSearch" method="get" action="/amp/search/?searchCategory=all" target="_top">
+        <input id="searchInput" placeholder="What are you looking for?" class="search-input" name="text" type="text" />
+      </form>
     </div>
+
     <div id="searchClose" class="hide-content" [class]="searchClicked ? 'page-search-close' : 'hide-content'"
     on="tap:AMP.setState({searchClicked : false}),searchClose.hide" role="search-close" tabindex="0"></div>
   </div>
@@ -290,7 +295,7 @@ color: #fff; background-color: #000;}
             <!-- Labels on tiles -->
 
             <div class="lv-product-img">
-              <amp-img src="{{imageURL}}" class="" [class]="{{inStockFlag}} ? '' : 'overlay-opaque'" width="252" height="374"
+              <amp-img src="{{imageURL}}" class="" [class]="{{cumulativeStockLevel}} ? '' : 'overlay-opaque'" width="252" height="374"
                 layout="responsive"></amp-img>
             </div>
             <div class="product-info" [class]="switchLayout ? 'lv-product-info' : 'product-info'">
