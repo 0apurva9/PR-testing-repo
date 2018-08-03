@@ -183,7 +183,7 @@ class Login extends Component {
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Enter Email or Mobile number"}
+                placeholder={"Enter Email"}
                 emailValue={
                   this.props.emailValue
                     ? this.props.emailValue
