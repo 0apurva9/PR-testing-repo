@@ -25,6 +25,9 @@ export default class OrderRelatedIssue extends React.Component {
   }
   tabSelect(val) {
     this.setState({ isSelected: val });
+    if (this.state.isSelected === 1) {
+      this.setState({ isSelectedOrder: false });
+    }
   }
   selectedOrder() {
     if (this.state.isSelectedOrder === true) {
