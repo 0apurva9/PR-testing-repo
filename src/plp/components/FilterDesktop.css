@@ -49,8 +49,14 @@
 }
 .filterHeader {
   font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
   font-family: semibold;
   color: #212121;
+  padding: 5px 0px;
 }
 .facetData {
   padding-top: 10px;
