@@ -223,7 +223,8 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml
+      template: paths.appHtml,
+      version: process.env.REACT_APP_VERSION
     }),
     new PreloadWebpackPlugin({
       rel: "preload",
