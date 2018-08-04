@@ -256,7 +256,7 @@ module.exports = {
         minifyURLs: true
       },
       stage: process.env.REACT_APP_STAGE,
-      version: process.env.REACT_APP_VERSION
+      version: process.env.REACT_APP_VERSION // version can be pwa or desktop
     }),
     new PreloadWebpackPlugin({
       rel: "preload",
