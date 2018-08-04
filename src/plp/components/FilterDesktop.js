@@ -209,55 +209,64 @@ export default class FilterDesktop extends React.Component {
                         facetDataValues.values &&
                         facetDataValues.values.map((val, i) => {
                           return (
-                            <ColourSelect
-                              colour={val.hexColor}
-                              onSelect={data => this.onFilterClick(data)}
-                              selected={val.selected}
-                              value={val.url}
-                            />
+                            <div className={styles.filtersSubTab}>
+                              <ColourSelect
+                                colour={val.hexColor}
+                                onSelect={data => this.onFilterClick(data)}
+                                selected={val.selected}
+                                value={val.url}
+                              />
+                            </div>
                           );
                         })}
 
                       {facetDataValues &&
                         facetDataValues.name === BRAND &&
                         facetDataValues.values && (
-                          <BrandFilterTabDesktop
-                            onFilterClick={this.onFilterClick}
-                            brandsList={facetDataValues.values}
-                            onBrandSearch={this.onBrandSearch}
-                            history={this.props.history}
-                          />
+                          <div className={styles.filtersSubTab}>
+                            <BrandFilterTabDesktop
+                              onFilterClick={this.onFilterClick}
+                              brandsList={facetDataValues.values}
+                              onBrandSearch={this.onBrandSearch}
+                              history={this.props.history}
+                            />
+                          </div>
                         )}
                       {facetDataValues &&
                         facetDataValues.name === PRICE &&
                         facetDataValues.values && (
-                          <PriceFilterTabDesktop
-                            priceList={facetDataValues.values}
-                            history={this.props.history}
-                            onFilterClick={this.onFilterClick}
-                          />
+                          <div className={styles.filtersSubTab}>
+                            <PriceFilterTabDesktop
+                              priceList={facetDataValues.values}
+                              history={this.props.history}
+                              onFilterClick={this.onFilterClick}
+                            />
+                          </div>
                         )}
                       {facetDataValues &&
                         facetDataValues.name !== COLOUR &&
                         facetDataValues.name !== BRAND &&
                         facetDataValues.name !== PRICE &&
-                        facetDataValues.values &&
-                        facetDataValues.values.map((val, i) => {
-                          return (
-                            <FilterSelect
-                              onClick={this.onFilterClick}
-                              selected={val.selected}
-                              hexColor={val.hexColor}
-                              label={val.name}
-                              count={val.count}
-                              url={val.url}
-                              value={val.value}
-                              isBrand={facetDataValues.name === BRAND}
-                              categoryId={categoryId}
-                              history={this.props.history}
-                            />
-                          );
-                        })}
+                        facetDataValues.values && (
+                          <div className={styles.filtersSubTab}>
+                            {facetDataValues.values.map((val, i) => {
+                              return (
+                                <FilterSelect
+                                  onClick={this.onFilterClick}
+                                  selected={val.selected}
+                                  hexColor={val.hexColor}
+                                  label={val.name}
+                                  count={val.count}
+                                  url={val.url}
+                                  value={val.value}
+                                  isBrand={facetDataValues.name === BRAND}
+                                  categoryId={categoryId}
+                                  history={this.props.history}
+                                />
+                              );
+                            })}
+                          </div>
+                        )}
                     </div>
                   )
                 );
