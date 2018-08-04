@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./TextWithUnderLine.css";
-
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import PropTypes from "prop-types";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -86,13 +87,21 @@ export default class TextWithUnderLine extends React.Component {
 
         {defaultPinCode && (
           <React.Fragment>
-            <div className={styles.button}>
-              <UnderLinedButton label={this.props.buttonLabel} />
-            </div>
-            <div
-              className={styles.defaultClickArea}
-              onClick={() => this.onClick()}
-            />
+            <MobileOnly>
+              <div className={styles.button}>
+                <UnderLinedButton label={this.props.buttonLabel} />
+              </div>
+
+              <div
+                className={styles.defaultClickArea}
+                onClick={() => this.onClick()}
+              />
+            </MobileOnly>
+            <DesktopOnly>
+              <div className={styles.button} onClick={() => this.onClick()}>
+                <UnderLinedButton label={this.props.buttonLabel} />
+              </div>
+            </DesktopOnly>
           </React.Fragment>
         )}
       </div>

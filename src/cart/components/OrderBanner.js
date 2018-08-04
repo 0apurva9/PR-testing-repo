@@ -3,7 +3,8 @@ import styles from "./OrderBanner.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import * as Cookie from "../../lib/Cookie.js";
-import { LOGGED_IN_USER_DETAILS } from "../../lib/constants.js";
+import { LOGGED_IN_USER_DETAILS, HOME_ROUTER } from "../../lib/constants.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 export default class OrderBanner extends React.Component {
   handleClick() {
@@ -11,7 +12,9 @@ export default class OrderBanner extends React.Component {
       this.props.onClick();
     }
   }
-
+  onContinueShopping() {
+    this.props.history.push(HOME_ROUTER);
+  }
   render() {
     let firstName =
       userDetails &&
@@ -39,6 +42,20 @@ export default class OrderBanner extends React.Component {
               />
             </div>
           )}
+          <DesktopOnly>
+            {this.props.isContinueShopping && (
+              <div className={styles.buttonHolder}>
+                <Button
+                  type="hollow"
+                  color="#fff"
+                  label={this.props.continueButton}
+                  height={37}
+                  width={175}
+                  onClick={() => this.onContinueShopping()}
+                />
+              </div>
+            )}
+          </DesktopOnly>
         </div>
       </div>
     );
@@ -54,5 +71,7 @@ OrderBanner.propTypes = {
 
 OrderBanner.defaultProps = {
   buttonText: "Track Order",
-  isTrack: false
+  isTrack: false,
+  isContinueShopping: false,
+  continueButton: "Continue shopping"
 };

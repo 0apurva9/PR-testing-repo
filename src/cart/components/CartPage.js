@@ -597,15 +597,6 @@ class CartPage extends React.Component {
                   )}
               </MobileOnly>
               <MobileOnly>
-                {cartDetails.products && (
-                  <SavedProduct
-                    saveProduct={() => this.goToWishList()}
-                    onApplyCoupon={() => this.goToCouponPage()}
-                    appliedCouponCode={this.state.appliedCouponCode}
-                  />
-                )}
-              </MobileOnly>
-              <MobileOnly>
                 {this.state.showCheckoutSection &&
                   cartDetails.products &&
                   cartDetails.cartAmount && (

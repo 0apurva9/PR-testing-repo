@@ -3,10 +3,12 @@
     max-width: 1200px;
     margin: auto;
     height: auto;
+    position: relative;
   }
   .profileMenu {
     width: 20%;
-    height: 200px;
+    position: sticky;
+    top: 180px;
     display: inline-block;
     vertical-align: top;
     max-width: 240px;
@@ -31,6 +33,8 @@
     vertical-align: top;
     border-radius: 4px;
     max-width: 240px;
+    position: sticky;
+    top: 180px;
   }
 }
 @media screen and (max-height: 780px) {

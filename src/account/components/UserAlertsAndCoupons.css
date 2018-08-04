@@ -16,7 +16,8 @@
 @media screen and (min-width: 1025px) {
   .base {
     background-color: #ececec;
-    padding: 80px 0px 0px 0px;
+    padding: 80px 0px 100px 0px;
+    min-height: 0px;
   }
   .alertAndCouponDetailsWithHolder {
     width: 100%;
@@ -37,11 +38,11 @@
   .tabHeader {
     display: inline-block;
     max-width: 676px;
-    position: fixed;
+    position: sticky;
     top: 180px;
     z-index: 20;
     border-radius: 4px;
-    width: calc(60% - 44px);
+    width: 100%;
   }
 }
 @media screen and (max-width: 1024px) {

@@ -5,20 +5,23 @@ import styles from "./ConfirmAddress.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DeliveryAddressCart from "./DeliveryAddressCart.js";
 import PropTypes from "prop-types";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class ConfirmAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showAll: false,
-      label: "More"
+      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
     };
   }
   showMore() {
     this.setState({ showAll: !this.state.showAll }, () => {
-      if (this.state.label === "More") {
+      if (this.state.label === "More" || this.state.label === "See all") {
         this.setState({ label: "Hide" });
       } else {
-        this.setState({ label: "More" });
+        this.setState({
+          label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
+        });
       }
     });
   }

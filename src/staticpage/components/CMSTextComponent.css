@@ -23,3 +23,17 @@
   padding: 0px 15px 15px;
   font-family: regular;
 }
+@media screen and (min-width: 1025px) {
+  .questionAnswerHolder {
+    border-bottom: 1px solid #ebebeb;
+  }
+  .questionAnswerHolder:last-child {
+    border-bottom: none;
+  }
+  .questionAnswerHolder::before {
+    border-bottom: none;
+  }
+  .answer {
+    font-family: light;
+  }
+}

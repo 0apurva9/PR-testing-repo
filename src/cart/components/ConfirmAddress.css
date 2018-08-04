@@ -55,8 +55,10 @@
   .moreButtonHolder {
     width: auto;
     height: 25px;
-    position: relative;
-    top: 0;
-    left: 15px;
+    position: absolute;
+    right: 15px;
+    bottom: 50px;
+    top: unset;
+    left: initial;
   }
 }

@@ -99,6 +99,10 @@ export default class HeaderWrapper extends React.Component {
     const url = `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`;
     this.props.history.push(url);
   };
+  goToMyAccount = () => {
+    const url = `${MY_ACCOUNT_PAGE}`;
+    this.props.history.push(url);
+  };
   componentDidMount() {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
@@ -317,6 +321,7 @@ export default class HeaderWrapper extends React.Component {
               searchHolder={<SearchContainer />}
               headerBrandAndCategoryDetails={this.props.headerDetails}
               goToWishList={() => this.goToDefaultWishList()}
+              goToMyAccount={() => this.goToMyAccount()}
             />
           </DesktopOnly>
         </React.Fragment>

@@ -85,45 +85,49 @@
     text-align: center;
     padding-top: 75px;
   }
-  .noSubHeader{
-    composes:base;
-    padding-top:30px;
+  .noSubHeader {
+    composes: base;
+    padding-top: 30px;
+    min-height: 0px;
+    padding-bottom: 100px;
   }
   .pageCenter {
     width: 1200px;
     display: inline-block;
     max-width: 100%;
     text-align: left;
-    position:relative;
+    position: relative;
   }
-  .products , .deliveryAddress{
-    padding:0;
+  .products,
+  .deliveryAddress {
+    padding: 0;
   }
   .leftSection {
     width: 70%;
     padding-right: 30px;
-    display:inline-block;
-    vertical-align:top;
+    display: inline-block;
+    vertical-align: top;
   }
-  .rightSection{
-    width:30%;
-    display:inline-block;
-    position:sticky;
-    top:105px;
-    vertical-align:top;
+  .rightSection {
+    width: 30%;
+    display: inline-block;
+    position: sticky;
+    top: 105px;
+    vertical-align: top;
   }
   .addDeliveryAddressHolder {
     text-align: center;
   }
   .header {
     padding: 20px 30px;
-    border-radius:4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
   }
   .orderConfirmationHolder {
     margin-bottom: 0;
+    padding: 0px;
   }
-  .addInitialAddAddress{
-    padding:0;
+  .addInitialAddAddress {
+    padding: 0;
   }
   .disclaimer {
     width: 100%;
@@ -139,5 +143,43 @@
     line-height: 20px;
     margin-top: 20px;
   }
-
+  .paymentFailure {
+    width: 100%;
+    height: 60px;
+    background: #ffd2d8;
+  }
+  .paymentFailureClose {
+    composes: paymentFailure;
+    display: none;
+  }
+  .paymentFailureWrap {
+    width: 100%;
+    height: 100%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+  }
+  .paymentText {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #000000;
+    font-size: 14px;
+    font-family: regular;
+  }
+  .paymentFailButtonHolder {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .closeButton {
+    width: auto;
+    height: auto;
+    display: flex;
+  }
 }

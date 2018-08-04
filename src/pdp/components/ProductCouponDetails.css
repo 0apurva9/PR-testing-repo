@@ -67,9 +67,6 @@
   .base {
     background: #f9f9f9;
   }
-  .searchHolder {
-    padding: 25px 35px;
-  }
   .heading {
     width: 100%;
     height: 60px;
@@ -81,5 +78,12 @@
   }
   .stickyPortion {
     top: 60px;
+  }
+  .stickyHeader,
+  .header {
+    background-color: #f9f9f9;
+  }
+  .searchHolder {
+    background: #fff;
   }
 }

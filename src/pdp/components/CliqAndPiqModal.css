@@ -57,12 +57,20 @@
   position: sticky;
   height: auto;
   top: 0px;
-  z-index: 1;
+  border-radius: 4px 4px 0px 0px;
+  overflow: hidden;
   border-bottom: 1px solid #ececec;
+  z-index: 1;
 }
 .loadingIndicator {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+.getLocationDetailsHolder {
+  border-radius: 0px 0px 4px 4px;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
 }
