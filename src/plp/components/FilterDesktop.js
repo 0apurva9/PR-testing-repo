@@ -209,14 +209,12 @@ export default class FilterDesktop extends React.Component {
                         facetDataValues.values &&
                         facetDataValues.values.map((val, i) => {
                           return (
-                            <div className={styles.filtersSubTab}>
-                              <ColourSelect
-                                colour={val.hexColor}
-                                onSelect={data => this.onFilterClick(data)}
-                                selected={val.selected}
-                                value={val.url}
-                              />
-                            </div>
+                            <ColourSelect
+                              colour={val.hexColor}
+                              onSelect={data => this.onFilterClick(data)}
+                              selected={val.selected}
+                              value={val.url}
+                            />
                           );
                         })}
 
@@ -291,20 +289,20 @@ export default class FilterDesktop extends React.Component {
                       }
                       onOpen={() => this.onOpenAccordion(facetDataValues.name)}
                     >
+                      {facetDataValues &&
+                        facetDataValues.name === COLOUR &&
+                        facetDataValues.values &&
+                        facetDataValues.values.map((val, i) => {
+                          return (
+                            <ColourSelect
+                              colour={val.hexColor}
+                              onSelect={data => this.onFilterClick(data)}
+                              selected={val.selected}
+                              value={val.url}
+                            />
+                          );
+                        })}
                       <div className={styles.filtersSubTab}>
-                        {facetDataValues &&
-                          facetDataValues.name === COLOUR &&
-                          facetDataValues.values &&
-                          facetDataValues.values.map((val, i) => {
-                            return (
-                              <ColourSelect
-                                colour={val.hexColor}
-                                onSelect={data => this.onFilterClick(data)}
-                                selected={val.selected}
-                                value={val.url}
-                              />
-                            );
-                          })}
                         {facetDataValues &&
                           facetDataValues.name === BRAND &&
                           facetDataValues.values && (
