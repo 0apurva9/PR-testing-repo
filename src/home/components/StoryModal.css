@@ -8,3 +8,13 @@
   right: 0;
   background: #fff;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    max-width: 515px;
+    max-height: 680px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 4px;
+    position: relative;
+  }
+}

@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "../../xelpmoc-core/Image";
 import styles from "./StoryWidget.css";
-
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class StoryWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -81,6 +82,17 @@ export default class StoryWidget extends React.Component {
     if (this.props.feedComponentData && this.props.feedComponentData.items) {
       return (
         <div className={styles.base}>
+          <DesktopOnly>
+            <div className={styles.leftArrow} onClick={evt => this.back(evt)}>
+              <div className={styles.leftIcon} />
+            </div>
+            <div
+              className={styles.rightArrow}
+              onClick={evt => this.forward(evt)}
+            >
+              <div className={styles.rightIcon} />
+            </div>
+          </DesktopOnly>
           <div className={styles.timerHolder}>
             <div className={styles.timer}>
               <div
@@ -102,14 +114,16 @@ export default class StoryWidget extends React.Component {
           </div>
 
           {this.props.feedComponentData.items.length > 0 && (
-            <div
-              className={styles.gallery}
-              style={{ transform: `translateX(${translateAmount}%)` }}
-              onTouchStart={evt => this.handleSwipeStart(evt)}
-              onTouchMove={evt => this.handleSwipeMove(evt)}
-              onTouchEnd={evt => this.handleSwipeEnd(evt)}
-            >
-              {this.props.children}
+            <div className={styles.galleryHolder}>
+              <div
+                className={styles.gallery}
+                style={{ transform: `translateX(${translateAmount}%)` }}
+                onTouchStart={evt => this.handleSwipeStart(evt)}
+                onTouchMove={evt => this.handleSwipeMove(evt)}
+                onTouchEnd={evt => this.handleSwipeEnd(evt)}
+              >
+                {this.props.children}
+              </div>
             </div>
           )}
           {this.renderLoader()}

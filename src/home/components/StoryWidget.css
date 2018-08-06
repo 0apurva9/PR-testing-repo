@@ -129,3 +129,53 @@
   right: 0;
   top: 0;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 65px;
+  }
+  .galleryHolder {
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+  }
+  .leftArrow {
+    width: 32px;
+    height: 32px;
+    background-color: #c3c3c3;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 30px;
+    margin: auto;
+    cursor: pointer;
+  }
+  .leftIcon {
+    width: 32px;
+    height: 32px;
+    background: url(../../general/components/img/down-arrow-white.svg) no-repeat;
+    background-size: auto 12px;
+    background-position: center;
+    transform: rotate(90deg);
+  }
+  .rightArrow {
+    width: 32px;
+    height: 32px;
+    background-color: #c3c3c3;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 30px;
+    margin: auto;
+    cursor: pointer;
+  }
+  .rightIcon {
+    width: 32px;
+    height: 32px;
+    background: url(../../general/components/img/down-arrow-white.svg) no-repeat;
+    background-size: auto 12px;
+    background-position: center;
+    transform: rotate(270deg);
+  }
+}
