@@ -75,7 +75,7 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
-  elementWidthDesktop: 100,
-  elementWidthMobile: 100,
+  elementWidthDesktop: 25,
+  elementWidthMobile: 50,
   offset: 10
 };
