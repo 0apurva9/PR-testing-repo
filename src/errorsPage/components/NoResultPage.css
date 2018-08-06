@@ -49,3 +49,14 @@
   height: auto;
   display: inline-block;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    height: calc(100vh - 100px);
+    background: #b9a2ce url(/static/media/error.99d72e15.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+  .infoText {
+    font-size: 16px;
+  }
+}
