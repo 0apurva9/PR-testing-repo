@@ -118,6 +118,7 @@ app.get("/*", (req, res) => {
     var middleUrlPart = "&pageSize=20&page=";
     var tailUrlPart = "&isTextSearch=false&isPwa=true";
 
+    var channelText = "productsearch_amp";
     var canonicalPlpAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
     var canonicalPlpPwaUrl =
       req.protocol + "://" + req.get("host") + removeWord(origUrl, "/amp");
@@ -139,6 +140,7 @@ app.get("/*", (req, res) => {
       metaDescription: metaDescription,
       searchService: searchService,
       searchTerm: q.query.text,
+      channel: channelText,
       middleUrlPart: middleUrlPart,
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
@@ -171,6 +173,7 @@ app.get("/*", (req, res) => {
     var urlPathName = q.pathname.split("c-");
     var urlPathText = urlPathName[1];
 
+    var channelText = "category_amp";
     var categoryText = "";
     if (urlPathText.search("msh") !== -1) {
       categoryText = "category";
@@ -186,6 +189,7 @@ app.get("/*", (req, res) => {
       middleUrlPart: middleUrlPart,
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
+      channel: channelText,
       canonicalAmpUrl: canonicalPlpAmpUrl,
       canonicalPwaUrl: canonicalPlpPwaUrl
     };
@@ -200,6 +204,7 @@ app.get("/*", (req, res) => {
       "/marketplacewebservices/v2/mpl/products/searchProductPwAmp?searchText=";
     var pageSize = 20;
     var pageNo = 0;
+    var channelText = "category_brand_amp";
     var middleUrlPart = "&pageSize=20&page=";
     var tailUrlPart = "&isTextSearch=false&isPwa=true";
     var canonicalPlpAmpUrl = req.protocol + "://" + req.get("host") + origUrl;
@@ -227,6 +232,7 @@ app.get("/*", (req, res) => {
       metaDescription: metaDescription,
       searchService: searchService,
       searchTerm: categoryText,
+      channel: channelText,
       middleUrlPart: middleUrlPart,
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
