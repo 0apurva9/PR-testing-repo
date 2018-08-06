@@ -67,11 +67,11 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     if (!returnSelectedReason.reason) {
       this.props.displayToast("Please select reason ");
       return false;
-    }
-    if (
+    } else if (
       this.props.returnProductDetails &&
       this.props.returnProductDetails.showReverseSealFrJwlry === "yes" &&
-      returnSelectedReason.reverseSeal === ""
+      (returnSelectedReason.reverseSeal === "" ||
+        returnSelectedReason.reverseSeal.length === 0)
     ) {
       this.props.displayToast("Please Select Reverse Seal ");
       return false;
