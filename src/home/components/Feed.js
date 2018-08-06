@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Helmet from "react-helmet";
 import WidgetContainer from "../containers/WidgetContainer";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
 import AutomatedBrandProductCarousel from "./AutomatedBrandProductCarousel.js";
@@ -331,6 +332,15 @@ class Feed extends Component {
       ? renderMetaTags(data)
       : renderMetaTagsWithoutSeoObject(data);
   };
+
+  renderAmpTags = () => {
+    return (
+      <Helmet>
+        <link rel="amphtml" href={`/amp/home`} />
+      </Helmet>
+    );
+  };
+
   componentWillUnmount() {
     if (this.props.setPageFeedSize && this.props.isHomePage) {
       this.props.setPageFeedSize(this.pageSize);
@@ -360,6 +370,7 @@ class Feed extends Component {
     return (
       <React.Fragment>
         {this.renderMetaTags()}
+        {this.renderAmpTags()}
         {this.props.homeFeedData ? (
           <List
             pageSize={this.props.pageSize ? this.props.pageSize : 1}
