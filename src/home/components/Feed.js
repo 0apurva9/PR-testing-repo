@@ -370,7 +370,7 @@ class Feed extends Component {
     return (
       <React.Fragment>
         {this.renderMetaTags()}
-        {this.renderAmpTags()}
+        {this.props.isHomePage ? this.renderAmpTags() : null}
         {this.props.homeFeedData ? (
           <List
             pageSize={this.props.pageSize ? this.props.pageSize : 1}
