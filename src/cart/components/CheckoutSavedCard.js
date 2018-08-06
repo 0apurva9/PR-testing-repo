@@ -88,11 +88,13 @@ export default class CheckoutSavedCard extends React.Component {
               <SavedCard
                 key={i}
                 cvv={this.state.cvv}
+                validateSavedCard={this.props.validateSavedCard}
                 onFocusInput={this.props.onFocusInput}
                 cardNumber={data.value.cardEndingDigits}
                 cardImage={cardLogo}
                 selected={i === this.state.selectedCardIndex}
                 onChangeCvv={(cvv, cardNo) => this.onChangeCvv(cvv, cardNo, i)}
+                onCheckout={this.props.onCheckout}
               />
             );
           })}
@@ -108,5 +110,6 @@ CheckoutSavedCard.propTypes = {
       cardImage: PropTypes.string
     })
   ),
-  onChangeCvv: PropTypes.func
+  onChangeCvv: PropTypes.func,
+  validateSavedCard: PropTypes.func
 };
