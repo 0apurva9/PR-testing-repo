@@ -335,7 +335,6 @@ export default class AllOrderDetails extends React.Component {
                                 ? orderDetails.billingAddress.postalcode
                                 : ""
                             }`;
-
                       let placeHolder =
                         orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile
@@ -440,7 +439,22 @@ export default class AllOrderDetails extends React.Component {
                                 {!orderDetails.isEgvOrder &&
                                   orderDetails && (
                                     <OrderDelivered
-                                      deliveredAddress1={userName}
+                                      deliveredAddress1={
+                                        orderDetails.pickupPersonName ||
+                                        orderDetails.pickupPersonMobile
+                                          ? `${
+                                              orderDetails.pickupPersonName
+                                                ? orderDetails.pickupPersonName
+                                                : ""
+                                            }${
+                                              orderDetails.pickupPersonMobile
+                                                ? `, ${
+                                                    orderDetails.pickupPersonMobile
+                                                  }`
+                                                : ""
+                                            }`
+                                          : userName
+                                      }
                                       deliveredAddress2={
                                         orderDetails &&
                                         orderDetails.billingAddress.addressLine1
@@ -448,23 +462,34 @@ export default class AllOrderDetails extends React.Component {
                                               .addressLine1
                                           : ""
                                       }
-                                      deliveredAddress3={`${
+                                      deliveredAddress3={
                                         orderDetails &&
-                                        orderDetails.billingAddress.state
-                                          ? orderDetails.billingAddress.state
-                                          : ""
-                                      }, ${
-                                        orderDetails &&
-                                        orderDetails.billingAddress.town
-                                          ? orderDetails.billingAddress.town
-                                          : ""
-                                      }, ${
-                                        orderDetails &&
-                                        orderDetails.billingAddress.postalcode
-                                          ? orderDetails.billingAddress
-                                              .postalcode
-                                          : ""
-                                      }`}
+                                        orderDetails.billingAddress &&
+                                        `${
+                                          orderDetails &&
+                                          orderDetails.billingAddress &&
+                                          orderDetails.billingAddress.state
+                                            ? orderDetails.billingAddress.state
+                                            : ""
+                                        }${
+                                          orderDetails &&
+                                          orderDetails.billingAddress &&
+                                          orderDetails.billingAddress.town
+                                            ? `, ${
+                                                orderDetails.billingAddress.town
+                                              }`
+                                            : ""
+                                        }${
+                                          orderDetails &&
+                                          orderDetails.billingAddress &&
+                                          orderDetails.billingAddress.postalcode
+                                            ? `, ${
+                                                orderDetails.billingAddress
+                                                  .postalcode
+                                              }`
+                                            : ""
+                                        }`
+                                      }
                                       orderDeliveryHeaderText={placeHolder}
                                     />
                                   )}
