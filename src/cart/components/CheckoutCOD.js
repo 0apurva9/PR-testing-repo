@@ -18,7 +18,11 @@ export default class CheckoutCOD extends React.Component {
   softReservationForCODPayment = () => {
     this.props.softReservationForCODPayment();
   };
-
+  handleCheckout = () => {
+    if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
+  };
   render() {
     if (this.props.isCliqCashApplied) {
       return null;
@@ -61,12 +65,7 @@ export default class CheckoutCOD extends React.Component {
                         color: "#FFF",
                         fontSize: 14
                       }}
-                      // onClick={
-                      //     this.state.isPaymentFailed
-                      //         ? this
-                      //               .handleSubmitAfterPaymentFailure
-                      //         : this.handleSubmit
-                      // }
+                      onClick={this.handleCheckout}
                     />
                   </div>
                 </div>
