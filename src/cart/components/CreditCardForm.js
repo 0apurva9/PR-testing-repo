@@ -158,6 +158,11 @@ export default class CreditCardForm extends React.Component {
       });
     }
   }
+  handleCheckout = () => {
+    if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
+  };
 
   render() {
     return (
@@ -292,11 +297,7 @@ export default class CreditCardForm extends React.Component {
                       color: "#FFF",
                       fontSize: 14
                     }}
-                    onClick={
-                      this.state.isPaymentFailed
-                        ? this.handleSubmitAfterPaymentFailure
-                        : this.handleSubmit
-                    }
+                    onClick={this.handleCheckout}
                   />
                 </div>
               </DesktopOnly>
