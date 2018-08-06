@@ -10,11 +10,13 @@
 }
 @media screen and (min-width: 1025px) {
   .base {
-    max-width: 515px;
-    max-height: 680px;
     margin: auto;
     overflow: hidden;
     border-radius: 4px;
     position: relative;
+    width: 515px;
+    height: 680px;
+    max-width: 100vw;
+    max-height: 100vh;
   }
 }
