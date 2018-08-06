@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./CreditCardForm.css";
+
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import Icon from "../../xelpmoc-core/Icon";
@@ -7,11 +7,11 @@ import CircleButton from "../../xelpmoc-core/CircleButton";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import informationIcon from "../../general/components/img/Info-grey.svg";
 import Button from "../../general/components/Button";
-import CheckBox from "../../general/components/CheckBox.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
 import cardValidator from "simple-card-validator";
-
-const INSUFFICIENT_DATA_ERROR_MESSAGE = "PLease enter valid card details";
+import styles from "./CreditCardForm.css";
+const INSUFFICIENT_DATA_ERROR_MESSAGE = "Please enter valid card details";
 
 const MERCHANT_ID = "tul_uat2";
 
@@ -279,6 +279,27 @@ export default class CreditCardForm extends React.Component {
                   </div>
                 </div>
               </div>
+              <DesktopOnly>
+                <div className={styles.buttonHolder}>
+                  <Button
+                    disabled={this.props.buttonDisabled}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Pay now"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={
+                      this.state.isPaymentFailed
+                        ? this.handleSubmitAfterPaymentFailure
+                        : this.handleSubmit
+                    }
+                  />
+                </div>
+              </DesktopOnly>
             </div>
           </div>
           <div className={styles.saveCardText}>

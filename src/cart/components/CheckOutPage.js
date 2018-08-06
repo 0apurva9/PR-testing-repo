@@ -474,7 +474,7 @@ class CheckOutPage extends React.Component {
   onBlue() {
     this.setState({ padding: "15px 125px 15px 15px" });
   }
-  renderDeliverModes = () => {
+  renderDeliverModes = checkoutButtonStatus => {
     return (
       <div className={styles.products}>
         <div className={styles.header}>
@@ -514,6 +514,31 @@ class CheckOutPage extends React.Component {
               </div>
             );
           })}
+        <DesktopOnly>
+          <div className={styles.bottomCap}>
+            <div className={styles.alignRight}>
+              <div className={styles.inline}>
+                <Button
+                  disabled={checkoutButtonStatus}
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Continue"
+                  width={150}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={
+                    this.state.isPaymentFailed
+                      ? this.handleSubmitAfterPaymentFailure
+                      : this.handleSubmit
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </DesktopOnly>
       </div>
     );
   };
@@ -2066,6 +2091,43 @@ class CheckOutPage extends React.Component {
       }
     }
   }
+  validateCreditCard = () => {
+    if (this.state.currentPaymentMode === CREDIT_CARD) {
+      return this.validateCard();
+    }
+  };
+  validateDebitCard = () => {
+    if (this.state.currentPaymentMode === DEBIT_CARD) {
+      return this.validateCard();
+    }
+  };
+  validateNetBanking = () => {
+    if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE)
+      if (!this.state.bankCodeForNetBanking) {
+        return true;
+      } else {
+        return false;
+      }
+    else return false;
+  };
+  validateCOD = () => {
+    if (this.state.currentPaymentMode === CASH_ON_DELIVERY_PAYMENT_MODE) {
+      if (this.state.captchaReseponseForCOD === null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else return false;
+  };
+  validateSavedCard = () => {
+    if (this.state.currentPaymentMode === SAVED_CARD_PAYMENT_MODE) {
+      if (!this.state.savedCardDetails) {
+        return true;
+      } else {
+        return false;
+      }
+    } else return false;
+  };
 
   validateSubmitButton() {
     if (this.state.cardDetails) {
@@ -2368,7 +2430,7 @@ class CheckOutPage extends React.Component {
                   !this.state.isGiftCard &&
                   (this.state.showCliqAndPiq
                     ? this.renderCliqAndPiq()
-                    : this.renderDeliverModes())}
+                    : this.renderDeliverModes(checkoutButtonStatus))}
 
                 {!this.state.isPaymentFailed &&
                   this.state.deliverMode &&
@@ -2399,6 +2461,11 @@ class CheckOutPage extends React.Component {
                   this.state.isGiftCard) && (
                   <div className={styles.paymentCardHolderπp}>
                     <PaymentCardWrapper
+                      creditCardValid={this.validateCreditCard}
+                      debitCardValid={this.validateDebitCard}
+                      validateNetBanking={this.validateNetBanking}
+                      validateCOD={this.validateCOD}
+                      validateSavedCard={this.validateSavedCard}
                       applyBankCoupons={val => this.applyBankCoupons(val)}
                       openBankOfferTncModal={() =>
                         this.props.openBankOfferTncModal()
@@ -2512,6 +2579,11 @@ class CheckOutPage extends React.Component {
                       }
                       changeEmiPlan={() => this.changeEmiPlan()}
                       subEmiOption={this.state.currentSelectedEMIType}
+                      onCheckout={
+                        this.state.isPaymentFailed
+                          ? this.handleSubmitAfterPaymentFailure
+                          : this.handleSubmit
+                      }
                     />
                   </div>
                 )}
