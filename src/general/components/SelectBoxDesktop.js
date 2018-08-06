@@ -165,7 +165,8 @@ export default class SelectBoxDesktop extends React.Component {
           className={styles.arrow}
           style={{
             height: `${this.props.size}px`,
-            width: `${this.props.size}px`
+            width: `${this.props.size}px`,
+            right: `${this.props.rightArrow}px`
           }}
         >
           <Icon
@@ -210,5 +211,6 @@ SelectBoxDesktop.defaultProps = {
   paddingLeftColour: "#8f8f8f",
   paddingLeftFontFamily: "regular",
   paddingLeftFontSize: 14,
-  labelWithLeftChild: false
+  labelWithLeftChild: false,
+  rightArrow: 10
 };

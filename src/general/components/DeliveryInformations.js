@@ -11,6 +11,8 @@ import arrowIcon from "./img/arrowBackblack.svg";
 import greyArrow from "./img/greyArrow.svg";
 import CollectImage from "./img/collect.svg";
 import { EXPRESS, COLLECT } from "../../lib/constants";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 const EXPRESS_TEXT = "Express Delivery";
 const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QUiQ PiQ";
@@ -129,13 +131,24 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText && (
                 <div className={styles.underLineButtonHolder}>
                   <span className={styles.buttonHolderPiq}>
-                    <UnderLinedButton
-                      size="14px"
-                      fontFamily="regular"
-                      color="#ff1744"
-                      label="Check for pick up options"
-                      onClick={() => this.onPiq()}
-                    />
+                    <MobileOnly>
+                      <UnderLinedButton
+                        size="14px"
+                        fontFamily="regular"
+                        color="#ff1744"
+                        label="Check for pick up options"
+                        onClick={() => this.onPiq()}
+                      />
+                    </MobileOnly>
+                    <DesktopOnly>
+                      <UnderLinedButton
+                        size="12px"
+                        fontFamily="light"
+                        color="#ff1744"
+                        label="Check for pick up options"
+                        onClick={() => this.onPiq()}
+                      />
+                    </DesktopOnly>
                   </span>
                 </div>
               )}
