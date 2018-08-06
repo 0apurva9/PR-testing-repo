@@ -12,7 +12,9 @@ import ReturnReasonFormForDesktop from "./ReturnReasonFormForDesktop";
 import ReturnModesForDesktop from "./ReturnModesForDesktop";
 import {
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
+  CUSTOMER_ACCESS_TOKEN,
+  MY_ACCOUNT_PAGE,
+  MY_ACCOUNT_ORDERS_PAGE
 } from "../../lib/constants";
 import ReturnBankFormForDesktop from "./ReturnBankFormForDesktop";
 import ReturnAndOrderCancelWrapper from "./ReturnAndOrderCancelWrapper";
@@ -53,20 +55,33 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
     if (this.props.getUserAddress) {
       this.props.getUserAddress();
     }
+
+    if (!this.props.orderDetails) {
+      this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
+    }
   }
   private navigateToLogin() {
     return <div />;
   }
   handleContinueForReason = (returnSelectedReason: IReturnSelectedReason) => {
-    if (returnSelectedReason.reason) {
+    if (!returnSelectedReason.reason) {
+      this.props.displayToast("Please select reason ");
+      return false;
+    } else if (
+      this.props.returnProductDetails &&
+      this.props.returnProductDetails.showReverseSealFrJwlry === "yes" &&
+      (returnSelectedReason.reverseSeal === "" ||
+        returnSelectedReason.reverseSeal.length === 0)
+    ) {
+      this.props.displayToast("Please Select Reverse Seal ");
+      return false;
+    } else {
       this.setState({
         returnProgressStatus: this.state.isCOD
           ? ReturnStatus.SHOW_BANK_DETAIL_SECTION
           : ReturnStatus.SHOW_SELECT_MODE_SECTION,
         selectedReasonAndCommentObj: returnSelectedReason
       });
-    } else {
-      this.props.displayToast("Please select reason ");
     }
   };
   handleCancelForReason = () => {

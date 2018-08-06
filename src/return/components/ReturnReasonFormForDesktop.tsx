@@ -136,6 +136,16 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
             <div className={styles.textArea}>
               <TextArea onChange={(val: string) => this.handleChange(val)} />
             </div>
+            {returnProductDetails &&
+              returnProductDetails.showReverseSealFrJwlry === "yes" && (
+                <div className={styles.reverseSealHolder}>
+                  <ReverseSealYesNo
+                    selectReverseSeal={(val: string) =>
+                      this.selectReverseSeal(val)
+                    }
+                  />
+                </div>
+              )}
 
             <div className={styles.buttonHolder}>
               <CancelAndContinueButton
@@ -145,14 +155,6 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
             </div>
           </div>
         </div>
-        {returnProductDetails &&
-          returnProductDetails.showReverseSealFrJwlry === "yes" && (
-            <div className={styles.reverseSealHolder}>
-              <ReverseSealYesNo
-                selectReverseSeal={(val: string) => this.selectReverseSeal(val)}
-              />
-            </div>
-          )}
 
         <DummyTab title={MODE_OF_RETURN} number={2} />
         <DummyTab title={REFUND_DETAILS} number={3} />
