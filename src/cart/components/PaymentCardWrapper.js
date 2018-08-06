@@ -137,7 +137,6 @@ export default class PaymentCardWrapper extends React.Component {
   }
 
   render() {
-    console.log(this.props.onCheckout);
     if (this.props.cart.paymentModes) {
       return (
         <div className={styles.base}>

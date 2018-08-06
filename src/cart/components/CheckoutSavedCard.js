@@ -55,7 +55,7 @@ export default class CheckoutSavedCard extends React.Component {
     }
   }
   onChangeCvv(cvv, cardNo, index) {
-    this.setState({ cvv, selectedCardIndex: index, cardNo });
+    this.setState({ cvv, selectedCardIndex: index });
     if (cvv.length >= 3) {
       let paymentModesToDisplay = filter(this.props.saveCardDetails, modes => {
         return modes.value.cardEndingDigits === cardNo;
