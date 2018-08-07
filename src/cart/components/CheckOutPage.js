@@ -2092,7 +2092,10 @@ class CheckOutPage extends React.Component {
     }
   }
   validateCreditCard = () => {
-    if (this.state.currentPaymentMode === CREDIT_CARD) {
+    if (
+      this.state.currentPaymentMode === CREDIT_CARD ||
+      this.state.currentPaymentMode === EMI
+    ) {
       return this.validateCard();
     }
   };
