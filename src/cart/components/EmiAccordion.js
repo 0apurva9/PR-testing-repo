@@ -156,7 +156,8 @@ export default class EmiAccordion extends React.Component {
                 emiData={this.props.emiList}
                 showHeader={false}
                 showButton={true}
-                selectPlan={val => this.handleSelectBank(val)}
+                selectPlan={val => this.handleSelectPlan(val)}
+                selectBank={val => this.handleSelectBank(val)}
                 confirmPlan={() => this.handleConfirmPlan()}
               />
             </DesktopOnly>

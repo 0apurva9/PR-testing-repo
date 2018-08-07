@@ -12,14 +12,14 @@ export default class EmiSectionDesktop extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.selectPlan) {
-      this.props.selectPlan([this.props.emiData[0].code]);
+    if (this.props.selectBank) {
+      this.props.selectBank([this.props.emiData[0].code]);
     }
   }
   tabChange(val) {
     this.setState({ isSelect: val });
-    if (this.props.selectPlan) {
-      this.props.selectPlan([this.props.emiData[val].code]);
+    if (this.props.selectBank) {
+      this.props.selectBank([this.props.emiData[val].code]);
     }
   }
   handleConfirmPlan(value) {
@@ -27,6 +27,11 @@ export default class EmiSectionDesktop extends React.Component {
       this.props.confirmPlan();
     }
   }
+  handleSelectPlanForDesktop = val => {
+    if (this.props.selectPlan) {
+      this.props.selectPlan(val);
+    }
+  };
   render() {
     const bankListData = this.props && this.props.emiData;
     const bankDetails =
@@ -70,6 +75,7 @@ export default class EmiSectionDesktop extends React.Component {
                       key={i}
                       offset={15}
                       activeBackground="#f9f9f9"
+                      onOpen={() => this.handleSelectPlanForDesktop(val)}
                     >
                       <div className={styles.tenureDataHolder}>
                         <div className={styles.textAndAmountHolder}>
