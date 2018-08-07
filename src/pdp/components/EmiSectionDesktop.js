@@ -10,12 +10,21 @@ export default class EmiSectionDesktop extends React.Component {
       isSelect: 0
     };
   }
+
+  componentDidMount() {
+    if (this.props.selectPlan) {
+      this.props.selectPlan([this.props.emiData[0].code]);
+    }
+  }
   tabChange(val) {
     this.setState({ isSelect: val });
+    if (this.props.selectPlan) {
+      this.props.selectPlan([this.props.emiData[val].code]);
+    }
   }
   handleConfirmPlan(value) {
-    if (this.props.selectPlan) {
-      this.props.selectPlan(value, this.state.isSelect);
+    if (this.props.confirmPlan) {
+      this.props.confirmPlan();
     }
   }
   render() {

@@ -43,7 +43,6 @@ export default class EmiAccordion extends React.Component {
   }
 
   handleSelectPlan(val) {
-    console.log(val);
     // this.props.changeEmiPlan();
     if (val) {
       this.setState({
@@ -53,22 +52,6 @@ export default class EmiAccordion extends React.Component {
       });
       this.onChangeCardDetail({
         emi_bank: this.state.selectedBank,
-        emi_tenure: val.term,
-        is_emi: true,
-        selectedEmiRate: val.interestRate,
-        selectedPrice: val.monthlyInstallment
-      });
-    }
-  }
-  handleSelectPlanForDesktop(val, selectedBank) {
-    if (val) {
-      this.setState({
-        selectedEmiRate: val.interestRate,
-        selectedEmi: val.term,
-        selectedPrice: val.monthlyInstallment
-      });
-      this.onChangeCardDetail({
-        emi_bank: selectedBank,
         emi_tenure: val.term,
         is_emi: true,
         selectedEmiRate: val.interestRate,
@@ -173,9 +156,8 @@ export default class EmiAccordion extends React.Component {
                 emiData={this.props.emiList}
                 showHeader={false}
                 showButton={true}
-                selectPlan={(val, selectedBank) =>
-                  this.handleSelectPlanForDesktop(val, selectedBank)
-                }
+                selectPlan={val => this.handleSelectBank(val)}
+                confirmPlan={() => this.handleConfirmPlan()}
               />
             </DesktopOnly>
           </React.Fragment>
@@ -190,11 +172,13 @@ export default class EmiAccordion extends React.Component {
               changePlan={() => this.handleChangePlan()}
             />
             <CreditCardForm
+              buttonDisabled={this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               cardDetails={this.props.cardDetails}
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
               binValidation={binNo => this.binValidation(binNo)}
               displayToast={this.props.displayToast}
+              onCheckout={this.props.onCheckout}
             />
           </React.Fragment>
         )}
