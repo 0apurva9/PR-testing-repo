@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./EmiSectionDesktop.css";
 import PropTypes from "prop-types";
 import Accordion from "../../general/components/Accordion";
+import Button from "../../general/components/Button";
 export default class EmiSectionDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -12,22 +13,28 @@ export default class EmiSectionDesktop extends React.Component {
   tabChange(val) {
     this.setState({ isSelect: val });
   }
+  handleConfirmPlan(value) {
+    if (this.props.selectPlan) {
+      this.props.selectPlan(value, this.state.isSelect);
+    }
+  }
   render() {
     const bankListData = this.props && this.props.emiData;
-
     const bankDetails =
       bankListData &&
-      bankListData.bankList &&
-      bankListData.bankList[this.state.isSelect].emitermsrate;
+      bankListData &&
+      bankListData[this.state.isSelect].emitermsrate;
 
     return (
       <div className={styles.base}>
-        <div className={styles.header}>EMI details</div>
+        {this.props.showHeader && (
+          <div className={styles.header}>EMI details</div>
+        )}
         <div className={styles.displayDataHolder}>
           <div className={styles.bankListHolder}>
             {bankListData &&
-              bankListData.bankList &&
-              bankListData.bankList.map((val, i) => {
+              bankListData &&
+              bankListData.map((val, i) => {
                 return (
                   <div
                     className={
@@ -78,6 +85,21 @@ export default class EmiSectionDesktop extends React.Component {
                             val.interestPayable
                           }`}</div>
                         </div>
+                        {this.props.showButton && (
+                          <div className={styles.buttonHolder}>
+                            <div className={styles.button}>
+                              <Button
+                                type="primary"
+                                width={175}
+                                height={40}
+                                label="Select this plan"
+                                onClick={bankData =>
+                                  this.handleConfirmPlan(val)
+                                }
+                              />
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Accordion>
                   </div>
@@ -105,4 +127,8 @@ EmiSectionDesktop.propTypes = {
       })
     )
   })
+};
+EmiSectionDesktop.defaultProps = {
+  showHeader: true,
+  showButton: false
 };

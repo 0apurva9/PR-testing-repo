@@ -5,6 +5,9 @@ import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
 import { STANDARD_EMI, EMI_TYPE } from "../../lib/constants";
+import EmiSectionDesktop from "../../pdp/components/EmiSectionDesktop";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 const PAYMENT_MODE = "EMI";
 
 const IS_EMI = "1";
@@ -40,6 +43,7 @@ export default class EmiAccordion extends React.Component {
   }
 
   handleSelectPlan(val) {
+    console.log(val);
     // this.props.changeEmiPlan();
     if (val) {
       this.setState({
@@ -56,8 +60,23 @@ export default class EmiAccordion extends React.Component {
       });
     }
   }
+  handleSelectPlanForDesktop(val, selectedBank) {
+    if (val) {
+      this.setState({
+        selectedEmiRate: val.interestRate,
+        selectedEmi: val.term,
+        selectedPrice: val.monthlyInstallment
+      });
+      this.onChangeCardDetail({
+        emi_bank: selectedBank,
+        emi_tenure: val.term,
+        is_emi: true,
+        selectedEmiRate: val.interestRate,
+        selectedPrice: val.monthlyInstallment
+      });
+    }
+  }
   handleSelectBank(val) {
-    // this.props.changeEmiPlan();
     const option = this.props.emiList.filter(data => {
       return data.code === val[0];
     })[0];
@@ -124,29 +143,42 @@ export default class EmiAccordion extends React.Component {
     return (
       <React.Fragment>
         {!this.state.planSelected && (
-          <GridSelect
-            elementWidthMobile={100}
-            elementWidthDesktop={100}
-            offset={0}
-            limit={1}
-            onSelect={val => {
-              this.handleSelectBank(val);
-            }}
-          >
-            {this.props.emiList &&
-              this.props.emiList.map((val, i) => {
-                return (
-                  <EmiCartSelect
-                    key={i}
-                    value={val.code}
-                    title={val.emiBank}
-                    options={val.emitermsrate}
-                    selectPlan={val => this.handleSelectPlan(val)}
-                    confirmPlan={() => this.handleConfirmPlan()}
-                  />
-                );
-              })}
-          </GridSelect>
+          <React.Fragment>
+            <MobileOnly>
+              <GridSelect
+                elementWidthMobile={100}
+                offset={0}
+                limit={1}
+                onSelect={val => {
+                  this.handleSelectBank(val);
+                }}
+              >
+                {this.props.emiList &&
+                  this.props.emiList.map((val, i) => {
+                    return (
+                      <EmiCartSelect
+                        key={i}
+                        value={val.code}
+                        title={val.emiBank}
+                        options={val.emitermsrate}
+                        selectPlan={val => this.handleSelectPlan(val)}
+                        confirmPlan={() => this.handleConfirmPlan()}
+                      />
+                    );
+                  })}
+              </GridSelect>
+            </MobileOnly>
+            <DesktopOnly>
+              <EmiSectionDesktop
+                emiData={this.props.emiList}
+                showHeader={false}
+                showButton={true}
+                selectPlan={(val, selectedBank) =>
+                  this.handleSelectPlanForDesktop(val, selectedBank)
+                }
+              />
+            </DesktopOnly>
+          </React.Fragment>
         )}
         {this.state.planSelected && (
           <React.Fragment>

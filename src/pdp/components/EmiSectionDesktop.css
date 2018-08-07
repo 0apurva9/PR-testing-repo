@@ -86,3 +86,13 @@
   font-size: 14px;
   font-family: semibold;
 }
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 10px 0px 25px 0px;
+}
+.button {
+  display: inline-block;
+  float: right;
+}
