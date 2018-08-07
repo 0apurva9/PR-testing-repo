@@ -119,8 +119,14 @@
       -->
 
   <script type="text/javascript">
+      <% if(htmlWebpackPlugin.options.stage === "production") { %>
+      var clevertap_account_id = "867-R5K-8R5Z";
+      <% } else { %>
+      var clevertap_account_id = "TEST-967-R5K-8R5Z";
+      <% } %>
+
       var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
-      clevertap.account.push({"id": "TEST-967-R5K-8R5Z"});
+      clevertap.account.push({"id": clevertap_account_id});
       clevertap.privacy.push({optOut: false});
       clevertap.privacy.push({useIP: false});
        (function () {
@@ -132,15 +138,17 @@
            s.parentNode.insertBefore(wzrk, s);
         })();
 
-        clevertap.notifications.push({
-            "titleText": 'Would you like to receive Push Notifications?',
-            "bodyText": 'We promise to only send you relevant content and give you updates on your transactions',
-            "okButtonText": 'Sign me up!',
-            "rejectButtonText": 'No thanks',
-            "okButtonColor": '#f28046',
-            "askAgainTimeInSeconds": 5,
-            "serviceWorkerPath": "/service-worker.js" 
-        });
+        setTimeout(function(){
+          clevertap.notifications.push({
+              "titleText": 'Would you like to receive Push Notifications?',
+              "bodyText": 'We promise to only send you relevant content and give you updates on your transactions',
+              "okButtonText": 'Sign me up!',
+              "rejectButtonText": 'No thanks',
+              "okButtonColor": '#f28046',
+              "askAgainTimeInSeconds": 86400,
+              "serviceWorkerPath": "/service-worker.js" 
+          });
+        },10000);
   </script>
 
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
