@@ -49,6 +49,8 @@ function removeWord(originalWord, searchWord) {
 }
 
 var ampServicesStartPoint = "https://tmppprd.tataunistore.com";
+var ampCrossDomainUrl = "http://localhost:8887/build/amp";
+
 if (
   process.env.REACT_APP_STAGE === "p2" ||
   process.env.REACT_APP_STAGE === "production"
@@ -75,6 +77,7 @@ app.get("/*", (req, res) => {
       metaDescription: metaDescription,
       canonicalAmpUrl: canonicalHomeAmpUrl,
       canonicalPwaUrl: canonicalHomePwaUrl,
+      ampCrossDomainUrl: ampCrossDomainUrl,
       defaultPageUrl: defaultPageUrl
     };
 
@@ -102,6 +105,7 @@ app.get("/*", (req, res) => {
       pdpAPI: pdpUrl,
       sizeGuideURL: sizeGuideURL,
       productData: productDataAPI,
+      ampCrossDomainUrl: ampCrossDomainUrl,
       canonicalAmpUrl: canonicalAmpUrl,
       canonicalPwaUrl: canonicalPwaUrl
     };
@@ -144,6 +148,7 @@ app.get("/*", (req, res) => {
       middleUrlPart: middleUrlPart,
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
+      ampCrossDomainUrl: ampCrossDomainUrl,
       canonicalAmpUrl: canonicalPlpAmpUrl,
       canonicalPwaUrl: canonicalPlpPwaUrl
     };
@@ -190,6 +195,7 @@ app.get("/*", (req, res) => {
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
       channel: channelText,
+      ampCrossDomainUrl: ampCrossDomainUrl,
       canonicalAmpUrl: canonicalPlpAmpUrl,
       canonicalPwaUrl: canonicalPlpPwaUrl
     };
@@ -236,6 +242,7 @@ app.get("/*", (req, res) => {
       middleUrlPart: middleUrlPart,
       tailUrlPart: tailUrlPart,
       pageNo: pageNo,
+      ampCrossDomainUrl: ampCrossDomainUrl,
       canonicalAmpUrl: canonicalPlpAmpUrl,
       canonicalPwaUrl: canonicalPlpPwaUrl
     };

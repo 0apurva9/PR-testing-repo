@@ -318,6 +318,25 @@ width: 110px;}
     </template>
   </amp-list>
 
+  <amp-analytics type="adobeanalytics_nativeConfig">
+   <script type="application/json">
+   {
+     "requests": {
+       "base": "http://${host}",
+       "iframeMessage": "<%= ampCrossDomainUrl %>/stats.ejs"
+     },
+     "vars": {
+       "host": "localhost:8887"
+     },
+     "extraUrlParams": {
+       "pageType":"HomeLanding",
+       "pageName": "Amp Home Page",
+       "channel": "homepage_amp"
+     }
+   }
+   </script>
+  </amp-analytics>
+
   <div class="footer-backspace"> </div>
   <div class="footer-menu">
     <a class="no-select" href="https://tatacliq.com"><div class="footer-item footer-first">
