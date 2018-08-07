@@ -67,7 +67,7 @@
   width: 50%;
   display: inline-block;
   vertical-align: top;
-  text-align: right;
+  text-align: left;
 }
 @media screen and (min-width: 1025px) {
   .textBox {

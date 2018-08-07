@@ -119,7 +119,9 @@ export default class EmiModal extends React.Component {
             height="430px"
             closeModal={this.props.closeModal}
           >
-            <EmiSectionDesktop {...this.props} />
+            <EmiSectionDesktop
+              emiData={this.props.emiData && this.props.emiData.bankList}
+            />
           </SlideModal>
         </DesktopOnly>
       </React.Fragment>
