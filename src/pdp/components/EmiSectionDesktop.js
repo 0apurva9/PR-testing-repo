@@ -3,6 +3,10 @@ import styles from "./EmiSectionDesktop.css";
 import PropTypes from "prop-types";
 import Accordion from "../../general/components/Accordion";
 import Button from "../../general/components/Button";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_EMI_BANK_EVENT
+} from "../../lib/adobeUtils";
 export default class EmiSectionDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +25,10 @@ export default class EmiSectionDesktop extends React.Component {
     if (this.props.selectBank) {
       this.props.selectBank([this.props.emiData[val].code]);
     }
+    setDataLayerForPdpDirectCalls(
+      SET_DATA_LAYER_FOR_EMI_BANK_EVENT,
+      this.props.emiData[val].emiBank
+    );
   }
   handleConfirmPlan(value) {
     if (this.props.confirmPlan) {
