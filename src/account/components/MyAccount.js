@@ -22,7 +22,8 @@ import {
   ABOUT_US_URL,
   PRIVACY_POLICY_URL,
   FAQ_URL,
-  HELP_URL
+  HELP_URL,
+  BUYER_POLICY_URL
 } from "../../lib/constants";
 
 import * as Cookie from "../../lib/Cookie";
@@ -183,6 +184,11 @@ export default class MyAccount extends React.Component {
                 </AccountUsefulLink>
                 <AccountUsefulLink onClick={() => this.redirectPage(FAQ_URL)}>
                   <div className={styles.usefulLinkText}>FAQ</div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(BUYER_POLICY_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Buyer Policies</div>
                 </AccountUsefulLink>
               </div>
             </div>

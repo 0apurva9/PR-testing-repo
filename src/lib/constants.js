@@ -231,6 +231,7 @@ export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq-page";
 export const HELP_URL = "/help";
+export const BUYER_POLICY_URL = "/buyer-policies";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
