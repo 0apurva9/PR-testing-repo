@@ -1,4 +1,5 @@
 import React from "react";
+import cloneDeep from "lodash.clonedeep";
 import styles from "./SearchPage.css";
 import SearchHeader from "./SearchHeader";
 import SearchResultItem from "./SearchResultItem";
@@ -7,13 +8,17 @@ import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import each from "lodash.foreach";
+let searchDown = [];
+
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showResults: false,
       showSearchBar: false,
-      searchString: null
+      searchString: null,
+      currentFlag: null
     };
   }
 
@@ -102,8 +107,60 @@ export default class SearchPage extends React.Component {
       showSearchBar: false
     });
   }
+  handleUpDownArrow(val) {
+    var element = document.getElementById("box");
+
+    const currentSelectedIndex = cloneDeep(this.state.currentFlag);
+    if (val === "ArrowDown") {
+      if (
+        this.state.currentFlag !== null &&
+        this.state.currentFlag <= searchDown.length - 2
+      ) {
+        this.setState({
+          currentFlag: currentSelectedIndex + 1,
+          searchString: ` ${searchDown[currentSelectedIndex + 1].categoryName}`
+        });
+      } else if (this.state.currentFlag === searchDown.length - 1) {
+        this.setState({
+          currentFlag: this.state.currentFlag,
+          searchString: ` ${searchDown[this.state.currentFlag].categoryName}`
+        });
+      } else {
+        this.setState({
+          currentFlag: 0,
+          searchString: ` ${searchDown[0].categoryName}`
+        });
+      }
+      if (this.state.currentFlag > 3) {
+        element.scrollIntoView();
+      }
+    }
+    if (val === "ArrowUp") {
+      if (this.state.currentFlag !== null && this.state.currentFlag > 0) {
+        this.setState({
+          currentFlag: currentSelectedIndex - 1,
+          searchString: `${searchDown[currentSelectedIndex - 1].categoryName}`
+        });
+      } else {
+        this.setState({
+          currentFlag: 0,
+          searchString: ` ${searchDown[0].categoryName}`
+        });
+      }
+      if (this.state.currentFlag < 3) {
+        element.scrollIntoView(false);
+      }
+    }
+  }
+
   render() {
     const data = this.props.searchResult;
+    if (data) {
+      searchDown = [
+        ...this.props.searchResult.topBrands,
+        ...this.props.searchResult.topCategories
+      ];
+    }
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
@@ -122,6 +179,10 @@ export default class SearchPage extends React.Component {
             onSearchString={val => this.handleOnSearchString(val)}
             redirectToHome={() => this.redirectToHome()}
             searchString={this.state.searchString}
+            value={this.state.searchString}
+            onKeyUp={event => {
+              this.handleUpDownArrow(event);
+            }}
           />
         </div>
         <MobileOnly>
@@ -184,48 +245,63 @@ export default class SearchPage extends React.Component {
               data.topBrands &&
               data.topBrands.map((val, i) => {
                 return (
-                  <SearchResultItem
-                    key={i}
-                    suggestedText={data.suggestionText[0]}
-                    singleWord={this.checkIfSingleWordinSearchString()}
-                    text={val.categoryName}
-                    value={val.categoryCode}
-                    onClick={() => {
-                      this.handleBrandClick(
-                        val.categoryCode,
-                        {
-                          term: `${data.suggestionText[0]} in ${
-                            val.categoryName
-                          }`
-                        },
-                        i
-                      );
-                    }}
-                  />
+                  <div
+                    className={
+                      this.state.currentFlag === i ? styles.color : styles.back
+                    }
+                  >
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={data.suggestionText[0]}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      text={val.categoryName}
+                      value={val.categoryCode}
+                      onClick={() => {
+                        this.handleBrandClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i
+                        );
+                      }}
+                    />
+                  </div>
                 );
               })}
             {data &&
               data.topCategories &&
               data.topCategories.map((val, i) => {
                 return (
-                  <SearchResultItem
-                    key={i}
-                    suggestedText={data.suggestionText[0]}
-                    singleWord={this.checkIfSingleWordinSearchString()}
-                    text={val.categoryName}
-                    value={val.categoryCode}
-                    onClick={() => {
-                      this.handleCategoryClick(
-                        val.categoryCode,
-                        {
-                          term: `${data.suggestionText[0]} in ${
-                            val.categoryName
-                          }`
-                        },
-                        i
-                      );
-                    }}
-                  />
+                  <div
+                    id={"box"}
+                    className={
+                      this.state.currentFlag === i + data.topBrands.length
+                        ? styles.color
+                        : styles.back
+                    }
+                  >
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={data.suggestionText[0]}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      text={val.categoryName}
+                      value={val.categoryCode}
+                      onClick={() => {
+                        this.handleCategoryClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i
+                        );
+                      }}
+                    />
+                  </div>
                 );
               })}
           </div>
