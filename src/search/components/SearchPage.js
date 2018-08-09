@@ -28,6 +28,7 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: !showResults,
       searchString: null,
+      currentFlag: null,
       showSearchBar: !this.state.showSearchBar
     });
   };
@@ -43,6 +44,7 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: false,
       searchString: null,
+      currentFlag: null,
       showSearchBar: false
     });
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
@@ -67,7 +69,8 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: false,
       searchString: null,
-      showSearchBar: false
+      showSearchBar: false,
+      currentFlag: null
     });
 
     this.props.history.push(url, {
