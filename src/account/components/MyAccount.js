@@ -171,6 +171,11 @@ export default class MyAccount extends React.Component {
                   </div>
                 </AccountUsefulLink>
                 <AccountUsefulLink
+                  onClick={() => this.redirectPage(BUYER_POLICY_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Buyer Policies</div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
                   onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
                 >
                   <div className={styles.usefulLinkText}>
@@ -184,11 +189,6 @@ export default class MyAccount extends React.Component {
                 </AccountUsefulLink>
                 <AccountUsefulLink onClick={() => this.redirectPage(FAQ_URL)}>
                   <div className={styles.usefulLinkText}>FAQ</div>
-                </AccountUsefulLink>
-                <AccountUsefulLink
-                  onClick={() => this.redirectPage(BUYER_POLICY_URL)}
-                >
-                  <div className={styles.usefulLinkText}>Buyer Policies</div>
                 </AccountUsefulLink>
               </div>
             </div>
