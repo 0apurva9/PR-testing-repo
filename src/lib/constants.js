@@ -316,7 +316,7 @@ export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
 export const ADDRESS_VALIDATION = /^[\\&()''+_#./0-9a-zA-Z\s,-]{15,}$/;
-export const NAME_VALIDATION = /^[A-Za-z]+$/;
+export const NAME_VALIDATION = /^[A-Za-z ]+$/;
 export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";
