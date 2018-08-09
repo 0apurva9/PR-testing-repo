@@ -278,7 +278,7 @@ export const SELECTED_BANK_NAME = "selectedBankName";
 export const SAVE_TEXT = "Save Address";
 export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
-export const LAST_NAME_TEXT = "plese enter last name";
+export const LAST_NAME_TEXT = "Please enter last name";
 export const ADDRESS_TEXT = "Please enter address";
 export const ADDRESS_MINLENGTH_VALID_TEXT =
   "Minimum address length is 15 characters";
