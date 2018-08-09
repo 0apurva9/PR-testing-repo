@@ -32,3 +32,10 @@
 .span {
   margin-left: 5px;
 }
+.safeSecure{
+  position: fixed;
+  top: 20px;
+  right: 10px;
+  font-size: 10px;
+  color: #fff;
+}
