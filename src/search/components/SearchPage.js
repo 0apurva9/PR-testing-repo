@@ -107,7 +107,8 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: false,
       searchString,
-      showSearchBar: false
+      showSearchBar: false,
+      currentFlag: null
     });
   }
   handleUpDownArrow(val) {
