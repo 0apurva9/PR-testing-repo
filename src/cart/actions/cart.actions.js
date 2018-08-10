@@ -1349,26 +1349,18 @@ export function mergeCartId(cartGuId) {
         }&toMergeCartGuid=${cartGuId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
-      const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
-      if (
-        (currentBagCount &&
-          JSON.parse(currentBagCount).length &&
-          parseInt(resultJson.count, 10) >
-            JSON.parse(currentBagCount).length) ||
-        (currentBagCount &&
-          JSON.parse(currentBagCount).length === 1 &&
-          parseInt(resultJson.count, 10) === 1)
-      ) {
-        if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
-          dispatch(setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER));
-        }
-        dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
-      } else {
-        if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
+      const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
+      const currentBagCount = currentBagObject
+        ? JSON.parse(currentBagObject).length
+        : 0;
+      const updatedBagCount = parseInt(resultJson.count, 10);
+      if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
+        if (updatedBagCount === currentBagCount) {
           dispatch(setUrlToRedirectToAfterAuth(CHECKOUT_ROUTER));
+        } else {
+          dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
         }
       }
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
