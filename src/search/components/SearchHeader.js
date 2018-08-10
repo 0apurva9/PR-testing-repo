@@ -55,7 +55,9 @@ export default class SearchHeader extends React.Component {
     }
   };
   componentWillReceiveProps(nextProps) {
-    this.setState({ value: nextProps.value });
+    if (nextProps.value && nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+    }
   }
   handleKeyUp = val => {
     if (val === "Enter") {

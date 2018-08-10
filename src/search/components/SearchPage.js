@@ -1,5 +1,4 @@
 import React from "react";
-import cloneDeep from "lodash.clonedeep";
 import styles from "./SearchPage.css";
 import SearchHeader from "./SearchHeader";
 import SearchResultItem from "./SearchResultItem";
@@ -117,7 +116,7 @@ export default class SearchPage extends React.Component {
   }
   handleUpDownArrow(val) {
     var element = document.getElementById("box");
-    const currentSelectedIndex = cloneDeep(this.state.currentFlag);
+    const currentSelectedIndex = this.state.currentFlag;
     if (val === "ArrowDown") {
       if (
         this.state.currentFlag !== null &&
