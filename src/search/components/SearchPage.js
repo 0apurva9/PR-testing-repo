@@ -8,7 +8,6 @@ import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import each from "lodash.foreach";
 let searchDown = [];
 
 export default class SearchPage extends React.Component {
@@ -78,6 +77,11 @@ export default class SearchPage extends React.Component {
     });
   }
   handleSearch(val, e) {
+    if (this.state.showSearchBar === false) {
+      this.setState({
+        currentFlag: null
+      });
+    }
     if (this.props.getSearchResults) {
       this.setState({ searchString: val });
       this.props.getSearchResults(val);
@@ -113,7 +117,6 @@ export default class SearchPage extends React.Component {
   }
   handleUpDownArrow(val) {
     var element = document.getElementById("box");
-
     const currentSelectedIndex = cloneDeep(this.state.currentFlag);
     if (val === "ArrowDown") {
       if (
