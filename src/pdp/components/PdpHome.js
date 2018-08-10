@@ -388,10 +388,6 @@ export default class PdpApparel extends React.Component {
                 />
 
                 <div className={styles.customisation}>
-                  <div className={styles.customiseText}>
-                    Customisation available - Contact seller for Free
-                    Monogramming
-                  </div>
                   {productData.buyingGuideUrl && (
                     <div className={styles.customisationButton}>
                       <UnderLinedButton
