@@ -1350,7 +1350,6 @@ export function mergeCartId(cartGuId) {
       );
       const resultJson = await result.json();
       const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
-      console.log(getState().auth.redirectToAfterAuthUrl);
       if (
         (currentBagCount &&
           JSON.parse(currentBagCount).length &&
