@@ -89,7 +89,9 @@ class BankOffersDetails extends Component {
 
   onSelectCouponCode = val => {
     if (val[0]) {
-      this.setState({ selectedBankOfferCode: val[0] });
+      this.setState({ selectedBankOfferCode: val[0] }, function() {
+        this.applyUserCoupon();
+      });
     } else {
       this.setState({ selectedBankOfferCode: "" });
     }

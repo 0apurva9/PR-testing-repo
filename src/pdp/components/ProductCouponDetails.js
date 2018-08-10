@@ -100,7 +100,9 @@ class ProductCouponDetails extends Component {
 
   onSelectCouponCode = val => {
     if (val[0]) {
-      this.setState({ selectedCouponCode: val[0] });
+      this.setState({ selectedCouponCode: val[0] }, function() {
+        this.applyUserCoupon();
+      });
     } else {
       this.setState({ selectedCouponCode: "" });
     }
