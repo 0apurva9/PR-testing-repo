@@ -32,3 +32,13 @@
 .span {
   margin-left: 5px;
 }
+.logoHolder {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 50px;
+  z-index: 2;
+}
