@@ -1347,13 +1347,19 @@ export function mergeCartId(cartGuId) {
       );
       const resultJson = await result.json();
       const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
+
       if (
-        currentBagCount &&
-        JSON.parse(currentBagCount).length !== 0 &&
-        parseInt(resultJson.count, 10) > JSON.parse(currentBagCount).length
+        (currentBagCount &&
+          JSON.parse(currentBagCount).length !== 0 &&
+          parseInt(resultJson.count, 10) >
+            JSON.parse(currentBagCount).length) ||
+        (currentBagCount &&
+          JSON.parse(currentBagCount).length === 1 &&
+          parseInt(resultJson.count, 10) === 1)
       ) {
         dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
       }
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
