@@ -26,8 +26,13 @@
   padding-bottom: 15px;
   border-bottom: 1px solid #ececec;
 }
-.informationText {
+.textWithOutOfStock {
   width: 100%;
+  height: auto;
+  display: inline-block;
+}
+.informationText {
+  width: auto;
   height: auto;
   font-family: light;
   font-size: 14px;
@@ -36,6 +41,23 @@
 .informationTextWithBolder {
   composes: informationText;
   font-family: regular;
+  display: inline-block;
+}
+.serviceAvailabilityText {
+  width: auto;
+  height: auto;
+  font-family: light;
+  font-size: 14px;
+  line-height: 30px;
+  color: #ff1744;
+  display: inline-block;
+}
+.space {
+  width: auto;
+  height: auto;
+  color: #b9b9b9;
+  display: inline-block;
+  padding: 0px 5px;
 }
 .dropDown {
   width: 100px;

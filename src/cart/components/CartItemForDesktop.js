@@ -1,6 +1,4 @@
 import React from "react";
-import UnderLinedButton from "../../general/components/UnderLinedButton.js";
-import BagPageFooter from "../../general/components/BagPageFooter";
 import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import DeliveryInfoSelect from "./DeliveryInfoSelect";
 import PropTypes from "prop-types";
@@ -12,7 +10,8 @@ import {
   STANDARD_SHIPPING,
   COLLECT_TEXT,
   YES,
-  NO
+  NO,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
@@ -21,6 +20,8 @@ import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishLis
 import { WISHLIST_BUTTON_TEXT_TYPE } from "../../wishlist/components/AddToWishListButton";
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
 const NO_SIZE = "NO SIZE";
+const NOT_SERVICEABLE = "Not available at your PIN code";
+const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -102,20 +103,37 @@ export default class CartItemForDesktop extends React.Component {
                 {this.props.productName}
               </div>
             )}
-            {this.props.isGiveAway === NO && (
-              <div className={styles.informationTextWithBolder}>
-                {!this.props.offerPrice && (
-                  <React.Fragment>
-                    {` ${RUPEE_SYMBOL}${this.props.price}`}
-                  </React.Fragment>
-                )}
-                {this.props.offerPrice && (
-                  <React.Fragment>
-                    {` ${RUPEE_SYMBOL}${this.props.offerPrice}`}
-                  </React.Fragment>
-                )}
-              </div>
-            )}
+            <div className={styles.textWithOutOfStock}>
+              {this.props.isGiveAway === NO && (
+                <div className={styles.informationTextWithBolder}>
+                  {!this.props.offerPrice && (
+                    <React.Fragment>
+                      {` ${RUPEE_SYMBOL}${this.props.price}`}
+                    </React.Fragment>
+                  )}
+                  {this.props.offerPrice && (
+                    <React.Fragment>
+                      {` ${RUPEE_SYMBOL}${this.props.offerPrice}`}
+                    </React.Fragment>
+                  )}
+                </div>
+              )}
+              {this.props.isGiveAway === NO &&
+                (!this.props.productIsServiceable
+                  ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
+                      <React.Fragment>
+                        <div className={styles.space}>|</div>
+                        <div className={styles.serviceAvailabilityText}>
+                          {`${NOT_SERVICEABLE}`}
+                        </div>
+                      </React.Fragment>
+                    )
+                  : this.props.isOutOfStock && (
+                      <div className={styles.serviceAvailabilityText}>
+                        {OUT_OF_STOCK}
+                      </div>
+                    ))}
+            </div>
             {this.props.isGiveAway === NO &&
               this.props.hasFooter && (
                 <div className={styles.dropDown}>
