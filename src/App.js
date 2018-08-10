@@ -64,7 +64,8 @@ import {
   SKU_PAGE_FILTER,
   PRODUCT_LISTINGS_WITHOUT_SLASH,
   HELP_URL,
-  NOT_FOUND
+  NOT_FOUND,
+  WRITE_REVIEWS_WITH_SLUG
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 
@@ -388,6 +389,10 @@ class App extends Component {
             />
             <Route
               path={PRODUCT_DESCRIPTION_REVIEWS}
+              component={ProductReviewContainer}
+            />
+            <Route
+              path={WRITE_REVIEWS_WITH_SLUG}
               component={ProductReviewContainer}
             />
             <Route

@@ -11,7 +11,8 @@ import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
   SUCCESS,
-  LOGIN_PATH
+  LOGIN_PATH,
+  WRITE_REVIEWS_WITH_SLUG
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -81,6 +82,8 @@ class ProductReviewPage extends Component {
   };
 
   componentDidMount() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     this.throttledScroll = this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
     this.props.getProductDescription(this.props.match.params[0]);
@@ -90,6 +93,15 @@ class ProductReviewPage extends Component {
       this.state.orderBy,
       this.state.sort
     );
+    if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+      if (!userDetails || !customerCookie) {
+        const url = this.props.location.pathname;
+        this.props.setUrlToRedirectToAfterAuth(url);
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        this.setState({ visible: true });
+      }
+    }
   }
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
