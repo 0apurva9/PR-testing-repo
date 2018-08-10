@@ -16,7 +16,9 @@ import {
   PLAT_FORM_NUMBER,
   TOAST_MESSAGE_AFTER_MERGE_CART,
   CHANNEL,
-  CLIQ_CASH_APPLIED_LOCAL_STORAGE
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE,
+  PRODUCT_CART_ROUTER,
+  CHECKOUT_ROUTER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -28,6 +30,7 @@ import {
   INVALID_BANK_COUPON_POPUP
 } from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
@@ -1347,16 +1350,23 @@ export function mergeCartId(cartGuId) {
       );
       const resultJson = await result.json();
       const currentBagCount = localStorage.getItem(CART_BAG_DETAILS);
-
+      console.log(getState().auth.redirectToAfterAuthUrl);
       if (
         (currentBagCount &&
-          JSON.parse(currentBagCount).length !== 0 &&
+          JSON.parse(currentBagCount).length &&
           parseInt(resultJson.count, 10) >
             JSON.parse(currentBagCount).length) ||
         (currentBagCount &&
           JSON.parse(currentBagCount).length === 1 &&
           parseInt(resultJson.count, 10) === 1)
       ) {
+        if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
+          dispatch(setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER));
+        } else if (
+          getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER
+        ) {
+          dispatch(setUrlToRedirectToAfterAuth(CHECKOUT_ROUTER));
+        }
         dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
       }
 
