@@ -1361,12 +1361,12 @@ export function mergeCartId(cartGuId) {
       ) {
         if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
           dispatch(setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER));
-        } else if (
-          getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER
-        ) {
-          dispatch(setUrlToRedirectToAfterAuth(CHECKOUT_ROUTER));
         }
         dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
+      } else {
+        if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
+          dispatch(setUrlToRedirectToAfterAuth(CHECKOUT_ROUTER));
+        }
       }
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
