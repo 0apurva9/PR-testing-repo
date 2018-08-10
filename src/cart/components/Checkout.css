@@ -172,3 +172,14 @@
   line-height: 20px;
   margin-top: 20px;
 }
+.imgFluid{
+  display: block;
+  max-width: 100%;
+  margin-top: 20px;
+}
+.imgFluidPadding{
+  display: block;
+  max-width: 100%;
+  margin-top: 20px;
+  padding: 0 15px;
+}
