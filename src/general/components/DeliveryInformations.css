@@ -12,7 +12,7 @@
 .notAvailable {
   composes: dataHolder;
   opacity: 0.4;
-  pointer-events:none;
+  pointer-events: none;
 }
 .placeTime {
   width: 100%;
@@ -62,4 +62,12 @@
 .buttonHolderPiq {
   composes: buttonHolder;
   margin-left: 0;
+}
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding-right: 0px;
+  }
+  .placeTime {
+    font-size: 12px;
+  }
 }
