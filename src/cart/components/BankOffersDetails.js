@@ -94,6 +94,7 @@ class BankOffersDetails extends Component {
       });
     } else {
       this.setState({ selectedBankOfferCode: "" });
+      this.applyUserCoupon();
     }
   };
   render() {
@@ -102,24 +103,6 @@ class BankOffersDetails extends Component {
         <SlideModal {...this.props}>
           <div className={styles.dataHolder}>
             <div className={styles.couponHeader}>{COUPON_HEADER}</div>
-            <div className={styles.searchHolder}>
-              <SearchCupon
-                label={
-                  this.state.previousSelectedCouponCode &&
-                  this.state.previousSelectedCouponCode ===
-                    this.state.selectedBankOfferCode
-                    ? REMOVE
-                    : APPLY
-                }
-                placeholder="Bank Offer Code"
-                disableManualType={true}
-                couponCode={this.state.selectedBankOfferCode}
-                getValue={selectedBankOfferCode =>
-                  this.setState({ selectedBankOfferCode })
-                }
-                applyUserCoupon={() => this.applyUserCoupon()}
-              />
-            </div>
             <GridSelect
               elementWidthMobile={100}
               offset={0}

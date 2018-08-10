@@ -105,6 +105,7 @@ class ProductCouponDetails extends Component {
       });
     } else {
       this.setState({ selectedCouponCode: "" });
+      this.applyUserCoupon();
     }
   };
 
