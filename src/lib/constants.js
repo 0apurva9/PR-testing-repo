@@ -6,6 +6,7 @@ export const SUCCESS_CAMEL_CASE = "Success";
 export const SUCCESS_FOR_ADDING_TO_WSHLIST =
   "Product added successfully to the wishlist";
 export const SUCCESS_FOR_ADDING_TO_BAG = "Product added successfully to bag";
+export const ADD_TO_BAG_TEXT = "The item has been added to your bag";
 export const REQUESTING = "requesting";
 export const ERROR = "error";
 export const FAILURE = "Failure";

@@ -5,7 +5,7 @@ import {
 } from "../actions/pdp.actions";
 import {
   SUCCESS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  ADD_TO_BAG_TEXT,
   PRODUCT_CART_ROUTER
 } from "../../lib/constants.js";
 import SizeSelectModal from "../components/SizeSelectModal";
@@ -24,18 +24,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         addProductToCartResponse.status === SUCCESS
       ) {
         if (ownProps.buyNowFlag) {
-          const defaultPinCode = localStorage.getItem(
-            DEFAULT_PIN_CODE_LOCAL_STORAGE
-          );
           ownProps.history.push({
-            pathname: PRODUCT_CART_ROUTER,
-            state: {
-              ProductCode: productDetails.code,
-              pinCode: defaultPinCode
-            }
+            pathname: PRODUCT_CART_ROUTER
           });
         } else {
-          dispatch(displayToast(" The item has been added to your bag"));
+          dispatch(displayToast(ADD_TO_BAG_TEXT));
         }
       }
     }

@@ -32,7 +32,8 @@ import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  PRODUCT_CART_ROUTER
+  PRODUCT_CART_ROUTER,
+  ADD_TO_BAG_TEXT
 } from "../../lib/constants.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -67,7 +68,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             pathname: PRODUCT_CART_ROUTER
           });
         } else {
-          dispatch(displayToast(" The item has been added to your bag"));
+          dispatch(displayToast(ADD_TO_BAG_TEXT));
         }
       }
     },
