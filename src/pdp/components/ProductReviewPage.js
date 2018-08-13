@@ -105,7 +105,6 @@ class ProductReviewPage extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
-    this.setState({ visible: false });
   }
 
   reviewSection = () => {
