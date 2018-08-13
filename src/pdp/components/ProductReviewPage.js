@@ -105,6 +105,7 @@ class ProductReviewPage extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
+    this.setState({ visible: false });
   }
 
   reviewSection = () => {
@@ -132,15 +133,13 @@ class ProductReviewPage extends Component {
       this.props.displayToast("Please enter comment");
       return false;
     } else {
-      this.props.addProductReview(
+      if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+        this.setState({ visible: false });
+      }
+      return this.props.addProductReview(
         this.props.productDetails.productListingId,
         productReview
       );
-      if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
-        this.setState({ visible: true });
-      } else {
-        this.setState({ visible: false });
-      }
     }
   };
   onCancel() {

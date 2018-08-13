@@ -548,9 +548,9 @@ export function addProductReview(productCode, productReview) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(displayToast(SUBMIT_REVIEW_TEXT));
-      dispatch(addProductReviewSuccess(productReview));
+      return dispatch(addProductReviewSuccess(productReview));
     } catch (e) {
-      dispatch(addProductReviewFailure(e.message));
+      return dispatch(addProductReviewFailure(e.message));
     }
   };
 }

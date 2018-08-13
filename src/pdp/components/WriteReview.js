@@ -48,37 +48,32 @@ class WriteReview extends React.Component {
       this.props.onCancel();
     }
   }
-  onSubmit = () => {
-    if (this.props.onSubmit) {
-      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      if (customerCookie) {
-        this.props.onSubmit({
-          comment: this.state.comment,
-          rating: this.state.rating,
-          headline: this.state.title
-        });
-      } else {
-        const url = this.props.location.pathname;
-        this.props.setUrlToRedirectToAfterAuth(url);
-        this.props.history.push(LOGIN_PATH);
-      }
-    }
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
-      if (nextProps.addReviewStatus) {
-        this.setState({
-          resetRating: true,
-          title: "",
-          comment: ""
-        });
-        if (this.state.resetRating === true) {
-          this.setState({ resetRating: false });
+  onSubmit = async () => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (customerCookie) {
+      let getResponseOfAddReview = await this.props.onSubmit({
+        comment: this.state.comment,
+        rating: this.state.rating,
+        headline: this.state.title
+      });
+      if (getResponseOfAddReview) {
+        if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+          this.setState({
+            resetRating: true,
+            title: "",
+            comment: ""
+          });
+          if (this.state.resetRating === true) {
+            this.setState({ resetRating: false });
+          }
         }
       }
+    } else {
+      const url = this.props.location.pathname;
+      this.props.setUrlToRedirectToAfterAuth(url);
+      this.props.history.push(LOGIN_PATH);
     }
-  }
+  };
   render() {
     return (
       <div className={styles.base}>
