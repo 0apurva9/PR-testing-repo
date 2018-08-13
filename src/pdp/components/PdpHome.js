@@ -175,7 +175,7 @@ export default class PdpApparel extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  addToCart = defaultFlag => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = this.state.productQuantityOption.value;
@@ -214,7 +214,7 @@ export default class PdpApparel extends React.Component {
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
                 productDetails,
-                defaultFlag
+                buyNowFlag
               );
             }
           } else {
@@ -224,7 +224,7 @@ export default class PdpApparel extends React.Component {
                 JSON.parse(cartDetailsAnonymous).guid,
                 JSON.parse(globalCookie).access_token,
                 productDetails,
-                defaultFlag
+                buyNowFlag
               );
             }
           }

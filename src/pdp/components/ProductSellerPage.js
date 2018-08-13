@@ -49,7 +49,7 @@ class ProductSellerPage extends Component {
     this.props.history.replace(url);
   };
 
-  addToCart = defaultFlag => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -69,7 +69,7 @@ class ProductSellerPage extends Component {
         JSON.parse(cartDetailsLoggedInUser).code,
         JSON.parse(customerCookie).access_token,
         productDetails,
-        defaultFlag
+        buyNowFlag
       );
     } else {
       this.props.addProductToCart(
@@ -77,7 +77,7 @@ class ProductSellerPage extends Component {
         JSON.parse(cartDetailsAnonymous).guid,
         JSON.parse(globalCookie).access_token,
         productDetails,
-        defaultFlag
+        buyNowFlag
       );
     }
   };

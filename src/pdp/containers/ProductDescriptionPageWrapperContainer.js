@@ -53,32 +53,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       cartId,
       accessToken,
       productDetails,
-      defaultFlag
+      buyNowFlag
     ) => {
-      const setProductToCart = await dispatch(
-        addProductToCart(
-          userId,
-          cartId,
-          accessToken,
-          productDetails,
-          defaultFlag
-        )
+      const addProductToCartResponse = await dispatch(
+        addProductToCart(userId, cartId, accessToken, productDetails)
       );
       if (
-        setProductToCart &&
-        setProductToCart.status &&
-        setProductToCart.status === SUCCESS
+        addProductToCartResponse &&
+        addProductToCartResponse.status === SUCCESS
       ) {
-        if (defaultFlag === true) {
-          const defaultPinCode = localStorage.getItem(
-            DEFAULT_PIN_CODE_LOCAL_STORAGE
-          );
+        if (buyNowFlag) {
           ownProps.history.push({
-            pathname: PRODUCT_CART_ROUTER,
-            state: {
-              ProductCode: productDetails.code,
-              pinCode: defaultPinCode
-            }
+            pathname: PRODUCT_CART_ROUTER
           });
         } else {
           dispatch(displayToast(" The item has been added to your bag"));

@@ -149,7 +149,7 @@ export default class PdpApparel extends React.Component {
     });
   };
 
-  addToCart = defaultFlag => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -184,7 +184,7 @@ export default class PdpApparel extends React.Component {
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
                 productDetails,
-                defaultFlag
+                buyNowFlag
               );
             }
           } else {
@@ -194,12 +194,12 @@ export default class PdpApparel extends React.Component {
                 JSON.parse(cartDetailsAnonymous).guid,
                 JSON.parse(globalCookie).access_token,
                 productDetails,
-                defaultFlag
+                buyNowFlag
               );
             }
           }
         } else {
-          this.showSizeSelector(defaultFlag);
+          this.showSizeSelector(buyNowFlag);
         }
       }
     }
@@ -229,7 +229,7 @@ export default class PdpApparel extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  showSizeSelector = defaultFlag => {
+  showSizeSelector = buyNowFlag => {
     if (
       this.props.showSizeSelector &&
       this.props.productDetails &&
@@ -242,7 +242,7 @@ export default class PdpApparel extends React.Component {
         showSizeGuide: this.props.showSizeGuide,
         hasSizeGuide: this.props.productDetails.showSizeGuide,
         data: this.props.productDetails.variantOptions,
-        defaultFlag: defaultFlag
+        buyNowFlag: buyNowFlag
       });
     }
   };

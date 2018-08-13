@@ -151,7 +151,7 @@ export default class PdpElectronics extends React.Component {
       }
     });
   };
-  addToCart = defaultFlag => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -183,7 +183,7 @@ export default class PdpElectronics extends React.Component {
               JSON.parse(cartDetailsLoggedInUser).code,
               JSON.parse(customerCookie).access_token,
               productDetails,
-              defaultFlag
+              buyNowFlag
             );
           }
         } else if (cartDetailsAnonymous) {
@@ -192,7 +192,7 @@ export default class PdpElectronics extends React.Component {
             JSON.parse(cartDetailsAnonymous).guid,
             JSON.parse(globalCookie).access_token,
             productDetails,
-            defaultFlag
+            buyNowFlag
           );
         }
       }

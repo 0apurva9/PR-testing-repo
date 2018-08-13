@@ -16,15 +16,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(getProductDescription(productCode));
     },
     addProductToCart: async (userId, cartId, accessToken, productDetails) => {
-      const setProductToCart = await dispatch(
+      const addProductToCartResponse = await dispatch(
         addProductToCart(userId, cartId, accessToken, productDetails)
       );
       if (
-        setProductToCart &&
-        setProductToCart.status &&
-        setProductToCart.status === SUCCESS
+        addProductToCartResponse &&
+        addProductToCartResponse.status === SUCCESS
       ) {
-        if (ownProps.defaultFlag === true) {
+        if (ownProps.buyNowFlag) {
           const defaultPinCode = localStorage.getItem(
             DEFAULT_PIN_CODE_LOCAL_STORAGE
           );

@@ -159,7 +159,7 @@ export default class PdpJewellery extends React.Component {
       }
     });
   };
-  addToCart = defaultFlag => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -198,7 +198,7 @@ export default class PdpJewellery extends React.Component {
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
                 productDetails,
-                defaultFlag
+                buyNowFlag
               );
             }
           } else if (cartDetailsAnonymous) {
@@ -207,11 +207,11 @@ export default class PdpJewellery extends React.Component {
               JSON.parse(cartDetailsAnonymous).guid,
               JSON.parse(globalCookie).access_token,
               productDetails,
-              defaultFlag
+              buyNowFlag
             );
           }
         } else {
-          this.showSizeSelector(defaultFlag);
+          this.showSizeSelector(buyNowFlag);
         }
       }
     }
@@ -244,7 +244,7 @@ export default class PdpJewellery extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  showSizeSelector = defaultFlag => {
+  showSizeSelector = buyNowFlag => {
     if (this.props.showSizeSelector && this.props.productDetails) {
       this.props.showSizeSelector({
         sizeSelected: this.checkIfSizeSelected(),
@@ -254,7 +254,7 @@ export default class PdpJewellery extends React.Component {
         hasSizeGuide: this.props.productDetails.showSizeGuide,
         data: this.props.productDetails.variantOptions,
         productName: this.props.productDetails.productName,
-        defaultFlag: defaultFlag
+        buyNowFlag: buyNowFlag
       });
     }
   };
