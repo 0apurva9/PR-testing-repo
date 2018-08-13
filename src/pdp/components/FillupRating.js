@@ -21,8 +21,8 @@ export default class FillupRating extends React.Component {
     );
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.resetRating === true) {
-      this.setState({ rating: this.props.rating && null });
+    if (nextProps.resetRating === true) {
+      this.setState({ rating: nextProps.rating && null });
     }
   }
   render() {
