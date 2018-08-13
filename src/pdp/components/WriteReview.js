@@ -5,7 +5,11 @@ import Input from "../../general/components/Input2";
 import TextArea from "../../general/components/TextArea";
 import FillupRating from "./FillupRating";
 import Button from "../../general/components/Button";
-import { CUSTOMER_ACCESS_TOKEN, LOGIN_PATH } from "../../lib/constants";
+import {
+  CUSTOMER_ACCESS_TOKEN,
+  LOGIN_PATH,
+  WRITE_REVIEWS_WITH_SLUG
+} from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 
@@ -57,6 +61,15 @@ class WriteReview extends React.Component {
     }
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.addReviewStatus) {
+      this.setState({
+        rating: "",
+        title: "",
+        comment: ""
+      });
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -81,10 +94,21 @@ class WriteReview extends React.Component {
           placeholder="Tell us what you think of this product"
         />
         <div className={styles.buttonContainer}>
-          <div className={styles.cancelButton} onClick={() => this.onCancel()}>
-            Cancel
-          </div>
-          <div className={styles.submitButtonHolder}>
+          {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
+            <div
+              className={styles.cancelButton}
+              onClick={() => this.onCancel()}
+            >
+              Cancel
+            </div>
+          )}
+          <div
+            className={
+              this.props.match.path === WRITE_REVIEWS_WITH_SLUG
+                ? styles.centerSubmitButton
+                : styles.submitButtonHolder
+            }
+          >
             <div className={styles.submitButton}>
               <Button
                 className={styles.ratingBar}

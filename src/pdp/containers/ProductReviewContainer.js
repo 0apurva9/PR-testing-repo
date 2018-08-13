@@ -43,7 +43,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     productDetails: state.productDescription.productDetails,
     reviews: state.productDescription.reviews,

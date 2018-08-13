@@ -136,7 +136,11 @@ class ProductReviewPage extends Component {
         this.props.productDetails.productListingId,
         productReview
       );
-      this.setState({ visible: false });
+      if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+        this.setState({ visible: true });
+      } else {
+        this.setState({ visible: false });
+      }
     }
   };
   onCancel() {
@@ -146,6 +150,7 @@ class ProductReviewPage extends Component {
     if (this.state.visible) {
       return (
         <WriteReview
+          addReviewStatus={this.props.addReviewStatus}
           onSubmit={val => this.onSubmit(val)}
           onCancel={() => this.onCancel()}
         />
@@ -309,9 +314,14 @@ class ProductReviewPage extends Component {
                     textStyle={{ fontSize: 14 }}
                   />
                 </div>
-                <div className={styles.reviewText} onClick={this.reviewSection}>
-                  {WRITE_REVIEW_TEXT}
-                </div>
+                {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
+                  <div
+                    className={styles.reviewText}
+                    onClick={this.reviewSection}
+                  >
+                    {WRITE_REVIEW_TEXT}
+                  </div>
+                )}
                 {this.state.visible && (
                   <div className={styles.reviewHolder}>
                     {this.renderReviewSection()}
