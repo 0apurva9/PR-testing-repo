@@ -138,6 +138,7 @@ export default class DesktopHeader extends React.Component {
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
     }
+
     return (
       <div
         className={this.props.isSearch ? styles.base : styles.CheckoutHeader}
@@ -162,17 +163,11 @@ export default class DesktopHeader extends React.Component {
                   onClick={() => this.goToMyAccount()}
                 />
                 <span className={styles.nameSpan}>
-                  <span>
-                    {userCookie &&
-                      userCookie.firstName &&
-                      `${userCookie.firstName} `}
-                  </span>{" "}
-                  <span>
-                    {userCookie &&
-                      userCookie.lastName &&
-                      `${userCookie.lastName}`}
-                  </span>
+                  {userCookie &&
+                    userCookie.firstName && <span>{userCookie.firstName}</span>}
                 </span>
+                {userCookie &&
+                  userCookie.lastName && <span>{userCookie.lastName}</span>}
                 <span>{userCookie.userName}</span>
               </div>
             </div>
@@ -206,18 +201,20 @@ export default class DesktopHeader extends React.Component {
                             onClick={() => this.goToMyAccount()}
                           />
                           <span className={styles.nameSpan}>
-                            <span>
+                            <span className={styles.fb}>
                               {userCookie &&
                                 userCookie.firstName &&
                                 `${userCookie.firstName} `}
                             </span>
-                            <span>
+                            <span className={styles.nm}>
                               {userCookie &&
                                 userCookie.lastName &&
                                 `${userCookie.lastName}`}
                             </span>
                           </span>
-                          <span>{userCookie.userName}</span>
+                          <span className={styles.wp}>
+                            {userCookie.userName}
+                          </span>
                         </div>
                       </div>
                     )}

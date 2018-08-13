@@ -322,6 +322,7 @@ class CheckOutPage extends React.Component {
       </div>
     );
   }
+
   componentDidUpdate() {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
@@ -433,7 +434,7 @@ class CheckOutPage extends React.Component {
   removeCliqAndPiq() {
     this.setState({ showCliqAndPiq: false });
   }
-  renderCheckoutAddress = () => {
+  renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
     let defaultAddressId = null;
 
@@ -458,6 +459,12 @@ class CheckOutPage extends React.Component {
               };
             })
           }
+          onRedirectionToNextSection={
+            this.state.isPaymentFailed
+              ? this.handleSubmitAfterPaymentFailure
+              : this.handleSubmit
+          }
+          disabled={disabled}
           selected={[defaultAddressId]}
           onNewAddress={() => this.addNewAddress()}
           onSelectAddress={address => this.onSelectAddress(address)}
@@ -2408,7 +2415,7 @@ class CheckOutPage extends React.Component {
                   !this.state.isGiftCard &&
                   (this.props.cart.userAddress &&
                   this.props.cart.userAddress.addresses
-                    ? this.renderCheckoutAddress()
+                    ? this.renderCheckoutAddress(checkoutButtonStatus)
                     : this.renderInitialAddAddressForm())}
 
                 {!this.state.isPaymentFailed &&
@@ -2628,7 +2635,7 @@ class CheckOutPage extends React.Component {
                   <DesktopCheckout
                     padding={this.state.padding}
                     disabled={checkoutButtonStatus}
-                    label={labelForButton}
+                    onContinue={false}
                     noCostEmiEligibility={
                       this.props.cart &&
                       this.props.cart.emiEligibilityDetails &&
@@ -2644,11 +2651,6 @@ class CheckOutPage extends React.Component {
                     delivery={this.state.deliveryCharge}
                     showDetails={this.state.showCartDetails}
                     showHideDetails={this.showHideDetails}
-                    onCheckout={
-                      this.state.isPaymentFailed
-                        ? this.handleSubmitAfterPaymentFailure
-                        : this.handleSubmit
-                    }
                     isCliqCashApplied={this.state.isCliqCashApplied}
                     cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                     isFromMyBag={false}
