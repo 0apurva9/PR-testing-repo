@@ -149,7 +149,7 @@ export default class PdpElectronics extends React.Component {
       }
     });
   };
-  addToCart = () => {
+  addToCart = defaultFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -180,7 +180,8 @@ export default class PdpElectronics extends React.Component {
               JSON.parse(userDetails).userName,
               JSON.parse(cartDetailsLoggedInUser).code,
               JSON.parse(customerCookie).access_token,
-              productDetails
+              productDetails,
+              defaultFlag
             );
           }
         } else if (cartDetailsAnonymous) {
@@ -188,7 +189,8 @@ export default class PdpElectronics extends React.Component {
             ANONYMOUS_USER,
             JSON.parse(cartDetailsAnonymous).guid,
             JSON.parse(globalCookie).access_token,
-            productDetails
+            productDetails,
+            defaultFlag
           );
         }
       }
@@ -234,6 +236,7 @@ export default class PdpElectronics extends React.Component {
     }
   };
   render() {
+    console.log("electronics");
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
       ? productData.galleryImagesList
@@ -277,9 +280,10 @@ export default class PdpElectronics extends React.Component {
       }
       return (
         <PdpFrame
+          buyNow={() => this.addToCart(true)}
+          addProductToBag={() => this.addToCart(false)}
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
           productListingId={productData.productListingId}
           ussId={productData.winningUssID}
           showPincodeModal={() => this.showPincodeModal()}

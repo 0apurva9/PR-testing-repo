@@ -147,7 +147,7 @@ export default class PdpApparel extends React.Component {
     });
   };
 
-  addToCart = () => {
+  addToCart = defaultFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -181,7 +181,8 @@ export default class PdpApparel extends React.Component {
                 JSON.parse(userDetails).userName,
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
-                productDetails
+                productDetails,
+                defaultFlag
               );
             }
           } else {
@@ -190,12 +191,13 @@ export default class PdpApparel extends React.Component {
                 ANONYMOUS_USER,
                 JSON.parse(cartDetailsAnonymous).guid,
                 JSON.parse(globalCookie).access_token,
-                productDetails
+                productDetails,
+                defaultFlag
               );
             }
           }
         } else {
-          this.showSizeSelector();
+          this.showSizeSelector(defaultFlag);
         }
       }
     }
@@ -225,7 +227,7 @@ export default class PdpApparel extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  showSizeSelector = () => {
+  showSizeSelector = defaultFlag => {
     if (
       this.props.showSizeSelector &&
       this.props.productDetails &&
@@ -237,7 +239,8 @@ export default class PdpApparel extends React.Component {
         productId: this.props.productDetails.productListingId,
         showSizeGuide: this.props.showSizeGuide,
         hasSizeGuide: this.props.productDetails.showSizeGuide,
-        data: this.props.productDetails.variantOptions
+        data: this.props.productDetails.variantOptions,
+        defaultFlag: defaultFlag
       });
     }
   };
@@ -339,7 +342,8 @@ export default class PdpApparel extends React.Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
+          buyNow={() => this.addToCart(true)}
+          addProductToBag={() => this.addToCart(false)}
           productListingId={productData.productListingId}
           outOfStock={
             productData.allOOStock ||

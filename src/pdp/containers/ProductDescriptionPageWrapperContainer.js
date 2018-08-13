@@ -31,9 +31,10 @@ import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageW
 import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_CART_ROUTER
 } from "../../lib/constants.js";
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
@@ -47,8 +48,42 @@ const mapDispatchToProps = dispatch => {
         }
       }
     },
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(addProductToCart(userId, cartId, accessToken, productDetails));
+    addProductToCart: async (
+      userId,
+      cartId,
+      accessToken,
+      productDetails,
+      defaultFlag
+    ) => {
+      const setProductToCart = await dispatch(
+        addProductToCart(
+          userId,
+          cartId,
+          accessToken,
+          productDetails,
+          defaultFlag
+        )
+      );
+      if (
+        setProductToCart &&
+        setProductToCart.status &&
+        setProductToCart.status === SUCCESS
+      ) {
+        if (defaultFlag === true) {
+          const defaultPinCode = localStorage.getItem(
+            DEFAULT_PIN_CODE_LOCAL_STORAGE
+          );
+          ownProps.history.push({
+            pathname: PRODUCT_CART_ROUTER,
+            state: {
+              ProductCode: productDetails.code,
+              pinCode: defaultPinCode
+            }
+          });
+        } else {
+          dispatch(displayToast(" The item has been added to your bag"));
+        }
+      }
     },
     showSizeSelector: data => {
       dispatch(showModal(SIZE_SELECTOR, data));

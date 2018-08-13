@@ -157,7 +157,7 @@ export default class PdpJewellery extends React.Component {
       }
     });
   };
-  addToCart = () => {
+  addToCart = defaultFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -195,7 +195,8 @@ export default class PdpJewellery extends React.Component {
                 JSON.parse(userDetails).userName,
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
-                productDetails
+                productDetails,
+                defaultFlag
               );
             }
           } else if (cartDetailsAnonymous) {
@@ -203,11 +204,12 @@ export default class PdpJewellery extends React.Component {
               ANONYMOUS_USER,
               JSON.parse(cartDetailsAnonymous).guid,
               JSON.parse(globalCookie).access_token,
-              productDetails
+              productDetails,
+              defaultFlag
             );
           }
         } else {
-          this.showSizeSelector();
+          this.showSizeSelector(defaultFlag);
         }
       }
     }
@@ -240,7 +242,7 @@ export default class PdpJewellery extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  showSizeSelector = () => {
+  showSizeSelector = defaultFlag => {
     if (this.props.showSizeSelector && this.props.productDetails) {
       this.props.showSizeSelector({
         sizeSelected: this.checkIfSizeSelected(),
@@ -249,7 +251,8 @@ export default class PdpJewellery extends React.Component {
         headerText: this.props.productDetails.isSizeOrLength,
         hasSizeGuide: this.props.productDetails.showSizeGuide,
         data: this.props.productDetails.variantOptions,
-        productName: this.props.productDetails.productName
+        productName: this.props.productDetails.productName,
+        defaultFlag: defaultFlag
       });
     }
   };
@@ -354,7 +357,8 @@ export default class PdpJewellery extends React.Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
+          buyNow={() => this.addToCart(true)}
+          addProductToBag={() => this.addToCart(false)}
           showPincodeModal={() => this.showPincodeModal()}
           productListingId={productData.productListingId}
           outOfStock={
