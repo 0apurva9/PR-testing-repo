@@ -23,7 +23,9 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   COLLECT
 } from "../../lib/constants";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
@@ -388,11 +390,20 @@ export default class PdpApparel extends React.Component {
             hasCod={productData.isCOD}
             showEmiModal={() => this.showEmiModal()}
           />
+          <div className={styles.wishlist}>
+            <AddToWishListButtonContainer
+              productListingId={productData.productListingId}
+              winningUssID={productData.winningUssID}
+              type={WISHLIST_FOOTER_BUTTON_TYPE}
+              setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+            />
+          </div>
           <OfferCard
             showDetails={this.props.showOfferDetails}
             potentialPromotions={productData.potentialPromotions}
             secondaryPromotions={productData.productOfferMsg}
           />
+
           {productData.variantOptions && (
             <React.Fragment>
               {!this.checkIfNoSize() &&
@@ -416,6 +427,7 @@ export default class PdpApparel extends React.Component {
               />
             </React.Fragment>
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode

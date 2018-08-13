@@ -2,10 +2,6 @@ import React from "react";
 import styles from "./PdpFooter.css";
 import PropTypes from "prop-types";
 import FooterButton from "../../general/components/FooterButton.js";
-import addToBagIcon from "./img/order-historyWhite.svg";
-import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
-import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 export default class PdfFooter extends React.Component {
   onAddToBag() {
     if (this.props.onAddToBag) {

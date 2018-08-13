@@ -25,7 +25,9 @@ import {
   COLLECT
 } from "../../lib/constants";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
   loading: () => <div />
@@ -427,6 +429,14 @@ export default class PdpJewellery extends React.Component {
             hasCod={productData.isCOD}
             showEmiModal={this.showEmiModal}
           />
+          <div className={styles.wishlist}>
+            <AddToWishListButtonContainer
+              productListingId={productData.productListingId}
+              winningUssID={productData.winningUssID}
+              type={WISHLIST_FOOTER_BUTTON_TYPE}
+              setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+            />
+          </div>
           <OfferCard
             showDetails={this.props.showOfferDetails}
             potentialPromotions={productData.potentialPromotions}
