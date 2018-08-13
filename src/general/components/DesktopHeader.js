@@ -201,20 +201,18 @@ export default class DesktopHeader extends React.Component {
                             onClick={() => this.goToMyAccount()}
                           />
                           <span className={styles.nameSpan}>
-                            <span className={styles.fb}>
+                            <span>
                               {userCookie &&
                                 userCookie.firstName &&
                                 `${userCookie.firstName} `}
                             </span>
-                            <span className={styles.nm}>
+                            <span>
                               {userCookie &&
                                 userCookie.lastName &&
                                 `${userCookie.lastName}`}
                             </span>
                           </span>
-                          <span className={styles.wp}>
-                            {userCookie.userName}
-                          </span>
+                          <span>{userCookie.userName}</span>
                         </div>
                       </div>
                     )}
