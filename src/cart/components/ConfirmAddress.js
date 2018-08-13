@@ -5,8 +5,11 @@ import styles from "./ConfirmAddress.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DeliveryAddressCart from "./DeliveryAddressCart.js";
 import Button from "../../general/components/Button.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
+
 export default class ConfirmAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -99,23 +102,25 @@ export default class ConfirmAddress extends React.Component {
                   />
                 </div>
               )}
-            {this.props.onRedirectionToNextSection && (
-              <div className={styles.continueButtonHolder}>
-                <Button
-                  disabled={this.props.disabled}
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label="Continue"
-                  width={135}
-                  textStyle={{
-                    color: "#FFF",
-                    fontSize: 14
-                  }}
-                  onClick={() => this.onRedirectionToNextSection()}
-                />
-              </div>
-            )}
+            <DesktopOnly>
+              {this.props.onRedirectionToNextSection && (
+                <div className={styles.continueButtonHolder}>
+                  <Button
+                    disabled={this.props.disabled}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Continue"
+                    width={135}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() => this.onRedirectionToNextSection()}
+                  />
+                </div>
+              )}
+            </DesktopOnly>
 
             <div className={styles.newAddress}>
               <UnderLinedButton
