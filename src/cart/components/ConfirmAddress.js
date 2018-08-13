@@ -4,8 +4,12 @@ import CheckOutHeader from "./CheckOutHeader.js";
 import styles from "./ConfirmAddress.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DeliveryAddressCart from "./DeliveryAddressCart.js";
+import Button from "../../general/components/Button.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
+
 export default class ConfirmAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -35,8 +39,21 @@ export default class ConfirmAddress extends React.Component {
       this.props.onSelectAddress(addressId);
     }
   }
-
+  onRedirectionToNextSection() {
+    if (this.props.onRedirectionToNextSection) {
+      this.props.onRedirectionToNextSection();
+    }
+  }
   render() {
+    let buttonHolder = styles.buttonHolder;
+    if (
+      this.props.address &&
+      this.props.address.length % 2 === 0 &&
+      this.state.showAll &&
+      this.props.address.length > 2
+    ) {
+      buttonHolder = styles.buttonHolderwithPadding;
+    }
     return (
       <div className={styles.base}>
         <div className={styles.header}>
@@ -71,7 +88,8 @@ export default class ConfirmAddress extends React.Component {
                   );
                 })}
           </GridSelect>
-          <div className={styles.buttonHolder}>
+
+          <div className={buttonHolder}>
             {this.props.address &&
               this.props.address.length > 3 && (
                 <div className={styles.moreButtonHolder}>
@@ -84,6 +102,25 @@ export default class ConfirmAddress extends React.Component {
                   />
                 </div>
               )}
+            <DesktopOnly>
+              {this.props.onRedirectionToNextSection && (
+                <div className={styles.continueButtonHolder}>
+                  <Button
+                    disabled={this.props.disabled}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Continue"
+                    width={135}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() => this.onRedirectionToNextSection()}
+                  />
+                </div>
+              )}
+            </DesktopOnly>
 
             <div className={styles.newAddress}>
               <UnderLinedButton

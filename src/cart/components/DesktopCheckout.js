@@ -3,6 +3,7 @@ import {
   RUPEE_SYMBOL,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
+import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./DesktopCheckout.css";
 export default class DesktopCheckout extends React.Component {
@@ -96,67 +97,90 @@ export default class DesktopCheckout extends React.Component {
               </div>
             )}
         </div>
-        <div className={styles.bottomSection}>
-          <div className={styles.priceHeader}>Total:</div>
-          <div className={styles.price}>
+
+        <div
+          className={
+            this.props.onContinue
+              ? styles.bottomSection
+              : styles.bottomSectionCheckout
+          }
+        >
+          <div className={styles.priceHeader}>
+            {this.props.onContinue ? "Total" : "Final Amount"}
+          </div>
+          <div
+            className={
+              this.props.onContinue ? styles.price : styles.checkoutPrice
+            }
+          >
             {RUPEE_SYMBOL}
             {this.props.payable}
           </div>
-          {!this.props.isOnCartPage && (
-            <div className={styles.button}>
-              <Button
-                disabled={this.props.disabled}
-                type="primary"
-                backgroundColor="#ff1744"
-                height={40}
-                label={this.props.label}
-                width={150}
-                textStyle={{
-                  color: "#FFF",
-                  fontSize: 14
-                }}
-                onClick={() => this.handleClick()}
-              />
-            </div>
-          )}
+          {this.props.onContinue && (
+            <React.Fragment>
+              {!this.props.isOnCartPage && (
+                <div className={styles.button}>
+                  <Button
+                    disabled={this.props.disabled}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label={this.props.label}
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() => this.handleClick()}
+                  />
+                </div>
+              )}
 
-          {this.props.isOnCartPage &&
-            defaultPinCode && (
-              <div className={styles.button}>
-                <Button
-                  disabled={this.props.disabled}
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label={this.props.label}
-                  width={150}
-                  textStyle={{
-                    color: "#FFF",
-                    fontSize: 14
-                  }}
-                  onClick={() => this.handleClick()}
-                />
-              </div>
-            )}
-          {this.props.isOnCartPage &&
-            !defaultPinCode && (
-              <div className={styles.button}>
-                <Button
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label={this.props.label}
-                  width={150}
-                  textStyle={{
-                    color: "#FFF",
-                    fontSize: 14
-                  }}
-                  onClick={() => this.handleFocusOnPinCode()}
-                />
-              </div>
-            )}
+              {this.props.isOnCartPage &&
+                defaultPinCode && (
+                  <div className={styles.button}>
+                    <Button
+                      disabled={this.props.disabled}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
+                )}
+              {this.props.isOnCartPage &&
+                !defaultPinCode && (
+                  <div className={styles.button}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleFocusOnPinCode()}
+                    />
+                  </div>
+                )}
+            </React.Fragment>
+          )}
         </div>
       </div>
     );
   }
 }
+DesktopCheckout.propTypes = {
+  onContinue: PropTypes.bool
+};
+DesktopCheckout.defaultProps = {
+  onContinue: true
+};
