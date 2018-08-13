@@ -21,13 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       buyNowFlag
     ) => {
       const addProductToCartResponse = await dispatch(
-        addProductToCart(
-          userId,
-          cartId,
-          accessToken,
-          productDetails,
-          buyNowFlag
-        )
+        addProductToCart(userId, cartId, accessToken, productDetails)
       );
       if (
         addProductToCartResponse &&
