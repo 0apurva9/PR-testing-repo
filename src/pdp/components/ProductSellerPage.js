@@ -49,7 +49,7 @@ class ProductSellerPage extends Component {
     this.props.history.replace(url);
   };
 
-  addToCart = () => {
+  addToCart = defaultFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -68,14 +68,16 @@ class ProductSellerPage extends Component {
         JSON.parse(userDetails).userName,
         JSON.parse(cartDetailsLoggedInUser).code,
         JSON.parse(customerCookie).access_token,
-        productDetails
+        productDetails,
+        defaultFlag
       );
     } else {
       this.props.addProductToCart(
         ANONYMOUS_USER,
         JSON.parse(cartDetailsAnonymous).guid,
         JSON.parse(globalCookie).access_token,
-        productDetails
+        productDetails,
+        defaultFlag
       );
     }
   };
@@ -163,7 +165,8 @@ class ProductSellerPage extends Component {
     return (
       mobileGalleryImages && (
         <PdpFrame
-          addProductToBag={() => this.addToCart()}
+          buyNow={() => this.addToCart(true)}
+          addProductToBag={() => this.addToCart(false)}
           gotoPreviousPage={() => this.gotoPreviousPage()}
         >
           {this.renderMetaTags()}
