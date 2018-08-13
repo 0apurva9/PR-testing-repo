@@ -8,7 +8,9 @@ import Button from "../../general/components/Button";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
-  WRITE_REVIEWS_WITH_SLUG
+  WRITE_REVIEWS_WITH_SLUG,
+  SUCCESS,
+  ERROR
 } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
@@ -19,7 +21,9 @@ class WriteReview extends React.Component {
     super(props);
     this.state = {
       title: "",
-      comment: ""
+      comment: "",
+      rating: 5,
+      resetRating: false
     };
   }
   onChangeTitle(val) {
@@ -62,12 +66,17 @@ class WriteReview extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.addReviewStatus) {
-      this.setState({
-        rating: "",
-        title: "",
-        comment: ""
-      });
+    if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+      if (nextProps.addReviewStatus) {
+        this.setState({
+          resetRating: true,
+          title: "",
+          comment: ""
+        });
+        if (this.state.resetRating === true) {
+          this.setState({ resetRating: false });
+        }
+      }
     }
   }
   render() {
@@ -76,12 +85,17 @@ class WriteReview extends React.Component {
         <div className={styles.ratingContainer}>
           <div className={styles.ratingHeader}>Rate this product</div>
           <div className={styles.ratingBar}>
-            <FillupRating rating={5} onChange={this.onRatingChange} />
+            <FillupRating
+              rating={5}
+              onChange={this.onRatingChange}
+              resetRating={this.state.resetRating}
+            />
           </div>
         </div>
         <div className={styles.input}>
           <Input
             placeholder={"Title"}
+            value={this.state.title}
             title={this.props.title ? this.props.title : this.state.title}
             onChange={val => this.onChangeTitle(val)}
           />
@@ -90,6 +104,7 @@ class WriteReview extends React.Component {
           comments={
             this.props.comment ? this.props.comment : this.state.comment
           }
+          value={this.state.comment}
           onChange={val => this.onChangeComment(val)}
           placeholder="Tell us what you think of this product"
         />

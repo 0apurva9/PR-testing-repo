@@ -20,6 +20,11 @@ export default class FillupRating extends React.Component {
       }
     );
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.resetRating === true) {
+      this.setState({ rating: this.props.rating && null });
+    }
+  }
   render() {
     const starSpans = [];
     for (let i = 1; i <= this.props.rating; i++) {

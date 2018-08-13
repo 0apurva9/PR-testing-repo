@@ -202,8 +202,10 @@ class ProductReviewPage extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.addReviewStatus === SUCCESS) {
-      this.setState({ visible: false });
+    if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+      if (nextProps.addReviewStatus === SUCCESS) {
+        this.setState({ visible: false });
+      }
     }
   }
 

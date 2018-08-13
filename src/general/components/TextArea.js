@@ -9,6 +9,12 @@ export default class TextArea extends React.Component {
       value: props.value ? props.value : ""
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value === "" || nextProps.value === null) {
+      this.setState({ value: "" });
+    }
+  }
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
