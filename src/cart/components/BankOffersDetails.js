@@ -93,7 +93,6 @@ class BankOffersDetails extends Component {
         this.applyUserCoupon();
       });
     } else {
-      this.setState({ selectedBankOfferCode: "" });
       const releaseBankOfferResponse = await this.props.releaseBankOffer(
         this.state.selectedBankOfferCode
       );
