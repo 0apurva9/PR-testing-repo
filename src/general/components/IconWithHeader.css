@@ -27,4 +27,7 @@
   .textHolder {
     font-size: 13px;
   }
+  .base {
+    background-color: unset;
+  }
 }
