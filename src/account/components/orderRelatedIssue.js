@@ -23,6 +23,10 @@ export default class OrderRelatedIssue extends React.Component {
       email1: ""
     };
   }
+  componentDidMount() {
+    this.props.getCustomerQueriesData();
+    this.props.getOrdersTransactionData();
+  }
   tabSelect(val) {
     this.setState({ isSelected: val });
     if (this.state.isSelected === 1) {

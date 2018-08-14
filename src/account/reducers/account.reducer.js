@@ -143,7 +143,17 @@ const account = (
 
     reSendEmailStatus: null,
     reSendEmailError: null,
-    reSendEmailLoader: false
+    reSendEmailLoader: false,
+
+    customerQueriesDataStatus: null,
+    customerQueriesDataError: null,
+    customerQueriesDataLoading: false,
+    customerQueriesData: null,
+
+    ordersTransactionDataStatus: null,
+    ordersTransactionDataError: null,
+    ordersTransactionDataLoading: false,
+    ordersTransactionData: null
   },
   action
 ) => {
@@ -941,6 +951,46 @@ const account = (
         reSendEmailStatus: action.status,
         reSendEmailError: action.error,
         reSendEmailLoader: false
+      });
+
+    case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
+      return Object.assign({}, state, {
+        customerQueriesDataStatus: action.status,
+        customerQueriesDataLoading: true
+      });
+
+    case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        customerQueriesDataStatus: action.status,
+        customerQueriesDataLoading: false,
+        customerQueriesData: action.customerQueriesData
+      });
+
+    case accountActions.GET_CUSTOMER_QUERIES_DATA_FAILURE:
+      return Object.assign({}, state, {
+        customerQueriesDataStatus: action.status,
+        customerQueriesDataError: action.error,
+        customerQueriesDataLoading: false
+      });
+
+    case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:
+      return Object.assign({}, state, {
+        ordersTransactionDataStatus: action.status,
+        ordersTransactionDataLoading: true
+      });
+
+    case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        ordersTransactionDataStatus: action.status,
+        ordersTransactionDataLoading: false,
+        ordersTransactionData: action.ordersTransactionData
+      });
+
+    case accountActions.GET_ORDERS_TRANSACTION_DATA_FAILURE:
+      return Object.assign({}, state, {
+        ordersTransactionDataStatus: action.status,
+        ordersTransactionDataError: action.error,
+        ordersTransactionDataLoading: false
       });
 
     default:

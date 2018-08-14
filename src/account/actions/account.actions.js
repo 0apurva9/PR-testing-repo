@@ -218,6 +218,20 @@ export const CHANGE_PASSWORD_REQUEST = "CHANGE_PASSWORD_REQUEST";
 export const CHANGE_PASSWORD_SUCCESS = "CHANGE_PASSWORD_SUCCESS";
 export const CHANGE_PASSWORD_FAILURE = "CHANGE_PASSWORD_FAILURE";
 
+export const GET_ORDERS_TRANSACTION_DATA_REQUEST =
+  "GET_ORDERS_TRANSACTION_DATA_REQUEST";
+export const GET_ORDERS_TRANSACTION_DATA_SUCCESS =
+  "GET_ORDERS_TRANSACTION_DATA_SUCCESS";
+export const GET_ORDERS_TRANSACTION_DATA_FAILURE =
+  "GET_ORDERS_TRANSACTION_DATA_FAILURE";
+
+export const GET_CUSTOMER_QUERIES_DATA_REQUEST =
+  "GET_CUSTOMER_QUERIES_DATA_REQUEST";
+export const GET_CUSTOMER_QUERIES_DATA_SUCCESS =
+  "GET_CUSTOMER_QUERIES_DATA_SUCCESS";
+export const GET_CUSTOMER_QUERIES_DATA_FAILURE =
+  "GET_CUSTOMER_QUERIES_DATA_FAILURE";
+
 export const RESEND_EMAIL_FOR_GIFT_CARD_REQUEST =
   "RESEND_EMAIL_FOR_GIFT_CARD_REQUEST";
 export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
@@ -2228,6 +2242,85 @@ export function reSendEmailForGiftCard(orderId) {
       return dispatch(reSendEmailForGiftCardSuccess());
     } catch (e) {
       return dispatch(reSendEmailForGiftCardFailure(e.message));
+    }
+  };
+}
+export function getCustomerQueriesDataRequest() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCustomerQueriesDataSuccess(customerQueriesData) {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    status: SUCCESS,
+    customerQueriesData
+  };
+}
+export function getCustomerQueriesDataFailure() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+export function getCustomerQueriesData() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomerQueriesDataRequest());
+    try {
+      const result = await api.get("v2/mpl/getWebCRMNodes");
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCustomerQueriesDataSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCustomerQueriesDataFailure(e.message));
+    }
+  };
+}
+
+export function getOrdersTransactionDataRequest() {
+  return {
+    type: GET_ORDERS_TRANSACTION_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getOrdersTransactionDataSuccess(ordersTransaction) {
+  return {
+    type: GET_ORDERS_TRANSACTION_DATA_SUCCESS,
+    status: SUCCESS,
+    ordersTransaction
+  };
+}
+export function getOrdersTransactionDataFailure() {
+  return {
+    type: GET_ORDERS_TRANSACTION_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+export function getOrdersTransactionData() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getOrdersTransactionDataRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getOrderTransactions?currentPage=1&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&channel=web`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getOrdersTransactionDataSuccess(resultJson));
+    } catch (e) {
+      dispatch(getOrdersTransactionDataFailure(e.message));
     }
   };
 }
