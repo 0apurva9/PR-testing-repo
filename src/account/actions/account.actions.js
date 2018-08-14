@@ -239,6 +239,10 @@ export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
 export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE =
   "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
 
+export const UPLOAD_USER_FILE_REQUEST = "UPLOAD_USER_FILE_REQUEST";
+export const UPLOAD_USER_FILE_SUCCESS = "UPLOAD_USER_FILE_SUCCESS";
+export const UPLOAD_USER_FILE_FAILURE = "UPLOAD_USER_FILE_FAILURE";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
@@ -2321,6 +2325,47 @@ export function getOrdersTransactionData() {
       dispatch(getOrdersTransactionDataSuccess(resultJson));
     } catch (e) {
       dispatch(getOrdersTransactionDataFailure(e.message));
+    }
+  };
+}
+
+export function uploadUserFileRequest() {
+  return {
+    type: UPLOAD_USER_FILE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function uploadUserFileSuccess(uploadUserFile) {
+  return {
+    type: UPLOAD_USER_FILE_SUCCESS,
+    status: SUCCESS,
+    uploadUserFile
+  };
+}
+export function uploadUserFileFailure() {
+  return {
+    type: UPLOAD_USER_FILE_FAILURE,
+    status: FAILURE
+  };
+}
+export function uploadUserFile(file) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(uploadUserFileRequest());
+    try {
+      let uploadUserFileObject = new FormData();
+      uploadUserFileObject.append("uploadFile", file);
+      const result = await api.postFormData(
+        `${PATH}/crmFileUpload`,
+        uploadUserFileObject
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(uploadUserFileSuccess(resultJson));
+    } catch (e) {
+      return dispatch(uploadUserFileFailure(e.message));
     }
   };
 }

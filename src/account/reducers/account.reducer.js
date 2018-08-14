@@ -153,7 +153,12 @@ const account = (
     ordersTransactionDataStatus: null,
     ordersTransactionDataError: null,
     ordersTransactionDataLoading: false,
-    ordersTransactionData: null
+    ordersTransactionData: null,
+
+    uploadUserFileStatus: null,
+    uploadUserFileError: null,
+    uploadUserFileLoading: false,
+    uploadUserFile: null
   },
   action
 ) => {
@@ -991,6 +996,25 @@ const account = (
         ordersTransactionDataStatus: action.status,
         ordersTransactionDataError: action.error,
         ordersTransactionDataLoading: false
+      });
+    case accountActions.UPLOAD_USER_FILE_REQUEST:
+      return Object.assign({}, state, {
+        uploadUserFileStatus: action.status,
+        uploadUserFileLoading: true
+      });
+
+    case accountActions.UPLOAD_USER_FILE_SUCCESS:
+      return Object.assign({}, state, {
+        uploadUserFileStatus: action.status,
+        uploadUserFileLoading: false,
+        uploadUserFile: action.uploadUserFile
+      });
+
+    case accountActions.UPLOAD_USER_FILE_FAILURE:
+      return Object.assign({}, state, {
+        uploadUserFileStatus: action.status,
+        uploadUserFileError: action.error,
+        uploadUserFileLoading: false
       });
 
     default:
