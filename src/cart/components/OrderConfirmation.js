@@ -2,6 +2,7 @@ import React from "react";
 import RateYourExperienceCard from "./RateYourExperienceCard.js";
 import OrderBanner from "./OrderBanner.js";
 import OrderDetailsCard from "./OrderDetailsCard.js";
+import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
 import MediaQuery from "react-responsive";
@@ -67,14 +68,26 @@ export default class OrderConfirmation extends React.Component {
               this.props.orderDetails.products &&
               this.props.orderDetails.products.map(order => {
                 return (
-                  <div className={styles.orderDetailsCardHolder}>
-                    <OrderDetailsCard
-                      productDetails={order}
-                      orderDetails={this.props.orderDetails}
-                      orderId={this.props.orderId}
-                      trackOrder={() => this.trackOrder()}
-                    />
-                  </div>
+                  <React.Fragment>
+                    <MobileOnly>
+                      <div className={styles.orderDetailsCardHolder}>
+                        <OrderDetailsCard
+                          productDetails={order}
+                          orderDetails={this.props.orderDetails}
+                          orderId={this.props.orderId}
+                          trackOrder={() => this.trackOrder()}
+                        />
+                      </div>
+                    </MobileOnly>
+                    <DesktopOnly>
+                      <OrderSucessCard
+                        imageURL={order.imageURL}
+                        productName={order.productName}
+                        quantity={order.quantity}
+                        selectedDeliveryMode={order.selectedDeliveryMode}
+                      />
+                    </DesktopOnly>
+                  </React.Fragment>
                 );
               })}
             <MobileOnly>
