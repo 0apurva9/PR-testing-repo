@@ -31,9 +31,11 @@ import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageW
 import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_CART_ROUTER,
+  ADD_TO_BAG_TEXT
 } from "../../lib/constants.js";
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
@@ -47,8 +49,28 @@ const mapDispatchToProps = dispatch => {
         }
       }
     },
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(addProductToCart(userId, cartId, accessToken, productDetails));
+    addProductToCart: async (
+      userId,
+      cartId,
+      accessToken,
+      productDetails,
+      buyNowFlag
+    ) => {
+      const addProductToCartResponse = await dispatch(
+        addProductToCart(userId, cartId, accessToken, productDetails)
+      );
+      if (
+        addProductToCartResponse &&
+        addProductToCartResponse.status === SUCCESS
+      ) {
+        if (buyNowFlag) {
+          ownProps.history.push({
+            pathname: PRODUCT_CART_ROUTER
+          });
+        } else {
+          dispatch(displayToast(ADD_TO_BAG_TEXT));
+        }
+      }
     },
     showSizeSelector: data => {
       dispatch(showModal(SIZE_SELECTOR, data));

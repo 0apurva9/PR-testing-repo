@@ -23,7 +23,9 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   COLLECT
 } from "../../lib/constants";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
@@ -147,7 +149,7 @@ export default class PdpApparel extends React.Component {
     });
   };
 
-  addToCart = () => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -181,7 +183,8 @@ export default class PdpApparel extends React.Component {
                 JSON.parse(userDetails).userName,
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
-                productDetails
+                productDetails,
+                buyNowFlag
               );
             }
           } else {
@@ -190,12 +193,13 @@ export default class PdpApparel extends React.Component {
                 ANONYMOUS_USER,
                 JSON.parse(cartDetailsAnonymous).guid,
                 JSON.parse(globalCookie).access_token,
-                productDetails
+                productDetails,
+                buyNowFlag
               );
             }
           }
         } else {
-          this.showSizeSelector();
+          this.showSizeSelector(buyNowFlag);
         }
       }
     }
@@ -225,7 +229,7 @@ export default class PdpApparel extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  showSizeSelector = () => {
+  showSizeSelector = buyNowFlag => {
     if (
       this.props.showSizeSelector &&
       this.props.productDetails &&
@@ -237,7 +241,8 @@ export default class PdpApparel extends React.Component {
         productId: this.props.productDetails.productListingId,
         showSizeGuide: this.props.showSizeGuide,
         hasSizeGuide: this.props.productDetails.showSizeGuide,
-        data: this.props.productDetails.variantOptions
+        data: this.props.productDetails.variantOptions,
+        buyNowFlag: buyNowFlag
       });
     }
   };
@@ -339,7 +344,8 @@ export default class PdpApparel extends React.Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
+          buyNow={() => this.addToCart(true)}
+          addProductToBag={() => this.addToCart(false)}
           productListingId={productData.productListingId}
           outOfStock={
             productData.allOOStock ||
@@ -384,11 +390,20 @@ export default class PdpApparel extends React.Component {
             hasCod={productData.isCOD}
             showEmiModal={() => this.showEmiModal()}
           />
+          <div className={styles.wishlist}>
+            <AddToWishListButtonContainer
+              productListingId={productData.productListingId}
+              winningUssID={productData.winningUssID}
+              type={WISHLIST_FOOTER_BUTTON_TYPE}
+              setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+            />
+          </div>
           <OfferCard
             showDetails={this.props.showOfferDetails}
             potentialPromotions={productData.potentialPromotions}
             secondaryPromotions={productData.productOfferMsg}
           />
+
           {productData.variantOptions && (
             <React.Fragment>
               {!this.checkIfNoSize() &&
@@ -412,6 +427,7 @@ export default class PdpApparel extends React.Component {
               />
             </React.Fragment>
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode

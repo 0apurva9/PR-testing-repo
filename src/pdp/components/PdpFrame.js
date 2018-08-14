@@ -10,6 +10,11 @@ export default class PdpFrame extends React.Component {
       this.props.addProductToBag();
     }
   }
+  buyNow() {
+    if (this.props.buyNow) {
+      this.props.buyNow();
+    }
+  }
   goBack = () => {
     if (this.props.gotoPreviousPage) {
       this.props.gotoPreviousPage();
@@ -40,6 +45,7 @@ export default class PdpFrame extends React.Component {
       <div className={styles.base}>
         <PdpFooter
           onAddToBag={() => this.onAddToBag()}
+          buyNow={() => this.buyNow()}
           productListingId={this.props.productListingId}
           outOfStock={this.props.outOfStock}
           winningUssID={
