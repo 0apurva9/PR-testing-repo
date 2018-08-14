@@ -5,6 +5,7 @@ import {
   getCustomerQueriesData,
   getOrdersTransactionData
 } from "../actions/account.actions";
+import { displayToast } from "../../general/toast.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
     getCustomerQueriesData: () => {
@@ -12,6 +13,9 @@ const mapDispatchToProps = dispatch => {
     },
     getOrdersTransactionData: () => {
       dispatch(getOrdersTransactionData());
+    },
+    displayToast: message => {
+      dispatch(displayToast(message));
     }
   };
 };
