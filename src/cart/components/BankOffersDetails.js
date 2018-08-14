@@ -87,16 +87,25 @@ class BankOffersDetails extends Component {
     }
   }
 
-  onSelectCouponCode = val => {
+  async onSelectCouponCode(val) {
     if (val[0]) {
       this.setState({ selectedBankOfferCode: val[0] }, function() {
         this.applyUserCoupon();
       });
     } else {
       this.setState({ selectedBankOfferCode: "" });
-      this.applyUserCoupon();
+      const releaseBankOfferResponse = await this.props.releaseBankOffer(
+        this.state.selectedBankOfferCode
+      );
+      if (releaseBankOfferResponse.status === SUCCESS) {
+        this.props.selecteBankOffer("");
+        this.setState({
+          previousSelectedCouponCode: "",
+          selectedBankOfferCode: ""
+        });
+      }
     }
-  };
+  }
   render() {
     return (
       <div className={styles.base}>
