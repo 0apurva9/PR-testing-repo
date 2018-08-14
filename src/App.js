@@ -65,7 +65,8 @@ import {
   PRODUCT_LISTINGS_WITHOUT_SLASH,
   HELP_URL,
   NOT_FOUND,
-  WRITE_REVIEWS_WITH_SLUG
+  WRITE_REVIEWS_WITH_SLUG,
+  WRITE_REVIEWS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 
@@ -395,6 +396,7 @@ class App extends Component {
               path={WRITE_REVIEWS_WITH_SLUG}
               component={ProductReviewContainer}
             />
+            <Route path={WRITE_REVIEWS} component={ProductReviewContainer} />
             <Route
               path={PRODUCT_DESCRIPTION_REVIEWS_WITH_SLUG}
               component={ProductReviewContainer}
