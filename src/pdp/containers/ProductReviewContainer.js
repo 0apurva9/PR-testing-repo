@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getProductDescription(productCode));
     },
     addProductReview: (productCode, productReview) => {
-      dispatch(addProductReview(productCode, productReview));
+      return dispatch(addProductReview(productCode, productReview));
     },
 
     displayToast: message => {
