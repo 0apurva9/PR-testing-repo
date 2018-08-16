@@ -154,7 +154,32 @@ export default class OrderRelatedIssue extends React.Component {
           this.state.file
         );
         if (uploadFileResponse && uploadFileResponse.status === SUCCESS) {
-          console.log(uploadFileResponse.uploadUserFile.fileURL);
+          let orderRelatedIssue =
+            this.props.customerQueriesData &&
+            this.props.customerQueriesData.nodes &&
+            this.props.customerQueriesData.nodes.find(orderRelated => {
+              return orderRelated.nodeDesc === "Order Related Query";
+            });
+          let submitDetailsObject = Object.assign(
+            {},
+            {
+              nodeL0: orderRelatedIssue.nodeL0,
+              nodeL1: orderRelatedIssue.nodeCode,
+              nodeL2: this.state.reasonCodeForOrderRelated,
+              nodeL3: this.state.secondaryReasonsCodeForOrderRelated,
+              contactEmail: this.state.emailForOrderRelated,
+              contactMobile: this.state.phoneNumberForOrderRelated,
+              contactName: this.state.nameForOrderRelated,
+              attachmentFiles: uploadFileResponse.uploadUserFile.fileURL,
+              comment: this.state.commentForOrderRelated,
+              nodeL4: "",
+              transactionId: "",
+              orderCode: "",
+              ticketType: "",
+              subOrderCode: ""
+            }
+          );
+          console.log(submitDetailsObject);
           if (this.props.submitOrderRelatedIssue) {
             this.props.submitOrderRelatedIssue(this.state);
           }
@@ -221,13 +246,38 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(MOBILE_VALID_TEXT);
       return false;
     } else {
+      let otherIssue =
+        this.props.customerQueriesData &&
+        this.props.customerQueriesData.nodes &&
+        this.props.customerQueriesData.nodes.find(otherIssue => {
+          return otherIssue.nodeDesc === "Any Other Query";
+        });
+      let submitDetailsObject = Object.assign(
+        {},
+        {
+          nodeL0: otherIssue.nodeL0,
+          nodeL1: otherIssue.nodeCode,
+          nodeL2: this.state.reasonCodeForOtherIssue,
+          nodeL3: this.state.secondaryReasonsCodeForOtherIssue,
+          contactEmail: this.state.emailForOtherIssue,
+          contactMobile: this.state.phoneNumberForOtherIssue,
+          contactName: this.state.nameForOtherIssue,
+          attachmentFiles: "",
+          comment: this.state.commentForOtherIssue,
+          nodeL4: "",
+          transactionId: "",
+          orderCode: "",
+          ticketType: "",
+          subOrderCode: ""
+        }
+      );
+      console.log(submitDetailsObject);
       if (this.props.submitOtherIssue) {
         this.props.submitOtherIssue();
       }
     }
   }
   render() {
-    console.log(this.props);
     let orderRelatedIssue =
       this.props.customerQueriesData &&
       this.props.customerQueriesData.nodes &&
