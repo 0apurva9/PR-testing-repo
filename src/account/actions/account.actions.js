@@ -2314,11 +2314,7 @@ export function getOrdersTransactionDataFailure(error, isPaginated) {
     isPaginated
   };
 }
-export function getOrdersTransactionData(
-  suffix: null,
-  paginated: false,
-  isSetDataLayer: true
-) {
+export function getOrdersTransactionData(paginated) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {

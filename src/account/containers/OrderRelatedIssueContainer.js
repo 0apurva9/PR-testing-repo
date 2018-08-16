@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getCustomerQueriesData());
     },
     getOrdersTransactionData: paginated => {
-      dispatch(getOrdersTransactionData(false, paginated));
+      dispatch(getOrdersTransactionData(paginated));
     },
     displayToast: message => {
       dispatch(displayToast(message));
