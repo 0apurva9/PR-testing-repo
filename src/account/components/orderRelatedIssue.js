@@ -13,7 +13,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, MY_ACCOUNT_PAGE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -219,6 +219,25 @@ export default class OrderRelatedIssue extends React.Component {
         this.props.customerQueriesData.nodes.find(orderRelated => {
           return orderRelated.nodeDesc === "Order Related Query";
         });
+      let orderRelatedSubIssue =
+        this.state.reasonForOrderRelated &&
+        orderRelatedIssue &&
+        orderRelatedIssue.children &&
+        orderRelatedIssue.children.find(orderRelatedSubIssue => {
+          return (
+            orderRelatedSubIssue.nodeDesc === this.state.reasonForOrderRelated
+          );
+        });
+      let getL4 =
+        this.state.secondaryReasonsForOrderRelated &&
+        orderRelatedSubIssue &&
+        orderRelatedSubIssue.children &&
+        orderRelatedSubIssue.children.find(orderRelatedSubIssue => {
+          return (
+            orderRelatedSubIssue.nodeDesc ===
+            this.state.secondaryReasonsForOrderRelated
+          );
+        });
       const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       let submitDetailsObject = Object.assign(
         {},
@@ -231,10 +250,15 @@ export default class OrderRelatedIssue extends React.Component {
           contactMobile: this.state.phoneNumberForOrderRelated,
           contactName: this.state.nameForOrderRelated,
           comment: this.state.commentForOrderRelated,
-          nodeL4: "",
+          nodeL4:
+            getL4 &&
+            getL4.children &&
+            getL4.children[0] &&
+            getL4.children[0].nodeCode
+              ? getL4.children[0].nodeCode
+              : "",
           transactionId: this.state.transactionId,
           orderCode: this.state.orderCode,
-          ticketType: "CL",
           subOrderCode: this.state.sellerOrderNumber
         }
       );
@@ -244,12 +268,22 @@ export default class OrderRelatedIssue extends React.Component {
         );
         if (uploadFileResponse && uploadFileResponse.status === SUCCESS) {
           if (this.props.submitOrderDetails) {
-            this.props.submitOrderDetails(submitDetailsObject);
+            const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+              submitDetailsObject
+            );
+            if (submitOrderDetailsResponse.status === SUCCESS) {
+              this.props.history.push(MY_ACCOUNT_PAGE);
+            }
           }
         }
       } else {
         if (this.props.submitOrderDetails) {
-          this.props.submitOrderDetails(submitDetailsObject);
+          const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+            submitDetailsObject
+          );
+          if (submitOrderDetailsResponse.status === SUCCESS) {
+            this.props.history.push(MY_ACCOUNT_PAGE);
+          }
         }
       }
     }
@@ -304,6 +338,22 @@ export default class OrderRelatedIssue extends React.Component {
         this.props.customerQueriesData.nodes.find(otherIssue => {
           return otherIssue.nodeDesc === "Any Other Query";
         });
+      let orderSubIssue =
+        this.state.reasonForOtherIssue &&
+        otherIssue &&
+        otherIssue.children &&
+        otherIssue.children.find(orderSubIssue => {
+          return orderSubIssue.nodeDesc === this.state.reasonForOtherIssue;
+        });
+      let getL4 =
+        this.state.secondaryReasonsForOtherIssue &&
+        orderSubIssue &&
+        orderSubIssue.children &&
+        orderSubIssue.children.find(orderSubIssue => {
+          return (
+            orderSubIssue.nodeDesc === this.state.secondaryReasonsForOtherIssue
+          );
+        });
       const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       let submitDetailsObject = Object.assign(
         {},
@@ -316,15 +366,25 @@ export default class OrderRelatedIssue extends React.Component {
           contactMobile: this.state.phoneNumberForOtherIssue,
           contactName: this.state.nameForOtherIssue,
           comment: this.state.commentForOtherIssue,
-          nodeL4: "",
+          nodeL4:
+            getL4 &&
+            getL4.children &&
+            getL4.children[0] &&
+            getL4.children[0].nodeCode
+              ? getL4.children[0].nodeCode
+              : "",
           transactionId: "",
           orderCode: "",
-          ticketType: "",
           subOrderCode: ""
         }
       );
       if (this.props.submitOrderDetails) {
-        this.props.submitOrderDetails(submitDetailsObject);
+        const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+          submitDetailsObject
+        );
+        if (submitOrderDetailsResponse.status === SUCCESS) {
+          this.props.history.push(MY_ACCOUNT_PAGE);
+        }
       }
     }
   }

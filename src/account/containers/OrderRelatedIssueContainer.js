@@ -22,8 +22,8 @@ const mapDispatchToProps = dispatch => {
     uploadUserFile: async file => {
       return dispatch(uploadUserFile(file));
     },
-    submitOrderDetails: submitOrderDetailsObject => {
-      dispatch(submitOrderDetails(submitOrderDetailsObject));
+    submitOrderDetails: async submitOrderDetailsObject => {
+      return dispatch(submitOrderDetails(submitOrderDetailsObject));
     }
   };
 };

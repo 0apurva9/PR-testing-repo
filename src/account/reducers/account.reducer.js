@@ -158,7 +158,12 @@ const account = (
     uploadUserFileStatus: null,
     uploadUserFileError: null,
     uploadUserFileLoading: false,
-    uploadUserFile: null
+    uploadUserFile: null,
+
+    submitOrderDetailsStatus: null,
+    submitOrderDetailsError: null,
+    submitOrderDetailsLoading: false,
+    submitOrderDetails: null
   },
   action
 ) => {
@@ -1025,7 +1030,6 @@ const account = (
         uploadUserFileLoading: false,
         uploadUserFile: action.uploadUserFile
       });
-
     case accountActions.UPLOAD_USER_FILE_FAILURE:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
@@ -1033,9 +1037,27 @@ const account = (
         uploadUserFileLoading: false
       });
 
+    case accountActions.SUBMIT_ORDER_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        submitOrderDetailsStatus: action.status,
+        submitOrderDetailsLoading: true
+      });
+
+    case accountActions.SUBMIT_ORDER_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        submitOrderDetailsStatus: action.status,
+        submitOrderDetailsLoading: false,
+        submitOrderDetails: action.submitOrderDetails
+      });
+    case accountActions.SUBMIT_ORDER_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        submitOrderDetailsStatus: action.status,
+        submitOrderDetailsError: action.error,
+        submitOrderDetailsLoading: false
+      });
+
     default:
       return state;
   }
 };
-
 export default account;
