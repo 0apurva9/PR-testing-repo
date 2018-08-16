@@ -393,7 +393,7 @@ const account = (
         orderDetailsStatus: action.status,
         loading: true
       });
-
+    /////////////////////
     case accountActions.GET_ALL_ORDERS_SUCCESS:
       let currentOrderDetailObj = state.orderDetails
         ? cloneDeep(state.orderDetails)
@@ -983,14 +983,32 @@ const account = (
         ordersTransactionDataStatus: action.status,
         ordersTransactionDataLoading: true
       });
-
+    ////////////
     case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
+      let currentOrderTransactionDetailObj = state.ordersTransactionData
+        ? cloneDeep(state.ordersTransactionData)
+        : {};
+      if (
+        action.isPaginated &&
+        currentOrderTransactionDetailObj &&
+        currentOrderTransactionDetailObj.orderData
+      ) {
+        currentOrderTransactionDetailObj.orderData = currentOrderTransactionDetailObj.orderData.concat(
+          action.ordersTransactionData.orderData
+        );
+        currentOrderTransactionDetailObj.currentPage =
+          currentOrderTransactionDetailObj.currentPage + 1;
+      } else {
+        currentOrderTransactionDetailObj = action.ordersTransactionData;
+        Object.assign(currentOrderTransactionDetailObj, {
+          currentPage: 0
+        });
+      }
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
-        ordersTransactionDataLoading: false,
-        ordersTransactionData: action.ordersTransactionData
+        ordersTransactionData: currentOrderTransactionDetailObj,
+        ordersTransactionDataLoading: false
       });
-
     case accountActions.GET_ORDERS_TRANSACTION_DATA_FAILURE:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,

@@ -35,7 +35,7 @@
   position: absolute;
   background-size: auto 14px;
   background-repeat: no-repeat;
-  right: 0px;
+  right: 10px;
   top: 0;
   bottom: 0;
   margin: auto;
@@ -119,13 +119,14 @@
   padding: 10px 0px;
 }
 .imageHolder {
-  width: 40%;
+  width: 30%;
   height: auto;
   display: inline-block;
   vertical-align: top;
+  padding: 10px 0px 10px 10px;
 }
 .dataHolder {
-  width: 60%;
+  width: 70%;
   height: auto;
   display: inline-block;
   vertical-align: top;
@@ -135,9 +136,8 @@
   width: 100%;
   height: auto;
   color: #212121;
-  font-size: 14px;
-  font-family: light;
-  margin-bottom: 10px;
+  font-size: 13px;
+  font-family: regular;
   line-height: 20px;
 }
 .dataDescription:last-child {
@@ -147,4 +147,52 @@
   width: 100%;
   height: auto;
   position: relative;
+}
+.dummySelectBoxWithIcon {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.dummySelectBox {
+  margin-top: 25px;
+  width: 100%;
+  height: 33px;
+  border-radius: 4px;
+  border: solid 1px #d2d2d2;
+  font-size: 14px;
+  font-family: regular;
+  line-height: 33px;
+  padding-left: 10px;
+}
+.selectOrderHolder {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  min-height: 100vh;
+  padding: 20px;
+}
+.orderCard {
+  width: 100%;
+  height: auto;
+}
+.productsDetailsHolder {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px 1px #d2d2d2;
+  margin-bottom: 20px;
+}
+.productsDisplayHolder {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px 1px #d2d2d2;
+  margin-top: 22px;
+}
+.loadData {
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  text-align: center;
+  font-family: regular;
 }

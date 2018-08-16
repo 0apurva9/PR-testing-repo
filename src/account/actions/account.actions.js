@@ -2285,35 +2285,50 @@ export function getCustomerQueriesData() {
   };
 }
 
-export function getOrdersTransactionDataRequest() {
+export function getOrdersTransactionDataRequest(paginated: false) {
   return {
     type: GET_ORDERS_TRANSACTION_DATA_REQUEST,
     status: REQUESTING
   };
 }
-export function getOrdersTransactionDataSuccess(ordersTransaction) {
+export function getOrdersTransactionDataSuccess(
+  ordersTransactionData,
+  isPaginated: false
+) {
   return {
     type: GET_ORDERS_TRANSACTION_DATA_SUCCESS,
     status: SUCCESS,
-    ordersTransaction
+    ordersTransactionData,
+    isPaginated
   };
 }
-export function getOrdersTransactionDataFailure() {
+export function getOrdersTransactionDataFailure(error, isPaginated) {
   return {
     type: GET_ORDERS_TRANSACTION_DATA_FAILURE,
-    status: FAILURE
+    status: FAILURE,
+    error,
+    isPaginated
   };
 }
-export function getOrdersTransactionData() {
+export function getOrdersTransactionData(
+  suffix: null,
+  paginated: false,
+  isSetDataLayer: true
+) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    dispatch(getOrdersTransactionDataRequest());
+    dispatch(getOrdersTransactionDataRequest(paginated));
+    dispatch(showSecondaryLoader());
+    let currentPage = 0;
+    if (getState().profile.ordersTransactionData) {
+      currentPage = getState().profile.ordersTransactionData.currentPage + 1;
+    }
     try {
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getOrderTransactions?currentPage=1&access_token=${
+        }/getOrderTransactions?currentPage=${currentPage}&access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=web`
       );
@@ -2322,9 +2337,16 @@ export function getOrdersTransactionData() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getOrdersTransactionDataSuccess(resultJson));
+      if (paginated) {
+        dispatch(getOrdersTransactionDataSuccess(resultJson, paginated));
+        dispatch(hideSecondaryLoader());
+      } else {
+        dispatch(getOrdersTransactionDataSuccess(resultJson, paginated));
+        dispatch(hideSecondaryLoader());
+      }
     } catch (e) {
-      dispatch(getOrdersTransactionDataFailure(e.message));
+      dispatch(hideSecondaryLoader());
+      dispatch(getOrdersTransactionDataFailure(e.message, paginated));
     }
   };
 }

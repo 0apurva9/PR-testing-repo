@@ -12,8 +12,8 @@ const mapDispatchToProps = dispatch => {
     getCustomerQueriesData: () => {
       dispatch(getCustomerQueriesData());
     },
-    getOrdersTransactionData: () => {
-      dispatch(getOrdersTransactionData());
+    getOrdersTransactionData: paginated => {
+      dispatch(getOrdersTransactionData(false, paginated));
     },
     displayToast: message => {
       dispatch(displayToast(message));
@@ -25,6 +25,7 @@ const mapDispatchToProps = dispatch => {
 };
 const mapStateToProps = state => {
   return {
+    ordersTransactionDataLoading: state.profile.ordersTransactionDataLoading,
     customerQueriesData: state.profile.customerQueriesData,
     ordersTransactionData: state.profile.ordersTransactionData
   };

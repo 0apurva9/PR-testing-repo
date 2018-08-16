@@ -14,6 +14,8 @@ import {
   MOBILE_PATTERN
 } from "../../auth/components/Login";
 import { SUCCESS } from "../../lib/constants";
+import format from "date-fns/format";
+import throttle from "lodash/throttle";
 const SELECT_ISSUE_FOR_ORDER_TEXT = "Please select issue for order related";
 const SELECT_SUB_ISSUE_FOR_ORDER_TEXT =
   "Please select sub issue for order related";
@@ -24,10 +26,14 @@ const EMAIL_TEXT = "Please enter email id";
 const EMAIL_VALID_TEXT = "please enter valid email id";
 const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please eneter valid mobile number";
+const SUFFIX = `&isTextSearch=false&isFilter=false`;
+const SCROLL_CHECK_INTERVAL = 500;
+const OFFSET_BOTTOM = 800;
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showOrder: false,
       isSelected: 0,
       isSelectedOrder: false,
       nameForOrderRelated: "",
@@ -48,12 +54,49 @@ export default class OrderRelatedIssue extends React.Component {
       reasonForOtherIssue: null,
       reasonCodeForOtherIssue: null,
       secondaryReasonsCodeForOtherIssue: null,
-      isEnableForOtherIssue: false
+      isEnableForOtherIssue: false,
+      orderCode: "",
+      transactionId: "",
+      sellerOrderNumber: "",
+      productImageURL: "",
+      orderDate: "",
+      productName: "",
+      productPrice: "",
+      productStatus: ""
     };
   }
   componentDidMount() {
     this.props.getCustomerQueriesData();
-    this.props.getOrdersTransactionData();
+    this.props.getOrdersTransactionData(false);
+  }
+  getMoreOrder() {
+    if (
+      this.props.ordersTransactionData &&
+      (this.props.ordersTransactionData.currentPage + 1) *
+        this.props.ordersTransactionData.pageSize <
+        this.props.ordersTransactionData.totalNoOfOrders
+    ) {
+      const windowHeight =
+        "innerHeight" in window
+          ? window.innerHeight
+          : document.documentElement.offsetHeight;
+      const body = document.body;
+      const html = document.documentElement;
+      const docHeight = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      const windowBottom = windowHeight + window.pageYOffset;
+      if (
+        windowBottom >= docHeight - OFFSET_BOTTOM &&
+        !this.props.ordersTransactionDataLoading
+      ) {
+        this.props.getOrdersTransactionData(true);
+      }
+    }
   }
   tabSelect(val) {
     this.setState({
@@ -66,7 +109,8 @@ export default class OrderRelatedIssue extends React.Component {
       reasonForOtherIssue: null,
       reasonCodeForOtherIssue: null,
       secondaryReasonsCodeForOtherIssue: null,
-      isEnableForOtherIssue: false
+      isEnableForOtherIssue: false,
+      showOrder: false
     });
     if (this.state.isSelected === 1) {
       this.setState({
@@ -80,16 +124,40 @@ export default class OrderRelatedIssue extends React.Component {
         reasonCodeForOrderRelated: null,
         secondaryReasonsCodeForOrderRelated: null,
         isEnableForOrderRelated: false,
-        isSelectedOrder: false
+        showOrder: false,
+        isSelectedOrder: false,
+        orderCode: "",
+        transactionId: "",
+        sellerOrderNumber: "",
+        productImageURL: "",
+        orderDate: "",
+        productName: "",
+        productPrice: "",
+        productStatus: ""
       });
     }
   }
-  selectedOrder() {
-    if (this.state.isSelectedOrder === true) {
-      this.setState({ isSelectedOrder: false });
-    } else {
-      this.setState({ isSelectedOrder: true });
-    }
+  setProductDetails(
+    orderCode,
+    transactionId,
+    sellerOrderNumber,
+    productImageURL,
+    orderDate,
+    productName,
+    productPrice,
+    productStatus
+  ) {
+    this.setState({
+      orderCode: orderCode,
+      transactionId: transactionId,
+      sellerOrderNumber: sellerOrderNumber,
+      showOrder: false,
+      productImageURL: productImageURL,
+      orderDate: orderDate,
+      productName: productName,
+      productPrice: productPrice,
+      productStatus: productStatus
+    });
   }
   onChangeReasonForOrderRelated(val) {
     const code = val.value;
@@ -173,12 +241,13 @@ export default class OrderRelatedIssue extends React.Component {
               attachmentFiles: uploadFileResponse.uploadUserFile.fileURL,
               comment: this.state.commentForOrderRelated,
               nodeL4: "",
-              transactionId: "",
-              orderCode: "",
-              ticketType: "",
-              subOrderCode: ""
+              transactionId: this.state.transactionId,
+              orderCode: this.state.orderCode,
+              ticketType: "CL",
+              subOrderCode: this.state.sellerOrderNumber
             }
           );
+
           console.log(submitDetailsObject);
           if (this.props.submitOrderRelatedIssue) {
             this.props.submitOrderRelatedIssue(this.state);
@@ -306,284 +375,382 @@ export default class OrderRelatedIssue extends React.Component {
       otherIssue.children.find(otherSubIssue => {
         return otherSubIssue.nodeDesc === this.state.reasonForOtherIssue;
       });
+
     return (
       <div className={styles.base}>
-        <div className={styles.header}>
-          <TabHolder>
-            <TabData
-              width="50%"
-              label="Order related "
-              selected={this.state.isSelected === 0}
-              selectItem={() => this.tabSelect(0)}
-            />
-            <TabData
-              width="50%"
-              label="Other issues "
-              selected={this.state.isSelected === 1}
-              selectItem={() => this.tabSelect(1)}
-            />
-          </TabHolder>
-        </div>
-        {this.state.isSelected === 0 && (
-          <div className={styles.orderHolder}>
-            <div className={styles.selectedOrder}>
-              <div
-                className={styles.headingHolder}
-                onClick={() => this.selectedOrder()}
-              >
-                <CheckOutHeader
-                  indexNumber="1"
-                  confirmTitle="Select your order"
-                />
-                <div
-                  className={
-                    this.state.isSelectedOrder
-                      ? styles.iconRotate
-                      : styles.iconHolder
-                  }
-                />
-              </div>
-              {this.state.isSelectedOrder && (
-                <div className={styles.orderCardHolder}>
-                  <div className={styles.imageHolder}>
-                    <ProductImage image={this.props.image} />
-                  </div>
-                  <div className={styles.dataHolder}>
-                    {this.props.dataDescription && (
-                      <div className={styles.dataDescription}>
-                        {this.props.dataDescription}
-                      </div>
-                    )}
-                    {this.props.orderId && (
-                      <div className={styles.dataDescription}>
-                        {`Order ID; ${this.props.orderId}`}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
-              </div>
-              <div className={styles.selectIssue}>
-                <SelectBoxMobile2
-                  placeholder="Select issue"
-                  arrowColour="black"
-                  height={33}
-                  options={
-                    orderRelatedIssue &&
-                    orderRelatedIssue.children &&
-                    orderRelatedIssue.children.map((val, i) => {
-                      return {
-                        value: val.nodeCode,
-                        label: val.nodeDesc
-                      };
-                    })
-                  }
-                  onChange={val => this.onChangeReasonForOrderRelated(val)}
-                />
-              </div>
-              <div className={styles.selectIssue}>
-                <SelectBoxMobile2
-                  placeholder="Select sub-issue"
-                  arrowColour="black"
-                  height={33}
-                  options={
-                    orderRelatedSubIssue &&
-                    orderRelatedSubIssue.children &&
-                    orderRelatedSubIssue.children.map((val, i) => {
-                      return {
-                        value: val.nodeCode,
-                        label: val.nodeDesc
-                      };
-                    })
-                  }
-                  isEnable={this.state.isEnableForOrderRelated}
-                  onChange={val => this.onChangeSubReasonForOrderRelated(val)}
-                />
-              </div>
-              <div className={styles.selectIssue}>
-                <TextArea
-                  placeholder={"Comments(Optional)"}
-                  onChange={commentForOrderRelated =>
-                    this.onChange({ commentForOrderRelated })
-                  }
-                />
-              </div>
-            </div>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber="3"
-                  confirmTitle="Personal Details"
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Name"
-                  value={this.state.nameForOrderRelated}
-                  onChange={nameForOrderRelated =>
-                    this.onChange({ nameForOrderRelated })
-                  }
-                  onlyAlphabet={true}
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Email"
-                  value={this.state.emailForOrderRelated}
-                  onChange={emailForOrderRelated =>
-                    this.onChange({ emailForOrderRelated })
-                  }
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Phone*"
-                  maxLength={"10"}
-                  value={this.state.phoneNumberForOrderRelated}
-                  onChange={phoneNumberForOrderRelated =>
-                    this.onChange({ phoneNumberForOrderRelated })
-                  }
-                  onlyNumber={true}
-                />
-              </div>
-            </div>
-            <div className={styles.selectImageHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber="4"
-                  confirmTitle="Add attachment (Optional)"
-                />
-              </div>
-              <div className={styles.validImage}>
-                Upload JPEG, PNG (Maximum size 5 MB)
-              </div>
-              <div className={styles.imageInput}>
-                <ImageUpload
-                  value={"Upload attachment"}
-                  onChange={file => this.setState({ file })}
-                />
-              </div>
-            </div>
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  type="primary"
-                  height={38}
-                  label={"Submit"}
-                  width={166}
-                  textStyle={{ color: "#fff", fontSize: 14 }}
-                  onClick={() => this.submitOrderRelatedIssue()}
-                />
-              </div>
-            </div>
+        {!this.state.showOrder && (
+          <div className={styles.header}>
+            <TabHolder>
+              <TabData
+                width="50%"
+                label="Order related "
+                selected={this.state.isSelected === 0}
+                selectItem={() => this.tabSelect(0)}
+              />
+              <TabData
+                width="50%"
+                label="Other issues "
+                selected={this.state.isSelected === 1}
+                selectItem={() => this.tabSelect(1)}
+              />
+            </TabHolder>
           </div>
         )}
-        {this.state.isSelected === 1 && (
-          <div className={styles.otherIssueHolder}>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader indexNumber="1" confirmTitle="Select issue" />
+        {this.state.isSelected === 0 &&
+          !this.state.showOrder && (
+            <div className={styles.orderHolder}>
+              <div className={styles.selectedOrder}>
+                <div className={styles.headingHolder}>
+                  <CheckOutHeader
+                    indexNumber="1"
+                    confirmTitle="Select your order"
+                  />
+                </div>
+                {!this.state.productImageURL &&
+                !this.state.orderDate &&
+                !this.state.productName &&
+                !this.state.productPrice &&
+                !this.state.productStatus ? (
+                  <div
+                    className={styles.dummySelectBoxWithIcon}
+                    onClick={() => this.setState({ showOrder: true })}
+                  >
+                    <div className={styles.dummySelectBox}>Select order</div>
+                    <div className={styles.iconHolder} />
+                  </div>
+                ) : (
+                  <div
+                    className={styles.productsDisplayHolder}
+                    onClick={() =>
+                      this.setState({
+                        showOrder: true,
+                        productImageURL: "",
+                        orderDate: "",
+                        productName: "",
+                        productPrice: "",
+                        productStatus: ""
+                      })
+                    }
+                  >
+                    <div className={styles.imageHolder}>
+                      <ProductImage image={this.state.productImageURL} />
+                    </div>
+                    <div className={styles.dataHolder}>
+                      {this.state.orderDate && (
+                        <div className={styles.dataDescription}>
+                          {`Order on: ${format(
+                            this.state.orderDate,
+                            "DD MMM,YYYY"
+                          )}`}
+                        </div>
+                      )}
+                      {this.state.productName && (
+                        <div className={styles.dataDescription}>
+                          {this.state.productName}
+                        </div>
+                      )}
+                      {this.state.productPrice && (
+                        <div className={styles.dataDescription}>
+                          {this.state.productPrice}
+                        </div>
+                      )}
+                      {this.state.productStatus && (
+                        <div className={styles.dataDescription}>
+                          {this.state.productStatus}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className={styles.selectIssue}>
-                <SelectBoxMobile2
-                  placeholder="Select issue"
-                  arrowColour="black"
-                  height={33}
-                  options={
-                    otherIssue &&
-                    otherIssue.children &&
-                    otherIssue.children.map((val, i) => {
-                      return {
-                        value: val.nodeCode,
-                        label: val.nodeDesc
-                      };
-                    })
-                  }
-                  onChange={val => this.onChangeReasonForOtherIssue(val)}
-                />
+              <div className={styles.selectIssueHolder}>
+                <div className={styles.secondOrder}>
+                  <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
+                </div>
+                <div className={styles.selectIssue}>
+                  <SelectBoxMobile2
+                    placeholder="Select issue"
+                    arrowColour="black"
+                    height={33}
+                    options={
+                      orderRelatedIssue &&
+                      orderRelatedIssue.children &&
+                      orderRelatedIssue.children.map((val, i) => {
+                        return {
+                          value: val.nodeCode,
+                          label: val.nodeDesc
+                        };
+                      })
+                    }
+                    onChange={val => this.onChangeReasonForOrderRelated(val)}
+                  />
+                </div>
+                <div className={styles.selectIssue}>
+                  <SelectBoxMobile2
+                    placeholder="Select sub-issue"
+                    arrowColour="black"
+                    height={33}
+                    options={
+                      orderRelatedSubIssue &&
+                      orderRelatedSubIssue.children &&
+                      orderRelatedSubIssue.children.map((val, i) => {
+                        return {
+                          value: val.nodeCode,
+                          label: val.nodeDesc
+                        };
+                      })
+                    }
+                    isEnable={this.state.isEnableForOrderRelated}
+                    onChange={val => this.onChangeSubReasonForOrderRelated(val)}
+                  />
+                </div>
+                <div className={styles.selectIssue}>
+                  <TextArea
+                    placeholder={"Comments(Optional)"}
+                    onChange={commentForOrderRelated =>
+                      this.onChange({ commentForOrderRelated })
+                    }
+                  />
+                </div>
               </div>
-              <div className={styles.selectIssue}>
-                <SelectBoxMobile2
-                  placeholder="Select sub-issue"
-                  arrowColour="black"
-                  height={33}
-                  options={
-                    otherSubIssue &&
-                    otherSubIssue.children &&
-                    otherSubIssue.children.map((val, i) => {
-                      return {
-                        value: val.nodeCode,
-                        label: val.nodeDesc
-                      };
-                    })
-                  }
-                  isEnable={this.state.isEnableForOtherIssue}
-                  onChange={val => this.onChangeSubReasonForOtherIssue(val)}
-                />
+              <div className={styles.selectIssueHolder}>
+                <div className={styles.secondOrder}>
+                  <CheckOutHeader
+                    indexNumber="3"
+                    confirmTitle="Personal Details"
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Name"
+                    value={this.state.nameForOrderRelated}
+                    onChange={nameForOrderRelated =>
+                      this.onChange({ nameForOrderRelated })
+                    }
+                    onlyAlphabet={true}
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Email"
+                    value={this.state.emailForOrderRelated}
+                    onChange={emailForOrderRelated =>
+                      this.onChange({ emailForOrderRelated })
+                    }
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Phone*"
+                    maxLength={"10"}
+                    value={this.state.phoneNumberForOrderRelated}
+                    onChange={phoneNumberForOrderRelated =>
+                      this.onChange({ phoneNumberForOrderRelated })
+                    }
+                    onlyNumber={true}
+                  />
+                </div>
               </div>
-              <div className={styles.selectIssue}>
-                <TextArea
-                  placeholder={"Comments(Optional)"}
-                  onChange={commentForOtherIssue =>
-                    this.onChange({ commentForOtherIssue })
-                  }
-                />
+              <div className={styles.selectImageHolder}>
+                <div className={styles.secondOrder}>
+                  <CheckOutHeader
+                    indexNumber="4"
+                    confirmTitle="Add attachment (Optional)"
+                  />
+                </div>
+                <div className={styles.validImage}>
+                  Upload JPEG, PNG (Maximum size 5 MB)
+                </div>
+                <div className={styles.imageInput}>
+                  <ImageUpload
+                    value={"Upload attachment"}
+                    onChange={file => this.setState({ file })}
+                  />
+                </div>
+              </div>
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    height={38}
+                    label={"Submit"}
+                    width={166}
+                    textStyle={{ color: "#fff", fontSize: 14 }}
+                    onClick={() => this.submitOrderRelatedIssue()}
+                  />
+                </div>
               </div>
             </div>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber="2"
-                  confirmTitle="Personal Details"
-                />
+          )}
+        {this.state.isSelected === 1 &&
+          !this.state.showOrder && (
+            <div className={styles.otherIssueHolder}>
+              <div className={styles.selectIssueHolder}>
+                <div className={styles.secondOrder}>
+                  <CheckOutHeader indexNumber="1" confirmTitle="Select issue" />
+                </div>
+                <div className={styles.selectIssue}>
+                  <SelectBoxMobile2
+                    placeholder="Select issue"
+                    arrowColour="black"
+                    height={33}
+                    options={
+                      otherIssue &&
+                      otherIssue.children &&
+                      otherIssue.children.map((val, i) => {
+                        return {
+                          value: val.nodeCode,
+                          label: val.nodeDesc
+                        };
+                      })
+                    }
+                    onChange={val => this.onChangeReasonForOtherIssue(val)}
+                  />
+                </div>
+                <div className={styles.selectIssue}>
+                  <SelectBoxMobile2
+                    placeholder="Select sub-issue"
+                    arrowColour="black"
+                    height={33}
+                    options={
+                      otherSubIssue &&
+                      otherSubIssue.children &&
+                      otherSubIssue.children.map((val, i) => {
+                        return {
+                          value: val.nodeCode,
+                          label: val.nodeDesc
+                        };
+                      })
+                    }
+                    isEnable={this.state.isEnableForOtherIssue}
+                    onChange={val => this.onChangeSubReasonForOtherIssue(val)}
+                  />
+                </div>
+                <div className={styles.selectIssue}>
+                  <TextArea
+                    placeholder={"Comments(Optional)"}
+                    onChange={commentForOtherIssue =>
+                      this.onChange({ commentForOtherIssue })
+                    }
+                  />
+                </div>
               </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Name"
-                  value={this.state.nameForOtherIssue}
-                  onChange={nameForOtherIssue =>
-                    this.onChange({ nameForOtherIssue })
-                  }
-                  onlyAlphabet={true}
-                />
+              <div className={styles.selectIssueHolder}>
+                <div className={styles.secondOrder}>
+                  <CheckOutHeader
+                    indexNumber="2"
+                    confirmTitle="Personal Details"
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Name"
+                    value={this.state.nameForOtherIssue}
+                    onChange={nameForOtherIssue =>
+                      this.onChange({ nameForOtherIssue })
+                    }
+                    onlyAlphabet={true}
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Email"
+                    value={this.state.emailForOtherIssue}
+                    onChange={emailForOtherIssue =>
+                      this.onChange({ emailForOtherIssue })
+                    }
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Phone*"
+                    maxLength={"10"}
+                    value={this.state.phoneNumberForOtherIssue}
+                    onChange={phoneNumberForOtherIssue =>
+                      this.onChange({ phoneNumberForOtherIssue })
+                    }
+                    onlyNumber={true}
+                  />
+                </div>
               </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Email"
-                  value={this.state.emailForOtherIssue}
-                  onChange={emailForOtherIssue =>
-                    this.onChange({ emailForOtherIssue })
-                  }
-                  onBlu
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Phone*"
-                  maxLength={"10"}
-                  value={this.state.phoneNumberForOtherIssue}
-                  onChange={phoneNumberForOtherIssue =>
-                    this.onChange({ phoneNumberForOtherIssue })
-                  }
-                  onlyNumber={true}
-                />
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    height={38}
+                    label={"Submit"}
+                    width={166}
+                    textStyle={{ color: "#fff", fontSize: 14 }}
+                    onClick={() => this.submitOtherIssue()}
+                  />
+                </div>
               </div>
             </div>
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  type="primary"
-                  height={38}
-                  label={"Submit"}
-                  width={166}
-                  textStyle={{ color: "#fff", fontSize: 14 }}
-                  onClick={() => this.submitOtherIssue()}
-                />
-              </div>
+          )}
+        {this.state.showOrder && (
+          <div className={styles.selectOrderHolder}>
+            {this.props.ordersTransactionData &&
+              this.props.ordersTransactionData.orderData &&
+              this.props.ordersTransactionData.orderData.map(orderDetails => {
+                return (
+                  <div className={styles.orderCard}>
+                    {orderDetails.products &&
+                      orderDetails.products.map(productsDetails => {
+                        return (
+                          <div
+                            className={styles.productsDetailsHolder}
+                            onClick={() =>
+                              this.setProductDetails(
+                                orderDetails.orderId,
+                                productsDetails.transactionId,
+                                productsDetails.sellerorderno,
+                                productsDetails.imageURL,
+                                orderDetails.orderDate,
+                                productsDetails.productName,
+                                productsDetails.price,
+                                productsDetails.statusDisplay
+                              )
+                            }
+                          >
+                            <div className={styles.imageHolder}>
+                              <ProductImage image={productsDetails.imageURL} />
+                            </div>
+                            <div className={styles.dataHolder}>
+                              {orderDetails.orderDate && (
+                                <div className={styles.dataDescription}>
+                                  {`Order on: ${format(
+                                    orderDetails.orderDate,
+                                    "DD MMM,YYYY"
+                                  )}`}
+                                </div>
+                              )}
+                              {productsDetails.productName && (
+                                <div className={styles.dataDescription}>
+                                  {productsDetails.productName}
+                                </div>
+                              )}
+                              {productsDetails.price && (
+                                <div className={styles.dataDescription}>
+                                  {productsDetails.price}
+                                </div>
+                              )}
+                              {productsDetails.statusDisplay && (
+                                <div className={styles.dataDescription}>
+                                  {productsDetails.statusDisplay}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                );
+              })}
+            <div
+              className={styles.loadData}
+              onClick={() => this.getMoreOrder()}
+            >
+              Load More
             </div>
           </div>
         )}
