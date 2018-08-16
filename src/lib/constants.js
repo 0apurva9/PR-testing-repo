@@ -100,7 +100,6 @@ export const MY_ACCOUNT_CART_PAGE = "/cart";
 export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
-export const COSTUMER_OTHER_ISSUE_QUERY_ROUTE = "/other-issue";
 
 //returns
 export const RETURNS_PREFIX = "/returns";
