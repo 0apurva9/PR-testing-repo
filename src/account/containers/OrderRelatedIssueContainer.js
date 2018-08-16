@@ -4,7 +4,8 @@ import OrderRelatedIssue from "../components/orderRelatedIssue";
 import {
   getCustomerQueriesData,
   getOrdersTransactionData,
-  uploadUserFile
+  uploadUserFile,
+  submitOrderDetails
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 const mapDispatchToProps = dispatch => {
@@ -20,6 +21,9 @@ const mapDispatchToProps = dispatch => {
     },
     uploadUserFile: async file => {
       return dispatch(uploadUserFile(file));
+    },
+    submitOrderDetails: submitOrderDetailsObject => {
+      dispatch(submitOrderDetails(submitOrderDetailsObject));
     }
   };
 };

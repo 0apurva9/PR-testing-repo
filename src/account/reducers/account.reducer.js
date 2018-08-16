@@ -393,7 +393,6 @@ const account = (
         orderDetailsStatus: action.status,
         loading: true
       });
-    /////////////////////
     case accountActions.GET_ALL_ORDERS_SUCCESS:
       let currentOrderDetailObj = state.orderDetails
         ? cloneDeep(state.orderDetails)
@@ -983,7 +982,6 @@ const account = (
         ordersTransactionDataStatus: action.status,
         ordersTransactionDataLoading: true
       });
-    ////////////
     case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
       let currentOrderTransactionDetailObj = state.ordersTransactionData
         ? cloneDeep(state.ordersTransactionData)

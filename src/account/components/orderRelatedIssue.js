@@ -29,8 +29,6 @@ const SELECT_SUB_ISSUE_FOR_ORDER_TEXT =
 const SELECT_ISSUE_FOR_OTHER_TEXT = "Please select other issue";
 const SELECT_SUB_ISSUE_FOR_OTHER_TEXT = "Please select other sub issue";
 const NAME_TEXT = "Please enter name";
-const EMAIL_TEXT = "Please enter email id";
-const EMAIL_VALID_TEXT = "please enter valid email id";
 const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please eneter valid mobile number";
 const OFFSET_BOTTOM = 800;
@@ -204,17 +202,6 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.emailForOrderRelated) {
-      this.props.displayToast(EMAIL_TEXT);
-      return false;
-    }
-    if (
-      this.state.emailForOrderRelated &&
-      !EMAIL_REGULAR_EXPRESSION.test(this.state.emailForOrderRelated)
-    ) {
-      this.props.displayToast(EMAIL_VALID_TEXT);
-      return false;
-    }
     if (!this.state.phoneNumberForOrderRelated) {
       this.props.displayToast(MOBILE_TEXT);
       return false;
@@ -243,7 +230,6 @@ export default class OrderRelatedIssue extends React.Component {
           contactEmail: JSON.parse(userDetailsCookie).userName,
           contactMobile: this.state.phoneNumberForOrderRelated,
           contactName: this.state.nameForOrderRelated,
-          attachmentFiles: "",
           comment: this.state.commentForOrderRelated,
           nodeL4: "",
           transactionId: this.state.transactionId,
@@ -252,19 +238,18 @@ export default class OrderRelatedIssue extends React.Component {
           subOrderCode: this.state.sellerOrderNumber
         }
       );
-      console.log(submitDetailsObject);
       if (this.state.file) {
         const uploadFileResponse = await this.props.uploadUserFile(
           this.state.file
         );
         if (uploadFileResponse && uploadFileResponse.status === SUCCESS) {
-          if (this.props.submitOrderRelatedIssue) {
-            this.props.submitOrderRelatedIssue();
+          if (this.props.submitOrderDetails) {
+            this.props.submitOrderDetails(submitDetailsObject);
           }
         }
       } else {
-        if (this.props.submitOrderRelatedIssue) {
-          this.props.submitOrderRelatedIssue();
+        if (this.props.submitOrderDetails) {
+          this.props.submitOrderDetails(submitDetailsObject);
         }
       }
     }
@@ -302,17 +287,6 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.emailForOtherIssue) {
-      this.props.displayToast(EMAIL_TEXT);
-      return false;
-    }
-    if (
-      this.state.emailForOtherIssue &&
-      !EMAIL_REGULAR_EXPRESSION.test(this.state.emailForOtherIssue)
-    ) {
-      this.props.displayToast(EMAIL_VALID_TEXT);
-      return false;
-    }
     if (!this.state.phoneNumberForOtherIssue) {
       this.props.displayToast(MOBILE_TEXT);
       return false;
@@ -341,7 +315,6 @@ export default class OrderRelatedIssue extends React.Component {
           contactEmail: JSON.parse(userDetailsCookie).userName,
           contactMobile: this.state.phoneNumberForOtherIssue,
           contactName: this.state.nameForOtherIssue,
-          attachmentFiles: "",
           comment: this.state.commentForOtherIssue,
           nodeL4: "",
           transactionId: "",
@@ -350,9 +323,8 @@ export default class OrderRelatedIssue extends React.Component {
           subOrderCode: ""
         }
       );
-      console.log(submitDetailsObject);
-      if (this.props.submitOtherIssue) {
-        this.props.submitOtherIssue();
+      if (this.props.submitOrderDetails) {
+        this.props.submitOrderDetails(submitDetailsObject);
       }
     }
   }

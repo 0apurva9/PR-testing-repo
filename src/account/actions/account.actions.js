@@ -243,6 +243,10 @@ export const UPLOAD_USER_FILE_REQUEST = "UPLOAD_USER_FILE_REQUEST";
 export const UPLOAD_USER_FILE_SUCCESS = "UPLOAD_USER_FILE_SUCCESS";
 export const UPLOAD_USER_FILE_FAILURE = "UPLOAD_USER_FILE_FAILURE";
 
+export const SUBMIT_ORDER_DETAILS_REQUEST = "SUBMIT_ORDER_DETAILS_REQUEST";
+export const SUBMIT_ORDER_DETAILS_SUCCESS = "SUBMIT_ORDER_DETAILS_SUCCESS";
+export const SUBMIT_ORDER_DETAILS_FAILURE = "SUBMIT_ORDER_DETAILS_FAILURE";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
@@ -2388,6 +2392,62 @@ export function uploadUserFile(file) {
       return dispatch(uploadUserFileSuccess(resultJson));
     } catch (e) {
       return dispatch(uploadUserFileFailure(e.message));
+    }
+  };
+}
+
+export function submitOrderDetailsRequest() {
+  return {
+    type: SUBMIT_ORDER_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function submitOrderDetailsSuccess(submitOrder) {
+  return {
+    type: SUBMIT_ORDER_DETAILS_SUCCESS,
+    status: SUCCESS,
+    submitOrder
+  };
+}
+export function submitOrderDetailsFailure() {
+  return {
+    type: SUBMIT_ORDER_DETAILS_FAILURE,
+    status: FAILURE
+  };
+}
+export function submitOrderDetails(submitOrderDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitOrderDetailsRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/submitTicket?&transactionId=${
+          submitOrderDetails.transactionId
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=&contactEmail=${
+          submitOrderDetails.contactEmail
+        }&contactMobile=${submitOrderDetails.contactMobile}&orderCode=${
+          submitOrderDetails.orderCode
+        }&ticketType=CL&nodeL0=${submitOrderDetails.nodeL0}&nodeL3=${
+          submitOrderDetails.nodeL3
+        }&contactName=${submitOrderDetails.contactName}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&nodeL1=${submitOrderDetails.nodeL1}&comment=${
+          submitOrderDetails.comment
+        }&nodeL4=${submitOrderDetails.nodeL4}&channel=mobile&subOrderCode=${
+          submitOrderDetails.subOrderCode
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(submitOrderDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(submitOrderDetailsFailure(e.message));
     }
   };
 }
