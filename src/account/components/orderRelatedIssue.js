@@ -15,7 +15,14 @@ import {
 } from "../../auth/components/Login";
 import { SUCCESS } from "../../lib/constants";
 import format from "date-fns/format";
-import throttle from "lodash/throttle";
+import * as Cookie from "../../lib/Cookie";
+import {
+  LOGGED_IN_USER_DETAILS,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGIN_PATH
+} from "../../lib/constants";
+import { Redirect } from "react-router-dom";
+const SELECT_ORDER_TEXT = "Please select order ";
 const SELECT_ISSUE_FOR_ORDER_TEXT = "Please select issue for order related";
 const SELECT_SUB_ISSUE_FOR_ORDER_TEXT =
   "Please select sub issue for order related";
@@ -26,8 +33,6 @@ const EMAIL_TEXT = "Please enter email id";
 const EMAIL_VALID_TEXT = "please enter valid email id";
 const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please eneter valid mobile number";
-const SUFFIX = `&isTextSearch=false&isFilter=false`;
-const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
@@ -183,6 +188,10 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState(val);
   }
   async submitOrderRelatedIssue() {
+    if (!this.state.orderCode) {
+      this.props.displayToast(SELECT_ORDER_TEXT);
+      return false;
+    }
     if (!this.state.reasonForOrderRelated) {
       this.props.displayToast(SELECT_ISSUE_FOR_ORDER_TEXT);
       return false;
@@ -217,45 +226,45 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(MOBILE_VALID_TEXT);
       return false;
     } else {
+      let orderRelatedIssue =
+        this.props.customerQueriesData &&
+        this.props.customerQueriesData.nodes &&
+        this.props.customerQueriesData.nodes.find(orderRelated => {
+          return orderRelated.nodeDesc === "Order Related Query";
+        });
+      const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let submitDetailsObject = Object.assign(
+        {},
+        {
+          nodeL0: orderRelatedIssue.nodeL0,
+          nodeL1: orderRelatedIssue.nodeCode,
+          nodeL2: this.state.reasonCodeForOrderRelated,
+          nodeL3: this.state.secondaryReasonsCodeForOrderRelated,
+          contactEmail: JSON.parse(userDetailsCookie).userName,
+          contactMobile: this.state.phoneNumberForOrderRelated,
+          contactName: this.state.nameForOrderRelated,
+          attachmentFiles: "",
+          comment: this.state.commentForOrderRelated,
+          nodeL4: "",
+          transactionId: this.state.transactionId,
+          orderCode: this.state.orderCode,
+          ticketType: "CL",
+          subOrderCode: this.state.sellerOrderNumber
+        }
+      );
+      console.log(submitDetailsObject);
       if (this.state.file) {
         const uploadFileResponse = await this.props.uploadUserFile(
           this.state.file
         );
         if (uploadFileResponse && uploadFileResponse.status === SUCCESS) {
-          let orderRelatedIssue =
-            this.props.customerQueriesData &&
-            this.props.customerQueriesData.nodes &&
-            this.props.customerQueriesData.nodes.find(orderRelated => {
-              return orderRelated.nodeDesc === "Order Related Query";
-            });
-          let submitDetailsObject = Object.assign(
-            {},
-            {
-              nodeL0: orderRelatedIssue.nodeL0,
-              nodeL1: orderRelatedIssue.nodeCode,
-              nodeL2: this.state.reasonCodeForOrderRelated,
-              nodeL3: this.state.secondaryReasonsCodeForOrderRelated,
-              contactEmail: this.state.emailForOrderRelated,
-              contactMobile: this.state.phoneNumberForOrderRelated,
-              contactName: this.state.nameForOrderRelated,
-              attachmentFiles: uploadFileResponse.uploadUserFile.fileURL,
-              comment: this.state.commentForOrderRelated,
-              nodeL4: "",
-              transactionId: this.state.transactionId,
-              orderCode: this.state.orderCode,
-              ticketType: "CL",
-              subOrderCode: this.state.sellerOrderNumber
-            }
-          );
-
-          console.log(submitDetailsObject);
           if (this.props.submitOrderRelatedIssue) {
-            this.props.submitOrderRelatedIssue(this.state);
+            this.props.submitOrderRelatedIssue();
           }
         }
       } else {
         if (this.props.submitOrderRelatedIssue) {
-          this.props.submitOrderRelatedIssue(this.state);
+          this.props.submitOrderRelatedIssue();
         }
       }
     }
@@ -321,6 +330,7 @@ export default class OrderRelatedIssue extends React.Component {
         this.props.customerQueriesData.nodes.find(otherIssue => {
           return otherIssue.nodeDesc === "Any Other Query";
         });
+      const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       let submitDetailsObject = Object.assign(
         {},
         {
@@ -328,7 +338,7 @@ export default class OrderRelatedIssue extends React.Component {
           nodeL1: otherIssue.nodeCode,
           nodeL2: this.state.reasonCodeForOtherIssue,
           nodeL3: this.state.secondaryReasonsCodeForOtherIssue,
-          contactEmail: this.state.emailForOtherIssue,
+          contactEmail: JSON.parse(userDetailsCookie).userName,
           contactMobile: this.state.phoneNumberForOtherIssue,
           contactName: this.state.nameForOtherIssue,
           attachmentFiles: "",
@@ -346,7 +356,17 @@ export default class OrderRelatedIssue extends React.Component {
       }
     }
   }
+
+  navigateToLogin() {
+    return <Redirect to={LOGIN_PATH} />;
+  }
+
   render() {
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetailsCookie || !customerCookie) {
+      return this.navigateToLogin();
+    }
     let orderRelatedIssue =
       this.props.customerQueriesData &&
       this.props.customerQueriesData.nodes &&
@@ -533,7 +553,8 @@ export default class OrderRelatedIssue extends React.Component {
                 <div className={styles.textInformationHolder}>
                   <FloatingLabelInput
                     label="Email"
-                    value={this.state.emailForOrderRelated}
+                    disabled={true}
+                    value={JSON.parse(userDetailsCookie).userName}
                     onChange={emailForOrderRelated =>
                       this.onChange({ emailForOrderRelated })
                     }
@@ -655,7 +676,8 @@ export default class OrderRelatedIssue extends React.Component {
                 <div className={styles.textInformationHolder}>
                   <FloatingLabelInput
                     label="Email"
-                    value={this.state.emailForOtherIssue}
+                    value={JSON.parse(userDetailsCookie).userName}
+                    disabled={true}
                     onChange={emailForOtherIssue =>
                       this.onChange({ emailForOtherIssue })
                     }

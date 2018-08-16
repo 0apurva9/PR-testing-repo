@@ -83,7 +83,10 @@ export default class FloatingLabelInput extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base} styles={{ height: this.props.height }}>
+      <div
+        className={this.props.disabled ? styles.disabled : styles.base}
+        styles={{ height: this.props.height }}
+      >
         <span
           className={
             this.state.labelUpper

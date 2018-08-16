@@ -25,3 +25,7 @@ input {
   top: -10px;
   font-size: 10px;
 }
+.disabled {
+  composes: base;
+  pointer-events: none;
+}
