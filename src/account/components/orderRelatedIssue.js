@@ -13,7 +13,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { SUCCESS, MY_ACCOUNT_PAGE } from "../../lib/constants";
+import { SUCCESS, MY_ACCOUNT_PAGE, CUSTOMER_CARE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -68,9 +68,14 @@ export default class OrderRelatedIssue extends React.Component {
       productStatus: ""
     };
   }
+
   componentDidMount() {
     this.props.getCustomerQueriesData();
     this.props.getOrdersTransactionData(false);
+    this.props.setHeaderText(CUSTOMER_CARE);
+  }
+  componentDidUpdate() {
+    this.props.setHeaderText(CUSTOMER_CARE);
   }
   getMoreOrder() {
     if (
@@ -256,7 +261,7 @@ export default class OrderRelatedIssue extends React.Component {
             getL4.children[0] &&
             getL4.children[0].nodeCode
               ? getL4.children[0].nodeCode
-              : "",
+              : undefined,
           transactionId: this.state.transactionId,
           orderCode: this.state.orderCode,
           subOrderCode: this.state.sellerOrderNumber
@@ -372,7 +377,7 @@ export default class OrderRelatedIssue extends React.Component {
             getL4.children[0] &&
             getL4.children[0].nodeCode
               ? getL4.children[0].nodeCode
-              : "",
+              : undefined,
           transactionId: "",
           orderCode: "",
           subOrderCode: ""

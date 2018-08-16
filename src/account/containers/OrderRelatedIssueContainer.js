@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import OrderRelatedIssue from "../components/orderRelatedIssue";
+import { setHeaderText } from "../../general/header.actions";
 import {
   getCustomerQueriesData,
   getOrdersTransactionData,
@@ -24,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     },
     submitOrderDetails: async submitOrderDetailsObject => {
       return dispatch(submitOrderDetails(submitOrderDetailsObject));
+    },
+    setHeaderText: text => {
+      dispatch(setHeaderText(text));
     }
   };
 };
