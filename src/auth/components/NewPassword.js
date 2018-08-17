@@ -64,6 +64,11 @@ export default class NewPassword extends React.Component {
       }
     }
   }
+  onEnter(val) {
+    if (val === "Enter") {
+      this.handleContinue();
+    }
+  }
   render() {
     let emailIdOrMobileNumber;
     if (this.props.userObj && this.props.userObj.userName) {
@@ -99,6 +104,9 @@ export default class NewPassword extends React.Component {
             hollow={true}
             type="password"
             placeholder="Confirm Password"
+            onKeyUp={event => {
+              this.onEnter(event.key);
+            }}
             onChange={val => this.setState({ confirmedPassword: val })}
           />
         </div>
