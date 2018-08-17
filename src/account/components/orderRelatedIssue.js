@@ -763,61 +763,66 @@ export default class OrderRelatedIssue extends React.Component {
           <div className={styles.selectOrderHolder}>
             {this.props.ordersTransactionData &&
               this.props.ordersTransactionData.orderData &&
-              this.props.ordersTransactionData.orderData.map(orderDetails => {
-                return (
-                  <div className={styles.orderCard}>
-                    {orderDetails.products &&
-                      orderDetails.products.map(productsDetails => {
-                        return (
-                          <div
-                            className={styles.productsDetailsHolder}
-                            onClick={() =>
-                              this.setProductDetails(
-                                orderDetails.orderId,
-                                productsDetails.transactionId,
-                                productsDetails.sellerorderno,
-                                productsDetails.imageURL,
-                                orderDetails.orderDate,
-                                productsDetails.productName,
-                                productsDetails.price,
-                                productsDetails.statusDisplay
-                              )
-                            }
-                          >
-                            <div className={styles.imageHolder}>
-                              <ProductImage image={productsDetails.imageURL} />
+              this.props.ordersTransactionData.orderData.map(
+                (orderDetails, index) => {
+                  return (
+                    <div className={styles.orderCard} key={index}>
+                      {orderDetails.products &&
+                        orderDetails.products.map((productsDetails, id) => {
+                          return (
+                            <div
+                              className={styles.productsDetailsHolder}
+                              onClick={() =>
+                                this.setProductDetails(
+                                  orderDetails.orderId,
+                                  productsDetails.transactionId,
+                                  productsDetails.sellerorderno,
+                                  productsDetails.imageURL,
+                                  orderDetails.orderDate,
+                                  productsDetails.productName,
+                                  productsDetails.price,
+                                  productsDetails.statusDisplay
+                                )
+                              }
+                              key={id}
+                            >
+                              <div className={styles.imageHolder}>
+                                <ProductImage
+                                  image={productsDetails.imageURL}
+                                />
+                              </div>
+                              <div className={styles.dataHolder}>
+                                {orderDetails.orderDate && (
+                                  <div className={styles.dataDescription}>
+                                    {`Order on: ${format(
+                                      orderDetails.orderDate,
+                                      "DD MMM,YYYY"
+                                    )}`}
+                                  </div>
+                                )}
+                                {productsDetails.productName && (
+                                  <div className={styles.dataDescription}>
+                                    {productsDetails.productName}
+                                  </div>
+                                )}
+                                {productsDetails.price && (
+                                  <div className={styles.dataDescription}>
+                                    {productsDetails.price}
+                                  </div>
+                                )}
+                                {productsDetails.statusDisplay && (
+                                  <div className={styles.dataDescription}>
+                                    {productsDetails.statusDisplay}
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                            <div className={styles.dataHolder}>
-                              {orderDetails.orderDate && (
-                                <div className={styles.dataDescription}>
-                                  {`Order on: ${format(
-                                    orderDetails.orderDate,
-                                    "DD MMM,YYYY"
-                                  )}`}
-                                </div>
-                              )}
-                              {productsDetails.productName && (
-                                <div className={styles.dataDescription}>
-                                  {productsDetails.productName}
-                                </div>
-                              )}
-                              {productsDetails.price && (
-                                <div className={styles.dataDescription}>
-                                  {productsDetails.price}
-                                </div>
-                              )}
-                              {productsDetails.statusDisplay && (
-                                <div className={styles.dataDescription}>
-                                  {productsDetails.statusDisplay}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                );
-              })}
+                          );
+                        })}
+                    </div>
+                  );
+                }
+              )}
             <div
               className={styles.loadData}
               onClick={() => this.getMoreOrder()}
