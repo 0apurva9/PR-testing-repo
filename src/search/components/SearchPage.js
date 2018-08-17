@@ -7,14 +7,17 @@ import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showResults: false,
       showSearchBar: false,
-      searchString: null
+      searchString: null,
+      currentFlag: null
     };
+    this.searchDown = [];
   }
 
   onSearchOrCloseIconClick = () => {
@@ -23,6 +26,7 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: !showResults,
       searchString: null,
+      currentFlag: null,
       showSearchBar: !this.state.showSearchBar
     });
   };
@@ -38,6 +42,7 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: false,
       searchString: null,
+      currentFlag: null,
       showSearchBar: false
     });
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
@@ -62,7 +67,8 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: false,
       searchString: null,
-      showSearchBar: false
+      showSearchBar: false,
+      currentFlag: null
     });
 
     this.props.history.push(url, {
@@ -70,6 +76,11 @@ export default class SearchPage extends React.Component {
     });
   }
   handleSearch(val, e) {
+    if (this.state.showSearchBar === false) {
+      this.setState({
+        currentFlag: null
+      });
+    }
     if (this.props.getSearchResults) {
       this.setState({ searchString: val });
       this.props.getSearchResults(val);
@@ -99,11 +110,68 @@ export default class SearchPage extends React.Component {
     this.setState({
       showResults: false,
       searchString,
-      showSearchBar: false
+      showSearchBar: false,
+      currentFlag: null
     });
   }
+  handleUpDownArrow(val) {
+    const currentSelectedIndex = this.state.currentFlag;
+    if (val === "ArrowDown") {
+      if (
+        this.state.currentFlag !== null &&
+        this.state.currentFlag <= this.searchDown.length - 2
+      ) {
+        this.setState({
+          currentFlag: currentSelectedIndex + 1,
+          searchString: ` ${
+            this.searchDown[currentSelectedIndex + 1].categoryName
+          }`
+        });
+      } else if (this.state.currentFlag === this.searchDown.length - 1) {
+        this.setState({
+          currentFlag: this.state.currentFlag,
+          searchString: ` ${
+            this.searchDown[this.state.currentFlag].categoryName
+          }`
+        });
+      } else {
+        this.setState({
+          currentFlag: 0,
+          searchString: ` ${this.searchDown[0].categoryName}`
+        });
+      }
+      if (this.state.currentFlag > 3) {
+        this.refs.elementScrollRefBottom.scrollIntoView();
+      }
+    }
+    if (val === "ArrowUp") {
+      if (this.state.currentFlag !== null && this.state.currentFlag > 0) {
+        this.setState({
+          currentFlag: currentSelectedIndex - 1,
+          searchString: `${
+            this.searchDown[currentSelectedIndex - 1].categoryName
+          }`
+        });
+      } else {
+        this.setState({
+          currentFlag: 0,
+          searchString: ` ${this.searchDown[0].categoryName}`
+        });
+      }
+      if (this.state.currentFlag < 3) {
+        this.refs.elementScrollRefTop.scrollIntoView(false);
+      }
+    }
+  }
+
   render() {
     const data = this.props.searchResult;
+    if (data) {
+      this.searchDown = [
+        ...this.props.searchResult.topBrands,
+        ...this.props.searchResult.topCategories
+      ];
+    }
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
@@ -122,6 +190,10 @@ export default class SearchPage extends React.Component {
             onSearchString={val => this.handleOnSearchString(val)}
             redirectToHome={() => this.redirectToHome()}
             searchString={this.state.searchString}
+            value={this.state.searchString}
+            onKeyUp={event => {
+              this.handleUpDownArrow(event);
+            }}
           />
         </div>
         <MobileOnly>
@@ -184,48 +256,64 @@ export default class SearchPage extends React.Component {
               data.topBrands &&
               data.topBrands.map((val, i) => {
                 return (
-                  <SearchResultItem
-                    key={i}
-                    suggestedText={data.suggestionText[0]}
-                    singleWord={this.checkIfSingleWordinSearchString()}
-                    text={val.categoryName}
-                    value={val.categoryCode}
-                    onClick={() => {
-                      this.handleBrandClick(
-                        val.categoryCode,
-                        {
-                          term: `${data.suggestionText[0]} in ${
-                            val.categoryName
-                          }`
-                        },
-                        i
-                      );
-                    }}
-                  />
+                  <div
+                    ref={"elementScrollRefTop"}
+                    className={
+                      this.state.currentFlag === i ? styles.color : styles.back
+                    }
+                  >
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={data.suggestionText[0]}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      text={val.categoryName}
+                      value={val.categoryCode}
+                      onClick={() => {
+                        this.handleBrandClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i
+                        );
+                      }}
+                    />
+                  </div>
                 );
               })}
             {data &&
               data.topCategories &&
               data.topCategories.map((val, i) => {
                 return (
-                  <SearchResultItem
-                    key={i}
-                    suggestedText={data.suggestionText[0]}
-                    singleWord={this.checkIfSingleWordinSearchString()}
-                    text={val.categoryName}
-                    value={val.categoryCode}
-                    onClick={() => {
-                      this.handleCategoryClick(
-                        val.categoryCode,
-                        {
-                          term: `${data.suggestionText[0]} in ${
-                            val.categoryName
-                          }`
-                        },
-                        i
-                      );
-                    }}
-                  />
+                  <div
+                    ref={"elementScrollRefBottom"}
+                    className={
+                      this.state.currentFlag === i + data.topBrands.length
+                        ? styles.color
+                        : styles.back
+                    }
+                  >
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={data.suggestionText[0]}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      text={val.categoryName}
+                      value={val.categoryCode}
+                      onClick={() => {
+                        this.handleCategoryClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i
+                        );
+                      }}
+                    />
+                  </div>
                 );
               })}
           </div>

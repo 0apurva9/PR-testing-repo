@@ -54,9 +54,17 @@ export default class SearchHeader extends React.Component {
       this.props.onSearchString(this.props.searchString);
     }
   };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value && nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+    }
+  }
   handleKeyUp = val => {
     if (val === "Enter") {
       this.searchString();
+    }
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(val);
     }
   };
 
@@ -177,7 +185,7 @@ export default class SearchHeader extends React.Component {
                     borderColor={this.state.increase ? "#fff" : "#212121"}
                     borderBottom={"none"}
                     onKeyUp={event => this.handleKeyUp(event.key)}
-                    value={this.state.value}
+                    value={this.state.increase ? this.state.value : ""}
                     onFocus={() => this.onFocus()}
                   />
                 </div>
