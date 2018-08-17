@@ -398,6 +398,16 @@ export default class OrderRelatedIssue extends React.Component {
     return <Redirect to={LOGIN_PATH} />;
   }
 
+  onUploadFile(file) {
+    if (file) {
+      if (file.size <= 5000000) {
+        this.setState({ file });
+      } else {
+        this.props.displayToast("File size should be less then 5 Mb");
+      }
+    }
+  }
+
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -432,7 +442,6 @@ export default class OrderRelatedIssue extends React.Component {
       otherIssue.children.find(otherSubIssue => {
         return otherSubIssue.nodeDesc === this.state.reasonForOtherIssue;
       });
-
     return (
       <div className={styles.base}>
         {!this.state.showOrder && (
@@ -621,8 +630,12 @@ export default class OrderRelatedIssue extends React.Component {
                 </div>
                 <div className={styles.imageInput}>
                   <ImageUpload
-                    value={"Upload attachment"}
-                    onChange={file => this.setState({ file })}
+                    value={
+                      this.state.file
+                        ? this.state.file.name
+                        : "Upload attachment"
+                    }
+                    onChange={file => this.onUploadFile(file)}
                   />
                 </div>
               </div>
