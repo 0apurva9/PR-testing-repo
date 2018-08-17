@@ -120,10 +120,12 @@ export default class HeaderWrapper extends React.Component {
     let isGoBack = true;
     let isCross = false;
     let isLogo = false;
+    let isLogoCart = false;
     let shouldRenderHeader = true;
     let companyLogoInPdp = true;
     if (url === PRODUCT_CART_ROUTER) {
       shouldRenderSearch = false;
+      isLogoCart = true;
     }
     if (
       url === DEFAULT_BRANDS_LANDING_PAGE &&
@@ -161,6 +163,7 @@ export default class HeaderWrapper extends React.Component {
     if (url === HOME_ROUTER) {
       isLogo = true;
     }
+
     if (this.props.history.length === 0) {
       isGoBack = false;
     }
@@ -190,6 +193,8 @@ export default class HeaderWrapper extends React.Component {
         text={this.props.headerText}
         hasBackButton={isGoBack}
         hasCrossButton={isCross}
+        isLogoCart={isLogoCart}
+        redirectToHome={this.redirectToHome}
       />
     );
     if (productCode) {

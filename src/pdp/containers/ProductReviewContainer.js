@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getProductDescription(productCode));
     },
     addProductReview: (productCode, productReview) => {
-      dispatch(addProductReview(productCode, productReview));
+      return dispatch(addProductReview(productCode, productReview));
     },
 
     displayToast: message => {
@@ -54,7 +54,10 @@ const mapStateToProps = state => {
 };
 
 const ProductReviewContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductReviewPage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ProductReviewPage)
 );
 
 export default ProductReviewContainer;

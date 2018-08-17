@@ -398,11 +398,17 @@ const mapDispatchToProps = dispatch => {
     },
     createJusPayOrderForNetBanking: (
       paymentMethodType,
-      pinCode,
-      productItems
+      cartItem,
+      bankName,
+      pinCode
     ) => {
       dispatch(
-        createJusPayOrderForNetBanking(paymentMethodType, pinCode, productItems)
+        createJusPayOrderForNetBanking(
+          paymentMethodType,
+          cartItem,
+          bankName,
+          pinCode
+        )
       );
     },
     resetIsSoftReservationFailed: () => {
@@ -430,6 +436,9 @@ const mapStateToProps = state => {
 };
 
 const CheckoutAddressContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CheckOutPage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CheckOutPage)
 );
 export default CheckoutAddressContainer;
