@@ -21,11 +21,15 @@ class ChangePassword extends Component {
   };
 
   updatePassword = () => {
-    console.log(this.state);
     if (this.props.updatePassword) {
       this.props.updatePassword(this.state);
     }
   };
+  onEnter(val) {
+    if (val === "Enter") {
+      this.updatePassword();
+    }
+  }
   componentWillUnmount() {
     if (this.props.clearChangePasswordDetails) {
       this.props.clearChangePasswordDetails();
@@ -58,6 +62,9 @@ class ChangePassword extends Component {
             <PasswordInput
               placeholder={"Confirm Password"}
               password={this.state.confirmPassword}
+              onKeyUp={event => {
+                this.onEnter(event.key);
+              }}
               onChange={confirmPassword => this.onChange({ confirmPassword })}
             />
           </div>
