@@ -33,7 +33,7 @@
   margin-left: 5px;
 }
 .safeSecure{
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 10px;
   font-size: 10px;
