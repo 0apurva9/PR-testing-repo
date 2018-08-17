@@ -7,7 +7,6 @@ import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-let searchDown = [];
 
 export default class SearchPage extends React.Component {
   constructor(props) {
@@ -18,6 +17,7 @@ export default class SearchPage extends React.Component {
       searchString: null,
       currentFlag: null
     };
+    this.searchDown = [];
   }
 
   onSearchOrCloseIconClick = () => {
@@ -115,46 +115,51 @@ export default class SearchPage extends React.Component {
     });
   }
   handleUpDownArrow(val) {
-    var element = document.getElementById("box");
     const currentSelectedIndex = this.state.currentFlag;
     if (val === "ArrowDown") {
       if (
         this.state.currentFlag !== null &&
-        this.state.currentFlag <= searchDown.length - 2
+        this.state.currentFlag <= this.searchDown.length - 2
       ) {
         this.setState({
           currentFlag: currentSelectedIndex + 1,
-          searchString: ` ${searchDown[currentSelectedIndex + 1].categoryName}`
+          searchString: ` ${
+            this.searchDown[currentSelectedIndex + 1].categoryName
+          }`
         });
-      } else if (this.state.currentFlag === searchDown.length - 1) {
+      } else if (this.state.currentFlag === this.searchDown.length - 1) {
         this.setState({
           currentFlag: this.state.currentFlag,
-          searchString: ` ${searchDown[this.state.currentFlag].categoryName}`
+          searchString: ` ${
+            this.searchDown[this.state.currentFlag].categoryName
+          }`
         });
       } else {
         this.setState({
           currentFlag: 0,
-          searchString: ` ${searchDown[0].categoryName}`
+          searchString: ` ${this.searchDown[0].categoryName}`
         });
       }
       if (this.state.currentFlag > 3) {
-        element.scrollIntoView();
+        this.refs.elementScrollRefBottom.scrollIntoView();
       }
     }
     if (val === "ArrowUp") {
       if (this.state.currentFlag !== null && this.state.currentFlag > 0) {
         this.setState({
           currentFlag: currentSelectedIndex - 1,
-          searchString: `${searchDown[currentSelectedIndex - 1].categoryName}`
+          searchString: `${
+            this.searchDown[currentSelectedIndex - 1].categoryName
+          }`
         });
       } else {
         this.setState({
           currentFlag: 0,
-          searchString: ` ${searchDown[0].categoryName}`
+          searchString: ` ${this.searchDown[0].categoryName}`
         });
       }
       if (this.state.currentFlag < 3) {
-        element.scrollIntoView(false);
+        this.refs.elementScrollRefTop.scrollIntoView(false);
       }
     }
   }
@@ -162,7 +167,7 @@ export default class SearchPage extends React.Component {
   render() {
     const data = this.props.searchResult;
     if (data) {
-      searchDown = [
+      this.searchDown = [
         ...this.props.searchResult.topBrands,
         ...this.props.searchResult.topCategories
       ];
@@ -252,6 +257,7 @@ export default class SearchPage extends React.Component {
               data.topBrands.map((val, i) => {
                 return (
                   <div
+                    ref={"elementScrollRefTop"}
                     className={
                       this.state.currentFlag === i ? styles.color : styles.back
                     }
@@ -282,7 +288,7 @@ export default class SearchPage extends React.Component {
               data.topCategories.map((val, i) => {
                 return (
                   <div
-                    id={"box"}
+                    ref={"elementScrollRefBottom"}
                     className={
                       this.state.currentFlag === i + data.topBrands.length
                         ? styles.color
