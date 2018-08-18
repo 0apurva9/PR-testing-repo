@@ -32,18 +32,22 @@ export default class SearchHeader extends React.Component {
     if (this.props.onSearch) {
       this.props.onSearch(val);
     }
-    this.setState({ value: this.props.value });
+    this.setState({ value: val });
     if (val.length > 0) {
       this.setState({ isWhite: false, isRed: true, increase: true });
     }
     if (val.length === 0) {
-      this.setState({ isWhite: true, isRed: false, increase: false });
+      this.setState({
+        isWhite: true,
+        isRed: false,
+        increase: false,
+        autoFocus: false
+      });
     }
   }
-  onFocus() {
+  onClick() {
     this.setState({ increase: true });
   }
-
   redirectToHome() {
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
@@ -73,6 +77,7 @@ export default class SearchHeader extends React.Component {
     this.setState({ isWhite: true, isRed: false, increase: false, value: "" });
   }
   render() {
+    console.log(this.state.value);
     let search = searchIcon;
     if (this.props.display) {
       search = cancelIcon;
@@ -170,7 +175,7 @@ export default class SearchHeader extends React.Component {
                 </div>
               )}
               <div className={styles.searchWithInputRedHolder}>
-                <div className={styles.input}>
+                <div className={styles.input} onClick={() => this.onClick()}>
                   <Input2
                     onChange={val => this.onTypedSearch(val)}
                     placeholder="Search"
@@ -186,7 +191,6 @@ export default class SearchHeader extends React.Component {
                     borderBottom={"none"}
                     onKeyUp={event => this.handleKeyUp(event.key)}
                     value={this.state.increase ? this.state.value : ""}
-                    onFocus={() => this.onFocus()}
                   />
                 </div>
               </div>

@@ -70,4 +70,8 @@
   .placeTime {
     font-size: 12px;
   }
+  .checkboxHolder {
+    composes: checkboxHolder;
+    top: -35px;
+  }
 }
