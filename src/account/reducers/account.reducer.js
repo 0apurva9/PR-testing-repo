@@ -143,27 +143,7 @@ const account = (
 
     reSendEmailStatus: null,
     reSendEmailError: null,
-    reSendEmailLoader: false,
-
-    customerQueriesDataStatus: null,
-    customerQueriesDataError: null,
-    customerQueriesDataLoading: false,
-    customerQueriesData: null,
-
-    ordersTransactionDataStatus: null,
-    ordersTransactionDataError: null,
-    ordersTransactionDataLoading: false,
-    ordersTransactionData: null,
-
-    uploadUserFileStatus: null,
-    uploadUserFileError: null,
-    uploadUserFileLoading: false,
-    uploadUserFile: null,
-
-    submitOrderDetailsStatus: null,
-    submitOrderDetailsError: null,
-    submitOrderDetailsLoading: false,
-    submitOrderDetails: null
+    reSendEmailLoader: false
   },
   action
 ) => {
@@ -398,6 +378,7 @@ const account = (
         orderDetailsStatus: action.status,
         loading: true
       });
+
     case accountActions.GET_ALL_ORDERS_SUCCESS:
       let currentOrderDetailObj = state.orderDetails
         ? cloneDeep(state.orderDetails)
@@ -962,102 +943,9 @@ const account = (
         reSendEmailLoader: false
       });
 
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
-      return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        customerQueriesDataLoading: true
-      });
-
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
-      return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        customerQueriesDataLoading: false,
-        customerQueriesData: action.customerQueriesData
-      });
-
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_FAILURE:
-      return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        customerQueriesDataError: action.error,
-        customerQueriesDataLoading: false
-      });
-
-    case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:
-      return Object.assign({}, state, {
-        ordersTransactionDataStatus: action.status,
-        ordersTransactionDataLoading: true
-      });
-    case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
-      let currentOrderTransactionDetailObj = state.ordersTransactionData
-        ? cloneDeep(state.ordersTransactionData)
-        : {};
-      if (
-        action.isPaginated &&
-        currentOrderTransactionDetailObj &&
-        currentOrderTransactionDetailObj.orderData
-      ) {
-        currentOrderTransactionDetailObj.orderData = currentOrderTransactionDetailObj.orderData.concat(
-          action.ordersTransactionData.orderData
-        );
-        currentOrderTransactionDetailObj.currentPage =
-          currentOrderTransactionDetailObj.currentPage + 1;
-      } else {
-        currentOrderTransactionDetailObj = action.ordersTransactionData;
-        Object.assign(currentOrderTransactionDetailObj, {
-          currentPage: 0
-        });
-      }
-      return Object.assign({}, state, {
-        ordersTransactionDataStatus: action.status,
-        ordersTransactionData: currentOrderTransactionDetailObj,
-        ordersTransactionDataLoading: false
-      });
-    case accountActions.GET_ORDERS_TRANSACTION_DATA_FAILURE:
-      return Object.assign({}, state, {
-        ordersTransactionDataStatus: action.status,
-        ordersTransactionDataError: action.error,
-        ordersTransactionDataLoading: false
-      });
-    case accountActions.UPLOAD_USER_FILE_REQUEST:
-      return Object.assign({}, state, {
-        uploadUserFileStatus: action.status,
-        uploadUserFileLoading: true
-      });
-
-    case accountActions.UPLOAD_USER_FILE_SUCCESS:
-      return Object.assign({}, state, {
-        uploadUserFileStatus: action.status,
-        uploadUserFileLoading: false,
-        uploadUserFile: action.uploadUserFile
-      });
-    case accountActions.UPLOAD_USER_FILE_FAILURE:
-      return Object.assign({}, state, {
-        uploadUserFileStatus: action.status,
-        uploadUserFileError: action.error,
-        uploadUserFileLoading: false
-      });
-
-    case accountActions.SUBMIT_ORDER_DETAILS_REQUEST:
-      return Object.assign({}, state, {
-        submitOrderDetailsStatus: action.status,
-        submitOrderDetailsLoading: true
-      });
-
-    case accountActions.SUBMIT_ORDER_DETAILS_SUCCESS:
-      return Object.assign({}, state, {
-        submitOrderDetailsStatus: action.status,
-        submitOrderDetailsLoading: false,
-        submitOrderDetails: action.submitOrderDetails
-      });
-    case accountActions.SUBMIT_ORDER_DETAILS_FAILURE:
-      return Object.assign({}, state, {
-        submitOrderDetailsStatus: action.status,
-        submitOrderDetailsError: action.error,
-        submitOrderDetailsLoading: false
-      });
-
     default:
       return state;
   }
 };
+
 export default account;
