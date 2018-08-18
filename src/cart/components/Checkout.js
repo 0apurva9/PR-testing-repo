@@ -68,7 +68,7 @@ export default class Checkout extends React.Component {
                   backgroundColor="#ff1744"
                   height={40}
                   label={this.props.label}
-                  width={120}
+                  width={160}
                   textStyle={{ color: "#FFF", fontSize: 14 }}
                   onClick={() => this.handleClick()}
                 />
@@ -84,7 +84,7 @@ export default class Checkout extends React.Component {
                     backgroundColor="#ff1744"
                     height={40}
                     label={this.props.label}
-                    width={120}
+                    width={160}
                     textStyle={{
                       color: "#FFF",
                       fontSize: 14
@@ -101,7 +101,7 @@ export default class Checkout extends React.Component {
                     backgroundColor="#ff1744"
                     height={40}
                     label={this.props.label}
-                    width={120}
+                    width={160}
                     textStyle={{
                       color: "#FFF",
                       fontSize: 14

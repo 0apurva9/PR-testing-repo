@@ -10,11 +10,11 @@ export default class ReviewList extends React.Component {
           this.props.reviewList.map((data, i) => {
             return (
               <ReviewPage
-                rating={data.rating}
-                heading={data.headline}
-                text={data.comment}
-                date={data.date}
-                name={data.alias}
+                rating={data && data.rating}
+                heading={data && data.headline}
+                text={data && data.comment}
+                date={data && data.date}
+                name={data && data.alias}
               />
             );
           })}

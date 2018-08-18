@@ -326,7 +326,6 @@ export function addProductToCart(userId, cartId, accessToken, productDetails) {
 
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
-      dispatch(showModal(GO_TO_CART_PAGE_POPUP, productDetails));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
       return dispatch(addProductToCartSuccess());
       // ADOBE_ADD_TO_CART
@@ -548,9 +547,9 @@ export function addProductReview(productCode, productReview) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(displayToast(SUBMIT_REVIEW_TEXT));
-      dispatch(addProductReviewSuccess(productReview));
+      return dispatch(addProductReviewSuccess(productReview));
     } catch (e) {
-      dispatch(addProductReviewFailure(e.message));
+      return dispatch(addProductReviewFailure(e.message));
     }
   };
 }

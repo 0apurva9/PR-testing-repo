@@ -26,7 +26,9 @@ import {
   COLLECT
 } from "../../lib/constants";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
@@ -149,7 +151,7 @@ export default class PdpElectronics extends React.Component {
       }
     });
   };
-  addToCart = () => {
+  addToCart = buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -180,7 +182,8 @@ export default class PdpElectronics extends React.Component {
               JSON.parse(userDetails).userName,
               JSON.parse(cartDetailsLoggedInUser).code,
               JSON.parse(customerCookie).access_token,
-              productDetails
+              productDetails,
+              buyNowFlag
             );
           }
         } else if (cartDetailsAnonymous) {
@@ -188,7 +191,8 @@ export default class PdpElectronics extends React.Component {
             ANONYMOUS_USER,
             JSON.parse(cartDetailsAnonymous).guid,
             JSON.parse(globalCookie).access_token,
-            productDetails
+            productDetails,
+            buyNowFlag
           );
         }
       }
@@ -277,9 +281,10 @@ export default class PdpElectronics extends React.Component {
       }
       return (
         <PdpFrame
+          buyNow={() => this.addToCart(true)}
+          addProductToBag={() => this.addToCart(false)}
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
           productListingId={productData.productListingId}
           ussId={productData.winningUssID}
           showPincodeModal={() => this.showPincodeModal()}
@@ -362,6 +367,14 @@ export default class PdpElectronics extends React.Component {
               hasCod={productData.isCOD}
               showEmiModal={this.showEmiModal}
             />
+            <div className={styles.wishlist}>
+              <AddToWishListButtonContainer
+                productListingId={productData.productListingId}
+                winningUssID={productData.winningUssID}
+                type={WISHLIST_FOOTER_BUTTON_TYPE}
+                setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+              />
+            </div>
             <OfferCard
               theme={2}
               showDetails={this.props.showOfferDetails}
@@ -388,6 +401,7 @@ export default class PdpElectronics extends React.Component {
               </React.Fragment>
             )}
           </div>
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode
