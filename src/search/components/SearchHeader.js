@@ -77,7 +77,6 @@ export default class SearchHeader extends React.Component {
     this.setState({ isWhite: true, isRed: false, increase: false, value: "" });
   }
   render() {
-    console.log(this.state.value);
     let search = searchIcon;
     if (this.props.display) {
       search = cancelIcon;
