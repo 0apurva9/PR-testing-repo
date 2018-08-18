@@ -181,7 +181,7 @@ class Login extends Component {
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Email"}
+                placeholder={"Enter Email"}
                 emailValue={
                   this.props.emailValue
                     ? this.props.emailValue
@@ -192,7 +192,7 @@ class Login extends Component {
             </div>
 
             <PasswordInput
-              placeholder={"Password"}
+              placeholder={"Enter Password"}
               onKeyUp={event => {
                 this.checkLogin(event.key);
               }}

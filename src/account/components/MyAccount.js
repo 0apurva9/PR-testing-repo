@@ -22,7 +22,8 @@ import {
   ABOUT_US_URL,
   PRIVACY_POLICY_URL,
   FAQ_URL,
-  HELP_URL
+  HELP_URL,
+  BUYER_POLICY_URL
 } from "../../lib/constants";
 
 import * as Cookie from "../../lib/Cookie";
@@ -168,6 +169,11 @@ export default class MyAccount extends React.Component {
                       <a href="tel:9029108282">Call Tata CLIQ Care</a>
                     </div>
                   </div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(BUYER_POLICY_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Buyer Policies</div>
                 </AccountUsefulLink>
                 <AccountUsefulLink
                   onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}

@@ -234,6 +234,7 @@ export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq-page";
 export const HELP_URL = "/help";
+export const BUYER_POLICY_URL = "/buyer-policies";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
@@ -280,7 +281,7 @@ export const SELECTED_BANK_NAME = "selectedBankName";
 export const SAVE_TEXT = "Save Address";
 export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
-export const LAST_NAME_TEXT = "plese enter last name";
+export const LAST_NAME_TEXT = "Please enter last name";
 export const ADDRESS_TEXT = "Please enter address";
 export const ADDRESS_MINLENGTH_VALID_TEXT =
   "Minimum address length is 15 characters";
@@ -318,7 +319,7 @@ export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
 export const ADDRESS_VALIDATION = /^[\\&()''+_#./0-9a-zA-Z\s,-]{15,}$/;
-export const NAME_VALIDATION = /^[A-Za-z]+$/;
+export const NAME_VALIDATION = /^[A-Za-z ]+$/;
 export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";

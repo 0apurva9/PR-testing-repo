@@ -54,7 +54,10 @@ const mapStateToProps = state => {
 };
 
 const ProductReviewContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductReviewPage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ProductReviewPage)
 );
 
 export default ProductReviewContainer;
