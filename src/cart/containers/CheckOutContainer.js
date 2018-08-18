@@ -236,8 +236,8 @@ const mapDispatchToProps = dispatch => {
         dispatch(displayToast(response.orderExperience.message));
       }
     },
-    redeemCliqVoucher: async cliqCashDetails => {
-      return dispatch(redeemCliqVoucher(cliqCashDetails, true));
+    redeemCliqVoucher: cliqCashDetails => {
+      dispatch(redeemCliqVoucher(cliqCashDetails, true));
     },
     binValidationForNetBanking: (paymentMode, binNo) => {
       dispatch(binValidationForNetBanking(paymentMode, binNo));
