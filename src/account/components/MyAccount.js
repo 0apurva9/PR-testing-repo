@@ -23,6 +23,7 @@ import {
   PRIVACY_POLICY_URL,
   FAQ_URL,
   HELP_URL,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   BUYER_POLICY_URL
 } from "../../lib/constants";
 
@@ -55,6 +56,11 @@ export default class MyAccount extends React.Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+  redirectToOrderRelatedPage() {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
+  }
   componentDidUpdate() {
     this.props.setHeaderText(MY_CLIQ);
   }
@@ -148,11 +154,15 @@ export default class MyAccount extends React.Component {
                     <div className={styles.usefulLinkText}>Que Magazine</div>
                   </AccountUsefulLink>
                 </a>
-                {/* <AccountUsefulLink>
-                  <div className={styles.usefulLinkText}>Our Stores</div>
-                </AccountUsefulLink> */}
               </div>
               <div className={styles.linkTabHolder}>
+                <AccountUsefulLink
+                  onClick={() => this.redirectToOrderRelatedPage()}
+                >
+                  <div className={styles.usefulLinkText}>
+                    Contact TataCLiQ Care
+                  </div>
+                </AccountUsefulLink>
                 <AccountUsefulLink
                   onClick={() => this.redirectToHelp(HELP_URL)}
                 >

@@ -51,9 +51,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 const AddToWishListButtonContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AddToWishListButton)
+  connect(mapStateToProps, mapDispatchToProps)(AddToWishListButton)
 );
 export default AddToWishListButtonContainer;

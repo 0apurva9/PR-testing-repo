@@ -48,10 +48,7 @@ const mapStateToProps = state => {
 };
 
 const ProductSellerContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ProductSellerPage)
+  connect(mapStateToProps, mapDispatchToProps)(ProductSellerPage)
 );
 
 export default ProductSellerContainer;

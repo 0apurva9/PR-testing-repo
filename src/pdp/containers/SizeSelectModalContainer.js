@@ -40,8 +40,7 @@ const mapStateToProps = (state, ownProps) => {
     isFromModal: true
   };
 };
-const SizeSelectModalContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SizeSelectModal);
+const SizeSelectModalContainer = connect(mapStateToProps, mapDispatchToProps)(
+  SizeSelectModal
+);
 export default SizeSelectModalContainer;

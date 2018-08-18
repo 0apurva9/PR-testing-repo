@@ -10,17 +10,15 @@ export default class ImageUpload extends React.Component {
   }
   handleChange(event) {
     const file = event.target.files[0];
-    this.setState(
-      {
-        value: file.name,
-        file: file
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.file);
-        }
-      }
-    );
+
+    if (this.props.onChange) {
+      this.props.onChange(file);
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+    }
   }
   render() {
     return (

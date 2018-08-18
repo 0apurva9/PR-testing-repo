@@ -436,9 +436,6 @@ const mapStateToProps = state => {
 };
 
 const CheckoutAddressContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CheckOutPage)
+  connect(mapStateToProps, mapDispatchToProps)(CheckOutPage)
 );
 export default CheckoutAddressContainer;
