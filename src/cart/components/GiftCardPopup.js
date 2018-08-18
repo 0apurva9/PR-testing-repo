@@ -18,6 +18,10 @@ export default class GiftCardPopup extends React.Component {
     if (this.props.addGiftCard) {
       this.props.addGiftCard(this.state);
     }
+    this.setState({
+      cardNumber: "",
+      pinNumber: ""
+    });
   }
   render() {
     if (this.props.loading) {
@@ -39,7 +43,7 @@ export default class GiftCardPopup extends React.Component {
               value={
                 this.props.voucherNumber
                   ? this.props.voucherNumber
-                  : this.state.voucherNumber
+                  : this.state.cardNumber
               }
               onChange={cardNumber => this.setState({ cardNumber })}
               textStyle={{ fontSize: 14 }}
@@ -54,7 +58,7 @@ export default class GiftCardPopup extends React.Component {
               value={
                 this.props.voucherPin
                   ? this.props.voucherPin
-                  : this.state.voucherPin
+                  : this.state.pinNumber
               }
               onChange={pinNumber => this.setState({ pinNumber })}
               textStyle={{ fontSize: 14 }}
