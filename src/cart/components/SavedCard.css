@@ -68,7 +68,6 @@
     padding-left:80px;
     position:relative;
     border:none;
-    cursor:pointer;
   }
   .cardsSection{
     width:auto;
@@ -88,8 +87,15 @@
   }
   .cardNumber{
     width:50%;
-    max-width:240px;
     margin-bottom: 0;
     vertical-align: middle;
+  }
+  .buttonHolder{
+    width:auto;
+    display:inline-block;
+    vertical-align:top;
+    margin-left:15px;
+    box-shadow: 0 6px 6px 0 rgba(156, 156, 156, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12);
+    border-radius:19px;
   }
 }

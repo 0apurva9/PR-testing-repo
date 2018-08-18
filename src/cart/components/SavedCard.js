@@ -2,6 +2,8 @@ import React from "react";
 import Logo from "../../general/components/Logo";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
+import Button from "../../general/components/Button";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./SavedCard.css";
 export default class SavedCard extends React.Component {
   constructor(props) {
@@ -21,6 +23,11 @@ export default class SavedCard extends React.Component {
       this.setState({ cvv: val });
     }
   }
+  handleClick = () => {
+    if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -47,6 +54,7 @@ export default class SavedCard extends React.Component {
               <Logo image={this.props.cardImage} width={75} imageWidth="100%" />
             </div>
           </div>
+
           <div className={styles.cvvInput}>
             <Input2
               value={this.state.cvv}
@@ -65,6 +73,23 @@ export default class SavedCard extends React.Component {
               onChange={val => this.onChangeCvv(val)}
             />
           </div>
+          <DesktopOnly>
+            <div className={styles.buttonHolder}>
+              <Button
+                disabled={this.props.validateSavedCard()}
+                type="primary"
+                backgroundColor="#ff1744"
+                height={40}
+                label="Pay now"
+                width={150}
+                textStyle={{
+                  color: "#FFF",
+                  fontSize: 14
+                }}
+                onClick={this.handleClick}
+              />
+            </div>
+          </DesktopOnly>
         </div>
       </div>
     );
@@ -73,5 +98,6 @@ export default class SavedCard extends React.Component {
 SavedCard.propTypes = {
   onChangeCvv: PropTypes.func,
   cardImage: PropTypes.string,
-  cardNumber: PropTypes.string
+  cardNumber: PropTypes.string,
+  validateSavedCard: PropTypes.func
 };

@@ -5,6 +5,9 @@ import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
 import { STANDARD_EMI, EMI_TYPE } from "../../lib/constants";
+import EmiSectionDesktop from "../../pdp/components/EmiSectionDesktop";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 const PAYMENT_MODE = "EMI";
 
 const IS_EMI = "1";
@@ -57,7 +60,6 @@ export default class EmiAccordion extends React.Component {
     }
   }
   handleSelectBank(val) {
-    // this.props.changeEmiPlan();
     const option = this.props.emiList.filter(data => {
       return data.code === val[0];
     })[0];
@@ -124,29 +126,42 @@ export default class EmiAccordion extends React.Component {
     return (
       <React.Fragment>
         {!this.state.planSelected && (
-          <GridSelect
-            elementWidthMobile={100}
-            elementWidthDesktop={100}
-            offset={0}
-            limit={1}
-            onSelect={val => {
-              this.handleSelectBank(val);
-            }}
-          >
-            {this.props.emiList &&
-              this.props.emiList.map((val, i) => {
-                return (
-                  <EmiCartSelect
-                    key={i}
-                    value={val.code}
-                    title={val.emiBank}
-                    options={val.emitermsrate}
-                    selectPlan={val => this.handleSelectPlan(val)}
-                    confirmPlan={() => this.handleConfirmPlan()}
-                  />
-                );
-              })}
-          </GridSelect>
+          <React.Fragment>
+            <MobileOnly>
+              <GridSelect
+                elementWidthMobile={100}
+                offset={0}
+                limit={1}
+                onSelect={val => {
+                  this.handleSelectBank(val);
+                }}
+              >
+                {this.props.emiList &&
+                  this.props.emiList.map((val, i) => {
+                    return (
+                      <EmiCartSelect
+                        key={i}
+                        value={val.code}
+                        title={val.emiBank}
+                        options={val.emitermsrate}
+                        selectPlan={val => this.handleSelectPlan(val)}
+                        confirmPlan={() => this.handleConfirmPlan()}
+                      />
+                    );
+                  })}
+              </GridSelect>
+            </MobileOnly>
+            <DesktopOnly>
+              <EmiSectionDesktop
+                emiData={this.props.emiList}
+                showHeader={false}
+                showButton={true}
+                selectPlan={val => this.handleSelectPlan(val)}
+                selectBank={val => this.handleSelectBank(val)}
+                confirmPlan={() => this.handleConfirmPlan()}
+              />
+            </DesktopOnly>
+          </React.Fragment>
         )}
         {this.state.planSelected && (
           <React.Fragment>
@@ -158,11 +173,13 @@ export default class EmiAccordion extends React.Component {
               changePlan={() => this.handleChangePlan()}
             />
             <CreditCardForm
+              buttonDisabled={this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               cardDetails={this.props.cardDetails}
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
               binValidation={binNo => this.binValidation(binNo)}
               displayToast={this.props.displayToast}
+              onCheckout={this.props.onCheckout}
             />
           </React.Fragment>
         )}

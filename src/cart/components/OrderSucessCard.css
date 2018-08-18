@@ -1,0 +1,88 @@
+.base {
+  width: 100%;
+  height: auto;
+  padding: 20px 20px 20px 60px;
+  background: #fff;
+  display: flex;
+  overflow: hidden;
+  border-radius: 4px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.imageHolder {
+  width: 13%;
+  height: auto;
+  display: flex;
+}
+.dataShowingHolder {
+  width: 87%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 15px 0px 50px;
+}
+.dataShow {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+.productName {
+  width: 50%;
+  height: auto;
+  display: flex;
+  line-height: normal;
+  color: #000000;
+  font-size: 14px;
+  justify-content: left;
+}
+.quantity {
+  width: 50%;
+  height: auto;
+  display: flex;
+  color: #212121;
+  font-size: 14px;
+  justify-content: flex-end;
+}
+.deliveryTimingShow {
+  composes: dataShow;
+  margin-bottom: 0px;
+}
+.timingAndMode {
+  width: 50%;
+  height: 25px;
+  line-height: 25px;
+  display: flex;
+  flex-direction: row;
+  color: #000000;
+  font-size: 14px;
+}
+.deliveyMode {
+  width: auto;
+  height: 100%;
+  display: flex;
+  font-family: semibold;
+  padding-right: 5px;
+}
+.deliveryTime {
+  composes: deliveyMode;
+  padding-right: 0px;
+  font-family: regular;
+}
+.sucessIconHolder {
+  width: 50%;
+  height: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.sucessIcon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  background: url(./img/check.svg) no-repeat;
+  background-size: auto 40px;
+  background-position: center;
+}

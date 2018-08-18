@@ -30,12 +30,21 @@
   .searchResults {
     height: auto;
     top: 45px;
-    padding: 0px 20px;
+    padding: 0px;
     background: #fff;
     max-height: 200px;
     overflow-y: auto;
   }
   .searchBar {
     position: initial;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .color {
+    background: #ececec;
+  }
+  .back {
+    background: #fff;
   }
 }

@@ -45,6 +45,11 @@ class SignUp extends Component {
       }
     }
   }
+  checkSignUp(val) {
+    if (val === "Enter") {
+      this.onSubmit();
+    }
+  }
   onSubmit() {
     if (!this.state.emailValue) {
       this.props.displayToast("Please enter email address ");
@@ -158,6 +163,9 @@ class SignUp extends Component {
               />
             </div>
             <PasswordInput
+              onKeyUp={event => {
+                this.checkSignUp(event.key);
+              }}
               placeholder={"Enter Password"}
               password={
                 this.props.passwordValue

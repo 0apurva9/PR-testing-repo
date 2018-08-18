@@ -5,6 +5,8 @@ import Grid from "../../general/components/Grid";
 import BankSelect from "./BankSelect";
 import styles from "./NetBanking.css";
 import Button from "../../general/components/Button";
+
+import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
 import axisBankIcon from "./img/pwa_NB_DUMMY.svg";
 import hdfcBankIcon from "./img/pwa_NB_HDFC.svg";
@@ -61,6 +63,11 @@ export default class NetBanking extends React.Component {
     }
     this.props.onSelectBankForNetBanking(bankCode);
   }
+  handleCheckout = () => {
+    if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
+  };
 
   render() {
     return (
@@ -147,23 +154,46 @@ export default class NetBanking extends React.Component {
           </Grid>
         )}
         <div className={styles.bankDropDown}>
-          <SelectBoxMobile2
-            height={33}
-            placeholder={"Other Bank"}
-            options={
-              this.props.bankList &&
-              this.props.bankList
-                .filter(bank => !SHOW_DEFAULT_BANK_LIST.includes(bank.bankCode))
-                .map((val, i) => {
-                  return {
-                    value: val.bankCode,
-                    label: val.bankName
-                  };
-                })
-            }
-            isEnable={this.state.selectedFromDropDown}
-            onChange={val => this.handleSelect(val)}
-          />
+          <div className={styles.contentHolder}>
+            <SelectBoxMobile2
+              height={33}
+              placeholder={"Other Bank"}
+              options={
+                this.props.bankList &&
+                this.props.bankList
+                  .filter(
+                    bank => !SHOW_DEFAULT_BANK_LIST.includes(bank.bankCode)
+                  )
+                  .map((val, i) => {
+                    return {
+                      value: val.bankCode,
+                      label: val.bankName
+                    };
+                  })
+              }
+              isEnable={this.state.selectedFromDropDown}
+              onChange={val => this.handleSelect(val)}
+            />
+          </div>
+          <DesktopOnly>
+            <div className={styles.contentHolder}>
+              <div className={styles.buttonHolder}>
+                <Button
+                  disabled={this.props.validateNetBanking()}
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Pay now"
+                  width={150}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={this.handleCheckout}
+                />
+              </div>
+            </div>
+          </DesktopOnly>
         </div>
       </div>
     );

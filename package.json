@@ -87,7 +87,10 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "REACT_APP_STAGE=tmpprod node -r dotenv/config scripts/start.js",
+    "start:desktop":
+      "REACT_APP_VERSION=desktop REACT_APP_STAGE=tmpprod node -r dotenv/config scripts/start.js",
+    "start:mobile":
+      "REACT_APP_VERSION=mobile REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
     "tmpprod": " REACT_APP_STAGE=tmpprod node scripts/build.js",
     "local": " REACT_APP_STAGE=local node scripts/build.js",
@@ -102,6 +105,29 @@
       "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
     "p2-production-cdn":
       "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
+    "stage-desktop":
+      " REACT_APP_VERSION=desktop REACT_APP_STAGE=stage node scripts/build.js",
+    "tmpprod-desktop":
+      " REACT_APP_VERSION=desktop REACT_APP_STAGE=tmpprod node scripts/build.js",
+    "local-desktop":
+      " REACT_APP_VERSION=desktop REACT_APP_STAGE=local node scripts/build.js",
+    "dev-desktop":
+      " REACT_APP_VERSION=desktop REACT_APP_STAGE=devxelp node scripts/build.js",
+    "uat2-desktop":
+      " REACT_APP_VERSION=desktop REACT_APP_STAGE=uat2 node scripts/build.js",
+    "build-desktop":
+      "REACT_APP_VERSION=desktop REACT_APP_STAGE=production node scripts/build.js",
+    "p2-desktop":
+      "REACT_APP_VERSION=desktop REACT_APP_STAGE=p2 node scripts/build.js",
+    "uat-desktop":
+      "REACT_APP_VERSION=desktop REACT_APP_STAGE=uat node scripts/build.js",
+    "production-desktop":
+      "GENERATE_SOURCEMAP=false REACT_APP_VERSION=desktop REACT_APP_STAGE=production node scripts/build.js",
+    "production-cdn-desktop":
+      "GENERATE_SOURCEMAP=false REACT_APP_VERSION=desktop REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
+    "p2-production-cdn-desktop":
+      "REACT_APP_VERSION=desktop REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
+
     "test": "cross-env node scripts/test.js --env=jsdom",
     "lint": "eslint 'src/**/*.js'",
     "pre-build":
