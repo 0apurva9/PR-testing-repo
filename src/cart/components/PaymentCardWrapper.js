@@ -130,11 +130,11 @@ export default class PaymentCardWrapper extends React.Component {
       this.props.addGiftCard();
     }
   };
-  redeemCliqVoucher(val) {
+  redeemCliqVoucher = val => {
     if (this.props.redeemCliqVoucher) {
-      this.props.redeemCliqVoucher(val);
+      return this.props.redeemCliqVoucher(val);
     }
-  }
+  };
 
   render() {
     if (this.props.cart.paymentModes) {

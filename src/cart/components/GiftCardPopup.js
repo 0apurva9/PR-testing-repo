@@ -6,6 +6,7 @@ import Button from "../../general/components/Button.js";
 import Input2 from "../../general/components/Input2.js";
 import giftImageURL from "../../general/components/img/Gift.svg";
 import MDSpinner from "../../general/components/Loader";
+import { SUCCESS, FAILURE } from "../../lib/constants";
 export default class GiftCardPopup extends React.Component {
   constructor(props) {
     super(props);
@@ -14,11 +15,17 @@ export default class GiftCardPopup extends React.Component {
       pinNumber: this.props.voucherPin ? this.props.voucherPin : ""
     };
   }
-  addGiftCard() {
+  addGiftCard = async () => {
     if (this.props.addGiftCard) {
-      this.props.addGiftCard(this.state);
+      const addGiftcardResponse = await this.props.addGiftCard(this.state);
+      if (
+        addGiftcardResponse.status === SUCCESS ||
+        addGiftcardResponse.status === FAILURE
+      ) {
+        this.setState({ cardNumber: "", pinNumber: "" });
+      }
     }
-  }
+  };
   render() {
     if (this.props.loading) {
       return <MDSpinner />;
@@ -39,7 +46,7 @@ export default class GiftCardPopup extends React.Component {
               value={
                 this.props.voucherNumber
                   ? this.props.voucherNumber
-                  : this.state.voucherNumber
+                  : this.state.cardNumber
               }
               onChange={cardNumber => this.setState({ cardNumber })}
               textStyle={{ fontSize: 14 }}
@@ -54,7 +61,7 @@ export default class GiftCardPopup extends React.Component {
               value={
                 this.props.voucherPin
                   ? this.props.voucherPin
-                  : this.state.voucherPin
+                  : this.state.pinNumber
               }
               onChange={pinNumber => this.setState({ pinNumber })}
               textStyle={{ fontSize: 14 }}

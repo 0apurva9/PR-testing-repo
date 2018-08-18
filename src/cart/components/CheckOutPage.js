@@ -2050,7 +2050,7 @@ class CheckOutPage extends React.Component {
   };
   redeemCliqVoucher = cliqCashDetails => {
     if (this.props.redeemCliqVoucher) {
-      this.props.redeemCliqVoucher(cliqCashDetails);
+      return this.props.redeemCliqVoucher(cliqCashDetails);
     }
   };
 
