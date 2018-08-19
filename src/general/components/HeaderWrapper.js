@@ -123,9 +123,11 @@ export default class HeaderWrapper extends React.Component {
     let isLogoCart = false;
     let shouldRenderHeader = true;
     let companyLogoInPdp = true;
+    let safeSecureText = false;
     if (url === PRODUCT_CART_ROUTER) {
       shouldRenderSearch = false;
       isLogoCart = true;
+      safeSecureText = true;
     }
     if (
       url === DEFAULT_BRANDS_LANDING_PAGE &&
@@ -182,6 +184,7 @@ export default class HeaderWrapper extends React.Component {
       isGoBack = false;
       isCross = true;
       shouldRenderSearch = false;
+      safeSecureText = true;
     }
 
     if (hasAppView === "true" || Cookie.getCookie(APP_VIEW)) {
@@ -195,6 +198,7 @@ export default class HeaderWrapper extends React.Component {
         hasCrossButton={isCross}
         isLogoCart={isLogoCart}
         redirectToHome={this.redirectToHome}
+        safeSecureText={safeSecureText}
       />
     );
     if (productCode) {

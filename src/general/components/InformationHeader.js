@@ -54,7 +54,9 @@ export default class InformationHeader extends React.Component {
               <span className={styles.span}>({this.props.count})</span>
             )}
           </div>
-          <div className={styles.safeSecure}>100% Safe &amp; Secure</div>
+          {this.props.safeSecureText && (
+            <div className={styles.safeSecure}>100% Safe &amp; Secure</div>
+          )}
         </div>
       </div>
     );
