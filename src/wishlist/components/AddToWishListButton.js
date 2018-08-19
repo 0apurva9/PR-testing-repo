@@ -41,11 +41,13 @@ export default class AddToWishListButton extends React.Component {
       }
     }
   }
+
   render() {
     if (this.props.type === WISHLIST_FOOTER_BUTTON_TYPE) {
       return (
         <FooterButton
-          backgroundColor="#fff"
+          backgroundColor="transparent"
+          textAlign="left"
           icon={saveIcon}
           label="Save to Wishlist"
           onClick={e => this.onClick(e)}
