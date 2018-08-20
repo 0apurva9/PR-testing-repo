@@ -290,7 +290,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.history);
     let className = AppStyles.base;
     const {
       globalAccessTokenStatus,
