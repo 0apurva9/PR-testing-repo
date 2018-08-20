@@ -63,6 +63,11 @@ export default class InvalidCouponPopUp extends React.Component {
       this.props.changePaymentMethod();
     }
   }
+  closeModal() {
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
+  }
   async continueWithoutCoupon() {
     let releaseStatus = {};
     const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
@@ -163,6 +168,7 @@ export default class InvalidCouponPopUp extends React.Component {
     const data = this.props.result;
     return (
       <div className={styles.base}>
+        <div className={styles.crossButton} onClick={() => this.closeModal()} />
         <div className={styles.paymentMethodDescription}>
           <div className={styles.headingText}>Different Payment Method</div>
           <div className={styles.descriptionText}>
