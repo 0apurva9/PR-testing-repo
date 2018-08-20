@@ -1,0 +1,99 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  width: 100%;
+  height: 60px;
+  background: #f9f9f9;
+  line-height: 60px;
+  color: #212121;
+  font-size: 20px;
+  font-family: semibold;
+  padding-left: 20px;
+}
+.displayDataHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  max-height: 370px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 35px;
+}
+.bankListHolder {
+  width: 40%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.bankList {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 14px;
+  display: flex;
+  margin-bottom: 30px;
+  cursor: pointer;
+  font-family: light;
+}
+.textBold {
+  composes: bankList;
+  font-family: semibold;
+}
+.bankListDataHolder {
+  width: 60%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.dropdownDataHolder {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+.tenureDataHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.textAndAmountHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+.textHolder {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  color: #212121;
+  font-size: 14px;
+  font-family: light;
+}
+.amountHolder {
+  width: 40%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  color: #212121;
+  font-size: 14px;
+  font-family: semibold;
+  text-align: left;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 10px 0px 25px 0px;
+}
+.button {
+  display: inline-block;
+  float: right;
+}

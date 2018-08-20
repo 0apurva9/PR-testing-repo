@@ -1,7 +1,6 @@
 .base {
-  width: 20%;
+  width: 100%;
   height: auto;
-  position: fixed;
   overflow: hidden;
   vertical-align: top;
   border-radius: 4px;

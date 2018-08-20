@@ -11,6 +11,7 @@ import arrowIcon from "./img/arrowBackblack.svg";
 import greyArrow from "./img/greyArrow.svg";
 import CollectImage from "./img/collect.svg";
 import { EXPRESS, COLLECT } from "../../lib/constants";
+import * as UserAgent from "../../lib/UserAgent.js";
 const EXPRESS_TEXT = "Express Delivery";
 const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QUiQ PiQ";
@@ -64,6 +65,38 @@ export default class DeliveryInformations extends React.Component {
             this.props.available ? styles.dataHolder : styles.notAvailable
           }
         >
+          <IconWithHeader
+            image={iconImage}
+            header={`${typeName} ${deliveryCharge}`}
+          >
+            {this.props.placedTime &&
+              this.props.available && (
+                <div className={styles.placeTime}>{this.props.placedTime}</div>
+              )}
+            {this.props.deliverText && (
+              <div className={styles.placeTime}>
+                {this.props.deliverText}
+                <span className={styles.text}>{this.props.textHeading}</span>
+              </div>
+            )}
+
+            {this.props.type === COLLECT &&
+              this.props.isShowCliqAndPiqUnderLineText && (
+                <div className={styles.underLineButtonHolder}>
+                  <span className={styles.buttonHolderPiq}>
+                    <UnderLinedButton
+                      size={
+                        UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
+                      }
+                      fontFamily="regular"
+                      color="#ff1744"
+                      label="Check for pick up options"
+                      onClick={() => this.onPiq()}
+                    />
+                  </span>
+                </div>
+              )}
+          </IconWithHeader>
           {this.props.type === COLLECT
             ? this.props.selected &&
               this.props.onSelect && (
@@ -110,36 +143,6 @@ export default class DeliveryInformations extends React.Component {
                 <Icon image={greyArrow} size={20} />
               </div>
             )}
-          <IconWithHeader
-            image={iconImage}
-            header={`${typeName} ${deliveryCharge}`}
-          >
-            {this.props.placedTime &&
-              this.props.available && (
-                <div className={styles.placeTime}>{this.props.placedTime}</div>
-              )}
-            {this.props.deliverText && (
-              <div className={styles.placeTime}>
-                {this.props.deliverText}
-                <span className={styles.text}>{this.props.textHeading}</span>
-              </div>
-            )}
-
-            {this.props.type === COLLECT &&
-              this.props.isShowCliqAndPiqUnderLineText && (
-                <div className={styles.underLineButtonHolder}>
-                  <span className={styles.buttonHolderPiq}>
-                    <UnderLinedButton
-                      size="14px"
-                      fontFamily="regular"
-                      color="#ff1744"
-                      label="Check for pick up options"
-                      onClick={() => this.onPiq()}
-                    />
-                  </span>
-                </div>
-              )}
-          </IconWithHeader>
         </div>
       </div>
     );

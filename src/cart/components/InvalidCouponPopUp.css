@@ -72,3 +72,41 @@
 .invalidCouponHeading {
   margin-bottom: 10px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 420px;
+    height: 320px;
+    background: #fff;
+    padding: 30px 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    animation: slideUp 200ms forwards;
+    opacity: 0;
+    border-radius: 2px;
+  }
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+  .crossButton {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: -35px;
+    background: url(../components/img/delete.svg) no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    cursor: pointer;
+  }
+}

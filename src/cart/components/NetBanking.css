@@ -21,3 +21,26 @@
   margin-left: 20px;
   margin-right: 20px;
 }
+
+@media only screen and (min-width: 1025px){
+  .buttonHolder {
+    width: auto;
+    height: auto;
+    position: absolute;
+    right: 0;
+    margin: auto;
+    top: 0;
+  }
+  .contentHolder{
+    width:50%;
+    display:inline-block;
+    vertical-align:top;
+    position:relative;
+  }
+  .contentHolder:nth-child(odd){
+    padding-right:10px;
+  }
+  .contentHolder:nth-child(even){
+    padding-left:10px;
+  }
+}

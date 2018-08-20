@@ -203,6 +203,8 @@ export default class EmiPanel extends React.Component {
                 {...this.props}
                 selectedEMIType={this.state.currentSelectedEMIType}
                 changeEmiPlan={() => this.changeEmiPlan()}
+                onCheckout={this.props.onCheckout}
+                creditCardValid={this.props.creditCardValid}
               />
             </NoCostEmi>
           </div>

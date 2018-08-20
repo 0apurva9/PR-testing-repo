@@ -3,8 +3,10 @@ import netBankingIcon from "./img/netBanking.svg";
 import PropTypes from "prop-types";
 import NetBanking from "./NetBanking.js";
 import ManueDetails from "../../general/components/MenuDetails.js";
+
 import filter from "lodash.filter";
 import { NET_BANKING_PAYMENT_MODE } from "../../lib/constants";
+
 const PAYMENT_MODE = "Netbanking";
 export default class CheckoutNetBanking extends React.Component {
   binValidationForNetBank = bankName => {
@@ -44,6 +46,7 @@ export default class CheckoutNetBanking extends React.Component {
         bankList={validNetBankingDetails}
       >
         <NetBanking
+          validateNetBanking={this.props.validateNetBanking}
           selected={["1"]}
           onSelectBankForNetBanking={bankCode =>
             this.props.onSelectBankForNetBanking(bankCode)
@@ -52,6 +55,7 @@ export default class CheckoutNetBanking extends React.Component {
           binValidationForNetBank={bankName =>
             this.binValidationForNetBank(bankName)
           }
+          onCheckout={this.props.onCheckout}
         />
       </ManueDetails>
     );

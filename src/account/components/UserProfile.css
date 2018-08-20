@@ -1,9 +1,7 @@
 .base {
-  width: 20%;
+  width: 100%;
   height: auto;
-  position: fixed;
   max-width: 240px;
-
   border-radius: 4px;
   overflow: hidden;
 }

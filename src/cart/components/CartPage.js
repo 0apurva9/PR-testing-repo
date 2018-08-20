@@ -9,7 +9,7 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopCheckout from "./DesktopCheckout.js";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
-
+import CartItemForDesktop from "./CartItemForDesktop";
 import {
   SUCCESS,
   HOME_ROUTER,
@@ -495,44 +495,86 @@ class CartPage extends React.Component {
 
                   return (
                     <div className={styles.cartItem} key={i}>
-                      <CartItem
-                        pinCode={defaultPinCode}
-                        product={product}
-                        productIsServiceable={serviceable}
-                        productImage={product.imageURL}
-                        productDetails={product.description}
-                        productName={product.productName}
-                        color={product.color}
-                        size={product.size}
-                        price={product.price}
-                        offerPrice={product.offerPrice}
-                        isGiveAway={product.isGiveAway}
-                        index={i}
-                        entryNumber={product.entryNumber}
-                        deliveryInformation={product.elligibleDeliveryMode}
-                        deliverTime={
-                          product.elligibleDeliveryMode &&
-                          product.elligibleDeliveryMode[0].desc
-                        }
-                        deliveryType={
-                          product.elligibleDeliveryMode &&
-                          product.elligibleDeliveryMode[0].code
-                        }
-                        onRemove={this.removeItemFromCart}
-                        onQuantityChange={this.updateQuantityInCart}
-                        maxQuantityAllowed={
-                          parseInt(product.maxQuantityAllowed, 10) <
-                          product.availableStockCount
-                            ? parseInt(product.maxQuantityAllowed, 10)
-                            : product.availableStockCount
-                        }
-                        isOutOfStock={product.isOutOfStock}
-                        qtySelectedByUser={product.qtySelectedByUser}
-                        isClickable={false}
-                        onClickImage={() =>
-                          this.onClickImage(product.productcode)
-                        }
-                      />
+                      <MobileOnly>
+                        <CartItem
+                          pinCode={defaultPinCode}
+                          product={product}
+                          productIsServiceable={serviceable}
+                          productImage={product.imageURL}
+                          productDetails={product.description}
+                          productName={product.productName}
+                          color={product.color}
+                          size={product.size}
+                          price={product.price}
+                          offerPrice={product.offerPrice}
+                          isGiveAway={product.isGiveAway}
+                          index={i}
+                          entryNumber={product.entryNumber}
+                          deliveryInformation={product.elligibleDeliveryMode}
+                          deliverTime={
+                            product.elligibleDeliveryMode &&
+                            product.elligibleDeliveryMode[0].desc
+                          }
+                          deliveryType={
+                            product.elligibleDeliveryMode &&
+                            product.elligibleDeliveryMode[0].code
+                          }
+                          onRemove={this.removeItemFromCart}
+                          onQuantityChange={this.updateQuantityInCart}
+                          maxQuantityAllowed={
+                            parseInt(product.maxQuantityAllowed, 10) <
+                            product.availableStockCount
+                              ? parseInt(product.maxQuantityAllowed, 10)
+                              : product.availableStockCount
+                          }
+                          isOutOfStock={product.isOutOfStock}
+                          qtySelectedByUser={product.qtySelectedByUser}
+                          isClickable={false}
+                          onClickImage={() =>
+                            this.onClickImage(product.productcode)
+                          }
+                        />
+                      </MobileOnly>
+                      <DesktopOnly>
+                        <CartItemForDesktop
+                          pinCode={defaultPinCode}
+                          product={product}
+                          productIsServiceable={serviceable}
+                          productImage={product.imageURL}
+                          productDetails={product.description}
+                          productName={product.productName}
+                          color={product.color}
+                          size={product.size}
+                          price={product.price}
+                          offerPrice={product.offerPrice}
+                          isGiveAway={product.isGiveAway}
+                          index={i}
+                          entryNumber={product.entryNumber}
+                          deliveryInformation={product.elligibleDeliveryMode}
+                          deliverTime={
+                            product.elligibleDeliveryMode &&
+                            product.elligibleDeliveryMode[0].desc
+                          }
+                          deliveryType={
+                            product.elligibleDeliveryMode &&
+                            product.elligibleDeliveryMode[0].code
+                          }
+                          onRemove={this.removeItemFromCart}
+                          onQuantityChange={this.updateQuantityInCart}
+                          maxQuantityAllowed={
+                            parseInt(product.maxQuantityAllowed, 10) <
+                            product.availableStockCount
+                              ? parseInt(product.maxQuantityAllowed, 10)
+                              : product.availableStockCount
+                          }
+                          isOutOfStock={product.isOutOfStock}
+                          qtySelectedByUser={product.qtySelectedByUser}
+                          isClickable={false}
+                          onClickImage={() =>
+                            this.onClickImage(product.productcode)
+                          }
+                        />
+                      </DesktopOnly>
                     </div>
                   );
                 })}
@@ -595,15 +637,6 @@ class CartPage extends React.Component {
                       />
                     </div>
                   )}
-              </MobileOnly>
-              <MobileOnly>
-                {cartDetails.products && (
-                  <SavedProduct
-                    saveProduct={() => this.goToWishList()}
-                    onApplyCoupon={() => this.goToCouponPage()}
-                    appliedCouponCode={this.state.appliedCouponCode}
-                  />
-                )}
               </MobileOnly>
               <MobileOnly>
                 {this.state.showCheckoutSection &&

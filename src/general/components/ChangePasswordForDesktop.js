@@ -25,6 +25,7 @@ export default class ChangePasswordForDesktop extends React.Component {
       this.props.updateProfile(this.state);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

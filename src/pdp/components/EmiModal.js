@@ -1,11 +1,14 @@
 import React from "react";
 import sortBy from "lodash.sortby";
 import EmiCard from "./EmiCard";
+import EmiSectionDesktop from "./EmiSectionDesktop";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import SlideModal from "../../general/components/SlideModal";
 import Accordion from "../../general/components/Accordion";
 import PropTypes from "prop-types";
 import styles from "./EmiModal.css";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_EMI_BANK_EVENT
@@ -19,6 +22,7 @@ export default class EmiModal extends React.Component {
       showEmi: false
     };
   }
+
   handleOpen(index) {
     if (
       this.props.emiData.bankList[index] &&
@@ -47,64 +51,80 @@ export default class EmiModal extends React.Component {
 
   render() {
     return (
-      <SlideModal closeModal={this.props.closeModal}>
-        <div className={styles.base}>
-          <div className={styles.header}>EMI details</div>
-          <div className={styles.content}>
-            <div className={styles.info}>{EMI_INFO}</div>
-            {this.props.emiData &&
-              this.props.emiData.bankList &&
-              this.props.emiData.bankList.map((val, i) => {
-                return (
-                  <Accordion
-                    controlled={true}
-                    text={val.emiBank}
-                    key={i}
-                    offset={20}
-                    activeBackground="#f8f8f8"
-                    isOpen={this.state.openIndex === i}
-                    onOpen={() => this.handleOpen(i)}
-                  >
-                    <EmiCard
-                      options={sortBy(
-                        val.emitermsrate,
-                        item => item && parseInt(item.term, 10)
-                      )}
-                    />
-                  </Accordion>
-                );
-              })}
-          </div>
-          <div className={styles.info} id="viewTermsAndConditionEmi">
-            <UnderLinedButton
-              label={
-                this.state.showEmi
-                  ? "Hide Terms & Conditions"
-                  : "View Terms & Conditions"
-              }
-              onClick={() => {
-                this.toggleTermsView();
-              }}
-              fontFamily="semibold"
-              size={12}
-            />
-          </div>
-          {this.state.showEmi && (
-            <div className={styles.content}>
-              {this.props.emiTerms &&
-                this.props.emiTerms.data &&
-                this.props.emiTerms.data.termAndConditions && (
-                  <div
-                    className={styles.termsAndConditions}
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.emiTerms.data.termAndConditions[0]
-                    }}
-                  />
-                )}
+      <React.Fragment>
+        <MobileOnly>
+          <SlideModal closeModal={this.props.closeModal}>
+            <div className={styles.base}>
+              <div className={styles.header}>EMI details</div>
+              <div className={styles.content}>
+                <div className={styles.info}>{EMI_INFO}</div>
+                {this.props.emiData &&
+                  this.props.emiData.bankList &&
+                  this.props.emiData.bankList.map((val, i) => {
+                    return (
+                      <Accordion
+                        controlled={true}
+                        text={val.emiBank}
+                        key={i}
+                        offset={20}
+                        activeBackground="#f8f8f8"
+                        isOpen={this.state.openIndex === i}
+                        onOpen={() => this.handleOpen(i)}
+                      >
+                        <EmiCard
+                          options={sortBy(
+                            val.emitermsrate,
+                            item => item && parseInt(item.term, 10)
+                          )}
+                        />
+                      </Accordion>
+                    );
+                  })}
+              </div>
+              <div className={styles.info} id="viewTermsAndConditionEmi">
+                <UnderLinedButton
+                  label={
+                    this.state.showEmi
+                      ? "Hide Terms & Conditions"
+                      : "View Terms & Conditions"
+                  }
+                  onClick={() => {
+                    this.toggleTermsView();
+                  }}
+                  fontFamily="semibold"
+                  size={12}
+                />
+              </div>
+              {this.state.showEmi && (
+                <div className={styles.content}>
+                  {this.props.emiTerms &&
+                    this.props.emiTerms.data &&
+                    this.props.emiTerms.data.termAndConditions && (
+                      <div
+                        className={styles.termsAndConditions}
+                        dangerouslySetInnerHTML={{
+                          __html: this.props.emiTerms.data.termAndConditions[0]
+                        }}
+                      />
+                    )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </SlideModal>
+          </SlideModal>
+        </MobileOnly>
+
+        <DesktopOnly>
+          <SlideModal
+            width="785px"
+            height="430px"
+            closeModal={this.props.closeModal}
+          >
+            <EmiSectionDesktop
+              emiData={this.props.emiData && this.props.emiData.bankList}
+            />
+          </SlideModal>
+        </DesktopOnly>
+      </React.Fragment>
     );
   }
 }

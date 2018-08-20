@@ -48,6 +48,9 @@
     padding: 30px;
     float: left;
   }
+  .order:last-child {
+    margin-bottom: 0px;
+  }
   .priceAndInfoHolder {
     width: 100%;
     height: auto;
@@ -68,12 +71,13 @@
   .base {
     background-color: #ececec;
     padding: 80px 0px 0px 0px;
-    min-height: 100vh;
+    position: relative;
+    padding-bottom: 100px;
   }
   .orderDetailsWithHolder {
     width: 100%;
     height: auto;
-    padding-top: 80px;
+
     display: inline-block;
   }
   .orderDetail {
@@ -85,11 +89,12 @@
   }
   .tabHolder {
     max-width: 676px;
-    position: fixed;
+    position: sticky;
     top: 180px;
     z-index: 20;
     border-radius: 4px;
-    width: calc(60% - 44px);
+    width: 100%;
+    margin-bottom: 20px;
   }
   .dataHolder {
     width: 100%;

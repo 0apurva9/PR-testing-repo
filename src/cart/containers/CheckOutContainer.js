@@ -434,7 +434,8 @@ const mapStateToProps = state => {
     getPinCodeDetails: state.profile.getPinCodeDetails,
     userDetails: state.profile.userDetails,
     getPincodeStatus: state.profile.getPinCodeStatus,
-    addUserAddressStatus: state.profile.addUserAddressStatus
+    addUserAddressStatus: state.profile.addUserAddressStatus,
+    loading: state.profile.loading
   };
 };
 

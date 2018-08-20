@@ -7,6 +7,7 @@
   height: 50px;
   transition: 300ms;
   position: relative;
+  padding-right: 30px;
 }
 .textBox {
   height: auto;
@@ -56,12 +57,27 @@
   line-height: normal;
   font-size: 13px;
 }
+.text1 {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+.text2 {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
 @media screen and (min-width: 1025px) {
-  .textBox{
-    font-family:light;
-    cursor:pointer;
+  .textBox {
+    font-family: light;
+    cursor: pointer;
   }
   .textBoxActive {
-    font-family:semibold;
+    font-family: semibold;
+  }
+  .faqQuestion {
+    font-size: 14px;
   }
 }

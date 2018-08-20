@@ -74,19 +74,17 @@ export default class ReturnDateTime extends React.Component {
 
         <div className={styles.card}>
           <div className={styles.header}>Select return time</div>
-          {(checkUserAgentIsMobile() && this.state.selectedDate) ||
-            (!checkUserAgentIsMobile() &&
-              this.props.timeSlot.map(val => {
-                return (
-                  <SelectReturnDate
-                    label={val}
-                    selected={val === this.state.selectedTime}
-                    selectItem={() => {
-                      this.handleTimeSelect(val);
-                    }}
-                  />
-                );
-              }))}
+          {this.props.timeSlot.map(val => {
+            return (
+              <SelectReturnDate
+                label={val}
+                selected={val === this.state.selectedTime}
+                selectItem={() => {
+                  this.handleTimeSelect(val);
+                }}
+              />
+            );
+          })}
         </div>
       </ReturnsFrame>
     );
