@@ -44,9 +44,7 @@ export default class OrderRelatedIssue extends React.Component {
       isSelected: 0,
       isSelectedOrder: false,
       nameForOrderRelated:
-        getUserDetails &&
-        getUserDetails.firstName &&
-        getUserDetails.firstName.trim()
+        getUserDetails && getUserDetails.firstName
           ? getUserDetails.firstName.trim()
           : "",
       phoneNumberForOrderRelated:
@@ -63,9 +61,7 @@ export default class OrderRelatedIssue extends React.Component {
           : "",
       commentForOrderRelated: "",
       nameForOtherIssue:
-        getUserDetails &&
-        getUserDetails.firstName &&
-        getUserDetails.firstName.trim()
+        getUserDetails && getUserDetails.firstName
           ? getUserDetails.firstName.trim()
           : "",
       phoneNumberForOtherIssue:
@@ -146,9 +142,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       isSelected: val,
       nameForOtherIssue:
-        getUserDetails &&
-        getUserDetails.firstName &&
-        getUserDetails.firstName.trim()
+        getUserDetails && getUserDetails.firstName
           ? getUserDetails.firstName.trim()
           : "",
       phoneNumberForOtherIssue:
@@ -174,9 +168,7 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.state.isSelected === 1) {
       this.setState({
         nameForOrderRelated:
-          getUserDetails &&
-          getUserDetails.firstName &&
-          getUserDetails.firstName.trim()
+          getUserDetails && getUserDetails.firstName
             ? getUserDetails.firstName.trim()
             : "",
         phoneNumberForOrderRelated:
