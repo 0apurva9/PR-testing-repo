@@ -30,22 +30,52 @@ const SELECT_ISSUE_FOR_OTHER_TEXT = "Please select other issue";
 const SELECT_SUB_ISSUE_FOR_OTHER_TEXT = "Please select other sub issue";
 const NAME_TEXT = "Please enter name";
 const MOBILE_TEXT = "Please enter mobile number";
-const MOBILE_VALID_TEXT = "Please eneter valid mobile number";
+const MOBILE_VALID_TEXT = "Please enter valid mobile number";
+const EMAIL_TEXT = "Please enter emailId";
+const EMAIL_VALID_TEXT = "Please enter  valid emailId";
 const OFFSET_BOTTOM = 800;
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const getUserDetails = JSON.parse(userDetailsCookie);
     this.state = {
       showOrder: false,
       isSelected: 0,
       isSelectedOrder: false,
-      nameForOrderRelated: "",
-      phoneNumberForOrderRelated: "",
-      emailForOrderRelated: "",
+      nameForOrderRelated:
+        getUserDetails && getUserDetails.firstName
+          ? getUserDetails.firstName.trim()
+          : "",
+      phoneNumberForOrderRelated:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
+      emailForOrderRelated:
+        getUserDetails &&
+        getUserDetails.loginType === "email" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
       commentForOrderRelated: "",
-      nameForOtherIssue: "",
-      phoneNumberForOtherIssue: "",
-      emailForOtherIssue: "",
+      nameForOtherIssue:
+        getUserDetails && getUserDetails.firstName
+          ? getUserDetails.firstName.trim()
+          : "",
+      phoneNumberForOtherIssue:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
+      emailForOtherIssue:
+        getUserDetails &&
+        getUserDetails.loginType === "email" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
       commentForOtherIssue: "",
       file: "",
       secondaryReasonsForOrderRelated: null,
@@ -107,11 +137,26 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   tabSelect(val) {
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const getUserDetails = JSON.parse(userDetailsCookie);
     this.setState({
       isSelected: val,
-      nameForOtherIssue: "",
-      phoneNumberForOtherIssue: "",
-      emailForOtherIssue: "",
+      nameForOtherIssue:
+        getUserDetails && getUserDetails.firstName
+          ? getUserDetails.firstName.trim()
+          : "",
+      phoneNumberForOtherIssue:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
+      emailForOtherIssue:
+        getUserDetails &&
+        getUserDetails.loginType === "email" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
       commentForOtherIssue: "",
       secondaryReasonsForOtherIssue: null,
       reasonForOtherIssue: null,
@@ -122,9 +167,22 @@ export default class OrderRelatedIssue extends React.Component {
     });
     if (this.state.isSelected === 1) {
       this.setState({
-        nameForOrderRelated: "",
-        phoneNumberForOrderRelated: "",
-        emailForOrderRelated: "",
+        nameForOrderRelated:
+          getUserDetails && getUserDetails.firstName
+            ? getUserDetails.firstName.trim()
+            : "",
+        phoneNumberForOrderRelated:
+          getUserDetails &&
+          getUserDetails.loginType === "mobile" &&
+          getUserDetails.userName
+            ? getUserDetails.userName
+            : "",
+        emailForOrderRelated:
+          getUserDetails &&
+          getUserDetails.loginType === "email" &&
+          getUserDetails.userName
+            ? getUserDetails.userName
+            : "",
         commentForOrderRelated: "",
         file: "",
         secondaryReasonsForOrderRelated: null,
@@ -207,6 +265,17 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
+    if (!this.state.emailForOrderRelated) {
+      this.props.displayToast(EMAIL_TEXT);
+      return false;
+    }
+    if (
+      this.state.emailForOrderRelated &&
+      !EMAIL_REGULAR_EXPRESSION.test(this.state.emailForOrderRelated)
+    ) {
+      this.props.displayToast(EMAIL_VALID_TEXT);
+      return false;
+    }
     if (!this.state.phoneNumberForOrderRelated) {
       this.props.displayToast(MOBILE_TEXT);
       return false;
@@ -243,7 +312,6 @@ export default class OrderRelatedIssue extends React.Component {
             this.state.secondaryReasonsForOrderRelated
           );
         });
-      const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       let submitDetailsObject = Object.assign(
         {},
         {
@@ -251,7 +319,7 @@ export default class OrderRelatedIssue extends React.Component {
           nodeL1: orderRelatedIssue.nodeCode,
           nodeL2: this.state.reasonCodeForOrderRelated,
           nodeL3: this.state.secondaryReasonsCodeForOrderRelated,
-          contactEmail: JSON.parse(userDetailsCookie).userName,
+          contactEmail: this.state.emailForOrderRelated,
           contactMobile: this.state.phoneNumberForOrderRelated,
           contactName: this.state.nameForOrderRelated,
           comment: this.state.commentForOrderRelated,
@@ -326,6 +394,18 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
+    if (!this.state.emailForOtherIssue) {
+      this.props.displayToast(EMAIL_TEXT);
+      return false;
+    }
+    if (
+      this.state.emailForOtherIssue &&
+      !EMAIL_REGULAR_EXPRESSION.test(this.state.emailForOtherIssue)
+    ) {
+      this.props.displayToast(EMAIL_VALID_TEXT);
+      return false;
+    }
+
     if (!this.state.phoneNumberForOtherIssue) {
       this.props.displayToast(MOBILE_TEXT);
       return false;
@@ -359,7 +439,6 @@ export default class OrderRelatedIssue extends React.Component {
             orderSubIssue.nodeDesc === this.state.secondaryReasonsForOtherIssue
           );
         });
-      const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       let submitDetailsObject = Object.assign(
         {},
         {
@@ -367,7 +446,7 @@ export default class OrderRelatedIssue extends React.Component {
           nodeL1: otherIssue.nodeCode,
           nodeL2: this.state.reasonCodeForOtherIssue,
           nodeL3: this.state.secondaryReasonsCodeForOtherIssue,
-          contactEmail: JSON.parse(userDetailsCookie).userName,
+          contactEmail: this.state.emailForOtherIssue,
           contactMobile: this.state.phoneNumberForOtherIssue,
           contactName: this.state.nameForOtherIssue,
           comment: this.state.commentForOtherIssue,
@@ -407,10 +486,21 @@ export default class OrderRelatedIssue extends React.Component {
       }
     }
   }
-
+  goToOrderPage() {
+    if (
+      this.props.ordersTransactionData &&
+      this.props.ordersTransactionData.orderData &&
+      this.props.ordersTransactionData.orderData.length > 0
+    ) {
+      this.setState({ showOrder: true });
+    } else {
+      this.props.displayToast("No Orders");
+    }
+  }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const getUserDetails = JSON.parse(userDetailsCookie);
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
@@ -442,6 +532,7 @@ export default class OrderRelatedIssue extends React.Component {
       otherIssue.children.find(otherSubIssue => {
         return otherSubIssue.nodeDesc === this.state.reasonForOtherIssue;
       });
+
     return (
       <div className={styles.base}>
         {!this.state.showOrder && (
@@ -479,7 +570,7 @@ export default class OrderRelatedIssue extends React.Component {
                 !this.state.productStatus ? (
                   <div
                     className={styles.dummySelectBoxWithIcon}
-                    onClick={() => this.setState({ showOrder: true })}
+                    onClick={() => this.goToOrderPage()}
                   >
                     <div className={styles.dummySelectBox}>Select order</div>
                     <div className={styles.iconHolder} />
@@ -573,6 +664,7 @@ export default class OrderRelatedIssue extends React.Component {
                 <div className={styles.selectIssue}>
                   <TextArea
                     placeholder={"Comments(Optional)"}
+                    value={this.state.commentForOrderRelated}
                     onChange={commentForOrderRelated =>
                       this.onChange({ commentForOrderRelated })
                     }
@@ -594,13 +686,26 @@ export default class OrderRelatedIssue extends React.Component {
                       this.onChange({ nameForOrderRelated })
                     }
                     onlyAlphabet={true}
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.firstName &&
+                      getUserDetails.firstName.trim()
+                        ? true
+                        : false
+                    }
                   />
                 </div>
                 <div className={styles.textInformationHolder}>
                   <FloatingLabelInput
                     label="Email"
-                    disabled={true}
-                    value={JSON.parse(userDetailsCookie).userName}
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.loginType === "email" &&
+                      getUserDetails.userName
+                        ? true
+                        : false
+                    }
+                    value={this.state.emailForOrderRelated}
                     onChange={emailForOrderRelated =>
                       this.onChange({ emailForOrderRelated })
                     }
@@ -613,6 +718,13 @@ export default class OrderRelatedIssue extends React.Component {
                     value={this.state.phoneNumberForOrderRelated}
                     onChange={phoneNumberForOrderRelated =>
                       this.onChange({ phoneNumberForOrderRelated })
+                    }
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.loginType === "mobile" &&
+                      getUserDetails.userName
+                        ? true
+                        : false
                     }
                     onlyNumber={true}
                   />
@@ -700,6 +812,7 @@ export default class OrderRelatedIssue extends React.Component {
                 <div className={styles.selectIssue}>
                   <TextArea
                     placeholder={"Comments(Optional)"}
+                    value={this.state.commentForOtherIssue}
                     onChange={commentForOtherIssue =>
                       this.onChange({ commentForOtherIssue })
                     }
@@ -720,14 +833,27 @@ export default class OrderRelatedIssue extends React.Component {
                     onChange={nameForOtherIssue =>
                       this.onChange({ nameForOtherIssue })
                     }
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.firstName &&
+                      getUserDetails.firstName.trim()
+                        ? true
+                        : false
+                    }
                     onlyAlphabet={true}
                   />
                 </div>
                 <div className={styles.textInformationHolder}>
                   <FloatingLabelInput
                     label="Email"
-                    value={JSON.parse(userDetailsCookie).userName}
-                    disabled={true}
+                    value={this.state.emailForOtherIssue}
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.loginType === "email" &&
+                      getUserDetails.userName
+                        ? true
+                        : false
+                    }
                     onChange={emailForOtherIssue =>
                       this.onChange({ emailForOtherIssue })
                     }
@@ -737,6 +863,13 @@ export default class OrderRelatedIssue extends React.Component {
                   <FloatingLabelInput
                     label="Phone*"
                     maxLength={"10"}
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.loginType === "mobile" &&
+                      getUserDetails.userName
+                        ? true
+                        : false
+                    }
                     value={this.state.phoneNumberForOtherIssue}
                     onChange={phoneNumberForOtherIssue =>
                       this.onChange({ phoneNumberForOtherIssue })
