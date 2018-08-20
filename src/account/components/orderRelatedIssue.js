@@ -497,7 +497,8 @@ export default class OrderRelatedIssue extends React.Component {
   goToOrderPage() {
     if (
       this.props.ordersTransactionData &&
-      this.props.ordersTransactionData.orderData
+      this.props.ordersTransactionData.orderData &&
+      this.props.ordersTransactionData.orderData.length > 0
     ) {
       this.setState({ showOrder: true });
     } else {
