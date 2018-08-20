@@ -500,7 +500,10 @@ class App extends Component {
           <SecondaryLoaderContainer />
 
           <DesktopOnly>
-            <DesktopFooterContainer />
+            {!this.props.location.pathname.includes(CHECKOUT_ROUTER) &&
+              !this.props.location.pathname.includes(PRODUCT_CART_ROUTER) && (
+                <DesktopFooterContainer />
+              )}
           </DesktopOnly>
           <ModalContainer />
           <ErrorContainer />
