@@ -175,7 +175,10 @@ export default class DesktopHeader extends React.Component {
           {this.props.isSearch && (
             <div className={styles.headerFunctionality}>
               <div className={styles.upperHeader}>
-                <div className={styles.luxeryTab}>Visit Luxury Store</div>
+                <a href="https://luxury.tatacliq.com/" target="_blank">
+                  {" "}
+                  <div className={styles.luxeryTab}>Visit Luxury Store</div>
+                </a>
                 <div className={styles.loginAndTrackTab}>
                   {!userCookie &&
                     !userCookie && (
