@@ -171,8 +171,8 @@ export default class ReturnToStore extends React.Component {
   render() {
     if (!this.state.availableStores) {
       return (
-        <div className={styles.loadingIndicator}>
-          <SecondaryLoader />
+        <div className={styles.base}>
+          <div className={styles.loadingIndicator} />
         </div>
       );
     } else {
