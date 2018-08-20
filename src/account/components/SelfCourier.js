@@ -12,15 +12,26 @@ import {
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 const NEFT = "NEFT";
 const SELF_SHIPMENT = "selfShipment";
 export default class SelfCourier extends React.Component {
   cancel = () => {};
 
   onCancel() {
-    this.props.history.goBack();
+    if (checkUserAgentIsMobile()) {
+      this.props.history.goBack();
+    } else {
+      if (this.props.cancelReturnMode) {
+        this.props.cancelReturnMode();
+      }
+    }
   }
   onContinue() {
+    let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
+      ? this.props.selectedReasonAndCommentObj
+      : this.props.data;
+
     if (this.props.newReturnInitial) {
       const orderDetails = this.props.returnProductDetails.orderProductWsDTO[0];
       const returnRequest = this.props.returnRequest.codSelfShipData;
@@ -44,10 +55,11 @@ export default class SelfCourier extends React.Component {
         initiateReturn.title = returnRequest && returnRequest.title;
         initiateReturn.accountHolderName = returnRequest && returnRequest.name;
       }
-      if (this.props.data) {
-        initiateReturn.returnReasonCode = this.props.data.returnReasonCode;
-        initiateReturn.subReasonCode = this.props.data.subReasonCode;
-        initiateReturn.comment = this.props.data.comment;
+      if (reasonAndCommentDetails) {
+        initiateReturn.returnReasonCode =
+          reasonAndCommentDetails.returnReasonCode;
+        initiateReturn.subReasonCode = reasonAndCommentDetails.subReasonCode;
+        initiateReturn.comment = reasonAndCommentDetails.comment;
       }
       this.props.newReturnInitial(initiateReturn);
     }
@@ -74,6 +86,7 @@ export default class SelfCourier extends React.Component {
         onContinue={() => this.onContinue()}
         buttonText="Initiate Return"
         onCancel={() => this.onCancel()}
+        isFooterNeeded={true}
       >
         <div className={styles.cardWithAwbDetails}>
           <div className={styles.card}>

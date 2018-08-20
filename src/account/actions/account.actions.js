@@ -476,7 +476,6 @@ export function getReturnRequest(orderCode, transactionId) {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getReturnRequestRequest());
-
     try {
       const result = await api.get(
         `${USER_PATH}/${

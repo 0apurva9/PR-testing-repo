@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import ReturnToStore from "../components/ReturnToStore";
 import { quickDropStore, newReturnInitial } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 import {
   SUCCESS,
   MY_ACCOUNT,
@@ -25,10 +26,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(newReturnInitial(productObjToBeReturn, product)).then(res => {
         if (res.status === SUCCESS) {
           dispatch(displayToast(RETURN_SUCCESS_MESSAGE));
-          if (ownProps.isCOD) {
-            ownProps.history.go(-5);
+          if (checkUserAgentIsMobile()) {
+            if (ownProps.isCOD) {
+              ownProps.history.go(-5);
+            } else {
+              ownProps.history.go(-4);
+            }
           } else {
-            ownProps.history.go(-4);
+            ownProps.history.go(-1);
           }
         }
       });

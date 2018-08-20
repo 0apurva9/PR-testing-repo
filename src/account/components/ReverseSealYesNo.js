@@ -4,6 +4,8 @@ import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import GridSelect from "../../general/components/GridSelect";
 import YesNoQuestion from "./YesNoQuestion";
 import PropTypes from "prop-types";
+import DesktopOnly from "../../general/components/DesktopOnly";
+
 const LABEL = "More Info";
 export default class ReverseSealYesNo extends React.Component {
   constructor(props) {
@@ -59,6 +61,7 @@ export default class ReverseSealYesNo extends React.Component {
                 limit={1}
                 offset={0}
                 elementWidthMobile={100}
+                elementWidthDesktop={100}
                 onSelect={val => this.onSelectReverseSeal(val)}
               >
                 {options.map((val, i) => {

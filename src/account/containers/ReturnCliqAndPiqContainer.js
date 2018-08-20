@@ -12,6 +12,7 @@ import {
   SUCCESS_UPPERCASE
 } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 import {
   getPinCode,
   getPinCodeSuccess,
@@ -21,6 +22,10 @@ import {
   resetAddAddressDetails,
   clearPinCodeStatus
 } from "../../account/actions/account.actions.js";
+import {
+  hideSecondaryLoader,
+  showSecondaryLoader
+} from "../../general/secondaryLoader.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addUserAddress: (addressDetails, fromAccount) => {
@@ -70,10 +75,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(newReturnInitial(returnDetails, product)).then(res => {
         if (res.status === SUCCESS) {
           dispatch(displayToast(RETURN_SUCCESS_MESSAGE));
-          if (ownProps.isCOD) {
-            ownProps.history.go(-6);
+          if (checkUserAgentIsMobile()) {
+            if (ownProps.isCOD) {
+              ownProps.history.go(-6);
+            } else {
+              ownProps.history.go(-5);
+            }
           } else {
-            ownProps.history.go(-5);
+            ownProps.history.go(-1);
           }
         }
       });
@@ -98,6 +107,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearPinCodeStatus: () => {
       dispatch(clearPinCodeStatus());
+    },
+    hideSecondaryLoader: () => {
+      dispatch(hideSecondaryLoader());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
     }
   };
 };

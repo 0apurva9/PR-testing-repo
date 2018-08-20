@@ -37,4 +37,18 @@
     border-radius: 4px;
     overflow: hidden;
   }
+  .bankDetailFooter {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: right;
+    padding: 0px 30px 20px 20px;
+  }
+  .cancelButton {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  .continueButton {
+    display: inline-block;
+  }
 }

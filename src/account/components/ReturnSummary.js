@@ -134,13 +134,6 @@ export default class ReturnSummary extends React.Component {
               )}
             </OrderCard>
           </MobileOnly>
-          <DesktopOnly>
-            {this.props.isCod && (
-              <BankDetails
-                onChange={val => this.props.onChangeBankDetails(val)}
-              />
-            )}
-          </DesktopOnly>
 
           {this.props.orderDetails &&
             this.props.orderDetails.paymentCardDigit && (

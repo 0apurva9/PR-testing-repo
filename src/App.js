@@ -1,3 +1,4 @@
+import "./entry";
 import React, { Component } from "react";
 import queryString, { parse } from "query-string";
 import ModalContainer from "./general/containers/ModalContainer";
@@ -117,13 +118,22 @@ const CancelOrderContainer = Loadable({
   }
 });
 
-const ReturnFlowContainer = Loadable({
-  loader: () => import("./account/containers/ReturnFlowContainer.js"),
-  loading() {
-    return <Loader />;
-  }
-});
-
+let ReturnFlowContainer;
+if (checkUserAgentIsMobile()) {
+  ReturnFlowContainer = Loadable({
+    loader: () => import("./account/containers/ReturnFlowContainer.js"),
+    loading() {
+      return <Loader />;
+    }
+  });
+} else {
+  ReturnFlowContainer = Loadable({
+    loader: () => import("./return/containers/ReturnFlowDesktopContainer.js"),
+    loading() {
+      return <Loader />;
+    }
+  });
+}
 const OrderDetailsContainer = Loadable({
   loader: () => import("./account/containers/OrderDetailsContainer.js"),
   loading() {

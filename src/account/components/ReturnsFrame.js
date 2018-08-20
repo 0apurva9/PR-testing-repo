@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import styles from "./ReturnsFrame.css";
 import MobileOnly from "../../general/components/MobileOnly.js";
-
+import DesktopOnly from "../../general/components/DesktopOnly";
 export default class ReturnsFrame extends React.Component {
   handleContinue() {
     if (this.props.onContinue) {
@@ -46,6 +46,27 @@ export default class ReturnsFrame extends React.Component {
             </div>
           )}
         </MobileOnly>
+        {this.props.isFooterNeeded && (
+          <DesktopOnly>
+            <div className={styles.bankDetailFooter}>
+              <div className={styles.cancelButton}>
+                <UnderLinedButton
+                  label="Cancel"
+                  onClick={() => this.handleCancel()}
+                />
+              </div>
+
+              <div className={styles.continueButton}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label={this.props.buttonText}
+                  onClick={() => this.handleContinue()}
+                />
+              </div>
+            </div>
+          </DesktopOnly>
+        )}
       </div>
     );
   }
