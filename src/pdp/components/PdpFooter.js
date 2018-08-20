@@ -2,15 +2,41 @@ import React from "react";
 import styles from "./PdpFooter.css";
 import PropTypes from "prop-types";
 import FooterButton from "../../general/components/FooterButton.js";
+import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants.js";
 export default class PdfFooter extends React.Component {
-  onAddToBag() {
-    if (this.props.onAddToBag) {
-      this.props.onAddToBag();
+  constructor(props) {
+    super(props);
+    this.state = {
+      goToCartPage: false
+    };
+  }
+  async onAddToBag(buyNowFlag) {
+    if (!this.state.goToCartPage) {
+      if (this.props.onAddToBag) {
+        const addProductToCartResponse = await this.props.onAddToBag(
+          buyNowFlag
+        );
+        if (
+          addProductToCartResponse &&
+          addProductToCartResponse.status === SUCCESS
+        ) {
+          this.setState({
+            goToCartPage: true
+          });
+          if (buyNowFlag) {
+            this.goToCartPage();
+          } else {
+            this.props.displayToast(ADD_TO_BAG_TEXT);
+          }
+        }
+      }
+    } else {
+      this.goToCartPage();
     }
   }
-  buyNow() {
-    if (this.props.buyNow) {
-      this.props.buyNow();
+  goToCartPage() {
+    if (this.props.goToCartPage) {
+      this.props.goToCartPage();
     }
   }
   render() {
@@ -18,13 +44,13 @@ export default class PdfFooter extends React.Component {
       <div className={styles.base}>
         <div className={styles.footerButtonHolder}>
           <FooterButton
-            backgroundColor="#fff"
+            backgroundColor={this.state.goToCartPage ? "#ff1744" : "#fff"}
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
             label="Buy Now"
             disabled={this.props.outOfStock}
-            onClick={() => this.buyNow()}
+            onClick={() => this.onAddToBag(true)}
             labelStyle={{
-              color: "#ff1744",
+              color: this.state.goToCartPage ? "#fff" : "#ff1744",
               fontSize: 14,
               fontFamily: "semibold"
             }}
@@ -32,13 +58,17 @@ export default class PdfFooter extends React.Component {
         </div>
         <div className={styles.footerButtonHolder}>
           <FooterButton
-            backgroundColor="#ff1744"
+            backgroundColor={this.state.goToCartPage ? "#fff" : "#ff1744"}
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
-            label="Add to bag"
+            label={this.state.goToCartPage ? "Go to bag" : "Add to bag"}
             disabled={this.props.outOfStock}
-            onClick={() => this.onAddToBag()}
+            onClick={
+              this.state.goToCartPage
+                ? () => this.goToCartPage()
+                : () => this.onAddToBag(false)
+            }
             labelStyle={{
-              color: "#fff",
+              color: this.state.goToCartPage ? "#ff1744" : "#fff",
               fontSize: 14,
               fontFamily: "semibold"
             }}
@@ -51,4 +81,7 @@ export default class PdfFooter extends React.Component {
 PdfFooter.propTyes = {
   onSave: PropTypes.func,
   onAddToBag: PropTypes.func
+};
+PdfFooter.defaultProps = {
+  goToCartPageState: false
 };

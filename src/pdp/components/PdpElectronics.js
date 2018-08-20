@@ -151,7 +151,7 @@ export default class PdpElectronics extends React.Component {
       }
     });
   };
-  addToCart = buyNowFlag => {
+  addToCart = () => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -178,21 +178,19 @@ export default class PdpElectronics extends React.Component {
             cartDetailsLoggedInUser !== undefined &&
             customerCookie !== undefined
           ) {
-            this.props.addProductToCart(
+            return this.props.addProductToCart(
               JSON.parse(userDetails).userName,
               JSON.parse(cartDetailsLoggedInUser).code,
               JSON.parse(customerCookie).access_token,
-              productDetails,
-              buyNowFlag
+              productDetails
             );
           }
         } else if (cartDetailsAnonymous) {
-          this.props.addProductToCart(
+          return this.props.addProductToCart(
             ANONYMOUS_USER,
             JSON.parse(cartDetailsAnonymous).guid,
             JSON.parse(globalCookie).access_token,
-            productDetails,
-            buyNowFlag
+            productDetails
           );
         }
       }
@@ -281,8 +279,8 @@ export default class PdpElectronics extends React.Component {
       }
       return (
         <PdpFrame
-          buyNow={() => this.addToCart(true)}
-          addProductToBag={() => this.addToCart(false)}
+          displayToast={message => this.props.displayToast(message)}
+          addProductToBag={() => this.addToCart()}
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
           productListingId={productData.productListingId}

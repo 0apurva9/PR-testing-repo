@@ -21,7 +21,9 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
-  PRODUCT_OTHER_SELLER_ROUTER
+  PRODUCT_OTHER_SELLER_ROUTER,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_CART_ROUTER
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -49,7 +51,7 @@ class ProductSellerPage extends Component {
     this.props.history.replace(url);
   };
 
-  addToCart = buyNowFlag => {
+  addToCart = () => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -64,22 +66,30 @@ class ProductSellerPage extends Component {
     );
     let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (userDetails) {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
         JSON.parse(userDetails).userName,
         JSON.parse(cartDetailsLoggedInUser).code,
         JSON.parse(customerCookie).access_token,
-        productDetails,
-        buyNowFlag
+        productDetails
       );
     } else {
       this.props.addProductToCart(
         ANONYMOUS_USER,
         JSON.parse(cartDetailsAnonymous).guid,
         JSON.parse(globalCookie).access_token,
-        productDetails,
-        buyNowFlag
+        productDetails
       );
     }
+  };
+  goToCart = () => {
+    const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    this.props.history.push({
+      pathname: PRODUCT_CART_ROUTER,
+      state: {
+        ProductCode: this.props.productDetails.productListingId,
+        pinCode: defaultPinCode
+      }
+    });
   };
 
   addToWishList = () => {
@@ -165,8 +175,9 @@ class ProductSellerPage extends Component {
     return (
       mobileGalleryImages && (
         <PdpFrame
-          buyNow={() => this.addToCart(true)}
-          addProductToBag={() => this.addToCart(false)}
+          goToCart={() => this.goToCart()}
+          displayToast={message => this.props.displayToast(message)}
+          addProductToBag={() => this.addToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
         >
           {this.renderMetaTags()}
