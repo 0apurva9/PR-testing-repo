@@ -130,7 +130,8 @@
     background: #fff;
   }
   .cartItem {
-    margin-bottom: 10px;
+    margin-bottom: 0;
+    border-radius:0;
   }
   .disclaimer {
     width: 100%;
@@ -145,5 +146,11 @@
     font-family: light;
     line-height: 20px;
     margin-top: 20px;
+  }
+  .desktopBuffer{
+    width: 100%;
+    height: auto;
+    border-radius:4px;
+    overflow:hidden;
   }
 }

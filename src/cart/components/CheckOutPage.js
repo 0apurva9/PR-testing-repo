@@ -2432,16 +2432,25 @@ class CheckOutPage extends React.Component {
                       />
                     </div>
                   )}
-
-                {!this.state.isPaymentFailed &&
-                  this.props.cart.cartDetailsCNC &&
-                  this.state.confirmAddress &&
-                  !this.state.deliverMode &&
-                  !this.state.isGiftCard &&
-                  (this.state.showCliqAndPiq
-                    ? this.renderCliqAndPiq()
-                    : this.renderDeliverModes(checkoutButtonStatus))}
-
+                <MobileOnly>
+                  {!this.state.isPaymentFailed &&
+                    this.props.cart.cartDetailsCNC &&
+                    this.state.confirmAddress &&
+                    !this.state.deliverMode &&
+                    !this.state.isGiftCard &&
+                    (this.state.showCliqAndPiq
+                      ? this.renderCliqAndPiq()
+                      : this.renderDeliverModes(checkoutButtonStatus))}
+                </MobileOnly>
+                <DesktopOnly>
+                  {!this.state.isPaymentFailed &&
+                    this.props.cart.cartDetailsCNC &&
+                    this.state.confirmAddress &&
+                    !this.state.deliverMode &&
+                    !this.state.isGiftCard &&
+                    this.renderDeliverModes(checkoutButtonStatus)}
+                  {this.state.showCliqAndPiq && this.renderCliqAndPiq()}
+                </DesktopOnly>
                 {!this.state.isPaymentFailed &&
                   this.state.deliverMode &&
                   !this.state.isGiftCard && (

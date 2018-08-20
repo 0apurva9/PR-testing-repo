@@ -195,4 +195,8 @@
   .inline{
     display:inline-block;
   }
+  .row {
+    margin-top:0;
+
+  }
 }
