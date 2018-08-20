@@ -8,4 +8,5 @@ export interface IProps {
   userDetails: any;
   history: any;
   returnProductDetails: any;
+  orderPlace: any;
 }
