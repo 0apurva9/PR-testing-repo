@@ -74,7 +74,4 @@
     composes: checkboxHolder;
     top: -35px;
   }
-  .dataHolder {
-    padding-right: 45px;
-  }
 }

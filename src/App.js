@@ -492,8 +492,8 @@ class App extends Component {
           <SecondaryLoaderContainer />
 
           <DesktopOnly>
-            {this.props.location.pathname !== CHECKOUT_ROUTER &&
-              this.props.location.pathname !== PRODUCT_CART_ROUTER && (
+            {!this.props.location.pathname.includes(CHECKOUT_ROUTER) &&
+              !this.props.location.pathname.includes(PRODUCT_CART_ROUTER) && (
                 <DesktopFooterContainer />
               )}
           </DesktopOnly>
