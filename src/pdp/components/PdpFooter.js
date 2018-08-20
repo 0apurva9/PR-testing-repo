@@ -7,7 +7,9 @@ export default class PdfFooter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToCartPage: false
+      goToCartPage: this.props.goToCartPageFlag
+        ? this.props.goToCartPageFlag
+        : false
     };
   }
   async onAddToBag(buyNowFlag) {
