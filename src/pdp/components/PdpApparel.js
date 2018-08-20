@@ -27,6 +27,7 @@ import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWish
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
+import queryString, { parse } from "query-string";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -150,6 +151,7 @@ export default class PdpApparel extends React.Component {
   };
 
   addToCart = buyNowFlag => {
+    const parsedQueryString = queryString.parse(this.props.location.search);
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -175,7 +177,8 @@ export default class PdpApparel extends React.Component {
           this.checkIfSizeSelected() ||
           this.checkIfSizeDoesNotExist() ||
           this.checkIfFreeSize() ||
-          this.checkIfNoSize()
+          this.checkIfNoSize() ||
+          parsedQueryString.addToBagAmp === "true"
         ) {
           if (userDetails) {
             if (cartDetailsLoggedInUser && customerCookie) {
@@ -303,6 +306,23 @@ export default class PdpApparel extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+      let pathName = this.props.location.pathname;
+      this.props.history.replace({
+        pathname: `${pathName}`,
+        state: { isSizeSelected: true }
+      });
+    }
+  }
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
