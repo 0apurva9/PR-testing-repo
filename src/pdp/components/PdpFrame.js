@@ -5,9 +5,14 @@ import PropTypes from "prop-types";
 import { MetaTags } from "react-meta-tags";
 
 export default class PdpFrame extends React.Component {
-  onAddToBag() {
+  onAddToBag(buyNowFlag) {
     if (this.props.addProductToBag) {
-      this.props.addProductToBag();
+      return this.props.addProductToBag(buyNowFlag);
+    }
+  }
+  buyNow() {
+    if (this.props.buyNow) {
+      this.props.buyNow();
     }
   }
   goBack = () => {
@@ -39,7 +44,10 @@ export default class PdpFrame extends React.Component {
     return (
       <div className={styles.base}>
         <PdpFooter
-          onAddToBag={() => this.onAddToBag()}
+          displayToast={message => this.props.displayToast(message)}
+          onAddToBag={buyNowFlag => this.onAddToBag(buyNowFlag)}
+          buyNow={() => this.buyNow()}
+          goToCartPage={() => this.goToCartPage()}
           productListingId={this.props.productListingId}
           outOfStock={this.props.outOfStock}
           winningUssID={

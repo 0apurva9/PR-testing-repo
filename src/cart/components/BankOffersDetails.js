@@ -87,37 +87,30 @@ class BankOffersDetails extends Component {
     }
   }
 
-  onSelectCouponCode = val => {
+  async onSelectCouponCode(val) {
     if (val[0]) {
-      this.setState({ selectedBankOfferCode: val[0] });
+      this.setState({ selectedBankOfferCode: val[0] }, function() {
+        this.applyUserCoupon();
+      });
     } else {
-      this.setState({ selectedBankOfferCode: "" });
+      const releaseBankOfferResponse = await this.props.releaseBankOffer(
+        this.state.selectedBankOfferCode
+      );
+      if (releaseBankOfferResponse.status === SUCCESS) {
+        this.props.selecteBankOffer("");
+        this.setState({
+          previousSelectedCouponCode: "",
+          selectedBankOfferCode: ""
+        });
+      }
     }
-  };
+  }
   render() {
     return (
       <div className={styles.base}>
         <SlideModal {...this.props}>
           <div className={styles.dataHolder}>
             <div className={styles.couponHeader}>{COUPON_HEADER}</div>
-            <div className={styles.searchHolder}>
-              <SearchCupon
-                label={
-                  this.state.previousSelectedCouponCode &&
-                  this.state.previousSelectedCouponCode ===
-                    this.state.selectedBankOfferCode
-                    ? REMOVE
-                    : APPLY
-                }
-                placeholder="Bank Offer Code"
-                disableManualType={true}
-                couponCode={this.state.selectedBankOfferCode}
-                getValue={selectedBankOfferCode =>
-                  this.setState({ selectedBankOfferCode })
-                }
-                applyUserCoupon={() => this.applyUserCoupon()}
-              />
-            </div>
             <GridSelect
               elementWidthMobile={100}
               offset={0}

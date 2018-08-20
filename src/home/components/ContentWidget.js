@@ -21,7 +21,9 @@ export default class ContentWidget extends React.Component {
       length: this.props.allData.length,
       position: 0
     };
+    this.head = null;
   }
+
   handleReadMore(webURL) {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
@@ -63,7 +65,7 @@ export default class ContentWidget extends React.Component {
   goLeft() {
     if (!this.state.goLeft || !this.state.goRight) {
       const position = this.state.position + 1;
-      const currentData = this.state.data;
+
       this.setState(
         {
           goLeft: true,
@@ -74,11 +76,9 @@ export default class ContentWidget extends React.Component {
         () => {
           let data = [];
 
-          data[0] = this.props.allData[
-            (1 + this.state.position) % this.state.length
-          ];
-          data[1] = currentData[1];
-          data[2] = currentData[0];
+          data[0] = this.head.next.next.value;
+          data[1] = this.head.next.value;
+          data[2] = this.head.prev.value;
 
           this.setState({ data });
         }
@@ -91,7 +91,7 @@ export default class ContentWidget extends React.Component {
       if (position < 0) {
         position = this.props.allData.length + position;
       }
-      const currentData = this.state.data;
+
       this.setState(
         {
           goRight: true,
@@ -101,9 +101,11 @@ export default class ContentWidget extends React.Component {
         },
         () => {
           let data = [];
-          data[0] = this.props.allData[position % this.state.length];
-          data[1] = currentData[1];
-          data[2] = currentData[0];
+
+          data[0] = this.head.prev.value;
+          data[1] = this.head.prev.prev.value;
+          data[2] = this.head.value;
+
           this.setState({ data });
         }
       );
@@ -114,8 +116,26 @@ export default class ContentWidget extends React.Component {
     evt.stopPropagation();
     this.revert();
   }
+
+  addToHead = value => {
+    const newNode = { value };
+
+    if (this.head) {
+      newNode.next = this.head;
+      newNode.prev = this.head.prev;
+      this.head.prev.next = newNode;
+      this.head.prev = newNode;
+    } else {
+      this.head = newNode;
+      newNode.next = newNode;
+      newNode.prev = newNode;
+    }
+  };
   componentDidMount = () => {
     this.registerAnimationELement();
+    this.props.allData.forEach(val => {
+      this.addToHead(val);
+    });
   };
   componentWillReceiveProps(props) {
     if (this.state.position < props.position) {
@@ -137,13 +157,17 @@ export default class ContentWidget extends React.Component {
     const currentData = this.state.data;
     let data = [];
     if (this.state.goLeft) {
-      data[0] = currentData[2];
-      data[1] = currentData[0];
-      data[2] = currentData[1];
+      data[0] = this.head.prev.value;
+      data[1] = this.head.next.next.value;
+      data[2] = this.head.next.value;
+
+      this.head = Object.assign({}, this.head.next);
     } else if (this.state.goRight) {
       data[0] = currentData[1];
       data[1] = currentData[2];
       data[2] = currentData[0];
+
+      this.head = Object.assign({}, this.head.prev);
     }
 
     this.setState({ data, goLeft: false, goRight: false });

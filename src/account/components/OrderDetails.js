@@ -187,12 +187,16 @@ export default class OrderDetails extends React.Component {
                   orderStatus.value &&
                   orderStatus.value.statusList,
                 status => {
-                  if (status.responseCode === "DELIVERED") {
+                  if (
+                    status.responseCode === "DELIVERED" ||
+                    status.responseCode === "ORDER_COLLECTED"
+                  ) {
                     isOrderReturnable = true;
                   }
                 }
               );
             });
+
             return (
               <div className={styles.order} key={i}>
                 <div className={styles.orderIdHolder}>
