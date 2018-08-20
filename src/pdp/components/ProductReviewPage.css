@@ -89,6 +89,7 @@
     font-family: light;
     font-size: 14px;
     margin-left: 0%;
+    cursor: pointer;
   }
   .header {
     width: 100%;
