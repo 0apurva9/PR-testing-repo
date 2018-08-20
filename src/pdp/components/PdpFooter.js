@@ -7,13 +7,15 @@ export default class PdfFooter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToCartPageFlag: this.props.goToCartPageFlag
-        ? this.props.goToCartPageFlag
-        : false
+      goToCartPageFlag: props.goToCartPageFlag ? props.goToCartPageFlag : false,
+      checkForUrlGoToCartFlag: true
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.goToCartPageFlag !== this.state.goToCartPageFlag) {
+    if (
+      this.state.checkForUrlGoToCartFlag &&
+      nextProps.goToCartPageFlag !== this.state.goToCartPageFlag
+    ) {
       this.setState({ goToCartPageFlag: nextProps.goToCartPageFlag });
     }
   }
@@ -28,7 +30,8 @@ export default class PdfFooter extends React.Component {
           addProductToCartResponse.status === SUCCESS
         ) {
           this.setState({
-            goToCartPage: true
+            goToCartPageFlag: true,
+            checkForUrlGoToCartFlag: false
           });
           if (buyNowFlag) {
             this.goToCartPage();
