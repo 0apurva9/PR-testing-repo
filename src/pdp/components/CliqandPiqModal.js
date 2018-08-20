@@ -171,109 +171,118 @@ export default class ReturnToStore extends React.Component {
   render() {
     if (!this.state.availableStores) {
       return (
-        <div className={styles.loadingIndicator}>
-          <SecondaryLoader />
+        <div className={styles.base}>
+          <div className={styles.loadingIndicator} />
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.base}>
+          <div className={styles.mapButton}>
+            <div className={styles.cliqPiqText}>CliQ n PiQ</div>
+            <div className={styles.closeButton}>
+              <Button
+                type="hollow"
+                height={40}
+                label={"Close"}
+                width={150}
+                color={"#fff"}
+                textStyle={{ color: "#212121", fontSize: 14 }}
+                onClick={() => this.CloseCliqAndPiqModal()}
+              />
+            </div>
+          </div>
+          <div className={styles.mapDesktopWithPincode}>
+            <div className={styles.mapDesktop}>
+              <CliqAndPiqMap
+                availableStores={this.state.availableStores}
+                lat={this.state.lat}
+                lng={this.state.lng}
+              />
+            </div>
+            <div className={styles.storeListForDesktop}>
+              <div className={styles.searchPincode}>
+                <SearchLocationByPincode
+                  header={`${
+                    this.props.productDetails &&
+                    this.props.productDetails.productName
+                      ? this.props.productDetails.productName
+                      : ""
+                  } ${
+                    this.props.productDetails &&
+                    this.props.productDetails.productColour
+                      ? this.props.productDetails.productColour
+                      : ""
+                  }`}
+                  disabled={this.props.pinCodeUpdateDisabled}
+                  pincode={this.props.pincode}
+                  changePincode={pincode => this.getPinCodeDetails(pincode)}
+                />
+              </div>
+              {!this.state.showPickupPerson &&
+                this.state.availableStores &&
+                this.state.availableStores.length > 1 && (
+                  <GridSelect
+                    limit={1}
+                    offset={0}
+                    elementWidthDesktop={100}
+                    onSelect={val => this.selectStoreForDesktop(val)}
+                    selected={[this.state.storeId]}
+                  >
+                    {this.state.availableStores.map((val, i) => {
+                      return (
+                        <PickUpLocation
+                          key={i}
+                          address={`${val.address &&
+                            val.address.line1} ${val.address &&
+                            val.address.line2}, `}
+                          PickUpKey="Open on: "
+                          workingDays={val.mplWorkingDays}
+                          openingTime={val.mplOpeningTime}
+                          closingTime={val.mplClosingTime}
+                          address2={`${val.returnCity} ${val.returnPin}`}
+                          headingText={val.displayName}
+                          value={val.slaveId}
+                          canSelectStore={this.props.canSelectStore}
+                        />
+                      );
+                    })}
+                  </GridSelect>
+                )}
+
+              {this.state.showPickupPerson &&
+                this.state.selectedStore && (
+                  <div className={styles.getLocationDetailsHolder}>
+                    <div className={styles.getLocationDetails}>
+                      <GetLocationDetails
+                        changeLocation={() => {
+                          this.changeStore();
+                        }}
+                        headingText={this.state.selectedStore.displayName}
+                        address={`${this.state.selectedStore.returnAddress1} ${
+                          this.state.selectedStore.returnAddress2
+                        } ${this.state.selectedStore.returnCity}`}
+                        pickUpKey="Open on: "
+                        pickUpValue={this.state.selectedStore.selectedStoreTime}
+                        workingDays={this.state.selectedStore.mplWorkingDays}
+                        openingTime={this.state.selectedStore.mplOpeningTime}
+                        closingTime={this.state.selectedStore.mplClosingTime}
+                      />
+                    </div>
+                    <div className={styles.pickUpDetails}>
+                      <PickUpDetails
+                        getValue={val => this.getValue(val)}
+                        onSubmit={() => this.handleSubmit()}
+                        name={this.state.name}
+                        mobile={this.state.mobile}
+                      />
+                    </div>
+                  </div>
+                )}
+            </div>
+          </div>
         </div>
       );
     }
-    return (
-      <div className={styles.base}>
-        <div className={styles.mapButton}>
-          <div className={styles.cliqPiqText}>CliQ n PiQ</div>
-          <div className={styles.closeButton}>
-            <Button
-              type="hollow"
-              height={40}
-              label={"Close"}
-              width={150}
-              color={"#fff"}
-              textStyle={{ color: "#212121", fontSize: 14 }}
-              onClick={() => this.CloseCliqAndPiqModal()}
-            />
-          </div>
-        </div>
-        <div className={styles.mapDesktopWithPincode}>
-          <div className={styles.mapDesktop}>
-            <CliqAndPiqMap
-              availableStores={this.state.availableStores}
-              lat={this.state.lat}
-              lng={this.state.lng}
-            />
-          </div>
-          <div className={styles.storeListForDesktop}>
-            <div className={styles.searchPincode}>
-              <SearchLocationByPincode
-                header={`${
-                  this.props.productName ? this.props.productName : ""
-                } ${this.props.productColour ? this.props.productColour : ""}`}
-                disabled={this.props.pinCodeUpdateDisabled}
-                pincode={this.props.pincode}
-                changePincode={pincode => this.getPinCodeDetails(pincode)}
-              />
-            </div>
-            {!this.state.showPickupPerson &&
-              this.state.availableStores &&
-              this.state.availableStores.length > 1 && (
-                <GridSelect
-                  limit={1}
-                  offset={0}
-                  elementWidthDesktop={100}
-                  onSelect={val => this.selectStoreForDesktop(val)}
-                  selected={[this.state.storeId]}
-                >
-                  {this.state.availableStores.map((val, i) => {
-                    return (
-                      <PickUpLocation
-                        key={i}
-                        address={`${val.address &&
-                          val.address.line1} ${val.address &&
-                          val.address.line2}, `}
-                        PickUpKey="Open on: "
-                        workingDays={val.mplWorkingDays}
-                        openingTime={val.mplOpeningTime}
-                        closingTime={val.mplClosingTime}
-                        address2={`${val.returnCity} ${val.returnPin}`}
-                        headingText={val.displayName}
-                        value={val.slaveId}
-                        canSelectStore={this.props.canSelectStore}
-                      />
-                    );
-                  })}
-                </GridSelect>
-              )}
-
-            {this.state.showPickupPerson &&
-              this.state.selectedStore && (
-                <div className={styles.getLocationDetailsHolder}>
-                  <div className={styles.getLocationDetails}>
-                    <GetLocationDetails
-                      changeLocation={() => {
-                        this.changeStore();
-                      }}
-                      headingText={this.state.selectedStore.displayName}
-                      address={`${this.state.selectedStore.returnAddress1} ${
-                        this.state.selectedStore.returnAddress2
-                      } ${this.state.selectedStore.returnCity}`}
-                      pickUpKey="Open on: "
-                      pickUpValue={this.state.selectedStore.selectedStoreTime}
-                      workingDays={this.state.selectedStore.mplWorkingDays}
-                      openingTime={this.state.selectedStore.mplOpeningTime}
-                      closingTime={this.state.selectedStore.mplClosingTime}
-                    />
-                  </div>
-                  <div className={styles.pickUpDetails}>
-                    <PickUpDetails
-                      getValue={val => this.getValue(val)}
-                      onSubmit={() => this.handleSubmit()}
-                      name={this.state.name}
-                      mobile={this.state.mobile}
-                    />
-                  </div>
-                </div>
-              )}
-          </div>
-        </div>
-      </div>
-    );
   }
 }

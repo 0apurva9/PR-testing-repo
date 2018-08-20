@@ -484,100 +484,102 @@ class CartPage extends React.Component {
           </MobileOnly>
           <div className={styles.pageCenter}>
             <div className={styles.content}>
-              {cartDetails.products &&
-                cartDetails.products.map((product, i) => {
-                  let serviceable = false;
-                  if (product.pinCodeResponse) {
-                    if (product.pinCodeResponse.isServicable === YES) {
-                      serviceable = true;
+              <div className={styles.desktopBuffer}>
+                {cartDetails.products &&
+                  cartDetails.products.map((product, i) => {
+                    let serviceable = false;
+                    if (product.pinCodeResponse) {
+                      if (product.pinCodeResponse.isServicable === YES) {
+                        serviceable = true;
+                      }
                     }
-                  }
 
-                  return (
-                    <div className={styles.cartItem} key={i}>
-                      <MobileOnly>
-                        <CartItem
-                          pinCode={defaultPinCode}
-                          product={product}
-                          productIsServiceable={serviceable}
-                          productImage={product.imageURL}
-                          productDetails={product.description}
-                          productName={product.productName}
-                          color={product.color}
-                          size={product.size}
-                          price={product.price}
-                          offerPrice={product.offerPrice}
-                          isGiveAway={product.isGiveAway}
-                          index={i}
-                          entryNumber={product.entryNumber}
-                          deliveryInformation={product.elligibleDeliveryMode}
-                          deliverTime={
-                            product.elligibleDeliveryMode &&
-                            product.elligibleDeliveryMode[0].desc
-                          }
-                          deliveryType={
-                            product.elligibleDeliveryMode &&
-                            product.elligibleDeliveryMode[0].code
-                          }
-                          onRemove={this.removeItemFromCart}
-                          onQuantityChange={this.updateQuantityInCart}
-                          maxQuantityAllowed={
-                            parseInt(product.maxQuantityAllowed, 10) <
-                            product.availableStockCount
-                              ? parseInt(product.maxQuantityAllowed, 10)
-                              : product.availableStockCount
-                          }
-                          isOutOfStock={product.isOutOfStock}
-                          qtySelectedByUser={product.qtySelectedByUser}
-                          isClickable={false}
-                          onClickImage={() =>
-                            this.onClickImage(product.productcode)
-                          }
-                        />
-                      </MobileOnly>
-                      <DesktopOnly>
-                        <CartItemForDesktop
-                          pinCode={defaultPinCode}
-                          product={product}
-                          productIsServiceable={serviceable}
-                          productImage={product.imageURL}
-                          productDetails={product.description}
-                          productName={product.productName}
-                          color={product.color}
-                          size={product.size}
-                          price={product.price}
-                          offerPrice={product.offerPrice}
-                          isGiveAway={product.isGiveAway}
-                          index={i}
-                          entryNumber={product.entryNumber}
-                          deliveryInformation={product.elligibleDeliveryMode}
-                          deliverTime={
-                            product.elligibleDeliveryMode &&
-                            product.elligibleDeliveryMode[0].desc
-                          }
-                          deliveryType={
-                            product.elligibleDeliveryMode &&
-                            product.elligibleDeliveryMode[0].code
-                          }
-                          onRemove={this.removeItemFromCart}
-                          onQuantityChange={this.updateQuantityInCart}
-                          maxQuantityAllowed={
-                            parseInt(product.maxQuantityAllowed, 10) <
-                            product.availableStockCount
-                              ? parseInt(product.maxQuantityAllowed, 10)
-                              : product.availableStockCount
-                          }
-                          isOutOfStock={product.isOutOfStock}
-                          qtySelectedByUser={product.qtySelectedByUser}
-                          isClickable={false}
-                          onClickImage={() =>
-                            this.onClickImage(product.productcode)
-                          }
-                        />
-                      </DesktopOnly>
-                    </div>
-                  );
-                })}
+                    return (
+                      <div className={styles.cartItem} key={i}>
+                        <MobileOnly>
+                          <CartItem
+                            pinCode={defaultPinCode}
+                            product={product}
+                            productIsServiceable={serviceable}
+                            productImage={product.imageURL}
+                            productDetails={product.description}
+                            productName={product.productName}
+                            color={product.color}
+                            size={product.size}
+                            price={product.price}
+                            offerPrice={product.offerPrice}
+                            isGiveAway={product.isGiveAway}
+                            index={i}
+                            entryNumber={product.entryNumber}
+                            deliveryInformation={product.elligibleDeliveryMode}
+                            deliverTime={
+                              product.elligibleDeliveryMode &&
+                              product.elligibleDeliveryMode[0].desc
+                            }
+                            deliveryType={
+                              product.elligibleDeliveryMode &&
+                              product.elligibleDeliveryMode[0].code
+                            }
+                            onRemove={this.removeItemFromCart}
+                            onQuantityChange={this.updateQuantityInCart}
+                            maxQuantityAllowed={
+                              parseInt(product.maxQuantityAllowed, 10) <
+                              product.availableStockCount
+                                ? parseInt(product.maxQuantityAllowed, 10)
+                                : product.availableStockCount
+                            }
+                            isOutOfStock={product.isOutOfStock}
+                            qtySelectedByUser={product.qtySelectedByUser}
+                            isClickable={false}
+                            onClickImage={() =>
+                              this.onClickImage(product.productcode)
+                            }
+                          />
+                        </MobileOnly>
+                        <DesktopOnly>
+                          <CartItemForDesktop
+                            pinCode={defaultPinCode}
+                            product={product}
+                            productIsServiceable={serviceable}
+                            productImage={product.imageURL}
+                            productDetails={product.description}
+                            productName={product.productName}
+                            color={product.color}
+                            size={product.size}
+                            price={product.price}
+                            offerPrice={product.offerPrice}
+                            isGiveAway={product.isGiveAway}
+                            index={i}
+                            entryNumber={product.entryNumber}
+                            deliveryInformation={product.elligibleDeliveryMode}
+                            deliverTime={
+                              product.elligibleDeliveryMode &&
+                              product.elligibleDeliveryMode[0].desc
+                            }
+                            deliveryType={
+                              product.elligibleDeliveryMode &&
+                              product.elligibleDeliveryMode[0].code
+                            }
+                            onRemove={this.removeItemFromCart}
+                            onQuantityChange={this.updateQuantityInCart}
+                            maxQuantityAllowed={
+                              parseInt(product.maxQuantityAllowed, 10) <
+                              product.availableStockCount
+                                ? parseInt(product.maxQuantityAllowed, 10)
+                                : product.availableStockCount
+                            }
+                            isOutOfStock={product.isOutOfStock}
+                            qtySelectedByUser={product.qtySelectedByUser}
+                            isClickable={false}
+                            onClickImage={() =>
+                              this.onClickImage(product.productcode)
+                            }
+                          />
+                        </DesktopOnly>
+                      </div>
+                    );
+                  })}
+              </div>
               <MobileOnly>
                 {cartDetails.products && (
                   <SavedProduct
@@ -586,8 +588,7 @@ class CartPage extends React.Component {
                     appliedCouponCode={this.state.appliedCouponCode}
                   />
                 )}
-              </MobileOnly>
-              <MobileOnly>
+
                 {this.state.showCheckoutSection &&
                   cartDetails.products &&
                   cartDetails.cartAmount && (
@@ -637,8 +638,7 @@ class CartPage extends React.Component {
                       />
                     </div>
                   )}
-              </MobileOnly>
-              <MobileOnly>
+
                 {this.state.showCheckoutSection &&
                   cartDetails.products &&
                   cartDetails.cartAmount && (

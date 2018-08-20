@@ -40,7 +40,7 @@
 .addressText {
   height: auto;
   width: 100%;
-  font-family: regular;
+  font-family: light;
   font-size: 14px;
   line-height: 20px;
   text-align: left;
@@ -99,5 +99,9 @@
 @media only screen and (min-width: 1025px) {
   .base {
     border-radius: unset;
+    padding:20px 30px;
+  }
+  .holder{
+    padding-right:30px;
   }
 }
