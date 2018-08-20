@@ -330,7 +330,7 @@ export function addProductToCart(userId, cartId, accessToken, productDetails) {
       return dispatch(addProductToCartSuccess());
       // ADOBE_ADD_TO_CART
     } catch (e) {
-      dispatch(addProductToCartFailure(e.message));
+      return dispatch(addProductToCartFailure(e.message));
     }
   };
 }
