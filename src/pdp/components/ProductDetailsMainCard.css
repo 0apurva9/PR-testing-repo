@@ -43,6 +43,7 @@
   width: 100%;
   height: auto;
   margin-top: 10px;
+  cursor: pointer;
 }
 .ratingText {
   width: auto;
@@ -102,43 +103,43 @@
 }
 
 @media screen and (min-width: 1025px) {
-  .brandName{
-    font-size:30px;
+  .brandName {
+    font-size: 30px;
   }
-  .brandName span{
-    cursor:pointer;
+  .brandName span {
+    cursor: pointer;
   }
-  .productName{
-    font-size:30px;
-    line-height:40px;
+  .productName {
+    font-size: 30px;
+    line-height: 40px;
   }
-  .productDescriptionSection{
-    width:100%;
-    margin-bottom:10px;
+  .productDescriptionSection {
+    width: 100%;
+    margin-bottom: 10px;
   }
   .productPriceSection {
-    width:100%;
-    position:relative;
+    width: 100%;
+    position: relative;
   }
-  .priceBreakUp{
-    position:absolute;
-    right:0;
-    top:0;
+  .priceBreakUp {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
-  .price{
-    width:auto;
-    text-align:left;
-    font-size:30px;
-    font-family:light;
-    margin:0;
+  .price {
+    width: auto;
+    text-align: left;
+    font-size: 30px;
+    font-family: light;
+    margin: 0;
   }
-  .discountPrice{
-    width:auto;
-    text-align:left;
-    font-size:20px;
-    color:#212121;
-    margin-left:15px;
-    margin-bottom:0;
-    font-family:light;
+  .discountPrice {
+    width: auto;
+    text-align: left;
+    font-size: 20px;
+    color: #212121;
+    margin-left: 15px;
+    margin-bottom: 0;
+    font-family: light;
   }
 }
