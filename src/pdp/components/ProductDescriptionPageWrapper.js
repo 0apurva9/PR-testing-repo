@@ -144,7 +144,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {
-      if (!this.props.showPiqPage) {
+      if (!this.props.showPiqPage || !checkUserAgentIsMobile()) {
         return (
           <div itemScope itemType="http://schema.org/Product">
             <MobileOnly>
