@@ -44,6 +44,7 @@ export default class PdpFrame extends React.Component {
     return (
       <div className={styles.base}>
         <PdpFooter
+          goToCartPageFlag={this.props.goToCartPageFlag}
           displayToast={message => this.props.displayToast(message)}
           onAddToBag={buyNowFlag => this.onAddToBag(buyNowFlag)}
           buyNow={() => this.buyNow()}

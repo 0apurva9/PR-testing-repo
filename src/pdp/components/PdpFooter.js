@@ -7,8 +7,15 @@ export default class PdfFooter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToCartPage: false
+      goToCartPageFlag: this.props.goToCartPageFlag
+        ? this.props.goToCartPageFlag
+        : false
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.goToCartPageFlag !== this.state.goToCartPageFlag) {
+      this.setState({ goToCartPageFlag: nextProps.goToCartPageFlag });
+    }
   }
   async onAddToBag(buyNowFlag) {
     if (!this.state.goToCartPage) {
@@ -44,13 +51,13 @@ export default class PdfFooter extends React.Component {
       <div className={styles.base}>
         <div className={styles.footerButtonHolder}>
           <FooterButton
-            backgroundColor={this.state.goToCartPage ? "#ff1744" : "#fff"}
+            backgroundColor={this.state.goToCartPageFlag ? "#ff1744" : "#fff"}
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
             label="Buy Now"
             disabled={this.props.outOfStock}
             onClick={() => this.onAddToBag(true)}
             labelStyle={{
-              color: this.state.goToCartPage ? "#fff" : "#ff1744",
+              color: this.state.goToCartPageFlag ? "#fff" : "#ff1744",
               fontSize: 14,
               fontFamily: "semibold"
             }}
@@ -58,17 +65,17 @@ export default class PdfFooter extends React.Component {
         </div>
         <div className={styles.footerButtonHolder}>
           <FooterButton
-            backgroundColor={this.state.goToCartPage ? "#fff" : "#ff1744"}
+            backgroundColor={this.state.goToCartPageFlag ? "#fff" : "#ff1744"}
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
-            label={this.state.goToCartPage ? "Go to bag" : "Add to bag"}
+            label={this.state.goToCartPageFlag ? "Go to bag" : "Add to bag"}
             disabled={this.props.outOfStock}
             onClick={
-              this.state.goToCartPage
+              this.state.goToCartPageFlag
                 ? () => this.goToCartPage()
                 : () => this.onAddToBag(false)
             }
             labelStyle={{
-              color: this.state.goToCartPage ? "#ff1744" : "#fff",
+              color: this.state.goToCartPageFlag ? "#ff1744" : "#fff",
               fontSize: 14,
               fontFamily: "semibold"
             }}

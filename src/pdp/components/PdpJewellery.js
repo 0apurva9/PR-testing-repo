@@ -370,6 +370,10 @@ export default class PdpJewellery extends React.Component {
 
       return (
         <PdpFrame
+          goToCartPageFlag={
+            this.props.location.state &&
+            this.props.location.state.goToCartPageFlag
+          }
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
           displayToast={message => this.props.displayToast(message)}
