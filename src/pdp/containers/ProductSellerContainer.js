@@ -5,39 +5,19 @@ import {
   addProductToCart,
   getProductDescription
 } from "../actions/pdp.actions";
-import {
-  SUCCESS,
-  ADD_TO_BAG_TEXT,
-  PRODUCT_CART_ROUTER
-} from "../../lib/constants.js";
 import { displayToast } from "../../general/toast.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addProductToCart: async (
-      userId,
-      cartId,
-      accessToken,
-      productDetails,
-      buyNowFlag
-    ) => {
-      const addProductToCartResponse = await dispatch(
+    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
+      return dispatch(
         addProductToCart(userId, cartId, accessToken, productDetails)
       );
-      if (
-        addProductToCartResponse &&
-        addProductToCartResponse.status === SUCCESS
-      ) {
-        if (buyNowFlag === true) {
-          ownProps.history.push({
-            pathname: PRODUCT_CART_ROUTER
-          });
-        } else {
-          dispatch(displayToast(ADD_TO_BAG_TEXT));
-        }
-      }
     },
     getProductDescription: productCode => {
       dispatch(getProductDescription(productCode));
+    },
+    displayToast: val => {
+      dispatch(displayToast(val));
     }
   };
 };

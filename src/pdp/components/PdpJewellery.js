@@ -193,7 +193,7 @@ export default class PdpJewellery extends React.Component {
               cartDetailsLoggedInUser !== undefined &&
               customerCookie !== undefined
             ) {
-              this.props.addProductToCart(
+              return this.props.addProductToCart(
                 JSON.parse(userDetails).userName,
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
@@ -202,7 +202,7 @@ export default class PdpJewellery extends React.Component {
               );
             }
           } else if (cartDetailsAnonymous) {
-            this.props.addProductToCart(
+            return this.props.addProductToCart(
               ANONYMOUS_USER,
               JSON.parse(cartDetailsAnonymous).guid,
               JSON.parse(globalCookie).access_token,
@@ -359,8 +359,8 @@ export default class PdpJewellery extends React.Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          buyNow={() => this.addToCart(true)}
-          addProductToBag={() => this.addToCart(false)}
+          displayToast={message => this.props.displayToast(message)}
+          addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
           showPincodeModal={() => this.showPincodeModal()}
           productListingId={productData.productListingId}
           outOfStock={
