@@ -26,6 +26,7 @@
   .base {
     padding-top: 0px;
     float: left;
+    background: none;
   }
   .searchResults {
     height: auto;
