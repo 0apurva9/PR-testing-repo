@@ -290,6 +290,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.history);
     let className = AppStyles.base;
     const {
       globalAccessTokenStatus,
@@ -491,7 +492,10 @@ class App extends Component {
           <SecondaryLoaderContainer />
 
           <DesktopOnly>
-            <DesktopFooterContainer />
+            {this.props.location.pathname !== CHECKOUT_ROUTER &&
+              this.props.location.pathname !== PRODUCT_CART_ROUTER && (
+                <DesktopFooterContainer />
+              )}
           </DesktopOnly>
           <ModalContainer />
           <ErrorContainer />
