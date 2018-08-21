@@ -38,10 +38,13 @@
   justify-content: left;
   font-family: light;
 }
-.productName,
-.productPrice {
+.productName {
   width: 100%;
   height: auto;
+}
+.productPrice {
+  composes: productName;
+  padding-top: 10px;
 }
 .quantity {
   width: 50%;
