@@ -12,7 +12,10 @@ import {
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import AuthFrame from "./AuthFrame.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
+import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 
 import {
   LOGIN_PATH,
@@ -164,7 +167,14 @@ class Login extends Component {
     if (this.props.authCallsInProcess) {
       return (
         <div className={styles.loadingIndicator}>
-          <SecondaryLoader />
+          <React.Fragment>
+            <MobileOnly>
+              <SecondaryLoader />
+            </MobileOnly>
+            <DesktopOnly>
+              <SectionLoaderDesktop />
+            </DesktopOnly>
+          </React.Fragment>
         </div>
       );
     }
