@@ -202,14 +202,17 @@ export default class PaymentCardWrapper extends React.Component {
                 this.renderPaymentCardsComponents()}
             </div>
           )}
-          <DesktopOnly>
-            <GiftCardPopup
-              heading="Have a gift card?"
-              addGiftCard={val => this.redeemCliqVoucher(val)}
-              voucherNumber={this.props.voucherNumber}
-              voucherPin={this.props.voucherPin}
-            />
-          </DesktopOnly>
+          {!this.props.isFromGiftCard &&
+            !this.props.isPaymentFailed && (
+              <DesktopOnly>
+                <GiftCardPopup
+                  heading="Have a gift card?"
+                  addGiftCard={val => this.redeemCliqVoucher(val)}
+                  voucherNumber={this.props.voucherNumber}
+                  voucherPin={this.props.voucherPin}
+                />
+              </DesktopOnly>
+            )}
         </div>
       );
     } else {
