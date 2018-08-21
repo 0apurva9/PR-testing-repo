@@ -20,7 +20,11 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<
       }
     }
   }
-
+  onClickImage(productCode: string) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
   public render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userAccountDetails = JSON.parse(userDetails);
@@ -60,10 +64,29 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<
                     isSelect={true}
                     quantity={true}
                     orderPlace={
-                      orderDetails && format(orderDetails.orderDate, dateFormat)
+                      orderDetails && orderDetails.orderDate
+                        ? orderDetails &&
+                          format(orderDetails.orderDate, dateFormat)
+                        : this.props.orderPlace
                     }
                     orderId={this.props.orderId}
-                    productBrand={orderDetails && orderDetails.productBrand}
+                    productBrand={
+                      orderDetails && orderDetails.productBrand
+                        ? orderDetails.productBrand
+                        : returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0].productBrand
+                    }
+                    onHollow={true}
+                    onClick={() =>
+                      this.onClickImage(
+                        orderDetails &&
+                          orderDetails.orderProductWsDTO &&
+                          orderDetails.orderProductWsDTO[0] &&
+                          orderDetails.orderProductWsDTO[0].productcode
+                      )
+                    }
                   >
                     {returnProductDetails &&
                       returnProductDetails.orderProductWsDTO &&

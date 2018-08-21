@@ -72,6 +72,7 @@ const mapStateToProps = state => {
     getPinCodeDetails: state.profile.getPinCodeDetails,
     getPincodeStatus: state.profile.getPinCodeStatus,
     addUserAddressError: state.profile.addUserAddressError,
+    userAddress: state.profile.userAddress,
     loading: state.profile.loading,
     userDetails: state.profile.userDetails
   };

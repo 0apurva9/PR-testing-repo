@@ -684,6 +684,7 @@ class CheckOutPage extends React.Component {
     return (
       <div className={styles.addInitialAddAddress}>
         <AddDeliveryAddress
+          history={this.props.history}
           addUserAddress={address => this.addAddress(address)}
           {...this.state}
           onChange={val => this.onChange(val)}
@@ -2291,6 +2292,7 @@ class CheckOutPage extends React.Component {
       return (
         <div className={styles.addDeliveryAddressHolder}>
           <AddDeliveryAddress
+            history={this.props.history}
             handleCancelAddress={() => this.handleCancelAddress()}
             addUserAddress={address => this.addAddress(address)}
             {...this.state}
@@ -2432,16 +2434,25 @@ class CheckOutPage extends React.Component {
                       />
                     </div>
                   )}
-
-                {!this.state.isPaymentFailed &&
-                  this.props.cart.cartDetailsCNC &&
-                  this.state.confirmAddress &&
-                  !this.state.deliverMode &&
-                  !this.state.isGiftCard &&
-                  (this.state.showCliqAndPiq
-                    ? this.renderCliqAndPiq()
-                    : this.renderDeliverModes(checkoutButtonStatus))}
-
+                <MobileOnly>
+                  {!this.state.isPaymentFailed &&
+                    this.props.cart.cartDetailsCNC &&
+                    this.state.confirmAddress &&
+                    !this.state.deliverMode &&
+                    !this.state.isGiftCard &&
+                    (this.state.showCliqAndPiq
+                      ? this.renderCliqAndPiq()
+                      : this.renderDeliverModes(checkoutButtonStatus))}
+                </MobileOnly>
+                <DesktopOnly>
+                  {!this.state.isPaymentFailed &&
+                    this.props.cart.cartDetailsCNC &&
+                    this.state.confirmAddress &&
+                    !this.state.deliverMode &&
+                    !this.state.isGiftCard &&
+                    this.renderDeliverModes(checkoutButtonStatus)}
+                  {this.state.showCliqAndPiq && this.renderCliqAndPiq()}
+                </DesktopOnly>
                 {!this.state.isPaymentFailed &&
                   this.state.deliverMode &&
                   !this.state.isGiftCard && (

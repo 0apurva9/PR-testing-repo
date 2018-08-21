@@ -207,4 +207,8 @@
     text-align: left;
     position: relative;
   }
+  .formHolder1 {
+    width: 100%;
+    height: auto;
+  }
 }
