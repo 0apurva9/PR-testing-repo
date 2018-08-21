@@ -809,6 +809,18 @@ export default class AddDeliveryAddress extends React.Component {
                         onlyAlphabet={true}
                       />
                     </div>
+                    <div className={styles.contentAddAddress}>
+                      <TextArea
+                        placeholder="Address*"
+                        value={
+                          this.props.line1 ? this.props.line1 : this.state.line1
+                        }
+                        onChange={line1 => this.onChange({ line1 })}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
                     <DesktopOnly>
                       <div className={styles.leftSecond}>
                         <SelectBoxMobile2
@@ -847,18 +859,6 @@ export default class AddDeliveryAddress extends React.Component {
                         </div>
                       )}
                     </DesktopOnly>
-                  </div>
-                  <div className={styles.contentAddAddress}>
-                    <TextArea
-                      placeholder="Address*"
-                      value={
-                        this.props.line1 ? this.props.line1 : this.state.line1
-                      }
-                      onChange={line1 => this.onChange({ line1 })}
-                      onFocus={() => {
-                        this.handleOnFocusInput();
-                      }}
-                    />
                   </div>
                 </div>
 
