@@ -29,14 +29,19 @@
   flex-direction: row;
   margin-bottom: 20px;
 }
-.productName {
+.productNameWithPrice {
   width: 50%;
   height: auto;
-  display: flex;
   line-height: normal;
   color: #000000;
   font-size: 14px;
   justify-content: left;
+  font-family: light;
+}
+.productName,
+.productPrice {
+  width: 100%;
+  height: auto;
 }
 .quantity {
   width: 50%;
@@ -51,13 +56,14 @@
   margin-bottom: 0px;
 }
 .timingAndMode {
-  width: 50%;
+  width: 80%;
   height: 25px;
   line-height: 25px;
   display: flex;
   flex-direction: row;
   color: #000000;
   font-size: 14px;
+  font-family: light;
 }
 .deliveyMode {
   width: auto;
@@ -69,10 +75,10 @@
 .deliveryTime {
   composes: deliveyMode;
   padding-right: 0px;
-  font-family: regular;
+  font-family: light;
 }
 .sucessIconHolder {
-  width: 50%;
+  width: 20%;
   height: 25px;
   display: flex;
   justify-content: flex-end;

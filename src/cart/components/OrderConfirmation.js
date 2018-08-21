@@ -82,8 +82,10 @@ export default class OrderConfirmation extends React.Component {
                     <DesktopOnly>
                       <OrderSucessCard
                         imageURL={order.imageURL}
+                        price={order.pricevalue}
                         productName={order.productName}
                         quantity={order.quantity}
+                        isGiveAway={order.isGiveAway}
                         selectedDeliveryMode={order.selectedDeliveryMode}
                       />
                     </DesktopOnly>
