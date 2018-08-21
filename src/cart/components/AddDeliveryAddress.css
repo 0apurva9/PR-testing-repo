@@ -211,4 +211,31 @@
     width: 100%;
     height: auto;
   }
+  .addAddressHolder {
+    width: 100%;
+    height: auto;
+    padding: 20px 35% 15px 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .contentAddAddress {
+    width: 100%;
+    height: auto;
+    margin-top: 30px;
+  }
+
+  .defaultTextSpecial {
+    composes: defaultText;
+    padding: 25px 0px 0px 0px;
+  }
+  .defaultTextWithButton1 {
+    composes: defaultTextWithButton;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .addressInnerBox1 {
+    composes: addressInnerBox;
+    padding-left: 0px;
+  }
 }

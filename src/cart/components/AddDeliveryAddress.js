@@ -737,8 +737,8 @@ export default class AddDeliveryAddress extends React.Component {
               history={this.props.history}
               userAddress={this.props.userAddress}
             >
-              <div className={styles.formHolder}>
-                <div className={styles.addressInnerBox}>
+              <div className={styles.addAddressHolder}>
+                <div className={styles.addressInnerBox1}>
                   <DesktopOnly>
                     <div className={styles.header}>
                       <CheckOutHeader
@@ -752,7 +752,7 @@ export default class AddDeliveryAddress extends React.Component {
                     <UnderLinedButton label="Clear all" />
                   </div>
                 </div>
-                <div className={styles.content}>
+                <div className={styles.contentAddAddress}>
                   <Input2
                     placeholder="Enter your PIN code*"
                     onChange={postalCode => this.getPinCodeDetails(postalCode)}
@@ -771,7 +771,7 @@ export default class AddDeliveryAddress extends React.Component {
                     }}
                   />
                 </div>
-                <div className={styles.content}>
+                <div className={styles.contentAddAddress}>
                   <Input2
                     option={this.state.options}
                     placeholder="First Name*"
@@ -790,7 +790,7 @@ export default class AddDeliveryAddress extends React.Component {
                   />
                 </div>
                 <div className={styles.threeSection}>
-                  <div className={styles.content}>
+                  <div className={styles.contentAddAddress}>
                     <div className={styles.leftFirst}>
                       <Input2
                         boxy={true}
@@ -848,7 +848,7 @@ export default class AddDeliveryAddress extends React.Component {
                       )}
                     </DesktopOnly>
                   </div>
-                  <div className={styles.content}>
+                  <div className={styles.contentAddAddress}>
                     <TextArea
                       placeholder="Address*"
                       value={
@@ -862,7 +862,7 @@ export default class AddDeliveryAddress extends React.Component {
                   </div>
                 </div>
 
-                <div className={styles.content}>
+                <div className={styles.contentAddAddress}>
                   <Input2
                     boxy={true}
                     placeholder="City/district*"
@@ -879,7 +879,7 @@ export default class AddDeliveryAddress extends React.Component {
                     }}
                   />
                 </div>
-                <div className={styles.content}>
+                <div className={styles.contentAddAddress}>
                   <Input2
                     placeholder="State*"
                     value={
@@ -896,8 +896,25 @@ export default class AddDeliveryAddress extends React.Component {
                     }}
                   />
                 </div>
-
-                <div className={styles.content}>
+                <DesktopOnly>
+                  <div className={styles.contentAddAddress}>
+                    <Input2
+                      onlyNumber={true}
+                      placeholder="Phone number*"
+                      value={
+                        this.props.phone ? this.props.phone : this.state.phone
+                      }
+                      boxy={true}
+                      onChange={phone => this.handlePhoneInput(phone)}
+                      textStyle={{ fontSize: 14 }}
+                      height={33}
+                      onFocus={() => {
+                        this.handleOnFocusInput();
+                      }}
+                    />
+                  </div>
+                </DesktopOnly>
+                <div className={styles.contentAddAddress}>
                   <GridSelect
                     limit={1}
                     offset={0}
@@ -917,26 +934,9 @@ export default class AddDeliveryAddress extends React.Component {
                     })}
                   </GridSelect>
                 </div>
-                <DesktopOnly>
-                  <div className={styles.content}>
-                    <Input2
-                      onlyNumber={true}
-                      placeholder="Phone number*"
-                      value={
-                        this.props.phone ? this.props.phone : this.state.phone
-                      }
-                      boxy={true}
-                      onChange={phone => this.handlePhoneInput(phone)}
-                      textStyle={{ fontSize: 14 }}
-                      height={33}
-                      onFocus={() => {
-                        this.handleOnFocusInput();
-                      }}
-                    />
-                  </div>
-                </DesktopOnly>
-                <div className={styles.defaultText}>
-                  <div className={styles.defaultTextWithButton}>
+
+                <div className={styles.defaultTextSpecial}>
+                  <div className={styles.defaultTextWithButton1}>
                     <CheckboxAndText
                       label="Make this default address"
                       selected={this.state.defaultFlag}
@@ -944,8 +944,9 @@ export default class AddDeliveryAddress extends React.Component {
                     />
                   </div>
                   <DesktopOnly>
-                    <div className={styles.buttonHolder}>
+                    <div className={styles.defaultTextWithButton1}>
                       <CancelAndContinueButton
+                        isEditAddress={true}
                         continueText={"Save & Continue"}
                         handleCancel={() => this.onAddressPage()}
                         handleContinue={() => this.addNewAddress()}
