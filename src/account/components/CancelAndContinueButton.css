@@ -16,3 +16,12 @@
   height: auto;
   float: right;
 }
+.continueButtonHolder1 {
+  composes: continueButtonHolder;
+  float: left;
+}
+.cancelButtonHolder1 {
+  composes: cancelButtonHolder;
+  float: left;
+  padding-left: 30px;
+}

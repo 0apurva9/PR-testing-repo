@@ -16,31 +16,60 @@ export default class CancelAndContinueButton extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.continueButtonHolder}>
-          <Button
-            type="primary"
-            backgroundColor="#ff1744"
-            height={40}
-            label={this.props.continueText}
-            width={175}
-            textStyle={{ color: "#FFF", fontSize: 14 }}
-            onClick={() => this.handleContinue()}
-          />
-        </div>
-        <div className={styles.cancelButtonHolder}>
-          <UnderLinedButton
-            size="14px"
-            fontFamily="regular"
-            color="#000000"
-            label={this.props.cancelText}
-            onClick={() => this.handleCancel()}
-          />
-        </div>
+        {!this.props.isEditAddress && (
+          <React.Fragment>
+            <div className={styles.continueButtonHolder}>
+              <Button
+                type="primary"
+                backgroundColor="#ff1744"
+                height={40}
+                label={this.props.continueText}
+                width={175}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+                onClick={() => this.handleContinue()}
+              />
+            </div>
+            <div className={styles.cancelButtonHolder}>
+              <UnderLinedButton
+                size="14px"
+                fontFamily="regular"
+                color="#000000"
+                label={this.props.cancelText}
+                onClick={() => this.handleCancel()}
+              />
+            </div>
+          </React.Fragment>
+        )}
+        {this.props.isEditAddress && (
+          <React.Fragment>
+            <div className={styles.continueButtonHolder1}>
+              <Button
+                type="primary"
+                backgroundColor="#ff1744"
+                height={40}
+                label={this.props.continueText}
+                width={175}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+                onClick={() => this.handleContinue()}
+              />
+            </div>
+            <div className={styles.cancelButtonHolder1}>
+              <UnderLinedButton
+                size="14px"
+                fontFamily="regular"
+                color="#000000"
+                label={this.props.cancelText}
+                onClick={() => this.handleCancel()}
+              />
+            </div>
+          </React.Fragment>
+        )}
       </div>
     );
   }
 }
 CancelAndContinueButton.defaultProps = {
   continueText: "Continue",
-  cancelText: "Cancel"
+  cancelText: "Cancel",
+  isEditAddress: false
 };
