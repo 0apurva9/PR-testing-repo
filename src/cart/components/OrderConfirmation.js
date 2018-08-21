@@ -85,7 +85,6 @@ export default class OrderConfirmation extends React.Component {
                         price={order.pricevalue}
                         productName={order.productName}
                         quantity={order.quantity}
-                        isGiveAway={order.isGiveAway}
                         selectedDeliveryMode={order.selectedDeliveryMode}
                       />
                     </DesktopOnly>
