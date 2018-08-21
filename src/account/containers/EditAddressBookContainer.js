@@ -31,11 +31,13 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
+    userAddress: state.profile.userAddress,
     editAddressStatus: state.profile.editAddressStatus,
     editAddressError: state.profile.editAddressError,
     getPinCodeStatus: state.profile.getPinCodeStatus,
     getPinCodeDetails: state.profile.getPinCodeDetails,
-    getPincodeStatus: state.profile.getPinCodeStatus
+    getPincodeStatus: state.profile.getPinCodeStatus,
+    userDetails: state.profile.userDetails
   };
 };
 
