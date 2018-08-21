@@ -47,14 +47,15 @@ export default class PriceAndLink extends React.Component {
               this.props.price
             }`}</div>
           </div>
-          {this.props.isEgvOrder &&
-            this.props.status && (
-              <div className={styles.statusHolder}>
-                <div className={styles.priceHeader}>Status</div>
-                <div className={styles.statusFailed}>{this.props.status}</div>
-              </div>
-            )}
-
+          <MobileOnly>
+            {this.props.isEgvOrder &&
+              this.props.status && (
+                <div className={styles.statusHolder}>
+                  <div className={styles.priceHeader}>Status</div>
+                  <div className={styles.statusFailed}>{this.props.status}</div>
+                </div>
+              )}
+          </MobileOnly>
           {!this.props.isEgvOrder && (
             <div className={styles.buttonHolder}>
               <UnderLinedButton

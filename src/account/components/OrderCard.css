@@ -43,6 +43,11 @@
   height: auto;
   display: inline-block;
 }
+.priceHolderForGiftCard {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
 .price {
   width: auto;
   height: auto;
@@ -154,5 +159,12 @@
   }
   .base {
     margin-bottom: 0px;
+  }
+  .reSendEmail {
+    font-size: 14px;
+    padding-top: 0px;
+    margin-top: 0px;
+    padding-right: 0px;
+    float: right;
   }
 }

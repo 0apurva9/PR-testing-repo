@@ -493,6 +493,18 @@ export default class AllOrderDetails extends React.Component {
                                       orderDeliveryHeaderText={placeHolder}
                                     />
                                   )}
+
+                                {orderDetails.isEgvOrder &&
+                                  orderDetails.giftCardStatus && (
+                                    <div className={styles.statusHolder}>
+                                      <div className={styles.priceHeader}>
+                                        Status
+                                      </div>
+                                      <div className={styles.statusFailed}>
+                                        {orderDetails.giftCardStatus}
+                                      </div>
+                                    </div>
+                                  )}
                               </div>
                               <div className={styles.priceRightHolder}>
                                 <PriceAndLink

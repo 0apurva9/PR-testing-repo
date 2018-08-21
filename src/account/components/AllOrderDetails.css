@@ -137,6 +137,27 @@
     text-decoration: none;
     color: initial;
   }
+  .statusHolder {
+    width: 100%;
+    height: auto;
+  }
+  .priceHeader {
+    width: 100%;
+    height: auto;
+    color: #181818;
+    font-size: 14px;
+    font-family: regular;
+    display: initial;
+    float: left;
+    margin-bottom: 6px;
+  }
+  .statusFailed {
+    width: 100%;
+    height: auto;
+    color: #181818;
+    font-size: 14px;
+    font-family: semibold;
+  }
 }
 @media screen and (max-width: 1024px) {
   .base {
