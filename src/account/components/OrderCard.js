@@ -71,7 +71,7 @@ export default class OrderCard extends React.Component {
           </div>
           <div className={styles.priceWithQuantity}>
             {this.props.isGiveAway === NO || !this.props.isGiveAway ? (
-              <div className={styles.priceHolder}>
+              <div className={styles.priceHolderForGiftCard}>
                 <div className={styles.price}>
                   {this.props.isEgvOrder && this.props.egvCardNumber
                     ? this.props.egvCardNumber
