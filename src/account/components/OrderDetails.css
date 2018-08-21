@@ -109,7 +109,9 @@
   }
   .order {
     padding: 30px;
-    margin-bottom: 0px;
+  }
+  .order:last-child {
+    margin: 0px;
   }
   .writeReviedButton {
     width: auto;
