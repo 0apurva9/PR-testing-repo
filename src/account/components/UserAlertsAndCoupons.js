@@ -105,7 +105,7 @@ export default class UserAlertsAndCoupons extends React.Component {
       <div className={styles.base}>
         <div className={myAccountStyles.holder}>
           <DesktopOnly>
-            <div className={myAccountStyles.profileMenu}>
+            <div className={styles.profileMenuHolder}>
               <ProfileMenu {...this.props} />
             </div>
           </DesktopOnly>
@@ -138,7 +138,7 @@ export default class UserAlertsAndCoupons extends React.Component {
             </div>
           </div>
           <DesktopOnly>
-            <div className={myAccountStyles.userProfile}>
+            <div className={styles.userProfile}>
               <UserProfile
                 image={userDetails.imageUrl}
                 userLogin={userDetails.userName}
