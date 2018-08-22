@@ -15,7 +15,8 @@ export default class SearchPage extends React.Component {
       showResults: false,
       showSearchBar: false,
       searchString: null,
-      currentFlag: null
+      currentFlag: null,
+      showData: true
     };
     this.searchDown = [];
   }
@@ -114,7 +115,9 @@ export default class SearchPage extends React.Component {
       currentFlag: null
     });
   }
+
   handleUpDownArrow(val) {
+    this.setState({ showData: true });
     const currentSelectedIndex = this.state.currentFlag;
     if (val === "ArrowDown") {
       if (
@@ -162,8 +165,16 @@ export default class SearchPage extends React.Component {
         this.refs.elementScrollRefTop.scrollIntoView(false);
       }
     }
-  }
 
+    if (val === "Enter") {
+      this.setState({ showData: false });
+      this.setState({ showData: true });
+    }
+  }
+  onBlur() {
+    this.setState({ showData: true });
+    this.setState({ showData: false });
+  }
   render() {
     const data = this.props.searchResult;
     if (data) {
@@ -194,6 +205,7 @@ export default class SearchPage extends React.Component {
             onKeyUp={event => {
               this.handleUpDownArrow(event);
             }}
+            onBlur={() => this.onBlur()}
           />
         </div>
         <MobileOnly>
@@ -251,72 +263,76 @@ export default class SearchPage extends React.Component {
           )}
         </MobileOnly>
         <DesktopOnly>
-          <div className={styles.searchResults}>
-            {data &&
-              data.topBrands &&
-              data.topBrands.map((val, i) => {
-                return (
-                  <div
-                    ref={"elementScrollRefTop"}
-                    className={
-                      this.state.currentFlag === i ? styles.color : styles.back
-                    }
-                  >
-                    <SearchResultItem
-                      key={i}
-                      suggestedText={data.suggestionText[0]}
-                      singleWord={this.checkIfSingleWordinSearchString()}
-                      text={val.categoryName}
-                      value={val.categoryCode}
-                      onClick={() => {
-                        this.handleBrandClick(
-                          val.categoryCode,
-                          {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
-                          },
-                          i
-                        );
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            {data &&
-              data.topCategories &&
-              data.topCategories.map((val, i) => {
-                return (
-                  <div
-                    ref={"elementScrollRefBottom"}
-                    className={
-                      this.state.currentFlag === i + data.topBrands.length
-                        ? styles.color
-                        : styles.back
-                    }
-                  >
-                    <SearchResultItem
-                      key={i}
-                      suggestedText={data.suggestionText[0]}
-                      singleWord={this.checkIfSingleWordinSearchString()}
-                      text={val.categoryName}
-                      value={val.categoryCode}
-                      onClick={() => {
-                        this.handleCategoryClick(
-                          val.categoryCode,
-                          {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
-                          },
-                          i
-                        );
-                      }}
-                    />
-                  </div>
-                );
-              })}
-          </div>
+          {this.state.showData && (
+            <div className={styles.searchResults}>
+              {data &&
+                data.topBrands &&
+                data.topBrands.map((val, i) => {
+                  return (
+                    <div
+                      ref={"elementScrollRefTop"}
+                      className={
+                        this.state.currentFlag === i
+                          ? styles.color
+                          : styles.back
+                      }
+                    >
+                      <SearchResultItem
+                        key={i}
+                        suggestedText={data.suggestionText[0]}
+                        singleWord={this.checkIfSingleWordinSearchString()}
+                        text={val.categoryName}
+                        value={val.categoryCode}
+                        onClick={() => {
+                          this.handleBrandClick(
+                            val.categoryCode,
+                            {
+                              term: `${data.suggestionText[0]} in ${
+                                val.categoryName
+                              }`
+                            },
+                            i
+                          );
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              {data &&
+                data.topCategories &&
+                data.topCategories.map((val, i) => {
+                  return (
+                    <div
+                      ref={"elementScrollRefBottom"}
+                      className={
+                        this.state.currentFlag === i + data.topBrands.length
+                          ? styles.color
+                          : styles.back
+                      }
+                    >
+                      <SearchResultItem
+                        key={i}
+                        suggestedText={data.suggestionText[0]}
+                        singleWord={this.checkIfSingleWordinSearchString()}
+                        text={val.categoryName}
+                        value={val.categoryCode}
+                        onClick={() => {
+                          this.handleCategoryClick(
+                            val.categoryCode,
+                            {
+                              term: `${data.suggestionText[0]} in ${
+                                val.categoryName
+                              }`
+                            },
+                            i
+                          );
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+          )}
         </DesktopOnly>
       </div>
     );
