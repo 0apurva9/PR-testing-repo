@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./DesktopHeader.css";
 import PropTypes from "prop-types";
 import { LOGGED_IN_USER_DETAILS } from "../../../src/lib/constants";
+import DropdownMenu from "./DropdownMenu.js";
 import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
 import * as Cookie from "../../lib/Cookie";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -151,24 +152,26 @@ export default class DesktopHeader extends React.Component {
           />
           {this.props.profileDetails && (
             <div className={styles.profileWonerHolder}>
-              <div className={styles.nameAndContact}>
-                <div className={styles.logOutDropDown}>
-                  <div className={styles.logoutButton}>
-                    <LogoutButtonContainer />
+              <div className={styles.signInAndLogout}>
+                <div className={styles.nameAndContact}>
+                  <div className={styles.logOutDropDown}>
+                    <DropdownMenu {...this.props} />
                   </div>
+                  <div className={styles.dropDownArrow} />
+                  <div
+                    className={styles.iconPersonHolder}
+                    onClick={() => this.goToMyAccount()}
+                  />
+                  <span className={styles.nameSpan}>
+                    {userCookie &&
+                      userCookie.firstName && (
+                        <span>{userCookie.firstName}</span>
+                      )}
+                    {userCookie &&
+                      userCookie.lastName && <span>{userCookie.lastName}</span>}
+                  </span>
+                  <span>{userCookie.userName}</span>
                 </div>
-                <div className={styles.dropDownArrow} />
-                <div
-                  className={styles.iconPersonHolder}
-                  onClick={() => this.goToMyAccount()}
-                />
-                <span className={styles.nameSpan}>
-                  {userCookie &&
-                    userCookie.firstName && <span>{userCookie.firstName}</span>}
-                </span>
-                {userCookie &&
-                  userCookie.lastName && <span>{userCookie.lastName}</span>}
-                <span>{userCookie.userName}</span>
               </div>
             </div>
           )}
@@ -180,45 +183,45 @@ export default class DesktopHeader extends React.Component {
                   <div className={styles.luxeryTab}>Visit Luxury Store</div>
                 </a>
                 <div className={styles.loginAndTrackTab}>
-                  {!userCookie &&
-                    !userCookie && (
-                      <div
-                        className={styles.loginTab}
-                        onClick={() => this.openSignUpPopUp()}
-                      >
-                        Sign in / Sign Up
-                      </div>
-                    )}
-                  {userCookie &&
-                    userCookie && (
-                      <div className={styles.userDetails}>
-                        <div className={styles.nameAndContact}>
-                          <div className={styles.logOutDropDown}>
-                            <div className={styles.logoutButton}>
-                              <LogoutButtonContainer />
-                            </div>
-                          </div>
-                          <div className={styles.dropDownArrow} />
-                          <div
-                            className={styles.iconPersonHolder}
-                            onClick={() => this.goToMyAccount()}
-                          />
-                          <span className={styles.nameSpan}>
-                            <span>
-                              {userCookie &&
-                                userCookie.firstName &&
-                                `${userCookie.firstName} `}
-                            </span>
-                            <span>
-                              {userCookie &&
-                                userCookie.lastName &&
-                                `${userCookie.lastName}`}
-                            </span>
-                          </span>
-                          <span>{userCookie.userName}</span>
+                  <div className={styles.signInAndLogout}>
+                    <div className={styles.logOutDropDown}>
+                      <DropdownMenu {...this.props} />
+                    </div>
+                    {!userCookie &&
+                      !userCookie && (
+                        <div
+                          className={styles.loginTab}
+                          onClick={() => this.openSignUpPopUp()}
+                        >
+                          Sign in / Sign Up
                         </div>
-                      </div>
-                    )}
+                      )}
+                    {userCookie &&
+                      userCookie && (
+                        <div className={styles.userDetails}>
+                          <div className={styles.nameAndContact}>
+                            <div className={styles.dropDownArrow} />
+                            <div
+                              className={styles.iconPersonHolder}
+                              onClick={() => this.goToMyAccount()}
+                            />
+                            <span className={styles.nameSpan}>
+                              <span>
+                                {userCookie &&
+                                  userCookie.firstName &&
+                                  `${userCookie.firstName} `}
+                              </span>
+                              <span>
+                                {userCookie &&
+                                  userCookie.lastName &&
+                                  `${userCookie.lastName}`}
+                              </span>
+                            </span>
+                            <span>{userCookie.userName}</span>
+                          </div>
+                        </div>
+                      )}
+                  </div>
                   <div
                     className={styles.loginTab}
                     onClick={() => this.goToTrackOrders()}

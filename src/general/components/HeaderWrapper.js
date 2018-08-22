@@ -24,7 +24,10 @@ import {
   CHECKOUT_ROUTER_THANKYOU,
   APP_VIEW,
   CART_BAG_DETAILS,
-  MY_ACCOUNT_ORDERS_PAGE
+  MY_ACCOUNT_ORDERS_PAGE,
+  MY_ACCOUNT_ALERTS_PAGE,
+  MY_ACCOUNT_GIFT_CARD_PAGE,
+  MY_ACCOUNT_CLIQ_CASH_PAGE
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -101,6 +104,18 @@ export default class HeaderWrapper extends React.Component {
   };
   goToMyAccount = () => {
     const url = `${MY_ACCOUNT_PAGE}`;
+    this.props.history.push(url);
+  };
+  goToAlertsAndCoupon = () => {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`;
+    this.props.history.push(url);
+  };
+  goToGiftCard = () => {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`;
+    this.props.history.push(url);
+  };
+  goToCliqCash = () => {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`;
     this.props.history.push(url);
   };
   componentDidMount() {
@@ -322,6 +337,11 @@ export default class HeaderWrapper extends React.Component {
               headerBrandAndCategoryDetails={this.props.headerDetails}
               goToWishList={() => this.goToDefaultWishList()}
               goToMyAccount={() => this.goToMyAccount()}
+              goToOrdersPage={() => this.goToOrdersPage()}
+              goToDefaultWishList={() => this.goToDefaultWishList()}
+              goToAlertsAndCoupon={() => this.goToAlertsAndCoupon()}
+              goToGiftCard={() => this.goToGiftCard()}
+              goToCliqCash={() => this.goToCliqCash()}
             />
           </DesktopOnly>
         </React.Fragment>
