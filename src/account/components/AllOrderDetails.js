@@ -192,7 +192,7 @@ export default class AllOrderDetails extends React.Component {
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
           <DesktopOnly>
-            <div className={MyAccountStyles.profileMenu}>
+            <div className={styles.profileMenuHolder}>
               <ProfileMenu {...this.props} />
             </div>
           </DesktopOnly>
@@ -531,7 +531,7 @@ export default class AllOrderDetails extends React.Component {
             </div>
           </div>
           <DesktopOnly>
-            <div className={MyAccountStyles.userProfile}>
+            <div className={styles.userProfile}>
               <UserProfile
                 image={userData.imageUrl}
                 userLogin={userData.userName}
