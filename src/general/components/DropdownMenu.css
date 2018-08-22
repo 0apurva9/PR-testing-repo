@@ -1,0 +1,85 @@
+.base {
+  width: 100%;
+  height: auto;
+}
+.menuHolder {
+  width: 100%;
+  height: 25px;
+  position: relative;
+  padding-left: 30px;
+  color: #212121;
+  font-size: 14px;
+  line-height: 25px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+.menuIconProfile {
+  width: 25px;
+  height: 25px;
+  background: url(./img/profile.png) no-repeat;
+  background-size: auto 25px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menuIconOrder {
+  width: 25px;
+  height: 25px;
+  background: url(./img/order-history.svg) no-repeat;
+  background-size: auto 16px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menuIconWishList {
+  width: 25px;
+  height: 25px;
+  background: url(./img/Save.svg) no-repeat;
+  background-size: auto 16px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menuIconWishLisAlerts {
+  width: 25px;
+  height: 25px;
+  background: url(./img/addressbook.svg) no-repeat;
+  background-size: auto 16px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menuIconGiftCard {
+  width: 25px;
+  height: 25px;
+  background: url(./img/brand.svg) no-repeat;
+  background-size: auto 16px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menuIconCliqCash {
+  width: 25px;
+  height: 25px;
+  background: url(./img/card.svg) no-repeat;
+  background-size: auto 16px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menuIconLogOut {
+  width: 25px;
+  height: 25px;
+  background: url(./img/settingsblack.svg) no-repeat;
+  background-size: auto 16px;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
