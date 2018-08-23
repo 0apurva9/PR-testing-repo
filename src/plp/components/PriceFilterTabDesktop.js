@@ -110,7 +110,12 @@ export default class PriceFilterTabDesktop extends React.Component {
             <div className={styles.applyPriceRange}>
               <CircleButton
                 icon={<Icon image={ApplyPriceFilterIcon} size={20} />}
-                color={"#d8d8d8"}
+                color={
+                  this.state.maxRange.length > 2 &&
+                  this.state.minRange.length > 0
+                    ? "#fe214c"
+                    : "#d8d8d8"
+                }
                 size={30}
                 onClick={this.applyPriceManually}
               />
