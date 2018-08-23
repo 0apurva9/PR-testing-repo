@@ -9,6 +9,7 @@ import {
   submitOrderDetails
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
+import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getCustomerQueriesData: () => {
@@ -28,6 +29,9 @@ const mapDispatchToProps = dispatch => {
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
+    },
+    showCustomerQueryModal: getCustomerQueryDetailsObject => {
+      dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
     }
   };
 };
