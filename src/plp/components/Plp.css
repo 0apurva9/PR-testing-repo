@@ -52,7 +52,7 @@
     margin-bottom: 7px;
     max-width: 1200px;
     margin: auto;
-    margin-bottom: 25px;
+
     text-align: left;
   }
   .sort {
@@ -68,7 +68,7 @@
   }
   .selectedFilter {
     width: 70%;
-    height: 50px;
+    height: 45px;
     left: 0px;
     display: inline-block;
   }
@@ -100,11 +100,11 @@
   display: inline-block;
 }
 .productGridDesktop {
-  width: 70%;
+  width: 75%;
   display: inline-block;
   text-align: left;
 }
 .filterDesktopWrapper {
-  width: 30%;
+  width: 25%;
   display: inline-block;
 }

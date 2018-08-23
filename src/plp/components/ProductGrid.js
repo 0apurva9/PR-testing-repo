@@ -125,7 +125,7 @@ export default class ProductGrid extends React.Component {
             search={this.props.search}
             offset={0}
             elementWidthMobile={this.state.view === LIST ? 100 : 50}
-            elementWidthDesktop={this.state.view === LIST ? 100 : 33.33}
+            elementWidthDesktop={this.state.view === LIST ? 33.33 : 25}
           >
             {this.props.data &&
               this.props.data.map((datum, i) => {
