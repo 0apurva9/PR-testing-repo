@@ -53,3 +53,31 @@
 .month {
   font-family: regular;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    display: inline-block;
+    background: #f9f9f9;
+    padding-right: 200px;
+  }
+  .header {
+    width: 40%;
+    line-height: 0px;
+    margin-bottom: 0px;
+    padding-right: 0px;
+    line-height: 30px;
+    display: inline-block;
+  }
+  .emiText {
+    width: 60%;
+    line-height: 0px;
+    display: inline-block;
+  }
+  .buttonHolder {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    text-align: right;
+    position: absolute;
+    right: 30px;
+  }
+}

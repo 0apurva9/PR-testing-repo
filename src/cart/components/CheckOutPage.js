@@ -137,6 +137,8 @@ export const EGV_GIFT_CART_ID = "giftCartId";
 const CASH_ON_DELIVERY_TEXT = "Cash on Delivery";
 const FAILURE_TEXT =
   "We're sorry, an internal error occurred that prevents the request to complete.";
+const DISCLAIMER =
+  "Safe and secure payments. Easy returns. 100% Authentic products.";
 class CheckOutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -2683,6 +2685,7 @@ class CheckOutPage extends React.Component {
                         }
                       />
                     )}
+                  <div className={styles.disclaimer}>{DISCLAIMER}</div>
                 </div>
               </DesktopOnly>
             </div>

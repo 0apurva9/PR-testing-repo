@@ -238,4 +238,18 @@
     composes: addressInnerBox;
     padding-left: 0px;
   }
+  .disclaimer {
+    width: 100%;
+    height: auto;
+    padding-left: 60px;
+    padding-right: 15px;
+    background: url("./img/lock.svg") no-repeat;
+    background-size: 25px;
+    background-position: 15px center;
+    color: #4a4a4a;
+    font-size: 14px;
+    font-family: light;
+    line-height: 20px;
+    margin-top: 20px;
+  }
 }
