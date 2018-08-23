@@ -39,7 +39,10 @@ export default class LogoutButton extends React.Component {
           </div>
         </MobileOnly>
         <DesktopOnly>
-          <div onClick={() => this.logoutUser()}>Logout</div>
+          <div onClick={() => this.logoutUser()}>
+            <div className={styles.menuIconLogOut} />
+            Logout
+          </div>
         </DesktopOnly>
       </React.Fragment>
     );

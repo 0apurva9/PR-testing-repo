@@ -49,6 +49,7 @@ const DISCLAIMER =
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
+const CHECKOUT__TEXT = "Checkout";
 class CartPage extends React.Component {
   constructor(props) {
     super(props);
@@ -714,7 +715,7 @@ class CartPage extends React.Component {
                               : "0.00"
                           }
                           onCheckout={() => this.renderToCheckOutPage()}
-                          label={CHECKOUT_BUTTON_TEXT}
+                          label={CHECKOUT__TEXT}
                           isOnCartPage={true}
                           changePinCode={this.changePinCode}
                           isFromMyBag={true}

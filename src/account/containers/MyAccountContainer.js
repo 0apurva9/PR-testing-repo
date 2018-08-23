@@ -5,6 +5,7 @@ import { setHeaderText } from "../../general/header.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { displayToast } from "../../general/toast.actions.js";
 import { getUserAddress } from "../../cart/actions/cart.actions";
+import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: message => {
@@ -12,6 +13,9 @@ const mapDispatchToProps = dispatch => {
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
+    },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
