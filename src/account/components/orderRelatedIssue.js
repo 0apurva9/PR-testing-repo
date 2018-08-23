@@ -13,7 +13,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { SUCCESS, MY_ACCOUNT_PAGE, CUSTOMER_CARE } from "../../lib/constants";
+import { SUCCESS, CUSTOMER_CARE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -335,6 +335,17 @@ export default class OrderRelatedIssue extends React.Component {
           subOrderCode: this.state.sellerOrderNumber
         }
       );
+      let getCustomerQueryDetailsObject = Object.assign(
+        {},
+        {
+          name: this.state.nameForOrderRelated,
+          emailId: this.state.emailForOrderRelated,
+          mobileNumber: this.state.phoneNumberForOrderRelated,
+          comment: this.state.commentForOrderRelated,
+          issue: this.state.reasonForOrderRelated,
+          subIssue: this.state.secondaryReasonsForOrderRelated
+        }
+      );
       if (this.state.file) {
         const uploadFileResponse = await this.props.uploadUserFile(
           this.state.file
@@ -345,7 +356,7 @@ export default class OrderRelatedIssue extends React.Component {
               submitDetailsObject
             );
             if (submitOrderDetailsResponse.status === SUCCESS) {
-              this.props.history.push(MY_ACCOUNT_PAGE);
+              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
             }
           }
         }
@@ -355,7 +366,7 @@ export default class OrderRelatedIssue extends React.Component {
             submitDetailsObject
           );
           if (submitOrderDetailsResponse.status === SUCCESS) {
-            this.props.history.push(MY_ACCOUNT_PAGE);
+            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
           }
         }
       }
@@ -467,7 +478,18 @@ export default class OrderRelatedIssue extends React.Component {
           submitDetailsObject
         );
         if (submitOrderDetailsResponse.status === SUCCESS) {
-          this.props.history.push(MY_ACCOUNT_PAGE);
+          let getCustomerQueryDetailsObject = Object.assign(
+            {},
+            {
+              name: this.state.nameForOtherIssue,
+              emailId: this.state.emailForOtherIssue,
+              mobileNumber: this.state.phoneNumberForOtherIssue,
+              comment: this.state.commentForOtherIssue,
+              issue: this.state.reasonForOtherIssue,
+              subIssue: this.state.secondaryReasonsForOtherIssue
+            }
+          );
+          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
         }
       }
     }

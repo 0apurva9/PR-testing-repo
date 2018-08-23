@@ -1,0 +1,116 @@
+.base {
+  width: 100%;
+  height: 500px;
+  background-color: #fff;
+  min-height: 500px;
+  border-radius: 15px;
+  position: absolute;
+  padding: 20px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  animation: slideInUp 200ms forwards;
+}
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+.headerTextWithIcon {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  position: relative;
+  min-height: 60px;
+  line-height: 60px;
+}
+.headerText {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-left: 80px;
+  font-family: regular;
+  font-size: 16px;
+}
+.icon {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  border: solid 3px #000;
+  left: 0;
+  top: 0;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+.subText {
+  font-family: regular;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  font-size: 14px;
+  color: #555;
+  padding: 10px 0px;
+  line-height: 20px;
+  border-bottom: 1px solid #000;
+}
+.userDetails {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 10px 0px;
+  border-bottom: 1px solid #000;
+}
+.userDetailsHeaderWithText {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+.userDetailsHeader {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  font-family: regular;
+  font-size: 16px;
+  color: #000;
+}
+.userDetailsText {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  font-family: regular;
+  font-size: 14px;
+  color: #555;
+  line-height: 30px;
+}
+.userDetailsHeaderWithCommentText {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+.submittedText {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 10px 0px;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: right;
+}
+.button {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
