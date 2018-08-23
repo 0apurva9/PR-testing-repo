@@ -33,7 +33,7 @@ export default class FillupRating extends React.Component {
         classStar = styles.ratingFillStar;
       }
       starSpans.push(
-        <div className={styles.ratingHolder}>
+        <div className={styles.ratingHolder} key={i}>
           <div className={styles.startHolder}>
             <div className={classStar} onClick={() => this.rate(i)} />
           </div>

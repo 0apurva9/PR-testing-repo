@@ -139,8 +139,8 @@ class WriteReview extends React.Component {
 export default withRouter(WriteReview);
 WriteReview.propTypes = {
   onChangeTitle: PropTypes.func,
-  title: "",
-  comment: "",
+  title: PropTypes.string,
+  comment: PropTypes.string,
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func
 };

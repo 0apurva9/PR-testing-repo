@@ -12,7 +12,8 @@ import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
   SUCCESS,
   LOGIN_PATH,
-  WRITE_REVIEWS_WITH_SLUG
+  WRITE_REVIEWS_WITH_SLUG,
+  PRODUCT_CART_ROUTER
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -144,6 +145,11 @@ class ProductReviewPage extends Component {
   onCancel() {
     this.setState({ visible: false });
   }
+  goToCart = () => {
+    this.props.history.push({
+      pathname: PRODUCT_CART_ROUTER
+    });
+  };
   renderReviewSection = () => {
     if (this.state.visible) {
       return (
@@ -174,7 +180,7 @@ class ProductReviewPage extends Component {
         cartDetailsLoggedInUser !== undefined &&
         customerCookie !== undefined
       ) {
-        this.props.addProductToCart(
+        return this.props.addProductToCart(
           JSON.parse(userDetails).userName,
           JSON.parse(cartDetailsLoggedInUser).code,
           JSON.parse(customerCookie).access_token,
@@ -182,7 +188,7 @@ class ProductReviewPage extends Component {
         );
       }
     } else if (cartDetailsForAnonymous) {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
         ANONYMOUS_USER,
         JSON.parse(cartDetailsForAnonymous).guid,
         JSON.parse(globalCookie).access_token,
@@ -269,6 +275,8 @@ class ProductReviewPage extends Component {
           {...this.props.productDetails}
           addProductToBag={() => this.addProductToBag()}
           gotoPreviousPage={() => this.goBack()}
+          displayToast={message => this.props.displayToast(message)}
+          goToCart={() => this.goToCart()}
         >
           {this.renderMetaTags()}
           <div
