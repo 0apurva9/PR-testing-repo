@@ -173,102 +173,115 @@ export default class FilterDesktop extends React.Component {
       >
         <div className={styles.filterDetails} id="filter">
           <div className={styles.filtersOptions}>
-            <Accordion text="Refine" isOpen={true} headerFontSize={16}>
-              <div className={styles.filterHeader}>Category</div>
+            <Accordion
+              text1="Refine"
+              text2="Clear all"
+              offset={15}
+              isOpen={true}
+              headerFontSize={16}
+              text1Size={14}
+              text2Color={"#fe214c"}
+              text2Size={14}
+              textAlign={"right"}
+              handleClick={() => this.onClear()}
+            >
+              <div className={styles.subFilterDetails}>
+                <div className={styles.filterHeader}>Category</div>
 
-              {this.props.isCategorySelected &&
-                facetdatacategory &&
-                facetdatacategory.filters &&
-                facetdatacategory.filters.map((val, i) => {
+                {this.props.isCategorySelected &&
+                  facetdatacategory &&
+                  facetdatacategory.filters &&
+                  facetdatacategory.filters.map((val, i) => {
+                    return (
+                      <FilterCategoryL1
+                        name={val.categoryName}
+                        count={val.quantity}
+                        value={val.categoryCode}
+                        onClick={this.onL1Click}
+                        isOpen={val.selected}
+                      >
+                        <FilterCategory
+                          onClick={this.onL2Click}
+                          onL3Click={this.onL3Click}
+                          categoryTypeList={val.childFilters}
+                        />
+                      </FilterCategoryL1>
+                    );
+                  })}
+                {autoShowFilters.map((facetDataValues, i) => {
                   return (
-                    <FilterCategoryL1
-                      name={val.categoryName}
-                      count={val.quantity}
-                      value={val.categoryCode}
-                      onClick={this.onL1Click}
-                      isOpen={val.selected}
-                    >
-                      <FilterCategory
-                        onClick={this.onL2Click}
-                        onL3Click={this.onL3Click}
-                        categoryTypeList={val.childFilters}
-                      />
-                    </FilterCategoryL1>
+                    facetDataValues && (
+                      <div className={styles.facetData}>
+                        <div className={styles.filterHeader}>
+                          {facetDataValues.name}
+                        </div>
+
+                        {facetDataValues &&
+                          facetDataValues.name === COLOUR &&
+                          facetDataValues.values &&
+                          facetDataValues.values.map((val, i) => {
+                            return (
+                              <ColourSelect
+                                colour={val.hexColor}
+                                onSelect={data => this.onFilterClick(data)}
+                                selected={val.selected}
+                                value={val.url}
+                              />
+                            );
+                          })}
+
+                        {facetDataValues &&
+                          facetDataValues.name === BRAND &&
+                          facetDataValues.values && (
+                            <div className={styles.filtersSubTab}>
+                              <BrandFilterTabDesktop
+                                onFilterClick={this.onFilterClick}
+                                brandsList={facetDataValues.values}
+                                onBrandSearch={this.onBrandSearch}
+                                history={this.props.history}
+                              />
+                            </div>
+                          )}
+                        {facetDataValues &&
+                          facetDataValues.name === PRICE &&
+                          facetDataValues.values && (
+                            <div className={styles.filtersSubTab}>
+                              <PriceFilterTabDesktop
+                                priceList={facetDataValues.values}
+                                history={this.props.history}
+                                onFilterClick={this.onFilterClick}
+                              />
+                            </div>
+                          )}
+                        {facetDataValues &&
+                          facetDataValues.name !== COLOUR &&
+                          facetDataValues.name !== BRAND &&
+                          facetDataValues.name !== PRICE &&
+                          facetDataValues.values && (
+                            <div className={styles.filtersSubTab}>
+                              {facetDataValues.values.map((val, i) => {
+                                return (
+                                  <FilterSelect
+                                    onClick={this.onFilterClick}
+                                    selected={val.selected}
+                                    hexColor={val.hexColor}
+                                    label={val.name}
+                                    count={val.count}
+                                    url={val.url}
+                                    value={val.value}
+                                    isBrand={facetDataValues.name === BRAND}
+                                    categoryId={categoryId}
+                                    history={this.props.history}
+                                  />
+                                );
+                              })}
+                            </div>
+                          )}
+                      </div>
+                    )
                   );
                 })}
-              {autoShowFilters.map((facetDataValues, i) => {
-                return (
-                  facetDataValues && (
-                    <div className={styles.facetData}>
-                      <div className={styles.filterHeader}>
-                        {facetDataValues.name}
-                      </div>
-
-                      {facetDataValues &&
-                        facetDataValues.name === COLOUR &&
-                        facetDataValues.values &&
-                        facetDataValues.values.map((val, i) => {
-                          return (
-                            <ColourSelect
-                              colour={val.hexColor}
-                              onSelect={data => this.onFilterClick(data)}
-                              selected={val.selected}
-                              value={val.url}
-                            />
-                          );
-                        })}
-
-                      {facetDataValues &&
-                        facetDataValues.name === BRAND &&
-                        facetDataValues.values && (
-                          <div className={styles.filtersSubTab}>
-                            <BrandFilterTabDesktop
-                              onFilterClick={this.onFilterClick}
-                              brandsList={facetDataValues.values}
-                              onBrandSearch={this.onBrandSearch}
-                              history={this.props.history}
-                            />
-                          </div>
-                        )}
-                      {facetDataValues &&
-                        facetDataValues.name === PRICE &&
-                        facetDataValues.values && (
-                          <div className={styles.filtersSubTab}>
-                            <PriceFilterTabDesktop
-                              priceList={facetDataValues.values}
-                              history={this.props.history}
-                              onFilterClick={this.onFilterClick}
-                            />
-                          </div>
-                        )}
-                      {facetDataValues &&
-                        facetDataValues.name !== COLOUR &&
-                        facetDataValues.name !== BRAND &&
-                        facetDataValues.name !== PRICE &&
-                        facetDataValues.values && (
-                          <div className={styles.filtersSubTab}>
-                            {facetDataValues.values.map((val, i) => {
-                              return (
-                                <FilterSelect
-                                  onClick={this.onFilterClick}
-                                  selected={val.selected}
-                                  hexColor={val.hexColor}
-                                  label={val.name}
-                                  count={val.count}
-                                  url={val.url}
-                                  value={val.value}
-                                  isBrand={facetDataValues.name === BRAND}
-                                  categoryId={categoryId}
-                                  history={this.props.history}
-                                />
-                              );
-                            })}
-                          </div>
-                        )}
-                    </div>
-                  )
-                );
-              })}
+              </div>
             </Accordion>
           </div>
           <div className={styles.filtersOptions}>
