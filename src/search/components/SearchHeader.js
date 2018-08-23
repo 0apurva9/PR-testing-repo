@@ -76,11 +76,10 @@ export default class SearchHeader extends React.Component {
     }
   };
   onBlur = () => {
-    this.setState({ increase: false, value: "" }, () => {
-      if (this.props.onBlur) {
-        this.props.onBlur();
-      }
-    });
+    this.setState({ increase: false, value: "" });
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
   };
   onClickIcon() {
     this.props.onSearchOrCloseIconClick();
