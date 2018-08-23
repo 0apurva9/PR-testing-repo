@@ -218,7 +218,7 @@
   position: absolute;
   visibility: hidden;
   opacity: 0;
-  transform: translateY(-2em);
+  transform: translateY(-20px);
   z-index: 1;
   transition: 300ms;
 }
