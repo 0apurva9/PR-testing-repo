@@ -172,11 +172,10 @@ export default class FilterDesktop extends React.Component {
         }`}
       >
         <div className={styles.filterDetails} id="filter">
-          <div className={styles.filtersOptions}>
+          <div className={styles.filtersOptionsList}>
             <Accordion
               text1="Refine"
               text2="Clear all"
-              offset={15}
               isOpen={true}
               headerFontSize={16}
               text1Size={14}
@@ -184,6 +183,8 @@ export default class FilterDesktop extends React.Component {
               text2Size={14}
               textAlign={"right"}
               handleClick={() => this.onClear()}
+              padding="0px 40px 0px 20px"
+              backgroundColor="#f9f9f9"
             >
               <div className={styles.subFilterDetails}>
                 <div className={styles.filterHeader}>Category</div>

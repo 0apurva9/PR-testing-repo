@@ -49,7 +49,10 @@ export default class Accordion extends React.Component {
         }}
       >
         <div
-          style={{ backgroundColor: this.props.backgroundColor }}
+          style={{
+            backgroundColor: this.props.backgroundColor,
+            padding: this.props.padding
+          }}
           className={styles.holder}
           onClick={() => {
             this.openMenu();
