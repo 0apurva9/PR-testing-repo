@@ -47,6 +47,16 @@
   border-bottom: 1px solid #ececec;
   margin-bottom: 20px;
 }
+.filtersOptionsList {
+  border-bottom: 1px solid #ececec;
+  margin-bottom: 20px;
+}
+.subFilterDetails {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 20px;
+}
 .filterHeader {
   font-size: 14px;
   font-family: semibold;

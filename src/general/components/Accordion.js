@@ -19,6 +19,12 @@ export default class Accordion extends React.Component {
       this.props.onOpen();
     }
   }
+  handleClick(evt) {
+    if (this.props.handleClick) {
+      evt.stopPropagation();
+      this.props.handleClick();
+    }
+  }
   componentWillReceiveProps(props) {
     if (this.state.isOpen !== props.isOpen) {
       this.setState({ isOpen: props.isOpen });
@@ -43,6 +49,10 @@ export default class Accordion extends React.Component {
         }}
       >
         <div
+          style={{
+            backgroundColor: this.props.backgroundColor,
+            padding: this.props.padding
+          }}
           className={styles.holder}
           onClick={() => {
             this.openMenu();
@@ -56,10 +66,30 @@ export default class Accordion extends React.Component {
               <h3 className={styles.text}>{this.props.text}</h3>
             )}
             {this.props.text1 && (
-              <div className={styles.text1}>{this.props.text1}</div>
+              <div
+                style={{
+                  color: this.props.text1Color,
+                  fontSize: this.props.text1Size,
+                  fontFamily: this.props.text1FontFamily
+                }}
+                className={styles.text1}
+              >
+                {this.props.text1}
+              </div>
             )}
             {this.props.text2 && (
-              <div className={styles.text2}>{this.props.text2}</div>
+              <div
+                onClick={evt => this.handleClick(evt)}
+                style={{
+                  color: this.props.text2Color,
+                  fontSize: this.props.text2Size,
+                  fontFamily: this.props.text2FontFamily,
+                  textAlign: this.props.textAlign
+                }}
+                className={styles.text2}
+              >
+                {this.props.text2}
+              </div>
             )}
             {this.props.headerElement && (
               <div
@@ -92,5 +122,12 @@ Accordion.defaultProps = {
   headerFontSize: 14,
   controlled: false,
   offset: 0,
-  headerElement: false
+  headerElement: false,
+  text1Color: "#000",
+  text1Size: "14",
+  text1FontFamily: "regular",
+  text2Color: "#000",
+  text2Size: "14",
+  text2FontFamily: "regular",
+  textAlign: "left"
 };
