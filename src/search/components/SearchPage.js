@@ -16,7 +16,8 @@ export default class SearchPage extends React.Component {
       showSearchBar: false,
       searchString: null,
       currentFlag: null,
-      showData: true
+      showData: true,
+      setOnClick: false
     };
     this.searchDown = [];
   }
@@ -44,8 +45,15 @@ export default class SearchPage extends React.Component {
       showResults: false,
       searchString: null,
       currentFlag: null,
-      showSearchBar: false
+      showSearchBar: false,
+      setOnClick: true
     });
+    this.setState({ showData: false });
+
+    this.setState({ showData: true });
+    setTimeout(() => {
+      this.setState({ setOnClick: false });
+    }, 10);
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
       isFilter: false
@@ -69,9 +77,14 @@ export default class SearchPage extends React.Component {
       showResults: false,
       searchString: null,
       showSearchBar: false,
-      currentFlag: null
+      currentFlag: null,
+      setOnClick: true
     });
-
+    this.setState({ showData: false });
+    this.setState({ showData: true });
+    setTimeout(() => {
+      this.setState({ setOnClick: false });
+    }, 10);
     this.props.history.push(url, {
       isFilter: false
     });
@@ -171,10 +184,7 @@ export default class SearchPage extends React.Component {
       this.setState({ showData: true });
     }
   }
-  onBlur() {
-    this.setState({ showData: true });
-    this.setState({ showData: false });
-  }
+
   render() {
     const data = this.props.searchResult;
     if (data) {
@@ -187,6 +197,7 @@ export default class SearchPage extends React.Component {
       <div className={styles.base}>
         <div className={styles.searchBar}>
           <SearchHeader
+            setOnClick={this.state.setOnClick}
             onSearchOrCloseIconClick={this.onSearchOrCloseIconClick}
             onSearch={val => this.handleSearch(val)}
             onClickBack={() => {
@@ -205,7 +216,6 @@ export default class SearchPage extends React.Component {
             onKeyUp={event => {
               this.handleUpDownArrow(event);
             }}
-            onBlur={() => this.onBlur()}
           />
         </div>
         <MobileOnly>

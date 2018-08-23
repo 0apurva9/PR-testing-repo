@@ -62,6 +62,12 @@ export default class SearchHeader extends React.Component {
     if (nextProps.value && nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
     }
+    if (nextProps.setOnClick) {
+      this.setState({
+        increase: false,
+        value: ""
+      });
+    }
   }
   handleKeyUp = val => {
     if (val === "Enter") {
@@ -75,16 +81,12 @@ export default class SearchHeader extends React.Component {
       this.props.onKeyUp(val);
     }
   };
-  onBlur = () => {
-    this.setState({ increase: false, value: "" });
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
-  };
+
   onClickIcon() {
     this.props.onSearchOrCloseIconClick();
     this.setState({ isWhite: true, isRed: false, increase: false, value: "" });
   }
+
   render() {
     let search = searchIcon;
     if (this.props.display) {
@@ -198,7 +200,6 @@ export default class SearchHeader extends React.Component {
                     borderColor={this.state.increase ? "#fff" : "#212121"}
                     borderBottom={"none"}
                     onKeyUp={event => this.handleKeyUp(event.key)}
-                    onBlur={() => this.onBlur()}
                     value={this.state.increase ? this.state.value : ""}
                   />
                 </div>
