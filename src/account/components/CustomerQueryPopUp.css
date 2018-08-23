@@ -1,5 +1,5 @@
 .base {
-  width: 100%;
+  width: 90%;
   height: 500px;
   background-color: #fff;
   min-height: 500px;
@@ -27,7 +27,6 @@
   display: inline-block;
   position: relative;
   min-height: 60px;
-  line-height: 60px;
 }
 .headerText {
   width: 100%;

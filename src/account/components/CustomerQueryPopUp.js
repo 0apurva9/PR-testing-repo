@@ -63,10 +63,3 @@ export default class CustomerQueryPopUp extends React.Component {
     );
   }
 }
-CustomerQueryPopUp.propTypes = {
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  mobileNumber: PropTypes.string,
-  generateOtp: PropTypes.func,
-  onCancel: PropTypes.func
-};
