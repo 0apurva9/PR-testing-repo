@@ -99,6 +99,8 @@ export const MY_ACCOUNT_COUPON_PAGE = "/coupons";
 export const MY_ACCOUNT_CART_PAGE = "/cart";
 export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
+export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
+export const CUSTOMER_CARE = "Customer Care";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
