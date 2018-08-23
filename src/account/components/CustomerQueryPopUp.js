@@ -6,8 +6,18 @@ import Icon from "../../xelpmoc-core/Icon";
 import checkBlack from "../../general/components/img/checkBlack.svg";
 import { MY_ACCOUNT_PAGE } from "../../lib/constants";
 export default class CustomerQueryPopUp extends React.Component {
+  constructor() {
+    super();
+    this.clickedOnSubmitButton = false;
+  }
   submit() {
+    this.clickedOnSubmitButton = true;
     this.props.history.push(MY_ACCOUNT_PAGE);
+  }
+  componentWillUnmount() {
+    if (!this.clickedOnSubmitButton) {
+      this.props.history.push(MY_ACCOUNT_PAGE);
+    }
   }
   render() {
     return (

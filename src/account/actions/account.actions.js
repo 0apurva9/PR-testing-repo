@@ -2430,11 +2430,11 @@ export function submitOrderDetails(submitOrderDetails) {
           submitOrderDetails.nodeL3
         }&contactName=${submitOrderDetails.contactName}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&nodeL1=${submitOrderDetails.nodeL1}&comment=${
+        }&nodeL1=${submitOrderDetails.nodeL1}&comment=${encodeURIComponent(
           submitOrderDetails.comment
-        }&nodeL4=${submitOrderDetails.nodeL4}&channel=mobile&subOrderCode=${
-          submitOrderDetails.subOrderCode
-        }`
+        )}&nodeL4=${
+          submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
+        }&channel=mobile&subOrderCode=${submitOrderDetails.subOrderCode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
