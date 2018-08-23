@@ -57,7 +57,8 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   MY_ACCOUNT_ADDRESS_PAGE
 } from "../../lib/constants";
-
+const DISCLAIMER =
+  "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class AddDeliveryAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -705,6 +706,7 @@ export default class AddDeliveryAddress extends React.Component {
                   this.props.label && (
                     <div className={styles.rightSection}>
                       <DesktopCheckout
+                        onContinue={false}
                         padding={this.props.padding}
                         disabled={this.props.disabled}
                         label={this.props.label}
@@ -722,8 +724,8 @@ export default class AddDeliveryAddress extends React.Component {
                         onCheckout={() => this.handleCancel()}
                         isCliqCashApplied={this.props.isCliqCashApplied}
                         cliqCashPaidAmount={this.props.cliqCashPaidAmount}
-                        isFromMyBag={false}
                       />
+                      <div className={styles.disclaimer}>{DISCLAIMER}</div>
                     </div>
                   )}
               </DesktopOnly>
