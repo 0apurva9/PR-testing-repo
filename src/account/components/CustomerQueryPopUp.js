@@ -21,7 +21,7 @@ export default class CustomerQueryPopUp extends React.Component {
           </div>
         </div>
         <div className={styles.subText}>
-          A summary of your query has been sent to your email ID
+          A summary of your query has been sent to your email ID{" "}
           {this.props.emailId} .We have noted your concern and will update you
           within 48 hours.
         </div>
