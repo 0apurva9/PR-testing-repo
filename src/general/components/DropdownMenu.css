@@ -73,13 +73,3 @@
   left: 0;
   top: 0;
 }
-.menuIconLogOut {
-  width: 25px;
-  height: 25px;
-  background: url(./img/settingsblack.svg) no-repeat;
-  background-size: auto 16px;
-  background-position: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-}

@@ -77,7 +77,6 @@ export default class DropdownMenu extends React.Component {
         {userCookie &&
           userCookie && (
             <div className={styles.menuHolder}>
-              <div className={styles.menuIconLogOut} />
               <LogoutButtonContainer />
             </div>
           )}

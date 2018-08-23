@@ -125,13 +125,26 @@ export default class SizeSelector extends React.Component {
           <div className={styles.header}>
             Select {this.props.headerText}
             <div className={styles.button}>
-              <UnderLinedButton
-                disabled={!this.props.hasSizeGuide}
-                label={SIZE_GUIDE}
-                onClick={() => {
-                  this.handleShowSize();
-                }}
-              />
+              <MobileOnly>
+                <UnderLinedButton
+                  disabled={!this.props.hasSizeGuide}
+                  label={SIZE_GUIDE}
+                  onClick={() => {
+                    this.handleShowSize();
+                  }}
+                />
+              </MobileOnly>
+              <DesktopOnly>
+                <UnderLinedButton
+                  disabled={!this.props.hasSizeGuide}
+                  label={SIZE_GUIDE}
+                  color={"#ff1744"}
+                  fontFamily={"light"}
+                  onClick={() => {
+                    this.handleShowSize();
+                  }}
+                />
+              </DesktopOnly>
             </div>
           </div>
           <MobileOnly>

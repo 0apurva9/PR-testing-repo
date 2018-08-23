@@ -110,7 +110,7 @@
     top: 75px;
     left: 0;
     z-index: 5;
-    background: #fff;
+    background: #f9f9f9;
   }
   .checkHolder {
     width: 100%;
@@ -131,7 +131,7 @@
   }
   .cartItem {
     margin-bottom: 0;
-    border-radius:0;
+    border-radius: 0;
   }
   .disclaimer {
     width: 100%;
@@ -147,10 +147,10 @@
     line-height: 20px;
     margin-top: 20px;
   }
-  .desktopBuffer{
+  .desktopBuffer {
     width: 100%;
     height: auto;
-    border-radius:4px;
-    overflow:hidden;
+    border-radius: 4px;
+    overflow: hidden;
   }
 }

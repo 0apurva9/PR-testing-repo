@@ -44,3 +44,8 @@
   bottom: 0;
   margin: auto;
 }
+@media only screen and (min-width: 1025px) {
+  .base {
+    background: #f9f9f9;
+  }
+}

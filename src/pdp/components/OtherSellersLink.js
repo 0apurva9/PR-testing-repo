@@ -1,6 +1,10 @@
 import React from "react";
 import PdpLink from "./PdpLink";
-import { sellers, winningSellerText } from "./ProductDescriptionPage.css";
+import {
+  sellers,
+  winningSellerText,
+  otherText
+} from "./ProductDescriptionPage.css";
 export default class OtherSellersLink extends React.Component {
   getValidSellerCount = () => {
     const validSellersCount = this.props.otherSellers
@@ -16,10 +20,10 @@ export default class OtherSellersLink extends React.Component {
         Sold by{" "}
         <span className={winningSellerText}>{this.props.winningSeller}</span>
         {this.getValidSellerCount() !== 0 && (
-          <React.Fragment>
+          <span className={otherText}>
             {" "}
             and {this.getValidSellerCount()} other seller(s)
-          </React.Fragment>
+          </span>
         )}
       </div>
     );

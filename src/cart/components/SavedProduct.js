@@ -5,6 +5,8 @@ import Button from "../../general/components/Button.js";
 import Coupon from "../../general/components/Coupon.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { COUPON_COOKIE } from "../../lib/constants.js";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 const COUPON_SUBTEXT =
   "Additional Bank offers, if applicable, can be applied during payment";
 export default class SavedProduct extends React.Component {
@@ -27,11 +29,20 @@ export default class SavedProduct extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.applyCoupon}>
-          <Coupon
-            heading={couponText}
-            onClick={() => this.onApplyCoupon()}
-            subText={COUPON_SUBTEXT}
-          />
+          <MobileOnly>
+            <Coupon
+              heading={couponText}
+              onClick={() => this.onApplyCoupon()}
+              subText={COUPON_SUBTEXT}
+            />
+          </MobileOnly>
+          <DesktopOnly>
+            <Coupon
+              heading={couponText}
+              onClick={() => this.onApplyCoupon()}
+              backgroundColor={"#f9f9f9"}
+            />
+          </DesktopOnly>
         </div>
         {this.props.isViewWishList && (
           <div className={styles.buttonHolder}>
