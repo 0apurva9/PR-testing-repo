@@ -11,7 +11,8 @@ export default class EmiSectionDesktop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSelect: 0
+      isSelect: 0,
+      isOpen: 0
     };
   }
 
@@ -84,6 +85,7 @@ export default class EmiSectionDesktop extends React.Component {
                       offset={15}
                       activeBackground="#f9f9f9"
                       onOpen={() => this.handleSelectPlanForDesktop(val)}
+                      isOpen={this.state.isOpen === i}
                     >
                       <div className={styles.tenureDataHolder}>
                         <div className={styles.textAndAmountHolder}>
