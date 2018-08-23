@@ -1994,13 +1994,13 @@ export function binValidation(paymentMode, binNo) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
       if (resultJson.bankName) {
         localStorage.setItem(SELECTED_BANK_NAME, resultJson.bankName);
       }
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
       dispatch(binValidationSuccess(resultJson));
     } catch (e) {
       dispatch(binValidationFailure(e.message));
