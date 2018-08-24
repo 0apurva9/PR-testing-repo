@@ -354,18 +354,10 @@ export default class AddDeliveryAddress extends React.Component {
   onChangeSalutation(val) {
     this.setState({ salutation: val.value });
   }
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
-    return null;
-  }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
+
     if (this.props.loading) {
       if (this.props.showSecondaryLoader) {
         this.props.showSecondaryLoader();
