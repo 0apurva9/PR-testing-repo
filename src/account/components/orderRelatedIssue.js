@@ -13,7 +13,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { SUCCESS, CUSTOMER_CARE } from "../../lib/constants";
+import { SUCCESS, MY_ACCOUNT_PAGE, CUSTOMER_CARE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -23,11 +23,8 @@ import {
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
 const SELECT_ORDER_TEXT = "Please select order ";
-const SELECT_ISSUE_FOR_ORDER_TEXT = "Please select issue for order related";
-const SELECT_SUB_ISSUE_FOR_ORDER_TEXT =
-  "Please select sub issue for order related";
-const SELECT_ISSUE_FOR_OTHER_TEXT = "Please select other issue";
-const SELECT_SUB_ISSUE_FOR_OTHER_TEXT = "Please select other sub issue";
+const SELECT_ISSUE_FOR_ORDER_TEXT = "Please select issue ";
+const SELECT_SUB_ISSUE_FOR_ORDER_TEXT = "Please select sub issue ";
 const NAME_TEXT = "Please enter name";
 const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
@@ -43,51 +40,30 @@ export default class OrderRelatedIssue extends React.Component {
       showOrder: false,
       isSelected: 0,
       isSelectedOrder: false,
-      nameForOrderRelated:
+      name:
         getUserDetails && getUserDetails.firstName
           ? getUserDetails.firstName.trim()
           : "",
-      phoneNumberForOrderRelated:
+      mobile:
         getUserDetails &&
         getUserDetails.loginType === "mobile" &&
         getUserDetails.userName
           ? getUserDetails.userName
           : "",
-      emailForOrderRelated:
+      email:
         getUserDetails &&
         getUserDetails.loginType === "email" &&
         getUserDetails.userName
           ? getUserDetails.userName
           : "",
-      commentForOrderRelated: "",
-      nameForOtherIssue:
-        getUserDetails && getUserDetails.firstName
-          ? getUserDetails.firstName.trim()
-          : "",
-      phoneNumberForOtherIssue:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      emailForOtherIssue:
-        getUserDetails &&
-        getUserDetails.loginType === "email" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      commentForOtherIssue: "",
+      comment: "",
       file: "",
-      secondaryReasonsForOrderRelated: null,
-      reasonForOrderRelated: null,
-      reasonCodeForOrderRelated: null,
-      secondaryReasonsCodeForOrderRelated: null,
+      l2SelectedOption: null,
+      l3SelectedOption: null,
+      l4SelectedOption: null,
       isEnableForOrderRelated: false,
-      secondaryReasonsForOtherIssue: null,
-      reasonForOtherIssue: null,
-      reasonCodeForOtherIssue: null,
-      secondaryReasonsCodeForOtherIssue: null,
-      isEnableForOtherIssue: false,
+      isEnableForSubOrderRelated: false,
+      isEnableForAnotherOrderRelated: false,
       orderCode: "",
       transactionId: "",
       sellerOrderNumber: "",
@@ -95,7 +71,10 @@ export default class OrderRelatedIssue extends React.Component {
       orderDate: "",
       productName: "",
       productPrice: "",
-      productStatus: ""
+      productStatus: "",
+      l2SelectedReason: null,
+      l3SelectedReason: null,
+      l4SelectedReason: null
     };
   }
 
@@ -139,59 +118,33 @@ export default class OrderRelatedIssue extends React.Component {
   tabSelect(val) {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetails = JSON.parse(userDetailsCookie);
-    this.setState({
-      isSelected: val,
-      nameForOtherIssue:
-        getUserDetails && getUserDetails.firstName
-          ? getUserDetails.firstName.trim()
-          : "",
-      phoneNumberForOtherIssue:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      emailForOtherIssue:
-        getUserDetails &&
-        getUserDetails.loginType === "email" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      commentForOtherIssue: "",
-      secondaryReasonsForOtherIssue: null,
-      reasonForOtherIssue: null,
-      reasonCodeForOtherIssue: null,
-      secondaryReasonsCodeForOtherIssue: null,
-      isEnableForOtherIssue: false,
-      showOrder: false
-    });
-    if (this.state.isSelected === 1) {
+    if (this.state.isSelected !== val) {
       this.setState({
-        nameForOrderRelated:
+        isSelected: val,
+        name:
           getUserDetails && getUserDetails.firstName
             ? getUserDetails.firstName.trim()
             : "",
-        phoneNumberForOrderRelated:
+        mobile:
           getUserDetails &&
           getUserDetails.loginType === "mobile" &&
           getUserDetails.userName
             ? getUserDetails.userName
             : "",
-        emailForOrderRelated:
+        email:
           getUserDetails &&
           getUserDetails.loginType === "email" &&
           getUserDetails.userName
             ? getUserDetails.userName
             : "",
-        commentForOrderRelated: "",
+        comment: "",
         file: "",
-        secondaryReasonsForOrderRelated: null,
-        reasonForOrderRelated: null,
-        reasonCodeForOrderRelated: null,
-        secondaryReasonsCodeForOrderRelated: null,
+        l2SelectedOption: null,
+        l3SelectedOption: null,
+        l4SelectedOption: null,
         isEnableForOrderRelated: false,
-        showOrder: false,
-        isSelectedOrder: false,
+        isEnableForSubOrderRelated: false,
+        isEnableForAnotherOrderRelated: false,
         orderCode: "",
         transactionId: "",
         sellerOrderNumber: "",
@@ -199,7 +152,10 @@ export default class OrderRelatedIssue extends React.Component {
         orderDate: "",
         productName: "",
         productPrice: "",
-        productStatus: ""
+        productStatus: "",
+        l2SelectedReason: null,
+        l3SelectedReason: null,
+        l4SelectedReason: null
       });
     }
   }
@@ -229,61 +185,93 @@ export default class OrderRelatedIssue extends React.Component {
     const code = val.value;
     const label = val.label;
     this.setState({
-      secondaryReasonsCodeForOrderRelated: null,
-      secondaryReasonsForOrderRelated: null,
-      reasonCodeForOrderRelated: code,
-      reasonForOrderRelated: label,
-      isEnableForOrderRelated: false
+      l2SelectedOption: code,
+      l2SelectedReason: label,
+      l3SelectedReason: null,
+      l3SelectedOption: null,
+      l4SelectedReason: null,
+      l4SelectedOption: null,
+      isEnableForOrderRelated: true,
+      isEnableForSubOrderRelated: false,
+      isEnableForAnotherOrderRelated: false
     });
   }
   onChangeSubReasonForOrderRelated(val) {
     const code = val.value;
     const label = val.label;
     this.setState({
-      secondaryReasonsCodeForOrderRelated: code,
-      secondaryReasonsForOrderRelated: label,
-      isEnableForOrderRelated: true
+      l3SelectedOption: code,
+      l3SelectedReason: label,
+      l4SelectedOption: null,
+      l4SelectedReason: null,
+      isEnableForSubOrderRelated: true,
+      isEnableForAnotherOrderRelated: false
+    });
+  }
+  onChangeAnotherReasonForOrderRelated(val) {
+    const code = val.value;
+    const label = val.label;
+    this.setState({
+      l4SelectedOption: code,
+      l4SelectedReason: label,
+      isEnableForAnotherOrderRelated: true
     });
   }
   onChange(val) {
     this.setState(val);
   }
-  async submitOrderRelatedIssue() {
-    if (!this.state.orderCode) {
+  async submitCustomerForm() {
+    let l1OptionsArray, l2OptionsArray, l3OptionsArray;
+    if (this.state.isSelected === 0) {
+      l1OptionsArray =
+        this.props.customerQueriesData &&
+        this.props.customerQueriesData.nodes &&
+        this.props.customerQueriesData.nodes.find(orderRelated => {
+          return orderRelated.nodeDesc === "Order Related Query";
+        });
+    } else {
+      l1OptionsArray =
+        this.props.customerQueriesData &&
+        this.props.customerQueriesData.nodes &&
+        this.props.customerQueriesData.nodes.find(otherIssue => {
+          return otherIssue.nodeDesc === "Any Other Query";
+        });
+    }
+    l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
+    l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
+    if (this.state.isSelected === 0 && !this.state.orderCode) {
       this.props.displayToast(SELECT_ORDER_TEXT);
       return false;
     }
-    if (!this.state.reasonForOrderRelated) {
+    if (!this.state.l2SelectedOption) {
       this.props.displayToast(SELECT_ISSUE_FOR_ORDER_TEXT);
       return false;
     }
-    if (!this.state.secondaryReasonsForOrderRelated) {
+    if (l2OptionsArray && !this.state.l3SelectedOption) {
       this.props.displayToast(SELECT_SUB_ISSUE_FOR_ORDER_TEXT);
       return false;
     }
-    if (!this.state.nameForOrderRelated) {
+    if (l3OptionsArray && !this.state.l4SelectedOption) {
+      this.props.displayToast(SELECT_SUB_ISSUE_FOR_ORDER_TEXT);
+      return false;
+    }
+    if (!this.state.name) {
       this.props.displayToast(NAME_TEXT);
       return false;
     }
-    if (!this.state.emailForOrderRelated) {
+    if (!this.state.email) {
       this.props.displayToast(EMAIL_TEXT);
       return false;
     }
-    if (
-      this.state.emailForOrderRelated &&
-      !EMAIL_REGULAR_EXPRESSION.test(this.state.emailForOrderRelated)
-    ) {
+    if (this.state.email && !EMAIL_REGULAR_EXPRESSION.test(this.state.email)) {
       this.props.displayToast(EMAIL_VALID_TEXT);
       return false;
     }
-    if (!this.state.phoneNumberForOrderRelated) {
+    if (!this.state.mobile) {
       this.props.displayToast(MOBILE_TEXT);
       return false;
     }
-    if (
-      this.state.phoneNumberForOrderRelated &&
-      !MOBILE_PATTERN.test(this.state.phoneNumberForOrderRelated)
-    ) {
+    if (this.state.mobile && !MOBILE_PATTERN.test(this.state.mobile)) {
       this.props.displayToast(MOBILE_VALID_TEXT);
       return false;
     } else {
@@ -293,43 +281,20 @@ export default class OrderRelatedIssue extends React.Component {
         this.props.customerQueriesData.nodes.find(orderRelated => {
           return orderRelated.nodeDesc === "Order Related Query";
         });
-      let orderRelatedSubIssue =
-        this.state.reasonForOrderRelated &&
-        orderRelatedIssue &&
-        orderRelatedIssue.children &&
-        orderRelatedIssue.children.find(orderRelatedSubIssue => {
-          return (
-            orderRelatedSubIssue.nodeDesc === this.state.reasonForOrderRelated
-          );
-        });
-      let getL4 =
-        this.state.secondaryReasonsForOrderRelated &&
-        orderRelatedSubIssue &&
-        orderRelatedSubIssue.children &&
-        orderRelatedSubIssue.children.find(orderRelatedSubIssue => {
-          return (
-            orderRelatedSubIssue.nodeDesc ===
-            this.state.secondaryReasonsForOrderRelated
-          );
-        });
       let submitDetailsObject = Object.assign(
         {},
         {
           nodeL0: orderRelatedIssue.nodeL0,
           nodeL1: orderRelatedIssue.nodeCode,
-          nodeL2: this.state.reasonCodeForOrderRelated,
-          nodeL3: this.state.secondaryReasonsCodeForOrderRelated,
-          contactEmail: this.state.emailForOrderRelated,
-          contactMobile: this.state.phoneNumberForOrderRelated,
-          contactName: this.state.nameForOrderRelated,
-          comment: this.state.commentForOrderRelated,
-          nodeL4:
-            getL4 &&
-            getL4.children &&
-            getL4.children[0] &&
-            getL4.children[0].nodeCode
-              ? getL4.children[0].nodeCode
-              : undefined,
+          nodeL2: this.state.l2SelectedOption,
+          nodeL3: this.state.l3SelectedOption,
+          contactEmail: this.state.email,
+          contactMobile: this.state.mobile,
+          contactName: this.state.name,
+          comment: this.state.comment,
+          nodeL4: this.state.l4SelectedOption
+            ? this.state.l4SelectedOption
+            : undefined,
           transactionId: this.state.transactionId,
           orderCode: this.state.orderCode,
           subOrderCode: this.state.sellerOrderNumber
@@ -338,12 +303,13 @@ export default class OrderRelatedIssue extends React.Component {
       let getCustomerQueryDetailsObject = Object.assign(
         {},
         {
-          name: this.state.nameForOrderRelated,
-          emailId: this.state.emailForOrderRelated,
-          mobileNumber: this.state.phoneNumberForOrderRelated,
-          comment: this.state.commentForOrderRelated,
-          issue: this.state.reasonForOrderRelated,
-          subIssue: this.state.secondaryReasonsForOrderRelated
+          name: this.state.name,
+          emailId: this.state.email,
+          mobileNumber: this.state.mobile,
+          comment: this.state.comment,
+          anOtherIssue: this.state.l4SelectedReason,
+          issue: this.state.l2SelectedReason,
+          subIssue: this.state.l3SelectedReason
         }
       );
       if (this.state.file) {
@@ -368,128 +334,6 @@ export default class OrderRelatedIssue extends React.Component {
           if (submitOrderDetailsResponse.status === SUCCESS) {
             this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
           }
-        }
-      }
-    }
-  }
-  onChangeReasonForOtherIssue(val) {
-    const code = val.value;
-    const label = val.label;
-    this.setState({
-      secondaryReasonsCodeForOtherIssue: null,
-      secondaryReasonsForOtherIssue: null,
-      reasonCodeForOtherIssue: code,
-      reasonForOtherIssue: label,
-      isEnableForOtherIssue: false
-    });
-  }
-  onChangeSubReasonForOtherIssue(val) {
-    const code = val.value;
-    const label = val.label;
-    this.setState({
-      secondaryReasonsCodeForOtherIssue: code,
-      secondaryReasonsForOtherIssue: label,
-      isEnableForOtherIssue: true
-    });
-  }
-  async submitOtherIssue() {
-    if (!this.state.reasonForOtherIssue) {
-      this.props.displayToast(SELECT_ISSUE_FOR_OTHER_TEXT);
-      return false;
-    }
-    if (!this.state.secondaryReasonsForOtherIssue) {
-      this.props.displayToast(SELECT_SUB_ISSUE_FOR_OTHER_TEXT);
-      return false;
-    }
-    if (!this.state.nameForOtherIssue) {
-      this.props.displayToast(NAME_TEXT);
-      return false;
-    }
-    if (!this.state.emailForOtherIssue) {
-      this.props.displayToast(EMAIL_TEXT);
-      return false;
-    }
-    if (
-      this.state.emailForOtherIssue &&
-      !EMAIL_REGULAR_EXPRESSION.test(this.state.emailForOtherIssue)
-    ) {
-      this.props.displayToast(EMAIL_VALID_TEXT);
-      return false;
-    }
-
-    if (!this.state.phoneNumberForOtherIssue) {
-      this.props.displayToast(MOBILE_TEXT);
-      return false;
-    }
-    if (
-      this.state.phoneNumberForOtherIssue &&
-      !MOBILE_PATTERN.test(this.state.phoneNumberForOtherIssue)
-    ) {
-      this.props.displayToast(MOBILE_VALID_TEXT);
-      return false;
-    } else {
-      let otherIssue =
-        this.props.customerQueriesData &&
-        this.props.customerQueriesData.nodes &&
-        this.props.customerQueriesData.nodes.find(otherIssue => {
-          return otherIssue.nodeDesc === "Any Other Query";
-        });
-      let orderSubIssue =
-        this.state.reasonForOtherIssue &&
-        otherIssue &&
-        otherIssue.children &&
-        otherIssue.children.find(orderSubIssue => {
-          return orderSubIssue.nodeDesc === this.state.reasonForOtherIssue;
-        });
-      let getL4 =
-        this.state.secondaryReasonsForOtherIssue &&
-        orderSubIssue &&
-        orderSubIssue.children &&
-        orderSubIssue.children.find(orderSubIssue => {
-          return (
-            orderSubIssue.nodeDesc === this.state.secondaryReasonsForOtherIssue
-          );
-        });
-      let submitDetailsObject = Object.assign(
-        {},
-        {
-          nodeL0: otherIssue.nodeL0,
-          nodeL1: otherIssue.nodeCode,
-          nodeL2: this.state.reasonCodeForOtherIssue,
-          nodeL3: this.state.secondaryReasonsCodeForOtherIssue,
-          contactEmail: this.state.emailForOtherIssue,
-          contactMobile: this.state.phoneNumberForOtherIssue,
-          contactName: this.state.nameForOtherIssue,
-          comment: this.state.commentForOtherIssue,
-          nodeL4:
-            getL4 &&
-            getL4.children &&
-            getL4.children[0] &&
-            getL4.children[0].nodeCode
-              ? getL4.children[0].nodeCode
-              : undefined,
-          transactionId: "",
-          orderCode: "",
-          subOrderCode: ""
-        }
-      );
-      if (this.props.submitOrderDetails) {
-        const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-          submitDetailsObject
-        );
-        if (submitOrderDetailsResponse.status === SUCCESS) {
-          let getCustomerQueryDetailsObject = Object.assign(
-            {},
-            {
-              name: this.state.nameForOtherIssue,
-              emailId: this.state.emailForOtherIssue,
-              mobileNumber: this.state.phoneNumberForOtherIssue,
-              comment: this.state.commentForOtherIssue,
-              issue: this.state.reasonForOtherIssue,
-              subIssue: this.state.secondaryReasonsForOtherIssue
-            }
-          );
-          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
         }
       }
     }
@@ -519,6 +363,34 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast("No Orders");
     }
   }
+  getOrderRelatedL2Issue(orderRelatedIssue) {
+    const subTab =
+      this.state.l2SelectedOption &&
+      orderRelatedIssue &&
+      orderRelatedIssue.children &&
+      orderRelatedIssue.children.find(l2Object => {
+        return l2Object.nodeCode === this.state.l2SelectedOption;
+      });
+    if (subTab && subTab.children && subTab.children.length > 0) {
+      return subTab;
+    } else {
+      return null;
+    }
+  }
+  getOrderRelatedL3Issue(l2OptionsArray) {
+    const subTab =
+      this.state.l3SelectedOption &&
+      l2OptionsArray &&
+      l2OptionsArray.children &&
+      l2OptionsArray.children.find(l3Object => {
+        return l3Object.nodeCode === this.state.l3SelectedOption;
+      });
+    if (subTab && subTab.children && subTab.children.length > 0) {
+      return subTab;
+    } else {
+      return null;
+    }
+  }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -526,35 +398,25 @@ export default class OrderRelatedIssue extends React.Component {
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
-    let orderRelatedIssue =
-      this.props.customerQueriesData &&
-      this.props.customerQueriesData.nodes &&
-      this.props.customerQueriesData.nodes.find(orderRelated => {
-        return orderRelated.nodeDesc === "Order Related Query";
-      });
-    let orderRelatedSubIssue =
-      this.state.reasonForOrderRelated &&
-      orderRelatedIssue &&
-      orderRelatedIssue.children &&
-      orderRelatedIssue.children.find(orderRelatedSubIssue => {
-        return (
-          orderRelatedSubIssue.nodeDesc === this.state.reasonForOrderRelated
-        );
-      });
-    let otherIssue =
-      this.props.customerQueriesData &&
-      this.props.customerQueriesData.nodes &&
-      this.props.customerQueriesData.nodes.find(otherIssue => {
-        return otherIssue.nodeDesc === "Any Other Query";
-      });
-    let otherSubIssue =
-      this.state.reasonForOtherIssue &&
-      otherIssue &&
-      otherIssue.children &&
-      otherIssue.children.find(otherSubIssue => {
-        return otherSubIssue.nodeDesc === this.state.reasonForOtherIssue;
-      });
-
+    let l1OptionsArray, l2OptionsArray, l3OptionsArray;
+    if (this.state.isSelected === 0) {
+      l1OptionsArray =
+        this.props.customerQueriesData &&
+        this.props.customerQueriesData.nodes &&
+        this.props.customerQueriesData.nodes.find(orderRelated => {
+          return orderRelated.nodeDesc === "Order Related Query";
+        });
+    }
+    if (this.state.isSelected === 1) {
+      l1OptionsArray =
+        this.props.customerQueriesData &&
+        this.props.customerQueriesData.nodes &&
+        this.props.customerQueriesData.nodes.find(otherIssue => {
+          return otherIssue.nodeDesc === "Any Other Query";
+        });
+    }
+    l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
+    l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
     return (
       <div className={styles.base}>
         {!this.state.showOrder && (
@@ -575,9 +437,10 @@ export default class OrderRelatedIssue extends React.Component {
             </TabHolder>
           </div>
         )}
-        {this.state.isSelected === 0 &&
-          !this.state.showOrder && (
-            <div className={styles.orderHolder}>
+
+        {!this.state.showOrder && (
+          <div className={styles.orderHolder}>
+            {this.state.isSelected === 0 && (
               <div className={styles.selectedOrder}>
                 <div className={styles.headingHolder}>
                   <CheckOutHeader
@@ -642,116 +505,142 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                 )}
               </div>
-              <div className={styles.selectIssueHolder}>
-                <div className={styles.secondOrder}>
-                  <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
-                </div>
-                <div className={styles.selectIssue}>
-                  <SelectBoxMobile2
-                    placeholder="Select issue"
-                    arrowColour="black"
-                    height={33}
-                    options={
-                      orderRelatedIssue &&
-                      orderRelatedIssue.children &&
-                      orderRelatedIssue.children.map((val, i) => {
-                        return {
-                          value: val.nodeCode,
-                          label: val.nodeDesc
-                        };
-                      })
-                    }
-                    onChange={val => this.onChangeReasonForOrderRelated(val)}
-                  />
-                </div>
-                <div className={styles.selectIssue}>
-                  <SelectBoxMobile2
-                    placeholder="Select sub-issue"
-                    arrowColour="black"
-                    height={33}
-                    options={
-                      orderRelatedSubIssue &&
-                      orderRelatedSubIssue.children &&
-                      orderRelatedSubIssue.children.map((val, i) => {
-                        return {
-                          value: val.nodeCode,
-                          label: val.nodeDesc
-                        };
-                      })
-                    }
-                    isEnable={this.state.isEnableForOrderRelated}
-                    onChange={val => this.onChangeSubReasonForOrderRelated(val)}
-                  />
-                </div>
-                <div className={styles.selectIssue}>
-                  <TextArea
-                    placeholder={"Comments(Optional)"}
-                    value={this.state.commentForOrderRelated}
-                    onChange={commentForOrderRelated =>
-                      this.onChange({ commentForOrderRelated })
-                    }
-                  />
-                </div>
+            )}
+            <div className={styles.selectIssueHolder}>
+              <div className={styles.secondOrder}>
+                <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
               </div>
-              <div className={styles.selectIssueHolder}>
-                <div className={styles.secondOrder}>
-                  <CheckOutHeader
-                    indexNumber="3"
-                    confirmTitle="Personal Details"
-                  />
-                </div>
-                <div className={styles.textInformationHolder}>
-                  <FloatingLabelInput
-                    label="Name"
-                    value={this.state.nameForOrderRelated}
-                    onChange={nameForOrderRelated =>
-                      this.onChange({ nameForOrderRelated })
-                    }
-                    onlyAlphabet={true}
-                    disabled={
-                      getUserDetails &&
-                      getUserDetails.firstName &&
-                      getUserDetails.firstName.trim()
-                        ? true
-                        : false
-                    }
-                  />
-                </div>
-                <div className={styles.textInformationHolder}>
-                  <FloatingLabelInput
-                    label="Email"
-                    disabled={
-                      getUserDetails &&
-                      getUserDetails.loginType === "email" &&
-                      getUserDetails.userName
-                        ? true
-                        : false
-                    }
-                    value={this.state.emailForOrderRelated}
-                    onChange={emailForOrderRelated =>
-                      this.onChange({ emailForOrderRelated })
-                    }
-                  />
-                </div>
-                <div className={styles.textInformationHolder}>
-                  <FloatingLabelInput
-                    label="Phone*"
-                    maxLength={"10"}
-                    value={this.state.phoneNumberForOrderRelated}
-                    onChange={phoneNumberForOrderRelated =>
-                      this.onChange({ phoneNumberForOrderRelated })
-                    }
-                    disabled={
-                      getUserDetails &&
-                      getUserDetails.loginType === "mobile" &&
-                      getUserDetails.userName
-                        ? true
-                        : false
-                    }
-                    onlyNumber={true}
-                  />
-                </div>
+              <div className={styles.selectIssue}>
+                <SelectBoxMobile2
+                  placeholder="Select issue"
+                  arrowColour="black"
+                  height={33}
+                  options={
+                    l1OptionsArray &&
+                    l1OptionsArray.children &&
+                    l1OptionsArray.children.map((val, i) => {
+                      return {
+                        value: val.nodeCode,
+                        label: val.nodeDesc
+                      };
+                    })
+                  }
+                  isEnable={this.state.isEnableForOrderRelated}
+                  onChange={val => this.onChangeReasonForOrderRelated(val)}
+                />
               </div>
+              {l2OptionsArray &&
+                l2OptionsArray.children &&
+                l2OptionsArray.children.length > 0 && (
+                  <div className={styles.selectIssue}>
+                    <SelectBoxMobile2
+                      placeholder="Select sub-issue"
+                      arrowColour="black"
+                      height={33}
+                      options={
+                        l2OptionsArray &&
+                        l2OptionsArray.children &&
+                        l2OptionsArray.children.map((val, i) => {
+                          return {
+                            value: val.nodeCode,
+                            label: val.nodeDesc
+                          };
+                        })
+                      }
+                      isEnable={this.state.isEnableForSubOrderRelated}
+                      onChange={val =>
+                        this.onChangeSubReasonForOrderRelated(val)
+                      }
+                    />
+                  </div>
+                )}
+              {l3OptionsArray &&
+                l3OptionsArray.children &&
+                l3OptionsArray.children.length > 0 && (
+                  <div className={styles.selectIssue}>
+                    <SelectBoxMobile2
+                      placeholder="Select sub-issue"
+                      arrowColour="black"
+                      height={33}
+                      options={
+                        l3OptionsArray &&
+                        l3OptionsArray.children &&
+                        l3OptionsArray.children.map((val, i) => {
+                          return {
+                            value: val.nodeCode,
+                            label: val.nodeDesc
+                          };
+                        })
+                      }
+                      isEnable={this.state.isEnableForAnotherOrderRelated}
+                      onChange={val =>
+                        this.onChangeAnotherReasonForOrderRelated(val)
+                      }
+                    />
+                  </div>
+                )}
+              <div className={styles.selectIssue}>
+                <TextArea
+                  placeholder={"Comments(Optional)"}
+                  value={this.state.comment}
+                  onChange={comment => this.onChange({ comment })}
+                />
+              </div>
+            </div>
+            <div className={styles.selectIssueHolder}>
+              <div className={styles.secondOrder}>
+                <CheckOutHeader
+                  indexNumber="3"
+                  confirmTitle="Personal Details"
+                />
+              </div>
+              <div className={styles.textInformationHolder}>
+                <FloatingLabelInput
+                  label="Name"
+                  value={this.state.name}
+                  onChange={name => this.onChange({ name })}
+                  onlyAlphabet={true}
+                  disabled={
+                    getUserDetails &&
+                    getUserDetails.firstName &&
+                    getUserDetails.firstName.trim()
+                      ? true
+                      : false
+                  }
+                />
+              </div>
+              <div className={styles.textInformationHolder}>
+                <FloatingLabelInput
+                  label="Email"
+                  disabled={
+                    getUserDetails &&
+                    getUserDetails.loginType === "email" &&
+                    getUserDetails.userName
+                      ? true
+                      : false
+                  }
+                  value={this.state.email}
+                  onChange={email => this.onChange({ email })}
+                />
+              </div>
+              <div className={styles.textInformationHolder}>
+                <FloatingLabelInput
+                  label="Phone*"
+                  maxLength={"10"}
+                  value={this.state.mobile}
+                  onChange={mobile => this.onChange({ mobile })}
+                  disabled={
+                    getUserDetails &&
+                    getUserDetails.loginType === "mobile" &&
+                    getUserDetails.userName
+                      ? true
+                      : false
+                  }
+                  onlyNumber={true}
+                />
+              </div>
+            </div>
+            {this.state.isSelected === 0 && (
               <div className={styles.selectImageHolder}>
                 <div className={styles.secondOrder}>
                   <CheckOutHeader
@@ -773,147 +662,21 @@ export default class OrderRelatedIssue extends React.Component {
                   />
                 </div>
               </div>
-              <div className={styles.buttonHolder}>
-                <div className={styles.button}>
-                  <Button
-                    type="primary"
-                    height={38}
-                    label={"Submit"}
-                    width={166}
-                    textStyle={{ color: "#fff", fontSize: 14 }}
-                    onClick={() => this.submitOrderRelatedIssue()}
-                  />
-                </div>
+            )}
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  type="primary"
+                  height={38}
+                  label={"Submit"}
+                  width={166}
+                  textStyle={{ color: "#fff", fontSize: 14 }}
+                  onClick={() => this.submitCustomerForm()}
+                />
               </div>
             </div>
-          )}
-        {this.state.isSelected === 1 &&
-          !this.state.showOrder && (
-            <div className={styles.otherIssueHolder}>
-              <div className={styles.selectIssueHolder}>
-                <div className={styles.secondOrder}>
-                  <CheckOutHeader indexNumber="1" confirmTitle="Select issue" />
-                </div>
-                <div className={styles.selectIssue}>
-                  <SelectBoxMobile2
-                    placeholder="Select issue"
-                    arrowColour="black"
-                    height={33}
-                    options={
-                      otherIssue &&
-                      otherIssue.children &&
-                      otherIssue.children.map((val, i) => {
-                        return {
-                          value: val.nodeCode,
-                          label: val.nodeDesc
-                        };
-                      })
-                    }
-                    onChange={val => this.onChangeReasonForOtherIssue(val)}
-                  />
-                </div>
-                <div className={styles.selectIssue}>
-                  <SelectBoxMobile2
-                    placeholder="Select sub-issue"
-                    arrowColour="black"
-                    height={33}
-                    options={
-                      otherSubIssue &&
-                      otherSubIssue.children &&
-                      otherSubIssue.children.map((val, i) => {
-                        return {
-                          value: val.nodeCode,
-                          label: val.nodeDesc
-                        };
-                      })
-                    }
-                    isEnable={this.state.isEnableForOtherIssue}
-                    onChange={val => this.onChangeSubReasonForOtherIssue(val)}
-                  />
-                </div>
-                <div className={styles.selectIssue}>
-                  <TextArea
-                    placeholder={"Comments(Optional)"}
-                    value={this.state.commentForOtherIssue}
-                    onChange={commentForOtherIssue =>
-                      this.onChange({ commentForOtherIssue })
-                    }
-                  />
-                </div>
-              </div>
-              <div className={styles.selectIssueHolder}>
-                <div className={styles.secondOrder}>
-                  <CheckOutHeader
-                    indexNumber="2"
-                    confirmTitle="Personal Details"
-                  />
-                </div>
-                <div className={styles.textInformationHolder}>
-                  <FloatingLabelInput
-                    label="Name"
-                    value={this.state.nameForOtherIssue}
-                    onChange={nameForOtherIssue =>
-                      this.onChange({ nameForOtherIssue })
-                    }
-                    disabled={
-                      getUserDetails &&
-                      getUserDetails.firstName &&
-                      getUserDetails.firstName.trim()
-                        ? true
-                        : false
-                    }
-                    onlyAlphabet={true}
-                  />
-                </div>
-                <div className={styles.textInformationHolder}>
-                  <FloatingLabelInput
-                    label="Email"
-                    value={this.state.emailForOtherIssue}
-                    disabled={
-                      getUserDetails &&
-                      getUserDetails.loginType === "email" &&
-                      getUserDetails.userName
-                        ? true
-                        : false
-                    }
-                    onChange={emailForOtherIssue =>
-                      this.onChange({ emailForOtherIssue })
-                    }
-                  />
-                </div>
-                <div className={styles.textInformationHolder}>
-                  <FloatingLabelInput
-                    label="Phone*"
-                    maxLength={"10"}
-                    disabled={
-                      getUserDetails &&
-                      getUserDetails.loginType === "mobile" &&
-                      getUserDetails.userName
-                        ? true
-                        : false
-                    }
-                    value={this.state.phoneNumberForOtherIssue}
-                    onChange={phoneNumberForOtherIssue =>
-                      this.onChange({ phoneNumberForOtherIssue })
-                    }
-                    onlyNumber={true}
-                  />
-                </div>
-              </div>
-              <div className={styles.buttonHolder}>
-                <div className={styles.button}>
-                  <Button
-                    type="primary"
-                    height={38}
-                    label={"Submit"}
-                    width={166}
-                    textStyle={{ color: "#fff", fontSize: 14 }}
-                    onClick={() => this.submitOtherIssue()}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
+        )}
         {this.state.showOrder && (
           <div className={styles.selectOrderHolder}>
             {this.props.ordersTransactionData &&

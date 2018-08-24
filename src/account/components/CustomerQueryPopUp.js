@@ -40,14 +40,28 @@ export default class CustomerQueryPopUp extends React.Component {
             <div className={styles.userDetailsHeader}>Issue</div>
             <div className={styles.userDetailsText}>{this.props.issue}</div>
           </div>
-          <div className={styles.userDetailsHeaderWithText}>
-            <div className={styles.userDetailsHeader}>Sub-issue</div>
-            <div className={styles.userDetailsText}>{this.props.subIssue}</div>
-          </div>
-          <div className={styles.userDetailsHeaderWithCommentText}>
-            <div className={styles.userDetailsHeader}>Comment</div>
-            <div className={styles.userDetailsText}>{this.props.comment}</div>
-          </div>
+          {this.props.subIssue && (
+            <div className={styles.userDetailsHeaderWithText}>
+              <div className={styles.userDetailsHeader}>Sub-issue</div>
+              <div className={styles.userDetailsText}>
+                {this.props.subIssue}
+              </div>
+            </div>
+          )}
+          {this.props.anOtherIssue && (
+            <div className={styles.userDetailsHeaderWithText}>
+              <div className={styles.userDetailsHeader}>Sub-issue</div>
+              <div className={styles.userDetailsText}>
+                {this.props.anOtherIssue}
+              </div>
+            </div>
+          )}
+          {this.props.comment && (
+            <div className={styles.userDetailsHeaderWithCommentText}>
+              <div className={styles.userDetailsHeader}>Comment</div>
+              <div className={styles.userDetailsText}>{this.props.comment}</div>
+            </div>
+          )}
         </div>
         <div className={styles.submittedText}>
           <div className={styles.userDetailsHeaderWithText}>

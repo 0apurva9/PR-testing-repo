@@ -57,7 +57,6 @@
   font-size: 14px;
   color: #555;
   padding: 10px 0px;
-  line-height: 20px;
   border-bottom: 1px solid #000;
 }
 .userDetails {
@@ -88,7 +87,6 @@
   font-family: regular;
   font-size: 14px;
   color: #555;
-  line-height: 30px;
 }
 .userDetailsHeaderWithCommentText {
   width: 100%;
@@ -99,7 +97,7 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  padding: 10px 0px;
+  padding-top: 10px;
 }
 .buttonHolder {
   width: 100%;
