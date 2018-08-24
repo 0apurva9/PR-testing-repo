@@ -12,12 +12,16 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants.js";
+import queryString, { parse } from "query-string";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
 export default class AddToWishListButton extends React.Component {
   onClick(e) {
-    e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
+
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
@@ -41,13 +45,23 @@ export default class AddToWishListButton extends React.Component {
       }
     }
   }
+
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+
+    //Make saveWish list Api Call or Login screen depending on user session
+    if (parsedQueryString.saveToListAmp === "true") {
+      this.onClick();
+    }
+  }
   render() {
     if (this.props.type === WISHLIST_FOOTER_BUTTON_TYPE) {
       return (
         <FooterButton
-          borderColor="#ececec"
+          backgroundColor="transparent"
+          textAlign="left"
           icon={saveIcon}
-          label="Save"
+          label="Save to Wishlist"
           onClick={e => this.onClick(e)}
         />
       );

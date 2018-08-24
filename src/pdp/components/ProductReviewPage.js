@@ -11,7 +11,9 @@ import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
   SUCCESS,
-  LOGIN_PATH
+  LOGIN_PATH,
+  WRITE_REVIEWS_WITH_SLUG,
+  PRODUCT_CART_ROUTER
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -81,6 +83,8 @@ class ProductReviewPage extends Component {
   };
 
   componentDidMount() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     this.throttledScroll = this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
     this.props.getProductDescription(this.props.match.params[0]);
@@ -90,6 +94,15 @@ class ProductReviewPage extends Component {
       this.state.orderBy,
       this.state.sort
     );
+    if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+      if (!userDetails || !customerCookie) {
+        const url = this.props.location.pathname;
+        this.props.setUrlToRedirectToAfterAuth(url);
+        this.props.history.push(LOGIN_PATH);
+      } else {
+        this.setState({ visible: true });
+      }
+    }
   }
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
@@ -120,20 +133,28 @@ class ProductReviewPage extends Component {
       this.props.displayToast("Please enter comment");
       return false;
     } else {
-      this.props.addProductReview(
+      if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+        this.setState({ visible: false });
+      }
+      return this.props.addProductReview(
         this.props.productDetails.productListingId,
         productReview
       );
-      this.setState({ visible: false });
     }
   };
   onCancel() {
     this.setState({ visible: false });
   }
+  goToCart = () => {
+    this.props.history.push({
+      pathname: PRODUCT_CART_ROUTER
+    });
+  };
   renderReviewSection = () => {
     if (this.state.visible) {
       return (
         <WriteReview
+          addReviewStatus={this.props.addReviewStatus}
           onSubmit={val => this.onSubmit(val)}
           onCancel={() => this.onCancel()}
         />
@@ -159,7 +180,7 @@ class ProductReviewPage extends Component {
         cartDetailsLoggedInUser !== undefined &&
         customerCookie !== undefined
       ) {
-        this.props.addProductToCart(
+        return this.props.addProductToCart(
           JSON.parse(userDetails).userName,
           JSON.parse(cartDetailsLoggedInUser).code,
           JSON.parse(customerCookie).access_token,
@@ -167,7 +188,7 @@ class ProductReviewPage extends Component {
         );
       }
     } else if (cartDetailsForAnonymous) {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
         ANONYMOUS_USER,
         JSON.parse(cartDetailsForAnonymous).guid,
         JSON.parse(globalCookie).access_token,
@@ -185,8 +206,10 @@ class ProductReviewPage extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.addReviewStatus === SUCCESS) {
-      this.setState({ visible: false });
+    if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+      if (nextProps.addReviewStatus === SUCCESS) {
+        this.setState({ visible: false });
+      }
     }
   }
 
@@ -252,6 +275,8 @@ class ProductReviewPage extends Component {
           {...this.props.productDetails}
           addProductToBag={() => this.addProductToBag()}
           gotoPreviousPage={() => this.goBack()}
+          displayToast={message => this.props.displayToast(message)}
+          goToCart={() => this.goToCart()}
         >
           {this.renderMetaTags()}
           <div
@@ -297,9 +322,14 @@ class ProductReviewPage extends Component {
                     textStyle={{ fontSize: 14 }}
                   />
                 </div>
-                <div className={styles.reviewText} onClick={this.reviewSection}>
-                  {WRITE_REVIEW_TEXT}
-                </div>
+                {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
+                  <div
+                    className={styles.reviewText}
+                    onClick={this.reviewSection}
+                  >
+                    {WRITE_REVIEW_TEXT}
+                  </div>
+                )}
                 {this.state.visible && (
                   <div className={styles.reviewHolder}>
                     {this.renderReviewSection()}

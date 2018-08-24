@@ -35,13 +35,19 @@ const Loader = () => {
     </div>
   );
 };
+
 const NewPassword = Loadable({
   loader: () => import("../../auth/components/NewPassword"),
   loading() {
     return <Loader />;
   }
 });
-
+const CustomerQueryPopUp = Loadable({
+  loader: () => import("../../account/components/CustomerQueryPopUp"),
+  loading() {
+    return <Loader />;
+  }
+});
 const RestorePassword = Loadable({
   loader: () => import("../../auth/components/RestorePassword"),
   loading() {
@@ -675,6 +681,12 @@ export default class ModalRoot extends React.Component {
           handleClose={() => this.handleClose()}
           removeNoCostEmi={couponCode => this.props.removeNoCostEmi(couponCode)}
           continueWithNoCostEmi={() => this.handleClose()}
+        />
+      ),
+      CustomerQueryPopUp: (
+        <CustomerQueryPopUp
+          {...this.props.ownProps}
+          history={this.props.history}
         />
       )
     };

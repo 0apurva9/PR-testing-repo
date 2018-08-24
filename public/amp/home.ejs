@@ -1,0 +1,366 @@
+<!doctype html>
+<html ⚡>
+<head>
+<meta charset="utf-8">
+<link rel="canonical" href="<%= canonicalPwaUrl %>">
+<meta name="keywords" content="<%= metaKeywords %>" />
+<meta name="description" content="<%= metaDescription %>" />
+<link rel="manifest" href="/manifest.json">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<meta itemprop="name" content="Search results - Tata CLiQ ">
+<!-- <meta itemprop="description" content="<%= metaDescription %>"> -->
+<meta itemprop="image" content="https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg" />
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Search results - Tata CLiQ ">
+<meta name="twitter:image:src" content="https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg" />
+
+<meta property="og:title" content="Search results - Tata CLiQ " />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg" />
+<meta property="og:description" content="<%= metaDescription %>" />
+<meta property="og:site_name" content="Tata CLiQ" />
+
+<meta property="fb:app_id" content="484004418446735"/>
+<meta property="og:site_name" content="Tata CLiQ" />
+
+<meta property="al:ios:app_store_id" content="1101619385" />
+<meta property="al:ios:url" content="" />
+<meta property="al:ios:app_name" content="Tata Cliq" />
+
+<meta property="al:android:package" content="com.tul.tatacliq" />
+<meta property="al:android:url" content="" />
+<meta property="al:android:app_name" content="Tata Cliq" />
+
+<link rel="shortcut icon" type="image/x-icon" media="all" href="https://www.tatacliq.com/favicon.ico" />
+
+<script async src="https://cdn.ampproject.org/v0.js"></script>
+
+<style amp-custom>
+body{font-family: regular, sans-serif; font-size:14px; background-color: #ececec;;}
+
+@font-face{font-family:regular;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff')}
+@font-face{font-family:semibold;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2') format('woff2'),
+url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff') format('woff')}
+@font-face{font-family:bolder;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2') format('woff2'),
+url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff') format('woff')}
+@font-face{font-family:light;src:url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff2'),
+url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff')}
+
+.hide-content {display: none;}
+.no-select {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #000 inset;
+    -webkit-text-fill-color: #fff;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+.amp-carousel-button {display: none;}
+amp-carousel > div::-webkit-scrollbar {display:none}
+.header-backspace {height: 70px; display: block;}
+.footer-backspace {height: 100px; display: block;}
+
+/*Page Header*/
+.page-left-logo {margin-left: 15px;z-index: 11; position: fixed; left: 0; top: 0; width: 35px; height: 50px; background-size: contain; background-position: 50%;
+background-repeat: no-repeat; background-image: url('https://pwassets.tatacliq.com/static/media/group.ccb1a969.svg');}
+.page-right-search {z-index: 11; position: fixed; right: 0; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
+background-repeat: no-repeat; background-image: url('https://pwassets.tatacliq.com/static/media/search.a4309640.svg');}
+.page-header {font-family: semibold; z-index: 10; line-height: 50px; height: 50px; background-color: #000; color: #fff; text-align: center; position: fixed; width: 100%;}
+.page-search-close {z-index: 12; position: fixed; right: 0; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
+background-repeat: no-repeat; background-image: url('https://pwassets.tatacliq.com/static/media/cancel.fea9f12f.svg');
+background-color: #000;}
+.page-search-box {z-index: 12; position: fixed; top: 0; left: 50px; background-color: #000; height: 50px; width: 70%;}
+.page-search-box input {width: 100%; background: transparent; margin: 10px 0; border: none;
+  outline: none; font-size: 14px; color: #fff; height: 28px;}
+.page-search-box-ic {z-index: 12; position: fixed; left: 0px; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
+background-repeat: no-repeat; background-image: url('https://pwassets.tatacliq.com/static/media/searchRed.950023de.svg');
+background-color: #000;}
+.top-space {margin-top: 30px;}
+.hero-banner {margin: 0 25px;}
+/* .hero-banner[aria-hidden="true"] {margin: 0 -15px; width: -webkit-fill-available; height: 86%;} */
+.hero-banner amp-img {border-radius: 4px;}
+.hero-content, .offer-content {position: absolute; color: #fff; vertical-align: bottom; padding: 20px;
+  font-size: 20px; z-index: 2; display: inline-block; bottom: 0;}
+.hero-content div:first-child {font-family: semibold;}
+.hero-content div:last-child {font-family: light;}
+
+.component-header, .single-component-header, .theme-component-header {color: rgb(33, 33, 33); font-family: semibold; font-size: 20px; padding: 0 10px; margin-bottom: 20px;}
+.single-component-header {padding: 0 15px;}
+.theme-component-header {color: #fff;}
+.offer-item {padding: 0 10px; margin: 0; position: relative;}
+.offer-item amp-img {border-radius: 4px;}
+.offer-badge {width: 78px; height: 78px; position: absolute; z-index: 2; top: 20px; left: 30px; line-height: 78px;
+  background-image: linear-gradient(137deg,#fd2c7a,#ff7255); border-radius: 50%; text-align: center;}
+.offer-badge div {color: #fff; white-space: pre-wrap; text-align: center; font-family: semibold; font-size: 14px;
+  line-height: normal; vertical-align: middle; display: inline-block; width: 85%;}
+.offer-content {font-size: 30px; word-break: break-word; padding: 0 20px 20px; margin-bottom: 0; font-family: semibold;}
+.offer-content div:first-child {white-space: pre-wrap;}
+.offer-content div:last-child {padding-top: 20px;}
+.offer-content div:last-child .shop-now, .theme-component-footer .shop-now  {border-radius: 18px; border: 2px solid #fff; text-align: center; padding: 0 30px; font-size: 14px;
+  font-family: regular; line-height: 32px; width: 70px;}
+.offer-content a {color: #fff; text-decoration: none;}
+.single-component .offer-item {padding: 0 15px;}
+.single-component .offer-content div:last-child .shop-now {border-radius: 22.5px; background-color: rgb(255, 23, 68); border: 2px solid rgb(255, 23, 68);
+width: 110px;}
+
+.listing-component {margin-top: 20px;}
+.listing-component a {color: #fff; text-decoration: none; font-size: 14px;}
+.listing-component .listing-strip {padding: 15px; width: 100%;}
+.listing-component .listing-strip span {background-image: url('https://pwassets.tatacliq.com/static/media/whiteArrow.f2fc44d4.svg');
+ background-position: 50%; background-size: contain; float: right; height: 25px; width: 25px; position: absolute;
+  right: 15px; margin-top: -5px;}
+.theme-component {padding-top: 20px;}
+.theme-component td > div {display: inline-grid;}
+.theme-content {padding: 0 7px;}
+.theme-content amp-img {border-radius: 4px;}
+.theme-content .theme-desc {width: 140px; display: inline-table;}
+.theme-content .theme-desc div {white-space: pre-wrap; line-height: 20px;}
+.theme-content .theme-desc div:first-child {padding-top: 15px; font-family: semibold; padding-bottom: 5px;}
+.theme-content .theme-desc div:last-child {font-family: light;}
+.theme-component a {color: #fff; text-decoration: none; display: inline-block;}
+.theme-component-footer {padding: 0 10px 30px; color: #fff;}
+
+.footer-menu {height: 70px; position: fixed; background-color: #fff; bottom: 0; width: 100%; z-index: 100;}
+.footer-item {width: 20%; float: left; font-size: 12px; text-align: center; color: #8d8d8d;}
+.footer-first {color: #ff1744;}
+.footer-item span {height: 25px; width: 100%; background-position: 50%; background-size: contain; background-repeat: no-repeat;
+  margin: 10px 0 5px; display: inline-block;}
+.footer-item .home-icon span {background-image: url('https://assets.tatacliq.com/medias/sys_master/pwaImg/home_icon_red.png');}
+.footer-item .category-icon span {background-image: url('https://assets.tatacliq.com/medias/sys_master/pwaImg/categories_icon.png');}
+.footer-item .brand-icon span {background-image: url('https://assets.tatacliq.com/medias/sys_master/pwaImg/brands_icon.png');}
+.footer-item .account-icon span {background-image: url('https://assets.tatacliq.com/medias/sys_master/pwaImg/myCliq_icon.png');}
+.footer-item .bag-icon span {background-image: url('https://assets.tatacliq.com/medias/sys_master/pwaImg/myBag_icon.png');}
+</style>
+
+<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+<!-- NOTE: AMP Scripts -->
+<script async custom-element="amp-font" src="https://cdn.ampproject.org/v0/amp-font-0.1.js"></script>
+<script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+<script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
+<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+<script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
+<script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+<script async custom-element="amp-image-lightbox" src="https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js"></script>
+<script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+<script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+<script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+<script async custom-element="amp-install-serviceworker" src="https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js"></script>
+<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+<script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>
+</head>
+
+<body>
+<div>
+  <div class="hide-content" on="tap:autoSearch.submit" role="search-submit" tabindex="1"
+    [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"></div>
+  <div class="hide-content" [class]="searchClicked ? 'page-search-box' : 'hide-content'">
+    <form id="autoSearch" method="get" action="/amp/search/?searchCategory=all" target="_top">
+      <input id="searchInput" placeholder="What are you looking for?" class="search-input" name="text" type="text" />
+    </form>
+  </div>
+
+  <div id="searchClose" class="hide-content" [class]="searchClicked ? 'page-search-close' : 'hide-content'"
+  on="tap:AMP.setState({searchClicked : false}),searchClose.hide,autoSearch.clear" role="search-close" tabindex="0"></div>
+
+  <div class="page-left-logo" on="tap:AMP.goBack" role="go-back" tabindex="0"></div>
+  <div class="page-right-search" role="search-open" tabindex="0"
+    on="tap:AMP.setState({searchClicked : true}),searchClose.show,searchInput.focus"></div>
+  <div class="page-header">
+    <span>Welcome to Tata CLiQ</span>
+  </div>
+
+  <div class="header-backspace"> </div>
+
+  <amp-list src="<%= defaultPageUrl %>" width="auto" height="600" layout="fixed-height">
+  <!-- <amp-list src="https://api.myjson.com/bins/1bxpji" width="auto" height="600" layout="fixed-height"> -->
+    <template type="amp-mustache">
+
+      {{#heroBannerComponent}}
+        <!-- NOTE: Hero Banner -->
+        <amp-carousel class="hero-banner-component" width="380" height="220" layout="responsive" type="slides" loop>
+          {{#heroBannerComponent.items}}
+          <div class="hero-banner">
+            <a class="no-select" href="{{webURL}}">
+              <div class="hero-content">
+                <div>{{title}}</div>
+                <div>{{subTitle}}</div>
+              </div>
+              <amp-img class="contain" src="{{imageURL}}" width="340" height="220" layout="responsive"></amp-img>
+            </a>
+          </div>
+          {{/heroBannerComponent.items}}
+        </amp-carousel>
+      {{/heroBannerComponent}}
+
+      {{#multiPurposeBanner}}
+      <!-- NOTE: Multi Purpose Banner -->
+      <div class="top-space">
+        <a class="no-select" href="{{webURL}}">
+          <amp-img class="contain" src="{{multiPurposeBanner.backgroundImageURL}}" width="360" height="140" layout="responsive"></amp-img>
+        </a>
+      </div>
+      {{/multiPurposeBanner}}
+
+      {{#offersComponent}}
+        <!-- NOTE: Offer Component -->
+        <div class="offer-component top-space">
+          <div class="component-header">
+            {{offersComponent.title}}
+          </div>
+          <amp-carousel class="carousel-component" height="320" layout="fixed-height" type="carousel">
+            {{#offersComponent.items}}
+            <a class="no-select" href="{{webURL}}">
+              <div class="offer-item">
+                <!-- <a href="{{webURL}}"> -->
+                  {{#discountText}}
+                  <div class="offer-badge">
+                    <div>{{discountText}}</div>
+                  </div>
+                  {{/discountText}}
+                  <div class="offer-content">
+                    <div>{{title}}</div>
+                    <div><div class="shop-now">{{btnText}}</div></div>
+                  </div>
+                  <amp-img class="contain" src="{{imageURL}}" width="310" height="310" layout="flex-item"></amp-img>
+                <!-- </a> -->
+              </div>
+            </a>
+            {{/offersComponent.items}}
+          </amp-carousel>
+        </div>
+      {{/offersComponent}}
+
+      {{#singleBannerComponent}}
+        <!-- NOTE: single banner -->
+        <div class="single-component top-space">
+          <div class="single-component-header">
+            {{singleBannerComponent.title}}
+          </div>
+          <amp-carousel class="carousel-component" width="320" height="320" layout="responsive" type="slides">
+            {{#singleBannerComponent.items}}
+            <a class="no-select" href="{{webURL}}">
+              <div class="offer-item">
+                <!-- <a href="{{webURL}}"> -->
+                  {{#discountText}}
+                  <div class="offer-badge">
+                    <div>{{discountText}}</div>
+                  </div>
+                  {{/discountText}}
+                  <div class="offer-content">
+                    <div>{{title}}</div>
+                    <div><div class="shop-now">{{btnText}}</div></div>
+                  </div>
+                  <amp-img class="contain" src="{{imageURL}}" width="320" height="320" layout="responsive"></amp-img>
+                <!-- </a> -->
+              </div>
+            </a>
+            {{/singleBannerComponent.items}}
+          </amp-carousel>
+        </div>
+      {{/singleBannerComponent}}
+
+      {{#curatedListingStripComponent}}
+      <!-- NOTE: Listing Strip Component -->
+      <div class="listing-component">
+        <a class="no-select" href="{{curatedListingStripComponent.webURL}}">
+          <table class="listing-strip" bgcolor="{{curatedListingStripComponent.startHexCode}}">
+            <tr><td>{{curatedListingStripComponent.title}} <span></span></td></tr>
+          </table>
+        </a>
+      </div>
+      {{/curatedListingStripComponent}}
+
+      {{#themeOffersComponent}}
+      <!-- NOTE: Theme Offers Component -->
+      <table class="theme-component top-space" bgcolor="{{themeOffersComponent.backgroundHexCode}}">
+        <tbody><tr><td>
+          <div>
+            <div class="theme-component-header">
+              {{themeOffersComponent.title}}
+            </div>
+            <amp-carousel class="carousel-component" height="320" layout="fixed-height" type="carousel">
+              {{#themeOffersComponent.offers}}
+                <div>
+                  <a class="no-select" href="{{webURL}}">
+                    <div class="theme-content">
+                      <amp-img class="contain" src="{{imageURL}}" width="140" height="190" layout="flex-item"></amp-img>
+                      <div class="theme-desc">
+                        <div>{{title}}</div>
+                        <div>{{description}}</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {{/themeOffersComponent.offers}}
+            </amp-carousel>
+            <div class="theme-component-footer">
+              <a class="no-select" href="{{webURL}}"><div class="shop-now">{{btnText}}</div></a>
+            </div>
+          </div>
+        </td></tr></tbody>
+      </table>
+      {{/themeOffersComponent}}
+    </template>
+  </amp-list>
+
+  <amp-analytics type="adobeanalytics_nativeConfig">
+   <script type="application/json">
+   {
+     "requests": {
+       "base": "http://${host}",
+       "iframeMessage": "<%= ampCrossDomainUrl %>/stats.ejs"
+     },
+     "vars": {
+       "host": "localhost:8887"
+     },
+     "extraUrlParams": {
+       "pageType":"HomeLanding",
+       "pageName": "Amp Home Page",
+       "channel": "homepage_amp"
+     }
+   }
+   </script>
+  </amp-analytics>
+
+  <div class="footer-backspace"> </div>
+  <div class="footer-menu">
+    <a class="no-select" href="https://tatacliq.com"><div class="footer-item footer-first">
+      <div class="home-icon"><span></span></div>
+      <div>Home</div>
+    </div></a>
+    <a class="no-select" href="https://www.tatacliq.com/categories"><div class="footer-item">
+      <div class="category-icon"><span></span></div>
+      <div>Categories</div>
+    </div></a>
+    <a class="no-select" href="https://www.tatacliq.com/brands"><div class="footer-item">
+      <div class="brand-icon"><span></span></div>
+      <div>Brands</div>
+    </div></a>
+    <a class="no-select" href="https://tatacliq.com/my-account"><div class="footer-item">
+      <div class="account-icon"><span></span></div>
+      <div>My Account</div>
+    </div></a>
+    <a class="no-select" href="https://tatacliq.com/cart"><div class="footer-item">
+      <div class="bag-icon"><span></span></div>
+      <div>My Bag</div>
+    </div></a>
+  </div>
+</div>
+</body>
+
+</html>

@@ -2,37 +2,83 @@ import React from "react";
 import styles from "./PdpFooter.css";
 import PropTypes from "prop-types";
 import FooterButton from "../../general/components/FooterButton.js";
-import addToBagIcon from "./img/order-historyWhite.svg";
-import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
-import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants.js";
 export default class PdfFooter extends React.Component {
-  onAddToBag() {
-    if (this.props.onAddToBag) {
-      this.props.onAddToBag();
+  constructor(props) {
+    super(props);
+    this.state = {
+      goToCartPageFlag: props.goToCartPageFlag ? props.goToCartPageFlag : false,
+      checkForUrlGoToCartFlag: true
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.state.checkForUrlGoToCartFlag &&
+      nextProps.goToCartPageFlag !== this.state.goToCartPageFlag
+    ) {
+      this.setState({ goToCartPageFlag: nextProps.goToCartPageFlag });
+    }
+  }
+  async onAddToBag(buyNowFlag) {
+    if (!this.state.goToCartPage) {
+      if (this.props.onAddToBag) {
+        const addProductToCartResponse = await this.props.onAddToBag(
+          buyNowFlag
+        );
+        if (
+          addProductToCartResponse &&
+          addProductToCartResponse.status === SUCCESS
+        ) {
+          this.setState({
+            goToCartPageFlag: true,
+            checkForUrlGoToCartFlag: false
+          });
+          if (buyNowFlag) {
+            this.goToCartPage();
+          } else {
+            this.props.displayToast(ADD_TO_BAG_TEXT);
+          }
+        }
+      }
+    } else {
+      this.goToCartPage();
+    }
+  }
+  goToCartPage() {
+    if (this.props.goToCartPage) {
+      this.props.goToCartPage();
     }
   }
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.footerButtonHolder}>
-          <AddToWishListButtonContainer
-            type={WISHLIST_FOOTER_BUTTON_TYPE}
-            productListingId={this.props.productListingId}
-            winningUssID={this.props.winningUssID}
-            setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP} // this is using for setting data layer on pdp page
+          <FooterButton
+            backgroundColor={this.state.goToCartPageFlag ? "#ff1744" : "#fff"}
+            boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
+            label="Buy Now"
+            disabled={this.props.outOfStock}
+            onClick={() => this.onAddToBag(true)}
+            labelStyle={{
+              color: this.state.goToCartPageFlag ? "#fff" : "#ff1744",
+              fontSize: 14,
+              fontFamily: "semibold"
+            }}
           />
         </div>
         <div className={styles.footerButtonHolder}>
           <FooterButton
-            icon={addToBagIcon}
-            backgroundColor="#ff1744"
+            backgroundColor={this.state.goToCartPageFlag ? "#fff" : "#ff1744"}
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
-            label="Add to bag"
+            label={this.state.goToCartPageFlag ? "Go to bag" : "Add to bag"}
             disabled={this.props.outOfStock}
-            onClick={() => this.onAddToBag()}
+            onClick={
+              this.state.goToCartPageFlag
+                ? () => this.goToCartPage()
+                : () => this.onAddToBag(false)
+            }
             labelStyle={{
-              color: "#fff",
+              color: this.state.goToCartPageFlag ? "#ff1744" : "#fff",
               fontSize: 14,
               fontFamily: "semibold"
             }}
@@ -45,4 +91,7 @@ export default class PdfFooter extends React.Component {
 PdfFooter.propTyes = {
   onSave: PropTypes.func,
   onAddToBag: PropTypes.func
+};
+PdfFooter.defaultProps = {
+  goToCartPageState: false
 };

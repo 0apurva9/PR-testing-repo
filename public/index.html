@@ -118,6 +118,39 @@
       To create a production bundle, use `npm run build` or `yarn build`.
       -->
 
+  <script type="text/javascript">
+      <% if(htmlWebpackPlugin.options.stage === "production") { %>
+      var clevertap_account_id = "867-R5K-8R5Z";
+      <% } else { %>
+      var clevertap_account_id = "TEST-967-R5K-8R5Z";
+      <% } %>
+
+      var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
+      clevertap.account.push({"id": clevertap_account_id});
+      clevertap.privacy.push({optOut: false});
+      clevertap.privacy.push({useIP: false});
+       (function () {
+           var wzrk = document.createElement('script');
+           wzrk.type = 'text/javascript';
+           wzrk.async = true;
+           wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+           var s = document.getElementsByTagName('script')[0];
+           s.parentNode.insertBefore(wzrk, s);
+        })();
+
+        setTimeout(function(){
+          clevertap.notifications.push({
+              "titleText": 'Would you like to receive Push Notifications?',
+              "bodyText": 'We promise to only send you relevant content and give you updates on your transactions',
+              "okButtonText": 'Sign me up!',
+              "rejectButtonText": 'No thanks',
+              "okButtonColor": '#f28046',
+              "askAgainTimeInSeconds": 86400,
+              "serviceWorkerPath": "/service-worker.js" 
+          });
+        },10000);
+  </script>
+
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
     <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js"></script>
     <% } else { %>

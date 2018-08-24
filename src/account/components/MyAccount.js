@@ -23,7 +23,7 @@ import {
   PRIVACY_POLICY_URL,
   FAQ_URL,
   HELP_URL,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  BUYER_POLICY_URL
 } from "../../lib/constants";
 
 import * as Cookie from "../../lib/Cookie";
@@ -55,11 +55,6 @@ export default class MyAccount extends React.Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
-  redirectToOrderRelatedPage() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
-  }
   componentDidUpdate() {
     this.props.setHeaderText(MY_CLIQ);
   }
@@ -156,13 +151,6 @@ export default class MyAccount extends React.Component {
               </div>
               <div className={styles.linkTabHolder}>
                 <AccountUsefulLink
-                  onClick={() => this.redirectToOrderRelatedPage()}
-                >
-                  <div className={styles.usefulLinkText}>
-                    Contact TataCLiQ Care
-                  </div>
-                </AccountUsefulLink>
-                <AccountUsefulLink
                   onClick={() => this.redirectToHelp(HELP_URL)}
                 >
                   <div className={styles.usefulLinkText}>Help & Services</div>
@@ -178,6 +166,11 @@ export default class MyAccount extends React.Component {
                       <a href="tel:9029108282">Call Tata CLIQ Care</a>
                     </div>
                   </div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(BUYER_POLICY_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Buyer Policies</div>
                 </AccountUsefulLink>
                 <AccountUsefulLink
                   onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}

@@ -16,7 +16,9 @@ import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 const mapDispatchToProps = dispatch => {
   return {
     addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(addProductToCart(userId, cartId, accessToken, productDetails));
+      return dispatch(
+        addProductToCart(userId, cartId, accessToken, productDetails)
+      );
     },
     getProductReviews: (productCode, pageIndex, orderBy, sortBy) => {
       dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy));
@@ -25,7 +27,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getProductDescription(productCode));
     },
     addProductReview: (productCode, productReview) => {
-      dispatch(addProductReview(productCode, productReview));
+      return dispatch(addProductReview(productCode, productReview));
     },
 
     displayToast: message => {

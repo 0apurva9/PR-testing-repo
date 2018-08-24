@@ -6,6 +6,7 @@ export const SUCCESS_CAMEL_CASE = "Success";
 export const SUCCESS_FOR_ADDING_TO_WSHLIST =
   "Product added successfully to the wishlist";
 export const SUCCESS_FOR_ADDING_TO_BAG = "Product added successfully to bag";
+export const ADD_TO_BAG_TEXT = "The item has been added to your bag";
 export const REQUESTING = "requesting";
 export const ERROR = "error";
 export const FAILURE = "Failure";
@@ -62,6 +63,8 @@ export const BRAND_LANDING_PAGE = "/brand";
 
 export const PRODUCT_DESCRIPTION_PRODUCT_CODE = "/p-([a-z0-9A-Z]+)";
 export const PRODUCT_DESCRIPTION_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/product-reviews`;
+export const WRITE_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/write-review`;
+export const WRITE_REVIEWS_WITH_SLUG = `/:slug${WRITE_REVIEWS}`;
 export const PRODUCT_DESCRIPTION_REVIEWS_WITH_SLUG = `/:slug${PRODUCT_DESCRIPTION_REVIEWS}`;
 export const PRODUCT_OTHER_SELLER_ROUTER = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/viewSellers`;
 export const PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE =
@@ -233,6 +236,7 @@ export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq-page";
 export const HELP_URL = "/help";
+export const BUYER_POLICY_URL = "/buyer-policies";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
@@ -279,7 +283,7 @@ export const SELECTED_BANK_NAME = "selectedBankName";
 export const SAVE_TEXT = "Save Address";
 export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
-export const LAST_NAME_TEXT = "plese enter last name";
+export const LAST_NAME_TEXT = "Please enter last name";
 export const ADDRESS_TEXT = "Please enter address";
 export const ADDRESS_MINLENGTH_VALID_TEXT =
   "Minimum address length is 15 characters";
@@ -317,7 +321,14 @@ export const MALE = "MALE";
 
 export const CLIQ_CASH_APPLIED_LOCAL_STORAGE = "cliqCashApplied";
 export const ADDRESS_VALIDATION = /^[\\&()''+_#./0-9a-zA-Z\s,-]{15,}$/;
-export const NAME_VALIDATION = /^[A-Za-z]+$/;
+export const NAME_VALIDATION = /^[A-Za-z ]+$/;
+
+export const AMP_BRAND_AND_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+\/b-mbh[0-9a-zA-Z]+/;
+export const AMP_BRAND_REG_EX = /\/[a-zA-z0-9-]+\/c-mbh[0-9a-zA-Z]+/;
+export const AMP_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+/;
+export const AMP_SEARCH_REG_EX = /\/search\//;
+export const AMP_PRODUCT_CODE_REG_EX = /\/p-mp[0-9]+/;
+
 export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";

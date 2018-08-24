@@ -37,13 +37,18 @@ export default class OrderStatusVertical extends React.Component {
     const cancelledData = this.props.statusMessageList.find(val => {
       return val.key === CANCEL;
     });
-    const readyForCollectionData = this.props.statusMessageList.find(val => {
-      return val.key === READY_FOR_COLLECTION;
-    });
+    const readyForCollectionData = shippingData
+      ? shippingData.value.statusList.find(val => {
+          return val.responseCode === READY_FOR_COLLECTION;
+        })
+      : null;
 
-    const orderCollectedData = this.props.statusMessageList.find(val => {
-      return val.key === ORDER_COLLECTED;
-    });
+    const orderCollectedData = shippingData
+      ? shippingData.value.statusList.find(val => {
+          return val.responseCode === ORDER_COLLECTED;
+        })
+      : null;
+
     let paymentDate = "";
     let paymentTime = "";
     let paymentMessage = "";
@@ -141,31 +146,24 @@ export default class OrderStatusVertical extends React.Component {
     let readyForCollectionTime = "";
     if (
       readyForCollectionData &&
-      readyForCollectionData.value.statusList &&
-      readyForCollectionData.value.statusList[0] &&
-      readyForCollectionData.value.statusList[0].statusMessageList &&
-      readyForCollectionData.value.statusList[0].statusMessageList[0]
+      readyForCollectionData.statusMessageList &&
+      readyForCollectionData.statusMessageList[0]
     ) {
-      readyForCollectionDate =
-        readyForCollectionData.value.statusList[0].statusMessageList[0].date;
-      readyForCollectionTime =
-        readyForCollectionData.value.statusList[0].statusMessageList[0].time;
+      readyForCollectionDate = readyForCollectionData.statusMessageList[0].date;
+      readyForCollectionTime = readyForCollectionData.statusMessageList[0].time;
     }
     let orderCollectedDate = "";
     let orderCollectedTime = "";
     if (
       orderCollectedData &&
-      orderCollectedData.value.statusList &&
-      orderCollectedData.value.statusList[0] &&
-      orderCollectedData.value.statusList[0].statusMessageList &&
-      orderCollectedData.value.statusList[0].statusMessageList[0]
+      orderCollectedData.statusMessageList &&
+      orderCollectedData.statusMessageList[0]
     ) {
-      orderCollectedDate =
-        orderCollectedData.value.statusList[0].statusMessageList[0].date;
-      orderCollectedTime =
-        orderCollectedData.value.statusList[0].statusMessageList[0].time;
+      orderCollectedDate = orderCollectedData.statusMessageList[0].date;
+      orderCollectedTime = orderCollectedData.statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
+
     return (
       <div className={styles.base}>
         {completedSteps.includes("PAYMENT") && (
@@ -270,7 +268,10 @@ export default class OrderStatusVertical extends React.Component {
                         <UnderLinedButton
                           label="More details"
                           onClick={() =>
-                            this.handleMoreDetails({ shippingList, orderCode })
+                            this.handleMoreDetails({
+                              shippingList,
+                              orderCode
+                            })
                           }
                         />
                       </div>
@@ -302,16 +303,12 @@ export default class OrderStatusVertical extends React.Component {
               {shippingResponseCode !== REFUND_INITIATED && (
                 <div
                   className={
-                    completedSteps.includes(READY_FOR_COLLECTION)
-                      ? styles.step
-                      : styles.stepInactive
+                    readyForCollectionData ? styles.step : styles.stepInactive
                   }
                 >
                   <div
                     className={
-                      completedSteps.includes(READY_FOR_COLLECTION)
-                        ? styles.checkActive
-                        : styles.check
+                      readyForCollectionData ? styles.checkActive : styles.check
                     }
                   />
                   <div className={styles.processNameHolder}>
@@ -348,16 +345,12 @@ export default class OrderStatusVertical extends React.Component {
                 this.props.isCNC && (
                   <div
                     className={
-                      completedSteps.includes(ORDER_COLLECTED)
-                        ? styles.step
-                        : styles.stepInactive
+                      orderCollectedData ? styles.step : styles.stepInactive
                     }
                   >
                     <div
                       className={
-                        completedSteps.includes(ORDER_COLLECTED)
-                          ? styles.checkActive
-                          : styles.check
+                        orderCollectedData ? styles.checkActive : styles.check
                       }
                     />
                     <div className={styles.processNameHolder}>

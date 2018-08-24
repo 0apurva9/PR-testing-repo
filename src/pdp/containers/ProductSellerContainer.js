@@ -5,13 +5,19 @@ import {
   addProductToCart,
   getProductDescription
 } from "../actions/pdp.actions";
-const mapDispatchToProps = dispatch => {
+import { displayToast } from "../../general/toast.actions.js";
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(addProductToCart(userId, cartId, accessToken, productDetails));
+    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
+      return dispatch(
+        addProductToCart(userId, cartId, accessToken, productDetails)
+      );
     },
     getProductDescription: productCode => {
       dispatch(getProductDescription(productCode));
+    },
+    displayToast: val => {
+      dispatch(displayToast(val));
     }
   };
 };

@@ -17,6 +17,12 @@ import * as Cookie from "../../lib/Cookie";
 const SIZE_GUIDE = "Size guide";
 const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;
 export default class SizeSelector extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      goToCartPageFlag: false
+    };
+  }
   handleShowSize() {
     if (this.props.showSizeGuide) {
       this.props.showSizeGuide();
@@ -74,13 +80,13 @@ export default class SizeSelector extends React.Component {
         }
         this.props.history.replace({
           pathname: `${productUrl}`,
-          state: { isSizeSelected: true }
+          state: { isSizeSelected: true, goToCartPageFlag: true }
         });
       }
     } else {
       this.props.history.replace({
         pathname: `${productUrl}`,
-        state: { isSizeSelected: true }
+        state: { isSizeSelected: true, goToCartPageFlag: false }
       });
     }
     if (this.props.closeModal) {
