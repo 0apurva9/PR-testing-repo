@@ -20,8 +20,20 @@ export default class SearchPage extends React.Component {
       setOnClick: false
     };
     this.searchDown = [];
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
-
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({ showData: false });
+    }
+  }
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
   onSearchOrCloseIconClick = () => {
     const showResults = this.state.showResults;
     this.props.clearSearchResults();
@@ -180,8 +192,8 @@ export default class SearchPage extends React.Component {
     }
 
     if (val === "Enter") {
-      this.setState({ showData: false });
-      this.setState({ showData: true });
+      this.setState({ showData: false, searchString: null });
+      this.setState({ showData: true, searchString: null });
     }
   }
 
@@ -274,7 +286,7 @@ export default class SearchPage extends React.Component {
         </MobileOnly>
         <DesktopOnly>
           {this.state.showData && (
-            <div className={styles.searchResults}>
+            <div className={styles.searchResults} ref={this.setWrapperRef}>
               {data &&
                 data.topBrands &&
                 data.topBrands.map((val, i) => {
