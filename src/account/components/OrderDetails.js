@@ -20,7 +20,6 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
-import * as UserAgent from "../../lib/UserAgent.js";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   CASH_ON_DELIVERY,
@@ -153,17 +152,8 @@ export default class OrderDetails extends React.Component {
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
-
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.history.push(LOGIN_PATH);
+    return null;
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {

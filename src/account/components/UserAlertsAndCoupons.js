@@ -47,15 +47,7 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     } else {
-      if (UserAgent.checkUserAgentIsMobile()) {
-        this.props.history.push(LOGIN_PATH);
-      } else {
-        if (this.props.showAuthPopUp) {
-          this.props.history.push(HOME_ROUTER);
-          this.props.showAuthPopUp();
-          return null;
-        }
-      }
+      this.props.history.push(LOGIN_PATH);
     }
   }
   componentDidUpdate() {
@@ -72,16 +64,8 @@ export default class UserAlertsAndCoupons extends React.Component {
     return <Loader />;
   }
   navigateToLogin() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.history.push(LOGIN_PATH);
+    return null;
   }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

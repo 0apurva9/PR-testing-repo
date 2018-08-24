@@ -5,6 +5,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import CoreButton from "../../xelpmoc-core/Button";
 import tataLogo from "./img/tata_Logo.svg";
 import { default as styles } from "./AuthFrame.css";
+
 import SocialButtonsContainer from "../containers/SocialButtonsContainer.js";
 import {
   TERMS_AND_CONDITION_URL,

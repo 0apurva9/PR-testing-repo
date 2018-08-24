@@ -73,16 +73,8 @@ export default class CliqAndCash extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
   navigateToLogin() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.history.push(LOGIN_PATH);
+    return null;
   }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

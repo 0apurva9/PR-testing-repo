@@ -47,16 +47,8 @@ export default class SaveListDetails extends React.Component {
     this.props.setHeaderText(SAVED_LIST);
   }
   navigateToLogin() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.history.push(LOGIN_PATH);
+    return null;
   }
   addToBagItem(ussid, productcode) {
     const productDetails = {};

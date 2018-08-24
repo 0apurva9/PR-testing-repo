@@ -28,7 +28,6 @@ import {
 } from "../../lib/constants";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
-import * as UserAgent from "../../lib/UserAgent.js";
 import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_LANDING_PAGE
@@ -68,16 +67,8 @@ export default class MyAccount extends React.Component {
 
   navigateToLogin() {
     const url = this.props.location.pathname;
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.setUrlToRedirectToAfterAuth(url);
+    return <Redirect to={LOGIN_PATH} />;
   }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

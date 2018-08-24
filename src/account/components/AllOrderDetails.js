@@ -159,16 +159,8 @@ export default class AllOrderDetails extends React.Component {
     );
   }
   navigateToLogin() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
+    this.props.history.push(LOGIN_PATH);
+    return null;
   }
   reSendEmailForGiftCard = orderId => {
     if (this.props.reSendEmailForGiftCard) {
