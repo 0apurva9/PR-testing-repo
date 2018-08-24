@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 import EditAddressPopUp from "../components/EditAddressPopUp.js";
 import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
     editAddress: addressDetails => {
@@ -25,6 +26,9 @@ const mapDispatchToProps = dispatch => {
     },
     displayToast: message => {
       dispatch(displayToast(message));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

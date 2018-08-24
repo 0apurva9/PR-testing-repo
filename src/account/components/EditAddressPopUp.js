@@ -19,7 +19,8 @@ import {
   NAME_VALIDATION,
   EDIT_ADDRESS_BOOK,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
+  CUSTOMER_ACCESS_TOKEN,
+  LOGIN_PATH
 } from "../../lib/constants.js";
 import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
@@ -54,31 +55,40 @@ const OTHER_LANDMARK = "other";
 export default class EditAddressPopUp extends React.Component {
   constructor(props) {
     super(props);
-    const addressDetails = this.props.location.state.addressDetails;
-    const getUrl = this.props.history.location.pathname;
+    const addressDetails =
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.addressDetails;
+    const getUrl =
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.pathname;
 
     this.state = {
       flag:
         `${EDIT_ADDRESS_BOOK}` === getUrl && !UserAgent.checkUserAgentIsMobile()
           ? true
           : false,
-      countryIso: addressDetails.country.isocode,
-      addressType: addressDetails.addressType,
-      phone: addressDetails.phone,
-      firstName: addressDetails.firstName,
-      lastName: addressDetails.lastName,
-      postalCode: addressDetails.postalCode,
-      line1: addressDetails.line1,
-      landmark: addressDetails.landmark,
-      line2: addressDetails.line2,
+      countryIso:
+        addressDetails &&
+        addressDetails.country &&
+        addressDetails.country.isocode,
+      addressType: addressDetails && addressDetails.addressType,
+      phone: addressDetails && addressDetails.phone,
+      firstName: addressDetails && addressDetails.firstName,
+      lastName: addressDetails && addressDetails.lastName,
+      postalCode: addressDetails && addressDetails.postalCode,
+      line1: addressDetails && addressDetails.line1,
+      landmark: addressDetails && addressDetails.landmark,
+      line2: addressDetails && addressDetails.line2,
       line3: "",
-      town: addressDetails.town,
-      addressId: addressDetails.id,
-      defaultFlag: addressDetails.defaultAddress,
-      state: addressDetails.state,
+      town: addressDetails && addressDetails.town,
+      addressId: addressDetails && addressDetails.id,
+      defaultFlag: addressDetails && addressDetails.defaultAddress,
+      state: addressDetails && addressDetails.state,
       isOtherLandMarkSelected: false,
       selectedLandmarkLabel: "Landmark",
-      emailid: addressDetails.emailId,
+      emailid: addressDetails && addressDetails.emailId,
       landmarkList: []
     };
   }
@@ -114,7 +124,11 @@ export default class EditAddressPopUp extends React.Component {
     }
   }
   componentDidMount() {
-    if (this.state.postalCode.length === 6 && this.props.getPinCode) {
+    if (
+      this.state.postalCode &&
+      this.state.postalCode.length === 6 &&
+      this.props.getPinCode
+    ) {
       this.props.getPinCode(this.state.postalCode);
     }
   }
@@ -269,6 +283,12 @@ export default class EditAddressPopUp extends React.Component {
       emailId: ""
     });
   };
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+    return null;
+  }
   render() {
     if (this.props.loading) {
       if (this.props.showSecondaryLoader) {
@@ -556,7 +576,8 @@ export default class EditAddressPopUp extends React.Component {
                 Special characters allowed are - # & ( ) ' ' . , \ / + _
               </div>
               <div className={styles.content}>
-                {this.state.postalCode.length === 6 &&
+                {this.state.postalCode &&
+                  this.state.postalCode.length === 6 &&
                   this.props.location.state.addressDetails.postalCode ===
                     this.state.postalCode && (
                     <SelectBoxMobile2
@@ -575,23 +596,26 @@ export default class EditAddressPopUp extends React.Component {
                       onChange={landmark => this.onSelectLandmark(landmark)}
                     />
                   )}
-                {this.props.location.state.addressDetails.postalCode !==
-                  this.state.postalCode && (
-                  <SelectBoxMobile2
-                    height={33}
-                    placeholder={"Landmark"}
-                    options={
-                      this.state.landmarkList.length > 0 &&
-                      this.state.landmarkList.map((val, i) => {
-                        return {
-                          value: val && val.landmark,
-                          label: val && val.landmark
-                        };
-                      })
-                    }
-                    onChange={landmark => this.onSelectLandmark(landmark)}
-                  />
-                )}
+                {this.props.location &&
+                  this.props.location.state &&
+                  this.props.location.state.addressDetails &&
+                  this.props.location.state.addressDetails.postalCode !==
+                    this.state.postalCode && (
+                    <SelectBoxMobile2
+                      height={33}
+                      placeholder={"Landmark"}
+                      options={
+                        this.state.landmarkList.length > 0 &&
+                        this.state.landmarkList.map((val, i) => {
+                          return {
+                            value: val && val.landmark,
+                            label: val && val.landmark
+                          };
+                        })
+                      }
+                      onChange={landmark => this.onSelectLandmark(landmark)}
+                    />
+                  )}
               </div>
               {this.state.isOtherLandMarkSelected && (
                 <div className={styles.content}>

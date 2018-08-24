@@ -16,6 +16,7 @@ import {
   showModal,
   CHANGE_PASSWORD_POP_UP
 } from "../../general/modal.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapDispatchToProps = dispatch => {
@@ -56,6 +57,9 @@ const mapDispatchToProps = dispatch => {
     },
     showChangePasswordModal: () => {
       dispatch(showModal(CHANGE_PASSWORD_POP_UP));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };
