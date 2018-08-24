@@ -16,11 +16,24 @@ export default class SearchPage extends React.Component {
       showSearchBar: false,
       searchString: null,
       currentFlag: null,
-      showData: true
+      showData: true,
+      setOnClick: false
     };
     this.searchDown = [];
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
-
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({ showData: false });
+    }
+  }
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
   onSearchOrCloseIconClick = () => {
     const showResults = this.state.showResults;
     this.props.clearSearchResults();
@@ -44,8 +57,15 @@ export default class SearchPage extends React.Component {
       showResults: false,
       searchString: null,
       currentFlag: null,
-      showSearchBar: false
+      showSearchBar: false,
+      setOnClick: true
     });
+    this.setState({ showData: false });
+
+    this.setState({ showData: true });
+    setTimeout(() => {
+      this.setState({ setOnClick: false });
+    }, 10);
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
       isFilter: false
@@ -69,9 +89,14 @@ export default class SearchPage extends React.Component {
       showResults: false,
       searchString: null,
       showSearchBar: false,
-      currentFlag: null
+      currentFlag: null,
+      setOnClick: true
     });
-
+    this.setState({ showData: false });
+    this.setState({ showData: true });
+    setTimeout(() => {
+      this.setState({ setOnClick: false });
+    }, 10);
     this.props.history.push(url, {
       isFilter: false
     });
@@ -167,14 +192,11 @@ export default class SearchPage extends React.Component {
     }
 
     if (val === "Enter") {
-      this.setState({ showData: false });
-      this.setState({ showData: true });
+      this.setState({ showData: false, searchString: null });
+      this.setState({ showData: true, searchString: null });
     }
   }
-  onBlur() {
-    this.setState({ showData: true });
-    this.setState({ showData: false });
-  }
+
   render() {
     const data = this.props.searchResult;
     if (data) {
@@ -187,6 +209,7 @@ export default class SearchPage extends React.Component {
       <div className={styles.base}>
         <div className={styles.searchBar}>
           <SearchHeader
+            setOnClick={this.state.setOnClick}
             onSearchOrCloseIconClick={this.onSearchOrCloseIconClick}
             onSearch={val => this.handleSearch(val)}
             onClickBack={() => {
@@ -205,7 +228,6 @@ export default class SearchPage extends React.Component {
             onKeyUp={event => {
               this.handleUpDownArrow(event);
             }}
-            onBlur={() => this.onBlur()}
           />
         </div>
         <MobileOnly>
@@ -264,7 +286,7 @@ export default class SearchPage extends React.Component {
         </MobileOnly>
         <DesktopOnly>
           {this.state.showData && (
-            <div className={styles.searchResults}>
+            <div className={styles.searchResults} ref={this.setWrapperRef}>
               {data &&
                 data.topBrands &&
                 data.topBrands.map((val, i) => {
