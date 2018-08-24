@@ -7,7 +7,6 @@ import {
 import { withRouter } from "react-router-dom";
 import AddressBook from "../components/AddressBook.js";
 import { setHeaderText } from "../../general/header.actions";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
@@ -35,9 +34,6 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
-    },
-    setUrlToRedirectToAfterAuth: url => {
-      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

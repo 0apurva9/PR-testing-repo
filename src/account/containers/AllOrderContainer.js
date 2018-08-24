@@ -8,7 +8,6 @@ import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
 import { setHeaderText } from "../../general/header.actions";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllOrdersDetails: () => {
@@ -30,9 +29,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
-    },
-    setUrlToRedirectToAfterAuth: url => {
-      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

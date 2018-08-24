@@ -65,18 +65,11 @@ export default class UserAlertsAndCoupons extends React.Component {
   renderLoader() {
     return <Loader />;
   }
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
-    return null;
-  }
+
   render() {
+    let userDetails;
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetailsCookie || !customerCookie) {
-      return this.navigateToLogin();
-    }
+
     if (this.props.loadingForUserCoupons || this.props.loadingForUserAlerts) {
       return this.renderLoader();
     }
@@ -87,8 +80,10 @@ export default class UserAlertsAndCoupons extends React.Component {
     } else if (pathname === URL_PATH_COUPONS) {
       currentActivePath = COUPONS;
     }
+    if (userDetailsCookie) {
+      userDetails = JSON.parse(userDetailsCookie);
+    }
 
-    const userDetails = JSON.parse(userDetailsCookie);
     return (
       <div className={styles.base}>
         <div className={myAccountStyles.holder}>
@@ -128,9 +123,9 @@ export default class UserAlertsAndCoupons extends React.Component {
           <DesktopOnly>
             <div className={styles.userProfile}>
               <UserProfile
-                image={userDetails.imageUrl}
-                userLogin={userDetails.userName}
-                loginType={userDetails.loginType}
+                image={userDetails && userDetails.imageUrl}
+                userLogin={userDetails && userDetails.userName}
+                loginType={userDetails && userDetails.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userDetails &&

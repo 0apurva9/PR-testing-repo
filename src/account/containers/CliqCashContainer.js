@@ -13,7 +13,6 @@ import {
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const CLIQ_CASH_REDEEM_SUCCESS =
   "Congrats!  Money has been added to your Cliq Cash balance";
 const mapDispatchToProps = dispatch => {
@@ -46,9 +45,6 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
-    },
-    setUrlToRedirectToAfterAuth: url => {
-      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

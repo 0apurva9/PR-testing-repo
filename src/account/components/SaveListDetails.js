@@ -46,12 +46,6 @@ export default class SaveListDetails extends React.Component {
   componentDidUpdate() {
     this.props.setHeaderText(SAVED_LIST);
   }
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
-    return null;
-  }
   addToBagItem(ussid, productcode) {
     const productDetails = {};
     productDetails.ussId = ussid;
@@ -100,12 +94,12 @@ export default class SaveListDetails extends React.Component {
     }
   }
   render() {
+    let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
     }
-    const userData = JSON.parse(userDetails);
+
     if (this.props.loading) {
       return (
         <div className={styles.loadingIndicator}>
@@ -188,9 +182,9 @@ export default class SaveListDetails extends React.Component {
           <DesktopOnly>
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
-                image={userData.imageUrl}
-                userLogin={userData.userName}
-                loginType={userData.loginType}
+                image={userData && userData.imageUrl}
+                userLogin={userData && userData.userName}
+                loginType={userData && userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&

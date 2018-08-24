@@ -158,29 +158,21 @@ export default class AllOrderDetails extends React.Component {
       </div>
     );
   }
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
-    return null;
-  }
   reSendEmailForGiftCard = orderId => {
     if (this.props.reSendEmailForGiftCard) {
       this.props.reSendEmailForGiftCard(orderId);
     }
   };
   render() {
+    let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
     const orderDetails = this.props.profile.orderDetails;
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }
-
-    const userData = JSON.parse(userDetails);
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
 
     return (
       <div className={styles.base}>
@@ -527,9 +519,9 @@ export default class AllOrderDetails extends React.Component {
           <DesktopOnly>
             <div className={styles.userProfile}>
               <UserProfile
-                image={userData.imageUrl}
-                userLogin={userData.userName}
-                loginType={userData.loginType}
+                image={userData && userData.imageUrl}
+                userLogin={userData && userData.userName}
+                loginType={userData && userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&

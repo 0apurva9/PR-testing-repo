@@ -88,19 +88,12 @@ export default class UserSavedCard extends React.Component {
       this.props.removeSavedCardDetails(cardToken);
     }
   };
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
-    return null;
-  }
   render() {
+    let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
     }
-    const userData = JSON.parse(userDetails);
     if (this.props.profile.loading) {
       this.props.showSecondaryLoader();
     } else {
@@ -198,9 +191,9 @@ export default class UserSavedCard extends React.Component {
             <DesktopOnly>
               <div className={myAccountStyles.userProfile}>
                 <UserProfile
-                  image={userData.imageUrl}
-                  userLogin={userData.userName}
-                  loginType={userData.loginType}
+                  image={userData && userData.imageUrl}
+                  userLogin={userData && userData.userName}
+                  loginType={userData & userData.loginType}
                   onClick={() => this.renderToAccountSetting()}
                   firstName={
                     userData &&

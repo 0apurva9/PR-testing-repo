@@ -283,12 +283,7 @@ export default class EditAddressPopUp extends React.Component {
       emailId: ""
     });
   };
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-    this.props.history.push(LOGIN_PATH);
-    return null;
-  }
+
   render() {
     if (this.props.loading) {
       if (this.props.showSecondaryLoader) {
@@ -300,10 +295,7 @@ export default class EditAddressPopUp extends React.Component {
       }
     }
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
+
     const dataLabel = [
       {
         label: "Home"
