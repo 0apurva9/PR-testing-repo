@@ -47,6 +47,8 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     } else {
+      const url = this.props.location.pathname;
+      this.props.setUrlToRedirectToAfterAuth(url);
       this.props.history.push(LOGIN_PATH);
     }
   }
@@ -64,6 +66,8 @@ export default class UserAlertsAndCoupons extends React.Component {
     return <Loader />;
   }
   navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
     return null;
   }

@@ -4,6 +4,7 @@ import UserAlertsAndCoupons from "../components/UserAlertsAndCoupons";
 import { getUserCoupons, getUserAlerts } from "../actions/account.actions";
 import { setHeaderText } from "../../general/header.actions";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
     getUserCoupons: () => {
@@ -17,6 +18,9 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

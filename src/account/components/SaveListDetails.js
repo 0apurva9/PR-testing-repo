@@ -47,6 +47,8 @@ export default class SaveListDetails extends React.Component {
     this.props.setHeaderText(SAVED_LIST);
   }
   navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
     return null;
   }

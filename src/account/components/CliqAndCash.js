@@ -73,6 +73,8 @@ export default class CliqAndCash extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
   navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
     return null;
   }

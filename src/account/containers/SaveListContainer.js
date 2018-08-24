@@ -11,6 +11,7 @@ import { addProductToCart } from "../../pdp/actions/pdp.actions";
 import { SUCCESS } from "../../lib/constants";
 import { SUCCESS_FOR_ADDING_TO_BAG } from "../../lib/constants.js";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const REMOVED_SAVELIST = "Removed Successfully";
 
 const mapDispatchToProps = dispatch => {
@@ -43,6 +44,9 @@ const mapDispatchToProps = dispatch => {
           dispatch(displayToast(REMOVED_SAVELIST));
         }
       });
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

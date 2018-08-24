@@ -20,6 +20,7 @@ import {
   SUCCESS,
   SUCCESS_UPPERCASE
 } from "../../lib/constants";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
     addUserAddress: addressDetails => {
@@ -62,6 +63,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearPinCodeStatus: () => {
       dispatch(clearPinCodeStatus());
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

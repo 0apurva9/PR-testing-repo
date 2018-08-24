@@ -89,6 +89,8 @@ export default class UserSavedCard extends React.Component {
     }
   };
   navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
     return null;
   }
