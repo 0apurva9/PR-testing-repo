@@ -16,8 +16,7 @@ import {
   CANCEL_URL,
   RETURN_URL,
   FAQ_URL,
-  HELP,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  HELP
 } from "../../lib/constants";
 export default class HelpDetails extends React.Component {
   componentDidMount() {
@@ -35,11 +34,6 @@ export default class HelpDetails extends React.Component {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`;
     this.props.history.push(url);
   };
-  redirectToOrderRelatedPage() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
-  }
   render() {
     return (
       <div className={styles.base}>
@@ -81,18 +75,13 @@ export default class HelpDetails extends React.Component {
             </div>
             Returns
           </div>
-          <div
-            className={styles.helpCard}
-            onClick={() =>
-              this.redirectToOrderRelatedPage(
-                COSTUMER_ORDER_RELATED_QUERY_ROUTE
-              )
-            }
-          >
+          <div className={styles.helpCard}>
             <div className={styles.iconHolder}>
-              <Icon image={customerCareIcon} size={25} />
+              <a href="tel:9029108282">
+                <Icon image={customerCareIcon} size={25} />
+              </a>
             </div>
-            Customer care
+            <a href="tel:9029108282">Call Tata CLiQ Care</a>
           </div>
 
           <div
