@@ -110,6 +110,7 @@ export default class AllOrderDetails extends React.Component {
   handleScroll = () => {
     return throttle(() => {
       if (
+        this.state.isSelected === 0 &&
         this.props.profile.orderDetails &&
         (this.props.profile.orderDetails.currentPage + 1) * 3 <
           this.props.profile.orderDetails.totalNoOfOrders
