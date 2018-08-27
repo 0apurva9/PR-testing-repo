@@ -20,11 +20,19 @@ import {
 } from "../../lib/seoUtils.js";
 import { URL_ROOT } from "../../lib/apiRequest";
 import { REQUESTING } from "../../lib/constants";
+import { filterScroll, filterFixed } from "./FilterDesktop.css";
 import SortDesktopContainer from "../containers/SortDesktopContainer";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 export default class Plp extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      totalHeight: 0,
+      fixedScroll: false
+    };
+  }
   toggleFilter = () => {
     if (this.props.isFilterOpen) {
       this.props.hideFilter();
@@ -47,6 +55,34 @@ export default class Plp extends React.Component {
   };
 
   handleScroll = () => {
+    const filterDOM = document.getElementById("filter");
+    const filterWrapperDOM = document.getElementById("filterWrapper");
+    const girdWrapper = document.getElementById("grid-container");
+    if (filterDOM) {
+      const filterSectionHeight = filterDOM.offsetHeight;
+      const pageHeight = window.pageYOffset;
+      const subTractOffset = window.screen.height - 400;
+      const scrollHeight = window.scrollY;
+      const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
+
+      if (totalGridHeight <= scrollHeight + 400) {
+        this.setState({ fixedScroll: false });
+        filterWrapperDOM.className = filterScroll;
+        filterWrapperDOM.style.marginTop = `${totalGridHeight -
+          filterSectionHeight}px`;
+      } else if (filterSectionHeight - subTractOffset <= pageHeight) {
+        filterWrapperDOM.style.marginTop = `auto`;
+        if (!this.state.fixedScroll) {
+          this.setState({ fixedScroll: true });
+          filterWrapperDOM.className = filterFixed;
+        }
+      } else {
+        if (this.state.fixedScroll) {
+          this.setState({ fixedScroll: false });
+          filterWrapperDOM.className = filterScroll;
+        }
+      }
+    }
     return throttle(() => {
       if (
         !this.props.isFilterOpen &&
@@ -90,35 +126,16 @@ export default class Plp extends React.Component {
       this.props.pageNumber <
         this.props.productListings.pagination.totalPages - 1
     ) {
-      const windowHeight =
-        "innerHeight" in window
-          ? window.innerHeight
-          : document.documentElement.offsetHeight;
-      const body = document.body;
-      const html = document.documentElement;
-      const docHeight = Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight
-      );
-      const windowBottom = windowHeight + window.pageYOffset;
-
-      if (
-        windowBottom >= docHeight - OFFSET_BOTTOM &&
-        window.pageYOffset > 0 &&
-        this.props.status !== REQUESTING
-      ) {
+      if (this.props.status !== REQUESTING) {
         this.props.paginate(this.props.pageNumber + 1, SUFFIX);
       }
     }
   }
   componentDidMount() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.throttledScroll = this.handleScroll();
-      window.addEventListener("scroll", this.throttledScroll);
-    }
+    // if (UserAgent.checkUserAgentIsMobile()) {
+    this.throttledScroll = () => this.handleScroll();
+    window.addEventListener("scroll", this.throttledScroll);
+    // }
 
     this.setHeaderText();
     if (this.props.lastVisitedPlpUrl === window.location.href) {
@@ -169,6 +186,19 @@ export default class Plp extends React.Component {
   }
   componentDidUpdate(prevProps) {
     this.setHeaderText();
+    console.log("comes in scroll");
+    console.log("comes in scroll");
+    const filterDOM = document.getElementById("filter");
+    const gridDOM = document.getElementById("grid-container");
+
+    const filterHeight = filterDOM ? filterDOM.offsetHeight : 0;
+    const gridHeight = gridDOM ? gridDOM.offsetHeight : 0;
+    const maxHeight =
+      filterHeight ^
+      ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
+    if (this.state.totalHeight !== maxHeight) {
+      this.setState({ totalHeight: maxHeight });
+    }
   }
   backPage = () => {
     if (this.props.isFilterOpen) {
@@ -266,6 +296,7 @@ export default class Plp extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     let selectedFilterCount = 0;
     let selectedFilter = [];
     let filterSelected = false;
@@ -375,8 +406,11 @@ export default class Plp extends React.Component {
             </div>
           </MobileOnly>
           <DesktopOnly>
-            <div className={styles.productWithFilterDesktop}>
-              <div className={styles.filterDesktopWrapper}>
+            <div className={styles.productWithFilterDesktop} id="plp-container">
+              <div
+                className={styles.filterDesktopWrapper}
+                id="filter-container"
+              >
                 <FilterContainer
                   backPage={this.backPage}
                   isFilterOpen={this.props.isFilterOpen}
@@ -385,7 +419,11 @@ export default class Plp extends React.Component {
                   onL3CategorySelect={this.onL3CategorySelect}
                 />
               </div>
-              <div className={styles.productGridDesktop}>
+              <div
+                className={styles.productGridDesktop}
+                id="grid-container"
+                style={{ minHeight: `${this.state.totalHeight}px` }}
+              >
                 <ProductGrid
                   history={this.props.history}
                   location={this.props.location}

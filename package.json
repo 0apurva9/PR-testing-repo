@@ -88,7 +88,7 @@
   },
   "scripts": {
     "start:desktop":
-      "REACT_APP_VERSION=desktop REACT_APP_STAGE=tmpprod node -r dotenv/config scripts/start.js",
+      "REACT_APP_VERSION=desktop REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "start:mobile":
       "REACT_APP_VERSION=mobile REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",

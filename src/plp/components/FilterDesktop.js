@@ -29,31 +29,31 @@ export default class FilterDesktop extends React.Component {
       openedFilters: []
     };
   }
-  handleScroll = () => {
-    const filterDOM = document.getElementById("filter");
-    if (filterDOM) {
-      const filterSectionHeight = filterDOM.offsetHeight;
-      const pageHeight = window.pageYOffset;
-      const subTractOffset = window.screen.height - 400;
-      if (filterSectionHeight - subTractOffset <= pageHeight) {
-        if (!this.state.fixedScroll) {
-          this.setState({ fixedScroll: true });
-        }
-      } else {
-        if (this.state.fixedScroll) {
-          this.setState({ fixedScroll: false });
-        }
-      }
-    }
-  };
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.throttledScroll);
-  }
+  // handleScroll = () => {
+  // const filterDOM = document.getElementById("filter");
+  // if (filterDOM) {
+  //   const filterSectionHeight = filterDOM.offsetHeight;
+  //   const pageHeight = window.pageYOffset;
+  //   const subTractOffset = window.screen.height - 400;
+  //   if (filterSectionHeight - subTractOffset <= pageHeight) {
+  //     if (!this.state.fixedScroll) {
+  //       this.setState({ fixedScroll: true });
+  //     }
+  //   } else {
+  //     if (this.state.fixedScroll) {
+  //       this.setState({ fixedScroll: false });
+  //     }
+  //   }
+  // }
+  // };
+  // componentWillUnmount() {
+  //   window.removeEventListener("scroll", this.throttledScroll);
+  // }
 
-  componentDidMount() {
-    this.throttledScroll = () => this.handleScroll();
-    window.addEventListener("scroll", this.throttledScroll);
-  }
+  // componentDidMount() {
+  //   this.throttledScroll = () => this.handleScroll();
+  //   window.addEventListener("scroll", this.throttledScroll);
+  // }
 
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
@@ -166,11 +166,7 @@ export default class FilterDesktop extends React.Component {
       return <div />;
     }
     return (
-      <div
-        className={`${
-          this.state.fixedScroll ? styles.filterFixed : styles.filterScroll
-        }`}
-      >
+      <div className={styles.filterScroll} id="filterWrapper">
         <div className={styles.filterDetails} id="filter">
           <div className={styles.filtersOptionsList}>
             <Accordion
