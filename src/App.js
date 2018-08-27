@@ -522,8 +522,8 @@ class App extends Component {
           <DesktopOnly>
             {!this.props.location.pathname.includes(CHECKOUT_ROUTER) &&
               !this.props.location.pathname.includes(PRODUCT_CART_ROUTER) &&
-              !this.props.location.pathname === LOGIN_PATH &&
-              !this.props.location.pathname === SIGN_UP_PATH && (
+              !this.props.location.pathname.includes(LOGIN_PATH) &&
+              !this.props.location.pathname.includes(SIGN_UP_PATH) && (
                 <DesktopFooterContainer />
               )}
           </DesktopOnly>
