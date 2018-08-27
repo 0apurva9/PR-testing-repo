@@ -61,6 +61,7 @@ if (
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
+  //Homepage and PDP code commented as of now PLP code making live - some homepage and pdp components are remaining
   //Code start for AMP
   // if (origUrl.search("/amp/home") !== -1) {
   //   var metaKeywords = "Tatacliq, Online Shopping, Online Shopping India";
