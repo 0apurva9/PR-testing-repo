@@ -19,6 +19,7 @@ import HeaderContainer from "./general/containers/HeaderContainer.js";
 import SecondaryLoaderContainer from "./general/containers/SecondaryLoaderContainer.js";
 import HelpDetailsContainer from "./account/containers/HelpDetailsContainer.js";
 import * as Cookies from "./lib/Cookie.js";
+
 import {
   HOME_ROUTER,
   PRODUCT_LISTINGS,
@@ -177,20 +178,39 @@ const CategoriesPageContainer = Loadable({
     return <Loader />;
   }
 });
+let LoginContainer;
+if (checkUserAgentIsMobile()) {
+  LoginContainer = Loadable({
+    loader: () => import("./auth/containers/LoginContainer"),
+    loading() {
+      return <Loader />;
+    }
+  });
+} else {
+  LoginContainer = Loadable({
+    loader: () => import("./auth/components/DesktopLogin"),
+    loading() {
+      return <Loader />;
+    }
+  });
+}
 
-const LoginContainer = Loadable({
-  loader: () => import("./auth/containers/LoginContainer"),
-  loading() {
-    return <Loader />;
-  }
-});
-
-const SignUpContainer = Loadable({
-  loader: () => import("./auth/containers/SignUpContainer.js"),
-  loading() {
-    return <Loader />;
-  }
-});
+let SignUpContainer;
+if (checkUserAgentIsMobile()) {
+  SignUpContainer = Loadable({
+    loader: () => import("./auth/containers/SignUpContainer.js"),
+    loading() {
+      return <Loader />;
+    }
+  });
+} else {
+  SignUpContainer = Loadable({
+    loader: () => import("./auth/components/DesktopLogin"),
+    loading() {
+      return <Loader />;
+    }
+  });
+}
 
 const CheckOutContainer = Loadable({
   loader: () => import("./cart/containers/CheckOutContainer"),
@@ -353,7 +373,6 @@ class App extends Component {
                 <LoginContainer {...routeProps} {...this.props} />
               )}
             />
-            <Route path={CANCEL_PREFIX} component={CancelOrderContainer} />
             <Route
               exact
               path={SIGN_UP_PATH}
@@ -361,6 +380,7 @@ class App extends Component {
                 <SignUpContainer {...routeProps} {...this.props} />
               )}
             />
+            <Route path={CANCEL_PREFIX} component={CancelOrderContainer} />
             <Route path={RETURNS} component={ReturnFlowContainer} />
             <Route
               path={SHORT_URL_ORDER_DETAIL}
@@ -501,7 +521,9 @@ class App extends Component {
 
           <DesktopOnly>
             {!this.props.location.pathname.includes(CHECKOUT_ROUTER) &&
-              !this.props.location.pathname.includes(PRODUCT_CART_ROUTER) && (
+              !this.props.location.pathname.includes(PRODUCT_CART_ROUTER) &&
+              !this.props.location.pathname.includes(LOGIN_PATH) &&
+              !this.props.location.pathname.includes(SIGN_UP_PATH) && (
                 <DesktopFooterContainer />
               )}
           </DesktopOnly>

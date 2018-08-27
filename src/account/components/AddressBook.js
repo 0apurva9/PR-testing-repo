@@ -54,25 +54,13 @@ export default class AddressBook extends React.Component {
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`
     });
   };
-  navigateToLogin() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
-  }
   renderAddressBook = () => {
+    let userData;
     const userProfileDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userProfileDetails || !customerCookie) {
-      return this.navigateToLogin();
+    if (userProfileDetails) {
+      userData = JSON.parse(userProfileDetails);
     }
-    const userData = JSON.parse(userProfileDetails);
+
     return (
       <div className={styles.base}>
         <div className={myAccountStyles.holder}>
@@ -163,9 +151,9 @@ export default class AddressBook extends React.Component {
           <DesktopOnly>
             <div className={myAccountStyles.userProfile}>
               <UserProfile
-                image={userData.imageUrl}
-                userLogin={userData.userName}
-                loginType={userData.loginType}
+                image={userData && userData.imageUrl}
+                userLogin={userData && userData.userName}
+                loginType={userData && userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&

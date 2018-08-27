@@ -20,7 +20,6 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
-import * as UserAgent from "../../lib/UserAgent.js";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   CASH_ON_DELIVERY,
@@ -150,21 +149,6 @@ export default class OrderDetails extends React.Component {
     }
   }
 
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
-
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
-  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {
       this.props.displayToast("Invoice has been sent");
@@ -176,12 +160,12 @@ export default class OrderDetails extends React.Component {
     } else {
       this.props.hideSecondaryLoader();
     }
+    let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
+
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
     }
-    const userData = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
     return (
       <div className={styles.base}>
@@ -673,9 +657,9 @@ export default class OrderDetails extends React.Component {
           <DesktopOnly>
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
-                image={userData.imageUrl}
-                userLogin={userData.userName}
-                loginType={userData.loginType}
+                image={userData && userData.imageUrl}
+                userLogin={userData && userData.userName}
+                loginType={userData && userData.loginType}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userData &&

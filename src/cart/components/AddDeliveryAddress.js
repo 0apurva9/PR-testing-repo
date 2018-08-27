@@ -55,7 +55,8 @@ import {
   MY_ACCOUNT,
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
-  MY_ACCOUNT_ADDRESS_PAGE
+  MY_ACCOUNT_ADDRESS_PAGE,
+  LOGIN_PATH
 } from "../../lib/constants";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
@@ -353,12 +354,10 @@ export default class AddDeliveryAddress extends React.Component {
   onChangeSalutation(val) {
     this.setState({ salutation: val.value });
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
+
     if (this.props.loading) {
       if (this.props.showSecondaryLoader) {
         this.props.showSecondaryLoader();

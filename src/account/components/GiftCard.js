@@ -112,18 +112,7 @@ export default class GiftCard extends React.Component {
       }
     }
   }
-  navigateToLogin() {
-    if (this.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
-  }
+
   render() {
     if (this.props.loadingForGiftCardDetails) {
       this.props.showSecondaryLoader();
@@ -131,11 +120,6 @@ export default class GiftCard extends React.Component {
       this.props.hideSecondaryLoader();
     }
 
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
-    }
     const giftCards = this.props.giftCardsDetails;
     return (
       <div className={styles.base}>
