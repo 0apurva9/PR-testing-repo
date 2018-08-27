@@ -59,6 +59,9 @@ url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff
 .no-products {padding: 10px 20px 0; line-height: 20px;}
 
 /*Page Header*/
+.left-logo {margin-top: 15px; margin-left: 10px; position: fixed; z-index: 20; height: 50px;
+  background-image: url('https://pwassets.tatacliq.com/static/media/group.ccb1a969.svg');
+  background-size: contain;  width: 35px; height: 35px; background-repeat: no-repeat; display: inline-block;}
 .page-left-back {z-index: 11; position: fixed; left: 0; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
 background-repeat: no-repeat; background-image: url('https://pwassets.tatacliq.com/static/media/arrowBack.1607a455.svg');}
 .page-right-search {z-index: 11; position: fixed; right: 0; top: 0; width: 50px; height: 50px; background-size: 16px; background-position: 50%;
@@ -240,17 +243,17 @@ color: #fff; background-color: #000;}
   </div>
 <div id="productsListContainer" class="products-list">
   <div class="" [class]="sortVisible ? 'products-list-blr' : ''">
-    <div class="hide-content" [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"
-     on="tap:autoSearch.submit" role="search-submit" tabindex="1"></div>
+    <!-- <div class="hide-content" [class]="searchClicked ? 'page-search-box-ic' : 'hide-content'"
+     on="tap:autoSearch.submit" role="search-submit" tabindex="1"></div> -->
 
-    <div class="hide-content" [class]="searchClicked ? 'page-search-box' : 'hide-content'">
+    <!-- <div class="hide-content" [class]="searchClicked ? 'page-search-box' : 'hide-content'">
       <form id="autoSearch" method="get" action="/amp/search/?searchCategory=all" target="_top">
         <input id="searchInput" placeholder="What are you looking for?" class="search-input" name="text" type="text" />
       </form>
-    </div>
+    </div> -->
 
-    <div id="searchClose" class="hide-content" [class]="searchClicked ? 'page-search-close' : 'hide-content'"
-    on="tap:AMP.setState({searchClicked : false}),searchClose.hide" role="search-close" tabindex="0"></div>
+    <!-- <div id="searchClose" class="hide-content" [class]="searchClicked ? 'page-search-close' : 'hide-content'"
+    on="tap:AMP.setState({searchClicked : false}),searchClose.hide" role="search-close" tabindex="0"></div> -->
   </div>
   <amp-list src="<%= searchService %><%= searchTerm %><%= middleUrlPart %><%= pageNo %><%= tailUrlPart %>"
     [src]="'<%= searchService %><%= searchTerm %><%= middleUrlPart %>' + pageNumber + '<%= tailUrlPart %>'" width="auto" height="600" layout="fixed-height">
@@ -258,9 +261,14 @@ color: #fff; background-color: #000;}
       <div class="hide-content" [class]="sortVisible ? 'sort-overlay' : 'hide-content'"
       on="tap:AMP.setState({sortVisible : false})" role="plp-main" tabindex="0"></div>
       <div class="" [class]="sortVisible ? 'products-list-blr' : ''">
-        <div class="page-left-back" on="tap:AMP.goBack" role="go-back" tabindex="0"></div>
-        <div class="page-right-search" role="search-open" tabindex="0"
-          on="tap:AMP.setState({searchClicked : true}),searchClose.show,searchInput.focus"></div>
+        <!-- <div class="page-left-back" on="tap:AMP.goBack" role="go-back" tabindex="0"></div> -->
+        <a href="/">
+          <div class="left-logo">
+            <span></span>
+          </div>
+        </a>
+        <!-- <div class="page-right-search" role="search-open" tabindex="0"
+          on="tap:AMP.setState({searchClicked : true}),searchClose.show,searchInput.focus"></div> -->
         <div class="page-header">
           <span>{{currentQuery.searchQuery}}</span>
         </div>
@@ -329,7 +337,7 @@ color: #fff; background-color: #000;}
 </div>
   <div class="plp-bottom">
     <span class="bottom-left-btn" on="tap:AMP.setState({filterVisible : true})" role="filter-menu" tabindex="0">
-      <a href="/search/?searchCategory=all&text={{currentQuery.searchQuery}}&filtersOpenAmp=true"><span><span class="refine-icon"></span>Refine</span></a>
+      <a href="/search/?searchCategory=all&text={{currentQuery.searchQuery}}&filtersOpenAmp=true"><span><span class="refine-icon"></span>Filter</span></a>
     </span>
     <span class="bottom-right-btn" on="tap:AMP.setState({sortVisible : !sortVisible})" role="sort-menu" tabindex="0">
       <span><span class="sort-icon"></span>Sort</span>
@@ -379,7 +387,7 @@ color: #fff; background-color: #000;}
 
 </div>
 <!-- Scroll to Top -->
-<!-- <button id="scrollToTopButton" on="tap:productsListContainer.scrollTo(duration=200)" class="scrollToTop">	&#9650; TOP</button> -->
+<!-- <button id="scrollToTopButton" on="tap:productsListContainer.scrollTo(duration=200)" class="scrollToTop">  &#9650; TOP</button> -->
 </body>
 
 </html>
