@@ -194,7 +194,7 @@ class SignUp extends Component {
                   height={40}
                   borderColor={"#000000"}
                   borderRadius={20}
-                  backgroundColor={"#ffffff"}
+                  backgroundColor={"#f9f9f9"}
                   onClick={() => this.onSubmit()}
                   loading={this.props.loading}
                   textStyle={{

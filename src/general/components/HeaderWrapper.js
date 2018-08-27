@@ -155,15 +155,8 @@ export default class HeaderWrapper extends React.Component {
     }
   };
   openSignUp = () => {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.showAuthPopUp();
-      }
-
-      return null;
-    }
+    this.props.history.push(LOGIN_PATH);
+    return null;
   };
 
   render() {
@@ -241,9 +234,12 @@ export default class HeaderWrapper extends React.Component {
     if (this.props.history.length <= 2) {
       companyLogoInPdp = true;
     }
-    if (url === LOGIN_PATH || url === SIGN_UP_PATH) {
-      shouldRenderHeader = false;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      if (url === LOGIN_PATH || url === SIGN_UP_PATH) {
+        shouldRenderHeader = false;
+      }
     }
+
     if (this.props.location.pathname.includes(CHECKOUT_ROUTER_THANKYOU)) {
       isGoBack = false;
       isCross = true;

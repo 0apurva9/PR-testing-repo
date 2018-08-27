@@ -28,7 +28,6 @@ import {
 } from "../../lib/constants";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
-import * as UserAgent from "../../lib/UserAgent.js";
 import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_LANDING_PAGE
@@ -66,26 +65,13 @@ export default class MyAccount extends React.Component {
     setDataLayer(ADOBE_MY_ACCOUNT_LANDING_PAGE);
   }
 
-  navigateToLogin() {
-    const url = this.props.location.pathname;
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.setUrlToRedirectToAfterAuth(url);
-      return <Redirect to={LOGIN_PATH} />;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
-  }
   render() {
+    let userDetails;
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetailsCookie || !customerCookie) {
-      return this.navigateToLogin();
+    if (userDetailsCookie) {
+      userDetails = JSON.parse(userDetailsCookie);
     }
-    const userDetails = JSON.parse(userDetailsCookie);
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -93,7 +79,7 @@ export default class MyAccount extends React.Component {
             <ProfileMenuGrid {...this.props} />
             <div className={styles.accountHolder}>
               <AccountSetting
-                image={userDetails.imageUrl}
+                image={userDetails && userDetails.imageUrl}
                 onClick={() => this.renderToAccountSetting()}
                 firstName={
                   userDetails &&

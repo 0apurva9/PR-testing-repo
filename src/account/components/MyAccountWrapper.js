@@ -14,7 +14,10 @@ import {
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   MY_ACCOUNT_ADDRESS_EDIT_PAGE,
   MY_ACCOUNT_ADDRESS_ADD_PAGE,
-  ORDER_PREFIX
+  ORDER_PREFIX,
+  LOGIN_PATH,
+  LOGGED_IN_USER_DETAILS,
+  CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 
@@ -32,12 +35,23 @@ import GiftCardContainer from "../containers/GiftCardContainer";
 import SavedCardContainer from "../containers/SavedCardContainer.js";
 import AddressBookContainer from "../containers/AddressBookContainer.js";
 import OrderDetailsContainer from "../containers/OrderDetailsContainer.js";
-
+import * as Cookie from "../../lib/Cookie";
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
   }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+    return null;
+  }
   render() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
     return (
       <Switch>
         <Route exact path={MY_ACCOUNT_PAGE} component={MyAccountContainer} />
