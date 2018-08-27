@@ -13,7 +13,7 @@ import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -83,11 +83,44 @@ export default class Plp extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
   }
+  viewMore() {
+    if (
+      !this.props.isFilterOpen &&
+      this.props.productListings &&
+      this.props.pageNumber <
+        this.props.productListings.pagination.totalPages - 1
+    ) {
+      const windowHeight =
+        "innerHeight" in window
+          ? window.innerHeight
+          : document.documentElement.offsetHeight;
+      const body = document.body;
+      const html = document.documentElement;
+      const docHeight = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      const windowBottom = windowHeight + window.pageYOffset;
 
+      if (
+        windowBottom >= docHeight - OFFSET_BOTTOM &&
+        window.pageYOffset > 0 &&
+        this.props.status !== REQUESTING
+      ) {
+        this.props.paginate(this.props.pageNumber + 1, SUFFIX);
+      }
+    }
+  }
   componentDidMount() {
-    this.throttledScroll = this.handleScroll();
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.throttledScroll = this.handleScroll();
+      window.addEventListener("scroll", this.throttledScroll);
+    }
+
     this.setHeaderText();
-    window.addEventListener("scroll", this.throttledScroll);
     if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (
         !window.digitalData ||
@@ -366,6 +399,16 @@ export default class Plp extends React.Component {
                     this.props.setIfSortHasBeenClicked()
                   }
                 />
+                <DesktopOnly>
+                  <div className={styles.viewMoreButtonHolder}>
+                    <div
+                      className={styles.viewMoreButton}
+                      onClick={() => this.viewMore()}
+                    >
+                      Show More Products
+                    </div>
+                  </div>
+                </DesktopOnly>
               </div>
             </div>
           </DesktopOnly>
