@@ -73,7 +73,7 @@ class ProductSellerPage extends Component {
         productDetails
       );
     } else {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
         ANONYMOUS_USER,
         JSON.parse(cartDetailsAnonymous).guid,
         JSON.parse(globalCookie).access_token,
