@@ -121,7 +121,6 @@ export default class Plp extends React.Component {
   }
   viewMore() {
     if (
-      !this.props.isFilterOpen &&
       this.props.productListings &&
       this.props.pageNumber <
         this.props.productListings.pagination.totalPages - 1
@@ -132,10 +131,8 @@ export default class Plp extends React.Component {
     }
   }
   componentDidMount() {
-    // if (UserAgent.checkUserAgentIsMobile()) {
     this.throttledScroll = () => this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
-    // }
 
     this.setHeaderText();
     if (this.props.lastVisitedPlpUrl === window.location.href) {
@@ -186,8 +183,6 @@ export default class Plp extends React.Component {
   }
   componentDidUpdate(prevProps) {
     this.setHeaderText();
-    console.log("comes in scroll");
-    console.log("comes in scroll");
     const filterDOM = document.getElementById("filter");
     const gridDOM = document.getElementById("grid-container");
 
@@ -296,7 +291,6 @@ export default class Plp extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     let selectedFilterCount = 0;
     let selectedFilter = [];
     let filterSelected = false;

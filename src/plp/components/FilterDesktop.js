@@ -25,35 +25,9 @@ export default class FilterDesktop extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      fixedScroll: false,
       openedFilters: []
     };
   }
-  // handleScroll = () => {
-  // const filterDOM = document.getElementById("filter");
-  // if (filterDOM) {
-  //   const filterSectionHeight = filterDOM.offsetHeight;
-  //   const pageHeight = window.pageYOffset;
-  //   const subTractOffset = window.screen.height - 400;
-  //   if (filterSectionHeight - subTractOffset <= pageHeight) {
-  //     if (!this.state.fixedScroll) {
-  //       this.setState({ fixedScroll: true });
-  //     }
-  //   } else {
-  //     if (this.state.fixedScroll) {
-  //       this.setState({ fixedScroll: false });
-  //     }
-  //   }
-  // }
-  // };
-  // componentWillUnmount() {
-  //   window.removeEventListener("scroll", this.throttledScroll);
-  // }
-
-  // componentDidMount() {
-  //   this.throttledScroll = () => this.handleScroll();
-  //   window.addEventListener("scroll", this.throttledScroll);
-  // }
 
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
