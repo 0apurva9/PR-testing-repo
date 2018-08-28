@@ -56,6 +56,9 @@ if (
   process.env.REACT_APP_STAGE === "production"
 ) {
   ampServicesStartPoint = "https://www.tatacliq.com";
+  ampCrossDomainUrl = "https://amp.tatacliq.com";
+} else {
+  ampCrossDomainUrl = "http://localhost:8887/build/amp";
 }
 
 app.get("/*", (req, res) => {
