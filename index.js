@@ -145,6 +145,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "Search Results Page",
       searchService: searchService,
       searchTerm: q.query.text,
       channel: channelText,
@@ -191,6 +192,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "product grid",
       searchService: searchService,
       searchTerm:
         ":relevance:" + categoryText + ":" + urlPathText.toUpperCase(),
@@ -239,6 +241,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "product grid",
       searchService: searchService,
       searchTerm: categoryText,
       channel: channelText,
