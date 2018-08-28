@@ -175,7 +175,7 @@ app.get("/*", (req, res) => {
     //Meta Text for search
     var metaKeywords = "";
     var metaDescription = "";
-    var urlPathName = q.pathname.split("c-");
+    var urlPathName = q.pathname.split("/c-");
     var urlPathText = urlPathName[1];
 
     var channelText = "category_amp";
