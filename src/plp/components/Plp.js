@@ -65,8 +65,7 @@ export default class Plp extends React.Component {
         const subTractOffset = window.screen.height - 400;
         const scrollHeight = window.scrollY;
         const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
-
-        if (totalGridHeight <= scrollHeight + 400) {
+        if (totalGridHeight <= scrollHeight + subTractOffset) {
           this.setState({ fixedScroll: false });
           filterWrapperDOM.className = filterScroll;
           filterWrapperDOM.style.marginTop = `${totalGridHeight -
