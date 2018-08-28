@@ -33,5 +33,18 @@
 @media screen and (min-width: 1025px) {
   .base {
     cursor: pointer;
+    position: relative;
+  }
+  .dummyDiv {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .dummyDiv a {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
   }
 }
