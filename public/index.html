@@ -140,13 +140,19 @@
 
         setTimeout(function(){
           clevertap.notifications.push({
-              "titleText": 'Would you like to receive Push Notifications?',
-              "bodyText": 'We promise to only send you relevant content and give you updates on your transactions',
-              "okButtonText": 'Sign me up!',
-              "rejectButtonText": 'No thanks',
+              "titleText": 'Stay updated on the latest collections and offers',
+              "bodyText": 'We promise to only send you relevant content and give you updates on your transactions through notifications',
+              "okButtonText": 'Yes, I\'m in!',
+              "rejectButtonText": 'No, thanks',
               "okButtonColor": '#f28046',
-              "askAgainTimeInSeconds": 86400,
-              "serviceWorkerPath": "/service-worker.js" 
+              "askAgainTimeInSeconds": 604800,
+              "serviceWorkerPath": "/service-worker.js",
+              "okCallback":function () {
+                clevertap.event.push("Web Push Notifications",{"User Accepted" : "Yes"});
+              },
+              "rejectCallback":function () {
+                clevertap.event.push("Web Push Notifications",{"User Accepted" : "No"});
+              }
           });
         },10000);
   </script>
