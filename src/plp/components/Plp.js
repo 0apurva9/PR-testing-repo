@@ -55,33 +55,36 @@ export default class Plp extends React.Component {
   };
 
   handleScroll = () => {
-    const filterDOM = document.getElementById("filter");
-    const filterWrapperDOM = document.getElementById("filterWrapper");
-    const girdWrapper = document.getElementById("grid-container");
-    if (filterDOM) {
-      const filterSectionHeight = filterDOM.offsetHeight;
-      const pageHeight = window.pageYOffset;
-      const subTractOffset = window.screen.height - 400;
-      const scrollHeight = window.scrollY;
-      const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
+    if (!UserAgent.checkUserAgentIsMobile()) {
+      const filterDOM = document.getElementById("filter");
+      const filterWrapperDOM = document.getElementById("filterWrapper");
+      const girdWrapper = document.getElementById("grid-container");
+      if (filterDOM) {
+        const filterSectionHeight = filterDOM.offsetHeight;
+        const pageHeight = window.pageYOffset;
+        const subTractOffset = window.screen.height - 400;
+        const scrollHeight = window.scrollY;
+        const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
 
-      if (totalGridHeight <= scrollHeight + 400) {
-        this.setState({ fixedScroll: false });
-        filterWrapperDOM.className = filterScroll;
-        filterWrapperDOM.style.marginTop = `${totalGridHeight -
-          filterSectionHeight}px`;
-      } else if (filterSectionHeight - subTractOffset <= pageHeight) {
-        filterWrapperDOM.style.marginTop = `auto`;
-        if (!this.state.fixedScroll) {
-          this.setState({ fixedScroll: true });
-          filterWrapperDOM.className = filterFixed;
-        }
-      } else {
-        if (this.state.fixedScroll) {
+        if (totalGridHeight <= scrollHeight + 400) {
           this.setState({ fixedScroll: false });
           filterWrapperDOM.className = filterScroll;
+          filterWrapperDOM.style.marginTop = `${totalGridHeight -
+            filterSectionHeight}px`;
+        } else if (filterSectionHeight - subTractOffset <= pageHeight) {
+          filterWrapperDOM.style.marginTop = `auto`;
+          if (!this.state.fixedScroll) {
+            this.setState({ fixedScroll: true });
+            filterWrapperDOM.className = filterFixed;
+          }
+        } else {
+          if (this.state.fixedScroll) {
+            this.setState({ fixedScroll: false });
+            filterWrapperDOM.className = filterScroll;
+          }
         }
       }
+      return;
     }
     return throttle(() => {
       if (
@@ -183,16 +186,18 @@ export default class Plp extends React.Component {
   }
   componentDidUpdate(prevProps) {
     this.setHeaderText();
-    const filterDOM = document.getElementById("filter");
-    const gridDOM = document.getElementById("grid-container");
+    if (!UserAgent.checkUserAgentIsMobile()) {
+      const filterDOM = document.getElementById("filter");
+      const gridDOM = document.getElementById("grid-container");
 
-    const filterHeight = filterDOM ? filterDOM.offsetHeight : 0;
-    const gridHeight = gridDOM ? gridDOM.offsetHeight : 0;
-    const maxHeight =
-      filterHeight ^
-      ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
-    if (this.state.totalHeight !== maxHeight) {
-      this.setState({ totalHeight: maxHeight });
+      const filterHeight = filterDOM ? filterDOM.offsetHeight : 0;
+      const gridHeight = gridDOM ? gridDOM.offsetHeight : 0;
+      const maxHeight =
+        filterHeight ^
+        ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
+      if (this.state.totalHeight !== maxHeight) {
+        this.setState({ totalHeight: maxHeight });
+      }
     }
   }
   backPage = () => {
@@ -432,14 +437,18 @@ export default class Plp extends React.Component {
                   }
                 />
                 <DesktopOnly>
-                  <div className={styles.viewMoreButtonHolder}>
-                    <div
-                      className={styles.viewMoreButton}
-                      onClick={() => this.viewMore()}
-                    >
-                      Show More Products
-                    </div>
-                  </div>
+                  {this.props.productListings &&
+                    this.props.pageNumber <
+                      this.props.productListings.pagination.totalPages - 1 && (
+                      <div className={styles.viewMoreButtonHolder}>
+                        <div
+                          className={styles.viewMoreButton}
+                          onClick={() => this.viewMore()}
+                        >
+                          Show More Products
+                        </div>
+                      </div>
+                    )}
                 </DesktopOnly>
               </div>
             </div>
