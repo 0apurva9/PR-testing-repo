@@ -146,7 +146,13 @@
               "rejectButtonText": 'No thanks',
               "okButtonColor": '#f28046',
               "askAgainTimeInSeconds": 86400,
-              "serviceWorkerPath": "/service-worker.js" 
+              "serviceWorkerPath": "/service-worker.js",
+              "okCallback":function () {
+                clevertap.event.push("Web Push Notifications",{"User Accepted" : "Yes"});
+              },
+              "rejectCallback":function () {
+                clevertap.event.push("Web Push Notifications",{"User Accepted" : "No"});
+              }
           });
         },10000);
   </script>
