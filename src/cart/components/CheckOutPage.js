@@ -346,7 +346,7 @@ class CheckOutPage extends React.Component {
     } else {
       deliverModeInShortTerm = SHORT_EXPRESS;
     }
-    localStorage.setItem(SELECTED_DELIVERY_MODE, deliverModeInShortTerm);
+
     let newDeliveryObj = {};
     newDeliveryObj[ussId] = deliveryMode;
     let currentSelectedDeliveryModes = cloneDeep(
@@ -357,6 +357,10 @@ class CheckOutPage extends React.Component {
     setDataLayerForCheckoutDirectCalls(
       ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
       currentSelectedDeliveryModes
+    );
+    localStorage.setItem(
+      SELECTED_DELIVERY_MODE,
+      JSON.stringify(currentSelectedDeliveryModes)
     );
     this.setState({
       ussIdAndDeliveryModesObj: currentSelectedDeliveryModes,
@@ -429,7 +433,10 @@ class CheckOutPage extends React.Component {
           isDeliveryModeSelected: true
         },
         () => {
-          localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_COLLECT);
+          localStorage.setItem(
+            SELECTED_DELIVERY_MODE,
+            JSON.stringify(updatedDeliveryModeUssid)
+          );
         }
       );
     }
@@ -774,7 +781,6 @@ class CheckOutPage extends React.Component {
                 return mode.code === EXPRESS;
               }) >= 0
             ) {
-              localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_EXPRESS);
               let newObjectAdd = {};
               newObjectAdd[product.USSID] = EXPRESS;
               Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
@@ -784,13 +790,16 @@ class CheckOutPage extends React.Component {
                 return mode.code === HOME_DELIVERY;
               }) >= 0
             ) {
-              localStorage.setItem(SELECTED_DELIVERY_MODE, SHORT_HOME_DELIVERY);
               let newObjectAdd = {};
               newObjectAdd[product.USSID] = HOME_DELIVERY;
               Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
             }
           }
         });
+        localStorage.setItem(
+          SELECTED_DELIVERY_MODE,
+          JSON.stringify(defaultSelectedDeliveryModes)
+        );
       }
       if (
         this.props.cart.cartDetailsCNC &&

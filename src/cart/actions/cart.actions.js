@@ -18,7 +18,13 @@ import {
   CHANNEL,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   PRODUCT_CART_ROUTER,
-  CHECKOUT_ROUTER
+  CHECKOUT_ROUTER,
+  SHORT_HOME_DELIVERY,
+  SHORT_EXPRESS,
+  SHORT_COLLECT,
+  HOME_DELIVERY,
+  EXPRESS,
+  COLLECT
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -4268,13 +4274,33 @@ export function getTncForBankOffer() {
 export function getValidDeliveryModeDetails(cartProductDetails) {
   let productItems = {};
   let item = [];
+  let updatedDeliveryModes = {};
+
+  /*
+  here we have to replace long delivery name with short key words
+  like home-delivery will be HD
+  express-delivery will be ED
+  and click-and-collect will be CNC
+  */
+
+  let selectedDeliverMode = localStorage.getItem(SELECTED_DELIVERY_MODE);
+  selectedDeliverMode = JSON.parse(selectedDeliverMode);
+  Object.keys(selectedDeliverMode).forEach(productMode => {
+    if (selectedDeliverMode[productMode] === HOME_DELIVERY) {
+      updatedDeliveryModes[productMode] = SHORT_HOME_DELIVERY;
+    } else if (selectedDeliverMode[productMode] === EXPRESS) {
+      updatedDeliveryModes[productMode] = SHORT_EXPRESS;
+    } else if (selectedDeliverMode[productMode] === COLLECT) {
+      updatedDeliveryModes[productMode] = SHORT_COLLECT;
+    }
+  });
   each(cartProductDetails, product => {
     if (product.isGiveAway === NO) {
       //get the selected delivery Mode
-      let selectedDeliverMode = localStorage.getItem(SELECTED_DELIVERY_MODE);
+
       let selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
         validDeliveryMode => {
-          return validDeliveryMode.type === selectedDeliverMode;
+          return validDeliveryMode.type === updatedDeliveryModes[product.USSID];
         }
       );
 
