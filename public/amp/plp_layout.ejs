@@ -366,14 +366,14 @@ color: #fff; background-color: #000;}
    {
      "requests": {
        "base": "http://${host}",
-       "iframeMessage": "<%= ampCrossDomainUrl %>/stats.ejs"
+       "iframeMessage": "<%= ampCrossDomainUrl %>/stats.html"
      },
      "vars": {
        "host": "localhost:8887"
      },
      "extraUrlParams": {
        "pageType":"PLP",
-       "pageName": "Search Results Page",
+       "pageName": "<%= pageNameInfo %>",
        "searchText": "<%= searchTerm %>",
        "channel": "<%= channel %>"
      }

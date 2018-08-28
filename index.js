@@ -56,6 +56,9 @@ if (
   process.env.REACT_APP_STAGE === "production"
 ) {
   ampServicesStartPoint = "https://www.tatacliq.com";
+  ampCrossDomainUrl = "https://amp.tatacliq.com";
+} else {
+  ampCrossDomainUrl = "http://localhost:8887/build/amp";
 }
 
 app.get("/*", (req, res) => {
@@ -142,6 +145,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "Search Results Page",
       searchService: searchService,
       searchTerm: q.query.text,
       channel: channelText,
@@ -188,6 +192,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "product grid",
       searchService: searchService,
       searchTerm:
         ":relevance:" + categoryText + ":" + urlPathText.toUpperCase(),
@@ -236,6 +241,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "product grid",
       searchService: searchService,
       searchTerm: categoryText,
       channel: channelText,
