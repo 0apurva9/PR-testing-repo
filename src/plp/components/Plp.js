@@ -86,6 +86,7 @@ export default class Plp extends React.Component {
       }
       return;
     }
+
     return throttle(() => {
       if (
         !this.props.isFilterOpen &&
@@ -107,7 +108,6 @@ export default class Plp extends React.Component {
           html.offsetHeight
         );
         const windowBottom = windowHeight + window.pageYOffset;
-
         if (
           windowBottom >= docHeight - OFFSET_BOTTOM &&
           window.pageYOffset > 0 &&
@@ -134,7 +134,9 @@ export default class Plp extends React.Component {
     }
   }
   componentDidMount() {
-    this.throttledScroll = () => this.handleScroll();
+    this.throttledScroll = !UserAgent.checkUserAgentIsMobile()
+      ? () => this.handleScroll()
+      : this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
 
     this.setHeaderText();
