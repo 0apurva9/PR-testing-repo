@@ -67,7 +67,6 @@
   display: block;
   margin-bottom: 0;
   margin-top: 5px;
-  text-decoration: underline;
 }
 .amountHolder {
   width: 100%;
@@ -172,6 +171,18 @@
   line-height: 20px;
   margin-top: 20px;
 }
+.imgFluid{
+  display: block;
+  max-width: 100%;
+  margin-top: 20px;
+}
+.imgFluidPadding{
+  display: block;
+  max-width: 100%;
+  margin-top: 20px;
+  padding: 0 15px;
+}
+
 
 @media only screen and (min-width: 1025px) {
   .visibleBase{
@@ -193,10 +204,10 @@
     bottom: initial;
   }
   .desktopCart{
-       composes:desktopCheckout;
-       top:120px
-     }
-     .disclaimer {
-       font-size:14px;
-       }
+    composes:desktopCheckout;
+    top:120px
+  }
+  .disclaimer {
+    font-size:14px;
+  }
 }

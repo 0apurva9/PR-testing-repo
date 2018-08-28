@@ -23,7 +23,7 @@ export default class PlpMobileFooter extends React.Component {
               <div className={styles.refine} />
             )}
             <span className={this.props.hasFilters && styles.selectedText}>
-              Refine
+              Filter
             </span>
           </div>
         </div>

@@ -41,13 +41,19 @@ const Loader = () => {
     </div>
   );
 };
+
 const NewPassword = Loadable({
   loader: () => import("../../auth/components/NewPassword"),
   loading() {
     return <Loader />;
   }
 });
-
+const CustomerQueryPopUp = Loadable({
+  loader: () => import("../../account/components/CustomerQueryPopUp"),
+  loading() {
+    return <Loader />;
+  }
+});
 const RestorePassword = Loadable({
   loader: () => import("../../auth/components/RestorePassword"),
   loading() {
@@ -745,6 +751,12 @@ export default class ModalRoot extends React.Component {
         <CliqAndPiq
           CloseCliqAndPiqModal={() => this.handleClose()}
           {...this.props.ownProps}
+        />
+      ),
+      CustomerQueryPopUp: (
+        <CustomerQueryPopUp
+          {...this.props.ownProps}
+          history={this.props.history}
         />
       )
     };

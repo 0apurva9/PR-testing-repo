@@ -66,7 +66,9 @@ import {
   SKU_PAGE_FILTER,
   PRODUCT_LISTINGS_WITHOUT_SLASH,
   HELP_URL,
-  NOT_FOUND
+  NOT_FOUND,
+  WRITE_REVIEWS_WITH_SLUG,
+  WRITE_REVIEWS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -435,6 +437,11 @@ class App extends Component {
               path={PRODUCT_DESCRIPTION_REVIEWS}
               component={ProductReviewContainer}
             />
+            <Route
+              path={WRITE_REVIEWS_WITH_SLUG}
+              component={ProductReviewContainer}
+            />
+            <Route path={WRITE_REVIEWS} component={ProductReviewContainer} />
             <Route
               path={PRODUCT_DESCRIPTION_REVIEWS_WITH_SLUG}
               component={ProductReviewContainer}

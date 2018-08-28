@@ -17,7 +17,8 @@ import {
   ORDER_PREFIX,
   LOGIN_PATH,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
+  CUSTOMER_ACCESS_TOKEN,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 
@@ -36,6 +37,8 @@ import SavedCardContainer from "../containers/SavedCardContainer.js";
 import AddressBookContainer from "../containers/AddressBookContainer.js";
 import OrderDetailsContainer from "../containers/OrderDetailsContainer.js";
 import * as Cookie from "../../lib/Cookie";
+import OrderRelatedIssueContainer from "../containers/OrderRelatedIssueContainer.js";
+
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
@@ -116,6 +119,10 @@ export default class MyAccountWrapper extends React.Component {
           component={AddAddressContainer}
         />
         <Route path={`${ORDER_PREFIX}`} component={OrderDetailsContainer} />
+        <Route
+          path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
+          component={OrderRelatedIssueContainer}
+        />
       </Switch>
     );
   }

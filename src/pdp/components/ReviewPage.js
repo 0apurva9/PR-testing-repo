@@ -39,7 +39,9 @@ export default class ReviewPage extends React.Component {
           <div className={styles.heading}>{this.props.heading}</div>
         )}
         {this.props.text && (
-          <div className={styles.text}>{this.props.text}</div>
+          <div className={styles.text}>
+            {this.props.text.replace(new RegExp("<br />", "g"), "\r\n")}
+          </div>
         )}
         {date && date !== INVALID_DATE ? (
           <div className={styles.dateTimeBox}>

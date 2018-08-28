@@ -102,21 +102,20 @@ export default class HelpDetails extends React.Component {
             </div>
             <div
               className={styles.helpCard}
-              onClick={() => this.onClick(CANCEL_URL)}
-            >
-              <div className={styles.iconHolder}>
-                <Icon image={cancelIcon} size={25} />
-              </div>
-              Cancellations
-            </div>
-            <div
-              className={styles.helpCard}
               onClick={() => this.onClick(RETURN_URL)}
             >
               <div className={styles.iconHolder}>
                 <Icon image={returnIcon} size={25} />
               </div>
               Returns
+            </div>
+            <div className={styles.helpCard}>
+              <div className={styles.iconHolder}>
+                <a href="tel:9029108282">
+                  <Icon image={customerCareIcon} size={25} />
+                </a>
+              </div>
+              <a href="tel:9029108282">Call Tata CLiQ Care</a>
             </div>
 
             <div className={styles.helpCardCall}>

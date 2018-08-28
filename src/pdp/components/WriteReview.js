@@ -5,7 +5,13 @@ import Input from "../../general/components/Input2";
 import TextArea from "../../general/components/TextArea";
 import FillupRating from "./FillupRating";
 import Button from "../../general/components/Button";
-import { CUSTOMER_ACCESS_TOKEN, LOGIN_PATH } from "../../lib/constants";
+import {
+  CUSTOMER_ACCESS_TOKEN,
+  LOGIN_PATH,
+  WRITE_REVIEWS_WITH_SLUG,
+  SUCCESS,
+  ERROR
+} from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -15,7 +21,9 @@ class WriteReview extends React.Component {
     super(props);
     this.state = {
       title: "",
-      comment: ""
+      comment: "",
+      rating: 5,
+      resetRating: false
     };
   }
   onChangeTitle(val) {
@@ -40,45 +48,49 @@ class WriteReview extends React.Component {
       this.props.onCancel();
     }
   }
-  onSubmit = () => {
-    if (this.props.onSubmit) {
-      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      if (customerCookie) {
-        this.props.onSubmit({
-          comment: this.state.comment,
-          rating: this.state.rating,
-          headline: this.state.title
-        });
-      } else {
-        const url = this.props.location.pathname;
-        if (this.props.setUrlToRedirectToAfterAuth) {
-          this.props.setUrlToRedirectToAfterAuth(url);
-        }
-
-        if (UserAgent.checkUserAgentIsMobile()) {
-          this.props.history.push(LOGIN_PATH);
-        } else {
-          if (this.props.showAuthPopUp) {
-            this.props.showAuthPopUp();
-            return null;
+  onSubmit = async () => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (customerCookie) {
+      let getResponseOfAddReview = await this.props.onSubmit({
+        comment: this.state.comment,
+        rating: this.state.rating,
+        headline: this.state.title
+      });
+      if (getResponseOfAddReview) {
+        if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+          this.setState({
+            resetRating: true,
+            title: "",
+            comment: ""
+          });
+          if (this.state.resetRating === true) {
+            this.setState({ resetRating: false });
           }
         }
       }
+    } else {
+      const url = this.props.location.pathname;
+      this.props.setUrlToRedirectToAfterAuth(url);
+      this.props.history.push(LOGIN_PATH);
     }
   };
-
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.ratingContainer}>
           <div className={styles.ratingHeader}>Rate this product</div>
           <div className={styles.ratingBar}>
-            <FillupRating rating={5} onChange={this.onRatingChange} />
+            <FillupRating
+              rating={5}
+              onChange={this.onRatingChange}
+              resetRating={this.state.resetRating}
+            />
           </div>
         </div>
         <div className={styles.input}>
           <Input
             placeholder={"Title"}
+            value={this.state.title}
             title={this.props.title ? this.props.title : this.state.title}
             onChange={val => this.onChangeTitle(val)}
           />
@@ -87,14 +99,26 @@ class WriteReview extends React.Component {
           comments={
             this.props.comment ? this.props.comment : this.state.comment
           }
+          value={this.state.comment}
           onChange={val => this.onChangeComment(val)}
           placeholder="Tell us what you think of this product"
         />
         <div className={styles.buttonContainer}>
-          <div className={styles.cancelButton} onClick={() => this.onCancel()}>
-            Cancel
-          </div>
-          <div className={styles.submitButtonHolder}>
+          {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
+            <div
+              className={styles.cancelButton}
+              onClick={() => this.onCancel()}
+            >
+              Cancel
+            </div>
+          )}
+          <div
+            className={
+              this.props.match.path === WRITE_REVIEWS_WITH_SLUG
+                ? styles.centerSubmitButton
+                : styles.submitButtonHolder
+            }
+          >
             <div className={styles.submitButton}>
               <Button
                 className={styles.ratingBar}
@@ -115,8 +139,8 @@ class WriteReview extends React.Component {
 export default withRouter(WriteReview);
 WriteReview.propTypes = {
   onChangeTitle: PropTypes.func,
-  title: "",
-  comment: "",
+  title: PropTypes.string,
+  comment: PropTypes.string,
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func
 };

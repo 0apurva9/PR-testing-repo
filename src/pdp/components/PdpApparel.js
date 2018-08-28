@@ -23,8 +23,11 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   COLLECT
 } from "../../lib/constants";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
+import queryString, { parse } from "query-string";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -147,7 +150,8 @@ export default class PdpApparel extends React.Component {
     });
   };
 
-  addToCart = () => {
+  addToCart = buyNowFlag => {
+    const parsedQueryString = queryString.parse(this.props.location.search);
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -173,11 +177,12 @@ export default class PdpApparel extends React.Component {
           this.checkIfSizeSelected() ||
           this.checkIfSizeDoesNotExist() ||
           this.checkIfFreeSize() ||
-          this.checkIfNoSize()
+          this.checkIfNoSize() ||
+          parsedQueryString.addToBagAmp === "true"
         ) {
           if (userDetails) {
             if (cartDetailsLoggedInUser && customerCookie) {
-              this.props.addProductToCart(
+              return this.props.addProductToCart(
                 JSON.parse(userDetails).userName,
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
@@ -186,7 +191,7 @@ export default class PdpApparel extends React.Component {
             }
           } else {
             if (cartDetailsAnonymous && globalCookie) {
-              this.props.addProductToCart(
+              return this.props.addProductToCart(
                 ANONYMOUS_USER,
                 JSON.parse(cartDetailsAnonymous).guid,
                 JSON.parse(globalCookie).access_token,
@@ -195,7 +200,7 @@ export default class PdpApparel extends React.Component {
             }
           }
         } else {
-          this.showSizeSelector();
+          this.showSizeSelector(buyNowFlag);
         }
       }
     }
@@ -225,7 +230,7 @@ export default class PdpApparel extends React.Component {
     this.props.getEmiTerms(globalAccessToken, cartValue);
     this.props.showEmiModal();
   };
-  showSizeSelector = () => {
+  showSizeSelector = buyNowFlag => {
     if (
       this.props.showSizeSelector &&
       this.props.productDetails &&
@@ -237,7 +242,8 @@ export default class PdpApparel extends React.Component {
         productId: this.props.productDetails.productListingId,
         showSizeGuide: this.props.showSizeGuide,
         hasSizeGuide: this.props.productDetails.showSizeGuide,
-        data: this.props.productDetails.variantOptions
+        data: this.props.productDetails.variantOptions,
+        buyNowFlag: buyNowFlag
       });
     }
   };
@@ -300,6 +306,23 @@ export default class PdpApparel extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+      let pathName = this.props.location.pathname;
+      this.props.history.replace({
+        pathname: `${pathName}`,
+        state: { isSizeSelected: true }
+      });
+    }
+  }
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
@@ -337,9 +360,14 @@ export default class PdpApparel extends React.Component {
       }
       return (
         <PdpFrame
+          goToCartPageFlag={
+            this.props.location.state &&
+            this.props.location.state.goToCartPageFlag
+          }
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
+          displayToast={message => this.props.displayToast(message)}
+          addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
           productListingId={productData.productListingId}
           outOfStock={
             productData.allOOStock ||
@@ -384,11 +412,20 @@ export default class PdpApparel extends React.Component {
             hasCod={productData.isCOD}
             showEmiModal={() => this.showEmiModal()}
           />
+          <div className={styles.wishlist}>
+            <AddToWishListButtonContainer
+              productListingId={productData.productListingId}
+              winningUssID={productData.winningUssID}
+              type={WISHLIST_FOOTER_BUTTON_TYPE}
+              setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+            />
+          </div>
           <OfferCard
             showDetails={this.props.showOfferDetails}
             potentialPromotions={productData.potentialPromotions}
             secondaryPromotions={productData.productOfferMsg}
           />
+
           {productData.variantOptions && (
             <React.Fragment>
               {!this.checkIfNoSize() &&
@@ -412,6 +449,7 @@ export default class PdpApparel extends React.Component {
               />
             </React.Fragment>
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode

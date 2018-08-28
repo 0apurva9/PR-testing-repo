@@ -24,7 +24,9 @@ import {
   PRIVACY_POLICY_URL,
   FAQ_URL,
   HELP_URL,
-  HOME_ROUTER
+  HOME_ROUTER,
+  BUYER_POLICY_URL,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
@@ -65,6 +67,16 @@ export default class MyAccount extends React.Component {
     setDataLayer(ADOBE_MY_ACCOUNT_LANDING_PAGE);
   }
 
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    return <Redirect to={LOGIN_PATH} />;
+  }
+  redirectToOrderRelatedPage() {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
+  }
   render() {
     let userDetails;
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -167,6 +179,24 @@ export default class MyAccount extends React.Component {
                         <a href="tel:9029108282">Call Tata CLIQ Care</a>
                       </div>
                     </div>
+                  </AccountUsefulLink>
+                </div>
+
+                <div className={styles.linkTabHolder}>
+                  <AccountUsefulLink
+                    onClick={() => this.redirectToHelp(HELP_URL)}
+                  >
+                    <div className={styles.usefulLinkText}>Help & Services</div>
+                  </AccountUsefulLink>
+                  <AccountUsefulLink
+                    onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}
+                  >
+                    <div className={styles.usefulLinkText}>Privacy policy</div>
+                  </AccountUsefulLink>
+                  <AccountUsefulLink
+                    onClick={() => this.redirectPage(BUYER_POLICY_URL)}
+                  >
+                    <div className={styles.usefulLinkText}>Buyer Policies</div>
                   </AccountUsefulLink>
                   <AccountUsefulLink
                     onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
