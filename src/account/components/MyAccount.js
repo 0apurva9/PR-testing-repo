@@ -173,10 +173,16 @@ export default class MyAccount extends React.Component {
                   >
                     <div className={styles.usefulLinkText}>Privacy policy</div>
                   </AccountUsefulLink>
-                  <AccountUsefulLink>
+                  <AccountUsefulLink
+                    onClick={() =>
+                      this.redirectToOrderRelatedPage(
+                        COSTUMER_ORDER_RELATED_QUERY_ROUTE
+                      )
+                    }
+                  >
                     <div className={styles.usefulLinkText}>
                       <div className={styles.callClass}>
-                        <a href="tel:9029108282">Call Tata CLIQ Care</a>
+                        Contact Tata CLiQ Care
                       </div>
                     </div>
                   </AccountUsefulLink>
