@@ -34,11 +34,14 @@ export default class ShowBrandModal extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.headerElement}>
-          <div className={styles.search}>
-            <SearchInput
-              placeholder="Search for Brands"
-              onChange={val => this.onBrandSearch(val)}
-            />
+          <div className={styles.searchHolder}>
+            <div className={styles.searchHeader}>Filter by Brands</div>
+            <div className={styles.inputHolder}>
+              <SearchInput
+                placeholder="Search for Brands"
+                onChange={val => this.onBrandSearch(val)}
+              />
+            </div>
           </div>
           <div
             className={styles.crossElement}

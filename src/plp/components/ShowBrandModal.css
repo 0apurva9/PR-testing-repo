@@ -18,7 +18,8 @@
   position: absolute;
   left: 0;
   top: 0;
-  padding-right: 50px;
+  padding: 12px 50px;
+  display: flex;
 }
 .crossElement {
   width: 35px;
@@ -69,6 +70,21 @@
   left: 0;
   top: 0;
 }
-.search {
+.searchHolder {
+  width: 30%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.searchHeader {
   width: 100%;
+  color: #000000;
+  font-size: 14px;
+  font-family: semibold;
+  margin-bottom: 10px;
+  display: flex;
+}
+.inputHolder {
+  width: 100%;
+  height: auto;
 }
