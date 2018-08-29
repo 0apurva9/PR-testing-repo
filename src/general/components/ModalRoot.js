@@ -741,6 +741,12 @@ export default class ModalRoot extends React.Component {
           updateProfile={passwordDetails => this.updateProfile(passwordDetails)}
         />
       ),
+      showBrandModal: (
+        <showBrandModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
       CliqAndPiqModal: (
         <CliqAndPiq
           CloseCliqAndPiqModal={() => this.handleClose()}

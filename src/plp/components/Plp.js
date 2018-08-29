@@ -86,31 +86,11 @@ export default class Plp extends React.Component {
   }
   viewMore() {
     if (
-      !this.props.isFilterOpen &&
       this.props.productListings &&
       this.props.pageNumber <
         this.props.productListings.pagination.totalPages - 1
     ) {
-      const windowHeight =
-        "innerHeight" in window
-          ? window.innerHeight
-          : document.documentElement.offsetHeight;
-      const body = document.body;
-      const html = document.documentElement;
-      const docHeight = Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight
-      );
-      const windowBottom = windowHeight + window.pageYOffset;
-
-      if (
-        windowBottom >= docHeight - OFFSET_BOTTOM &&
-        window.pageYOffset > 0 &&
-        this.props.status !== REQUESTING
-      ) {
+      if (this.props.status !== REQUESTING) {
         this.props.paginate(this.props.pageNumber + 1, SUFFIX);
       }
     }
