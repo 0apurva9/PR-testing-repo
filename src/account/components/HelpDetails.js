@@ -17,7 +17,8 @@ import {
   RETURN_URL,
   FAQ_URL,
   CONTACT_URL,
-  HELP
+  HELP,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -38,6 +39,11 @@ export default class HelpDetails extends React.Component {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`;
     this.props.history.push(url);
   };
+  redirectToOrderRelatedPage() {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
+  }
   render() {
     return (
       <div className={styles.base}>
@@ -76,7 +82,11 @@ export default class HelpDetails extends React.Component {
             </div>
             <div
               className={styles.helpCard}
-              onClick={() => this.onClickCustomerCare()}
+              onClick={() =>
+                this.redirectToOrderRelatedPage(
+                  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+                )
+              }
             >
               <div className={styles.helpCardWithIcon}>
                 <div className={styles.customerCare}>
@@ -109,25 +119,18 @@ export default class HelpDetails extends React.Component {
               </div>
               Returns
             </div>
-            <div className={styles.helpCard}>
+            <div
+              className={styles.helpCard}
+              onClick={() =>
+                this.redirectToOrderRelatedPage(
+                  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+                )
+              }
+            >
               <div className={styles.iconHolder}>
-                <a href="tel:9029108282">
-                  <Icon image={customerCareIcon} size={25} />
-                </a>
+                <Icon image={customerCareIcon} size={25} />
               </div>
-              <a href="tel:9029108282">Call Tata CLiQ Care</a>
-            </div>
-
-            <div className={styles.helpCardCall}>
-              <div className={styles.helpCardWithIcon}>
-                <div className={styles.iconWithTextHolder}>
-                  <div className={styles.iconHolder}>
-                    <Icon image={customerCareIcon} size={25} />
-                  </div>
-
-                  <a href="tel:9029108282">Call Customer care</a>
-                </div>
-              </div>
+              Contact Tata CLiQ Care
             </div>
           </MobileOnly>
           <div

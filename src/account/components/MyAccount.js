@@ -25,8 +25,7 @@ import {
   FAQ_URL,
   HELP_URL,
   HOME_ROUTER,
-  BUYER_POLICY_URL,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  BUYER_POLICY_URL
 } from "../../lib/constants";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
@@ -71,11 +70,6 @@ export default class MyAccount extends React.Component {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
-  }
-  redirectToOrderRelatedPage() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
   }
   render() {
     let userDetails;
@@ -162,32 +156,6 @@ export default class MyAccount extends React.Component {
                     </AccountUsefulLink>
                   </a>
                 </div>
-                <div className={styles.linkTabHolder}>
-                  <AccountUsefulLink
-                    onClick={() => this.redirectToHelp(HELP_URL)}
-                  >
-                    <div className={styles.usefulLinkText}>Help & Services</div>
-                  </AccountUsefulLink>
-                  <AccountUsefulLink
-                    onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}
-                  >
-                    <div className={styles.usefulLinkText}>Privacy policy</div>
-                  </AccountUsefulLink>
-                  <AccountUsefulLink
-                    onClick={() =>
-                      this.redirectToOrderRelatedPage(
-                        COSTUMER_ORDER_RELATED_QUERY_ROUTE
-                      )
-                    }
-                  >
-                    <div className={styles.usefulLinkText}>
-                      <div className={styles.callClass}>
-                        Contact Tata CLiQ Care
-                      </div>
-                    </div>
-                  </AccountUsefulLink>
-                </div>
-
                 <div className={styles.linkTabHolder}>
                   <AccountUsefulLink
                     onClick={() => this.redirectToHelp(HELP_URL)}
