@@ -752,6 +752,7 @@ export default class ModalRoot extends React.Component {
         <ShowBrandModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
+          history={this.props.history}
         />
       ),
       CliqAndPiqModal: (

@@ -150,8 +150,10 @@ export default class FilterDesktop extends React.Component {
     }
   };
   viewMore(brandData) {
+    let brandDetailsObject = {};
+    brandDetailsObject.brandData = brandData;
     if (this.props.showBrandModal) {
-      this.props.showBrandModal(brandData);
+      this.props.showBrandModal(brandDetailsObject);
     }
   }
   render() {
