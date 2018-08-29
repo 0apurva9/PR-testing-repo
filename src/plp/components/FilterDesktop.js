@@ -149,6 +149,11 @@ export default class FilterDesktop extends React.Component {
       this.setState({ openedFilters });
     }
   };
+  viewMore(brandData) {
+    if (this.props.showBrandModal) {
+      this.props.showBrandModal(brandData);
+    }
+  }
   render() {
     const { facetData, facetdatacategory } = this.props;
 
@@ -245,7 +250,14 @@ export default class FilterDesktop extends React.Component {
                         {facetDataValues &&
                           facetDataValues.name === BRAND &&
                           facetDataValues.values.length > 5 && (
-                            <div className={styles.moreText}>More</div>
+                            <div
+                              className={styles.moreText}
+                              onClick={() =>
+                                this.viewMore(facetDataValues.values)
+                              }
+                            >
+                              More
+                            </div>
                           )}
                         {facetDataValues &&
                           facetDataValues.name === PRICE &&
