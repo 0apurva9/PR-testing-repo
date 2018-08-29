@@ -187,9 +187,9 @@ color: #fff; background-color: #000;}
 </head>
 
 <body>
-  <amp-install-serviceworker src="/service-worker.js"
+  <!-- <amp-install-serviceworker src="/service-worker.js"
     layout="nodisplay">
-  </amp-install-serviceworker>
+  </amp-install-serviceworker>  -->
   <!-- NOTE: AMP SERVICE WORKER -->
    <!-- <amp-install-serviceworker
          src="/sw.js"
@@ -280,7 +280,7 @@ color: #fff; background-color: #000;}
       <span>
     </div>
     {{#searchresult}}
-      <a class="product-tile-link" href="/amp/p-{{productId}}">
+      <a class="product-tile-link" href="/p-{{productId}}">
         <div class="product-tile" [class]="switchLayout ? 'lv-product-tile' : 'product-tile'">
           <div class="product-tile-inner">
             <!-- Labels on tiles -->
