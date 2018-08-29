@@ -34,7 +34,7 @@ import {
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 
-class ProductReviewPage extends Component {
+export default class ProductReviewPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -327,31 +327,43 @@ class ProductReviewPage extends Component {
               <RatingHolder ratingData={this.props.ratingData} />
             </div>
             <div className={styles.dropDownHolder}>
-              <div className={styles.dropdown}>
-                <div className={styles.dropDownBox}>
-                  <SelectBoxMobile2
-                    value={this.state.sortValue}
-                    label={this.state.sortLabel}
-                    onChange={changedValue =>
-                      this.changeFilterValues(changedValue)
-                    }
-                    options={this.filterOptions}
-                    textStyle={{ fontSize: 14 }}
-                  />
-                </div>
-                {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
-                  <div
-                    className={styles.reviewText}
-                    onClick={this.reviewSection}
-                  >
-                    {WRITE_REVIEW_TEXT}
+              <div className={styles.dropDownHolderWithReviewText}>
+                <div className={styles.headerWrapper}>
+                  <DesktopOnly>
+                    <div className={styles.headerWithRating}>
+                      <div className={styles.header}>All Reviews</div>
+                    </div>
+                  </DesktopOnly>
+                  <div className={styles.dropdownWithButton}>
+                    <div className={styles.dropdown}>
+                      <div className={styles.dropDownBox}>
+                        <SelectBoxMobile2
+                          value={this.state.sortValue}
+                          label={this.state.sortLabel}
+                          onChange={changedValue =>
+                            this.changeFilterValues(changedValue)
+                          }
+                          options={this.filterOptions}
+                          textStyle={{ fontSize: 14 }}
+                        />
+                      </div>
+                    </div>
+                    {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
+                      <div
+                        className={styles.reviewText}
+                        onClick={this.reviewSection}
+                      >
+                        {WRITE_REVIEW_TEXT}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
                 {this.state.visible && (
                   <div className={styles.reviewHolder}>
                     {this.renderReviewSection()}
                   </div>
                 )}
+
                 <div className={styles.reviews}>
                   {this.props.reviews && (
                     <ReviewList
@@ -376,5 +388,3 @@ ProductReviewPage.propTypes = {
   ratingData: PropTypes.array,
   reviewList: PropTypes.array
 };
-
-export default ProductReviewPage;
