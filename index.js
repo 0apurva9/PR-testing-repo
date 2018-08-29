@@ -51,16 +51,6 @@ function removeWord(originalWord, searchWord) {
 var ampServicesStartPoint = "https://www.tataque.com";
 var ampCrossDomainUrl = "https://amp.tatacliq.com";
 
-/*if (
-  process.env.REACT_APP_STAGE === "p2" ||
-  process.env.REACT_APP_STAGE === "production"
-) {
-  ampServicesStartPoint = "https://www.tataque.com";
-  ampCrossDomainUrl = "https://amp.tatacliq.com";
-} else {
-  ampCrossDomainUrl = "http://localhost:8887/build/amp";
-}*/
-
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
@@ -68,7 +58,6 @@ app.get("/*", (req, res) => {
     ampServicesStartPoint = "https://www.tataque.com";
     ampCrossDomainUrl = "https://amp.tatacliq.com";
   } else {
-    //console.log(req.get("host"));
     ampServicesStartPoint = "https://tmppprd.tataunistore.com";
     ampCrossDomainUrl = "http://localhost:8887/build/amp";
   }
