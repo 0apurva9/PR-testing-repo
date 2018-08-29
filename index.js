@@ -48,8 +48,8 @@ function removeWord(originalWord, searchWord) {
   return str;
 }
 
-var ampServicesStartPoint = "https://tmppprd.tataunistore.com";
-var ampCrossDomainUrl = "http://localhost:8887/build/amp";
+var ampServicesStartPoint = "https://www.tatacliq.com";
+var ampCrossDomainUrl = "https://amp.tatacliq.com";
 
 /*if (
   process.env.REACT_APP_STAGE === "p2" ||
@@ -68,10 +68,11 @@ app.get("/*", (req, res) => {
     ampServicesStartPoint = "https://www.tatacliq.com";
     ampCrossDomainUrl = "https://amp.tatacliq.com";
   } else {
-    console.log(req.get("host"));
+    //console.log(req.get("host"));
+    ampServicesStartPoint = "https://tmppprd.tataunistore.com";
     ampCrossDomainUrl = "http://localhost:8887/build/amp";
   }
-  
+
   //Homepage and PDP code commented as of now PLP code making live - some homepage and pdp components are remaining
   //Code start for AMP
   // if (origUrl.search("/amp/home") !== -1) {
