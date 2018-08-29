@@ -192,6 +192,13 @@ const ChangePasswordForDesktop = Loadable({
     return <Loader />;
   }
 });
+const ShowBrandModal = Loadable({
+  loader: () => import("../../plp/components/ShowBrandModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const CliqAndPiq = Loadable({
   loader: () => import("../../pdp/containers/CliqAndPiqModalContainer.js"),
   loading() {
@@ -741,8 +748,8 @@ export default class ModalRoot extends React.Component {
           updateProfile={passwordDetails => this.updateProfile(passwordDetails)}
         />
       ),
-      showBrandModal: (
-        <showBrandModal
+      ShowBrandModal: (
+        <ShowBrandModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
         />
