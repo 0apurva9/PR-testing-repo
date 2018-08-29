@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./ShowBrandModal.css";
 import SearchInput from "../../general/components/SearchInput";
+import groupBy from "lodash.groupby";
 import CheckBox from "../../general/components/CheckBox.js";
 export default class ShowBrandModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      brandSearchString: ""
+      brandSearchString: "",
+      selectedBrandType: null
     };
   }
   closeModal() {
@@ -17,13 +19,16 @@ export default class ShowBrandModal extends React.Component {
   onBrandSearch = val => {
     this.setState({ brandSearchString: val });
   };
-  onFilterClick = (val, evt) => {
-    evt.preventDefault();
+  selectedBrandType = val => {
+    this.setState({ selectedBrandType: val });
+  };
+  onFilterClick = val => {
     const url = val.replace("{pageNo}", 1);
     this.props.history.push(url);
   };
   render() {
     let brandsList = this.props.brandData;
+    let selectedFixBrand = this.props.brandData;
     if (this.state.brandSearchString !== "") {
       brandsList = brandsList.filter(brand => {
         return brand.name
@@ -31,6 +36,21 @@ export default class ShowBrandModal extends React.Component {
           .includes(this.state.brandSearchString.toLowerCase());
       });
     }
+    if (this.state.selectedBrandType) {
+      brandsList = brandsList.filter(brand => {
+        return brand.name
+          .toLowerCase()
+          .startsWith(this.state.selectedBrandType.toLowerCase());
+      });
+    }
+    selectedFixBrand = groupBy(selectedFixBrand, list => {
+      return list.name[0].toUpperCase();
+    });
+    brandsList = groupBy(brandsList, list => {
+      return list.name[0].toUpperCase();
+    });
+    const selectedFixBrandLabel = Object.keys(selectedFixBrand);
+    const parentBrandsLabel = Object.keys(brandsList);
     return (
       <div className={styles.base}>
         <div className={styles.headerElement}>
@@ -43,24 +63,50 @@ export default class ShowBrandModal extends React.Component {
               />
             </div>
           </div>
+          <div className={styles.bandFirstIndex}>
+            {selectedFixBrandLabel &&
+              selectedFixBrandLabel.length !== 0 &&
+              selectedFixBrandLabel.map((brandInitials, i) => {
+                return (
+                  <div
+                    className={
+                      brandInitials === this.state.selectedBrandType
+                        ? styles.activeText
+                        : styles.text
+                    }
+                    onClick={() => this.selectedBrandType(brandInitials)}
+                  >
+                    {brandInitials}
+                  </div>
+                );
+              })}
+          </div>
+
           <div
             className={styles.crossElement}
             onClick={() => this.closeModal()}
           />
         </div>
         <div className={styles.displayDataElement}>
-          {brandsList &&
-            brandsList.map((val, i) => {
+          {parentBrandsLabel &&
+            parentBrandsLabel.map((val, i) => {
               return (
-                <div className={styles.brandNameHolder}>
-                  <div
-                    className={styles.checkBoxHolder}
-                    onClick={evt => this.onFilterClick(val.url, evt)}
-                  >
-                    <CheckBox selected={val.selected} />
-                  </div>
-                  {val.name}
-                </div>
+                <React.Fragment>
+                  <div className={styles.textHeader}>{val}</div>
+                  {brandsList[val].map((brandsList, j) => {
+                    return (
+                      <div className={styles.brandNameHolder}>
+                        <div
+                          className={styles.checkBoxHolder}
+                          onClick={data => this.onFilterClick(brandsList.url)}
+                        >
+                          <CheckBox selected={brandsList.selected} />
+                        </div>
+                        {brandsList.name}
+                      </div>
+                    );
+                  })}
+                </React.Fragment>
               );
             })}
         </div>

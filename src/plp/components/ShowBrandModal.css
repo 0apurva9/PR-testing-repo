@@ -88,3 +88,28 @@
   width: 100%;
   height: auto;
 }
+.bandFirstIndex {
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 35px 0px 0px 25px;
+}
+.text {
+  width: auto;
+  padding-left: 10px;
+  height: auto;
+  font-size: 14px;
+  font-family: light;
+  cursor: pointer;
+}
+.activeText {
+  composes: text;
+  color: #ff1744;
+}
+.textHeader {
+  width: auto;
+  height: auto;
+  font-size: 24px;
+  font-family: semibold;
+  margin-bottom: 10px;
+}
