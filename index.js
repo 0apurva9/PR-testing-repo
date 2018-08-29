@@ -48,14 +48,14 @@ function removeWord(originalWord, searchWord) {
   return str;
 }
 
-var ampServicesStartPoint = "https://www.tatacliq.com";
+var ampServicesStartPoint = "https://www.tataque.com";
 var ampCrossDomainUrl = "https://amp.tatacliq.com";
 
 /*if (
   process.env.REACT_APP_STAGE === "p2" ||
   process.env.REACT_APP_STAGE === "production"
 ) {
-  ampServicesStartPoint = "https://www.tatacliq.com";
+  ampServicesStartPoint = "https://www.tataque.com";
   ampCrossDomainUrl = "https://amp.tatacliq.com";
 } else {
   ampCrossDomainUrl = "http://localhost:8887/build/amp";
@@ -65,7 +65,7 @@ app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
   if (req.get("host") === "www.tatacliq.com") {
-    ampServicesStartPoint = "https://www.tatacliq.com";
+    ampServicesStartPoint = "https://www.tataque.com";
     ampCrossDomainUrl = "https://amp.tatacliq.com";
   } else {
     //console.log(req.get("host"));
