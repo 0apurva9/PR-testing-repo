@@ -38,18 +38,20 @@ class BrandFilterTabDesktop extends React.Component {
         <div className={styles.brandsList}>
           {brandsList &&
             brandsList.map((val, i) => {
-              return (
-                <FilterSelect
-                  onClick={this.onFilterClick}
-                  selected={val.selected}
-                  hexColor={val.hexColor}
-                  label={val.name}
-                  count={val.count}
-                  url={val.url}
-                  value={val.value}
-                  history={this.props.history}
-                />
-              );
+              if (i < 5) {
+                return (
+                  <FilterSelect
+                    onClick={this.onFilterClick}
+                    selected={val.selected}
+                    hexColor={val.hexColor}
+                    label={val.name}
+                    count={val.count}
+                    url={val.url}
+                    value={val.value}
+                    history={this.props.history}
+                  />
+                );
+              }
             })}
         </div>
       </div>

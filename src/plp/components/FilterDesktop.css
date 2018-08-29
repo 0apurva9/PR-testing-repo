@@ -77,3 +77,11 @@
   max-height: 350px;
   overflow-y: scroll;
 }
+.moreText {
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  font-family: regular;
+  color: #ff1744;
+  margin-bottom: 20px;
+}

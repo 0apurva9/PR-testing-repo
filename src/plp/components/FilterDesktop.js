@@ -230,7 +230,6 @@ export default class FilterDesktop extends React.Component {
                               />
                             );
                           })}
-
                         {facetDataValues &&
                           facetDataValues.name === BRAND &&
                           facetDataValues.values && (
@@ -242,6 +241,11 @@ export default class FilterDesktop extends React.Component {
                                 history={this.props.history}
                               />
                             </div>
+                          )}
+                        {facetDataValues &&
+                          facetDataValues.name === BRAND &&
+                          facetDataValues.values.length > 5 && (
+                            <div className={styles.moreText}>More</div>
                           )}
                         {facetDataValues &&
                           facetDataValues.name === PRICE &&
