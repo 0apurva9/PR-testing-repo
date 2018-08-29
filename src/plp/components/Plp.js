@@ -19,6 +19,7 @@ import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
+import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
 import SortDesktopContainer from "../containers/SortDesktopContainer";
 import {
@@ -451,11 +452,15 @@ export default class Plp extends React.Component {
                 />
                 <DesktopOnly>
                   <div className={styles.viewMoreButtonHolder}>
-                    <div
-                      className={styles.viewMoreButton}
-                      onClick={() => this.viewMore()}
-                    >
-                      Show More Products
+                    <div className={styles.viewMoreButton}>
+                      <Button
+                        onClick={() => this.viewMore()}
+                        type="hollow"
+                        width={180}
+                        height={36}
+                        label="Show more products"
+                        color="#212121"
+                      />
                     </div>
                   </div>
                 </DesktopOnly>
