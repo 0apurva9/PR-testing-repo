@@ -8,7 +8,7 @@ import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import MediaQuery from "react-responsive";
 import dropDownSortIcon from "../../cart/components/img/googleSearch.png";
-
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   PRODUCT_DESCRIPTION_ROUTER,
   IS_OFFER_EXISTING,
@@ -18,6 +18,8 @@ import queryString from "query-string";
 import { applySortToUrl } from "./SortUtils.js";
 import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
 const LIST = "list";
 const GRID = "grid";
 const PRODUCT = "product";
@@ -27,15 +29,20 @@ export default class ProductGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: GRID
+      view: GRID,
+      gridBreakup: false
     };
   }
 
   switchView() {
-    if (this.state.view === LIST) {
-      this.setState({ view: GRID });
+    if (checkUserAgentIsMobile()) {
+      if (this.state.view === LIST) {
+        this.setState({ view: GRID });
+      } else {
+        this.setState({ view: LIST });
+      }
     } else {
-      this.setState({ view: LIST });
+      this.setState({ gridBreakup: !this.state.gridBreakup });
     }
   }
   changeAddress() {
@@ -114,18 +121,25 @@ export default class ProductGrid extends React.Component {
               {this.props.totalResults ? this.props.totalResults : 0} Products
             </div>
           </MediaQuery>
-
-          <div className={styles.icon} onClick={() => this.switchView()}>
-            {this.state.view === LIST && <Icon image={gridImage} size={20} />}
-            {this.state.view === GRID && <Icon image={listImage} size={20} />}
-          </div>
+          <MobileOnly>
+            <div className={styles.icon} onClick={() => this.switchView()}>
+              {this.state.view === LIST && <Icon image={gridImage} size={20} />}
+              {this.state.view === GRID && <Icon image={listImage} size={20} />}
+            </div>
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.icon} onClick={() => this.switchView()}>
+              {this.state.gridBreakup && <Icon image={gridImage} size={20} />}
+              {!this.state.gridBreakup && <Icon image={listImage} size={20} />}
+            </div>
+          </DesktopOnly>
         </div>
         <div className={styles.content}>
           <DumbGrid
             search={this.props.search}
             offset={0}
             elementWidthMobile={this.state.view === LIST ? 100 : 50}
-            elementWidthDesktop={this.state.view === LIST ? 33.33 : 25}
+            elementWidthDesktop={this.state.gridBreakup ? 33.33 : 25}
           >
             {this.props.data &&
               this.props.data.map((datum, i) => {
