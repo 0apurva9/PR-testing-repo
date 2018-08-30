@@ -21,6 +21,7 @@ import {
 } from "../../lib/seoUtils.js";
 import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
+import { filterScroll, filterFixed } from "./FilterDesktop.css";
 import SortDesktopContainer from "../containers/SortDesktopContainer";
 import {
   REQUESTING,
@@ -35,6 +36,13 @@ const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 
 export default class Plp extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      totalHeight: 0,
+      fixedScroll: false
+    };
+  }
   toggleFilter = () => {
     if (this.props.isFilterOpen) {
       this.props.hideFilter();
@@ -57,6 +65,38 @@ export default class Plp extends React.Component {
   };
 
   handleScroll = () => {
+    if (!UserAgent.checkUserAgentIsMobile()) {
+      const filterDOM = document.getElementById("filter_desktop");
+      const filterWrapperDOM = document.getElementById("filterWrapper_desktop");
+      const girdWrapper = document.getElementById("grid-container");
+      if (filterDOM) {
+        const filterSectionHeight = filterDOM.offsetHeight;
+        const pageHeight = window.pageYOffset;
+        const subTractOffset = window.screen.height - 400;
+        const scrollHeight = window.scrollY;
+        const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
+        if (totalGridHeight <= scrollHeight + subTractOffset) {
+          this.setState({ fixedScroll: false });
+          filterWrapperDOM.className = filterScroll;
+          filterWrapperDOM.style.marginTop = `${totalGridHeight -
+            filterSectionHeight}px`;
+        } else if (filterSectionHeight - subTractOffset <= pageHeight) {
+          filterWrapperDOM.style.marginTop = `auto`;
+          if (!this.state.fixedScroll) {
+            this.setState({ fixedScroll: true });
+            filterWrapperDOM.className = filterFixed;
+          }
+        } else {
+          filterWrapperDOM.style.marginTop = `auto`;
+          if (this.state.fixedScroll) {
+            this.setState({ fixedScroll: false });
+            filterWrapperDOM.className = filterScroll;
+          }
+        }
+      }
+      return;
+    }
+
     return throttle(() => {
       if (
         !this.props.isFilterOpen &&
@@ -78,7 +118,6 @@ export default class Plp extends React.Component {
           html.offsetHeight
         );
         const windowBottom = windowHeight + window.pageYOffset;
-
         if (
           windowBottom >= docHeight - OFFSET_BOTTOM &&
           window.pageYOffset > 0 &&
@@ -105,10 +144,10 @@ export default class Plp extends React.Component {
     }
   }
   componentDidMount() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.throttledScroll = this.handleScroll();
-      window.addEventListener("scroll", this.throttledScroll);
-    }
+    this.throttledScroll = !UserAgent.checkUserAgentIsMobile()
+      ? () => this.handleScroll()
+      : this.handleScroll();
+    window.addEventListener("scroll", this.throttledScroll);
 
     this.setHeaderText();
     if (this.props.lastVisitedPlpUrl === window.location.href) {
@@ -165,6 +204,19 @@ export default class Plp extends React.Component {
   }
   componentDidUpdate(prevProps) {
     this.setHeaderText();
+    if (!UserAgent.checkUserAgentIsMobile()) {
+      const filterDOM = document.getElementById("filter_desktop");
+      const gridDOM = document.getElementById("grid-wrapper_desktop");
+
+      const filterHeight = filterDOM ? filterDOM.offsetHeight : 0;
+      const gridHeight = gridDOM ? gridDOM.offsetHeight : 0;
+      const maxHeight =
+        filterHeight ^
+        ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
+      if (this.state.totalHeight !== maxHeight) {
+        this.setState({ totalHeight: maxHeight });
+      }
+    }
   }
   backPage = () => {
     if (this.props.isFilterOpen) {
@@ -406,8 +458,11 @@ export default class Plp extends React.Component {
             </div>
           </MobileOnly>
           <DesktopOnly>
-            <div className={styles.productWithFilterDesktop}>
-              <div className={styles.filterDesktopWrapper}>
+            <div className={styles.productWithFilterDesktop} id="plp-container">
+              <div
+                className={styles.filterDesktopWrapper}
+                id="filter-container"
+              >
                 <FilterContainer
                   backPage={this.backPage}
                   isFilterOpen={this.props.isFilterOpen}
@@ -416,33 +471,43 @@ export default class Plp extends React.Component {
                   onL3CategorySelect={this.onL3CategorySelect}
                 />
               </div>
-              <div className={styles.productGridDesktop}>
-                <ProductGrid
-                  history={this.props.history}
-                  location={this.props.location}
-                  data={this.props.productListings.searchresult}
-                  totalResults={
-                    this.props.productListings.pagination.totalResults
-                  }
-                  setProductModuleRef={this.props.setProductModuleRef}
-                  sort={this.props.productListings.sorts}
-                  setIfSortHasBeenClicked={() =>
-                    this.props.setIfSortHasBeenClicked()
-                  }
-                />
+              <div
+                className={styles.productGridDesktop}
+                id="grid-container"
+                style={{ minHeight: `${this.state.totalHeight}px` }}
+              >
+                <div id="grid-wrapper_desktop">
+                  <ProductGrid
+                    history={this.props.history}
+                    location={this.props.location}
+                    data={this.props.productListings.searchresult}
+                    totalResults={
+                      this.props.productListings.pagination.totalResults
+                    }
+                    setProductModuleRef={this.props.setProductModuleRef}
+                    sort={this.props.productListings.sorts}
+                    setIfSortHasBeenClicked={() =>
+                      this.props.setIfSortHasBeenClicked()
+                    }
+                  />
+                </div>
                 <DesktopOnly>
-                  <div className={styles.viewMoreButtonHolder}>
-                    <div className={styles.viewMoreButton}>
-                      <Button
-                        type="hollow"
-                        width={180}
-                        height={36}
-                        label="Show more products"
-                        color="#212121"
-                        onClick={() => this.viewMore()}
-                      />
-                    </div>
-                  </div>
+                  {this.props.productListings &&
+                    this.props.pageNumber <
+                      this.props.productListings.pagination.totalPages - 1 && (
+                      <div className={styles.viewMoreButtonHolder}>
+                        <div className={styles.viewMoreButton}>
+                          <Button
+                            type="hollow"
+                            width={180}
+                            height={36}
+                            label="Show more products"
+                            color="#212121"
+                            onClick={() => this.viewMore()}
+                          />
+                        </div>
+                      </div>
+                    )}
                 </DesktopOnly>
               </div>
             </div>
