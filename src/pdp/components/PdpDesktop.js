@@ -373,6 +373,7 @@ export default class PdpApparel extends React.Component {
     }
   };
   render() {
+    console.log("pdp desktop", this.props.productDetails.seo.breadcrumbs);
     const productData = this.props.productDetails;
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
@@ -451,6 +452,21 @@ export default class PdpApparel extends React.Component {
               </div>
               <div className={styles.content}>
                 <div className={styles.horizontalOffset}>
+                  <div className={styles.breadcrumbs}>
+                    {productData.seo.breadcrumbs &&
+                      productData.seo.breadcrumbs.map(val => {
+                        return (
+                          <span className={styles.breadcrumbsText}>
+                            <a href={val.url}>
+                              <span className={styles.breadcrumbsText}>
+                                {val.name}
+                              </span>
+                              <span className={styles.breadcrumbsText}>></span>
+                            </a>
+                          </span>
+                        );
+                      })}
+                  </div>
                   <ProductDetailsMainCard
                     brandName={productData.brandName}
                     productName={productData.productName}

@@ -8,6 +8,27 @@
   justify-content: center;
   height: 100vh;
 }
+.breadcrumbs {
+  color: #9b9b9b;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+.breadcrumbsText {
+  width: 100px;
+  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #9b9b9b;
+}
 .content {
   width: 100%;
   height: auto;
