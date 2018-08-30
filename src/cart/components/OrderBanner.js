@@ -27,7 +27,7 @@ export default class OrderBanner extends React.Component {
         <div className={styles.orderInnerBox}>
           <div
             className={styles.orderHeading}
-          >{`Thanks ${firstName} We've recevied your order`}</div>
+          >{`Thanks ${firstName} We've received your order`}</div>
           <div className={styles.orderLabel}>{`Order Id: ${
             this.props.label
           }`}</div>

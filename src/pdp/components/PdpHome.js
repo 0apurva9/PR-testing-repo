@@ -24,11 +24,13 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   COLLECT
 } from "../../lib/constants";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import styles from "./ProductDescriptionPage.css";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-
+import queryString, { parse } from "query-string";
 const ProductFeatures = LoadableVisibility({
   loader: () => import("./ProductFeatures"),
   loading: () => <div />,
@@ -207,7 +209,7 @@ export default class PdpApparel extends React.Component {
         } else {
           if (userDetails) {
             if (cartDetailsLoggedInUser && customerCookie) {
-              this.props.addProductToCart(
+              return this.props.addProductToCart(
                 JSON.parse(userDetails).userName,
                 JSON.parse(cartDetailsLoggedInUser).code,
                 JSON.parse(customerCookie).access_token,
@@ -216,7 +218,7 @@ export default class PdpApparel extends React.Component {
             }
           } else {
             if (cartDetailsAnonymous && globalCookie) {
-              this.props.addProductToCart(
+              return this.props.addProductToCart(
                 ANONYMOUS_USER,
                 JSON.parse(cartDetailsAnonymous).guid,
                 JSON.parse(globalCookie).access_token,
@@ -275,6 +277,20 @@ export default class PdpApparel extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+      this.props.history.replace(this.props.location.pathname);
+    }
+  }
+
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
@@ -318,6 +334,7 @@ export default class PdpApparel extends React.Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
+          displayToast={message => this.props.displayToast(message)}
           addProductToBag={() => this.addToCart()}
           productListingId={productData.productListingId}
           outOfStock={
@@ -364,6 +381,14 @@ export default class PdpApparel extends React.Component {
               hasCod={productData.isCOD}
               showEmiModal={() => this.showEmiModal()}
             />
+            <div className={styles.wishlist}>
+              <AddToWishListButtonContainer
+                productListingId={productData.productListingId}
+                winningUssID={productData.winningUssID}
+                type={WISHLIST_FOOTER_BUTTON_TYPE}
+                setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+              />
+            </div>
             <OfferCard
               showDetails={this.props.showOfferDetails}
               potentialPromotions={productData.potentialPromotions}
@@ -388,10 +413,6 @@ export default class PdpApparel extends React.Component {
                 />
 
                 <div className={styles.customisation}>
-                  <div className={styles.customiseText}>
-                    Customisation available - Contact seller for Free
-                    Monogramming
-                  </div>
                   {productData.buyingGuideUrl && (
                     <div className={styles.customisationButton}>
                       <UnderLinedButton

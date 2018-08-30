@@ -89,9 +89,7 @@ class Login extends Component {
       userDetails.username = this.state.emailValue.trim();
       userDetails.password = this.state.passwordValue;
       if (!userDetails.username) {
-        this.props.displayToast(
-          "Please enter a valid email address or a phone number"
-        );
+        this.props.displayToast("Please enter a valid email address");
         return false;
       }
       if (userDetails.username.indexOf("@") !== -1) {
@@ -192,7 +190,7 @@ class Login extends Component {
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Enter Email or Mobile number"}
+                placeholder={"Enter Email"}
                 emailValue={
                   this.props.emailValue
                     ? this.props.emailValue
@@ -203,7 +201,7 @@ class Login extends Component {
             </div>
 
             <PasswordInput
-              placeholder={"Password"}
+              placeholder={"Enter Password"}
               onKeyUp={event => {
                 this.checkLogin(event.key);
               }}

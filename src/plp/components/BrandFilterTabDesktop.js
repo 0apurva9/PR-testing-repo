@@ -2,6 +2,7 @@ import React from "react";
 import FilterSelect from "./FilterSelect";
 import SearchInput from "../../general/components/SearchInput";
 import styles from "./BrandFilterTabDesktop.css";
+import * as UserAgent from "../../lib/UserAgent.js";
 class BrandFilterTabDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -38,18 +39,35 @@ class BrandFilterTabDesktop extends React.Component {
         <div className={styles.brandsList}>
           {brandsList &&
             brandsList.map((val, i) => {
-              return (
-                <FilterSelect
-                  onClick={this.onFilterClick}
-                  selected={val.selected}
-                  hexColor={val.hexColor}
-                  label={val.name}
-                  count={val.count}
-                  url={val.url}
-                  value={val.value}
-                  history={this.props.history}
-                />
-              );
+              if (UserAgent.checkUserAgentIsMobile()) {
+                return (
+                  <FilterSelect
+                    onClick={this.onFilterClick}
+                    selected={val.selected}
+                    hexColor={val.hexColor}
+                    label={val.name}
+                    count={val.count}
+                    url={val.url}
+                    value={val.value}
+                    history={this.props.history}
+                  />
+                );
+              } else {
+                if (i < 5) {
+                  return (
+                    <FilterSelect
+                      onClick={this.onFilterClick}
+                      selected={val.selected}
+                      hexColor={val.hexColor}
+                      label={val.name}
+                      count={val.count}
+                      url={val.url}
+                      value={val.value}
+                      history={this.props.history}
+                    />
+                  );
+                }
+              }
             })}
         </div>
       </div>

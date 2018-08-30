@@ -178,12 +178,16 @@ export default class HeaderWrapper extends React.Component {
     let isGoBack = true;
     let isCross = false;
     let isLogo = false;
+    let isLogoCart = false;
     let shouldRenderHeader = true;
     let companyLogoInPdp = true;
     let isSearch = true;
     let profileDetails = false;
+    let safeSecureText = false;
     if (url === PRODUCT_CART_ROUTER) {
       shouldRenderSearch = false;
+      isLogoCart = true;
+      safeSecureText = true;
     }
     if (url === PRODUCT_CART_ROUTER) {
       isSearch = false;
@@ -228,6 +232,7 @@ export default class HeaderWrapper extends React.Component {
     if (url === HOME_ROUTER) {
       isLogo = true;
     }
+
     if (this.props.history.length === 0) {
       isGoBack = false;
     }
@@ -249,6 +254,7 @@ export default class HeaderWrapper extends React.Component {
       isGoBack = false;
       isCross = true;
       shouldRenderSearch = false;
+      safeSecureText = true;
     }
 
     if (hasAppView === "true" || Cookie.getCookie(APP_VIEW)) {
@@ -260,6 +266,9 @@ export default class HeaderWrapper extends React.Component {
         text={this.props.headerText}
         hasBackButton={isGoBack}
         hasCrossButton={isCross}
+        isLogoCart={isLogoCart}
+        redirectToHome={this.redirectToHome}
+        safeSecureText={safeSecureText}
       />
     );
     if (productCode) {
