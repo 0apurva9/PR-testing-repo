@@ -51,12 +51,10 @@ export default class FilterDesktop extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.throttledScroll);
   }
-
   componentDidMount() {
     this.throttledScroll = () => this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
   }
-
   onClear = () => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
@@ -95,11 +93,9 @@ export default class FilterDesktop extends React.Component {
       this.props.onClear();
     }
   };
-
   onApply = () => {
     this.props.onApply();
   };
-
   onCategorySelect = (val, isFilter) => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
