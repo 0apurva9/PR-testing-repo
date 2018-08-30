@@ -50,6 +50,7 @@ export default class RecommendationWidget extends React.Component {
           }
         }}
         data={carouselData}
+        componentName={this.props.componentName}
       />
     );
   }

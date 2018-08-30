@@ -25,7 +25,7 @@ class FeedComponent extends React.Component {
     if (!(data instanceof Array)) {
       return null;
     }
-
+    console.log(this.props);
     return (
       <div
         className={
@@ -69,12 +69,16 @@ class FeedComponent extends React.Component {
                     description={datum.description}
                     onDownload={datum.onDownload}
                     webURL={datum.webURL}
-                    productCode={datum.productListingId}
+                    productId={datum.productListingId}
                     showWishListButton={false}
                     ussId={datum.winningUssID}
                     onClick={this.onClick}
                     {...rest}
                     {...datum}
+                    widgetName={
+                      this.props.carouselOptions &&
+                      this.props.carouselOptions.header
+                    }
                   />
                 );
               })}
