@@ -58,7 +58,7 @@ export default class SavedCard extends React.Component {
           <div className={styles.cvvInput}>
             <Input2
               value={this.state.cvv}
-              placeholder="Cvv"
+              placeholder="CVV"
               height={33}
               type="password"
               textStyle={{

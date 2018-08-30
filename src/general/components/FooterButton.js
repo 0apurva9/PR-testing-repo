@@ -15,7 +15,8 @@ export default class FooterButton extends React.Component {
         style={{
           backgroundColor: this.props.backgroundColor,
           borderRight: `1px solid ${this.props.borderColor}`,
-          boxShadow: this.props.boxShadow
+          boxShadow: this.props.boxShadow,
+          textAlign: this.props.textAlign ? this.props.textAlign : null
         }}
         onClick={e => this.handleClick(e)}
       >
@@ -45,7 +46,8 @@ FooterButton.propTyes = {
     color: PropTypes.string,
     fontSize: PropTypes.number,
     fontFamily: PropTypes.string
-  })
+  }),
+  textAlign: PropTypes.string
 };
 FooterButton.defaultProps = {
   labelStyle: {

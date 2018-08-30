@@ -130,6 +130,17 @@ export default class CheckoutStaticSection extends React.Component {
             </div>
           </div>
         )}
+        {this.props.isFromMyBag ? (
+          <img
+            src="https://assets.tatacliq.com/medias/sys_master/images/13207849861150.png"
+            className={styles.imgFluid}
+          />
+        ) : (
+          <img
+            src="https://assets.tatacliq.com/medias/sys_master/images/13207849861150.png"
+            className={styles.imgFluidPadding}
+          />
+        )}
         <div
           className={
             this.props.showDetails

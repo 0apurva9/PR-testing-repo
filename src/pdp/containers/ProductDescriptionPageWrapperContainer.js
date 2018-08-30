@@ -34,7 +34,7 @@ import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
@@ -48,8 +48,10 @@ const mapDispatchToProps = dispatch => {
         }
       }
     },
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(addProductToCart(userId, cartId, accessToken, productDetails));
+    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
+      return dispatch(
+        addProductToCart(userId, cartId, accessToken, productDetails)
+      );
     },
     showSizeSelector: data => {
       dispatch(showModal(SIZE_SELECTOR, data));

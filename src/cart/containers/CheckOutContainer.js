@@ -404,11 +404,17 @@ const mapDispatchToProps = dispatch => {
     },
     createJusPayOrderForNetBanking: (
       paymentMethodType,
-      pinCode,
-      productItems
+      cartItem,
+      bankName,
+      pinCode
     ) => {
       dispatch(
-        createJusPayOrderForNetBanking(paymentMethodType, pinCode, productItems)
+        createJusPayOrderForNetBanking(
+          paymentMethodType,
+          cartItem,
+          bankName,
+          pinCode
+        )
       );
     },
     resetIsSoftReservationFailed: () => {

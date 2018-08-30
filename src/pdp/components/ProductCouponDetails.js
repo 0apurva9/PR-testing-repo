@@ -100,13 +100,24 @@ class ProductCouponDetails extends Component {
     }
   }
 
-  onSelectCouponCode = val => {
+  async onSelectCouponCode(val) {
     if (val[0]) {
-      this.setState({ selectedCouponCode: val[0] });
+      this.setState({ selectedCouponCode: val[0] }, function() {
+        this.applyUserCoupon();
+      });
     } else {
-      this.setState({ selectedCouponCode: "" });
+      const releaseBankOfferResponse = await this.props.releaseUserCoupon(
+        this.state.selectedCouponCode
+      );
+      if (releaseBankOfferResponse.status === SUCCESS) {
+        localStorage.removeItem(COUPON_COOKIE);
+        this.setState({
+          previousSelectedCouponCode: "",
+          selectedCouponCode: ""
+        });
+      }
     }
-  };
+  }
 
   navigateToLogin() {
     if (this.props.navigateToLogin) {
