@@ -454,12 +454,12 @@ export default class Plp extends React.Component {
                   <div className={styles.viewMoreButtonHolder}>
                     <div className={styles.viewMoreButton}>
                       <Button
-                        onClick={() => this.viewMore()}
                         type="hollow"
                         width={180}
                         height={36}
                         label="Show more products"
                         color="#212121"
+                        onClick={() => this.viewMore()}
                       />
                     </div>
                   </div>
