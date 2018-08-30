@@ -24,10 +24,6 @@ export default class RestorePassword extends React.Component {
   }
 
   handleRestoreClick() {
-    if (!EMAIL_REGULAR_EXPRESSION.test(this.state.userId)) {
-      this.props.displayToast("Please enter a valid email address");
-      return false;
-    }
     if (this.props.handleRestoreClick) {
       this.props.handleRestoreClick(this.state.userId);
     }
@@ -49,12 +45,12 @@ export default class RestorePassword extends React.Component {
         </MediaQuery>
         <div className={styles.header}>Reset your password</div>
         <div className={styles.content}>
-          Please enter your email address or phone number to reset your password
+          Please enter your email address to reset your password
         </div>
         <div className={styles.input}>
           <Input
             hollow={true}
-            placeholder="Email"
+            placeholder="Enter Email"
             onChange={val => this.setState({ userId: val })}
             onKeyUp={event => {
               this.enterPassword(event.key);

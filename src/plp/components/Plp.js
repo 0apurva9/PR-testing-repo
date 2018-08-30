@@ -14,17 +14,26 @@ import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
+import queryString, { parse } from "query-string";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
 import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
-import { REQUESTING } from "../../lib/constants";
 import SortDesktopContainer from "../containers/SortDesktopContainer";
+import {
+  REQUESTING,
+  AMP_BRAND_AND_CATEGORY_REG_EX,
+  AMP_CATEGORY_REG_EX,
+  AMP_BRAND_REG_EX,
+  AMP_SEARCH_REG_EX
+} from "../../lib/constants";
+
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
+
 export default class Plp extends React.Component {
   toggleFilter = () => {
     if (this.props.isFilterOpen) {
@@ -131,6 +140,12 @@ export default class Plp extends React.Component {
       ) {
         setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
       }
+    }
+
+    //show refine if filtersOpenAmp is true
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    if (parsedQueryString.filtersOpenAmp === "true") {
+      this.props.showFilter();
     }
   }
 
@@ -263,9 +278,43 @@ export default class Plp extends React.Component {
         </Helmet>
       );
     }
+
     return null;
   };
-
+  renderAmpTags = () => {
+    if (
+      AMP_BRAND_AND_CATEGORY_REG_EX.test(
+        this.props.history.location.pathname
+      ) ||
+      AMP_CATEGORY_REG_EX.test(this.props.history.location.pathname) ||
+      AMP_BRAND_REG_EX.test(this.props.history.location.pathname)
+    ) {
+      let ampUrl = this.props.history.location.pathname;
+      return (
+        <Helmet>
+          <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
+          <link
+            rel="canonical"
+            href={`${window.location.origin}/amp${ampUrl}`}
+          />
+        </Helmet>
+      );
+    }
+    if (AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)) {
+      let ampUrl = `${this.props.history.location.pathname}${
+        this.props.location.search
+      }`;
+      return (
+        <Helmet>
+          <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
+          <link
+            rel="canonical"
+            href={`${window.location.origin}/amp${ampUrl}`}
+          />
+        </Helmet>
+      );
+    }
+  };
   render() {
     let selectedFilterCount = 0;
     let selectedFilter = [];
@@ -298,6 +347,7 @@ export default class Plp extends React.Component {
       this.props.productListings && (
         <div className={styles.base}>
           {this.renderPageTags()}
+          {this.renderAmpTags()}
           {this.props.productListings.seo
             ? renderMetaTags(this.props.productListings)
             : renderMetaTagsWithoutSeoObject(this.props.productListings)}

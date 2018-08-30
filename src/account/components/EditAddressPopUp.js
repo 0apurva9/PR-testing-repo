@@ -33,7 +33,7 @@ import * as UserAgent from "../../lib/UserAgent.js";
 const SAVE_TEXT = "Save Address";
 const PINCODE_TEXT = "Please enter pincode";
 const NAME_TEXT = "Please enter first name";
-const LAST_NAME_TEXT = "plese enter last name";
+const LAST_NAME_TEXT = "Please enter last name";
 const ADDRESS_TEXT = "Please enter address";
 const ADDRESS_MINLENGTH_VALID_TEXT = "Minimum address length is 15 characters";
 const ADDRESS_MAXLENGTH_VALID_TEXT = "Address should not exceed 120 characters";

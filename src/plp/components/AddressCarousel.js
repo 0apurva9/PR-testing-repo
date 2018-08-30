@@ -51,5 +51,5 @@ AddressCarousel.propTypes = {
   )
 };
 AddressCarousel.defaultProps = {
-  text: "Select an address"
+  text: "Or, select an address"
 };

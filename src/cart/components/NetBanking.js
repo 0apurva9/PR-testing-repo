@@ -59,7 +59,7 @@ export default class NetBanking extends React.Component {
       selectedFromDropDown: true
     });
     if (this.props.binValidationForNetBank) {
-      this.props.binValidationForNetBank(bankName);
+      this.props.binValidationForNetBank(bankCode);
     }
     this.props.onSelectBankForNetBanking(bankCode);
   }

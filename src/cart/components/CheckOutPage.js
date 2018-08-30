@@ -93,7 +93,11 @@ import {
   SELECTED_BANK_NAME,
   MY_ACCOUNT_CART_PAGE,
   ADDRESS_VALIDATION,
-  NAME_VALIDATION
+  NAME_VALIDATION,
+  SELECTED_DELIVERY_MODE,
+  SHORT_EXPRESS,
+  SHORT_COLLECT,
+  SHORT_HOME_DELIVERY
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -351,6 +355,13 @@ class CheckOutPage extends React.Component {
   };
 
   handleSelectDeliveryMode(deliveryMode, ussId, cartId) {
+    let deliverModeInShortTerm;
+    if (deliveryMode === HOME_DELIVERY) {
+      deliverModeInShortTerm = SHORT_HOME_DELIVERY;
+    } else {
+      deliverModeInShortTerm = SHORT_EXPRESS;
+    }
+
     let newDeliveryObj = {};
     newDeliveryObj[ussId] = deliveryMode;
     let currentSelectedDeliveryModes = cloneDeep(
@@ -361,6 +372,10 @@ class CheckOutPage extends React.Component {
     setDataLayerForCheckoutDirectCalls(
       ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
       currentSelectedDeliveryModes
+    );
+    localStorage.setItem(
+      SELECTED_DELIVERY_MODE,
+      JSON.stringify(currentSelectedDeliveryModes)
     );
     this.setState({
       ussIdAndDeliveryModesObj: currentSelectedDeliveryModes,
@@ -426,11 +441,19 @@ class CheckOutPage extends React.Component {
         this.state.selectedProductsUssIdForCliqAndPiq
       ] = COLLECT;
 
-      this.setState({
-        ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
-        cliqPiqSelected: true,
-        isDeliveryModeSelected: true
-      });
+      this.setState(
+        {
+          ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
+          cliqPiqSelected: true,
+          isDeliveryModeSelected: true
+        },
+        () => {
+          localStorage.setItem(
+            SELECTED_DELIVERY_MODE,
+            JSON.stringify(updatedDeliveryModeUssid)
+          );
+        }
+      );
     }
   }
   removeCliqAndPiq() {
@@ -852,6 +875,10 @@ class CheckOutPage extends React.Component {
             }
           }
         });
+        localStorage.setItem(
+          SELECTED_DELIVERY_MODE,
+          JSON.stringify(defaultSelectedDeliveryModes)
+        );
       }
       if (
         this.props.cart.cartDetailsCNC &&

@@ -9,6 +9,7 @@ import Accordion from "../../general/components/Accordion.js";
 import styles from "./ProductDescriptionPage.css";
 import * as Cookie from "../../lib/Cookie";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
+import queryString, { parse } from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
   CUSTOMER_ACCESS_TOKEN,
@@ -26,7 +27,9 @@ import {
   COLLECT
 } from "../../lib/constants";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-
+import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
 const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
@@ -176,7 +179,7 @@ export default class PdpElectronics extends React.Component {
             cartDetailsLoggedInUser !== undefined &&
             customerCookie !== undefined
           ) {
-            this.props.addProductToCart(
+            return this.props.addProductToCart(
               JSON.parse(userDetails).userName,
               JSON.parse(cartDetailsLoggedInUser).code,
               JSON.parse(customerCookie).access_token,
@@ -184,7 +187,7 @@ export default class PdpElectronics extends React.Component {
             );
           }
         } else if (cartDetailsAnonymous) {
-          this.props.addProductToCart(
+          return this.props.addProductToCart(
             ANONYMOUS_USER,
             JSON.parse(cartDetailsAnonymous).guid,
             JSON.parse(globalCookie).access_token,
@@ -233,6 +236,18 @@ export default class PdpElectronics extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+  componentDidMount() {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    //show the EmiModal if showAmpEmi is true
+    if (parsedQueryString.showAmpEmi === "true") {
+      this.showEmiModal();
+    }
+    // add the product to bag and make the popup (View bag and Continue shopping) open.
+    if (parsedQueryString.addToBagAmp === "true") {
+      this.addToCart();
+      this.props.history.replace(this.props.location.pathname);
+    }
+  }
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
@@ -277,9 +292,10 @@ export default class PdpElectronics extends React.Component {
       }
       return (
         <PdpFrame
+          displayToast={message => this.props.displayToast(message)}
+          addProductToBag={() => this.addToCart()}
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
-          addProductToBag={() => this.addToCart()}
           productListingId={productData.productListingId}
           ussId={productData.winningUssID}
           showPincodeModal={() => this.showPincodeModal()}
@@ -362,6 +378,14 @@ export default class PdpElectronics extends React.Component {
               hasCod={productData.isCOD}
               showEmiModal={this.showEmiModal}
             />
+            <div className={styles.wishlist}>
+              <AddToWishListButtonContainer
+                productListingId={productData.productListingId}
+                winningUssID={productData.winningUssID}
+                type={WISHLIST_FOOTER_BUTTON_TYPE}
+                setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+              />
+            </div>
             <OfferCard
               theme={2}
               showDetails={this.props.showOfferDetails}
@@ -388,6 +412,7 @@ export default class PdpElectronics extends React.Component {
               </React.Fragment>
             )}
           </div>
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode

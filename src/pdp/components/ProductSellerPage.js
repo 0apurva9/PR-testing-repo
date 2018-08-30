@@ -23,7 +23,9 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
-  PRODUCT_OTHER_SELLER_ROUTER
+  PRODUCT_OTHER_SELLER_ROUTER,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_CART_ROUTER
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -66,14 +68,14 @@ class ProductSellerPage extends Component {
     );
     let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (userDetails) {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
         JSON.parse(userDetails).userName,
         JSON.parse(cartDetailsLoggedInUser).code,
         JSON.parse(customerCookie).access_token,
         productDetails
       );
     } else {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
         ANONYMOUS_USER,
         JSON.parse(cartDetailsAnonymous).guid,
         JSON.parse(globalCookie).access_token,
@@ -109,6 +111,17 @@ class ProductSellerPage extends Component {
       );
     }
   }
+  goToCart = () => {
+    const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    this.props.history.push({
+      pathname: PRODUCT_CART_ROUTER,
+      state: {
+        ProductCode: this.props.productDetails.productListingId,
+        pinCode: defaultPinCode
+      }
+    });
+  };
+
   addToWishList = () => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
@@ -192,6 +205,8 @@ class ProductSellerPage extends Component {
     return (
       mobileGalleryImages && (
         <PdpFrame
+          goToCart={() => this.goToCart()}
+          displayToast={message => this.props.displayToast(message)}
           addProductToBag={() => this.addToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
         >
@@ -229,8 +244,14 @@ class ProductSellerPage extends Component {
                     arrowColour={"black"}
                     value={this.state.sortOption}
                     options={[
-                      { label: PRICE_LOW_TO_HIGH, value: PRICE_LOW_TO_HIGH },
-                      { label: PRICE_HIGH_TO_LOW, value: PRICE_HIGH_TO_LOW }
+                      {
+                        label: PRICE_LOW_TO_HIGH,
+                        value: PRICE_LOW_TO_HIGH
+                      },
+                      {
+                        label: PRICE_HIGH_TO_LOW,
+                        value: PRICE_HIGH_TO_LOW
+                      }
                     ]}
                   />
                 </div>

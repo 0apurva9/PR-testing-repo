@@ -5,7 +5,7 @@ export default class FillupRating extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: this.props.rating && null
+      rating: null
     };
   }
   rate(rating) {
@@ -20,15 +20,20 @@ export default class FillupRating extends React.Component {
       }
     );
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.resetRating === true) {
+      this.setState({ rating: null });
+    }
+  }
   render() {
     const starSpans = [];
-    for (let i = 1; i <= this.props.rating; i++) {
+    for (let i = 1; i <= 5; i++) {
       let classStar = styles.ratingStar;
       if (this.state.rating >= i && this.state.rating !== null) {
         classStar = styles.ratingFillStar;
       }
       starSpans.push(
-        <div className={styles.ratingHolder}>
+        <div className={styles.ratingHolder} key={i}>
           <div className={styles.startHolder}>
             <div className={classStar} onClick={() => this.rate(i)} />
           </div>

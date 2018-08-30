@@ -28,7 +28,7 @@
   color: #181818;
   font-size: 14px;
   line-height: 20px;
-  white-space: initial;
+  white-space: pre-wrap;
   margin: auto;
 }
 .dateTimeBox {
