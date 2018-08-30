@@ -5,6 +5,7 @@ import DumbCarousel from "../../general/components/DumbCarousel";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
+import * as UserAgent from "../../lib/UserAgent.js";
 import PropTypes from "prop-types";
 import {
   SUCCESS,
@@ -86,10 +87,17 @@ export default class SizeSelector extends React.Component {
         });
       }
     } else {
-      this.props.history.replace({
-        pathname: `${productUrl}`,
-        state: { isSizeSelected: true, goToCartPageFlag: false }
-      });
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.props.history.replace({
+          pathname: `${productUrl}`,
+          state: { isSizeSelected: true, goToCartPageFlag: false }
+        });
+      } else {
+        this.props.history.replace({
+          pathname: `${productUrl}`,
+          state: { isSizeSelected: true, goToCartPageFlag: true }
+        });
+      }
     }
     if (this.props.closeModal) {
       this.props.closeModal();
