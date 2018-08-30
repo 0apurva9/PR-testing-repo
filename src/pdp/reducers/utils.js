@@ -21,3 +21,12 @@ export function transferPincodeToPdpPincode(validDeliveryModes) {
   });
   return eligibleDeliveryModes;
 }
+export function reverse(data) {
+  var reverseObject = [],
+    counter = 0;
+  for (var i = data.length - 1; i >= 0; i -= 1) {
+    reverseObject[counter] = data[i];
+    counter += 1;
+  }
+  return reverseObject;
+}

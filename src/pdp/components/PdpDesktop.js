@@ -15,9 +15,10 @@ import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
-
+import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
   CUSTOMER_ACCESS_TOKEN,
@@ -360,7 +361,8 @@ export default class PdpApparel extends React.Component {
     }
   };
   goToPage = url => {
-    this.props.history.push(url);
+    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    this.props.history.push(urlSuffix);
   };
   handleShowPiqPage = () => {
     const eligibleForCNC = find(
@@ -375,8 +377,13 @@ export default class PdpApparel extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+
   render() {
+    console.log(this.props);
     const productData = this.props.productDetails;
+    const breadCrumbs = productData.seo.breadcrumbs;
+    const reverseBreadCrumbs = reverse(breadCrumbs);
+
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
           return val.mediaType === IMAGE;
@@ -455,17 +462,16 @@ export default class PdpApparel extends React.Component {
               <div className={styles.content}>
                 <div className={styles.horizontalOffset}>
                   <div className={styles.breadcrumbs}>
-                    {productData.seo.breadcrumbs &&
-                      productData.seo.breadcrumbs.map(val => {
+                    <div className={styles.breadcrumbsDefault}>Home</div>
+                    {reverseBreadCrumbs &&
+                      reverseBreadCrumbs.map(val => {
                         return (
-                          <span className={styles.breadcrumbsText}>
-                            <span
-                              className={styles.breadcrumbsText}
-                              onClick={() => this.goToPage(val.url)}
-                            >
-                              {val.name}>
-                            </span>
-                          </span>
+                          <div
+                            className={styles.breadcrumbsText}
+                            onClick={() => this.goToPage(val.url)}
+                          >
+                            {val.name}
+                          </div>
                         );
                       })}
                   </div>
