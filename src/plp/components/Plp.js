@@ -78,6 +78,7 @@ export default class Plp extends React.Component {
             filterWrapperDOM.className = filterFixed;
           }
         } else {
+          filterWrapperDOM.style.marginTop = `auto`;
           if (this.state.fixedScroll) {
             this.setState({ fixedScroll: false });
             filterWrapperDOM.className = filterScroll;
@@ -197,7 +198,6 @@ export default class Plp extends React.Component {
       const maxHeight =
         filterHeight ^
         ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
-      console.log(filterHeight, gridHeight);
       if (this.state.totalHeight !== maxHeight) {
         this.setState({ totalHeight: maxHeight });
       }
