@@ -144,11 +144,10 @@ export default class Plp extends React.Component {
     }
   }
   componentDidMount() {
-    this.throttledScroll = !UserAgent.checkUserAgentIsMobile()
-      ? () => this.handleScroll()
-      : this.handleScroll();
-    window.addEventListener("scroll", this.throttledScroll);
-
+    if (UserAgent.checkUserAgentIsMobile()) {
+      this.throttledScroll = this.handleScroll();
+      window.addEventListener("scroll", this.throttledScroll);
+    }
     this.setHeaderText();
     if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (
