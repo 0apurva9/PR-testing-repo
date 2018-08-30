@@ -17,7 +17,9 @@ import {
 import { URL_ROOT } from "../../lib/apiRequest";
 import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
 import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
-
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import ShowBrandModal from "./ShowBrandModal";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
@@ -26,7 +28,8 @@ export default class FilterDesktop extends React.Component {
     super();
     this.state = {
       fixedScroll: false,
-      openedFilters: []
+      openedFilters: [],
+      openBrandPopUp: false
     };
   }
   handleScroll = () => {
@@ -150,11 +153,7 @@ export default class FilterDesktop extends React.Component {
     }
   };
   viewMore(brandData) {
-    let brandDetailsObject = {};
-    brandDetailsObject.brandData = brandData;
-    if (this.props.showBrandModal) {
-      this.props.showBrandModal(brandDetailsObject);
-    }
+    this.setState({ openBrandPopUp: true });
   }
   render() {
     const { facetData, facetdatacategory } = this.props;
@@ -195,7 +194,6 @@ export default class FilterDesktop extends React.Component {
             >
               <div className={styles.subFilterDetails}>
                 <div className={styles.filterHeader}>Category</div>
-
                 {this.props.isCategorySelected &&
                   facetdatacategory &&
                   facetdatacategory.filters &&
@@ -249,18 +247,20 @@ export default class FilterDesktop extends React.Component {
                               />
                             </div>
                           )}
-                        {facetDataValues &&
-                          facetDataValues.name === BRAND &&
-                          facetDataValues.values.length > 5 && (
-                            <div
-                              className={styles.moreText}
-                              onClick={() =>
-                                this.viewMore(facetDataValues.values)
-                              }
-                            >
-                              More
-                            </div>
-                          )}
+                        <DesktopOnly>
+                          {facetDataValues &&
+                            facetDataValues.name === BRAND &&
+                            facetDataValues.values.length > 5 && (
+                              <div
+                                className={styles.moreText}
+                                onClick={() =>
+                                  this.viewMore(facetDataValues.values)
+                                }
+                              >
+                                More
+                              </div>
+                            )}
+                        </DesktopOnly>
                         {facetDataValues &&
                           facetDataValues.name === PRICE &&
                           facetDataValues.values && (
@@ -381,6 +381,16 @@ export default class FilterDesktop extends React.Component {
             })}
           </div>
         </div>
+        {this.state.openBrandPopUp &&
+          autoShowFilters.map((facetDataValues, i) => {
+            return (
+              facetDataValues &&
+              facetDataValues.name === BRAND &&
+              facetDataValues.values && (
+                <ShowBrandModal brandData={facetDataValues.values} />
+              )
+            );
+          })}
       </div>
     );
   }
