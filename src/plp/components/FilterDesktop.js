@@ -17,7 +17,6 @@ import {
 import { URL_ROOT } from "../../lib/apiRequest";
 import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
 import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
-import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ShowBrandModal from "./ShowBrandModal";
 const BRAND = "Brand";
@@ -107,7 +106,6 @@ export default class FilterDesktop extends React.Component {
     let url;
     let query = parsedQueryString.q;
     let pathName = this.props.location.pathname;
-
     if (parsedQueryString.searchCategory) {
       const searchValue = this.props.location.search;
       url = `${pathName}${searchValue}`;
@@ -115,25 +113,20 @@ export default class FilterDesktop extends React.Component {
     } else {
       url = createUrlFromQueryAndCategory(query, pathName, val);
     }
-
     this.props.history.push(url, { isFilter });
     if (isFilter === false) {
       this.props.onL3CategorySelect();
     }
   };
-
   onL1Click = val => {
     this.onCategorySelect(val, true);
   };
-
   onL2Click = val => {
     this.onCategorySelect(val, true);
   };
-
   onL3Click = val => {
     this.onCategorySelect(val, false);
   };
-
   onFilterClick = val => {
     const url = val.replace("{pageNo}", 1);
 

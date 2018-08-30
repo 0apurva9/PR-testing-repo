@@ -6,7 +6,6 @@ import {
   resetFilterSelectedData
 } from "../actions/plp.actions.js";
 import findIndex from "lodash.findindex";
-import { showModal, SHOW_BRAND_MODAL } from "../../general/modal.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onApply: () => {
@@ -20,9 +19,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onL3CategorySelect: () => {
       ownProps.onL3CategorySelect();
-    },
-    showBrandModal: brandData => {
-      dispatch(showModal(SHOW_BRAND_MODAL, brandData));
     }
   };
 };
