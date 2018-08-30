@@ -4,6 +4,7 @@ import CategoryWithName from "../../general/components/CategoryWithName";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { widgetsTracking } from "../../lib/adobeUtils";
 
 import styles from "./DiscoverMore500.css";
 const NUM_RESULTS_TO_SHOW = 6;
@@ -15,7 +16,17 @@ class DiscoverMore500 extends React.Component {
       showAll: false
     };
   }
-  handleClick = webUrl => {
+  handleClick = (webUrl, categoryName) => {
+    widgetsTracking({
+      widgetName:
+        this.props.feedComponentData && this.props.feedComponentData.title,
+      sourceOfWidget:
+        this.props.feedComponentData &&
+        this.props.feedComponentData.postParams &&
+        this.props.feedComponentData.postParams.widgetPlatform,
+      categoryName,
+      type: "Category"
+    });
     const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
     if (this.props.setClickedElementId) {

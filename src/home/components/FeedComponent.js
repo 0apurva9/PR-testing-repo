@@ -25,7 +25,6 @@ class FeedComponent extends React.Component {
     if (!(data instanceof Array)) {
       return null;
     }
-    console.log(this.props);
     return (
       <div
         className={
@@ -79,6 +78,7 @@ class FeedComponent extends React.Component {
                       this.props.carouselOptions &&
                       this.props.carouselOptions.header
                     }
+                    sourceOfWidget={this.props.sourceOfWidget}
                   />
                 );
               })}

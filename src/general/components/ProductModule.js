@@ -37,11 +37,11 @@ export default class ProductModule extends React.Component {
   }
   onClick = () => {
     if (this.props.widgetName) {
-      widgetsTracking(
-        this.props.widgetName,
-        this.props.productId,
-        this.props.productCategory
-      );
+      widgetsTracking({
+        widgetName: this.props.widgetName,
+        productId: this.props.productId,
+        sourceOfWidget: this.props.sourceOfWidget
+      });
     }
     if (this.props.onClick) {
       this.props.onClick(

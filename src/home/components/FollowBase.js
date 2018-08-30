@@ -4,6 +4,7 @@ import Carousel from "../../general/components/Carousel.js";
 import PropTypes from "prop-types";
 import styles from "./FollowBase.css";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 
 export default class FollowBase extends React.Component {
   constructor(props) {
@@ -15,6 +16,14 @@ export default class FollowBase extends React.Component {
     };
   }
   handleClick = data => {
+    widgetsTracking({
+      widgetName: this.props.feedComponentData.title
+        ? this.props.feedComponentData.title
+        : "Fresh from Brands",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      brandName: data.brandName,
+      type: "Brand"
+    });
     this.props.showStory({
       positionInFeed: this.props.positionInFeed,
       ...data
@@ -24,7 +33,6 @@ export default class FollowBase extends React.Component {
   render() {
     let { feedComponentData, ...rest } = this.props;
     feedComponentData = feedComponentData.data;
-
     return (
       <div
         className={

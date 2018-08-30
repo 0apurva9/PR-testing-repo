@@ -1948,19 +1948,21 @@ export function setDataLayerForAutoSuggestSearch(response) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);
   }
 }
-export function widgetsTracking(widgetsName, productId, productCategory) {
+export function widgetsTracking(widgetObj: {}) {
   const data = cloneDeep(window.digitalData);
   Object.assign(data.cpj, {
-    widgetname: widgetsName,
-    product: {
-      id: productId ? productId : null,
-      category: productCategory ? productCategory : null
-    }
+    widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+      widgetObj.widgetName
+    }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+      widgetObj.type ? widgetObj.type : "product"
+    }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+      widgetObj.categoryName ? widgetObj.categoryName : "x"
+    }`
   });
   window.digitalData = data;
   let widgetType;
   switch (
-    widgetsName
+    widgetObj.widgetName
       .split(" ")
       .join("_")
       .toLowerCase()
@@ -1990,6 +1992,7 @@ export function widgetsTracking(widgetsName, productId, productCategory) {
   if (window._satellite) {
     window._satellite.track(widgetType);
   }
+  debugger;
 }
 export function setDataLayerForVisitBrand() {
   if (window._satellite) {

@@ -122,6 +122,7 @@ class PDPRecommendedSections extends React.Component {
                 discountPercent={discount}
                 onClick={url => this.goToProductDescription(url)}
                 widgetName={widgetName}
+                sourceOfWidget="msd"
               />
             );
           })}
