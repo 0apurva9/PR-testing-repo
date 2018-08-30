@@ -34,7 +34,9 @@ import {
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
   NO,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  COLLECT
+  COLLECT,
+  SUCCESS,
+  ADD_TO_BAG_TEXT
 } from "../../lib/constants";
 
 import styles from "./ProductDescriptionPage.css";
@@ -43,7 +45,7 @@ const ProductDetailsMainCard = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-const WISHLIST_ICON_TYPE = "wishlistIcon";
+const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
   loading: () => <div />,
@@ -134,7 +136,11 @@ export default class PdpApparel extends React.Component {
       productQuantityOption: "Quantity",
       sizeError: false,
       quantityError: false,
-      showProductDetails: false
+      showProductDetails: false,
+      goToCartPageFlag:
+        this.props.location.state && this.props.location.state.goToCartPageFlag
+          ? this.props.location.state.goToCartPageFlag
+          : false
     };
   }
   visitBrand() {
@@ -176,7 +182,7 @@ export default class PdpApparel extends React.Component {
     }
     this.props.getProductPinCode(pincode, productCode);
   }
-  addToCart = () => {
+  addToCart = async buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -214,21 +220,41 @@ export default class PdpApparel extends React.Component {
           } else {
             if (userDetails) {
               if (cartDetailsLoggedInUser && customerCookie) {
-                this.props.addProductToCart(
+                const addProductToCartResponse = await this.props.addProductToCart(
                   JSON.parse(userDetails).userName,
                   JSON.parse(cartDetailsLoggedInUser).code,
                   JSON.parse(customerCookie).access_token,
                   productDetails
                 );
+                if (addProductToCartResponse.status === SUCCESS) {
+                  this.setState({
+                    goToCartPageFlag: true
+                  });
+                  if (buyNowFlag) {
+                    this.goToCart();
+                  } else {
+                    this.props.displayToast(ADD_TO_BAG_TEXT);
+                  }
+                }
               }
             } else {
               if (cartDetailsAnonymous && globalCookie) {
-                this.props.addProductToCart(
+                const addProductToCartResponse = await this.props.addProductToCart(
                   ANONYMOUS_USER,
                   JSON.parse(cartDetailsAnonymous).guid,
                   JSON.parse(globalCookie).access_token,
                   productDetails
                 );
+                if (addProductToCartResponse.status === SUCCESS) {
+                  this.setState({
+                    goToCartPageFlag: true
+                  });
+                  if (buyNowFlag) {
+                    this.goToCart();
+                  } else {
+                    this.props.displayToast(ADD_TO_BAG_TEXT);
+                  }
+                }
               }
             }
           }
@@ -548,6 +574,7 @@ export default class PdpApparel extends React.Component {
                                   hasSizeGuide={productData.showSizeGuide}
                                   showSizeGuide={this.props.showSizeGuide}
                                   data={productData.variantOptions}
+                                  textSize={12}
                                 />
                               </div>
                             )}
@@ -646,8 +673,12 @@ export default class PdpApparel extends React.Component {
                         type="primary"
                         height={45}
                         width={195}
-                        label="Add to bag"
-                        onClick={() => this.addToCart()}
+                        label="Buy Now"
+                        onClick={
+                          this.state.goToCartPageFlag
+                            ? () => this.goToCart()
+                            : () => this.addToCart(true)
+                        }
                         disabled={
                           productData.allOOStock ||
                           !productData.winningSellerPrice ||
@@ -658,15 +689,41 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                   <div className={styles.buttonHolder}>
-                    <AddToWishListButtonContainer
-                      type={WISHLIST_ICON_TYPE}
-                      productListingId={productData.productListingId}
-                      winningUssID={productData.winningUssID}
-                      setDataLayerType={
-                        SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
-                      }
-                    />
+                    <div className={styles.buttonAddToBag}>
+                      <Button
+                        type="hollow"
+                        height={45}
+                        width={195}
+                        color={"#ff1744"}
+                        label={
+                          this.state.goToCartPageFlag
+                            ? "Go to bag"
+                            : "Add to bag"
+                        }
+                        onClick={
+                          this.state.goToCartPageFlag
+                            ? () => this.goToCart()
+                            : () => this.addToCart(false)
+                        }
+                        disabled={
+                          productData.allOOStock ||
+                          !productData.winningSellerPrice ||
+                          (productData.winningSellerAvailableStock === "0" &&
+                            this.checkIfSizeSelected())
+                        }
+                      />
+                    </div>
                   </div>
+                </div>
+                <div className={styles.buttonHolderForWishlist}>
+                  <AddToWishListButtonContainer
+                    type={WISHLIST_FOOTER_BUTTON_TYPE}
+                    productListingId={productData.productListingId}
+                    winningUssID={productData.winningUssID}
+                    setDataLayerType={
+                      SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                    }
+                  />
                 </div>
                 <div className={styles.horizontalOffset}>
                   <div className={styles.separator}>

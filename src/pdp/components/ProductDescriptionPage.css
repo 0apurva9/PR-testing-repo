@@ -368,6 +368,10 @@
     margin-right: 15px;
     vertical-align: top;
   }
+  .buttonHolderForWishlist {
+    composes: buttonHolder;
+    padding: 0 15px;
+  }
   .saveListButton {
     cursor: pointer;
   }

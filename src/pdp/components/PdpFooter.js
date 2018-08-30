@@ -58,7 +58,11 @@ export default class PdfFooter extends React.Component {
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
             label="Buy Now"
             disabled={this.props.outOfStock}
-            onClick={() => this.onAddToBag(true)}
+            onClick={
+              this.state.goToCartPageFlag
+                ? () => this.goToCartPage()
+                : () => this.onAddToBag(true)
+            }
             labelStyle={{
               color: this.state.goToCartPageFlag ? "#ff1744" : "#ff1744",
               fontSize: 14,

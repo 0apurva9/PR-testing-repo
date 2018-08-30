@@ -180,6 +180,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         return (
           <div itemScope itemType="http://schema.org/Product">
             <MobileOnly>
+              {this.renderAmpTags()}
               {this.props.productDetails.seo
                 ? renderMetaTags(this.props.productDetails)
                 : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
@@ -188,11 +189,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
             <DesktopOnly>
               <PdpDesktop {...this.props} />
             </DesktopOnly>
-            {this.renderAmpTags()}
-            {this.props.productDetails.seo
-              ? renderMetaTags(this.props.productDetails)
-              : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
-            {this.renderRootCategory(this.props.productDetails.rootCategory)}
           </div>
         );
       } else {

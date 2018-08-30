@@ -1,0 +1,137 @@
+.base {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+.dataDisplayHolder {
+  width: 1020px;
+  height: 657px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+  overflow: hidden;
+  padding: 87px 0px 87px 0px;
+}
+.headerElement {
+  width: 100%;
+  height: 87px;
+  background: #f9f9f9;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 12px 50px;
+  display: flex;
+}
+.crossElement {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  background: url(./img/cancelGrey.svg) no-repeat;
+  background-size: auto 30px;
+  background-position: center;
+}
+.displayDataElement {
+  width: 100%;
+  height: 483px;
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  overflow-x: auto;
+  flex-direction: column;
+  padding: 25px 60px 20px;
+}
+.footerElement {
+  width: 100%;
+  height: 87px;
+  background: #f9f9f9;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0px 25px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+}
+.brandNameHolder {
+  width: auto;
+  height: auto;
+  position: relative;
+  padding: 0px 60px 0px 35px;
+  color: #212121;
+  font-size: 13px;
+  font-family: light;
+  margin-top: 20px;
+  line-height: 20px;
+  text-align: left;
+}
+.checkBoxHolder {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.searchHolder {
+  width: 30%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.searchHeader {
+  width: 100%;
+  color: #000000;
+  font-size: 14px;
+  font-family: semibold;
+  margin-bottom: 10px;
+  display: flex;
+}
+.inputHolder {
+  width: 100%;
+  height: auto;
+}
+.bandFirstIndex {
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 35px 0px 0px 25px;
+  user-select: none;
+}
+.text {
+  width: auto;
+  padding-left: 10px;
+  height: auto;
+  font-size: 14px;
+  font-family: light;
+  cursor: pointer;
+}
+.activeText {
+  composes: text;
+  color: #ff1744;
+}
+.textHeader {
+  width: auto;
+  height: auto;
+  font-size: 24px;
+  font-family: semibold;
+  margin-top: 20px;
+  text-align: left;
+}
+.applyAndClearButton {
+  width: auto;
+  height: auto;
+  display: flex;
+  margin-left: 15px;
+}
