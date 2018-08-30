@@ -190,13 +190,14 @@ export default class Plp extends React.Component {
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
       const filterDOM = document.getElementById("filter");
-      const gridDOM = document.getElementById("grid-container");
+      const gridDOM = document.getElementById("grid-wrapper");
 
       const filterHeight = filterDOM ? filterDOM.offsetHeight : 0;
       const gridHeight = gridDOM ? gridDOM.offsetHeight : 0;
       const maxHeight =
         filterHeight ^
         ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
+      console.log(filterHeight, gridHeight);
       if (this.state.totalHeight !== maxHeight) {
         this.setState({ totalHeight: maxHeight });
       }
@@ -425,35 +426,35 @@ export default class Plp extends React.Component {
                 id="grid-container"
                 style={{ minHeight: `${this.state.totalHeight}px` }}
               >
-                <ProductGrid
-                  history={this.props.history}
-                  location={this.props.location}
-                  data={this.props.productListings.searchresult}
-                  totalResults={
-                    this.props.productListings.pagination.totalResults
-                  }
-                  setProductModuleRef={this.props.setProductModuleRef}
-                  sort={this.props.productListings.sorts}
-                  setIfSortHasBeenClicked={() =>
-                    this.props.setIfSortHasBeenClicked()
-                  }
-                />
+                <div id="grid-wrapper">
+                  <ProductGrid
+                    history={this.props.history}
+                    location={this.props.location}
+                    data={this.props.productListings.searchresult}
+                    totalResults={
+                      this.props.productListings.pagination.totalResults
+                    }
+                    setProductModuleRef={this.props.setProductModuleRef}
+                    sort={this.props.productListings.sorts}
+                    setIfSortHasBeenClicked={() =>
+                      this.props.setIfSortHasBeenClicked()
+                    }
+                  />
+                </div>
                 <DesktopOnly>
                   {this.props.productListings &&
                     this.props.pageNumber <
                       this.props.productListings.pagination.totalPages - 1 && (
                       <div className={styles.viewMoreButtonHolder}>
-                        <div
-                          className={styles.viewMoreButton}
-                        >
-                         <Button
-                        type="hollow"
-                        width={180}
-                        height={36}
-                        label="Show more products"
-                        color="#212121"
-                        onClick={() => this.viewMore()}
-                      />
+                        <div className={styles.viewMoreButton}>
+                          <Button
+                            type="hollow"
+                            width={180}
+                            height={36}
+                            label="Show more products"
+                            color="#212121"
+                            onClick={() => this.viewMore()}
+                          />
                         </div>
                       </div>
                     )}
