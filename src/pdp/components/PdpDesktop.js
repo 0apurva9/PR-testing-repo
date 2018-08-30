@@ -617,19 +617,21 @@ export default class PdpApparel extends React.Component {
 
                 <div className={styles.horizontalOffset}>
                   <div className={styles.buttonHolder}>
-                    <Button
-                      type="primary"
-                      height={45}
-                      width={195}
-                      label="Add to bag"
-                      onClick={() => this.addToCart()}
-                      disabled={
-                        productData.allOOStock ||
-                        !productData.winningSellerPrice ||
-                        (productData.winningSellerAvailableStock === "0" &&
-                          this.checkIfSizeSelected())
-                      }
-                    />
+                    <div className={styles.buttonAddToBag}>
+                      <Button
+                        type="primary"
+                        height={45}
+                        width={195}
+                        label="Add to bag"
+                        onClick={() => this.addToCart()}
+                        disabled={
+                          productData.allOOStock ||
+                          !productData.winningSellerPrice ||
+                          (productData.winningSellerAvailableStock === "0" &&
+                            this.checkIfSizeSelected())
+                        }
+                      />
+                    </div>
                   </div>
                   <div className={styles.buttonHolder}>
                     <AddToWishListButtonContainer

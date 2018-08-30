@@ -15,7 +15,9 @@ import {
   IS_NEW,
   IS_OFFER_EXISTING
 } from "../../lib/constants";
-
+import { Link } from "react-router-dom";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class ProductModule extends React.Component {
   onDownload = () => {
     if (this.props.onDownload) {
@@ -34,7 +36,7 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
-    if (this.props.onClick) {
+    if (this.props.onClick && UserAgent.checkUserAgentIsMobile()) {
       this.props.onClick(
         this.getProductURL(),
         null,
@@ -52,14 +54,12 @@ export default class ProductModule extends React.Component {
     if (this.props.isWhite) {
       downloadImage = downloadIconWhite;
     }
-
     return (
       <div
         className={styles.base}
         onClick={this.onClick}
         id={`ProductModule-${this.props.productId}`}
       >
-        {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
         <a
           href={`${window.location.origin}${this.getProductURL()}`}
           className={styles.aTag}
@@ -103,6 +103,16 @@ export default class ProductModule extends React.Component {
             />
           )}
         </div>
+        <DesktopOnly>
+          <Link
+            to={{
+              pathname: `${this.getProductURL()}`
+            }}
+            target="_blank"
+          >
+            <div className={styles.dummyDiv} />
+          </Link>
+        </DesktopOnly>
       </div>
     );
   }

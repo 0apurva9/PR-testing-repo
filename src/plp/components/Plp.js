@@ -18,6 +18,7 @@ import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
+import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
 import { REQUESTING } from "../../lib/constants";
 import { filterScroll, filterFixed } from "./FilterDesktop.css";
@@ -444,9 +445,15 @@ export default class Plp extends React.Component {
                       <div className={styles.viewMoreButtonHolder}>
                         <div
                           className={styles.viewMoreButton}
-                          onClick={() => this.viewMore()}
                         >
-                          Show More Products
+                         <Button
+                        type="hollow"
+                        width={180}
+                        height={36}
+                        label="Show more products"
+                        color="#212121"
+                        onClick={() => this.viewMore()}
+                      />
                         </div>
                       </div>
                     )}

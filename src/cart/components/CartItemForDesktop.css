@@ -4,15 +4,15 @@
   background: #fff;
   display: inline-block;
   border-radius: 4px;
-  padding: 25px 40px 40px 40px;
+  padding: 25px 30px 30px 30px;
 }
 .productImage {
-  width: 25%;
+  width: 20%;
   height: auto;
   display: inline-block;
 }
 .productInformation {
-  width: 50%;
+  width: 55%;
   height: auto;
   display: inline-block;
   vertical-align: top;
