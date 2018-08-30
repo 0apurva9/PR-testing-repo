@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ShowBrandModal.css";
 import SearchInput from "../../general/components/SearchInput";
 import groupBy from "lodash.groupby";
+import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
 export default class ShowBrandModal extends React.Component {
   constructor(props) {
@@ -23,8 +24,14 @@ export default class ShowBrandModal extends React.Component {
     this.setState({ selectedBrandType: val });
   };
   onFilterClick = val => {
-    const url = val.replace("{pageNo}", 1);
-    this.props.history.push(url);
+    if (this.props.onSelect) {
+      this.props.onSelect(val);
+    }
+  };
+  clearAll = () => {
+    if (this.props.clearAll) {
+      this.props.clearAll();
+    }
   };
   render() {
     let brandsList = this.props.brandData;
@@ -53,64 +60,86 @@ export default class ShowBrandModal extends React.Component {
     const parentBrandsLabel = Object.keys(brandsList);
     return (
       <div className={styles.base}>
-        <div className={styles.headerElement}>
-          <div className={styles.searchHolder}>
-            <div className={styles.searchHeader}>Filter by Brands</div>
-            <div className={styles.inputHolder}>
-              <SearchInput
-                placeholder="Search for Brands"
-                onChange={val => this.onBrandSearch(val)}
-              />
+        <div className={styles.dataDisplayHolder}>
+          <div className={styles.headerElement}>
+            <div className={styles.searchHolder}>
+              <div className={styles.searchHeader}>Filter by Brands</div>
+              <div className={styles.inputHolder}>
+                <SearchInput
+                  placeholder="Search for Brands"
+                  onChange={val => this.onBrandSearch(val)}
+                />
+              </div>
             </div>
+            <div className={styles.bandFirstIndex}>
+              {selectedFixBrandLabel &&
+                selectedFixBrandLabel.length !== 0 &&
+                selectedFixBrandLabel.map((brandInitials, i) => {
+                  return (
+                    <div
+                      className={
+                        brandInitials === this.state.selectedBrandType
+                          ? styles.activeText
+                          : styles.text
+                      }
+                      onClick={() => this.selectedBrandType(brandInitials)}
+                    >
+                      {brandInitials}
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div
+              className={styles.crossElement}
+              onClick={() => this.closeModal()}
+            />
           </div>
-          <div className={styles.bandFirstIndex}>
-            {selectedFixBrandLabel &&
-              selectedFixBrandLabel.length !== 0 &&
-              selectedFixBrandLabel.map((brandInitials, i) => {
+          <div className={styles.displayDataElement}>
+            {parentBrandsLabel &&
+              parentBrandsLabel.map((val, i) => {
                 return (
-                  <div
-                    className={
-                      brandInitials === this.state.selectedBrandType
-                        ? styles.activeText
-                        : styles.text
-                    }
-                    onClick={() => this.selectedBrandType(brandInitials)}
-                  >
-                    {brandInitials}
-                  </div>
+                  <React.Fragment>
+                    <div className={styles.textHeader}>{val}</div>
+                    {brandsList[val].map((brandsList, j) => {
+                      return (
+                        <div className={styles.brandNameHolder}>
+                          <div
+                            className={styles.checkBoxHolder}
+                            onClick={data => this.onFilterClick(brandsList.url)}
+                          >
+                            <CheckBox selected={brandsList.selected} />
+                          </div>
+                          {brandsList.name}
+                        </div>
+                      );
+                    })}
+                  </React.Fragment>
                 );
               })}
           </div>
-
-          <div
-            className={styles.crossElement}
-            onClick={() => this.closeModal()}
-          />
+          <div className={styles.footerElement}>
+            <div className={styles.applyAndClearButton}>
+              <Button
+                type="hollow"
+                label="Clear All"
+                color="#000000"
+                width={142}
+                height={40}
+                onClick={() => this.clearAll()}
+              />
+            </div>
+            <div className={styles.applyAndClearButton}>
+              <Button
+                label="Apply"
+                type="primary"
+                width={142}
+                height={40}
+                onClick={() => this.closeModal()}
+              />
+            </div>
+          </div>
         </div>
-        <div className={styles.displayDataElement}>
-          {parentBrandsLabel &&
-            parentBrandsLabel.map((val, i) => {
-              return (
-                <React.Fragment>
-                  <div className={styles.textHeader}>{val}</div>
-                  {brandsList[val].map((brandsList, j) => {
-                    return (
-                      <div className={styles.brandNameHolder}>
-                        <div
-                          className={styles.checkBoxHolder}
-                          onClick={data => this.onFilterClick(brandsList.url)}
-                        >
-                          <CheckBox selected={brandsList.selected} />
-                        </div>
-                        {brandsList.name}
-                      </div>
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
-        </div>
-        <div className={styles.footerElement} />
       </div>
     );
   }
