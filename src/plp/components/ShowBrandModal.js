@@ -21,16 +21,15 @@ export default class ShowBrandModal extends React.Component {
     this.setState({ brandSearchString: val });
   };
   selectedBrandType = val => {
-    this.setState({ selectedBrandType: val });
+    if (this.state.selectedBrandType !== val) {
+      this.setState({ selectedBrandType: val });
+    } else {
+      this.setState({ selectedBrandType: null });
+    }
   };
   onFilterClick = val => {
     if (this.props.onSelect) {
       this.props.onSelect(val);
-    }
-  };
-  clearAll = () => {
-    if (this.props.clearAll) {
-      this.props.clearAll();
     }
   };
   render() {
@@ -119,16 +118,6 @@ export default class ShowBrandModal extends React.Component {
               })}
           </div>
           <div className={styles.footerElement}>
-            <div className={styles.applyAndClearButton}>
-              <Button
-                type="hollow"
-                label="Clear All"
-                color="#000000"
-                width={142}
-                height={40}
-                onClick={() => this.clearAll()}
-              />
-            </div>
             <div className={styles.applyAndClearButton}>
               <Button
                 label="Apply"

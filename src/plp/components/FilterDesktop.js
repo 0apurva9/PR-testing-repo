@@ -170,7 +170,6 @@ export default class FilterDesktop extends React.Component {
               facetDataValues.values && (
                 <ShowBrandModal
                   brandData={facetDataValues.values}
-                  clearAll={() => this.onClear()}
                   closeModal={() => this.setState({ openBrandPopUp: false })}
                   onSelect={data => this.onFilterClick(data)}
                 />
