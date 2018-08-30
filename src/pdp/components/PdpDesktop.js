@@ -36,7 +36,8 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   COLLECT,
   SUCCESS,
-  ADD_TO_BAG_TEXT
+  ADD_TO_BAG_TEXT,
+  HOME_ROUTER
 } from "../../lib/constants";
 
 import styles from "./ProductDescriptionPage.css";
@@ -390,6 +391,9 @@ export default class PdpApparel extends React.Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+  goToHome = () => {
+    this.props.history.push(HOME_ROUTER);
+  };
   handleShowPiqPage = () => {
     const eligibleForCNC = find(
       this.props.productDetails &&
@@ -486,7 +490,12 @@ export default class PdpApparel extends React.Component {
               <div className={styles.content}>
                 <div className={styles.horizontalOffset}>
                   <div className={styles.breadcrumbs}>
-                    <div className={styles.breadcrumbsDefault}>Home</div>
+                    <div
+                      className={styles.breadcrumbsDefault}
+                      onClick={() => this.goToHome()}
+                    >
+                      Home
+                    </div>
                     {reverseBreadCrumbs &&
                       reverseBreadCrumbs.map(val => {
                         return (
