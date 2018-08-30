@@ -405,11 +405,9 @@ export default class PdpApparel extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const productData = this.props.productDetails;
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
-
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
           return val.mediaType === IMAGE;
