@@ -359,6 +359,9 @@ export default class PdpApparel extends React.Component {
       return false;
     }
   };
+  goToPage = url => {
+    this.props.history.push(url);
+  };
   handleShowPiqPage = () => {
     const eligibleForCNC = find(
       this.props.productDetails &&
@@ -373,7 +376,6 @@ export default class PdpApparel extends React.Component {
     }
   };
   render() {
-    console.log("pdp desktop", this.props.productDetails.seo.breadcrumbs);
     const productData = this.props.productDetails;
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
@@ -457,12 +459,12 @@ export default class PdpApparel extends React.Component {
                       productData.seo.breadcrumbs.map(val => {
                         return (
                           <span className={styles.breadcrumbsText}>
-                            <a href={val.url}>
-                              <span className={styles.breadcrumbsText}>
-                                {val.name}
-                              </span>
-                              <span className={styles.breadcrumbsText}>></span>
-                            </a>
+                            <span
+                              className={styles.breadcrumbsText}
+                              onClick={() => this.goToPage(val.url)}
+                            >
+                              {val.name}>
+                            </span>
                           </span>
                         );
                       })}

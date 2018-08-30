@@ -15,14 +15,16 @@
   flex-direction: row;
   align-content: space-between;
 }
+.text {
+  color: #9b9b9b;
+}
 .breadcrumbsText {
-  width: 100px;
+  width: 70px;
   padding: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 11px;
-
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
