@@ -1988,11 +1988,9 @@ export function widgetsTracking(widgetObj: {}) {
     default:
       break;
   }
-
   if (window._satellite) {
     window._satellite.track(widgetType);
   }
-  debugger;
 }
 export function setDataLayerForVisitBrand() {
   if (window._satellite) {
