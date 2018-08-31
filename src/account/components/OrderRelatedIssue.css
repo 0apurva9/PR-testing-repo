@@ -196,3 +196,51 @@
   text-align: center;
   font-family: regular;
 }
+@media screen and (min-width: 1025px) {
+  .baseWrapper {
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 0px 100px 0px;
+  }
+  .labelHeader {
+    width: 100%;
+    height: auto;
+    color: #000000;
+    font-size: 30px;
+    font-family: regular;
+    margin-bottom: 30px;
+  }
+  .formAbdTabHolder {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+  }
+  .tabHolder {
+    width: 30%;
+    height: auto;
+    display: flex;
+    min-height: 200px;
+    padding-right: 20px;
+  }
+  .formHolder {
+    width: 70%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+  }
+  .formWrapper {
+    width: 40%;
+    height: auto;
+  }
+  .buttonHolder {
+    text-align: left;
+  }
+  .firstTab {
+    width: 100%;
+    height: auto;
+  }
+}

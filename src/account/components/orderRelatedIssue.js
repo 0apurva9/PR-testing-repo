@@ -13,6 +13,8 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import { SUCCESS, MY_ACCOUNT_PAGE, CUSTOMER_CARE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
@@ -392,6 +394,7 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   render() {
+    console.log(this.props);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const getUserDetails = JSON.parse(userDetailsCookie);
@@ -419,336 +422,738 @@ export default class OrderRelatedIssue extends React.Component {
     l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
     return (
       <div className={styles.base}>
-        {!this.state.showOrder && (
-          <div className={styles.header}>
-            <TabHolder>
-              <TabData
-                width="50%"
-                label="Order related "
-                selected={this.state.isSelected === 0}
-                selectItem={() => this.tabSelect(0)}
-              />
-              <TabData
-                width="50%"
-                label="Other issues "
-                selected={this.state.isSelected === 1}
-                selectItem={() => this.tabSelect(1)}
-              />
-            </TabHolder>
-          </div>
-        )}
+        <MobileOnly>
+          {!this.state.showOrder && (
+            <div className={styles.header}>
+              <TabHolder>
+                <TabData
+                  width="50%"
+                  label="Order related "
+                  selected={this.state.isSelected === 0}
+                  selectItem={() => this.tabSelect(0)}
+                />
+                <TabData
+                  width="50%"
+                  label="Other issues "
+                  selected={this.state.isSelected === 1}
+                  selectItem={() => this.tabSelect(1)}
+                />
+              </TabHolder>
+            </div>
+          )}
 
-        {!this.state.showOrder && (
-          <div className={styles.orderHolder}>
-            {this.state.isSelected === 0 && (
-              <div className={styles.selectedOrder}>
-                <div className={styles.headingHolder}>
-                  <CheckOutHeader
-                    indexNumber="1"
-                    confirmTitle="Select your order"
-                  />
-                </div>
-                {!this.state.productImageURL &&
-                !this.state.orderDate &&
-                !this.state.productName &&
-                !this.state.productPrice &&
-                !this.state.productStatus ? (
-                  <div
-                    className={styles.dummySelectBoxWithIcon}
-                    onClick={() => this.goToOrderPage()}
-                  >
-                    <div className={styles.dummySelectBox}>Select order</div>
-                    <div className={styles.iconHolder} />
+          {!this.state.showOrder && (
+            <div className={styles.orderHolder}>
+              {this.state.isSelected === 0 && (
+                <div className={styles.selectedOrder}>
+                  <div className={styles.headingHolder}>
+                    <CheckOutHeader
+                      indexNumber="1"
+                      confirmTitle="Select your order"
+                    />
                   </div>
-                ) : (
-                  <div
-                    className={styles.productsDisplayHolder}
-                    onClick={() =>
-                      this.setState({
-                        showOrder: true,
-                        productImageURL: "",
-                        orderDate: "",
-                        productName: "",
-                        productPrice: "",
-                        productStatus: ""
+                  {!this.state.productImageURL &&
+                  !this.state.orderDate &&
+                  !this.state.productName &&
+                  !this.state.productPrice &&
+                  !this.state.productStatus ? (
+                    <div
+                      className={styles.dummySelectBoxWithIcon}
+                      onClick={() => this.goToOrderPage()}
+                    >
+                      <div className={styles.dummySelectBox}>Select order</div>
+                      <div className={styles.iconHolder} />
+                    </div>
+                  ) : (
+                    <div
+                      className={styles.productsDisplayHolder}
+                      onClick={() =>
+                        this.setState({
+                          showOrder: true,
+                          productImageURL: "",
+                          orderDate: "",
+                          productName: "",
+                          productPrice: "",
+                          productStatus: ""
+                        })
+                      }
+                    >
+                      <div className={styles.imageHolder}>
+                        <ProductImage image={this.state.productImageURL} />
+                      </div>
+                      <div className={styles.dataHolder}>
+                        {this.state.orderDate && (
+                          <div className={styles.dataDescription}>
+                            {`Order on: ${format(
+                              this.state.orderDate,
+                              "DD MMM,YYYY"
+                            )}`}
+                          </div>
+                        )}
+                        {this.state.productName && (
+                          <div className={styles.dataDescription}>
+                            {this.state.productName}
+                          </div>
+                        )}
+                        {this.state.productPrice && (
+                          <div className={styles.dataDescription}>
+                            {this.state.productPrice}
+                          </div>
+                        )}
+                        {this.state.productStatus && (
+                          <div className={styles.dataDescription}>
+                            {this.state.productStatus}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              <div className={styles.selectIssueHolder}>
+                <div className={styles.secondOrder}>
+                  <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
+                </div>
+                <div className={styles.selectIssue}>
+                  <SelectBoxMobile2
+                    placeholder="Select issue"
+                    arrowColour="black"
+                    height={33}
+                    options={
+                      l1OptionsArray &&
+                      l1OptionsArray.children &&
+                      l1OptionsArray.children.map((val, i) => {
+                        return {
+                          value: val.nodeCode,
+                          label: val.nodeDesc
+                        };
                       })
                     }
-                  >
-                    <div className={styles.imageHolder}>
-                      <ProductImage image={this.state.productImageURL} />
+                    isEnable={this.state.isEnableForOrderRelated}
+                    onChange={val => this.onChangeReasonForOrderRelated(val)}
+                  />
+                </div>
+                {l2OptionsArray &&
+                  l2OptionsArray.children &&
+                  l2OptionsArray.children.length > 0 && (
+                    <div className={styles.selectIssue}>
+                      <SelectBoxMobile2
+                        placeholder="Select sub-issue"
+                        arrowColour="black"
+                        height={33}
+                        options={
+                          l2OptionsArray &&
+                          l2OptionsArray.children &&
+                          l2OptionsArray.children.map((val, i) => {
+                            return {
+                              value: val.nodeCode,
+                              label: val.nodeDesc
+                            };
+                          })
+                        }
+                        isEnable={this.state.isEnableForSubOrderRelated}
+                        onChange={val =>
+                          this.onChangeSubReasonForOrderRelated(val)
+                        }
+                      />
                     </div>
-                    <div className={styles.dataHolder}>
-                      {this.state.orderDate && (
-                        <div className={styles.dataDescription}>
-                          {`Order on: ${format(
-                            this.state.orderDate,
-                            "DD MMM,YYYY"
-                          )}`}
-                        </div>
-                      )}
-                      {this.state.productName && (
-                        <div className={styles.dataDescription}>
-                          {this.state.productName}
-                        </div>
-                      )}
-                      {this.state.productPrice && (
-                        <div className={styles.dataDescription}>
-                          {this.state.productPrice}
-                        </div>
-                      )}
-                      {this.state.productStatus && (
-                        <div className={styles.dataDescription}>
-                          {this.state.productStatus}
-                        </div>
-                      )}
+                  )}
+                {l3OptionsArray &&
+                  l3OptionsArray.children &&
+                  l3OptionsArray.children.length > 0 && (
+                    <div className={styles.selectIssue}>
+                      <SelectBoxMobile2
+                        placeholder="Select sub-issue"
+                        arrowColour="black"
+                        height={33}
+                        options={
+                          l3OptionsArray &&
+                          l3OptionsArray.children &&
+                          l3OptionsArray.children.map((val, i) => {
+                            return {
+                              value: val.nodeCode,
+                              label: val.nodeDesc
+                            };
+                          })
+                        }
+                        isEnable={this.state.isEnableForAnotherOrderRelated}
+                        onChange={val =>
+                          this.onChangeAnotherReasonForOrderRelated(val)
+                        }
+                      />
                     </div>
-                  </div>
-                )}
+                  )}
+                <div className={styles.selectIssue}>
+                  <TextArea
+                    placeholder={"Comments(Optional)"}
+                    value={this.state.comment}
+                    onChange={comment => this.onChange({ comment })}
+                  />
+                </div>
               </div>
-            )}
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
-              </div>
-              <div className={styles.selectIssue}>
-                <SelectBoxMobile2
-                  placeholder="Select issue"
-                  arrowColour="black"
-                  height={33}
-                  options={
-                    l1OptionsArray &&
-                    l1OptionsArray.children &&
-                    l1OptionsArray.children.map((val, i) => {
-                      return {
-                        value: val.nodeCode,
-                        label: val.nodeDesc
-                      };
-                    })
-                  }
-                  isEnable={this.state.isEnableForOrderRelated}
-                  onChange={val => this.onChangeReasonForOrderRelated(val)}
-                />
-              </div>
-              {l2OptionsArray &&
-                l2OptionsArray.children &&
-                l2OptionsArray.children.length > 0 && (
-                  <div className={styles.selectIssue}>
-                    <SelectBoxMobile2
-                      placeholder="Select sub-issue"
-                      arrowColour="black"
-                      height={33}
-                      options={
-                        l2OptionsArray &&
-                        l2OptionsArray.children &&
-                        l2OptionsArray.children.map((val, i) => {
-                          return {
-                            value: val.nodeCode,
-                            label: val.nodeDesc
-                          };
-                        })
-                      }
-                      isEnable={this.state.isEnableForSubOrderRelated}
-                      onChange={val =>
-                        this.onChangeSubReasonForOrderRelated(val)
-                      }
-                    />
-                  </div>
-                )}
-              {l3OptionsArray &&
-                l3OptionsArray.children &&
-                l3OptionsArray.children.length > 0 && (
-                  <div className={styles.selectIssue}>
-                    <SelectBoxMobile2
-                      placeholder="Select sub-issue"
-                      arrowColour="black"
-                      height={33}
-                      options={
-                        l3OptionsArray &&
-                        l3OptionsArray.children &&
-                        l3OptionsArray.children.map((val, i) => {
-                          return {
-                            value: val.nodeCode,
-                            label: val.nodeDesc
-                          };
-                        })
-                      }
-                      isEnable={this.state.isEnableForAnotherOrderRelated}
-                      onChange={val =>
-                        this.onChangeAnotherReasonForOrderRelated(val)
-                      }
-                    />
-                  </div>
-                )}
-              <div className={styles.selectIssue}>
-                <TextArea
-                  placeholder={"Comments(Optional)"}
-                  value={this.state.comment}
-                  onChange={comment => this.onChange({ comment })}
-                />
-              </div>
-            </div>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber="3"
-                  confirmTitle="Personal Details"
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Name"
-                  value={this.state.name}
-                  onChange={name => this.onChange({ name })}
-                  onlyAlphabet={true}
-                  disabled={
-                    getUserDetails &&
-                    getUserDetails.firstName &&
-                    getUserDetails.firstName.trim()
-                      ? true
-                      : false
-                  }
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Email"
-                  disabled={
-                    getUserDetails &&
-                    getUserDetails.loginType === "email" &&
-                    getUserDetails.userName
-                      ? true
-                      : false
-                  }
-                  value={this.state.email}
-                  onChange={email => this.onChange({ email })}
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Phone*"
-                  maxLength={"10"}
-                  value={this.state.mobile}
-                  onChange={mobile => this.onChange({ mobile })}
-                  disabled={
-                    getUserDetails &&
-                    getUserDetails.loginType === "mobile" &&
-                    getUserDetails.userName
-                      ? true
-                      : false
-                  }
-                  onlyNumber={true}
-                />
-              </div>
-            </div>
-            {this.state.isSelected === 0 && (
-              <div className={styles.selectImageHolder}>
+              <div className={styles.selectIssueHolder}>
                 <div className={styles.secondOrder}>
                   <CheckOutHeader
-                    indexNumber="4"
-                    confirmTitle="Add attachment (Optional)"
+                    indexNumber="3"
+                    confirmTitle="Personal Details"
                   />
                 </div>
-                <div className={styles.validImage}>
-                  Upload JPEG, PNG (Maximum size 5 MB)
-                </div>
-                <div className={styles.imageInput}>
-                  <ImageUpload
-                    value={
-                      this.state.file
-                        ? this.state.file.name
-                        : "Upload attachment"
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Name"
+                    value={this.state.name}
+                    onChange={name => this.onChange({ name })}
+                    onlyAlphabet={true}
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.firstName &&
+                      getUserDetails.firstName.trim()
+                        ? true
+                        : false
                     }
-                    onChange={file => this.onUploadFile(file)}
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Email"
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.loginType === "email" &&
+                      getUserDetails.userName
+                        ? true
+                        : false
+                    }
+                    value={this.state.email}
+                    onChange={email => this.onChange({ email })}
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Phone*"
+                    maxLength={"10"}
+                    value={this.state.mobile}
+                    onChange={mobile => this.onChange({ mobile })}
+                    disabled={
+                      getUserDetails &&
+                      getUserDetails.loginType === "mobile" &&
+                      getUserDetails.userName
+                        ? true
+                        : false
+                    }
+                    onlyNumber={true}
                   />
                 </div>
               </div>
-            )}
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  type="primary"
-                  height={38}
-                  label={"Submit"}
-                  width={166}
-                  textStyle={{ color: "#fff", fontSize: 14 }}
-                  onClick={() => this.submitCustomerForm()}
-                />
+              {this.state.isSelected === 0 && (
+                <div className={styles.selectImageHolder}>
+                  <div className={styles.secondOrder}>
+                    <CheckOutHeader
+                      indexNumber="4"
+                      confirmTitle="Add attachment (Optional)"
+                    />
+                  </div>
+                  <div className={styles.validImage}>
+                    Upload JPEG, PNG (Maximum size 5 MB)
+                  </div>
+                  <div className={styles.imageInput}>
+                    <ImageUpload
+                      value={
+                        this.state.file
+                          ? this.state.file.name
+                          : "Upload attachment"
+                      }
+                      onChange={file => this.onUploadFile(file)}
+                    />
+                  </div>
+                </div>
+              )}
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    height={38}
+                    label={"Submit"}
+                    width={166}
+                    textStyle={{ color: "#fff", fontSize: 14 }}
+                    onClick={() => this.submitCustomerForm()}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          {this.state.showOrder && (
+            <div className={styles.selectOrderHolder}>
+              {this.props.ordersTransactionData &&
+                this.props.ordersTransactionData.orderData &&
+                this.props.ordersTransactionData.orderData.map(
+                  (orderDetails, index) => {
+                    return (
+                      <div className={styles.orderCard} key={index}>
+                        {orderDetails.products &&
+                          orderDetails.products.map((productsDetails, id) => {
+                            return (
+                              <div
+                                className={styles.productsDetailsHolder}
+                                onClick={() =>
+                                  this.setProductDetails(
+                                    orderDetails.orderId,
+                                    productsDetails.transactionId,
+                                    productsDetails.sellerorderno,
+                                    productsDetails.imageURL,
+                                    orderDetails.orderDate,
+                                    productsDetails.productName,
+                                    productsDetails.price,
+                                    productsDetails.statusDisplay
+                                  )
+                                }
+                                key={id}
+                              >
+                                <div className={styles.imageHolder}>
+                                  <ProductImage
+                                    image={productsDetails.imageURL}
+                                  />
+                                </div>
+                                <div className={styles.dataHolder}>
+                                  {orderDetails.orderDate && (
+                                    <div className={styles.dataDescription}>
+                                      {`Order on: ${format(
+                                        orderDetails.orderDate,
+                                        "DD MMM,YYYY"
+                                      )}`}
+                                    </div>
+                                  )}
+                                  {productsDetails.productName && (
+                                    <div className={styles.dataDescription}>
+                                      {productsDetails.productName}
+                                    </div>
+                                  )}
+                                  {productsDetails.price && (
+                                    <div className={styles.dataDescription}>
+                                      {productsDetails.price}
+                                    </div>
+                                  )}
+                                  {productsDetails.statusDisplay && (
+                                    <div className={styles.dataDescription}>
+                                      {productsDetails.statusDisplay}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    );
+                  }
+                )}
+              <div
+                className={styles.loadData}
+                onClick={() => this.getMoreOrder()}
+              >
+                Load More
+              </div>
+            </div>
+          )}
+        </MobileOnly>
+        <DesktopOnly>
+          <div className={styles.baseWrapper}>
+            <div className={styles.labelHeader}>Customer Care</div>
+            <div className={styles.formAbdTabHolder}>
+              <div className={styles.tabHolder} />
+              <div className={styles.formHolder}>
+                {this.state.isSelected === 0 && (
+                  <div className={styles.firstTab}>
+                    <div className={styles.selectedOrder}>
+                      <div className={styles.headingHolder}>
+                        <CheckOutHeader
+                          indexNumber="1"
+                          confirmTitle="Select your order"
+                        />
+                      </div>
+                      {!this.state.productImageURL &&
+                      !this.state.orderDate &&
+                      !this.state.productName &&
+                      !this.state.productPrice &&
+                      !this.state.productStatus ? (
+                        <div
+                          className={styles.dummySelectBoxWithIcon}
+                          onClick={() => this.goToOrderPage()}
+                        />
+                      ) : (
+                        <div
+                          className={styles.productsDisplayHolder}
+                          onClick={() =>
+                            this.setState({
+                              showOrder: true,
+                              productImageURL: "",
+                              orderDate: "",
+                              productName: "",
+                              productPrice: "",
+                              productStatus: ""
+                            })
+                          }
+                        >
+                          <div className={styles.imageHolder}>
+                            <ProductImage image={this.state.productImageURL} />
+                          </div>
+                          <div className={styles.dataHolder}>
+                            {this.state.orderDate && (
+                              <div className={styles.dataDescription}>
+                                {`Order on: ${format(
+                                  this.state.orderDate,
+                                  "DD MMM,YYYY"
+                                )}`}
+                              </div>
+                            )}
+                            {this.state.productName && (
+                              <div className={styles.dataDescription}>
+                                {this.state.productName}
+                              </div>
+                            )}
+                            {this.state.productPrice && (
+                              <div className={styles.dataDescription}>
+                                {this.state.productPrice}
+                              </div>
+                            )}
+                            {this.state.productStatus && (
+                              <div className={styles.dataDescription}>
+                                {this.state.productStatus}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.selectIssueHolder}>
+                      <div className={styles.formWrapper}>
+                        <div className={styles.secondOrder}>
+                          <CheckOutHeader
+                            indexNumber="2"
+                            confirmTitle="Select issue"
+                          />
+                        </div>
+                        <div className={styles.selectIssue}>
+                          <SelectBoxMobile2
+                            placeholder="Select issue"
+                            arrowColour="black"
+                            height={33}
+                            options={
+                              l1OptionsArray &&
+                              l1OptionsArray.children &&
+                              l1OptionsArray.children.map((val, i) => {
+                                return {
+                                  value: val.nodeCode,
+                                  label: val.nodeDesc
+                                };
+                              })
+                            }
+                            isEnable={this.state.isEnableForOrderRelated}
+                            onChange={val =>
+                              this.onChangeReasonForOrderRelated(val)
+                            }
+                          />
+                        </div>
+                        {l2OptionsArray &&
+                          l2OptionsArray.children &&
+                          l2OptionsArray.children.length > 0 && (
+                            <div className={styles.selectIssue}>
+                              <SelectBoxMobile2
+                                placeholder="Select sub-issue"
+                                arrowColour="black"
+                                height={33}
+                                options={
+                                  l2OptionsArray &&
+                                  l2OptionsArray.children &&
+                                  l2OptionsArray.children.map((val, i) => {
+                                    return {
+                                      value: val.nodeCode,
+                                      label: val.nodeDesc
+                                    };
+                                  })
+                                }
+                                isEnable={this.state.isEnableForSubOrderRelated}
+                                onChange={val =>
+                                  this.onChangeSubReasonForOrderRelated(val)
+                                }
+                              />
+                            </div>
+                          )}
+                        {l3OptionsArray &&
+                          l3OptionsArray.children &&
+                          l3OptionsArray.children.length > 0 && (
+                            <div className={styles.selectIssue}>
+                              <SelectBoxMobile2
+                                placeholder="Select sub-issue"
+                                arrowColour="black"
+                                height={33}
+                                options={
+                                  l3OptionsArray &&
+                                  l3OptionsArray.children &&
+                                  l3OptionsArray.children.map((val, i) => {
+                                    return {
+                                      value: val.nodeCode,
+                                      label: val.nodeDesc
+                                    };
+                                  })
+                                }
+                                isEnable={
+                                  this.state.isEnableForAnotherOrderRelated
+                                }
+                                onChange={val =>
+                                  this.onChangeAnotherReasonForOrderRelated(val)
+                                }
+                              />
+                            </div>
+                          )}
+                        <div className={styles.selectIssue}>
+                          <TextArea
+                            placeholder={"Comments(Optional)"}
+                            value={this.state.comment}
+                            onChange={comment => this.onChange({ comment })}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.selectIssueHolder}>
+                      <div className={styles.formWrapper}>
+                        <div className={styles.secondOrder}>
+                          <CheckOutHeader
+                            indexNumber="3"
+                            confirmTitle="Personal Details"
+                          />
+                        </div>
+                        <div className={styles.textInformationHolder}>
+                          <FloatingLabelInput
+                            label="Name"
+                            value={this.state.name}
+                            onChange={name => this.onChange({ name })}
+                            onlyAlphabet={true}
+                            disabled={
+                              getUserDetails &&
+                              getUserDetails.firstName &&
+                              getUserDetails.firstName.trim()
+                                ? true
+                                : false
+                            }
+                          />
+                        </div>
+                        <div className={styles.textInformationHolder}>
+                          <FloatingLabelInput
+                            label="Email"
+                            disabled={
+                              getUserDetails &&
+                              getUserDetails.loginType === "email" &&
+                              getUserDetails.userName
+                                ? true
+                                : false
+                            }
+                            value={this.state.email}
+                            onChange={email => this.onChange({ email })}
+                          />
+                        </div>
+                        <div className={styles.textInformationHolder}>
+                          <FloatingLabelInput
+                            label="Phone*"
+                            maxLength={"10"}
+                            value={this.state.mobile}
+                            onChange={mobile => this.onChange({ mobile })}
+                            disabled={
+                              getUserDetails &&
+                              getUserDetails.loginType === "mobile" &&
+                              getUserDetails.userName
+                                ? true
+                                : false
+                            }
+                            onlyNumber={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.selectImageHolder}>
+                      <div className={styles.formWrapper}>
+                        <div className={styles.secondOrder}>
+                          <CheckOutHeader
+                            indexNumber="4"
+                            confirmTitle="Add attachment (Optional)"
+                          />
+                        </div>
+                        <div className={styles.validImage}>
+                          Upload JPEG, PNG (Maximum size 5 MB)
+                        </div>
+                        <div className={styles.imageInput}>
+                          <ImageUpload
+                            value={
+                              this.state.file
+                                ? this.state.file.name
+                                : "Upload attachment"
+                            }
+                            onChange={file => this.onUploadFile(file)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {this.state.isSelected === 1 && (
+                  <div className={styles.firstTab}>
+                    <div className={styles.selectIssueHolder}>
+                      <div className={styles.secondOrder}>
+                        <CheckOutHeader
+                          indexNumber="2"
+                          confirmTitle="Select issue"
+                        />
+                      </div>
+                      <div className={styles.selectIssue}>
+                        <SelectBoxMobile2
+                          placeholder="Select issue"
+                          arrowColour="black"
+                          height={33}
+                          options={
+                            l1OptionsArray &&
+                            l1OptionsArray.children &&
+                            l1OptionsArray.children.map((val, i) => {
+                              return {
+                                value: val.nodeCode,
+                                label: val.nodeDesc
+                              };
+                            })
+                          }
+                          isEnable={this.state.isEnableForOrderRelated}
+                          onChange={val =>
+                            this.onChangeReasonForOrderRelated(val)
+                          }
+                        />
+                      </div>
+                      {l2OptionsArray &&
+                        l2OptionsArray.children &&
+                        l2OptionsArray.children.length > 0 && (
+                          <div className={styles.selectIssue}>
+                            <SelectBoxMobile2
+                              placeholder="Select sub-issue"
+                              arrowColour="black"
+                              height={33}
+                              options={
+                                l2OptionsArray &&
+                                l2OptionsArray.children &&
+                                l2OptionsArray.children.map((val, i) => {
+                                  return {
+                                    value: val.nodeCode,
+                                    label: val.nodeDesc
+                                  };
+                                })
+                              }
+                              isEnable={this.state.isEnableForSubOrderRelated}
+                              onChange={val =>
+                                this.onChangeSubReasonForOrderRelated(val)
+                              }
+                            />
+                          </div>
+                        )}
+                      {l3OptionsArray &&
+                        l3OptionsArray.children &&
+                        l3OptionsArray.children.length > 0 && (
+                          <div className={styles.selectIssue}>
+                            <SelectBoxMobile2
+                              placeholder="Select sub-issue"
+                              arrowColour="black"
+                              height={33}
+                              options={
+                                l3OptionsArray &&
+                                l3OptionsArray.children &&
+                                l3OptionsArray.children.map((val, i) => {
+                                  return {
+                                    value: val.nodeCode,
+                                    label: val.nodeDesc
+                                  };
+                                })
+                              }
+                              isEnable={
+                                this.state.isEnableForAnotherOrderRelated
+                              }
+                              onChange={val =>
+                                this.onChangeAnotherReasonForOrderRelated(val)
+                              }
+                            />
+                          </div>
+                        )}
+                      <div className={styles.selectIssue}>
+                        <TextArea
+                          placeholder={"Comments(Optional)"}
+                          value={this.state.comment}
+                          onChange={comment => this.onChange({ comment })}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.selectIssueHolder}>
+                      <div className={styles.secondOrder}>
+                        <CheckOutHeader
+                          indexNumber="3"
+                          confirmTitle="Personal Details"
+                        />
+                      </div>
+                      <div className={styles.textInformationHolder}>
+                        <FloatingLabelInput
+                          label="Name"
+                          value={this.state.name}
+                          onChange={name => this.onChange({ name })}
+                          onlyAlphabet={true}
+                          disabled={
+                            getUserDetails &&
+                            getUserDetails.firstName &&
+                            getUserDetails.firstName.trim()
+                              ? true
+                              : false
+                          }
+                        />
+                      </div>
+                      <div className={styles.textInformationHolder}>
+                        <FloatingLabelInput
+                          label="Email"
+                          disabled={
+                            getUserDetails &&
+                            getUserDetails.loginType === "email" &&
+                            getUserDetails.userName
+                              ? true
+                              : false
+                          }
+                          value={this.state.email}
+                          onChange={email => this.onChange({ email })}
+                        />
+                      </div>
+                      <div className={styles.textInformationHolder}>
+                        <FloatingLabelInput
+                          label="Phone*"
+                          maxLength={"10"}
+                          value={this.state.mobile}
+                          onChange={mobile => this.onChange({ mobile })}
+                          disabled={
+                            getUserDetails &&
+                            getUserDetails.loginType === "mobile" &&
+                            getUserDetails.userName
+                              ? true
+                              : false
+                          }
+                          onlyNumber={true}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    <Button
+                      type="primary"
+                      height={38}
+                      label={"Submit"}
+                      width={166}
+                      textStyle={{ color: "#fff", fontSize: 14 }}
+                      onClick={() => this.submitCustomerForm()}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        )}
-        {this.state.showOrder && (
-          <div className={styles.selectOrderHolder}>
-            {this.props.ordersTransactionData &&
-              this.props.ordersTransactionData.orderData &&
-              this.props.ordersTransactionData.orderData.map(
-                (orderDetails, index) => {
-                  return (
-                    <div className={styles.orderCard} key={index}>
-                      {orderDetails.products &&
-                        orderDetails.products.map((productsDetails, id) => {
-                          return (
-                            <div
-                              className={styles.productsDetailsHolder}
-                              onClick={() =>
-                                this.setProductDetails(
-                                  orderDetails.orderId,
-                                  productsDetails.transactionId,
-                                  productsDetails.sellerorderno,
-                                  productsDetails.imageURL,
-                                  orderDetails.orderDate,
-                                  productsDetails.productName,
-                                  productsDetails.price,
-                                  productsDetails.statusDisplay
-                                )
-                              }
-                              key={id}
-                            >
-                              <div className={styles.imageHolder}>
-                                <ProductImage
-                                  image={productsDetails.imageURL}
-                                />
-                              </div>
-                              <div className={styles.dataHolder}>
-                                {orderDetails.orderDate && (
-                                  <div className={styles.dataDescription}>
-                                    {`Order on: ${format(
-                                      orderDetails.orderDate,
-                                      "DD MMM,YYYY"
-                                    )}`}
-                                  </div>
-                                )}
-                                {productsDetails.productName && (
-                                  <div className={styles.dataDescription}>
-                                    {productsDetails.productName}
-                                  </div>
-                                )}
-                                {productsDetails.price && (
-                                  <div className={styles.dataDescription}>
-                                    {productsDetails.price}
-                                  </div>
-                                )}
-                                {productsDetails.statusDisplay && (
-                                  <div className={styles.dataDescription}>
-                                    {productsDetails.statusDisplay}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  );
-                }
-              )}
-            <div
-              className={styles.loadData}
-              onClick={() => this.getMoreOrder()}
-            >
-              Load More
-            </div>
-          </div>
-        )}
+        </DesktopOnly>
       </div>
     );
   }
