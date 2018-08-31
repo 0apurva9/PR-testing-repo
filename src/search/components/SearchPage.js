@@ -63,7 +63,6 @@ export default class SearchPage extends React.Component {
     this.setState({ showData: false });
     setTimeout(() => {
       this.setState({ setOnClick: false });
-      this.setState({ showData: true });
     }, 50);
     const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
@@ -94,13 +93,13 @@ export default class SearchPage extends React.Component {
     this.setState({ showData: false });
     setTimeout(() => {
       this.setState({ setOnClick: false });
-      this.setState({ showData: true });
     }, 50);
     this.props.history.push(url, {
       isFilter: false
     });
   }
   handleSearch(val, e) {
+    this.setState({ showData: true });
     if (this.state.showSearchBar === false) {
       this.setState({
         currentFlag: null
@@ -192,9 +191,6 @@ export default class SearchPage extends React.Component {
 
     if (val === "Enter") {
       this.setState({ showData: false, searchString: null });
-      setTimeout(() => {
-        this.setState({ showData: true, searchString: null });
-      }, 50);
     }
   }
 
