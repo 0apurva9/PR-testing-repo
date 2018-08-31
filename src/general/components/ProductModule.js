@@ -16,6 +16,7 @@ import {
   IS_NEW,
   IS_OFFER_EXISTING
 } from "../../lib/constants";
+import { widgetsTracking } from "../../lib/adobeUtils";
 
 export default class ProductModule extends React.Component {
   onDownload = () => {
@@ -35,6 +36,13 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
+    if (this.props.widgetName) {
+      widgetsTracking({
+        widgetName: this.props.widgetName,
+        productId: this.props.productId,
+        sourceOfWidget: this.props.sourceOfWidget
+      });
+    }
     if (this.props.onClick) {
       this.props.onClick(
         this.getProductURL(),

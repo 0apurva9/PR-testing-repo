@@ -243,6 +243,28 @@ export const ADOBE_SIGN_UP_SUCCESS = "ADOBE_SIGN_UP_SUCCESS";
 
 export const ADOBE_AUTO_SUGGEST_SEARCH = "ADOBE_AUTO_SUGGEST_SEARCH";
 
+// components name for widgets tracking
+const YOU_MAY_ALSO_LIKE = "you_may_also_like";
+const FRESH_FROM_BRANDS = "fresh_from_brands";
+const DISCOVER_MORE = "discover_more";
+const SIMILAR_PRODUCTS = "similar_products";
+const FREQUENTLY_BOUGHT_TOGETHER = "frequently_bought_together";
+const ABOUT_THE_BRAND = "about_the_brand";
+const AUTOMATED_BRAND_PRODUCT_CAROUSAL = "automated_brand_product_carousal";
+// end of components name for widgets tracking
+
+// widgets tracking end poitns
+const YOU_MAY_ALSO_LIKE_ADOBE = "youmay_alsolike";
+const FRESH_FROM_BRAND_ADOBE = "freshfrom_brands";
+const DISCOVER_MORE_ADOBE = "discover_more";
+const ABOUT_THE_BRAND_ADOBE = "aboutthe_brand";
+const SIMILAR_PRODUCTS_ADOBE = "similar_product";
+const FREQUENTLY_BOUGHT_TOGETHER_ADOBE = "frequently_bought_together";
+const VISIT_BRAND = "visit_brand";
+const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
+  "automated_brand_product_carousal";
+// end of widgets tracking end points
+
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -1927,5 +1949,60 @@ export function setDataLayerForAutoSuggestSearch(response) {
   window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);
+  }
+}
+export function widgetsTracking(widgetObj: {}) {
+  if (!widgetObj.widgetName) {
+    return;
+  }
+  const data = cloneDeep(window.digitalData);
+  Object.assign(data.cpj, {
+    widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+      widgetObj.widgetName
+    }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+      widgetObj.type ? widgetObj.type : "product"
+    }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+      widgetObj.categoryName ? widgetObj.categoryName : "x"
+    }`
+  });
+  window.digitalData = data;
+  let widgetType;
+  switch (
+    widgetObj.widgetName
+      .split(" ")
+      .join("_")
+      .toLowerCase()
+  ) {
+    case YOU_MAY_ALSO_LIKE:
+      widgetType = YOU_MAY_ALSO_LIKE_ADOBE;
+      break;
+    case FRESH_FROM_BRANDS:
+      widgetType = FRESH_FROM_BRAND_ADOBE;
+      break;
+    case DISCOVER_MORE:
+      widgetType = DISCOVER_MORE_ADOBE;
+      break;
+    case ABOUT_THE_BRAND:
+      widgetType = ABOUT_THE_BRAND_ADOBE;
+      break;
+    case SIMILAR_PRODUCTS:
+      widgetType = SIMILAR_PRODUCTS_ADOBE;
+      break;
+    case FREQUENTLY_BOUGHT_TOGETHER:
+      widgetType = FREQUENTLY_BOUGHT_TOGETHER_ADOBE;
+      break;
+    case AUTOMATED_BRAND_PRODUCT_CAROUSAL:
+      widgetType = AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      break;
+    default:
+      break;
+  }
+  if (window._satellite) {
+    window._satellite.track(widgetType);
+  }
+}
+export function setDataLayerForVisitBrand() {
+  if (window._satellite) {
+    window._satellite.track(VISIT_BRAND);
   }
 }
