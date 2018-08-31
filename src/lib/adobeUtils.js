@@ -250,6 +250,7 @@ const DISCOVER_MORE = "discover_more";
 const SIMILAR_PRODUCTS = "similar_products";
 const FREQUENTLY_BOUGHT_TOGETHER = "frequently_bought_together";
 const ABOUT_THE_BRAND = "about_the_brand";
+const AUTOMATED_BRAND_PRODUCT_CAROUSAL = "automated_brand_product_carousal";
 // end of components name for widgets tracking
 
 // widgets tracking end poitns
@@ -260,6 +261,8 @@ const ABOUT_THE_BRAND_ADOBE = "aboutthe_brand";
 const SIMILAR_PRODUCTS_ADOBE = "similar_product";
 const FREQUENTLY_BOUGHT_TOGETHER_ADOBE = "frequently_bought_together";
 const VISIT_BRAND = "visit_brand";
+const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
+  "automated_brand_product_carousal";
 // end of widgets tracking end points
 
 const GOOGLE = "google";
@@ -1987,6 +1990,9 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case FREQUENTLY_BOUGHT_TOGETHER:
       widgetType = FREQUENTLY_BOUGHT_TOGETHER_ADOBE;
+      break;
+    case AUTOMATED_BRAND_PRODUCT_CAROUSAL:
+      widgetType = AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
       break;
     default:
       break;

@@ -54,6 +54,7 @@ export default class AutomatedBrandProductCarousel extends React.Component {
         }
         backgroundColor="#e4e4e4"
         carouselOptions={{
+          header: "Automated Brand Product Carousal",
           buttonText,
           seeAll: () => {
             this.handleClick();
@@ -61,6 +62,9 @@ export default class AutomatedBrandProductCarousel extends React.Component {
         }}
         setClickedElementId={this.props.setClickedElementId}
         data={carouselData}
+        sourceOfWidget={
+          this.props.postData && this.props.postData.widgetPlatform
+        }
       />
     ) : null;
   }
