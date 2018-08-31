@@ -75,8 +75,10 @@ class FeedComponent extends React.Component {
                     {...rest}
                     {...datum}
                     widgetName={
-                      this.props.carouselOptions &&
-                      this.props.carouselOptions.header
+                      this.props.widgetName
+                        ? this.props.widgetName
+                        : this.props.carouselOptions &&
+                          this.props.carouselOptions.header
                     }
                     sourceOfWidget={this.props.sourceOfWidget}
                   />
