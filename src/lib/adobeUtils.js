@@ -1949,6 +1949,9 @@ export function setDataLayerForAutoSuggestSearch(response) {
   }
 }
 export function widgetsTracking(widgetObj: {}) {
+  if (!widgetObj.widgetName) {
+    return;
+  }
   const data = cloneDeep(window.digitalData);
   Object.assign(data.cpj, {
     widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
