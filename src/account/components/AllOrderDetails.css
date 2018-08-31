@@ -178,18 +178,6 @@
     position: sticky;
     top: 100px;
   }
-  .viewMoreButtonHolder {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-  }
-  .viewMoreButton {
-    width: auto;
-    height: 36px;
-    display: flex;
-    cursor: pointer;
-  }
 }
 @media screen and (max-width: 1024px) {
   .base {
