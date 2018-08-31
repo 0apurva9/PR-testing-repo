@@ -108,39 +108,51 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   handleScroll = () => {
-    return throttle(() => {
-      if (
-        this.state.isSelected === 0 &&
-        this.props.profile.orderDetails &&
-        (this.props.profile.orderDetails.currentPage + 1) * 3 <
-          this.props.profile.orderDetails.totalNoOfOrders
-      ) {
-        const windowHeight =
-          "innerHeight" in window
-            ? window.innerHeight
-            : document.documentElement.offsetHeight;
-        const body = document.body;
-        const html = document.documentElement;
-        const docHeight = Math.max(
-          body.scrollHeight,
-          body.offsetHeight,
-          html.clientHeight,
-          html.scrollHeight,
-          html.offsetHeight
-        );
-        const windowBottom = windowHeight + window.pageYOffset;
+    if (UserAgent.checkUserAgentIsMobile()) {
+      return throttle(() => {
         if (
-          windowBottom >= docHeight - OFFSET_BOTTOM &&
-          !this.props.profile.loading
+          this.state.isSelected === 0 &&
+          this.props.profile.orderDetails &&
+          (this.props.profile.orderDetails.currentPage + 1) * 3 <
+            this.props.profile.orderDetails.totalNoOfOrders
         ) {
-          this.props.paginate(
-            this.props.profile.orderDetails.pageSize + 1,
-            SUFFIX
+          const windowHeight =
+            "innerHeight" in window
+              ? window.innerHeight
+              : document.documentElement.offsetHeight;
+          const body = document.body;
+          const html = document.documentElement;
+          const docHeight = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
           );
+          const windowBottom = windowHeight + window.pageYOffset;
+          if (
+            windowBottom >= docHeight - OFFSET_BOTTOM &&
+            !this.props.profile.loading
+          ) {
+            this.props.paginate(
+              this.props.profile.orderDetails.pageSize + 1,
+              SUFFIX
+            );
+          }
         }
-      }
-    }, SCROLL_CHECK_INTERVAL);
+      }, SCROLL_CHECK_INTERVAL);
+    }
   };
+  showMoreProducts() {
+    if (
+      this.state.isSelected === 0 &&
+      this.props.profile.orderDetails &&
+      (this.props.profile.orderDetails.currentPage + 1) * 3 <
+        this.props.profile.orderDetails.totalNoOfOrders
+    ) {
+      this.props.paginate(this.props.profile.orderDetails.pageSize + 1, SUFFIX);
+    }
+  }
   renderNoOrder() {
     return (
       <div className={styles.noOrder}>
@@ -514,6 +526,25 @@ export default class AllOrderDetails extends React.Component {
                       );
                     })
                   : this.state.isSelected === 0 && this.renderNoOrder()}
+                <DesktopOnly>
+                  {this.state.isSelected === 0 &&
+                    this.props.profile.orderDetails &&
+                    (this.props.profile.orderDetails.currentPage + 1) * 3 <
+                      this.props.profile.orderDetails.totalNoOfOrders && (
+                      <div className={styles.viewMoreButtonHolder}>
+                        <div className={styles.viewMoreButton}>
+                          <Button
+                            type="hollow"
+                            width={180}
+                            height={36}
+                            label="Show more products"
+                            color="#212121"
+                            onClick={() => this.showMoreProducts()}
+                          />
+                        </div>
+                      </div>
+                    )}
+                </DesktopOnly>
               </div>
             </div>
           </div>
