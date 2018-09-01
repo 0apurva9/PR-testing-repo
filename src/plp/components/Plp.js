@@ -7,7 +7,6 @@ import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import MediaQuery from "react-responsive";
-import PlpDesktopHeader from "../components/PlpDesktopHeader";
 import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -375,107 +374,64 @@ export default class Plp extends React.Component {
       });
     }
     return (
-      this.props.productListings && (
-        <div className={styles.base}>
-          {this.renderPageTags()}
-          {this.renderAmpTags()}
-          {this.props.productListings.seo
-            ? renderMetaTags(this.props.productListings)
-            : renderMetaTagsWithoutSeoObject(this.props.productListings)}
-          <MediaQuery query="(min-device-width: 1025px)">
-            <div className={styles.headerText}>
-              <PlpDesktopHeader
-                productListings={
-                  this.props.productListings && this.props.productListings
-                }
-                match={this.props.match && this.props.match}
-              />
-            </div>
-            <div className={styles.totalProduct}>
+      <React.Fragment>
+        {this.props.productListings && (
+          <div className={styles.base}>
+            {this.renderPageTags()}
+            {this.renderAmpTags()}
+            {this.props.productListings.seo
+              ? renderMetaTags(this.props.productListings)
+              : renderMetaTagsWithoutSeoObject(this.props.productListings)}
+            <MediaQuery query="(min-device-width: 1025px)">
               {this.props.productListings &&
-              this.props.productListings.pagination &&
-              this.props.productListings.pagination.totalResults
-                ? this.props.productListings.pagination.totalResults
-                : 0}{" "}
-              Products
-            </div>
-          </MediaQuery>
-          <MediaQuery query="(min-device-width:1025px)">
-            <div className={styles.headerSortWithFilter}>
-              <div className={styles.selectedFilter}>
-                {selectedFilter &&
-                  selectedFilter.map(selectedFilterData => {
-                    return (
-                      <div
-                        className={styles.selectedFilterWithIcon}
-                        onClick={url =>
-                          this.onClickCancelIcon(selectedFilterData.url)
-                        }
-                      >
-                        {selectedFilterData.name}
-                        <div className={styles.cancelIcon}>
-                          <Icon
-                            image={cancelIcon}
-                            size={10}
-                            backgroundSize="auto 20px"
-                          />
+                this.props.productListings && (
+                  <div className={styles.headerText}>
+                    <div className={styles.plpHeading}>{`showing "${
+                      this.props.productListings &&
+                      this.props.productListings.pagination &&
+                      this.props.productListings.pagination.totalResults
+                        ? this.props.productListings.pagination.totalResults
+                        : 0
+                    }" items for "${this.props.productListings &&
+                      this.props.productListings.currentQuery &&
+                      this.props.productListings.currentQuery
+                        .searchQuery}"`}</div>
+                  </div>
+                )}
+            </MediaQuery>
+            <MediaQuery query="(min-device-width:1025px)">
+              <div className={styles.headerSortWithFilter}>
+                <div className={styles.selectedFilter}>
+                  {selectedFilter &&
+                    selectedFilter.map(selectedFilterData => {
+                      return (
+                        <div
+                          className={styles.selectedFilterWithIcon}
+                          onClick={url =>
+                            this.onClickCancelIcon(selectedFilterData.url)
+                          }
+                        >
+                          {selectedFilterData.name}
+                          <div className={styles.cancelIcon}>
+                            <Icon
+                              image={cancelIcon}
+                              size={10}
+                              backgroundSize="auto 20px"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                </div>
+                <div className={styles.sort}>
+                  <SortDesktopContainer />
+                </div>
+                <div className={styles.gridIcon} />
               </div>
-              <div className={styles.sort}>
-                <SortDesktopContainer />
-              </div>
-              <div className={styles.gridIcon} />
-            </div>
-          </MediaQuery>
-          <MobileOnly>
-            <div className={styles.productWithFilter}>
-              <div className={styles.main}>
-                <ProductGrid
-                  history={this.props.history}
-                  location={this.props.location}
-                  data={this.props.productListings.searchresult}
-                  totalResults={
-                    this.props.productListings.pagination.totalResults
-                  }
-                  setProductModuleRef={this.props.setProductModuleRef}
-                  sort={this.props.productListings.sorts}
-                  setIfSortHasBeenClicked={() =>
-                    this.props.setIfSortHasBeenClicked()
-                  }
-                />
-              </div>
-              <FilterContainer
-                backPage={this.backPage}
-                isFilterOpen={this.props.isFilterOpen}
-                onApply={this.onApply}
-                onClear={this.props.hideFilter}
-                onL3CategorySelect={this.onL3CategorySelect}
-              />
-            </div>
-          </MobileOnly>
-          <DesktopOnly>
-            <div className={styles.productWithFilterDesktop} id="plp-container">
-              <div
-                className={styles.filterDesktopWrapper}
-                id="filter-container"
-              >
-                <FilterContainer
-                  backPage={this.backPage}
-                  isFilterOpen={this.props.isFilterOpen}
-                  onApply={this.onApply}
-                  onClear={this.props.hideFilter}
-                  onL3CategorySelect={this.onL3CategorySelect}
-                />
-              </div>
-              <div
-                className={styles.productGridDesktop}
-                id="grid-container"
-                style={{ minHeight: `${this.state.totalHeight}px` }}
-              >
-                <div id="grid-wrapper_desktop">
+            </MediaQuery>
+            <MobileOnly>
+              <div className={styles.productWithFilter}>
+                <div className={styles.main}>
                   <ProductGrid
                     history={this.props.history}
                     location={this.props.location}
@@ -490,39 +446,89 @@ export default class Plp extends React.Component {
                     }
                   />
                 </div>
-                <DesktopOnly>
-                  {this.props.productListings &&
-                    this.props.pageNumber <
-                      this.props.productListings.pagination.totalPages - 1 && (
-                      <div className={styles.viewMoreButtonHolder}>
-                        <div className={styles.viewMoreButton}>
-                          <Button
-                            type="hollow"
-                            width={180}
-                            height={36}
-                            label="Show more products"
-                            color="#212121"
-                            onClick={() => this.viewMore()}
-                          />
-                        </div>
-                      </div>
-                    )}
-                </DesktopOnly>
+                <FilterContainer
+                  backPage={this.backPage}
+                  isFilterOpen={this.props.isFilterOpen}
+                  onApply={this.onApply}
+                  onClear={this.props.hideFilter}
+                  onL3CategorySelect={this.onL3CategorySelect}
+                />
               </div>
-            </div>
-          </DesktopOnly>
-          <MediaQuery query="(max-device-width:1024px)">
-            <div className={styles.footer}>
-              <PlpMobileFooter
-                hasFilters={filterSelected && this.props.filterHasBeenClicked}
-                hasSort={hasSorts && this.props.sortHasBeenClicked}
-                onFilter={this.toggleFilter}
-                onSort={this.onSortClick}
-              />
-            </div>
-          </MediaQuery>
-        </div>
-      )
+            </MobileOnly>
+            <DesktopOnly>
+              <div
+                className={styles.productWithFilterDesktop}
+                id="plp-container"
+              >
+                <div
+                  className={styles.filterDesktopWrapper}
+                  id="filter-container"
+                >
+                  <FilterContainer
+                    backPage={this.backPage}
+                    isFilterOpen={this.props.isFilterOpen}
+                    onApply={this.onApply}
+                    onClear={this.props.hideFilter}
+                    onL3CategorySelect={this.onL3CategorySelect}
+                  />
+                </div>
+                <div
+                  className={styles.productGridDesktop}
+                  id="grid-container"
+                  style={{ minHeight: `${this.state.totalHeight}px` }}
+                >
+                  <div id="grid-wrapper_desktop">
+                    <ProductGrid
+                      history={this.props.history}
+                      location={this.props.location}
+                      data={this.props.productListings.searchresult}
+                      totalResults={
+                        this.props.productListings.pagination.totalResults
+                      }
+                      setProductModuleRef={this.props.setProductModuleRef}
+                      sort={this.props.productListings.sorts}
+                      setIfSortHasBeenClicked={() =>
+                        this.props.setIfSortHasBeenClicked()
+                      }
+                    />
+                  </div>
+                  <DesktopOnly>
+                    {this.props.productListings &&
+                      this.props.pageNumber <
+                        this.props.productListings.pagination.totalPages -
+                          1 && (
+                        <div className={styles.viewMoreButtonHolder}>
+                          <div className={styles.viewMoreButton}>
+                            <Button
+                              type="hollow"
+                              width={180}
+                              height={36}
+                              label="Show more products"
+                              color="#212121"
+                              onClick={() => this.viewMore()}
+                            />
+                          </div>
+                        </div>
+                      )}
+                  </DesktopOnly>
+                </div>
+              </div>
+            </DesktopOnly>
+            <MediaQuery query="(max-device-width:1024px)">
+              <div className={styles.footer}>
+                <PlpMobileFooter
+                  hasFilters={filterSelected && this.props.filterHasBeenClicked}
+                  hasSort={hasSorts && this.props.sortHasBeenClicked}
+                  onFilter={this.toggleFilter}
+                  onSort={this.onSortClick}
+                />
+              </div>
+            </MediaQuery>
+          </div>
+        )}
+        {!this.props.productListings &&
+          !this.props.productListings && <div className={styles.dummyHolder} />}
+      </React.Fragment>
     );
   }
 }

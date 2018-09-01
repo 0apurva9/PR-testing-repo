@@ -5,12 +5,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 103;
 }
 .loader {
   width: 120px;
   height: 8px;
-  background: url("./img/loader.gif")no-repeat;
+  background: url("./img/loader.gif") no-repeat;
   background-size: 180%;
   background-position: center;
   position: absolute;
