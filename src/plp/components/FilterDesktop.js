@@ -132,7 +132,7 @@ export default class FilterDesktop extends React.Component {
       filterWithCollapse = [];
     if (facetData) {
       autoShowFilters = cloneDeep(facetData).splice(0, 4);
-      filterWithCollapse = cloneDeep(facetData).splice(3, 20);
+      filterWithCollapse = cloneDeep(facetData).splice(4, 20);
     } else {
       return <div />;
     }
