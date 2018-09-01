@@ -3,8 +3,8 @@ import styles from "./PlpDesktopHeader.css";
 
 export default class PlpDesktopHeader extends React.Component {
   render() {
-    console.log(this.props);
     let headingText;
+
     if (this.props.productListings !== null) {
       if (
         this.props.productListings.seo &&
