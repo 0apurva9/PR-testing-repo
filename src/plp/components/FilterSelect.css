@@ -95,3 +95,23 @@
   composes: count;
   color: #ff1744;
 }
+@media only screen and (min-width: 1025px) {
+  .item {
+    padding-left: 30px;
+    padding-right: 0px;
+  }
+  .check {
+    min-width: 20px;
+    padding-right: 0px;
+    left: 0;
+    right: initial;
+  }
+  .count {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    line-height: 50px;
+  }
+}
