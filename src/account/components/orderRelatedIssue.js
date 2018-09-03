@@ -758,7 +758,45 @@ export default class OrderRelatedIssue extends React.Component {
           <div className={styles.baseWrapper}>
             <div className={styles.labelHeader}>Customer Care</div>
             <div className={styles.formAbdTabHolder}>
-              <div className={styles.tabHolder} />
+              <div className={styles.tabHolder}>
+                <div className={styles.switchTabHolder}>
+                  <div className={styles.tabHeader}>Issue Type</div>
+                  <div
+                    className={
+                      this.state.isSelected === 0
+                        ? styles.activeTab
+                        : styles.tabDataHolder
+                    }
+                    onClick={() => this.tabSelect(0)}
+                  >
+                    Order Related
+                    <div
+                      className={
+                        this.state.isSelected === 0
+                          ? styles.activeArrow
+                          : styles.arrow
+                      }
+                    />
+                  </div>
+                  <div
+                    className={
+                      this.state.isSelected === 1
+                        ? styles.activeTab
+                        : styles.tabDataHolder
+                    }
+                    onClick={() => this.tabSelect(1)}
+                  >
+                    Other Issues
+                    <div
+                      className={
+                        this.state.isSelected === 1
+                          ? styles.activeArrow
+                          : styles.arrow
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
               <div className={styles.formHolder}>
                 {this.state.isSelected === 0 && (
                   <div className={styles.firstTab}>
