@@ -6,18 +6,24 @@ const renderTimer = ({ days, hours, minutes, seconds }) => {
   const finalHour = days * 24 + parseInt(hours, 10);
   return (
     <div className={styles.base}>
-      <span className={styles.countDownTime}>
-        <div className={styles.time}>{finalHour}</div>
+      <div className={styles.countHolder}>
+        <div className={styles.countDown}>
+          <div className={styles.time}>{finalHour}</div>
+        </div>
         <div className={styles.text}>Hrs</div>
-      </span>
-      <span className={styles.countDownTime}>
-        <div className={styles.time}>{minutes}</div>
+      </div>
+      <div className={styles.countHolder}>
+        <div className={styles.countDown}>
+          <div className={styles.time}>{minutes}</div>
+        </div>
         <div className={styles.text}>Mins</div>
-      </span>
-      <span className={styles.countDown}>
-        <div className={styles.time}>{seconds} </div>
+      </div>
+      <div className={styles.countHolder}>
+        <div className={styles.countDown}>
+          <div className={styles.time}>{seconds} </div>
+        </div>
         <div className={styles.text}>Secs</div>
-      </span>
+      </div>
     </div>
   );
 };
