@@ -216,7 +216,7 @@ export default class FilterDesktop extends React.Component {
                                 );
                               })}
                           </div>
-                          <div className={styles.filterPriceHolder}>
+                          <div className={styles.filterBrandHolder}>
                             {facetDataValues &&
                               facetDataValues.name === BRAND &&
                               facetDataValues.values && (
