@@ -6,6 +6,14 @@ export default class CheckBox extends React.Component {
     if (this.props.selected) {
       className = styles.selected;
     }
-    return <div className={className} />;
+    return (
+      <div
+        className={className}
+        style={{ width: this.props.size, height: this.props.size }}
+      />
+    );
   }
 }
+CheckBox.defaultProps = {
+  size: "20px"
+};

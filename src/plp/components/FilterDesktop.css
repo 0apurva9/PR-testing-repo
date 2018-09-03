@@ -103,3 +103,8 @@
   max-height: 265px;
   padding: 0px 20px;
 }
+.filterBrandHolder {
+  width: 100%;
+  height: auto;
+  padding: 0px 20px;
+}

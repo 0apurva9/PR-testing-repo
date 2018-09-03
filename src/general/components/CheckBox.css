@@ -1,7 +1,5 @@
 .base {
-  width: 20px;
-  height: 20px;
-  cursor:pointer;
+  cursor: pointer;
   position: relative;
 }
 .base:after,
@@ -15,12 +13,12 @@
   transition: 300ms;
 }
 .base:after {
-  background: url(./img/checkbox-untick.svg)no-repeat;
+  background: url(./img/checkbox-untick.svg) no-repeat;
   background-size: contain;
   background-position: center;
 }
 .base:before {
-  background: url(./img/checkbox-tick.svg)no-repeat;
+  background: url(./img/checkbox-tick.svg) no-repeat;
   background-size: contain;
   background-position: center;
   opacity: 0;
