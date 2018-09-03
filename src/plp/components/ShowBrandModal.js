@@ -107,7 +107,10 @@ export default class ShowBrandModal extends React.Component {
                             className={styles.checkBoxHolder}
                             onClick={data => this.onFilterClick(brandsList.url)}
                           >
-                            <CheckBox selected={brandsList.selected} />
+                            <CheckBox
+                              selected={brandsList.selected}
+                              size={"15px"}
+                            />
                           </div>
                           {brandsList.name}
                         </div>

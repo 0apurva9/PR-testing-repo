@@ -13,6 +13,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
+import ShowMoreButton from "../../general/components/ShowMoreButton";
 import {
   MY_ACCOUNT,
   ORDER,
@@ -85,8 +86,10 @@ export default class AllOrderDetails extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie) {
-      this.throttledScroll = this.handleScroll();
-      window.addEventListener("scroll", this.throttledScroll);
+      if (UserAgent.checkUserAgentIsMobile()) {
+        this.throttledScroll = this.handleScroll();
+        window.addEventListener("scroll", this.throttledScroll);
+      }
       this.props.getAllOrdersDetails();
     }
   }
@@ -141,6 +144,16 @@ export default class AllOrderDetails extends React.Component {
       }
     }, SCROLL_CHECK_INTERVAL);
   };
+  showMoreProducts() {
+    if (
+      this.state.isSelected === 0 &&
+      this.props.profile.orderDetails &&
+      (this.props.profile.orderDetails.currentPage + 1) * 3 <
+        this.props.profile.orderDetails.totalNoOfOrders
+    ) {
+      this.props.paginate(this.props.profile.orderDetails.pageSize + 1, SUFFIX);
+    }
+  }
   renderNoOrder() {
     return (
       <div className={styles.noOrder}>
@@ -514,6 +527,14 @@ export default class AllOrderDetails extends React.Component {
                       );
                     })
                   : this.state.isSelected === 0 && this.renderNoOrder()}
+                <DesktopOnly>
+                  {this.state.isSelected === 0 &&
+                    this.props.profile.orderDetails &&
+                    (this.props.profile.orderDetails.currentPage + 1) * 3 <
+                      this.props.profile.orderDetails.totalNoOfOrders && (
+                      <ShowMoreButton onClick={() => this.showMoreProducts()} />
+                    )}
+                </DesktopOnly>
               </div>
             </div>
           </div>

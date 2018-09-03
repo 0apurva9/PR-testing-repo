@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import CheckBox from "../../general/components/CheckBox.js";
 import styles from "./FilterSelect.css";
 import { URL_ROOT } from "../../lib/apiRequest";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
 const MULTI_COLOR = "#multi";
 export default class FilterSelect extends React.Component {
   handleUrlClick = e => {
@@ -46,9 +48,14 @@ export default class FilterSelect extends React.Component {
           <div className={styles.dataHolder}>
             <div className={styles.data}>{this.props.label}</div>
           </div>
+          <DesktopOnly>
+            <div className={countStyle}>{this.props.count}</div>
+          </DesktopOnly>
         </div>
         <div className={styles.check}>
-          <div className={countStyle}>{this.props.count}</div>
+          <MobileOnly>
+            <div className={countStyle}>{this.props.count}</div>
+          </MobileOnly>
           <div className={styles.checkCircle}>
             <CheckBox selected={this.props.selected} />
           </div>

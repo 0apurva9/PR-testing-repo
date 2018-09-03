@@ -3,6 +3,8 @@ import FilterSelect from "./FilterSelect";
 import SearchInput from "../../general/components/SearchInput";
 import styles from "./BrandFilterTabDesktop.css";
 import * as UserAgent from "../../lib/UserAgent.js";
+import DesktopOnly from "../../general/components/DesktopOnly.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
 class BrandFilterTabDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,6 @@ class BrandFilterTabDesktop extends React.Component {
   onBrandSearch = val => {
     this.setState({ brandSearchString: val });
   };
-
   onFilterClick = val => {
     if (this.props.onFilterClick) {
       this.props.onFilterClick(val);
@@ -37,23 +38,10 @@ class BrandFilterTabDesktop extends React.Component {
           />
         </div>
         <div className={styles.brandsList}>
-          {brandsList &&
-            brandsList.map((val, i) => {
-              if (UserAgent.checkUserAgentIsMobile()) {
-                return (
-                  <FilterSelect
-                    onClick={this.onFilterClick}
-                    selected={val.selected}
-                    hexColor={val.hexColor}
-                    label={val.name}
-                    count={val.count}
-                    url={val.url}
-                    value={val.value}
-                    history={this.props.history}
-                  />
-                );
-              } else {
-                if (i < 5) {
+          <React.Fragment>
+            <MobileOnly>
+              {brandsList &&
+                brandsList.map((val, i) => {
                   return (
                     <FilterSelect
                       onClick={this.onFilterClick}
@@ -66,9 +54,28 @@ class BrandFilterTabDesktop extends React.Component {
                       history={this.props.history}
                     />
                   );
-                }
-              }
-            })}
+                })}
+            </MobileOnly>
+            <DesktopOnly>
+              {brandsList &&
+                brandsList.map((val, i) => {
+                  if (i < 5) {
+                    return (
+                      <FilterSelect
+                        onClick={this.onFilterClick}
+                        selected={val.selected}
+                        hexColor={val.hexColor}
+                        label={val.name}
+                        count={val.count}
+                        url={val.url}
+                        value={val.value}
+                        history={this.props.history}
+                      />
+                    );
+                  }
+                })}
+            </DesktopOnly>
+          </React.Fragment>
         </div>
       </div>
     );
