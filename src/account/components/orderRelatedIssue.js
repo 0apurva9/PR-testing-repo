@@ -834,17 +834,17 @@ export default class OrderRelatedIssue extends React.Component {
                             <ProductImage image={this.state.productImageURL} />
                           </div>
                           <div className={styles.dataHolder}>
+                            {this.state.productName && (
+                              <div className={styles.dataDescription}>
+                                {this.state.productName}
+                              </div>
+                            )}
                             {this.state.orderDate && (
                               <div className={styles.dataDescription}>
                                 {`Order on: ${format(
                                   this.state.orderDate,
                                   "DD MMM,YYYY"
                                 )}`}
-                              </div>
-                            )}
-                            {this.state.productName && (
-                              <div className={styles.dataDescription}>
-                                {this.state.productName}
                               </div>
                             )}
                             {this.state.productPrice && (

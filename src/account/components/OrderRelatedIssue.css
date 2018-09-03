@@ -291,4 +291,16 @@
     composes: tabDataHolder;
     color: #ff1744;
   }
+  .productsDisplayHolder {
+    box-shadow: initial;
+    margin-top: 15px;
+  }
+  .imageHolder {
+    width: 15%;
+    padding: 0px 10px 0px 0px;
+  }
+  .dataHolder {
+    width: 85%;
+    padding: 10px 10px 0px 20px;
+  }
 }
