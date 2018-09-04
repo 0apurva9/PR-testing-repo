@@ -115,6 +115,7 @@ class BankOffersDetails extends Component {
               limit={1}
               onSelect={val => this.onSelectCouponCode(val)}
               selected={[this.state.selectedBankOfferCode]}
+              elementWidthDesktop={100}
             >
               {this.props.coupons &&
                 this.props.coupons.coupons.map((value, i) => {
