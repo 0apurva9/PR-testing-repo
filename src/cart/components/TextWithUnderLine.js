@@ -82,6 +82,7 @@ export default class TextWithUnderLine extends React.Component {
             borderBottom={this.state.borderBottom}
             onKeyPress={this.props.onKeyPress}
             onChange={pincode => this.onChange(pincode)}
+            ovalButton={this.props.ovalButton}
           />
         )}
 

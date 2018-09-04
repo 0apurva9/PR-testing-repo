@@ -456,16 +456,34 @@ class CartPage extends React.Component {
           <DesktopOnly>
             <div className={styles.changePinCodeHolder}>
               <div className={styles.checkHolder}>
-                <TextWithUnderLine
-                  onClick={() => this.changePinCode()}
-                  buttonLabel="Change PIN code"
-                  checkPinCodeAvailability={pinCode =>
-                    this.checkPinCodeAvailability(pinCode)
+                {!defaultPinCode && (
+                  <div className={styles.dummyTextForPinCode}>
+                    <span>Enter Pincode to check</span>
+                    <span className={styles.bold}> Delivery Option.</span>
+                  </div>
+                )}
+
+                <div
+                  className={
+                    !defaultPinCode
+                      ? styles.inputAndButtonHolder
+                      : styles.forDefault
                   }
-                  onFocusInput={() => this.onFocusInput()}
-                  onBlur={() => this.onBlur()}
-                  onKeyPress={e => this.onKeyPress()}
-                />
+                >
+                  <div className={styles.inputAndButton}>
+                    <TextWithUnderLine
+                      onClick={() => this.changePinCode()}
+                      buttonLabel="Change PIN code"
+                      checkPinCodeAvailability={pinCode =>
+                        this.checkPinCodeAvailability(pinCode)
+                      }
+                      onFocusInput={() => this.onFocusInput()}
+                      onBlur={() => this.onBlur()}
+                      onKeyPress={e => this.onKeyPress()}
+                      ovalButton={true}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </DesktopOnly>
