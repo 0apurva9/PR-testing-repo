@@ -10,9 +10,18 @@ export default class DeliveryAddressCopy extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base} onClick={() => this.handleClick()}>
+      <div
+        className={this.props.isReturn ? styles.baseForReturn : styles.base}
+        onClick={() => this.handleClick()}
+      >
         <div className={styles.titleAddress}>{this.props.addressTitle}</div>
-        <div className={styles.titleDescription}>
+        <div
+          className={
+            this.props.isReturn
+              ? styles.titleDescriptionForReturn
+              : styles.titleDescription
+          }
+        >
           {this.props.addressDescription}
           <div className={styles.checkCircle}>
             <CheckBox selected={this.props.selected} />
@@ -27,5 +36,9 @@ DeliveryAddressCopy.propTypes = {
   addressTitle: PropTypes.string,
   addressDescription: PropTypes.string,
   selected: PropTypes.bool,
-  selectItem: PropTypes.func
+  selectItem: PropTypes.func,
+  isReturn: PropTypes.bool
+};
+DeliveryAddressCopy.defaultProps = {
+  isReturn: false
 };

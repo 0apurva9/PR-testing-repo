@@ -189,6 +189,7 @@ export default class ReturnAddressList extends React.Component {
               }
               onNewAddress={() => this.addNewAddress()}
               onSelectAddress={address => this.onSelectAddress(address)}
+              isReturn={checkUserAgentIsMobile() ? false : true}
             />
           </div>
         </ReturnsFrame>
@@ -208,6 +209,8 @@ export default class ReturnAddressList extends React.Component {
     return (
       <div className={styles.base}>
         <AddDeliveryAddress
+          isReturn={checkUserAgentIsMobile() ? false : true}
+          label={checkUserAgentIsMobile() ? false : true}
           history={this.props.history}
           addUserAddress={address => this.addAddress(address)}
           {...this.state}

@@ -380,9 +380,23 @@ export default class AddDeliveryAddress extends React.Component {
     return (
       <React.Fragment>
         {!this.state.flag && (
-          <div className={!this.props.label ? styles.onlyLeft : styles.base}>
+          <div
+            className={
+              !this.props.label
+                ? styles.onlyLeft
+                : this.props.isReturn
+                  ? styles.forReturn
+                  : styles.base
+            }
+          >
             <div className={styles.pageCenter}>
-              <div className={styles.leftSection}>
+              <div
+                className={
+                  this.props.isReturn
+                    ? styles.leftSectionForReturn
+                    : styles.leftSection
+                }
+              >
                 <div className={styles.formHolder}>
                   <div className={styles.addressInnerBox}>
                     <DesktopOnly>
@@ -702,7 +716,8 @@ export default class AddDeliveryAddress extends React.Component {
               </div>
               <DesktopOnly>
                 {this.props &&
-                  this.props.label && (
+                  this.props.label &&
+                  !this.props.isReturn && (
                     <div className={styles.rightSection}>
                       <DesktopCheckout
                         onContinue={false}
@@ -976,10 +991,12 @@ AddDeliveryAddress.propTypes = {
   clearAllValue: PropTypes.func,
   buttonText: PropTypes.string,
   options: PropTypes.string,
-  titleValue: PropTypes.string
+  titleValue: PropTypes.string,
+  isReturn: PropTypes.bool
 };
 AddDeliveryAddress.defaultProps = {
   heading: "Add address",
   defaultAddress: false,
-  notRenderMyAccount: true
+  notRenderMyAccount: true,
+  isReturn: false
 };

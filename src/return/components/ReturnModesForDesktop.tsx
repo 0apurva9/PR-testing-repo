@@ -125,6 +125,7 @@ export default class ReturnModesForDesktop extends React.Component<
               bankDetail={this.props.bankDetail}
               selectReturnMode={() => this.selectReturnMode()}
               cancelReturnMode={() => this.cancelReturnMode()}
+
             />
           )}
           {this.state.selectedMode === SELF_COURIER && (
