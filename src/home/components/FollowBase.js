@@ -101,15 +101,8 @@ export default class FollowBase extends React.Component {
                       <NewBrandDesktop
                         data={{ ...updateFeed }}
                         {...rest}
-                        onClick={() =>
-                          this.handleClick({
-                            itemIds: updateFeed.itemIds,
-                            image: updateFeed.imageURL,
-                            title: updateFeed.title,
-                            brandName: updateFeed.brandName,
-                            history: this.props.history
-                          })
-                        }
+                        history={this.props.history}
+                        onClick={val => this.handleClick(val)}
                       />
                     );
                   }))}
