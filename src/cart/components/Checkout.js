@@ -68,48 +68,12 @@ export default class Checkout extends React.Component {
                   backgroundColor="#ff1744"
                   height={40}
                   label={this.props.label}
-                  width={160}
+                  width={120}
                   textStyle={{ color: "#FFF", fontSize: 14 }}
                   onClick={() => this.handleClick()}
                 />
               </div>
             )}
-
-            {this.props.isOnCartPage &&
-              defaultPinCode && (
-                <div className={styles.checkoutButtonHolder}>
-                  <Button
-                    disabled={this.props.disabled}
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label={this.props.label}
-                    width={160}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.handleClick()}
-                  />
-                </div>
-              )}
-            {this.props.isOnCartPage &&
-              !defaultPinCode && (
-                <div className={styles.checkoutButtonHolder}>
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label={this.props.label}
-                    width={160}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.handleFocusOnPinCode()}
-                  />
-                </div>
-              )}
 
             {this.props.isOnCartPage &&
               defaultPinCode && (
