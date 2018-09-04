@@ -34,6 +34,10 @@
   position: relative;
   padding-right: 60px;
 }
+.inputSearchHolderWithPadding {
+  composes: inputSearchHolder;
+  padding-right: 170px;
+}
 .errorMessage {
   width: 100%;
   height: 20px;
@@ -41,10 +45,25 @@
   font-size: 9px;
   font-family: semibold;
 }
-.button{
-  width:auto;
-  font-size:14px;
-  font-family:semibold;
-  color:#ff1744;
-  cursor:pointer;
+.alignLeftErrorMessage {
+  composes: errorMessage;
+  text-align: left;
+}
+.button {
+  width: auto;
+  font-size: 14px;
+  font-family: semibold;
+  color: #ff1744;
+  cursor: pointer;
+}
+.ovalButton {
+  width: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 33px;
+  border-radius: 16.5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.21);
 }
