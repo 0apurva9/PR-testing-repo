@@ -17,7 +17,9 @@ import {
   SUCCESS,
   ERROR,
   ABOUT_US_URL,
-  CONTACT_URL
+  CONTACT_URL,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
 import find from "lodash.find";
@@ -46,6 +48,11 @@ export default class StaticPage extends Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+  redirectToOrderRelatedPage() {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
+  }
   navigateTo404() {
     return <Redirect to={NOT_FOUND} />;
   }
@@ -258,7 +265,10 @@ export default class StaticPage extends Component {
                   </div>
                   <div className={styles.sectionLabel}>About us</div>
                 </div>
-                <div className={styles.sectionPart}>
+                <div
+                  className={styles.sectionPart}
+                  onClick={() => this.redirectToOrderRelatedPage()}
+                >
                   <div className={styles.iconHolder}>
                     <Icon image={customerCareIcon} size={30} />
                   </div>
@@ -317,7 +327,10 @@ export default class StaticPage extends Component {
                   </div>
                   <div className={styles.sectionLabel}>About us</div>
                 </div>
-                <div className={styles.sectionPart}>
+                <div
+                  className={styles.sectionPart}
+                  onClick={() => this.redirectToOrderRelatedPage()}
+                >
                   <div className={styles.iconHolder}>
                     <Icon image={customerCareIcon} size={30} />
                   </div>
