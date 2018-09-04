@@ -6,6 +6,14 @@
   margin-bottom: 15px;
   padding: 15px;
 }
+.awbCard {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 15px;
+}
 .awbText {
   width: 100%;
   height: auto;
@@ -21,10 +29,15 @@
   .cardWithAwbDetails {
     width: 100%;
     height: auto;
-    padding: 30px;
+  }
+  .awbCard {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ececec;
+    padding: 25px 40px;
   }
   .card {
     margin-bottom: 0px;
+    padding: 0px;
   }
   .awbText,
   .or,
