@@ -208,6 +208,7 @@ export default class ReturnAddressList extends React.Component {
     return (
       <div className={styles.base}>
         <AddDeliveryAddress
+          history={this.props.history}
           addUserAddress={address => this.addAddress(address)}
           {...this.state}
           onChange={val => this.onChange(val)}

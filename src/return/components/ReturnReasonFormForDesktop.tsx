@@ -134,7 +134,10 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
                 </div>
               )}
             <div className={styles.textArea}>
-              <TextArea onChange={(val: string) => this.handleChange(val)} />
+              <TextArea
+                value={this.state.comment}
+                onChange={(val: string) => this.handleChange(val)}
+              />
             </div>
             {returnProductDetails &&
               returnProductDetails.showReverseSealFrJwlry === "yes" && (
