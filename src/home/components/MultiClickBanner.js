@@ -36,40 +36,36 @@ export default class MultiClickBanner extends React.Component {
             backgroundColor:
               feedComponentData && feedComponentData.backgroundColor
                 ? feedComponentData.backgroundColor
-                : "",
-            backgroundImage:
-              feedComponentData && feedComponentData.backgroundImage
-                ? `url(${feedComponentData.backgroundImage})`
                 : ""
           }}
         >
-          <div className={styles.imageHolder}>
+          <div
+            className={styles.imageHolder}
+            style={{
+              backgroundImage:
+                feedComponentData && feedComponentData.backgroundImage
+                  ? `url(${feedComponentData.backgroundImage})`
+                  : ""
+            }}
+          >
             <div className={styles.content}>
               {feedComponentData &&
                 feedComponentData.items &&
                 feedComponentData.items.map(val => {
                   return (
                     <div
-                      className={styles.section}
+                      className={styles.details}
                       style={{
-                        backgroundColor: val.backgroundColor,
-                        backgroundImage: `url(${val.backgroundImage})`
+                        top: `${val.yAxis}%`,
+                        left: `${val.xAxis}%`
                       }}
                     >
-                      <div
-                        className={styles.details}
-                        style={{
-                          top: `${val.yAxis}%`,
-                          left: `${val.xAxis}%`
-                        }}
-                      >
-                        <MultiClickProduct
-                          brandName={val.brandName}
-                          description={val.description}
-                          price={val.price}
-                          onClick={() => this.goToUrl(val.url)}
-                        />
-                      </div>
+                      <MultiClickProduct
+                        brandName={val.brandName}
+                        description={val.description}
+                        price={val.price}
+                        onClick={() => this.goToUrl(val.url)}
+                      />
                     </div>
                   );
                 })}
