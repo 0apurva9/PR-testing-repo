@@ -33,3 +33,12 @@
   height: auto;
   display: inline-block;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    transform: scale(1);
+    transition: 300ms;
+  }
+  .base:hover {
+    transform: scale(1.03);
+  }
+}

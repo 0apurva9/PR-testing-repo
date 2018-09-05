@@ -299,5 +299,9 @@
   }
   .amountSelect {
     cursor: pointer;
+    transition: 300ms;
+  }
+  .amountSelect:hover {
+    border: 1px solid #ff1744;
   }
 }

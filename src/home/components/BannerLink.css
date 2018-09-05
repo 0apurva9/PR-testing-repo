@@ -63,6 +63,10 @@
   background-size: auto 15px;
   background-position: right center;
   cursor: pointer;
+  transition: 300ms;
+}
+.link:hover {
+  color: #ff1744;
 }
 .allListButtonHolder {
   width: auto;
