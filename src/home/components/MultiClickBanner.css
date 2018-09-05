@@ -5,10 +5,12 @@
 .imageHolder {
   width: 100%;
   height: auto;
-  max-width: 1200px;
   margin: auto;
   position: relative;
-  padding-bottom: 43%;
+  padding-bottom: 47%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 .content {
   width: 100%;
