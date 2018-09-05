@@ -119,10 +119,6 @@
   font-family: light;
   cursor: pointer;
 }
-.activeText {
-  composes: text;
-  color: #ff1744;
-}
 .textHeader {
   width: auto;
   height: auto;
@@ -136,4 +132,13 @@
   height: auto;
   display: flex;
   margin-left: 15px;
+}
+.viewAll {
+  width: auto;
+  padding-left: 15px;
+  height: auto;
+  font-size: 14px;
+  font-family: light;
+  cursor: pointer;
+  color: #ff1744;
 }
