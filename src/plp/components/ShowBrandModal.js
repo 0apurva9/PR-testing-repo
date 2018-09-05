@@ -4,7 +4,8 @@ import SearchInput from "../../general/components/SearchInput";
 import groupBy from "lodash.groupby";
 import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
-const RegularExpression = /^[0-9]+(.)*$/;
+const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
+const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
 export default class ShowBrandModal extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,9 @@ export default class ShowBrandModal extends React.Component {
       this.setState({ selectedBrandType: null });
     }
   };
+  ViewAll() {
+    this.setState({ selectedBrandType: null });
+  }
   onFilterClick = val => {
     if (this.props.onSelect) {
       this.props.onSelect(val);
@@ -45,7 +49,7 @@ export default class ShowBrandModal extends React.Component {
     }
     if (this.state.selectedBrandType === "#") {
       brandsList = brandsList.filter(brand => {
-        if (RegularExpression.test(brand.name)) {
+        if (REGULAR_EXPRESSION_FOR_NON_ALPHABET.test(brand.name)) {
           return brand.name;
         }
       });
@@ -58,14 +62,14 @@ export default class ShowBrandModal extends React.Component {
       });
     }
     selectedFixBrand = groupBy(selectedFixBrand, list => {
-      if (isNaN(list.name[0])) {
+      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.name[0])) {
         return list.name[0].toUpperCase();
       } else {
         return "#";
       }
     });
     brandsList = groupBy(brandsList, list => {
-      if (isNaN(list.name[0])) {
+      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.name[0])) {
         return list.name[0].toUpperCase();
       } else {
         return "#";
@@ -103,8 +107,10 @@ export default class ShowBrandModal extends React.Component {
                     </div>
                   );
                 })}
+              <div className={styles.viewAll} onClick={() => this.ViewAll()}>
+                All
+              </div>
             </div>
-
             <div
               className={styles.crossElement}
               onClick={() => this.closeModal()}
