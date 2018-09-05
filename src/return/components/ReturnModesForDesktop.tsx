@@ -115,6 +115,8 @@ export default class ReturnModesForDesktop extends React.Component<
           )}
           {this.state.selectedMode === SCHEDULED_PICKUP && (
             <ReturnCliqAndPiqContainer
+              {...this.state}
+              {...this.props}
               subReasonCode={
                 this.props.selectedReasonAndCommentObj &&
                 this.props.selectedReasonAndCommentObj.reason
@@ -125,7 +127,6 @@ export default class ReturnModesForDesktop extends React.Component<
               bankDetail={this.props.bankDetail}
               selectReturnMode={() => this.selectReturnMode()}
               cancelReturnMode={() => this.cancelReturnMode()}
-
             />
           )}
           {this.state.selectedMode === SELF_COURIER && (

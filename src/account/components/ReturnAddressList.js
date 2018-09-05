@@ -30,7 +30,8 @@ import {
   ORDER,
   ORDER_CODE,
   YES,
-  NO
+  NO,
+  REQUESTING
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
@@ -107,7 +108,10 @@ export default class ReturnAddressList extends React.Component {
     }
   }
 
-  onSelectAddress(selectedAddress) {
+  onSelectAddress = async selectedAddress => {
+    this.setState({
+      selectedAddress: ""
+    });
     this.setState({ addressSelectedByUser: false });
     let addressSelected = filter(
       this.props.returnRequest.deliveryAddressesList,
@@ -115,7 +119,6 @@ export default class ReturnAddressList extends React.Component {
         return address.id === selectedAddress[0];
       }
     );
-
     let productObject = {};
     productObject.orderCode =
       this.props.returnProducts &&
@@ -128,19 +131,20 @@ export default class ReturnAddressList extends React.Component {
       this.props.returnProducts.orderProductWsDTO &&
       this.props.returnProducts.orderProductWsDTO[0] &&
       this.props.returnProducts.orderProductWsDTO[0].transactionId;
-
     if (this.props.returnPinCode) {
-      this.props.returnPinCode(productObject);
+      let returnPinCodeResponse = await this.props.returnPinCode(productObject);
+      if (returnPinCodeResponse.status === SUCCESS) {
+        this.setState({
+          selectedAddress: addressSelected[0]
+        });
+      }
     }
-
-    this.setState({
-      selectedAddress: addressSelected[0]
-    });
-  }
-
+  };
+  handleCancelAddress = () => {
+    this.setState({ addNewAddress: false });
+  };
   addNewAddress = () => {
     this.setState({ addNewAddress: true });
-
     if (checkUserAgentIsMobile()) {
       this.props.history.push(
         `${RETURNS_PREFIX}/${
@@ -213,6 +217,7 @@ export default class ReturnAddressList extends React.Component {
           label={checkUserAgentIsMobile() ? false : true}
           history={this.props.history}
           addUserAddress={address => this.addAddress(address)}
+          handleCancelAddress={() => this.handleCancelAddress()}
           {...this.state}
           onChange={val => this.onChange(val)}
           displayToast={message => this.props.displayToast(message)}
@@ -400,7 +405,7 @@ export default class ReturnAddressList extends React.Component {
     this.props.history.goBack();
   };
   render() {
-    if (this.props.loading) {
+    if (this.props.loading || this.props.returnPinCodeStatus === REQUESTING) {
       this.props.showSecondaryLoader();
     } else {
       this.props.hideSecondaryLoader();
@@ -441,12 +446,14 @@ export default class ReturnAddressList extends React.Component {
             )}
             {this.state.isReturnModeProcessCompleted &&
               this.renderReturnSummary()}
-            <div className={styles.cancelPickUpButtonHolder}>
-              <CancelAndContinueButton
-                handleCancel={() => this.handleCancelPickUP()}
-                handleContinue={() => this.handleContinuePickUp()}
-              />
-            </div>
+            {!this.state.addNewAddress && (
+              <div className={styles.cancelPickUpButtonHolder}>
+                <CancelAndContinueButton
+                  handleCancel={() => this.handleCancelPickUP()}
+                  handleContinue={() => this.handleContinuePickUp()}
+                />
+              </div>
+            )}
           </DesktopOnly>
           <MobileOnly>
             <Error message={this.state.errorMessage} show={this.state.error} />
