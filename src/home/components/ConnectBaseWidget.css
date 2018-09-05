@@ -88,6 +88,11 @@
   .base {
     padding: 0px 0px 33.61% 0px;
     position: relative;
+    transform: scale(1);
+    transition: 300ms;
+  }
+  .base:hover {
+    transform: scale(1.03);
   }
   .dataHolder {
     width: 100%;

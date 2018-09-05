@@ -36,6 +36,11 @@
   padding: 0px 20px 0px 30px;
   font-family: regular;
   font-size: 14px;
+  color: #212121;
+  transition: 300ms;
+}
+.gridText:hover {
+  color: #ff1744;
 }
 .gridLogo {
   width: 20px;
