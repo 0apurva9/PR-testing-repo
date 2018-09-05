@@ -35,17 +35,25 @@ export default class Banner extends React.Component {
                 <div className={styles.logo}>
                   <Logo image={this.props.logo} />
                 </div>
-                <div className={styles.title}>{this.props.title}</div>
-                {this.props.showButton && (
-                  <div className={styles.button}>
-                    <Button
-                      width={195}
-                      height={46}
-                      label={this.props.buttonLabel}
-                      type={"primary"}
-                    />
-                  </div>
+                {this.props.title && (
+                  <div className={styles.title}>{this.props.title}</div>
                 )}
+                {this.props.subTitle && (
+                  <div className={styles.subTitle}>{this.props.subTitle}</div>
+                )}
+
+                {this.props.showButton &&
+                  this.props.buttonLabel && (
+                    <div className={styles.button}>
+                      <Button
+                        width={195}
+                        height={46}
+                        label={this.props.buttonLabel}
+                        type={"primary"}
+                        onClick={this.onClick}
+                      />
+                    </div>
+                  )}
               </div>
             </div>
           </div>
@@ -104,7 +112,6 @@ Banner.defaultProps = {
   image: "",
   title: "",
   logo: "",
-  buttonLabel: "Shop Now",
   showButton: true,
   isFollow: false,
   newProducts: false

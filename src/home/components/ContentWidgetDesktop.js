@@ -43,7 +43,8 @@ export default class ContentWidgetDesktop extends React.Component {
       this.setState({ position });
     }
   };
-  swithPosition(i) {
+  swithPosition(i, evt) {
+    evt.stopPropagation();
     if (i !== undefined) {
       this.setState({ position: i });
     }
@@ -51,7 +52,12 @@ export default class ContentWidgetDesktop extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.banner}>
+        <div
+          className={styles.banner}
+          onClick={() =>
+            this.handleReadMore(this.props.allData[this.state.position].webURL)
+          }
+        >
           <div className={styles.bannerHolder}>
             <Image image={this.props.allData[this.state.position].imageURL} />;
           </div>
@@ -63,7 +69,7 @@ export default class ContentWidgetDesktop extends React.Component {
                     className={
                       this.state.position === i ? styles.navActive : styles.nav
                     }
-                    onClick={() => this.swithPosition(i)}
+                    onClick={evt => this.swithPosition(i, evt)}
                   />
                 );
               })}
