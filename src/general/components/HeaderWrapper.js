@@ -329,6 +329,7 @@ export default class HeaderWrapper extends React.Component {
               history={this.props.history}
               openSignUp={this.openSignUp}
               redirectToHome={this.redirectToHome}
+              isSticky={this.state.stickyHeader}
               bagCount={
                 localStorage.getItem(CART_BAG_DETAILS) &&
                 JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
