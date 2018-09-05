@@ -37,7 +37,6 @@
 @media screen and (min-width: 1025px) {
   .base {
     max-width: 1600px;
-    margin: 80px auto 0px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -48,6 +47,7 @@
     background-color: #f8f8f8;
     height: auto;
     min-height: 90px;
+    margin: 80px auto 0px;
   }
   .header {
     width: 100%;
