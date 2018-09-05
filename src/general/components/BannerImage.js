@@ -36,6 +36,7 @@ export default class Banner extends React.Component {
                   <Logo image={this.props.logo} />
                 </div>
                 <div className={styles.title}>{this.props.title}</div>
+                <div className={styles.subTitle}>{this.props.subTitle}</div>
                 {this.props.showButton && (
                   <div className={styles.button}>
                     <Button
@@ -43,6 +44,7 @@ export default class Banner extends React.Component {
                       height={46}
                       label={this.props.buttonLabel}
                       type={"primary"}
+                      onClick={this.onClick}
                     />
                   </div>
                 )}
