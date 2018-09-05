@@ -32,17 +32,16 @@ export default class ThemOfferComponentDesktop extends React.Component {
                 <ProductModule
                   key={i}
                   productImage={datum.imageURL}
-                  title={datum.title}
-                  price={datum.price}
+                  title={datum.brandName}
+                  mrpPrice={datum.mrpPrice}
                   discountPrice={datum.discountPrice}
-                  description={datum.description}
+                  description={datum.productName}
                   onDownload={datum.onDownload}
                   webURL={datum.webURL}
                   productCode={datum.productListingId}
                   showWishListButton={false}
                   ussId={datum.winningUssID}
                   onClick={this.onClick}
-                  {...datum}
                 />
               );
             })}
