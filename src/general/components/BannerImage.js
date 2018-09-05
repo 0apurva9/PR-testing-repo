@@ -22,7 +22,6 @@ export default class Banner extends React.Component {
     }
   };
   render() {
-    console.log(this.props);
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
