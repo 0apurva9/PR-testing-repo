@@ -93,6 +93,7 @@
     "build": "REACT_APP_STAGE=tmpprod node scripts/build.js",
     "p2": "REACT_APP_STAGE=p2 node scripts/build.js",
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
+    "uat5": "REACT_APP_STAGE=uat5 node scripts/build.js",
     "production":
       "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
     "production-cdn":
