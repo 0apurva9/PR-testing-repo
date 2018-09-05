@@ -96,11 +96,7 @@ export default class ShowBrandModal extends React.Component {
                 selectedFixBrandLabel.map((brandInitials, i) => {
                   return (
                     <div
-                      className={
-                        brandInitials === this.state.selectedBrandType
-                          ? styles.activeText
-                          : styles.text
-                      }
+                      className={styles.text}
                       onClick={() => this.selectedBrandType(brandInitials)}
                     >
                       {brandInitials}
@@ -108,7 +104,7 @@ export default class ShowBrandModal extends React.Component {
                   );
                 })}
               <div className={styles.viewAll} onClick={() => this.ViewAll()}>
-                All
+                All Brands
               </div>
             </div>
             <div

@@ -119,10 +119,6 @@
   font-family: light;
   cursor: pointer;
 }
-.activeText {
-  composes: text;
-  color: #ff1744;
-}
 .textHeader {
   width: auto;
   height: auto;
