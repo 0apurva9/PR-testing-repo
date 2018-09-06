@@ -446,12 +446,12 @@
 }
 .stickyBase {
   composes: base;
-  transform: translateY(-40%);
+  transform: translateY(-40px);
 }
 .stickyLogo {
   composes: logoHolder;
   height: 50px;
   margin: initial;
-  top: 45px;
+  transform: translateY(45px);
   background-size: auto 30px;
 }
