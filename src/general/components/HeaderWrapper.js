@@ -192,6 +192,7 @@ export default class HeaderWrapper extends React.Component {
     }
     if (url === PRODUCT_CART_ROUTER) {
       isSearch = false;
+      profileDetails = true;
       isSticky = false;
     }
     if (url === CHECKOUT_ROUTER) {
