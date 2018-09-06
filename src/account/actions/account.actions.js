@@ -635,10 +635,9 @@ export function returnPinCode(productDetails) {
         }
         throw new Error(message);
       }
-
-      dispatch(returnPInCodeSuccess(resultJson));
+      return dispatch(returnPInCodeSuccess(resultJson));
     } catch (e) {
-      dispatch(returnPinCodeFailure(e.message, resultJson));
+      return dispatch(returnPinCodeFailure(e.message, resultJson));
     }
   };
 }

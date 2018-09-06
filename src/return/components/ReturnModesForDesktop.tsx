@@ -115,6 +115,8 @@ export default class ReturnModesForDesktop extends React.Component<
           )}
           {this.state.selectedMode === SCHEDULED_PICKUP && (
             <ReturnCliqAndPiqContainer
+              {...this.state}
+              {...this.props}
               subReasonCode={
                 this.props.selectedReasonAndCommentObj &&
                 this.props.selectedReasonAndCommentObj.reason

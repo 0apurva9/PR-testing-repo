@@ -172,7 +172,10 @@ export default class ReturnReasonForm extends React.Component {
               </div>
             )}
             <div className={styles.textArea}>
-              <TextArea onChange={val => this.handleChange(val)} />
+              <TextArea
+                value={this.state.comment}
+                onChange={val => this.handleChange(val)}
+              />
             </div>
             <DeskTopOnly>
               <div className={styles.buttonHolder}>

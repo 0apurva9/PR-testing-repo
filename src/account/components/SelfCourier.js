@@ -98,13 +98,15 @@ export default class SelfCourier extends React.Component {
             Re-download the form again from below"
               underlineButtonLabel="Download form"
               underlineButtonColour="#ff1744"
+              padding={checkUserAgentIsMobile() ? "0px" : "25px 40px"}
+              backgroundColor={checkUserAgentIsMobile() ? "#fff" : "#f9f9f9"}
               selfCourierDocumentLink={
                 this.props.returnRequest &&
                 this.props.returnRequest.selfCourierDocumentLink
               }
             />
           </div>
-          <div className={styles.card}>
+          <div className={styles.awbCard}>
             <CourierProduct indexNumber="2" header="Update the AWB number">
               <MobileOnly>
                 <div className={styles.awbText}>

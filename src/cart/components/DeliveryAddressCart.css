@@ -3,7 +3,7 @@
   height: auto;
   padding: 15px;
   border-bottom: 1px solid #ececec;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .titleAddress {
@@ -33,11 +33,24 @@
   right: 0px;
   top: 0px;
 }
+.gridHolder {
+  width: 100%;
+  height: auto;
+}
 @media only screen and (min-width: 1025px) {
   .base {
-    border:none;
+    border: none;
+  }
+  .baseForReturn {
+    composes: base;
+    padding: 20px 0px;
+    border-bottom: 1px solid #ececec;
+  }
+  .titleDescriptionForReturn {
+    composes: titleDescription;
+    padding-right: 35%;
   }
   .checkCircle {
-    right:15px;
+    right: 15px;
   }
 }

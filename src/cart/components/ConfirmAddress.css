@@ -48,6 +48,12 @@
     padding: 15px;
     min-height: 240px;
   }
+  .baseForReturn {
+    composes: base;
+    background: #f9f9f9;
+    padding: 20px 50px;
+    border-radius: initial;
+  }
   .buttonHolder {
     position: static;
     height: 0;
@@ -72,5 +78,25 @@
     position: absolute;
     right: 15px;
     bottom: 45px;
+  }
+  .addressHeader {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-right: 112px;
+    text-align: left;
+    color: #000000;
+    font-size: 16px;
+    line-height: 25px;
+    font-family: semibold;
+  }
+  .underLineButtonHolder {
+    width: auto;
+    height: 24px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
 }

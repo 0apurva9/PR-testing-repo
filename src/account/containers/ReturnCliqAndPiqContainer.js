@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       });
     },
     returnPinCode: productDetails => {
-      dispatch(returnPinCode(productDetails));
+      return dispatch(returnPinCode(productDetails));
     },
     displayToast: message => {
       dispatch(displayToast(message));

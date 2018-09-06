@@ -13,7 +13,13 @@ export default class CourierProduct extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{
+          backgroundColor: this.props.backgroundColor,
+          padding: this.props.padding
+        }}
+      >
         {this.props.header && (
           <div className={styles.header}>
             <MobileOnly>
@@ -79,4 +85,8 @@ CourierProduct.propTypes = {
   header: PropTypes.string,
   subText: PropTypes.string,
   onClick: PropTypes.func
+};
+CourierProduct.defaultProps = {
+  backgroundColor: "#fff",
+  padding: "0px"
 };

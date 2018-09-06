@@ -252,4 +252,13 @@
     line-height: 20px;
     margin-top: 20px;
   }
+  .forReturn {
+    width: 100%;
+    height: auto;
+  }
+  .leftSectionForReturn {
+    composes: leftSection;
+    padding-right: 0px;
+    width: 100%;
+  }
 }
