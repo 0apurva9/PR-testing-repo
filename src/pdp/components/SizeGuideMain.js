@@ -9,6 +9,12 @@ import SizeGuideElementBelt from "./SizeGuideElementBelt";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 export default class SizeGuideMain extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: 0
+    };
+  }
   componentDidMount() {
     this.props.getSizeGuide(this.props.productCode);
   }
@@ -41,6 +47,7 @@ export default class SizeGuideMain extends React.Component {
                         key={i}
                         offset={20}
                         activeBackground="#f8f8f8"
+                        isOpen={this.state.isOpen === i}
                       >
                         {this.props.category !== "Footwear" && (
                           <SizeGuideElement
