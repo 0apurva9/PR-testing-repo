@@ -79,7 +79,10 @@ export default class ProductDescription extends Component {
               </div>
             )}
           {!this.props.isRange &&
-            this.props.mrpPrice && <div>{this.props.mrpPrice}</div>}
+            this.props.mrpPrice &&
+            typeof this.props.mrpPrice !== "object" && (
+              <div>{this.props.mrpPrice}</div>
+            )}
           {this.props.isRange &&
             this.props.minPrice &&
             this.props.maxPrice && (
