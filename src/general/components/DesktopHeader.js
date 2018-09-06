@@ -139,633 +139,351 @@ export default class DesktopHeader extends React.Component {
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
     }
-
+    let className = styles.base;
+    let logo = styles.logoHolder;
+    if (this.props.isSticky) {
+      className = styles.stickyBase;
+      logo = styles.stickyLogo;
+    }
     return (
-      <React.Fragment>
-        {!this.props.isSticky && (
-          <div
-            className={
-              this.props.isSearch ? styles.base : styles.CheckoutHeader
-            }
-          >
-            {this.props.isSearch && <div className={styles.dummyColorHeader} />}
-            <div className={styles.headerHolder}>
-              <div
-                className={styles.logoHolder}
-                onClick={() => this.redirectToHome()}
-              />
-              {this.props.profileDetails && (
-                <div className={styles.profileWonerHolder}>
-                  <div className={styles.signInAndLogout}>
-                    <div className={styles.nameAndContact}>
-                      <div className={styles.logOutDropDown}>
-                        <DropdownMenu {...this.props} />
-                      </div>
-                      <div className={styles.dropDownArrow} />
-                      <div
-                        className={styles.iconPersonHolder}
-                        onClick={() => this.goToMyAccount()}
-                      />
-                      <span className={styles.nameSpan}>
-                        {userCookie &&
-                          userCookie.firstName && (
-                            <span>{userCookie.firstName}</span>
-                          )}
-                        {userCookie &&
-                          userCookie.lastName && (
-                            <span>{userCookie.lastName}</span>
-                          )}
-                      </span>
-                      <span>{userCookie.userName}</span>
-                    </div>
+      <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
+        {this.props.isSearch && <div className={styles.dummyColorHeader} />}
+        <div className={styles.headerHolder}>
+          <div className={logo} onClick={() => this.redirectToHome()} />
+          {this.props.profileDetails && (
+            <div className={styles.profileWonerHolder}>
+              <div className={styles.signInAndLogout}>
+                <div className={styles.nameAndContact}>
+                  <div className={styles.logOutDropDown}>
+                    <DropdownMenu {...this.props} />
                   </div>
+                  <div className={styles.dropDownArrow} />
+                  <div
+                    className={styles.iconPersonHolder}
+                    onClick={() => this.goToMyAccount()}
+                  />
+                  <span className={styles.nameSpan}>
+                    {userCookie &&
+                      userCookie.firstName && (
+                        <span>{userCookie.firstName}</span>
+                      )}
+                    {userCookie &&
+                      userCookie.lastName && <span>{userCookie.lastName}</span>}
+                  </span>
+                  <span>{userCookie.userName}</span>
                 </div>
-              )}
-              {this.props.isSearch && (
-                <div className={styles.headerFunctionality}>
-                  <div className={styles.upperHeader}>
-                    <a href="https://luxury.tatacliq.com/" target="_blank">
-                      {" "}
-                      <div className={styles.luxeryTab}>Visit Luxury Store</div>
-                    </a>
-                    <div className={styles.loginAndTrackTab}>
-                      <div className={styles.signInAndLogout}>
-                        <div className={styles.logOutDropDown}>
-                          <DropdownMenu {...this.props} />
-                        </div>
-                        {!userCookie &&
-                          !userCookie && (
-                            <div
-                              className={styles.loginTab}
-                              onClick={() => this.openSignUpPopUp()}
-                            >
-                              Sign in / Sign Up
-                            </div>
-                          )}
-                        {userCookie &&
-                          userCookie && (
-                            <div className={styles.userDetails}>
-                              <div className={styles.nameAndContact}>
-                                <div className={styles.dropDownArrow} />
-                                <div
-                                  className={styles.iconPersonHolder}
-                                  onClick={() => this.goToMyAccount()}
-                                />
-                                <span className={styles.nameSpan}>
-                                  <span>
-                                    {userCookie &&
-                                      userCookie.firstName &&
-                                      `${userCookie.firstName} `}
-                                  </span>
-                                  <span>
-                                    {userCookie &&
-                                      userCookie.lastName &&
-                                      `${userCookie.lastName}`}
-                                  </span>
-                                </span>
-                                <span>{userCookie.userName}</span>
-                              </div>
-                            </div>
-                          )}
-                      </div>
-                      <div
-                        className={styles.loginTab}
-                        onClick={() => this.goToTrackOrders()}
-                      >
-                        Track Orders
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.lowerHeader}>
-                    <div className={styles.leftTabHolder}>
-                      <div
-                        className={
-                          this.state.hoverInType === CATEGORY
-                            ? styles.categoryAndBrandWithArrow
-                            : styles.categoryAndBrand
-                        }
-                        onMouseEnter={() => this.onHoverCategory(CATEGORY)}
-                        onMouseLeave={() => this.hoverOut()}
-                      >
-                        Categories
-                        <div
-                          className={
-                            this.state.hoverInType === CATEGORY
-                              ? styles.downArrow
-                              : styles.arrow
-                          }
-                        />
-                        {this.state.hoverInType === CATEGORY &&
-                          this.props.headerBrandAndCategoryDetails && (
-                            <div className={styles.categoriesHolder}>
-                              <div className={styles.categoryDetails}>
-                                {catageoryDetails &&
-                                  catageoryDetails.categoriesTabAZListComponent &&
-                                  catageoryDetails.categoriesTabAZListComponent.map(
-                                    (categories, val) => {
-                                      return (
-                                        <React.Fragment>
-                                          <div
-                                            className={
-                                              this.state.hovered ===
-                                              categories.category_name
-                                                ? styles.categoryDetailsValueWithArrow
-                                                : styles.categoryDetailsValue
-                                            }
-                                            onMouseEnter={() =>
-                                              this.hoverIn(
-                                                categories.category_name
-                                              )
-                                            }
-                                          >
-                                            {categories.category_name}
-                                            <div
-                                              className={
-                                                this.state.hovered ===
-                                                categories.category_name
-                                                  ? styles.rightArrow
-                                                  : ""
-                                              }
-                                            />
-                                          </div>
-                                        </React.Fragment>
-                                      );
-                                    }
-                                  )}
-                              </div>
-                              <div className={styles.subCategoryDetailsHolder}>
-                                {currentCategory.subCategories.map(
-                                  (subCategoriesHeader, val) => {
-                                    return (
-                                      <React.Fragment>
-                                        <div
-                                          className={
-                                            styles.subCategoryDetailsHeader
-                                          }
-                                          onClick={() =>
-                                            this.renderToAnotherURL(
-                                              subCategoriesHeader.webURL
-                                            )
-                                          }
-                                        >
-                                          {subCategoriesHeader.category_name}
-                                        </div>
-                                        {subCategoriesHeader.subCategories.map(
-                                          (subCategoryDetails, value) => {
-                                            return (
-                                              <div
-                                                className={
-                                                  styles.subCategoryDetailsValues
-                                                }
-                                                onClick={() =>
-                                                  this.renderToAnotherURL(
-                                                    subCategoryDetails.webURL
-                                                  )
-                                                }
-                                              >
-                                                {
-                                                  subCategoryDetails.category_name
-                                                }
-                                              </div>
-                                            );
-                                          }
-                                        )}
-                                      </React.Fragment>
-                                    );
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          )}
-                      </div>
-                      <div
-                        className={
-                          this.state.hoverInType === BRANDS
-                            ? styles.categoryAndBrandWithArrow
-                            : styles.categoryAndBrand
-                        }
-                        onMouseEnter={() => this.onHoverBrands(BRANDS)}
-                        onMouseLeave={() => this.hoverOut()}
-                      >
-                        Brands
-                        <div
-                          className={
-                            this.state.hoverInType === BRANDS
-                              ? styles.downArrow
-                              : styles.arrow
-                          }
-                        />
-                        {this.state.hoverInType === BRANDS &&
-                          this.props.headerBrandAndCategoryDetails && (
-                            <div className={styles.brandDetailsHolder}>
-                              <div className={styles.brandLeftDetails}>
-                                {brandDetails &&
-                                  brandDetails.brandsTabAZListComponent &&
-                                  brandDetails.brandsTabAZListComponent.map(
-                                    (brand, val) => {
-                                      return (
-                                        <React.Fragment>
-                                          <div
-                                            className={
-                                              this.state.hovered ===
-                                              brand.subType
-                                                ? styles.categoryDetailsValueWithArrow
-                                                : styles.categoryDetailsValue
-                                            }
-                                            onMouseEnter={() =>
-                                              this.hoverIn(brand.subType)
-                                            }
-                                          >
-                                            {brand.subType}
-                                            <div
-                                              className={
-                                                this.state.hovered ===
-                                                brand.subType
-                                                  ? styles.rightArrow
-                                                  : ""
-                                              }
-                                            />
-                                          </div>
-                                        </React.Fragment>
-                                      );
-                                    }
-                                  )}
-                              </div>
-                              <div className={styles.subBrandsDetailsHolder}>
-                                <React.Fragment>
-                                  {currentBrand &&
-                                    currentBrand.popularBrands && (
-                                      <div className={styles.popularBrands}>
-                                        <div className={styles.brandsHeader}>
-                                          Popular brands
-                                        </div>
-                                        {currentBrand.popularBrands.map(
-                                          popularBrands => {
-                                            return (
-                                              <div
-                                                className={styles.brandsDetails}
-                                                onClick={() =>
-                                                  this.renderToAnotherURL(
-                                                    popularBrands.webURL
-                                                  )
-                                                }
-                                              >
-                                                {popularBrands.brandName}
-                                              </div>
-                                            );
-                                          }
-                                        )}
-                                      </div>
-                                    )}
-                                  {currentBrand &&
-                                    currentBrand.featuredBrands && (
-                                      <div className={styles.featureBrands}>
-                                        <div className={styles.brandsHeader}>
-                                          Featured brands
-                                        </div>
-                                        {currentBrand.featuredBrands.map(
-                                          featuredBrands => {
-                                            return (
-                                              <div
-                                                className={styles.brandsDetails}
-                                                onClick={() =>
-                                                  this.renderToAnotherURL(
-                                                    featuredBrands.webURL
-                                                  )
-                                                }
-                                              >
-                                                {featuredBrands.brandName}
-                                              </div>
-                                            );
-                                          }
-                                        )}
-                                      </div>
-                                    )}
-                                </React.Fragment>
-                              </div>
-                              <div className={styles.subBrandsLogoHolder}>
-                                <React.Fragment>
-                                  {currentBrand &&
-                                    currentBrand.items &&
-                                    currentBrand.items.map((brandLogo, i) => {
-                                      return (
-                                        <div
-                                          className={styles.brandLogoDetails}
-                                        >
-                                          <BrandImage
-                                            image={brandLogo.brandLogo}
-                                            text={brandLogo.text}
-                                            value={brandLogo.webURL}
-                                            onClick={value =>
-                                              this.renderToAnotherURL(
-                                                brandLogo.webURL
-                                              )
-                                            }
-                                          />
-                                        </div>
-                                      );
-                                    })}
-                                </React.Fragment>
-                              </div>
-                            </div>
-                          )}
-                      </div>
-                    </div>
-                    <div className={styles.rightTabHolder}>
-                      <div
-                        className={styles.myBagShow}
-                        onClick={() => this.handleSelect()}
-                      >
-                        {userCookie &&
-                          this.props.bagCount !== null && (
-                            <span>{`(${this.props.bagCount})`}</span>
-                          )}
-                      </div>
-                      <div
-                        className={styles.mywishList}
-                        onClick={() => this.goToWishList()}
-                      />
-                    </div>
-                    {this.props.searchHolder && (
-                      <div className={styles.searchHolder}>
-                        <div className={styles.searchWrapper}>
-                          {this.props.searchHolder}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
-          </div>
-        )}
-        {this.props.isSticky && (
-          <div className={styles.stickyBase}>
-            <div className={styles.headerHolder}>
-              <div
-                className={styles.stickyLogo}
-                onClick={() => this.redirectToHome()}
-              />
-
-              <div className={styles.headerFunctionality}>
-                <div className={styles.lowerHeader}>
-                  <div className={styles.leftTabHolder}>
+          )}
+          {this.props.isSearch && (
+            <div className={styles.headerFunctionality}>
+              <div className={styles.upperHeader}>
+                <a href="https://luxury.tatacliq.com/" target="_blank">
+                  {" "}
+                  <div className={styles.luxeryTab}>Visit Luxury Store</div>
+                </a>
+                <div className={styles.loginAndTrackTab}>
+                  <div className={styles.signInAndLogout}>
+                    <div className={styles.logOutDropDown}>
+                      <DropdownMenu {...this.props} />
+                    </div>
+                    {!userCookie &&
+                      !userCookie && (
+                        <div
+                          className={styles.loginTab}
+                          onClick={() => this.openSignUpPopUp()}
+                        >
+                          Sign in / Sign Up
+                        </div>
+                      )}
+                    {userCookie &&
+                      userCookie && (
+                        <div className={styles.userDetails}>
+                          <div className={styles.nameAndContact}>
+                            <div className={styles.dropDownArrow} />
+                            <div
+                              className={styles.iconPersonHolder}
+                              onClick={() => this.goToMyAccount()}
+                            />
+                            <span className={styles.nameSpan}>
+                              <span>
+                                {userCookie &&
+                                  userCookie.firstName &&
+                                  `${userCookie.firstName} `}
+                              </span>
+                              <span>
+                                {userCookie &&
+                                  userCookie.lastName &&
+                                  `${userCookie.lastName}`}
+                              </span>
+                            </span>
+                            <span>{userCookie.userName}</span>
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                  <div
+                    className={styles.loginTab}
+                    onClick={() => this.goToTrackOrders()}
+                  >
+                    Track Orders
+                  </div>
+                </div>
+              </div>
+              <div className={styles.lowerHeader}>
+                <div className={styles.leftTabHolder}>
+                  <div
+                    className={
+                      this.state.hoverInType === CATEGORY
+                        ? styles.categoryAndBrandWithArrow
+                        : styles.categoryAndBrand
+                    }
+                    onMouseEnter={() => this.onHoverCategory(CATEGORY)}
+                    onMouseLeave={() => this.hoverOut()}
+                  >
+                    Categories
                     <div
                       className={
                         this.state.hoverInType === CATEGORY
-                          ? styles.categoryAndBrandWithArrow
-                          : styles.categoryAndBrand
+                          ? styles.downArrow
+                          : styles.arrow
                       }
-                      onMouseEnter={() => this.onHoverCategory(CATEGORY)}
-                      onMouseLeave={() => this.hoverOut()}
-                    >
-                      Categories
-                      <div
-                        className={
-                          this.state.hoverInType === CATEGORY
-                            ? styles.downArrow
-                            : styles.arrow
-                        }
-                      />
-                      {this.state.hoverInType === CATEGORY &&
-                        this.props.headerBrandAndCategoryDetails && (
-                          <div className={styles.categoriesHolder}>
-                            <div className={styles.categoryDetails}>
-                              {catageoryDetails &&
-                                catageoryDetails.categoriesTabAZListComponent &&
-                                catageoryDetails.categoriesTabAZListComponent.map(
-                                  (categories, val) => {
-                                    return (
-                                      <React.Fragment>
-                                        <div
-                                          className={
-                                            this.state.hovered ===
-                                            categories.category_name
-                                              ? styles.categoryDetailsValueWithArrow
-                                              : styles.categoryDetailsValue
-                                          }
-                                          onMouseEnter={() =>
-                                            this.hoverIn(
-                                              categories.category_name
-                                            )
-                                          }
-                                        >
-                                          {categories.category_name}
-                                          <div
-                                            className={
-                                              this.state.hovered ===
-                                              categories.category_name
-                                                ? styles.rightArrow
-                                                : ""
-                                            }
-                                          />
-                                        </div>
-                                      </React.Fragment>
-                                    );
-                                  }
-                                )}
-                            </div>
-                            <div className={styles.subCategoryDetailsHolder}>
-                              {currentCategory.subCategories.map(
-                                (subCategoriesHeader, val) => {
+                    />
+                    {this.state.hoverInType === CATEGORY &&
+                      this.props.headerBrandAndCategoryDetails && (
+                        <div className={styles.categoriesHolder}>
+                          <div className={styles.categoryDetails}>
+                            {catageoryDetails &&
+                              catageoryDetails.categoriesTabAZListComponent &&
+                              catageoryDetails.categoriesTabAZListComponent.map(
+                                (categories, val) => {
                                   return (
                                     <React.Fragment>
                                       <div
                                         className={
-                                          styles.subCategoryDetailsHeader
+                                          this.state.hovered ===
+                                          categories.category_name
+                                            ? styles.categoryDetailsValueWithArrow
+                                            : styles.categoryDetailsValue
                                         }
-                                        onClick={() =>
-                                          this.renderToAnotherURL(
-                                            subCategoriesHeader.webURL
-                                          )
+                                        onMouseEnter={() =>
+                                          this.hoverIn(categories.category_name)
                                         }
                                       >
-                                        {subCategoriesHeader.category_name}
+                                        {categories.category_name}
+                                        <div
+                                          className={
+                                            this.state.hovered ===
+                                            categories.category_name
+                                              ? styles.rightArrow
+                                              : ""
+                                          }
+                                        />
                                       </div>
-                                      {subCategoriesHeader.subCategories.map(
-                                        (subCategoryDetails, value) => {
-                                          return (
-                                            <div
-                                              className={
-                                                styles.subCategoryDetailsValues
-                                              }
-                                              onClick={() =>
-                                                this.renderToAnotherURL(
-                                                  subCategoryDetails.webURL
-                                                )
-                                              }
-                                            >
-                                              {subCategoryDetails.category_name}
-                                            </div>
-                                          );
-                                        }
-                                      )}
                                     </React.Fragment>
                                   );
                                 }
                               )}
-                            </div>
                           </div>
-                        )}
-                    </div>
+                          <div className={styles.subCategoryDetailsHolder}>
+                            {currentCategory.subCategories.map(
+                              (subCategoriesHeader, val) => {
+                                return (
+                                  <React.Fragment>
+                                    <div
+                                      className={
+                                        styles.subCategoryDetailsHeader
+                                      }
+                                      onClick={() =>
+                                        this.renderToAnotherURL(
+                                          subCategoriesHeader.webURL
+                                        )
+                                      }
+                                    >
+                                      {subCategoriesHeader.category_name}
+                                    </div>
+                                    {subCategoriesHeader.subCategories.map(
+                                      (subCategoryDetails, value) => {
+                                        return (
+                                          <div
+                                            className={
+                                              styles.subCategoryDetailsValues
+                                            }
+                                            onClick={() =>
+                                              this.renderToAnotherURL(
+                                                subCategoryDetails.webURL
+                                              )
+                                            }
+                                          >
+                                            {subCategoryDetails.category_name}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </React.Fragment>
+                                );
+                              }
+                            )}
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                  <div
+                    className={
+                      this.state.hoverInType === BRANDS
+                        ? styles.categoryAndBrandWithArrow
+                        : styles.categoryAndBrand
+                    }
+                    onMouseEnter={() => this.onHoverBrands(BRANDS)}
+                    onMouseLeave={() => this.hoverOut()}
+                  >
+                    Brands
                     <div
                       className={
                         this.state.hoverInType === BRANDS
-                          ? styles.categoryAndBrandWithArrow
-                          : styles.categoryAndBrand
+                          ? styles.downArrow
+                          : styles.arrow
                       }
-                      onMouseEnter={() => this.onHoverBrands(BRANDS)}
-                      onMouseLeave={() => this.hoverOut()}
-                    >
-                      Brands
-                      <div
-                        className={
-                          this.state.hoverInType === BRANDS
-                            ? styles.downArrow
-                            : styles.arrow
-                        }
-                      />
-                      {this.state.hoverInType === BRANDS &&
-                        this.props.headerBrandAndCategoryDetails && (
-                          <div className={styles.brandDetailsHolder}>
-                            <div className={styles.brandLeftDetails}>
-                              {brandDetails &&
-                                brandDetails.brandsTabAZListComponent &&
-                                brandDetails.brandsTabAZListComponent.map(
-                                  (brand, val) => {
-                                    return (
-                                      <React.Fragment>
+                    />
+                    {this.state.hoverInType === BRANDS &&
+                      this.props.headerBrandAndCategoryDetails && (
+                        <div className={styles.brandDetailsHolder}>
+                          <div className={styles.brandLeftDetails}>
+                            {brandDetails &&
+                              brandDetails.brandsTabAZListComponent &&
+                              brandDetails.brandsTabAZListComponent.map(
+                                (brand, val) => {
+                                  return (
+                                    <React.Fragment>
+                                      <div
+                                        className={
+                                          this.state.hovered === brand.subType
+                                            ? styles.categoryDetailsValueWithArrow
+                                            : styles.categoryDetailsValue
+                                        }
+                                        onMouseEnter={() =>
+                                          this.hoverIn(brand.subType)
+                                        }
+                                      >
+                                        {brand.subType}
                                         <div
                                           className={
                                             this.state.hovered === brand.subType
-                                              ? styles.categoryDetailsValueWithArrow
-                                              : styles.categoryDetailsValue
-                                          }
-                                          onMouseEnter={() =>
-                                            this.hoverIn(brand.subType)
-                                          }
-                                        >
-                                          {brand.subType}
-                                          <div
-                                            className={
-                                              this.state.hovered ===
-                                              brand.subType
-                                                ? styles.rightArrow
-                                                : ""
-                                            }
-                                          />
-                                        </div>
-                                      </React.Fragment>
-                                    );
-                                  }
-                                )}
-                            </div>
-                            <div className={styles.subBrandsDetailsHolder}>
-                              <React.Fragment>
-                                {currentBrand &&
-                                  currentBrand.popularBrands && (
-                                    <div className={styles.popularBrands}>
-                                      <div className={styles.brandsHeader}>
-                                        Popular brands
-                                      </div>
-                                      {currentBrand.popularBrands.map(
-                                        popularBrands => {
-                                          return (
-                                            <div
-                                              className={styles.brandsDetails}
-                                              onClick={() =>
-                                                this.renderToAnotherURL(
-                                                  popularBrands.webURL
-                                                )
-                                              }
-                                            >
-                                              {popularBrands.brandName}
-                                            </div>
-                                          );
-                                        }
-                                      )}
-                                    </div>
-                                  )}
-                                {currentBrand &&
-                                  currentBrand.featuredBrands && (
-                                    <div className={styles.featureBrands}>
-                                      <div className={styles.brandsHeader}>
-                                        Featured brands
-                                      </div>
-                                      {currentBrand.featuredBrands.map(
-                                        featuredBrands => {
-                                          return (
-                                            <div
-                                              className={styles.brandsDetails}
-                                              onClick={() =>
-                                                this.renderToAnotherURL(
-                                                  featuredBrands.webURL
-                                                )
-                                              }
-                                            >
-                                              {featuredBrands.brandName}
-                                            </div>
-                                          );
-                                        }
-                                      )}
-                                    </div>
-                                  )}
-                              </React.Fragment>
-                            </div>
-                            <div className={styles.subBrandsLogoHolder}>
-                              <React.Fragment>
-                                {currentBrand &&
-                                  currentBrand.items &&
-                                  currentBrand.items.map((brandLogo, i) => {
-                                    return (
-                                      <div className={styles.brandLogoDetails}>
-                                        <BrandImage
-                                          image={brandLogo.brandLogo}
-                                          text={brandLogo.text}
-                                          value={brandLogo.webURL}
-                                          onClick={value =>
-                                            this.renderToAnotherURL(
-                                              brandLogo.webURL
-                                            )
+                                              ? styles.rightArrow
+                                              : ""
                                           }
                                         />
                                       </div>
-                                    );
-                                  })}
-                              </React.Fragment>
-                            </div>
+                                    </React.Fragment>
+                                  );
+                                }
+                              )}
                           </div>
-                        )}
-                    </div>
+                          <div className={styles.subBrandsDetailsHolder}>
+                            <React.Fragment>
+                              {currentBrand &&
+                                currentBrand.popularBrands && (
+                                  <div className={styles.popularBrands}>
+                                    <div className={styles.brandsHeader}>
+                                      Popular brands
+                                    </div>
+                                    {currentBrand.popularBrands.map(
+                                      popularBrands => {
+                                        return (
+                                          <div
+                                            className={styles.brandsDetails}
+                                            onClick={() =>
+                                              this.renderToAnotherURL(
+                                                popularBrands.webURL
+                                              )
+                                            }
+                                          >
+                                            {popularBrands.brandName}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                )}
+                              {currentBrand &&
+                                currentBrand.featuredBrands && (
+                                  <div className={styles.featureBrands}>
+                                    <div className={styles.brandsHeader}>
+                                      Featured brands
+                                    </div>
+                                    {currentBrand.featuredBrands.map(
+                                      featuredBrands => {
+                                        return (
+                                          <div
+                                            className={styles.brandsDetails}
+                                            onClick={() =>
+                                              this.renderToAnotherURL(
+                                                featuredBrands.webURL
+                                              )
+                                            }
+                                          >
+                                            {featuredBrands.brandName}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                )}
+                            </React.Fragment>
+                          </div>
+                          <div className={styles.subBrandsLogoHolder}>
+                            <React.Fragment>
+                              {currentBrand &&
+                                currentBrand.items &&
+                                currentBrand.items.map((brandLogo, i) => {
+                                  return (
+                                    <div className={styles.brandLogoDetails}>
+                                      <BrandImage
+                                        image={brandLogo.brandLogo}
+                                        text={brandLogo.text}
+                                        value={brandLogo.webURL}
+                                        onClick={value =>
+                                          this.renderToAnotherURL(
+                                            brandLogo.webURL
+                                          )
+                                        }
+                                      />
+                                    </div>
+                                  );
+                                })}
+                            </React.Fragment>
+                          </div>
+                        </div>
+                      )}
                   </div>
-                  <div className={styles.rightTabHolder}>
-                    <div
-                      className={styles.myBagShow}
-                      onClick={() => this.handleSelect()}
-                    >
-                      {userCookie &&
-                        this.props.bagCount !== null && (
-                          <span>{`(${this.props.bagCount})`}</span>
-                        )}
-                    </div>
-                    <div
-                      className={styles.mywishList}
-                      onClick={() => this.goToWishList()}
-                    />
-                  </div>
-                  {this.props.searchHolder && (
-                    <div className={styles.searchHolder}>
-                      <div className={styles.searchWrapper}>
-                        {this.props.searchHolder}
-                      </div>
-                    </div>
-                  )}
                 </div>
+                <div className={styles.rightTabHolder}>
+                  <div
+                    className={styles.myBagShow}
+                    onClick={() => this.handleSelect()}
+                  >
+                    {userCookie &&
+                      this.props.bagCount !== null && (
+                        <span>{`(${this.props.bagCount})`}</span>
+                      )}
+                  </div>
+                  <div
+                    className={styles.mywishList}
+                    onClick={() => this.goToWishList()}
+                  />
+                </div>
+                {this.props.searchHolder && (
+                  <div className={styles.searchHolder}>
+                    <div className={styles.searchWrapper}>
+                      {this.props.searchHolder}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        )}
-      </React.Fragment>
+          )}
+        </div>
+      </div>
     );
   }
 }
