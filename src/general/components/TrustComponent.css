@@ -16,7 +16,7 @@
   width: 25%;
   height: auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 .logo {
