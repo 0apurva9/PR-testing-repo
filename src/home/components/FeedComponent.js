@@ -64,8 +64,9 @@ class FeedComponent extends React.Component {
                         : false
                     }
                     productImage={datum.image}
-                    title={datum.title}
+                    title={datum.title ? datum.title : datum.brandName}
                     price={datum.price}
+                    mrpPrice={datum.mrpPrice}
                     discountPrice={datum.discountPrice}
                     description={datum.description}
                     onDownload={datum.onDownload}
