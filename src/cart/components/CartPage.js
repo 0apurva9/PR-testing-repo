@@ -44,6 +44,7 @@ import {
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
+import TrustComponent from "../../general/components/TrustComponent";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
@@ -755,6 +756,7 @@ class CartPage extends React.Component {
               </div>
             </DesktopOnly>
           </div>
+          <TrustComponent />
         </div>
       );
     } else {

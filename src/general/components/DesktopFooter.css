@@ -127,36 +127,3 @@
   font-size: 14px;
   font-family: light;
 }
-.iconHolder {
-  width: 100%;
-  min-height: 120px;
-  height: auto;
-  background-color: #f9f9f9;
-}
-.iconWithCenter {
-  width: 100%;
-  height: auto;
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  line-height: 120px;
-}
-.iconWithText {
-  width: 25%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.logo {
-  width: auto;
-  height: auto;
-}
-.text {
-  width: auto;
-  height: auto;
-  padding-left: 15px;
-  font-size: 14px;
-  color: #212121;
-  font-family: semibold;
-}
