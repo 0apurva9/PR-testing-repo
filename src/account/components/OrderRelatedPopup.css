@@ -1,0 +1,148 @@
+.base {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 101;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.allOrderHolder {
+  width: 35%;
+  height: 70%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+  padding-top: 55px;
+}
+.header {
+  width: 100%;
+  height: 55px;
+  background: #ececec;
+  padding: 0px 20px;
+  color: #000000;
+  line-height: 55px;
+  font-size: 18px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: semibold;
+}
+.allDataHolder {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 30px 20px;
+}
+.orderMainCard {
+  width: 100%;
+  height: auto;
+  margin-bottom: 40px;
+}
+.orderCard {
+  width: 100%;
+  height: auto;
+  display: flex;
+  position: relative;
+  padding-left: 50px;
+  flex-direction: row;
+}
+.imageHolder {
+  width: 15%;
+  height: auto;
+  display: flex;
+}
+.dataHolder {
+  width: 85%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 35px;
+}
+.productDescriptionHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  margin-bottom: 5px;
+}
+.productDescription {
+  width: 55%;
+  height: auto;
+  color: #181818;
+  font-family: light;
+  font-size: 14px;
+  line-height: 20px;
+}
+.deliveryTimeAndStatus {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+.deliveryStatusHolder {
+  width: 33.33%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.statusHedaer {
+  width: 100%;
+  height: auto;
+  margin-bottom: 7px;
+  color: #181818;
+  font-size: 14px;
+  font-family: light;
+  text-align: left;
+  display: flex;
+}
+.statusData {
+  width: 100%;
+  height: auto;
+  color: #181818;
+  font-size: 14px;
+  font-family: light;
+  text-align: left;
+  display: flex;
+}
+.loadMore {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loadMoreText {
+  width: auto;
+  height: auto;
+  color: #000000;
+  font-size: 14px;
+  font-family: regular;
+  cursor: pointer;
+}
+.crossButton {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  top: -40px;
+  background: #fff url(./img/cancelred.svg) no-repeat;
+  background-size: auto 30px;
+  background-position: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.checkboxHolder {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}

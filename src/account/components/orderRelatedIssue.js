@@ -15,9 +15,11 @@ import {
 } from "../../auth/components/Login";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import OrderRelatedPopup from "./OrderRelatedPopup";
 import { SUCCESS, MY_ACCOUNT_PAGE, CUSTOMER_CARE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -222,6 +224,9 @@ export default class OrderRelatedIssue extends React.Component {
   onChange(val) {
     this.setState(val);
   }
+  closeModal() {
+    this.setState({ showOrder: false });
+  }
   async submitCustomerForm() {
     let l1OptionsArray, l2OptionsArray, l3OptionsArray;
     if (this.state.isSelected === 0) {
@@ -394,7 +399,6 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const getUserDetails = JSON.parse(userDetailsCookie);
@@ -801,7 +805,10 @@ export default class OrderRelatedIssue extends React.Component {
                 {this.state.isSelected === 0 && (
                   <div className={styles.firstTab}>
                     <div className={styles.selectedOrder}>
-                      <div className={styles.headingHolder}>
+                      <div
+                        className={styles.headingHolder}
+                        onClick={() => this.goToOrderPage()}
+                      >
                         <CheckOutHeader
                           indexNumber="1"
                           confirmTitle="Select your order"
@@ -1191,6 +1198,34 @@ export default class OrderRelatedIssue extends React.Component {
               </div>
             </div>
           </div>
+          {this.state.showOrder && (
+            <OrderRelatedPopup
+              ordersTransactionData={this.props.ordersTransactionData}
+              setProductDetails={(
+                orderCode,
+                transactionId,
+                sellerOrderNumber,
+                productImageURL,
+                orderDate,
+                productName,
+                productPrice,
+                productStatus
+              ) =>
+                this.setProductDetails(
+                  orderCode,
+                  transactionId,
+                  sellerOrderNumber,
+                  productImageURL,
+                  orderDate,
+                  productName,
+                  productPrice,
+                  productStatus
+                )
+              }
+              getMoreOrder={() => this.getMoreOrder()}
+              closeModal={() => this.closeModal()}
+            />
+          )}
         </DesktopOnly>
       </div>
     );
