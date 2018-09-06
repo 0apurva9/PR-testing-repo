@@ -112,6 +112,11 @@
   float: right;
   margin-left: 25px;
   cursor: pointer;
+  transition: 300ms;
+  transform: scale(1);
+}
+.myBagShow:hover {
+  transform: scale(1.4);
 }
 .mywishList {
   width: 30px;
@@ -121,6 +126,11 @@
   background-position: center 8px;
   cursor: pointer;
   float: right;
+  transition: 300ms;
+  transform: scale(1);
+}
+.mywishList:hover {
+  transform: scale(1.4);
 }
 .searchHolder {
   width: auto;
