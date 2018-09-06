@@ -180,7 +180,8 @@ export default class DesktopHeader extends React.Component {
                     {userCookie &&
                       userCookie.lastName && <span>{userCookie.lastName}</span>}
                   </span>
-                  <span>{userCookie.userName}</span>
+                  {userCookie &&
+                    userCookie.userName && <span>{userCookie.userName}</span>}
                 </div>
               </div>
             </div>
@@ -227,7 +228,10 @@ export default class DesktopHeader extends React.Component {
                                   `${userCookie.lastName}`}
                               </span>
                             </span>
-                            <span>{userCookie.userName}</span>
+                            {userCookie &&
+                              userCookie.userName && (
+                                <span>{userCookie.userName}</span>
+                              )}
                           </div>
                         </div>
                       )}
@@ -242,7 +246,7 @@ export default class DesktopHeader extends React.Component {
                     className={styles.loginTab}
                     onClick={() => this.renderToAnotherURL(CONTACT_URL)}
                   >
-                    Contact Us
+                    Help
                   </div>
                   <div
                     className={styles.loginTab}
