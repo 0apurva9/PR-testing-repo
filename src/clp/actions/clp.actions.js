@@ -80,7 +80,7 @@ export function getHeader() {
   return async (dispatch, getState, { api }) => {
     dispatch(getHeaderRequest());
     try {
-      const result = api.get("header");
+      const result = api.get("v2/mpl/cms/desktopservice/header");
       const resultJson = result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
