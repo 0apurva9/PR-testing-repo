@@ -17,7 +17,11 @@ import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import {
+  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -408,6 +412,15 @@ export default class PdpApparel extends React.Component {
     }
   };
 
+  onClickOfBuyNow = () => {
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
+    if (this.state.goToCartPageFlag) {
+      this.goToCart();
+    } else {
+      this.addToCart(true);
+    }
+  };
+
   render() {
     const productData = this.props.productDetails;
     const breadCrumbs = productData.seo.breadcrumbs;
@@ -681,11 +694,7 @@ export default class PdpApparel extends React.Component {
                         height={45}
                         width={195}
                         label="Buy Now"
-                        onClick={
-                          this.state.goToCartPageFlag
-                            ? () => this.goToCart()
-                            : () => this.addToCart(true)
-                        }
+                        onClick={this.onClickOfBuyNow}
                         disabled={
                           productData.allOOStock ||
                           !productData.winningSellerPrice ||

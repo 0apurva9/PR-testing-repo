@@ -24,6 +24,7 @@ const INTERNAL_CAMPAIGN_TRACK = "internal_campaign";
 const ADOBE_PDP_CPJ = "cpj_pdp";
 const ADOBE_OUT_OF_STOCK_PDP = "out_of_stock";
 const ADOBE_ADD_TO_CART = "cpj_add_to_cart";
+const ADOBE_BUY_NOW = "cpj_pdp_add_to_bag";
 const ADOBE_SAVE_PRODUCT = "cpj_button_save";
 const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
 
@@ -132,6 +133,8 @@ export const SET_DATA_LAYER_FOR_EMI_BANK_EVENT =
   "SET_DATA_LAYER_FOR_EMI_BANK_EVENT";
 export const ADOBE_DIRECT_CALLS_FOR_REMOVE_PRODUCT_ON_CART =
   "ADOBE_DIRECT_CALLS_FOR_REMOVE_PRODUCT_ON_CART";
+export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
+  "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
 
 export const ADOBE_REMOVE_ITEM = "ADOBE_REMOVE_ITEM";
 export const ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT =
@@ -942,6 +945,12 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
       window._satellite.track(ADOBE_EMI_BANK_SELECT_ON_PDP);
     }
   }
+  if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_BUY_NOW);
+    }
+  }
+  debugger;
 }
 
 export function setDataLayerForCartDirectCalls(type, response) {

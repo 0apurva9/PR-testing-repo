@@ -3,6 +3,10 @@ import styles from "./PdpFooter.css";
 import PropTypes from "prop-types";
 import FooterButton from "../../general/components/FooterButton.js";
 import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants.js";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
 export default class PdfFooter extends React.Component {
   constructor(props) {
     super(props);
@@ -49,6 +53,15 @@ export default class PdfFooter extends React.Component {
       this.props.goToCartPage();
     }
   }
+  onClickOfBuyNow = () => {
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
+    if (this.state.goToCartPageFlag) {
+      this.goToCartPage();
+    } else {
+      this.onAddToBag(true);
+    }
+  };
+
   render() {
     return (
       <div className={styles.base}>
@@ -58,11 +71,7 @@ export default class PdfFooter extends React.Component {
             boxShadow="0 -2px 8px 0px rgba(0, 0, 0, 0.2)"
             label="Buy Now"
             disabled={this.props.outOfStock}
-            onClick={
-              this.state.goToCartPageFlag
-                ? () => this.goToCartPage()
-                : () => this.onAddToBag(true)
-            }
+            onClick={this.onClickOfBuyNow}
             labelStyle={{
               color: this.state.goToCartPageFlag ? "#ff1744" : "#ff1744",
               fontSize: 14,
