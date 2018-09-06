@@ -6,6 +6,7 @@ import Input2 from "../../general/components/Input2.js";
 import Icon from "../../xelpmoc-core/Icon";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import companyLogo from "../../general/components/img/companylogo.svg";
+import TrustComponent from "../../general/components/TrustComponent";
 const TEXT = "© 2017 Tata CLiQ  |  All rightsreserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
@@ -22,6 +23,7 @@ class DesktopFooter extends React.Component {
 
     return (
       <div className={styles.contentHolder}>
+        <TrustComponent />
         <div className={styles.linkAndSuscribeHolder}>
           <div className={styles.linkHolder}>
             {footerData &&
