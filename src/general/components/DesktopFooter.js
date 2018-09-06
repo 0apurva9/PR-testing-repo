@@ -6,6 +6,10 @@ import Input2 from "../../general/components/Input2.js";
 import Icon from "../../xelpmoc-core/Icon";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import companyLogo from "../../general/components/img/companylogo.svg";
+import trustLogo from "../../general/components/img/tata-trust-icon.png";
+import cliqAndPigLogo from "../../general/components/img/cli-q-piq-icon.png";
+import brandLogo from "../../general/components/img/brands-icon.png";
+import returnLogo from "../../general/components/img/return-icon.png";
 const TEXT = "© 2017 Tata CLiQ  |  All rightsreserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
@@ -22,6 +26,34 @@ class DesktopFooter extends React.Component {
 
     return (
       <div className={styles.contentHolder}>
+        <div className={styles.iconHolder}>
+          <div className={styles.iconWithCenter}>
+            <div className={styles.iconWithText}>
+              <div className={styles.logo}>
+                <Icon image={trustLogo} size={35} />
+              </div>
+              <div className={styles.text}>Tata Trust</div>
+            </div>
+            <div className={styles.iconWithText}>
+              <div className={styles.logo}>
+                <Icon image={cliqAndPigLogo} size={35} />
+              </div>
+              <div className={styles.text}>Cliq and piq</div>
+            </div>
+            <div className={styles.iconWithText}>
+              <div className={styles.logo}>
+                <Icon image={brandLogo} size={25} />
+              </div>
+              <div className={styles.text}>Authentic Brands</div>
+            </div>
+            <div className={styles.iconWithText}>
+              <div className={styles.logo}>
+                <Icon image={returnLogo} size={25} />
+              </div>
+              <div className={styles.text}>Easy Returns</div>
+            </div>
+          </div>
+        </div>
         <div className={styles.linkAndSuscribeHolder}>
           <div className={styles.linkHolder}>
             {footerData &&
