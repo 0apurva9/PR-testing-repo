@@ -118,6 +118,7 @@ export default class HeaderWrapper extends React.Component {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`;
     this.props.history.push(url);
   };
+
   componentDidMount() {
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();

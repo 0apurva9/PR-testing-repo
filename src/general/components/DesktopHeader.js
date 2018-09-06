@@ -1,7 +1,12 @@
 import React from "react";
 import styles from "./DesktopHeader.css";
 import PropTypes from "prop-types";
-import { LOGGED_IN_USER_DETAILS } from "../../../src/lib/constants";
+import {
+  LOGGED_IN_USER_DETAILS,
+  CONTACT_URL,
+  MY_ACCOUNT_GIFT_CARD_PAGE,
+  MY_ACCOUNT_PAGE
+} from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
 import * as Cookie from "../../lib/Cookie";
@@ -48,6 +53,11 @@ export default class DesktopHeader extends React.Component {
     if (this.props.goToMyAccount) {
       this.props.goToMyAccount();
     }
+  }
+
+  onGiftCard() {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`;
+    this.props.history.push(url);
   }
   onHoverCategory(value) {
     if (this.state.hoverInType === CATEGORY) {
@@ -227,6 +237,18 @@ export default class DesktopHeader extends React.Component {
                     onClick={() => this.goToTrackOrders()}
                   >
                     Track Orders
+                  </div>
+                  <div
+                    className={styles.loginTab}
+                    onClick={() => this.renderToAnotherURL(CONTACT_URL)}
+                  >
+                    Contact Us
+                  </div>
+                  <div
+                    className={styles.loginTab}
+                    onClick={() => this.onGiftCard()}
+                  >
+                    Gift Card
                   </div>
                 </div>
               </div>
