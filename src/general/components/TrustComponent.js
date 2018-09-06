@@ -1,10 +1,15 @@
 import React from "react";
 import styles from "./TrustComponent.css";
-import trustLogo from "../../general/components/img/tata-trust-icon.png";
-import cliqAndPigLogo from "../../general/components/img/cli-q-piq-icon.png";
-import brandLogo from "../../general/components/img/brands-icon.png";
-import returnLogo from "../../general/components/img/return-icon.png";
 import Icon from "../../xelpmoc-core/Icon";
+const trustLogo =
+  "https://res.cloudinary.com/sid1512/image/upload/v1536237751/footer/Tata_Trust_1.png";
+const cliqAndPigLogo =
+  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/CliQ_PIQ_Icon.png";
+const brandLogo =
+  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Brands_Icon.png";
+const returnLogo =
+  "https://res.cloudinary.com/sid1512/image/upload/v1536237751/footer/Return_icon.png";
+
 class TrustComponent extends React.Component {
   render() {
     return (
