@@ -87,17 +87,10 @@ export default class SizeSelector extends React.Component {
         });
       }
     } else {
-      if (UserAgent.checkUserAgentIsMobile()) {
-        this.props.history.replace({
-          pathname: `${productUrl}`,
-          state: { isSizeSelected: true, goToCartPageFlag: false }
-        });
-      } else {
-        this.props.history.replace({
-          pathname: `${productUrl}`,
-          state: { isSizeSelected: true, goToCartPageFlag: true }
-        });
-      }
+      this.props.history.replace({
+        pathname: `${productUrl}`,
+        state: { isSizeSelected: true, goToCartPageFlag: false }
+      });
     }
     if (this.props.closeModal) {
       this.props.closeModal();
