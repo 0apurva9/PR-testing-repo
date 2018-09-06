@@ -54,7 +54,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 50%;
+    width: 100%;
     padding: 0px 0px 40px;
   }
   .logo {
@@ -75,12 +75,16 @@
     line-height: normal;
     color: #fff;
     font-family: light;
-    font-size: 24px;
+    font-size: 50px;
     margin-top: 5px;
+    white-space: normal;
+    word-wrap: break-word;
   }
   .button {
     margin-top: 30px;
     display: inline-block;
+    border-radius: 23px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
   }
   .content {
     max-width: 1200px;

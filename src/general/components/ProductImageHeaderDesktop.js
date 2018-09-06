@@ -2,6 +2,11 @@ import React from "react";
 import styles from "./ProductImageHeaderDesktop.css";
 import PropTypes from "prop-types";
 export default class ProductImageHeaderDesktop extends React.Component {
+  onClick() {
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
+  }
   render() {
     const { backgroundColor, backgroundImage } = this.props;
     return (
@@ -12,8 +17,10 @@ export default class ProductImageHeaderDesktop extends React.Component {
           backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundSize: "cover"
+          backgroundSize: "cover",
+          cursor: "pointer"
         }}
+        onClick={() => this.onClick()}
       />
     );
   }

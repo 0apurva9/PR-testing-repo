@@ -35,6 +35,14 @@
     cursor: pointer;
     position: relative;
   }
+  .imageHolder {
+    transform: scale(1);
+    transition: 300ms;
+  }
+  .base:hover .imageHolder {
+    transform: scale(1.03);
+    overflow: hidden;
+  }
   .dummyDiv {
     position: absolute;
     width: 100%;

@@ -12,13 +12,15 @@ const OFFER_AND_ITEM_LIMIT = 4;
 
 export default class ThemeOffer extends React.Component {
   handleClick() {
-    const urlSuffix = this.props.feedComponentData.webURL.replace(
-      TATA_CLIQ_ROOT,
-      "$1"
-    );
-    this.props.history.push(urlSuffix);
-    if (this.props.setClickedElementId) {
-      this.props.setClickedElementId();
+    if (this.props.feedComponentData.webURL) {
+      const urlSuffix = this.props.feedComponentData.webURL.replace(
+        TATA_CLIQ_ROOT,
+        "$1"
+      );
+      this.props.history.push(urlSuffix);
+      if (this.props.setClickedElementId) {
+        this.props.setClickedElementId();
+      }
     }
   }
 
@@ -91,6 +93,7 @@ export default class ThemeOffer extends React.Component {
                 <ProductImageHeaderDesktop
                   backgroundColor={feedComponentData.backgroundHexCode}
                   backgroundImage={feedComponentData.backgroundImageURL}
+                  onClick={() => this.handleClick()}
                 />
               }
               {...rest}

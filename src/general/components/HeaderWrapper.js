@@ -182,6 +182,7 @@ export default class HeaderWrapper extends React.Component {
     let shouldRenderHeader = true;
     let companyLogoInPdp = true;
     let isSearch = true;
+    let isSticky = true;
     let profileDetails = false;
     let safeSecureText = false;
     if (url === PRODUCT_CART_ROUTER) {
@@ -191,10 +192,13 @@ export default class HeaderWrapper extends React.Component {
     }
     if (url === PRODUCT_CART_ROUTER) {
       isSearch = false;
+      profileDetails = true;
+      isSticky = false;
     }
     if (url === CHECKOUT_ROUTER) {
       isSearch = false;
       profileDetails = true;
+      isSticky = false;
     }
     if (
       url === DEFAULT_BRANDS_LANDING_PAGE &&
@@ -329,6 +333,7 @@ export default class HeaderWrapper extends React.Component {
               history={this.props.history}
               openSignUp={this.openSignUp}
               redirectToHome={this.redirectToHome}
+              isSticky={isSticky ? this.state.stickyHeader : false}
               bagCount={
                 localStorage.getItem(CART_BAG_DETAILS) &&
                 JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&

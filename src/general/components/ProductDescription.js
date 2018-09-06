@@ -37,7 +37,6 @@ export default class ProductDescription extends Component {
       headerText = styles.headerWhite;
       contentClass = styles.contentWhite;
     }
-
     return (
       <div className={styles.base}>
         <div className={headerClass}>
@@ -79,6 +78,11 @@ export default class ProductDescription extends Component {
                   : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
               </div>
             )}
+          {!this.props.isRange &&
+            this.props.mrpPrice &&
+            typeof this.props.mrpPrice !== "object" && (
+              <div>{this.props.mrpPrice}</div>
+            )}
           {this.props.isRange &&
             this.props.minPrice &&
             this.props.maxPrice && (
@@ -115,7 +119,7 @@ export default class ProductDescription extends Component {
                           ? this.props.price
                           : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
                       </div>
-                    )}{" "}
+                    )}
                   </React.Fragment>
                 )}
               </div>

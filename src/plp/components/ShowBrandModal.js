@@ -4,6 +4,8 @@ import SearchInput from "../../general/components/SearchInput";
 import groupBy from "lodash.groupby";
 import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
+const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
+const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
 export default class ShowBrandModal extends React.Component {
   constructor(props) {
     super(props);
@@ -27,6 +29,9 @@ export default class ShowBrandModal extends React.Component {
       this.setState({ selectedBrandType: null });
     }
   };
+  ViewAll() {
+    this.setState({ selectedBrandType: null });
+  }
   onFilterClick = val => {
     if (this.props.onSelect) {
       this.props.onSelect(val);
@@ -42,7 +47,14 @@ export default class ShowBrandModal extends React.Component {
           .includes(this.state.brandSearchString.toLowerCase());
       });
     }
-    if (this.state.selectedBrandType) {
+    if (this.state.selectedBrandType === "#") {
+      brandsList = brandsList.filter(brand => {
+        if (REGULAR_EXPRESSION_FOR_NON_ALPHABET.test(brand.name)) {
+          return brand.name;
+        }
+      });
+    }
+    if (this.state.selectedBrandType && this.state.selectedBrandType !== "#") {
       brandsList = brandsList.filter(brand => {
         return brand.name
           .toLowerCase()
@@ -50,10 +62,18 @@ export default class ShowBrandModal extends React.Component {
       });
     }
     selectedFixBrand = groupBy(selectedFixBrand, list => {
-      return list.name[0].toUpperCase();
+      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.name[0])) {
+        return list.name[0].toUpperCase();
+      } else {
+        return "#";
+      }
     });
     brandsList = groupBy(brandsList, list => {
-      return list.name[0].toUpperCase();
+      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.name[0])) {
+        return list.name[0].toUpperCase();
+      } else {
+        return "#";
+      }
     });
     const selectedFixBrandLabel = Object.keys(selectedFixBrand);
     const parentBrandsLabel = Object.keys(brandsList);
@@ -76,19 +96,17 @@ export default class ShowBrandModal extends React.Component {
                 selectedFixBrandLabel.map((brandInitials, i) => {
                   return (
                     <div
-                      className={
-                        brandInitials === this.state.selectedBrandType
-                          ? styles.activeText
-                          : styles.text
-                      }
+                      className={styles.text}
                       onClick={() => this.selectedBrandType(brandInitials)}
                     >
                       {brandInitials}
                     </div>
                   );
                 })}
+              <div className={styles.viewAll} onClick={() => this.ViewAll()}>
+                All Brands
+              </div>
             </div>
-
             <div
               className={styles.crossElement}
               onClick={() => this.closeModal()}

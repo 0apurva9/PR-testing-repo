@@ -24,34 +24,35 @@ export default class MultiClickBanner extends React.Component {
   render() {
     const { feedComponentData } = this.props;
     return (
-      <div
-        className={
-          this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
-        }
-        style={{
-          backgroundColor:
-            feedComponentData && feedComponentData.backgroundColor
-              ? feedComponentData.backgroundColor
-              : "",
-          backgroundImage:
-            feedComponentData && feedComponentData.backgroundImage
-              ? `url(${feedComponentData.backgroundImage})`
-              : ""
-        }}
-      >
-        <div className={styles.imageHolder}>
-          <div className={styles.content}>
-            {feedComponentData &&
-              feedComponentData.items &&
-              feedComponentData.items.map(val => {
-                return (
-                  <div
-                    className={styles.section}
-                    style={{
-                      backgroundColor: val.backgroundColor,
-                      backgroundImage: `url(${val.backgroundImage})`
-                    }}
-                  >
+      <React.Fragment>
+        <div className={styles.headerHolder}>
+          <div className={styles.header}>{feedComponentData.title}</div>
+        </div>
+        <div
+          className={
+            this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
+          }
+          style={{
+            backgroundColor:
+              feedComponentData && feedComponentData.backgroundColor
+                ? feedComponentData.backgroundColor
+                : ""
+          }}
+        >
+          <div
+            className={styles.imageHolder}
+            style={{
+              backgroundImage:
+                feedComponentData && feedComponentData.backgroundImage
+                  ? `url(${feedComponentData.backgroundImage})`
+                  : ""
+            }}
+          >
+            <div className={styles.content}>
+              {feedComponentData &&
+                feedComponentData.items &&
+                feedComponentData.items.map(val => {
+                  return (
                     <div
                       className={styles.details}
                       style={{
@@ -66,12 +67,12 @@ export default class MultiClickBanner extends React.Component {
                         onClick={() => this.goToUrl(val.url)}
                       />
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

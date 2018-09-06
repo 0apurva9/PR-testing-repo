@@ -116,6 +116,39 @@
     width: 100%;
     max-width: 1200px;
     margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .dummyTextForPinCode {
+    width: 60%;
+    height: 35px;
+    color: #212121;
+    font-size: 14px;
+    line-height: 35px;
+    display: flex;
+    font-family: light;
+    text-align: left;
+  }
+  .inputAndButtonHolder {
+    width: 40%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .forDefault {
+    composes: inputAndButtonHolder;
+    width: 100%;
+  }
+  .inputAndButton {
+    width: 100%;
+    height: auto;
+    display: flex;
+  }
+  .bold {
+    font-family: semibold;
+    padding-left: 5px;
   }
   .couponWrapper {
     margin-top: 30px;

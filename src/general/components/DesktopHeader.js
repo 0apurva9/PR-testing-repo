@@ -139,17 +139,17 @@ export default class DesktopHeader extends React.Component {
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
     }
-
+    let className = styles.base;
+    let logo = styles.logoHolder;
+    if (this.props.isSticky) {
+      className = styles.stickyBase;
+      logo = styles.stickyLogo;
+    }
     return (
-      <div
-        className={this.props.isSearch ? styles.base : styles.CheckoutHeader}
-      >
+      <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
         <div className={styles.headerHolder}>
-          <div
-            className={styles.logoHolder}
-            onClick={() => this.redirectToHome()}
-          />
+          <div className={logo} onClick={() => this.redirectToHome()} />
           {this.props.profileDetails && (
             <div className={styles.profileWonerHolder}>
               <div className={styles.signInAndLogout}>
@@ -493,5 +493,9 @@ DesktopHeader.propTypes = {
   goToTrackOrders: PropTypes.func,
   bagCount: PropTypes.number,
   isSearch: PropTypes.bool,
-  goToWishList: PropTypes.func
+  goToWishList: PropTypes.func,
+  isSticky: PropTypes.bool
+};
+DesktopHeader.defaultProps = {
+  isSticky: false
 };

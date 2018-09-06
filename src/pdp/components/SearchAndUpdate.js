@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import styles from "./SearchAndUpdate.css";
+import Button from "../../general/components/Button.js";
 export default class SearchAndUpdate extends React.Component {
   constructor(props) {
     super(props);
@@ -56,26 +58,61 @@ export default class SearchAndUpdate extends React.Component {
     return (
       <div className={styles.base}>
         {this.state.errorMessage && (
-          <div className={styles.errorMessage}>{this.state.errorMessage}</div>
+          <div
+            className={
+              this.props.ovalButton
+                ? styles.alignLeftErrorMessage
+                : styles.errorMessage
+            }
+          >
+            {this.state.errorMessage}
+          </div>
         )}
-        <div className={styles.inputSearchHolder}>
-          <div className={styles.buttonHolder}>
-            <div className={styles.buttonCover}>
-              {this.props.uiType === "default" ? (
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000"
-                  label={this.props.labelText}
+        <div
+          className={
+            this.props.ovalButton
+              ? styles.inputSearchHolderWithPadding
+              : styles.inputSearchHolder
+          }
+        >
+          <DesktopOnly>
+            {this.props.ovalButton && (
+              <div className={styles.ovalButton}>
+                <Button
+                  type="hollow"
+                  width={143}
+                  height={33}
+                  label="Update Pincode"
+                  color="#ff1744"
                   onClick={() => this.onUpdate()}
                 />
-              ) : (
-                <div className={styles.button} onClick={() => this.onUpdate()}>
-                  {this.props.labelText}
-                </div>
-              )}
+              </div>
+            )}
+          </DesktopOnly>
+          {!this.props.ovalButton && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.buttonCover}>
+                <React.Fragment>
+                  {this.props.uiType === "default" ? (
+                    <UnderLinedButton
+                      size="14px"
+                      fontFamily="regular"
+                      color="#000"
+                      label={this.props.labelText}
+                      onClick={() => this.onUpdate()}
+                    />
+                  ) : (
+                    <div
+                      className={styles.button}
+                      onClick={() => this.onUpdate()}
+                    >
+                      {this.props.labelText}
+                    </div>
+                  )}
+                </React.Fragment>
+              </div>
             </div>
-          </div>
+          )}
           <div className={styles.inputHolder}>
             <Input2
               boxy={this.props.uiType === "default" ? true : false}
@@ -114,12 +151,14 @@ SearchAndUpdate.propTypes = {
   errorMessage: PropTypes.string,
   hasAutoFocus: PropTypes.bool,
   uiType: PropTypes.oneOf(["default", "hollow"]),
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  ovalButton: PropTypes.bool
 };
 
 SearchAndUpdate.defaultProps = {
   labelText: "Check",
   hasAutoFocus: false,
   uiType: "default",
-  placeholder: "Enter your PIN code"
+  placeholder: "Enter your PIN code",
+  ovalButton: false
 };

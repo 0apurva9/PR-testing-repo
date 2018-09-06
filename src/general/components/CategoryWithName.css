@@ -13,3 +13,12 @@
   font-family: regular;
   padding-top: 10px;
 }
+@media screen and (min-width: 1025px) {
+  .circleWithText {
+    transform: scale(1);
+    transition: 300ms;
+  }
+  .circleWithText:hover {
+    transform: scale(1.03);
+  }
+}

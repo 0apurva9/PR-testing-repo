@@ -8,8 +8,8 @@
   z-index: 101;
 }
 .dataDisplayHolder {
-  width: 1020px;
-  height: 657px;
+  width: 60%;
+  height: 70%;
   position: absolute;
   left: 0;
   right: 0;
@@ -43,7 +43,7 @@
 }
 .displayDataElement {
   width: 100%;
-  height: 483px;
+  height: 100%;
   display: flex;
   overflow: hidden;
   flex-wrap: wrap;
@@ -119,10 +119,6 @@
   font-family: light;
   cursor: pointer;
 }
-.activeText {
-  composes: text;
-  color: #ff1744;
-}
 .textHeader {
   width: auto;
   height: auto;
@@ -136,4 +132,13 @@
   height: auto;
   display: flex;
   margin-left: 15px;
+}
+.viewAll {
+  width: auto;
+  padding-left: 15px;
+  height: auto;
+  font-size: 14px;
+  font-family: light;
+  cursor: pointer;
+  color: #ff1744;
 }

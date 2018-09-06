@@ -6,6 +6,7 @@
   left: 0;
   top: 0;
   background: #212121;
+  transition: 200ms;
 }
 .CheckoutHeader {
   composes: base;
@@ -44,6 +45,7 @@
   background-size: auto 40px;
   background-position: center;
   cursor: pointer;
+  transition: 200ms;
 }
 .upperHeader {
   width: 100%;
@@ -441,4 +443,15 @@
   height: auto;
   padding: 15px 10px;
   float: left;
+}
+.stickyBase {
+  composes: base;
+  transform: translateY(-40px);
+}
+.stickyLogo {
+  composes: logoHolder;
+  height: 50px;
+  margin: initial;
+  transform: translateY(45px);
+  background-size: auto 30px;
 }
