@@ -149,6 +149,9 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.history.goBack();
     }
     if (nextProps.getPincodeStatus === ERROR) {
+      if (this.props.clearPinCodeStatus) {
+        this.props.clearPinCodeStatus();
+      }
       landmarkList = [{ landmark: OTHER_LANDMARK }];
       this.setState({
         state: "",
