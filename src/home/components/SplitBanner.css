@@ -5,6 +5,11 @@
   overflow: hidden;
   border-radius: 4px;
   position: relative;
+  transition: 300ms;
+  transform: scale(1);
+}
+.base:hover {
+  transform: scale(1.03);
 }
 .imageHolder {
   width: 100%;

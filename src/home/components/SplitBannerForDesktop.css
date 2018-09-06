@@ -21,7 +21,9 @@
   height: auto;
   display: inline-block;
   padding-right: 25px;
+  cursor: pointer;
 }
+
 .splitBannerHolder:last-child {
   padding-right: 0px;
 }
