@@ -333,3 +333,5 @@ export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";
 export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
+export const PINCODE_NOT_SERVICABLE_TEXT =
+  "We are sorry, this pincode is not serviceable. Please enter another pincode.";
