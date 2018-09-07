@@ -880,15 +880,27 @@ function getSubCategories(response) {
       Object.assign(subCatagories, {
         subCategory1: breadcrumbs[0].name.replace(/ /g, "_").toLowerCase()
       });
+    } else {
+      Object.assign(subCatagories, {
+        subCategory1: ""
+      });
     }
     if (breadcrumbs[1]) {
       Object.assign(subCatagories, {
         subCategory2: breadcrumbs[1].name.replace(/ /g, "_").toLowerCase()
       });
+    } else {
+      Object.assign(subCatagories, {
+        subCategory2: ""
+      });
     }
     if (breadcrumbs[2]) {
       Object.assign(subCatagories, {
         subCategory3: breadcrumbs[2].name.replace(/ /g, "_").toLowerCase()
+      });
+    } else {
+      Object.assign(subCatagories, {
+        subCategory3: ""
       });
     }
 
@@ -1328,7 +1340,6 @@ export function setDataLayerForLogin(type, lastLocation) {
         }
       }
     }
-    debugger;
     if (lastLocation) {
       if (data.account) {
         if (data.account.login) {
