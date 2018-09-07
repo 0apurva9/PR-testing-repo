@@ -950,7 +950,6 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
       window._satellite.track(ADOBE_BUY_NOW);
     }
   }
-  debugger;
 }
 
 export function setDataLayerForCartDirectCalls(type, response) {
