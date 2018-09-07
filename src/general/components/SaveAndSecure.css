@@ -1,0 +1,114 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: flex;
+  max-width: 1200px;
+  margin: auto;
+}
+.leftSection {
+  width: 70%;
+  height: auto;
+  display: flex;
+}
+.AllLogoSectionWithSsl {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  vertical-align: top;
+}
+.logoSection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.bankLogoHolder {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.bankLogo {
+  width: 300px;
+  height: 60px;
+  background-size: auto 35px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_1.png");
+}
+.cashLogo {
+  width: auto;
+  height: auto;
+  padding-left: 3px;
+}
+.netBankingLogo {
+  width: auto;
+  height: auto;
+  padding-left: 7px;
+}
+.sslSection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+}
+.sslLogo {
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.sslTextWithInformation {
+  width: auto;
+  height: auto;
+  padding-left: 65px;
+  line-height: 22px;
+}
+.sslTextHolder {
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  font-family: regular;
+  vertical-align: top;
+  text-align: left;
+}
+.sslText {
+  color: #06b12d;
+}
+.informationHolder {
+  color: #6c6c6c;
+  font-size: 12px;
+  font-family: regular;
+  text-align: left;
+}
+.rightSection {
+  width: 30%;
+  min-height: 50px;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 14px;
+  font-family: regular;
+  padding-top: 15px;
+  padding-left: 25px;
+}
+.contact {
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+.faq {
+  padding-left: 5px;
+  cursor: pointer;
+}

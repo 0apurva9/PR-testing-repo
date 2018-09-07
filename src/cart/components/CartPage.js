@@ -44,6 +44,7 @@ import {
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
+import SaveAndSecure from "../../general/components/SaveAndSecure";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
@@ -754,6 +755,9 @@ class CartPage extends React.Component {
                 </div>
               </div>
             </DesktopOnly>
+          </div>
+          <div className={styles.saveAndSecure}>
+            <SaveAndSecure history={this.props.history} />
           </div>
         </div>
       );

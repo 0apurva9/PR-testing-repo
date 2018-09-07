@@ -76,6 +76,7 @@
     display: inline-block;
     max-width: 100%;
     text-align: left;
+    min-height: 70vh;
   }
   .content {
     width: 70%;
@@ -162,7 +163,6 @@
     padding: 0;
     background: #fff;
   }
-
   .disclaimer {
     width: 100%;
     height: auto;
@@ -182,5 +182,9 @@
     height: auto;
     border-radius: 4px;
     overflow: hidden;
+  }
+  .saveAndSecure {
+    width: 100%;
+    height: auto;
   }
 }
