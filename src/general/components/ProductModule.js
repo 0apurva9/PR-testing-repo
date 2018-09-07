@@ -36,7 +36,7 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
-    if (this.props.onClick && UserAgent.checkUserAgentIsMobile()) {
+    if (this.props.onClick) {
       this.props.onClick(
         this.getProductURL(),
         null,
@@ -110,7 +110,7 @@ export default class ProductModule extends React.Component {
             }}
             target="_blank"
           >
-            <div className={styles.dummyDiv} />
+            <div className={styles.dummyDiv} onClick={this.onClick} />
           </Link>
         </DesktopOnly>
       </div>

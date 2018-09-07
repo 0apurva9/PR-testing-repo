@@ -27,6 +27,9 @@ const ADOBE_ADD_TO_CART = "cpj_add_to_cart";
 const ADOBE_BUY_NOW = "cpj_pdp_add_to_bag";
 const ADOBE_SAVE_PRODUCT = "cpj_button_save";
 const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
+const ADOBE_REVIEW_AND_RATING = "cpj_rating_review";
+const ADOBE_VIEW_ALL_RATING_AND_REVIEW = "cpj_rating_review_viewall";
+const ADOBE_SUBMIT_REVIEW = "cpj_rating_review_review_submit";
 
 // direct call url for cart page
 const PINCODE_SUCCESS = "pin_successful";
@@ -135,6 +138,13 @@ export const ADOBE_DIRECT_CALLS_FOR_REMOVE_PRODUCT_ON_CART =
   "ADOBE_DIRECT_CALLS_FOR_REMOVE_PRODUCT_ON_CART";
 export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
   "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
+
+export const SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT =
+  "SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT";
+export const SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT =
+  "SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT";
+export const SET_DATA_LAYER_FOR_SUBMIT_REVIEW =
+  "SET_DATA_LAYER_FOR_SUBMIT_REVIEW";
 
 export const ADOBE_REMOVE_ITEM = "ADOBE_REMOVE_ITEM";
 export const ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT =
@@ -843,9 +853,9 @@ function getCategoryHierarchy(response) {
       }
     });
     return {
-      subCategory1: subCategory1.join(","),
-      subCategory2: subCategory2.join(","),
-      subCategory3: subCategory3.join(",")
+      subCategory1: subCategory1.length ? subCategory1.join(",") : "",
+      subCategory2: subCategory2.length ? subCategory2.join(",") : "",
+      subCategory3: subCategory3.length ? subCategory3.join(",") : ""
     };
   } else {
     return null;
@@ -948,6 +958,21 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_BUY_NOW);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_REVIEW_AND_RATING);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_VIEW_ALL_RATING_AND_REVIEW);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_SUBMIT_REVIEW) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SUBMIT_REVIEW);
     }
   }
 }
@@ -1230,7 +1255,7 @@ export function setDataLayerForPlpDirectCalls(response, index: 0) {
     window._satellite.track(ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP);
   }
 }
-export function setDataLayerForLogin(type) {
+export function setDataLayerForLogin(type, lastLocation) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
@@ -1303,21 +1328,17 @@ export function setDataLayerForLogin(type) {
         }
       }
     }
-    if (
-      window.digitalData &&
-      window.digitalData.page &&
-      window.digitalData.page.pageInfo &&
-      window.digitalData.page.pageInfo.pageName
-    ) {
+    debugger;
+    if (lastLocation) {
       if (data.account) {
         if (data.account.login) {
           Object.assign(data.account.login, {
-            location: window.digitalData.page.pageInfo.pageName
+            location: lastLocation
           });
         } else {
           Object.assign(data.account, {
             login: {
-              location: window.digitalData.page.pageInfo.pageName
+              location: lastLocation
             }
           });
         }
@@ -1325,7 +1346,7 @@ export function setDataLayerForLogin(type) {
         Object.assign(data, {
           account: {
             login: {
-              location: window.digitalData.page.pageInfo.pageName
+              location: lastLocation
             }
           }
         });

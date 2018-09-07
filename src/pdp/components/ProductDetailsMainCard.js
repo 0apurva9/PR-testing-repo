@@ -4,11 +4,18 @@ import StarRating from "../../general/components/StarRating.js";
 import Icon from "../../xelpmoc-core/Icon";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import { RUPEE_SYMBOL } from "../../lib/constants.js";
+import {
+  RUPEE_SYMBOL,
+  PRODUCT_REVIEWS_PATH_SUFFIX
+} from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import arrowIcon from "../../general/components/img/arrow.svg";
 import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
+} from "../../lib/adobeUtils";
 export default class ProductDetailsMainCard extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -28,9 +35,11 @@ export default class ProductDetailsMainCard extends React.Component {
     }
   }
   handleRatingLink() {
-    if (this.props.goToReviewPage) {
-      this.props.goToReviewPage();
-    }
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    this.props.history.push(url);
   }
   renderSchemaTags = () => {
     return (
@@ -130,7 +139,6 @@ export default class ProductDetailsMainCard extends React.Component {
               {this.props.averageRating && (
                 <div
                   className={styles.ratingText}
-                  onClick={() => this.handleClick()}
                   itemProp="aggregateRating"
                   itemScope
                   itemType="http://schema.org/AggregateRating"

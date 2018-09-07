@@ -57,7 +57,7 @@ const mapDispatchToProps = dispatch => {
     clearUrlToRedirectToAfterAuth: () => {
       dispatch(clearUrlToRedirectToAfterAuth());
     },
-    onSubmit: async userDetails => {
+    onSubmit: async (userDetails, lastUrl) => {
       const userDetailsResponse = await dispatch(
         customerAccessToken(userDetails)
       );
@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => {
       } else if (userDetailsResponse.status === SUCCESS) {
         const loginUserResponse = await dispatch(loginUser(userDetails));
         if (loginUserResponse.status === SUCCESS) {
-          setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
+          setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS, lastUrl);
           const cartVal = await dispatch(getCartId());
           if (
             cartVal.status === SUCCESS &&

@@ -14,7 +14,8 @@ import * as Cookie from "../../lib/Cookie";
 import {
   getMcvId,
   setDataLayerForPdpDirectCalls,
-  SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT
+  SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT,
+  SET_DATA_LAYER_FOR_SUBMIT_REVIEW
 } from "../../lib/adobeUtils.js";
 import each from "lodash.foreach";
 import {
@@ -547,6 +548,7 @@ export function addProductReview(productCode, productReview) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(displayToast(SUBMIT_REVIEW_TEXT));
+      setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
       return dispatch(addProductReviewSuccess(productReview));
     } catch (e) {
       return dispatch(addProductReviewFailure(e.message));
