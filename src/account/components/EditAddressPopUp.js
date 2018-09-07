@@ -16,7 +16,8 @@ import {
   SUCCESS,
   ERROR,
   ADDRESS_VALIDATION,
-  NAME_VALIDATION
+  NAME_VALIDATION,
+  PINCODE_NOT_SERVICEABLE_TEXT
 } from "../../lib/constants.js";
 import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
@@ -68,7 +69,8 @@ export default class EditAddressPopUp extends React.Component {
       isOtherLandMarkSelected: false,
       selectedLandmarkLabel: "Landmark",
       emailid: addressDetails.emailId,
-      landmarkList: []
+      landmarkList: [],
+      pinCodeFailure: false
     };
   }
 
@@ -110,6 +112,7 @@ export default class EditAddressPopUp extends React.Component {
   componentWillReceiveProps(nextProps) {
     let landmarkList = [];
     if (nextProps.getPincodeStatus === ERROR) {
+      this.setState({ pinCodeFailure: true });
       landmarkList = [{ landmark: OTHER_LANDMARK }];
       this.setState({
         state: "",
@@ -118,6 +121,7 @@ export default class EditAddressPopUp extends React.Component {
       });
     }
     if (nextProps.getPincodeStatus === SUCCESS && nextProps.getPinCodeDetails) {
+      this.setState({ pinCodeFailure: false });
       if (nextProps.getPinCodeDetails.landMarks) {
         landmarkList = [
           ...nextProps.getPinCodeDetails.landMarks,
@@ -173,6 +177,10 @@ export default class EditAddressPopUp extends React.Component {
     }
     if (this.state.postalCode && this.state.postalCode.length < 6) {
       this.props.displayToast(PINCODE_VALID_TEXT);
+      return false;
+    }
+    if (this.state.pinCodeFailure) {
+      this.props.displayToast(PINCODE_NOT_SERVICEABLE_TEXT);
       return false;
     }
     if (
