@@ -180,6 +180,12 @@ export default class PdpApparel extends React.Component {
       }
     });
   };
+  goToBuyingGuide = buyingGuideUrl => {
+    if (buyingGuideUrl) {
+      const urlSuffix = buyingGuideUrl.replace(TATA_CLIQ_ROOT, "$1");
+      this.props.history.push(urlSuffix);
+    }
+  };
   checkPinCodeAvailability(pincode, productCode) {
     if (this.props.addressModalForCartPage) {
       this.props.checkPinCodeAvailability(pincode);
@@ -632,7 +638,8 @@ export default class PdpApparel extends React.Component {
                                     this.state.productQuantityOption
                                   }
                                   noQuantity={
-                                    "FineJewellery" ||
+                                    productData.rootCategory ===
+                                      "FineJewellery" ||
                                     productData.rootCategory ===
                                       "FashionJewellery"
                                   }
