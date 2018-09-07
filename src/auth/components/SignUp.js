@@ -39,8 +39,8 @@ class SignUp extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
+      setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
       if (this.props.redirectToAfterAuthUrl) {
-        setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
         this.props.history.replace(this.props.redirectToAfterAuthUrl);
         this.props.clearUrlToRedirectToAfterAuth();
       } else {

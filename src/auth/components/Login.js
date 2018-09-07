@@ -113,7 +113,7 @@ class Login extends Component {
         );
         return false;
       } else {
-        this.props.onSubmit(userDetails);
+        this.props.onSubmit(userDetails, this.props.redirectToAfterAuthUrl);
       }
     }
   };

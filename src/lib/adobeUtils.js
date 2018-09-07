@@ -843,9 +843,9 @@ function getCategoryHierarchy(response) {
       }
     });
     return {
-      subCategory1: subCategory1.join(","),
-      subCategory2: subCategory2.join(","),
-      subCategory3: subCategory3.join(",")
+      subCategory1: subCategory1.length ? subCategory1.join(",") : "",
+      subCategory2: subCategory2.length ? subCategory2.join(",") : "",
+      subCategory3: subCategory3.length ? subCategory3.join(",") : ""
     };
   } else {
     return null;
@@ -1230,7 +1230,7 @@ export function setDataLayerForPlpDirectCalls(response, index: 0) {
     window._satellite.track(ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP);
   }
 }
-export function setDataLayerForLogin(type) {
+export function setDataLayerForLogin(type, lastLocation) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
@@ -1303,21 +1303,17 @@ export function setDataLayerForLogin(type) {
         }
       }
     }
-    if (
-      window.digitalData &&
-      window.digitalData.page &&
-      window.digitalData.page.pageInfo &&
-      window.digitalData.page.pageInfo.pageName
-    ) {
+    debugger;
+    if (lastLocation) {
       if (data.account) {
         if (data.account.login) {
           Object.assign(data.account.login, {
-            location: window.digitalData.page.pageInfo.pageName
+            location: lastLocation
           });
         } else {
           Object.assign(data.account, {
             login: {
-              location: window.digitalData.page.pageInfo.pageName
+              location: lastLocation
             }
           });
         }
@@ -1325,7 +1321,7 @@ export function setDataLayerForLogin(type) {
         Object.assign(data, {
           account: {
             login: {
-              location: window.digitalData.page.pageInfo.pageName
+              location: lastLocation
             }
           }
         });

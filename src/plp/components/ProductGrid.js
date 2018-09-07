@@ -58,10 +58,12 @@ export default class ProductGrid extends React.Component {
     ) {
       setDataLayerForPlpDirectCalls(productObj, index);
     }
-    this.props.setProductModuleRef(productModuleId);
-    this.props.history.push(url, {
-      isComingFromPlp: true
-    });
+    if (checkUserAgentIsMobile()) {
+      this.props.setProductModuleRef(productModuleId);
+      this.props.history.push(url, {
+        isComingFromPlp: true
+      });
+    }
   };
 
   renderComponent = (data, index) => {
