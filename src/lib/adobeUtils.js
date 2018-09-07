@@ -30,7 +30,7 @@ const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
 const ADOBE_REVIEW_AND_RATING = "cpj_rating_review";
 const ADOBE_VIEW_ALL_RATING_AND_REVIEW = "cpj_rating_review_viewall";
 const ADOBE_SUBMIT_REVIEW = "cpj_rating_review_review_submit";
-
+const ADOBE_RATE_THIS_PRODUCT = "cpj_rating_review_rate_product";
 // direct call url for cart page
 const PINCODE_SUCCESS = "pin_successful";
 const PINCODE_FAILURE = "pin_failed";
@@ -145,6 +145,8 @@ export const SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT =
   "SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT";
 export const SET_DATA_LAYER_FOR_SUBMIT_REVIEW =
   "SET_DATA_LAYER_FOR_SUBMIT_REVIEW";
+export const SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT =
+  "SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT";
 
 export const ADOBE_REMOVE_ITEM = "ADOBE_REMOVE_ITEM";
 export const ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT =
@@ -985,6 +987,11 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_SUBMIT_REVIEW) {
     if (window._satellite) {
       window._satellite.track(ADOBE_SUBMIT_REVIEW);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_RATE_THIS_PRODUCT);
     }
   }
 }

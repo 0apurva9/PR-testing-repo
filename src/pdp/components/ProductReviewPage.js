@@ -31,6 +31,10 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   ANONYMOUS_USER
 } from "../../lib/constants";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT
+} from "../../lib/adobeUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 
@@ -129,6 +133,7 @@ export default class ProductReviewPage extends Component {
         }
       }
     } else {
+      setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT);
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
   };
