@@ -7,7 +7,7 @@ export default class PriceBreakupModal extends React.Component {
     return (
       <SlideModal
         closeModal={this.props.closeModal}
-        height={checkUserAgentIsMobile() ? "" : "438px"}
+        height={checkUserAgentIsMobile() ? "" : "437px"}
         width={checkUserAgentIsMobile() ? "" : "400px"}
       >
         <div className={styles.base}>
