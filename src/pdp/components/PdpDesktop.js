@@ -20,7 +20,8 @@ import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishLis
 import {
   SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
   setDataLayerForPdpDirectCalls,
-  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT,
+  SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
@@ -272,7 +273,10 @@ export default class PdpApparel extends React.Component {
     }
   };
 
-  goToReviewPage = () => {
+  goToReviewPage = isNeedToSetDataLayer => {
+    setDataLayerForPdpDirectCalls(
+      SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
+    );
     const url = `${
       this.props.location.pathname
     }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
@@ -526,6 +530,7 @@ export default class PdpApparel extends React.Component {
                     productName={productData.productName}
                     brandUrl={productData.brandURL}
                     history={this.props.history}
+                    location={this.props.location}
                     price={price}
                     doublePrice={seoDoublePrice}
                     discountPrice={discountPrice}
