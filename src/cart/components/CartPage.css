@@ -89,11 +89,12 @@
     display: inline-block;
     vertical-align: top;
     min-height: 300px;
+    position: sticky;
+    top: 180px;
   }
   .bagTotalFixed {
-    width: 30%;
+    width: 100%;
     max-width: 360px;
-    position: fixed;
   }
   .amountDetails {
     width: 100%;

@@ -4,6 +4,7 @@
   padding: 0 10px;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .banner {
@@ -11,6 +12,8 @@
   height: auto;
   padding-bottom: 43.333%;
   position: relative;
+  overflow: hidden;
+  border-radius: 4px;
 }
 .bannerHolder {
   width: 100%;

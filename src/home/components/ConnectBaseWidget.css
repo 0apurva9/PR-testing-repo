@@ -90,6 +90,8 @@
     position: relative;
     transform: scale(1);
     transition: 300ms;
+    overflow: hidden;
+    border-radius: 4px;
   }
   .base:hover {
     transform: scale(1.03);
