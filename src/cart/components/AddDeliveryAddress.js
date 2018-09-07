@@ -146,7 +146,6 @@ export default class AddDeliveryAddress extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.getPincodeStatus);
     let landmarkList = [];
     if (nextProps.addUserAddressStatus === SUCCESS) {
       this.props.history.goBack();
