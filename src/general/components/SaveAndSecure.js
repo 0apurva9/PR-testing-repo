@@ -3,12 +3,8 @@ import styles from "./SaveAndSecure.css";
 import Icon from "../../xelpmoc-core/Icon";
 import { FAQ_URL, CONTACT_URL } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-const cashLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_2.png";
 const sslLogo =
   "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_4.png";
-const netBankingLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_3.png";
 
 class SaveAndSecure extends React.Component {
   onClick = url => {
@@ -24,11 +20,11 @@ class SaveAndSecure extends React.Component {
               <div className={styles.bankLogoHolder}>
                 <div className={styles.bankLogo} />
               </div>
-              <div className={styles.cashLogo}>
-                <Icon image={cashLogo} size={74} />
+              <div className={styles.bankLogoHolder}>
+                <div className={styles.cashLogo} />
               </div>
-              <div className={styles.netBankingLogo}>
-                <Icon image={netBankingLogo} size={61} />
+              <div className={styles.bankLogoHolderWithPadding}>
+                <div className={styles.netBankingLogo} />
               </div>
             </div>
             <div className={styles.sslSection}>
