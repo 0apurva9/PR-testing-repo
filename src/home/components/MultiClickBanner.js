@@ -56,8 +56,8 @@ export default class MultiClickBanner extends React.Component {
                     <div
                       className={styles.details}
                       style={{
-                        top: `${val.yAxis}%`,
-                        left: `${val.xAxis}%`
+                        top: `${val.YAxis}%`,
+                        left: `${val.XAxis}%`
                       }}
                     >
                       <MultiClickProduct
