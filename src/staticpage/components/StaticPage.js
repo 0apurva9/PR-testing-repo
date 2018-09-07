@@ -217,14 +217,22 @@ export default class StaticPage extends Component {
                   )}
                 {this.props.location.pathname !== "/contact" &&
                   this.props.location.pathname !== "/aboutus" && (
-                    <div className={styles.contentHolder}>
+                    <div
+                      className={styles.contentHolder}
+                      style={{
+                        width:
+                          this.props.location.pathname ===
+                          "/dummy-homepage-test"
+                            ? "100%"
+                            : "70%"
+                      }}
+                    >
                       <React.Fragment>
                         <div className={styles.tabHeaderHolder}>
                           {listTitle && listTitle.title}
                         </div>
                         <div className={styles.dropdownHolder}>
                           <Feed
-                            background="#fff"
                             feedType={this.props.feedType}
                             homeFeedData={this.props.data}
                             setHeaderText={this.props.setHeaderText}
@@ -297,7 +305,9 @@ export default class StaticPage extends Component {
                   <div className={styles.aboutUsDataHolder}>
                     <div
                       className={styles.aboutUsTxtWrp}
-                      dangerouslySetInnerHTML={{ __html: aboutUsText.content }}
+                      dangerouslySetInnerHTML={{
+                        __html: aboutUsText.content
+                      }}
                     />
                   </div>
                 )}
