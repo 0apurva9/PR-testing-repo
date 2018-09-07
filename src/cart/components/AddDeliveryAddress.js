@@ -43,7 +43,7 @@ import {
   OTHER_LANDMARK,
   ADDRESS_VALIDATION,
   NAME_VALIDATION,
-  PINCODE_NOT_SERVICABLE_TEXT
+  PINCODE_NOT_SERVICEABLE_TEXT
 } from "../../lib/constants";
 
 export default class AddDeliveryAddress extends React.Component {
@@ -233,7 +233,7 @@ export default class AddDeliveryAddress extends React.Component {
       return false;
     }
     if (this.state.pinCodeFailure) {
-      this.props.displayToast(PINCODE_NOT_SERVICABLE_TEXT);
+      this.props.displayToast(PINCODE_NOT_SERVICEABLE_TEXT);
       return false;
     }
     if (
