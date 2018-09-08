@@ -160,17 +160,17 @@ export default class CartItemForDesktop extends React.Component {
               )}
             {(this.props.size || this.props.color) && (
               <div className={styles.colourSizeHolder}>
+                {this.props.color && (
+                  <div className={styles.sizeText}>
+                    {`Color:  ${this.props.color}`}
+                  </div>
+                )}
                 {this.props.size &&
                   this.props.size.toUpperCase() !== NO_SIZE && (
                     <div className={styles.colourText}>
                       {`Size:  ${this.props.size}`}
                     </div>
                   )}
-                {this.props.color && (
-                  <div className={styles.sizeText}>
-                    {`Color:  ${this.props.color}`}
-                  </div>
-                )}
               </div>
             )}
           </div>

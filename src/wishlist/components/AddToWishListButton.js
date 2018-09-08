@@ -6,6 +6,8 @@ import * as Cookie from "../../lib/Cookie";
 import FooterButton from "../../general/components/FooterButton.js";
 import saveIcon from "../../general/components/img/download.svg";
 import styles from "./AddToWishListButton.css";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 import downloadIconWhite from "../../general/components/img/downloadWhite.svg";
 import {
   LOGIN_PATH,
@@ -84,7 +86,12 @@ export default class AddToWishListButton extends React.Component {
           <div className={styles.iconHolder}>
             <Icon image={saveIcon} size={24} />
           </div>
-          <div className={styles.saveLabel}>Save</div>
+          <MobileOnly>
+            <div className={styles.saveLabel}>Save</div>
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.saveLabel}>Save to wishlist</div>
+          </DesktopOnly>
         </div>
       );
     }
