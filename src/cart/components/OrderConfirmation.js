@@ -44,117 +44,119 @@ export default class OrderConfirmation extends React.Component {
           <DesktopOnly>
             <div className={styles.thanKText}>Thank you</div>
           </DesktopOnly>
-          <div className={styles.leftSection}>
-            <div className={styles.orderBannerHolder}>
-              <OrderBanner
-                history={this.props.history}
-                headingText={this.props.orderStatusMessage}
-                label={this.props.orderId}
-                onClick={() => this.trackOrder()}
-                isContinueShopping={true}
-              />
-            </div>
-            <MobileOnly>
-              <div className={styles.rateHolder}>
-                <RateYourExperienceCard
-                  captureOrderExperience={rating =>
-                    this.captureOrderExperience(rating)
-                  }
-                  continueShopping={() => this.continueShopping()}
+          <div className={styles.pageSectionHolder}>
+            <div className={styles.leftSection}>
+              <div className={styles.orderBannerHolder}>
+                <OrderBanner
+                  history={this.props.history}
+                  headingText={this.props.orderStatusMessage}
+                  label={this.props.orderId}
+                  onClick={() => this.trackOrder()}
+                  isContinueShopping={true}
                 />
               </div>
-            </MobileOnly>
-            {this.props.orderDetails &&
-              this.props.orderDetails.products &&
-              this.props.orderDetails.products.map(order => {
-                return (
-                  <React.Fragment>
-                    <MobileOnly>
-                      <div className={styles.orderDetailsCardHolder}>
-                        <OrderDetailsCard
-                          productDetails={order}
-                          orderDetails={this.props.orderDetails}
-                          orderId={this.props.orderId}
-                          trackOrder={() => this.trackOrder()}
+              <MobileOnly>
+                <div className={styles.rateHolder}>
+                  <RateYourExperienceCard
+                    captureOrderExperience={rating =>
+                      this.captureOrderExperience(rating)
+                    }
+                    continueShopping={() => this.continueShopping()}
+                  />
+                </div>
+              </MobileOnly>
+              {this.props.orderDetails &&
+                this.props.orderDetails.products &&
+                this.props.orderDetails.products.map(order => {
+                  return (
+                    <React.Fragment>
+                      <MobileOnly>
+                        <div className={styles.orderDetailsCardHolder}>
+                          <OrderDetailsCard
+                            productDetails={order}
+                            orderDetails={this.props.orderDetails}
+                            orderId={this.props.orderId}
+                            trackOrder={() => this.trackOrder()}
+                          />
+                        </div>
+                      </MobileOnly>
+                      <DesktopOnly>
+                        <OrderSucessCard
+                          imageURL={order.imageURL}
+                          price={order.pricevalue}
+                          productName={order.productName}
+                          quantity={order.quantity}
+                          selectedDeliveryMode={order.selectedDeliveryMode}
                         />
-                      </div>
-                    </MobileOnly>
-                    <DesktopOnly>
-                      <OrderSucessCard
-                        imageURL={order.imageURL}
-                        price={order.pricevalue}
-                        productName={order.productName}
-                        quantity={order.quantity}
-                        selectedDeliveryMode={order.selectedDeliveryMode}
-                      />
-                    </DesktopOnly>
-                  </React.Fragment>
-                );
-              })}
-            <MobileOnly>
-              <OrderConfirmationFooter
-                isEgvOrder={this.props.orderDetails.isEgvOrder}
-                continueShopping={() => this.continueShopping()}
-                trackOrder={() => this.trackOrder()}
-              />
-              <div className={styles.dummySection} />
-            </MobileOnly>
-          </div>
-          <DesktopOnly>
-            <div className={styles.rightSection}>
-              <div className={styles.rateHolder}>
-                <RateYourExperienceCard
-                  captureOrderExperience={rating =>
-                    this.captureOrderExperience(rating)
-                  }
+                      </DesktopOnly>
+                    </React.Fragment>
+                  );
+                })}
+              <MobileOnly>
+                <OrderConfirmationFooter
+                  isEgvOrder={this.props.orderDetails.isEgvOrder}
                   continueShopping={() => this.continueShopping()}
+                  trackOrder={() => this.trackOrder()}
                 />
-              </div>
-              <div className={styles.linkHolder}>
-                <div className={styles.linkHeader}>My CLiQ</div>
-                <div
-                  className={styles.link}
-                  onClick={() => this.goToUrl(SAVE_LIST_PAGE)}
-                >
-                  <div className={styles.icon}>
-                    <Icon size={25} image={wishlistIcon} />
-                  </div>
-                  Saved List
-                  <div className={styles.arrow} />
-                </div>
-                <div
-                  className={styles.link}
-                  onClick={() => this.goToUrl(MY_ACCOUNT_ADDRESS_PAGE)}
-                >
-                  <div className={styles.icon}>
-                    <Icon size={25} image={addressIcon} />
-                  </div>
-                  Address Book
-                  <div className={styles.arrow} />
-                </div>
-                <div
-                  className={styles.link}
-                  onClick={() => this.goToUrl(MY_ACCOUNT_ORDERS_PAGE)}
-                >
-                  <div className={styles.icon}>
-                    <Icon size={25} image={orderHistoryIcon} />
-                  </div>
-                  Order History
-                  <div className={styles.arrow} />
-                </div>
-                <div
-                  className={styles.link}
-                  onClick={() => this.goToUrl(MY_ACCOUNT_SAVED_CARDS_PAGE)}
-                >
-                  <div className={styles.icon}>
-                    <Icon size={25} image={savedPayments} />
-                  </div>
-                  Saved Payments
-                  <div className={styles.arrow} />
-                </div>
-              </div>
+                <div className={styles.dummySection} />
+              </MobileOnly>
             </div>
-          </DesktopOnly>
+            <DesktopOnly>
+              <div className={styles.rightSection}>
+                <div className={styles.rateHolder}>
+                  <RateYourExperienceCard
+                    captureOrderExperience={rating =>
+                      this.captureOrderExperience(rating)
+                    }
+                    continueShopping={() => this.continueShopping()}
+                  />
+                </div>
+                <div className={styles.linkHolder}>
+                  <div className={styles.linkHeader}>My CLiQ</div>
+                  <div
+                    className={styles.link}
+                    onClick={() => this.goToUrl(SAVE_LIST_PAGE)}
+                  >
+                    <div className={styles.icon}>
+                      <Icon size={25} image={wishlistIcon} />
+                    </div>
+                    Saved List
+                    <div className={styles.arrow} />
+                  </div>
+                  <div
+                    className={styles.link}
+                    onClick={() => this.goToUrl(MY_ACCOUNT_ADDRESS_PAGE)}
+                  >
+                    <div className={styles.icon}>
+                      <Icon size={25} image={addressIcon} />
+                    </div>
+                    Address Book
+                    <div className={styles.arrow} />
+                  </div>
+                  <div
+                    className={styles.link}
+                    onClick={() => this.goToUrl(MY_ACCOUNT_ORDERS_PAGE)}
+                  >
+                    <div className={styles.icon}>
+                      <Icon size={25} image={orderHistoryIcon} />
+                    </div>
+                    Order History
+                    <div className={styles.arrow} />
+                  </div>
+                  <div
+                    className={styles.link}
+                    onClick={() => this.goToUrl(MY_ACCOUNT_SAVED_CARDS_PAGE)}
+                  >
+                    <div className={styles.icon}>
+                      <Icon size={25} image={savedPayments} />
+                    </div>
+                    Saved Payments
+                    <div className={styles.arrow} />
+                  </div>
+                </div>
+              </div>
+            </DesktopOnly>
+          </div>
         </div>
       </div>
     );
