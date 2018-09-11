@@ -7,6 +7,7 @@ import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
 import MediaQuery from "react-responsive";
 import Button from "../../xelpmoc-core/Button";
+import find from "lodash.find";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -206,7 +207,12 @@ export default class GiftCard extends React.Component {
                     giftCards.amountOptions.options.map((val, i) => {
                       return (
                         <div
-                          className={styles.amountSelect}
+                          className={
+                            this.state.amountText === val.value
+                              ? styles.activeAmounSelect
+                              : styles.amountSelect
+                          }
+                          key={i}
                           onClick={() =>
                             this.selectAmount(
                               val.formattedValueNoDecimal,
