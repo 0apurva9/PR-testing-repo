@@ -97,7 +97,8 @@ import {
   SELECTED_DELIVERY_MODE,
   SHORT_EXPRESS,
   SHORT_COLLECT,
-  SHORT_HOME_DELIVERY
+  SHORT_HOME_DELIVERY,
+  ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1121,6 +1122,20 @@ class CheckOutPage extends React.Component {
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
+    /*
+
+adding check for order confirmation page after non juspay payment methods
+if you have order id in local storage then you have to show order confirmation page
+
+*/
+    const OrderIdForOrderUsingNonJusPayPayments = localStorage.getItem(
+      ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
+    );
+    if (OrderIdForOrderUsingNonJusPayPayments) {
+      this.props.orderConfirmation(OrderIdForOrderUsingNonJusPayPayments);
+      return;
+    }
+
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
@@ -2291,7 +2306,16 @@ class CheckOutPage extends React.Component {
       checkoutButtonStatus = false;
       labelForButton = PAY_NOW;
     }
-    if (this.props.cart.getUserAddressStatus === REQUESTING) {
+    const OrderIdForOrderUsingNonJusPayPayments = localStorage.getItem(
+      ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
+    );
+
+    if (
+      this.props.cart.getUserAddressStatus === REQUESTING ||
+      (OrderIdForOrderUsingNonJusPayPayments &&
+        this.props.cart &&
+        this.props.cart.orderConfirmationDetailsStatus === REQUESTING)
+    ) {
       return this.renderLoader();
     } else {
       if (

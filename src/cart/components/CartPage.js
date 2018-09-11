@@ -14,7 +14,8 @@ import {
   SUCCESS,
   HOME_ROUTER,
   NO,
-  BANK_COUPON_COOKIE
+  BANK_COUPON_COOKIE,
+  ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -113,6 +114,9 @@ class CartPage extends React.Component {
     // because we user can not have bank offer cookie on cart page
     if (localStorage.getItem(BANK_COUPON_COOKIE)) {
       localStorage.removeItem(BANK_COUPON_COOKIE);
+    }
+    if (localStorage.getItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE)) {
+      localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
     }
   }
 

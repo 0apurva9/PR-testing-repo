@@ -152,6 +152,7 @@ export const COUPON_COOKIE = "couponCode";
 export const BANK_COUPON_COOKIE = "bankCoupon";
 export const CART_BAG_DETAILS = "cartBagDetails";
 export const APP_VIEW = "isAppView";
+export const ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE = "orderConfirmationPageId";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
