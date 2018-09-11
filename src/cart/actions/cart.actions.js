@@ -24,7 +24,8 @@ import {
   SHORT_COLLECT,
   HOME_DELIVERY,
   EXPRESS,
-  COLLECT
+  COLLECT,
+  ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2801,6 +2802,10 @@ export function createJusPayOrderForCliqCash(
       }
       dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
       dispatch(setBagCount(0));
+      localStorage.setItem(
+        ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
+        resultJson.orderId
+      );
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(generateCartIdForLoggedInUser());
     } catch (e) {
@@ -3473,18 +3478,12 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
           throw new Error(resultJsonStatus.message);
         }
       }
-
-      const oldUrl = window.location.href;
-      if (JUS_PAY_STATUS_REG_EX.test(oldUrl)) {
-        let newUrl = oldUrl.replace(
-          JUS_PAY_STATUS_REG_EX,
-          `status=${JUS_PAY_CHARGED}`
-        );
-        window.location.href = newUrl;
-      }
-
       dispatch(setBagCount(0));
       localStorage.setItem(CART_BAG_DETAILS, []);
+      localStorage.setItem(
+        ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
+        resultJson.orderId
+      );
       dispatch(orderConfirmation(resultJson.orderId));
       dispatch(updateTransactionDetailsForCODSuccess(resultJson));
     } catch (e) {
