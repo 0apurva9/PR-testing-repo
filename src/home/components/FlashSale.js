@@ -79,7 +79,7 @@ export default class FlashSale extends React.Component {
       convertDateTimeFromIndianToAmerican(feedComponentData.startDate)
     );
 
-    const endDateTime = new Date(
+    let endDateTime = new Date(
       convertDateTimeFromIndianToAmerican(feedComponentData.endDate)
     );
     // if date time
@@ -100,13 +100,15 @@ export default class FlashSale extends React.Component {
     // Check for date validation
 
     // feedComponentData.startDate = "13/04/2018 25:40:00";
-
     let offersAndItemsArray;
     if (feedComponentData.offers) {
       const offers = feedComponentData.offers.map(transformData);
       offersAndItemsArray = concat(offers, items);
     } else {
       offersAndItemsArray = items;
+    }
+    if (this.state.collapse) {
+      return null;
     }
     return (
       <React.Fragment>
@@ -173,49 +175,47 @@ export default class FlashSale extends React.Component {
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <React.Fragment>
-            {!this.state.collapse && (
-              <div
-                className={
-                  this.props.positionInFeed === 1
-                    ? styles.firstItemBase
-                    : styles.base
+            <div
+              className={
+                this.props.positionInFeed === 1
+                  ? styles.firstItemBase
+                  : styles.base
+              }
+            >
+              <Carousel
+                buttonText={this.props.buttonText}
+                header={feedComponentData.title}
+                seeAll={() => this.handleClick()}
+                banner={
+                  <FlashSaleLimitedTimeOfferComponent
+                    endTime={endDateTime}
+                    onComplete={this.onComplete}
+                    onClick={this.handleClick}
+                  />
                 }
+                bannerWidth="32%"
+                offsetDesktop={10}
+                elementWidthDesktop={33.33}
               >
-                <Carousel
-                  buttonText={this.props.buttonText}
-                  header={feedComponentData.title}
-                  seeAll={() => this.handleClick()}
-                  banner={
-                    <FlashSaleLimitedTimeOfferComponent
-                      endTime={endDateTime}
-                      onComplete={this.onComplete}
-                      onClick={this.handleClick}
-                    />
-                  }
-                  bannerWidth="32%"
-                  offsetDesktop={10}
-                  elementWidthDesktop={33.33}
-                >
-                  {offersAndItemsArray &&
-                    offersAndItemsArray.map((datum, i) => {
-                      return (
-                        <ProductModule
-                          key={i}
-                          productImage={datum.image}
-                          title={datum.title}
-                          price={datum.price}
-                          discountPrice={datum.discountPrice}
-                          description={datum.description}
-                          webURL={datum.webURL}
-                          onClick={this.handleItemClick}
-                          {...rest}
-                          {...datum}
-                        />
-                      );
-                    })}
-                </Carousel>
-              </div>
-            )}
+                {offersAndItemsArray &&
+                  offersAndItemsArray.map((datum, i) => {
+                    return (
+                      <ProductModule
+                        key={i}
+                        productImage={datum.image}
+                        title={datum.title}
+                        price={datum.price}
+                        discountPrice={datum.discountPrice}
+                        description={datum.description}
+                        webURL={datum.webURL}
+                        onClick={this.handleItemClick}
+                        {...rest}
+                        {...datum}
+                      />
+                    );
+                  })}
+              </Carousel>
+            </div>
           </React.Fragment>
         </MediaQuery>
       </React.Fragment>
