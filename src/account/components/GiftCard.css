@@ -115,6 +115,10 @@
   margin-right: 5px;
   margin-bottom: 5px;
 }
+.activeAmounSelect {
+  composes: amountSelect;
+  border: 1px solid #ff1744;
+}
 .inputHolder {
   composes: amountCardHolder;
 }
@@ -299,9 +303,5 @@
   }
   .amountSelect {
     cursor: pointer;
-    transition: 300ms;
-  }
-  .amountSelect:hover {
-    border: 1px solid #ff1744;
   }
 }

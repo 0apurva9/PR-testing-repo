@@ -206,7 +206,12 @@ export default class GiftCard extends React.Component {
                     giftCards.amountOptions.options.map((val, i) => {
                       return (
                         <div
-                          className={styles.amountSelect}
+                          className={
+                            this.state.amountText === val.value
+                              ? styles.activeAmounSelect
+                              : styles.amountSelect
+                          }
+                          key={i}
                           onClick={() =>
                             this.selectAmount(
                               val.formattedValueNoDecimal,
