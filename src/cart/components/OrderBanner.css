@@ -39,5 +39,9 @@
   .base {
     padding: 50px 20px;
     min-height: 216px;
+    background-image: url("https://res.cloudinary.com/sid1512/image/upload/v1536653331/thankyou_page_banner.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
 }
