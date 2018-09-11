@@ -25,3 +25,7 @@
   justify-content: center;
   height: 100vh;
 }
+.dummyDiv {
+  width: 100%;
+  height: 40px;
+}
