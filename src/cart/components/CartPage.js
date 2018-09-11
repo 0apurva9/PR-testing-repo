@@ -503,6 +503,9 @@ class CartPage extends React.Component {
             </div>
           </MobileOnly>
           <div className={styles.pageCenter}>
+            <DesktopOnly>
+              <div className={styles.cartHeading}>My Bag</div>
+            </DesktopOnly>
             <div className={styles.content}>
               <div className={styles.desktopBuffer}>
                 {cartDetails.products &&

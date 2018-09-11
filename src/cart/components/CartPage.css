@@ -188,4 +188,12 @@
     width: 100%;
     height: auto;
   }
+  .cartHeading {
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 30px;
+    font-size: 30px;
+  }
 }
