@@ -100,7 +100,6 @@ export default class FlashSale extends React.Component {
     // Check for date validation
 
     // feedComponentData.startDate = "13/04/2018 25:40:00";
-
     let offersAndItemsArray;
     if (feedComponentData.offers) {
       const offers = feedComponentData.offers.map(transformData);
@@ -108,7 +107,9 @@ export default class FlashSale extends React.Component {
     } else {
       offersAndItemsArray = items;
     }
-
+    if (this.state.collapse) {
+      return null;
+    }
     return (
       <React.Fragment>
         <MediaQuery query="(max-device-width: 1024px)">

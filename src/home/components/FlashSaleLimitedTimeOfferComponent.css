@@ -12,7 +12,15 @@
   top: 0;
   bottom: 0;
   position: absolute;
-  padding: 63px 73px;
+}
+.limitedTimeHolderWithText {
+  width: 100%;
+  height: auto;
+  top: 50%;
+  margin: auto;
+  position: absolute;
+  padding: 0px 75px;
+  transform: translateY(-50%);
 }
 .limitedTimeText {
   color: #fff;
