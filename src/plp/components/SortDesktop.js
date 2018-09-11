@@ -4,7 +4,7 @@ import styles from "./SortDesktop.css";
 import queryString from "query-string";
 import { applySortToUrl } from "./SortUtils.js";
 import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
-import dropDownSortIcon from "../../cart/components/img/googleSearch.png";
+import dropDownSortIcon from "../../general/components/img/sortIcon.svg";
 export const ARRAY_OF_SORTS = [
   "relevance",
   "isProductNew",
