@@ -85,16 +85,15 @@ export default class DesktopCheckout extends React.Component {
               </div>
             </div>
           )}
-          {totalSaving > 0 &&
-            totalSaving && (
-              <div className={styles.row}>
-                <div className={styles.label}>Total Savings</div>
-                <div className={styles.infoHiglight}>
-                  {RUPEE_SYMBOL}
-                  {totalSaving}
-                </div>
+          {totalSaving > 0 && (
+            <div className={styles.row}>
+              <div className={styles.label}>Total Savings</div>
+              <div className={styles.infoHiglight}>
+                {RUPEE_SYMBOL}
+                {totalSaving}
               </div>
-            )}
+            </div>
+          )}
         </div>
         <div
           className={
