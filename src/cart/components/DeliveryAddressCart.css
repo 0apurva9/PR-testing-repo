@@ -5,7 +5,6 @@
   border-bottom: 1px solid #ececec;
   cursor: pointer;
 }
-
 .titleAddress {
   width: 100%;
   height: auto;
@@ -25,7 +24,6 @@
   position: relative;
   padding-right: 60px;
 }
-
 .checkCircle {
   position: absolute;
   width: 25px;
@@ -36,6 +34,32 @@
 .gridHolder {
   width: 100%;
   height: auto;
+}
+.titleDescriptionForReturn {
+  width: 100%;
+  height: auto;
+  line-height: 22px;
+  text-align: left;
+  font-family: regular;
+  font-size: 14px;
+  position: relative;
+  padding-right: 60px;
+}
+.titleAddressForReturn {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: semibold;
+  line-height: 22px;
+  text-align: left;
+  text-transform: capitalize;
+}
+.checkCircleForReturn {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 0px;
+  top: 0px;
 }
 @media only screen and (min-width: 1025px) {
   .base {
@@ -56,8 +80,10 @@
     padding: 20px 0px;
     border-bottom: 1px solid #ececec;
   }
+
   .titleDescriptionForReturn {
-    composes: titleDescription;
+    word-wrap: break-word;
+    padding-right: initial;
     padding-right: 35%;
   }
   .checkCircle {
