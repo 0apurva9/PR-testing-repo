@@ -79,7 +79,7 @@ export default class FlashSale extends React.Component {
       convertDateTimeFromIndianToAmerican(feedComponentData.startDate)
     );
 
-    let endDateTime = new Date(
+    const endDateTime = new Date(
       convertDateTimeFromIndianToAmerican(feedComponentData.endDate)
     );
     // if date time
