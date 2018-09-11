@@ -12,16 +12,24 @@
   padding: 15px;
 }
 
-@media only screen and (min-width:1025px){
-  .base{
-    padding:0 ;
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding: 0;
   }
-  .paymentModes{
-    padding:0 30px;
-    border-radius:0 0 4px 4px;
+  .paymentModes {
+    padding: 0 30px;
+    border-radius: 0 0 4px 4px;
   }
   .card {
-    padding:15px 30px;
-    border-radius:4px 4px 0 0;
+    padding: 15px 30px;
+    border-radius: 4px 4px 0 0;
+  }
+  .giftCardAccrodian {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    padding: 10px 30px;
+    border-radius: 4px;
+    margin-top: 15px;
   }
 }

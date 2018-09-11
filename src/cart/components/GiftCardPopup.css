@@ -50,39 +50,39 @@
   height: auto;
   display: inline-block;
   vertical-align: top;
-  box-shadow: 0 6px 6px 0 rgba(156, 156, 156, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12);
-  border-radius:19px;
+  box-shadow: 0 6px 6px 0 rgba(156, 156, 156, 0.24),
+    0 0 6px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 19px;
 }
 
-@media only screen and (min-width:1025px){
+@media only screen and (min-width: 1025px) {
   .base {
-    padding:25px;
-    border-radius:4px;
-    margin-top:15px;
+    padding: 15px 0px;
+    border-radius: 4px;
   }
-  .content{
-    width:100%;
-    padding-right:33%;
-    position:relative;
+  .content {
+    width: 100%;
+    padding-right: 33%;
+    position: relative;
   }
-  .inputHolder{
-    width:50%;
-    display:inline-block;
-    vertical-align:top;
+  .inputHolder {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
   }
-  .inputHolder:first-child{
-    padding-right:10px;
+  .inputHolder:first-child {
+    padding-right: 10px;
   }
-  .inputHolder:nth-child(2){
-    padding-left:10px;
+  .inputHolder:nth-child(2) {
+    padding-left: 10px;
   }
-  .buttonHolder{
-    width:auto;
-    position:absolute;
-    right:0;
-    top:0;
+  .buttonHolder {
+    width: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
-  .termsAndConditionCheck{
-    margin-bottom:0;
+  .termsAndConditionCheck {
+    margin-bottom: 0;
   }
 }

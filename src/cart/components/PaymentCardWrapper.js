@@ -17,9 +17,10 @@ import GiftCardPopup from "./GiftCardPopup.js";
 import GridSelect from "../../general/components/GridSelect";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import ManueDetails from "../../general/components/MenuDetails.js";
 import CheckOutHeader from "./CheckOutHeader";
 import { getCookie } from "../../lib/Cookie";
-
+import giftCardIcon from "../../general/components/img/Gift.svg";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const keyForCreditCard = "Credit Card";
 const keyForDebitCard = "Debit Card";
@@ -27,7 +28,7 @@ const keyForNetbanking = "Netbanking";
 const keyForEMI = "EMI";
 const keyForCOD = "COD";
 const keyForPaytm = "PAYTM";
-
+const GIFT_CARD = "Have a gift card?";
 const sequanceOfPaymentMode = [
   keyForCreditCard,
   keyForDebitCard,
@@ -205,12 +206,21 @@ export default class PaymentCardWrapper extends React.Component {
           {!this.props.isFromGiftCard &&
             !this.props.isPaymentFailed && (
               <DesktopOnly>
-                <GiftCardPopup
-                  heading="Have a gift card?"
-                  addGiftCard={val => this.redeemCliqVoucher(val)}
-                  voucherNumber={this.props.voucherNumber}
-                  voucherPin={this.props.voucherPin}
-                />
+                <div className={styles.giftCardAccrodian}>
+                  <ManueDetails
+                    text={GIFT_CARD}
+                    icon={giftCardIcon}
+                    isNoBorderTop={true}
+                  >
+                    <GiftCardPopup
+                      isGiftCardHeader={false}
+                      heading="Have a gift card?"
+                      addGiftCard={val => this.redeemCliqVoucher(val)}
+                      voucherNumber={this.props.voucherNumber}
+                      voucherPin={this.props.voucherPin}
+                    />
+                  </ManueDetails>
+                </div>
               </DesktopOnly>
             )}
         </div>

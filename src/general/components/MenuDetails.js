@@ -62,7 +62,12 @@ export default class MenuDetails extends React.Component {
       iconActive = styles.iconup;
     }
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{
+          borderTop: this.props.isNoBorderTop ? "none" : "1px solid #ececec"
+        }}
+      >
         <div
           className={styles.holder}
           onClick={() => {
@@ -85,9 +90,11 @@ export default class MenuDetails extends React.Component {
 MenuDetails.propTypes = {
   text: PropTypes.string,
   icon: PropTypes.string,
-  onOpenMenu: PropTypes.bool
+  onOpenMenu: PropTypes.bool,
+  isNoBorderTop: PropTypes.bool
 };
 
 MenuDetails.defaultProps = {
-  icon: couponIcon
+  icon: couponIcon,
+  isNoBorderTop: false
 };
