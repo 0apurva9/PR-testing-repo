@@ -2404,9 +2404,11 @@ class CheckOutPage extends React.Component {
               </div>
             )}
           </DesktopOnly>
-
           <div className={styles.noSubHeader}>
             <div className={styles.pageCenter}>
+              <DesktopOnly>
+                <div className={styles.checkoutHeader}>Checkout</div>
+              </DesktopOnly>
               <div className={styles.leftSection}>
                 <MobileOnly>
                   {!this.state.showCliqAndPiq && (
