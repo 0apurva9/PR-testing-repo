@@ -39,7 +39,8 @@ export default class HeaderWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stickyHeader: false
+      stickyHeader: false,
+      showStickyHeader: 0
     };
   }
   onBackClick = () => {
@@ -82,10 +83,22 @@ export default class HeaderWrapper extends React.Component {
   };
   handleScroll = () => {
     return throttle(() => {
-      if (window.pageYOffset < 30 && this.state.stickyHeader) {
-        this.setState({ stickyHeader: false });
-      } else if (window.pageYOffset > 30 && !this.state.stickyHeader) {
-        this.setState({ stickyHeader: true });
+      if (UserAgent.checkUserAgentIsMobile()) {
+        if (window.pageYOffset < 30 && this.state.stickyHeader) {
+          this.setState({ stickyHeader: false });
+        } else if (window.pageYOffset > 30 && !this.state.stickyHeader) {
+          this.setState({ stickyHeader: true });
+        }
+      } else {
+        if (window.pageYOffset > this.state.showStickyHeader) {
+          this.setState({
+            showStickyHeader: window.pageYOffset,
+            stickyHeader: true
+          });
+        }
+        if (this.state.showStickyHeader > window.pageYOffset) {
+          this.setState({ stickyHeader: false });
+        }
       }
     }, 50);
   };
