@@ -29,12 +29,15 @@ export default class GiftCardPopup extends React.Component {
     }
     return (
       <div className={styles.base}>
-        <div className={styles.giftCardHeading}>
-          <div className={styles.iconHolder}>
-            <Icon image={giftImageURL} size={30} />
+        {this.props.isGiftCardHeader && (
+          <div className={styles.giftCardHeading}>
+            <div className={styles.iconHolder}>
+              <Icon image={giftImageURL} size={30} />
+            </div>
+            {this.props.heading}
           </div>
-          {this.props.heading}
-        </div>
+        )}
+
         <div className={styles.content}>
           <div className={styles.inputHolder}>
             <Input2
@@ -90,8 +93,10 @@ GiftCardPopup.propTypes = {
   voucherNumber: PropTypes.string,
   voucherPin: PropTypes.string,
   addGiftCard: PropTypes.func,
-  heading: PropTypes.string
+  heading: PropTypes.string,
+  isGiftCardHeader: PropTypes.bool
 };
 GiftCardPopup.defaultProps = {
-  heading: "Gift Card Details"
+  heading: "Gift Card Details",
+  isGiftCardHeader: true
 };
