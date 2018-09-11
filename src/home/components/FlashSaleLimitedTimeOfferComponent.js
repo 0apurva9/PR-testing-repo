@@ -26,17 +26,6 @@ export default class FlashSaleLimitedTimeOfferComponent extends React.Component 
               onComplete={this.onComplete}
             />
           </div>
-          <div className={styles.buttonHolder}>
-            <div className={styles.button}>
-              <Button
-                type="hollow"
-                color="#fff"
-                label={this.props.buttonText}
-                width={130}
-                onClick={() => this.onClickViewAll()}
-              />
-            </div>
-          </div>
         </div>
       </div>
     );
