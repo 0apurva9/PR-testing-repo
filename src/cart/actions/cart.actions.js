@@ -2802,6 +2802,10 @@ export function createJusPayOrderForCliqCash(
       }
       dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
       dispatch(setBagCount(0));
+      localStorage.setItem(
+        ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
+        resultJson.orderId
+      );
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(generateCartIdForLoggedInUser());
     } catch (e) {
