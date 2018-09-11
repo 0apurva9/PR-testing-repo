@@ -108,7 +108,6 @@ export default class FlashSale extends React.Component {
     } else {
       offersAndItemsArray = items;
     }
-    let todayDateTime = new Date();
     return (
       <React.Fragment>
         <MediaQuery query="(max-device-width: 1024px)">
@@ -174,7 +173,7 @@ export default class FlashSale extends React.Component {
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <React.Fragment>
-            {todayDateTime !== endDateTime && (
+            {!this.state.collapse && (
               <div
                 className={
                   this.props.positionInFeed === 1

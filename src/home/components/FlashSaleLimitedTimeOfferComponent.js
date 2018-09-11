@@ -8,11 +8,11 @@ export default class FlashSaleLimitedTimeOfferComponent extends React.Component 
       this.props.onClick();
     }
   }
-  onComplete() {
+  onComplete = () => {
     if (this.props.onComplete) {
       this.props.onComplete();
     }
-  }
+  };
   render() {
     return (
       <div className={styles.base}>
