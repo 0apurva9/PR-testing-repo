@@ -42,7 +42,8 @@ import {
   ISO_CODE,
   OTHER_LANDMARK,
   ADDRESS_VALIDATION,
-  NAME_VALIDATION
+  NAME_VALIDATION,
+  PINCODE_NOT_SERVICEABLE_TEXT
 } from "../../lib/constants";
 
 export default class AddDeliveryAddress extends React.Component {
@@ -66,7 +67,8 @@ export default class AddDeliveryAddress extends React.Component {
       selectedLandmarkLabel: "Landmark",
       landmarkList: [],
       userEmailId: "",
-      isEnable: false
+      isEnable: false,
+      pinCodeFailure: false
     };
   }
   handleOnFocusInput() {
@@ -149,6 +151,10 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.history.goBack();
     }
     if (nextProps.getPincodeStatus === ERROR) {
+      this.setState({ pinCodeFailure: true });
+      if (this.props.clearPinCodeStatus) {
+        this.props.clearPinCodeStatus();
+      }
       landmarkList = [{ landmark: OTHER_LANDMARK }];
       this.setState({
         state: "",
@@ -164,6 +170,7 @@ export default class AddDeliveryAddress extends React.Component {
       });
     }
     if (nextProps.getPincodeStatus === SUCCESS && nextProps.getPinCodeDetails) {
+      this.setState({ pinCodeFailure: false });
       if (nextProps.getPinCodeDetails.landMarks) {
         landmarkList = [
           ...nextProps.getPinCodeDetails.landMarks,
@@ -223,6 +230,10 @@ export default class AddDeliveryAddress extends React.Component {
     }
     if (this.state.postalCode && this.state.postalCode.length < 6) {
       this.props.displayToast(PINCODE_VALID_TEXT);
+      return false;
+    }
+    if (this.state.pinCodeFailure) {
+      this.props.displayToast(PINCODE_NOT_SERVICEABLE_TEXT);
       return false;
     }
     if (

@@ -25,12 +25,11 @@ export default class SearchPage extends React.Component {
     });
   };
 
-  handleBrandClick(webURL, dtmDataObject, position) {
+  handleBrandClick(webURL, dtmDataObject, position, suggestionText) {
     Object.assign(dtmDataObject, {
       position: position + 1
     });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
-    const searchQuery = this.state.searchString;
     setDataLayerForAutoSuggestSearch(dtmDataObject);
     this.props.clearSearchResults();
     this.setState({
@@ -38,16 +37,15 @@ export default class SearchPage extends React.Component {
       searchString: null,
       showSearchBar: false
     });
-    const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
+    const url = `/search/?searchCategory=all&text=${suggestionText}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
       isFilter: false
     });
   }
 
-  handleCategoryClick(webURL, dtmDataObject, position) {
+  handleCategoryClick(webURL, dtmDataObject, position, suggestionText) {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
-    const searchQuery = this.state.searchString;
     Object.assign(dtmDataObject, {
       position:
         data && data.topBrands
@@ -55,7 +53,7 @@ export default class SearchPage extends React.Component {
           : position + 1
     });
     setDataLayerForAutoSuggestSearch(dtmDataObject);
-    const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:category:${categoryCode}`;
+    const url = `/search/?searchCategory=all&text=${suggestionText}:relevance:category:${categoryCode}`;
     this.props.clearSearchResults();
     this.setState({
       showResults: false,
@@ -142,7 +140,8 @@ export default class SearchPage extends React.Component {
                             val.categoryName
                           }`
                         },
-                        i
+                        i,
+                        data.suggestionText[0]
                       );
                     }}
                   />
@@ -166,7 +165,8 @@ export default class SearchPage extends React.Component {
                             val.categoryName
                           }`
                         },
-                        i
+                        i,
+                        data.suggestionText[0]
                       );
                     }}
                   />
