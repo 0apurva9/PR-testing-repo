@@ -16,7 +16,15 @@ export default class DeliveryAddressCopy extends React.Component {
         className={this.props.isReturn ? styles.baseForReturn : styles.base}
         onClick={() => this.handleClick()}
       >
-        <div className={styles.titleAddress}>{this.props.addressTitle}</div>
+        <div
+          className={
+            this.props.isReturn
+              ? styles.titleAddressForReturn
+              : styles.titleAddress
+          }
+        >
+          {this.props.addressTitle}
+        </div>
         <div
           className={
             this.props.isReturn
@@ -26,15 +34,24 @@ export default class DeliveryAddressCopy extends React.Component {
         >
           {this.props.addressDescription}
           <MobileOnly>
+            {!this.props.isReturn && (
+              <div className={styles.checkCircle}>
+                <CheckBox selected={this.props.selected} />
+              </div>
+            )}
+          </MobileOnly>
+          {this.props.isReturn && (
+            <div className={styles.checkCircleForReturn}>
+              <CheckBox selected={this.props.selected} />
+            </div>
+          )}
+        </div>
+        <DesktopOnly>
+          {!this.props.isReturn && (
             <div className={styles.checkCircle}>
               <CheckBox selected={this.props.selected} />
             </div>
-          </MobileOnly>
-        </div>
-        <DesktopOnly>
-          <div className={styles.checkCircle}>
-            <CheckBox selected={this.props.selected} />
-          </div>
+          )}
         </DesktopOnly>
       </div>
     );
