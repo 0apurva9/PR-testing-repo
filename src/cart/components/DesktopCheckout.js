@@ -28,7 +28,6 @@ export default class DesktopCheckout extends React.Component {
               100
           ) / 100
         : 0;
-
     return (
       <div className={styles.base}>
         <div className={styles.section}>
@@ -86,18 +85,16 @@ export default class DesktopCheckout extends React.Component {
               </div>
             </div>
           )}
-          {totalSaving &&
-            totalSaving > 0 && (
-              <div className={styles.row}>
-                <div className={styles.label}>Total Savings</div>
-                <div className={styles.infoHiglight}>
-                  {RUPEE_SYMBOL}
-                  {totalSaving}
-                </div>
+          {totalSaving > 0 && (
+            <div className={styles.row}>
+              <div className={styles.label}>Total Savings</div>
+              <div className={styles.infoHiglight}>
+                {RUPEE_SYMBOL}
+                {totalSaving}
               </div>
-            )}
+            </div>
+          )}
         </div>
-
         <div
           className={
             this.props.onContinue
