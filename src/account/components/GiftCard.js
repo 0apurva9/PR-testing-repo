@@ -7,7 +7,6 @@ import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
 import MediaQuery from "react-responsive";
 import Button from "../../xelpmoc-core/Button";
-import find from "lodash.find";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
