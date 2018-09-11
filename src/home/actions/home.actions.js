@@ -319,7 +319,7 @@ export function homeFeedBackUp() {
     dispatch(homeFeedBackUpRequest());
     try {
       const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=defaulthomepage`
+        `v2/mpl/cms/desktopservice/desktoppage?pageId=defaulthomepage&platform=${WCMS_PLATFORM}`
       );
       const resultJson = await result.json();
       const failureResponse = ErrorHandling.getFailureResponse(resultJson);
@@ -353,7 +353,7 @@ export function getFeed(pageId: null) {
         feedTypeRequest = SECONDARY_FEED_TYPE;
         try {
           result = await api.getMiddlewareUrl(
-            `v2/mpl/cms/defaultpage?pageId=${pageId}&platform=${WCMS_PLATFORM}`
+            `v2/mpl/cms/desktopservice/desktoppage?pageId=${pageId}&platform=${WCMS_PLATFORM}`
           );
         } catch (e) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
