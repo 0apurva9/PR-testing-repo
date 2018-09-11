@@ -97,7 +97,10 @@ export default class HeaderWrapper extends React.Component {
           });
         }
         if (this.state.showStickyHeader > window.pageYOffset) {
-          this.setState({ stickyHeader: false });
+          this.setState({
+            showStickyHeader: window.pageYOffset,
+            stickyHeader: false
+          });
         }
       }
     }, 50);
