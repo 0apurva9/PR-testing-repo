@@ -91,7 +91,7 @@
   .tabHolder {
     max-width: 676px;
     position: sticky;
-    top: 100px;
+    top: 60px;
     z-index: 20;
     border-radius: 4px;
     width: 100%;
@@ -162,7 +162,7 @@
   .profileMenuHolder {
     width: 20%;
     position: sticky;
-    top: 100px;
+    top: 60px;
     display: inline-block;
     vertical-align: top;
     max-width: 240px;
@@ -176,7 +176,7 @@
     border-radius: 4px;
     max-width: 240px;
     position: sticky;
-    top: 100px;
+    top: 60px;
   }
 }
 @media screen and (max-width: 1024px) {

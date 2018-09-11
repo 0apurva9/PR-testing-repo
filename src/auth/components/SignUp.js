@@ -185,6 +185,9 @@ class SignUp extends Component {
               onChange={val => this.onChangePassword(val)}
             />
           </div>
+          <MediaQuery query="(min-device-width: 1025px)">
+            <div className={styles.dummyDiv} />
+          </MediaQuery>
           <div className={styles.buttonSignup}>
             <div className={styles.buttonHolder}>
               <MediaQuery query="(min-device-width: 1025px)">

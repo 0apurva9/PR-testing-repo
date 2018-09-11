@@ -33,4 +33,7 @@
     padding: 12px;
     cursor: pointer;
   }
+  .saveLabel {
+    font-family: light;
+  }
 }

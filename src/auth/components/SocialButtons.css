@@ -10,16 +10,17 @@
   }
   .holder {
     display: inline-block;
+    transform: scale(1.5);
   }
 
   .separator {
     composes: holder;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 50px 0px 50px;
   }
 
   .textHolder {
     text-align: center;
-    transform: translateY(25px);
+    transform: translateY(15px);
   }
   .textHolder p {
     font-size: 16px;

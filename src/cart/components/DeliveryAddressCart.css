@@ -40,6 +40,16 @@
 @media only screen and (min-width: 1025px) {
   .base {
     border: none;
+    position: relative;
+  }
+  .titleAddress {
+    padding-left: 30px;
+    position: relative;
+  }
+  .titleDescription {
+    padding-left: 30px;
+    word-wrap: break-word;
+    padding-right: initial;
   }
   .baseForReturn {
     composes: base;
@@ -51,6 +61,7 @@
     padding-right: 35%;
   }
   .checkCircle {
-    right: 15px;
+    right: initial;
+    top: 15px;
   }
 }

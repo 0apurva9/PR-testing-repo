@@ -33,15 +33,22 @@
     margin-bottom: 25px;
   }
   .pageCenter {
-    width: 1200px;
-    display: inline-block;
-    max-width: 100%;
-    text-align: left;
+    width: 100%;
+    margin: auto;
+    max-width: 1200px;
+
     padding-bottom: 100px;
+  }
+  .pageSectionHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: left;
   }
   .leftSection {
     width: 70%;
     display: inline-block;
+    vertical-align: top;
   }
   .dummySection {
     position: relative;
@@ -57,9 +64,10 @@
     top: 190px;
     width: 30%;
     display: inline-block;
+    vertical-align: top;
     max-width: 390px;
     bottom: initial;
-    padding-left: 30px;
+    padding-left: 20px;
   }
   .addDeliveryAddressHolder {
     text-align: center;
@@ -120,6 +128,9 @@
   }
   .orderDetailsCardHolder:last-child {
     margin-bottom: 0px;
+  }
+  .rateHolder {
+    margin-bottom: 20px;
   }
 }
 @media screen and (max-height: 780px) {

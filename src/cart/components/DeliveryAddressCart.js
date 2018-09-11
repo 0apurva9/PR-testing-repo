@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./DeliveryAddressCart.css";
 import CheckBox from "../../general/components/CheckBox.js";
 import PropTypes from "prop-types";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 export default class DeliveryAddressCopy extends React.Component {
   handleClick() {
     if (this.props.selectItem) {
@@ -23,10 +25,17 @@ export default class DeliveryAddressCopy extends React.Component {
           }
         >
           {this.props.addressDescription}
+          <MobileOnly>
+            <div className={styles.checkCircle}>
+              <CheckBox selected={this.props.selected} />
+            </div>
+          </MobileOnly>
+        </div>
+        <DesktopOnly>
           <div className={styles.checkCircle}>
             <CheckBox selected={this.props.selected} />
           </div>
-        </div>
+        </DesktopOnly>
       </div>
     );
   }
