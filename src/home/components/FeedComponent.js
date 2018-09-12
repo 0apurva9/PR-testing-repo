@@ -90,7 +90,6 @@ class FeedComponent extends React.Component {
 export default withRouter(FeedComponent);
 FeedComponent.propTypes = {
   backgroundColor: PropTypes.string,
-  header: PropTypes.string,
   banner: PropTypes.element,
   data: PropTypes.arrayOf(
     PropTypes.shape({
