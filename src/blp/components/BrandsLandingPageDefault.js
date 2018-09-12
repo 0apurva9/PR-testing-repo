@@ -28,6 +28,8 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import BannerImage from "../../general/components/BannerImage";
 import Banner from "../../general/components/Banner";
+const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
+const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
 export default class BrandsLandingPageDefault extends React.Component {
   constructor(props) {
     super(props);
@@ -122,18 +124,31 @@ export default class BrandsLandingPageDefault extends React.Component {
           .includes(this.state.searchBy.toLowerCase());
       });
     }
-    if (this.state.selectedBrandType) {
+    if (this.state.selectedBrandType && this.state.selectedBrandType !== "#") {
       currentActiveBrandList = filter(currentActiveBrandList, brand => {
         return brand.brandName
           .toLowerCase()
           .startsWith(this.state.selectedBrandType.toLowerCase());
       });
     }
+    if (this.state.selectedBrandType === "#") {
+      currentActiveBrandList = currentActiveBrandList.filter(brand => {
+        return REGULAR_EXPRESSION_FOR_NON_ALPHABET.test(brand.brandName);
+      });
+    }
     currentActiveBrandList = groupBy(currentActiveBrandList, list => {
-      return list.brandName[0].toUpperCase();
+      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.brandName[0])) {
+        return list.brandName[0].toUpperCase();
+      } else {
+        return "#";
+      }
     });
     selectedBrand = groupBy(selectedBrand, list => {
-      return list.brandName[0].toUpperCase();
+      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.brandName[0])) {
+        return list.brandName[0].toUpperCase();
+      } else {
+        return "#";
+      }
     });
     const parentBrandsLabel = Object.keys(currentActiveBrandList);
     const presentLabel = Object.keys(selectedBrand);
