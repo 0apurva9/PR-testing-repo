@@ -66,20 +66,24 @@ export default class PopularBrandsDesktop extends React.Component {
             <div className={styles.showHeaderText}>
               {feedComponentData && feedComponentData.title}
             </div>
-            <div className={styles.nav}>
-              <div
-                className={styles.back}
-                onClick={() => {
-                  this.slideBack();
-                }}
-              />
-              <div
-                className={styles.forward}
-                onClick={() => {
-                  this.slideForward();
-                }}
-              />
-            </div>
+            {currentActivePopularBrands &&
+              currentActivePopularBrands.brands &&
+              currentActivePopularBrands.brands.length > 6 && (
+                <div className={styles.nav}>
+                  <div
+                    className={styles.back}
+                    onClick={() => {
+                      this.slideBack();
+                    }}
+                  />
+                  <div
+                    className={styles.forward}
+                    onClick={() => {
+                      this.slideForward();
+                    }}
+                  />
+                </div>
+              )}
           </div>
 
           <div className={styles.staticElement}>

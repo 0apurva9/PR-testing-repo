@@ -13,6 +13,9 @@
   background: #fff;
   display: flex;
   overflow: hidden;
+  cursor: pointer;
+  transition: 300ms;
+  transform: scale(0.9);
 }
 .brandImage {
   width: 100%;
@@ -20,6 +23,9 @@
   position: absolute;
   left: 0;
   top: 0;
+}
+.base:hover .brandImageHolder {
+  transform: scale(1);
 }
 .productDescription {
   width: 100%;
@@ -53,7 +59,7 @@
 }
 .discountPrice {
   composes: descriptionBrands;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 }
 .priceCancelled {
   composes: discountPrice;
