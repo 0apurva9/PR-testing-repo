@@ -23,6 +23,7 @@ import {
   ADOBE_MY_ACCOUNT_ALERTS,
   ADOBE_MY_ACCOUNT_COUPONS
 } from "../../lib/adobeUtils";
+import throttle from "lodash.throttle";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -32,6 +33,13 @@ const URL_PATH_COUPONS = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`;
 const COUPONS = "coupons";
 const ALERTS = "alerts";
 export default class UserAlertsAndCoupons extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stickyPortion: false,
+      showStickyPortion: 0
+    };
+  }
   componentDidMount() {
     const { pathname } = this.props.history.location;
     if (pathname === URL_PATH_ALERTS) {
@@ -47,7 +55,30 @@ export default class UserAlertsAndCoupons extends React.Component {
       this.props.getUserAlerts();
       this.props.getUserCoupons();
     }
+    if (!UserAgent.checkUserAgentIsMobile()) {
+      this.onScroll = this.onScroll();
+      window.addEventListener("scroll", this.onScroll);
+    }
   }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+  }
+  onScroll = () => {
+    return throttle(() => {
+      if (window.pageYOffset > this.state.showStickyPortion) {
+        this.setState({
+          showStickyPortion: window.pageYOffset,
+          stickyPortion: true
+        });
+      }
+      if (this.state.showStickyPortion > window.pageYOffset) {
+        this.setState({
+          showStickyPortion: window.pageYOffset,
+          stickyPortion: false
+        });
+      }
+    }, 50);
+  };
   componentDidUpdate() {
     this.props.setHeaderText(ALERTS_COUPON);
   }
@@ -79,18 +110,33 @@ export default class UserAlertsAndCoupons extends React.Component {
     if (userDetailsCookie) {
       userDetails = JSON.parse(userDetailsCookie);
     }
-
+    let baseClassName = styles.base;
+    let tabHedaer = styles.tabHeader;
+    if (this.state.stickyPortion && !UserAgent.checkUserAgentIsMobile()) {
+      baseClassName = styles.translateBase;
+      tabHedaer = styles.stickyTabHeader;
+    }
+    if (UserAgent.checkUserAgentIsMobile()) {
+      baseClassName = styles.base;
+      tabHedaer = styles.tabHeader;
+    }
     return (
-      <div className={styles.base}>
+      <div className={baseClassName}>
         <div className={myAccountStyles.holder}>
           <DesktopOnly>
-            <div className={styles.profileMenuHolder}>
+            <div
+              className={
+                this.state.stickyPortion
+                  ? styles.stickyprofileMenuHolder
+                  : styles.profileMenuHolder
+              }
+            >
               <ProfileMenu {...this.props} />
             </div>
           </DesktopOnly>
           <div className={styles.alertAndCouponDetail}>
             <div className={styles.alertAndCouponDetailsWithHolder}>
-              <div className={styles.tabHeader}>
+              <div className={tabHedaer}>
                 <TabHolder>
                   <TabData
                     width="50%"
@@ -117,7 +163,13 @@ export default class UserAlertsAndCoupons extends React.Component {
             </div>
           </div>
           <DesktopOnly>
-            <div className={styles.userProfile}>
+            <div
+              className={
+                this.state.stickyPortion
+                  ? styles.stickyuserProfile
+                  : styles.userProfile
+              }
+            >
               <UserProfile
                 image={userDetails && userDetails.imageUrl}
                 userLogin={userDetails && userDetails.userName}

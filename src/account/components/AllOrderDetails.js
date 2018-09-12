@@ -62,7 +62,9 @@ export default class AllOrderDetails extends React.Component {
     super(props);
     this.state = {
       showOrder: null,
-      isSelected: 0
+      isSelected: 0,
+      stickyPortion: false,
+      showStickyPortion: 0
     };
   }
   tabSelect(val) {
@@ -89,6 +91,9 @@ export default class AllOrderDetails extends React.Component {
       if (UserAgent.checkUserAgentIsMobile()) {
         this.throttledScroll = this.handleScroll();
         window.addEventListener("scroll", this.throttledScroll);
+      } else {
+        this.onScroll = this.onScroll();
+        window.addEventListener("scroll", this.onScroll);
       }
       this.props.getAllOrdersDetails();
     }
@@ -96,6 +101,7 @@ export default class AllOrderDetails extends React.Component {
   componentWillUnmount() {
     this.props.clearOrderDetails();
     window.removeEventListener("scroll", this.throttledScroll);
+    window.removeEventListener("scroll", this.onScroll);
   }
 
   componentDidUpdate() {
@@ -144,6 +150,22 @@ export default class AllOrderDetails extends React.Component {
       }
     }, SCROLL_CHECK_INTERVAL);
   };
+  onScroll = () => {
+    return throttle(() => {
+      if (window.pageYOffset > this.state.showStickyPortion) {
+        this.setState({
+          showStickyPortion: window.pageYOffset,
+          stickyPortion: true
+        });
+      }
+      if (this.state.showStickyPortion > window.pageYOffset) {
+        this.setState({
+          showStickyPortion: window.pageYOffset,
+          stickyPortion: false
+        });
+      }
+    }, 50);
+  };
   showMoreProducts() {
     if (
       this.state.isSelected === 0 &&
@@ -187,19 +209,37 @@ export default class AllOrderDetails extends React.Component {
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
-
+    let baseClassName = styles.base;
+    if (this.state.stickyPortion && !UserAgent.checkUserAgentIsMobile()) {
+      baseClassName = styles.translateBase;
+    }
+    if (UserAgent.checkUserAgentIsMobile()) {
+      baseClassName = styles.base;
+    }
     return (
-      <div className={styles.base}>
+      <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
           <DesktopOnly>
-            <div className={styles.profileMenuHolder}>
+            <div
+              className={
+                this.state.stickyPortion
+                  ? styles.stickyprofileMenuHolder
+                  : styles.profileMenuHolder
+              }
+            >
               <ProfileMenu {...this.props} />
             </div>
           </DesktopOnly>
           <div className={styles.orderDetail}>
             <div className={styles.orderDetailsWithHolder}>
               <DesktopOnly>
-                <div className={styles.tabHolder}>
+                <div
+                  className={
+                    this.state.stickyPortion
+                      ? styles.stickyTabHolder
+                      : styles.tabHolder
+                  }
+                >
                   <TabHolder>
                     <TabData
                       width="40%"
@@ -539,7 +579,13 @@ export default class AllOrderDetails extends React.Component {
             </div>
           </div>
           <DesktopOnly>
-            <div className={styles.userProfile}>
+            <div
+              className={
+                this.state.stickyPortion
+                  ? styles.stickyuserProfile
+                  : styles.userProfile
+              }
+            >
               <UserProfile
                 image={userData && userData.imageUrl}
                 userLogin={userData && userData.userName}
