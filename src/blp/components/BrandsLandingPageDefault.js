@@ -133,9 +133,7 @@ export default class BrandsLandingPageDefault extends React.Component {
     }
     if (this.state.selectedBrandType === "#") {
       currentActiveBrandList = currentActiveBrandList.filter(brand => {
-        if (REGULAR_EXPRESSION_FOR_NON_ALPHABET.test(brand.brandName)) {
-          return brand.brandName;
-        }
+        return REGULAR_EXPRESSION_FOR_NON_ALPHABET.test(brand.brandName);
       });
     }
     currentActiveBrandList = groupBy(currentActiveBrandList, list => {
