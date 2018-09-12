@@ -53,6 +53,7 @@ export default class PopularBrandsDesktop extends React.Component {
     ) {
       currentActivePopularBrands = feedComponentData.items[this.state.isSelect];
     }
+    console.log(currentActivePopularBrands);
     const translationAmount = -(16.66 * this.state.position);
     const transform = `translateX(${translationAmount}%)`;
 
@@ -66,20 +67,24 @@ export default class PopularBrandsDesktop extends React.Component {
             <div className={styles.showHeaderText}>
               {feedComponentData && feedComponentData.title}
             </div>
-            <div className={styles.nav}>
-              <div
-                className={styles.back}
-                onClick={() => {
-                  this.slideBack();
-                }}
-              />
-              <div
-                className={styles.forward}
-                onClick={() => {
-                  this.slideForward();
-                }}
-              />
-            </div>
+            {currentActivePopularBrands &&
+              currentActivePopularBrands.brands &&
+              currentActivePopularBrands.brands.length > 6 && (
+                <div className={styles.nav}>
+                  <div
+                    className={styles.back}
+                    onClick={() => {
+                      this.slideBack();
+                    }}
+                  />
+                  <div
+                    className={styles.forward}
+                    onClick={() => {
+                      this.slideForward();
+                    }}
+                  />
+                </div>
+              )}
           </div>
 
           <div className={styles.staticElement}>

@@ -3,7 +3,7 @@
   height: auto;
   min-height: 500px;
   display: flex;
-  padding: 30px 125px;
+  padding: 0px 125px 30px 125px;
   margin-top: 50px;
 }
 .firstItemBase {
