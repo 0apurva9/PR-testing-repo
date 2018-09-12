@@ -12,7 +12,7 @@
   right:0;
   bottom:0;
   margin:auto;
-  background:#fff;
+  background:#ff1744;
   border-radius:50%;
   transition:200ms;
   transition-timing-function: ease-in;
@@ -34,7 +34,7 @@
   position:absolute;
   left:0;
   top:0;
-  background:#ff1744;
+  background:#fff;
   border-radius:50%;
   transition:200ms;
 }
@@ -54,15 +54,18 @@
 .content{
   width:auto;
   position:absolute;
-  top:0;
+  top:-20px;
   left:50%;
   opacity:0;
   transition:200ms;
-  padding-bottom:25px;
+
+  padding:20px;
   transform:translateY(-80%) translateX(-50%);
   transition-delay:100ms;
   color:#fff;
   pointer-events:none;
+  background-color: #171d1c;
+  box-shadow: 0 2px 17px 0 rgba(0, 0, 0, 0.31);
 }
 .bold{
   text-align:center;
