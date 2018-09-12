@@ -25,14 +25,14 @@
   top: 0;
 }
 .base:hover .brandImageHolder {
-  transform: scale(0.93);
+  transform: scale(1);
 }
 .productDescription {
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 .brandsName {
   width: 100%;
@@ -42,7 +42,7 @@
   font-family: semibold;
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .descriptionBrands {
   width: 100%;
@@ -55,11 +55,11 @@
   text-align: center;
   justify-content: center;
   line-height: normal;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .discountPrice {
   composes: descriptionBrands;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .priceCancelled {
   composes: discountPrice;
