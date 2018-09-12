@@ -12,7 +12,7 @@
   right:0;
   bottom:0;
   margin:auto;
-  background:#ff1744;
+  background:#fff;
   border-radius:50%;
   transition:200ms;
   transition-timing-function: ease-in;
@@ -34,7 +34,7 @@
   position:absolute;
   left:0;
   top:0;
-  background:#fff;
+  background:#ff1744;
   border-radius:50%;
   transition:200ms;
 }
@@ -61,13 +61,14 @@
   padding-bottom:25px;
   transform:translateY(-80%) translateX(-50%);
   transition-delay:100ms;
+  color:#fff;
   pointer-events:none;
 }
 .bold{
   text-align:center;
   font-size:14px;
   font-family:semibold;
-  color:#212121;
+  color:#fff;
   white-space: nowrap;
 }
 .light{

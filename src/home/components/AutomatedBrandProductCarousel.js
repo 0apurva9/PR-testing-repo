@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ProductImageHeader from "../../general/components/ProductImageHeader";
 import Logo from "../../general/components/Logo";
 import { transformData } from "./utils.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 
 export default class AutomatedBrandProductCarousel extends React.Component {
@@ -55,6 +56,7 @@ export default class AutomatedBrandProductCarousel extends React.Component {
         backgroundColor="#e4e4e4"
         carouselOptions={{
           buttonText,
+          header: checkUserAgentIsMobile() ? null : componentData.title,
           seeAll: () => {
             this.handleClick();
           }

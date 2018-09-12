@@ -3,6 +3,7 @@ import FeedComponent from "./FeedComponent";
 import ProductVideo from "../../general/components/ProductVideo";
 import { transformData } from "./utils.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 
 export default class VideoProductCarousel extends React.Component {
   handleClick() {
@@ -45,6 +46,7 @@ export default class VideoProductCarousel extends React.Component {
         }
         carouselOptions={{
           buttonText: feedComponentData.btnText,
+          header: checkUserAgentIsMobile() ? null : feedComponentData.title,
           seeAll: () => {
             this.handleClick();
           }
