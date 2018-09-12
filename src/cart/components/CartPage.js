@@ -763,9 +763,11 @@ class CartPage extends React.Component {
               </div>
             </DesktopOnly>
           </div>
-          <div className={styles.saveAndSecure}>
-            <SaveAndSecure history={this.props.history} />
-          </div>
+          <DesktopOnly>
+            <div className={styles.saveAndSecure}>
+              <SaveAndSecure history={this.props.history} />
+            </div>
+          </DesktopOnly>
         </div>
       );
     } else {
