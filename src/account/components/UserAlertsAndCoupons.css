@@ -19,6 +19,10 @@
     padding: 80px 0px 100px 0px;
     min-height: 0px;
   }
+  .translateBase {
+    composes: base;
+    transform: translateY(-80px);
+  }
   .alertAndCouponDetailsWithHolder {
     width: 100%;
     height: auto;
@@ -39,19 +43,27 @@
     display: inline-block;
     max-width: 676px;
     position: sticky;
-    top: 60px;
+    top: 100px;
     z-index: 20;
     border-radius: 4px;
     width: 100%;
   }
+  .stickyTabHeader {
+    composes: tabHeader;
+    top: 140px;
+  }
   .profileMenuHolder {
     width: 20%;
     position: sticky;
-    top: 60px;
+    top: 100px;
     display: inline-block;
     vertical-align: top;
     max-width: 240px;
     border-radius: 4px;
+  }
+  .stickyprofileMenuHolder {
+    composes: profileMenuHolder;
+    top: 140px;
   }
   .userProfile {
     width: 20%;
@@ -61,7 +73,11 @@
     border-radius: 4px;
     max-width: 240px;
     position: sticky;
-    top: 60px;
+    top: 100px;
+  }
+  .stickyuserProfile {
+    composes: userProfile;
+    top: 140px;
   }
 }
 @media screen and (max-width: 1024px) {
