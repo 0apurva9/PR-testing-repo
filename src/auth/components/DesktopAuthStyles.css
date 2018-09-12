@@ -11,7 +11,7 @@
   height: 100%;
   float: left;
   background: #ffffff;
-  padding: 80px 100px 0px 100px;
+  padding: 80px 75px 0px 75px;
 }
 .header {
   width: 100%;
@@ -27,7 +27,7 @@
   width: 50%;
   float: left;
   height: 100%;
-  padding: 80px 100px 0px 100px;
+  padding: 80px 75px 0px 75px;
   background: #f9f9f9;
 }
 .socialButtonHolder {
