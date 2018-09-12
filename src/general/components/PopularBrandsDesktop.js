@@ -53,7 +53,6 @@ export default class PopularBrandsDesktop extends React.Component {
     ) {
       currentActivePopularBrands = feedComponentData.items[this.state.isSelect];
     }
-    console.log(currentActivePopularBrands);
     const translationAmount = -(16.66 * this.state.position);
     const transform = `translateX(${translationAmount}%)`;
 
