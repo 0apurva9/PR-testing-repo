@@ -45,9 +45,9 @@ export default class SplitBannerForDesktop extends React.Component {
                 onClick={() => this.handleClick(datum.webURL)}
               >
                 <SplitBanner
-                  logo={datum.logo}
+                  logo={datum.brandLogo}
                   image={datum.imageURL}
-                  subTitle={datum.subTitle}
+                  subTitle={datum.description}
                   title={datum.title}
                   btnText={datum.btnText}
                   onClick={() => this.handleClick(datum.webURL)}
