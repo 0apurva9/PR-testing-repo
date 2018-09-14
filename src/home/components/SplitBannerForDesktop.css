@@ -20,10 +20,11 @@
   width: 50%;
   height: auto;
   display: inline-block;
-  padding-right: 25px;
+  padding-right: 10px;
   cursor: pointer;
 }
 
 .splitBannerHolder:last-child {
   padding-right: 0px;
+  padding-left: 10px;
 }
