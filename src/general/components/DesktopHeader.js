@@ -20,7 +20,7 @@ export default class DesktopHeader extends React.Component {
     super(props);
     this.state = {
       hovered: null,
-      hoverInType: BRANDS
+      hoverInType: null
     };
   }
   redirectToHome() {
