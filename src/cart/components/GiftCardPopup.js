@@ -6,12 +6,14 @@ import Button from "../../general/components/Button.js";
 import Input2 from "../../general/components/Input2.js";
 import giftImageURL from "../../general/components/img/Gift.svg";
 import MDSpinner from "../../general/components/Loader";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class GiftCardPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cardNumber: this.props.voucherNumber ? this.props.voucherNumber : "",
-      pinNumber: this.props.voucherPin ? this.props.voucherPin : ""
+      pinNumber: this.props.voucherPin ? this.props.voucherPin : "",
+      isEnable: UserAgent.checkUserAgentIsMobile() ? true : false
     };
   }
   addGiftCard() {
@@ -22,6 +24,20 @@ export default class GiftCardPopup extends React.Component {
       cardNumber: "",
       pinNumber: ""
     });
+  }
+  onVoucher(val) {
+    this.setState({ cardNumber: val });
+    if (!UserAgent.checkUserAgentIsMobile()) {
+      if (val.length > 0) {
+        this.setState({
+          isEnable: true
+        });
+      } else {
+        this.setState({
+          isEnable: false
+        });
+      }
+    }
   }
   render() {
     if (this.props.loading) {
@@ -48,7 +64,7 @@ export default class GiftCardPopup extends React.Component {
                   ? this.props.voucherNumber
                   : this.state.cardNumber
               }
-              onChange={cardNumber => this.setState({ cardNumber })}
+              onChange={val => this.onVoucher(val)}
               textStyle={{ fontSize: 14 }}
               height={33}
             />
@@ -71,19 +87,33 @@ export default class GiftCardPopup extends React.Component {
           <div className={styles.termsAndConditionCheck}>
             Please read the Terms & Conditions before making your purchase
           </div>
-          <div className={styles.buttonHolder}>
-            <div className={styles.button}>
-              <Button
-                type="primary"
-                backgroundColor="#ff1744"
-                height={36}
-                label="Add Gift Card"
-                width={211}
-                textStyle={{ color: "#FFF", fontSize: 14 }}
-                onClick={() => this.addGiftCard()}
-              />
+          {this.state.isEnable && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={36}
+                  label="Add Gift Card"
+                  width={211}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
+                  onClick={() => this.addGiftCard()}
+                />
+              </div>
             </div>
-          </div>
+          )}
+          {!this.state.isEnable && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  type="tertiary"
+                  height={36}
+                  label="Add Gift Card"
+                  width={211}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -94,7 +124,9 @@ GiftCardPopup.propTypes = {
   voucherPin: PropTypes.string,
   addGiftCard: PropTypes.func,
   heading: PropTypes.string,
-  isGiftCardHeader: PropTypes.bool
+  isGiftCardHeader: PropTypes.bool,
+  isAfterEnter: PropTypes.bool,
+  isBefaureEnter: PropTypes.bool
 };
 GiftCardPopup.defaultProps = {
   heading: "Gift Card Details",
