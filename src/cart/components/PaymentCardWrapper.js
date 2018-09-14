@@ -168,6 +168,7 @@ export default class PaymentCardWrapper extends React.Component {
                   addGiftCard={() => this.addGiftCard()}
                   isCliqCashApplied={this.props.isCliqCashApplied}
                   isRemainingBalance={this.props.isRemainingBalance}
+                  onCheckout={this.props.onCheckout}
                 />
               </div>
             )}

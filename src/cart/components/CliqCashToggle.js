@@ -19,6 +19,11 @@ export default class CliqCashToggle extends React.Component {
       this.props.addGiftCard();
     }
   }
+  handleClick = () => {
+    if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
+  };
   componentDidMount() {
     const clikCashRefNode = ReactDOM.findDOMNode(this.refs.clikCashRef);
     setTimeout(() => {
