@@ -9,7 +9,6 @@ import MobileOnly from "../../general/components/MobileOnly.js";
 
 export default class DiscoverMore extends React.Component {
   render() {
-    console.log(this.props);
     if (this.props.feedComponentData.data) {
       if (this.props.feedComponentData.category === "L3") {
         return (
