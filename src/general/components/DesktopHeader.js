@@ -376,9 +376,7 @@ export default class DesktopHeader extends React.Component {
                     />
                     {this.state.hoverInType === BRANDS &&
                       this.props.headerBrandAndCategoryDetails && (
-                        <div
-                          className={styles.headerBrandAndCategoryDetailsHolder}
-                        >
+                        <div className={styles.brandDetailsHolder}>
                           <div className={styles.brandLeftDetails}>
                             {headerBrandAndCategoryDetails &&
                               headerBrandAndCategoryDetails.brandsTabAZListComponent &&
