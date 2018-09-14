@@ -128,12 +128,7 @@ const ShopeByPriceDesktopComponent = Loadable({
     return <div />;
   }
 });
-const DiscoverMoreL2DesktopComponent = Loadable({
-  loader: () => import("../../home/components/DiscoverMoreL2Desktop"),
-  loading() {
-    return <div />;
-  }
-});
+
 const PopularBrandsDesktopComponent = Loadable({
   loader: () => import("../../general/components/PopularBrandsDesktop"),
   loading() {
@@ -158,12 +153,7 @@ const MultiClickBannerComponent = Loadable({
     return <div />;
   }
 });
-const DiscoverMoreL1ForDesktopComponent = Loadable({
-  loader: () => import("../../home/components/DiscoverMoreL1ForDesktop"),
-  loading() {
-    return <div />;
-  }
-});
+
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -211,8 +201,6 @@ export const typeComponentMapping = {
   "Banner And Links Component": props => (
     <ShopeByPriceDesktopComponent {...props} />
   ),
-  L2: props => <DiscoverMoreL2DesktopComponent {...props} />,
-  L1: props => <DiscoverMoreL1ForDesktopComponent {...props} />,
   "Desktop Popular Brands Component": props => (
     <PopularBrandsDesktopComponent {...props} />
   ),
