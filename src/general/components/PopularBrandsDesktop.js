@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./PopularBrandsDesktop.css";
 import BrandImage from "../../general/components/BrandImage";
+import CommonCenter from "../../general/components/CommonCenter";
 import BrandsItem from "../../blp/components/BrandsItem.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -61,75 +62,77 @@ export default class PopularBrandsDesktop extends React.Component {
     };
     return (
       <DesktopOnly>
-        <div className={styles.base}>
-          <div className={styles.header}>
-            <div className={styles.showHeaderText}>
-              {feedComponentData && feedComponentData.title}
-            </div>
-            {currentActivePopularBrands &&
-              currentActivePopularBrands.brands &&
-              currentActivePopularBrands.brands.length > 6 && (
-                <div className={styles.nav}>
-                  <div
-                    className={styles.back}
-                    onClick={() => {
-                      this.slideBack();
-                    }}
-                  />
-                  <div
-                    className={styles.forward}
-                    onClick={() => {
-                      this.slideForward();
-                    }}
-                  />
-                </div>
-              )}
-          </div>
-
-          <div className={styles.staticElement}>
-            <div className={styles.headerTabHolder}>
-              {feedComponentData &&
-                feedComponentData.items.map((val, i) => {
-                  return (
-                    <BrandsItem
-                      label={val.title}
-                      value={i}
-                      key={i}
-                      selectItem={() => this.switchTab(i)}
-                      selected={this.state.isSelect === i}
-                    />
-                  );
-                })}
-            </div>
-          </div>
-
-          <div className={styles.sliderHolder}>
-            <div className={styles.slider} style={style}>
+        <CommonCenter>
+          <div className={styles.base}>
+            <div className={styles.header}>
+              <div className={styles.showHeaderText}>
+                {feedComponentData && feedComponentData.title}
+              </div>
               {currentActivePopularBrands &&
                 currentActivePopularBrands.brands &&
-                currentActivePopularBrands.brands.map((val, i) => {
-                  return (
-                    <React.Fragment key={i}>
-                      <div
-                        className={styles.element}
-                        style={{
-                          width: "16.66%"
-                        }}
-                      >
-                        <div className={styles.circleBrandesHolder}>
-                          <BrandImage
-                            image={val.imageURL}
-                            value={val.webURL}
-                            onClick={value => this.onClick(value)}
-                          />
+                currentActivePopularBrands.brands.length > 6 && (
+                  <div className={styles.nav}>
+                    <div
+                      className={styles.back}
+                      onClick={() => {
+                        this.slideBack();
+                      }}
+                    />
+                    <div
+                      className={styles.forward}
+                      onClick={() => {
+                        this.slideForward();
+                      }}
+                    />
+                  </div>
+                )}
+            </div>
+
+            <div className={styles.staticElement}>
+              <div className={styles.headerTabHolder}>
+                {feedComponentData &&
+                  feedComponentData.items.map((val, i) => {
+                    return (
+                      <BrandsItem
+                        label={val.title}
+                        value={i}
+                        key={i}
+                        selectItem={() => this.switchTab(i)}
+                        selected={this.state.isSelect === i}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+
+            <div className={styles.sliderHolder}>
+              <div className={styles.slider} style={style}>
+                {currentActivePopularBrands &&
+                  currentActivePopularBrands.brands &&
+                  currentActivePopularBrands.brands.map((val, i) => {
+                    return (
+                      <React.Fragment key={i}>
+                        <div
+                          className={styles.element}
+                          style={{
+                            width: "16.66%"
+                          }}
+                        >
+                          <div className={styles.circleBrandesHolder}>
+                            <BrandImage
+                              image={val.imageURL}
+                              value={val.webURL}
+                              onClick={value => this.onClick(value)}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </React.Fragment>
-                  );
-                })}
+                      </React.Fragment>
+                    );
+                  })}
+              </div>
             </div>
           </div>
-        </div>
+        </CommonCenter>
       </DesktopOnly>
     );
   }

@@ -3,6 +3,7 @@ import range from "lodash.range";
 import NewBrand from "../../general/components/NewBrand.js";
 import NewBrandDesktop from "../../general/components/NewBrandDesktop.js";
 import Carousel from "../../general/components/Carousel.js";
+import CommonCenter from "../../general/components/CommonCenter.js";
 import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";
 import styles from "./FollowBase.css";
@@ -73,41 +74,45 @@ export default class FollowBase extends React.Component {
           </div>
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
-          <div
-            className={
-              this.props.positionInFeed === 1
-                ? styles.firstItemBase
-                : styles.base
-            }
-          >
-            <Carousel
-              elementWidthDesktop={100}
-              header={
-                this.props.feedComponentData.title
-                  ? this.props.feedComponentData.title
-                  : "Fresh from Brands"
+          <CommonCenter>
+            <div
+              className={
+                this.props.positionInFeed === 1
+                  ? styles.firstItemBase
+                  : styles.base
               }
             >
-              {feedComponentData &&
-                (feedComponentData.length > 0 &&
-                  range(0, feedComponentData.length, 5).map((datum, index) => {
-                    let updateFeed = [];
-                    feedComponentData.forEach((data, i) => {
-                      if (datum <= i && i < datum + 5) {
-                        updateFeed.push(data);
+              <Carousel
+                elementWidthDesktop={100}
+                header={
+                  this.props.feedComponentData.title
+                    ? this.props.feedComponentData.title
+                    : "Fresh from Brands"
+                }
+              >
+                {feedComponentData &&
+                  (feedComponentData.length > 0 &&
+                    range(0, feedComponentData.length, 5).map(
+                      (datum, index) => {
+                        let updateFeed = [];
+                        feedComponentData.forEach((data, i) => {
+                          if (datum <= i && i < datum + 5) {
+                            updateFeed.push(data);
+                          }
+                        });
+                        return (
+                          <NewBrandDesktop
+                            data={{ ...updateFeed }}
+                            {...rest}
+                            history={this.props.history}
+                            onClick={val => this.handleClick(val)}
+                          />
+                        );
                       }
-                    });
-                    return (
-                      <NewBrandDesktop
-                        data={{ ...updateFeed }}
-                        {...rest}
-                        history={this.props.history}
-                        onClick={val => this.handleClick(val)}
-                      />
-                    );
-                  }))}
-            </Carousel>
-          </div>
+                    ))}
+              </Carousel>
+            </div>
+          </CommonCenter>
         </MediaQuery>
       </React.Fragment>
     );

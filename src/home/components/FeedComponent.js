@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "../../general/components/Carousel";
 import MediaQuery from "react-responsive";
 import ProductModule from "../../general/components/ProductModule";
+
 import PropTypes from "prop-types";
 import styles from "./FeedComponent.css";
 import { withRouter } from "react-router";

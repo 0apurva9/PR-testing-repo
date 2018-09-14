@@ -14,6 +14,7 @@ import { convertDateTimeFromIndianToAmerican } from "../../home/dateTimeUtils.js
 import FlashSaleLimitedTimeOfferComponent from "../../home/components/FlashSaleLimitedTimeOfferComponent.js";
 import MediaQuery from "react-responsive";
 import Carousel from "../../general/components/Carousel";
+import CommonCenter from "../../general/components/CommonCenter";
 const OFFER_AND_ITEM_LIMIT = 4;
 
 export default class FlashSale extends React.Component {
@@ -174,7 +175,7 @@ export default class FlashSale extends React.Component {
           </div>
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
-          <React.Fragment>
+          <CommonCenter>
             <div
               className={
                 this.props.positionInFeed === 1
@@ -216,7 +217,7 @@ export default class FlashSale extends React.Component {
                   })}
               </Carousel>
             </div>
-          </React.Fragment>
+          </CommonCenter>
         </MediaQuery>
       </React.Fragment>
     );
