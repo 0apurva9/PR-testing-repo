@@ -20,7 +20,6 @@ class DesktopFooter extends React.Component {
   };
   render() {
     let footerData = this.props && this.props.DesktopFooterDetails;
-
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
@@ -33,7 +32,9 @@ class DesktopFooter extends React.Component {
               footerData.items[0].pageLinks.map((val, i) => {
                 return (
                   <div className={styles.linkSection}>
-                    <div className={styles.linkHeader}>{val.heading}</div>
+                    <div className={styles.linkHeader}>
+                      {val && val.heading}
+                    </div>
                     {val &&
                       val.list.map((data, i) => {
                         return (
@@ -54,9 +55,9 @@ class DesktopFooter extends React.Component {
               footerData.items &&
               footerData.items[0] &&
               footerData.items[0].newsLetter &&
-              footerData.items[0].newsLetter[0].heading && (
+              footerData.items[0].newsLetter.heading && (
                 <div className={styles.newsLetterHeading}>
-                  {footerData.items[0].newsLetter[0].heading}
+                  {footerData.items[0].newsLetter.heading}
                 </div>
               )}
 
@@ -65,12 +66,12 @@ class DesktopFooter extends React.Component {
                 footerData.items &&
                 footerData.items[0] &&
                 footerData.items[0].newsLetter &&
-                footerData.items[0].newsLetter[0].placeholderText && (
+                footerData.items[0].newsLetter.placeholderText && (
                   <div className={styles.textBoxHolder}>
                     <Input2
                       boxy={true}
                       placeholder={
-                        footerData.items[0].newsLetter[0].placeholderText
+                        footerData.items[0].newsLetter.placeholderText
                       }
                       textStyle={{ fontSize: 14 }}
                       height={33}
@@ -83,11 +84,11 @@ class DesktopFooter extends React.Component {
                   footerData.items &&
                   footerData.items[0] &&
                   footerData.items[0].newsLetter &&
-                  footerData.items[0].newsLetter[0].btnText && (
+                  footerData.items[0].newsLetter.btnText && (
                     <div className={styles.button}>
                       <Button
                         type="hollow"
-                        label={footerData.items[0].newsLetter[0].btnText}
+                        label={footerData.items[0].newsLetter.btnText}
                         height={36}
                         width={180}
                         textStyle={{ color: "#212121", fontSize: 14 }}
@@ -114,7 +115,7 @@ class DesktopFooter extends React.Component {
                   return (
                     <a href={val.webUrl} target="_blank">
                       <div className={styles.socialIcon}>
-                        <Icon image={val.imageURL} size={20} />
+                        <Icon image={val.webUrl} size={20} />
                       </div>
                     </a>
                   );

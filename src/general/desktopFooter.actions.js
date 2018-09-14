@@ -29,7 +29,8 @@ export function getDesktopFooter() {
   return async (dispatch, getState, { api }) => {
     dispatch(getDesktopFooterRequest());
     try {
-      const resultJson = api.get("v2/mpl/cms/desktopservice/footer");
+      const result = await api.get("v2/mpl/cms/desktopservice/footer");
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
