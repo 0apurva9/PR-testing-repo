@@ -6,6 +6,8 @@ import MediaQuery from "react-responsive";
 import styles from "./CliqCashToggle.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import Button from "../../general/components/Button";
 export default class CliqCashToggle extends React.Component {
   onToggle(val) {
     if (this.props.onToggle) {
@@ -42,6 +44,24 @@ export default class CliqCashToggle extends React.Component {
               disabled={toggleDisable}
             />
           </div>
+          <DesktopOnly>
+            {!this.props.isRemainingBalance && (
+              <div className={styles.buttonHolder}>
+                <Button
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Pay now"
+                  width={150}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={this.handleClick}
+                />
+              </div>
+            )}
+          </DesktopOnly>
         </div>
         <MediaQuery query="(max-device-width: 1024px)">
           {!this.props.isFromGiftCard && (
