@@ -44,24 +44,6 @@ export default class CliqCashToggle extends React.Component {
               disabled={toggleDisable}
             />
           </div>
-          <DesktopOnly>
-            {!this.props.isRemainingBalance && (
-              <div className={styles.buttonHolder}>
-                <Button
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label="Pay now"
-                  width={150}
-                  textStyle={{
-                    color: "#FFF",
-                    fontSize: 14
-                  }}
-                  onClick={this.handleClick}
-                />
-              </div>
-            )}
-          </DesktopOnly>
         </div>
         <MediaQuery query="(max-device-width: 1024px)">
           {!this.props.isFromGiftCard && (
@@ -77,6 +59,24 @@ export default class CliqCashToggle extends React.Component {
             </div>
           )}
         </MediaQuery>
+        <DesktopOnly>
+          {!this.props.isRemainingBalance && (
+            <div className={styles.buttonHolder}>
+              <Button
+                type="primary"
+                backgroundColor="#ff1744"
+                height={40}
+                label="Pay now"
+                width={150}
+                textStyle={{
+                  color: "#FFF",
+                  fontSize: 14
+                }}
+                onClick={this.handleClick}
+              />
+            </div>
+          )}
+        </DesktopOnly>
       </div>
     );
   }

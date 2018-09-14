@@ -56,7 +56,7 @@
 
 @media only screen and (min-width: 1025px) {
   .toggleButtonHolder {
-    width: 100%;
+    width: auto;
     height: 25px;
     position: absolute;
     top: 0;
@@ -67,6 +67,7 @@
   .base {
     position: relative;
     padding-left: 100px;
+    padding-right: 160px;
     margin: 0;
   }
   .cashBalanceTextHolder {
@@ -74,9 +75,13 @@
   }
   .buttonHolder {
     width: auto;
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 15px;
+    height: 40px;
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    margin: auto;
     box-shadow: 0 6px 6px 0 rgba(156, 156, 156, 0.24),
       0 0 6px 0 rgba(0, 0, 0, 0.12);
     border-radius: 19px;
