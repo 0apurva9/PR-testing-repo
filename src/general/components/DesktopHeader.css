@@ -409,14 +409,14 @@
   display: flex;
   padding-left: 45px;
   overflow: hidden;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   padding-bottom: 20px;
   padding-top: 20px;
 }
 .featureBrands,
 .popularBrands {
-  width: 33.3%;
+  width: 50%;
   height: auto;
   max-height: 490px;
   overflow: hidden;
