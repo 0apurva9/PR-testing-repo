@@ -5,7 +5,6 @@
   margin: 15px 0;
   padding: 15px;
   background: #fff;
-
 }
 .cashBalanceTextHolder {
   width: 70%;
@@ -55,22 +54,36 @@
   vertical-align: top;
 }
 
-@media only screen and (min-width:1025px){
-  .toggleButtonHolder{
+@media only screen and (min-width: 1025px) {
+  .toggleButtonHolder {
     width: auto;
     height: 25px;
     position: absolute;
     top: 0;
     bottom: 0;
     margin: auto;
-    left: 30px;;
+    left: 30px;
   }
   .base {
-    position:relative;
-    padding-left:100px;
-    margin:0;
+    position: relative;
+    padding-left: 100px;
+    padding-right: 160px;
+    margin: 0;
   }
-  .cashBalanceTextHolder{
-    width:100%;
+  .cashBalanceTextHolder {
+    width: 100%;
+  }
+  .buttonHolder {
+    width: auto;
+    height: 40px;
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    box-shadow: 0 6px 6px 0 rgba(156, 156, 156, 0.24),
+      0 0 6px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 19px;
   }
 }
