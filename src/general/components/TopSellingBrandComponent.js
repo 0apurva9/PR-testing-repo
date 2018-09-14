@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Logo from "./Logo";
 import Image from "../../xelpmoc-core/Image";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 export default class TopSellingBrandComponent extends React.Component {
   onClick = webURL => {
     if (webURL) {
@@ -25,7 +27,12 @@ export default class TopSellingBrandComponent extends React.Component {
         </div>
         <div className={styles.logoHolder}>
           <div className={styles.logo}>
-            <Logo image={this.props.logoImageURL} />
+            <MobileOnly>
+              <Logo image={this.props.logoImageURL} />
+            </MobileOnly>
+            <DesktopOnly>
+              <Logo image={this.props.logoImageURL} height="50%" />
+            </DesktopOnly>
           </div>
         </div>
       </div>
