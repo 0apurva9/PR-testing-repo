@@ -28,7 +28,11 @@ export default class TopSellingBrandComponent extends React.Component {
         <div className={styles.logoHolder}>
           <div className={styles.logo}>
             <MobileOnly>
-              <Logo image={this.props.logoImageURL} />
+              <Logo
+                image={this.props.logoImageURL}
+                width="100%"
+                height="20px"
+              />
             </MobileOnly>
             <DesktopOnly>
               <Logo image={this.props.logoImageURL} height="50%" />
