@@ -14,14 +14,13 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import BrandImage from "./BrandImage";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
-let catageoryDetails,
-  brandDetails = "";
+
 export default class DesktopHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hovered: null,
-      hoverInType: null
+      hoverInType: BRANDS
     };
   }
   redirectToHome() {
@@ -60,50 +59,47 @@ export default class DesktopHeader extends React.Component {
     this.props.history.push(url);
   }
   onHoverCategory(value) {
+    const headerBrandAndCategoryDetails =
+      this.props.headerBrandAndCategoryDetails &&
+      this.props.headerBrandAndCategoryDetails.items &&
+      this.props.headerBrandAndCategoryDetails.items[0];
+
     if (this.state.hoverInType === CATEGORY) {
       this.setState({
         hoverInType: null,
         hovered: null
       });
     } else {
-      catageoryDetails =
-        this.props &&
-        this.props.headerBrandAndCategoryDetails &&
-        this.props.headerBrandAndCategoryDetails.items &&
-        this.props.headerBrandAndCategoryDetails.items.find(categories => {
-          return categories.componentName === "categoriesTabAZListComponent";
-        });
-      if (catageoryDetails) {
+      if (headerBrandAndCategoryDetails) {
         this.setState({
           hovered:
-            catageoryDetails &&
-            catageoryDetails.categoriesTabAZListComponent &&
-            catageoryDetails.categoriesTabAZListComponent[0].category_name,
+            headerBrandAndCategoryDetails &&
+            headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
+            headerBrandAndCategoryDetails.categoriesTabAZListComponent[0]
+              .category_name,
           hoverInType: value
         });
       }
     }
   }
   onHoverBrands(value) {
+    const headerBrandAndCategoryDetails =
+      this.props.headerBrandAndCategoryDetails &&
+      this.props.headerBrandAndCategoryDetails.items &&
+      this.props.headerBrandAndCategoryDetails.items[0];
+
     if (this.state.hoverInType === BRANDS) {
       this.setState({
         hoverInType: null,
         hovered: null
       });
     } else {
-      brandDetails =
-        this.props &&
-        this.props.headerBrandAndCategoryDetails &&
-        this.props.headerBrandAndCategoryDetails.items &&
-        this.props.headerBrandAndCategoryDetails.items.find(categories => {
-          return categories.componentName === "brandsTabAZListComponent";
-        });
-      if (brandDetails) {
+      if (headerBrandAndCategoryDetails) {
         this.setState({
           hovered:
-            brandDetails &&
-            brandDetails.brandsTabAZListComponent &&
-            brandDetails.brandsTabAZListComponent[0].subType,
+            headerBrandAndCategoryDetails &&
+            headerBrandAndCategoryDetails.brandsTabAZListComponent &&
+            headerBrandAndCategoryDetails.brandsTabAZListComponent[0].subType,
           hoverInType: value
         });
       }
@@ -133,16 +129,23 @@ export default class DesktopHeader extends React.Component {
     }
   }
   render() {
+    const headerBrandAndCategoryDetails =
+      this.props.headerBrandAndCategoryDetails &&
+      this.props.headerBrandAndCategoryDetails.items &&
+      this.props.headerBrandAndCategoryDetails.items[0];
+
     let currentCategory =
-      catageoryDetails &&
-      catageoryDetails.categoriesTabAZListComponent &&
-      catageoryDetails.categoriesTabAZListComponent.find(categories => {
-        return categories.category_name === this.state.hovered;
-      });
+      headerBrandAndCategoryDetails &&
+      headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
+      headerBrandAndCategoryDetails.categoriesTabAZListComponent.find(
+        categories => {
+          return categories.category_name === this.state.hovered;
+        }
+      );
     let currentBrand =
-      brandDetails &&
-      brandDetails.brandsTabAZListComponent &&
-      brandDetails.brandsTabAZListComponent.find(brand => {
+      headerBrandAndCategoryDetails &&
+      headerBrandAndCategoryDetails.brandsTabAZListComponent &&
+      headerBrandAndCategoryDetails.brandsTabAZListComponent.find(brand => {
         return brand.subType === this.state.hovered;
       });
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -279,9 +282,9 @@ export default class DesktopHeader extends React.Component {
                       this.props.headerBrandAndCategoryDetails && (
                         <div className={styles.categoriesHolder}>
                           <div className={styles.categoryDetails}>
-                            {catageoryDetails &&
-                              catageoryDetails.categoriesTabAZListComponent &&
-                              catageoryDetails.categoriesTabAZListComponent.map(
+                            {headerBrandAndCategoryDetails &&
+                              headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
+                              headerBrandAndCategoryDetails.categoriesTabAZListComponent.map(
                                 (categories, val) => {
                                   return (
                                     <React.Fragment>
@@ -373,11 +376,13 @@ export default class DesktopHeader extends React.Component {
                     />
                     {this.state.hoverInType === BRANDS &&
                       this.props.headerBrandAndCategoryDetails && (
-                        <div className={styles.brandDetailsHolder}>
+                        <div
+                          className={styles.headerBrandAndCategoryDetailsHolder}
+                        >
                           <div className={styles.brandLeftDetails}>
-                            {brandDetails &&
-                              brandDetails.brandsTabAZListComponent &&
-                              brandDetails.brandsTabAZListComponent.map(
+                            {headerBrandAndCategoryDetails &&
+                              headerBrandAndCategoryDetails.brandsTabAZListComponent &&
+                              headerBrandAndCategoryDetails.brandsTabAZListComponent.map(
                                 (brand, val) => {
                                   return (
                                     <React.Fragment>
