@@ -1,10 +1,10 @@
 import React from "react";
 import Carousel from "../../general/components/Carousel";
 import DiscoverMoreComponentDesktop from "./DiscoverMoreComponentDesktop";
-import styles from "./DiscoverMoreL2Desktop.css";
+import styles from "./DiscoverMoreL3Desktop.css";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
-export default class DiscoverMoreL2Desktop extends React.Component {
+export default class DiscoverMoreL3Desktop extends React.Component {
   render() {
     const { feedComponentData, title } = this.props;
     return (
@@ -14,8 +14,8 @@ export default class DiscoverMoreL2Desktop extends React.Component {
             header={feedComponentData && feedComponentData.title}
             elementWidthDesktop={33.33}
           >
-            {feedComponentData.items &&
-              feedComponentData.items.map((datum, i) => {
+            {feedComponentData.data &&
+              feedComponentData.data.map((datum, i) => {
                 return (
                   <DiscoverMoreComponentDesktop
                     imageURL={datum.imageURL}
@@ -34,7 +34,7 @@ export default class DiscoverMoreL2Desktop extends React.Component {
     );
   }
 }
-DiscoverMoreL2Desktop.propTypes = {
+DiscoverMoreL3Desktop.propTypes = {
   imageURL: PropTypes.string,
   title: PropTypes.string,
   data: PropTypes.arrayOf(

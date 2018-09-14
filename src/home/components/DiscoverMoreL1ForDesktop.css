@@ -17,6 +17,14 @@
   line-height: 40px;
   margin-bottom: 30px;
 }
+.headingText {
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 30px;
+  font-family: semibold;
+  padding: 0px 15px;
+}
 .showHeaderText {
   width: auto;
   height: auto;
