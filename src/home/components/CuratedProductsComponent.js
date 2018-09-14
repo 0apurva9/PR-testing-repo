@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../../general/components/Button";
+import CommonCenter from "../../general/components/CommonCenter";
 import styles from "./CuratedProductsComponent.css";
 import Grid from "../../general/components/Grid";
 import ProductModule from "../../general/components/ProductModule";
@@ -28,40 +29,42 @@ class CuratedProductsComponent extends React.Component {
       items = feedComponentData.items.map(transformData);
     }
     return (
-      <div className={styles.base}>
-        <div className={styles.header}>
-          <div className={styles.headingText}>{feedComponentData.title}</div>
+      <CommonCenter>
+        <div className={styles.base}>
+          <div className={styles.header}>
+            <div className={styles.headingText}>{feedComponentData.title}</div>
+          </div>
+          <Grid offset={20}>
+            {items &&
+              items.map((datum, i) => {
+                return (
+                  <ProductModule
+                    key={i}
+                    productImage={datum.image}
+                    title={datum.title}
+                    price={datum.price}
+                    discountPrice={datum.discountPrice}
+                    description={datum.description}
+                    webURL={datum.webURL}
+                    onClick={this.onClick}
+                    {...rest}
+                  />
+                );
+              })}
+          </Grid>
+          <div className={styles.button}>
+            {feedComponentData.btnText && (
+              <Button
+                type="hollow"
+                width={100}
+                onClick={this.handleSeeAll}
+                label={feedComponentData.btnText}
+                color="#212121"
+              />
+            )}
+          </div>
         </div>
-        <Grid offset={20}>
-          {items &&
-            items.map((datum, i) => {
-              return (
-                <ProductModule
-                  key={i}
-                  productImage={datum.image}
-                  title={datum.title}
-                  price={datum.price}
-                  discountPrice={datum.discountPrice}
-                  description={datum.description}
-                  webURL={datum.webURL}
-                  onClick={this.onClick}
-                  {...rest}
-                />
-              );
-            })}
-        </Grid>
-        <div className={styles.button}>
-          {feedComponentData.btnText && (
-            <Button
-              type="hollow"
-              width={100}
-              onClick={this.handleSeeAll}
-              label={feedComponentData.btnText}
-              color="#212121"
-            />
-          )}
-        </div>
-      </div>
+      </CommonCenter>
     );
   }
 }

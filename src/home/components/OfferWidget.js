@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./OfferWidget.css";
 import Carousel from "../../general/components/Carousel";
+import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import Offer from "./Offer.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -25,31 +26,33 @@ export default class OfferWidget extends React.Component {
     let { feedComponentData, rest } = this.props;
     const data = feedComponentData.items ? feedComponentData.items : false;
     return (
-      <div
-        className={
-          this.props.positionInFeed === 1
-            ? styles.firstItemHolder
-            : styles.holder
-        }
-      >
-        <Carousel
-          elementWidthMobile={90}
-          elementWidthDesktop={33.33}
-          header={this.props.feedComponentData.title}
+      <CommonCenter>
+        <div
+          className={
+            this.props.positionInFeed === 1
+              ? styles.firstItemHolder
+              : styles.holder
+          }
         >
-          {data &&
-            data.map((datum, i) => {
-              return (
-                <Offer
-                  onClick={this.handleClick}
-                  key={i}
-                  datum={datum}
-                  {...rest}
-                />
-              );
-            })}
-        </Carousel>
-      </div>
+          <Carousel
+            elementWidthMobile={90}
+            elementWidthDesktop={33.33}
+            header={this.props.feedComponentData.title}
+          >
+            {data &&
+              data.map((datum, i) => {
+                return (
+                  <Offer
+                    onClick={this.handleClick}
+                    key={i}
+                    datum={datum}
+                    {...rest}
+                  />
+                );
+              })}
+          </Carousel>
+        </div>
+      </CommonCenter>
     );
   }
 }

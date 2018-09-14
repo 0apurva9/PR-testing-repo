@@ -1,6 +1,7 @@
 import React from "react";
 import FeedComponent from "./FeedComponent";
 import PropTypes from "prop-types";
+import CommonCenter from "../../general/components/CommonCenter";
 import { transformData } from "./utils.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 
@@ -41,17 +42,19 @@ export default class RecommendationWidget extends React.Component {
     }
 
     return (
-      <FeedComponent
-        elementWidthDesktop={25}
-        carouselOptions={{
-          header: this.props.feedComponentData.title,
-          buttonText: this.props.feedComponentData.btnText,
-          seeAll: () => {
-            this.handleClick();
-          }
-        }}
-        data={carouselData}
-      />
+      <CommonCenter>
+        <FeedComponent
+          elementWidthDesktop={25}
+          carouselOptions={{
+            header: this.props.feedComponentData.title,
+            buttonText: this.props.feedComponentData.btnText,
+            seeAll: () => {
+              this.handleClick();
+            }
+          }}
+          data={carouselData}
+        />
+      </CommonCenter>
     );
   }
 }

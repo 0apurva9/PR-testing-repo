@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./SubBrandsBanner.css";
 import ProductImageAndLogo from "./ProductImageAndLogo.js";
 import Carousel from "../../general/components/Carousel";
+import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 export default class SubBrandsBanner extends React.Component {
@@ -14,30 +15,32 @@ export default class SubBrandsBanner extends React.Component {
   }
   render() {
     return (
-      <div
-        className={
-          this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
-        }
-      >
-        <Carousel
-          header={
-            this.props.feedComponentData && this.props.feedComponentData.title
+      <CommonCenter>
+        <div
+          className={
+            this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
           }
         >
-          {this.props.feedComponentData &&
-            this.props.feedComponentData.items &&
-            this.props.feedComponentData.items.map((datum, i) => {
-              return (
-                <ProductImageAndLogo
-                  key={i}
-                  imageUrl={datum.imageURL}
-                  logo={datum.brandLogo}
-                  onClick={() => this.handleClick(datum.webURL)}
-                />
-              );
-            })}
-        </Carousel>
-      </div>
+          <Carousel
+            header={
+              this.props.feedComponentData && this.props.feedComponentData.title
+            }
+          >
+            {this.props.feedComponentData &&
+              this.props.feedComponentData.items &&
+              this.props.feedComponentData.items.map((datum, i) => {
+                return (
+                  <ProductImageAndLogo
+                    key={i}
+                    imageUrl={datum.imageURL}
+                    logo={datum.brandLogo}
+                    onClick={() => this.handleClick(datum.webURL)}
+                  />
+                );
+              })}
+          </Carousel>
+        </div>
+      </CommonCenter>
     );
   }
 }
