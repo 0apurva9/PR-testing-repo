@@ -828,12 +828,7 @@ export default class OrderRelatedIssue extends React.Component {
                           className={styles.productsDisplayHolder}
                           onClick={() =>
                             this.setState({
-                              showOrder: true,
-                              productImageURL: "",
-                              orderDate: "",
-                              productName: "",
-                              productPrice: "",
-                              productStatus: ""
+                              showOrder: true
                             })
                           }
                         >
