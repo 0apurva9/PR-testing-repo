@@ -26,6 +26,7 @@
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
 .iconHolder {
   width: 20px;

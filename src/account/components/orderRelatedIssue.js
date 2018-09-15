@@ -804,11 +804,11 @@ export default class OrderRelatedIssue extends React.Component {
               <div className={styles.formHolder}>
                 {this.state.isSelected === 0 && (
                   <div className={styles.firstTab}>
-                    <div className={styles.selectedOrder}>
-                      <div
-                        className={styles.headingHolder}
-                        onClick={() => this.goToOrderPage()}
-                      >
+                    <div
+                      className={styles.selectedOrder}
+                      onClick={() => this.goToOrderPage()}
+                    >
+                      <div className={styles.headingHolder}>
                         <CheckOutHeader
                           indexNumber="1"
                           confirmTitle="Select your order"
