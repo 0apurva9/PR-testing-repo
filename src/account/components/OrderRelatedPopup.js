@@ -4,12 +4,6 @@ import ProductImage from "../../general/components/ProductImage.js";
 import CheckBox from "../../general/components/CheckBox";
 import format from "date-fns/format";
 export default class OrderRelatedPopup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      check: null
-    };
-  }
   setProductDetails(
     orderCode,
     transactionId,
@@ -22,7 +16,6 @@ export default class OrderRelatedPopup extends React.Component {
     index
   ) {
     if (this.props.setProductDetails) {
-      this.setState({ check: index });
       this.props.setProductDetails(
         orderCode,
         transactionId,
@@ -83,7 +76,10 @@ export default class OrderRelatedPopup extends React.Component {
                             >
                               <div className={styles.checkboxHolder}>
                                 <CheckBox
-                                  selected={this.state.check === index}
+                                  selected={
+                                    this.props.selectedOrderId ===
+                                    orderDetails.orderId
+                                  }
                                 />
                               </div>
                               <div className={styles.imageHolder}>

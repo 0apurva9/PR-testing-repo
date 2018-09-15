@@ -1200,6 +1200,7 @@ export default class OrderRelatedIssue extends React.Component {
           </div>
           {this.state.showOrder && (
             <OrderRelatedPopup
+              selectedOrderId={this.state.orderCode}
               ordersTransactionData={this.props.ordersTransactionData}
               setProductDetails={(
                 orderCode,
