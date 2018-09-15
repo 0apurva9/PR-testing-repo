@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 export default class DiscoverMoreL3Desktop extends React.Component {
   render() {
     const { feedComponentData, title } = this.props;
+
     return (
       <DesktopOnly>
         <div className={styles.base}>
@@ -15,14 +16,15 @@ export default class DiscoverMoreL3Desktop extends React.Component {
             elementWidthDesktop={33.33}
           >
             {feedComponentData.data &&
-              feedComponentData.data.map((datum, i) => {
+              feedComponentData.data[0] &&
+              feedComponentData.data[0].map((datum, i) => {
                 return (
                   <DiscoverMoreComponentDesktop
-                    imageURL={datum.imageURL}
-                    title={datum.title}
-                    webURL={datum.webURL}
+                    imageURL={datum.L1_metadata && datum.L1_metadata.imageURL}
+                    title={datum.L1}
+                    webURL={datum.L1_metadata && datum.L1_metadata.webURL}
                     btnText={datum.btnText}
-                    items={datum.items}
+                    items={datum.L3_list}
                     history={this.props.history}
                     setClickedElementId={this.props.setClickedElementId}
                   />
