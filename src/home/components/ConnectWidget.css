@@ -80,5 +80,6 @@
     margin: 80px auto 0px;
     padding: 0px 10px;
     cursor: pointer;
+    overflow: hidden;
   }
 }
