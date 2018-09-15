@@ -18,7 +18,14 @@ export default class DiscoverMoreL1ForDesktop extends React.Component {
 
   render() {
     const { feedComponentData } = cloneDeep(this.props);
-
+    if (
+      !feedComponentData ||
+      !feedComponentData.data ||
+      !feedComponentData.data[0] ||
+      !feedComponentData.data[0].length === 0
+    ) {
+      return null;
+    }
     return (
       feedComponentData &&
       feedComponentData.data && (
