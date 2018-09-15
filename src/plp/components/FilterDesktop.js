@@ -239,7 +239,7 @@ export default class FilterDesktop extends React.Component {
                                       this.viewMore(facetDataValues.values)
                                     }
                                   >
-                                    More
+                                    More Brands
                                   </div>
                                 )}
                             </DesktopOnly>
