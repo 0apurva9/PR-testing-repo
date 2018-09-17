@@ -1,9 +1,16 @@
 import React from "react";
-import Video from "./Video";
 import Image from "../../xelpmoc-core/Image";
 import Logo from "./Logo";
 import PropTypes from "prop-types";
+import Loadable from "react-loadable";
 import styles from "./ProductVideo.css";
+
+const Video = Loadable({
+  loader: () => import("./Video"),
+  loading() {
+    return <div />;
+  }
+});
 export default class ProductVideo extends React.Component {
   constructor(props) {
     super(props);

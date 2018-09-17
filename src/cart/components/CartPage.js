@@ -2,8 +2,6 @@ import React from "react";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
 import CheckoutStaticSection from "./CheckoutStaticSection.js";
-import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
-import styles from "./CartPage.css";
 import PropTypes from "prop-types";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopCheckout from "./DesktopCheckout.js";
@@ -46,6 +44,7 @@ import {
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
+import styles from "./CartPage.css";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
