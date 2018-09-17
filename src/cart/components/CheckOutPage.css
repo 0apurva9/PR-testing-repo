@@ -202,7 +202,7 @@
     border-radius: 20px;
   }
   .buttonHolder:hover {
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
   }
   .row {
     margin-top: 0;
