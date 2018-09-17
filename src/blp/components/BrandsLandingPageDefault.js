@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import map from "lodash.map";
 import groupBy from "lodash.groupby";
-import filter from "lodash.filter";
 import BrandsCategory from "./BrandsCategory";
 import BrandsSubCategory from "./BrandsSubCategory";
 import BrandBanner from "./BrandBanner";
@@ -99,7 +97,7 @@ export default class BrandsLandingPageDefault extends React.Component {
         return item["isFollowing"] === "true";
       });
 
-    const brandList = map(brandsStores, brandName => {
+    const brandList = brandsStores.map(brandName => {
       return brandName.subType;
     });
     let currentActiveHeroBanner = [];
@@ -118,14 +116,14 @@ export default class BrandsLandingPageDefault extends React.Component {
       brandsStores[this.state.currentActiveBrandType].brands;
     let selectedBrand = brandsStores[this.state.currentActiveBrandType].brands;
     if (this.state.searchBy) {
-      currentActiveBrandList = filter(currentActiveBrandList, brand => {
+      currentActiveBrandList = currentActiveBrandList.filter(brand => {
         return brand.brandName
           .toLowerCase()
           .includes(this.state.searchBy.toLowerCase());
       });
     }
     if (this.state.selectedBrandType && this.state.selectedBrandType !== "#") {
-      currentActiveBrandList = filter(currentActiveBrandList, brand => {
+      currentActiveBrandList = currentActiveBrandList.filter(brand => {
         return brand.brandName
           .toLowerCase()
           .startsWith(this.state.selectedBrandType.toLowerCase());
