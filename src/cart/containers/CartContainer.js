@@ -28,7 +28,7 @@ import {
   showModal,
   ADDRESS
 } from "../../general/modal.actions";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, NO } from "../../lib/constants";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
@@ -58,9 +58,24 @@ const mapDispatchToProps = dispatch => {
       const cartDetailsObj = await dispatch(
         getCartDetails(cartId, userId, accessToken, pinCode, true)
       );
+      let productServiceAvailability =
+        cartDetailsObj &&
+        cartDetailsObj.cartDetails &&
+        cartDetailsObj.cartDetails.products.filter(product => {
+          return (
+            product.isGiveAway === NO &&
+            (product.pinCodeResponse === undefined ||
+              (product.pinCodeResponse &&
+                product.pinCodeResponse.isServicable === "N") ||
+              product.isOutOfStock)
+          );
+        });
       // here we are setting data layer for pincode change on cart page
       if (setDataLayerForPincode) {
-        if (cartDetailsObj.status === SUCCESS) {
+        if (
+          cartDetailsObj.status === SUCCESS &&
+          productServiceAvailability.length === 0
+        ) {
           setDataLayerForCartDirectCalls(
             ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
             pinCode
