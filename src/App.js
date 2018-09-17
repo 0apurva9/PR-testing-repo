@@ -1,12 +1,10 @@
 import "./entry";
 import React, { Component } from "react";
 import queryString, { parse } from "query-string";
-import ModalContainer from "./general/containers/ModalContainer";
-import ToastContainer from "./general/containers/ToastContainer";
+
 import { Switch } from "react-router-dom";
 import Route from "./general/Route";
 import { default as AppStyles } from "./App.css";
-import Auth from "./auth/components/MobileAuth.js";
 import HomeContainer from "./home/containers/HomeContainer.js";
 import ErrorContainer from "./general/containers/ErrorContainer.js";
 import HomeSkeleton from "./general/components/HomeSkeleton";
@@ -17,7 +15,7 @@ import * as Cookie from "./lib/Cookie";
 import SecondaryLoader from "./general/components/SecondaryLoader";
 import HeaderContainer from "./general/containers/HeaderContainer.js";
 import SecondaryLoaderContainer from "./general/containers/SecondaryLoaderContainer.js";
-import HelpDetailsContainer from "./account/containers/HelpDetailsContainer.js";
+
 import * as Cookies from "./lib/Cookie.js";
 
 import {
@@ -72,10 +70,10 @@ import {
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
-import StaticPageContainer from "./staticpage/containers/StaticPageContainer.js";
+
 import PlpBrandCategoryWrapperContainer from "./plp/containers/PlpBrandCategoryWrapperContainer";
 import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDescriptionPageWrapperContainer";
-import DesktopFooterContainer from "./general/containers/DesktopFooterContainer";
+
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
 const Loader = () => {
@@ -113,6 +111,38 @@ const ProductListingsContainer = Loadable({
     return <Loader />;
   }
 });
+const ModalContainer = Loadable({
+  loader: () => import("./general/containers/ModalContainer"),
+  loading(error) {
+    return <div />;
+  }
+});
+const HelpDetailsContainer = Loadable({
+  loader: () => import("./account/containers/HelpDetailsContainer.js"),
+  loading(error) {
+    return <div />;
+  }
+});
+const ToastContainer = Loadable({
+  loader: () => import("./general/containers/ToastContainer"),
+  loading(error) {
+    return <div />;
+  }
+});
+const StaticPageContainer = Loadable({
+  loader: () => import("./staticpage/containers/StaticPageContainer.js"),
+  loading(error) {
+    return <Loader />;
+  }
+});
+
+const Auth = Loadable({
+  loader: () => import("./auth/components/MobileAuth.js"),
+  loading(error) {
+    return <Loader />;
+  }
+});
+
 let CancelOrderContainer;
 if (checkUserAgentIsMobile()) {
   CancelOrderContainer = Loadable({
@@ -130,6 +160,7 @@ if (checkUserAgentIsMobile()) {
     }
   });
 }
+
 let ReturnFlowContainer;
 if (checkUserAgentIsMobile()) {
   ReturnFlowContainer = Loadable({
@@ -169,6 +200,13 @@ const CheckoutAddressContainer = Loadable({
 
 const DeliveryModesContainer = Loadable({
   loader: () => import("./cart/containers/DeliveryModesContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const DesktopFooterContainer = Loadable({
+  loader: () => import("./general/containers/DesktopFooterContainer"),
   loading() {
     return <Loader />;
   }
