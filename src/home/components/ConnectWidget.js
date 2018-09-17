@@ -8,6 +8,7 @@ import ConnectKnowMoreContainer from "../containers/ConnectKnowMoreContainer";
 import ConnectKnowMore from "./ConnectKnowMore";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ConnectBaseWidget from "./ConnectBaseWidget";
+import CommonCenter from "../../general/components/CommonCenter.js";
 export default class ConnectWidget extends React.Component {
   handleClick() {
     if (this.props.feedComponentData.webURL) {
@@ -56,10 +57,12 @@ export default class ConnectWidget extends React.Component {
         }}
       >
         <MediaQuery query="(min-device-width: 1025px)">
-          <ConnectBaseWidget
-            {...this.props.feedComponentData}
-            heading={this.props.feedComponentData.title}
-          />
+          <CommonCenter>
+            <ConnectBaseWidget
+              {...this.props.feedComponentData}
+              heading={this.props.feedComponentData.title}
+            />
+          </CommonCenter>
         </MediaQuery>
         <MediaQuery query="(max-device-width: 1024px)">
           <div className={className}>
