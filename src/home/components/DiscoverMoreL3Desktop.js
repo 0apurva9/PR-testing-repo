@@ -8,7 +8,14 @@ import PropTypes from "prop-types";
 export default class DiscoverMoreL3Desktop extends React.Component {
   render() {
     const { feedComponentData, title } = this.props;
-
+    if (
+      !feedComponentData ||
+      !feedComponentData.data ||
+      !feedComponentData.data[0] ||
+      !feedComponentData.data[0].length === 0
+    ) {
+      return null;
+    }
     return (
       <DesktopOnly>
         <CommonCenter>
