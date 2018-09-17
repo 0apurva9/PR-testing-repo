@@ -18,7 +18,11 @@ export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
 export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
 export const PLP_HAS_NOT_BEEN_VISITED = "PLP_HAS_NOT_BEEN_VISITED";
 export const PRODUCT_LISTINGS_PATH = "v2/mpl/products/searchProducts";
-export const PRODUCT_LISTINGS_SUFFIX = "&isPwa=true&pageSize=20&typeID=all";
+let NO_OF_PRODUCT = 20;
+if (process.env.REACT_APP_VERSION === "desktop") {
+  NO_OF_PRODUCT = 40;
+}
+export const PRODUCT_LISTINGS_SUFFIX = `&isPwa=true&pageSize=${NO_OF_PRODUCT}&typeID=all`;
 export const SORT_PRODUCT_LISTINGS_PATH = "searchProducts";
 export const FILTER_PRODUCT_LISTINGS_PATH = "searchProducts";
 export const GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS =
