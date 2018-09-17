@@ -5,6 +5,7 @@ import {
   SHORT_EXPRESS,
   HOME_DELIVERY
 } from "../../lib/constants";
+const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
 export function transferPincodeToPdpPincode(validDeliveryModes) {
   let eligibleDeliveryModes = [];
   validDeliveryModes.forEach(delivery => {
@@ -29,4 +30,17 @@ export function reverse(data) {
     counter += 1;
   }
   return reverseObject;
+}
+export function groupByBrandAccordingToFirstLetter(arr, prop) {
+  return arr.reduce(function(groups, item) {
+    let val = item[prop][0].toUpperCase();
+    if (REGULAR_EXPRESSION_FOR_ALPHABET.test(val)) {
+      val = item[prop][0].toUpperCase();
+    } else {
+      val = "#";
+    }
+    groups[val] = groups[val] || [];
+    groups[val].push(item);
+    return groups;
+  }, {});
 }

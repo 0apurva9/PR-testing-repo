@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import groupBy from "lodash.groupby";
 import BrandsCategory from "./BrandsCategory";
 import BrandsSubCategory from "./BrandsSubCategory";
 import BrandBanner from "./BrandBanner";
@@ -26,8 +25,8 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import BannerImage from "../../general/components/BannerImage";
 import Banner from "../../general/components/Banner";
+import { groupByBrandAccordingToFirstLetter } from "../../pdp/reducers/utils";
 const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
-const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
 export default class BrandsLandingPageDefault extends React.Component {
   constructor(props) {
     super(props);
@@ -77,6 +76,7 @@ export default class BrandsLandingPageDefault extends React.Component {
       this.setState({ selectedBrandType: null });
     }
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -134,20 +134,14 @@ export default class BrandsLandingPageDefault extends React.Component {
         return REGULAR_EXPRESSION_FOR_NON_ALPHABET.test(brand.brandName);
       });
     }
-    currentActiveBrandList = groupBy(currentActiveBrandList, list => {
-      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.brandName[0])) {
-        return list.brandName[0].toUpperCase();
-      } else {
-        return "#";
-      }
-    });
-    selectedBrand = groupBy(selectedBrand, list => {
-      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.brandName[0])) {
-        return list.brandName[0].toUpperCase();
-      } else {
-        return "#";
-      }
-    });
+    currentActiveBrandList = groupByBrandAccordingToFirstLetter(
+      currentActiveBrandList,
+      "brandName"
+    );
+    selectedBrand = groupByBrandAccordingToFirstLetter(
+      selectedBrand,
+      "brandName"
+    );
     const parentBrandsLabel = Object.keys(currentActiveBrandList);
     const presentLabel = Object.keys(selectedBrand);
     return (

@@ -1,11 +1,10 @@
 import React from "react";
 import styles from "./ShowBrandModal.css";
 import SearchInput from "../../general/components/SearchInput";
-import groupBy from "lodash.groupby";
 import Button from "../../general/components/Button";
 import CheckBox from "../../general/components/CheckBox.js";
+import { groupByBrandAccordingToFirstLetter } from "../../pdp/reducers/utils";
 const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
-const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
 export default class ShowBrandModal extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +37,7 @@ export default class ShowBrandModal extends React.Component {
     }
   };
   render() {
+    let parentBrandsLabel = "";
     let brandsList = this.props.brandData;
     let selectedFixBrand = this.props.brandData;
     if (this.state.brandSearchString !== "") {
@@ -61,22 +61,16 @@ export default class ShowBrandModal extends React.Component {
           .startsWith(this.state.selectedBrandType.toLowerCase());
       });
     }
-    selectedFixBrand = groupBy(selectedFixBrand, list => {
-      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.name[0])) {
-        return list.name[0].toUpperCase();
-      } else {
-        return "#";
-      }
-    });
-    brandsList = groupBy(brandsList, list => {
-      if (REGULAR_EXPRESSION_FOR_ALPHABET.test(list.name[0])) {
-        return list.name[0].toUpperCase();
-      } else {
-        return "#";
-      }
-    });
+    selectedFixBrand = groupByBrandAccordingToFirstLetter(
+      selectedFixBrand,
+      "name"
+    );
+    brandsList = groupByBrandAccordingToFirstLetter(brandsList, "name");
+
     const selectedFixBrandLabel = Object.keys(selectedFixBrand);
-    const parentBrandsLabel = Object.keys(brandsList);
+
+    parentBrandsLabel = Object.keys(brandsList);
+
     return (
       <div className={styles.base}>
         <div className={styles.dataDisplayHolder}>
