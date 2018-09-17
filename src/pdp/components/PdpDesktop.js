@@ -1,6 +1,5 @@
 import React from "react";
 import PdpFrame from "./PdpFrame";
-import find from "lodash.find";
 import ProductGalleryDesktop from "./ProductGalleryDesktop";
 import JewelleryCertification from "./JewelleryCertification";
 import ProductFeatures from "./ProductFeatures";
@@ -409,13 +408,11 @@ export default class PdpApparel extends React.Component {
     this.props.history.push(HOME_ROUTER);
   };
   handleShowPiqPage = () => {
-    const eligibleForCNC = find(
+    const eligibleForCNC =
       this.props.productDetails &&
-        this.props.productDetails.eligibleDeliveryModes,
-      deliveryMode => {
+      this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
         return deliveryMode.code === COLLECT;
-      }
-    );
+      });
     if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
       this.props.showPdpPiqPage();
       this.props.getAllStoresForCliqAndPiq();

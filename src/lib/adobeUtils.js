@@ -1,5 +1,5 @@
 import { getCookieValue, getCookie } from "./Cookie.js";
-import cloneDeep from "lodash/cloneDeep";
+import cloneDeep from "lodash.cloneDeep";
 import { setInterval, clearInterval } from "timers";
 import * as constants from "../lib/constants.js";
 import { userAddressFailure } from "../cart/actions/cart.actions";

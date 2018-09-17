@@ -40,7 +40,7 @@ const mapStateToProps = (state, ownProps) => {
   const facetData = state.productListings.productListings.facetdata;
   let filterSelectedIndex = state.productListings.filterTabIndex;
   if (facetData) {
-    let indexOfKey = findIndex(facetData, datum => {
+    let indexOfKey = facetData.findIndex(datum => {
       return datum.key === selectedFacetKey;
     });
     if (indexOfKey === -1) {
