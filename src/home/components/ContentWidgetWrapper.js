@@ -4,6 +4,7 @@ import ContentWidgetDesktop from "./ContentWidgetDesktop";
 import Loader from "../../general/components/Loader";
 import MediaQuery from "react-responsive";
 import styles from "./ContentWidgetWrapper.css";
+import CommonCenter from "../../general/components/CommonCenter.js";
 export default class ContentWidgetWrapper extends React.Component {
   renderLoader() {
     return <Loader />;
@@ -34,10 +35,12 @@ export default class ContentWidgetWrapper extends React.Component {
             />
           </MediaQuery>
           <MediaQuery query="(min-device-width: 1025px)">
-            <ContentWidgetDesktop
-              allData={this.props.feedComponentData.items}
-              history={this.props.history}
-            />
+            <CommonCenter>
+              <ContentWidgetDesktop
+                allData={this.props.feedComponentData.items}
+                history={this.props.history}
+              />
+            </CommonCenter>
           </MediaQuery>
         </div>
       );
