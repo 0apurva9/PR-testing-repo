@@ -18,9 +18,9 @@
   padding-bottom: 20px;
   display: inline-block;
 }
-.contentHolder{
-  width:100%;
-  height:auto
+.contentHolder {
+  width: 100%;
+  height: auto;
 }
 .payCardHolder {
   width: 100%;
@@ -94,23 +94,31 @@
   border-right: 1px solid #d2d2d2;
 }
 
-@media only screen and (min-width: 1025px){
-  .base{
-    padding:10px 0 0 0;
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding: 10px 0 0 0;
   }
-  .contentHolder{
-    width:50%;
-    display:inline-block;
-    vertical-align:top;
+  .contentHolder {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
   }
-  .contentHolder:nth-child(odd){
-    padding-right:10px;
+  .contentHolder:nth-child(odd) {
+    padding-right: 10px;
   }
-  .contentHolder:nth-child(even){
-    padding-left:10px;
+  .contentHolder:nth-child(even) {
+    padding-left: 10px;
   }
-  .payCardHolder{
-    margin-top:0;
+  .payCardHolder {
+    margin-top: 0;
+  }
+  .buttonHolder {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    transition: 300ms;
+    border-radius: 20px;
+  }
+  .buttonHolder:hover {
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
   }
 }
 .invalidCardText {

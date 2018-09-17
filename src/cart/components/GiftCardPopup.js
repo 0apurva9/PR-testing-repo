@@ -106,6 +106,7 @@ export default class GiftCardPopup extends React.Component {
             <div className={styles.buttonHolder}>
               <div className={styles.button}>
                 <Button
+                  disabled={true}
                   type="tertiary"
                   height={36}
                   label="Add Gift Card"

@@ -81,6 +81,12 @@
     position: absolute;
     right: 0;
     top: 0;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    transition: 300ms;
+    border-radius: 18px;
+  }
+  .buttonHolder:hover {
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
   }
   .termsAndConditionCheck {
     margin-bottom: 0;
