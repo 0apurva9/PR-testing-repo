@@ -8,7 +8,13 @@ import PropTypes from "prop-types";
 export default class DiscoverMoreL3Desktop extends React.Component {
   render() {
     const { feedComponentData, title } = this.props;
-
+    if (
+      !feedComponentData ||
+      !feedComponentData.data ||
+      !feedComponentData.data[0]
+    ) {
+      return null;
+    }
     return (
       <DesktopOnly>
         <CommonCenter>
@@ -17,9 +23,9 @@ export default class DiscoverMoreL3Desktop extends React.Component {
               header={feedComponentData && feedComponentData.title}
               elementWidthDesktop={33.33}
             >
-              {feedComponentData.data &&
-                feedComponentData.data[0] &&
-                feedComponentData.data[0].map((datum, i) => {
+              {feedComponentData &&
+                feedComponentData.data &&
+                feedComponentData.data.map((datum, i) => {
                   return (
                     <DiscoverMoreComponentDesktop
                       imageURL={datum.L1_metadata && datum.L1_metadata.imageURL}
