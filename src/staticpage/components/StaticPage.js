@@ -217,16 +217,7 @@ export default class StaticPage extends Component {
                   )}
                 {this.props.location.pathname !== "/contact" &&
                   this.props.location.pathname !== "/aboutus" && (
-                    <div
-                      className={styles.contentHolder}
-                      style={{
-                        width:
-                          this.props.location.pathname ===
-                          "/dummy-homepage-test"
-                            ? "100%"
-                            : "70%"
-                      }}
-                    >
+                    <div className={styles.contentHolder}>
                       <React.Fragment>
                         <div className={styles.tabHeaderHolder}>
                           {listTitle && listTitle.title}

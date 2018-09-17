@@ -1,7 +1,6 @@
 .base {
   width: 100%;
   height: auto;
-  padding: 0 10px;
   position: relative;
   cursor: pointer;
   overflow: hidden;
@@ -81,7 +80,7 @@
   top: 0;
 }
 .buttons:after {
-  content: "";
+  content: '';
   height: 100%;
   width: 2px;
   background: #ececec;
@@ -94,7 +93,7 @@
 .forwardButton {
   width: 36px;
   height: 32px;
-  background: url("../../general/components/img/arrow.svg") no-repeat;
+  background: url('../../general/components/img/arrow.svg') no-repeat;
   background-size: 18px;
   background-position: center;
   position: absolute;
