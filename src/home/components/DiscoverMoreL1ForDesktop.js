@@ -21,8 +21,7 @@ export default class DiscoverMoreL1ForDesktop extends React.Component {
     if (
       !feedComponentData ||
       !feedComponentData.data ||
-      !feedComponentData.data[0] ||
-      !feedComponentData.data[0].length === 0
+      !feedComponentData.data[0]
     ) {
       return null;
     }

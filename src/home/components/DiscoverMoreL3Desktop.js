@@ -11,8 +11,7 @@ export default class DiscoverMoreL3Desktop extends React.Component {
     if (
       !feedComponentData ||
       !feedComponentData.data ||
-      !feedComponentData.data[0] ||
-      !feedComponentData.data[0].length === 0
+      !feedComponentData.data[0]
     ) {
       return null;
     }
@@ -24,9 +23,9 @@ export default class DiscoverMoreL3Desktop extends React.Component {
               header={feedComponentData && feedComponentData.title}
               elementWidthDesktop={33.33}
             >
-              {feedComponentData.data &&
-                feedComponentData.data[0] &&
-                feedComponentData.data[0].map((datum, i) => {
+              {feedComponentData &&
+                feedComponentData.data &&
+                feedComponentData.data.map((datum, i) => {
                   return (
                     <DiscoverMoreComponentDesktop
                       imageURL={datum.L1_metadata && datum.L1_metadata.imageURL}
