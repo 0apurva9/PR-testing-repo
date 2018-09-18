@@ -23,7 +23,6 @@ const account = (
     orderDetails: null,
     orderDetailsStatus: null,
     orderDetailsError: null,
-
     fetchOrderDetails: null,
     fetchOrderDetailsStatus: null,
     fetchOrderDetailsError: null,
@@ -528,7 +527,7 @@ const account = (
       });
     case accountActions.FOLLOW_AND_UN_FOLLOW_BRANDS_IN_MY_ACCOUNT_SUCCESS:
       const currentBrands = cloneDeep(state.followedBrands);
-      const indexToBeRemoved = findIndex(currentBrands, brand => {
+      const indexToBeRemoved = currentBrands.findIndex(brand => {
         return brand.id === action.brandId;
       });
       currentBrands.splice(indexToBeRemoved, 1);
@@ -602,8 +601,7 @@ const account = (
 
     case accountActions.REMOVE_ADDRESS_SUCCESS:
       const currentAddresses = cloneDeep(state.userAddress);
-      const indexOfAddressToBeRemove = findIndex(
-        currentAddresses.addresses,
+      const indexOfAddressToBeRemove = currentAddresses.addresses.findIndex(
         address => {
           return address.id === action.addressId;
         }

@@ -22,7 +22,6 @@ import {
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
-import find from "lodash.find";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 export default class StaticPage extends Component {
   constructor(props) {
@@ -59,30 +58,30 @@ export default class StaticPage extends Component {
   render() {
     const data = this.props;
 
-    let listMenu = find(
-      this.props && this.props.data.length > 0 && this.props.data,
-      listMenuDetails => {
+    let listMenu =
+      this.props &&
+      this.props.data.length > 0 &&
+      this.props.data.find(listMenuDetails => {
         return listMenuDetails.type === "Account Navigation Component";
-      }
-    );
-    let listTitle = find(
-      this.props && this.props.data.length > 0 && this.props.data,
-      listMenuDetails => {
+      });
+    let listTitle =
+      this.props &&
+      this.props.data.length > 0 &&
+      this.props.data.find(listMenuDetails => {
         return listMenuDetails.type === "Landing Page Title Component";
-      }
-    );
-    let aboutUsImage = find(
-      this.props && this.props.data.length > 0 && this.props.data,
-      listMenuDetails => {
+      });
+    let aboutUsImage =
+      this.props &&
+      this.props.data.length > 0 &&
+      this.props.data.find(listMenuDetails => {
         return listMenuDetails.type === "Simple Banner Component";
-      }
-    );
-    let aboutUsText = find(
-      this.props && this.props.data.length > 0 && this.props.data,
-      aboutUsText => {
+      });
+    let aboutUsText =
+      this.props &&
+      this.props.data.length > 0 &&
+      this.props.data.find(aboutUsText => {
         return aboutUsText.type === "CMS Paragraph Component";
-      }
-    );
+      });
     let question = this.props.data && this.props.data[3];
     let linkCall = this.props.data && this.props.data[0];
     let linkChat = this.props.data && this.props.data[1];

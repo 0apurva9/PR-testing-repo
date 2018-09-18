@@ -18,7 +18,6 @@ import CheckoutStaticSection from "./CheckoutStaticSection.js";
 import GridSelect from "../../general/components/GridSelect";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import find from "lodash.find";
 import OrderConfirmation from "./OrderConfirmation";
 import queryString, { parse } from "query-string";
 import PiqPage from "./PiqPage";
@@ -1454,14 +1453,14 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
   onSelectAddress(selectedAddress) {
-    let addressSelected = find(
+    let addressSelected =
       this.props.cart.cartDetailsCNC &&
-        this.props.cart.cartDetailsCNC.addressDetailsList &&
-        this.props.cart.cartDetailsCNC.addressDetailsList.addresses,
-      address => {
-        return address.id === selectedAddress[0];
-      }
-    );
+      this.props.cart.cartDetailsCNC.addressDetailsList &&
+      this.props.cart.cartDetailsCNC.addressDetailsList.addresses.find(
+        address => {
+          return address.id === selectedAddress[0];
+        }
+      );
     this.updateLocalStoragePinCode(
       addressSelected && addressSelected.postalCode
     );
@@ -1549,8 +1548,7 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   checkAvailabilityOfService = () => {
-    let productServiceAvailability = find(
-      this.props.cart.cartDetailsCNC.products,
+    let productServiceAvailability = this.props.cart.cartDetailsCNC.products.find(
       product => {
         return (
           product.isGiveAway === NO &&

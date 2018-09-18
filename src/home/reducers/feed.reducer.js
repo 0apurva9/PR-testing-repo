@@ -2,8 +2,6 @@
 import * as homeActions from "../actions/home.actions";
 import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS } from "../../account/actions/account.actions";
 import cloneDeep from "lodash.clonedeep";
-import map from "lodash.map";
-import findIndex from "lodash.findindex";
 import { HOME_FEED_TYPE } from "../../lib/constants";
 import { transformFetchingItemsOrder } from "./utils";
 const feed = (
@@ -46,7 +44,7 @@ const feed = (
     case homeActions.SECONDARY_FEED_SUCCESS:
       secondaryFeedClonedData = cloneDeep(action.data);
 
-      secondaryFeedData = map(secondaryFeedClonedData, subData => {
+      secondaryFeedData = secondaryFeedClonedData.map(subData => {
         // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
         return {
           ...subData[subData.componentName],
@@ -81,7 +79,7 @@ const feed = (
       if (state.useBackUpHomeFeed) {
         homeFeedClonedData = cloneDeep(action.data);
 
-        homeFeedData = map(homeFeedClonedData, subData => {
+        homeFeedData = homeFeedClonedData.map(subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
           return {
             ...subData[subData.componentName],
@@ -131,7 +129,7 @@ const feed = (
       if (!state.useBackUpHomeFeed) {
         homeFeedClonedData = cloneDeep(action.data);
 
-        homeFeedData = map(homeFeedClonedData, subData => {
+        homeFeedData = homeFeedClonedData.map(subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
           return {
             ...subData[subData.componentName],
@@ -256,7 +254,7 @@ const feed = (
     case FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS:
       homeFeedData = cloneDeep(state.homeFeed);
       clonedComponent = homeFeedData[action.positionInFeed];
-      const indexOfBrandToBeUpdated = findIndex(clonedComponent.data, item => {
+      const indexOfBrandToBeUpdated = clonedComponent.data.findIndex(item => {
         return item.id === action.brandId;
       });
       clonedComponent.data[indexOfBrandToBeUpdated].isFollowing =

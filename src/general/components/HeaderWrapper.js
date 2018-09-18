@@ -7,7 +7,7 @@ import DesktopHeader from "./DesktopHeader.js";
 import * as Cookie from "../../lib/Cookie";
 import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
-import throttle from "lodash/throttle";
+import throttle from "lodash.throttle";
 import {
   HOME_ROUTER,
   PRODUCT_CART_ROUTER,

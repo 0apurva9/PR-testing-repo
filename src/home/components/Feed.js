@@ -23,7 +23,6 @@ import MonoBanner from "./MonoBanner";
 import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
-import map from "lodash.map";
 import MobileOnly from "../../general/components/MobileOnly";
 
 import {
@@ -232,7 +231,7 @@ export const typeComponentMapping = {
     }
     return (
       parsedContent &&
-      map(parsedContent, content => {
+      parsedContent.map(content => {
         return <CMSTextComponent data={content} />;
       })
     );

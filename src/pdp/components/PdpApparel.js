@@ -1,6 +1,5 @@
 import React from "react";
 import PdpFrame from "./PdpFrame";
-import find from "lodash.find";
 import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
 import Accordion from "../../general/components/Accordion.js";
@@ -294,13 +293,11 @@ export default class PdpApparel extends React.Component {
     }
   };
   handleShowPiqPage = () => {
-    const eligibleForCNC = find(
+    const eligibleForCNC =
       this.props.productDetails &&
-        this.props.productDetails.eligibleDeliveryModes,
-      deliveryMode => {
+      this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
         return deliveryMode.code === COLLECT;
-      }
-    );
+      });
     if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
       this.props.showPdpPiqPage();
       this.props.getAllStoresForCliqAndPiq();

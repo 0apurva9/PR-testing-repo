@@ -16,7 +16,6 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
-import find from "lodash.find";
 import BankDetails from "./BankDetails.js";
 
 import {

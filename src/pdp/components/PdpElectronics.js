@@ -1,6 +1,5 @@
 import React from "react";
 import PdpFrame from "./PdpFrame";
-import find from "lodash.find";
 import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import Image from "../../xelpmoc-core/Image";
 import ProductGalleryMobile from "./ProductGalleryMobile";
@@ -224,13 +223,11 @@ export default class PdpElectronics extends React.Component {
     this.props.showEmiModal();
   };
   handleShowPiqPage = () => {
-    const eligibleForCNC = find(
+    const eligibleForCNC =
       this.props.productDetails &&
-        this.props.productDetails.eligibleDeliveryModes,
-      deliveryMode => {
+      this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
         return deliveryMode.code === COLLECT;
-      }
-    );
+      });
     if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
       this.props.showPdpPiqPage();
       this.props.getAllStoresForCliqAndPiq();

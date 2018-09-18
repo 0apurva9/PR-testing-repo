@@ -6,7 +6,7 @@ import WriteReview from "./WriteReview";
 import PropTypes from "prop-types";
 import RatingHolder from "./RatingHolder";
 import PdpFrame from "./PdpFrame";
-import throttle from "lodash/throttle";
+import throttle from "lodash.throttle";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
