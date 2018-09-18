@@ -1,6 +1,12 @@
 import React from "react";
-import ReactPlayer from "react-player";
+import Loadable from "react-loadable";
 import PropTypes from "prop-types";
+const ReactPlayer = Loadable({
+  loader: () => import("react-player"),
+  loading() {
+    return <div />;
+  }
+});
 export default class Video extends React.Component {
   render() {
     return (

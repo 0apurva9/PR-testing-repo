@@ -1,8 +1,4 @@
 import React from "react";
-import FilterContainer from "../containers/FilterContainer";
-import ProductGrid from "./ProductGrid";
-import PlpMobileFooter from "./PlpMobileFooter";
-import styles from "./Plp.css";
 import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
@@ -14,14 +10,16 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
+import Loadable from "react-loadable";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
 import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
+import styles from "./Plp.css";
 import { filterScroll, filterFixed } from "./FilterDesktop.css";
-import SortDesktopContainer from "../containers/SortDesktopContainer";
+
 import {
   REQUESTING,
   AMP_BRAND_AND_CATEGORY_REG_EX,
@@ -29,6 +27,30 @@ import {
   AMP_BRAND_REG_EX,
   AMP_SEARCH_REG_EX
 } from "../../lib/constants";
+const SortDesktopContainer = Loadable({
+  loader: () => import("../containers/SortDesktopContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+const FilterContainer = Loadable({
+  loader: () => import("../containers/FilterContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+const ProductGrid = Loadable({
+  loader: () => import("./ProductGrid"),
+  loading() {
+    return <Loader />;
+  }
+});
+const PlpMobileFooter = Loadable({
+  loader: () => import("./PlpMobileFooter"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
