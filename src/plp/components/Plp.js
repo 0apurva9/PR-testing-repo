@@ -400,15 +400,24 @@ export default class Plp extends React.Component {
                       .searchQuery}"`}</div>
                 </div>
               ) : (
-                <div className={styles.headerText}>
-                  <div className={styles.plpHeading} />
-                  {`${
-                    this.props.productListings &&
-                    this.props.productListings.pagination &&
-                    this.props.productListings.pagination.totalResults
-                      ? this.props.productListings.pagination.totalResults
-                      : 0
-                  } Products`}
+                <div className={styles.headerTextWithTotalProducts}>
+                  <div className={styles.headerHeading}>
+                    {this.props.productListings &&
+                      this.props.productListings.facetdatacategory &&
+                      this.props.productListings.facetdatacategory.filters &&
+                      this.props.productListings.facetdatacategory.filters[0] &&
+                      this.props.productListings.facetdatacategory.filters[0]
+                        .categoryName}
+                  </div>
+                  <div className={styles.totalProducts}>
+                    {`${
+                      this.props.productListings &&
+                      this.props.productListings.pagination &&
+                      this.props.productListings.pagination.totalResults
+                        ? this.props.productListings.pagination.totalResults
+                        : 0
+                    } Products`}
+                  </div>
                 </div>
               )}
             </MediaQuery>
