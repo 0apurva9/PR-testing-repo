@@ -30,7 +30,7 @@ import delay from "lodash.delay";
 import { TOAST_DELAY } from "./general/toast.actions";
 import "intersection-observer";
 import desktopFooter from "./general/desktopFooter.reducer";
-
+"fetch" in window && "assign" in Object && require("babel-polyfill");
 const rootReducer = combineReducers({
   auth,
   user,
