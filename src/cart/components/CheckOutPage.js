@@ -549,7 +549,7 @@ class CheckOutPage extends React.Component {
         <DesktopOnly>
           <div className={styles.bottomCap}>
             <div className={styles.alignRight}>
-              <div className={styles.inline}>
+              <div className={styles.buttonHolder}>
                 <Button
                   disabled={checkoutButtonStatus}
                   type="primary"

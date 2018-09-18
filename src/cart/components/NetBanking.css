@@ -22,7 +22,7 @@
   margin-right: 20px;
 }
 
-@media only screen and (min-width: 1025px){
+@media only screen and (min-width: 1025px) {
   .buttonHolder {
     width: auto;
     height: auto;
@@ -30,17 +30,23 @@
     right: 0;
     margin: auto;
     top: 0;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    transition: 300ms;
+    border-radius: 20px;
   }
-  .contentHolder{
-    width:50%;
-    display:inline-block;
-    vertical-align:top;
-    position:relative;
+  .buttonHolder:hover {
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
   }
-  .contentHolder:nth-child(odd){
-    padding-right:10px;
+  .contentHolder {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
   }
-  .contentHolder:nth-child(even){
-    padding-left:10px;
+  .contentHolder:nth-child(odd) {
+    padding-right: 10px;
+  }
+  .contentHolder:nth-child(even) {
+    padding-left: 10px;
   }
 }
