@@ -1,3 +1,4 @@
+import "./BabelPolyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 import AppContainer from "../src/general/containers/AppContainer";
@@ -29,6 +30,7 @@ import delay from "lodash.delay";
 import { TOAST_DELAY } from "./general/toast.actions";
 import "intersection-observer";
 import desktopFooter from "./general/desktopFooter.reducer";
+
 const rootReducer = combineReducers({
   auth,
   user,
