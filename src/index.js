@@ -1,4 +1,3 @@
-import "./BabelPolyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 import AppContainer from "../src/general/containers/AppContainer";
