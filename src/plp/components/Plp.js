@@ -406,20 +406,42 @@ export default class Plp extends React.Component {
               : renderMetaTagsWithoutSeoObject(this.props.productListings)}
             <MediaQuery query="(min-device-width: 1025px)">
               {this.props.productListings &&
-                this.props.productListings && (
-                  <div className={styles.headerText}>
-                    <div className={styles.plpHeading}>{`showing "${
+              this.props.productListings &&
+              this.props.productListings.currentQuery &&
+              this.props.productListings.currentQuery.searchQuery ? (
+                <div className={styles.headerText}>
+                  <div className={styles.plpHeading}>{`Showing "${
+                    this.props.productListings &&
+                    this.props.productListings.pagination &&
+                    this.props.productListings.pagination.totalResults
+                      ? this.props.productListings.pagination.totalResults
+                      : 0
+                  }" items for "${this.props.productListings &&
+                    this.props.productListings.currentQuery &&
+                    this.props.productListings.currentQuery
+                      .searchQuery}"`}</div>
+                </div>
+              ) : (
+                <div className={styles.headerTextWithTotalProducts}>
+                  <div className={styles.headerHeading}>
+                    {this.props.productListings &&
+                      this.props.productListings.facetdatacategory &&
+                      this.props.productListings.facetdatacategory.filters &&
+                      this.props.productListings.facetdatacategory.filters[0] &&
+                      this.props.productListings.facetdatacategory.filters[0]
+                        .categoryName}
+                  </div>
+                  <div className={styles.totalProducts}>
+                    {`${
                       this.props.productListings &&
                       this.props.productListings.pagination &&
                       this.props.productListings.pagination.totalResults
                         ? this.props.productListings.pagination.totalResults
                         : 0
-                    }" items for "${this.props.productListings &&
-                      this.props.productListings.currentQuery &&
-                      this.props.productListings.currentQuery
-                        .searchQuery}"`}</div>
+                    } Products`}
                   </div>
-                )}
+                </div>
+              )}
             </MediaQuery>
             <MediaQuery query="(min-device-width:1025px)">
               <div className={styles.headerSortWithFilter}>
