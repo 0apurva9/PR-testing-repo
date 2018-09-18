@@ -53,6 +53,7 @@
   position: relative;
   padding-left: 50px;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 .imageHolder {
   width: 15%;

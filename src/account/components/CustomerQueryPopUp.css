@@ -111,3 +111,8 @@
   display: inline-block;
   vertical-align: top;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 35%;
+  }
+}
