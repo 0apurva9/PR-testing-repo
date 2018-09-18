@@ -95,7 +95,7 @@ export default class NewPassword extends React.Component {
         <div className={styles.input}>
           <PasswordInput
             hollow={true}
-            placeholder="New password"
+            placeholder="New Password"
             onChange={val => this.setState({ newPassword: val })}
           />
         </div>
