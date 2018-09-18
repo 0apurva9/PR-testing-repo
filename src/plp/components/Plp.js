@@ -388,7 +388,7 @@ export default class Plp extends React.Component {
               this.props.productListings.currentQuery &&
               this.props.productListings.currentQuery.searchQuery ? (
                 <div className={styles.headerText}>
-                  <div className={styles.plpHeading}>{`showing "${
+                  <div className={styles.plpHeading}>{`Showing "${
                     this.props.productListings &&
                     this.props.productListings.pagination &&
                     this.props.productListings.pagination.totalResults
