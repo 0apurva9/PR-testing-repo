@@ -462,7 +462,7 @@
 }
 .stickyBase {
   composes: base;
-  transform: translateY(-40px);
+  transform: translateY(-40px) translateZ(-1px);
 }
 .stickyLogo {
   composes: logoHolder;
