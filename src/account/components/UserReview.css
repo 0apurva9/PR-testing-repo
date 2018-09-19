@@ -1,0 +1,63 @@
+.base {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+.totalReview {
+  width: 100%;
+  height: auto;
+  min-height: 55px;
+  line-height: 55px;
+  font-family: light;
+  font-size: 14px;
+  border-bottom: solid 1px #dcdcdc;
+  border-top: solid 1px #dcdcdc;
+  padding-left: 15px;
+}
+.totalReviewLength {
+  font-family: semibold;
+}
+.reviewsHolder {
+  width: 100%;
+  height: auto;
+  padding: 15px 15px 25px 15px;
+  border-bottom: solid 1px #dcdcdc;
+}
+.reviewsHolder:last-child {
+  border-bottom: none;
+}
+.productDetails {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+.commentAndHeadlineHolder {
+  width: 100%;
+  height: auto;
+  padding: 0px 15px;
+}
+.headline {
+  width: 100%;
+  height: auto;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: semibold;
+}
+
+.comment {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: light;
+}
+.noReviews {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-top: 10px;
+  font-size: 16px;
+  font-family: regular;
+  text-align: center;
+  padding: 30px 15px 70px;
+  background: #ececec;
+}

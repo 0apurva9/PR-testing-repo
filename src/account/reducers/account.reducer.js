@@ -12,6 +12,7 @@ import findIndex from "lodash.findindex";
 import { SUCCESS } from "../../lib/constants";
 import { CLEAR_ERROR } from "../../general/error.actions";
 import * as Cookies from "../../lib/Cookie";
+import concat from "lodash.concat";
 const account = (
   state = {
     status: null,
@@ -163,7 +164,12 @@ const account = (
     submitOrderDetailsStatus: null,
     submitOrderDetailsError: null,
     submitOrderDetailsLoading: false,
-    submitOrderDetails: null
+    submitOrderDetails: null,
+
+    userReviewStatus: null,
+    userReviewError: null,
+    loadingForUserReview: false,
+    userReview: null
   },
   action
 ) => {
@@ -1054,6 +1060,44 @@ const account = (
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsError: action.error,
         submitOrderDetailsLoading: false
+      });
+
+    case accountActions.GET_USER_REVIEW_REQUEST:
+      return Object.assign({}, state, {
+        userReviewStatus: action.status,
+        loadingForUserReview: true
+      });
+
+    case accountActions.GET_USER_REVIEW_SUCCESS:
+      const currentReviews = cloneDeep(state.userReview);
+
+      let updatedReviewsObj;
+      if (action.userReview.pageNumber === 0) {
+        updatedReviewsObj = Object.assign(
+          {},
+          currentReviews,
+          action.userReview
+        );
+      } else {
+        let updatedReviews = concat(
+          currentReviews.reviews,
+          action.userReview.reviews
+        );
+        updatedReviewsObj = Object.assign({}, currentReviews, {
+          reviews: updatedReviews,
+          pageNumber: action.userReview.pageNumber
+        });
+      }
+      return Object.assign({}, state, {
+        userReviewStatus: action.status,
+        loadingForUserReview: false,
+        userReview: updatedReviewsObj
+      });
+    case accountActions.GET_USER_REVIEW_FAILURE:
+      return Object.assign({}, state, {
+        userReviewStatus: action.status,
+        userReviewError: action.error,
+        loadingForUserReview: false
       });
 
     default:

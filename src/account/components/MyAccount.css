@@ -88,3 +88,10 @@ a {
   transition: 300ms;
   transform-origin: center center;
 }
+.reviewHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-bottom: 70px;
+  background: #fff;
+}
