@@ -106,3 +106,19 @@
   padding-left: 5px;
   line-height: 20px;
 }
+.showAverageRatingWithDays {
+  width: auto;
+  height: auto;
+  margin-left: 5px;
+  font-size: 14px;
+  font-family: light;
+}
+.productTitle {
+  width: 100%;
+  height: auto;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: light;
+  color: #181818;
+  text-align: left;
+}

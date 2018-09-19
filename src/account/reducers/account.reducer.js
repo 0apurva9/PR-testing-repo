@@ -163,7 +163,12 @@ const account = (
     submitOrderDetailsStatus: null,
     submitOrderDetailsError: null,
     submitOrderDetailsLoading: false,
-    submitOrderDetails: null
+    submitOrderDetails: null,
+
+    userReviewStatus: null,
+    userReviewError: null,
+    LoadingForUserReview: false,
+    userReview: null
   },
   action
 ) => {
@@ -1054,6 +1059,25 @@ const account = (
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsError: action.error,
         submitOrderDetailsLoading: false
+      });
+
+    case accountActions.GET_USER_REVIEW_REQUEST:
+      return Object.assign({}, state, {
+        userReviewStatus: action.status,
+        LoadingForUserReview: true
+      });
+
+    case accountActions.GET_USER_REVIEW_SUCCESS:
+      return Object.assign({}, state, {
+        userReviewStatus: action.status,
+        LoadingForUserReview: false,
+        userReview: action.userReview
+      });
+    case accountActions.GET_USER_REVIEW_FAILURE:
+      return Object.assign({}, state, {
+        userReviewStatus: action.status,
+        userReviewError: action.error,
+        LoadingForUserReview: false
       });
 
     default:
