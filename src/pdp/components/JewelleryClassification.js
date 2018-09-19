@@ -14,14 +14,22 @@ export default class JewelleryClassification extends React.Component {
               <div className={styles.holder}>
                 {datum.value.classificationListJwlry &&
                   datum.value.classificationListJwlry.map(val => {
-                    return (
-                      <div className={styles.content}>
-                        <div className={styles.header}>{val.key}</div>
-                        <div className={styles.description}>
-                          {val.value.classificationListValueJwlry[0]}
+                    if (
+                      (val.key === "Gross Weight" &&
+                        val.value.classificationListValueJwlry[0] === "0") ||
+                      val.value.classificationListValueJwlry[0] === "0 g"
+                    ) {
+                      return;
+                    } else {
+                      return (
+                        <div className={styles.content}>
+                          <div className={styles.header}>{val.key}</div>
+                          <div className={styles.description}>
+                            {val.value.classificationListValueJwlry[0]}
+                          </div>
                         </div>
-                      </div>
-                    );
+                      );
+                    }
                   })}
               </div>
             </Accordion>
