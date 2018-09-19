@@ -15,9 +15,9 @@ export default class JewelleryClassification extends React.Component {
                 {datum.value.classificationListJwlry &&
                   datum.value.classificationListJwlry.map(val => {
                     if (
-                      (val.key === "Gross Weight" &&
-                        val.value.classificationListValueJwlry[0] === "0") ||
-                      val.value.classificationListValueJwlry[0] === "0 g"
+                      val.key === "Gross Weight" &&
+                      (val.value.classificationListValueJwlry[0] === "0" ||
+                        val.value.classificationListValueJwlry[0] === "0 g")
                     ) {
                       return;
                     } else {
