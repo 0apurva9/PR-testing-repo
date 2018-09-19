@@ -1070,6 +1070,7 @@ const account = (
 
     case accountActions.GET_USER_REVIEW_SUCCESS:
       const currentReviews = cloneDeep(state.userReview);
+
       let updatedReviewsObj;
       if (action.userReview.pageNumber === 0) {
         updatedReviewsObj = Object.assign(
@@ -1083,11 +1084,10 @@ const account = (
           action.userReview.reviews
         );
         updatedReviewsObj = Object.assign({}, currentReviews, {
-          userReview: updatedReviews,
+          reviews: updatedReviews,
           pageNumber: action.userReview.pageNumber
         });
       }
-
       return Object.assign({}, state, {
         userReviewStatus: action.status,
         LoadingForUserReview: false,
