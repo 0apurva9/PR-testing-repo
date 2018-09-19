@@ -19,6 +19,9 @@ export default class UserReview extends React.Component {
       }
     }
   }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.throttledScroll);
+  }
   handleScroll = () => {
     return throttle(() => {
       if (
