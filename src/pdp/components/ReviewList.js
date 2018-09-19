@@ -15,7 +15,6 @@ export default class ReviewList extends React.Component {
               data.principal &&
               data.principal.name &&
               data.principal.name.trim();
-            console.log(name);
             return (
               <ReviewPage
                 rating={data && data.rating}
