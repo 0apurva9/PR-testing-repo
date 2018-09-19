@@ -2473,79 +2473,6 @@ export function getUserReviewFailure() {
   };
 }
 export function getUserReview(pageIndex) {
-  let revieMockResponse = {
-    reviews: [
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl:
-          "https://stat.homeshop18.com/homeshop18/images/productImages/390/micromax-q409-spark-4g-dual-sim-android-mobile-phone-medium_eee35f2ed387b2d5939bd3f45773b9a2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      },
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl: "/img/img2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      },
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl: "/img/img2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      },
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl: "/img/img2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      },
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl: "/img/img2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      },
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl: "/img/img2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      },
-      {
-        brandName: "Apple",
-        productTitle: "I phone 7 plus",
-        productImageUrl: "/img/img2.jpg",
-        rating: 4,
-        reviewAge: "2 days ago",
-        headline: "Hi",
-        comment: "Hello"
-      }
-    ],
-    pageNumber: 0,
-    pageSize: 20,
-    totalNoOfPages: 1,
-    totalNoOfReviews: 2
-  };
-
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -2558,8 +2485,7 @@ export function getUserReview(pageIndex) {
           JSON.parse(customerCookie).access_token
         }&page=${pageIndex}&pageSize=${PAGE_NUMBER}`
       );
-      const resultJson = revieMockResponse;
-      //const resultJson = await result.json();
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);

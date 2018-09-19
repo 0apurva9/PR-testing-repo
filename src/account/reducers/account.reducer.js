@@ -12,6 +12,7 @@ import findIndex from "lodash.findindex";
 import { SUCCESS } from "../../lib/constants";
 import { CLEAR_ERROR } from "../../general/error.actions";
 import * as Cookies from "../../lib/Cookie";
+import concat from "lodash.concat";
 const account = (
   state = {
     status: null,
@@ -1068,10 +1069,29 @@ const account = (
       });
 
     case accountActions.GET_USER_REVIEW_SUCCESS:
+      const currentReviews = cloneDeep(state.userReview);
+      let updatedReviewsObj;
+      if (action.userReview.pageNumber === 0) {
+        updatedReviewsObj = Object.assign(
+          {},
+          currentReviews,
+          action.userReview
+        );
+      } else {
+        let updatedReviews = concat(
+          currentReviews.reviews,
+          action.userReview.reviews
+        );
+        updatedReviewsObj = Object.assign({}, currentReviews, {
+          userReview: updatedReviews,
+          pageNumber: action.userReview.pageNumber
+        });
+      }
+
       return Object.assign({}, state, {
         userReviewStatus: action.status,
         LoadingForUserReview: false,
-        userReview: action.userReview
+        userReview: updatedReviewsObj
       });
     case accountActions.GET_USER_REVIEW_FAILURE:
       return Object.assign({}, state, {
