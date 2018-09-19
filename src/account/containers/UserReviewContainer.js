@@ -12,7 +12,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userReview: state.profile.userReview
+    userReview: state.profile.userReview,
+    loadingForUserReview: state.profile.loadingForUserReview
   };
 };
 

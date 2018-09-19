@@ -168,7 +168,7 @@ const account = (
 
     userReviewStatus: null,
     userReviewError: null,
-    LoadingForUserReview: false,
+    loadingForUserReview: false,
     userReview: null
   },
   action
@@ -1065,7 +1065,7 @@ const account = (
     case accountActions.GET_USER_REVIEW_REQUEST:
       return Object.assign({}, state, {
         userReviewStatus: action.status,
-        LoadingForUserReview: true
+        loadingForUserReview: true
       });
 
     case accountActions.GET_USER_REVIEW_SUCCESS:
@@ -1090,14 +1090,14 @@ const account = (
       }
       return Object.assign({}, state, {
         userReviewStatus: action.status,
-        LoadingForUserReview: false,
+        loadingForUserReview: false,
         userReview: updatedReviewsObj
       });
     case accountActions.GET_USER_REVIEW_FAILURE:
       return Object.assign({}, state, {
         userReviewStatus: action.status,
         userReviewError: action.error,
-        LoadingForUserReview: false
+        loadingForUserReview: false
       });
 
     default:

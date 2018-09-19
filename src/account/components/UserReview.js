@@ -7,6 +7,7 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import Loader from "../../general/components/Loader";
 export default class UserReview extends React.Component {
   componentDidMount() {
     if (this.props.getUserReview) {
@@ -50,7 +51,13 @@ export default class UserReview extends React.Component {
       }
     }, 2000);
   };
+  renderLoader() {
+    return <Loader />;
+  }
   render() {
+    if (this.props.loadingForUserReview) {
+      return this.renderLoader();
+    }
     return (
       <div className={styles.base}>
         {this.props &&
@@ -65,7 +72,7 @@ export default class UserReview extends React.Component {
             </div>
             {this.props.userReview.reviews.map((reviews, i) => {
               return (
-                <div className={styles.reviewsHolder}>
+                <div className={styles.reviewsHolder} key={i}>
                   <div className={styles.productDetails}>
                     <ProductDetailsCard
                       productImage={reviews.productImageUrl}
