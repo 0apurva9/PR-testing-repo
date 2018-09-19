@@ -6,15 +6,25 @@ export default class ReviewList extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        {this.props.reviewList &&
+        {this.props &&
+          this.props.reviewList &&
           this.props.reviewList.map((data, i) => {
+            let userName = data.userName;
+            let name =
+              data &&
+              data.principal &&
+              data.principal.name &&
+              data.principal.name.trim();
+            console.log(name);
             return (
               <ReviewPage
                 rating={data && data.rating}
                 heading={data && data.headline}
                 text={data && data.comment}
                 date={data && data.date}
-                name={data && data.alias}
+                isBuyer={data && data.isBuyer}
+                reviewAge={data && data.reviewAge}
+                name={name ? name : userName}
               />
             );
           })}
