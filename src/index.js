@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import AppContainer from "../src/general/containers/AppContainer";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
-import "babel-polyfill";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
@@ -30,6 +29,7 @@ import delay from "lodash.delay";
 import { TOAST_DELAY } from "./general/toast.actions";
 import "intersection-observer";
 import desktopFooter from "./general/desktopFooter.reducer";
+"fetch" in window && "assign" in Object && require("babel-polyfill");
 const rootReducer = combineReducers({
   auth,
   user,
