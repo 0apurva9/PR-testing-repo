@@ -92,7 +92,7 @@ export default class UserReview extends React.Component {
             })}
           </React.Fragment>
         ) : (
-          <div className={styles.noAlerts}>{"No Reviews"}</div>
+          <div className={styles.noReviews}>{"No Reviews"}</div>
         )}
       </div>
     );
