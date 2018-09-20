@@ -223,67 +223,17 @@ export default class SearchPage extends React.Component {
   render() {
     const data = this.props.searchResult;
     if (data) {
-      if (
-        this.props.searchResult.topBrands &&
-        !this.props.searchResult.suggestionsNew &&
-        !this.props.searchResult.topCategories
-      ) {
-        this.searchDown = [...this.props.searchResult.topBrands];
-      }
-      if (
-        !this.props.searchResult.topBrands &&
-        this.props.searchResult.suggestionsNew &&
-        !this.props.searchResult.topCategories
-      ) {
-        this.searchDown = [...this.props.searchResult.suggestionsNew];
-      }
-      if (
-        !this.props.searchResult.topBrands &&
-        !this.props.searchResult.suggestionsNew &&
-        this.props.searchResult.topCategories
-      ) {
-        this.searchDown = [...this.props.searchResult.topCategories];
-      }
-      if (
-        this.props.searchResult.topBrands &&
-        this.props.searchResult.suggestionsNew &&
-        !this.props.searchResult.topCategories
-      ) {
-        this.searchDown = [
-          ...this.props.searchResult.topBrands,
-          ...this.props.searchResult.suggestionsNew
-        ];
-      }
-      if (
-        !this.props.searchResult.topBrands &&
-        this.props.searchResult.suggestionsNew &&
-        this.props.searchResult.topCategories
-      ) {
-        this.searchDown = [
-          ...this.props.searchResult.suggestionsNew,
-          ...this.props.searchResult.topCategories
-        ];
-      }
-      if (
-        this.props.searchResult.topBrands &&
-        !this.props.searchResult.suggestionsNew &&
-        this.props.searchResult.topCategories
-      ) {
-        this.searchDown = [
-          ...this.props.searchResult.topCategories,
-          ...this.props.searchResult.topBrands
-        ];
-      }
-      if (
-        this.props.searchResult.topBrands &&
-        this.props.searchResult.topBrands &&
-        this.props.searchResult.suggestionsNew
-      ) {
-        this.searchDown = [
-          ...this.props.searchResult.topBrands,
-          ...this.props.searchResult.suggestionsNew,
-          ...this.props.searchResult.topCategories
-        ];
+      if (data) {
+        const topBrands = this.props.searchResult.topBrands
+          ? this.props.searchResult.topBrands
+          : [];
+        const suggestionsNew = this.props.searchResult.suggestionsNew
+          ? this.props.searchResult.suggestionsNew
+          : [];
+        const topCategories = this.props.searchResult.topCategories
+          ? this.props.searchResult.topCategories
+          : [];
+        this.searchDown = [...topBrands, ...suggestionsNew, ...topCategories];
       }
     }
     const firstSuggestedKeyWord = data && data.suggestionsNew;
