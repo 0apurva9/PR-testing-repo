@@ -11,21 +11,7 @@ import Button from "../../general/components/Button.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import PickUpDetails from "../../cart/components/PickUpDetails.js";
-import {
-  RETURNS_PREFIX,
-  RETURN_TO_STORE,
-  RETURNS_STORE_FINAL,
-  RETURN_LANDING,
-  RETURNS_REASON,
-  QUICK_DROP,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  YES,
-  NO,
-  THANK_YOU
-} from "../../lib/constants";
-const REG_X_FOR_STORE_PICKUP = /storePick/i;
-const REG_X_FOR_FINAL_SUBMIT = /submit/i;
-const ERROR_MESSAGE = "Please select Store";
+
 export default class ReturnToStore extends React.Component {
   constructor(props) {
     super(props);
@@ -138,15 +124,20 @@ export default class ReturnToStore extends React.Component {
       availableStores &&
       availableStores[0] &&
       availableStores[0].geoPoint.longitude;
-
-    this.setState({
-      availableStores: availableStores,
-      lat,
-      lng,
-      storeId:
-        availableStores && availableStores[0] && availableStores[0].slaveId,
-      selectedStore: availableStores[0]
-    });
+    if (checkUserAgentIsMobile()) {
+      this.setState({
+        availableStores: availableStores,
+        lat,
+        lng,
+        storeId:
+          availableStores && availableStores[0] && availableStores[0].slaveId,
+        selectedStore: availableStores[0]
+      });
+    } else {
+      this.setState({
+        availableStores: availableStores
+      });
+    }
   }
   getValue(val) {
     this.setState(val);
@@ -161,7 +152,10 @@ export default class ReturnToStore extends React.Component {
   changeStore() {
     this.setState({
       showPickupPerson: false,
-      selectedStore: null
+      selectedStore: null,
+      lat: 28.6129918,
+      lng: 77.2310456,
+      storeId: null
     });
   }
 
