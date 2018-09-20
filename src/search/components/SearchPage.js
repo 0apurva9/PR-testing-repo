@@ -82,7 +82,6 @@ export default class SearchPage extends React.Component {
           ? data.topBrands.length + position + 1
           : position + 1
     });
-    console.log(dtmDataObject);
     setDataLayerForAutoSuggestSearch(dtmDataObject);
     const url = `/search/?searchCategory=all&text=${
       dtmDataObject.term
