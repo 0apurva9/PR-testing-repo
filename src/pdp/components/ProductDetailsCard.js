@@ -91,6 +91,12 @@ export default class ProductDetailsCard extends React.Component {
           {this.props.productTitle && (
             <div className={styles.productTitle}>{this.props.productTitle}</div>
           )}
+          {this.props.size &&
+            this.props.size !== "NO SIZE" && (
+              <div className={styles.sizeHolder}>
+                <span className={styles.size}>size</span> {this.props.size}
+              </div>
+            )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"

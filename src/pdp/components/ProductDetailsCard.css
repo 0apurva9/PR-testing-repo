@@ -122,3 +122,17 @@
   color: #181818;
   text-align: left;
 }
+.sizeHolder {
+  width: 100%;
+  height: auto;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-family: light;
+  margin-top: 5px;
+}
+
+.size {
+  width: auto;
+  height: auto;
+  font-family: semibold;
+}
