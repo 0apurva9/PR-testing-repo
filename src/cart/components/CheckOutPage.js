@@ -427,9 +427,9 @@ class CheckOutPage extends React.Component {
     );
   }
   async addPickupPersonCNC(mobile, name, productObj) {
-    if (name.length < 4) {
+    if (!name || name.length < 4) {
       return this.props.displayToast(ERROR_MESSAGE_FOR_PICK_UP_PERSON_NAME);
-    } else if (mobile.length !== 10) {
+    } else if (!mobile || mobile.length !== 10) {
       return this.props.displayToast(ERROR_MESSAGE_FOR_MOBILE_NUMBER);
     }
     this.setState({ showCliqAndPiq: false });
