@@ -142,6 +142,12 @@ export default class SearchPage extends React.Component {
   handleUpDownArrow(val) {
     this.setState({ showData: true });
     const currentSelectedIndex = this.state.currentFlag;
+    let firstKeyWord =
+      this.props.searchResult &&
+      this.props.searchResult.suggestionsNew &&
+      this.props.searchResult.suggestionsNew[0] &&
+      this.props.searchResult.suggestionsNew[0].suggestedWord;
+
     if (val === "ArrowDown") {
       if (
         this.state.currentFlag !== null &&
@@ -150,20 +156,32 @@ export default class SearchPage extends React.Component {
         this.setState({
           currentFlag: currentSelectedIndex + 1,
           searchString: ` ${
-            this.searchDown[currentSelectedIndex + 1].categoryName
+            this.searchDown[currentSelectedIndex + 1].suggestedWord
+              ? this.searchDown[currentSelectedIndex + 1].suggestedWord
+              : `${firstKeyWord} in ${
+                  this.searchDown[currentSelectedIndex + 1].categoryName
+                }`
           }`
         });
       } else if (this.state.currentFlag === this.searchDown.length - 1) {
         this.setState({
           currentFlag: this.state.currentFlag,
           searchString: ` ${
-            this.searchDown[this.state.currentFlag].categoryName
+            this.searchDown[this.state.currentFlag].suggestedWord
+              ? this.searchDown[this.state.currentFlag].suggestedWord
+              : `${firstKeyWord} in ${
+                  this.searchDown[this.state.currentFlag].categoryName
+                }`
           }`
         });
       } else {
         this.setState({
           currentFlag: 0,
-          searchString: ` ${this.searchDown[0].categoryName}`
+          searchString: ` ${
+            this.searchDown[0].suggestedWord
+              ? this.searchDown[0].suggestedWord
+              : `${firstKeyWord} in ${this.searchDown[0].categoryName}`
+          }`
         });
       }
       if (this.state.currentFlag > 3) {
@@ -175,16 +193,24 @@ export default class SearchPage extends React.Component {
         this.setState({
           currentFlag: currentSelectedIndex - 1,
           searchString: `${
-            this.searchDown[currentSelectedIndex - 1].categoryName
+            this.searchDown[currentSelectedIndex - 1].suggestedWord
+              ? this.searchDown[currentSelectedIndex - 1].suggestedWord
+              : `${firstKeyWord} in ${
+                  this.searchDown[currentSelectedIndex - 1].categoryName
+                }`
           }`
         });
       } else {
         this.setState({
           currentFlag: 0,
-          searchString: ` ${this.searchDown[0].categoryName}`
+          searchString: ` ${
+            this.searchDown[0].suggestedWord
+              ? this.searchDown[0].suggestedWord
+              : `${firstKeyWord} in ${this.searchDown[0].categoryName}`
+          }`
         });
       }
-      if (this.state.currentFlag < 3) {
+      if (this.state.currentFlag < 5) {
         this.refs.elementScrollRefTop.scrollIntoView(false);
       }
     }
@@ -197,11 +223,71 @@ export default class SearchPage extends React.Component {
   render() {
     const data = this.props.searchResult;
     if (data) {
-      this.searchDown = [
-        ...this.props.searchResult.topBrands,
-        ...this.props.searchResult.topCategories
-      ];
+      if (
+        this.props.searchResult.topBrands &&
+        !this.props.searchResult.suggestionsNew &&
+        !this.props.searchResult.topCategories
+      ) {
+        this.searchDown = [...this.props.searchResult.topBrands];
+      }
+      if (
+        !this.props.searchResult.topBrands &&
+        this.props.searchResult.suggestionsNew &&
+        !this.props.searchResult.topCategories
+      ) {
+        this.searchDown = [...this.props.searchResult.suggestionsNew];
+      }
+      if (
+        !this.props.searchResult.topBrands &&
+        !this.props.searchResult.suggestionsNew &&
+        this.props.searchResult.topCategories
+      ) {
+        this.searchDown = [...this.props.searchResult.topCategories];
+      }
+      if (
+        this.props.searchResult.topBrands &&
+        this.props.searchResult.suggestionsNew &&
+        !this.props.searchResult.topCategories
+      ) {
+        this.searchDown = [
+          ...this.props.searchResult.topBrands,
+          ...this.props.searchResult.suggestionsNew
+        ];
+      }
+      if (
+        !this.props.searchResult.topBrands &&
+        this.props.searchResult.suggestionsNew &&
+        this.props.searchResult.topCategories
+      ) {
+        this.searchDown = [
+          ...this.props.searchResult.suggestionsNew,
+          ...this.props.searchResult.topCategories
+        ];
+      }
+      if (
+        this.props.searchResult.topBrands &&
+        !this.props.searchResult.suggestionsNew &&
+        this.props.searchResult.topCategories
+      ) {
+        this.searchDown = [
+          ...this.props.searchResult.topCategories,
+          ...this.props.searchResult.topBrands
+        ];
+      }
+      if (
+        this.props.searchResult.topBrands &&
+        this.props.searchResult.topBrands &&
+        this.props.searchResult.suggestionsNew
+      ) {
+        this.searchDown = [
+          ...this.props.searchResult.topBrands,
+          ...this.props.searchResult.suggestionsNew,
+          ...this.props.searchResult.topCategories
+        ];
+      }
     }
+    const firstSuggestedKeyWord = data && data.suggestionsNew;
+    const suggestedKeyWord = data && data.suggestionsNew;
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
@@ -231,39 +317,14 @@ export default class SearchPage extends React.Component {
           {this.state.showResults && (
             <div className={styles.searchResults}>
               {data &&
-                data.topBrands &&
-                data.topBrands.map((val, i) => {
-                  return (
-                    <SearchResultItem
-                      key={i}
-                      suggestedText={data.suggestionText[0]}
-                      singleWord={this.checkIfSingleWordinSearchString()}
-                      text={val.categoryName}
-                      value={val.categoryCode}
-                      onClick={() => {
-                        this.handleBrandClick(
-                          val.categoryCode,
-                          {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
-                          },
-                          i
-                        );
-                      }}
-                    />
-                  );
-                })}
-              {data &&
                 data.topCategories &&
                 data.topCategories.map((val, i) => {
                   return (
                     <SearchResultItem
                       key={i}
-                      suggestedText={data.suggestionText[0]}
+                      suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                      categoryOrBrandText={val.categoryName}
                       singleWord={this.checkIfSingleWordinSearchString()}
-                      text={val.categoryName}
-                      value={val.categoryCode}
                       onClick={() => {
                         this.handleCategoryClick(
                           val.categoryCode,
@@ -272,7 +333,45 @@ export default class SearchPage extends React.Component {
                               val.categoryName
                             }`
                           },
-                          i
+                          i,
+                          firstSuggestedKeyWord[0].suggestedWord
+                        );
+                      }}
+                    />
+                  );
+                })}
+              {suggestedKeyWord &&
+                suggestedKeyWord.map((val, i) => {
+                  return (
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={val.suggestedWord}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      onClick={() => {
+                        this.handleOnSearchString(val.suggestedWord);
+                      }}
+                    />
+                  );
+                })}
+              {data &&
+                data.topBrands &&
+                data.topBrands.map((val, i) => {
+                  return (
+                    <SearchResultItem
+                      key={i}
+                      suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                      categoryOrBrandText={val.categoryName}
+                      singleWord={this.checkIfSingleWordinSearchString()}
+                      onClick={() => {
+                        this.handleBrandClick(
+                          val.categoryCode,
+                          {
+                            term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                          },
+                          i,
+                          data.suggestionText[0]
                         );
                       }}
                     />
@@ -298,10 +397,9 @@ export default class SearchPage extends React.Component {
                     >
                       <SearchResultItem
                         key={i}
-                        suggestedText={data.suggestionText[0]}
+                        suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                        categoryOrBrandText={val.categoryName}
                         singleWord={this.checkIfSingleWordinSearchString()}
-                        text={val.categoryName}
-                        value={val.categoryCode}
                         onClick={() => {
                           this.handleBrandClick(
                             val.categoryCode,
@@ -310,8 +408,35 @@ export default class SearchPage extends React.Component {
                                 val.categoryName
                               }`
                             },
-                            i
+                            i,
+                            data.suggestionText[0]
                           );
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              {suggestedKeyWord &&
+                suggestedKeyWord.map((val, i) => {
+                  return (
+                    <div
+                      ref={"elementScrollRefBottom"}
+                      className={
+                        this.state.currentFlag ===
+                        i +
+                          (data.topBrands && data.topBrands.length > 0
+                            ? data.topBrands.length
+                            : 0)
+                          ? styles.color
+                          : styles.back
+                      }
+                    >
+                      <SearchResultItem
+                        key={i}
+                        suggestedText={val.suggestedWord}
+                        singleWord={this.checkIfSingleWordinSearchString()}
+                        onClick={() => {
+                          this.handleOnSearchString(val.suggestedWord);
                         }}
                       />
                     </div>
@@ -322,19 +447,32 @@ export default class SearchPage extends React.Component {
                 data.topCategories.map((val, i) => {
                   return (
                     <div
-                      ref={"elementScrollRefBottom"}
                       className={
-                        this.state.currentFlag === i + data.topBrands.length
+                        this.state.currentFlag ===
+                        i +
+                          (data.topBrands &&
+                          data.topBrands.length &&
+                          suggestedKeyWord &&
+                          suggestedKeyWord.length
+                            ? data.topBrands.length + suggestedKeyWord.length
+                            : suggestedKeyWord && suggestedKeyWord.length > 0
+                              ? suggestedKeyWord.length
+                              : data.topBrands && data.topBrands.length > 0
+                                ? data.topBrands.length
+                                : 0)
                           ? styles.color
                           : styles.back
                       }
                     >
                       <SearchResultItem
                         key={i}
-                        suggestedText={data.suggestionText[0]}
+                        suggestedText={
+                          firstSuggestedKeyWord &&
+                          firstSuggestedKeyWord[0] &&
+                          firstSuggestedKeyWord[0].suggestedWord
+                        }
+                        categoryOrBrandText={val.categoryName}
                         singleWord={this.checkIfSingleWordinSearchString()}
-                        text={val.categoryName}
-                        value={val.categoryCode}
                         onClick={() => {
                           this.handleCategoryClick(
                             val.categoryCode,
@@ -343,7 +481,8 @@ export default class SearchPage extends React.Component {
                                 val.categoryName
                               }`
                             },
-                            i
+                            i,
+                            firstSuggestedKeyWord[0].suggestedWord
                           );
                         }}
                       />
