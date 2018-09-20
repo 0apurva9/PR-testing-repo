@@ -100,7 +100,6 @@ export default class SaveListDetails extends React.Component {
     }
 
     const wishList = this.props.wishList;
-
     return (
       <div className={styles.base}>
         {this.props.count > 0 &&
@@ -125,6 +124,7 @@ export default class SaveListDetails extends React.Component {
                   brandName={product.brandName}
                   onClickImage={() => this.onClickImage(product.productcode)}
                   removeItem={productUssid => this.removeItem(product.USSID)}
+                  size={product.size}
                 />
               </div>
             );
