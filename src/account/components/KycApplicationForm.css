@@ -61,6 +61,10 @@
   border-radius: 18px;
 }
 @media screen and (min-width: 1025px) {
+  .base {
+    position: relative;
+    min-height: 329px;
+  }
   .applicationForm {
     padding: 30px 50px;
     border-radius: 0px 0px 4px 4px;

@@ -296,7 +296,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     getOtpToActivateWallet: (customerDetails, isFromCliqCash) => {
-      dispatch(getOtpToActivateWallet(customerDetails, isFromCliqCash));
+      return dispatch(getOtpToActivateWallet(customerDetails, isFromCliqCash));
     },
 
     verifyWallet: async (customerDetailsWithOtp, isFromCliqCash) => {

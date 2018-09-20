@@ -323,7 +323,7 @@ export default class ModalRoot extends React.Component {
   generateOtpForCliqCash = kycDetails => {
     this.setState(kycDetails);
     if (this.props.getOtpToActivateWallet) {
-      this.props.getOtpToActivateWallet(kycDetails, true);
+      return this.props.getOtpToActivateWallet(kycDetails, true);
     }
   };
   verifyOtpForCliqCash = otpDetails => {
@@ -369,7 +369,8 @@ export default class ModalRoot extends React.Component {
     customerDetails.mobileNumber = val.mobileNumber;
     customerDetails.lastName = val.lastName;
     this.setState(customerDetails);
-    this.props.getOtpToActivateWallet(customerDetails);
+    return this.props.getOtpToActivateWallet(customerDetails);
+    console.log();
   }
   resendOtp() {
     let customerDetails = {};
