@@ -64,7 +64,9 @@ export default class SearchPage extends React.Component {
     setTimeout(() => {
       this.setState({ setOnClick: false });
     }, 50);
-    const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:brand:${brandCode}`;
+    const url = `/search/?searchCategory=all&text=${
+      dtmDataObject.term
+    }:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
       isFilter: false
     });
@@ -80,8 +82,11 @@ export default class SearchPage extends React.Component {
           ? data.topBrands.length + position + 1
           : position + 1
     });
+    console.log(dtmDataObject);
     setDataLayerForAutoSuggestSearch(dtmDataObject);
-    const url = `/search/?searchCategory=all&text=${searchQuery}:relevance:category:${categoryCode}`;
+    const url = `/search/?searchCategory=all&text=${
+      dtmDataObject.term
+    }:relevance:category:${categoryCode}`;
     this.props.clearSearchResults();
     this.setState({
       showResults: false,
