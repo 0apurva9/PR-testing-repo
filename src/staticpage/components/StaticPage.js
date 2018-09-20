@@ -82,6 +82,13 @@ export default class StaticPage extends Component {
       this.props.data.find(aboutUsText => {
         return aboutUsText.type === "CMS Paragraph Component";
       });
+    let staticPageTextComponent =
+      this.props &&
+      this.props.data.length > 0 &&
+      this.props.data.find(aboutUsText => {
+        return aboutUsText.type === "CMS Text Component";
+      });
+
     let question = this.props.data && this.props.data[3];
     let linkCall = this.props.data && this.props.data[0];
     let linkChat = this.props.data && this.props.data[1];
@@ -98,7 +105,15 @@ export default class StaticPage extends Component {
     ) {
       return this.navigateTo404();
     }
-
+    if (!listMenu || !aboutUsText || !staticPageTextComponent) {
+      return (
+        <Feed
+          feedType={this.props.feedType}
+          homeFeedData={this.props.data}
+          setHeaderText={this.props.setHeaderText}
+        />
+      );
+    }
     return (
       <div className={styles.base}>
         <MobileOnly>
