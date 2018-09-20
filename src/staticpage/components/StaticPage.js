@@ -88,7 +88,7 @@ export default class StaticPage extends Component {
       this.props.data.find(aboutUsText => {
         return aboutUsText.type === "CMS Text Component";
       });
-    console.log(this.props);
+
     let question = this.props.data && this.props.data[3];
     let linkCall = this.props.data && this.props.data[0];
     let linkChat = this.props.data && this.props.data[1];
