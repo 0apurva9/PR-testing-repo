@@ -184,7 +184,7 @@ export default class SearchPage extends React.Component {
           }`
         });
       }
-      if (this.state.currentFlag > 3) {
+      if (this.state.currentFlag > 3 && this.refs.elementScrollRefBottom) {
         this.refs.elementScrollRefBottom.scrollIntoView();
       }
     }
@@ -210,7 +210,7 @@ export default class SearchPage extends React.Component {
           }`
         });
       }
-      if (this.state.currentFlag < 5) {
+      if (this.state.currentFlag < 5 && this.refs.elementScrollRefTop) {
         this.refs.elementScrollRefTop.scrollIntoView(false);
       }
     }
