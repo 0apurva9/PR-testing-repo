@@ -128,12 +128,41 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
-    this.props.history.push(
-      `/search/?searchCategory=all&text=${searchString}`,
-      {
-        isFilter: false
+    if (searchString && searchString.includes(" in ")) {
+      let searchStringSplit = searchString.split("in ")[1];
+      let categoryNameWithCode =
+        this.searchDown &&
+        this.searchDown.length > 0 &&
+        this.searchDown.find(list => {
+          return list.categoryName === searchStringSplit;
+        });
+      if (categoryNameWithCode.categoryCode.includes("MSH")) {
+        this.props.history.push(
+          `/search/?searchCategory=all&text=${searchString}:relevance:category:${
+            categoryNameWithCode.categoryCode
+          }`,
+          {
+            isFilter: false
+          }
+        );
+      } else {
+        this.props.history.push(
+          `/search/?searchCategory=all&text=${searchString}:relevance:brand:${
+            categoryNameWithCode.categoryCode
+          }`,
+          {
+            isFilter: false
+          }
+        );
       }
-    );
+    } else {
+      this.props.history.push(
+        `/search/?searchCategory=all&text=${searchString}`,
+        {
+          isFilter: false
+        }
+      );
+    }
     this.props.clearSearchResults();
     this.setState({
       showResults: false,
