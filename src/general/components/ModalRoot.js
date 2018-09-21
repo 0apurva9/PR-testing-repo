@@ -370,7 +370,6 @@ export default class ModalRoot extends React.Component {
     customerDetails.lastName = val.lastName;
     this.setState(customerDetails);
     return this.props.getOtpToActivateWallet(customerDetails);
-    console.log();
   }
   resendOtp() {
     let customerDetails = {};
