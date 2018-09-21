@@ -37,7 +37,14 @@ export default class ProductGrid extends React.Component {
       this.props.changeAddress();
     }
   }
+  componentDidMount() {
+    const data = this.props && this.props.data && this.props.data.length > 0;
+    const type = data && data[0].productCategoryType;
 
+    if (type === "Electronics") {
+      this.setState({ view: LIST });
+    }
+  }
   goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
     if (
