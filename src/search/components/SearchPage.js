@@ -7,7 +7,7 @@ import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -146,12 +146,19 @@ export default class SearchPage extends React.Component {
   handleUpDownArrow(val) {
     this.setState({ showData: true });
     const currentSelectedIndex = this.state.currentFlag;
-    let firstKeyWord =
+    let firstKeyWord = "";
+    if (
       this.props.searchResult &&
+      this.props.searchResult.suggestedTerm === this.props.searchResult &&
       this.props.searchResult.suggestionsNew &&
       this.props.searchResult.suggestionsNew[0] &&
-      this.props.searchResult.suggestionsNew[0].suggestedWord;
-
+      this.props.searchResult.suggestionsNew[0].suggestedWord
+    ) {
+      firstKeyWord = this.props.searchResult.suggestionsNew[0].suggestedWord;
+    } else {
+      firstKeyWord =
+        this.props.searchResult && this.props.searchResult.suggestedTerm;
+    }
     if (val === "ArrowDown") {
       if (
         this.state.currentFlag !== null &&
@@ -226,6 +233,7 @@ export default class SearchPage extends React.Component {
 
   render() {
     const data = this.props.searchResult;
+    let firstSuggestedKeyWord = "";
     if (data) {
       if (data) {
         const topBrands = this.props.searchResult.topBrands
@@ -240,7 +248,18 @@ export default class SearchPage extends React.Component {
         this.searchDown = [...topCategories, ...suggestionsNew, ...topBrands];
       }
     }
-    const firstSuggestedKeyWord = data && data.suggestionsNew;
+    if (
+      !UserAgent.checkUserAgentIsMobile() &&
+      data &&
+      data.suggestedTerm === data.suggestionsNew[0].suggestedWord
+    ) {
+      firstSuggestedKeyWord =
+        data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
+    }
+    if (UserAgent.checkUserAgentIsMobile()) {
+      firstSuggestedKeyWord =
+        data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
+    }
     const suggestedKeyWord = data && data.suggestionsNew;
     return (
       <div className={styles.base}>
@@ -276,7 +295,11 @@ export default class SearchPage extends React.Component {
                   return (
                     <SearchResultItem
                       key={i}
-                      suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                      suggestedText={
+                        firstSuggestedKeyWord &&
+                        firstSuggestedKeyWord[0] &&
+                        firstSuggestedKeyWord[0].suggestedWord
+                      }
                       categoryOrBrandText={val.categoryName}
                       singleWord={this.checkIfSingleWordinSearchString()}
                       onClick={() => {
@@ -313,7 +336,11 @@ export default class SearchPage extends React.Component {
                   return (
                     <SearchResultItem
                       key={i}
-                      suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                      suggestedText={
+                        firstSuggestedKeyWord &&
+                        firstSuggestedKeyWord[0] &&
+                        firstSuggestedKeyWord[0].suggestedWord
+                      }
                       categoryOrBrandText={val.categoryName}
                       singleWord={this.checkIfSingleWordinSearchString()}
                       onClick={() => {
@@ -355,6 +382,10 @@ export default class SearchPage extends React.Component {
                           firstSuggestedKeyWord &&
                           firstSuggestedKeyWord[0] &&
                           firstSuggestedKeyWord[0].suggestedWord
+                            ? firstSuggestedKeyWord &&
+                              firstSuggestedKeyWord[0] &&
+                              firstSuggestedKeyWord[0].suggestedWord
+                            : data.suggestedTerm
                         }
                         categoryOrBrandText={val.categoryName}
                         singleWord={this.checkIfSingleWordinSearchString()}
@@ -368,6 +399,10 @@ export default class SearchPage extends React.Component {
                             },
                             i,
                             firstSuggestedKeyWord[0].suggestedWord
+                              ? firstSuggestedKeyWord &&
+                                firstSuggestedKeyWord[0] &&
+                                firstSuggestedKeyWord[0].suggestedWord
+                              : data.suggestedTerm
                           );
                         }}
                       />
@@ -426,7 +461,15 @@ export default class SearchPage extends React.Component {
                     >
                       <SearchResultItem
                         key={i}
-                        suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                        suggestedText={
+                          firstSuggestedKeyWord &&
+                          firstSuggestedKeyWord[0] &&
+                          firstSuggestedKeyWord[0].suggestedWord
+                            ? firstSuggestedKeyWord &&
+                              firstSuggestedKeyWord[0] &&
+                              firstSuggestedKeyWord[0].suggestedWord
+                            : data.suggestedTerm
+                        }
                         categoryOrBrandText={val.categoryName}
                         singleWord={this.checkIfSingleWordinSearchString()}
                         onClick={() => {
