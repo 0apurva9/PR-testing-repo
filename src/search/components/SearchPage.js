@@ -128,6 +128,7 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
+    let currentSearchString = searchString.trim();
     if (searchString && searchString.includes(" in ")) {
       let searchStringSplit = searchString.split("in ")[1];
       let categoryNameWithCode =
@@ -138,7 +139,7 @@ export default class SearchPage extends React.Component {
         });
       if (categoryNameWithCode.categoryCode.includes("MSH")) {
         this.props.history.push(
-          `/search/?searchCategory=all&text=${searchString}:relevance:category:${
+          `/search/?searchCategory=all&text=${currentSearchString}:relevance:category:${
             categoryNameWithCode.categoryCode
           }`,
           {
@@ -147,7 +148,7 @@ export default class SearchPage extends React.Component {
         );
       } else {
         this.props.history.push(
-          `/search/?searchCategory=all&text=${searchString}:relevance:brand:${
+          `/search/?searchCategory=all&text=${currentSearchString}:relevance:brand:${
             categoryNameWithCode.categoryCode
           }`,
           {
@@ -157,7 +158,7 @@ export default class SearchPage extends React.Component {
       }
     } else {
       this.props.history.push(
-        `/search/?searchCategory=all&text=${searchString}`,
+        `/search/?searchCategory=all&text=${currentSearchString}`,
         {
           isFilter: false
         }
