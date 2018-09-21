@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export default class KycApplicationFormWithBottomSlideModal extends React.Component {
   generateOtp(value) {
     if (this.props.generateOtp) {
-      this.props.generateOtp(value);
+      return this.props.generateOtp(value);
     }
   }
   onCancel() {

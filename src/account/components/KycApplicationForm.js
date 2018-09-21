@@ -7,10 +7,13 @@ import MDSpinner from "../../general/components/SecondaryLoader";
 import {
   NAME_TEXT,
   LAST_NAME_TEXT,
-  PHONE_VALID_TEXT
+  PHONE_VALID_TEXT,
+  SUCCESS
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
+
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 export default class KycApplicationForm extends React.Component {
   constructor(props) {
@@ -18,10 +21,11 @@ export default class KycApplicationForm extends React.Component {
     this.state = {
       firstName: this.props.firstName ? this.props.firstName : "",
       lastName: this.props.lastName ? this.props.lastName : "",
-      mobileNumber: this.props.mobileNumber ? this.props.mobileNumber : ""
+      mobileNumber: this.props.mobileNumber ? this.props.mobileNumber : "",
+      isLoader: false
     };
   }
-  generateOtp() {
+  generateOtp = async () => {
     if (!this.state.firstName || this.state.firstName === "") {
       this.props.displayToast(NAME_TEXT);
       return false;
@@ -35,11 +39,17 @@ export default class KycApplicationForm extends React.Component {
       this.props.displayToast(PHONE_VALID_TEXT);
       return false;
     } else {
+      this.setState({ isLoader: true });
+      const generateOtp = await this.props.generateOtp(this.state);
+
+      if (generateOtp.status === SUCCESS) {
+        this.setState({ isLoader: false });
+      }
       if (this.props.generateOtp) {
         this.props.generateOtp(this.state);
       }
     }
-  }
+  };
   onCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
@@ -49,6 +59,10 @@ export default class KycApplicationForm extends React.Component {
   render() {
     return (
       <div className={styles.base}>
+        <DesktopOnly>
+          {this.state.isLoader && <SectionLoaderDesktop />}
+        </DesktopOnly>
+
         <div className={styles.bottomHolder}>
           <div className={styles.applicationForm}>
             <div className={styles.header}>
