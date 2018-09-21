@@ -132,7 +132,6 @@ export default class SearchPage extends React.Component {
   handleOnSearchString(searchString) {
     let currentSearchString = searchString.trim();
     let code = this.state.categoryAndBrandCode.trim();
-    console.log(code);
     if (code) {
       if (code.includes("MSH")) {
         this.handleCategoryClick(
