@@ -106,28 +106,76 @@ const productDescription = (
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
       const currentPdpDetail = cloneDeep(state.productDetails);
-      let currentProductUssId = currentPdpDetail.winningUssID;
-      let deliveryOptionObj;
+      let listOfAllServiceableUssid;
       if (
         action.productPinCode &&
         action.productPinCode.deliveryOptions &&
         action.productPinCode.deliveryOptions.pincodeListResponse
       ) {
-        deliveryOptionObj = action.productPinCode.deliveryOptions.pincodeListResponse.find(
+        listOfAllServiceableUssid = action.productPinCode.deliveryOptions.pincodeListResponse.filter(
           delivery => {
-            return delivery.ussid === currentProductUssId;
+            return delivery.isServicable === YES;
           }
         );
       }
 
       let eligibleDeliveryModes = [];
-      if (deliveryOptionObj && deliveryOptionObj.isServicable === YES) {
+      /*
+      check for if seller already serviceable for current pin code then
+      just update eligibleValidDeliveryModes
+      and pincodeResponse to reducer
+      */
+      let serviceableForExistingSeller = listOfAllServiceableUssid.find(
+        seller => {
+          return seller.ussid === currentPdpDetail.winningUssID;
+        }
+      );
+      if (serviceableForExistingSeller) {
         eligibleDeliveryModes = transferPincodeToPdpPincode(
-          deliveryOptionObj.validDeliveryModes
+          serviceableForExistingSeller.validDeliveryModes
         );
         Object.assign(currentPdpDetail, {
           eligibleDeliveryModes,
-          slaveData: deliveryOptionObj.validDeliveryModes,
+          slaveData: serviceableForExistingSeller.validDeliveryModes,
+          isServiceableToPincode: {
+            status: YES,
+            pinCode: action.productPinCode.pinCode
+          }
+        });
+      } else if (
+        listOfAllServiceableUssid.length &&
+        currentPdpDetail.otherSellers
+      ) {
+        let leastMrpSellerUssid = { mrpSeller: { value: 999999999 } };
+        let eligibleDeliveryModeForThisSeller;
+        listOfAllServiceableUssid.forEach(seller => {
+          let sellerObjInOtherSellers = currentPdpDetail.otherSellers.find(
+            otherSeller => {
+              return otherSeller.USSID === seller.ussid;
+            }
+          );
+          if (
+            sellerObjInOtherSellers &&
+            sellerObjInOtherSellers.mrpSeller.value <
+              leastMrpSellerUssid.mrpSeller.value
+          ) {
+            leastMrpSellerUssid = sellerObjInOtherSellers;
+            eligibleDeliveryModeForThisSeller = seller;
+          }
+        });
+        eligibleDeliveryModes = transferPincodeToPdpPincode(
+          eligibleDeliveryModeForThisSeller.validDeliveryModes
+        );
+        Object.assign(currentPdpDetail, {
+          availableStock: leastMrpSellerUssid.availableStock,
+          isCOD: leastMrpSellerUssid.isCOD,
+          isEMIEligible: leastMrpSellerUssid.isEMIEligible,
+          mrpSeller: leastMrpSellerUssid.mrpSeller,
+          sellerAssociationstatus: leastMrpSellerUssid.sellerAssociationstatus,
+          sellerName: leastMrpSellerUssid.sellerName,
+          eligibleDeliveryModes,
+          slaveData: eligibleDeliveryModeForThisSeller.validDeliveryModes,
+          winningUssID: leastMrpSellerUssid.USSID,
           isServiceableToPincode: {
             status: YES,
             pinCode: action.productPinCode.pinCode
