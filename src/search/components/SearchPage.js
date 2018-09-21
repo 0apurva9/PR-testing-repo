@@ -9,6 +9,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
 import cloneDeep from "lodash.clonedeep";
+import merge from "lodash.merge";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -19,9 +20,11 @@ export default class SearchPage extends React.Component {
       currentFlag: null,
       showData: true,
       setOnClick: false,
-      categoryAndBrandCode: null
+      categoryAndBrandCode: null,
+      categoryAndBrandIndex: null
     };
     this.searchDown = [];
+    this.newSearchDown = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
@@ -139,7 +142,7 @@ export default class SearchPage extends React.Component {
           {
             term: currentSearchString
           },
-          0
+          this.state.categoryAndBrandIndex
         );
       }
       if (code.includes("MBH")) {
@@ -148,7 +151,7 @@ export default class SearchPage extends React.Component {
           {
             term: currentSearchString
           },
-          0
+          this.state.categoryAndBrandIndex
         );
       }
     } else {
@@ -194,7 +197,8 @@ export default class SearchPage extends React.Component {
             this.searchDown[currentSelectedIndex + 1].categoryCode
               ? this.searchDown[currentSelectedIndex + 1].categoryCode
               : ""
-          }`
+          }`,
+          categoryAndBrandIndex: this.searchDown[currentSelectedIndex + 1].index
         });
       } else if (this.state.currentFlag === this.searchDown.length - 1) {
         this.setState({
@@ -212,7 +216,8 @@ export default class SearchPage extends React.Component {
             this.searchDown[this.state.currentFlag].categoryCode
               ? this.searchDown[this.state.currentFlag].categoryCode
               : ""
-          }`
+          }`,
+          categoryAndBrandIndex: this.searchDown[this.state.currentFlag].index
         });
       } else {
         this.setState({
@@ -230,7 +235,8 @@ export default class SearchPage extends React.Component {
             this.searchDown[0].categoryCode
               ? this.searchDown[0].categoryCode
               : ""
-          }`
+          }`,
+          categoryAndBrandIndex: this.searchDown[0].index
         });
       }
       if (this.state.currentFlag > 3 && this.refs.elementScrollRefBottom) {
@@ -254,7 +260,8 @@ export default class SearchPage extends React.Component {
             this.searchDown[currentSelectedIndex - 1].categoryCode
               ? this.searchDown[currentSelectedIndex - 1].categoryCode
               : ""
-          }`
+          }`,
+          categoryAndBrandIndex: this.searchDown[currentSelectedIndex - 1].index
         });
       } else {
         this.setState({
@@ -272,7 +279,8 @@ export default class SearchPage extends React.Component {
             this.searchDown[0].categoryCode
               ? this.searchDown[0].categoryCode
               : ""
-          }`
+          }`,
+          categoryAndBrandIndex: this.searchDown[0].index
         });
       }
       if (this.state.currentFlag < 5 && this.refs.elementScrollRefTop) {
@@ -301,9 +309,29 @@ export default class SearchPage extends React.Component {
         const topCategories = this.props.searchResult.topCategories
           ? this.props.searchResult.topCategories
           : [];
-        this.searchDown = [...topCategories, ...suggestionsNew, ...topBrands];
+        var newArrOfTopCategories =
+          topCategories &&
+          topCategories.map((element, i) => {
+            return merge({}, element, { index: i });
+          });
+        var newArrOfSuggestionsNew =
+          suggestionsNew &&
+          suggestionsNew.map((element, i) => {
+            return merge({}, element, { index: i });
+          });
+        var newArrOfTopBrands =
+          topBrands &&
+          topBrands.map((element, i) => {
+            return merge({}, element, { index: i });
+          });
+        this.searchDown = [
+          ...newArrOfTopCategories,
+          ...newArrOfSuggestionsNew,
+          ...newArrOfTopBrands
+        ];
       }
     }
+
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
