@@ -16,11 +16,15 @@ export default class ShopeByPriceDesktop extends React.Component {
   };
   render() {
     const { feedComponentData } = this.props;
+
     return (
       <DesktopOnly>
         <CommonCenter>
           <div className={styles.base}>
-            <Carousel header="Shope By Price" elementWidthDesktop={50}>
+            <Carousel
+              header={feedComponentData && feedComponentData.title}
+              elementWidthDesktop={50}
+            >
               {feedComponentData.items &&
                 feedComponentData.items.map((datum, i) => {
                   return (
