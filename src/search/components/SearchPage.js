@@ -7,9 +7,7 @@ import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import * as UserAgent from "../../lib/UserAgent.js";
 import cloneDeep from "lodash.clonedeep";
-import merge from "lodash.merge";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -311,17 +309,17 @@ export default class SearchPage extends React.Component {
         const newArrayOfTopCategories =
           topCategories &&
           topCategories.map((element, i) => {
-            return merge({}, element, { index: i });
+            return Object.assign(element, { index: i });
           });
         const newArrayOfSuggestionsNew =
           suggestionsNew &&
           suggestionsNew.map((element, i) => {
-            return merge({}, element, { index: i });
+            return Object.assign(element, { index: i });
           });
         const newArrayOfTopBrands =
           topBrands &&
           topBrands.map((element, i) => {
-            return merge({}, element, { index: i });
+            return Object.assign(element, { index: i });
           });
         this.searchDown = [
           ...newArrayOfTopCategories,
