@@ -61,6 +61,7 @@ const mapDispatchToProps = dispatch => {
       let productServiceAvailability =
         cartDetailsObj &&
         cartDetailsObj.cartDetails &&
+        cartDetailsObj.cartDetails.products &&
         cartDetailsObj.cartDetails.products.filter(product => {
           return (
             product.isGiveAway === NO &&
