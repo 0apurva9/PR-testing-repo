@@ -298,7 +298,6 @@ export default class SearchPage extends React.Component {
     firstSuggestedKeyWord =
       data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
     const suggestedKeyWord = data && data.suggestionsNew;
-
     if (data) {
       if (data) {
         const topBrands = this.props.searchResult.topBrands

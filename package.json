@@ -6,13 +6,16 @@
   "dependencies": {
     "@researchgate/react-intersection-list": "^1.0.2",
     "@researchgate/react-intersection-observer": "^0.6.1",
+    "@types/react": "^16.4.7",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-react-app": "^3.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react-app": "^3.1.2",
+    "babel-register": "^6.26.0",
     "babel-runtime": "6.26.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
@@ -32,6 +35,7 @@
     "fs-extra": "3.0.1",
     "google-map-react": "^1.0.0",
     "html-webpack-plugin": "2.29.0",
+    "ignore-styles": "^5.0.1",
     "intersection-observer": "^0.5.0",
     "jest": "20.0.4",
     "lodash.clonedeep": "^4.5.0",
@@ -44,6 +48,7 @@
     "lodash.keys": "^4.2.0",
     "lodash.map": "^4.6.0",
     "lodash.merge": "^4.6.1",
+    "lodash.range": "^3.2.0",
     "lodash.size": "^4.2.0",
     "lodash.sortby": "^4.7.0",
     "lodash.throttle": "^4.1.1",
@@ -76,38 +81,52 @@
     "simple-card-validator": "^1.1.0",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",
+    "ts-loader": "3.5",
+    "typescript": "^2.9.2",
     "url-loader": "0.6.2",
-    "webpack": "^3.8.1",
+    "webpack": "3.8.1",
     "webpack-dev-server": "2.9.4",
     "webpack-manifest-plugin": "1.3.2",
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "REACT_APP_STAGE=qa2 node -r dotenv/config scripts/start.js",
+    "start:desktop": "REACT_APP_VERSION=desktop REACT_APP_STAGE=tmpprod node -r dotenv/config scripts/start.js",
+    "start:mobile": "REACT_APP_VERSION=mobile REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
     "tmpprod": " REACT_APP_STAGE=tmpprod node scripts/build.js",
     "local": " REACT_APP_STAGE=local node scripts/build.js",
     "dev": " REACT_APP_STAGE=devxelp node scripts/build.js",
     "uat2": " REACT_APP_STAGE=uat2 node scripts/build.js",
-    "build": "REACT_APP_STAGE=tmpprod node scripts/build.js",
+    "build": "REACT_APP_STAGE=production node scripts/build.js",
     "p2": "REACT_APP_STAGE=p2 node scripts/build.js",
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
-    "uat5": "REACT_APP_STAGE=uat5 node scripts/build.js",
-    "production":
-      "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
-    "production-cdn":
-      "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
-    "p2-production-cdn":
-      "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
+    "production": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
+    "production-cdn": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
+    "p2-production-cdn": "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
+    "stage-desktop": " REACT_APP_VERSION=desktop REACT_APP_STAGE=stage node scripts/build.js",
+    "tmpprod-desktop": " REACT_APP_VERSION=desktop REACT_APP_STAGE=tmpprod node scripts/build.js",
+    "local-desktop": " REACT_APP_VERSION=desktop REACT_APP_STAGE=local node scripts/build.js",
+    "dev-desktop": " REACT_APP_VERSION=desktop REACT_APP_STAGE=devxelp node scripts/build.js",
+    "uat2-desktop": " REACT_APP_VERSION=desktop REACT_APP_STAGE=uat2 node scripts/build.js",
+    "build-desktop": "NODE_ENV=dfdfgdfgd REACT_APP_VERSION=desktop REACT_APP_STAGE=production node scripts/build.js",
+    "p2-desktop": "REACT_APP_VERSION=desktop REACT_APP_STAGE=p2 node scripts/build.js",
+    "uat-desktop": "REACT_APP_VERSION=desktop REACT_APP_STAGE=uat node scripts/build.js",
+    "production-desktop": "GENERATE_SOURCEMAP=false REACT_APP_VERSION=desktop REACT_APP_STAGE=production node scripts/build.js",
+    "production-cdn-desktop": "GENERATE_SOURCEMAP=false REACT_APP_VERSION=desktop REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
+    "p2-production-cdn-desktop": "REACT_APP_VERSION=desktop REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
     "test": "cross-env node scripts/test.js --env=jsdom",
     "lint": "eslint 'src/**/*.js'",
-    "pre-build":
-      "yarn run build  && sudo pm2 startOrRestart ecosystem.config.js",
+    "pre-build": "yarn run tmpprod-desktop  && sudo pm2 startOrRestart ecosystem.config.js",
     "deploy": "pm2 deploy ecosystem.config.js production --force",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "ssr": "NODE_ENV=DFGDFG server/bootstrap.js"
   },
   "lint-staged": {
-    "*.js": ["eslint", "prettier --parser flow --write", "git add"]
+    "*.js": [
+      "eslint",
+      "prettier --parser flow --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "brotli-webpack-plugin": "^1.0.0",
@@ -127,8 +146,12 @@
     "webpack-bundle-analyzer": "^2.11.1"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx,mjs}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,mjs}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -138,10 +161,11 @@
     "transform": {
       "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)":
-        "<rootDir>/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
+    ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     },
@@ -156,7 +180,9 @@
     ]
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
