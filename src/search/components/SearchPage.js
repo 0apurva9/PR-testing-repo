@@ -24,7 +24,6 @@ export default class SearchPage extends React.Component {
       categoryAndBrandIndex: null
     };
     this.searchDown = [];
-    this.newSearchDown = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
