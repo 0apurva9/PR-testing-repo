@@ -18,8 +18,7 @@ export default class SearchPage extends React.Component {
       currentFlag: null,
       showData: true,
       setOnClick: false,
-      categoryAndBrandCode: null,
-      categoryAndBrandIndex: null
+      categoryAndBrandCode: null
     };
     this.searchDown = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -134,21 +133,29 @@ export default class SearchPage extends React.Component {
     let code = this.state.categoryAndBrandCode.trim();
     if (code) {
       if (code.includes("MSH")) {
+        const topCategories = this.props.searchResult.topCategories;
+        const indexOfCurrentCategories = topCategories.findIndex(categories => {
+          return categories.categoryCode === code;
+        });
         this.handleCategoryClick(
           code,
           {
             term: currentSearchString
           },
-          this.state.categoryAndBrandIndex
+          indexOfCurrentCategories
         );
       }
       if (code.includes("MBH")) {
+        const topBrands = this.props.searchResult.topBrands;
+        const indexOfCurrentBrands = topBrands.findIndex(brands => {
+          return brands.categoryCode === code;
+        });
         this.handleBrandClick(
           code,
           {
             term: currentSearchString
           },
-          this.state.categoryAndBrandIndex
+          indexOfCurrentBrands
         );
       }
     } else {
@@ -194,8 +201,7 @@ export default class SearchPage extends React.Component {
             this.searchDown[currentSelectedIndex + 1].categoryCode
               ? this.searchDown[currentSelectedIndex + 1].categoryCode
               : ""
-          }`,
-          categoryAndBrandIndex: this.searchDown[currentSelectedIndex + 1].index
+          }`
         });
       } else if (this.state.currentFlag === this.searchDown.length - 1) {
         this.setState({
@@ -213,8 +219,7 @@ export default class SearchPage extends React.Component {
             this.searchDown[this.state.currentFlag].categoryCode
               ? this.searchDown[this.state.currentFlag].categoryCode
               : ""
-          }`,
-          categoryAndBrandIndex: this.searchDown[this.state.currentFlag].index
+          }`
         });
       } else {
         this.setState({
@@ -232,8 +237,7 @@ export default class SearchPage extends React.Component {
             this.searchDown[0].categoryCode
               ? this.searchDown[0].categoryCode
               : ""
-          }`,
-          categoryAndBrandIndex: this.searchDown[0].index
+          }`
         });
       }
       if (this.state.currentFlag > 3 && this.refs.elementScrollRefBottom) {
@@ -257,8 +261,7 @@ export default class SearchPage extends React.Component {
             this.searchDown[currentSelectedIndex - 1].categoryCode
               ? this.searchDown[currentSelectedIndex - 1].categoryCode
               : ""
-          }`,
-          categoryAndBrandIndex: this.searchDown[currentSelectedIndex - 1].index
+          }`
         });
       } else {
         this.setState({
@@ -276,8 +279,7 @@ export default class SearchPage extends React.Component {
             this.searchDown[0].categoryCode
               ? this.searchDown[0].categoryCode
               : ""
-          }`,
-          categoryAndBrandIndex: this.searchDown[0].index
+          }`
         });
       }
       if (this.state.currentFlag < 5 && this.refs.elementScrollRefTop) {
@@ -306,29 +308,9 @@ export default class SearchPage extends React.Component {
         const topCategories = this.props.searchResult.topCategories
           ? this.props.searchResult.topCategories
           : [];
-        const newArrayOfTopCategories =
-          topCategories &&
-          topCategories.map((element, i) => {
-            return Object.assign(element, { index: i });
-          });
-        const newArrayOfSuggestionsNew =
-          suggestionsNew &&
-          suggestionsNew.map((element, i) => {
-            return Object.assign(element, { index: i });
-          });
-        const newArrayOfTopBrands =
-          topBrands &&
-          topBrands.map((element, i) => {
-            return Object.assign(element, { index: i });
-          });
-        this.searchDown = [
-          ...newArrayOfTopCategories,
-          ...newArrayOfSuggestionsNew,
-          ...newArrayOfTopBrands
-        ];
+        this.searchDown = [...topCategories, ...suggestionsNew, ...topBrands];
       }
     }
-
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
@@ -471,7 +453,6 @@ export default class SearchPage extends React.Component {
                     </div>
                   );
                 })}
-
               {suggestedKeyWord &&
                 suggestedKeyWord.map((val, i) => {
                   return (
