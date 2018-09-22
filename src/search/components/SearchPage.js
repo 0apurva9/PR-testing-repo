@@ -309,25 +309,25 @@ export default class SearchPage extends React.Component {
         const topCategories = this.props.searchResult.topCategories
           ? this.props.searchResult.topCategories
           : [];
-        var newArrOfTopCategories =
+        const newArrayOfTopCategories =
           topCategories &&
           topCategories.map((element, i) => {
             return merge({}, element, { index: i });
           });
-        var newArrOfSuggestionsNew =
+        const newArrayOfSuggestionsNew =
           suggestionsNew &&
           suggestionsNew.map((element, i) => {
             return merge({}, element, { index: i });
           });
-        var newArrOfTopBrands =
+        const newArrayOfTopBrands =
           topBrands &&
           topBrands.map((element, i) => {
             return merge({}, element, { index: i });
           });
         this.searchDown = [
-          ...newArrOfTopCategories,
-          ...newArrOfSuggestionsNew,
-          ...newArrOfTopBrands
+          ...newArrayOfTopCategories,
+          ...newArrayOfSuggestionsNew,
+          ...newArrayOfTopBrands
         ];
       }
     }
