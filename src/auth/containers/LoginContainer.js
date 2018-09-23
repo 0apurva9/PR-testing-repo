@@ -7,7 +7,8 @@ import {
 import {
   mergeCartId,
   generateCartIdForLoggedInUser,
-  getCartId
+  getCartId,
+  tempCartIdForLoggedInUser
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
 
@@ -41,6 +42,7 @@ import {
   getWishListItems,
   createWishlist
 } from "../../wishlist/actions/wishlist.actions";
+import ProductDetails from "../../pdp/components/ProductDetails";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
 
 const mapDispatchToProps = dispatch => {
@@ -162,15 +164,21 @@ const mapDispatchToProps = dispatch => {
     },
     refreshToken: sessionData => {
       dispatch(refreshToken(sessionData));
+    },
+    tempCartIdForLoggedInUser: productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     }
   };
 };
 
 const mapStateToProps = state => {
+  console.log(state.cart);
   return {
     authCallsInProcess: state.auth.authCallsInProcess,
     authCallsIsSucceed: state.auth.authCallsIsSucceed,
-    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl
+    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
+    tempCartIdForLoggedInUserLoading:
+      state.cart.tempCartIdForLoggedInUserLoading
   };
 };
 

@@ -1017,14 +1017,11 @@ class CheckOutPage extends React.Component {
   componentWillUnmount() {
     // if user go back from checkout page then
     // we have relsease coupon if user applied any coupon
-    if (
-      this.props.history.action === "POP" &&
-      this.state.selectedBankOfferCode &&
-      !this.state.isPaymentFailed
-    ) {
-      this.props.releaseBankOffer(this.state.selectedBankOfferCode);
-    }
     if (this.props.history.action === "POP") {
+      if (this.state.selectedBankOfferCode && !this.state.isPaymentFailed) {
+        this.props.releaseBankOffer(this.state.selectedBankOfferCode);
+      }
+
       this.props.clearCartDetails();
     }
     this.props.resetIsSoftReservationFailed();

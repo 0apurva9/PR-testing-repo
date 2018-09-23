@@ -33,11 +33,8 @@ export default class PdfFooter extends React.Component {
             goToCartPageFlag: true,
             checkForUrlGoToCartFlag: false
           });
-          if (buyNowFlag) {
-            this.goToCartPage();
-          } else {
-            this.props.displayToast(ADD_TO_BAG_TEXT);
-          }
+        } else {
+          this.props.displayToast(ADD_TO_BAG_TEXT);
         }
       }
     } else {

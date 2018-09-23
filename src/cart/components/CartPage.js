@@ -538,6 +538,22 @@ class CartPage extends React.Component {
   }
 
   componentWillUnmount() {
+    /*
+here we need to hit call for merging cart id if user
+ has temp cart .
+ in this case if user leave checkout in middle then we need
+ to hit merge cart id
+*/
+    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartDetails = cartDetails && JSON.parse(cartDetails);
+    if (
+      this.props.location.pathname !== CHECKOUT_ROUTER &&
+      cartDetails &&
+      cartDetails.isBuyNowCart
+    ) {
+      this.props.mergeTempCartWithOldCart();
+    }
+    this.props.history.listen((location, action) => {});
     if (this.props.clearCartDetails) {
       this.props.clearCartDetails();
     }
