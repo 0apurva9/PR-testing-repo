@@ -327,7 +327,7 @@ module.exports = {
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [
-        /^(?!\/__|\/que|\/apps*|\/login\/pw\/change|\/feedback\/NPSFeedbackForm|\/my-account\/returns\/returnFileDownload).*/
+        /^(?!\/__|\/que|\/apps*|\/login\/pw\/change|\/amp|\/feedback\/NPSFeedbackForm|\/my-account\/returns\/returnFileDownload).*/
       ],
       // Don't precache sourcemaps (they're large) and build asset manifest:
       staticFileGlobsIgnorePatterns: [
