@@ -17,6 +17,7 @@
   font-size: 14px;
   line-height: 40px;
   padding: 0 20px;
+  text-align: center;
 }
 .info {
   width: 100%;
@@ -27,15 +28,13 @@
   font-family: light;
 }
 .termsAndConditions {
-  background: #ececec;
-  padding: 10px;
   font-family: light;
   font-size: 14px;
 }
 .termsAndConditions li {
   font-size: 14px;
   line-height: 22px;
-  font-family: regular;
+  font-family: light;
   margin-bottom: 5px;
 }
 .bankNameHeader {
@@ -49,4 +48,16 @@
   font-family: semibold;
   font-size: 14px;
   background: #ececec;
+}
+.tabHolder {
+  width: 100%;
+  height: 60px;
+  background: #fff;
+}
+.standardEmiHeading {
+  width: 100%;
+  height: auto;
+  font-size: 16px;
+  padding: 20px 20px 0px 20px;
+  font-family: semibold;
 }

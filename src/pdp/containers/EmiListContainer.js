@@ -12,8 +12,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    emiData: state.productDescription.emiResult,
-    emiTerms: state.productDescription.emiTerms
+    emiData: state.productDescription.emiResult
   };
 };
 

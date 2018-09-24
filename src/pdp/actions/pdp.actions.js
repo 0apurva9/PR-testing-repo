@@ -101,7 +101,7 @@ export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
-export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}`;
+export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails?isPwa=true&channel=mobile&`;
 export const EMI_TERMS_PATH = "/v2/mpl/cms/products/getEmiTermsAndConditions";
 export const FOLLOW_UN_FOLLOW_PATH = "v2/mpl/products";
 
@@ -442,19 +442,234 @@ export function getPdpEmiFailure(error) {
     error
   };
 }
-export function getPdpEmi(token, cartValue) {
+export function getPdpEmi(token, cartValue, productCode, ussId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getPdpEmiRequest());
     try {
-      const url = `${PRODUCT_PDP_EMI_PATH}&productValue=${cartValue}&access_token=${token}`;
+      const data = [
+        {
+          emiList: [
+            {
+              bankList: [
+                {
+                  code: "AXIS BANK",
+                  emiBank: "AXIS BANK",
+                  emitermsrate: [
+                    {
+                      interestPayable: "3273.93",
+                      interestRate: "13.0",
+                      monthlyInstallment: "2675",
+                      overallCost: "36850",
+                      term: "15"
+                    },
+                    {
+                      interestPayable: "1300.44",
+                      interestRate: "12.0",
+                      monthlyInstallment: "6358",
+                      overallCost: "36850",
+                      term: "6"
+                    },
+                    {
+                      interestPayable: "2024.71",
+                      interestRate: "13.0",
+                      monthlyInstallment: "4319",
+                      overallCost: "36850",
+                      term: "9"
+                    },
+                    {
+                      interestPayable: "17264.43",
+                      interestRate: "40.0",
+                      monthlyInstallment: "2255",
+                      overallCost: "36850",
+                      term: "24"
+                    }
+                  ],
+                  logoUrl: "",
+                  pk: "8796093138563"
+                },
+                {
+                  code: "HDFC BANK, LTD.",
+                  emiBank: "HDFC BANK, LTD.",
+                  emitermsrate: [
+                    {
+                      interestPayable: "801.28",
+                      interestRate: "13.0",
+                      monthlyInstallment: "12550",
+                      overallCost: "36850",
+                      term: "3"
+                    }
+                  ],
+                  logoUrl: "",
+                  pk: "8796256913027"
+                },
+                {
+                  code: "HSBC BANK",
+                  emiBank: "HSBC BANK",
+                  emitermsrate: [
+                    {
+                      interestPayable: "125.98",
+                      interestRate: "2.1",
+                      monthlyInstallment: "12325",
+                      overallCost: "36850",
+                      term: "3"
+                    }
+                  ],
+                  logoUrl: "",
+                  pk: "8796224145027"
+                },
+                {
+                  code: "INDUSIND BANK, LTD.",
+                  emiBank: "INDUSIND BANK, LTD.",
+                  emitermsrate: [
+                    {
+                      interestPayable: "801.28",
+                      interestRate: "13.0",
+                      monthlyInstallment: "12550",
+                      overallCost: "36850",
+                      term: "3"
+                    },
+                    {
+                      interestPayable: "1409.77",
+                      interestRate: "13.0",
+                      monthlyInstallment: "6377",
+                      overallCost: "36850",
+                      term: "6"
+                    },
+                    {
+                      interestPayable: "2024.71",
+                      interestRate: "13.0",
+                      monthlyInstallment: "4319",
+                      overallCost: "36850",
+                      term: "9"
+                    },
+                    {
+                      interestPayable: "2646.10",
+                      interestRate: "13.0",
+                      monthlyInstallment: "3291",
+                      overallCost: "36850",
+                      term: "12"
+                    }
+                  ],
+                  logoUrl: "",
+                  pk: "8796093171331"
+                },
+                {
+                  code: "KOTAK MAHINDRA BANK, LTD.",
+                  emiBank: "KOTAK MAHINDRA BANK, LTD.",
+                  emitermsrate: [
+                    {
+                      interestPayable: "739.44",
+                      interestRate: "12.0",
+                      monthlyInstallment: "12530",
+                      overallCost: "36850",
+                      term: "3"
+                    },
+                    {
+                      interestPayable: "1300.44",
+                      interestRate: "12.0",
+                      monthlyInstallment: "6358",
+                      overallCost: "36850",
+                      term: "6"
+                    },
+                    {
+                      interestPayable: "2182.82",
+                      interestRate: "14.0",
+                      monthlyInstallment: "4337",
+                      overallCost: "36850",
+                      term: "9"
+                    },
+                    {
+                      interestPayable: "2853.86",
+                      interestRate: "14.0",
+                      monthlyInstallment: "3309",
+                      overallCost: "36850",
+                      term: "12"
+                    }
+                  ],
+                  logoUrl: "",
+                  pk: "8796093073027"
+                },
+                {
+                  code: "STANDARD CHARTERED",
+                  emiBank: "STANDARD CHARTERED",
+                  emitermsrate: [
+                    {
+                      interestPayable: "2853.86",
+                      interestRate: "14.0",
+                      monthlyInstallment: "3309",
+                      overallCost: "36850",
+                      term: "12"
+                    },
+                    {
+                      interestPayable: "4529.83",
+                      interestRate: "15.0",
+                      monthlyInstallment: "2299",
+                      overallCost: "36850",
+                      term: "18"
+                    },
+                    {
+                      interestPayable: "801.28",
+                      interestRate: "13.0",
+                      monthlyInstallment: "12550",
+                      overallCost: "36850",
+                      term: "3"
+                    },
+                    {
+                      interestPayable: "1409.77",
+                      interestRate: "13.0",
+                      monthlyInstallment: "6377",
+                      overallCost: "36850",
+                      term: "6"
+                    },
+                    {
+                      interestPayable: "2182.82",
+                      interestRate: "14.0",
+                      monthlyInstallment: "4337",
+                      overallCost: "36850",
+                      term: "9"
+                    },
+                    {
+                      interestPayable: "6031.59",
+                      interestRate: "15.0",
+                      monthlyInstallment: "1787",
+                      overallCost: "36850",
+                      term: "24"
+                    }
+                  ],
+                  logoUrl: "",
+                  pk: "8796158609027"
+                }
+              ],
+              bankSpecificTnC: [
+                {
+                  description: "Axis bank terms and conditions",
+                  title: "Axis Bank"
+                },
+                {
+                  description: "Hdfc terms and conditons",
+                  title: "HDFC Bank"
+                }
+              ],
+              heading: "Standard EMI",
+              termsAndConditions: {
+                description:
+                  "<ul><li>The minimum order value to avail the EMI payment option is Rs 3,000.</li><li>EMI can be availed when buying products from multiple sellers,&nbsp; If all the sellers in the cart are offering EMI</li><li>It may take up to 10 working days for your bank to covert the payment in to EMI</li><li>Final EMI is calculated on the total value of your order at the time of payment.</li><li>While you will not be charged a processing fee for availing TATA CLiQ's EMI option, the interest charged by the bank shall not be refunded by TATA CLiQ.</li><li>You may check with the respective bank/issuer on how a cancellation, refund or pre-closure could affect the EMI terms, and what interest charges would be levied on you for the same.</li><li>The Bank charges annual interest rates according to the reducing monthly balance. In the monthly reducing cycle, the principal is reduced with every EMI and the interest is calculated on the outstanding balance.</li></ul>",
+                title: "Standard Terms and Conditions"
+              },
+              title:
+                "Standard EMI for this product is provided by the following banks"
+            }
+          ]
+        }
+      ];
+      const url = `${PRODUCT_PDP_EMI_PATH}&productValue=${cartValue}&ussids=${ussId}&productCode=${productCode}&nceFlag=true&access_token=${token}`;
       const result = await api.get(url);
       const resultJson = await result.json();
+      // const resultJson = data;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       dispatch(getPdpEmiSuccess(resultJson));
     } catch (e) {
       dispatch(getPdpEmiFailure(e.message));

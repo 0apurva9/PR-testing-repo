@@ -216,11 +216,11 @@ export default class PdpElectronics extends React.Component {
 
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
+    const productCode = this.props.productDetails.productListingId;
+    const ussId = this.props.productDetails.winningUssID;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-
     const globalAccessToken = JSON.parse(globalCookie).access_token;
-    this.props.getPdpEmi(globalAccessToken, cartValue);
-    this.props.getEmiTerms(globalAccessToken, cartValue);
+    this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
   handleShowPiqPage = () => {
@@ -376,6 +376,9 @@ export default class PdpElectronics extends React.Component {
             <PdpPaymentInfo
               hasEmi={productData.isEMIEligible}
               hasCod={productData.isCOD}
+              seStartingPrice={productData.seStartingPrice}
+              nceAvailable={productData.nceAvailable}
+              nceStartingPrice={productData.nceStartingPrice}
               showEmiModal={this.showEmiModal}
             />
             <div className={styles.wishlist}>

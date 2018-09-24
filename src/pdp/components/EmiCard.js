@@ -7,7 +7,7 @@ export default class EmiCard extends React.Component {
     if (this.props.options) {
       return (
         <div className={styles.base}>
-          <div className={styles.row}>
+          <div className={styles.row} style={{ width: `${this.props.width}%` }}>
             <div className={styles.header}>Months</div>
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
@@ -15,19 +15,24 @@ export default class EmiCard extends React.Component {
               })}
             </div>
           </div>
-          <div className={styles.row}>
-            <div className={styles.header}>Interest Rate</div>
-            <div className={styles.data}>
-              {this.props.options.map((datum, i) => {
-                return (
-                  <div className={styles.dataDetails}>
-                    {datum.interestRate}%
-                  </div>
-                );
-              })}
+          {this.props.showInterestRate && (
+            <div
+              className={styles.row}
+              style={{ width: `${this.props.width}%` }}
+            >
+              <div className={styles.header}>Interest Rate</div>
+              <div className={styles.data}>
+                {this.props.options.map((datum, i) => {
+                  return (
+                    <div className={styles.dataDetails}>
+                      {datum.interestRate}%
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <div className={styles.row}>
+          )}
+          <div className={styles.row} style={{ width: `${this.props.width}%` }}>
             <div className={styles.header}>EMI</div>
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
@@ -39,7 +44,7 @@ export default class EmiCard extends React.Component {
               })}
             </div>
           </div>
-          <div className={styles.row}>
+          <div className={styles.row} style={{ width: `${this.props.width}%` }}>
             <div className={styles.header}>Overall Cost</div>
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
@@ -65,4 +70,8 @@ EmiCard.propTypes = {
       interestPayable: PropTypes.string
     })
   )
+};
+EmiCard.defaultProps = {
+  showInterestRate: true,
+  width: 25
 };
