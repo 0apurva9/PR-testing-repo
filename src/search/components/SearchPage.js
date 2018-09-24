@@ -45,13 +45,11 @@ export default class SearchPage extends React.Component {
       showSearchBar: !this.state.showSearchBar
     });
   };
-
   handleBrandClick(webURL, dtmDataObject, position) {
     Object.assign(dtmDataObject, {
       position: position + 1
     });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
-    const searchQuery = this.state.searchString;
     setDataLayerForAutoSuggestSearch(dtmDataObject);
     this.props.clearSearchResults();
     this.setState({
@@ -72,11 +70,9 @@ export default class SearchPage extends React.Component {
       isFilter: false
     });
   }
-
   handleCategoryClick(webURL, dtmDataObject, position) {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
-    const searchQuery = this.state.searchString;
     Object.assign(dtmDataObject, {
       position:
         data && data.topBrands
@@ -129,8 +125,9 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
-    let currentSearchString = searchString.trim();
-    let code = this.state.categoryAndBrandCode.trim();
+    let currentSearchString = searchString && searchString.trim();
+    let code =
+      this.state.categoryAndBrandCode && this.state.categoryAndBrandCode.trim();
     if (code) {
       if (code.includes("MSH")) {
         const topCategories = this.props.searchResult.topCategories;
@@ -174,7 +171,6 @@ export default class SearchPage extends React.Component {
       currentFlag: null
     });
   }
-
   handleUpDownArrow(val) {
     this.setState({ showData: true });
     const currentSelectedIndex = this.state.currentFlag;
@@ -286,12 +282,10 @@ export default class SearchPage extends React.Component {
         this.refs.elementScrollRefTop.scrollIntoView(false);
       }
     }
-
     if (val === "Enter") {
       this.setState({ showData: false, searchString: null });
     }
   }
-
   render() {
     const data = cloneDeep(this.props.searchResult);
     let firstSuggestedKeyWord = "";
