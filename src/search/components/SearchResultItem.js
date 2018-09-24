@@ -9,12 +9,7 @@ export default class SearchResultItem extends React.Component {
   }
   render() {
     let suggestedText = this.props.suggestedText;
-    if (this.props.singleWord && this.props.suggestedText.includes(" ")) {
-      suggestedText = this.props.suggestedText.slice(
-        0,
-        this.props.suggestedText.indexOf(" ")
-      );
-    }
+
     return (
       <div
         className={styles.base}
@@ -22,8 +17,16 @@ export default class SearchResultItem extends React.Component {
           this.handleClick(val);
         }}
       >
-        <span className={styles.bolder}>{suggestedText}</span> in{" "}
-        {this.props.text}
+        {suggestedText}
+        {this.props.categoryOrBrandText && (
+          <React.Fragment>
+            {" "}
+            in{" "}
+            <span className={styles.bolder}>
+              {this.props.categoryOrBrandText}
+            </span>
+          </React.Fragment>
+        )}
       </div>
     );
   }
