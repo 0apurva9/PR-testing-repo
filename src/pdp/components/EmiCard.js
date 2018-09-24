@@ -1,5 +1,4 @@
 import React from "react";
-import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import PropTypes from "prop-types";
 import styles from "./EmiCard.css";
 export default class EmiCard extends React.Component {
@@ -11,7 +10,11 @@ export default class EmiCard extends React.Component {
             <div className={styles.header}>Months</div>
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
-                return <div className={styles.dataDetails}>{datum.term}</div>;
+                return (
+                  <div className={styles.dataDetails} key={i}>
+                    {datum.term}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -24,7 +27,7 @@ export default class EmiCard extends React.Component {
               <div className={styles.data}>
                 {this.props.options.map((datum, i) => {
                   return (
-                    <div className={styles.dataDetails}>
+                    <div className={styles.dataDetails} key={i}>
                       {datum.interestRate}%
                     </div>
                   );
@@ -37,7 +40,7 @@ export default class EmiCard extends React.Component {
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
                 return (
-                  <div className={styles.dataDetails}>
+                  <div className={styles.dataDetails} key={i}>
                     {datum.monthlyInstallment}
                   </div>
                 );
@@ -49,7 +52,9 @@ export default class EmiCard extends React.Component {
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
                 return (
-                  <div className={styles.dataDetails}>{datum.overallCost}</div>
+                  <div className={styles.dataDetails} key={i}>
+                    {datum.overallCost}
+                  </div>
                 );
               })}
             </div>

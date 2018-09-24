@@ -11,11 +11,11 @@ export default class PdpPaymentInfo extends React.Component {
     if (
       this.props.hasEmi === "Y" ||
       this.props.hasCod === "Y" ||
-      this.props.nceAvailable === true
+      this.props.nceAvailable
     ) {
       return (
         <div className={styles.base}>
-          {this.props.hasEmi === "Y" && this.props.nceAvailable === true ? (
+          {this.props.hasEmi === "Y" && this.props.nceAvailable ? (
             <div className={styles.content}>
               <span className={styles.noCostEmi}>
                 No Cost EMI from {RUPEE_SYMBOL}
@@ -27,7 +27,7 @@ export default class PdpPaymentInfo extends React.Component {
                 View plans
               </span>
             </div>
-          ) : this.props.hasEmi === "Y" && this.props.nceAvailable === false ? (
+          ) : this.props.hasEmi === "Y" && !this.props.nceAvailable ? (
             <div className={styles.content}>
               Standard EMI from {RUPEE_SYMBOL}
               {this.props.seStartingPrice}/month
@@ -37,7 +37,7 @@ export default class PdpPaymentInfo extends React.Component {
             </div>
           ) : (
             this.props.hasEmi === "N" &&
-            this.props.nceAvailable === true && (
+            this.props.nceAvailable && (
               <div className={styles.content}>
                 <span lassName={styles.noCostEmi}>
                   No Cost EMI from {RUPEE_SYMBOL}

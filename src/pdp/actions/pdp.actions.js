@@ -101,7 +101,7 @@ export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
-export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails?isPwa=true&channel=mobile`;
+export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails`;
 export const EMI_TERMS_PATH = "/v2/mpl/cms/products/getEmiTermsAndConditions";
 export const FOLLOW_UN_FOLLOW_PATH = "v2/mpl/products";
 
@@ -446,7 +446,7 @@ export function getPdpEmi(token, cartValue, productCode, ussId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getPdpEmiRequest());
     try {
-      const url = `${PRODUCT_PDP_EMI_PATH}&productValue=${cartValue}&ussids=${ussId}&productCode=${productCode}&nceFlag=true&access_token=${token}`;
+      const url = `${PRODUCT_PDP_EMI_PATH}?isPwa=true&channel=mobile&productValue=${cartValue}&ussids=${ussId}&productCode=${productCode}&nceFlag=true&access_token=${token}`;
       const result = await api.get(url);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
