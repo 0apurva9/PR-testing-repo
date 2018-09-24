@@ -12,6 +12,7 @@ import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_EMI_BANK_EVENT
 } from "../../lib/adobeUtils";
+import Loader from "../../general/components/Loader";
 const EMI_INFO = "An EMI for this product is provided by the following banks";
 export default class EmiModal extends React.Component {
   constructor(props) {
@@ -75,7 +76,13 @@ export default class EmiModal extends React.Component {
       this.setState({ isSelected: 1, standardEmiArray: standardEmiDetails });
     }
   }
+  renderLoader() {
+    return <Loader />;
+  }
   render() {
+    if (this.props.loading) {
+      return this.renderLoader();
+    }
     return (
       <SlideModal closeModal={this.props.closeModal}>
         <div className={styles.base}>
