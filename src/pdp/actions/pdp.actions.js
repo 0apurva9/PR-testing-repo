@@ -101,7 +101,7 @@ export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
-export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails?isPwa=true&channel=mobile&`;
+export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails?isPwa=true&channel=mobile`;
 export const EMI_TERMS_PATH = "/v2/mpl/cms/products/getEmiTermsAndConditions";
 export const FOLLOW_UN_FOLLOW_PATH = "v2/mpl/products";
 
