@@ -6,7 +6,7 @@
   }
   .profileMenu {
     width: 20%;
-    height: 200px;
+    height: auto;
     display: inline-block;
     vertical-align: top;
     max-width: 240px;
@@ -31,11 +31,13 @@
     vertical-align: top;
     border-radius: 4px;
     max-width: 240px;
+    position: sticky;
+    top: 100px;
   }
 
   .base {
     background-color: #ececec;
-    padding: 80px 0px 0px 0px;
+    padding: 80px 0px 20px 0px;
     min-height: 100vh;
   }
   .returnReasonDetailHolder {
@@ -66,6 +68,6 @@
 @media screen and (max-height: 780px) {
   .profileMenu {
     position: sticky;
-    top: -180px;
+    top: 100px;
   }
 }
