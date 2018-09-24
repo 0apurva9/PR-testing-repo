@@ -8,54 +8,46 @@ export default class PdpPaymentInfo extends React.Component {
     }
   };
   render() {
-    if (
-      this.props.hasEmi === "Y" ||
-      this.props.hasCod === "Y" ||
-      this.props.nceAvailable
-    ) {
-      return (
-        <div className={styles.base}>
-          {this.props.hasEmi === "Y" && this.props.nceAvailable ? (
+    return (
+      <div className={styles.base}>
+        {this.props.hasEmi === "Y" && this.props.nceAvailable ? (
+          <div className={styles.content}>
+            <span className={styles.noCostEmi}>
+              No Cost EMI from {RUPEE_SYMBOL}
+              {this.props.nceStartingPrice}/month,{" "}
+            </span>
+            Standard EMI from {RUPEE_SYMBOL}
+            {this.props.seStartingPrice}/month
+            <span className={styles.link} onClick={this.showEmiModal}>
+              View plans
+            </span>
+          </div>
+        ) : this.props.hasEmi === "Y" && !this.props.nceAvailable ? (
+          <div className={styles.content}>
+            Standard EMI from {RUPEE_SYMBOL}
+            {this.props.seStartingPrice}/month
+            <span className={styles.link} onClick={this.showEmiModal}>
+              View plans
+            </span>
+          </div>
+        ) : (
+          this.props.hasEmi === "N" &&
+          this.props.nceAvailable && (
             <div className={styles.content}>
-              <span className={styles.noCostEmi}>
+              <span lassName={styles.noCostEmi}>
                 No Cost EMI from {RUPEE_SYMBOL}
                 {this.props.nceStartingPrice}/month,{" "}
               </span>
-              Standard EMI from {RUPEE_SYMBOL}
-              {this.props.seStartingPrice}/month
               <span className={styles.link} onClick={this.showEmiModal}>
                 View plans
               </span>
             </div>
-          ) : this.props.hasEmi === "Y" && !this.props.nceAvailable ? (
-            <div className={styles.content}>
-              Standard EMI from {RUPEE_SYMBOL}
-              {this.props.seStartingPrice}/month
-              <span className={styles.link} onClick={this.showEmiModal}>
-                View plans
-              </span>
-            </div>
-          ) : (
-            this.props.hasEmi === "N" &&
-            this.props.nceAvailable && (
-              <div className={styles.content}>
-                <span lassName={styles.noCostEmi}>
-                  No Cost EMI from {RUPEE_SYMBOL}
-                  {this.props.nceStartingPrice}/month,{" "}
-                </span>
-                <span className={styles.link} onClick={this.showEmiModal}>
-                  View plans
-                </span>
-              </div>
-            )
-          )}
-          {this.props.hasCod === "Y" && (
-            <div className={styles.content}>Cash on Delivery available</div>
-          )}
-        </div>
-      );
-    } else {
-      return null;
-    }
+          )
+        )}
+        {this.props.hasCod === "Y" && (
+          <div className={styles.content}>Cash on Delivery available</div>
+        )}
+      </div>
+    );
   }
 }
