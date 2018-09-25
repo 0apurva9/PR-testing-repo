@@ -34,13 +34,13 @@ export default class EmiModal extends React.Component {
       );
     }
     if (index === this.state.openIndex) {
-      this.setState({ openIndex: null });
+      this.setState({ openIndex: null, showEmi: false });
     } else {
-      this.setState({ openIndex: index });
+      this.setState({ openIndex: index, showEmi: false });
     }
   }
   toggleTermsView() {
-    this.setState({ showEmi: !this.state.showEmi });
+    this.setState({ showEmi: !this.state.showEmi, openIndex: null });
   }
   tabSelect(val) {
     if (this.state.isSelected !== val) {
