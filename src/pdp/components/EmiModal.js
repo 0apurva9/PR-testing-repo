@@ -1,6 +1,6 @@
 import React from "react";
 import sortBy from "lodash.sortby";
-import EmiCard from "./EmiCard";
+import EmiCardForPdp from "./EmiCardForPdp";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import SlideModal from "../../general/components/SlideModal";
 import Accordion from "../../general/components/Accordion";
@@ -140,7 +140,7 @@ export default class EmiModal extends React.Component {
                             this.handleOpen(i, this.state.noCostEmiArray)
                           }
                         >
-                          <EmiCard
+                          <EmiCardForPdp
                             width={33.3}
                             showInterestRate={false}
                             options={sortBy(
@@ -195,7 +195,7 @@ export default class EmiModal extends React.Component {
                             this.handleOpen(i, this.state.standardEmiArray)
                           }
                         >
-                          <EmiCard
+                          <EmiCardForPdp
                             options={sortBy(
                               val.emitermsrate,
                               item => item && parseInt(item.term, 10)
