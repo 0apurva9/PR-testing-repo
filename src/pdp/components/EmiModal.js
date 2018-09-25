@@ -96,13 +96,13 @@ export default class EmiModal extends React.Component {
                 <TabHolder>
                   <TabData
                     width="50%"
-                    label="No Cost EMI"
+                    label={this.state.noCostEmiArray.heading}
                     selected={this.state.isSelected === 0}
                     selectItem={() => this.tabSelect(0)}
                   />
                   <TabData
                     width="50%"
-                    label="Standard EMI"
+                    label={this.state.standardEmiArray.heading}
                     selected={this.state.isSelected === 1}
                     selectItem={() => this.tabSelect(1)}
                   />
