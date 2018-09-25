@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./MonoBanner.css";
 import ShopCollection from "../../pdp/components/ShopCollection";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-
+import MobileOnly from "../../general/components/MobileOnly";
 export default class MonoBanner extends React.Component {
   handleClick() {
     if (
@@ -37,20 +37,24 @@ export default class MonoBanner extends React.Component {
   render() {
     let feedComponentData = this.props.feedComponentData;
     return (
-      <div
-        className={
-          this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
-        }
-      >
-        <div className={styles.shopeRangeHeader}>{feedComponentData.title}</div>
-        <ShopCollection
-          image={feedComponentData.items[0].imageURL}
-          title={feedComponentData.items[0].title}
-          btnText={feedComponentData.items[0].btnText}
-          backgroundColor={feedComponentData.items[0].backgroundColor}
-          onClick={() => this.handleClick()}
-        />
-      </div>
+      <MobileOnly>
+        <div
+          className={
+            this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
+          }
+        >
+          <div className={styles.shopeRangeHeader}>
+            {feedComponentData.title}
+          </div>
+          <ShopCollection
+            image={feedComponentData.items[0].imageURL}
+            title={feedComponentData.items[0].title}
+            btnText={feedComponentData.items[0].btnText}
+            backgroundColor={feedComponentData.items[0].backgroundColor}
+            onClick={() => this.handleClick()}
+          />
+        </div>
+      </MobileOnly>
     );
   }
 }
