@@ -19,7 +19,7 @@ export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
 export const PLP_HAS_NOT_BEEN_VISITED = "PLP_HAS_NOT_BEEN_VISITED";
 export const PRODUCT_LISTINGS_PATH = "v2/mpl/products/searchProducts";
 let NO_OF_PRODUCT = 20;
-if (process.env.REACT_APP_VERSION === "desktop") {
+if (!checkUserAgentIsMobile()) {
   NO_OF_PRODUCT = 40;
 }
 export const PRODUCT_LISTINGS_SUFFIX = `&isPwa=true&pageSize=${NO_OF_PRODUCT}&typeID=all`;
