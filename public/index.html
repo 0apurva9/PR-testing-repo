@@ -103,6 +103,7 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
+
   <div id="root"></div>
   <div id="modal-root"></div>
   <div id="toast-root"></div>
@@ -153,28 +154,51 @@
       });
     }, 10000);
   </script>
+  <script type="text/javascript">
+    const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i
+    function loadScript(url) {
 
-  <% if(htmlWebpackPlugin.options.version === "desktop") { %>
-    <% if(htmlWebpackPlugin.options.stage === "production") { %>
-      <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js"></script>
-      <% } else { %>
-        <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js"></script>
-        <% } %>
-          <% } else { %>
-            <% if(htmlWebpackPlugin.options.stage === "production") { %>
-              <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js"></script>
-              <% } else { %>
-                <script src="//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js"></script>
-                <% } %>
-                  <% } %>
+      document.write('<script src="' + url + '"><\/script>');
+    }
 
+  </script>
+  <% if(htmlWebpackPlugin.options.stage === "production") { %>
+    <script type="text/javascript">
+      let isMobile;
+      if (navigator) {
 
-                    <script defer="defer" type="text/javascript">
-                      window.digitalData = Object.assign({}, { page: { pageInfo: { pageName: "basepage" } } });
-                      if (window._satellite) {
-                        _satellite.pageBottom();
-                      }
-                    </script>
+        isMobile = ReqExForCheckUserAgent.test(
+          navigator.userAgent
+        )
+        if (isMobile) {
+          loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js")
+        } else {
+          loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js")
+        }
+      }
+    </script>
+    <% } else { %>
+      <script type="text/javascript">
+        let isMobile;
+        if (navigator) {
+
+          isMobile = ReqExForCheckUserAgent.test(
+            navigator.userAgent
+          )
+          if (isMobile) {
+            loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js")
+          } else {
+            loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js")
+          }
+        }
+      </script>
+      <% } %>
+        <script defer="defer" type="text/javascript">
+          window.digitalData = Object.assign({}, { page: { pageInfo: { pageName: "basepage" } } });
+          if (window._satellite) {
+            _satellite.pageBottom();
+          }
+        </script>
 </body>
 
 </html>

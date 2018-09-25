@@ -24,6 +24,7 @@ import * as ErrorHandling from "../../general/ErrorHandling.js";
 
 import { getMcvId } from "../../lib/adobeUtils.js";
 import { getMsdFormData } from "../../lib/msdUtils.js";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 
 export const FEED_REQUEST = "FEED_REQUEST";
 export const HOME_FEED_SUCCESS = "HOME_FEED_SUCCESS";
@@ -79,7 +80,7 @@ const FOLLOWED_WIDGET_WIDGET_LIST = [112]; // weirdly it's not done.
 const FRESH_FROM_BRANDS_WIDGET_LIST = [111];
 
 let DISCOVER_MORE_WIDGET_LIST;
-if (process.env.REACT_APP_VERSION === "desktop") {
+if (!checkUserAgentIsMobile()) {
   DISCOVER_MORE_WIDGET_LIST = [109];
 } else {
   DISCOVER_MORE_WIDGET_LIST = [110];
@@ -102,7 +103,7 @@ let ADOBE_TARGET_HOME_FEED_MBOX_NAME, // for local/devxelp/uat2tmpprod
   ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME,
   WCMS_PLATFORM;
 
-if (process.env.REACT_APP_VERSION === "desktop") {
+if (!checkUserAgentIsMobile()) {
   ADOBE_TARGET_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop"; // for local/devxelp/uat2tmpprod
   ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop";
   ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "UAT_Mobile_Homepage_Mbox";
