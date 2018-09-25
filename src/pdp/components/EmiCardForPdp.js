@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./EmiCardForPdp.css";
+import { RUPEE_SYMBOL } from "../../lib/constants";
 export default class EmiCardForPdp extends React.Component {
   render() {
     if (this.props.options) {
@@ -41,6 +42,7 @@ export default class EmiCardForPdp extends React.Component {
               {this.props.options.map((datum, i) => {
                 return (
                   <div className={styles.dataDetails} key={i}>
+                    {RUPEE_SYMBOL}
                     {datum.monthlyInstallment}
                   </div>
                 );
@@ -53,6 +55,7 @@ export default class EmiCardForPdp extends React.Component {
               {this.props.options.map((datum, i) => {
                 return (
                   <div className={styles.dataDetails} key={i}>
+                    {RUPEE_SYMBOL}
                     {datum.overallCost}
                   </div>
                 );
