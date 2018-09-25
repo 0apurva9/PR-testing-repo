@@ -155,6 +155,7 @@
     }, 10000);
   </script>
   <script type="text/javascript">
+    const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i
     function loadScript(url) {
 
       document.write('<script src="' + url + '"><\/script>');
@@ -166,13 +167,13 @@
       let isMobile;
       if (navigator) {
 
-        isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
+        isMobile = ReqExForCheckUserAgent.test(
           navigator.userAgent
         )
         if (isMobile) {
-          loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js", function () { console.log("loaded") })
+          loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js")
         } else {
-          loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js", function () { console.log("loaded") })
+          loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js")
         }
       }
     </script>
@@ -181,13 +182,13 @@
         let isMobile;
         if (navigator) {
 
-          isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
+          isMobile = ReqExForCheckUserAgent.test(
             navigator.userAgent
           )
           if (isMobile) {
-            loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js", function () { console.log("loaded") })
+            loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js")
           } else {
-            loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js", function () { console.log("loaded") })
+            loadScript("//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js")
           }
         }
       </script>
