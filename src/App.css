@@ -16,7 +16,7 @@ body {
 }
 .blur {
   composes: base;
-  filter: url("./general/components/img/blur.svg#");
+  filter: url('./general/components/img/blur.svg#');
   pointer-events: none;
   transition: 200ms filter linear;
   transition: 200ms -webkit-filter linear;
@@ -35,6 +35,7 @@ body {
 @media only screen and (min-width: 1025px) {
   ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
   }
 
   ::-webkit-scrollbar-track {
