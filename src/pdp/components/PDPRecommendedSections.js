@@ -147,10 +147,7 @@ class PDPRecommendedSections extends React.Component {
   renderCarousel(items, elementWidthDesktop, widgetName) {
     return (
       <div className={styles.brandProductCarousel}>
-        <CarouselWithControls
-          elementWidth={45}
-          elementWidthDesktop={elementWidthDesktop ? elementWidthDesktop : 25}
-        >
+        <CarouselWithControls elementWidth={45} elementWidthDesktop={25}>
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             const productImage = transformedDatum.image;
