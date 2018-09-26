@@ -71,14 +71,15 @@ then in this case we have to hit generate temp cart id for user
         productDetailsForBuyNow &&
         !nextProps.tempCartIdForLoggedInUserLoading
       ) {
-        console.log(nextProps);
         return this.goForBuyNow();
       }
-      if (this.props.redirectToAfterAuthUrl) {
-        this.props.history.replace(this.props.redirectToAfterAuthUrl);
-        this.props.clearUrlToRedirectToAfterAuth();
-      } else {
-        this.props.history.replace(HOME_ROUTER);
+      if (!nextProps.tempCartIdForLoggedInUserLoading) {
+        if (this.props.redirectToAfterAuthUrl) {
+          this.props.history.replace(this.props.redirectToAfterAuthUrl);
+          this.props.clearUrlToRedirectToAfterAuth();
+        } else {
+          this.props.history.replace(HOME_ROUTER);
+        }
       }
     }
   }
@@ -89,7 +90,6 @@ then in this case we have to hit generate temp cart id for user
     const buyNowResponse = await this.props.tempCartIdForLoggedInUser(
       JSON.parse(productDetailsForBuyNow)
     );
-    console.log(buyNowResponse);
     if (buyNowResponse && buyNowResponse.status === SUCCESS) {
       this.props.history.push(PRODUCT_CART_ROUTER);
     }

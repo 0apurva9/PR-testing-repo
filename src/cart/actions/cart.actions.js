@@ -4378,7 +4378,6 @@ export function resetTempCartId() {
 }
 
 export function tempCartIdForLoggedInUser(productDetails: {}) {
-  console.log(productDetails);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -4451,14 +4450,12 @@ export function mergeTempCartWithOldCart() {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      console.log(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
 
       dispatch(mergeTempCartWithOldCartSuccess(resultJson));
     } catch (e) {
-      console.log(e.message);
       dispatch(mergeTempCartWithOldCartFailure(e.message));
     }
   };

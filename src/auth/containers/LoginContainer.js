@@ -172,7 +172,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  console.log(state.cart);
   return {
     authCallsInProcess: state.auth.authCallsInProcess,
     authCallsIsSucceed: state.auth.authCallsIsSucceed,

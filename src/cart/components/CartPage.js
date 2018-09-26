@@ -226,6 +226,7 @@ class CartPage extends React.Component {
 
     if (pinCode && this.state.isServiceable === true) {
       setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
+      this.navigateToCheckout = true;
       this.props.history.push({
         pathname: CHECKOUT_ROUTER
       });
@@ -546,14 +547,11 @@ here we need to hit call for merging cart id if user
 */
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartDetails = cartDetails && JSON.parse(cartDetails);
-    if (
-      this.props.location.pathname !== CHECKOUT_ROUTER &&
-      cartDetails &&
-      cartDetails.isBuyNowCart
-    ) {
+
+    if (!this.navigateToCheckout && cartDetails && cartDetails.isBuyNowCart) {
       this.props.mergeTempCartWithOldCart();
     }
-    this.props.history.listen((location, action) => {});
+
     if (this.props.clearCartDetails) {
       this.props.clearCartDetails();
     }

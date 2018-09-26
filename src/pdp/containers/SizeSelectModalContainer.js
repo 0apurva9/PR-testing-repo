@@ -3,11 +3,7 @@ import {
   getProductDescription,
   addProductToCart
 } from "../actions/pdp.actions";
-import {
-  SUCCESS,
-  ADD_TO_BAG_TEXT,
-  PRODUCT_CART_ROUTER
-} from "../../lib/constants.js";
+import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants.js";
 import SizeSelectModal from "../components/SizeSelectModal";
 import { displayToast } from "../../general/toast.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -15,21 +11,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getProductDescription: productCode => {
       return dispatch(getProductDescription(productCode));
     },
-    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
+    addProductToCart: async productDetails => {
       const addProductToCartResponse = await dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
+        addProductToCart(productDetails)
       );
       if (
         addProductToCartResponse &&
         addProductToCartResponse.status === SUCCESS
       ) {
-        if (ownProps.buyNowFlag) {
-          ownProps.history.push({
-            pathname: PRODUCT_CART_ROUTER
-          });
-        } else {
-          dispatch(displayToast(ADD_TO_BAG_TEXT));
-        }
+        dispatch(displayToast(ADD_TO_BAG_TEXT));
       }
     }
   };

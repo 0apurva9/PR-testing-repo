@@ -33,6 +33,7 @@ import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
@@ -160,11 +161,6 @@ export default class PdpElectronics extends React.Component {
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
 
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
@@ -176,7 +172,7 @@ export default class PdpElectronics extends React.Component {
         this.props.displayToast("Product is out of stock");
       } else {
         if (buyNowFlag) {
-          if (!customerCookie || !userDetails || !cartDetailsLoggedInUser) {
+          if (checkUserLoggedIn()) {
             localStorage.setItem(
               BUY_NOW_PRODUCT_DETAIL,
               JSON.stringify(productDetails)
