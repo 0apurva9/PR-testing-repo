@@ -18,67 +18,111 @@ export default class CheckoutStaticSection extends React.Component {
     if (this.props.offers) {
       classOffers = styles.apply;
     }
+    const { cartAmount } = this.props;
+    console.log(cartAmount);
     return (
       <React.Fragment>
         <div className={styles.disclaimer}>{DISCLAIMER}</div>
-        {this.props.isFromMyBag && (
+        {cartAmount && (
           <div className={styles.visibleBase}>
             <div className={styles.detailsHolder}>
-              {this.props.bagTotal && (
+              {cartAmount.bagTotal && (
                 <div className={styles.informationHolder}>
                   <div className={styles.informationQuestionHolder}>
                     Bag total
                   </div>
                   <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.bagTotal}
+                    {cartAmount.bagTotal.formattedValue}
                   </div>
                 </div>
               )}
-              {this.props.totalDiscount && (
+              {cartAmount.shippingCharge &&
+              cartAmount.shippingCharge.value !== 0 ? (
                 <div className={styles.informationHolder}>
                   <div className={styles.informationQuestionHolder}>
-                    Discount
+                    Shipping Charge
                   </div>
                   <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.totalDiscount}
+                    {cartAmount.shippingCharge.formattedValue}
                   </div>
                 </div>
-              )}
-              {this.props.discount && (
+              ) : (
                 <div className={styles.informationHolder}>
                   <div className={styles.informationQuestionHolder}>
-                    Discount
+                    Shipping Charge
                   </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.discount}
-                  </div>
+                  <div className={styles.informationAnswerHolder}>Free</div>
                 </div>
               )}
-              {this.props.delivery && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Shipping fee
+              {cartAmount.totalDiscountAmount &&
+                cartAmount.totalDiscountAmount.value !== 0 && (
+                  <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Product Discount(s)
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      -{cartAmount.totalDiscountAmount.formattedValue}
+                    </div>
                   </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.delivery}
+                )}
+              {cartAmount.bagDiscount &&
+                cartAmount.bagDiscount.value !== 0 && (
+                  <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Bag Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      -{cartAmount.bagDiscount.formattedValue}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              {cartAmount.couponDiscountAmount &&
+                cartAmount.couponDiscountAmount.value !== 0 && (
+                  <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      -{cartAmount.couponDiscountAmount.formattedValue}
+                    </div>
+                  </div>
+                )}
+              {cartAmount.cartDiscount &&
+                cartAmount.cartDiscount.value !== 0 && (
+                  <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Bank Offer Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      -{cartAmount.cartDiscount.formattedValue}
+                    </div>
+                  </div>
+                )}
+              {cartAmount.additionalDiscount && (
+                <div>
+                  <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Additional Discount(s)
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      -{cartAmount.additionalDiscount.totalAdditionalDiscount &&
+                        cartAmount.additionalDiscount.totalAdditionalDiscount
+                          .formattedValue}
+                    </div>
+                  </div>
 
-              {this.props.coupons && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>Coupon</div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.coupons}
+                  <div className={styles.informationAdditionalDiscountHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Shipping Charge Discount
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      -{cartAmount.additionalDiscount.shippingDiscount &&
+                        cartAmount.additionalDiscount.shippingDiscount
+                          .formattedValue}
+                    </div>
                   </div>
                 </div>
               )}
-
               {this.props.noCostEmiEligibility &&
                 this.props.isNoCostEmiApplied && (
                   <div className={styles.informationHolder}>
@@ -103,29 +147,15 @@ export default class CheckoutStaticSection extends React.Component {
                 </div>
               )}
 
-              {this.props.payable && (
-                <React.Fragment>
-                  <div className={styles.visiblePayableSection}>
-                    <div className={styles.informationQuestionHolder}>
-                      Total Payable
-                    </div>
-                    <div className={styles.informationAnswerHolder}>
-                      {RUPEE_SYMBOL}
-                      {this.props.payable}
-                    </div>
+              {cartAmount.paybleAmount && (
+                <div className={styles.visiblePayableSection}>
+                  <div className={styles.informationQuestionHolder}>
+                    Total Payable
                   </div>
-                  {totalSaving > 0 && (
-                    <div className={styles.savingSection}>
-                      <div className={styles.informationQuestionHolder}>
-                        Total savings
-                      </div>
-                      <div className={styles.informationAnswerHolder}>
-                        {RUPEE_SYMBOL}
-                        {totalSaving}
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
+                  <div className={styles.informationAnswerHolder}>
+                    {cartAmount.paybleAmount.formattedValue}
+                  </div>
+                </div>
               )}
             </div>
           </div>

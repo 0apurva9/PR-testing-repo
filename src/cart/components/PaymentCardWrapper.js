@@ -178,6 +178,7 @@ export default class PaymentCardWrapper extends React.Component {
 
   render() {
     if (this.props.cart.paymentModes) {
+      console.log(this.props.userCliqCashAmount);
       return (
         <div className={styles.base}>
           {!this.props.isFromGiftCard &&

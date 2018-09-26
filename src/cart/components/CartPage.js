@@ -356,61 +356,18 @@ class CartPage extends React.Component {
     if (this.props.cart.cartDetails && this.props.cart.cartDetails.products) {
       const cartDetails = this.props.cart.cartDetails;
       let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-      let deliveryCharge = "0.00";
-      let couponDiscount = "0.00";
-      let totalDiscount = "0.00";
-      if (cartDetails.products) {
-        if (cartDetails.deliveryCharge) {
-          deliveryCharge = cartDetails.deliveryCharge
-            ? cartDetails.deliveryCharge
-            : "0.00";
-        }
-        if (cartDetails.cartAmount.totalDiscountAmount) {
-          totalDiscount = cartDetails.cartAmount.totalDiscountAmount.value
-            ? Math.round(
-                cartDetails.cartAmount.totalDiscountAmount.value * 100
-              ) / 100
-            : "0.00";
-        }
 
-        if (cartDetails.cartAmount.couponDiscountAmount) {
-          couponDiscount = cartDetails.cartAmount.couponDiscountAmount.value
-            ? Math.round(
-                cartDetails.cartAmount.couponDiscountAmount.value * 100
-              ) / 100
-            : "0.00";
-        }
-      }
       return (
         <div className={styles.base}>
           {this.state.showCheckoutSection &&
             cartDetails.products &&
             cartDetails.cartAmount && (
               <Checkout
-                disabled={!this.state.isServiceable}
                 amount={
-                  cartDetails.cartAmount.paybleAmount.value
-                    ? Math.round(
-                        cartDetails.cartAmount.paybleAmount.value * 100
-                      ) / 100
-                    : "0.00"
+                  cartDetails.cartAmount.paybleAmount &&
+                  cartDetails.cartAmount.paybleAmount.formattedValue
                 }
-                bagTotal={
-                  cartDetails.cartAmount.bagTotal.value
-                    ? Math.round(cartDetails.cartAmount.bagTotal.value * 100) /
-                      100
-                    : "0.00"
-                }
-                coupons={couponDiscount}
-                discount={totalDiscount}
-                delivery={deliveryCharge}
-                payable={
-                  cartDetails.cartAmount.paybleAmount.value
-                    ? Math.round(
-                        cartDetails.cartAmount.paybleAmount.value * 100
-                      ) / 100
-                    : "0.00"
-                }
+                disabled={!this.state.isServiceable}
                 onCheckout={() => this.renderToCheckOutPage()}
                 label={CHECKOUT_BUTTON_TEXT}
                 isOnCartPage={true}
@@ -420,6 +377,7 @@ class CartPage extends React.Component {
                 showHideDetails={this.showHideDetails}
               />
             )}
+
           <div className={styles.content}>
             <TextWithUnderLine
               onClick={() => this.changePinCode()}
@@ -497,30 +455,7 @@ class CartPage extends React.Component {
               cartDetails.cartAmount && (
                 <CheckoutStaticSection
                   disabled={!this.state.isServiceable}
-                  amount={
-                    cartDetails.cartAmount.paybleAmount.value
-                      ? Math.round(
-                          cartDetails.cartAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  bagTotal={
-                    cartDetails.cartAmount.bagTotal.value
-                      ? Math.round(
-                          cartDetails.cartAmount.bagTotal.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  coupons={couponDiscount}
-                  discount={totalDiscount}
-                  delivery={deliveryCharge}
-                  payable={
-                    cartDetails.cartAmount.paybleAmount.value
-                      ? Math.round(
-                          cartDetails.cartAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
+                  cartAmount={cartDetails.cartAmount}
                   onCheckout={() => this.renderToCheckOutPage()}
                   label={CHECKOUT_BUTTON_TEXT}
                   isOnCartPage={true}
