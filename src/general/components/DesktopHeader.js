@@ -63,7 +63,6 @@ export default class DesktopHeader extends React.Component {
       this.props.headerBrandAndCategoryDetails &&
       this.props.headerBrandAndCategoryDetails.items &&
       this.props.headerBrandAndCategoryDetails.items[0];
-
     if (this.state.hoverInType === CATEGORY) {
       this.setState({
         hoverInType: null,
@@ -133,7 +132,6 @@ export default class DesktopHeader extends React.Component {
       this.props.headerBrandAndCategoryDetails &&
       this.props.headerBrandAndCategoryDetails.items &&
       this.props.headerBrandAndCategoryDetails.items[0];
-
     let currentCategory =
       headerBrandAndCategoryDetails &&
       headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
@@ -261,29 +259,28 @@ export default class DesktopHeader extends React.Component {
               </div>
               <div className={styles.lowerHeader}>
                 <div className={styles.leftTabHolder}>
-                  <div
-                    className={
-                      this.state.hoverInType === CATEGORY
-                        ? styles.categoryAndBrandWithArrow
-                        : styles.categoryAndBrand
-                    }
-                    onMouseEnter={() => this.onHoverCategory(CATEGORY)}
-                    onMouseLeave={() => this.hoverOut()}
-                  >
-                    Categories
+                  {headerBrandAndCategoryDetails && (
                     <div
                       className={
                         this.state.hoverInType === CATEGORY
-                          ? styles.downArrow
-                          : styles.arrow
+                          ? styles.categoryAndBrandWithArrow
+                          : styles.categoryAndBrand
                       }
-                    />
-                    {this.state.hoverInType === CATEGORY &&
-                      this.props.headerBrandAndCategoryDetails && (
+                      onMouseEnter={() => this.onHoverCategory(CATEGORY)}
+                      onMouseLeave={() => this.hoverOut()}
+                    >
+                      Categories
+                      <div
+                        className={
+                          this.state.hoverInType === CATEGORY
+                            ? styles.downArrow
+                            : styles.arrow
+                        }
+                      />
+                      {this.state.hoverInType === CATEGORY && (
                         <div className={styles.categoriesHolder}>
                           <div className={styles.categoryDetails}>
-                            {headerBrandAndCategoryDetails &&
-                              headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
+                            {headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
                               headerBrandAndCategoryDetails.categoriesTabAZListComponent.map(
                                 (categories, val) => {
                                   return (
@@ -356,30 +353,30 @@ export default class DesktopHeader extends React.Component {
                           </div>
                         </div>
                       )}
-                  </div>
-                  <div
-                    className={
-                      this.state.hoverInType === BRANDS
-                        ? styles.categoryAndBrandWithArrow
-                        : styles.categoryAndBrand
-                    }
-                    onMouseEnter={() => this.onHoverBrands(BRANDS)}
-                    onMouseLeave={() => this.hoverOut()}
-                  >
-                    Brands
+                    </div>
+                  )}
+                  {headerBrandAndCategoryDetails && (
                     <div
                       className={
                         this.state.hoverInType === BRANDS
-                          ? styles.downArrow
-                          : styles.arrow
+                          ? styles.categoryAndBrandWithArrow
+                          : styles.categoryAndBrand
                       }
-                    />
-                    {this.state.hoverInType === BRANDS &&
-                      this.props.headerBrandAndCategoryDetails && (
+                      onMouseEnter={() => this.onHoverBrands(BRANDS)}
+                      onMouseLeave={() => this.hoverOut()}
+                    >
+                      Brands
+                      <div
+                        className={
+                          this.state.hoverInType === BRANDS
+                            ? styles.downArrow
+                            : styles.arrow
+                        }
+                      />
+                      {this.state.hoverInType === BRANDS && (
                         <div className={styles.brandDetailsHolder}>
                           <div className={styles.brandLeftDetails}>
-                            {headerBrandAndCategoryDetails &&
-                              headerBrandAndCategoryDetails.brandsTabAZListComponent &&
+                            {headerBrandAndCategoryDetails.brandsTabAZListComponent &&
                               headerBrandAndCategoryDetails.brandsTabAZListComponent.map(
                                 (brand, val) => {
                                   return (
@@ -484,7 +481,8 @@ export default class DesktopHeader extends React.Component {
                           </div>
                         </div>
                       )}
-                  </div>
+                    </div>
+                  )}
                 </div>
                 <div className={styles.rightTabHolder}>
                   <div
