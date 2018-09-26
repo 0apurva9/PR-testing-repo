@@ -102,6 +102,7 @@ export default class ProductGrid extends React.Component {
         productCategory={data.productCategoryType}
         productId={data.productId}
         showWishListButton={false}
+        plpAttrMap={data && data.plpAttrMap}
       />
     );
     // } else if (data.type === PLPAD) {
