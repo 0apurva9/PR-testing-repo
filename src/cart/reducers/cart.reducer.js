@@ -42,6 +42,11 @@ const cart = (
     cartDetailsCNCError: null,
     cartDetailsCNCLoader: false,
 
+    eddDetails: null,
+    eddDetailsStatus: null,
+    eddDetailsError: null,
+    loadingForEddDetails: false,
+
     couponStatus: null,
     couponError: null,
     coupons: null,
@@ -1434,6 +1439,26 @@ const cart = (
     case cartActions.RESET_IS_SOFT_RESERVATION_FAILED:
       return Object.assign({}, state, {
         isSoftReservationFailed: false
+      });
+
+    case cartActions.EDD_IN_COMMERCE_REQUEST:
+      return Object.assign({}, state, {
+        eddDetailsStatus: action.status,
+        loadingForEddDetails: true
+      });
+
+    case cartActions.EDD_IN_COMMERCE_SUCCESS:
+      return Object.assign({}, state, {
+        eddDetailsStatus: action.status,
+        eddDetails: action.eddDetails,
+        loadingForEddDetails: false
+      });
+
+    case cartActions.EDD_IN_COMMERCE_FAILURE:
+      return Object.assign({}, state, {
+        eddDetailsStatus: action.status,
+        eddDetailsError: action.error,
+        loadingForEddDetails: false
       });
 
     case cartActions.CLEAR_CART_DETAILS:

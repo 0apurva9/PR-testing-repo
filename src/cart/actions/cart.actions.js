@@ -364,6 +364,10 @@ export const PAYMENT_FAILURE_ORDER_DETAILS_FAILURE =
 export const RESET_IS_SOFT_RESERVATION_FAILED =
   "RESET_IS_SOFT_RESERVATION_FAILED";
 
+export const EDD_IN_COMMERCE_REQUEST = "EDD_IN_COMMERCE_REQUEST";
+export const EDD_IN_COMMERCE_FAILURE = "EDD_IN_COMMERCE_FAILURE";
+export const EDD_IN_COMMERCE_SUCCESS = "EDD_IN_COMMERCE_SUCCESS";
+
 export const PAYMENT_MODE = "credit card";
 const PAYMENT_EMI = "EMI";
 const CASH_ON_DELIVERY = "COD";
@@ -3544,11 +3548,63 @@ export function softReservationForCODPayment(pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      dispatch(eddInCommerce());
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(updateTransactionDetailsForCOD(CASH_ON_DELIVERY, ""));
       dispatch(softReservationForCODPaymentSuccess(resultJson));
     } catch (e) {
       dispatch(softReservationForCODPaymentFailure(e.message));
+    }
+  };
+}
+
+export function eddInCommerceRequest() {
+  return {
+    type: EDD_IN_COMMERCE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function eddInCommerceSuccess(eddDetails) {
+  return {
+    type: EDD_IN_COMMERCE_SUCCESS,
+    status: SUCCESS,
+    eddDetails
+  };
+}
+
+export function eddInCommerceFailure(error) {
+  return {
+    type: EDD_IN_COMMERCE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function eddInCommerce() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartId = JSON.parse(cartDetails).guid;
+
+    dispatch(eddInCommerceRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts/${cartId}/getEDD?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(eddInCommerceSuccess(resultJson));
+    } catch (e) {
+      dispatch(eddInCommerceFailure(e.message));
     }
   };
 }
