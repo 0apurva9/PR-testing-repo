@@ -259,29 +259,31 @@ export default class DesktopHeader extends React.Component {
               </div>
               <div className={styles.lowerHeader}>
                 <div className={styles.leftTabHolder}>
-                  {headerBrandAndCategoryDetails && (
-                    <div
-                      className={
-                        this.state.hoverInType === CATEGORY
-                          ? styles.categoryAndBrandWithArrow
-                          : styles.categoryAndBrand
-                      }
-                      onMouseEnter={() => this.onHoverCategory(CATEGORY)}
-                      onMouseLeave={() => this.hoverOut()}
-                    >
-                      Categories
+                  {headerBrandAndCategoryDetails &&
+                    headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
+                    headerBrandAndCategoryDetails.categoriesTabAZListComponent
+                      .length > 0 && (
                       <div
                         className={
                           this.state.hoverInType === CATEGORY
-                            ? styles.downArrow
-                            : styles.arrow
+                            ? styles.categoryAndBrandWithArrow
+                            : styles.categoryAndBrand
                         }
-                      />
-                      {this.state.hoverInType === CATEGORY && (
-                        <div className={styles.categoriesHolder}>
-                          <div className={styles.categoryDetails}>
-                            {headerBrandAndCategoryDetails.categoriesTabAZListComponent &&
-                              headerBrandAndCategoryDetails.categoriesTabAZListComponent.map(
+                        onMouseEnter={() => this.onHoverCategory(CATEGORY)}
+                        onMouseLeave={() => this.hoverOut()}
+                      >
+                        Categories
+                        <div
+                          className={
+                            this.state.hoverInType === CATEGORY
+                              ? styles.downArrow
+                              : styles.arrow
+                          }
+                        />
+                        {this.state.hoverInType === CATEGORY && (
+                          <div className={styles.categoriesHolder}>
+                            <div className={styles.categoryDetails}>
+                              {headerBrandAndCategoryDetails.categoriesTabAZListComponent.map(
                                 (categories, val) => {
                                   return (
                                     <React.Fragment>
@@ -310,74 +312,82 @@ export default class DesktopHeader extends React.Component {
                                   );
                                 }
                               )}
-                          </div>
-                          <div className={styles.subCategoryDetailsHolder}>
-                            {currentCategory.subCategories.map(
-                              (subCategoriesHeader, val) => {
-                                return (
-                                  <React.Fragment>
-                                    <div
-                                      className={
-                                        styles.subCategoryDetailsHeader
-                                      }
-                                      onClick={() =>
-                                        this.renderToAnotherURL(
-                                          subCategoriesHeader.webURL
-                                        )
-                                      }
-                                    >
-                                      {subCategoriesHeader.category_name}
-                                    </div>
-                                    {subCategoriesHeader.subCategories.map(
-                                      (subCategoryDetails, value) => {
-                                        return (
-                                          <div
-                                            className={
-                                              styles.subCategoryDetailsValues
+                            </div>
+                            <div className={styles.subCategoryDetailsHolder}>
+                              {currentCategory &&
+                                currentCategory.subCategories &&
+                                currentCategory.subCategories.map(
+                                  (subCategoriesHeader, val) => {
+                                    return (
+                                      <React.Fragment>
+                                        <div
+                                          className={
+                                            styles.subCategoryDetailsHeader
+                                          }
+                                          onClick={() =>
+                                            this.renderToAnotherURL(
+                                              subCategoriesHeader.webURL
+                                            )
+                                          }
+                                        >
+                                          {subCategoriesHeader.category_name}
+                                        </div>
+                                        {subCategoriesHeader &&
+                                          subCategoriesHeader.subCategories &&
+                                          subCategoriesHeader.subCategories.map(
+                                            (subCategoryDetails, value) => {
+                                              return (
+                                                <div
+                                                  className={
+                                                    styles.subCategoryDetailsValues
+                                                  }
+                                                  onClick={() =>
+                                                    this.renderToAnotherURL(
+                                                      subCategoryDetails.webURL
+                                                    )
+                                                  }
+                                                >
+                                                  {
+                                                    subCategoryDetails.category_name
+                                                  }
+                                                </div>
+                                              );
                                             }
-                                            onClick={() =>
-                                              this.renderToAnotherURL(
-                                                subCategoryDetails.webURL
-                                              )
-                                            }
-                                          >
-                                            {subCategoryDetails.category_name}
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  </React.Fragment>
-                                );
-                              }
-                            )}
+                                          )}
+                                      </React.Fragment>
+                                    );
+                                  }
+                                )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {headerBrandAndCategoryDetails && (
-                    <div
-                      className={
-                        this.state.hoverInType === BRANDS
-                          ? styles.categoryAndBrandWithArrow
-                          : styles.categoryAndBrand
-                      }
-                      onMouseEnter={() => this.onHoverBrands(BRANDS)}
-                      onMouseLeave={() => this.hoverOut()}
-                    >
-                      Brands
+                        )}
+                      </div>
+                    )}
+                  {headerBrandAndCategoryDetails &&
+                    headerBrandAndCategoryDetails.brandsTabAZListComponent &&
+                    headerBrandAndCategoryDetails.brandsTabAZListComponent
+                      .length > 0 && (
                       <div
                         className={
                           this.state.hoverInType === BRANDS
-                            ? styles.downArrow
-                            : styles.arrow
+                            ? styles.categoryAndBrandWithArrow
+                            : styles.categoryAndBrand
                         }
-                      />
-                      {this.state.hoverInType === BRANDS && (
-                        <div className={styles.brandDetailsHolder}>
-                          <div className={styles.brandLeftDetails}>
-                            {headerBrandAndCategoryDetails.brandsTabAZListComponent &&
-                              headerBrandAndCategoryDetails.brandsTabAZListComponent.map(
+                        onMouseEnter={() => this.onHoverBrands(BRANDS)}
+                        onMouseLeave={() => this.hoverOut()}
+                      >
+                        Brands
+                        <div
+                          className={
+                            this.state.hoverInType === BRANDS
+                              ? styles.downArrow
+                              : styles.arrow
+                          }
+                        />
+                        {this.state.hoverInType === BRANDS && (
+                          <div className={styles.brandDetailsHolder}>
+                            <div className={styles.brandLeftDetails}>
+                              {headerBrandAndCategoryDetails.brandsTabAZListComponent.map(
                                 (brand, val) => {
                                   return (
                                     <React.Fragment>
@@ -404,85 +414,85 @@ export default class DesktopHeader extends React.Component {
                                   );
                                 }
                               )}
-                          </div>
-                          <div className={styles.subBrandsDetailsHolder}>
-                            <React.Fragment>
-                              {currentBrand &&
-                                currentBrand.popularBrands && (
-                                  <div className={styles.popularBrands}>
-                                    <div className={styles.brandsHeader}>
-                                      Popular brands
-                                    </div>
-                                    {currentBrand.popularBrands.map(
-                                      popularBrands => {
-                                        return (
-                                          <div
-                                            className={styles.brandsDetails}
-                                            onClick={() =>
-                                              this.renderToAnotherURL(
-                                                popularBrands.webURL
-                                              )
-                                            }
-                                          >
-                                            {popularBrands.brandName}
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  </div>
-                                )}
-                              {currentBrand &&
-                                currentBrand.featuredBrands && (
-                                  <div className={styles.featureBrands}>
-                                    <div className={styles.brandsHeader}>
-                                      Featured brands
-                                    </div>
-                                    {currentBrand.featuredBrands.map(
-                                      featuredBrands => {
-                                        return (
-                                          <div
-                                            className={styles.brandsDetails}
-                                            onClick={() =>
-                                              this.renderToAnotherURL(
-                                                featuredBrands.webURL
-                                              )
-                                            }
-                                          >
-                                            {featuredBrands.brandName}
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  </div>
-                                )}
-                            </React.Fragment>
-                          </div>
-                          <div className={styles.subBrandsLogoHolder}>
-                            <React.Fragment>
-                              {currentBrand &&
-                                currentBrand.items &&
-                                currentBrand.items.map((brandLogo, i) => {
-                                  return (
-                                    <div className={styles.brandLogoDetails}>
-                                      <BrandImage
-                                        image={brandLogo.brandLogo}
-                                        text={brandLogo.text}
-                                        value={brandLogo.webURL}
-                                        onClick={value =>
-                                          this.renderToAnotherURL(
-                                            brandLogo.webURL
-                                          )
+                            </div>
+                            <div className={styles.subBrandsDetailsHolder}>
+                              <React.Fragment>
+                                {currentBrand &&
+                                  currentBrand.popularBrands && (
+                                    <div className={styles.popularBrands}>
+                                      <div className={styles.brandsHeader}>
+                                        Popular brands
+                                      </div>
+                                      {currentBrand.popularBrands.map(
+                                        popularBrands => {
+                                          return (
+                                            <div
+                                              className={styles.brandsDetails}
+                                              onClick={() =>
+                                                this.renderToAnotherURL(
+                                                  popularBrands.webURL
+                                                )
+                                              }
+                                            >
+                                              {popularBrands.brandName}
+                                            </div>
+                                          );
                                         }
-                                      />
+                                      )}
                                     </div>
-                                  );
-                                })}
-                            </React.Fragment>
+                                  )}
+                                {currentBrand &&
+                                  currentBrand.featuredBrands && (
+                                    <div className={styles.featureBrands}>
+                                      <div className={styles.brandsHeader}>
+                                        Featured brands
+                                      </div>
+                                      {currentBrand.featuredBrands.map(
+                                        featuredBrands => {
+                                          return (
+                                            <div
+                                              className={styles.brandsDetails}
+                                              onClick={() =>
+                                                this.renderToAnotherURL(
+                                                  featuredBrands.webURL
+                                                )
+                                              }
+                                            >
+                                              {featuredBrands.brandName}
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                    </div>
+                                  )}
+                              </React.Fragment>
+                            </div>
+                            <div className={styles.subBrandsLogoHolder}>
+                              <React.Fragment>
+                                {currentBrand &&
+                                  currentBrand.items &&
+                                  currentBrand.items.map((brandLogo, i) => {
+                                    return (
+                                      <div className={styles.brandLogoDetails}>
+                                        <BrandImage
+                                          image={brandLogo.brandLogo}
+                                          text={brandLogo.text}
+                                          value={brandLogo.webURL}
+                                          onClick={value =>
+                                            this.renderToAnotherURL(
+                                              brandLogo.webURL
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    );
+                                  })}
+                              </React.Fragment>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        )}
+                      </div>
+                    )}
                 </div>
                 <div className={styles.rightTabHolder}>
                   <div
