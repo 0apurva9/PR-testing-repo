@@ -336,3 +336,4 @@ export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
 export const PINCODE_NOT_SERVICEABLE_TEXT =
   "We are sorry, this pincode is not serviceable. Please enter another pincode.";
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
+export const DEFAULT_PINCODE = 110001;
