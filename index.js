@@ -48,18 +48,19 @@ function removeWord(originalWord, searchWord) {
   return str;
 }
 
-var ampServicesStartPoint = "https://tmppprd.tataunistore.com";
-var ampCrossDomainUrl = "http://localhost:8887/build/amp";
-
-if (
-  process.env.REACT_APP_STAGE === "p2" ||
-  process.env.REACT_APP_STAGE === "production"
-) {
-  ampServicesStartPoint = "https://www.tatacliq.com";
-}
+var ampServicesStartPoint = "https://www.tataque.com";
+var ampCrossDomainUrl = "https://amp.tatacliq.com";
 
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
+
+  if (req.get("host") === "www.tatacliq.com") {
+    ampServicesStartPoint = "https://www.tataque.com";
+    ampCrossDomainUrl = "https://amp.tatacliq.com";
+  } else {
+    ampServicesStartPoint = "https://tmppprd.tataunistore.com";
+    ampCrossDomainUrl = "http://localhost:8887/build/amp";
+  }
 
   //Homepage and PDP code commented as of now PLP code making live - some homepage and pdp components are remaining
   //Code start for AMP
@@ -142,6 +143,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "Search Results Page",
       searchService: searchService,
       searchTerm: q.query.text,
       channel: channelText,
@@ -188,6 +190,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "product grid",
       searchService: searchService,
       searchTerm:
         ":relevance:" + categoryText + ":" + urlPathText.toUpperCase(),
@@ -236,6 +239,7 @@ app.get("/*", (req, res) => {
     var data = {
       metaKeywords: metaKeywords,
       metaDescription: metaDescription,
+      pageNameInfo: "product grid",
       searchService: searchService,
       searchTerm: categoryText,
       channel: channelText,

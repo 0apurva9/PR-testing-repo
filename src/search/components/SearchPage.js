@@ -50,6 +50,7 @@ export default class SearchPage extends React.Component {
       position: position + 1
     });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
+    const searchQuery = this.state.searchString;
     setDataLayerForAutoSuggestSearch(dtmDataObject);
     this.props.clearSearchResults();
     this.setState({
@@ -73,6 +74,7 @@ export default class SearchPage extends React.Component {
   handleCategoryClick(webURL, dtmDataObject, position) {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
+    const searchQuery = this.state.searchString;
     Object.assign(dtmDataObject, {
       position:
         data && data.topBrands

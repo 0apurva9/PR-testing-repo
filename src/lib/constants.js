@@ -245,7 +245,7 @@ export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
 export const NET_BANKING_PAYMENT_MODE = "Net banking";
 export const SAVED_CARD_PAYMENT_MODE = "Saved Cards";
 export const EMI = "EMI";
-export const NO_COST_EMI = "No Cost Emi";
+export const NO_COST_EMI = "No Cost EMI";
 export const STANDARD_EMI = "Standard EMI";
 export const CREDIT_CARD = "Credit Card";
 export const DEBIT_CARD = "Debit Card";
@@ -346,3 +346,5 @@ export const LOW_INTERNET_CONNECTION_MESSAGE =
 export const MODE_OF_RETURN = "Select mode of return";
 export const REFUND_DETAILS = "Refund Details";
 export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
+export const PINCODE_NOT_SERVICEABLE_TEXT =
+  "We are sorry, this pincode is not serviceable. Please enter another pincode.";

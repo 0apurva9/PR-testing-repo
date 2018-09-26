@@ -9,15 +9,11 @@ import downloadIconWhite from "./img/downloadWhite.svg";
 import ProductInfo from "./ProductInfo.js";
 import ProductFlags from "./ProductFlags.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import {
-  ON_EXCLUSIVE,
-  DISCOUNT_PERCENT,
-  IS_NEW,
-  IS_OFFER_EXISTING
-} from "../../lib/constants";
 import { Link } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import * as UserAgent from "../../lib/UserAgent.js";
+
+import { widgetsTracking } from "../../lib/adobeUtils";
+
 export default class ProductModule extends React.Component {
   onDownload = () => {
     if (this.props.onDownload) {
@@ -36,6 +32,17 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
+    if (
+      this.props.widgetName &&
+      this.props.sourceOfWidget &&
+      this.props.productId
+    ) {
+      widgetsTracking({
+        widgetName: this.props.widgetName,
+        productId: this.props.productId,
+        sourceOfWidget: this.props.sourceOfWidget
+      });
+    }
     if (this.props.onClick) {
       this.props.onClick(
         this.getProductURL(),

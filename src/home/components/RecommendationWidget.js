@@ -40,11 +40,9 @@ export default class RecommendationWidget extends React.Component {
     if (feedComponentData.items && feedComponentData.items.map) {
       carouselData = feedComponentData.items.map(transformData);
     }
-
     return (
       <CommonCenter>
         <FeedComponent
-          elementWidthDesktop={25}
           carouselOptions={{
             header: this.props.feedComponentData.title,
             buttonText: this.props.feedComponentData.btnText,
@@ -53,6 +51,10 @@ export default class RecommendationWidget extends React.Component {
             }
           }}
           data={carouselData}
+          componentName={this.props.componentName}
+          sourceOfWidget={
+            this.props.postData && this.props.postData.widgetPlatform
+          }
         />
       </CommonCenter>
     );

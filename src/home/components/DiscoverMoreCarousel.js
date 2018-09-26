@@ -6,9 +6,20 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { withRouter } from "react-router";
 import CommonCenter from "../../general/components/CommonCenter";
 import styles from "./DiscoverMoreCarousel.css";
+import { widgetsTracking } from "../../lib/adobeUtils";
 
 class DiscoverMoreCarousel extends React.Component {
-  handleClick = webUrl => {
+  handleClick = (webUrl, categoryName) => {
+    widgetsTracking({
+      widgetName:
+        this.props.feedComponentData && this.props.feedComponentData.title,
+      sourceOfWidget:
+        this.props.feedComponentData &&
+        this.props.feedComponentData.postParams &&
+        this.props.feedComponentData.postParams.widgetPlatform,
+      categoryName,
+      type: "Category"
+    });
     const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
     if (this.props.setClickedElementId) {

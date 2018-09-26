@@ -24,6 +24,7 @@ import {
   RUPEE_SYMBOL
 } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { setDataLayerForVisitBrand } from "../../lib/adobeUtils.js";
 
 // only want to kick off a request for the MSD stuff if they are visible.
 
@@ -33,6 +34,7 @@ class PDPRecommendedSections extends React.Component {
   };
   visitBrand() {
     if (this.props.aboutTheBrand.webURL) {
+      setDataLayerForVisitBrand();
       const url = this.props.aboutTheBrand.webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(url);
     } else if (this.props.aboutTheBrand && this.props.aboutTheBrand.brandId) {
@@ -121,7 +123,8 @@ class PDPRecommendedSections extends React.Component {
                 this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY].length > 0 &&
                 this.renderCarousel(
                   this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY],
-                  33.33
+                  33.33,
+                  "About the Brand"
                 )}
               <MobileOnly>
                 {brandId && (
@@ -141,7 +144,7 @@ class PDPRecommendedSections extends React.Component {
     );
   }
 
-  renderCarousel(items, elementWidthDesktop) {
+  renderCarousel(items, elementWidthDesktop, widgetName) {
     return (
       <div className={styles.brandProductCarousel}>
         <CarouselWithControls
@@ -172,6 +175,8 @@ class PDPRecommendedSections extends React.Component {
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
                 onClick={url => this.goToProductDescription(url)}
+                widgetName={widgetName}
+                sourceOfWidget="msd"
               />
             );
           })}
@@ -186,7 +191,7 @@ class PDPRecommendedSections extends React.Component {
         <div className={styles.brandSection}>
           <h3 className={styles.brandHeader}>{title}</h3>
           {this.props.msdItems[key] &&
-            this.renderCarousel(this.props.msdItems[key])}
+            this.renderCarousel(this.props.msdItems[key], title)}
         </div>
       ) : null;
     } else {

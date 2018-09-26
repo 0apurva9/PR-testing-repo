@@ -61,8 +61,12 @@ export default class AutomatedBrandProductCarousel extends React.Component {
             this.handleClick();
           }
         }}
+        widgetName={"Automated Brand Product Carousal"}
         setClickedElementId={this.props.setClickedElementId}
         data={carouselData}
+        sourceOfWidget={
+          this.props.postData && this.props.postData.widgetPlatform
+        }
       />
     ) : null;
   }

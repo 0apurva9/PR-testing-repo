@@ -179,7 +179,8 @@ color: #fff; background-color: #000;}
 <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
 <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
-<script async custom-element="amp-install-serviceworker" src="https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js"></script>
+<!--commented as it gets conflict with current service worker, will fix later-->
+<!-- <script async custom-element="amp-install-serviceworker" src="https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js"></script> -->
 <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
 <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>
 <script async custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js"></script>
@@ -187,9 +188,10 @@ color: #fff; background-color: #000;}
 </head>
 
 <body>
-  <amp-install-serviceworker src="/service-worker.js"
+  <!--commented as it gets conflict with current service worker, will fix later-->
+  <!-- <amp-install-serviceworker src="/service-worker.js"
     layout="nodisplay">
-  </amp-install-serviceworker>
+  </amp-install-serviceworker>  -->
   <!-- NOTE: AMP SERVICE WORKER -->
    <!-- <amp-install-serviceworker
          src="/sw.js"
@@ -280,7 +282,7 @@ color: #fff; background-color: #000;}
       <span>
     </div>
     {{#searchresult}}
-      <a class="product-tile-link" href="/amp/p-{{productId}}">
+      <a class="product-tile-link" href="/p-{{productId}}">
         <div class="product-tile" [class]="switchLayout ? 'lv-product-tile' : 'product-tile'">
           <div class="product-tile-inner">
             <!-- Labels on tiles -->
@@ -366,14 +368,14 @@ color: #fff; background-color: #000;}
    {
      "requests": {
        "base": "http://${host}",
-       "iframeMessage": "<%= ampCrossDomainUrl %>/stats.ejs"
+       "iframeMessage": "<%= ampCrossDomainUrl %>/stats.html"
      },
      "vars": {
        "host": "localhost:8887"
      },
      "extraUrlParams": {
        "pageType":"PLP",
-       "pageName": "Search Results Page",
+       "pageName": "<%= pageNameInfo %>",
        "searchText": "<%= searchTerm %>",
        "channel": "<%= channel %>"
      }
