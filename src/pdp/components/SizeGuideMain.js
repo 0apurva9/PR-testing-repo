@@ -18,6 +18,14 @@ export default class SizeGuideMain extends React.Component {
   componentDidMount() {
     this.props.getSizeGuide(this.props.productCode);
   }
+  toggleView(val) {
+    this.setState({ isOpen: val }, () => {
+      if (this.state.isOpen) {
+        let scroll = document.getElementById("currentOpenSize");
+        scroll.scrollIntoView();
+      }
+    });
+  }
   render() {
     if (this.props.loading) {
       return <Loader />;
@@ -39,7 +47,7 @@ export default class SizeGuideMain extends React.Component {
             {this.props.category !== "Footwear" &&
               this.props.category !== "Accessories" &&
               this.props.sizeData.sizeGuideList && (
-                <div className={styles.sizeList}>
+                <div className={styles.sizeList} id="currentOpenSize">
                   {this.props.sizeData.sizeGuideList.map((list, i) => {
                     return (
                       <Accordion
@@ -48,6 +56,9 @@ export default class SizeGuideMain extends React.Component {
                         offset={20}
                         activeBackground="#f8f8f8"
                         isOpen={this.state.isOpen === i}
+                        onOpen={() => {
+                          this.toggleView(i);
+                        }}
                       >
                         {this.props.category !== "Footwear" && (
                           <SizeGuideElement
