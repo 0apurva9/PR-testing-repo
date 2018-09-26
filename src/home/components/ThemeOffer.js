@@ -77,6 +77,9 @@ export default class ThemeOffer extends React.Component {
             }}
             {...rest}
             data={themeData}
+            sourceOfWidget={
+              this.props.postData && this.props.postData.widgetPlatform
+            }
           />
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">

@@ -74,6 +74,7 @@ export const CLEAR_ITEMS_FOR_PARTICULAR_POSITION =
 const ADOBE_TARGET_DELAY = 2500;
 const MSD_NUM_PRODUCTS = 10;
 const MSD_NUM_RESULTS = 10;
+const MSD_NUM_RESULTS_FOR_AUTOMATED_BRAND_COMPONENT = 20;
 const MSD_NUM_BRANDS = 1;
 const DISCOVER_MORE_NUM_RESULTS = 10;
 const FOLLOWED_WIDGET_WIDGET_LIST = [112]; // weirdly it's not done.
@@ -603,9 +604,12 @@ export function getComponentData(
 
       if (postParams && postParams.widgetPlatform === MSD_WIDGET_PLATFORM) {
         const widgetSpecificPostData = getMsdPostData(type);
-
+        let msdNumberOfResults = MSD_NUM_RESULTS;
+        if (type === AUTOMATED_BRAND_CAROUSEL) {
+          msdNumberOfResults = MSD_NUM_RESULTS_FOR_AUTOMATED_BRAND_COMPONENT;
+        }
         postData = await getMsdFormData(widgetSpecificPostData.widget_list, [
-          MSD_NUM_RESULTS
+          msdNumberOfResults
         ]);
 
         if (type === AUTOMATED_BRAND_CAROUSEL) {

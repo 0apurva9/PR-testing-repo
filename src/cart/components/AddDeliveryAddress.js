@@ -56,7 +56,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   MY_ACCOUNT_ADDRESS_PAGE,
-  LOGIN_PATH
+  LOGIN_PATH,
+  PINCODE_NOT_SERVICEABLE_TEXT
 } from "../../lib/constants";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
@@ -87,7 +88,8 @@ export default class AddDeliveryAddress extends React.Component {
       selectedLandmarkLabel: "Landmark",
       landmarkList: [],
       userEmailId: "",
-      isEnable: false
+      isEnable: false,
+      pinCodeFailure: false
     };
   }
   handleOnFocusInput() {
@@ -152,7 +154,9 @@ export default class AddDeliveryAddress extends React.Component {
     }));
     if (this.props.getAddressDetails) {
       const cloneAddress = cloneDeep(this.state);
-      Object.assign(cloneAddress, { defaultFlag: this.state.defaultFlag });
+      Object.assign(cloneAddress, {
+        defaultFlag: this.state.defaultFlag
+      });
       this.props.getAddressDetails(cloneAddress);
     }
   }
@@ -170,6 +174,10 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.history.goBack();
     }
     if (nextProps.getPincodeStatus === ERROR) {
+      this.setState({ pinCodeFailure: true });
+      if (this.props.clearPinCodeStatus) {
+        this.props.clearPinCodeStatus();
+      }
       landmarkList = [{ landmark: OTHER_LANDMARK }];
       this.setState({
         state: "",
@@ -185,6 +193,7 @@ export default class AddDeliveryAddress extends React.Component {
       });
     }
     if (nextProps.getPincodeStatus === SUCCESS && nextProps.getPinCodeDetails) {
+      this.setState({ pinCodeFailure: false });
       if (nextProps.getPinCodeDetails.landMarks) {
         landmarkList = [
           ...nextProps.getPinCodeDetails.landMarks,
@@ -252,6 +261,10 @@ export default class AddDeliveryAddress extends React.Component {
     }
     if (this.state.postalCode && this.state.postalCode.length < 6) {
       this.props.displayToast(PINCODE_VALID_TEXT);
+      return false;
+    }
+    if (this.state.pinCodeFailure) {
+      this.props.displayToast(PINCODE_NOT_SERVICEABLE_TEXT);
       return false;
     }
     if (
@@ -466,7 +479,11 @@ export default class AddDeliveryAddress extends React.Component {
                               ? this.props.lastName
                               : this.state.lastName
                           }
-                          onChange={lastName => this.onChange({ lastName })}
+                          onChange={lastName =>
+                            this.onChange({
+                              lastName
+                            })
+                          }
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onFocus={() => {
@@ -505,8 +522,14 @@ export default class AddDeliveryAddress extends React.Component {
                                   ? this.props.line2
                                   : this.state.line2
                               }
-                              onChange={line2 => this.onChange({ line2 })}
-                              textStyle={{ fontSize: 14 }}
+                              onChange={line2 =>
+                                this.onChange({
+                                  line2
+                                })
+                              }
+                              textStyle={{
+                                fontSize: 14
+                              }}
                               height={33}
                               onFocus={() => {
                                 this.handleOnFocusInput();
@@ -633,7 +656,11 @@ export default class AddDeliveryAddress extends React.Component {
                       offset={0}
                       elementWidthMobile={50}
                       elementWidthDesktop={50}
-                      onSelect={val => this.onChange({ addressType: val[0] })}
+                      onSelect={val =>
+                        this.onChange({
+                          addressType: val[0]
+                        })
+                      }
                       selected={[this.state.addressType]}
                     >
                       {dataLabel.map((val, i) => {
@@ -707,7 +734,10 @@ export default class AddDeliveryAddress extends React.Component {
                           width={176}
                           height={38}
                           onClick={() => this.addNewAddress()}
-                          textStyle={{ color: "#FFF", fontSize: 14 }}
+                          textStyle={{
+                            color: "#FFF",
+                            fontSize: 14
+                          }}
                         />
                       )}
                     </div>
@@ -865,8 +895,14 @@ export default class AddDeliveryAddress extends React.Component {
                                 ? this.props.line2
                                 : this.state.line2
                             }
-                            onChange={line2 => this.onChange({ line2 })}
-                            textStyle={{ fontSize: 14 }}
+                            onChange={line2 =>
+                              this.onChange({
+                                line2
+                              })
+                            }
+                            textStyle={{
+                              fontSize: 14
+                            }}
                             height={33}
                             onFocus={() => {
                               this.handleOnFocusInput();
@@ -936,7 +972,11 @@ export default class AddDeliveryAddress extends React.Component {
                     offset={0}
                     elementWidthMobile={50}
                     elementWidthDesktop={50}
-                    onSelect={val => this.onChange({ addressType: val[0] })}
+                    onSelect={val =>
+                      this.onChange({
+                        addressType: val[0]
+                      })
+                    }
                     selected={[this.state.addressType]}
                   >
                     {dataLabel.map((val, i) => {

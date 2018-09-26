@@ -8,6 +8,7 @@ import { STANDARD_EMI, EMI_TYPE } from "../../lib/constants";
 import EmiSectionDesktop from "../../pdp/components/EmiSectionDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import sortBy from "lodash.sortby";
 const PAYMENT_MODE = "EMI";
 
 const IS_EMI = "1";
@@ -77,6 +78,9 @@ export default class EmiAccordion extends React.Component {
         is_emi: null
       });
     } else {
+      option.emitermsrate = sortBy(option.emitermsrate, bank => {
+        return parseInt(bank.term, 10);
+      });
       this.setState({
         selectedBank: option.code,
         selectedEmiRate: option.emitermsrate[0].interestRate,
