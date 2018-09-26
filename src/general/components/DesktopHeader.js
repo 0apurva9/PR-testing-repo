@@ -314,7 +314,8 @@ export default class DesktopHeader extends React.Component {
                               )}
                             </div>
                             <div className={styles.subCategoryDetailsHolder}>
-                              {currentCategory.subCategories &&
+                              {currentCategory &&
+                                currentCategory.subCategories &&
                                 currentCategory.subCategories.map(
                                   (subCategoriesHeader, val) => {
                                     return (
