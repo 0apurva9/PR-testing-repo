@@ -260,14 +260,14 @@ export function getProductPinCode(pinCode: null, productCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(
+      return dispatch(
         getProductPinCodeSuccess({
           pinCode,
           deliveryOptions: resultJson.listOfDataList[0].value
         })
       );
     } catch (e) {
-      dispatch(getProductPinCodeFailure(e.message));
+      return dispatch(getProductPinCodeFailure(e.message));
     }
   };
 }

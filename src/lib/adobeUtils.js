@@ -286,6 +286,9 @@ const MOBILE = "mobile";
 const EMAIL = "email";
 const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
+const CONTINUE_SHOPPING = "continue_shopping";
+export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
+  "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 export function setDataLayer(type, apiResponse, icid, icidType) {
   const response = cloneDeep(apiResponse);
   const previousDigitalData = cloneDeep(window.digitalData);
@@ -1094,6 +1097,11 @@ export function setDataLayerForCartDirectCalls(type, response) {
       window._satellite.track(PINCODE_FAILURE);
     }
   }
+  if (type === ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING) {
+    if (window._satellite) {
+      window._satellite.track(CONTINUE_SHOPPING);
+    }
+  }
 }
 function getDigitalDataForPlp(type, response) {
   let data = {
@@ -1418,7 +1426,6 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     if (window.digitalData) {
       previousData = window.digitalData;
     }
-
     if (previousData.cpj) {
       Object.assign(previousData.cpj, {
         order: {

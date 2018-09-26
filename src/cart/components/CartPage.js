@@ -40,7 +40,8 @@ import {
 import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayerForCartDirectCalls,
-  ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
+  ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
@@ -67,6 +68,7 @@ class CartPage extends React.Component {
     this.setState({ showCartDetails: !this.state.showCartDetails });
   };
   navigateToHome() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
