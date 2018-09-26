@@ -55,6 +55,7 @@ export default class RecommendationWidget extends React.Component {
           sourceOfWidget={
             this.props.postData && this.props.postData.widgetPlatform
           }
+          elementWidthDesktop={25}
         />
       </CommonCenter>
     );
