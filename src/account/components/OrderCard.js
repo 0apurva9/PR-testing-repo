@@ -20,11 +20,13 @@ export default class OrderCard extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        {this.props.estimatedDeliveryDate && (
-          <div className={styles.estimatedDeliveryDate}>
-            <b>Estimated Delivery Date:</b> {this.props.estimatedDeliveryDate}
-          </div>
-        )}
+        {this.props.estimatedDeliveryDate &&
+          (this.props.statusDisplay !== "CANCEL" &&
+            this.props.statusDisplay !== "RETURN") && (
+            <div className={styles.estimatedDeliveryDate}>
+              <b>Estimated Delivery Date:</b> {this.props.estimatedDeliveryDate}
+            </div>
+          )}
         <div className={styles.productImageHolder}>
           <ProductImage
             image={this.props.imageUrl}
