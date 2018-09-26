@@ -302,9 +302,10 @@ export function addProductToCart(productDetails) {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let userId = ANONYMOUS_USER;
   let cartId = cartDetailsForAnonymous
-    ? JSON.parse(cartDetailsForAnonymous).code
+    ? JSON.parse(cartDetailsForAnonymous).guid
     : null;
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+
   if (userDetails && customerCookie && cartDetails) {
     userId = JSON.parse(userDetails).userName;
     cartId = JSON.parse(cartDetails).code;

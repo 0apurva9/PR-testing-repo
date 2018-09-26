@@ -1492,7 +1492,10 @@ const cart = (
           guid: action.cartDetails.buyNowCartGuid
         }
       );
-      Cookies.createCookie(CART_DETAILS_FOR_LOGGED_IN_USER, JSON.stringify(""));
+      Cookies.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify(cartDetails)
+      );
       return Object.assign({}, state, {
         mergeTempCartWithOldCartLoading: false,
         mergeTempCartWithOldCartStatus: action.status,

@@ -23,11 +23,7 @@ import {
 import * as Cookie from "../../lib/Cookie";
 import {
   CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  ANONYMOUS_USER
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
@@ -170,7 +166,7 @@ class ProductReviewPage extends Component {
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
     if (buyNowFlag) {
-      if (checkUserLoggedIn) {
+      if (checkUserLoggedIn()) {
         localStorage.setItem(
           BUY_NOW_PRODUCT_DETAIL,
           JSON.stringify(productDetails)
