@@ -6,17 +6,10 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import PropTypes from "prop-types";
 import {
   SUCCESS,
-  LOGGED_IN_USER_DETAILS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CUSTOMER_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  GLOBAL_ACCESS_TOKEN,
-  ANONYMOUS_USER,
   BUY_NOW_PRODUCT_DETAIL,
   LOGIN_PATH,
   PRODUCT_CART_ROUTER
 } from "../../lib/constants";
-import * as Cookie from "../../lib/Cookie";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const SIZE_GUIDE = "Size guide";
 const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;

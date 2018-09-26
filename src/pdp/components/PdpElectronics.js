@@ -12,12 +12,7 @@ import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import queryString, { parse } from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  ANONYMOUS_USER,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
   NO,

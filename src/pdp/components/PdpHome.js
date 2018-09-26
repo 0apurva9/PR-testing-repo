@@ -9,12 +9,7 @@ import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Accordion from "../../general/components/Accordion.js";
 import * as Cookie from "../../lib/Cookie";
 import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS,
-  ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,

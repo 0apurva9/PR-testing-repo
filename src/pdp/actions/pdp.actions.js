@@ -7,7 +7,9 @@ import {
   SUCCESS_CAMEL_CASE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   CART_BAG_DETAILS,
-  PLAT_FORM_NUMBER
+  PLAT_FORM_NUMBER,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants";
 import { FAILURE } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
@@ -292,7 +294,23 @@ export function addProductToCartFailure(error) {
   };
 }
 
-export function addProductToCart(userId, cartId, accessToken, productDetails) {
+export function addProductToCart(productDetails) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let userId = ANONYMOUS_USER;
+  let cartId = cartDetailsForAnonymous
+    ? JSON.parse(cartDetailsForAnonymous).code
+    : null;
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+  if (userDetails && customerCookie && cartDetails) {
+    userId = JSON.parse(userDetails).userName;
+    cartId = JSON.parse(cartDetails).code;
+    accessToken = JSON.parse(customerCookie).access_token;
+  }
+
   return async (dispatch, getState, { api }) => {
     dispatch(addProductToCartRequest());
     try {
