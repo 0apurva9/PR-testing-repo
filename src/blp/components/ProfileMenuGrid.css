@@ -4,3 +4,16 @@
   background-color: #181818;
   padding: 20px 0px;
 }
+.cclink{
+	font-size: 13px;
+    color: #ffffff;
+    padding: 15px 0 0 25px;
+}
+.arrowRight{
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+     transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
