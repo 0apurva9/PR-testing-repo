@@ -206,6 +206,8 @@ export default class OrderDetails extends React.Component {
                   />
                 </div>
                 <OrderCard
+                  estimatedDeliveryDate={products.estimateddeliverydate}
+                  statusDisplay={products.statusDisplay}
                   imageUrl={products.imageURL}
                   price={products.price}
                   discountPrice={""}
