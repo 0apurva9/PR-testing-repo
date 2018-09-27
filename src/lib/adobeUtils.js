@@ -271,6 +271,9 @@ const MOBILE = "mobile";
 const EMAIL = "email";
 const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
+const CART_TO_CHECKOUT = "cpj_cart_checkout";
+export const ADOBE_DIRECT_CALL_FOR_CART_TO_CHECKOUT =
+  "ADOBE_DIRECT_CALL_FOR_CART_TO_CHECKOUT";
 export function setDataLayer(type, apiResponse, icid, icidType) {
   const response = cloneDeep(apiResponse);
   const previousDigitalData = cloneDeep(window.digitalData);
@@ -1040,6 +1043,11 @@ export function setDataLayerForCartDirectCalls(type, response) {
     window.digitalData = setDataLayerForPinCode(response);
     if (window._satellite) {
       window._satellite.track(PINCODE_FAILURE);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_CART_TO_CHECKOUT) {
+    if (window._satellite) {
+      window._satellite.track(CART_TO_CHECKOUT);
     }
   }
 }
