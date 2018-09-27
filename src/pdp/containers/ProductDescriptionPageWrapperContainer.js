@@ -34,11 +34,6 @@ import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
-import {
-  setDataLayerForCartDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
-} from "../../lib/adobeUtils";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
@@ -91,33 +86,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showPincodeModal: productCode => {
       dispatch(showModal(ADDRESS, { productCode }));
     },
-    getProductPinCode: async (pinCode, productCode) => {
-      const productPincodeObj = await dispatch(
-        getProductPinCode(pinCode, productCode)
-      );
-      let productServiceAvailability =
-        productPincodeObj &&
-        productPincodeObj.productPinCode &&
-        productPincodeObj.productPinCode.deliveryOptions &&
-        productPincodeObj.productPinCode.deliveryOptions.pincodeListResponse.filter(
-          product => {
-            return product.isServicable === "N";
-          }
-        );
-      if (
-        productPincodeObj.status === SUCCESS &&
-        productServiceAvailability.length === 0
-      ) {
-        setDataLayerForCartDirectCalls(
-          ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-          pinCode
-        );
-      } else {
-        setDataLayerForCartDirectCalls(
-          ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-          pinCode
-        );
-      }
+    getProductPinCode: (pinCode, productCode) => {
+      return dispatch(getProductPinCode(pinCode, productCode));
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
