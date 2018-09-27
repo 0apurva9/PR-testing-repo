@@ -182,7 +182,6 @@ class CheckOutPage extends React.Component {
       noCostEmiBankName: null,
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
-      showCartDetails: false,
       padding: "15px 125px 15px 15px"
     };
   }
@@ -385,7 +384,7 @@ class CheckOutPage extends React.Component {
     this.props.getAllStoresCNC(pincode);
   };
   showHideDetails = () => {
-    this.setState({ showCartDetails: !this.state.showCartDetails });
+    window.scroll({ top: window.innerHeight, behavior: "smooth" });
   };
   togglePickupPersonForm() {
     const currentSelectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
@@ -476,7 +475,7 @@ class CheckOutPage extends React.Component {
     );
   };
   onFocusInput() {
-    this.setState({ showCartDetails: false, padding: "6px 125px 6px 15px" });
+    this.setState({ padding: "6px 125px 6px 15px" });
   }
   onBlue() {
     this.setState({ padding: "15px 125px 15px 15px" });
@@ -2174,7 +2173,6 @@ class CheckOutPage extends React.Component {
                 this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
                   .formattedValue
               }
-              showDetails={this.state.showCartDetails}
               showHideDetails={this.showHideDetails}
               onCheckout={
                 this.state.isPaymentFailed
@@ -2351,7 +2349,6 @@ class CheckOutPage extends React.Component {
                 this.props.cart.cartDetailsCNC &&
                 this.props.cart.cartDetailsCNC.cartAmount
               }
-              showDetails={this.state.showCartDetails}
               onCheckout={
                 this.state.isPaymentFailed
                   ? this.handleSubmitAfterPaymentFailure

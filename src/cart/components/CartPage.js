@@ -50,12 +50,11 @@ class CartPage extends React.Component {
       isServiceable: false,
       changePinCode: false,
       appliedCouponCode: null,
-      showCheckoutSection: true,
-      showCartDetails: false
+      showCheckoutSection: true
     };
   }
   showHideDetails = () => {
-    this.setState({ showCartDetails: !this.state.showCartDetails });
+    window.scroll({ top: window.innerHeight, behavior: "smooth" });
   };
   navigateToHome() {
     this.props.history.push(HOME_ROUTER);
@@ -373,7 +372,6 @@ class CartPage extends React.Component {
                 isOnCartPage={true}
                 changePinCode={this.changePinCode}
                 isFromMyBag={true}
-                showDetails={this.state.showCartDetails}
                 showHideDetails={this.showHideDetails}
               />
             )}

@@ -29,7 +29,6 @@
   position: relative;
   border-radius: 4px;
   z-index: initial;
-  margin-top: 20px;
 }
 .visibleBase .amount,
 .visibleBase .informationQuestionHolder,
@@ -116,6 +115,7 @@
 .visiblePayableSection {
   width: 100%;
   height: auto;
+  margin-bottom: 10px;
 }
 .visiblePayableSection .informationQuestionHolder,
 .visiblePayableSection .informationAnswerHolder {
@@ -200,5 +200,10 @@
   display: block;
   max-width: 100%;
   margin-top: 20px;
+  padding: 0 15px;
+}
+.cartAmountWrapper {
+  display: block;
+  max-width: 100%;
   padding: 0 15px;
 }
