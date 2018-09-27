@@ -199,13 +199,13 @@ export default class PdpApparel extends React.Component {
       pincode,
       productCode
     );
-    if (productPincodeObj.status === SUCCESS) {
-      if (
-        this.props.productDetails &&
-        this.props.productDetails.isServiceableToPincode &&
-        this.props.productDetails.isServiceableToPincode.status &&
-        this.props.productDetails.isServiceableToPincode.status === "Y"
-      ) {
+    if (
+      productPincodeObj.status === SUCCESS &&
+      this.props.productDetails &&
+      this.props.productDetails.isServiceableToPincode &&
+      this.props.productDetails.isServiceableToPincode.status
+    ) {
+      if (this.props.productDetails.isServiceableToPincode.status === "Y") {
         setDataLayerForCartDirectCalls(
           ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
           pincode
