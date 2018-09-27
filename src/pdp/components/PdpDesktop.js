@@ -191,10 +191,6 @@ export default class PdpApparel extends React.Component {
     }
   };
   checkPinCodeAvailability = async (pincode, productCode) => {
-    if (this.props.addressModalForCartPage) {
-      this.props.checkPinCodeAvailability(pincode);
-      return;
-    }
     let productPincodeObj = await this.props.getProductPinCode(
       pincode,
       productCode
