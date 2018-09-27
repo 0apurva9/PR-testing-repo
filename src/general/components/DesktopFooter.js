@@ -7,7 +7,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import companyLogo from "../../general/components/img/companylogo.svg";
 import TrustComponent from "../../general/components/TrustComponent";
-const TEXT = "© 2017 Tata CLiQ  |  All rightsreserved";
+const TEXT = "© 2017 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
     if (this.props.getDesktopFooter) {
