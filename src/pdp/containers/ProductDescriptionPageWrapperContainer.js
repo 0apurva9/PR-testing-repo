@@ -87,7 +87,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(ADDRESS, { productCode }));
     },
     getProductPinCode: (pinCode, productCode) => {
-      dispatch(getProductPinCode(pinCode, productCode));
+      return dispatch(getProductPinCode(pinCode, productCode));
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());

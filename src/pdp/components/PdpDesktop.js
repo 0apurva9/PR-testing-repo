@@ -43,7 +43,11 @@ import {
   ADD_TO_BAG_TEXT,
   HOME_ROUTER
 } from "../../lib/constants";
-
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
+} from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
@@ -186,13 +190,30 @@ export default class PdpApparel extends React.Component {
       this.props.history.push(urlSuffix);
     }
   };
-  checkPinCodeAvailability(pincode, productCode) {
-    if (this.props.addressModalForCartPage) {
-      this.props.checkPinCodeAvailability(pincode);
-      return;
+  checkPinCodeAvailability = async (pincode, productCode) => {
+    let productPincodeObj = await this.props.getProductPinCode(
+      pincode,
+      productCode
+    );
+    if (
+      productPincodeObj.status === SUCCESS &&
+      this.props.productDetails &&
+      this.props.productDetails.isServiceableToPincode &&
+      this.props.productDetails.isServiceableToPincode.status
+    ) {
+      if (this.props.productDetails.isServiceableToPincode.status === "Y") {
+        setDataLayerForCartDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+          pincode
+        );
+      } else {
+        setDataLayerForCartDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+          pincode
+        );
+      }
     }
-    this.props.getProductPinCode(pincode, productCode);
-  }
+  };
   addToCart = async buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
