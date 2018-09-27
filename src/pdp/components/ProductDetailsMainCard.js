@@ -109,7 +109,7 @@ export default class ProductDetailsMainCard extends React.Component {
                 <div className={styles.priceCancelled}>
                   <span className={styles.cancelPrice}>{this.props.price}</span>
                   <span className={styles.discount}>
-                    {this.props.discount && `(- ${this.props.discount}%)`}
+                    {this.props.discount && `(${this.props.discount}%)`}
                   </span>
                 </div>
               )}

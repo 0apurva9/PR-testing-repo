@@ -36,7 +36,7 @@
 .menuIconWishList {
   width: 25px;
   height: 25px;
-  background: url(./img/Save.svg) no-repeat;
+  background: url(./img/download.svg) no-repeat;
   background-size: auto 16px;
   background-position: center;
   position: absolute;
@@ -46,7 +46,7 @@
 .menuIconWishLisAlerts {
   width: 25px;
   height: 25px;
-  background: url(./img/addressbook.svg) no-repeat;
+  background: url(../../account/components/img/alert.svg) no-repeat;
   background-size: auto 16px;
   background-position: center;
   position: absolute;
@@ -56,8 +56,8 @@
 .menuIconGiftCard {
   width: 25px;
   height: 25px;
-  background: url(./img/brand.svg) no-repeat;
-  background-size: auto 16px;
+  background: url(../../account/components/img/giftCards.svg) no-repeat;
+  background-size: auto 14px;
   background-position: center;
   position: absolute;
   left: 0;
@@ -66,8 +66,8 @@
 .menuIconCliqCash {
   width: 25px;
   height: 25px;
-  background: url(./img/card.svg) no-repeat;
-  background-size: auto 16px;
+  background: url(../../account/components/img/cliqCash.svg) no-repeat;
+  background-size: auto 20px;
   background-position: center;
   position: absolute;
   left: 0;

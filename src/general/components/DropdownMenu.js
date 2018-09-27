@@ -57,7 +57,7 @@ export default class DropdownMenu extends React.Component {
           onClick={() => this.goToDefaultWishList()}
         >
           <div className={styles.menuIconWishList} />
-          My Wishlist
+          Saved List
         </div>
         <div
           className={styles.menuHolder}
