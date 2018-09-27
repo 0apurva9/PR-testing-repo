@@ -86,6 +86,7 @@ export default class EmiSectionDesktop extends React.Component {
                       key={i}
                       offset={15}
                       activeBackground="#f9f9f9"
+                      textAlign="right"
                       onOpen={() => this.handleSelectPlanForDesktop(val, i)}
                       isOpen={this.state.isOpen === i}
                     >

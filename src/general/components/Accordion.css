@@ -79,4 +79,7 @@
   .faqQuestion {
     font-size: 14px;
   }
+  .holder {
+    padding-right: 40px;
+  }
 }

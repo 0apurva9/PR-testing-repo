@@ -69,7 +69,7 @@
   margin-bottom: 15px;
 }
 .textHolder {
-  width: 60%;
+  width: 68%;
   height: auto;
   display: flex;
   justify-content: flex-start;
@@ -78,7 +78,7 @@
   font-family: light;
 }
 .amountHolder {
-  width: 40%;
+  width: 32%;
   height: auto;
   display: flex;
   justify-content: flex-start;
