@@ -208,16 +208,19 @@ export default class AllOrderDetails extends React.Component {
                         estimatedDeliveryDate={
                           orderDetails &&
                           orderDetails.products &&
+                          orderDetails.products[0] &&
                           orderDetails.products[0].estimateddeliverydate
                         }
                         statusDisplay={
                           orderDetails &&
                           orderDetails.products &&
+                          orderDetails.products[0] &&
                           orderDetails.products[0].statusDisplay
                         }
                         imageUrl={
                           orderDetails &&
                           orderDetails.products &&
+                          orderDetails.products[0] &&
                           orderDetails.products[0].imageURL
                         }
                         hasProduct={orderDetails && orderDetails.products}
