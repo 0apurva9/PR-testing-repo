@@ -8,6 +8,7 @@ import Accordion from "../../general/components/Accordion";
 import PropTypes from "prop-types";
 import styles from "./EmiModal.css";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import CenterModal from "../../general/components/CenterModal";
 import MobileOnly from "../../general/components/MobileOnly";
 import {
   setDataLayerForPdpDirectCalls,
@@ -114,15 +115,11 @@ export default class EmiModal extends React.Component {
         </MobileOnly>
 
         <DesktopOnly>
-          <SlideModal
-            width="785px"
-            height="430px"
-            closeModal={this.props.closeModal}
-          >
+          <CenterModal closeModal={this.props.closeModal}>
             <EmiSectionDesktop
               emiData={this.props.emiData && this.props.emiData.bankList}
             />
-          </SlideModal>
+          </CenterModal>
         </DesktopOnly>
       </React.Fragment>
     );

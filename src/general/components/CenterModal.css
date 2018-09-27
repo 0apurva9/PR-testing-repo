@@ -10,6 +10,7 @@
   margin: auto;
   transform: translateY(100%);
   animation: slideInUp 200ms forwards;
+  background: #fff;
 }
 .cancel {
   width: 12px;
