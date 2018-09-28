@@ -407,6 +407,7 @@ export default class PdpElectronics extends React.Component {
               hasPincode={true}
               pincode={this.props.productDetails.isServiceableToPincode.pinCode}
               onClick={() => this.showPincodeModal()}
+              {...this.props.productDetails.isServiceableToPincode}
             />
           ) : (
             <PdpPincode onClick={() => this.showPincodeModal()} />

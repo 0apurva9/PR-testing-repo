@@ -12,7 +12,8 @@ import {
   MY_ACCOUNT_UPDATE_PROFILE_PAGE,
   MY_ACCOUNT_ALERTS_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  SAVE_LIST_PAGE
+  SAVE_LIST_PAGE,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants";
 import styles from "./ProfileMenuGrid.css";
 import savedList from "../../general/components/img/downloadWhite.svg";
@@ -29,6 +30,11 @@ export default class ProfileMenuGrid extends React.Component {
     if (value) {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);
     }
+  }
+  redirectToOrderRelatedPage() {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
   }
   render() {
     const data = [
@@ -77,6 +83,17 @@ export default class ProfileMenuGrid extends React.Component {
             );
           })}
         </Grid>
+        <div className={styles.cclink}>
+          <span
+            onClick={() =>
+              this.redirectToOrderRelatedPage(
+                COSTUMER_ORDER_RELATED_QUERY_ROUTE
+              )
+            }
+          >
+            Customer Service <span className={styles.arrowRight} />
+          </span>
+        </div>
       </div>
     );
   }

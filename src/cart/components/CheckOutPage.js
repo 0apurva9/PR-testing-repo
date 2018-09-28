@@ -156,7 +156,6 @@ class CheckOutPage extends React.Component {
       binValidationCOD: false,
       isGiftCard: false,
       isRemainingAmount: true,
-      payableAmount: "",
       cliqCashAmount: "",
       userCliqCashAmount: "",
       bagAmount: "",
@@ -183,7 +182,6 @@ class CheckOutPage extends React.Component {
       noCostEmiBankName: null,
       isCliqCashApplied: false,
       cliqCashPaidAmount: "0.00",
-      showCartDetails: false,
       padding: "15px 125px 15px 15px"
     };
   }
@@ -386,7 +384,7 @@ class CheckOutPage extends React.Component {
     this.props.getAllStoresCNC(pincode);
   };
   showHideDetails = () => {
-    this.setState({ showCartDetails: !this.state.showCartDetails });
+    window.scroll({ top: window.innerHeight, behavior: "smooth" });
   };
   togglePickupPersonForm() {
     const currentSelectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
@@ -477,7 +475,7 @@ class CheckOutPage extends React.Component {
     );
   };
   onFocusInput() {
-    this.setState({ showCartDetails: false, padding: "6px 125px 6px 15px" });
+    this.setState({ padding: "6px 125px 6px 15px" });
   }
   onBlue() {
     this.setState({ padding: "15px 125px 15px 15px" });
@@ -701,8 +699,6 @@ class CheckOutPage extends React.Component {
         this.setState({
           isGiftCard: true,
           isRemainingAmount: true,
-          payableAmount: Math.round(giftCartObj.amount * 100) / 100,
-          bagAmount: Math.round(giftCartObj.amount * 100) / 100,
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
@@ -817,34 +813,15 @@ class CheckOutPage extends React.Component {
       this.setState({ ussIdAndDeliveryModesObj: defaultSelectedDeliveryModes });
     }
     // end if adding selected default delivery modes for every product
-
     if (nextProps.cart.cliqCashPaymentDetails && !this.state.isPaymentFailed) {
       this.setState({
         isRemainingAmount:
           nextProps.cart.cliqCashPaymentDetails.isRemainingAmount,
-        payableAmount: nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount
-          .value
-          ? Math.round(
-              nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount.value * 100
-            ) / 100
-          : "0.00",
         cliqCashAmount:
           nextProps.cart.cliqCashPaymentDetails.cliqCashBalance.value > 0
             ? Math.round(
                 nextProps.cart.cliqCashPaymentDetails.cliqCashBalance.value *
                   100
-              ) / 100
-            : "0.00",
-        bagAmount: nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value
-          ? Math.round(
-              nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value * 100
-            ) / 100
-          : "0.00",
-        totalDiscount:
-          nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount.value > 0
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount
-                  .value * 100
               ) / 100
             : "0.00",
         cliqCashPaidAmount:
@@ -894,29 +871,8 @@ class CheckOutPage extends React.Component {
         }
 
         this.setState({
-          payableAmount: nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount
-            .value
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount.value *
-                  100
-              ) / 100
-            : "0.00",
           cliqCashAmount: cliqCashAmount,
-          userCliqCashAmount: cliqCashAmount,
-          bagAmount: nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value * 100
-              ) / 100
-            : "0.00",
-
-          totalDiscount:
-            nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount.value >
-            0
-              ? Math.round(
-                  nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount
-                    .value * 100
-                ) / 100
-              : "0.00"
+          userCliqCashAmount: cliqCashAmount
         });
 
         if (
@@ -966,7 +922,6 @@ class CheckOutPage extends React.Component {
         });
       }
     }
-
     if (nextProps.cart.justPayPaymentDetails !== null) {
       if (nextProps.cart.justPayPaymentDetails.payment) {
         if (
@@ -1061,8 +1016,6 @@ class CheckOutPage extends React.Component {
         this.setState({
           isGiftCard: true,
           isRemainingAmount: true,
-          payableAmount: Math.round(giftCartObj.amount * 100) / 100,
-          bagAmount: Math.round(giftCartObj.amount * 100) / 100,
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
@@ -1088,9 +1041,7 @@ class CheckOutPage extends React.Component {
       this.getPaymentModes();
       this.setState({
         isGiftCard: true,
-        isRemainingAmount: true,
-        payableAmount: Math.round(this.props.location.state.amount * 100) / 100,
-        bagAmount: Math.round(this.props.location.state.amount * 100) / 100
+        isRemainingAmount: true
       });
     } else {
       if (this.props.getCartDetailsCNC && this.props.getUserAddress) {
@@ -2212,14 +2163,13 @@ class CheckOutPage extends React.Component {
                 this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
               }
               isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-              noCostEmiDiscount={this.state.noCostEmiDiscount}
-              amount={this.state.payableAmount}
-              bagTotal={this.state.bagAmount}
-              payable={this.state.payableAmount}
-              coupons={this.state.couponDiscount}
-              discount={this.state.totalDiscount}
-              delivery={this.state.deliveryCharge}
-              showDetails={this.state.showCartDetails}
+              amount={
+                this.props.cart &&
+                this.props.cart.cartDetailsCNC &&
+                this.props.cart.cartDetailsCNC.cartAmount &&
+                this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
+                  .formattedValue
+              }
               showHideDetails={this.showHideDetails}
               onCheckout={
                 this.state.isPaymentFailed
@@ -2391,20 +2341,11 @@ class CheckOutPage extends React.Component {
               padding={this.state.padding}
               disabled={checkoutButtonStatus}
               label={labelForButton}
-              noCostEmiEligibility={
+              cartAmount={
                 this.props.cart &&
-                this.props.cart.emiEligibilityDetails &&
-                this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+                this.props.cart.cartDetailsCNC &&
+                this.props.cart.cartDetailsCNC.cartAmount
               }
-              isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-              noCostEmiDiscount={this.state.noCostEmiDiscount}
-              amount={this.state.payableAmount}
-              bagTotal={this.state.bagAmount}
-              payable={this.state.payableAmount}
-              coupons={this.state.couponDiscount}
-              discount={this.state.totalDiscount}
-              delivery={this.state.deliveryCharge}
-              showDetails={this.state.showCartDetails}
               onCheckout={
                 this.state.isPaymentFailed
                   ? this.handleSubmitAfterPaymentFailure
@@ -2412,7 +2353,6 @@ class CheckOutPage extends React.Component {
               }
               isCliqCashApplied={this.state.isCliqCashApplied}
               cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-              isFromMyBag={false}
             />
           )}
         </div>

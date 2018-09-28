@@ -7,29 +7,28 @@
   bottom: 0;
   left: 0;
   transform: translateZ(0);
-  z-index:10;
+  z-index: 10;
 }
 .hiddenBase {
   composes: base;
   position: relative;
-  height:260px;
+  height: 260px;
   left: initial;
   bottom: initial;
   opacity: 0;
   pointer-events: none;
   margin-top: 10px;
 }
-.hiddenBaseContracted{
-  composes:hiddenBase;
-  height:75px;
+.hiddenBaseContracted {
+  composes: hiddenBase;
+  height: 75px;
 }
 .visibleBase {
   composes: base;
   background: #fff;
   position: relative;
   border-radius: 4px;
-  z-index:initial;
-  margin-top:20px;
+  z-index: initial;
 }
 .visibleBase .amount,
 .visibleBase .informationQuestionHolder,
@@ -116,13 +115,34 @@
 .visiblePayableSection {
   width: 100%;
   height: auto;
-  padding: 15px 0;
-  border-top: solid 1px #ececec;
-  border-bottom: solid 1px #ececec;
+  margin-bottom: 10px;
 }
 .visiblePayableSection .informationQuestionHolder,
 .visiblePayableSection .informationAnswerHolder {
   font-family: semibold;
+}
+.informationDiscountHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.informationDiscountHolder .informationQuestionHolder,
+.informationDiscountHolder .informationAnswerHolder {
+  font-family: light;
+  color: #417505;
+}
+.informationAdditionalDiscountHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  margin-bottom: 12px;
+  padding-left: 15px;
+}
+.informationAdditionalDiscountHolder .informationQuestionHolder,
+.informationAdditionalDiscountHolder .informationAnswerHolder {
+  font-family: light;
+  color: #417505;
 }
 .savingSection {
   width: 100%;
@@ -136,7 +156,7 @@
 }
 
 .informationQuestionHolder {
-  width: 40%;
+  width: 60%;
   height: auto;
   color: #fff;
   font-size: 14px;
@@ -145,7 +165,7 @@
   font-family: semibold;
 }
 .informationAnswerHolder {
-  width: 60%;
+  width: 40%;
   height: auto;
   color: #fff;
   font-size: 14px;
@@ -171,14 +191,19 @@
   line-height: 20px;
   margin-top: 20px;
 }
-.imgFluid{
+.imgFluid {
   display: block;
   max-width: 100%;
   margin-top: 20px;
 }
-.imgFluidPadding{
+.imgFluidPadding {
   display: block;
   max-width: 100%;
   margin-top: 20px;
+  padding: 0 15px;
+}
+.cartAmountWrapper {
+  display: block;
+  max-width: 100%;
   padding: 0 15px;
 }
