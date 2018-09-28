@@ -6,6 +6,7 @@ import {
 import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants.js";
 import SizeSelectModal from "../components/SizeSelectModal";
 import { displayToast } from "../../general/toast.actions.js";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: productCode => {
@@ -21,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       ) {
         dispatch(displayToast(ADD_TO_BAG_TEXT));
       }
+    },
+    buyNow: productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     }
   };
 };

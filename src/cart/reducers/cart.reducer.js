@@ -946,7 +946,6 @@ const cart = (
       );
 
       // here is where I need to destroy the cart details
-      Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,

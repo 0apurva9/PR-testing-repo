@@ -83,6 +83,11 @@ then in this case we have to hit generate temp cart id for user
       }
     }
   }
+  componentWillUnmount() {
+    if (localStorage.getItem(BUY_NOW_PRODUCT_DETAIL)) {
+      localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
+    }
+  }
   async goForBuyNow() {
     const productDetailsForBuyNow = localStorage.getItem(
       BUY_NOW_PRODUCT_DETAIL
