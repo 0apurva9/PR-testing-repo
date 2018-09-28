@@ -724,7 +724,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
     }
   };
 
-  const getProductData = getProductsDigitalData(response, true);
+  const getProductData = getProductsDigitalData(response, true); //if we pass second parameter as true ; that the product is reverse.
   if (getProductData) {
     let {
       productIdsArray,
