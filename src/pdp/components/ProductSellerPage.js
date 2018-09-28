@@ -63,7 +63,7 @@ class ProductSellerPage extends Component {
       ? this.state.winningUssID
       : this.props.productDetails.winningUssID;
     if (buyNowFlag) {
-      if (checkUserLoggedIn()) {
+      if (!checkUserLoggedIn()) {
         localStorage.setItem(
           BUY_NOW_PRODUCT_DETAIL,
           JSON.stringify(productDetails)

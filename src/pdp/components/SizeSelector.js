@@ -51,7 +51,7 @@ export default class SizeSelector extends React.Component {
         };
 
         if (this.props.buyNowFlag) {
-          if (checkUserLoggedIn()) {
+          if (!checkUserLoggedIn()) {
             localStorage.setItem(
               BUY_NOW_PRODUCT_DETAIL,
               JSON.stringify(productDetailsObj)
