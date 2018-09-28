@@ -219,6 +219,7 @@ class CartPage extends React.Component {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
     if (!customerCookie || !userDetails) {
+      setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
       return this.navigateToLogin();
     }
     let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
