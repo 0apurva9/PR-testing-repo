@@ -22,7 +22,7 @@ export default class EmiSectionDesktop extends React.Component {
     }
   }
   tabChange(val) {
-    this.setState({ isSelect: val });
+    this.setState({ isSelect: val, isOpen: 0 });
     if (this.props.selectBank) {
       this.props.selectBank([this.props.emiData[val].code]);
     }
@@ -36,11 +36,13 @@ export default class EmiSectionDesktop extends React.Component {
       this.props.confirmPlan();
     }
   }
-  handleSelectPlanForDesktop = val => {
+  handleSelectPlanForDesktop = (val, i) => {
+    this.setState({ isOpen: i });
     if (this.props.selectPlan) {
       this.props.selectPlan(val);
     }
   };
+
   render() {
     const bankListData = this.props && this.props.emiData;
     const bankDetails =
@@ -84,7 +86,10 @@ export default class EmiSectionDesktop extends React.Component {
                       key={i}
                       offset={15}
                       activeBackground="#f9f9f9"
-                      onOpen={() => this.handleSelectPlanForDesktop(val)}
+                      textAlign="left"
+                      widthForText1="60%"
+                      widthForText2="40%"
+                      onOpen={() => this.handleSelectPlanForDesktop(val, i)}
                       isOpen={this.state.isOpen === i}
                     >
                       <div className={styles.tenureDataHolder}>

@@ -58,13 +58,11 @@
   font-size: 13px;
 }
 .text1 {
-  width: 50%;
   display: inline-block;
   vertical-align: top;
   text-align: left;
 }
 .text2 {
-  width: 50%;
   display: inline-block;
   vertical-align: top;
 }
@@ -78,5 +76,8 @@
   }
   .faqQuestion {
     font-size: 14px;
+  }
+  .holder {
+    padding-right: 40px;
   }
 }

@@ -70,7 +70,8 @@ export default class Accordion extends React.Component {
                 style={{
                   color: this.props.text1Color,
                   fontSize: this.props.text1Size,
-                  fontFamily: this.props.text1FontFamily
+                  fontFamily: this.props.text1FontFamily,
+                  width: this.props.widthForText1
                 }}
                 className={styles.text1}
               >
@@ -84,7 +85,8 @@ export default class Accordion extends React.Component {
                   color: this.props.text2Color,
                   fontSize: this.props.text2Size,
                   fontFamily: this.props.text2FontFamily,
-                  textAlign: this.props.textAlign
+                  textAlign: this.props.textAlign,
+                  width: this.props.widthForText2
                 }}
                 className={styles.text2}
               >
@@ -129,5 +131,7 @@ Accordion.defaultProps = {
   text2Color: "#000",
   text2Size: "14",
   text2FontFamily: "regular",
-  textAlign: "left"
+  textAlign: "left",
+  widthForText1: "50%",
+  widthForText2: "50%"
 };
