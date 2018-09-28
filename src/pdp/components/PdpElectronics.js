@@ -167,7 +167,7 @@ export default class PdpElectronics extends React.Component {
         this.props.displayToast("Product is out of stock");
       } else {
         if (buyNowFlag) {
-          if (checkUserLoggedIn()) {
+          if (!checkUserLoggedIn()) {
             localStorage.setItem(
               BUY_NOW_PRODUCT_DETAIL,
               JSON.stringify(productDetails)

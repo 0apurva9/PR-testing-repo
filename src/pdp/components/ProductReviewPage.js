@@ -166,7 +166,7 @@ class ProductReviewPage extends Component {
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
     if (buyNowFlag) {
-      if (checkUserLoggedIn()) {
+      if (!checkUserLoggedIn()) {
         localStorage.setItem(
           BUY_NOW_PRODUCT_DETAIL,
           JSON.stringify(productDetails)
