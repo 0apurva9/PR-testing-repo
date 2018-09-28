@@ -181,7 +181,7 @@ export default class PdpJewellery extends React.Component {
           this.checkIfSizeDoesNotExist()
         ) {
           if (buyNowFlag) {
-            if (checkUserLoggedIn()) {
+            if (!checkUserLoggedIn()) {
               localStorage.setItem(
                 BUY_NOW_PRODUCT_DETAIL,
                 JSON.stringify(productDetails)
