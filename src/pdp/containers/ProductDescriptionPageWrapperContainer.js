@@ -75,8 +75,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
     },
-    getPdpEmi: (token, cartValue) => {
-      dispatch(getPdpEmi(token, cartValue));
+    getPdpEmi: (token, cartValue, productCode, ussId) => {
+      dispatch(getPdpEmi(token, cartValue, productCode, ussId));
     },
     getEmiTerms: (token, productValue) => {
       dispatch(getEmiTerms(token, productValue));

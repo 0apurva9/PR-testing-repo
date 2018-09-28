@@ -8,7 +8,9 @@
   line-height: 22px;
   padding: 0 15px;
 }
-
+.noCostEmi {
+  font-family: regular;
+}
 .link {
   font-size: 14px;
   color: #ff1744;
