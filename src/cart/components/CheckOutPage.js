@@ -720,7 +720,12 @@ class CheckOutPage extends React.Component {
           : "0.00"
       });
     }
-
+    if (nextProps.cart.isNoCostEmiApplied && !this.state.isNoCostEmiApplied) {
+      this.setState({
+        isNoCostEmiApplied: true,
+        isNoCostEmiProceeded: false
+      });
+    }
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&

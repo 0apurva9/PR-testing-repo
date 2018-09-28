@@ -24,7 +24,9 @@ import {
   SHORT_COLLECT,
   HOME_DELIVERY,
   EXPRESS,
-  COLLECT
+  COLLECT,
+  BANK_OFFER_TYPE,
+  NCE_OFFER_TYPE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -33,7 +35,8 @@ import {
   showModal,
   EMI_ITEM_LEVEL_BREAKAGE,
   EMI_BANK_TERMS_AND_CONDITIONS,
-  INVALID_BANK_COUPON_POPUP
+  INVALID_BANK_COUPON_POPUP,
+  VALIDATE_OFFERS_POPUP
 } from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -369,6 +372,7 @@ const PAYMENT_EMI = "EMI";
 const CASH_ON_DELIVERY = "COD";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_1 = "B9078";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 export const CART_ITEM_COOKIE = "cartItems";
 export const ADDRESS_FOR_PLACE_ORDER = "orderAddress";
@@ -1688,7 +1692,7 @@ export function getPaymentModes(guId) {
           JSON.parse(userDetails).userName
         }/payments/getPaymentModes?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1763,8 +1767,17 @@ export function applyBankOffer(couponCode) {
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
           couponCode
         );
-        if (resultJson.couponMessage) {
-          throw new Error(resultJson.couponMessage);
+        if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
+          const redoCall = () => dispatch(applyBankOffer(couponCode));
+          dispatch(applyBankOfferFailure(resultJsonStatus.message));
+          return dispatch(
+            showModal(VALIDATE_OFFERS_POPUP, {
+              result: resultJson,
+              offerType: BANK_OFFER_TYPE,
+              couponCode,
+              redoCall
+            })
+          );
         } else {
           throw new Error(resultJsonStatus.message);
         }
@@ -2033,7 +2046,7 @@ export function binValidationForNetBanking(paymentMode, bankName) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
+        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2421,7 +2434,7 @@ export function createJusPayOrder(
           jusPayUrl
         )}&bankName=${
           bankName ? bankName : ""
-        }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}`,
+        }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2485,7 +2498,7 @@ export function createJusPayOrderForGiftCard(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&channel=${CHANNEL}`
+        }&channel=${CHANNEL}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2539,7 +2552,7 @@ export function createJusPayOrderForNetBanking(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}`,
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2592,7 +2605,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}`
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2656,7 +2669,7 @@ export function createJusPayOrderForSavedCards(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true&channel=${CHANNEL}`,
+        }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
         cartItem
       );
       const resultJson = await result.json();
@@ -2717,7 +2730,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true&channel=${CHANNEL}`
+        }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2777,7 +2790,7 @@ export function createJusPayOrderForCliqCash(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}`,
+        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
         cartItem
       );
       const resultJson = await result.json();
@@ -3910,7 +3923,7 @@ export function getBankAndTenureDetails() {
           JSON.parse(userDetails).userName
         }/payments/noCostEmiTenureList?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartId}`
+        }&cartGuid=${cartId}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4012,13 +4025,27 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/applyNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
+          const redoCall = () =>
+            dispatch(applyNoCostEmi(couponCode, cartGuId, cartId));
+          dispatch(applyNoCostEmiFailure(resultJsonStatus.message));
+          return dispatch(
+            showModal(VALIDATE_OFFERS_POPUP, {
+              result: resultJson,
+              offerType: NCE_OFFER_TYPE,
+              couponCode,
+              redoCall
+            })
+          );
+        } else {
+          throw new Error(resultJsonStatus.message);
+        }
       }
       return dispatch(applyNoCostEmiSuccess(resultJson, couponCode));
     } catch (e) {
@@ -4078,7 +4105,7 @@ export function removeNoCostEmi(couponCode, cartGuId, cartId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
 
