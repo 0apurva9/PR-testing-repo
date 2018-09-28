@@ -709,7 +709,6 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
   if (categoryHierarchy) {
     Object.assign(data.page.category, categoryHierarchy);
   }
-
   return data;
 }
 
@@ -725,7 +724,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
     }
   };
 
-  const getProductData = getProductsDigitalData(response);
+  const getProductData = getProductsDigitalData(response, true); //if we pass second parameter as true ; that the product is reverse.
   if (getProductData) {
     let {
       productIdsArray,
@@ -757,7 +756,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
 // this function will update data with  cpj.proudct.id with
 // reponse product's ids . this is using in many place thats why we
 // need to make separate function for product ids
-function getProductsDigitalData(response) {
+function getProductsDigitalData(response, isReverse) {
   if (response && response.products && response.products.length > 0) {
     let productIdsArray = [],
       productQuantityArray = [],
@@ -790,14 +789,26 @@ function getProductsDigitalData(response) {
         product.productBrand &&
           product.productBrand.replace(/ /g, "_").toLowerCase()
       );
-      categoryArray.push(
-        product.categoryHierarchy &&
-          product.categoryHierarchy[0] &&
-          product.categoryHierarchy[0].category_name &&
-          product.categoryHierarchy[0].category_name
-            .replace(/ /g, "_")
-            .toLowerCase()
-      );
+      if (isReverse) {
+        let reverseProduct =
+          product &&
+          product.categoryHierarchy &&
+          product.categoryHierarchy.reverse();
+        categoryArray.push(
+          reverseProduct &&
+            reverseProduct[0].category_name &&
+            reverseProduct[0].category_name.replace(/ /g, "_").toLowerCase()
+        );
+      } else {
+        categoryArray.push(
+          product.categoryHierarchy &&
+            product.categoryHierarchy[0] &&
+            product.categoryHierarchy[0].category_name &&
+            product.categoryHierarchy[0].category_name
+              .replace(/ /g, "_")
+              .toLowerCase()
+        );
+      }
     });
     return {
       productIdsArray,
