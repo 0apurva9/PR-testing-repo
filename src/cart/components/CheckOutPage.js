@@ -89,7 +89,9 @@ import {
   SELECTED_DELIVERY_MODE,
   SHORT_EXPRESS,
   SHORT_COLLECT,
-  SHORT_HOME_DELIVERY
+  SHORT_HOME_DELIVERY,
+  PAYPAL,
+  E_WALLET_PAYPAL
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1497,6 +1499,21 @@ class CheckOutPage extends React.Component {
         );
       }
     }
+    if (this.state.paymentModeSelected === PAYPAL) {
+      if (this.state.isGiftCard) {
+        if (this.props.createJusPayOrderForGiftCardNetBanking) {
+          this.props.createJusPayOrderForGiftCardNetBanking(
+            this.state.egvCartGuid
+          );
+        }
+      } else {
+        this.props.createJusPayOrderForNetBanking(
+          PAYPAL,
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE))
+        );
+      }
+    }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
       this.props.createJusPayOrderForCliqCash(
         localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
@@ -1636,6 +1653,21 @@ class CheckOutPage extends React.Component {
           this.softReservationPaymentForWallet(PAYTM);
         }
       }
+      if (this.state.paymentModeSelected === PAYPAL) {
+        if (this.state.isGiftCard) {
+          this.props.createJusPayOrderForGiftCardNetBanking(
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
+          );
+        } else {
+          this.props.softReservationPaymentForNetBanking(
+            WALLET,
+            PAYPAL,
+            "",
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          );
+        }
+      }
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
@@ -1753,6 +1785,17 @@ class CheckOutPage extends React.Component {
       this.setState({ paymentModeSelected: PAYTM });
       this.props.binValidation(PAYTM, "");
     } else {
+      this.setState({ paymentModeSelected: null });
+    }
+  };
+  selectPayPal = val => {
+    if (val) {
+      localStorage.setItem(PAYMENT_MODE_TYPE, PAYPAL);
+      this.setState({ paymentModeSelected: PAYPAL });
+    } else {
+      if (localStorage.getItem(PAYMENT_MODE_TYPE)) {
+        localStorage.removeItem(PAYMENT_MODE_TYPE);
+      }
       this.setState({ paymentModeSelected: null });
     }
   };
@@ -2080,6 +2123,15 @@ class CheckOutPage extends React.Component {
 
         checkoutButtonStatus = true;
       }
+    } else if (this.state.currentPaymentMode === E_WALLET_PAYPAL) {
+      if (this.state.paymentModeSelected === PAYPAL) {
+        labelForButton = PAY_NOW;
+        checkoutButtonStatus = false;
+      } else {
+        labelForButton = CONTINUE;
+
+        checkoutButtonStatus = true;
+      }
     } else if (this.state.currentPaymentMode === null) {
       labelForButton = CONTINUE;
       checkoutButtonStatus = true;
@@ -2294,6 +2346,7 @@ class CheckOutPage extends React.Component {
                 onBlur={() => this.onBlue()}
                 addGiftCard={() => this.addGiftCard()}
                 binValidationForPaytm={val => this.binValidationForPaytm(val)}
+                selectPayPal={val => this.selectPayPal(val)}
                 displayToast={message => this.props.displayToast(message)}
                 getCODEligibility={() => this.getCODEligibility()}
                 getNetBankDetails={() => this.getNetBankDetails()}

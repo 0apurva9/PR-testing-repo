@@ -24,7 +24,8 @@ import {
   SHORT_COLLECT,
   HOME_DELIVERY,
   EXPRESS,
-  COLLECT
+  COLLECT,
+  PAYPAL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1662,7 +1663,7 @@ export function softReservation() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(eddInCommerce());
+      // dispatch(eddInCommerce());
       dispatch(getOrderSummary(pinCode));
       dispatch(softReservationSuccess(resultJson.reservationItem));
     } catch (e) {
@@ -3077,13 +3078,18 @@ export function jusPayPaymentMethodTypeForNetBanking(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
+    const currentPaymentMethod = localStorage.getItem(PAYMENT_MODE_TYPE);
     let cardObject = new FormData();
     cardObject.append("payment_method_type", paymentMethodType);
     cardObject.append("redirect_after_payment", "true");
     cardObject.append("format", "json");
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
     cardObject.append("order_id", juspayOrderId);
-    cardObject.append("payment_method", bankName);
+    if (currentPaymentMethod === PAYPAL) {
+      cardObject.append("payment_method", currentPaymentMethod);
+    } else {
+      cardObject.append("payment_method", bankName);
+    }
 
     dispatch(jusPayPaymentMethodTypeRequest());
     dispatch(jusPayPaymentMethodTypeRequest());
