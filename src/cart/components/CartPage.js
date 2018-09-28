@@ -37,8 +37,7 @@ import {
 import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayerForCartDirectCalls,
-  ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT,
-  ADOBE_DIRECT_CALL_FOR_CART_TO_CHECKOUT
+  ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT
 } from "../../lib/adobeUtils";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
@@ -221,7 +220,7 @@ class CartPage extends React.Component {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
     if (!customerCookie || !userDetails) {
-      setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CART_TO_CHECKOUT);
+      setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
       return this.navigateToLogin();
     }
     let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
