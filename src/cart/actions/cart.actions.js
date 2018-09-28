@@ -2581,13 +2581,23 @@ export function createJusPayOrderForNetBanking(
           throw new Error(resultJson.message);
         }
       }
-      dispatch(
-        jusPayPaymentMethodTypeForNetBanking(
-          paymentMethodType,
-          resultJson.juspayOrderId,
-          bankName
-        )
-      );
+      if (currentSelectedPaymentMode === PAYPAL) {
+        dispatch(
+          jusPayPaymentMethodTypeForPaypal(
+            paymentMethodType,
+            resultJson.juspayOrderId,
+            bankName
+          )
+        );
+      } else {
+        dispatch(
+          jusPayPaymentMethodTypeForNetBanking(
+            paymentMethodType,
+            resultJson.juspayOrderId,
+            bankName
+          )
+        );
+      }
     } catch (e) {
       dispatch(createJusPayOrderFailure(e.message));
     }
@@ -3078,23 +3088,63 @@ export function jusPayPaymentMethodTypeForNetBanking(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const currentPaymentMethod = localStorage.getItem(PAYMENT_MODE_TYPE);
     let cardObject = new FormData();
     cardObject.append("payment_method_type", paymentMethodType);
     cardObject.append("redirect_after_payment", "true");
     cardObject.append("format", "json");
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
     cardObject.append("order_id", juspayOrderId);
-    if (currentPaymentMethod === PAYPAL) {
-      cardObject.append("payment_method", currentPaymentMethod);
-    } else {
-      cardObject.append("payment_method", bankName);
-    }
-
+    cardObject.append("payment_method", bankName);
     dispatch(jusPayPaymentMethodTypeRequest());
     dispatch(jusPayPaymentMethodTypeRequest());
     try {
       const result = await api.postJusPay(`txns?`, cardObject);
+      const resultJson = await result.json();
+
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+        dispatch(generateCartIdForLoggedInUser());
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+export function jusPayPaymentMethodTypeForPaypal(
+  paymentMethodType,
+  juspayOrderId,
+  bankName
+) {
+  return async (dispatch, getState, { api }) => {
+    const params = {
+      payment_method_type: paymentMethodType,
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      order_id: juspayOrderId,
+      payment_method: "PAYPAL"
+    };
+
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
+
+    dispatch(jusPayPaymentMethodTypeRequest());
+    dispatch(jusPayPaymentMethodTypeRequest());
+    try {
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
       const resultJson = await result.json();
 
       if (
