@@ -3600,7 +3600,7 @@ export function eddInCommerce() {
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    const cartId = JSON.parse(cartDetails).guid;
+    const cartId = JSON.parse(cartDetails).code;
 
     dispatch(eddInCommerceRequest());
     try {
@@ -3612,6 +3612,7 @@ export function eddInCommerce() {
         }`
       );
       const resultJson = await result.json();
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
