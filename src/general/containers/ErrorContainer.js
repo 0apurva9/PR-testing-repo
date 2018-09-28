@@ -24,7 +24,7 @@ const mapStateToProps = state => {
     cartDetailsCNCError: state.cart.cartDetailsCNCError,
     couponError: state.cart.couponError,
     paymentsModeError: state.cart.paymentsModeError,
-    bankOfferError: state.cart.bankOfferError,
+    // bankOfferError: state.cart.bankOfferError,
     cliqCashPaymentStatusError: state.cart.cliqCashPaymentStatusError,
     jusPayError: state.cart.jusPayError,
     transactionDetailsError: state.cart.transactionDetailsError,
@@ -73,7 +73,7 @@ const mapStateToProps = state => {
     emiEligibilityError: state.cart.emiEligibilityError,
     bankAndTenureError: state.cart.bankAndTenureError,
     emiTermsAndConditionError: state.cart.emiTermsAndConditionError,
-    noCostEmiError: state.cart.noCostEmiError,
+    // noCostEmiError: state.cart.noCostEmiError,
     emiItemBreakUpError: state.cart.emiItemBreakUpError,
     emiBankError: state.cart.emiBankError,
     reSendEmailError: state.profile.reSendEmailError
