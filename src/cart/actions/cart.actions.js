@@ -1155,6 +1155,7 @@ export function generateCartIdForLoggedInUserSuccess(cartDetails) {
 }
 
 export function generateCartIdForLoggedInUser() {
+  debugger;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -2818,10 +2819,14 @@ export function createJusPayOrderForCliqCash(
           throw new Error(resultJson.message);
         }
       }
-      dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
-      dispatch(setBagCount(0));
-      localStorage.setItem(CART_BAG_DETAILS, []);
-      dispatch(generateCartIdForLoggedInUser());
+      const getCartAgainResponse = await dispatch(
+        generateCartIdAfterOrderPlace()
+      );
+      if (getCartAgainResponse) {
+        dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+      }
     } catch (e) {
       dispatch(createJusPayOrderFailure(e.message));
     }
@@ -2979,13 +2984,19 @@ export function jusPayPaymentMethodType(
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === JUS_PAY_CHARGED
       ) {
+        // const getCartAgainResponse = await dispatch(
+        //   generateCartIdAfterOrderPlace()
+        // );
+        // console.log(getCartAgainResponse)
+        // if (getCartAgainResponse) {
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
         if (localStorage.getItem(EMI_TYPE)) {
           localStorage.removeItem(EMI_TYPE);
+          // }
         }
-        dispatch(generateCartIdForLoggedInUser());
+        dispatch(generateCartIdAfterOrderPlace());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -3021,10 +3032,15 @@ export function jusPayPaymentMethodTypeForSavedCards(
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === JUS_PAY_CHARGED
       ) {
-        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
-        dispatch(setBagCount(0));
-        localStorage.setItem(CART_BAG_DETAILS, []);
-        dispatch(generateCartIdForLoggedInUser());
+        const getCartAgainResponse = await dispatch(
+          generateCartIdAfterOrderPlace()
+        );
+        if (getCartAgainResponse) {
+          dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+          dispatch(setBagCount(0));
+          localStorage.setItem(CART_BAG_DETAILS, []);
+        }
+        // dispatch(generateCartIdAfterOrderPlace());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -3098,10 +3114,15 @@ export function jusPayPaymentMethodTypeForNetBanking(
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === JUS_PAY_CHARGED
       ) {
-        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
-        dispatch(setBagCount(0));
-        localStorage.setItem(CART_BAG_DETAILS, []);
-        dispatch(generateCartIdForLoggedInUser());
+        const getCartAgainResponse = await dispatch(
+          generateCartIdAfterOrderPlace()
+        );
+        if (getCartAgainResponse) {
+          dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+          dispatch(setBagCount(0));
+          localStorage.setItem(CART_BAG_DETAILS, []);
+        }
+        // dispatch(generateCartIdAfterOrderPlace());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -4514,6 +4535,30 @@ export function mergeTempCartWithOldCart() {
       dispatch(mergeTempCartWithOldCartSuccess(resultJson));
     } catch (e) {
       dispatch(mergeTempCartWithOldCartFailure(e.message));
+    }
+  };
+}
+export function generateCartIdAfterOrderPlace() {
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  cartDetails = cartDetails ? JSON.parse(cartDetails) : {};
+  return async (dispatch, getState, { api }) => {
+    console.log(cartDetails);
+    debugger;
+    if (!cartDetails.isBuyNowCart) {
+      return dispatch(generateCartIdForLoggedInUser());
+    } else {
+      const getCartIdResponse = await dispatch(getCartId());
+      if (getCartIdResponse.status === SUCCESS) {
+        debugger;
+        Cookie.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(getCartIdResponse.cartDetails)
+        );
+        Cookie.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+        return getCartIdResponse;
+      } else {
+        return dispatch(generateCartIdForLoggedInUser());
+      }
     }
   };
 }
