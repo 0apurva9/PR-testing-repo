@@ -3,7 +3,7 @@ import styles from "./PayPalOptions.css";
 import PropTypes from "prop-types";
 import MenuDetails from "../../general/components/MenuDetails.js";
 import CheckBox from "../../general/components/CheckBox.js";
-import eWalletIcon from "./img/ewallet.svg";
+import eWalletIcon from "./img/paypalLogo.png";
 import paypalLogo from "./img/paypal.png";
 import Logo from "../../general/components/Logo";
 import { E_WALLET_PAYPAL } from "../../lib/constants";

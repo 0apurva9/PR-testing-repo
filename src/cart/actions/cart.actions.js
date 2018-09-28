@@ -1663,7 +1663,7 @@ export function softReservation() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      // dispatch(eddInCommerce());
+      dispatch(eddInCommerce());
       dispatch(getOrderSummary(pinCode));
       dispatch(softReservationSuccess(resultJson.reservationItem));
     } catch (e) {
