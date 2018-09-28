@@ -8,10 +8,8 @@ import {
 import { displayToast } from "../../general/toast.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
-      return dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      );
+    addProductToCart: async productDetails => {
+      return dispatch(addProductToCart(productDetails));
     },
     getProductDescription: productCode => {
       dispatch(getProductDescription(productCode));

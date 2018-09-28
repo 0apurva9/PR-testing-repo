@@ -11,7 +11,8 @@ import {
   updateQuantityInCartLoggedOut,
   displayCouponsForLoggedInUser,
   displayCouponsForAnonymous,
-  clearCartDetails
+  clearCartDetails,
+  mergeTempCartWithOldCart
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -145,6 +146,9 @@ const mapDispatchToProps = dispatch => {
     },
     addressModal: pinCodeObj => {
       dispatch(showModal(ADDRESS, pinCodeObj));
+    },
+    mergeTempCartWithOldCart: () => {
+      dispatch(mergeTempCartWithOldCart());
     }
   };
 };

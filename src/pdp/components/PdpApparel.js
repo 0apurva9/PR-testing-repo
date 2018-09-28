@@ -21,7 +21,10 @@ import {
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
   NO,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  COLLECT
+  COLLECT,
+  BUY_NOW_PRODUCT_DETAIL,
+  LOGIN_PATH,
+  SUCCESS
 } from "../../lib/constants";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
@@ -150,19 +153,17 @@ export default class PdpApparel extends React.Component {
     });
   };
 
-  addToCart = buyNowFlag => {
+  addToCart = async buyNowFlag => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
     } else {
@@ -180,24 +181,21 @@ export default class PdpApparel extends React.Component {
           this.checkIfNoSize() ||
           parsedQueryString.addToBagAmp === "true"
         ) {
-          if (userDetails) {
-            if (cartDetailsLoggedInUser && customerCookie) {
-              return this.props.addProductToCart(
-                JSON.parse(userDetails).userName,
-                JSON.parse(cartDetailsLoggedInUser).code,
-                JSON.parse(customerCookie).access_token,
-                productDetails
+          if (buyNowFlag) {
+            if (!(customerCookie || userDetails || cartDetailsLoggedInUser)) {
+              localStorage.setItem(
+                BUY_NOW_PRODUCT_DETAIL,
+                JSON.stringify(productDetails)
               );
+              this.props.history.push(LOGIN_PATH);
+            } else {
+              const buyNowResponse = await this.props.buyNow(productDetails);
+              if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+                this.props.history.push(PRODUCT_CART_ROUTER);
+              }
             }
           } else {
-            if (cartDetailsAnonymous && globalCookie) {
-              return this.props.addProductToCart(
-                ANONYMOUS_USER,
-                JSON.parse(cartDetailsAnonymous).guid,
-                JSON.parse(globalCookie).access_token,
-                productDetails
-              );
-            }
+            return this.props.addProductToCart(productDetails);
           }
         } else {
           this.showSizeSelector(buyNowFlag);

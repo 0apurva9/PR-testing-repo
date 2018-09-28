@@ -33,6 +33,7 @@ import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
@@ -47,10 +48,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
       }
     },
-    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
-      return dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      );
+    addProductToCart: async productDetails => {
+      return dispatch(addProductToCart(productDetails));
+    },
+    buyNow: async productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     },
     showSizeSelector: data => {
       dispatch(showModal(SIZE_SELECTOR, data));
