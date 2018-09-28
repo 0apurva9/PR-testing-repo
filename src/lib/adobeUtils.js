@@ -844,7 +844,7 @@ function getProductCategoryHierarchy(response) {
     return null;
   }
 }
-function getCategoryHierarchy(response, isReverse) {
+function getCategoryHierarchy(response) {
   let subCategory1 = [],
     subCategory2 = [],
     subCategory3 = [];
