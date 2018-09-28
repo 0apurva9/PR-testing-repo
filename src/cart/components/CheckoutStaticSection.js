@@ -8,11 +8,13 @@ export default class CheckoutStaticSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isToggle: false
+      isToggelAdditionDiscount: false
     };
   }
-  toggleView = () => {
-    this.setState({ isToggle: !this.state.isToggle });
+  additionDiscountToggleView = () => {
+    this.setState({
+      isToggelAdditionDiscount: !this.state.isToggelAdditionDiscount
+    });
   };
   render() {
     let classOffers = styles.informationAnswerHolder;
@@ -135,14 +137,14 @@ export default class CheckoutStaticSection extends React.Component {
                   <div>
                     <div
                       className={styles.informationDiscountHolder}
-                      onClick={() => this.toggleView()}
+                      onClick={() => this.additionDiscountToggleView()}
                     >
                       <div className={styles.informationQuestionHolder}>
                         <span>Additional Discount(s)</span>
-                        {!this.state.isToggle && (
+                        {!this.state.isToggelAdditionDiscount && (
                           <span className={styles.toggleIcon} />
                         )}
-                        {this.state.isToggle && (
+                        {this.state.isToggelAdditionDiscount && (
                           <span className={styles.onToggleActive} />
                         )}
                       </div>
@@ -153,7 +155,7 @@ export default class CheckoutStaticSection extends React.Component {
                             .formattedValue}
                       </div>
                     </div>
-                    {this.state.isToggle && (
+                    {this.state.isToggelAdditionDiscount && (
                       <div
                         className={styles.informationAdditionalDiscountHolder}
                       >
