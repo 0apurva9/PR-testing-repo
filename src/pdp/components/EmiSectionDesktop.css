@@ -35,7 +35,7 @@
   height: auto;
   color: #212121;
   font-size: 14px;
-  display: flex;
+
   margin-bottom: 30px;
   cursor: pointer;
   font-family: light;
@@ -60,6 +60,7 @@
   height: auto;
   display: flex;
   flex-direction: column;
+  padding-right: 40px;
 }
 .textAndAmountHolder {
   width: 100%;
@@ -69,7 +70,7 @@
   margin-bottom: 15px;
 }
 .textHolder {
-  width: 68%;
+  width: 60%;
   height: auto;
   display: flex;
   justify-content: flex-start;
@@ -78,7 +79,7 @@
   font-family: light;
 }
 .amountHolder {
-  width: 32%;
+  width: 40%;
   height: auto;
   display: flex;
   justify-content: flex-start;
