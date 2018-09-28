@@ -49,6 +49,11 @@
   text-align: center;
   transform: translate(-50%, -50%);
 }
+.imageWithSize {
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+}
 @media screen and (min-width: 1025px) {
   .base {
     display: inline-block;
