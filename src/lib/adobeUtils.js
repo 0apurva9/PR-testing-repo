@@ -654,7 +654,7 @@ function getDigitalDataForCart(type, cartResponse) {
   const productCategoryHierarchy = getProductCategoryHierarchy(
     cartResponse,
     true
-  ); //here we second parameter as true because we need to set second level
+  ); //here we set second parameter as true because we need to set second level
   if (productCategoryHierarchy) {
     if (data.cpj && data.cpj.product) {
       Object.assign(data.cpj.product, {
@@ -683,7 +683,7 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
       }
     }
   };
-  const getProductData = getProductsDigitalData(CheckoutResponse, false, true); //here we second parameter as true because we need to set second level
+  const getProductData = getProductsDigitalData(CheckoutResponse, false, true); //here we set third parameter as true because we need to set second level
   if (getProductData) {
     let {
       productIdsArray,
