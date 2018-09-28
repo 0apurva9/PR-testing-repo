@@ -12,24 +12,23 @@ import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import queryString, { parse } from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  ANONYMOUS_USER,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
   NO,
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  COLLECT
+  COLLECT,
+  LOGIN_PATH,
+  SUCCESS,
+  BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
@@ -152,19 +151,12 @@ export default class PdpElectronics extends React.Component {
       }
     });
   };
-  addToCart = () => {
+  addToCart = async buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
 
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
     } else {
@@ -174,25 +166,21 @@ export default class PdpElectronics extends React.Component {
       ) {
         this.props.displayToast("Product is out of stock");
       } else {
-        if (userDetails) {
-          if (
-            cartDetailsLoggedInUser !== undefined &&
-            customerCookie !== undefined
-          ) {
-            return this.props.addProductToCart(
-              JSON.parse(userDetails).userName,
-              JSON.parse(cartDetailsLoggedInUser).code,
-              JSON.parse(customerCookie).access_token,
-              productDetails
+        if (buyNowFlag) {
+          if (!checkUserLoggedIn()) {
+            localStorage.setItem(
+              BUY_NOW_PRODUCT_DETAIL,
+              JSON.stringify(productDetails)
             );
+            this.props.history.push(LOGIN_PATH);
+          } else {
+            const buyNowResponse = await this.props.buyNow(productDetails);
+            if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+              this.props.history.push(PRODUCT_CART_ROUTER);
+            }
           }
-        } else if (cartDetailsAnonymous) {
-          return this.props.addProductToCart(
-            ANONYMOUS_USER,
-            JSON.parse(cartDetailsAnonymous).guid,
-            JSON.parse(globalCookie).access_token,
-            productDetails
-          );
+        } else {
+          return this.props.addProductToCart(productDetails);
         }
       }
     }
@@ -216,11 +204,11 @@ export default class PdpElectronics extends React.Component {
 
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
+    const productCode = this.props.productDetails.productListingId;
+    const ussId = this.props.productDetails.winningUssID;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-
     const globalAccessToken = JSON.parse(globalCookie).access_token;
-    this.props.getPdpEmi(globalAccessToken, cartValue);
-    this.props.getEmiTerms(globalAccessToken, cartValue);
+    this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
   handleShowPiqPage = () => {
@@ -293,7 +281,7 @@ export default class PdpElectronics extends React.Component {
       return (
         <PdpFrame
           displayToast={message => this.props.displayToast(message)}
-          addProductToBag={() => this.addToCart()}
+          addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
           productListingId={productData.productListingId}
@@ -376,6 +364,9 @@ export default class PdpElectronics extends React.Component {
             <PdpPaymentInfo
               hasEmi={productData.isEMIEligible}
               hasCod={productData.isCOD}
+              seStartingPrice={productData.seStartingPrice}
+              nceAvailable={productData.nceAvailable}
+              nceStartingPrice={productData.nceStartingPrice}
               showEmiModal={this.showEmiModal}
             />
             <div className={styles.wishlist}>

@@ -33,6 +33,7 @@ import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
@@ -47,10 +48,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
       }
     },
-    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
-      return dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      );
+    addProductToCart: async productDetails => {
+      return dispatch(addProductToCart(productDetails));
+    },
+    buyNow: async productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     },
     showSizeSelector: data => {
       dispatch(showModal(SIZE_SELECTOR, data));
@@ -73,8 +75,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
     },
-    getPdpEmi: (token, cartValue) => {
-      dispatch(getPdpEmi(token, cartValue));
+    getPdpEmi: (token, cartValue, productCode, ussId) => {
+      dispatch(getPdpEmi(token, cartValue, productCode, ussId));
     },
     getEmiTerms: (token, productValue) => {
       dispatch(getEmiTerms(token, productValue));

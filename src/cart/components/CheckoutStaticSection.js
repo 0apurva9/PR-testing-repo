@@ -5,6 +5,17 @@ import styles from "./Checkout.css";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class CheckoutStaticSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isToggelAdditionDiscount: false
+    };
+  }
+  additionDiscountToggleView = () => {
+    this.setState({
+      isToggelAdditionDiscount: !this.state.isToggelAdditionDiscount
+    });
+  };
   render() {
     let classOffers = styles.informationAnswerHolder;
     if (this.props.offers) {
@@ -21,6 +32,7 @@ export default class CheckoutStaticSection extends React.Component {
           ? `${bagSubTotal}.00`
           : bagSubTotal;
     }
+
     return (
       <React.Fragment>
         {cartAmount && (
@@ -123,9 +135,18 @@ export default class CheckoutStaticSection extends React.Component {
                   )}
                 {cartAmount.additionalDiscount && (
                   <div>
-                    <div className={styles.informationDiscountHolder}>
+                    <div
+                      className={styles.informationDiscountHolder}
+                      onClick={() => this.additionDiscountToggleView()}
+                    >
                       <div className={styles.informationQuestionHolder}>
-                        Additional Discount(s)
+                        <span>Additional Discount(s)</span>
+                        {!this.state.isToggelAdditionDiscount && (
+                          <span className={styles.toggleIcon} />
+                        )}
+                        {this.state.isToggelAdditionDiscount && (
+                          <span className={styles.onToggleActive} />
+                        )}
                       </div>
                       <div className={styles.informationAnswerHolder}>
                         -{cartAmount.additionalDiscount
@@ -134,17 +155,20 @@ export default class CheckoutStaticSection extends React.Component {
                             .formattedValue}
                       </div>
                     </div>
-
-                    <div className={styles.informationAdditionalDiscountHolder}>
-                      <div className={styles.informationQuestionHolder}>
-                        Shipping Charge Discount
+                    {this.state.isToggelAdditionDiscount && (
+                      <div
+                        className={styles.informationAdditionalDiscountHolder}
+                      >
+                        <div className={styles.informationQuestionHolder}>
+                          Shipping Charge Discount
+                        </div>
+                        <div className={styles.informationAnswerHolder}>
+                          -{cartAmount.additionalDiscount.shippingDiscount &&
+                            cartAmount.additionalDiscount.shippingDiscount
+                              .formattedValue}
+                        </div>
                       </div>
-                      <div className={styles.informationAnswerHolder}>
-                        -{cartAmount.additionalDiscount.shippingDiscount &&
-                          cartAmount.additionalDiscount.shippingDiscount
-                            .formattedValue}
-                      </div>
-                    </div>
+                    )}
                   </div>
                 )}
                 {this.props.isCliqCashApplied && (

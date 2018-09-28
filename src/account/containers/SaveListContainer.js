@@ -20,10 +20,8 @@ const mapDispatchToProps = dispatch => {
     setHeaderText: text => {
       dispatch(setHeaderText(text));
     },
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      ).then(result => {
+    addProductToCart: productDetails => {
+      dispatch(addProductToCart(productDetails)).then(result => {
         if (result.status === SUCCESS) {
           dispatch(removeProductFromWishList(productDetails)).then(response => {
             if (response.status === SUCCESS) {
