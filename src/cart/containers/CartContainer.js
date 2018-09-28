@@ -11,7 +11,8 @@ import {
   updateQuantityInCartLoggedOut,
   displayCouponsForLoggedInUser,
   displayCouponsForAnonymous,
-  clearCartDetails
+  clearCartDetails,
+  getPaymentModes
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -47,6 +48,10 @@ const mapDispatchToProps = dispatch => {
     },
     getEmiBankDetails: cartDetails => {
       dispatch(getEmiBankDetails(cartDetails));
+    },
+
+    getPaymentModes: guIdDetails => {
+      dispatch(getPaymentModes(guIdDetails));
     },
     getCartDetails: async (
       cartId,
