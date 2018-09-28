@@ -1155,7 +1155,6 @@ export function generateCartIdForLoggedInUserSuccess(cartDetails) {
 }
 
 export function generateCartIdForLoggedInUser() {
-  debugger;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
