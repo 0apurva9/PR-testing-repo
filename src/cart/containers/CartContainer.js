@@ -12,6 +12,7 @@ import {
   displayCouponsForLoggedInUser,
   displayCouponsForAnonymous,
   clearCartDetails,
+  getPaymentModes,
   mergeTempCartWithOldCart
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
@@ -48,6 +49,10 @@ const mapDispatchToProps = dispatch => {
     },
     getEmiBankDetails: cartDetails => {
       dispatch(getEmiBankDetails(cartDetails));
+    },
+
+    getPaymentModes: guIdDetails => {
+      dispatch(getPaymentModes(guIdDetails));
     },
     getCartDetails: async (
       cartId,

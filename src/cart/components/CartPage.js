@@ -5,6 +5,7 @@ import CheckoutStaticSection from "./CheckoutStaticSection.js";
 import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import styles from "./CartPage.css";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   SUCCESS,
@@ -101,6 +102,7 @@ class CartPage extends React.Component {
     }
     // delete bank coupon localstorage if it is exits.
     // because we user can not have bank offer cookie on cart page
+    this.getPaymentModes();
     if (localStorage.getItem(BANK_COUPON_COOKIE)) {
       localStorage.removeItem(BANK_COUPON_COOKIE);
     }
@@ -198,6 +200,34 @@ class CartPage extends React.Component {
       this.props.releaseCoupon();
     }
   };
+  getPaymentModes = () => {
+    if (
+      (this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.egvCartGuid) ||
+      (this.state.isGiftCard && this.state.egvCartGuid)
+    ) {
+      let egvGiftCartGuId;
+      if (this.state.egvCartGuid) {
+        egvGiftCartGuId = this.state.egvCartGuid;
+      } else {
+        egvGiftCartGuId = this.props.location.state.egvCartGuid;
+      }
+      this.props.getPaymentModes(egvGiftCartGuId);
+    } else {
+      let cartGuId;
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      if (parsedQueryString.value) {
+        cartGuId = parsedQueryString.value;
+      } else {
+        let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        if (cartDetails) {
+          cartGuId = JSON.parse(cartDetails).guid;
+        }
+      }
+      this.props.getPaymentModes(cartGuId);
+    }
+  };
 
   goToCouponPage = () => {
     let couponDetails = Object.assign(this.props.cart.coupons, this.props);
@@ -291,6 +321,27 @@ class CartPage extends React.Component {
       checkPinCodeAvailability: pinCode =>
         this.checkPinCodeAvailability(pinCode)
     });
+  };
+  renderBankOffers = () => {
+    if (this.props.cart.coupons && this.props.cart.coupons.opencouponsList) {
+      return (
+        <div className={styles.card}>
+          <div className={styles.content}>
+            <div className={styles.cardHeading}>Bank Offers</div>
+            {this.props.cart.coupons.opencouponsList.map(val => {
+              return (
+                <div className={styles.row}>
+                  <div className={styles.bankOfferHeading}>
+                    {val.couponName}
+                  </div>
+                  <div className={styles.bankOfferText}>{val.description}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
   };
 
   renderEmptyBag = () => {
@@ -450,6 +501,9 @@ class CartPage extends React.Component {
                 appliedCouponCode={this.state.appliedCouponCode}
               />
             )}
+
+            {this.renderBankOffers()}
+
             {this.state.showCheckoutSection &&
               cartDetails.products &&
               cartDetails.cartAmount && (
