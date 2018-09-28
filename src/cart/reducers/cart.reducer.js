@@ -42,6 +42,11 @@ const cart = (
     cartDetailsCNCError: null,
     cartDetailsCNCLoader: false,
 
+    eddDetails: null,
+    eddDetailsStatus: null,
+    eddDetailsError: null,
+    loadingForEddDetails: false,
+
     couponStatus: null,
     couponError: null,
     coupons: null,
@@ -190,7 +195,17 @@ const cart = (
     bankOfferTncDetails: null,
     bankOfferTncStatus: null,
     bankOfferTncError: null,
-    loadingForBankOfferTNC: false
+    loadingForBankOfferTNC: false,
+
+    tempCartIdForLoggedInUserStatus: null,
+    tempCartIdForLoggedInUser: null,
+    tempCartIdForLoggedInUserError: null,
+    tempCartIdForLoggedInUserLoading: null,
+
+    mergeTempCartWithOldCartStatus: null,
+    mergeTempCartWithOldCart: null,
+    mergeTempCartWithOldCartError: null,
+    mergeTempCartWithOldCartLoading: null
   },
   action
 ) => {
@@ -1436,6 +1451,94 @@ const cart = (
     case cartActions.RESET_IS_SOFT_RESERVATION_FAILED:
       return Object.assign({}, state, {
         isSoftReservationFailed: false
+      });
+    case cartActions.TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST:
+      return Object.assign({}, state, {
+        tempCartIdForLoggedInUserLoading: true,
+        tempCartIdForLoggedInUserStatus: action.status
+      });
+    case cartActions.TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS:
+      cartDetails = Object.assign(
+        {},
+        {
+          type: "webSerResponseWsDTO",
+          status: "Success",
+          code: action.cartDetails.buyNowCartCode,
+          count: "1",
+          guid: action.cartDetails.buyNowCartGuid,
+          isBuyNowCart: action.cartDetails.isBuyNowCart
+        }
+      );
+      Cookies.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify(cartDetails)
+      );
+      return Object.assign({}, state, {
+        tempCartIdForLoggedInUserLoading: false,
+        tempCartIdForLoggedInUserStatus: action.status,
+        tempCartIdForLoggedInUser: action.cartDetails
+      });
+    case cartActions.TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE:
+      return Object.assign({}, state, {
+        tempCartIdForLoggedInUserLoading: false,
+        tempCartIdForLoggedInUserStatus: action.status
+      });
+    case cartActions.MERGE_TEMP_CART_WITH_OLD_CART_REQUEST:
+      return Object.assign({}, state, {
+        mergeTempCartWithOldCartLoading: true,
+        mergeTempCartWithOldCartStatus: action.status
+      });
+    case cartActions.MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS:
+      cartDetails = Object.assign(
+        {},
+        {
+          type: "webSerResponseWsDTO",
+          status: "Success",
+          code: action.cartDetails.buyNowCartCode,
+          count: "1",
+          guid: action.cartDetails.buyNowCartGuid
+        }
+      );
+      Cookies.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify(cartDetails)
+      );
+      return Object.assign({}, state, {
+        mergeTempCartWithOldCartLoading: false,
+        mergeTempCartWithOldCartStatus: action.status,
+        mergeTempCartWithOldCart: action.cartDetails
+      });
+    case cartActions.MERGE_TEMP_CART_WITH_OLD_CART_FAILURE:
+      return Object.assign({}, state, {
+        mergeTempCartWithOldCartLoading: false,
+        mergeTempCartWithOldCartStatus: action.status
+      });
+
+    case cartActions.RESET_TEMPORARY_CART:
+      return Object.assign({}, state, {
+        mergeTempCartWithOldCartLoading: false,
+        mergeTempCartWithOldCartStatus: null,
+        mergeTempCartWithOldCart: null
+      });
+
+    case cartActions.EDD_IN_COMMERCE_REQUEST:
+      return Object.assign({}, state, {
+        eddDetailsStatus: action.status,
+        loadingForEddDetails: true
+      });
+
+    case cartActions.EDD_IN_COMMERCE_SUCCESS:
+      return Object.assign({}, state, {
+        eddDetailsStatus: action.status,
+        eddDetails: action.eddDetails,
+        loadingForEddDetails: false
+      });
+
+    case cartActions.EDD_IN_COMMERCE_FAILURE:
+      return Object.assign({}, state, {
+        eddDetailsStatus: action.status,
+        eddDetailsError: action.error,
+        loadingForEddDetails: false
       });
 
     case cartActions.CLEAR_CART_DETAILS:

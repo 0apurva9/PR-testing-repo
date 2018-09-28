@@ -149,6 +149,14 @@ export const GENERATE_CART_ID_FOR_LOGGED_IN_USER_SUCCESS =
 export const GENERATE_CART_ID_FOR_LOGGED_IN_USER_FAILURE =
   "GENERATE_CART_ID_FOR_LOGGED_IN_USER_FAILURE";
 
+export const TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST =
+  "TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST";
+export const TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS =
+  "TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS";
+export const TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE =
+  "TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE";
+
+export const RESET_TEMPORARY_CART = "RESET_TEMPORARY_CART";
 export const CART_DETAILS_REQUEST = "CART_DETAILS_REQUEST";
 export const CART_DETAILS_SUCCESS = "CART_DETAILS_SUCCESS";
 export const CART_DETAILS_FAILURE = "CART_DETAILS_FAILURE";
@@ -366,6 +374,16 @@ export const PAYMENT_FAILURE_ORDER_DETAILS_FAILURE =
   "PAYMENT_FAILURE_ORDER_DETAILS_FAILURE";
 export const RESET_IS_SOFT_RESERVATION_FAILED =
   "RESET_IS_SOFT_RESERVATION_FAILED";
+
+export const MERGE_TEMP_CART_WITH_OLD_CART_REQUEST =
+  "MERGE_TEMP_CART_WITH_OLD_CART_REQUEST";
+export const MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS =
+  "MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS";
+export const MERGE_TEMP_CART_WITH_OLD_CART_FAILURE =
+  "MERGE_TEMP_CART_WITH_OLD_CART_FAILURE";
+export const EDD_IN_COMMERCE_REQUEST = "EDD_IN_COMMERCE_REQUEST";
+export const EDD_IN_COMMERCE_FAILURE = "EDD_IN_COMMERCE_FAILURE";
+export const EDD_IN_COMMERCE_SUCCESS = "EDD_IN_COMMERCE_SUCCESS";
 
 export const PAYMENT_MODE = "credit card";
 const PAYMENT_EMI = "EMI";
@@ -1648,6 +1666,7 @@ export function softReservation() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      dispatch(eddInCommerce());
       dispatch(getOrderSummary(pinCode));
       dispatch(softReservationSuccess(resultJson.reservationItem));
     } catch (e) {
@@ -3557,11 +3576,63 @@ export function softReservationForCODPayment(pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(updateTransactionDetailsForCOD(CASH_ON_DELIVERY, ""));
       dispatch(softReservationForCODPaymentSuccess(resultJson));
     } catch (e) {
       dispatch(softReservationForCODPaymentFailure(e.message));
+    }
+  };
+}
+
+export function eddInCommerceRequest() {
+  return {
+    type: EDD_IN_COMMERCE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function eddInCommerceSuccess(eddDetails) {
+  return {
+    type: EDD_IN_COMMERCE_SUCCESS,
+    status: SUCCESS,
+    eddDetails
+  };
+}
+
+export function eddInCommerceFailure(error) {
+  return {
+    type: EDD_IN_COMMERCE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function eddInCommerce() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartId = JSON.parse(cartDetails).guid;
+
+    dispatch(eddInCommerceRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts/${cartId}/getEDD?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(eddInCommerceSuccess(resultJson));
+    } catch (e) {
+      dispatch(eddInCommerceFailure(e.message));
     }
   };
 }
@@ -4353,4 +4424,122 @@ export function getValidDeliveryModeDetails(cartProductDetails) {
     }
   });
   return productItems;
+}
+
+/*
+this cart creation is for buy now
+in pdp so that user  can go for only one production
+in checkout
+*/
+
+export function tempCartIdForLoggedInUserRequest() {
+  return {
+    type: TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function tempCartIdForLoggedInUserFailure(error) {
+  return {
+    type: TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+export function tempCartIdForLoggedInUserSuccess(cartDetails) {
+  return {
+    type: TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS,
+    status: SUCCESS,
+    cartDetails
+  };
+}
+export function resetTempCartId() {
+  return {
+    type: RESET_TEMPORARY_CART,
+    status: SUCCESS
+  };
+}
+
+export function tempCartIdForLoggedInUser(productDetails: {}) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(tempCartIdForLoggedInUserRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/buyNow/expressBuy?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&channel=${CHANNEL}&productCode=${
+          productDetails.code
+        }&USSID=${productDetails.ussId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(tempCartIdForLoggedInUserSuccess(resultJson));
+    } catch (e) {
+      return dispatch(tempCartIdForLoggedInUserFailure(e.message));
+    }
+  };
+}
+
+export function mergeTempCartWithOldCartRequest() {
+  return {
+    type: MERGE_TEMP_CART_WITH_OLD_CART_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function mergeTempCartWithOldCartFailure(error) {
+  return {
+    type: MERGE_TEMP_CART_WITH_OLD_CART_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+export function mergeTempCartWithOldCartSuccess(cartDetails) {
+  return {
+    type: MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS,
+    status: SUCCESS,
+    cartDetails
+  };
+}
+
+export function mergeTempCartWithOldCart() {
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartGuId = cartDetails && JSON.parse(cartDetails).guid;
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(mergeTempCartWithOldCartRequest());
+    /*
+    For deleting temp cart detail from
+    our reducer
+    */
+    dispatch(resetTempCartId());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/buyNow/mergeBuyNowCart?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      dispatch(mergeTempCartWithOldCartSuccess(resultJson));
+    } catch (e) {
+      dispatch(mergeTempCartWithOldCartFailure(e.message));
+    }
+  };
 }
