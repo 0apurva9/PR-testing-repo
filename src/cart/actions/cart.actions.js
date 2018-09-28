@@ -4551,6 +4551,7 @@ export function mergeTempCartWithOldCart() {
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartGuId = cartDetails && JSON.parse(cartDetails).guid;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
   return async (dispatch, getState, { api }) => {
     dispatch(mergeTempCartWithOldCartRequest());
     /*
@@ -4571,8 +4572,15 @@ export function mergeTempCartWithOldCart() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       dispatch(mergeTempCartWithOldCartSuccess(resultJson));
+      dispatch(
+        getCartDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token,
+          resultJson.buyNowCartCode,
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+        )
+      );
     } catch (e) {
       dispatch(mergeTempCartWithOldCartFailure(e.message));
     }
