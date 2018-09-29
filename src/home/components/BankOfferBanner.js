@@ -30,6 +30,7 @@ export default class BankOfferBanner extends React.Component {
             return (
               <AutoImageBanner
                 key={i}
+                lazyLoad={true}
                 image={val.imageURL}
                 onClick={() => this.handleClick(val.webURL)}
               />

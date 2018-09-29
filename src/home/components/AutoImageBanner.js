@@ -7,7 +7,7 @@ export default class AutoImageBanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loaded: ERROR
+      imageStatus: ERROR
     };
   }
   handleClick = () => {
@@ -26,7 +26,7 @@ export default class AutoImageBanner extends React.Component {
     const img = (
       <img
         className={
-          this.state.loaded === ERROR ? styles.image : styles.imageLoaded
+          this.state.imageStatus === ERROR ? styles.image : styles.imageLoaded
         }
         alt="No Image"
         src={this.props.image}
