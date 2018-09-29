@@ -568,7 +568,7 @@ function getDigitalDataForPdp(type, pdpResponse) {
   }
 
   if (pdpResponse && pdpResponse.seo && pdpResponse.seo.breadcrumbs) {
-    let categoryName = pdpResponse.seo.breadcrumbs[0].name;
+    let categoryName = pdpResponse.seo.breadcrumbs[1].name;
     categoryName = categoryName.replace(/ /g, "_").toLowerCase();
     Object.assign(data.cpj.product, {
       category: categoryName
@@ -586,7 +586,6 @@ function getDigitalDataForPdp(type, pdpResponse) {
       }
     });
   }
-
   return data;
 }
 
@@ -652,7 +651,10 @@ function getDigitalDataForCart(type, cartResponse) {
       }
     });
   }
-  const productCategoryHierarchy = getProductCategoryHierarchy(cartResponse);
+  const productCategoryHierarchy = getProductCategoryHierarchy(
+    cartResponse,
+    true
+  ); //here we set second parameter as true because we need to set second level
   if (productCategoryHierarchy) {
     if (data.cpj && data.cpj.product) {
       Object.assign(data.cpj.product, {
@@ -681,7 +683,7 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
       }
     }
   };
-  const getProductData = getProductsDigitalData(CheckoutResponse);
+  const getProductData = getProductsDigitalData(CheckoutResponse, false, true); //here we set third parameter as true because we need to set second level
   if (getProductData) {
     let {
       productIdsArray,
@@ -756,7 +758,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
 // this function will update data with  cpj.proudct.id with
 // reponse product's ids . this is using in many place thats why we
 // need to make separate function for product ids
-function getProductsDigitalData(response, isReverse) {
+function getProductsDigitalData(response, isReverse, setSecondLevel) {
   if (response && response.products && response.products.length > 0) {
     let productIdsArray = [],
       productQuantityArray = [],
@@ -799,6 +801,16 @@ function getProductsDigitalData(response, isReverse) {
             reverseProduct[0].category_name &&
             reverseProduct[0].category_name.replace(/ /g, "_").toLowerCase()
         );
+      }
+      if (setSecondLevel) {
+        categoryArray.push(
+          product.categoryHierarchy &&
+            product.categoryHierarchy[1] &&
+            product.categoryHierarchy[1].category_name &&
+            product.categoryHierarchy[1].category_name
+              .replace(/ /g, "_")
+              .toLowerCase()
+        );
       } else {
         categoryArray.push(
           product.categoryHierarchy &&
@@ -821,22 +833,38 @@ function getProductsDigitalData(response, isReverse) {
     return null;
   }
 }
-function getProductCategoryHierarchy(response) {
+function getProductCategoryHierarchy(response, setSecondLevel) {
   let category = [];
   if (response && response.products && response.products.length > 0) {
     response.products.forEach(product => {
-      if (
-        product &&
-        product.categoryHierarchy &&
-        product.categoryHierarchy[0]
-      ) {
-        category.push(
-          product.categoryHierarchy[0].category_name
-            ? product.categoryHierarchy[0].category_name
-                .replace(/\s+/g, "_")
-                .toLowerCase()
-            : null
-        );
+      if (setSecondLevel) {
+        if (
+          product &&
+          product.categoryHierarchy &&
+          product.categoryHierarchy[1]
+        ) {
+          category.push(
+            product.categoryHierarchy[1].category_name
+              ? product.categoryHierarchy[1].category_name
+                  .replace(/\s+/g, "_")
+                  .toLowerCase()
+              : null
+          );
+        }
+      } else {
+        if (
+          product &&
+          product.categoryHierarchy &&
+          product.categoryHierarchy[0]
+        ) {
+          category.push(
+            product.categoryHierarchy[0].category_name
+              ? product.categoryHierarchy[0].category_name
+                  .replace(/\s+/g, "_")
+                  .toLowerCase()
+              : null
+          );
+        }
       }
     });
     return category;
