@@ -9,6 +9,7 @@ export default class ReviewList extends React.Component {
         {this.props &&
           this.props.reviewList &&
           this.props.reviewList.map((data, i) => {
+            if (!data) return null;
             let userName = data.userName;
             let name =
               data &&

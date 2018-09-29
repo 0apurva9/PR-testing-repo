@@ -13,6 +13,7 @@ import {
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = dispatch => {
   return {
     addProductToCart: productDetails => {
@@ -39,6 +40,9 @@ const mapDispatchToProps = dispatch => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    buyNow: async productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     }
   };
 };
