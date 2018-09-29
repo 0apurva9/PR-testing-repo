@@ -11,7 +11,8 @@ import {
   SUCCESS,
   HOME_ROUTER,
   NO,
-  BANK_COUPON_COOKIE
+  BANK_COUPON_COOKIE,
+  BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -75,6 +76,9 @@ class CartPage extends React.Component {
       customerCookie !== undefined &&
       cartDetailsLoggedInUser !== undefined
     ) {
+      if (JSON.parse(cartDetailsLoggedInUser).isBuyNowCart) {
+        localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
+      }
       this.props.getCartDetails(
         JSON.parse(userDetails).userName,
         JSON.parse(customerCookie).access_token,

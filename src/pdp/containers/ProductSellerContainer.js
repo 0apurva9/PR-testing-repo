@@ -6,6 +6,7 @@ import {
   getProductDescription
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToCart: async productDetails => {
@@ -16,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     displayToast: val => {
       dispatch(displayToast(val));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

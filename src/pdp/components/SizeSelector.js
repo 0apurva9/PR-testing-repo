@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./SizeSelector.css";
+import { Redirect } from "react-router-dom";
 import SizeSelect from "./SizeSelect";
 import DumbCarousel from "../../general/components/DumbCarousel";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -8,7 +9,8 @@ import {
   SUCCESS,
   BUY_NOW_PRODUCT_DETAIL,
   LOGIN_PATH,
-  PRODUCT_CART_ROUTER
+  PRODUCT_CART_ROUTER,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const SIZE_GUIDE = "Size guide";
@@ -19,6 +21,11 @@ export default class SizeSelector extends React.Component {
     this.state = {
       goToCartPageFlag: false
     };
+  }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
   }
   handleShowSize() {
     if (this.props.showSizeGuide) {
@@ -56,11 +63,13 @@ export default class SizeSelector extends React.Component {
               BUY_NOW_PRODUCT_DETAIL,
               JSON.stringify(productDetailsObj)
             );
-            this.props.history.push(LOGIN_PATH);
+            this.navigateToLogin();
           } else {
             const buyNowResponse = await this.props.buyNow(productDetailsObj);
             if (buyNowResponse && buyNowResponse.status === SUCCESS) {
               this.props.history.push(PRODUCT_CART_ROUTER);
+            } else {
+              this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
             }
           }
         } else {
