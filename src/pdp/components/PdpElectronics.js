@@ -22,7 +22,8 @@ import {
   COLLECT,
   LOGIN_PATH,
   SUCCESS,
-  BUY_NOW_PRODUCT_DETAIL
+  BUY_NOW_PRODUCT_DETAIL,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
@@ -123,6 +124,11 @@ export default class PdpElectronics extends React.Component {
       this.props.visitBrandStore();
     }
   }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
 
   gotoPreviousPage = () => {
     this.props.history.goBack();
@@ -172,11 +178,13 @@ export default class PdpElectronics extends React.Component {
               BUY_NOW_PRODUCT_DETAIL,
               JSON.stringify(productDetails)
             );
-            this.props.history.push(LOGIN_PATH);
+            this.navigateToLogin();
           } else {
             const buyNowResponse = await this.props.buyNow(productDetails);
             if (buyNowResponse && buyNowResponse.status === SUCCESS) {
               this.props.history.push(PRODUCT_CART_ROUTER);
+            } else {
+              this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
             }
           }
         } else {

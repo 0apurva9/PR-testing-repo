@@ -25,7 +25,8 @@ import {
   HOME_DELIVERY,
   EXPRESS,
   COLLECT,
-  PAYPAL
+  PAYPAL,
+  BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -4511,12 +4512,15 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
         }&USSID=${productDetails.ussId}`
       );
       const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      if (resultJson.status !== SUCCESS_CAMEL_CASE) {
+        throw new Error(resultJson.message);
       }
 
+      localStorage.setItem(
+        CART_BAG_DETAILS,
+        JSON.stringify([productDetails.ussId])
+      );
       return dispatch(tempCartIdForLoggedInUserSuccess(resultJson));
     } catch (e) {
       return dispatch(tempCartIdForLoggedInUserFailure(e.message));
