@@ -2830,14 +2830,12 @@ export function createJusPayOrderForCliqCash(
           throw new Error(resultJson.message);
         }
       }
-      const getCartAgainResponse = await dispatch(
-        generateCartIdAfterOrderPlace()
-      );
-      if (getCartAgainResponse) {
-        dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
-        dispatch(setBagCount(0));
-        localStorage.setItem(CART_BAG_DETAILS, []);
-      }
+
+      dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
+      dispatch(setBagCount(0));
+      localStorage.setItem(CART_BAG_DETAILS, []);
+
+      dispatch(generateCartIdAfterOrderPlace());
     } catch (e) {
       dispatch(createJusPayOrderFailure(e.message));
     }
@@ -3566,6 +3564,7 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
 
       dispatch(setBagCount(0));
       localStorage.setItem(CART_BAG_DETAILS, []);
+      dispatch(generateCartIdAfterOrderPlace());
       dispatch(orderConfirmation(resultJson.orderId));
       dispatch(updateTransactionDetailsForCODSuccess(resultJson));
     } catch (e) {
