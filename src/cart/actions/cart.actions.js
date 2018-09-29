@@ -2548,7 +2548,12 @@ export function createJusPayOrderForNetBanking(
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
     cartId = JSON.parse(cartDetails).guid;
   }
-  const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let firstName = "";
+  if (currentSelectedPaymentMode === PAYPAL) {
+    currentSelectedPaymentMode = "Netbanking";
+    firstName = "NB_PAYPAL";
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -2556,7 +2561,7 @@ export function createJusPayOrderForNetBanking(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=${firstName}&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -2582,7 +2587,7 @@ export function createJusPayOrderForNetBanking(
           throw new Error(resultJson.message);
         }
       }
-      if (currentSelectedPaymentMode === PAYPAL) {
+      if (localStorage.getItem(PAYMENT_MODE_TYPE) === PAYPAL) {
         dispatch(
           jusPayPaymentMethodTypeForPaypal(
             paymentMethodType,
