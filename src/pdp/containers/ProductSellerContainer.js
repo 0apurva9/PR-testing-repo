@@ -6,18 +6,24 @@ import {
   getProductDescription
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addProductToCart: async (userId, cartId, accessToken, productDetails) => {
-      return dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      );
+    addProductToCart: async productDetails => {
+      return dispatch(addProductToCart(productDetails));
     },
     getProductDescription: productCode => {
       dispatch(getProductDescription(productCode));
     },
     displayToast: val => {
       dispatch(displayToast(val));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    buyNow: async productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     }
   };
 };

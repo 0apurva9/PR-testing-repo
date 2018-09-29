@@ -24,7 +24,9 @@ import {
   SHORT_COLLECT,
   HOME_DELIVERY,
   EXPRESS,
-  COLLECT
+  COLLECT,
+  PAYPAL,
+  BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -146,6 +148,14 @@ export const GENERATE_CART_ID_FOR_LOGGED_IN_USER_SUCCESS =
 export const GENERATE_CART_ID_FOR_LOGGED_IN_USER_FAILURE =
   "GENERATE_CART_ID_FOR_LOGGED_IN_USER_FAILURE";
 
+export const TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST =
+  "TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST";
+export const TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS =
+  "TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS";
+export const TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE =
+  "TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE";
+
+export const RESET_TEMPORARY_CART = "RESET_TEMPORARY_CART";
 export const CART_DETAILS_REQUEST = "CART_DETAILS_REQUEST";
 export const CART_DETAILS_SUCCESS = "CART_DETAILS_SUCCESS";
 export const CART_DETAILS_FAILURE = "CART_DETAILS_FAILURE";
@@ -364,6 +374,16 @@ export const PAYMENT_FAILURE_ORDER_DETAILS_FAILURE =
 export const RESET_IS_SOFT_RESERVATION_FAILED =
   "RESET_IS_SOFT_RESERVATION_FAILED";
 
+export const MERGE_TEMP_CART_WITH_OLD_CART_REQUEST =
+  "MERGE_TEMP_CART_WITH_OLD_CART_REQUEST";
+export const MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS =
+  "MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS";
+export const MERGE_TEMP_CART_WITH_OLD_CART_FAILURE =
+  "MERGE_TEMP_CART_WITH_OLD_CART_FAILURE";
+export const EDD_IN_COMMERCE_REQUEST = "EDD_IN_COMMERCE_REQUEST";
+export const EDD_IN_COMMERCE_FAILURE = "EDD_IN_COMMERCE_FAILURE";
+export const EDD_IN_COMMERCE_SUCCESS = "EDD_IN_COMMERCE_SUCCESS";
+
 export const PAYMENT_MODE = "credit card";
 const PAYMENT_EMI = "EMI";
 const CASH_ON_DELIVERY = "COD";
@@ -475,7 +495,7 @@ export function getCartDetails(
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -544,7 +564,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       if (resultJson.status === FAILURE) {
@@ -608,7 +628,7 @@ export function applyUserCouponForAnonymous(couponCode) {
 
     try {
       const result = await api.postFormData(
-        `${USER_CART_PATH}/anonymous/carts/${cartId}/applyCouponsAnonymous?`,
+        `${USER_CART_PATH}/anonymous/carts/${cartId}/applyCouponsAnonymous?isUpdatedPwa=true`,
         couponObject
       );
 
@@ -652,7 +672,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
           JSON.parse(cartDetails).code
         }/applyCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
         couponObject
       );
 
@@ -712,7 +732,7 @@ export function releaseCouponForAnonymous(oldCouponCode, newCouponCode) {
     couponObject.append("channel", CHANNEL);
     try {
       const result = await api.postFormData(
-        `${USER_CART_PATH}/anonymous/carts/${cartId}/releaseCouponsAnonymous?`,
+        `${USER_CART_PATH}/anonymous/carts/${cartId}/releaseCouponsAnonymous?isUpdatedPwa=true`,
         couponObject
       );
       const resultJson = await result.json();
@@ -747,7 +767,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/releaseCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}&channel=${CHANNEL}`
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&couponCode=${oldCouponCode}&cartGuid=${cartGuId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1271,7 +1291,7 @@ export function getOrderSummary(pincode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/displayOrderSummary?access_token=${
           JSON.parse(customerCookie).access_token
-        }&pincode=${pincode}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }&pincode=${pincode}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
 
@@ -1644,6 +1664,7 @@ export function softReservation() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      dispatch(eddInCommerce());
       dispatch(getOrderSummary(pinCode));
       dispatch(softReservationSuccess(resultJson.reservationItem));
     } catch (e) {
@@ -1753,7 +1774,7 @@ export function applyBankOffer(couponCode) {
           JSON.parse(userDetails).userName
         }/carts/applyCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1822,7 +1843,7 @@ export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
           JSON.parse(userDetails).userName
         }/carts/releaseCartCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&paymentMode=${PAYMENT_MODE}&couponCode=${previousCouponCode}&cartGuid=${cartId}&isPwa=true&channel=${CHANNEL}`
+        }&isUpdatedPwa=true&paymentMode=${PAYMENT_MODE}&couponCode=${previousCouponCode}&cartGuid=${cartId}&isPwa=true&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1879,7 +1900,7 @@ export function applyCliqCash() {
           JSON.parse(userDetails).userName
         }/applyCliqCash?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartId}&isPwa=true`
+        }&cartGuid=${cartId}&isPwa=true&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1934,7 +1955,7 @@ export function removeCliqCash() {
           JSON.parse(userDetails).userName
         }/removeCliqCash?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartId}&isPwa=true`
+        }&cartGuid=${cartId}&isPwa=true&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1996,7 +2017,7 @@ export function binValidation(paymentMode, binNo) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}&channel=${CHANNEL}`
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2527,7 +2548,12 @@ export function createJusPayOrderForNetBanking(
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
     cartId = JSON.parse(cartDetails).guid;
   }
-  const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let firstName = "";
+  if (currentSelectedPaymentMode === PAYPAL) {
+    currentSelectedPaymentMode = "Netbanking";
+    firstName = "NB_PAYPAL";
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -2535,7 +2561,7 @@ export function createJusPayOrderForNetBanking(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=${firstName}&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&city=&cartGuid=${cartId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -2561,13 +2587,23 @@ export function createJusPayOrderForNetBanking(
           throw new Error(resultJson.message);
         }
       }
-      dispatch(
-        jusPayPaymentMethodTypeForNetBanking(
-          paymentMethodType,
-          resultJson.juspayOrderId,
-          bankName
-        )
-      );
+      if (localStorage.getItem(PAYMENT_MODE_TYPE) === PAYPAL) {
+        dispatch(
+          jusPayPaymentMethodTypeForPaypal(
+            paymentMethodType,
+            resultJson.juspayOrderId,
+            bankName
+          )
+        );
+      } else {
+        dispatch(
+          jusPayPaymentMethodTypeForNetBanking(
+            paymentMethodType,
+            resultJson.juspayOrderId,
+            bankName
+          )
+        );
+      }
     } catch (e) {
       dispatch(createJusPayOrderFailure(e.message));
     }
@@ -2799,10 +2835,12 @@ export function createJusPayOrderForCliqCash(
           throw new Error(resultJson.message);
         }
       }
+
       dispatch(createJusPayOrderSuccessForCliqCash(resultJson));
       dispatch(setBagCount(0));
       localStorage.setItem(CART_BAG_DETAILS, []);
-      dispatch(generateCartIdForLoggedInUser());
+
+      dispatch(generateCartIdAfterOrderPlace());
     } catch (e) {
       dispatch(createJusPayOrderFailure(e.message));
     }
@@ -2966,7 +3004,7 @@ export function jusPayPaymentMethodType(
         if (localStorage.getItem(EMI_TYPE)) {
           localStorage.removeItem(EMI_TYPE);
         }
-        dispatch(generateCartIdForLoggedInUser());
+        dispatch(generateCartIdAfterOrderPlace());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -3005,7 +3043,8 @@ export function jusPayPaymentMethodTypeForSavedCards(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
-        dispatch(generateCartIdForLoggedInUser());
+
+        dispatch(generateCartIdAfterOrderPlace());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -3065,11 +3104,56 @@ export function jusPayPaymentMethodTypeForNetBanking(
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
     cardObject.append("order_id", juspayOrderId);
     cardObject.append("payment_method", bankName);
-
     dispatch(jusPayPaymentMethodTypeRequest());
     dispatch(jusPayPaymentMethodTypeRequest());
     try {
       const result = await api.postJusPay(`txns?`, cardObject);
+      const resultJson = await result.json();
+
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+        dispatch(generateCartIdAfterOrderPlace());
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+export function jusPayPaymentMethodTypeForPaypal(
+  paymentMethodType,
+  juspayOrderId,
+  bankName
+) {
+  return async (dispatch, getState, { api }) => {
+    const params = {
+      payment_method_type: paymentMethodType,
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      order_id: juspayOrderId,
+      payment_method: "PAYPAL"
+    };
+
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
+
+    dispatch(jusPayPaymentMethodTypeRequest());
+    dispatch(jusPayPaymentMethodTypeRequest());
+    try {
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
       const resultJson = await result.json();
 
       if (
@@ -3392,7 +3476,7 @@ export function binValidationForCOD(paymentMode) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3485,6 +3569,7 @@ export function updateTransactionDetailsForCOD(paymentMode, juspayOrderID) {
 
       dispatch(setBagCount(0));
       localStorage.setItem(CART_BAG_DETAILS, []);
+      dispatch(generateCartIdAfterOrderPlace());
       dispatch(orderConfirmation(resultJson.orderId));
       dispatch(updateTransactionDetailsForCODSuccess(resultJson));
     } catch (e) {
@@ -3544,11 +3629,64 @@ export function softReservationForCODPayment(pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
       dispatch(updateTransactionDetailsForCOD(CASH_ON_DELIVERY, ""));
       dispatch(softReservationForCODPaymentSuccess(resultJson));
     } catch (e) {
       dispatch(softReservationForCODPaymentFailure(e.message));
+    }
+  };
+}
+
+export function eddInCommerceRequest() {
+  return {
+    type: EDD_IN_COMMERCE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function eddInCommerceSuccess(eddDetails) {
+  return {
+    type: EDD_IN_COMMERCE_SUCCESS,
+    status: SUCCESS,
+    eddDetails
+  };
+}
+
+export function eddInCommerceFailure(error) {
+  return {
+    type: EDD_IN_COMMERCE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function eddInCommerce() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartId = JSON.parse(cartDetails).code;
+
+    dispatch(eddInCommerceRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts/${cartId}/getEDD?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(eddInCommerceSuccess(resultJson));
+    } catch (e) {
+      dispatch(eddInCommerceFailure(e.message));
     }
   };
 }
@@ -4198,7 +4336,7 @@ export function getPaymentFailureOrderDetails() {
           JSON.parse(userDetails).userName
         }/payments/failedorderdetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}`
+        }&cartGuid=${cartGuId}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4326,4 +4464,154 @@ export function getValidDeliveryModeDetails(cartProductDetails) {
     }
   });
   return productItems;
+}
+
+/*
+this cart creation is for buy now
+in pdp so that user  can go for only one production
+in checkout
+*/
+
+export function tempCartIdForLoggedInUserRequest() {
+  return {
+    type: TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function tempCartIdForLoggedInUserFailure(error) {
+  return {
+    type: TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+export function tempCartIdForLoggedInUserSuccess(cartDetails) {
+  return {
+    type: TEMPORARY_CART_ID_FOR_LOGGED_IN_USER_SUCCESS,
+    status: SUCCESS,
+    cartDetails
+  };
+}
+export function resetTempCartId() {
+  return {
+    type: RESET_TEMPORARY_CART,
+    status: SUCCESS
+  };
+}
+
+export function tempCartIdForLoggedInUser(productDetails: {}) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(tempCartIdForLoggedInUserRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/buyNow/expressBuy?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&channel=${CHANNEL}&productCode=${
+          productDetails.code
+        }&USSID=${productDetails.ussId}`
+      );
+      const resultJson = await result.json();
+
+      if (resultJson.status !== SUCCESS_CAMEL_CASE) {
+        throw new Error(resultJson.message);
+      }
+
+      localStorage.setItem(
+        CART_BAG_DETAILS,
+        JSON.stringify([productDetails.ussId])
+      );
+      return dispatch(tempCartIdForLoggedInUserSuccess(resultJson));
+    } catch (e) {
+      return dispatch(tempCartIdForLoggedInUserFailure(e.message));
+    }
+  };
+}
+
+export function mergeTempCartWithOldCartRequest() {
+  return {
+    type: MERGE_TEMP_CART_WITH_OLD_CART_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function mergeTempCartWithOldCartFailure(error) {
+  return {
+    type: MERGE_TEMP_CART_WITH_OLD_CART_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+export function mergeTempCartWithOldCartSuccess(cartDetails) {
+  return {
+    type: MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS,
+    status: SUCCESS,
+    cartDetails
+  };
+}
+
+export function mergeTempCartWithOldCart() {
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartGuId = cartDetails && JSON.parse(cartDetails).guid;
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
+  return async (dispatch, getState, { api }) => {
+    dispatch(mergeTempCartWithOldCartRequest());
+    /*
+    For deleting temp cart detail from
+    our reducer
+    */
+    dispatch(resetTempCartId());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/buyNow/mergeBuyNowCart?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(mergeTempCartWithOldCartSuccess(resultJson));
+      dispatch(
+        getCartDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token,
+          resultJson.buyNowCartCode,
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+        )
+      );
+    } catch (e) {
+      dispatch(mergeTempCartWithOldCartFailure(e.message));
+    }
+  };
+}
+export function generateCartIdAfterOrderPlace() {
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  cartDetails = cartDetails ? JSON.parse(cartDetails) : {};
+  return async (dispatch, getState, { api }) => {
+    if (!cartDetails.isBuyNowCart) {
+      return dispatch(generateCartIdForLoggedInUser());
+    } else {
+      const getCartIdResponse = await dispatch(getCartId());
+      if (getCartIdResponse.status === SUCCESS) {
+        Cookie.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(getCartIdResponse.cartDetails)
+        );
+        Cookie.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+        return getCartIdResponse;
+      } else {
+        return dispatch(generateCartIdForLoggedInUser());
+      }
+    }
+  };
 }

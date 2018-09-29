@@ -5,12 +5,14 @@ import CheckoutStaticSection from "./CheckoutStaticSection.js";
 import SearchAndUpdate from "../../pdp/components/SearchAndUpdate";
 import styles from "./CartPage.css";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   SUCCESS,
   HOME_ROUTER,
   NO,
-  BANK_COUPON_COOKIE
+  BANK_COUPON_COOKIE,
+  BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -50,12 +52,11 @@ class CartPage extends React.Component {
       isServiceable: false,
       changePinCode: false,
       appliedCouponCode: null,
-      showCheckoutSection: true,
-      showCartDetails: false
+      showCheckoutSection: true
     };
   }
   showHideDetails = () => {
-    this.setState({ showCartDetails: !this.state.showCartDetails });
+    window.scroll({ top: window.innerHeight, behavior: "smooth" });
   };
   navigateToHome() {
     this.props.history.push(HOME_ROUTER);
@@ -75,6 +76,9 @@ class CartPage extends React.Component {
       customerCookie !== undefined &&
       cartDetailsLoggedInUser !== undefined
     ) {
+      if (JSON.parse(cartDetailsLoggedInUser).isBuyNowCart) {
+        localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
+      }
       this.props.getCartDetails(
         JSON.parse(userDetails).userName,
         JSON.parse(customerCookie).access_token,
@@ -102,6 +106,7 @@ class CartPage extends React.Component {
     }
     // delete bank coupon localstorage if it is exits.
     // because we user can not have bank offer cookie on cart page
+    this.getPaymentModes();
     if (localStorage.getItem(BANK_COUPON_COOKIE)) {
       localStorage.removeItem(BANK_COUPON_COOKIE);
     }
@@ -199,6 +204,34 @@ class CartPage extends React.Component {
       this.props.releaseCoupon();
     }
   };
+  getPaymentModes = () => {
+    if (
+      (this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.egvCartGuid) ||
+      (this.state.isGiftCard && this.state.egvCartGuid)
+    ) {
+      let egvGiftCartGuId;
+      if (this.state.egvCartGuid) {
+        egvGiftCartGuId = this.state.egvCartGuid;
+      } else {
+        egvGiftCartGuId = this.props.location.state.egvCartGuid;
+      }
+      this.props.getPaymentModes(egvGiftCartGuId);
+    } else {
+      let cartGuId;
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      if (parsedQueryString.value) {
+        cartGuId = parsedQueryString.value;
+      } else {
+        let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        if (cartDetails) {
+          cartGuId = JSON.parse(cartDetails).guid;
+        }
+      }
+      this.props.getPaymentModes(cartGuId);
+    }
+  };
 
   goToCouponPage = () => {
     let couponDetails = Object.assign(this.props.cart.coupons, this.props);
@@ -220,12 +253,14 @@ class CartPage extends React.Component {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
     if (!customerCookie || !userDetails) {
+      setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
       return this.navigateToLogin();
     }
     let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 
     if (pinCode && this.state.isServiceable === true) {
       setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
+      this.navigateToCheckout = true;
       this.props.history.push({
         pathname: CHECKOUT_ROUTER
       });
@@ -290,6 +325,27 @@ class CartPage extends React.Component {
       checkPinCodeAvailability: pinCode =>
         this.checkPinCodeAvailability(pinCode)
     });
+  };
+  renderBankOffers = () => {
+    if (this.props.cart.coupons && this.props.cart.coupons.opencouponsList) {
+      return (
+        <div className={styles.card}>
+          <div className={styles.content}>
+            <div className={styles.cardHeading}>Bank Offers</div>
+            {this.props.cart.coupons.opencouponsList.map(val => {
+              return (
+                <div className={styles.row}>
+                  <div className={styles.bankOfferHeading}>
+                    {val.couponName}
+                  </div>
+                  <div className={styles.bankOfferText}>{val.description}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
   };
 
   renderEmptyBag = () => {
@@ -356,70 +412,27 @@ class CartPage extends React.Component {
     if (this.props.cart.cartDetails && this.props.cart.cartDetails.products) {
       const cartDetails = this.props.cart.cartDetails;
       let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-      let deliveryCharge = "0.00";
-      let couponDiscount = "0.00";
-      let totalDiscount = "0.00";
-      if (cartDetails.products) {
-        if (cartDetails.deliveryCharge) {
-          deliveryCharge = cartDetails.deliveryCharge
-            ? cartDetails.deliveryCharge
-            : "0.00";
-        }
-        if (cartDetails.cartAmount.totalDiscountAmount) {
-          totalDiscount = cartDetails.cartAmount.totalDiscountAmount.value
-            ? Math.round(
-                cartDetails.cartAmount.totalDiscountAmount.value * 100
-              ) / 100
-            : "0.00";
-        }
 
-        if (cartDetails.cartAmount.couponDiscountAmount) {
-          couponDiscount = cartDetails.cartAmount.couponDiscountAmount.value
-            ? Math.round(
-                cartDetails.cartAmount.couponDiscountAmount.value * 100
-              ) / 100
-            : "0.00";
-        }
-      }
       return (
         <div className={styles.base}>
           {this.state.showCheckoutSection &&
             cartDetails.products &&
             cartDetails.cartAmount && (
               <Checkout
-                disabled={!this.state.isServiceable}
                 amount={
-                  cartDetails.cartAmount.paybleAmount.value
-                    ? Math.round(
-                        cartDetails.cartAmount.paybleAmount.value * 100
-                      ) / 100
-                    : "0.00"
+                  cartDetails.cartAmount.paybleAmount &&
+                  cartDetails.cartAmount.paybleAmount.formattedValue
                 }
-                bagTotal={
-                  cartDetails.cartAmount.bagTotal.value
-                    ? Math.round(cartDetails.cartAmount.bagTotal.value * 100) /
-                      100
-                    : "0.00"
-                }
-                coupons={couponDiscount}
-                discount={totalDiscount}
-                delivery={deliveryCharge}
-                payable={
-                  cartDetails.cartAmount.paybleAmount.value
-                    ? Math.round(
-                        cartDetails.cartAmount.paybleAmount.value * 100
-                      ) / 100
-                    : "0.00"
-                }
+                disabled={!this.state.isServiceable}
                 onCheckout={() => this.renderToCheckOutPage()}
                 label={CHECKOUT_BUTTON_TEXT}
                 isOnCartPage={true}
                 changePinCode={this.changePinCode}
                 isFromMyBag={true}
-                showDetails={this.state.showCartDetails}
                 showHideDetails={this.showHideDetails}
               />
             )}
+
           <div className={styles.content}>
             <TextWithUnderLine
               onClick={() => this.changePinCode()}
@@ -492,35 +505,15 @@ class CartPage extends React.Component {
                 appliedCouponCode={this.state.appliedCouponCode}
               />
             )}
+
+            {this.renderBankOffers()}
+
             {this.state.showCheckoutSection &&
               cartDetails.products &&
               cartDetails.cartAmount && (
                 <CheckoutStaticSection
                   disabled={!this.state.isServiceable}
-                  amount={
-                    cartDetails.cartAmount.paybleAmount.value
-                      ? Math.round(
-                          cartDetails.cartAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  bagTotal={
-                    cartDetails.cartAmount.bagTotal.value
-                      ? Math.round(
-                          cartDetails.cartAmount.bagTotal.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  coupons={couponDiscount}
-                  discount={totalDiscount}
-                  delivery={deliveryCharge}
-                  payable={
-                    cartDetails.cartAmount.paybleAmount.value
-                      ? Math.round(
-                          cartDetails.cartAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
+                  cartAmount={cartDetails.cartAmount}
                   onCheckout={() => this.renderToCheckOutPage()}
                   label={CHECKOUT_BUTTON_TEXT}
                   isOnCartPage={true}
@@ -538,6 +531,19 @@ class CartPage extends React.Component {
   }
 
   componentWillUnmount() {
+    /*
+here we need to hit call for merging cart id if user
+ has temp cart .
+ in this case if user leave checkout in middle then we need
+ to hit merge cart id
+*/
+    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartDetails = cartDetails && JSON.parse(cartDetails);
+
+    if (!this.navigateToCheckout && cartDetails && cartDetails.isBuyNowCart) {
+      this.props.mergeTempCartWithOldCart();
+    }
+
     if (this.props.clearCartDetails) {
       this.props.clearCartDetails();
     }

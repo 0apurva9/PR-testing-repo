@@ -100,6 +100,10 @@ export default class SearchPage extends React.Component {
   }
   render() {
     const data = this.props.searchResult;
+
+    const firstSuggestedKeyWord =
+      data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
+    const suggestedKeyWord = data && data.suggestionsNew;
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
@@ -123,17 +127,16 @@ export default class SearchPage extends React.Component {
         {this.state.showResults && (
           <div className={styles.searchResults}>
             {data &&
-              data.topBrands &&
-              data.topBrands.map((val, i) => {
+              data.topCategories &&
+              data.topCategories.map((val, i) => {
                 return (
                   <SearchResultItem
                     key={i}
-                    suggestedText={data.suggestionText[0]}
+                    suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                    categoryOrBrandText={val.categoryName}
                     singleWord={this.checkIfSingleWordinSearchString()}
-                    text={val.categoryName}
-                    value={val.categoryCode}
                     onClick={() => {
-                      this.handleBrandClick(
+                      this.handleCategoryClick(
                         val.categoryCode,
                         {
                           term: `${data.suggestionText[0]} in ${
@@ -141,24 +144,36 @@ export default class SearchPage extends React.Component {
                           }`
                         },
                         i,
-                        data.suggestionText[0]
+                        firstSuggestedKeyWord[0].suggestedWord
                       );
                     }}
                   />
                 );
               })}
-            {data &&
-              data.topCategories &&
-              data.topCategories.map((val, i) => {
+            {suggestedKeyWord &&
+              suggestedKeyWord.map((val, i) => {
                 return (
                   <SearchResultItem
                     key={i}
-                    suggestedText={data.suggestionText[0]}
+                    suggestedText={val.suggestedWord}
                     singleWord={this.checkIfSingleWordinSearchString()}
-                    text={val.categoryName}
-                    value={val.categoryCode}
                     onClick={() => {
-                      this.handleCategoryClick(
+                      this.handleOnSearchString(val.suggestedWord);
+                    }}
+                  />
+                );
+              })}
+            {data &&
+              data.topBrands &&
+              data.topBrands.map((val, i) => {
+                return (
+                  <SearchResultItem
+                    key={i}
+                    suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                    categoryOrBrandText={val.categoryName}
+                    singleWord={this.checkIfSingleWordinSearchString()}
+                    onClick={() => {
+                      this.handleBrandClick(
                         val.categoryCode,
                         {
                           term: `${data.suggestionText[0]} in ${

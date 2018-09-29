@@ -11,7 +11,9 @@ import {
   updateQuantityInCartLoggedOut,
   displayCouponsForLoggedInUser,
   displayCouponsForAnonymous,
-  clearCartDetails
+  clearCartDetails,
+  getPaymentModes,
+  mergeTempCartWithOldCart
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -48,6 +50,10 @@ const mapDispatchToProps = dispatch => {
     getEmiBankDetails: cartDetails => {
       dispatch(getEmiBankDetails(cartDetails));
     },
+
+    getPaymentModes: guIdDetails => {
+      dispatch(getPaymentModes(guIdDetails));
+    },
     getCartDetails: async (
       cartId,
       userId,
@@ -61,6 +67,7 @@ const mapDispatchToProps = dispatch => {
       let productServiceAvailability =
         cartDetailsObj &&
         cartDetailsObj.cartDetails &&
+        cartDetailsObj.cartDetails.products &&
         cartDetailsObj.cartDetails.products.filter(product => {
           return (
             product.isGiveAway === NO &&
@@ -144,6 +151,9 @@ const mapDispatchToProps = dispatch => {
     },
     addressModal: pinCodeObj => {
       dispatch(showModal(ADDRESS, pinCodeObj));
+    },
+    mergeTempCartWithOldCart: () => {
+      dispatch(mergeTempCartWithOldCart());
     }
   };
 };

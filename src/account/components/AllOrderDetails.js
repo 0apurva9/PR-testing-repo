@@ -9,6 +9,7 @@ import Button from "../../general/components/Button";
 import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { Redirect } from "react-router-dom";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
 import * as Cookie from "../../lib/Cookie";
 import {
   MY_ACCOUNT,
@@ -205,9 +206,22 @@ export default class AllOrderDetails extends React.Component {
                   {orderDetails &&
                     orderDetails.products && (
                       <OrderCard
+                        estimatedDeliveryDate={
+                          orderDetails &&
+                          orderDetails.products &&
+                          orderDetails.products[0] &&
+                          orderDetails.products[0].estimateddeliverydate
+                        }
+                        statusDisplay={
+                          orderDetails &&
+                          orderDetails.products &&
+                          orderDetails.products[0] &&
+                          orderDetails.products[0].statusDisplay
+                        }
                         imageUrl={
                           orderDetails &&
                           orderDetails.products &&
+                          orderDetails.products[0] &&
                           orderDetails.products[0].imageURL
                         }
                         hasProduct={orderDetails && orderDetails.products}
@@ -260,6 +274,26 @@ export default class AllOrderDetails extends React.Component {
                         deliveredAddress={deliveryAddress}
                         orderDeliveryHeaderText={placeHolder}
                       />
+                    )}
+                  {orderDetails &&
+                    orderDetails.products &&
+                    orderDetails.products[0] &&
+                    orderDetails.products[0].productName !== "Gift Card" && (
+                      <div className={styles.reviewHolder}>
+                        <div
+                          className={styles.reviewText}
+                          onClick={val =>
+                            this.onViewDetails(
+                              orderDetails && orderDetails.orderId
+                            )
+                          }
+                        >
+                          <UnderLinedButton
+                            label="Write a review"
+                            color="#ff1744"
+                          />
+                        </div>
+                      </div>
                     )}
                 </div>
               );

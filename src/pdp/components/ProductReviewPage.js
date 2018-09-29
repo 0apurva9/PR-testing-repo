@@ -13,7 +13,9 @@ import {
   SUCCESS,
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
-  PRODUCT_CART_ROUTER
+  PRODUCT_CART_ROUTER,
+  BUY_NOW_PRODUCT_DETAIL,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -22,12 +24,9 @@ import {
 import * as Cookie from "../../lib/Cookie";
 import {
   CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  ANONYMOUS_USER
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 
@@ -81,7 +80,11 @@ class ProductReviewPage extends Component {
       }
     }, 2000);
   };
-
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -162,38 +165,28 @@ class ProductReviewPage extends Component {
     }
   };
 
-  addProductToBag = () => {
+  addProductToBag = async buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
-
-    let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-    if (userDetails) {
-      if (
-        cartDetailsLoggedInUser !== undefined &&
-        customerCookie !== undefined
-      ) {
-        return this.props.addProductToCart(
-          JSON.parse(userDetails).userName,
-          JSON.parse(cartDetailsLoggedInUser).code,
-          JSON.parse(customerCookie).access_token,
-          productDetails
+    if (buyNowFlag) {
+      if (!checkUserLoggedIn()) {
+        localStorage.setItem(
+          BUY_NOW_PRODUCT_DETAIL,
+          JSON.stringify(productDetails)
         );
+        this.navigateToLogin();
+      } else {
+        const buyNowResponse = await this.props.buyNow(productDetails);
+        if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        } else {
+          this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+        }
       }
-    } else if (cartDetailsForAnonymous) {
-      return this.props.addProductToCart(
-        ANONYMOUS_USER,
-        JSON.parse(cartDetailsForAnonymous).guid,
-        JSON.parse(globalCookie).access_token,
-        productDetails
-      );
+    } else {
+      return this.props.addProductToCart(productDetails);
     }
   };
 
@@ -273,7 +266,7 @@ class ProductReviewPage extends Component {
       return (
         <PdpFrame
           {...this.props.productDetails}
-          addProductToBag={() => this.addProductToBag()}
+          addProductToBag={buyNowFlag => this.addProductToBag(buyNowFlag)}
           gotoPreviousPage={() => this.goBack()}
           displayToast={message => this.props.displayToast(message)}
           goToCart={() => this.goToCart()}

@@ -7,7 +7,9 @@ import {
   SUCCESS_CAMEL_CASE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   CART_BAG_DETAILS,
-  PLAT_FORM_NUMBER
+  PLAT_FORM_NUMBER,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants";
 import { FAILURE } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
@@ -101,7 +103,7 @@ export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
-export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}`;
+export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails`;
 export const EMI_TERMS_PATH = "/v2/mpl/cms/products/getEmiTermsAndConditions";
 export const FOLLOW_UN_FOLLOW_PATH = "v2/mpl/products";
 
@@ -126,7 +128,7 @@ const PRODUCT_SIZE_GUIDE_PATH = "v2/mpl/products/";
 const ORDER_BY = "desc";
 const SORT = "byDate";
 const PAGE_VALUE = "0";
-const PAGE_NUMBER = "3";
+const PAGE_NUMBER = "25";
 const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
@@ -292,7 +294,24 @@ export function addProductToCartFailure(error) {
   };
 }
 
-export function addProductToCart(userId, cartId, accessToken, productDetails) {
+export function addProductToCart(productDetails) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let userId = ANONYMOUS_USER;
+  let cartId = cartDetailsForAnonymous
+    ? JSON.parse(cartDetailsForAnonymous).guid
+    : null;
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+
+  if (userDetails && customerCookie && cartDetails) {
+    userId = JSON.parse(userDetails).userName;
+    cartId = JSON.parse(cartDetails).code;
+    accessToken = JSON.parse(customerCookie).access_token;
+  }
+
   return async (dispatch, getState, { api }) => {
     dispatch(addProductToCartRequest());
     try {
@@ -442,19 +461,17 @@ export function getPdpEmiFailure(error) {
     error
   };
 }
-export function getPdpEmi(token, cartValue) {
+export function getPdpEmi(token, cartValue, productCode, ussId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getPdpEmiRequest());
     try {
-      const url = `${PRODUCT_PDP_EMI_PATH}&productValue=${cartValue}&access_token=${token}`;
+      const url = `${PRODUCT_PDP_EMI_PATH}?isPwa=true&channel=mobile&productValue=${cartValue}&ussids=${ussId}&productCode=${productCode}&nceFlag=true&access_token=${token}`;
       const result = await api.get(url);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       dispatch(getPdpEmiSuccess(resultJson));
     } catch (e) {
       dispatch(getPdpEmiFailure(e.message));

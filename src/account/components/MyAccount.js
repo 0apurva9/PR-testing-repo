@@ -11,6 +11,7 @@ import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import styles from "./MyAccount.css";
 import LogoutButtonContainer from "../containers/LogoutButtonContainer";
+import UserReviewContainer from "../containers/UserReviewContainer";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -117,6 +118,12 @@ export default class MyAccount extends React.Component {
             />
             <TabData
               width="40%"
+              label="My reviews "
+              selected={this.state.isSelected === 4}
+              selectItem={() => this.tabSelect(4)}
+            />
+            <TabData
+              width="40%"
               label="Useful Links "
               selected={this.state.isSelected === 3}
               selectItem={() => this.tabSelect(3)}
@@ -212,6 +219,11 @@ export default class MyAccount extends React.Component {
               <UserCouponsContainer
                 displayToast={message => this.props.displayToast(message)}
               />
+            </div>
+          )}
+          {this.state.isSelected === 4 && (
+            <div className={styles.reviewHolder}>
+              <UserReviewContainer />
             </div>
           )}
         </div>

@@ -1,19 +1,18 @@
 import React from "react";
 import styles from "./SizeSelector.css";
+import { Redirect } from "react-router-dom";
 import SizeSelect from "./SizeSelect";
 import DumbCarousel from "../../general/components/DumbCarousel";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import PropTypes from "prop-types";
 import {
   SUCCESS,
-  LOGGED_IN_USER_DETAILS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CUSTOMER_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  GLOBAL_ACCESS_TOKEN,
-  ANONYMOUS_USER
+  BUY_NOW_PRODUCT_DETAIL,
+  LOGIN_PATH,
+  PRODUCT_CART_ROUTER,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
-import * as Cookie from "../../lib/Cookie";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const SIZE_GUIDE = "Size guide";
 const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;
 export default class SizeSelector extends React.Component {
@@ -22,6 +21,11 @@ export default class SizeSelector extends React.Component {
     this.state = {
       goToCartPageFlag: false
     };
+  }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
   }
   handleShowSize() {
     if (this.props.showSizeGuide) {
@@ -52,36 +56,29 @@ export default class SizeSelector extends React.Component {
           ussId: productDescription && productDescription.winningUssID,
           quantity: 1
         };
-        let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-        let cartDetailsLoggedInUser = Cookie.getCookie(
-          CART_DETAILS_FOR_LOGGED_IN_USER
-        );
-        let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-        let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-        let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-        if (userDetails) {
-          if (cartDetailsLoggedInUser && customerCookie) {
-            this.props.addProductToCart(
-              JSON.parse(userDetails).userName,
-              JSON.parse(cartDetailsLoggedInUser).code,
-              JSON.parse(customerCookie).access_token,
-              productDetailsObj
+
+        if (this.props.buyNowFlag) {
+          if (!checkUserLoggedIn()) {
+            localStorage.setItem(
+              BUY_NOW_PRODUCT_DETAIL,
+              JSON.stringify(productDetailsObj)
             );
+            this.navigateToLogin();
+          } else {
+            const buyNowResponse = await this.props.buyNow(productDetailsObj);
+            if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+              this.props.history.push(PRODUCT_CART_ROUTER);
+            } else {
+              this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+            }
           }
         } else {
-          if (cartDetailsAnonymous && globalCookie) {
-            this.props.addProductToCart(
-              ANONYMOUS_USER,
-              JSON.parse(cartDetailsAnonymous).guid,
-              JSON.parse(globalCookie).access_token,
-              productDetailsObj
-            );
-          }
+          this.props.addProductToCart(productDetailsObj);
+          this.props.history.replace({
+            pathname: `${productUrl}`,
+            state: { isSizeSelected: true, goToCartPageFlag: true }
+          });
         }
-        this.props.history.replace({
-          pathname: `${productUrl}`,
-          state: { isSizeSelected: true, goToCartPageFlag: true }
-        });
       }
     } else {
       this.props.history.replace({

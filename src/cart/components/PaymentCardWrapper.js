@@ -11,6 +11,7 @@ import CheckoutSavedCard from "./CheckoutSavedCard.js";
 import CheckoutCOD from "./CheckoutCOD.js";
 import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
+import PayPalOptions from "./PayPalOptions";
 import BankOffer from "./BankOffer.js";
 import GridSelect from "../../general/components/GridSelect";
 
@@ -18,6 +19,7 @@ import CheckOutHeader from "./CheckOutHeader";
 import { getCookie } from "../../lib/Cookie";
 
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
+const payPal = "PayPal";
 const keyForCreditCard = "Credit Card";
 const keyForDebitCard = "Debit Card";
 const keyForNetbanking = "Netbanking";
@@ -26,6 +28,7 @@ const keyForCOD = "COD";
 const keyForPaytm = "PAYTM";
 
 const sequanceOfPaymentMode = [
+  payPal,
   keyForCreditCard,
   keyForDebitCard,
   keyForEMI,
@@ -41,6 +44,7 @@ const typeComponentMapping = {
      "COD": props => <CheckoutCOD {...props}/>,
     "EMI": props => <EmiPanel {...props} />,
     "PAYTM": props => <PaytmOption {...props} />,
+    "PayPal" : props => <PayPalOptions {...props} />
 };
 
 export default class PaymentCardWrapper extends React.Component {
