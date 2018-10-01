@@ -40,22 +40,9 @@ export default class OrderRelatedIssue extends React.Component {
       showOrder: false,
       isSelected: 0,
       isSelectedOrder: false,
-      name:
-        getUserDetails && getUserDetails.firstName
-          ? getUserDetails.firstName.trim()
-          : "",
-      mobile:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      email:
-        getUserDetails &&
-        getUserDetails.loginType === "email" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
+      name: "",
+      mobile: "",
+      email: "",
       comment: "",
       file: "",
       l2SelectedOption: null,
@@ -76,8 +63,23 @@ export default class OrderRelatedIssue extends React.Component {
       l3SelectedReason: null
     };
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps && nextProps.userDetails) {
+      this.setState({
+        email: nextProps.userDetails.emailID
+          ? nextProps.userDetails.emailID
+          : "",
+        name: nextProps.userDetails.firstName
+          ? nextProps.userDetails.firstName
+          : "",
+        mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : ""
+      });
+    }
+  }
   componentDidMount() {
+    this.props.getUserDetails();
     this.props.getCustomerQueriesData();
     this.props.getOrdersTransactionData(false);
     this.props.setHeaderText(CUSTOMER_CARE);
@@ -115,27 +117,12 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   tabSelect(val) {
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const getUserDetails = JSON.parse(userDetailsCookie);
     if (this.state.isSelected !== val) {
       this.setState({
         isSelected: val,
-        name:
-          getUserDetails && getUserDetails.firstName
-            ? getUserDetails.firstName.trim()
-            : "",
-        mobile:
-          getUserDetails &&
-          getUserDetails.loginType === "mobile" &&
-          getUserDetails.userName
-            ? getUserDetails.userName
-            : "",
-        email:
-          getUserDetails &&
-          getUserDetails.loginType === "email" &&
-          getUserDetails.userName
-            ? getUserDetails.userName
-            : "",
+        name: this.state.name ? this.state.name : "",
+        mobile: this.state.mobile ? this.state.mobile : "",
+        email: this.state.email ? this.state.email : "",
         comment: "",
         file: "",
         l2SelectedOption: null,
@@ -379,7 +366,7 @@ export default class OrderRelatedIssue extends React.Component {
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const getUserDetails = JSON.parse(userDetailsCookie);
+
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
@@ -557,31 +544,20 @@ export default class OrderRelatedIssue extends React.Component {
                   confirmTitle="Personal Details"
                 />
               </div>
+
               <div className={styles.textInformationHolder}>
                 <FloatingLabelInput
                   label="Name"
                   value={this.state.name}
                   onChange={name => this.onChange({ name })}
                   onlyAlphabet={true}
-                  disabled={
-                    getUserDetails &&
-                    getUserDetails.firstName &&
-                    getUserDetails.firstName.trim()
-                      ? true
-                      : false
-                  }
+                  disabled={this.state.name ? true : false}
                 />
               </div>
               <div className={styles.textInformationHolder}>
                 <FloatingLabelInput
                   label="Email"
-                  disabled={
-                    getUserDetails &&
-                    getUserDetails.loginType === "email" &&
-                    getUserDetails.userName
-                      ? true
-                      : false
-                  }
+                  disabled={this.state.email ? true : false}
                   value={this.state.email}
                   onChange={email => this.onChange({ email })}
                 />
@@ -592,13 +568,7 @@ export default class OrderRelatedIssue extends React.Component {
                   maxLength={"10"}
                   value={this.state.mobile}
                   onChange={mobile => this.onChange({ mobile })}
-                  disabled={
-                    getUserDetails &&
-                    getUserDetails.loginType === "mobile" &&
-                    getUserDetails.userName
-                      ? true
-                      : false
-                  }
+                  disabled={this.state.mobile ? true : false}
                   onlyNumber={true}
                 />
               </div>
