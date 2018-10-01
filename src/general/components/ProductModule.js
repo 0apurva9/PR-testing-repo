@@ -118,13 +118,21 @@ export default class ProductModule extends React.Component {
             )}
           </div>
         </div>
-        {this.props.plpAttrMap && (
-          <div className={styles.productFeatureHolder}>
-            {this.props.plpAttrMap.map((val, i) => {
-              return <div className={styles.productFeature}>{val.value}</div>;
-            })}
-          </div>
-        )}
+        <React.Fragment>
+          {this.props.view === "list" && (
+            <div>
+              {this.props.plpAttrMap && (
+                <div className={styles.productFeatureHolder}>
+                  {this.props.plpAttrMap.map((val, i) => {
+                    return (
+                      <div className={styles.productFeature}>{val.value}</div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </React.Fragment>
       </div>
     );
   }
