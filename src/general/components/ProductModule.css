@@ -42,21 +42,18 @@
 }
 .productFeature {
   width: auto;
-  max-width: 50%;
-  height: 26px;
+  max-width: 100%;
+  height: auto;
   color: #212121;
   font-size: 12px;
-  text-align: center;
+  text-align: left;
   background: #e1e1e1;
-  padding: 0px 25px;
+  padding: 10px 25px;
   border-radius: 2px;
   margin-right: 10px;
   display: inline-block;
   vertical-align: middle;
-  line-height: 26px;
+  line-height: normal;
   margin-top: 10px;
   font-family: light;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
