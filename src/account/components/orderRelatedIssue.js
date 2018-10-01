@@ -60,7 +60,7 @@ export default class OrderRelatedIssue extends React.Component {
       file: "",
       l2SelectedOption: null,
       l3SelectedOption: null,
-      l4SelectedOption: null,
+
       isEnableForOrderRelated: false,
       isEnableForSubOrderRelated: false,
       isEnableForAnotherOrderRelated: false,
@@ -73,8 +73,7 @@ export default class OrderRelatedIssue extends React.Component {
       productPrice: "",
       productStatus: "",
       l2SelectedReason: null,
-      l3SelectedReason: null,
-      l4SelectedReason: null
+      l3SelectedReason: null
     };
   }
 
@@ -141,7 +140,7 @@ export default class OrderRelatedIssue extends React.Component {
         file: "",
         l2SelectedOption: null,
         l3SelectedOption: null,
-        l4SelectedOption: null,
+
         isEnableForOrderRelated: false,
         isEnableForSubOrderRelated: false,
         isEnableForAnotherOrderRelated: false,
@@ -154,8 +153,7 @@ export default class OrderRelatedIssue extends React.Component {
         productPrice: "",
         productStatus: "",
         l2SelectedReason: null,
-        l3SelectedReason: null,
-        l4SelectedReason: null
+        l3SelectedReason: null
       });
     }
   }
@@ -189,8 +187,7 @@ export default class OrderRelatedIssue extends React.Component {
       l2SelectedReason: label,
       l3SelectedReason: null,
       l3SelectedOption: null,
-      l4SelectedReason: null,
-      l4SelectedOption: null,
+
       isEnableForOrderRelated: true,
       isEnableForSubOrderRelated: false,
       isEnableForAnotherOrderRelated: false
@@ -202,19 +199,9 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       l3SelectedOption: code,
       l3SelectedReason: label,
-      l4SelectedOption: null,
-      l4SelectedReason: null,
+
       isEnableForSubOrderRelated: true,
       isEnableForAnotherOrderRelated: false
-    });
-  }
-  onChangeAnotherReasonForOrderRelated(val) {
-    const code = val.value;
-    const label = val.label;
-    this.setState({
-      l4SelectedOption: code,
-      l4SelectedReason: label,
-      isEnableForAnotherOrderRelated: true
     });
   }
   onChange(val) {
@@ -248,10 +235,6 @@ export default class OrderRelatedIssue extends React.Component {
       return false;
     }
     if (l2OptionsArray && !this.state.l3SelectedOption) {
-      this.props.displayToast(SELECT_SUB_ISSUE_FOR_ORDER_TEXT);
-      return false;
-    }
-    if (l3OptionsArray && !this.state.l4SelectedOption) {
       this.props.displayToast(SELECT_SUB_ISSUE_FOR_ORDER_TEXT);
       return false;
     }
@@ -292,9 +275,12 @@ export default class OrderRelatedIssue extends React.Component {
           contactMobile: this.state.mobile,
           contactName: this.state.name,
           comment: this.state.comment,
-          nodeL4: this.state.l4SelectedOption
-            ? this.state.l4SelectedOption
-            : undefined,
+          nodeL4:
+            l3OptionsArray &&
+            l3OptionsArray.children &&
+            l3OptionsArray.children.length > 0
+              ? l3OptionsArray.children[0].nodeCode
+              : undefined,
           transactionId: this.state.transactionId,
           orderCode: this.state.orderCode,
           subOrderCode: this.state.sellerOrderNumber
@@ -307,7 +293,6 @@ export default class OrderRelatedIssue extends React.Component {
           emailId: this.state.email,
           mobileNumber: this.state.mobile,
           comment: this.state.comment,
-          anOtherIssue: this.state.l4SelectedReason,
           issue: this.state.l2SelectedReason,
           subIssue: this.state.l3SelectedReason
         }
@@ -553,31 +538,6 @@ export default class OrderRelatedIssue extends React.Component {
                       isEnable={this.state.isEnableForSubOrderRelated}
                       onChange={val =>
                         this.onChangeSubReasonForOrderRelated(val)
-                      }
-                    />
-                  </div>
-                )}
-              {l3OptionsArray &&
-                l3OptionsArray.children &&
-                l3OptionsArray.children.length > 0 && (
-                  <div className={styles.selectIssue}>
-                    <SelectBoxMobile2
-                      placeholder="Select sub-issue"
-                      arrowColour="black"
-                      height={33}
-                      options={
-                        l3OptionsArray &&
-                        l3OptionsArray.children &&
-                        l3OptionsArray.children.map((val, i) => {
-                          return {
-                            value: val.nodeCode,
-                            label: val.nodeDesc
-                          };
-                        })
-                      }
-                      isEnable={this.state.isEnableForAnotherOrderRelated}
-                      onChange={val =>
-                        this.onChangeAnotherReasonForOrderRelated(val)
                       }
                     />
                   </div>
