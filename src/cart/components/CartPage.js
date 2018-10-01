@@ -56,7 +56,10 @@ class CartPage extends React.Component {
     };
   }
   showHideDetails = () => {
-    window.scroll({ top: window.innerHeight, behavior: "smooth" });
+    window.scroll({
+      top: document && document.body && document.body.offsetHeight,
+      behavior: "smooth"
+    });
   };
   navigateToHome() {
     this.props.history.push(HOME_ROUTER);
