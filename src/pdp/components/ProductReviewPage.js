@@ -26,7 +26,7 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
-import commentArray from "../lang_profanity.json";
+import commentArray from "./mock/lang_profanity.json";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
