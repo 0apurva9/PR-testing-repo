@@ -204,15 +204,6 @@ export default class OrderRelatedIssue extends React.Component {
       isEnableForAnotherOrderRelated: false
     });
   }
-  // onChangeAnotherReasonForOrderRelated(val) {
-  //   const code = val.value;
-  //   const label = val.label;
-  //   this.setState({
-  //     l4SelectedOption: code,
-  //     l4SelectedReason: label,
-  //     isEnableForAnotherOrderRelated: true
-  //   });
-  // }
   onChange(val) {
     this.setState(val);
   }
