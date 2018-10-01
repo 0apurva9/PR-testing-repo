@@ -508,7 +508,10 @@ export default class OrderRelatedIssue extends React.Component {
             )}
             <div className={styles.selectIssueHolder}>
               <div className={styles.secondOrder}>
-                <CheckOutHeader indexNumber="2" confirmTitle="Select issue" />
+                <CheckOutHeader
+                  indexNumber={this.state.isSelected === 0 ? "2" : "1"}
+                  confirmTitle="Select issue"
+                />
               </div>
               <div className={styles.selectIssue}>
                 <SelectBoxMobile2
@@ -590,7 +593,7 @@ export default class OrderRelatedIssue extends React.Component {
             <div className={styles.selectIssueHolder}>
               <div className={styles.secondOrder}>
                 <CheckOutHeader
-                  indexNumber="3"
+                  indexNumber={this.state.isSelected === 0 ? "3" : "2"}
                   confirmTitle="Personal Details"
                 />
               </div>
