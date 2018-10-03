@@ -58,7 +58,7 @@ export default class EmiModal extends React.Component {
   }
   tabSelect(val) {
     if (this.state.isSelected !== val) {
-      this.setState({ openIndex: null, showEmi: false });
+      this.setState({ openIndex: null, showEmi: false, showBank: false });
     }
     this.setState({ isSelected: val });
   }
