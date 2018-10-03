@@ -5,6 +5,17 @@ import styles from "./Checkout.css";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class CheckoutStaticSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isToggelAdditionDiscount: false
+    };
+  }
+  additionDiscountToggleView = () => {
+    this.setState({
+      isToggelAdditionDiscount: !this.state.isToggelAdditionDiscount
+    });
+  };
   render() {
     let classOffers = styles.informationAnswerHolder;
     if (this.props.offers) {
@@ -21,6 +32,7 @@ export default class CheckoutStaticSection extends React.Component {
           ? `${bagSubTotal}.00`
           : bagSubTotal;
     }
+
     return (
       <React.Fragment>
         {cartAmount && (
@@ -37,17 +49,7 @@ export default class CheckoutStaticSection extends React.Component {
                     </div>
                   </div>
                 )}
-                {bagSubTotal && (
-                  <div className={styles.informationHolder}>
-                    <div className={styles.informationQuestionHolder}>
-                      Bag Subtotal
-                    </div>
-                    <div className={styles.informationAnswerHolder}>
-                      {RUPEE_SYMBOL}
-                      {bagSubTotal}
-                    </div>
-                  </div>
-                )}
+
                 {cartAmount.shippingCharge &&
                 cartAmount.shippingCharge.value !== 0 ? (
                   <div className={styles.informationHolder}>
@@ -64,6 +66,17 @@ export default class CheckoutStaticSection extends React.Component {
                       Shipping Charge
                     </div>
                     <div className={styles.informationAnswerHolder}>Free</div>
+                  </div>
+                )}
+                {bagSubTotal && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Bag Subtotal
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {bagSubTotal}
+                    </div>
                   </div>
                 )}
                 {cartAmount.totalDiscountAmount &&
@@ -99,6 +112,19 @@ export default class CheckoutStaticSection extends React.Component {
                       </div>
                     </div>
                   )}
+                {(cartAmount.cartDiscount ||
+                  cartAmount.noCostEMIDiscountValue) &&
+                  this.props.isCliqCashApplied && (
+                    <div className={styles.informationHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        Cliq Cash
+                      </div>
+                      <div className={classOffers}>
+                        {RUPEE_SYMBOL}
+                        {this.props.cliqCashPaidAmount}
+                      </div>
+                    </div>
+                  )}
                 {cartAmount.cartDiscount &&
                   cartAmount.cartDiscount.value !== 0 && (
                     <div className={styles.informationDiscountHolder}>
@@ -123,9 +149,18 @@ export default class CheckoutStaticSection extends React.Component {
                   )}
                 {cartAmount.additionalDiscount && (
                   <div>
-                    <div className={styles.informationDiscountHolder}>
+                    <div
+                      className={styles.informationDiscountHolder}
+                      onClick={() => this.additionDiscountToggleView()}
+                    >
                       <div className={styles.informationQuestionHolder}>
-                        Additional Discount(s)
+                        <span>Additional Discount(s)</span>
+                        {!this.state.isToggelAdditionDiscount && (
+                          <span className={styles.toggleIcon} />
+                        )}
+                        {this.state.isToggelAdditionDiscount && (
+                          <span className={styles.onToggleActive} />
+                        )}
                       </div>
                       <div className={styles.informationAnswerHolder}>
                         -{cartAmount.additionalDiscount
@@ -134,30 +169,36 @@ export default class CheckoutStaticSection extends React.Component {
                             .formattedValue}
                       </div>
                     </div>
-
-                    <div className={styles.informationAdditionalDiscountHolder}>
+                    {this.state.isToggelAdditionDiscount && (
+                      <div
+                        className={styles.informationAdditionalDiscountHolder}
+                      >
+                        <div className={styles.informationQuestionHolder}>
+                          Shipping Charge Discount
+                        </div>
+                        <div className={styles.informationAnswerHolder}>
+                          -{cartAmount.additionalDiscount.shippingDiscount &&
+                            cartAmount.additionalDiscount.shippingDiscount
+                              .formattedValue}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {!(
+                  cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue
+                ) &&
+                  this.props.isCliqCashApplied && (
+                    <div className={styles.informationHolder}>
                       <div className={styles.informationQuestionHolder}>
-                        Shipping Charge Discount
+                        Cliq Cash
                       </div>
-                      <div className={styles.informationAnswerHolder}>
-                        -{cartAmount.additionalDiscount.shippingDiscount &&
-                          cartAmount.additionalDiscount.shippingDiscount
-                            .formattedValue}
+                      <div className={classOffers}>
+                        {RUPEE_SYMBOL}
+                        {this.props.cliqCashPaidAmount}
                       </div>
                     </div>
-                  </div>
-                )}
-                {this.props.isCliqCashApplied && (
-                  <div className={styles.informationHolder}>
-                    <div className={styles.informationQuestionHolder}>
-                      Cliq Cash
-                    </div>
-                    <div className={classOffers}>
-                      {RUPEE_SYMBOL}
-                      {this.props.cliqCashPaidAmount}
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 {cartAmount.paybleAmount && (
                   <div className={styles.visiblePayableSection}>
@@ -170,37 +211,40 @@ export default class CheckoutStaticSection extends React.Component {
                   </div>
                 )}
                 {!(
-                  !cartAmount.totalDiscountAmount ||
-                  cartAmount.totalDiscountAmount.value !== 0 ||
-                  !cartAmount.bagDiscount ||
-                  !cartAmount.couponDiscountAmount ||
-                  !cartAmount.cartDiscount ||
-                  !cartAmount.noCostEMIDiscountValue ||
+                  (!cartAmount.totalDiscountAmount ||
+                    cartAmount.totalDiscountAmount.value === 0) &&
+                  !cartAmount.bagDiscount &&
+                  !cartAmount.couponDiscountAmount &&
+                  !cartAmount.cartDiscount &&
+                  !cartAmount.noCostEMIDiscountValue &&
                   !cartAmount.additionalDiscount
                 ) && (
                   <div className={styles.informationDiscountHolder}>
                     <div className={styles.informationQuestionHolder}>
                       You will save {RUPEE_SYMBOL}
-                      {(cartAmount.totalDiscountAmount
-                        ? cartAmount.totalDiscountAmount.value
-                        : 0) +
-                        (cartAmount.bagDiscount
-                          ? cartAmount.bagDiscount.value
+                      {Math.floor(
+                        ((cartAmount.totalDiscountAmount
+                          ? cartAmount.totalDiscountAmount.value
                           : 0) +
-                        (cartAmount.couponDiscountAmount
-                          ? cartAmount.couponDiscountAmount.value
-                          : 0) +
-                        (cartAmount.cartDiscount
-                          ? cartAmount.cartDiscount.value
-                          : 0) +
-                        (cartAmount.noCostEMIDiscountValue
-                          ? cartAmount.noCostEMIDiscountValue.value
-                          : 0) +
-                        (cartAmount.additionalDiscount &&
-                        cartAmount.additionalDiscount.totalAdditionalDiscount
-                          ? cartAmount.additionalDiscount
-                              .totalAdditionalDiscount.value
-                          : 0)}{" "}
+                          (cartAmount.bagDiscount
+                            ? cartAmount.bagDiscount.value
+                            : 0) +
+                          (cartAmount.couponDiscountAmount
+                            ? cartAmount.couponDiscountAmount.value
+                            : 0) +
+                          (cartAmount.cartDiscount
+                            ? cartAmount.cartDiscount.value
+                            : 0) +
+                          (cartAmount.noCostEMIDiscountValue
+                            ? cartAmount.noCostEMIDiscountValue.value
+                            : 0) +
+                          (cartAmount.additionalDiscount &&
+                          cartAmount.additionalDiscount.totalAdditionalDiscount
+                            ? cartAmount.additionalDiscount
+                                .totalAdditionalDiscount.value
+                            : 0)) *
+                          100
+                      ) / 100}{" "}
                       on this order
                     </div>
                   </div>

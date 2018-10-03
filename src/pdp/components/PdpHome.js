@@ -20,7 +20,8 @@ import {
   COLLECT,
   BUY_NOW_PRODUCT_DETAIL,
   LOGIN_PATH,
-  SUCCESS
+  SUCCESS,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
@@ -126,6 +127,11 @@ export default class PdpApparel extends React.Component {
       this.props.visitBrandStore();
     }
   }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   gotoPreviousPage = () => {
     this.props.history.goBack();
   };
@@ -168,10 +174,11 @@ export default class PdpApparel extends React.Component {
   };
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
+    const productCode = this.props.productDetails.productListingId;
+    const ussId = this.props.productDetails.winningUssID;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const globalAccessToken = JSON.parse(globalCookie).access_token;
-    this.props.getPdpEmi(globalAccessToken, cartValue);
-    this.props.getEmiTerms(globalAccessToken, cartValue);
+    this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
   addToCart = async buyNowFlag => {
@@ -205,11 +212,13 @@ export default class PdpApparel extends React.Component {
                 BUY_NOW_PRODUCT_DETAIL,
                 JSON.stringify(productDetails)
               );
-              this.props.history.push(LOGIN_PATH);
+              this.navigateToLogin();
             } else {
               const buyNowResponse = await this.props.buyNow(productDetails);
               if (buyNowResponse && buyNowResponse.status === SUCCESS) {
                 this.props.history.push(PRODUCT_CART_ROUTER);
+              } else {
+                this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
               }
             }
           } else {
@@ -368,6 +377,9 @@ export default class PdpApparel extends React.Component {
             <PdpPaymentInfo
               hasEmi={productData.isEMIEligible}
               hasCod={productData.isCOD}
+              seStartingPrice={productData.seStartingPrice}
+              nceAvailable={productData.nceAvailable}
+              nceStartingPrice={productData.nceStartingPrice}
               showEmiModal={() => this.showEmiModal()}
             />
             <div className={styles.wishlist}>

@@ -19,6 +19,7 @@ const productDescription = (
       sizeGuideList: []
     },
     emiResult: null,
+    loadingForEmiResult: false,
     reviews: {},
     reviewsStatus: null,
     loadingForAddProduct: false,
@@ -255,21 +256,21 @@ const productDescription = (
     case pdpActions.PRODUCT_PDP_EMI_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
-        loading: true
+        loadingForEmiResult: true
       });
 
     case pdpActions.PRODUCT_PDP_EMI_SUCCESS:
       return Object.assign({}, state, {
         status: action.status,
         emiResult: action.emiResult,
-        loading: false
+        loadingForEmiResult: false
       });
 
     case pdpActions.PRODUCT_PDP_EMI_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
-        loading: false
+        loadingForEmiResult: false
       });
 
     case pdpActions.PRODUCT_SPECIFICATION_REQUEST:

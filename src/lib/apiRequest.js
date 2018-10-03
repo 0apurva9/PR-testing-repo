@@ -533,6 +533,16 @@ export async function postJusPay(path, postData) {
     body: postData
   });
 }
+export async function postJusPayUrlEncode(path, postData) {
+  let url = `${JUS_PAY_API_URL_ROOT}/${path}`;
+  return await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    body: postData
+  });
+}
 
 // this function is using in follow and un follow brands
 // because there we have to send payload in formData or Row Data format in msd api

@@ -158,7 +158,8 @@ export default class Carousel extends React.Component {
                             width:
                               this.props.elementWidthMobile === "auto"
                                 ? "auto"
-                                : `${this.props.elementWidthMobile}%`
+                                : `${this.props.elementWidthMobile}%`,
+                            padding: this.props.padding
                           }}
                         >
                           <VisibilityChild>{child}</VisibilityChild>
@@ -200,7 +201,8 @@ Carousel.propTypes = {
   isWhite: PropTypes.bool,
   seeAll: PropTypes.func,
   withFooter: PropTypes.bool,
-  headerComponent: PropTypes.element
+  headerComponent: PropTypes.element,
+  padding: PropTypes.string
 };
 
 Carousel.defaultProps = {
@@ -208,5 +210,6 @@ Carousel.defaultProps = {
   elementWidthMobile: 45,
   buttonText: null,
   color: "#181818",
-  withFooter: true
+  withFooter: true,
+  padding: "0px 10px"
 };

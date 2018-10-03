@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import {
   getProductDescription,
   addProductToCart
@@ -6,6 +7,8 @@ import {
 import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants.js";
 import SizeSelectModal from "../components/SizeSelectModal";
 import { displayToast } from "../../general/toast.actions.js";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: productCode => {
@@ -21,6 +24,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       ) {
         dispatch(displayToast(ADD_TO_BAG_TEXT));
       }
+    },
+    buyNow: productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
+    },
+    displayToast: errorMessage => {
+      dispatch(displayToast(errorMessage));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };
@@ -30,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
     isFromModal: true
   };
 };
-const SizeSelectModalContainer = connect(mapStateToProps, mapDispatchToProps)(
-  SizeSelectModal
+const SizeSelectModalContainer = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SizeSelectModal)
 );
 export default SizeSelectModalContainer;

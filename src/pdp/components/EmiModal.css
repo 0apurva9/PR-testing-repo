@@ -17,6 +17,10 @@
   font-size: 14px;
   line-height: 40px;
   padding: 0 20px;
+  text-align: center;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
 }
 .info {
   width: 100%;
@@ -24,18 +28,29 @@
   font-size: 14px;
   line-height: 22px;
   padding: 20px;
+  font-family: regular;
+}
+.bankInfo {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 15px 20px 0px 20px;
+  font-family: regular;
 }
 .termsAndConditions {
-  background: #ececec;
-  padding: 10px;
   font-family: light;
   font-size: 14px;
+  padding-bottom: 10px;
 }
 .termsAndConditions li {
   font-size: 14px;
   line-height: 22px;
-  font-family: regular;
+  font-family: light;
   margin-bottom: 5px;
+}
+.termsAndConditions ul {
+  padding-right: 15px;
 }
 .bankNameHeader {
   width: 100%;
@@ -48,4 +63,59 @@
   font-family: semibold;
   font-size: 14px;
   background: #ececec;
+}
+.tabHolder {
+  width: 100%;
+  height: 60px;
+  background-color: #ececec;
+  position: sticky;
+  top: 40px;
+  z-index: 1;
+}
+.standardEmiHeading {
+  width: 100%;
+  height: auto;
+  font-size: 16px;
+  padding: 20px 20px 0px 20px;
+  font-family: semibold;
+}
+.headingWithHideButton {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 45px;
+  vertical-align: top;
+}
+.heading {
+  width: 100%;
+  height: auto;
+  font-size: 12px;
+  font-family: semibold;
+}
+.hideButton {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 20px;
+  top: -5px;
+  vertical-align: top;
+  margin: auto;
+}
+.headingWithDescription {
+  width: 100%;
+  height: auto;
+  background-color: #f8f8f8;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.termsAndConditionsHeading {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-left: 20px;
+  font-size: 14px;
+  font-family: regular;
+  padding-top: 20px;
 }

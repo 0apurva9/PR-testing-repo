@@ -34,6 +34,7 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
@@ -75,8 +76,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
     },
-    getPdpEmi: (token, cartValue) => {
-      dispatch(getPdpEmi(token, cartValue));
+    getPdpEmi: (token, cartValue, productCode, ussId) => {
+      dispatch(getPdpEmi(token, cartValue, productCode, ussId));
     },
     getEmiTerms: (token, productValue) => {
       dispatch(getEmiTerms(token, productValue));
@@ -110,6 +111,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hidePdpPiqPage: () => {
       dispatch(hidePdpPiqPage());
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };

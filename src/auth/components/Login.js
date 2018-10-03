@@ -10,7 +10,8 @@ import {
   CART_DETAILS_FOR_ANONYMOUS,
   MY_ACCOUNT_CART_PAGE,
   BUY_NOW_PRODUCT_DETAIL,
-  SUCCESS
+  SUCCESS,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
@@ -83,6 +84,7 @@ then in this case we have to hit generate temp cart id for user
       }
     }
   }
+
   async goForBuyNow() {
     const productDetailsForBuyNow = localStorage.getItem(
       BUY_NOW_PRODUCT_DETAIL
@@ -92,6 +94,12 @@ then in this case we have to hit generate temp cart id for user
     );
     if (buyNowResponse && buyNowResponse.status === SUCCESS) {
       this.props.history.push(PRODUCT_CART_ROUTER);
+    } else {
+      this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+      if (this.props.redirectToAfterAuthUrl) {
+        this.props.history.replace(this.props.redirectToAfterAuthUrl);
+        this.props.clearUrlToRedirectToAfterAuth();
+      }
     }
   }
   navigateToSignUp() {

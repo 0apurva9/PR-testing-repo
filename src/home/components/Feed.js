@@ -19,6 +19,7 @@ import ThemeOffer from "./ThemeOffer.js";
 import ThemeProductWidget from "./ThemeProductWidget.js";
 import DiscoverMore from "./DiscoverMore.js";
 import CuratedProductsComponent from "./CuratedProductsComponent";
+import AllQuickLinks from "./AllQuickLinks";
 import MonoBanner from "./MonoBanner";
 import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
@@ -37,6 +38,7 @@ import {
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
 import { setDataLayer, ADOBE_HOME_TYPE } from "../../lib/adobeUtils";
+
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 
 const typeKeyMapping = {
@@ -49,7 +51,18 @@ const ProductCapsulesContainer = Loadable({
     return <div />;
   }
 });
-
+const MultipleBanners = Loadable({
+  loader: () => import("./MultipleBanners"),
+  loading() {
+    return <div />;
+  }
+});
+const BankOfferBanner = Loadable({
+  loader: () => import("./BankOfferBanner"),
+  loading() {
+    return <div />;
+  }
+});
 const CMSParagraphComponent = Loadable({
   loader: () => import("../../staticpage/components/CMSParagraphComponent"),
   loading() {
@@ -128,6 +141,7 @@ export const typeComponentMapping = {
   "Landing Page Header Component": props => {
     return <BrandCardHeader {...props} />;
   },
+  "Quick Links Component": props => <AllQuickLinks {...props} />,
   "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
   "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
   "Auto Product Recommendation Component": props => (
@@ -144,6 +158,7 @@ export const typeComponentMapping = {
     <AutomatedBrandProductCarousel {...props} />
   ),
   "Auto Following Brands Component": props => <FollowingBrands {...props} />,
+  "Multiple Banner Component": props => <MultipleBanners {...props} />,
   "Flash Sales Component": props => <FlashSale {...props} />, // wired up
   "Offers Component": props => <OfferWidget {...props} />, // wired up
   "Multipurpose Banner Component": props => <ConnectWidget {...props} />, // modal not working - need to figure out what to show here.
@@ -159,10 +174,12 @@ export const typeComponentMapping = {
   "Curated Products Component": props => (
     <CuratedProductsComponent {...props} />
   ),
+  "Bank Offer Component": props => <BankOfferBanner {...props} />,
   "Sub Brands Banner Component": props => <SubBrandsBanner {...props} />,
   "Landing Page Hierarchy": props => <AllBrandTypes {...props} />,
   "Landing Page Hierarchy Component": props => <AllBrandTypes {...props} />,
   "CMS Paragraph Component": props => <CMSParagraphComponent {...props} />,
+
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>

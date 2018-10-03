@@ -14,7 +14,8 @@ import {
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
   PRODUCT_CART_ROUTER,
-  BUY_NOW_PRODUCT_DETAIL
+  BUY_NOW_PRODUCT_DETAIL,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -25,10 +26,10 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
+import commentArray from "../../mock/lang_profanity.json";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
-
 class ProductReviewPage extends Component {
   constructor(props) {
     super(props);
@@ -79,7 +80,11 @@ class ProductReviewPage extends Component {
       }
     }, 2000);
   };
-
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -130,14 +135,25 @@ class ProductReviewPage extends Component {
     if (!productReview.comment) {
       this.props.displayToast("Please enter comment");
       return false;
-    } else {
-      if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
-        this.setState({ visible: false });
+    }
+    if (productReview.comment) {
+      let notCommentPossible = commentArray.words.find(words => {
+        if (productReview.comment.includes(words)) {
+          return true;
+        }
+      });
+      if (notCommentPossible) {
+        this.props.displayToast("Review comment contains profane words");
+        return false;
+      } else {
+        if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+          this.setState({ visible: false });
+        }
+        return this.props.addProductReview(
+          this.props.productDetails.productListingId,
+          productReview
+        );
       }
-      return this.props.addProductReview(
-        this.props.productDetails.productListingId,
-        productReview
-      );
     }
   };
   onCancel() {
@@ -171,11 +187,13 @@ class ProductReviewPage extends Component {
           BUY_NOW_PRODUCT_DETAIL,
           JSON.stringify(productDetails)
         );
-        this.props.history.push(LOGIN_PATH);
+        this.navigateToLogin();
       } else {
         const buyNowResponse = await this.props.buyNow(productDetails);
         if (buyNowResponse && buyNowResponse.status === SUCCESS) {
           this.props.history.push(PRODUCT_CART_ROUTER);
+        } else {
+          this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
         }
       }
     } else {
