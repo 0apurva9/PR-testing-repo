@@ -48,8 +48,8 @@ export default class EmiModal extends React.Component {
       }
     });
   }
-  toggleBankView() {
-    this.setState({ showBank: !this.state.showBank, openIndex: null }, () => {
+  toggleBankView(i) {
+    this.setState({ showBank: i ? i : null, openIndex: null }, () => {
       if (this.state.showBank) {
         let scroll = document.getElementById("viewTermsAndConditionBank");
         scroll.scrollIntoView();
@@ -168,57 +168,55 @@ export default class EmiModal extends React.Component {
                   <div className={styles.termsAndConditionsHeading}>
                     Terms & Conditions
                   </div>
-                  {!this.state.showBank &&
-                    this.state.noCostEmiArray.bankSpecificTnC &&
-                    this.state.noCostEmiArray.bankSpecificTnC.length > 0 && (
-                      <div className={styles.bankInfo}>
-                        <UnderLinedButton
-                          label="Bajaj Finserv T&C"
-                          onClick={() => {
-                            this.toggleBankView();
-                          }}
-                          fontFamily="regular"
-                          size={12}
-                        />
-                      </div>
-                    )}
-                  {this.state.showBank &&
-                    this.state.noCostEmiArray.bankSpecificTnC &&
-                    this.state.noCostEmiArray.bankSpecificTnC.length > 0 && (
-                      <div className={styles.headingWithDescription}>
-                        <div className={styles.headingWithHideButton}>
-                          <div className={styles.heading}>
-                            Bajaj Finserv T&C
-                          </div>
-                          <div
-                            className={styles.hideButton}
-                            id="viewTermsAndConditionBank"
-                          >
-                            <UnderLinedButton
-                              label={"Hide"}
-                              onClick={() => {
-                                this.toggleBankView();
-                              }}
-                              fontFamily="regular"
-                              size={12}
-                            />
-                          </div>
-                        </div>
-                        <div className={styles.content}>
-                          <ul>
-                            {this.state.noCostEmiArray.bankSpecificTnC.map(
-                              bankDescription => {
-                                return (
-                                  <div className={styles.termsAndConditions}>
-                                    <li>{bankDescription.description}</li>
-                                  </div>
-                                );
-                              }
+                  {this.state.noCostEmiArray.bankSpecificTnC &&
+                    this.state.noCostEmiArray.bankSpecificTnC.length > 0 &&
+                    this.state.noCostEmiArray.bankSpecificTnC.map((bank, i) => {
+                      return (
+                        <React.Fragment>
+                          <div className={styles.headingWithHideButton}>
+                            <div className={styles.bankInfo} key={i}>
+                              {this.state.showBank === bank.title ? (
+                                <div>{bank.title}</div>
+                              ) : (
+                                <UnderLinedButton
+                                  label={bank.title}
+                                  onClick={() => {
+                                    this.toggleBankView(bank.title);
+                                  }}
+                                  fontFamily="regular"
+                                  size={12}
+                                />
+                              )}
+                            </div>
+                            {this.state.showBank === bank.title && (
+                              <div
+                                className={styles.hideButton}
+                                id="viewTermsAndConditionBank"
+                              >
+                                <UnderLinedButton
+                                  label={"Hide"}
+                                  onClick={() => {
+                                    this.toggleBankView();
+                                  }}
+                                  fontFamily="regular"
+                                  size={12}
+                                />
+                              </div>
                             )}
-                          </ul>
-                        </div>
-                      </div>
-                    )}
+                          </div>
+                          {this.state.showBank === bank.title && (
+                            <div
+                              className={styles.headingWithDescription}
+                              id="viewTermsAndConditionBank"
+                            >
+                              <div className={styles.termsAndConditions}>
+                                {bank.description}
+                              </div>
+                            </div>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
                   {!this.state.showEmi &&
                     this.state.noCostEmiArray.termsAndConditions &&
                     this.state.noCostEmiArray.termsAndConditions
@@ -304,57 +302,58 @@ export default class EmiModal extends React.Component {
                   <div className={styles.termsAndConditionsHeading}>
                     Terms & Conditions
                   </div>
-                  {!this.state.showBank &&
-                    this.state.standardEmiArray.bankSpecificTnC &&
-                    this.state.standardEmiArray.bankSpecificTnC.length > 0 && (
-                      <div className={styles.bankInfo}>
-                        <UnderLinedButton
-                          label="Bajaj Finserv T&C"
-                          onClick={() => {
-                            this.toggleBankView();
-                          }}
-                          fontFamily="regular"
-                          size={12}
-                        />
-                      </div>
-                    )}
-                  {this.state.showBank &&
-                    this.state.standardEmiArray.bankSpecificTnC &&
-                    this.state.standardEmiArray.bankSpecificTnC.length > 0 && (
-                      <div className={styles.headingWithDescription}>
-                        <div className={styles.headingWithHideButton}>
-                          <div className={styles.heading}>
-                            Bajaj Finserv T&C
-                          </div>
-                          <div
-                            className={styles.hideButton}
-                            id="viewTermsAndConditionBank"
-                          >
-                            <UnderLinedButton
-                              label={"Hide"}
-                              onClick={() => {
-                                this.toggleBankView();
-                              }}
-                              fontFamily="regular"
-                              size={12}
-                            />
-                          </div>
-                        </div>
-                        <div className={styles.content}>
-                          <ul>
-                            {this.state.standardEmiArray.bankSpecificTnC.map(
-                              bankDescription => {
-                                return (
-                                  <div className={styles.termsAndConditions}>
-                                    <li>{bankDescription.description}</li>
-                                  </div>
-                                );
-                              }
+                  {this.state.standardEmiArray.bankSpecificTnC &&
+                    this.state.standardEmiArray.bankSpecificTnC.length > 0 &&
+                    this.state.standardEmiArray.bankSpecificTnC.map(
+                      (bank, i) => {
+                        return (
+                          <React.Fragment>
+                            <div className={styles.headingWithHideButton}>
+                              <div className={styles.bankInfo} key={i}>
+                                {this.state.showBank === bank.title ? (
+                                  <div> {bank.title}</div>
+                                ) : (
+                                  <UnderLinedButton
+                                    label={bank.title}
+                                    onClick={() => {
+                                      this.toggleBankView(bank.title);
+                                    }}
+                                    fontFamily="regular"
+                                    size={12}
+                                  />
+                                )}
+                              </div>
+                              {this.state.showBank === bank.title && (
+                                <div
+                                  className={styles.hideButton}
+                                  id="viewTermsAndConditionBank"
+                                >
+                                  <UnderLinedButton
+                                    label={"Hide"}
+                                    onClick={() => {
+                                      this.toggleBankView();
+                                    }}
+                                    fontFamily="regular"
+                                    size={12}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            {this.state.showBank === bank.title && (
+                              <div
+                                className={styles.headingWithDescription}
+                                id="viewTermsAndConditionBank"
+                              >
+                                <div className={styles.termsAndConditions}>
+                                  {bank.description}
+                                </div>
+                              </div>
                             )}
-                          </ul>
-                        </div>
-                      </div>
+                          </React.Fragment>
+                        );
+                      }
                     )}
+
                   {!this.state.showEmi && (
                     <div className={styles.bankInfo}>
                       <UnderLinedButton
