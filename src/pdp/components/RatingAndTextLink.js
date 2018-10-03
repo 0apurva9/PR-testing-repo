@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import StarRating from "../../general/components/StarRating.js";
 import PdpLink from "./PdpLink";
 import styles from "./RatingAndTextLink.css";
-const NO_REVIEW_TEXT = "There are no reviews yet";
+const NO_REVIEW_TEXT = "Be the first to review this product";
 export default class RatingAndTextLink extends React.Component {
   onClick() {
     if (this.props.onClick) {

@@ -2481,7 +2481,7 @@ export function getUserReview(pageIndex) {
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/viewUserReview?access_token=${
+        }/viewUserReview?fields=BASIC&access_token=${
           JSON.parse(customerCookie).access_token
         }&page=${pageIndex}&pageSize=${PAGE_NUMBER}`
       );

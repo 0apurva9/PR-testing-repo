@@ -4,7 +4,13 @@ import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS } from "../../account/
 import cloneDeep from "lodash.clonedeep";
 import map from "lodash.map";
 import findIndex from "lodash.findindex";
-import { HOME_FEED_TYPE } from "../../lib/constants";
+import {
+  HOME_FEED_TYPE,
+  BANK_OFFER_COMPONENT_NAME_HC,
+  MULTIPLE_BANNER_COMPONENT_NAME_HC,
+  QUICK_LINKS_COMPONENT_NAME_HC,
+  HARD_CODED_KEY_FOR_COMPONENT
+} from "../../lib/constants";
 import { transformFetchingItemsOrder } from "./utils";
 const feed = (
   state = {
@@ -83,8 +89,16 @@ const feed = (
 
         homeFeedData = map(homeFeedClonedData, subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+          let componentName = subData.componentName;
+          if (
+            componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+            componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+            componentName === QUICK_LINKS_COMPONENT_NAME_HC
+          ) {
+            componentName = HARD_CODED_KEY_FOR_COMPONENT;
+          }
           return {
-            ...subData[subData.componentName],
+            ...subData[componentName],
             loading: false,
             status: ""
           };
@@ -133,12 +147,23 @@ const feed = (
 
         homeFeedData = map(homeFeedClonedData, subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+
+          let componentName = subData.componentName;
+          if (
+            componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+            componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+            componentName === QUICK_LINKS_COMPONENT_NAME_HC
+          ) {
+            componentName = HARD_CODED_KEY_FOR_COMPONENT;
+          }
+
           return {
-            ...subData[subData.componentName],
+            ...subData[componentName],
             loading: false,
             status: ""
           };
         });
+
         return Object.assign({}, state, {
           status: action.status,
           homeFeed: homeFeedData,
@@ -180,10 +205,18 @@ const feed = (
       });
 
     case homeActions.COMPONENT_BACK_UP_SUCCESS:
+      let componentName = action.data.componentName;
+      if (
+        componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+        componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+        componentName === QUICK_LINKS_COMPONENT_NAME_HC
+      ) {
+        componentName = HARD_CODED_KEY_FOR_COMPONENT;
+      }
       homeFeedData = state.homeFeed;
       homeFeedData[action.positionInFeed].useBackUpData = false;
       homeFeedData[action.positionInFeed].backUpLoading = false;
-      toUpdate = action.data[action.data.componentName];
+      toUpdate = action.data[componentName];
       componentData = {
         ...homeFeedData[action.positionInFeed],
         ...toUpdate,
@@ -303,8 +336,16 @@ const feed = (
           loading: false,
           status: action.status
         };
+        let componentName = action.data.componentName;
+        if (
+          componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+          componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+          componentName === QUICK_LINKS_COMPONENT_NAME_HC
+        ) {
+          componentName = HARD_CODED_KEY_FOR_COMPONENT;
+        }
         if (!action.isMsd) {
-          toUpdate = action.data[action.data.componentName];
+          toUpdate = action.data[componentName];
           componentData = {
             ...homeFeedData[action.positionInFeed],
             ...toUpdate,

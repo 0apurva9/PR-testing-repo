@@ -695,12 +695,13 @@ class CheckOutPage extends React.Component {
       }
       this.setState({ isPaymentFailed: true });
       this.props.getPaymentFailureOrderDetails();
-
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
         this.setState({
           isGiftCard: true,
           isRemainingAmount: true,
+          payableAmount: Math.round(giftCartObj.amount * 100) / 100,
+          bagAmount: Math.round(giftCartObj.amount * 100) / 100,
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
@@ -992,6 +993,7 @@ class CheckOutPage extends React.Component {
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
+
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
@@ -1013,11 +1015,15 @@ class CheckOutPage extends React.Component {
       }
       this.setState({ isPaymentFailed: true });
       this.props.getPaymentFailureOrderDetails();
+
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+
         this.setState({
           isGiftCard: true,
           isRemainingAmount: true,
+          payableAmount: Math.round(giftCartObj.amount * 100) / 100,
+          bagAmount: Math.round(giftCartObj.amount * 100) / 100,
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
@@ -1040,10 +1046,14 @@ class CheckOutPage extends React.Component {
       this.props.location.state.isFromGiftCard &&
       this.props.location.state.amount
     ) {
+      let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
       this.getPaymentModes();
       this.setState({
         isGiftCard: true,
-        isRemainingAmount: true
+        isRemainingAmount: true,
+        payableAmount: Math.round(giftCartObj.amount * 100) / 100,
+        bagAmount: Math.round(giftCartObj.amount * 100) / 100,
+        egvCartGuid: giftCartObj.egvCartGuid
       });
     } else {
       if (this.props.getCartDetailsCNC && this.props.getUserAddress) {
@@ -2216,11 +2226,13 @@ class CheckOutPage extends React.Component {
               }
               isNoCostEmiApplied={this.state.isNoCostEmiApplied}
               amount={
-                this.props.cart &&
-                this.props.cart.cartDetailsCNC &&
-                this.props.cart.cartDetailsCNC.cartAmount &&
-                this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
-                  .formattedValue
+                this.state.isGiftCard
+                  ? this.state.payableAmount
+                  : this.props.cart &&
+                    this.props.cart.cartDetailsCNC &&
+                    this.props.cart.cartDetailsCNC.cartAmount &&
+                    this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
+                      .formattedValue
               }
               showHideDetails={this.showHideDetails}
               onCheckout={

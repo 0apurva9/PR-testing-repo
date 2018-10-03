@@ -28,7 +28,15 @@
   font-size: 14px;
   line-height: 22px;
   padding: 20px;
-  font-family: light;
+  font-family: regular;
+}
+.bankInfo {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 10px 20px 0px 20px;
+  font-family: regular;
 }
 .termsAndConditions {
   font-family: light;
@@ -40,6 +48,9 @@
   line-height: 22px;
   font-family: light;
   margin-bottom: 5px;
+}
+.termsAndConditions ul {
+  padding-right: 15px;
 }
 .bankNameHeader {
   width: 100%;
@@ -67,4 +78,53 @@
   font-size: 16px;
   padding: 20px 20px 0px 20px;
   font-family: semibold;
+}
+.headingWithHideButton {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 45px;
+  vertical-align: top;
+}
+.heading {
+  width: 100%;
+  height: auto;
+  font-size: 12px;
+  font-family: semibold;
+}
+.hideButton {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  vertical-align: top;
+  margin: auto;
+}
+.hideButtonForTNCCard {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 20px;
+  top: -5px;
+  vertical-align: top;
+  margin: auto;
+}
+.headingWithDescription {
+  width: 100%;
+  height: auto;
+  background-color: #f8f8f8;
+  padding-top: 20px;
+  padding-left: 40px;
+}
+.termsAndConditionsHeading {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-left: 20px;
+  font-size: 14px;
+  font-family: regular;
+  padding-top: 20px;
 }

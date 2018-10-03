@@ -36,11 +36,7 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
-    if (
-      this.props.widgetName &&
-      this.props.sourceOfWidget &&
-      this.props.productId
-    ) {
+    if (this.props.widgetName && this.props.productId) {
       widgetsTracking({
         widgetName: this.props.widgetName,
         productId: this.props.productId,
@@ -118,13 +114,21 @@ export default class ProductModule extends React.Component {
             )}
           </div>
         </div>
-        {this.props.plpAttrMap && (
-          <div className={styles.productFeatureHolder}>
-            {this.props.plpAttrMap.map((val, i) => {
-              return <div className={styles.productFeature}>{val.value}</div>;
-            })}
-          </div>
-        )}
+        <React.Fragment>
+          {this.props.view === "list" && (
+            <div>
+              {this.props.plpAttrMap && (
+                <div className={styles.productFeatureHolder}>
+                  {this.props.plpAttrMap.map((val, i) => {
+                    return (
+                      <div className={styles.productFeature}>{val.value}</div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </React.Fragment>
       </div>
     );
   }

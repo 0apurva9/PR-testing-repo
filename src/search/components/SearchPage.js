@@ -5,6 +5,7 @@ import SearchResultItem from "./SearchResultItem";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { HOME_ROUTER } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
+import cloneDeep from "lodash.clonedeep";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props);
@@ -100,9 +101,12 @@ export default class SearchPage extends React.Component {
   }
   render() {
     const data = this.props.searchResult;
-
-    const firstSuggestedKeyWord =
-      data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
+    const firstSuggestionNew = cloneDeep(
+      data && data.suggestionsNew ? data.suggestionsNew : ""
+    );
+    const firstSuggestedKeyWord = firstSuggestionNew
+      ? firstSuggestionNew.splice(0, 1)
+      : "";
     const suggestedKeyWord = data && data.suggestionsNew;
     return (
       <div className={styles.base}>
@@ -132,7 +136,11 @@ export default class SearchPage extends React.Component {
                 return (
                   <SearchResultItem
                     key={i}
-                    suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                    suggestedText={
+                      firstSuggestedKeyWord &&
+                      firstSuggestedKeyWord[0] &&
+                      firstSuggestedKeyWord[0].suggestedWord
+                    }
                     categoryOrBrandText={val.categoryName}
                     singleWord={this.checkIfSingleWordinSearchString()}
                     onClick={() => {
@@ -169,7 +177,11 @@ export default class SearchPage extends React.Component {
                 return (
                   <SearchResultItem
                     key={i}
-                    suggestedText={firstSuggestedKeyWord[0].suggestedWord}
+                    suggestedText={
+                      firstSuggestedKeyWord &&
+                      firstSuggestedKeyWord[0] &&
+                      firstSuggestedKeyWord[0].suggestedWord
+                    }
                     categoryOrBrandText={val.categoryName}
                     singleWord={this.checkIfSingleWordinSearchString()}
                     onClick={() => {
