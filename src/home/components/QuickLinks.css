@@ -5,7 +5,7 @@
 .quickLinkImageHolder {
   width: 100%;
   height: auto;
-  padding-bottom: 78.31%;
+  padding-bottom: 100%;
   position: relative;
 }
 .imageHolder {
@@ -16,24 +16,4 @@
   top: 0;
   border-radius: 2px;
   overflow: hidden;
-}
-.descriptionHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 7px;
-}
-.title {
-  width: 100%;
-  height: auto;
-  color: #4a4a4a;
-  font-size: 10px;
-  font-family: regular;
-}
-.description {
-  composes: title;
-  font-family: light;
-  margin-top: 3px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }

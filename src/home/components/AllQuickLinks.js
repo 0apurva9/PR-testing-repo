@@ -16,7 +16,7 @@ export default class AllQuickLinks extends React.Component {
       <React.Fragment>
         <div className={styles.base}>
           <div className={styles.carouselHolder}>
-            <Carousel elementWidthMobile={26} padding="0px 5px">
+            <Carousel elementWidthMobile={28} padding="0px 5px">
               {this.props &&
                 this.props.feedComponentData &&
                 this.props.feedComponentData.items &&
@@ -25,8 +25,6 @@ export default class AllQuickLinks extends React.Component {
                     <QuickLinks
                       key={i}
                       imageURL={val.imageURL}
-                      title={val.title}
-                      description={val.description}
                       onClick={data => this.onClick(val.webURL)}
                     />
                   );

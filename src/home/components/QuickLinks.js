@@ -15,14 +15,6 @@ export default class QuickLinks extends React.Component {
             <Image image={this.props.imageURL} />
           </div>
         </div>
-        <div className={styles.descriptionHolder}>
-          {this.props.title && (
-            <div className={styles.title}>{this.props.title}</div>
-          )}
-          {this.props.description && (
-            <div className={styles.description}>{this.props.description}</div>
-          )}
-        </div>
       </div>
     );
   }
