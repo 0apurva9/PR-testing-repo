@@ -37,7 +37,6 @@ export default class BannerProductCarousal extends React.Component {
     } else {
       return null;
     }
-    console.log(this.props);
     return (
       <FeedComponent
         banner={

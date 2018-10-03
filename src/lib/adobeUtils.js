@@ -252,7 +252,7 @@ const FREQUENTLY_BOUGHT_TOGETHER = "frequently_bought_together";
 const ABOUT_THE_BRAND = "about_the_brand";
 const AUTOMATED_BRAND_PRODUCT_CAROUSAL = "automated_brand_product_carousal";
 const BANNER_PRODUCT_CAROUSAL = "banner_product_carousel_component";
-const CURATED_LISTING_STRIP_COMPONENT = "curated_listing_strip_component";
+const CURATED_PRODUCTS_COMPONENT = "curated_products_component";
 // end of components name for widgets tracking
 
 // widgets tracking end poitns
@@ -266,7 +266,7 @@ const VISIT_BRAND = "visit_brand";
 const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
   "automated_brand_product_carousal";
 const BANNER_PRODUCT_CAROUSAL_ADOBE = "banner_product_carousal";
-const CURATED_LISTING_STRIP_ADOBE = "curated_listing_strip";
+const CURATED_PRODUCTS_COMPONENT_ADOBE = "curated_products_component";
 // end of widgets tracking end points
 
 const GOOGLE = "google";
@@ -2001,8 +2001,8 @@ export function widgetsTracking(widgetObj: {}) {
     case BANNER_PRODUCT_CAROUSAL:
       widgetType = BANNER_PRODUCT_CAROUSAL_ADOBE;
       break;
-    case CURATED_LISTING_STRIP_COMPONENT:
-      widgetType = CURATED_LISTING_STRIP_ADOBE;
+    case CURATED_PRODUCTS_COMPONENT:
+      widgetType = CURATED_PRODUCTS_COMPONENT_ADOBE;
       break;
     default:
       break;

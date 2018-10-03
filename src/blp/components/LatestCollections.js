@@ -4,13 +4,9 @@ import styles from "./LatestCollections.css";
 import Icon from "../../xelpmoc-core/Icon";
 import iconImageURL from "../../general/components/img/whiteArrow.svg";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import { widgetsTracking } from "../../lib/adobeUtils";
 
 export default class LatestCollections extends React.Component {
   arrowNextClick() {
-    widgetsTracking({
-      widgetName: this.props.feedComponentData.type
-    });
     if (this.props.feedComponentData.webURL) {
       const urlSuffix = this.props.feedComponentData.webURL
         .replace(TATA_CLIQ_ROOT, "$1")
