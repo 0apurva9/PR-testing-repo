@@ -99,6 +99,15 @@
   height: auto;
   position: absolute;
   right: 20px;
+  top: 10px;
+  vertical-align: top;
+  margin: auto;
+}
+.hideButtonForTNCCard {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 20px;
   top: -5px;
   vertical-align: top;
   margin: auto;
@@ -108,7 +117,7 @@
   height: auto;
   background-color: #f8f8f8;
   padding-top: 20px;
-  margin-top: 20px;
+  padding-left: 40px;
 }
 .termsAndConditionsHeading {
   width: 100%;
