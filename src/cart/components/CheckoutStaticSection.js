@@ -66,7 +66,7 @@ export default class CheckoutStaticSection extends React.Component {
                       Shipping Charge
                     </div>
                     <div className={styles.informationAnswerHolder}>
-                      {RUPEE_SYMBOL}00.00
+                      {RUPEE_SYMBOL}0.00
                     </div>
                   </div>
                 )}
@@ -117,12 +117,12 @@ export default class CheckoutStaticSection extends React.Component {
                 {(cartAmount.cartDiscount ||
                   cartAmount.noCostEMIDiscountValue) &&
                   this.props.isCliqCashApplied && (
-                    <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationCliqCashHolder}>
                       <div className={styles.informationQuestionHolder}>
                         CLiQ Cash Applied
                       </div>
                       <div className={styles.informationAnswerHolder}>
-                        1{RUPEE_SYMBOL}
+                        -{RUPEE_SYMBOL}
                         {this.addDecimalNumberInPrice(
                           this.props.cliqCashPaidAmount
                         )}
@@ -193,7 +193,7 @@ export default class CheckoutStaticSection extends React.Component {
                   cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue
                 ) &&
                   this.props.isCliqCashApplied && (
-                    <div className={styles.informationDiscountHolder}>
+                    <div className={styles.informationCliqCashHolder}>
                       <div className={styles.informationQuestionHolder}>
                         CLiQ Cash Applied
                       </div>
@@ -225,8 +225,8 @@ export default class CheckoutStaticSection extends React.Component {
                   !cartAmount.noCostEMIDiscountValue &&
                   !cartAmount.additionalDiscount
                 ) && (
-                  <div className={styles.informationDiscountHolder}>
-                    <div className={styles.informationQuestionHolder}>
+                  <div className={styles.informationTotalSavingHolder}>
+                    <div className={styles.informationTotalSavingTextHolder}>
                       You will save {RUPEE_SYMBOL}
                       {this.addDecimalNumberInPrice(
                         Math.floor(

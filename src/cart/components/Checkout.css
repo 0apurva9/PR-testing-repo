@@ -29,7 +29,7 @@
   position: relative;
   border-radius: 4px;
   z-index: initial;
-  margin-top:10px;
+  margin-top: 10px;
 }
 .visibleBase .amount,
 .visibleBase .informationQuestionHolder,
@@ -128,8 +128,37 @@
   display: inline-block;
   margin-bottom: 12px;
 }
-.informationDiscountHolder .informationQuestionHolder,
+.informationDiscountHolder .informationQuestionHolder {
+  font-family: light;
+  color: #4a4a4a;
+}
 .informationDiscountHolder .informationAnswerHolder {
+  font-family: light;
+  color: #417505;
+}
+.informationTotalSavingHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.informationTotalSavingHolder .informationTotalSavingTextHolder {
+  font-family: light;
+  color: #417505;
+}
+.informationCliqCashHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.informationCliqCashHolder .informationQuestionHolder {
+  font-family: light;
+  color: #4a4a4a;
+}
+.informationCliqCashHolder .informationAnswerHolder {
   font-family: light;
   color: #417505;
 }
@@ -140,7 +169,10 @@
   margin-bottom: 12px;
   padding-left: 15px;
 }
-.informationAdditionalDiscountHolder .informationQuestionHolder,
+.informationAdditionalDiscountHolder .informationQuestionHolder {
+  font-family: light;
+  color: #4a4a4a;
+}
 .informationAdditionalDiscountHolder .informationAnswerHolder {
   font-family: light;
   color: #417505;
@@ -158,6 +190,15 @@
 
 .informationQuestionHolder {
   width: 60%;
+  height: auto;
+  color: #fff;
+  font-size: 14px;
+  display: inline-block;
+  text-align: left;
+  font-family: semibold;
+}
+.informationTotalSavingTextHolder {
+  width: 100%;
   height: auto;
   color: #fff;
   font-size: 14px;
