@@ -89,8 +89,16 @@ const feed = (
 
         homeFeedData = map(homeFeedClonedData, subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+          let componentName = subData.componentName;
+          if (
+            componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+            componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+            componentName === QUICK_LINKS_COMPONENT_NAME_HC
+          ) {
+            componentName = HARD_CODED_KEY_FOR_COMPONENT;
+          }
           return {
-            ...subData[subData.componentName],
+            ...subData[componentName],
             loading: false,
             status: ""
           };
@@ -139,6 +147,7 @@ const feed = (
 
         homeFeedData = map(homeFeedClonedData, subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+
           let componentName = subData.componentName;
           if (
             componentName === BANK_OFFER_COMPONENT_NAME_HC ||
@@ -147,12 +156,14 @@ const feed = (
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
+
           return {
             ...subData[componentName],
             loading: false,
             status: ""
           };
         });
+
         return Object.assign({}, state, {
           status: action.status,
           homeFeed: homeFeedData,
@@ -214,7 +225,6 @@ const feed = (
         loading: false
       };
 
-      console.log(componentData);
       homeFeedData[action.positionInFeed] = componentData;
       return Object.assign({}, state, {
         status: action.status,
@@ -326,8 +336,16 @@ const feed = (
           loading: false,
           status: action.status
         };
+        let componentName = action.data.componentName;
+        if (
+          componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+          componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+          componentName === QUICK_LINKS_COMPONENT_NAME_HC
+        ) {
+          componentName = HARD_CODED_KEY_FOR_COMPONENT;
+        }
         if (!action.isMsd) {
-          toUpdate = action.data[action.data.componentName];
+          toUpdate = action.data[componentName];
           componentData = {
             ...homeFeedData[action.positionInFeed],
             ...toUpdate,
