@@ -103,6 +103,15 @@
   vertical-align: top;
   margin: auto;
 }
+.hideButtonForTNCCard {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 20px;
+  top: -5px;
+  vertical-align: top;
+  margin: auto;
+}
 .headingWithDescription {
   width: 100%;
   height: auto;

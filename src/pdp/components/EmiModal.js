@@ -242,7 +242,7 @@ export default class EmiModal extends React.Component {
                             Credit and Debit Card No Cost EMI T&C
                           </div>
                           <div
-                            className={styles.hideButton}
+                            className={styles.hideButtonForTNCCard}
                             id="viewTermsAndConditionEmi"
                           >
                             <UnderLinedButton
@@ -376,7 +376,7 @@ export default class EmiModal extends React.Component {
                             Credit and Debit Card No Cost EMI T&C
                           </div>
                           <div
-                            className={styles.hideButton}
+                            className={styles.hideButtonForTNCCard}
                             id="viewTermsAndConditionEmi"
                           >
                             <UnderLinedButton
