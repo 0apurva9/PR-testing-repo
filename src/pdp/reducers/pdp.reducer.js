@@ -195,7 +195,7 @@ const productDescription = (
           isEMIEligible: leastMrpSellerUssid.isEMIEligible,
           winningSellerPrice: leastMrpSellerUssid.specialPriceSeller,
           sellerAssociationstatus: leastMrpSellerUssid.sellerAssociationstatus,
-          sellerName: leastMrpSellerUssid.sellerName,
+          winningSellerName: leastMrpSellerUssid.sellerName,
           eligibleDeliveryModes,
           slaveData: eligibleDeliveryModeForThisSeller.validDeliveryModes,
           winningUssID: leastMrpSellerUssid.USSID,
