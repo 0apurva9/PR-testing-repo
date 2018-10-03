@@ -61,37 +61,39 @@
   text-align: center;
   color: #212121;
 }
-.card{
+.card {
   width: 100%;
   height: auto;
   background: #fff;
   border-radius: 4px;
   margin-top: 20px;
 }
-.cardHeading{
-  width:100%;
-  height:auto;
+.cardHeading {
+  width: 100%;
+  height: auto;
   font-size: 16px;
   font-family: semibold;
   color: #212121;
 }
-.bankOfferHeading{
-  width:100%;
-  height:auto;
+.bankOfferHeading {
+  width: 100%;
+  height: auto;
   font-size: 12px;
   font-family: regular;
   color: #212121;
 }
-.bankOfferText{
-  width:100%;
-  height:auto;
+.bankOfferText {
+  width: 100%;
+  height: auto;
   font-size: 11px;
   font-family: light;
-  color:rgba(33, 33, 33, 0.93);
-  margin-top:10px;
+  color: rgba(33, 33, 33, 0.93);
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.row{
-  width:100%;
-  height:auto;
-  margin-top:20px;
+.row {
+  width: 100%;
+  height: auto;
+  padding: 20px 0px 0px;
+  border-bottom: 1px solid #ececec;
 }
