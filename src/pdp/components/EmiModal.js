@@ -20,6 +20,7 @@ export default class EmiModal extends React.Component {
     this.state = {
       openIndex: null,
       showEmi: false,
+      showBank: false,
       isSelected: 0,
       standardEmiArray: null,
       noCostEmiArray: null
@@ -34,13 +35,26 @@ export default class EmiModal extends React.Component {
       );
     }
     if (index === this.state.openIndex) {
-      this.setState({ openIndex: null, showEmi: false });
+      this.setState({ openIndex: null, showEmi: false, showBank: false });
     } else {
-      this.setState({ openIndex: index, showEmi: false });
+      this.setState({ openIndex: index, showEmi: false, showBank: false });
     }
   }
   toggleTermsView() {
-    this.setState({ showEmi: !this.state.showEmi, openIndex: null });
+    this.setState({ showEmi: !this.state.showEmi, openIndex: null }, () => {
+      if (this.state.showEmi) {
+        let scroll = document.getElementById("viewTermsAndConditionEmi");
+        scroll.scrollIntoView();
+      }
+    });
+  }
+  toggleBankView() {
+    this.setState({ showBank: !this.state.showBank, openIndex: null }, () => {
+      if (this.state.showBank) {
+        let scroll = document.getElementById("viewTermsAndConditionBank");
+        scroll.scrollIntoView();
+      }
+    });
   }
   tabSelect(val) {
     if (this.state.isSelected !== val) {
@@ -151,25 +165,108 @@ export default class EmiModal extends React.Component {
                         </Accordion>
                       );
                     })}
-                  {this.state.noCostEmiArray.termsAndConditions &&
+                  <div className={styles.termsAndConditionsHeading}>
+                    Terms & Conditions
+                  </div>
+                  {!this.state.showBank &&
+                    this.state.noCostEmiArray.bankSpecificTnC &&
+                    this.state.noCostEmiArray.bankSpecificTnC.length > 0 && (
+                      <div className={styles.bankInfo}>
+                        <UnderLinedButton
+                          label="Bajaj Finserv T&C"
+                          onClick={() => {
+                            this.toggleBankView();
+                          }}
+                          fontFamily="regular"
+                          size={12}
+                        />
+                      </div>
+                    )}
+                  {this.state.showBank &&
+                    this.state.noCostEmiArray.bankSpecificTnC &&
+                    this.state.noCostEmiArray.bankSpecificTnC.length > 0 && (
+                      <div className={styles.headingWithDescription}>
+                        <div className={styles.headingWithHideButton}>
+                          <div className={styles.heading}>
+                            Bajaj Finserv T&C
+                          </div>
+                          <div
+                            className={styles.hideButton}
+                            id="viewTermsAndConditionBank"
+                          >
+                            <UnderLinedButton
+                              label={"Hide"}
+                              onClick={() => {
+                                this.toggleBankView();
+                              }}
+                              fontFamily="regular"
+                              size={12}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.content}>
+                          <ul>
+                            {this.state.noCostEmiArray.bankSpecificTnC.map(
+                              bankDescription => {
+                                return (
+                                  <div className={styles.termsAndConditions}>
+                                    <li>{bankDescription.description}</li>
+                                  </div>
+                                );
+                              }
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                  {!this.state.showEmi &&
+                    this.state.noCostEmiArray.termsAndConditions &&
                     this.state.noCostEmiArray.termsAndConditions
                       .description && (
-                      <Accordion
-                        controlled={true}
-                        text={"Terms & Conditions"}
-                        offset={20}
-                        activeBackground="#f8f8f8"
-                        isOpen={this.state.showEmi}
-                        onOpen={() => this.toggleTermsView()}
-                      >
-                        <div
-                          className={styles.termsAndConditions}
-                          dangerouslySetInnerHTML={{
-                            __html: this.state.noCostEmiArray.termsAndConditions
-                              .description
+                      <div className={styles.bankInfo}>
+                        <UnderLinedButton
+                          label={"Credit and Debit Card No Cost EMI T&C"}
+                          onClick={() => {
+                            this.toggleTermsView();
                           }}
+                          fontFamily="regular"
+                          size={12}
                         />
-                      </Accordion>
+                      </div>
+                    )}
+                  {this.state.showEmi &&
+                    this.state.noCostEmiArray.termsAndConditions &&
+                    this.state.noCostEmiArray.termsAndConditions
+                      .description && (
+                      <div className={styles.headingWithDescription}>
+                        <div className={styles.headingWithHideButton}>
+                          <div className={styles.heading}>
+                            Credit and Debit Card No Cost EMI T&C
+                          </div>
+                          <div
+                            className={styles.hideButton}
+                            id="viewTermsAndConditionEmi"
+                          >
+                            <UnderLinedButton
+                              label={"Hide"}
+                              onClick={() => {
+                                this.toggleTermsView();
+                              }}
+                              fontFamily="regular"
+                              size={12}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.content}>
+                          <div
+                            className={styles.termsAndConditions}
+                            dangerouslySetInnerHTML={{
+                              __html: this.state.noCostEmiArray
+                                .termsAndConditions.description
+                            }}
+                          />
+                        </div>
+                      </div>
                     )}
                 </React.Fragment>
               )}
@@ -204,25 +301,105 @@ export default class EmiModal extends React.Component {
                         </Accordion>
                       );
                     })}
-                  {this.state.standardEmiArray.termsAndConditions &&
+                  <div className={styles.termsAndConditionsHeading}>
+                    Terms & Conditions
+                  </div>
+                  {!this.state.showBank &&
+                    this.state.standardEmiArray.bankSpecificTnC &&
+                    this.state.standardEmiArray.bankSpecificTnC.length > 0 && (
+                      <div className={styles.bankInfo}>
+                        <UnderLinedButton
+                          label="Bajaj Finserv T&C"
+                          onClick={() => {
+                            this.toggleBankView();
+                          }}
+                          fontFamily="regular"
+                          size={12}
+                        />
+                      </div>
+                    )}
+                  {this.state.showBank &&
+                    this.state.standardEmiArray.bankSpecificTnC &&
+                    this.state.standardEmiArray.bankSpecificTnC.length > 0 && (
+                      <div className={styles.headingWithDescription}>
+                        <div className={styles.headingWithHideButton}>
+                          <div className={styles.heading}>
+                            Bajaj Finserv T&C
+                          </div>
+                          <div
+                            className={styles.hideButton}
+                            id="viewTermsAndConditionBank"
+                          >
+                            <UnderLinedButton
+                              label={"Hide"}
+                              onClick={() => {
+                                this.toggleBankView();
+                              }}
+                              fontFamily="regular"
+                              size={12}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.content}>
+                          <ul>
+                            {this.state.standardEmiArray.bankSpecificTnC.map(
+                              bankDescription => {
+                                return (
+                                  <div className={styles.termsAndConditions}>
+                                    <li>{bankDescription.description}</li>
+                                  </div>
+                                );
+                              }
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                  {!this.state.showEmi && (
+                    <div className={styles.info}>
+                      <UnderLinedButton
+                        label={"Credit and Debit Card No Cost EMI T&C"}
+                        onClick={() => {
+                          this.toggleTermsView();
+                        }}
+                        fontFamily="regular"
+                        size={12}
+                      />
+                    </div>
+                  )}
+                  {this.state.showEmi &&
+                    this.state.standardEmiArray.termsAndConditions &&
                     this.state.standardEmiArray.termsAndConditions
                       .description && (
-                      <Accordion
-                        controlled={true}
-                        text={"Terms & Conditions"}
-                        offset={20}
-                        activeBackground="#f8f8f8"
-                        isOpen={this.state.showEmi}
-                        onOpen={() => this.toggleTermsView()}
-                      >
-                        <div
-                          className={styles.termsAndConditions}
-                          dangerouslySetInnerHTML={{
-                            __html: this.state.standardEmiArray
-                              .termsAndConditions.description
-                          }}
-                        />
-                      </Accordion>
+                      <div className={styles.headingWithDescription}>
+                        <div className={styles.headingWithHideButton}>
+                          <div className={styles.heading}>
+                            Credit and Debit Card No Cost EMI T&C
+                          </div>
+                          <div
+                            className={styles.hideButton}
+                            id="viewTermsAndConditionEmi"
+                          >
+                            <UnderLinedButton
+                              label={"Hide"}
+                              onClick={() => {
+                                this.toggleTermsView();
+                              }}
+                              fontFamily="regular"
+                              size={12}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.content}>
+                          <div
+                            className={styles.termsAndConditions}
+                            dangerouslySetInnerHTML={{
+                              __html: this.state.standardEmiArray
+                                .termsAndConditions.description
+                            }}
+                          />
+                        </div>
+                      </div>
                     )}
                 </React.Fragment>
               )}
