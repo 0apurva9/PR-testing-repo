@@ -356,7 +356,7 @@ export default class EmiModal extends React.Component {
                       </div>
                     )}
                   {!this.state.showEmi && (
-                    <div className={styles.info}>
+                    <div className={styles.bankInfo}>
                       <UnderLinedButton
                         label={"Credit and Debit Card No Cost EMI T&C"}
                         onClick={() => {
