@@ -271,7 +271,6 @@ class Feed extends Component {
         this.props.setClickedElementId(`Feed-${id}`);
       };
     })(index);
-
     let props = {
       positionInFeed: index,
       key: index,
@@ -364,6 +363,7 @@ class Feed extends Component {
     }
   }
   render() {
+    console.log(this.props);
     if (this.props.loading) {
       return <HomeSkeleton />;
     }

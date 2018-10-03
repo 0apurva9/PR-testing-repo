@@ -37,6 +37,7 @@ export default class BannerProductCarousal extends React.Component {
     } else {
       return null;
     }
+    console.log(this.props);
     return (
       <FeedComponent
         banner={
@@ -55,6 +56,10 @@ export default class BannerProductCarousal extends React.Component {
         }}
         setClickedElementId={this.props.setClickedElementId}
         data={data}
+        widgetName={"Banner Product Carousel Component"}
+        sourceOfWidget={
+          this.props.postData && this.props.postData.widgetPlatform
+        }
       />
     );
   }
