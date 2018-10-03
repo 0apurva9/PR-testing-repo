@@ -271,7 +271,6 @@ class Feed extends Component {
         this.props.setClickedElementId(`Feed-${id}`);
       };
     })(index);
-
     let props = {
       positionInFeed: index,
       key: index,
