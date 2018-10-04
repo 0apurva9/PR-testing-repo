@@ -3670,7 +3670,7 @@ export function eddInCommerce() {
 
     dispatch(eddInCommerceRequest());
     try {
-      const result = await api.get(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/carts/${cartId}/getEDD?access_token=${
