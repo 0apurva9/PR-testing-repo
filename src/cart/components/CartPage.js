@@ -339,18 +339,20 @@ class CartPage extends React.Component {
         <div className={styles.card}>
           <div className={styles.content}>
             <div className={styles.cardHeading}>Bank Offers</div>
-            {this.props.cart.paymentOffers.paymentOffers.coupons.map(val => {
-              return (
-                <div className={styles.row}>
-                  <div className={styles.bankOfferHeading}>
-                    {val.offerTitle}
+            {this.props.cart.paymentModes.paymentOffers.coupons.map(
+              (val, i) => {
+                return (
+                  <div className={styles.row} key={i}>
+                    <div className={styles.bankOfferHeading}>
+                      {val.offerTitle}
+                    </div>
+                    <div className={styles.bankOfferText}>
+                      {val.offerDescription}
+                    </div>
                   </div>
-                  <div className={styles.bankOfferText}>
-                    {val.offerDescription}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
         </div>
       );
