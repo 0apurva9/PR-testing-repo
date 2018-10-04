@@ -308,7 +308,7 @@ export function homeFeedBackUp() {
     dispatch(homeFeedBackUpRequest());
     try {
       const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=defaulthomepage`
+        `v2/mpl/cms/defaultpage?pageId=defaulthomepage10`
       );
       const resultJson = await result.json();
       const failureResponse = ErrorHandling.getFailureResponse(resultJson);
