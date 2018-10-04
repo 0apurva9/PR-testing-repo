@@ -41,20 +41,10 @@ export default class EmiModal extends React.Component {
     }
   }
   toggleTermsView() {
-    this.setState({ showEmi: !this.state.showEmi, openIndex: null }, () => {
-      if (this.state.showEmi) {
-        let scroll = document.getElementById("viewTermsAndConditionEmi");
-        scroll.scrollIntoView();
-      }
-    });
+    this.setState({ showEmi: !this.state.showEmi, openIndex: null });
   }
   toggleBankView(i) {
-    this.setState({ showBank: i ? i : null, openIndex: null }, () => {
-      if (this.state.showBank) {
-        let scroll = document.getElementById("viewTermsAndConditionBank");
-        scroll.scrollIntoView();
-      }
-    });
+    this.setState({ showBank: i ? i : null, openIndex: null });
   }
   tabSelect(val) {
     if (this.state.isSelected !== val) {
@@ -97,6 +87,8 @@ export default class EmiModal extends React.Component {
     if (this.props.loading) {
       return this.renderLoader();
     }
+    let termsAndCondition = styles.headingWithDescription;
+
     return (
       <SlideModal closeModal={this.props.closeModal}>
         <div className={styles.base}>
@@ -171,9 +163,13 @@ export default class EmiModal extends React.Component {
                   {this.state.noCostEmiArray.bankSpecificTnC &&
                     this.state.noCostEmiArray.bankSpecificTnC.length > 0 &&
                     this.state.noCostEmiArray.bankSpecificTnC.map((bank, i) => {
+                      let className = styles.headingWithHideButton;
+                      if (this.state.showBank === bank.title) {
+                        className = styles.onActiveHolder;
+                      }
                       return (
                         <React.Fragment>
-                          <div className={styles.headingWithHideButton}>
+                          <div className={className}>
                             <div className={styles.bankInfo} key={i}>
                               {this.state.showBank === bank.title ? (
                                 <div>{bank.title}</div>
@@ -189,10 +185,7 @@ export default class EmiModal extends React.Component {
                               )}
                             </div>
                             {this.state.showBank === bank.title && (
-                              <div
-                                className={styles.hideButton}
-                                id="viewTermsAndConditionBank"
-                              >
+                              <div className={styles.hideButton}>
                                 <UnderLinedButton
                                   label={"Hide"}
                                   onClick={() => {
@@ -203,17 +196,14 @@ export default class EmiModal extends React.Component {
                                 />
                               </div>
                             )}
-                          </div>
-                          {this.state.showBank === bank.title && (
-                            <div
-                              className={styles.headingWithDescription}
-                              id="viewTermsAndConditionBank"
-                            >
-                              <div className={styles.termsAndConditions}>
-                                {bank.description}
+                            {this.state.showBank === bank.title && (
+                              <div className={styles.headingWithDescription}>
+                                <div className={styles.termsAndConditions}>
+                                  {bank.description}
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </React.Fragment>
                       );
                     })}
@@ -221,9 +211,9 @@ export default class EmiModal extends React.Component {
                     this.state.noCostEmiArray.termsAndConditions &&
                     this.state.noCostEmiArray.termsAndConditions
                       .description && (
-                      <div className={styles.bankInfo}>
+                      <div className={styles.viewTermsAndcondition}>
                         <UnderLinedButton
-                          label={"Credit and Debit Card No Cost EMI T&C"}
+                          label={"No Cost Terms and Conditions"}
                           onClick={() => {
                             this.toggleTermsView();
                           }}
@@ -239,12 +229,9 @@ export default class EmiModal extends React.Component {
                       <div className={styles.headingWithDescription}>
                         <div className={styles.headingWithHideButton}>
                           <div className={styles.heading}>
-                            Credit and Debit Card No Cost EMI T&C
+                            No Cost Terms and Conditions
                           </div>
-                          <div
-                            className={styles.hideButtonForTNCCard}
-                            id="viewTermsAndConditionEmi"
-                          >
+                          <div className={styles.hideButtonForTNCCard}>
                             <UnderLinedButton
                               label={"Hide"}
                               onClick={() => {
@@ -306,9 +293,13 @@ export default class EmiModal extends React.Component {
                     this.state.standardEmiArray.bankSpecificTnC.length > 0 &&
                     this.state.standardEmiArray.bankSpecificTnC.map(
                       (bank, i) => {
+                        let className = styles.headingWithHideButton;
+                        if (this.state.showBank === bank.title) {
+                          className = styles.onActiveHolder;
+                        }
                         return (
                           <React.Fragment>
-                            <div className={styles.headingWithHideButton}>
+                            <div className={className}>
                               <div className={styles.bankInfo} key={i}>
                                 {this.state.showBank === bank.title ? (
                                   <div> {bank.title}</div>
@@ -324,10 +315,7 @@ export default class EmiModal extends React.Component {
                                 )}
                               </div>
                               {this.state.showBank === bank.title && (
-                                <div
-                                  className={styles.hideButton}
-                                  id="viewTermsAndConditionBank"
-                                >
+                                <div className={styles.hideButton}>
                                   <UnderLinedButton
                                     label={"Hide"}
                                     onClick={() => {
@@ -338,26 +326,23 @@ export default class EmiModal extends React.Component {
                                   />
                                 </div>
                               )}
-                            </div>
-                            {this.state.showBank === bank.title && (
-                              <div
-                                className={styles.headingWithDescription}
-                                id="viewTermsAndConditionBank"
-                              >
-                                <div className={styles.termsAndConditions}>
-                                  {bank.description}
+                              {this.state.showBank === bank.title && (
+                                <div className={styles.headingWithDescription}>
+                                  <div className={styles.termsAndConditions}>
+                                    {bank.description}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </React.Fragment>
                         );
                       }
                     )}
 
                   {!this.state.showEmi && (
-                    <div className={styles.bankInfo}>
+                    <div className={styles.viewTermsAndcondition}>
                       <UnderLinedButton
-                        label={"Credit and Debit Card No Cost EMI T&C"}
+                        label={"No Cost Terms and Conditions"}
                         onClick={() => {
                           this.toggleTermsView();
                         }}
@@ -370,15 +355,12 @@ export default class EmiModal extends React.Component {
                     this.state.standardEmiArray.termsAndConditions &&
                     this.state.standardEmiArray.termsAndConditions
                       .description && (
-                      <div className={styles.headingWithDescription}>
+                      <div className={termsAndCondition} id="scrollView">
                         <div className={styles.headingWithHideButton}>
                           <div className={styles.heading}>
-                            Credit and Debit Card No Cost EMI T&C
+                            No Cost Terms and Conditions
                           </div>
-                          <div
-                            className={styles.hideButtonForTNCCard}
-                            id="viewTermsAndConditionEmi"
-                          >
+                          <div className={styles.hideButtonForTNCCard}>
                             <UnderLinedButton
                               label={"Hide"}
                               onClick={() => {

@@ -138,7 +138,7 @@ class ProductReviewPage extends Component {
     }
     if (productReview.comment) {
       let notCommentPossible = commentArray.words.find(words => {
-        if (productReview.comment.includes(words)) {
+        if (productReview.comment.toLowerCase().includes(words.toLowerCase())) {
           return true;
         }
       });
