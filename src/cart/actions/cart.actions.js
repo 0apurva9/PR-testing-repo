@@ -28,7 +28,8 @@ import {
   BANK_OFFER_TYPE,
   NCE_OFFER_TYPE,
   PAYPAL,
-  BUY_NOW_PRODUCT_DETAIL
+  BUY_NOW_PRODUCT_DETAIL,
+  OFFER_ERROR_PAYMENT_MODE_TYPE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2038,7 +2039,17 @@ export function binValidation(paymentMode, binNo) {
         localStorage.setItem(SELECTED_BANK_NAME, resultJson.bankName);
       }
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
+          dispatch(applyBankOfferFailure(resultJsonStatus.message));
+          return dispatch(
+            showModal(VALIDATE_OFFERS_POPUP, {
+              result: resultJson,
+              offerType: OFFER_ERROR_PAYMENT_MODE_TYPE
+            })
+          );
+        } else {
+          throw new Error(resultJsonStatus.message);
+        }
       }
 
       dispatch(binValidationSuccess(resultJson));

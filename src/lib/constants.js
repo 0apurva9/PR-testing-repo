@@ -341,6 +341,8 @@ export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
 export const DEFAULT_PINCODE = 110001;
 export const BANK_OFFER_TYPE = "bankOffer";
 export const NCE_OFFER_TYPE = "nceOfferType";
+export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
+
 export const BUY_NOW_ERROR_MESSAGE = "Something Went wrong.Please try again";
 
 export const BANK_OFFER_COMPONENT_NAME_HC = "bankOfferComponent";

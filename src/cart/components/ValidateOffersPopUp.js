@@ -14,7 +14,8 @@ import {
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
   BANK_OFFER_TYPE,
-  NCE_OFFER_TYPE
+  NCE_OFFER_TYPE,
+  OFFER_ERROR_PAYMENT_MODE_TYPE
 } from "../../lib/constants";
 import { BANK_OFFERS } from "../../general/modal.actions.js";
 
@@ -90,6 +91,7 @@ export default class ValidateOffersPopUp extends React.Component {
       couponCodeObj && couponCodeObj.bankName ? couponCodeObj.bankName : ""
     }.`;
   }
+
   changePaymentMethod() {
     if (this.props.offerType === BANK_OFFER_TYPE) {
       this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
@@ -208,7 +210,11 @@ export default class ValidateOffersPopUp extends React.Component {
           <div className={styles.headingText}>{popUpHeading}</div>
           <div className={styles.descriptionText}>
             <div className={styles.invalidCouponHeading}>
-              {this.props.result.couponMessage}
+              {this.props.result.couponMessage
+                ? this.props.result.couponMessage
+                : this.props.result.error
+                  ? this.props.result.error
+                  : ""}
             </div>
             {this.props.offerType === BANK_OFFER_TYPE && (
               <div className={styles.invalidCouponHeading}>
@@ -239,6 +245,13 @@ export default class ValidateOffersPopUp extends React.Component {
               data.noCostEmiCoupon && (
                 <div className={styles.invalidCouponHeading}>
                   {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
+                </div>
+              )}
+            {data &&
+              data.noCostEMI &&
+              data.noCostEMI && (
+                <div className={styles.invalidCouponHeading}>
+                  {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
                 </div>
               )}
             {/* {data &&
