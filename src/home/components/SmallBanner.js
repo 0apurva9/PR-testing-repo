@@ -17,8 +17,12 @@ export default class SmallBanner extends React.Component {
           </div>
         </div>
         <div className={styles.content}>
-          <div className={styles.title}>{this.props.title}</div>
-          <div className={styles.description}>{this.props.description}</div>
+          {this.props.title && (
+            <div className={styles.title}>{this.props.title}</div>
+          )}
+          {this.props.description && (
+            <div className={styles.description}>{this.props.description}</div>
+          )}
         </div>
       </div>
     );

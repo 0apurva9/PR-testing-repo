@@ -36,11 +36,7 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
-    if (
-      this.props.widgetName &&
-      this.props.sourceOfWidget &&
-      this.props.productId
-    ) {
+    if (this.props.widgetName && this.props.productId) {
       widgetsTracking({
         widgetName: this.props.widgetName,
         productId: this.props.productId,

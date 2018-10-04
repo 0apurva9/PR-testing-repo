@@ -51,6 +51,10 @@ export default class VideoProductCarousel extends React.Component {
         }}
         setClickedElementId={this.props.setClickedElementId}
         data={data}
+        widgetName={"Video product carousel"}
+        sourceOfWidget={
+          this.props.postData && this.props.postData.widgetPlatform
+        }
       />
     );
   }
