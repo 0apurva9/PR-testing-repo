@@ -203,7 +203,6 @@ export default class AllOrderDetails extends React.Component {
                       orderId={orderDetails && orderDetails.orderId}
                     />
                   </div>
-                  {console.log("details", orderDetails && orderDetails)}
                   {orderDetails &&
                     orderDetails.products &&
                     orderDetails.products.map(product => {
