@@ -231,7 +231,7 @@ export default class AllOrderDetails extends React.Component {
                           orderDetails.products[0] &&
                           orderDetails.products[0].isGiveAway
                         }
-                        price={orderDetails && orderDetails.totalOrderAmount}
+                        price={orderDetails && orderDetails.products[0].price}
                         discountPrice={""}
                         productName={
                           orderDetails &&
