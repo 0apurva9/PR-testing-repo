@@ -57,7 +57,10 @@ class CartPage extends React.Component {
   }
   showHideDetails = () => {
     window.scroll({
-      top: document && document.body && document.body.offsetHeight,
+      top:
+        document &&
+        document.body &&
+        document.body.offsetHeight - window.innerHeight - 300,
       behavior: "smooth"
     });
   };
