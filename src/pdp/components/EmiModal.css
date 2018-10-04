@@ -7,6 +7,7 @@
 .content {
   width: 100%;
   height: auto;
+  padding-bottom: 30px;
 }
 .header {
   width: 100%;
@@ -35,9 +36,14 @@
   height: auto;
   font-size: 14px;
   line-height: 22px;
-  padding: 10px 20px 0px 20px;
+  padding: 10px 20px 0px 0px;
   font-family: regular;
 }
+.viewTermsAndcondition {
+  composes: bankInfo;
+  padding: 10px 20px 0px 20px;
+}
+
 .termsAndConditions {
   font-family: light;
   font-size: 14px;
@@ -87,6 +93,11 @@
   padding-left: 20px;
   padding-right: 45px;
   vertical-align: top;
+  margin-top: 10px;
+}
+.onActiveHolder {
+  composes: headingWithHideButton;
+  background: #f8f8f8;
 }
 .heading {
   width: 100%;
@@ -115,10 +126,11 @@
 .headingWithDescription {
   width: 100%;
   height: auto;
-  background-color: #f8f8f8;
-  padding-top: 20px;
-  padding-left: 40px;
+  padding-top: 10px;
+  background: #f8f8f8;
+  margin-top: 15px;
 }
+
 .termsAndConditionsHeading {
   width: 100%;
   height: auto;
