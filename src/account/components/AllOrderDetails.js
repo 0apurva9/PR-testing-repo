@@ -61,9 +61,12 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(productCode) {
-    this.props.history.push(
-      `${SEARCH_RESULTS_PAGE}p-${productCode.toLowerCase()}/${PRODUCT_REVIEWS_PATH_SUFFIX}`
-    );
+    if (productCode) {
+      this.props.history &&
+        this.props.history.push(
+          `${SEARCH_RESULTS_PAGE}p-${productCode.toLowerCase()}/${PRODUCT_REVIEWS_PATH_SUFFIX}`
+        );
+    }
   }
   componentDidMount() {
     if (this.props.shouldCallHeaderContainer) {
