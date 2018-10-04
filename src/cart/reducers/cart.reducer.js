@@ -669,7 +669,6 @@ const cart = (
       return Object.assign({}, state, {
         paymentModesStatus: action.status,
         paymentModes: action.paymentModes,
-
         paymentModeLoader: false
       });
 
