@@ -331,9 +331,9 @@ class CartPage extends React.Component {
   };
   renderBankOffers = () => {
     if (
-      this.props.cart.paymentOffers &&
-      this.props.cart.paymentOffers.paymentOffers &&
-      this.props.cart.paymentOffers.paymentOffers.coupons
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentOffers &&
+      this.props.cart.paymentModes.paymentOffers.coupons
     ) {
       return (
         <div className={styles.card}>
