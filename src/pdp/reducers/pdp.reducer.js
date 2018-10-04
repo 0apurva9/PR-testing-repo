@@ -183,7 +183,7 @@ const productDescription = (
             fullfillmentType: currentPdpDetail.fulfillmentType,
             isCOD: currentPdpDetail.isCOD,
             isEMIEligible: currentPdpDetail.isEMIEligible,
-            mrpSeller: currentPdpDetail.mrpSeller,
+            mrpSeller: currentPdpDetail.winningSellerPrice,
             sellerId: currentPdpDetail.winningSellerID,
             sellerName: currentPdpDetail.winningSellerName,
             specialPriceSeller: currentPdpDetail.winningSellerPrice
