@@ -330,21 +330,29 @@ class CartPage extends React.Component {
     });
   };
   renderBankOffers = () => {
-    if (this.props.cart.coupons && this.props.cart.coupons.opencouponsList) {
+    if (
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentOffers &&
+      this.props.cart.paymentModes.paymentOffers.coupons
+    ) {
       return (
         <div className={styles.card}>
           <div className={styles.content}>
             <div className={styles.cardHeading}>Bank Offers</div>
-            {this.props.cart.coupons.opencouponsList.map(val => {
-              return (
-                <div className={styles.row}>
-                  <div className={styles.bankOfferHeading}>
-                    {val.couponName}
+            {this.props.cart.paymentModes.paymentOffers.coupons.map(
+              (val, i) => {
+                return (
+                  <div className={styles.row} key={i}>
+                    <div className={styles.bankOfferHeading}>
+                      {val.offerTitle}
+                    </div>
+                    <div className={styles.bankOfferText}>
+                      {val.offerDescription}
+                    </div>
                   </div>
-                  <div className={styles.bankOfferText}>{val.description}</div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
         </div>
       );
