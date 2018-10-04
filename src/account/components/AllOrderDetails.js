@@ -203,65 +203,35 @@ export default class AllOrderDetails extends React.Component {
                       orderId={orderDetails && orderDetails.orderId}
                     />
                   </div>
+                  {console.log("details", orderDetails && orderDetails)}
                   {orderDetails &&
-                    orderDetails.products && (
-                      <OrderCard
-                        estimatedDeliveryDate={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].estimateddeliverydate
-                        }
-                        statusDisplay={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].statusDisplay
-                        }
-                        imageUrl={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].imageURL
-                        }
-                        hasProduct={orderDetails && orderDetails.products}
-                        isGiveAway={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].isGiveAway
-                        }
-                        price={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].price
-                        }
-                        discountPrice={""}
-                        productName={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].productName
-                        }
-                        isEgvOrder={orderDetails.isEgvOrder}
-                        resendAvailable={orderDetails.resendAvailable}
-                        reSendEmailForGiftCard={() =>
-                          this.reSendEmailForGiftCard(orderDetails.orderId)
-                        }
-                        egvCardNumber={orderDetails.egvCardNumber}
-                        onClick={() =>
-                          this.onClickImage(
-                            orderDetails.isEgvOrder,
-                            orderDetails &&
-                              orderDetails.products &&
-                              orderDetails.products[0] &&
-                              orderDetails.products.length &&
-                              orderDetails.products[0].productcode
-                          )
-                        }
-                      />
-                    )}
+                    orderDetails.products &&
+                    orderDetails.products.map(product => {
+                      return (
+                        <OrderCard
+                          estimatedDeliveryDate={product.estimateddeliverydate}
+                          statusDisplay={product.statusDisplay}
+                          imageUrl={product.imageURL}
+                          hasProduct={orderDetails && orderDetails.products}
+                          isGiveAway={product.isGiveAway}
+                          price={product.price}
+                          discountPrice={""}
+                          productName={product.productName}
+                          isEgvOrder={orderDetails.isEgvOrder}
+                          resendAvailable={orderDetails.resendAvailable}
+                          reSendEmailForGiftCard={() =>
+                            this.reSendEmailForGiftCard(orderDetails.orderId)
+                          }
+                          egvCardNumber={orderDetails.egvCardNumber}
+                          onClick={() =>
+                            this.onClickImage(
+                              orderDetails.isEgvOrder,
+                              product.productcode
+                            )
+                          }
+                        />
+                      );
+                    })}
 
                   <PriceAndLink
                     onViewDetails={() =>
