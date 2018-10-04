@@ -84,7 +84,6 @@ export default class EmiModal extends React.Component {
     return <Loader />;
   }
   render() {
-    console.log(this.state.showEmi);
     if (this.props.loading) {
       return this.renderLoader();
     }
