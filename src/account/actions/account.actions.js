@@ -2321,7 +2321,6 @@ export function getOrdersTransactionDataFailure(error, isPaginated) {
   };
 }
 export function getOrdersTransactionData(paginated) {
-  console.log(paginated);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
