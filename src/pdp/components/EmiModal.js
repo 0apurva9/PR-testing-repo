@@ -197,9 +197,13 @@ export default class EmiModal extends React.Component {
                               </div>
                             )}
                             {this.state.showBank === bank.title && (
-                              <div className={styles.headingWithDescription}>
+                              <div className={styles.content}>
                                 <div className={styles.termsAndConditions}>
-                                  {bank.description}
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html: bank.description
+                                    }}
+                                  />
                                 </div>
                               </div>
                             )}
@@ -213,7 +217,9 @@ export default class EmiModal extends React.Component {
                       .description && (
                       <div className={styles.viewTermsAndcondition}>
                         <UnderLinedButton
-                          label={"No Cost Terms and Conditions"}
+                          label={
+                            this.state.noCostEmiArray.termsAndConditions.title
+                          }
                           onClick={() => {
                             this.toggleTermsView();
                           }}
@@ -229,7 +235,7 @@ export default class EmiModal extends React.Component {
                       <div className={styles.headingWithDescription}>
                         <div className={styles.headingWithHideButton}>
                           <div className={styles.heading}>
-                            No Cost Terms and Conditions
+                            {this.state.noCostEmiArray.termsAndConditions.title}
                           </div>
                           <div className={styles.hideButtonForTNCCard}>
                             <UnderLinedButton
@@ -327,9 +333,13 @@ export default class EmiModal extends React.Component {
                                 </div>
                               )}
                               {this.state.showBank === bank.title && (
-                                <div className={styles.headingWithDescription}>
+                                <div className={styles.content}>
                                   <div className={styles.termsAndConditions}>
-                                    {bank.description}
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: bank.description
+                                      }}
+                                    />
                                   </div>
                                 </div>
                               )}
@@ -342,7 +352,9 @@ export default class EmiModal extends React.Component {
                   {!this.state.showEmi && (
                     <div className={styles.viewTermsAndcondition}>
                       <UnderLinedButton
-                        label={"No Cost Terms and Conditions"}
+                        label={
+                          this.state.standardEmiArray.termsAndConditions.title
+                        }
                         onClick={() => {
                           this.toggleTermsView();
                         }}
@@ -358,7 +370,10 @@ export default class EmiModal extends React.Component {
                       <div className={termsAndCondition} id="scrollView">
                         <div className={styles.headingWithHideButton}>
                           <div className={styles.heading}>
-                            No Cost Terms and Conditions
+                            {
+                              this.state.standardEmiArray.termsAndConditions
+                                .title
+                            }
                           </div>
                           <div className={styles.hideButtonForTNCCard}>
                             <UnderLinedButton
