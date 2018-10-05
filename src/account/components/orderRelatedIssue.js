@@ -79,7 +79,6 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   componentDidMount() {
-    console.log("herere");
     this.props.getUserDetails();
     this.props.getCustomerQueriesData();
     this.props.getOrdersTransactionData(false);
