@@ -213,7 +213,7 @@ export default class AllOrderDetails extends React.Component {
                     orderDetails.products &&
                     orderDetails.products.map(product => {
                       return (
-                        <div>
+                        <div className={styles.orderCardIndividual}>
                           <OrderCard
                             estimatedDeliveryDate={
                               product.estimateddeliverydate
@@ -237,22 +237,23 @@ export default class AllOrderDetails extends React.Component {
                                 product.productcode
                               )
                             }
-                          />
-                          {product.productName !== "Gift Card" && (
-                            <div className={styles.reviewHolder}>
-                              <div
-                                className={styles.reviewText}
-                                onClick={val =>
-                                  this.writeReview(product.productcode)
-                                }
-                              >
-                                <UnderLinedButton
-                                  label="Write a review"
-                                  color="#ff1744"
-                                />
+                          >
+                            {product.productName !== "Gift Card" && (
+                              <div className={styles.reviewHolder}>
+                                <div
+                                  className={styles.reviewText}
+                                  onClick={val =>
+                                    this.writeReview(product.productcode)
+                                  }
+                                >
+                                  <UnderLinedButton
+                                    label="Write a review"
+                                    color="#ff1744"
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
+                          </OrderCard>
                         </div>
                       );
                     })}

@@ -40,13 +40,16 @@
   display: inline-block;
 }
 .reviewHolder {
-  width: 100%;
+  width: auto;
   height: auto;
-  padding-bottom: 20px;
   display: inline-block;
   position: absolute;
-  right: 20px;
-  margin-top: 100px;
+  right: 15px;
+  bottom: 5px;
+}
+.orderCardIndividual {
+  width: 100%;
+  height: auto;
 }
 .reviewText {
   display: inline-block;
