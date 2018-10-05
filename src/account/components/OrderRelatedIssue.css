@@ -204,3 +204,6 @@
   font-family: regular;
   line-height: normal;
 }
+a {
+  border-bottom: 1px solid #000;
+}

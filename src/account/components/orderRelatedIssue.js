@@ -386,9 +386,7 @@ export default class OrderRelatedIssue extends React.Component {
         });
     }
     l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
-
     l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
-
     return (
       <div className={styles.base}>
         {!this.state.showOrder && (
@@ -546,77 +544,85 @@ export default class OrderRelatedIssue extends React.Component {
                 )}
               </div>
             </div>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber={this.state.isSelected === 0 ? "3" : "2"}
-                  confirmTitle="Personal Details"
-                />
-              </div>
-
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Name"
-                  value={this.state.name}
-                  onChange={name => this.onChange({ name })}
-                  onlyAlphabet={true}
-                  disabled={this.state.name ? true : false}
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Email"
-                  disabled={this.state.email ? true : false}
-                  value={this.state.email}
-                  onChange={email => this.onChange({ email })}
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Phone*"
-                  maxLength={"10"}
-                  value={this.state.mobile}
-                  onChange={mobile => this.onChange({ mobile })}
-                  disabled={this.state.mobile ? true : false}
-                  onlyNumber={true}
-                />
-              </div>
-            </div>
-            {this.state.isSelected === 0 && (
-              <div className={styles.selectImageHolder}>
+            {(!l3OptionsArray ||
+              (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+              <div className={styles.selectIssueHolder}>
                 <div className={styles.secondOrder}>
                   <CheckOutHeader
-                    indexNumber="4"
-                    confirmTitle="Add attachment (Optional)"
+                    indexNumber={this.state.isSelected === 0 ? "3" : "2"}
+                    confirmTitle="Personal Details"
                   />
                 </div>
-                <div className={styles.validImage}>
-                  Upload JPEG, PNG (Maximum size 5 MB)
+
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Name"
+                    value={this.state.name}
+                    onChange={name => this.onChange({ name })}
+                    onlyAlphabet={true}
+                    disabled={this.state.name ? true : false}
+                  />
                 </div>
-                <div className={styles.imageInput}>
-                  <ImageUpload
-                    value={
-                      this.state.file
-                        ? this.state.file.name
-                        : "Upload attachment"
-                    }
-                    onChange={file => this.onUploadFile(file)}
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Email"
+                    disabled={this.state.email ? true : false}
+                    value={this.state.email}
+                    onChange={email => this.onChange({ email })}
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Phone*"
+                    maxLength={"10"}
+                    value={this.state.mobile}
+                    onChange={mobile => this.onChange({ mobile })}
+                    disabled={this.state.mobile ? true : false}
+                    onlyNumber={true}
                   />
                 </div>
               </div>
             )}
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  type="primary"
-                  height={38}
-                  label={"Submit"}
-                  width={166}
-                  textStyle={{ color: "#fff", fontSize: 14 }}
-                  onClick={() => this.submitCustomerForm()}
-                />
+            {this.state.isSelected === 0 &&
+              (!l3OptionsArray ||
+                (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+                <div className={styles.selectImageHolder}>
+                  <div className={styles.secondOrder}>
+                    <CheckOutHeader
+                      indexNumber="4"
+                      confirmTitle="Add attachment (Optional)"
+                    />
+                  </div>
+                  <div className={styles.validImage}>
+                    Upload JPEG, PNG (Maximum size 5 MB)
+                  </div>
+                  <div className={styles.imageInput}>
+                    <ImageUpload
+                      value={
+                        this.state.file
+                          ? this.state.file.name
+                          : "Upload attachment"
+                      }
+                      onChange={file => this.onUploadFile(file)}
+                    />
+                  </div>
+                </div>
+              )}
+            {(!l3OptionsArray ||
+              (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    height={38}
+                    label={"Submit"}
+                    width={166}
+                    textStyle={{ color: "#fff", fontSize: 14 }}
+                    onClick={() => this.submitCustomerForm()}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
         {this.state.showOrder && (
