@@ -40,11 +40,12 @@ import {
 import { getCartDetails } from "../../cart/actions/cart.actions.js";
 import {
   getWishListItems,
-  createWishlist
+  createWishlist,
+  addProductToWishList
 } from "../../wishlist/actions/wishlist.actions";
 import ProductDetails from "../../pdp/components/ProductDetails";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
-
+const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -167,6 +168,12 @@ const mapDispatchToProps = dispatch => {
     },
     tempCartIdForLoggedInUser: productDetails => {
       return dispatch(tempCartIdForLoggedInUser(productDetails));
+    },
+    addProductToWishList: async productObj => {
+      const wishlistResponse = await dispatch(addProductToWishList(productObj));
+      if (wishlistResponse.status === SUCCESS) {
+        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+      }
     }
   };
 };
@@ -177,7 +184,9 @@ const mapStateToProps = state => {
     authCallsIsSucceed: state.auth.authCallsIsSucceed,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     tempCartIdForLoggedInUserLoading:
-      state.cart.tempCartIdForLoggedInUserLoading
+      state.cart.tempCartIdForLoggedInUserLoading,
+    loadingForAddProductToWishList:
+      state.wishlistItems.loadingForAddProductToWishList
   };
 };
 

@@ -9,7 +9,8 @@ const wishlistItems = (
     count: null,
     loading: false,
     status: null,
-    error: null
+    error: null,
+    loadingForAddProductToWishList: null
   },
   action
 ) => {
@@ -39,12 +40,12 @@ const wishlistItems = (
     case wishlistActions.REMOVE_PRODUCT_FROM_WISH_LIST_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
-        loading: true
+        loadingForAddProductToWishList: true
       });
     case wishlistActions.ADD_PRODUCT_TO_WISH_LIST_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
-        loading: false,
+        loadingForAddProductToWishList: false,
         addItemError: action.error
       });
     case wishlistActions.REMOVE_PRODUCT_FROM_WISH_LIST_FAILURE:
@@ -83,7 +84,7 @@ const wishlistItems = (
       return Object.assign({}, state, {
         status: action.status,
         wishlistItems: currentWishlistItems,
-        loading: false
+        loadingForAddProductToWishList: false
       });
     case wishlistActions.REMOVE_PRODUCT_FROM_WISH_LIST_SUCCESS:
       return Object.assign({}, state, {

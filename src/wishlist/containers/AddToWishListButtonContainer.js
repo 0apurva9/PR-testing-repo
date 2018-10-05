@@ -8,9 +8,7 @@ import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js"
 import { removeItemFromCartLoggedIn } from "../../cart/actions/cart.actions";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
-
 const toastMessageOnAlreadyInWishlist = "Already in wishlist";
-
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToWishList: async productObj => {
@@ -47,7 +45,9 @@ const mapStateToProps = (state, ownProps) => {
     isWhite: ownProps.isWhite,
     wishlistItems: state.wishlistItems.wishlistItems,
     type: ownProps.type,
-    index: ownProps.index
+    index: ownProps.index,
+    isSizeSelectedForAddToWishlist: ownProps.isSizeSelectedForAddToWishlist,
+    showSizeSelector: ownProps.showSizeSelector
   };
 };
 const AddToWishListButtonContainer = withRouter(

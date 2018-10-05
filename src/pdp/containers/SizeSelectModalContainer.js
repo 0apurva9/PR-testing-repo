@@ -9,6 +9,8 @@ import SizeSelectModal from "../components/SizeSelectModal";
 import { displayToast } from "../../general/toast.actions.js";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import { addProductToWishList } from "../../wishlist/actions/wishlist.actions";
+const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: productCode => {
@@ -33,6 +35,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    addProductToWishList: async productObj => {
+      const wishlistResponse = await dispatch(addProductToWishList(productObj));
+      if (wishlistResponse.status === SUCCESS) {
+        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+      }
     }
   };
 };
