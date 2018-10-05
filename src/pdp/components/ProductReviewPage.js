@@ -15,7 +15,8 @@ import {
   WRITE_REVIEWS_WITH_SLUG,
   PRODUCT_CART_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
-  BUY_NOW_ERROR_MESSAGE
+  BUY_NOW_ERROR_MESSAGE,
+  WRITE_REVIEWS
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -97,7 +98,10 @@ class ProductReviewPage extends Component {
       this.state.orderBy,
       this.state.sort
     );
-    if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+    if (
+      this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
+      this.props.match.path === WRITE_REVIEWS
+    ) {
       if (!userDetails || !customerCookie) {
         const url = this.props.location.pathname;
         this.props.setUrlToRedirectToAfterAuth(url);
@@ -122,7 +126,6 @@ class ProductReviewPage extends Component {
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
   };
-
   onSubmit = productReview => {
     if (!productReview.rating) {
       this.props.displayToast("Please give rating");
@@ -138,7 +141,7 @@ class ProductReviewPage extends Component {
     }
     if (productReview.comment) {
       let notCommentPossible = commentArray.words.find(words => {
-        if (productReview.comment.includes(words)) {
+        if (productReview.comment.toLowerCase().includes(words.toLowerCase())) {
           return true;
         }
       });
@@ -146,7 +149,10 @@ class ProductReviewPage extends Component {
         this.props.displayToast("Review comment contains profane words");
         return false;
       } else {
-        if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+        if (
+          this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+          this.props.match.path !== WRITE_REVIEWS
+        ) {
           this.setState({ visible: false });
         }
         return this.props.addProductReview(
@@ -210,7 +216,10 @@ class ProductReviewPage extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+    if (
+      this.props.match.path !== WRITE_REVIEWS_WITH_SLUG ||
+      this.props.match.path !== WRITE_REVIEWS
+    ) {
       if (nextProps.addReviewStatus === SUCCESS) {
         this.setState({ visible: false });
       }
@@ -326,14 +335,15 @@ class ProductReviewPage extends Component {
                     textStyle={{ fontSize: 14 }}
                   />
                 </div>
-                {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
-                  <div
-                    className={styles.reviewText}
-                    onClick={this.reviewSection}
-                  >
-                    {WRITE_REVIEW_TEXT}
-                  </div>
-                )}
+                {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+                  this.props.match.path !== WRITE_REVIEWS && (
+                    <div
+                      className={styles.reviewText}
+                      onClick={this.reviewSection}
+                    >
+                      {WRITE_REVIEW_TEXT}
+                    </div>
+                  )}
                 {this.state.visible && (
                   <div className={styles.reviewHolder}>
                     {this.renderReviewSection()}

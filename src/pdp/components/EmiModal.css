@@ -38,11 +38,18 @@
   padding: 10px 20px 0px 20px;
   font-family: regular;
 }
+.viewTermsAndcondition {
+  composes: bankInfo;
+  padding: 10px 20px 0px 20px;
+}
+
 .termsAndConditions {
   font-family: light;
   font-size: 14px;
   padding-bottom: 10px;
+  padding-left: 20px;
 }
+
 .termsAndConditions li {
   font-size: 14px;
   line-height: 22px;
@@ -51,6 +58,7 @@
 }
 .termsAndConditions ul {
   padding-right: 15px;
+  padding-left: 30px;
 }
 .bankNameHeader {
   width: 100%;
@@ -84,14 +92,18 @@
   height: auto;
   position: relative;
   display: inline-block;
-  padding-left: 20px;
-  padding-right: 45px;
   vertical-align: top;
+  margin-top: 10px;
+}
+.onActiveHolder {
+  composes: headingWithHideButton;
+  background: #f8f8f8;
 }
 .heading {
   width: 100%;
   height: auto;
   font-size: 12px;
+  padding-left: 20px;
   font-family: semibold;
 }
 .hideButton {
@@ -115,10 +127,11 @@
 .headingWithDescription {
   width: 100%;
   height: auto;
-  background-color: #f8f8f8;
-  padding-top: 20px;
-  padding-left: 40px;
+  padding-top: 10px;
+  background: #f8f8f8;
+  margin-top: 15px;
 }
+
 .termsAndConditionsHeading {
   width: 100%;
   height: auto;
