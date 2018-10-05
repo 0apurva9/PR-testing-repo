@@ -88,9 +88,7 @@ export default class ItemLevelPopup extends React.Component {
             <div>
               {`\n\u2022  ${
                 this.props.emiItemDetails.noCostEMIDiscountValue.formattedValue
-              } has been given as No Cost EMI  discount (Interest applicable on ${
-                this.props.emiItemDetails.noCostEmiProductCount
-              } product in your cart)`}
+              } has been given as No Cost EMI  discount (Interest applicable on ${noCostEMIProduct} product in your cart)`}
             </div>
             <div>{`\n\u2022  ${
               this.props.emiItemDetails.cardBlockingAmount.formattedValue
