@@ -79,6 +79,7 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   componentDidMount() {
+    console.log("herere");
     this.props.getUserDetails();
     this.props.getCustomerQueriesData();
     this.props.getOrdersTransactionData(false);
@@ -86,6 +87,9 @@ export default class OrderRelatedIssue extends React.Component {
   }
   componentDidUpdate() {
     this.props.setHeaderText(CUSTOMER_CARE);
+  }
+  componentWillUnmount() {
+    this.props.clearOrderTransactionDetails();
   }
   getMoreOrder() {
     if (

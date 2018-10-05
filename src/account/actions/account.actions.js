@@ -252,6 +252,7 @@ export const GET_USER_REVIEW_REQUEST = "GET_USER_REVIEW_REQUEST";
 export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
+export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
@@ -2320,6 +2321,7 @@ export function getOrdersTransactionDataFailure(error, isPaginated) {
   };
 }
 export function getOrdersTransactionData(paginated) {
+  console.log(paginated);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -2355,7 +2357,11 @@ export function getOrdersTransactionData(paginated) {
     }
   };
 }
-
+export function clearOrderTransactionDetails() {
+  return {
+    type: Clear_ORDER_TRANSACTION_DATA
+  };
+}
 export function uploadUserFileRequest() {
   return {
     type: UPLOAD_USER_FILE_REQUEST,
