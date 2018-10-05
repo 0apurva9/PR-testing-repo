@@ -2023,6 +2023,8 @@ export function binValidation(paymentMode, binNo) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJson.bankName) {
         localStorage.setItem(SELECTED_BANK_NAME, resultJson.bankName);
+      } else {
+        localStorage.removeItem(SELECTED_BANK_NAME);
       }
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -2054,16 +2056,18 @@ export function binValidationForNetBanking(paymentMode, bankName) {
           JSON.parse(userDetails).userName
         }/payments/binValidation?access_token=${
           JSON.parse(customerCookie).access_token
-        }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
+        }&isUpdatedPwa=true&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
+      if (resultJson.bankName) {
+        localStorage.setItem(SELECTED_BANK_NAME, bankName);
+      } else {
+        localStorage.removeItem(SELECTED_BANK_NAME);
+      }
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
-      localStorage.setItem(SELECTED_BANK_NAME, bankName);
 
       dispatch(binValidationSuccess(resultJson));
     } catch (e) {
