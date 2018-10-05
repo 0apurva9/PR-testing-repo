@@ -7,7 +7,8 @@ import {
   getOrdersTransactionData,
   uploadUserFile,
   submitOrderDetails,
-  getUserDetails
+  getUserDetails,
+  clearOrderTransactionDetails
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
@@ -36,6 +37,9 @@ const mapDispatchToProps = dispatch => {
     },
     showCustomerQueryModal: getCustomerQueryDetailsObject => {
       dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
+    },
+    clearOrderTransactionDetails: () => {
+      dispatch(clearOrderTransactionDetails());
     }
   };
 };

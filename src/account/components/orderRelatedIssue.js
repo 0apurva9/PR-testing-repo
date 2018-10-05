@@ -87,6 +87,9 @@ export default class OrderRelatedIssue extends React.Component {
   componentDidUpdate() {
     this.props.setHeaderText(CUSTOMER_CARE);
   }
+  componentWillUnmount() {
+    this.props.clearOrderTransactionDetails();
+  }
   getMoreOrder() {
     if (
       this.props.ordersTransactionData &&
