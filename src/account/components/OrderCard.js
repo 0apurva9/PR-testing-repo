@@ -98,6 +98,7 @@ export default class OrderCard extends React.Component {
               </div>
             )}
         </div>
+        {this.props.children}
       </div>
     );
   }
