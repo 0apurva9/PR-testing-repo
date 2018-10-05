@@ -21,8 +21,7 @@ import {
   ORDER_HISTORY,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
-  SEARCH_RESULTS_PAGE,
-  PRODUCT_REVIEWS_PATH_SUFFIX
+  WRITE_REVIEW
 } from "../../lib/constants";
 
 import { HOME_ROUTER } from "../../lib/constants";
@@ -62,9 +61,7 @@ export default class AllOrderDetails extends React.Component {
   }
   writeReview(productCode) {
     if (productCode && this.props.history) {
-      this.props.history.push(
-        `${SEARCH_RESULTS_PAGE}p-${productCode.toLowerCase()}/${PRODUCT_REVIEWS_PATH_SUFFIX}`
-      );
+      this.props.history.push(`p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
     }
   }
   componentDidMount() {

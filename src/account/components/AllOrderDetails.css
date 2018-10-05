@@ -42,9 +42,11 @@
 .reviewHolder {
   width: 100%;
   height: auto;
+  padding-bottom: 20px;
   display: inline-block;
-  padding: 25px 0px 25px 0px;
-  border-top: 1px solid #ececec;
+  position: absolute;
+  right: 30px;
+  margin-top: 100px;
 }
 .reviewText {
   display: inline-block;
