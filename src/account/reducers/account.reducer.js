@@ -1024,6 +1024,14 @@ const account = (
         ordersTransactionDataError: action.error,
         ordersTransactionDataLoading: false
       });
+    case accountActions.Clear_ORDER_TRANSACTION_DATA: {
+      return Object.assign({}, state, {
+        type: null,
+        status: null,
+        ordersTransactionData: null,
+        ordersTransactionDataLoading: false
+      });
+    }
     case accountActions.UPLOAD_USER_FILE_REQUEST:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
