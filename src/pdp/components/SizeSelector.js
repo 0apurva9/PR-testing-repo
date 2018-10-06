@@ -28,6 +28,10 @@ export default class SizeSelector extends React.Component {
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+  navigateToLoginOnWishList(url) {
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   handleShowSize() {
     if (this.props.showSizeGuide) {
       this.props.showSizeGuide();
@@ -84,7 +88,9 @@ export default class SizeSelector extends React.Component {
               PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
               JSON.stringify(addToWishListObj)
             );
-            this.navigateToLogin();
+            this.navigateToLoginOnWishList(
+              `p-${productDescription && productDescription.productListingId}`
+            );
           } else {
             this.props.addProductToWishList(addToWishListObj);
             this.props.history.replace({
@@ -122,7 +128,6 @@ export default class SizeSelector extends React.Component {
       .map(val => {
         return val;
       });
-
     if (sizes.length !== 0) {
       return (
         <div className={styles.base}>
