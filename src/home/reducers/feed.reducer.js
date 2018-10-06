@@ -54,8 +54,16 @@ const feed = (
 
       secondaryFeedData = map(secondaryFeedClonedData, subData => {
         // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+        let componentName = subData.componentName;
+        if (
+          componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+          componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+          componentName === QUICK_LINKS_COMPONENT_NAME_HC
+        ) {
+          componentName = HARD_CODED_KEY_FOR_COMPONENT;
+        }
         return {
-          ...subData[subData.componentName],
+          ...subData[componentName],
           loading: false,
           status: ""
         };
