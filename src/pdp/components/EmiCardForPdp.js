@@ -53,10 +53,16 @@ export default class EmiCardForPdp extends React.Component {
             <div className={styles.header}>Overall Cost</div>
             <div className={styles.data}>
               {this.props.options.map((datum, i) => {
+                let overallCost = datum.overallCost;
+                if (this.props.options[i] && this.props.calculatePrice) {
+                  overallCost =
+                    parseInt(this.props.options[i].monthlyInstallment, 10) *
+                    parseInt(this.props.options[i].term, 10);
+                }
                 return (
                   <div className={styles.dataDetails} key={i}>
                     {RUPEE_SYMBOL}
-                    {datum.overallCost}
+                    {overallCost}
                   </div>
                 );
               })}
@@ -70,6 +76,7 @@ export default class EmiCardForPdp extends React.Component {
   }
 }
 EmiCardForPdp.propTypes = {
+  calculatePrice: PropTypes.bool,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       interestRate: PropTypes.string,
@@ -80,6 +87,7 @@ EmiCardForPdp.propTypes = {
   )
 };
 EmiCardForPdp.defaultProps = {
+  calculatePrice: false,
   showInterestRate: true,
   width: 25
 };

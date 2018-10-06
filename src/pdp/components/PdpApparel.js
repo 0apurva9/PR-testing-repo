@@ -29,7 +29,11 @@ import {
 } from "../../lib/constants";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import {
+  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 import queryString, { parse } from "query-string";
 const ProductDetailsMainCard = LoadableVisibility({
@@ -188,6 +192,7 @@ export default class PdpApparel extends React.Component {
           parsedQueryString.addToBagAmp === "true"
         ) {
           if (buyNowFlag) {
+            setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
             if (!(customerCookie || userDetails || cartDetailsLoggedInUser)) {
               localStorage.setItem(
                 BUY_NOW_PRODUCT_DETAIL,
