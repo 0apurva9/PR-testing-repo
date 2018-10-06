@@ -13,6 +13,10 @@ import {
   BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
 const SIZE_GUIDE = "Size guide";
 const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;
 export default class SizeSelector extends React.Component {
@@ -58,6 +62,7 @@ export default class SizeSelector extends React.Component {
         };
 
         if (this.props.buyNowFlag) {
+          setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
           if (!checkUserLoggedIn()) {
             localStorage.setItem(
               BUY_NOW_PRODUCT_DETAIL,

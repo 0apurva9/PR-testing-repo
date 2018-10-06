@@ -390,7 +390,7 @@ class CheckOutPage extends React.Component {
       top:
         document &&
         document.body &&
-        document.body.offsetHeight - window.innerHeight - 300,
+        document.body.offsetHeight - window.innerHeight - 230,
       behavior: "smooth"
     });
   };

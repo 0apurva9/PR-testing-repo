@@ -25,7 +25,11 @@ import {
 } from "../../lib/constants";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import {
+  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import styles from "./ProductDescriptionPage.css";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
@@ -207,6 +211,7 @@ export default class PdpApparel extends React.Component {
           this.setState({ quantityError: true });
         } else {
           if (buyNowFlag) {
+            setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
             if (!checkUserLoggedIn()) {
               localStorage.setItem(
                 BUY_NOW_PRODUCT_DETAIL,

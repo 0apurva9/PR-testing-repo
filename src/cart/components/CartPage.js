@@ -60,7 +60,7 @@ class CartPage extends React.Component {
       top:
         document &&
         document.body &&
-        document.body.offsetHeight - window.innerHeight - 300,
+        document.body.offsetHeight - window.innerHeight - 230,
       behavior: "smooth"
     });
   };
@@ -112,7 +112,8 @@ class CartPage extends React.Component {
     }
     // delete bank coupon localstorage if it is exits.
     // because we user can not have bank offer cookie on cart page
-    this.getPaymentModes();
+    // this code is not working need to comment for build hotFix_v1.1.7
+    // this.getPaymentModes();
     if (localStorage.getItem(BANK_COUPON_COOKIE)) {
       localStorage.removeItem(BANK_COUPON_COOKIE);
     }
