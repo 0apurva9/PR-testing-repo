@@ -27,7 +27,11 @@ import {
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import {
+  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
@@ -165,6 +169,9 @@ export default class PdpJewellery extends React.Component {
     });
   };
   addToCart = async buyNowFlag => {
+    if (buyNowFlag) {
+      setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
+    }
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
