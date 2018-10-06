@@ -121,7 +121,13 @@ async function corePost(path, postData, doNotUseApiSuffix) {
 export async function coreGet(url) {
   return await fetch(`${API_URL_ROOT}/${url}`, {
     headers: {
-      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#")
+      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
+      "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+      "Content-Length": 1897,
+      "Content-Type": "application/json; charset=utf-8",
+      Expires: "Mon, 01 Jan 1990 00:00:00 GMT",
+      Pragma: "no-cache",
+      Server: "Microsoft-IIS/8.0"
     }
   });
 }

@@ -87,6 +87,7 @@
   padding-right: 30px;
 }
 .estimatedDeliveryDate {
+  display: none;
   font-size: 14px;
   margin-bottom: 20px;
 }
