@@ -1053,6 +1053,9 @@ class CheckOutPage extends React.Component {
       this.props.location.state.amount
     ) {
       let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+      if (!giftCartObj) {
+        giftCartObj = this.props.location.state;
+      }
       this.getPaymentModes();
       this.setState({
         isGiftCard: true,
