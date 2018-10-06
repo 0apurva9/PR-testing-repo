@@ -22,7 +22,10 @@ import {
   getCartId,
   getCartDetails
 } from "../../cart/actions/cart.actions";
-import { createWishlist } from "../../wishlist/actions/wishlist.actions";
+import {
+  createWishlist,
+  addProductToWishList
+} from "../../wishlist/actions/wishlist.actions";
 import * as Cookies from "../../lib/Cookie";
 import SignUp from "../components/SignUp.js";
 import {
@@ -33,6 +36,7 @@ import {
   singleAuthCallHasFailed,
   setIfAllAuthCallsHaveSucceeded
 } from "../../auth/actions/auth.actions.js";
+const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: async userSignUpDetails => {
@@ -89,6 +93,12 @@ const mapDispatchToProps = dispatch => {
     },
     clearUrlToRedirectToAfterAuth: () => {
       dispatch(clearUrlToRedirectToAfterAuth());
+    },
+    addProductToWishList: async productObj => {
+      const wishlistResponse = await dispatch(addProductToWishList(productObj));
+      if (wishlistResponse.status === SUCCESS) {
+        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+      }
     }
   };
 };
@@ -99,7 +109,9 @@ const mapStateToProps = state => {
     authCallsIsSucceed: state.auth.authCallsIsSucceed,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     tempCartIdForLoggedInUserLoading:
-      state.cart.tempCartIdForLoggedInUserLoading
+      state.cart.tempCartIdForLoggedInUserLoading,
+    loadingForAddProductToWishList:
+      state.wishlistItems.loadingForAddProductToWishList
   };
 };
 
