@@ -76,8 +76,7 @@ export default class SizeSelector extends React.Component {
               this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
             }
           }
-        }
-        if (this.props.addToWishlist) {
+        } else if (this.props.addToWishlist) {
           let addToWishListObj = {
             productListingId:
               productDescription && productDescription.productListingId,
