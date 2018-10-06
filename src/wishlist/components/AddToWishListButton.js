@@ -10,7 +10,8 @@ import downloadIconWhite from "../../general/components/img/downloadWhite.svg";
 import {
   LOGIN_PATH,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
+  CUSTOMER_ACCESS_TOKEN,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants.js";
 import queryString, { parse } from "query-string";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
@@ -21,10 +22,21 @@ export default class AddToWishListButton extends React.Component {
     if (e) {
       e.stopPropagation();
     }
-
+    const { productListingId, winningUssID, wishlistItems } = this.props;
+    let addToWishListObj = Object.assign(
+      {},
+      {
+        productListingId: productListingId,
+        winningUssID: winningUssID
+      }
+    );
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
+      localStorage.setItem(
+        PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+        JSON.stringify(addToWishListObj)
+      );
       if (this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
@@ -33,7 +45,6 @@ export default class AddToWishListButton extends React.Component {
         this.props.history.push(LOGIN_PATH);
       }
     } else {
-      const { productListingId, winningUssID, wishlistItems } = this.props;
       const indexOfProduct = wishlistItems.findIndex(item => {
         return (
           item.productcode === productListingId || item.USSID === winningUssID
