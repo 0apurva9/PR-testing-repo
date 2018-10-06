@@ -62,6 +62,7 @@ export const HOME_ROUTER = "/";
 export const BRAND_LANDING_PAGE = "/brand";
 export const PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST =
   "productDetailsForAddToWishList";
+export const PRODUCT_ADDED_TO_WISHLIST = "Product added to wishlist";
 export const PRODUCT_DESCRIPTION_PRODUCT_CODE = "/p-([a-z0-9A-Z]+)";
 export const PRODUCT_DESCRIPTION_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/product-reviews`;
 export const WRITE_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/write-review`;

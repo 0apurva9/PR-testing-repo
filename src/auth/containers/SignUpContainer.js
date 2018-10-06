@@ -10,6 +10,7 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_ADDED_TO_WISHLIST,
   ERROR
 } from "../../lib/constants";
 import {
@@ -36,7 +37,6 @@ import {
   singleAuthCallHasFailed,
   setIfAllAuthCallsHaveSucceeded
 } from "../../auth/actions/auth.actions.js";
-const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: async userSignUpDetails => {
@@ -97,7 +97,7 @@ const mapDispatchToProps = dispatch => {
     addProductToWishList: async productObj => {
       const wishlistResponse = await dispatch(addProductToWishList(productObj));
       if (wishlistResponse.status === SUCCESS) {
-        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+        dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
     }
   };

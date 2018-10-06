@@ -23,7 +23,8 @@ import {
   ERROR,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_ADDED_TO_WISHLIST
 } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -45,7 +46,6 @@ import {
 } from "../../wishlist/actions/wishlist.actions";
 import ProductDetails from "../../pdp/components/ProductDetails";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
-const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -172,7 +172,7 @@ const mapDispatchToProps = dispatch => {
     addProductToWishList: async productObj => {
       const wishlistResponse = await dispatch(addProductToWishList(productObj));
       if (wishlistResponse.status === SUCCESS) {
-        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+        dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
     }
   };

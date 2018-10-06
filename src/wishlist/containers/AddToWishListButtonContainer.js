@@ -6,8 +6,10 @@ import { SUCCESS } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { removeItemFromCartLoggedIn } from "../../cart/actions/cart.actions";
-import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
-const toastMessageOnSuccessAddToWishlist = "Product added to wishlist";
+import {
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_ADDED_TO_WISHLIST
+} from "../../lib/constants";
 const toastMessageOnAlreadyInWishlist = "Already in wishlist";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -25,7 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             )
           );
         }
-        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+        dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
     },
     displayToast: () => {
