@@ -11,13 +11,12 @@ import {
   MY_ACCOUNT_CART_PAGE,
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
-  BUY_NOW_ERROR_MESSAGE
+  BUY_NOW_ERROR_MESSAGE,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
-
 import AuthFrame from "./AuthFrame.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
-
 import {
   LOGIN_PATH,
   SIGN_UP_PATH,
@@ -31,9 +30,7 @@ import {
   setDataLayer,
   ADOBE_LOGIN_AND_SIGN_UP_PAGE
 } from "../../lib/adobeUtils";
-
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
 class Login extends Component {
@@ -60,19 +57,23 @@ class Login extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
-      /*
-check for user is coming from buy now option
-then in this case we have to hit generate temp cart id for user
-      */
       const productDetailsForBuyNow = localStorage.getItem(
         BUY_NOW_PRODUCT_DETAIL
       );
-
+      const productDetailsForAddToWishList = localStorage.getItem(
+        PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+      );
       if (
         productDetailsForBuyNow &&
         !nextProps.tempCartIdForLoggedInUserLoading
       ) {
         return this.goForBuyNow();
+      }
+      if (
+        productDetailsForAddToWishList &&
+        !nextProps.loadingForAddProductToWishList
+      ) {
+        return this.goForWishlist();
       }
       if (!nextProps.tempCartIdForLoggedInUserLoading) {
         if (this.props.redirectToAfterAuthUrl) {
@@ -85,6 +86,20 @@ then in this case we have to hit generate temp cart id for user
     }
   }
 
+  goForWishlist() {
+    const productDetailsForWishList = localStorage.getItem(
+      PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+    );
+    this.props.addProductToWishList(JSON.parse(productDetailsForWishList));
+    if (this.props.redirectToAfterAuthUrl) {
+      localStorage.removeItem(PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST);
+      this.props.history.replace({
+        pathname: this.props.redirectToAfterAuthUrl,
+        state: { isSizeSelected: true, goToCartPageFlag: false }
+      });
+      this.props.clearUrlToRedirectToAfterAuth();
+    }
+  }
   async goForBuyNow() {
     const productDetailsForBuyNow = localStorage.getItem(
       BUY_NOW_PRODUCT_DETAIL
