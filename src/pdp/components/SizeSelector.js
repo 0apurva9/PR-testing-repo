@@ -89,7 +89,11 @@ export default class SizeSelector extends React.Component {
               JSON.stringify(addToWishListObj)
             );
             this.navigateToLoginOnWishList(
-              `p-${productDescription && productDescription.productListingId}`
+              productCodeArray && productCodeArray[1]
+                ? `${productCodeArray[1]}/p-${productDescription &&
+                    productDescription.productListingId}`
+                : `p-${productDescription &&
+                    productDescription.productListingId}`
             );
           } else {
             this.props.addProductToWishList(addToWishListObj);
