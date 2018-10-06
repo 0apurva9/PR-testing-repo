@@ -36,8 +36,12 @@ const wishlistItems = (
         status: action.status
       });
     case wishlistActions.GET_WISH_LIST_ITEMS_REQUEST:
-    case wishlistActions.ADD_PRODUCT_TO_WISH_LIST_REQUEST:
     case wishlistActions.REMOVE_PRODUCT_FROM_WISH_LIST_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: true
+      });
+    case wishlistActions.ADD_PRODUCT_TO_WISH_LIST_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
         loadingForAddProductToWishList: true

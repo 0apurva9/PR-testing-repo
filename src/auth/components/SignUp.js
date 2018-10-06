@@ -56,7 +56,7 @@ then in this case we have to hit generate temp cart id for user
       }
       if (
         productDetailsForAddToWishList &&
-        nextProps.loadingForAddProductToWishList
+        !nextProps.loadingForAddProductToWishList
       ) {
         return this.goForWishlist();
       }

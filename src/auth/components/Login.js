@@ -56,6 +56,7 @@ class Login extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.loadingForAddProductToWishList);
     if (nextProps.authCallsIsSucceed) {
       const productDetailsForBuyNow = localStorage.getItem(
         BUY_NOW_PRODUCT_DETAIL
@@ -71,7 +72,7 @@ class Login extends Component {
       }
       if (
         productDetailsForAddToWishList &&
-        nextProps.loadingForAddProductToWishList
+        !nextProps.loadingForAddProductToWishList
       ) {
         return this.goForWishlist();
       }
