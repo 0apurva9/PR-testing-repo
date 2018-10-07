@@ -21,6 +21,7 @@ import {
 } from "./PlpBrandCategoryWrapper.js";
 import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
 
+const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SKU_SUFFIX = `&isFilter=false&channel=${CHANNEL}`;
@@ -30,7 +31,7 @@ const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 
 class ProductListingsPage extends Component {
-  getSearchTextFromUrl() {
+  getSearchTextFromUrl(isAddOutOfStockFlag) {
     const parsedQueryString = queryString.parse(this.props.location.search);
 
     const searchCategory = parsedQueryString.searchCategory;
@@ -123,6 +124,10 @@ class ProductListingsPage extends Component {
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
+    if (isAddOutOfStockFlag) {
+      searchText = `${searchText}:${OUT_OF_STOCK_FLAG}:true`;
+    }
+
     return encodeURIComponent(searchText);
   }
 
@@ -156,7 +161,7 @@ class ProductListingsPage extends Component {
     }
 
     if (this.props.searchText) {
-      let searchText = this.getSearchTextFromUrl();
+      let searchText = this.getSearchTextFromUrl(true);
       this.props.getProductListings(searchText, SUFFIX, 0);
       return;
     }
@@ -168,7 +173,7 @@ class ProductListingsPage extends Component {
     ) {
       page = this.props.match.params[1];
 
-      let searchText = this.getSearchTextFromUrl();
+      let searchText = this.getSearchTextFromUrl(true);
 
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
@@ -179,7 +184,7 @@ class ProductListingsPage extends Component {
     ) {
       page = this.props.match.params[1];
 
-      let searchText = this.getSearchTextFromUrl();
+      let searchText = this.getSearchTextFromUrl(true);
 
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
@@ -189,7 +194,7 @@ class ProductListingsPage extends Component {
       const categoryId = this.props.match.params[0].toUpperCase();
       const brandId = this.props.match.params[1].toUpperCase();
 
-      const searchText = `:relevance:category:${categoryId}:brand:${brandId}`;
+      const searchText = `:relevance:category:${categoryId}:brand:${brandId}:${OUT_OF_STOCK_FLAG}:true`;
       this.props.getProductListings(searchText, SUFFIX, 0, false);
       return;
     }
