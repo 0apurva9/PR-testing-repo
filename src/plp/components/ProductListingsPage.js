@@ -124,7 +124,7 @@ class ProductListingsPage extends Component {
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
-    if (isAddOutOfStockFlag) {
+    if (isAddOutOfStockFlag && !searchText.includes(OUT_OF_STOCK_FLAG)) {
       searchText = `${searchText}:${OUT_OF_STOCK_FLAG}:true`;
     }
 
@@ -155,7 +155,7 @@ class ProductListingsPage extends Component {
 
     if (this.props.match.path === SKU_PAGE) {
       const skuId = this.props.match.params.slug;
-      let searchText = `:relevance:collectionIds:${skuId}`;
+      let searchText = `:relevance:collectionIds:${skuId}:${OUT_OF_STOCK_FLAG}:true`;
       this.props.getProductListings(searchText, SKU_SUFFIX, 0);
       return;
     }
@@ -203,7 +203,7 @@ class ProductListingsPage extends Component {
 
     if (this.props.location.state && this.props.location.state.isFilter) {
       const suffix = "&isFilter=true";
-      const searchText = this.getSearchTextFromUrl();
+      const searchText = this.getSearchTextFromUrl(true);
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
@@ -211,7 +211,7 @@ class ProductListingsPage extends Component {
       }
       this.props.getProductListings(searchText, suffix, page, true);
     } else {
-      const searchText = this.getSearchTextFromUrl();
+      const searchText = this.getSearchTextFromUrl(true);
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
@@ -222,7 +222,7 @@ class ProductListingsPage extends Component {
     }
 
     if (!this.props.location.state) {
-      const searchText = this.getSearchTextFromUrl();
+      const searchText = this.getSearchTextFromUrl(true);
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
