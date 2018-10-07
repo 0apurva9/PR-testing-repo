@@ -238,8 +238,6 @@ class ProductListingsPage extends Component {
 
   componentDidUpdate() {
     let page = null;
-    let isAutoOutOfStock =
-      this.props.lastVisitedPlpUrl !== window.location.href;
     if (this.props.lastVisitedPlpUrl === window.location.href) {
       if (this.props.clickedProductModuleRef) {
         const clickedElement = document.getElementById(
@@ -264,7 +262,7 @@ class ProductListingsPage extends Component {
       page = this.props.match.params[1];
       page = page - 1;
 
-      const searchText = this.getSearchTextFromUrl(isAutoOutOfStock);
+      const searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, page);
       return;
     }
@@ -289,7 +287,7 @@ class ProductListingsPage extends Component {
       this.props.location.state.isFilter === true
     ) {
       const suffix = "&isFilter=true";
-      const searchText = this.getSearchTextFromUrl(isAutoOutOfStock);
+      const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
@@ -300,7 +298,7 @@ class ProductListingsPage extends Component {
       this.props.location.state &&
       this.props.location.state.isFilter === false
     ) {
-      const searchText = this.getSearchTextFromUrl(isAutoOutOfStock);
+      const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
 
       if (pageMatch) {
@@ -312,7 +310,7 @@ class ProductListingsPage extends Component {
     }
 
     if (!this.props.location.state) {
-      const searchText = this.getSearchTextFromUrl(isAutoOutOfStock);
+      const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
