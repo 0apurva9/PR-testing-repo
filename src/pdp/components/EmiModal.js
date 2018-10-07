@@ -294,7 +294,6 @@ export default class EmiModal extends React.Component {
                               val.emitermsrate,
                               item => item && parseInt(item.term, 10)
                             )}
-                            calculatePrice={true}
                           />
                         </Accordion>
                       );
