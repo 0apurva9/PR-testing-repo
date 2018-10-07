@@ -46,9 +46,14 @@ class ProductListingsPage extends Component {
     }
 
     if (!searchText) {
-      searchText = parsedQueryString.text;
+      if (isAddOutOfStockFlag) {
+        searchText = `${
+          parsedQueryString.text
+        }:relevance:${OUT_OF_STOCK_FLAG}:true`;
+      } else {
+        searchText = parsedQueryString.text;
+      }
     }
-
     if (
       this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
