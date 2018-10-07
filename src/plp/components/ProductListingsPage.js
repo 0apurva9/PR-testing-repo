@@ -36,8 +36,7 @@ class ProductListingsPage extends Component {
 
     const searchCategory = parsedQueryString.searchCategory;
     let searchText = parsedQueryString.q;
-    if (isAddOutOfStockFlag)
-      console.log("IN FIRST URL", searchText, this.props.searchText);
+
     if (
       searchCategory &&
       searchCategory !== "" &&
