@@ -4505,6 +4505,8 @@ export function resetTempCartId() {
 }
 
 export function tempCartIdForLoggedInUser(productDetails: {}) {
+  localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
+
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -4524,7 +4526,6 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
       if (resultJson.status !== SUCCESS_CAMEL_CASE) {
         throw new Error(resultJson.message);
       }
-
       localStorage.setItem(
         CART_BAG_DETAILS,
         JSON.stringify([productDetails.ussId])
