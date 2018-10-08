@@ -26,7 +26,8 @@ import {
   EXPRESS,
   COLLECT,
   PAYPAL,
-  BUY_NOW_PRODUCT_DETAIL
+  BUY_NOW_PRODUCT_DETAIL,
+  NET_BANKING_PAYMENT_MODE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -3222,7 +3223,11 @@ export function updateTransactionDetails(paymentMode, juspayOrderID, cartId) {
 
   return async (dispatch, getState, { api }) => {
     let paymentObject = new FormData();
-    paymentObject.append("paymentMode", paymentMode);
+    if (paymentMode === PAYPAL) {
+      paymentObject.append("paymentMode", NET_BANKING_PAYMENT_MODE);
+    } else {
+      paymentObject.append("paymentMode", paymentMode);
+    }
     paymentObject.append("juspayOrderID", juspayOrderID);
     paymentObject.append("cartGuid", cartId);
 
