@@ -88,7 +88,7 @@ class MobileFooter extends React.Component {
           activeIcon={brandsIconRed}
           basicIcon={brandsIcon}
           value={BRANDS}
-          text="Offers"
+          text="Brands"
           selected={selected}
           onSelect={() => this.handleSelect(DEFAULT_BRANDS_LANDING_PAGE)}
         />
