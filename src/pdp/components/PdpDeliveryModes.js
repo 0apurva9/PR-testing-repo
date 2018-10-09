@@ -8,6 +8,7 @@ import {
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 export default class PdpDeliveryModes extends React.Component {
   render() {
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
@@ -17,55 +18,78 @@ export default class PdpDeliveryModes extends React.Component {
     }
     return (
       <div className={styles.base}>
-        <DeliveryInformation
-          type={EXPRESS}
-          available={eligibleDeliveryModes
-            .map(val => {
-              return val.code;
-            })
-            .includes(EXPRESS)}
-          placedTime={
-            deliveryModesATP
-              .filter(val => {
-                return val.key === EXPRESS;
-              })
-              .map(val => {
-                return val.value;
-              })[0]
+        <div
+          className={
+            checkUserAgentIsMobile()
+              ? styles.InformationHolder
+              : styles.InformationHolderDesktop
           }
-        />
-        <DeliveryInformation
-          type={HOME_DELIVERY}
-          available={eligibleDeliveryModes
-            .map(val => {
-              return val.code;
-            })
-            .includes(HOME_DELIVERY)}
-          placedTime={
-            deliveryModesATP
-              .filter(val => {
-                return val.key === HOME_DELIVERY;
-              })
+        >
+          <DeliveryInformation
+            type={EXPRESS}
+            available={eligibleDeliveryModes
               .map(val => {
-                return val.value;
-              })[0]
+                return val.code;
+              })
+              .includes(EXPRESS)}
+            placedTime={
+              deliveryModesATP
+                .filter(val => {
+                  return val.key === EXPRESS;
+                })
+                .map(val => {
+                  return val.value;
+                })[0]
+            }
+          />
+        </div>
+        <div
+          className={
+            checkUserAgentIsMobile()
+              ? styles.InformationHolder
+              : styles.InformationHolderDesktop
           }
-        />
-
-        <DeliveryInformation
-          onPiq={this.props.onPiq}
-          type={COLLECT}
-          available={eligibleDeliveryModes
-            .map(val => {
-              return val.code;
-            })
-            .includes(COLLECT)}
-          showCliqAndPiqButton={false}
-          isClickable={true}
-          isShowCliqAndPiqUnderLineText={localStorage.getItem(
-            DEFAULT_PIN_CODE_LOCAL_STORAGE
-          )}
-        />
+        >
+          <DeliveryInformation
+            type={HOME_DELIVERY}
+            available={eligibleDeliveryModes
+              .map(val => {
+                return val.code;
+              })
+              .includes(HOME_DELIVERY)}
+            placedTime={
+              deliveryModesATP
+                .filter(val => {
+                  return val.key === HOME_DELIVERY;
+                })
+                .map(val => {
+                  return val.value;
+                })[0]
+            }
+          />
+        </div>
+        <div
+          className={
+            checkUserAgentIsMobile()
+              ? styles.InformationHolder
+              : styles.InformationHolderDesktop
+          }
+        >
+          <DeliveryInformation
+            onPiq={this.props.onPiq}
+            type={COLLECT}
+            available={eligibleDeliveryModes
+              .map(val => {
+                return val.code;
+              })
+              .includes(COLLECT)}
+            showCliqAndPiqButton={false}
+            isClickable={true}
+            isShowCliqAndPiqUnderLineText={localStorage.getItem(
+              DEFAULT_PIN_CODE_LOCAL_STORAGE
+            )}
+          />
+        </div>
       </div>
     );
   }

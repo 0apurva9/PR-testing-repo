@@ -36,4 +36,11 @@
   .saveLabel {
     font-family: light;
   }
+  .iconHolderForPdp {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 10px;
+    top: -5px;
+  }
 }

@@ -55,6 +55,7 @@ const ProductDetailsMainCard = LoadableVisibility({
   delay: 400
 });
 const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
+export const ONLY_ICON = "wishlistIconForPdp";
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
   loading: () => <div />,
@@ -549,22 +550,38 @@ export default class PdpApparel extends React.Component {
                         );
                       })}
                   </div>
-                  <ProductDetailsMainCard
-                    brandName={productData.brandName}
-                    productName={productData.productName}
-                    brandUrl={productData.brandURL}
-                    history={this.props.history}
-                    location={this.props.location}
-                    price={price}
-                    doublePrice={seoDoublePrice}
-                    discountPrice={discountPrice}
-                    averageRating={productData.averageRating}
-                    numberOfReviews={productData.numberOfReviews}
-                    goToReviewPage={this.goToReviewPage}
-                    discount={productData.discount}
-                    hasPriceBreakUp={productData.showPriceBrkUpPDP === "Yes"}
-                    showPriceBreakUp={this.showPriceBreakup}
-                  />
+                  <div className={styles.cardHeaderHolder}>
+                    <div>
+                      <ProductDetailsMainCard
+                        brandName={productData.brandName}
+                        productName={productData.productName}
+                        brandUrl={productData.brandURL}
+                        history={this.props.history}
+                        location={this.props.location}
+                        price={price}
+                        doublePrice={seoDoublePrice}
+                        discountPrice={discountPrice}
+                        averageRating={productData.averageRating}
+                        numberOfReviews={productData.numberOfReviews}
+                        goToReviewPage={this.goToReviewPage}
+                        discount={productData.discount}
+                        hasPriceBreakUp={
+                          productData.showPriceBrkUpPDP === "Yes"
+                        }
+                        showPriceBreakUp={this.showPriceBreakup}
+                      />
+                    </div>
+                    <div className={styles.wisthListIconHolder}>
+                      <AddToWishListButtonContainer
+                        type={ONLY_ICON}
+                        productListingId={productData.productListingId}
+                        winningUssID={productData.winningUssID}
+                        setDataLayerType={
+                          SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                        }
+                      />
+                    </div>
+                  </div>
                 </div>
                 {productData.details &&
                   (productData.rootCategory === "FineJewellery" ||
@@ -761,7 +778,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className={styles.buttonHolderForWishlist}>
+                {/* <div className={styles.buttonHolderForWishlist}>
                   <AddToWishListButtonContainer
                     type={WISHLIST_FOOTER_BUTTON_TYPE}
                     productListingId={productData.productListingId}
@@ -770,18 +787,9 @@ export default class PdpApparel extends React.Component {
                       SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
                     }
                   />
-                </div>
-                <div className={styles.horizontalOffset}>
-                  <div className={styles.separator}>
-                    <OtherSellersLink
-                      onClick={this.goToSellerPage}
-                      otherSellers={productData.otherSellers}
-                      winningSeller={productData.winningSellerName}
-                    />
-                  </div>
-                </div>
+                </div> */}
 
-                <div className={styles.horizontalOffset}>
+                <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
                     {productData.isServiceableToPincode &&
                     productData.isServiceableToPincode.pinCode ? (
@@ -835,12 +843,36 @@ export default class PdpApparel extends React.Component {
                       />
                     </Overlay>
                   ) : (
-                    <PdpDeliveryModes
-                      onPiq={this.handleShowPiqPage}
-                      eligibleDeliveryModes={productData.eligibleDeliveryModes}
-                      deliveryModesATP={productData.deliveryModesATP}
-                    />
+                    <div className={styles.deliveyModesHolder}>
+                      <PdpDeliveryModes
+                        onPiq={this.handleShowPiqPage}
+                        eligibleDeliveryModes={
+                          productData.eligibleDeliveryModes
+                        }
+                        deliveryModesATP={productData.deliveryModesATP}
+                      />
+                    </div>
                   )}
+                </div>
+                {productData &&
+                  productData.details && (
+                    <div className={styles.pointListHolder}>
+                      <div className={styles.pointHeader}>Highlights</div>
+
+                      {productData.details &&
+                        productData.details.map(val => {
+                          return <div className={styles.list}>{val.value}</div>;
+                        })}
+                    </div>
+                  )}
+                <div className={styles.horizontalOffset}>
+                  <div className={styles.separator}>
+                    <OtherSellersLink
+                      onClick={this.goToSellerPage}
+                      otherSellers={productData.otherSellers}
+                      winningSeller={productData.winningSellerName}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

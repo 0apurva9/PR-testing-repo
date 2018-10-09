@@ -3,4 +3,15 @@
   height: auto;
   background: #fff;
   padding: 10px 0px 10px 0px;
+  display: inline-block;
+}
+.InformationHolder {
+  width: 100%;
+  height: auto;
+}
+.InformationHolderDesktop {
+  width: 33.33%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
 }
