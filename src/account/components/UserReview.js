@@ -8,6 +8,8 @@ import {
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
 import Loader from "../../general/components/Loader";
+import format from "date-fns/format";
+const dateFormat = "DD MMM YYYY";
 export default class UserReview extends React.Component {
   componentDidMount() {
     if (this.props.getUserReview) {
@@ -80,7 +82,11 @@ export default class UserReview extends React.Component {
                       productTitle={reviews.productTitle}
                       averageRating={reviews.rating}
                       showAverageRatingWithDays={true}
-                      daysAgo={reviews.reviewAge}
+                      daysAgo={
+                        reviews.reviewAge
+                          ? reviews.reviewAge
+                          : format(reviews.date, dateFormat)
+                      }
                     />
                   </div>
                   <div className={styles.commentAndHeadlineHolder}>
