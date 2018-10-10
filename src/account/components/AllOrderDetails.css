@@ -38,7 +38,6 @@
   margin: auto;
   display: inline-block;
 }
-<<<<<<< HEAD
 .tabHolder {
   width: 100%;
   height: 60px;
@@ -201,7 +200,6 @@
   .base {
     padding: 15px 15px 70px 15px;
   }
-=======
 .reviewHolder {
   width: 100%;
   height: auto;
@@ -212,5 +210,4 @@
 .reviewText {
   display: inline-block;
   float: right;
->>>>>>> staging
 }
