@@ -12,7 +12,7 @@ import TabData from "./TabData";
 import styles from "./MyAccount.css";
 import LogoutButtonContainer from "../containers/LogoutButtonContainer";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
-//import UserReviewContainer from '../containers/UserReviewContainer';
+import UserReviewContainer from "../containers/UserReviewContainer";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -167,6 +167,11 @@ export default class MyAccount extends React.Component {
               <UserCouponsContainer
                 displayToast={message => this.props.displayToast(message)}
               />
+            </div>
+          )}
+          {this.state.isSelected === 4 && (
+            <div className={styles.reviewHolder}>
+              <UserReviewContainer />
             </div>
           )}
         </div>

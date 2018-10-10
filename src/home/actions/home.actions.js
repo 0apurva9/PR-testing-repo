@@ -116,10 +116,10 @@ if (!checkUserAgentIsMobile()) {
   WCMS_PLATFORM = "mobile";
 }
 
-const ADOBE_TARGET_HOME_FEED_MBOX_NAME = "mboxPOCTest1"; // for local/devxelp/uat2tmpprod
-const ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME =
+ADOBE_TARGET_HOME_FEED_MBOX_NAME = "mboxPOCTest1"; // for local/devxelp/uat2tmpprod
+ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME =
   "PROD_Active_Mobile_NewUserlayout_Homepage_10.10";
-const ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "UAT_Mobile_Homepage_Mbox";
+ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "UAT_Mobile_Homepage_Mbox";
 export const CATEGORY_REGEX = /msh[a-zA-Z0-9]+/;
 export const BRAND_REGEX = /mbh[a-zA-Z0-9]+/;
 export const SET_PAGE_FEED_SIZE = "SET_PAGE_FEED_SIZE";
