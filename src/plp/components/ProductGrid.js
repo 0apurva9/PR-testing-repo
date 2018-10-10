@@ -50,7 +50,13 @@ export default class ProductGrid extends React.Component {
       this.props.changeAddress();
     }
   }
-
+  componentDidMount() {
+    const data = this.props && this.props.data;
+    const type = data && data[0] && data[0].productCategoryType;
+    if (type === "Electronics") {
+      this.setState({ view: LIST });
+    }
+  }
   goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
     if (
@@ -111,6 +117,7 @@ export default class ProductGrid extends React.Component {
         productCategory={data.productCategoryType}
         productId={data.productId}
         showWishListButton={false}
+        plpAttrMap={data && data.plpAttrMap}
       />
     );
   };

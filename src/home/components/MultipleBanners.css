@@ -1,0 +1,14 @@
+.base{
+  width:100%;
+  height:auto;
+  padding-top:10px;
+  background:#fff;
+}
+.heading{
+  width:100%;
+  height:auto;
+  font-size:12px;
+  font-family:semibold;
+  color:#212121;
+  padding:0 15px;
+}

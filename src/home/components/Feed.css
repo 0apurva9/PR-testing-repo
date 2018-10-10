@@ -12,7 +12,8 @@
 .center {
   width: 100%;
   height: auto;
-  max-width: 1600px;
+  max-width: 1200px;
+  padding-bottom: 40px;
 }
 
 @media screen and (min-width: 1025px) {

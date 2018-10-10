@@ -87,6 +87,13 @@ a {
   transition: 300ms;
   transform-origin: center center;
 }
+.reviewHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding-bottom: 70px;
+  background: #fff;
+}
 @media screen and (min-width: 1025px) {
   .base {
     background-color: #ececec;

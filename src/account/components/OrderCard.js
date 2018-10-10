@@ -42,6 +42,14 @@ export default class OrderCard extends React.Component {
             </div>
           )}
         </DesktopOnly>
+
+        {this.props.estimatedDeliveryDate &&
+          (this.props.statusDisplay !== "CANCEL" &&
+            this.props.statusDisplay !== "RETURN") && (
+            <div className={styles.estimatedDeliveryDate}>
+              <b>Estimated Delivery Date:</b> {this.props.estimatedDeliveryDate}
+            </div>
+          )}
         <div className={styles.productImageHolder}>
           <ProductImage
             image={this.props.imageUrl}

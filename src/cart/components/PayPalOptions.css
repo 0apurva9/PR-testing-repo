@@ -1,0 +1,54 @@
+.base {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+.payPalHolder {
+  composes: base;
+  padding: 10px 20px 20px;
+}
+.paypalLogoHolder {
+  width: 100%;
+  padding-right: 25px;
+  position: relative;
+  display: inline-block;
+}
+.checkboxHolder {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.paypalIcon {
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 40px;
+}
+.paypalLogo {
+  width: 60px;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.payPalTextHolder {
+  width: calc(100% - 60px);
+  height: auto;
+  display: inline-block;
+}
+.payPalHeading {
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 12px;
+  font-family: regular;
+  margin-bottom: 10px;
+}
+.payPalSubText {
+  composes: payPalHeading;
+  font-family: light;
+  margin-bottom: 0px;
+}

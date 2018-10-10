@@ -45,11 +45,21 @@ export default class ReviewPage extends React.Component {
         )}
         {date && date !== INVALID_DATE ? (
           <div className={styles.dateTimeBox}>
-            {this.props.name &&
-              this.props.name.charAt(0).toUpperCase() +
-                this.props.name.slice(1).toLowerCase()}
-            {", "}
-            {date}
+            <span>
+              <span className={styles.nameHolder}>
+                {this.props.name &&
+                  this.props.name.charAt(0).toUpperCase() +
+                    this.props.name.slice(1).toLowerCase()}
+              </span>
+              {this.props.isBuyer && (
+                <span className={styles.isBuyer}>
+                  <span className={styles.buyerIcon} />
+                  Buyer
+                </span>
+              )}
+
+              <span className={styles.nameHolder}>{this.props.reviewAge}</span>
+            </span>
           </div>
         ) : (
           <div className={styles.dateTimeBox}>
@@ -58,6 +68,7 @@ export default class ReviewPage extends React.Component {
                 this.props.name.slice(1).toLowerCase()}
           </div>
         )}
+        <div />
       </div>
     );
   }
@@ -66,5 +77,6 @@ ReviewPage.propTypes = {
   text: PropTypes.string,
   date: PropTypes.string,
   heading: PropTypes.string,
-  rating: PropTypes.number
+  rating: PropTypes.number,
+  isBuyer: PropTypes.bool
 };

@@ -1,0 +1,37 @@
+.base {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: regular;
+  padding: 5px 5px 15px 5px;
+}
+.row {
+  height: auto;
+  text-align: center;
+  vertical-align: top;
+  display: inline-block;
+}
+.header {
+  width: auto;
+  height: auto;
+  color: #6c6c6c;
+  min-height: 35px;
+  height: auto;
+}
+.data {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  text-align: center;
+  font-family: regular;
+  font-size: 14px;
+}
+.dataDetails {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  text-align: center;
+  font-family: light;
+  font-size: 14px;
+  padding-top: 10px;
+}

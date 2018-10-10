@@ -97,7 +97,9 @@ import {
   SHORT_EXPRESS,
   SHORT_COLLECT,
   SHORT_HOME_DELIVERY,
-  ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
+  ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
+  PAYPAL,
+  E_WALLET_PAYPAL
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -169,7 +171,6 @@ class CheckOutPage extends React.Component {
       binValidationCOD: false,
       isGiftCard: false,
       isRemainingAmount: true,
-      payableAmount: "",
       cliqCashAmount: "",
       userCliqCashAmount: "",
       bagAmount: "",
@@ -401,7 +402,13 @@ class CheckOutPage extends React.Component {
     this.props.getAllStoresCNC(pincode);
   };
   showHideDetails = () => {
-    this.setState({ showCartDetails: !this.state.showCartDetails });
+    window.scroll({
+      top:
+        document &&
+        document.body &&
+        document.body.offsetHeight - window.innerHeight - 230,
+      behavior: "smooth"
+    });
   };
   togglePickupPersonForm() {
     const currentSelectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
@@ -774,7 +781,6 @@ class CheckOutPage extends React.Component {
       }
       this.setState({ isPaymentFailed: true });
       this.props.getPaymentFailureOrderDetails();
-
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
         this.setState({
@@ -898,34 +904,15 @@ class CheckOutPage extends React.Component {
       });
     }
     // end if adding selected default delivery modes for every product
-
     if (nextProps.cart.cliqCashPaymentDetails && !this.state.isPaymentFailed) {
       this.setState({
         isRemainingAmount:
           nextProps.cart.cliqCashPaymentDetails.isRemainingAmount,
-        payableAmount: nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount
-          .value
-          ? Math.round(
-              nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount.value * 100
-            ) / 100
-          : "0.00",
         cliqCashAmount:
           nextProps.cart.cliqCashPaymentDetails.cliqCashBalance.value > 0
             ? Math.round(
                 nextProps.cart.cliqCashPaymentDetails.cliqCashBalance.value *
                   100
-              ) / 100
-            : "0.00",
-        bagAmount: nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value
-          ? Math.round(
-              nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value * 100
-            ) / 100
-          : "0.00",
-        totalDiscount:
-          nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount.value > 0
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount
-                  .value * 100
               ) / 100
             : "0.00",
         cliqCashPaidAmount:
@@ -975,29 +962,8 @@ class CheckOutPage extends React.Component {
         }
 
         this.setState({
-          payableAmount: nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount
-            .value
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.paybleAmount.value *
-                  100
-              ) / 100
-            : "0.00",
           cliqCashAmount: cliqCashAmount,
-          userCliqCashAmount: cliqCashAmount,
-          bagAmount: nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.bagTotal.value * 100
-              ) / 100
-            : "0.00",
-
-          totalDiscount:
-            nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount.value >
-            0
-              ? Math.round(
-                  nextProps.cart.cartDetailsCNC.cartAmount.totalDiscountAmount
-                    .value * 100
-                ) / 100
-              : "0.00"
+          userCliqCashAmount: cliqCashAmount
         });
 
         if (
@@ -1047,7 +1013,6 @@ class CheckOutPage extends React.Component {
         });
       }
     }
-
     if (nextProps.cart.justPayPaymentDetails !== null) {
       if (nextProps.cart.justPayPaymentDetails.payment) {
         if (
@@ -1100,14 +1065,11 @@ class CheckOutPage extends React.Component {
   componentWillUnmount() {
     // if user go back from checkout page then
     // we have relsease coupon if user applied any coupon
-    if (
-      this.props.history.action === "POP" &&
-      this.state.selectedBankOfferCode &&
-      !this.state.isPaymentFailed
-    ) {
-      this.props.releaseBankOffer(this.state.selectedBankOfferCode);
-    }
     if (this.props.history.action === "POP") {
+      if (this.state.selectedBankOfferCode && !this.state.isPaymentFailed) {
+        this.props.releaseBankOffer(this.state.selectedBankOfferCode);
+      }
+
       this.props.clearCartDetails();
     }
     this.props.resetIsSoftReservationFailed();
@@ -1156,8 +1118,10 @@ if you have order id in local storage then you have to show order confirmation p
       }
       this.setState({ isPaymentFailed: true });
       this.props.getPaymentFailureOrderDetails();
+
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+
         this.setState({
           isGiftCard: true,
           isRemainingAmount: true,
@@ -1185,12 +1149,17 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.location.state.isFromGiftCard &&
       this.props.location.state.amount
     ) {
+      let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+      if (!giftCartObj) {
+        giftCartObj = this.props.location.state;
+      }
       this.getPaymentModes();
       this.setState({
         isGiftCard: true,
         isRemainingAmount: true,
-        payableAmount: Math.round(this.props.location.state.amount * 100) / 100,
-        bagAmount: Math.round(this.props.location.state.amount * 100) / 100
+        payableAmount: Math.round(giftCartObj.amount * 100) / 100,
+        bagAmount: Math.round(giftCartObj.amount * 100) / 100,
+        egvCartGuid: giftCartObj.egvCartGuid
       });
     } else {
       if (this.props.getCartDetailsCNC && this.props.getUserAddress) {
@@ -1651,6 +1620,21 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
+    if (this.state.paymentModeSelected === PAYPAL) {
+      if (this.state.isGiftCard) {
+        if (this.props.createJusPayOrderForGiftCardNetBanking) {
+          this.props.createJusPayOrderForGiftCardNetBanking(
+            this.state.egvCartGuid
+          );
+        }
+      } else {
+        this.props.createJusPayOrderForNetBanking(
+          PAYPAL,
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE))
+        );
+      }
+    }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
       this.props.createJusPayOrderForCliqCash(
         localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
@@ -1790,6 +1774,21 @@ if you have order id in local storage then you have to show order confirmation p
           this.softReservationPaymentForWallet(PAYTM);
         }
       }
+      if (this.state.paymentModeSelected === PAYPAL) {
+        if (this.state.isGiftCard) {
+          this.props.createJusPayOrderForGiftCardNetBanking(
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking
+          );
+        } else {
+          this.props.softReservationPaymentForNetBanking(
+            WALLET,
+            PAYPAL,
+            "",
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          );
+        }
+      }
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
@@ -1912,6 +1911,17 @@ if you have order id in local storage then you have to show order confirmation p
       this.setState({ paymentModeSelected: PAYTM });
       this.props.binValidation(PAYTM, "");
     } else {
+      this.setState({ paymentModeSelected: null });
+    }
+  };
+  selectPayPal = val => {
+    if (val) {
+      localStorage.setItem(PAYMENT_MODE_TYPE, PAYPAL);
+      this.setState({ paymentModeSelected: PAYPAL });
+    } else {
+      if (localStorage.getItem(PAYMENT_MODE_TYPE)) {
+        localStorage.removeItem(PAYMENT_MODE_TYPE);
+      }
       this.setState({ paymentModeSelected: null });
     }
   };
@@ -2289,6 +2299,15 @@ if you have order id in local storage then you have to show order confirmation p
 
         checkoutButtonStatus = true;
       }
+    } else if (this.state.currentPaymentMode === E_WALLET_PAYPAL) {
+      if (this.state.paymentModeSelected === PAYPAL) {
+        labelForButton = PAY_NOW;
+        checkoutButtonStatus = false;
+      } else {
+        labelForButton = CONTINUE;
+
+        checkoutButtonStatus = true;
+      }
     } else if (this.state.currentPaymentMode === null) {
       labelForButton = CONTINUE;
       checkoutButtonStatus = true;
@@ -2445,14 +2464,15 @@ if you have order id in local storage then you have to show order confirmation p
                           .isNoCostEMIEligible
                       }
                       isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                      noCostEmiDiscount={this.state.noCostEmiDiscount}
-                      amount={this.state.payableAmount}
-                      bagTotal={this.state.bagAmount}
-                      payable={this.state.payableAmount}
-                      coupons={this.state.couponDiscount}
-                      discount={this.state.totalDiscount}
-                      delivery={this.state.deliveryCharge}
-                      showDetails={this.state.showCartDetails}
+                      amount={
+                        this.state.isGiftCard
+                          ? this.state.payableAmount
+                          : this.props.cart &&
+                            this.props.cart.cartDetailsCNC &&
+                            this.props.cart.cartDetailsCNC.cartAmount &&
+                            this.props.cart.cartDetailsCNC.cartAmount
+                              .paybleAmount.formattedValue
+                      }
                       showHideDetails={this.showHideDetails}
                       onCheckout={
                         this.state.isPaymentFailed
@@ -2470,7 +2490,7 @@ if you have order id in local storage then you have to show order confirmation p
                   !this.state.isGiftCard &&
                   (this.props.cart.userAddress &&
                   this.props.cart.userAddress.addresses
-                    ? this.renderCheckoutAddress(checkoutButtonStatus)
+                    ? this.renderCheckoutAddress()
                     : this.renderInitialAddAddressForm())}
 
                 {!this.state.isPaymentFailed &&
@@ -2535,11 +2555,6 @@ if you have order id in local storage then you have to show order confirmation p
                   this.state.isGiftCard) && (
                   <div className={styles.paymentCardHolderπp}>
                     <PaymentCardWrapper
-                      creditCardValid={this.validateCreditCard}
-                      debitCardValid={this.validateDebitCard}
-                      validateNetBanking={this.validateNetBanking}
-                      validateCOD={this.validateCOD}
-                      validateSavedCard={this.validateSavedCard}
                       applyBankCoupons={val => this.applyBankCoupons(val)}
                       openBankOfferTncModal={() =>
                         this.props.openBankOfferTncModal()
@@ -2565,16 +2580,12 @@ if you have order id in local storage then you have to show order confirmation p
                       cardDetails={this.state.cardDetails}
                       captchaReseponseForCOD={this.state.captchaReseponseForCOD}
                       verifyCaptcha={captchaReseponseForCOD =>
-                        this.setState({
-                          captchaReseponseForCOD
-                        })
+                        this.setState({ captchaReseponseForCOD })
                       }
                       onChange={val => this.onChangePaymentMode(val)}
                       bankCodeForNetBanking={this.state.bankCodeForNetBanking}
                       onSelectBankForNetBanking={bankCodeForNetBanking =>
-                        this.setState({
-                          bankCodeForNetBanking
-                        })
+                        this.setState({ bankCodeForNetBanking })
                       }
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
                       binValidation={(paymentMode, binNo) =>
@@ -2604,12 +2615,10 @@ if you have order id in local storage then you have to show order confirmation p
                       onFocusInput={() => this.onFocusInput()}
                       onBlur={() => this.onBlue()}
                       addGiftCard={() => this.addGiftCard()}
-                      redeemCliqVoucher={cliqCashDetails =>
-                        this.redeemCliqVoucher(cliqCashDetails)
-                      }
                       binValidationForPaytm={val =>
                         this.binValidationForPaytm(val)
                       }
+                      selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
                       getNetBankDetails={() => this.getNetBankDetails()}
@@ -2653,11 +2662,6 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       changeEmiPlan={() => this.changeEmiPlan()}
                       subEmiOption={this.state.currentSelectedEMIType}
-                      onCheckout={
-                        this.state.isPaymentFailed
-                          ? this.handleSubmitAfterPaymentFailure
-                          : this.handleSubmit
-                      }
                     />
                   </div>
                 )}
@@ -2667,21 +2671,11 @@ if you have order id in local storage then you have to show order confirmation p
                       padding={this.state.padding}
                       disabled={checkoutButtonStatus}
                       label={labelForButton}
-                      noCostEmiEligibility={
+                      cartAmount={
                         this.props.cart &&
-                        this.props.cart.emiEligibilityDetails &&
-                        this.props.cart.emiEligibilityDetails
-                          .isNoCostEMIEligible
+                        this.props.cart.cartDetailsCNC &&
+                        this.props.cart.cartDetailsCNC.cartAmount
                       }
-                      isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                      noCostEmiDiscount={this.state.noCostEmiDiscount}
-                      amount={this.state.payableAmount}
-                      bagTotal={this.state.bagAmount}
-                      payable={this.state.payableAmount}
-                      coupons={this.state.couponDiscount}
-                      discount={this.state.totalDiscount}
-                      delivery={this.state.deliveryCharge}
-                      showDetails={this.state.showCartDetails}
                       onCheckout={
                         this.state.isPaymentFailed
                           ? this.handleSubmitAfterPaymentFailure
@@ -2689,11 +2683,11 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       isCliqCashApplied={this.state.isCliqCashApplied}
                       cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-                      isFromMyBag={false}
                     />
                   )}
                 </MobileOnly>
               </div>
+
               <DesktopOnly>
                 <div className={styles.rightSection}>
                   <DesktopCheckout

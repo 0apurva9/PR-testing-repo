@@ -6,7 +6,9 @@ import {
   getCustomerQueriesData,
   getOrdersTransactionData,
   uploadUserFile,
-  submitOrderDetails
+  submitOrderDetails,
+  getUserDetails,
+  clearOrderTransactionDetails
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
@@ -17,6 +19,9 @@ const mapDispatchToProps = dispatch => {
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
+    },
+    getUserDetails: () => {
+      dispatch(getUserDetails());
     },
     displayToast: message => {
       dispatch(displayToast(message));
@@ -32,6 +37,9 @@ const mapDispatchToProps = dispatch => {
     },
     showCustomerQueryModal: getCustomerQueryDetailsObject => {
       dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
+    },
+    clearOrderTransactionDetails: () => {
+      dispatch(clearOrderTransactionDetails());
     }
   };
 };
@@ -39,7 +47,8 @@ const mapStateToProps = state => {
   return {
     ordersTransactionDataLoading: state.profile.ordersTransactionDataLoading,
     customerQueriesData: state.profile.customerQueriesData,
-    ordersTransactionData: state.profile.ordersTransactionData
+    ordersTransactionData: state.profile.ordersTransactionData,
+    userDetails: state.profile.userDetails
   };
 };
 

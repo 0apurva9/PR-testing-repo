@@ -15,12 +15,11 @@ import {
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 const mapDispatchToProps = dispatch => {
   return {
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      return dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      );
+    addProductToCart: productDetails => {
+      return dispatch(addProductToCart(productDetails));
     },
     getProductReviews: (productCode, pageIndex, orderBy, sortBy) => {
       dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy));
@@ -47,6 +46,9 @@ const mapDispatchToProps = dispatch => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    buyNow: async productDetails => {
+      return dispatch(tempCartIdForLoggedInUser(productDetails));
     }
   };
 };

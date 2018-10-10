@@ -5,140 +5,275 @@ import styles from "./Checkout.css";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class CheckoutStaticSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isToggelAdditionDiscount: false
+    };
+  }
+  additionDiscountToggleView = () => {
+    this.setState({
+      isToggelAdditionDiscount: !this.state.isToggelAdditionDiscount
+    });
+  };
+  addDecimalNumberInPrice = price => {
+    return price === parseInt(price, 10) ? `${price}.00` : price;
+  };
   render() {
-    let totalSaving =
-      this.props.bagTotal && this.props.payable
-        ? Math.round(
-            (parseFloat(this.props.bagTotal) - parseFloat(this.props.payable)) *
-              100
-          ) / 100
-        : 0;
-
     let classOffers = styles.informationAnswerHolder;
     if (this.props.offers) {
       classOffers = styles.apply;
     }
+    const { cartAmount } = this.props;
+    let bagSubTotal;
+    if (cartAmount && cartAmount.bagTotal) {
+      bagSubTotal =
+        cartAmount.bagTotal.value +
+        (cartAmount.shippingCharge ? cartAmount.shippingCharge.value : 0);
+      bagSubTotal = this.addDecimalNumberInPrice(bagSubTotal);
+    }
+
     return (
       <React.Fragment>
-        <div className={styles.disclaimer}>{DISCLAIMER}</div>
-        {this.props.isFromMyBag && (
-          <div className={styles.visibleBase}>
-            <div className={styles.detailsHolder}>
-              {this.props.bagTotal && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Bag total
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.bagTotal}
-                  </div>
-                </div>
-              )}
-              {this.props.totalDiscount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.totalDiscount}
-                  </div>
-                </div>
-              )}
-              {this.props.discount && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Discount
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.discount}
-                  </div>
-                </div>
-              )}
-              {this.props.delivery && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Shipping fee
-                  </div>
-                  <div className={styles.informationAnswerHolder}>
-                    {RUPEE_SYMBOL}
-                    {this.props.delivery}
-                  </div>
-                </div>
-              )}
-
-              {this.props.coupons && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>Coupon</div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.coupons}
-                  </div>
-                </div>
-              )}
-
-              {this.props.noCostEmiEligibility &&
-                this.props.isNoCostEmiApplied && (
+        {cartAmount && (
+          <div className={!this.props.isFromMyBag && styles.cartAmountWrapper}>
+            <div className={styles.visibleBase}>
+              <div className={styles.detailsHolder}>
+                {cartAmount.bagTotal && (
                   <div className={styles.informationHolder}>
                     <div className={styles.informationQuestionHolder}>
-                      No Cost EMI Discount
+                      Bag Total
                     </div>
-                    <div className={classOffers}>
-                      {RUPEE_SYMBOL}
-                      {this.props.noCostEmiDiscount}
+                    <div className={styles.informationAnswerHolder}>
+                      {cartAmount.bagTotal.formattedValue}
                     </div>
                   </div>
                 )}
-              {this.props.isCliqCashApplied && (
-                <div className={styles.informationHolder}>
-                  <div className={styles.informationQuestionHolder}>
-                    Cliq Cash
-                  </div>
-                  <div className={classOffers}>
-                    {RUPEE_SYMBOL}
-                    {this.props.cliqCashPaidAmount}
-                  </div>
-                </div>
-              )}
 
-              {this.props.payable && (
-                <React.Fragment>
+                {cartAmount.shippingCharge &&
+                cartAmount.shippingCharge.value !== 0 ? (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Shipping Charge
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {cartAmount.shippingCharge.formattedValue}
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Shipping Charge
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}0.00
+                    </div>
+                  </div>
+                )}
+                {bagSubTotal && (
+                  <div className={styles.informationHolder}>
+                    <div className={styles.informationQuestionHolder}>
+                      Bag Subtotal
+                    </div>
+                    <div className={styles.informationAnswerHolder}>
+                      {RUPEE_SYMBOL}
+                      {bagSubTotal}
+                    </div>
+                  </div>
+                )}
+                {cartAmount.totalDiscountAmount &&
+                  cartAmount.totalDiscountAmount.value !== 0 && (
+                    <div className={styles.informationDiscountHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        Product Discount(s)
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{cartAmount.totalDiscountAmount.formattedValue}
+                      </div>
+                    </div>
+                  )}
+                {cartAmount.bagDiscount &&
+                  cartAmount.bagDiscount.value !== 0 && (
+                    <div className={styles.informationDiscountHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        Bag Discount
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{cartAmount.bagDiscount.formattedValue}
+                      </div>
+                    </div>
+                  )}
+                {cartAmount.couponDiscountAmount &&
+                  cartAmount.couponDiscountAmount.value !== 0 && (
+                    <div className={styles.informationDiscountHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        Coupon Discount
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{cartAmount.couponDiscountAmount.formattedValue}
+                      </div>
+                    </div>
+                  )}
+                {(cartAmount.cartDiscount ||
+                  cartAmount.noCostEMIDiscountValue) &&
+                  this.props.isCliqCashApplied && (
+                    <div className={styles.informationCliqCashHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        CLiQ Cash Applied
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{RUPEE_SYMBOL}
+                        {this.addDecimalNumberInPrice(
+                          this.props.cliqCashPaidAmount
+                        )}
+                      </div>
+                    </div>
+                  )}
+                {cartAmount.cartDiscount &&
+                  cartAmount.cartDiscount.value !== 0 && (
+                    <div className={styles.informationDiscountHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        Bank Offer Discount
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{cartAmount.cartDiscount.formattedValue}
+                      </div>
+                    </div>
+                  )}
+                {cartAmount.noCostEMIDiscountValue &&
+                  cartAmount.noCostEMIDiscountValue.value !== 0 && (
+                    <div className={styles.informationDiscountHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        No Cost EMI Discount
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{cartAmount.noCostEMIDiscountValue.formattedValue}
+                      </div>
+                    </div>
+                  )}
+                {cartAmount.additionalDiscount && (
+                  <div>
+                    <div
+                      className={styles.informationDiscountHolder}
+                      onClick={() => this.additionDiscountToggleView()}
+                    >
+                      <div className={styles.informationQuestionHolder}>
+                        <span>Additional Discount(s)</span>
+                        {!this.state.isToggelAdditionDiscount && (
+                          <span className={styles.toggleIcon} />
+                        )}
+                        {this.state.isToggelAdditionDiscount && (
+                          <span className={styles.onToggleActive} />
+                        )}
+                      </div>
+                      <div className={styles.informationAnswerHolder}>
+                        -{cartAmount.additionalDiscount
+                          .totalAdditionalDiscount &&
+                          cartAmount.additionalDiscount.totalAdditionalDiscount
+                            .formattedValue}
+                      </div>
+                    </div>
+                    {this.state.isToggelAdditionDiscount && (
+                      <div
+                        className={styles.informationAdditionalDiscountHolder}
+                      >
+                        <div className={styles.informationQuestionHolder}>
+                          Shipping Charge Discount
+                        </div>
+                        <div className={styles.informationAnswerHolder}>
+                          -{cartAmount.additionalDiscount.shippingDiscount &&
+                            cartAmount.additionalDiscount.shippingDiscount
+                              .formattedValue}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {!(
+                  cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue
+                ) &&
+                  this.props.isCliqCashApplied && (
+                    <div className={styles.informationCliqCashHolder}>
+                      <div className={styles.informationQuestionHolder}>
+                        CLiQ Cash Applied
+                      </div>
+                      <div className={classOffers}>
+                        -{RUPEE_SYMBOL}
+                        {this.addDecimalNumberInPrice(
+                          this.props.cliqCashPaidAmount
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                {cartAmount.paybleAmount && (
                   <div className={styles.visiblePayableSection}>
                     <div className={styles.informationQuestionHolder}>
                       Total Payable
                     </div>
                     <div className={styles.informationAnswerHolder}>
-                      {RUPEE_SYMBOL}
-                      {this.props.payable}
+                      {cartAmount.paybleAmount.formattedValue}
                     </div>
                   </div>
-                  {totalSaving > 0 && (
-                    <div className={styles.savingSection}>
-                      <div className={styles.informationQuestionHolder}>
-                        Total savings
-                      </div>
-                      <div className={styles.informationAnswerHolder}>
-                        {RUPEE_SYMBOL}
-                        {totalSaving}
-                      </div>
+                )}
+                {!(
+                  (!cartAmount.totalDiscountAmount ||
+                    cartAmount.totalDiscountAmount.value === 0) &&
+                  !cartAmount.bagDiscount &&
+                  !cartAmount.couponDiscountAmount &&
+                  !cartAmount.cartDiscount &&
+                  !cartAmount.noCostEMIDiscountValue &&
+                  !cartAmount.additionalDiscount
+                ) && (
+                  <div className={styles.informationTotalSavingHolder}>
+                    <div className={styles.informationTotalSavingTextHolder}>
+                      You will save {RUPEE_SYMBOL}
+                      {this.addDecimalNumberInPrice(
+                        Math.floor(
+                          ((cartAmount.totalDiscountAmount
+                            ? cartAmount.totalDiscountAmount.value
+                            : 0) +
+                            (cartAmount.bagDiscount
+                              ? cartAmount.bagDiscount.value
+                              : 0) +
+                            (cartAmount.couponDiscountAmount
+                              ? cartAmount.couponDiscountAmount.value
+                              : 0) +
+                            (cartAmount.cartDiscount
+                              ? cartAmount.cartDiscount.value
+                              : 0) +
+                            (cartAmount.noCostEMIDiscountValue
+                              ? cartAmount.noCostEMIDiscountValue.value
+                              : 0) +
+                            (cartAmount.additionalDiscount &&
+                            cartAmount.additionalDiscount
+                              .totalAdditionalDiscount
+                              ? cartAmount.additionalDiscount
+                                  .totalAdditionalDiscount.value
+                              : 0)) *
+                            100
+                        ) / 100
+                      )}{" "}
+                      on this order
                     </div>
-                  )}
-                </React.Fragment>
-              )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
+        <div className={styles.disclaimer}>{DISCLAIMER}</div>
         {this.props.isFromMyBag ? (
           <img
             src="https://assets.tatacliq.com/medias/sys_master/images/13207849861150.png"
             className={styles.imgFluid}
+            alt="footer"
           />
         ) : (
           <img
             src="https://assets.tatacliq.com/medias/sys_master/images/13207849861150.png"
             className={styles.imgFluidPadding}
+            alt="footer"
           />
         )}
         <div

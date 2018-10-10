@@ -176,9 +176,13 @@ export default class SearchPage extends React.Component {
   handleUpDownArrow(val) {
     this.setState({ showData: true });
     const currentSelectedIndex = this.state.currentFlag;
-    const data = cloneDeep(this.props.searchResult);
-    let firstSuggestedKeyWord =
-      data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
+    const data = this.props.searchResult;
+    const firstSuggestionNew = cloneDeep(
+      data && data.suggestionsNew ? data.suggestionsNew : ""
+    );
+    const firstSuggestedKeyWord = firstSuggestionNew
+      ? firstSuggestionNew.splice(0, 1)
+      : "";
     if (val === "ArrowDown") {
       if (
         this.state.currentFlag !== null &&
@@ -289,10 +293,14 @@ export default class SearchPage extends React.Component {
     }
   }
   render() {
-    const data = cloneDeep(this.props.searchResult);
+    const data = this.props.searchResult;
     let firstSuggestedKeyWord = "";
-    firstSuggestedKeyWord =
-      data && data.suggestionsNew ? data.suggestionsNew.splice(0, 1) : "";
+    const firstSuggestionNew = cloneDeep(
+      data && data.suggestionsNew ? data.suggestionsNew : ""
+    );
+    firstSuggestedKeyWord = firstSuggestionNew
+      ? firstSuggestionNew.splice(0, 1)
+      : "";
     const suggestedKeyWord = data && data.suggestionsNew;
     if (data) {
       if (data) {

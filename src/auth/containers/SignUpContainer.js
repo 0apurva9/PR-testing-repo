@@ -97,7 +97,9 @@ const mapStateToProps = state => {
   return {
     authCallsInProcess: state.auth.authCallsInProcess,
     authCallsIsSucceed: state.auth.authCallsIsSucceed,
-    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl
+    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
+    tempCartIdForLoggedInUserLoading:
+      state.cart.tempCartIdForLoggedInUserLoading
   };
 };
 

@@ -25,6 +25,10 @@ export default class ConnectWidget extends React.Component {
       ) {
         window.open(this.props.feedComponentData.webURL, "_blank");
         window.focus();
+      }
+      if (this.props.feedComponentData.webURL.includes("tatacliq.onelink.me")) {
+        window.open(this.props.feedComponentData.webURL, "_blank");
+        window.focus();
       } else {
         this.props.history.push(urlSuffix);
         if (this.props.setClickedElementId) {
