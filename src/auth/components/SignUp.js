@@ -14,7 +14,8 @@ import {
   LOGIN_PATH,
   SIGN_UP_PATH,
   HOME_ROUTER,
-  MAIN_ROUTER
+  MAIN_ROUTER,
+  BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
 import {
@@ -39,12 +40,28 @@ class SignUp extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
-      setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
-      if (this.props.redirectToAfterAuthUrl) {
-        this.props.history.replace(this.props.redirectToAfterAuthUrl);
-        this.props.clearUrlToRedirectToAfterAuth();
-      } else {
-        this.props.history.replace(HOME_ROUTER);
+      /*
+check for user is coming from buy now option
+then in this case we have to hit generate temp cart id for user
+      */
+      const productDetailsForBuyNow = localStorage.getItem(
+        BUY_NOW_PRODUCT_DETAIL
+      );
+
+      if (
+        productDetailsForBuyNow &&
+        !nextProps.tempCartIdForLoggedInUserLoading
+      ) {
+        return this.goForBuyNow();
+      }
+      if (!nextProps.tempCartIdForLoggedInUserLoading) {
+        if (this.props.redirectToAfterAuthUrl) {
+          setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
+          this.props.history.replace(this.props.redirectToAfterAuthUrl);
+          this.props.clearUrlToRedirectToAfterAuth();
+        } else {
+          this.props.history.replace(HOME_ROUTER);
+        }
       }
     }
   }
@@ -135,7 +152,10 @@ class SignUp extends Component {
       showSocialButtons = true;
       buttonLabel = "Already have an account? LOGIN";
     }
-    if (this.props.authCallsInProcess) {
+    if (
+      this.props.authCallsInProcess ||
+      this.props.tempCartIdForLoggedInUserLoading
+    ) {
       return (
         <div className={styles.loadingIndicator}>
           <React.Fragment>

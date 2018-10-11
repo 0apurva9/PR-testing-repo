@@ -39,6 +39,35 @@
   line-height: 35px;
   white-space: initial;
   margin: auto;
+  font-family: light;
+}
+.isBuyer {
+  width: auto;
+  height: 17px;
+  line-height: 17px;
+  position: relative;
+  padding-left: 20px;
+  padding-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.nameHolder {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 10px;
+}
+.buyerIcon {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border-radius: 50%;
+  background: #8d8d8d url(./img/checkWhite.svg) no-repeat;
+  background-size: auto 9px;
+  background-position: center;
 }
 @media screen and (min-width: 1025px) {
   .base {

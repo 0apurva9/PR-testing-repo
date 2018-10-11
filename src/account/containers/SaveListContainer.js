@@ -24,10 +24,8 @@ const mapDispatchToProps = dispatch => {
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
     },
-    addProductToCart: (userId, cartId, accessToken, productDetails) => {
-      dispatch(
-        addProductToCart(userId, cartId, accessToken, productDetails)
-      ).then(result => {
+    addProductToCart: productDetails => {
+      dispatch(addProductToCart(productDetails)).then(result => {
         if (result.status === SUCCESS) {
           dispatch(removeProductFromWishList(productDetails)).then(response => {
             if (response.status === SUCCESS) {

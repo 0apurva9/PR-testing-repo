@@ -1,0 +1,11 @@
+.base{
+  width:100%;
+  height:auto;
+  margin: 20px 0;
+}
+.content{
+  width:100%;
+  height:auto;
+  min-height:50px;
+
+}

@@ -20,18 +20,18 @@ export default class ProductDetailsCard extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.productImagWithDataHolder}>
-          <div className={styles.productImageHolder}>
-            {this.props.outOfStock && (
-              <div className={styles.flag}>Out Of Stock</div>
-            )}
+        <div className={styles.productImageHolder}>
+          {this.props.outOfStock && (
+            <div className={styles.flag}>Out Of Stock</div>
+          )}
 
-            <ProductImage
-              image={this.props.productImage}
-              onClickImage={() => this.onClickImage()}
-            />
-          </div>
-          <div className={styles.productDescriptionHolder}>
+          <ProductImage
+            image={this.props.productImage}
+            onClickImage={() => this.onClickImage()}
+          />
+        </div>
+        <div className={styles.productDescriptionHolder}>
+          {this.props.brandName && (
             <div
               itemProp="brand"
               itemScope=""
@@ -43,6 +43,8 @@ export default class ProductDetailsCard extends React.Component {
                 </h2>
               )}
             </div>
+          )}
+          {this.props.productName && (
             <a
               itemProp="url"
               href={window.location.href}
@@ -52,6 +54,8 @@ export default class ProductDetailsCard extends React.Component {
                 <h1 className={styles.productName}>{this.props.productName}</h1>
               </div>
             </a>
+          )}
+          {(this.props.price || this.props.discountPrice) && (
             <div
               className={styles.productPrice}
               itemProp="offers"
@@ -85,52 +89,67 @@ export default class ProductDetailsCard extends React.Component {
                   </del>
                 )}
             </div>
-            <div className={styles.displayRatingWithRatingText}>
-              <div
-                className={styles.displayRating}
-                itemProp="aggregateRating"
-                itemScope
-                itemType="http://schema.org/AggregateRating"
-              >
-                <meta
-                  itemProp="ratingValue"
-                  content={
-                    this.props.averageRating ? this.props.averageRating : 0
-                  }
-                />
-                <meta
-                  itemProp="reviewCount"
-                  content={
-                    this.props.numberOfReviews ? this.props.numberOfReviews : 0
-                  }
-                />
-                {this.props.averageRating && (
-                  <React.Fragment>
-                    <MobileOnly>
-                      <StarRating averageRating={this.props.averageRating} />
-                    </MobileOnly>
-                    <DesktopOnly>
-                      <StarRating
-                        averageRating={this.props.averageRating}
-                        size={20}
-                      />
-                    </DesktopOnly>
-                  </React.Fragment>
-                )}
+          )}
+          {this.props.productTitle && (
+            <div className={styles.productTitle}>{this.props.productTitle}</div>
+          )}
+          {this.props.size &&
+            this.props.size !== "NO SIZE" && (
+              <div className={styles.sizeHolder}>
+                <span className={styles.size}>size</span> {this.props.size}
               </div>
-              {this.props.averageRating && (
-                <div className={styles.displayRatingText}>
-                  Rating{" "}
-                  <span>
-                    {" "}
-                    <span>
-                      {Math.round(this.props.averageRating * 10) / 10}
-                    </span>/5
-                  </span>
-                </div>
+            )}
+          <div
+            className={styles.displayRating}
+            itemProp="aggregateRating"
+            itemScope
+            itemType="http://schema.org/AggregateRating"
+          >
+            <meta
+              itemProp="ratingValue"
+              content={this.props.averageRating ? this.props.averageRating : 0}
+            />
+            <meta
+              itemProp="reviewCount"
+              content={
+                this.props.numberOfReviews ? this.props.numberOfReviews : 0
+              }
+            />
+            {this.props.averageRating &&
+              !this.props.showAverageRatingWithDays && (
+                <React.Fragment>
+                  <MobileOnly>
+                    <StarRating averageRating={this.props.averageRating} />
+                  </MobileOnly>
+                  <DesktopOnly>
+                    <StarRating
+                      averageRating={this.props.averageRating}
+                      size={20}
+                    />
+                  </DesktopOnly>
+                </React.Fragment>
               )}
-            </div>
+            {this.props.averageRating &&
+              this.props.showAverageRatingWithDays && (
+                <StarRating averageRating={this.props.averageRating}>
+                  <span className={styles.showAverageRatingWithDays}>
+                    {this.props.daysAgo}
+                  </span>
+                </StarRating>
+              )}
           </div>
+          {this.props.averageRating &&
+            !this.props.showAverageRatingWithDays && (
+              <div className={styles.displayRatingText}>
+                Rating{" "}
+                <span>
+                  {" "}
+                  <span>
+                    {Math.round(this.props.averageRating * 10) / 10}
+                  </span>/5
+                </span>
+              </div>
+            )}
         </div>
       </div>
     );
@@ -145,4 +164,7 @@ ProductDetailsCard.propTypes = {
   averageRating: PropTypes.number,
   totalNoOfReviews: PropTypes.number,
   outOfStock: PropTypes.bool
+};
+ProductDetailsCard.defaultProps = {
+  showAverageRatingWithDays: false
 };

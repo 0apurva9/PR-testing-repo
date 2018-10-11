@@ -48,6 +48,10 @@ class CuratedProductsComponent extends React.Component {
                     webURL={datum.webURL}
                     onClick={this.onClick}
                     {...rest}
+                    widgetName={"Curated Products Component"}
+                    sourceOfWidget={
+                      this.props.postData && this.props.postData.widgetPlatform
+                    }
                   />
                 );
               })}

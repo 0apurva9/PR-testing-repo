@@ -107,7 +107,19 @@
   padding-left: 5px;
   line-height: 20px;
 }
-
+.sizeHolder {
+  width: 100%;
+  height: auto;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-family: light;
+  margin-top: 5px;
+}
+.size {
+  width: auto;
+  height: auto;
+  font-family: semibold;
+}
 @media screen and (min-width: 1025px) {
   .base {
     padding: 10px;

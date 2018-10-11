@@ -188,12 +188,13 @@ export default class OrderDetails extends React.Component {
                       return val.key;
                     })
                     .includes(RETURN)
-                )
+                ) {
                   isReturned = products.statusDisplayMsg
                     .map(val => {
                       return val.key;
                     })
                     .includes(RETURN);
+                }
 
                 each(products && products.statusDisplayMsg, orderStatus => {
                   each(
@@ -253,6 +254,8 @@ export default class OrderDetails extends React.Component {
                       </div>
                     </DesktopOnly>
                     <OrderCard
+                      estimatedDeliveryDate={products.estimateddeliverydate}
+                      statusDisplay={products.statusDisplay}
                       imageUrl={products.imageURL}
                       productBrand={products.productBrand}
                       price={products.price}

@@ -9,6 +9,7 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
+  WRITE_REVIEWS,
   SUCCESS,
   ERROR
 } from "../../lib/constants";
@@ -57,7 +58,10 @@ class WriteReview extends React.Component {
         headline: this.state.title
       });
       if (getResponseOfAddReview) {
-        if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+        if (
+          this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
+          this.props.match.path === WRITE_REVIEWS
+        ) {
           this.setState({
             resetRating: true,
             title: "",
@@ -104,17 +108,19 @@ class WriteReview extends React.Component {
           placeholder="Tell us what you think of this product"
         />
         <div className={styles.buttonContainer}>
-          {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
-            <div
-              className={styles.cancelButton}
-              onClick={() => this.onCancel()}
-            >
-              Cancel
-            </div>
-          )}
+          {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+            this.props.match.path !== WRITE_REVIEWS && (
+              <div
+                className={styles.cancelButton}
+                onClick={() => this.onCancel()}
+              >
+                Cancel
+              </div>
+            )}
           <div
             className={
-              this.props.match.path === WRITE_REVIEWS_WITH_SLUG
+              this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
+              this.props.match.path === WRITE_REVIEWS
                 ? styles.centerSubmitButton
                 : styles.submitButtonHolder
             }

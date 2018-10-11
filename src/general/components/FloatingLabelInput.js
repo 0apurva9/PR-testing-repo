@@ -11,7 +11,10 @@ export default class FloatingLabelInput extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
-      this.setState({ value: nextProps.value });
+      this.setState({
+        value: nextProps.value,
+        labelUpper: nextProps.value ? true : false
+      });
     }
   }
   handleFocus(event) {

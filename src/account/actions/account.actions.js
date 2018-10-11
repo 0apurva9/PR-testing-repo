@@ -247,7 +247,12 @@ export const SUBMIT_ORDER_DETAILS_REQUEST = "SUBMIT_ORDER_DETAILS_REQUEST";
 export const SUBMIT_ORDER_DETAILS_SUCCESS = "SUBMIT_ORDER_DETAILS_SUCCESS";
 export const SUBMIT_ORDER_DETAILS_FAILURE = "SUBMIT_ORDER_DETAILS_FAILURE";
 
+export const GET_USER_REVIEW_FAILURE = "GET_USER_REVIEW_FAILURE";
+export const GET_USER_REVIEW_REQUEST = "GET_USER_REVIEW_REQUEST";
+export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
+export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
@@ -276,6 +281,7 @@ const MSD_API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const MAD_UUID = "19267047903874796013507214974570460649";
 const WOMEN = "Women's";
 const MEN = "Men's";
+const PAGE_NUMBER = "20";
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
 export const MSD_FEEDBACK = "feedback";
 
@@ -2348,7 +2354,11 @@ export function getOrdersTransactionData(paginated) {
     }
   };
 }
-
+export function clearOrderTransactionDetails() {
+  return {
+    type: Clear_ORDER_TRANSACTION_DATA
+  };
+}
 export function uploadUserFileRequest() {
   return {
     type: UPLOAD_USER_FILE_REQUEST,
@@ -2442,6 +2452,50 @@ export function submitOrderDetails(submitOrderDetails) {
       return dispatch(submitOrderDetailsSuccess(resultJson));
     } catch (e) {
       return dispatch(submitOrderDetailsFailure(e.message));
+    }
+  };
+}
+
+export function getUserReviewRequest() {
+  return {
+    type: GET_USER_REVIEW_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getUserReviewSuccess(userReview) {
+  return {
+    type: GET_USER_REVIEW_SUCCESS,
+    status: SUCCESS,
+    userReview
+  };
+}
+export function getUserReviewFailure() {
+  return {
+    type: GET_USER_REVIEW_FAILURE,
+    status: FAILURE
+  };
+}
+export function getUserReview(pageIndex) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getUserReviewRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/viewUserReview?fields=BASIC&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&page=${pageIndex}&pageSize=${PAGE_NUMBER}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getUserReviewSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getUserReviewFailure(e.message));
     }
   };
 }

@@ -17,7 +17,10 @@ import {
   removeAddress,
   cancelProduct
 } from "../../account/actions/account.actions";
-import { getTncForBankOffer } from "../../cart/actions/cart.actions";
+import {
+  getTncForBankOffer,
+  tempCartIdForLoggedInUser
+} from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
   FAILURE,
@@ -73,6 +76,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
+import { addProductToCart } from "../../pdp/actions/pdp.actions.js";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
@@ -336,6 +340,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hidePdpPiqPage: () => {
       dispatch(hidePdpPiqPage());
+    },
+    buyNow: productDetails => {
+      dispatch(tempCartIdForLoggedInUser(productDetails));
+    },
+    addProductToCart: productDetails => {
+      dispatch(addProductToCart(productDetails));
     }
   };
 };
