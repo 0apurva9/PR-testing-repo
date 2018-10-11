@@ -43,7 +43,8 @@ import {
   ADD_TO_BAG_TEXT,
   HOME_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
-  BUY_NOW_ERROR_MESSAGE
+  BUY_NOW_ERROR_MESSAGE,
+  LOGIN_PATH
 } from "../../lib/constants";
 import {
   setDataLayerForCartDirectCalls,
@@ -287,6 +288,11 @@ export default class PdpApparel extends React.Component {
       }
     }
   };
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   goToReviewPage = isNeedToSetDataLayer => {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
