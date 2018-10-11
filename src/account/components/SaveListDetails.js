@@ -118,39 +118,6 @@ export default class SaveListDetails extends React.Component {
                               product.productcode
                             )
                           }
-                          brandName={product.productBrand}
-                          onClickImage={() =>
-                            this.onClickImage(product.productcode)
-                          }
-                          removeItem={productUssid =>
-                            this.removeItem(product.USSID)
-                          }
-                        />
-                      </div>
-                    );
-                  })}
-                {this.props.count > 0 &&
-                  wishList &&
-                  wishList.map((product, i) => {
-                    return (
-                      <div className={styles.listCardHolder} key={i}>
-                        <SaveListCard
-                          //productName={product.productBrand}
-                          outOfStock={product.availableStock === 0}
-                          productName={product.productName}
-                          price={product.mrp && product.mrp.value}
-                          date={format(product.date, dateFormat)}
-                          day=""
-                          offer=""
-                          offerPrice={product.mop && product.mop.value}
-                          image={product.imageURL}
-                          productCode={product.productcode}
-                          addToBagItem={() =>
-                            this.addToBagItem(
-                              product.USSID,
-                              product.productcode
-                            )
-                          }
                           brandName={product.brandName}
                           onClickImage={() =>
                             this.onClickImage(product.productcode)
@@ -186,30 +153,30 @@ export default class SaveListDetails extends React.Component {
                   </div>
                 )}
               </div>
-              <DesktopOnly>
-                <div className={MyAccountStyles.userProfile}>
-                  <UserProfile
-                    image={userData && userData.imageUrl}
-                    userLogin={userData && userData.userName}
-                    loginType={userData && userData.loginType}
-                    onClick={() => this.renderToAccountSetting()}
-                    firstName={
-                      userData &&
-                      userData.firstName &&
-                      userData.firstName.trim().charAt(0)
-                    }
-                    heading={
-                      userData && userData.firstName && `${userData.firstName} `
-                    }
-                    lastName={
-                      userData && userData.lastName && `${userData.lastName}`
-                    }
-                    userAddress={this.props.userAddress}
-                  />
-                </div>
-              </DesktopOnly>
             </div>
           </div>
+          <DesktopOnly>
+            <div className={MyAccountStyles.userProfile}>
+              <UserProfile
+                image={userData && userData.imageUrl}
+                userLogin={userData && userData.userName}
+                loginType={userData && userData.loginType}
+                onClick={() => this.renderToAccountSetting()}
+                firstName={
+                  userData &&
+                  userData.firstName &&
+                  userData.firstName.trim().charAt(0)
+                }
+                heading={
+                  userData && userData.firstName && `${userData.firstName} `
+                }
+                lastName={
+                  userData && userData.lastName && `${userData.lastName}`
+                }
+                userAddress={this.props.userAddress}
+              />
+            </div>
+          </DesktopOnly>
         </div>
       </div>
     );
