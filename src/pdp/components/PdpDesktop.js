@@ -591,6 +591,9 @@ export default class PdpApparel extends React.Component {
                   )}
                 <div className={styles.horizontalOffset}>
                   <PdpPaymentInfo
+                    seStartingPrice={productData.seStartingPrice}
+                    nceAvailable={productData.nceAvailable}
+                    nceStartingPrice={productData.nceStartingPrice}
                     hasEmi={productData.isEMIEligible}
                     hasCod={productData.isCOD}
                     showEmiModal={() => this.showEmiModal()}
