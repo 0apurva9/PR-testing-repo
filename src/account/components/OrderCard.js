@@ -80,17 +80,19 @@ export default class OrderCard extends React.Component {
           <div className={styles.priceWithQuantity}>
             {this.props.isGiveAway === NO || !this.props.isGiveAway ? (
               <div className={styles.priceHolderForGiftCard}>
-                <div className={styles.price}>
-                  {this.props.isEgvOrder && this.props.egvCardNumber
-                    ? this.props.egvCardNumber
-                    : this.props.isGiveAway === NO &&
-                      !this.props.isEgvOrder &&
-                      this.props.productName === "Gift Card"
-                      ? "Gift card detail will be sent you on your specified email id shortly."
-                      : `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                          this.props.price
-                        )}`}
-                </div>
+                {this.props.showIsGiveAway && (
+                  <div className={styles.price}>
+                    {this.props.isEgvOrder && this.props.egvCardNumber
+                      ? this.props.egvCardNumber
+                      : this.props.isGiveAway === NO &&
+                        !this.props.isEgvOrder &&
+                        this.props.productName === "Gift Card"
+                        ? "Gift card detail will be sent you on your specified email id shortly."
+                        : `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                            this.props.price
+                          )}`}
+                  </div>
+                )}
                 {this.props.isEgvOrder &&
                   this.props.resendAvailable && (
                     <div
@@ -146,5 +148,6 @@ OrderCard.defaultProps = {
   quantity: false,
   numberOfQuantity: 1,
   onHollow: false,
-  showQuantity: true
+  showQuantity: true,
+  showIsGiveAway: true
 };
