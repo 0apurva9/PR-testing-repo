@@ -12,26 +12,17 @@ export default class ConnectWidget extends React.Component {
   handleClick(webURL) {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
-
-      if (webURL.includes("/que")) {
-        window.open(urlSuffix, "_blank");
-        window.focus();
-      }
       if (webURL.includes("/luxury.tatacliq.com")) {
         window.open(urlSuffix, "_blank");
         window.focus();
-      }
-      if (webURL.includes("tatacliq.onelink.me")) {
+      } else if (webURL.includes("tatacliq.onelink.me")) {
+        window.open(urlSuffix, "_blank");
+        window.focus();
+      } else if (webURL.includes("/que")) {
         window.open(urlSuffix, "_blank");
         window.focus();
       } else {
-        if (webURL.includes("/que")) {
-          window.open(urlSuffix, "_blank");
-          window.focus();
-        } else {
-          this.props.history.push(urlSuffix);
-        }
-
+        this.props.history.push(urlSuffix);
         if (this.props.setClickedElementId) {
           this.props.setClickedElementId();
         }
