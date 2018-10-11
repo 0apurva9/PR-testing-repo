@@ -43,7 +43,6 @@
   font-size: 14px;
   font-family: semibold;
 }
-
 .comment {
   width: 100%;
   height: auto;
@@ -60,4 +59,40 @@
   text-align: center;
   padding: 30px 15px 70px;
   background: #ececec;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 100%;
+    height: auto;
+    background: #ececec;
+  }
+  .reviewsHolder {
+    padding: 30px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-bottom: none;
+  }
+  .productDetails {
+    margin-bottom: 0px;
+  }
+  .commentAndHeadlineHolder {
+    padding-top: 20px;
+    padding-left: 0px;
+  }
+  .showAverageRatingWithDays {
+    width: auto;
+    height: auto;
+    margin-left: 5px;
+    font-size: 14px;
+    font-family: light;
+  }
+  .rating {
+    width: 100%;
+    height: auto;
+    margin-bottom: 5px;
+  }
+  .headline {
+    margin-bottom: 10px;
+  }
 }
