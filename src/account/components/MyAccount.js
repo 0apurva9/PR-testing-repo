@@ -156,7 +156,6 @@ export default class MyAccount extends React.Component {
               </div>
             )}
           </div>
-
           {this.state.isSelected === 1 && (
             <div className={styles.alertsHolder}>
               <UserAlertsContainer />
@@ -167,6 +166,49 @@ export default class MyAccount extends React.Component {
               <UserCouponsContainer
                 displayToast={message => this.props.displayToast(message)}
               />
+            </div>
+          )}
+          {this.state.isSelected === 3 && (
+            <div className={styles.useFulLinkHolder}>
+              <div className={styles.linkTabHolder}>
+                <a target="_blank" href="https://www.tatacliq.com/que">
+                  <AccountUsefulLink>
+                    <div className={styles.usefulLinkText}>Que Magazine</div>
+                  </AccountUsefulLink>
+                </a>
+              </div>
+              <div className={styles.linkTabHolder}>
+                <AccountUsefulLink
+                  onClick={() => this.redirectToHelp(HELP_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Help & Services</div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(PRIVACY_POLICY_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Privacy policy</div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(BUYER_POLICY_URL)}
+                >
+                  <div className={styles.usefulLinkText}>Buyer Policies</div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
+                >
+                  <div className={styles.usefulLinkText}>
+                    Terms & Conditions
+                  </div>
+                </AccountUsefulLink>
+                <AccountUsefulLink
+                  onClick={() => this.redirectPage(ABOUT_US_URL)}
+                >
+                  <div className={styles.usefulLinkText}>About us</div>
+                </AccountUsefulLink>
+                <AccountUsefulLink onClick={() => this.redirectPage(FAQ_URL)}>
+                  <div className={styles.usefulLinkText}>FAQ</div>
+                </AccountUsefulLink>
+              </div>
             </div>
           )}
           {this.state.isSelected === 4 && (
