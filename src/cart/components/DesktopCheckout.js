@@ -110,7 +110,6 @@ export default class DesktopCheckout extends React.Component {
               this.props.onContinue ? styles.price : styles.checkoutPrice
             }
           >
-            {RUPEE_SYMBOL}
             {this.props.payable}
           </div>
           {this.props.onContinue && (

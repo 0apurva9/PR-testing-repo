@@ -2,7 +2,6 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  border-bottom: 1px solid #ececec;
 }
 .holder {
   width: 100%;
@@ -50,16 +49,16 @@
   margin: auto;
 }
 
-@media only screen and (min-width:1025px){
+@media only screen and (min-width: 1025px) {
   .base {
-    border:none;
-    border-top:1px solid #ececec;
+    border: none;
+    border-top: 1px solid #ececec;
   }
-  .debitCardIcon{
+  .debitCardIcon {
     left: 0;
   }
   .icon {
-    right:0
+    right: 0;
   }
   .holder {
     padding: 0 55px 0 35px;

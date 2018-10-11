@@ -2555,6 +2555,11 @@ if you have order id in local storage then you have to show order confirmation p
                   this.state.isGiftCard) && (
                   <div className={styles.paymentCardHolderπp}>
                     <PaymentCardWrapper
+                      creditCardValid={this.validateCreditCard}
+                      debitCardValid={this.validateDebitCard}
+                      validateNetBanking={this.validateNetBanking}
+                      validateCOD={this.validateCOD}
+                      validateSavedCard={this.validateSavedCard}
                       applyBankCoupons={val => this.applyBankCoupons(val)}
                       openBankOfferTncModal={() =>
                         this.props.openBankOfferTncModal()
@@ -2703,7 +2708,15 @@ if you have order id in local storage then you have to show order confirmation p
                     noCostEmiDiscount={this.state.noCostEmiDiscount}
                     amount={this.state.payableAmount}
                     bagTotal={this.state.bagAmount}
-                    payable={this.state.payableAmount}
+                    payable={
+                      this.state.isGiftCard
+                        ? this.state.payableAmount
+                        : this.props.cart &&
+                          this.props.cart.cartDetailsCNC &&
+                          this.props.cart.cartDetailsCNC.cartAmount &&
+                          this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
+                            .formattedValue
+                    }
                     coupons={this.state.couponDiscount}
                     discount={this.state.totalDiscount}
                     delivery={this.state.deliveryCharge}
