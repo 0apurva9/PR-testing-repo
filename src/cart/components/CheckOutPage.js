@@ -2701,28 +2701,50 @@ if you have order id in local storage then you have to show order confirmation p
                     onContinue={false}
                     noCostEmiEligibility={
                       this.props.cart &&
-                      this.props.cart.emiEligibilityDetails &&
-                      this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount &&
+                      this.props.cart.cartDetailsCNC.cartAmount
                     }
                     isNoCostEmiApplied={this.state.isNoCostEmiApplied}
                     noCostEmiDiscount={this.state.noCostEmiDiscount}
                     amount={this.state.payableAmount}
-                    bagTotal={this.state.bagAmount}
+                    bagTotal={
+                      this.props.cart &&
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount &&
+                      this.props.cart.cartDetailsCNC.cartAmount
+                    }
                     payable={
                       this.state.isGiftCard
                         ? this.state.payableAmount
                         : this.props.cart &&
                           this.props.cart.cartDetailsCNC &&
-                          this.props.cart.cartDetailsCNC.cartAmount &&
-                          this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
-                            .formattedValue
+                          this.props.cart.cartDetailsCNC.cartAmount
                     }
-                    coupons={this.state.couponDiscount}
-                    discount={this.state.totalDiscount}
-                    delivery={this.state.deliveryCharge}
+                    coupons={
+                      this.props.cart &&
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount &&
+                      this.props.cart.cartDetailsCNC.cartAmount
+                    }
+                    totalDiscount={
+                      this.props.cart &&
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount
+                    }
+                    delivery={
+                      this.props.cart &&
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount
+                    }
                     showDetails={this.state.showCartDetails}
                     showHideDetails={this.showHideDetails}
-                    isCliqCashApplied={this.state.isCliqCashApplied}
+                    isCliqCashApplied={
+                      this.props.cart &&
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount &&
+                      this.props.cart.cartDetailsCNC.cartAmount
+                    }
                     cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                     isFromMyBag={false}
                   />
