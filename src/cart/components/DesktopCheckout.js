@@ -49,6 +49,15 @@ export default class DesktopCheckout extends React.Component {
                 </div>
               </div>
             )}
+          {this.props.carPageBagTotal && (
+            <div className={styles.row}>
+              <div className={styles.label}>Bag Total</div>
+              <div className={styles.info}>
+                {RUPEE_SYMBOL}
+                {this.props.carPageBagTotal}
+              </div>
+            </div>
+          )}
           {this.props.totalDiscount &&
             this.props.totalDiscount.totalDiscountAmount &&
             this.props.totalDiscount.totalDiscountAmount.value !== 0 && (
@@ -143,6 +152,15 @@ export default class DesktopCheckout extends React.Component {
                 {this.props.payable.paybleAmount.formattedValue}
               </div>
             )}
+          {this.props.payableForCartPage && (
+            <div
+              className={
+                this.props.onContinue ? styles.price : styles.checkoutPrice
+              }
+            >
+              {`Rs. ${this.props.payableForCartPage}`}
+            </div>
+          )}
           {this.props.onContinue && (
             <React.Fragment>
               {!this.props.isOnCartPage && (

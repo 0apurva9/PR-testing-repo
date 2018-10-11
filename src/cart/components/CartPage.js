@@ -774,7 +774,7 @@ class CartPage extends React.Component {
                                 ) / 100
                               : "0.00"
                           }
-                          bagTotal={
+                          carPageBagTotal={
                             cartDetails.cartAmount.bagTotal.value
                               ? Math.round(
                                   cartDetails.cartAmount.bagTotal.value * 100
@@ -784,7 +784,7 @@ class CartPage extends React.Component {
                           coupons={couponDiscount}
                           discount={totalDiscount}
                           delivery={deliveryCharge}
-                          payable={
+                          payableForCartPage={
                             cartDetails.cartAmount.paybleAmount.value
                               ? Math.round(
                                   cartDetails.cartAmount.paybleAmount.value *
