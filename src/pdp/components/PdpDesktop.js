@@ -348,8 +348,9 @@ export default class PdpApparel extends React.Component {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const globalAccessToken = JSON.parse(globalCookie).access_token;
-    this.props.getPdpEmi(globalAccessToken, cartValue);
-    this.props.getEmiTerms(globalAccessToken, cartValue);
+    const productCode = this.props.productDetails.productListingId;
+    const ussId = this.props.productDetails.winningUssID;
+    this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
   showSizeSelector = () => {
