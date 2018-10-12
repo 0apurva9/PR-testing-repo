@@ -2489,7 +2489,7 @@ if you have order id in local storage then you have to show order confirmation p
                   !this.state.isGiftCard &&
                   (this.props.cart.userAddress &&
                   this.props.cart.userAddress.addresses
-                    ? this.renderCheckoutAddress()
+                    ? this.renderCheckoutAddress(checkoutButtonStatus)
                     : this.renderInitialAddAddressForm())}
 
                 {!this.state.isPaymentFailed &&
