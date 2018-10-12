@@ -64,10 +64,7 @@ export default class DesktopCheckout extends React.Component {
               <div className={styles.row}>
                 <div className={styles.label}>Discount</div>
                 <div className={styles.info}>
-                  {
-                    this.props.totalDiscountAmount.totalDiscountAmount
-                      .formattedValue
-                  }
+                  {this.props.totalDiscount.totalDiscountAmount.formattedValue}
                 </div>
               </div>
             )}

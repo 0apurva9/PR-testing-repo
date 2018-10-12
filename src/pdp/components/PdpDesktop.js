@@ -274,6 +274,7 @@ export default class PdpApparel extends React.Component {
                 productDetails
               );
               if (addProductToCartResponse.status === SUCCESS) {
+                this.props.displayToast(ADD_TO_BAG_TEXT);
                 this.setState({
                   goToCartPageFlag: true
                 });
