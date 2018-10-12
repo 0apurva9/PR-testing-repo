@@ -41,6 +41,7 @@ export default class PdpDeliveryModes extends React.Component {
                   return val.value;
                 })[0]
             }
+            iconShow={this.props.iconShow}
           />
         </div>
         <div
@@ -66,6 +67,7 @@ export default class PdpDeliveryModes extends React.Component {
                   return val.value;
                 })[0]
             }
+            iconShow={this.props.iconShow}
           />
         </div>
         <div
@@ -88,6 +90,7 @@ export default class PdpDeliveryModes extends React.Component {
             isShowCliqAndPiqUnderLineText={localStorage.getItem(
               DEFAULT_PIN_CODE_LOCAL_STORAGE
             )}
+            iconShow={this.props.iconShow}
           />
         </div>
       </div>
@@ -106,5 +109,9 @@ PdpDeliveryModes.propTypes = {
       key: PropTypes.oneOf([EXPRESS, COLLECT, HOME_DELIVERY]),
       value: PropTypes.string
     })
-  )
+  ),
+  iconShow: PropTypes.bool
+};
+PdpDeliveryModes.defaultProps = {
+  iconShow: false
 };

@@ -68,7 +68,8 @@ export default class DeliveryInformations extends React.Component {
           }
         >
           <IconWithHeader
-            image={UserAgent.checkUserAgentIsMobile() ? iconImage : ""}
+            image={iconImage}
+            iconShow={this.props.iconShow}
             header={`${typeName} ${deliveryCharge}`}
           >
             {this.props.placedTime &&
@@ -163,11 +164,13 @@ DeliveryInformations.propTypes = {
   showCliqAndPiqButton: PropTypes.bool,
   available: PropTypes.bool,
   showDeliveryCharge: PropTypes.bool,
-  isShowCliqAndPiqUnderLineText: PropTypes.bool
+  isShowCliqAndPiqUnderLineText: PropTypes.bool,
+  iconShow: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
   showCliqAndPiqButton: true,
   showDeliveryCharge: false,
-  isShowCliqAndPiqUnderLineText: true
+  isShowCliqAndPiqUnderLineText: true,
+  iconShow: false
 };

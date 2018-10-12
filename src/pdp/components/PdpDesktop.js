@@ -449,7 +449,14 @@ export default class PdpApparel extends React.Component {
       this.addToCart(true);
     }
   };
-
+  onScroll = () => {
+    let scroll2 = document.getElementById("scrollToViewGallery");
+    let scroll1 = document.getElementById("scrollToViewAccrodian");
+    window.scroll({
+      top: scroll2.offsetHeight + scroll1.offsetHeight + 170,
+      behavior: "smooth"
+    });
+  };
   render() {
     const productData = this.props.productDetails;
     const breadCrumbs = productData.seo.breadcrumbs;
@@ -512,7 +519,7 @@ export default class PdpApparel extends React.Component {
           ussId={productData.winningUssID}
         >
           <div className={styles.base}>
-            <div className={styles.pageCenter}>
+            <div className={styles.pageCenter} id="scrollToViewGallery">
               <div className={styles.gallery}>
                 <ProductGalleryDesktop
                   data={productData.galleryImagesList}
@@ -778,17 +785,6 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                 </div>
-                {/* <div className={styles.buttonHolderForWishlist}>
-                  <AddToWishListButtonContainer
-                    type={WISHLIST_FOOTER_BUTTON_TYPE}
-                    productListingId={productData.productListingId}
-                    winningUssID={productData.winningUssID}
-                    setDataLayerType={
-                      SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
-                    }
-                  />
-                </div> */}
-
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
                     {productData.isServiceableToPincode &&
@@ -840,6 +836,7 @@ export default class PdpApparel extends React.Component {
                           productData.eligibleDeliveryModes
                         }
                         deliveryModesATP={productData.deliveryModesATP}
+                        iconShow={true}
                       />
                     </Overlay>
                   ) : (
@@ -850,6 +847,7 @@ export default class PdpApparel extends React.Component {
                           productData.eligibleDeliveryModes
                         }
                         deliveryModesATP={productData.deliveryModesATP}
+                        iconShow={true}
                       />
                     </div>
                   )}
@@ -863,6 +861,14 @@ export default class PdpApparel extends React.Component {
                         productData.details.map(val => {
                           return <div className={styles.list}>{val.value}</div>;
                         })}
+                      {productData.rootCategory === "Electronics" && (
+                        <div
+                          className={styles.viewDetails}
+                          onClick={() => this.onScroll()}
+                        >
+                          View full details
+                        </div>
+                      )}
                     </div>
                   )}
                 <div className={styles.horizontalOffset}>
@@ -878,7 +884,10 @@ export default class PdpApparel extends React.Component {
             </div>
             <div className={styles.details}>
               <div className={styles.pageCenter}>
-                <div className={styles.detailsHolder}>
+                <div
+                  className={styles.detailsHolder}
+                  id="scrollToViewAccrodian"
+                >
                   <div className={styles.detailsCard}>
                     {productData.productDescription && (
                       <Accordion
