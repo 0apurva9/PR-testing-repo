@@ -1705,7 +1705,6 @@ if you have order id in local storage then you have to show order confirmation p
           }
         }
       }
-
       if (this.state.savedCardDetails && this.state.savedCardDetails !== "") {
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardFromSavedCards(
@@ -2667,6 +2666,11 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       changeEmiPlan={() => this.changeEmiPlan()}
                       subEmiOption={this.state.currentSelectedEMIType}
+                      onCheckout={
+                        this.state.isPaymentFailed
+                          ? this.handleSubmitAfterPaymentFailure
+                          : this.handleSubmit
+                      }
                     />
                   </div>
                 )}
