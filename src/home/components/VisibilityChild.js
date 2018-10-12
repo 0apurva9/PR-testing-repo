@@ -19,7 +19,7 @@ export default class VisibilityChild extends React.Component {
     };
     return !this.state.visible ? (
       <Observer {...options}>
-        <div />
+        <div style={{ minHeight: 50 }} />
       </Observer>
     ) : (
       this.props.children

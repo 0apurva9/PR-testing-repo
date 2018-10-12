@@ -11,7 +11,11 @@ import MobileOnly from "../../general/components/MobileOnly";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  GLOBAL_ACCESS_TOKEN
+  GLOBAL_ACCESS_TOKEN,
+  BUY_NOW_PRODUCT_DETAIL,
+  LOGIN_PATH,
+  SUCCESS,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import {
   PRICE_TEXT,
@@ -31,6 +35,7 @@ import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const PRODUCT_QUANTITY = "1";
 const PRICE_LOW_TO_HIGH = "Price Low - High";
 const PRICE_HIGH_TO_LOW = "Price High - Low";
@@ -45,6 +50,11 @@ class ProductSellerPage extends Component {
     };
   }
   priceValue;
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   gotoPreviousPage = () => {
     const url = this.props.location.pathname.replace(
       PRODUCT_SELLER_ROUTER_SUFFIX,
@@ -53,34 +63,30 @@ class ProductSellerPage extends Component {
     this.props.history.replace(url);
   };
 
-  addToCart = () => {
+  addToCart = async buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.state.winningUssID
       ? this.state.winningUssID
       : this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-    if (userDetails) {
-      return this.props.addProductToCart(
-        JSON.parse(userDetails).userName,
-        JSON.parse(cartDetailsLoggedInUser).code,
-        JSON.parse(customerCookie).access_token,
-        productDetails
-      );
+    if (buyNowFlag) {
+      if (!checkUserLoggedIn()) {
+        localStorage.setItem(
+          BUY_NOW_PRODUCT_DETAIL,
+          JSON.stringify(productDetails)
+        );
+        this.navigateToLogin();
+      } else {
+        const buyNowResponse = await this.props.buyNow(productDetails);
+        if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        } else {
+          this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+        }
+      }
     } else {
-      return this.props.addProductToCart(
-        ANONYMOUS_USER,
-        JSON.parse(cartDetailsAnonymous).guid,
-        JSON.parse(globalCookie).access_token,
-        productDetails
-      );
+      return this.props.addProductToCart(productDetails);
     }
   };
   addToCartAccordingToTheUssid(USSID) {
@@ -207,7 +213,7 @@ class ProductSellerPage extends Component {
         <PdpFrame
           goToCart={() => this.goToCart()}
           displayToast={message => this.props.displayToast(message)}
-          addProductToBag={() => this.addToCart()}
+          addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
           gotoPreviousPage={() => this.gotoPreviousPage()}
         >
           {this.renderMetaTags()}

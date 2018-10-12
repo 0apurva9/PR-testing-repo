@@ -24,7 +24,8 @@ const INTERNAL_CAMPAIGN_TRACK = "internal_campaign";
 const ADOBE_PDP_CPJ = "cpj_pdp";
 const ADOBE_OUT_OF_STOCK_PDP = "out_of_stock";
 const ADOBE_ADD_TO_CART = "cpj_add_to_cart";
-const ADOBE_BUY_NOW = "cpj_pdp_add_to_bag";
+const ADOBE_BUY_NOW = "cpj_buy_now";
+
 const ADOBE_SAVE_PRODUCT = "cpj_button_save";
 const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
 const ADOBE_REVIEW_AND_RATING = "cpj_rating_review";
@@ -130,14 +131,16 @@ export const ICID2 = "ICID2";
 export const CID = "CID";
 export const SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT =
   "SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT";
+
+export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
+  "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
+
 export const SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP =
   "SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP";
 export const SET_DATA_LAYER_FOR_EMI_BANK_EVENT =
   "SET_DATA_LAYER_FOR_EMI_BANK_EVENT";
 export const ADOBE_DIRECT_CALLS_FOR_REMOVE_PRODUCT_ON_CART =
   "ADOBE_DIRECT_CALLS_FOR_REMOVE_PRODUCT_ON_CART";
-export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
-  "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
 
 export const SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT =
   "SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT";
@@ -266,6 +269,9 @@ const SIMILAR_PRODUCTS = "similar_products";
 const FREQUENTLY_BOUGHT_TOGETHER = "frequently_bought_together";
 const ABOUT_THE_BRAND = "about_the_brand";
 const AUTOMATED_BRAND_PRODUCT_CAROUSAL = "automated_brand_product_carousal";
+const BANNER_PRODUCT_CAROUSAL = "banner_product_carousel_component";
+const CURATED_PRODUCTS_COMPONENT = "curated_products_component";
+const VIDEO_PRODUCT_CAROUSEL = "video_product_carousel";
 // end of components name for widgets tracking
 
 // widgets tracking end poitns
@@ -278,6 +284,10 @@ const FREQUENTLY_BOUGHT_TOGETHER_ADOBE = "frequently_bought_together";
 const VISIT_BRAND = "visit_brand";
 const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
   "automated_brand_product_carousal";
+const BANNER_PRODUCT_CAROUSAL_ADOBE = "banner_product_carousal";
+const CURATED_PRODUCTS_COMPONENT_ADOBE = "curated_products_component";
+const VIDEO_PRODUCT_CAROUSEL_ADOBE = "video_product_carousel";
+
 // end of widgets tracking end points
 
 const GOOGLE = "google";
@@ -1017,6 +1027,12 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_ADD_TO_CART);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_TO_CART);
+      window._satellite.track(ADOBE_BUY_NOW);
     }
   }
   if (type === SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP) {
@@ -2086,6 +2102,15 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case AUTOMATED_BRAND_PRODUCT_CAROUSAL:
       widgetType = AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      break;
+    case BANNER_PRODUCT_CAROUSAL:
+      widgetType = BANNER_PRODUCT_CAROUSAL_ADOBE;
+      break;
+    case CURATED_PRODUCTS_COMPONENT:
+      widgetType = CURATED_PRODUCTS_COMPONENT_ADOBE;
+      break;
+    case VIDEO_PRODUCT_CAROUSEL:
+      widgetType = VIDEO_PRODUCT_CAROUSEL_ADOBE;
       break;
     default:
       break;

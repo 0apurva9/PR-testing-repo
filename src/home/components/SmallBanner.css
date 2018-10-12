@@ -1,0 +1,35 @@
+.base {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+.imageHolder {
+  width: 100%;
+  height: auto;
+  padding-bottom: 143%;
+  position: relative;
+}
+.image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.content {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  text-align: center;
+}
+.title {
+  font-size: 12px;
+  font-family: regular;
+  color: rgba(33, 33, 33, 0.93);
+}
+.description {
+  composes: title;
+  font-family: light;
+  color: #626262;
+  margin-top: 5px;
+}

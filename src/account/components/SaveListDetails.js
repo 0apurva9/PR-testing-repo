@@ -22,6 +22,7 @@ import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const dateFormat = "MMMM DD YYYY";
 const PRODUCT_QUANTITY = "1";
 const NO_SAVELIST_TEXT = "No item saved to your Wish List";
@@ -51,32 +52,7 @@ export default class SaveListDetails extends React.Component {
     productDetails.ussId = ussid;
     productDetails.code = productcode;
     productDetails.quantity = PRODUCT_QUANTITY;
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
-    const cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-    if (userDetails) {
-      if (cartDetailsLoggedInUser && customerCookie) {
-        this.props.addProductToCart(
-          JSON.parse(userDetails).userName,
-          JSON.parse(cartDetailsLoggedInUser).code,
-          JSON.parse(customerCookie).access_token,
-          productDetails
-        );
-      }
-    } else {
-      if (cartDetailsAnonymous && globalCookie) {
-        this.props.addProductToCart(
-          ANONYMOUS_USER,
-          JSON.parse(cartDetailsAnonymous).guid,
-          JSON.parse(globalCookie).access_token,
-          productDetails
-        );
-      }
-    }
+    this.props.addProductToCart(productDetails);
   }
   removeItem(ussid) {
     const productDetails = {};
@@ -109,7 +85,6 @@ export default class SaveListDetails extends React.Component {
     }
 
     const wishList = this.props.wishList;
-
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -143,13 +118,14 @@ export default class SaveListDetails extends React.Component {
                               product.productcode
                             )
                           }
-                          brandName={product.productBrand}
+                          brandName={product.brandName}
                           onClickImage={() =>
                             this.onClickImage(product.productcode)
                           }
                           removeItem={productUssid =>
                             this.removeItem(product.USSID)
                           }
+                          size={product.size}
                         />
                       </div>
                     );

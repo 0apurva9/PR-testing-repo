@@ -1,6 +1,6 @@
 import React from "react";
 import SlideModal from "../../general/components/SlideModal";
-import styles from "../../pdp/components/EmiModal.css";
+import styles from "./TermsAndConditionsModal.css";
 const TERMS_AND_CONDITION_TEXT = "Terms & Conditions";
 export default class TermsAndConditionsModal extends React.Component {
   render() {

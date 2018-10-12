@@ -9,12 +9,7 @@ import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import queryString, { parse } from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  ANONYMOUS_USER,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
   YES,
@@ -22,12 +17,21 @@ import {
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  COLLECT
+  COLLECT,
+  BUY_NOW_PRODUCT_DETAIL,
+  LOGIN_PATH,
+  SUCCESS,
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import { WISHLIST_FOOTER_BUTTON_TYPE } from "../../wishlist/components/AddToWishListButton";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP } from "../../lib/adobeUtils";
+import {
+  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_BUY_NOW_EVENT
+} from "../../lib/adobeUtils";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
   loading: () => <div />
@@ -131,7 +135,11 @@ export default class PdpJewellery extends React.Component {
       this.props.visitBrandStore();
     }
   }
-
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   gotoPreviousPage = () => {
     this.props.history.goBack();
   };
@@ -159,19 +167,14 @@ export default class PdpJewellery extends React.Component {
       }
     });
   };
-  addToCart = buyNowFlag => {
+  addToCart = async buyNowFlag => {
+    if (buyNowFlag) {
+      setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
+    }
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
-
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
     } else {
@@ -188,27 +191,23 @@ export default class PdpJewellery extends React.Component {
           this.checkIfNoSize() ||
           this.checkIfSizeDoesNotExist()
         ) {
-          if (userDetails) {
-            if (
-              cartDetailsLoggedInUser !== undefined &&
-              customerCookie !== undefined
-            ) {
-              return this.props.addProductToCart(
-                JSON.parse(userDetails).userName,
-                JSON.parse(cartDetailsLoggedInUser).code,
-                JSON.parse(customerCookie).access_token,
-                productDetails,
-                buyNowFlag
+          if (buyNowFlag) {
+            if (!checkUserLoggedIn()) {
+              localStorage.setItem(
+                BUY_NOW_PRODUCT_DETAIL,
+                JSON.stringify(productDetails)
               );
+              this.navigateToLogin();
+            } else {
+              const buyNowResponse = await this.props.buyNow(productDetails);
+              if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+                this.props.history.push(PRODUCT_CART_ROUTER);
+              } else {
+                this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+              }
             }
-          } else if (cartDetailsAnonymous) {
-            return this.props.addProductToCart(
-              ANONYMOUS_USER,
-              JSON.parse(cartDetailsAnonymous).guid,
-              JSON.parse(globalCookie).access_token,
-              productDetails,
-              buyNowFlag
-            );
+          } else {
+            return this.props.addProductToCart(productDetails);
           }
         } else {
           this.showSizeSelector(buyNowFlag);
@@ -238,10 +237,11 @@ export default class PdpJewellery extends React.Component {
   };
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
+    const productCode = this.props.productDetails.productListingId;
+    const ussId = this.props.productDetails.winningUssID;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const globalAccessToken = JSON.parse(globalCookie).access_token;
-    this.props.getPdpEmi(globalAccessToken, cartValue);
-    this.props.getEmiTerms(globalAccessToken, cartValue);
+    this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
   showSizeSelector = buyNowFlag => {
@@ -441,6 +441,9 @@ export default class PdpJewellery extends React.Component {
           <PdpPaymentInfo
             hasEmi={productData.isEMIEligible}
             hasCod={productData.isCOD}
+            seStartingPrice={productData.seStartingPrice}
+            nceAvailable={productData.nceAvailable}
+            nceStartingPrice={productData.nceStartingPrice}
             showEmiModal={this.showEmiModal}
           />
           <div className={styles.wishlist}>

@@ -37,6 +37,7 @@ export default class SaveListCard extends React.Component {
             productMaterial={this.props.productMaterial}
             price={this.props.price}
             onClickImage={() => this.onClickImage()}
+            size={this.props.size}
           />
           <div className={styles.rating}>
             {this.props.totalNoOfReviews && (

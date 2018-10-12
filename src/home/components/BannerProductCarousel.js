@@ -55,6 +55,10 @@ export default class BannerProductCarousal extends React.Component {
         }}
         setClickedElementId={this.props.setClickedElementId}
         data={data}
+        widgetName={"Banner Product Carousel Component"}
+        sourceOfWidget={
+          this.props.postData && this.props.postData.widgetPlatform
+        }
       />
     );
   }

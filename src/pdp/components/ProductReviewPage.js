@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import RatingHolder from "./RatingHolder";
 import PdpFrame from "./PdpFrame";
 import throttle from "lodash.throttle";
-import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import {
@@ -15,7 +14,10 @@ import {
   SUCCESS,
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
-  PRODUCT_CART_ROUTER
+  PRODUCT_CART_ROUTER,
+  BUY_NOW_PRODUCT_DETAIL,
+  BUY_NOW_ERROR_MESSAGE,
+  WRITE_REVIEWS
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -25,19 +27,16 @@ import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  ANONYMOUS_USER
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT
 } from "../../lib/adobeUtils";
+import commentArray from "../../mock/lang_profanity.json";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
-
 export default class ProductReviewPage extends Component {
   constructor(props) {
     super(props);
@@ -88,7 +87,11 @@ export default class ProductReviewPage extends Component {
       }
     }, 2000);
   };
-
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -101,7 +104,10 @@ export default class ProductReviewPage extends Component {
       this.state.orderBy,
       this.state.sort
     );
-    if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG) {
+    if (
+      this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
+      this.props.match.path === WRITE_REVIEWS
+    ) {
       if (!userDetails || !customerCookie) {
         const url = this.props.location.pathname;
         this.props.setUrlToRedirectToAfterAuth(url);
@@ -137,7 +143,6 @@ export default class ProductReviewPage extends Component {
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
   };
-
   onSubmit = productReview => {
     if (!productReview.rating) {
       this.props.displayToast("Please give rating");
@@ -150,14 +155,28 @@ export default class ProductReviewPage extends Component {
     if (!productReview.comment) {
       this.props.displayToast("Please enter comment");
       return false;
-    } else {
-      if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
-        this.setState({ visible: false });
+    }
+    if (productReview.comment) {
+      let notCommentPossible = commentArray.words.find(words => {
+        if (productReview.comment.toLowerCase().includes(words.toLowerCase())) {
+          return true;
+        }
+      });
+      if (notCommentPossible) {
+        this.props.displayToast("Review comment contains profane words");
+        return false;
+      } else {
+        if (
+          this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+          this.props.match.path !== WRITE_REVIEWS
+        ) {
+          this.setState({ visible: false });
+        }
+        return this.props.addProductReview(
+          this.props.productDetails.productListingId,
+          productReview
+        );
       }
-      return this.props.addProductReview(
-        this.props.productDetails.productListingId,
-        productReview
-      );
     }
   };
   onCancel() {
@@ -184,38 +203,28 @@ export default class ProductReviewPage extends Component {
     }
   };
 
-  addProductToBag = () => {
+  addProductToBag = async buyNowFlag => {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
-      CART_DETAILS_FOR_LOGGED_IN_USER
-    );
-
-    let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-    if (userDetails) {
-      if (
-        cartDetailsLoggedInUser !== undefined &&
-        customerCookie !== undefined
-      ) {
-        return this.props.addProductToCart(
-          JSON.parse(userDetails).userName,
-          JSON.parse(cartDetailsLoggedInUser).code,
-          JSON.parse(customerCookie).access_token,
-          productDetails
+    if (buyNowFlag) {
+      if (!checkUserLoggedIn()) {
+        localStorage.setItem(
+          BUY_NOW_PRODUCT_DETAIL,
+          JSON.stringify(productDetails)
         );
+        this.navigateToLogin();
+      } else {
+        const buyNowResponse = await this.props.buyNow(productDetails);
+        if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        } else {
+          this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+        }
       }
-    } else if (cartDetailsForAnonymous) {
-      return this.props.addProductToCart(
-        ANONYMOUS_USER,
-        JSON.parse(cartDetailsForAnonymous).guid,
-        JSON.parse(globalCookie).access_token,
-        productDetails
-      );
+    } else {
+      return this.props.addProductToCart(productDetails);
     }
   };
 
@@ -228,7 +237,10 @@ export default class ProductReviewPage extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.match.path !== WRITE_REVIEWS_WITH_SLUG) {
+    if (
+      this.props.match.path !== WRITE_REVIEWS_WITH_SLUG ||
+      this.props.match.path !== WRITE_REVIEWS
+    ) {
       if (nextProps.addReviewStatus === SUCCESS) {
         this.setState({ visible: false });
       }
@@ -295,7 +307,7 @@ export default class ProductReviewPage extends Component {
       return (
         <PdpFrame
           {...this.props.productDetails}
-          addProductToBag={() => this.addProductToBag()}
+          addProductToBag={buyNowFlag => this.addProductToBag(buyNowFlag)}
           gotoPreviousPage={() => this.goBack()}
           displayToast={message => this.props.displayToast(message)}
           goToCart={() => this.goToCart()}
@@ -353,14 +365,15 @@ export default class ProductReviewPage extends Component {
                         />
                       </div>
                     </div>
-                    {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG && (
-                      <div
-                        className={styles.reviewText}
-                        onClick={this.reviewSection}
-                      >
-                        {WRITE_REVIEW_TEXT}
-                      </div>
-                    )}
+                    {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+                      this.props.match.path !== WRITE_REVIEWS && (
+                        <div
+                          className={styles.reviewText}
+                          onClick={this.reviewSection}
+                        >
+                          {WRITE_REVIEW_TEXT}
+                        </div>
+                      )}
                   </div>
                 </div>
                 {this.state.visible && (

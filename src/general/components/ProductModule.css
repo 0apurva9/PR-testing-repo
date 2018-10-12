@@ -30,6 +30,33 @@
   left: 0;
   top: 0;
 }
+.imageAndDescriptionWrapper {
+  width: 100%;
+  height: auto;
+}
+.productFeatureHolder {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.productFeature {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 12px;
+  text-align: left;
+  background: #e1e1e1;
+  padding: 10px 25px;
+  border-radius: 2px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  margin-top: 10px;
+  font-family: light;
+}
 @media screen and (min-width: 1025px) {
   .base {
     cursor: pointer;
@@ -49,6 +76,13 @@
     height: 100%;
     left: 0;
     top: 0;
+  }
+  .ListimageHolder {
+    width: 100%;
+  }
+  .Listcontent {
+    width: 100%;
+    padding: 20px 0px 0px 0px;
   }
   .dummyDiv a {
     width: 100%;

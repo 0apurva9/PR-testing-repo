@@ -250,6 +250,8 @@ export const STANDARD_EMI = "Standard EMI";
 export const CREDIT_CARD = "Credit Card";
 export const DEBIT_CARD = "Debit Card";
 export const E_WALLET = "E - Wallet";
+export const PAYPAL = "PayPal";
+export const E_WALLET_PAYPAL = "PayPal";
 export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
 
@@ -348,3 +350,11 @@ export const REFUND_DETAILS = "Refund Details";
 export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
 export const PINCODE_NOT_SERVICEABLE_TEXT =
   "We are sorry, this pincode is not serviceable. Please enter another pincode.";
+export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
+export const DEFAULT_PINCODE = 110001;
+export const BUY_NOW_ERROR_MESSAGE = "Something Went wrong.Please try again";
+
+export const BANK_OFFER_COMPONENT_NAME_HC = "bankOfferComponent";
+export const MULTIPLE_BANNER_COMPONENT_NAME_HC = "multipleBannerComponent";
+export const QUICK_LINKS_COMPONENT_NAME_HC = "quickLinksComponent";
+export const HARD_CODED_KEY_FOR_COMPONENT = "singleBannerComponent";

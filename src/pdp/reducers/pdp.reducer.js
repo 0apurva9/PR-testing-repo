@@ -19,6 +19,7 @@ const productDescription = (
       sizeGuideList: []
     },
     emiResult: null,
+    loadingForEmiResult: false,
     reviews: {},
     reviewsStatus: null,
     loadingForAddProduct: false,
@@ -106,28 +107,100 @@ const productDescription = (
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
       const currentPdpDetail = cloneDeep(state.productDetails);
-      let currentProductUssId = currentPdpDetail.winningUssID;
-      let deliveryOptionObj;
+      let listOfAllServiceableUssid;
       if (
         action.productPinCode &&
         action.productPinCode.deliveryOptions &&
         action.productPinCode.deliveryOptions.pincodeListResponse
       ) {
-        deliveryOptionObj = action.productPinCode.deliveryOptions.pincodeListResponse.find(
+        listOfAllServiceableUssid = action.productPinCode.deliveryOptions.pincodeListResponse.filter(
           delivery => {
-            return delivery.ussid === currentProductUssId;
+            return delivery.isServicable === YES;
           }
         );
       }
 
       let eligibleDeliveryModes = [];
-      if (deliveryOptionObj && deliveryOptionObj.isServicable === YES) {
+      /*
+      check for if seller already serviceable for current pin code then
+      just update eligibleValidDeliveryModes
+      and pincodeResponse to reducer
+      */
+      let serviceableForExistingSeller = listOfAllServiceableUssid.find(
+        seller => {
+          return seller.ussid === currentPdpDetail.winningUssID;
+        }
+      );
+      if (
+        serviceableForExistingSeller &&
+        !currentPdpDetail.isUpdatedOtherSellerList
+      ) {
         eligibleDeliveryModes = transferPincodeToPdpPincode(
-          deliveryOptionObj.validDeliveryModes
+          serviceableForExistingSeller.validDeliveryModes
         );
         Object.assign(currentPdpDetail, {
           eligibleDeliveryModes,
-          slaveData: deliveryOptionObj.validDeliveryModes,
+          slaveData: serviceableForExistingSeller.validDeliveryModes,
+          isServiceableToPincode: {
+            status: YES,
+            pinCode: action.productPinCode.pinCode
+          }
+        });
+      } else if (
+        listOfAllServiceableUssid.length &&
+        currentPdpDetail.otherSellers
+      ) {
+        let otherSellersList = currentPdpDetail.otherSellers;
+        let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
+        let eligibleDeliveryModeForThisSeller;
+        listOfAllServiceableUssid.forEach(seller => {
+          let sellerObjInOtherSellers = currentPdpDetail.otherSellers.find(
+            otherSeller => {
+              return otherSeller.USSID === seller.ussid;
+            }
+          );
+          if (
+            sellerObjInOtherSellers &&
+            sellerObjInOtherSellers.specialPriceSeller &&
+            sellerObjInOtherSellers.specialPriceSeller.value <
+              leastMrpSellerUssid.specialPriceSeller.value
+          ) {
+            leastMrpSellerUssid = sellerObjInOtherSellers;
+            eligibleDeliveryModeForThisSeller = seller;
+          }
+        });
+        eligibleDeliveryModes = transferPincodeToPdpPincode(
+          eligibleDeliveryModeForThisSeller.validDeliveryModes
+        );
+        let isAlreadyExistSeller = otherSellersList.find(seller => {
+          return seller.USSID === currentPdpDetail.winningUssID;
+        });
+        if (!isAlreadyExistSeller) {
+          otherSellersList.push({
+            USSID: currentPdpDetail.winningUssID,
+            availableStock: "0",
+            eligibleDeliveryModes: currentPdpDetail.eligibleDeliveryModes,
+            fullfillmentType: currentPdpDetail.fulfillmentType,
+            isCOD: currentPdpDetail.isCOD,
+            isEMIEligible: currentPdpDetail.isEMIEligible,
+            mrpSeller: currentPdpDetail.winningSellerPrice,
+            sellerId: currentPdpDetail.winningSellerID,
+            sellerName: currentPdpDetail.winningSellerName,
+            specialPriceSeller: currentPdpDetail.winningSellerPrice
+          });
+        }
+        Object.assign(currentPdpDetail, {
+          availableStock: leastMrpSellerUssid.availableStock,
+          isCOD: leastMrpSellerUssid.isCOD,
+          isEMIEligible: leastMrpSellerUssid.isEMIEligible,
+          winningSellerPrice: leastMrpSellerUssid.specialPriceSeller,
+          sellerAssociationstatus: leastMrpSellerUssid.sellerAssociationstatus,
+          winningSellerName: leastMrpSellerUssid.sellerName,
+          eligibleDeliveryModes,
+          slaveData: eligibleDeliveryModeForThisSeller.validDeliveryModes,
+          winningUssID: leastMrpSellerUssid.USSID,
+          otherSellers: otherSellersList,
+          isUpdatedOtherSellerList: true,
           isServiceableToPincode: {
             status: YES,
             pinCode: action.productPinCode.pinCode
@@ -207,21 +280,21 @@ const productDescription = (
     case pdpActions.PRODUCT_PDP_EMI_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
-        loading: true
+        loadingForEmiResult: true
       });
 
     case pdpActions.PRODUCT_PDP_EMI_SUCCESS:
       return Object.assign({}, state, {
         status: action.status,
         emiResult: action.emiResult,
-        loading: false
+        loadingForEmiResult: false
       });
 
     case pdpActions.PRODUCT_PDP_EMI_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
-        loading: false
+        loadingForEmiResult: false
       });
 
     case pdpActions.PRODUCT_SPECIFICATION_REQUEST:

@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import WidgetContainer from "../containers/WidgetContainer";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
 import HeroBanner from "./HeroBanner.js";
+import AllQuickLinks from "./AllQuickLinks";
 import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
@@ -21,6 +22,7 @@ import {
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
 import { setDataLayer, ADOBE_HOME_TYPE } from "../../lib/adobeUtils";
+
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 
 const typeKeyMapping = {
@@ -34,6 +36,12 @@ const ProductCapsulesContainer = Loadable({
 });
 const FollowBase = Loadable({
   loader: () => import("./FollowBase.js"),
+  loading() {
+    return <div />;
+  }
+});
+const MultipleBanners = Loadable({
+  loader: () => import("./MultipleBanners"),
   loading() {
     return <div />;
   }
@@ -95,6 +103,12 @@ const OfferWidget = Loadable({
 });
 const ThemeOffer = Loadable({
   loader: () => import("./ThemeOffer"),
+  loading() {
+    return <div />;
+  }
+});
+const BankOfferBanner = Loadable({
+  loader: () => import("./BankOfferBanner"),
   loading() {
     return <div />;
   }
@@ -236,6 +250,7 @@ export const typeComponentMapping = {
   "Landing Page Header Component": props => {
     return <BrandCardHeader {...props} />;
   },
+  quickLinksComponent: props => <AllQuickLinks {...props} />,
   "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
   "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
   "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,
@@ -253,6 +268,7 @@ export const typeComponentMapping = {
     <AutomatedBrandProductCarousel {...props} />
   ),
   "Auto Following Brands Component": props => <FollowingBrands {...props} />,
+  multipleBannerComponent: props => <MultipleBanners {...props} />,
   "Flash Sales Component": props => <FlashSale {...props} />, // wired up
   "Offers Component": props => <OfferWidget {...props} />, // wired up
   "Multipurpose Banner Component": props => <ConnectWidget {...props} />, // modal not working - need to figure out what to show here.
@@ -268,6 +284,7 @@ export const typeComponentMapping = {
   "Curated Products Component": props => (
     <CuratedProductsComponent {...props} />
   ),
+  bankOfferComponent: props => <BankOfferBanner {...props} />,
   "Sub Brands Banner Component": props => <SubBrandsBanner {...props} />,
   "Desktop Sub Brands Component": props => <SubBrandsBanner {...props} />,
   "Landing Page Hierarchy": props => <AllBrandTypes {...props} />,
@@ -288,6 +305,7 @@ export const typeComponentMapping = {
   "Multi Click Banner Component": props => (
     <MultiClickBannerComponent {...props} />
   ),
+
   "Simple Banner Component": props => {
     return (
       <div className={styles.simpleBannerHolder}>
@@ -379,7 +397,6 @@ class Feed extends Component {
         this.props.setClickedElementId(`Feed-${id}`);
       };
     })(index);
-
     let props = {
       positionInFeed: index,
       key: index,

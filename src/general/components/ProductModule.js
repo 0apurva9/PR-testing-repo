@@ -11,7 +11,7 @@ import ProductFlags from "./ProductFlags.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { Link } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
-
+import MobileOnly from "../../general/components/MobileOnly";
 import { widgetsTracking } from "../../lib/adobeUtils";
 
 export default class ProductModule extends React.Component {
@@ -32,11 +32,7 @@ export default class ProductModule extends React.Component {
     return urlSuffix;
   }
   onClick = () => {
-    if (
-      this.props.widgetName &&
-      this.props.sourceOfWidget &&
-      this.props.productId
-    ) {
+    if (this.props.widgetName && this.props.productId) {
       widgetsTracking({
         widgetName: this.props.widgetName,
         productId: this.props.productId,
@@ -67,59 +63,80 @@ export default class ProductModule extends React.Component {
         onClick={this.onClick}
         id={`ProductModule-${this.props.productId}`}
       >
-        <a
-          href={`${window.location.origin}${this.getProductURL()}`}
-          className={styles.aTag}
-          style={{ pointerEvents: "none" }}
-        >
+        {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
+        <div className={styles.imageAndDescriptionWrapper}>
+          <a
+            href={`${window.location.origin}${this.getProductURL()}`}
+            className={styles.aTag}
+            style={{ pointerEvents: "none" }}
+          >
+            <div
+              className={
+                this.props.view === "grid"
+                  ? styles.imageHolder
+                  : styles.ListimageHolder
+              }
+            >
+              <ProductImage image={this.props.productImage} />
+              {this.props.onConnect && (
+                <ConnectButton onClick={this.handleConnect} />
+              )}
+
+              <div className={styles.flagHolder}>
+                <ProductFlags
+                  discountPercent={this.props.discountPercent}
+                  isOfferExisting={this.props.isOfferExisting}
+                  onlineExclusive={this.props.onlineExclusive}
+                  outOfStock={this.props.outOfStock}
+                  newProduct={this.props.newProduct}
+                />
+              </div>
+            </div>
+          </a>
           <div
             className={
-              this.props.view === "grid"
-                ? styles.imageHolder
-                : styles.ListimageHolder
+              this.props.view === "grid" ? styles.content : styles.Listcontent
             }
           >
-            <ProductImage image={this.props.productImage} />
-            {this.props.onConnect && (
-              <ConnectButton onClick={this.handleConnect} />
-            )}
-
-            <div className={styles.flagHolder}>
-              <ProductFlags
-                discountPercent={this.props.discountPercent}
-                isOfferExisting={this.props.isOfferExisting}
-                onlineExclusive={this.props.onlineExclusive}
-                outOfStock={this.props.outOfStock}
-                newProduct={this.props.newProduct}
+            <ProductDescription {...this.props} />
+            {this.props.view === "list" && (
+              <ProductInfo
+                averageRating={this.props.averageRating}
+                totalNoOfReviews={this.props.totalNoOfReviews}
+                offerText={this.props.offerText}
+                bestDeliveryInfo={this.props.bestDeliveryInfo}
               />
-            </div>
+            )}
           </div>
-        </a>
-        <div
-          className={
-            this.props.view === "grid" ? styles.content : styles.Listcontent
-          }
-        >
-          <ProductDescription {...this.props} />
-          {this.props.view === "list" && (
-            <ProductInfo
-              averageRating={this.props.averageRating}
-              totalNoOfReviews={this.props.totalNoOfReviews}
-              offerText={this.props.offerText}
-              bestDeliveryInfo={this.props.bestDeliveryInfo}
-            />
-          )}
         </div>
-        <DesktopOnly>
-          <Link
-            to={{
-              pathname: `${this.getProductURL()}`
-            }}
-            target="_blank"
-          >
-            <div className={styles.dummyDiv} onClick={this.onClick} />
-          </Link>
-        </DesktopOnly>
+        <React.Fragment>
+          <MobileOnly>
+            {this.props.view === "list" && (
+              <div>
+                {this.props.plpAttrMap && (
+                  <div className={styles.productFeatureHolder}>
+                    {this.props.plpAttrMap.map((val, i) => {
+                      return (
+                        <div className={styles.productFeature}>{val.value}</div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+          </MobileOnly>
+
+          <DesktopOnly>
+            <Link
+              to={{
+                pathname: `${this.getProductURL()}`
+              }}
+              target="_blank"
+            >
+              <div className={styles.dummyDiv} onClick={this.onClick} />
+            </Link>
+          </DesktopOnly>
+        </React.Fragment>
       </div>
     );
   }

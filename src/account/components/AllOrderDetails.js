@@ -10,9 +10,12 @@ import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import { Redirect } from "react-router-dom";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
+import UserReviewContainer from "../containers/UserReviewContainer";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
 import {
   MY_ACCOUNT,
@@ -249,6 +252,12 @@ export default class AllOrderDetails extends React.Component {
                     />
                     <TabData
                       width="40%"
+                      label="My reviews "
+                      selected={this.state.isSelected === 4}
+                      selectItem={() => this.tabSelect(4)}
+                    />
+                    <TabData
+                      width="40%"
                       label="Useful Links "
                       selected={this.state.isSelected === 3}
                       selectItem={() => this.tabSelect(3)}
@@ -334,6 +343,11 @@ export default class AllOrderDetails extends React.Component {
                         <div className={styles.usefulLinkText}>FAQ</div>
                       </AccountUsefulLink>
                     </div>
+                  </div>
+                )}
+                {this.state.isSelected === 4 && (
+                  <div className={styles.reviewHolder}>
+                    <UserReviewContainer />
                   </div>
                 )}
                 {this.state.isSelected === 0 &&

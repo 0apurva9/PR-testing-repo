@@ -41,7 +41,10 @@ import {
   COLLECT,
   SUCCESS,
   ADD_TO_BAG_TEXT,
-  HOME_ROUTER
+  HOME_ROUTER,
+  BUY_NOW_PRODUCT_DETAIL,
+  BUY_NOW_ERROR_MESSAGE,
+  LOGIN_PATH
 } from "../../lib/constants";
 import {
   setDataLayerForCartDirectCalls,
@@ -49,6 +52,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
+import { checkUserLoggedIn } from "../../lib/userUtils";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -251,47 +255,34 @@ export default class PdpApparel extends React.Component {
             this.props.displayToast("Please select a quantity to continue");
             this.setState({ quantityError: true });
           } else {
-            if (userDetails) {
-              if (cartDetailsLoggedInUser && customerCookie) {
-                const addProductToCartResponse = await this.props.addProductToCart(
-                  JSON.parse(userDetails).userName,
-                  JSON.parse(cartDetailsLoggedInUser).code,
-                  JSON.parse(customerCookie).access_token,
-                  productDetails
+            if (buyNowFlag) {
+              if (!checkUserLoggedIn()) {
+                localStorage.setItem(
+                  BUY_NOW_PRODUCT_DETAIL,
+                  JSON.stringify(productDetails)
                 );
-                if (addProductToCartResponse.status === SUCCESS) {
-                  this.setState({
-                    goToCartPageFlag: true
-                  });
-                  if (buyNowFlag) {
-                    this.goToCart();
-                  } else {
-                    this.props.displayToast(ADD_TO_BAG_TEXT);
-                  }
+                this.navigateToLogin();
+              } else {
+                const buyNowResponse = await this.props.buyNow(productDetails);
+                if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+                  this.props.history.push(PRODUCT_CART_ROUTER);
+                } else {
+                  this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
                 }
               }
             } else {
-              if (cartDetailsAnonymous && globalCookie) {
-                const addProductToCartResponse = await this.props.addProductToCart(
-                  ANONYMOUS_USER,
-                  JSON.parse(cartDetailsAnonymous).guid,
-                  JSON.parse(globalCookie).access_token,
-                  productDetails
-                );
-                if (addProductToCartResponse.status === SUCCESS) {
-                  this.setState({
-                    goToCartPageFlag: true
-                  });
-                  if (buyNowFlag) {
-                    this.goToCart();
-                  } else {
-                    this.props.displayToast(ADD_TO_BAG_TEXT);
-                  }
-                }
+              const addProductToCartResponse = await this.props.addProductToCart(
+                productDetails
+              );
+              if (addProductToCartResponse.status === SUCCESS) {
+                this.props.displayToast(ADD_TO_BAG_TEXT);
+                this.setState({
+                  goToCartPageFlag: true
+                });
               }
             }
+            this.setState({ sizeError: false });
           }
-          this.setState({ sizeError: false });
         } else {
           this.props.displayToast("Please select a size to continue");
           this.setState({ sizeError: true });
@@ -299,7 +290,11 @@ export default class PdpApparel extends React.Component {
       }
     }
   };
-
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
   goToReviewPage = isNeedToSetDataLayer => {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
@@ -333,7 +328,7 @@ export default class PdpApparel extends React.Component {
     this.setState({ sizeError: false });
   };
   //---------------Functions used only in HomeFurnishings Ends here---------------------
-  showPincodeModal() {
+  showPincodeModal = () => {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
       this.props.showPincodeModal(this.props.match.params[0]);
     } else if (
@@ -341,7 +336,7 @@ export default class PdpApparel extends React.Component {
     ) {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
-  }
+  };
   showProductDetails = () => {
     this.setState({ showProductDetails: true });
   };
@@ -349,8 +344,9 @@ export default class PdpApparel extends React.Component {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const globalAccessToken = JSON.parse(globalCookie).access_token;
-    this.props.getPdpEmi(globalAccessToken, cartValue);
-    this.props.getEmiTerms(globalAccessToken, cartValue);
+    const productCode = this.props.productDetails.productListingId;
+    const ussId = this.props.productDetails.winningUssID;
+    this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
   showSizeSelector = () => {
@@ -615,6 +611,9 @@ export default class PdpApparel extends React.Component {
                   )}
                 <div className={styles.horizontalOffset}>
                   <PdpPaymentInfo
+                    seStartingPrice={productData.seStartingPrice}
+                    nceAvailable={productData.nceAvailable}
+                    nceStartingPrice={productData.nceStartingPrice}
                     hasEmi={productData.isEMIEligible}
                     hasCod={productData.isCOD}
                     showEmiModal={() => this.showEmiModal()}

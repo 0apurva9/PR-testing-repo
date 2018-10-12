@@ -1,0 +1,14 @@
+.base{
+  width:100%;
+  height:auto;
+  min-height:50px;
+}
+.image{
+  width:100%;
+  height:auto;
+  display:none;
+}
+.imageLoaded{
+  composes:image;
+  display:block;
+}

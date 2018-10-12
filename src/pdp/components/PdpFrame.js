@@ -11,11 +11,7 @@ export default class PdpFrame extends React.Component {
       return this.props.addProductToBag(buyNowFlag);
     }
   }
-  buyNow() {
-    if (this.props.buyNow) {
-      this.props.buyNow();
-    }
-  }
+
   goBack = () => {
     if (this.props.gotoPreviousPage) {
       this.props.gotoPreviousPage();
@@ -49,7 +45,6 @@ export default class PdpFrame extends React.Component {
             goToCartPageFlag={this.props.goToCartPageFlag}
             displayToast={message => this.props.displayToast(message)}
             onAddToBag={buyNowFlag => this.onAddToBag(buyNowFlag)}
-            buyNow={() => this.buyNow()}
             goToCartPage={() => this.goToCartPage()}
             productListingId={this.props.productListingId}
             outOfStock={this.props.outOfStock}
@@ -62,6 +57,7 @@ export default class PdpFrame extends React.Component {
             }
           />
         </MobileOnly>
+
         {this.props.children}
         {!this.props.outOfStock && this.renderAvailabilityMetaTag()}
       </div>
