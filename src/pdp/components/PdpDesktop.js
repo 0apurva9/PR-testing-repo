@@ -852,7 +852,8 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 {productData &&
-                  productData.details && (
+                  productData.details &&
+                  productData.rootCategory === "Electronics" && (
                     <div className={styles.pointListHolder}>
                       <div className={styles.pointHeader}>Highlights</div>
 
