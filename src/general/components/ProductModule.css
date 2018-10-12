@@ -77,6 +77,13 @@
     left: 0;
     top: 0;
   }
+  .ListimageHolder {
+    width: 100%;
+  }
+  .Listcontent {
+    width: 100%;
+    padding: 20px 0px 0px 0px;
+  }
   .dummyDiv a {
     width: 100%;
     height: 100%;

@@ -11,7 +11,7 @@ import ProductFlags from "./ProductFlags.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { Link } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
-
+import MobileOnly from "../../general/components/MobileOnly";
 import { widgetsTracking } from "../../lib/adobeUtils";
 
 export default class ProductModule extends React.Component {
@@ -110,19 +110,21 @@ export default class ProductModule extends React.Component {
           </div>
         </div>
         <React.Fragment>
-          {this.props.view === "list" && (
-            <div>
-              {this.props.plpAttrMap && (
-                <div className={styles.productFeatureHolder}>
-                  {this.props.plpAttrMap.map((val, i) => {
-                    return (
-                      <div className={styles.productFeature}>{val.value}</div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          <MobileOnly>
+            {this.props.view === "list" && (
+              <div>
+                {this.props.plpAttrMap && (
+                  <div className={styles.productFeatureHolder}>
+                    {this.props.plpAttrMap.map((val, i) => {
+                      return (
+                        <div className={styles.productFeature}>{val.value}</div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+          </MobileOnly>
 
           <DesktopOnly>
             <Link
