@@ -6,6 +6,10 @@
   display: inline-block;
   position: relative;
 }
+.baseNoPadding {
+  composes: base;
+  padding: 5px 0px 5px 0px;
+}
 .textHolder {
   width: 100%;
   height: auto;

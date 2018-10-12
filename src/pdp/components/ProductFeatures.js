@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Accordion from "../../general/components/Accordion.js";
 import styles from "./ProductFeatures.css";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 export default class ProductFeatures extends React.Component {
   render() {
     const data = this.props.features;
@@ -14,6 +15,7 @@ export default class ProductFeatures extends React.Component {
               key={i}
               text={datum.groupName}
               headerFontSize={this.props.headerFontSize}
+              isOpen={checkUserAgentIsMobile() ? false : i < 3}
             >
               <div className={styles.holder}>
                 {datum.specifications.map(val => {

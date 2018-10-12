@@ -413,4 +413,55 @@
   .buttonAddToBag:hover {
     box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
   }
+  .cardHeaderHolder {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-right: 40px;
+  }
+  .wisthListIconHolder {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border-radius: 50%;
+    background: #d8d8d8;
+  }
+  .deliveyModesHolder {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #e2e2e2;
+    margin-top: 10px;
+  }
+  .pinAndDeliveryHolder {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid #e2e2e2;
+    margin-top: 35px;
+  }
+  .pointListHolder {
+    width: 100%;
+    height: auto;
+    margin-top: 35px;
+    padding: 0px 15px;
+    position: relative;
+  }
+  .viewDetails {
+    width: auto;
+    height: auto;
+    color: #ff1744;
+    font-size: 14px;
+    font-family: regular;
+    padding-left: 5px;
+    cursor: pointer;
+  }
+  .pointHeader {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 15px;
+  }
 }

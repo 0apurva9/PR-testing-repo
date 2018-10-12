@@ -19,6 +19,7 @@ import queryString, { parse } from "query-string";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
+export const ONLY_ICON = "wishlistIconForPdp";
 export default class AddToWishListButton extends React.Component {
   onClick(e) {
     if (e) {
@@ -92,6 +93,15 @@ export default class AddToWishListButton extends React.Component {
           <DesktopOnly>
             <div className={styles.saveLabel}>Save to wishlist</div>
           </DesktopOnly>
+        </div>
+      );
+    }
+    if (this.props.type === ONLY_ICON) {
+      return (
+        <div className={styles.saveButton} onClick={e => this.onClick(e)}>
+          <div className={styles.iconHolderForPdp}>
+            <Icon image={saveIcon} size={15} />
+          </div>
         </div>
       );
     }

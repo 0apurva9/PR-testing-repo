@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import ExpressImage from "./img/expressDelivery.svg";
 import HomeImage from "./img/homeDelivery.svg";
+
 import arrowIcon from "./img/arrowBackblack.svg";
 import greyArrow from "./img/greyArrow.svg";
 import CollectImage from "./img/collect.svg";
@@ -15,6 +16,7 @@ import * as UserAgent from "../../lib/UserAgent.js";
 const EXPRESS_TEXT = "Express Delivery";
 const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QUiQ PiQ";
+
 export default class DeliveryInformations extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -67,6 +69,7 @@ export default class DeliveryInformations extends React.Component {
         >
           <IconWithHeader
             image={iconImage}
+            iconShow={this.props.iconShow}
             header={`${typeName} ${deliveryCharge}`}
           >
             {this.props.placedTime &&
@@ -161,11 +164,13 @@ DeliveryInformations.propTypes = {
   showCliqAndPiqButton: PropTypes.bool,
   available: PropTypes.bool,
   showDeliveryCharge: PropTypes.bool,
-  isShowCliqAndPiqUnderLineText: PropTypes.bool
+  isShowCliqAndPiqUnderLineText: PropTypes.bool,
+  iconShow: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
   showCliqAndPiqButton: true,
   showDeliveryCharge: false,
-  isShowCliqAndPiqUnderLineText: true
+  isShowCliqAndPiqUnderLineText: true,
+  iconShow: false
 };
