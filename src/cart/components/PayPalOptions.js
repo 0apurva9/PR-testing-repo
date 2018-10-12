@@ -7,6 +7,8 @@ import eWalletIcon from "./img/paypalLogo.png";
 import paypalLogo from "./img/paypal.png";
 import Logo from "../../general/components/Logo";
 import { E_WALLET_PAYPAL } from "../../lib/constants";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import Button from "../../general/components/Button";
 export default class PayPalOptions extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +30,11 @@ export default class PayPalOptions extends React.Component {
       this.props.selectPayPal(true);
     }
   }
+  handleCheckout = () => {
+    if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -62,6 +69,23 @@ export default class PayPalOptions extends React.Component {
                 </div>
               </div>
             </div>
+            <DesktopOnly>
+              <div className={styles.buttonHolder}>
+                <Button
+                  disabled={!this.state.selected}
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Pay Now"
+                  width={150}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={this.handleCheckout}
+                />
+              </div>
+            </DesktopOnly>
           </div>
         </MenuDetails>
       </div>
