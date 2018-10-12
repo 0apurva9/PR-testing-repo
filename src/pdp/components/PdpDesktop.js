@@ -446,8 +446,8 @@ export default class PdpApparel extends React.Component {
     }
   };
   onScroll = () => {
-    let scroll2 = document.getElementById("scrollToViewGallery");
-    let scroll1 = document.getElementById("scrollToViewAccrodian");
+    let scroll2 = this.refs.scrollToViewGallery;
+    let scroll1 = this.refs.scrollToViewAccrodian;
     window.scroll({
       top: scroll2.offsetHeight + scroll1.offsetHeight + 170,
       behavior: "smooth"
@@ -515,7 +515,7 @@ export default class PdpApparel extends React.Component {
           ussId={productData.winningUssID}
         >
           <div className={styles.base}>
-            <div className={styles.pageCenter} id="scrollToViewGallery">
+            <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
                 <ProductGalleryDesktop
                   data={productData.galleryImagesList}
@@ -886,7 +886,7 @@ export default class PdpApparel extends React.Component {
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
-                  id="scrollToViewAccrodian"
+                  ref="scrollToViewAccrodian"
                 >
                   <div className={styles.detailsCard}>
                     {productData.productDescription && (
