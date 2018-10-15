@@ -91,7 +91,10 @@ export default class CancelReasonForm extends React.Component {
           </div>
 
           <div className={styles.textArea}>
-            <TextArea onChange={val => this.handleChange(val)} />
+            <TextArea
+              onChange={val => this.handleChange(val)}
+              value={this.state.comment}
+            />
           </div>
         </div>
       </ReturnsFrame>

@@ -51,9 +51,16 @@ export default class ItemLevelPopup extends React.Component {
 
             {noCostEMIProduct > 0 &&
               nonNoCostEMIProduct > 0 && (
-                <div
-                  className={styles.offerText}
-                >{` No Cost EMI available only on ${noCostEMIProduct} product(s). Standard EMI will apply to products, if any, bought along with it.`}</div>
+                <div>
+                  <div
+                    className={styles.offerText}
+                  >{` No Cost EMI available only on ${noCostEMIProduct} product(s). Standard EMI will apply to products, if any, bought along with it.`}</div>
+                  <div className={styles.offerText}>
+                    Note: To avoid paying interest charges on Standard EMI items
+                    in your bag, please bill items eligible for Standard EMI
+                    separately.
+                  </div>
+                </div>
               )}
           </div>
           <div className={styles.levelBreakupHolder}>
@@ -81,9 +88,7 @@ export default class ItemLevelPopup extends React.Component {
             <div>
               {`\n\u2022  ${
                 this.props.emiItemDetails.noCostEMIDiscountValue.formattedValue
-              } has been given as No Cost EMI  discount (Interest applicable on ${
-                this.props.emiItemDetails.noCostEmiProductCount
-              } product in your cart)`}
+              } has been given as No Cost EMI  discount (Interest applicable on ${noCostEMIProduct} product in your cart)`}
             </div>
             <div>{`\n\u2022  ${
               this.props.emiItemDetails.cardBlockingAmount.formattedValue

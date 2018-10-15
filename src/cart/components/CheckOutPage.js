@@ -386,7 +386,13 @@ class CheckOutPage extends React.Component {
     this.props.getAllStoresCNC(pincode);
   };
   showHideDetails = () => {
-    window.scroll({ top: window.innerHeight, behavior: "smooth" });
+    window.scroll({
+      top:
+        document &&
+        document.body &&
+        document.body.offsetHeight - window.innerHeight - 300,
+      behavior: "smooth"
+    });
   };
   togglePickupPersonForm() {
     const currentSelectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);

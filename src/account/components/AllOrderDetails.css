@@ -40,11 +40,15 @@
   display: inline-block;
 }
 .reviewHolder {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 15px;
+  bottom: 5px;
+}
+.orderCardIndividual {
   width: 100%;
   height: auto;
-  display: inline-block;
-  padding: 25px 0px 25px 0px;
-  border-top: 1px solid #ececec;
 }
 .reviewText {
   display: inline-block;

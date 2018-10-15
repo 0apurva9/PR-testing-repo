@@ -9,20 +9,17 @@ import ConnectKnowMore from "./ConnectKnowMore";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ConnectBaseWidget from "./ConnectBaseWidget";
 export default class ConnectWidget extends React.Component {
-  handleClick() {
-    if (this.props.feedComponentData.webURL) {
-      const urlSuffix = this.props.feedComponentData.webURL.replace(
-        TATA_CLIQ_ROOT,
-        "$1"
-      );
-      if (this.props.feedComponentData.webURL.includes("/que")) {
+  handleClick(webURL) {
+    if (webURL) {
+      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
+      if (webURL.includes("/luxury.tatacliq.com")) {
         window.open(urlSuffix, "_blank");
         window.focus();
-      }
-      if (
-        this.props.feedComponentData.webURL.includes("/luxury.tatacliq.com")
-      ) {
-        window.open(this.props.feedComponentData.webURL, "_blank");
+      } else if (webURL.includes("tatacliq.onelink.me")) {
+        window.open(urlSuffix, "_blank");
+        window.focus();
+      } else if (webURL.includes("/que")) {
+        window.open(urlSuffix, "_blank");
         window.focus();
       } else {
         this.props.history.push(urlSuffix);
@@ -47,7 +44,7 @@ export default class ConnectWidget extends React.Component {
             : styles.holder
         }
         onClick={() => {
-          this.handleClick();
+          this.handleClick(this.props.feedComponentData.webURL);
         }}
         style={{
           backgroundImage: `linear-gradient(165deg, ${

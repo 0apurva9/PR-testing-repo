@@ -5,7 +5,7 @@ import concat from "lodash.concat";
 import { transformData } from "./utils.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 
-const OFFER_AND_ITEM_LIMIT = 4;
+const OFFER_AND_ITEM_LIMIT = 10;
 
 export default class ThemeOffer extends React.Component {
   handleClick() {

@@ -2037,6 +2037,8 @@ export function binValidation(paymentMode, binNo) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJson.bankName) {
         localStorage.setItem(SELECTED_BANK_NAME, resultJson.bankName);
+      } else {
+        localStorage.removeItem(SELECTED_BANK_NAME);
       }
       if (resultJsonStatus.status) {
         if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
@@ -2082,12 +2084,14 @@ export function binValidationForNetBanking(paymentMode, bankName) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
+      if (resultJson.bankName) {
+        localStorage.setItem(SELECTED_BANK_NAME, bankName);
+      } else {
+        localStorage.removeItem(SELECTED_BANK_NAME);
+      }
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
-      localStorage.setItem(SELECTED_BANK_NAME, bankName);
 
       dispatch(binValidationSuccess(resultJson));
     } catch (e) {
@@ -3694,7 +3698,7 @@ export function eddInCommerce() {
 
     dispatch(eddInCommerceRequest());
     try {
-      const result = await api.get(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/carts/${cartId}/getEDD?access_token=${

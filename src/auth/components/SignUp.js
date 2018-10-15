@@ -12,7 +12,8 @@ import {
   SIGN_UP_PATH,
   HOME_ROUTER,
   MAIN_ROUTER,
-  BUY_NOW_PRODUCT_DETAIL
+  BUY_NOW_PRODUCT_DETAIL,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants";
 import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
 import {
@@ -44,12 +45,20 @@ then in this case we have to hit generate temp cart id for user
       const productDetailsForBuyNow = localStorage.getItem(
         BUY_NOW_PRODUCT_DETAIL
       );
-
+      const productDetailsForAddToWishList = localStorage.getItem(
+        PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+      );
       if (
         productDetailsForBuyNow &&
         !nextProps.tempCartIdForLoggedInUserLoading
       ) {
         return this.goForBuyNow();
+      }
+      if (
+        productDetailsForAddToWishList &&
+        !nextProps.loadingForAddProductToWishList
+      ) {
+        return this.goForWishlist();
       }
       if (!nextProps.tempCartIdForLoggedInUserLoading) {
         if (this.props.redirectToAfterAuthUrl) {
@@ -124,7 +133,20 @@ then in this case we have to hit generate temp cart id for user
     }
     this.setState({ passwordValue: val });
   }
-
+  goForWishlist() {
+    const productDetailsForWishList = localStorage.getItem(
+      PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+    );
+    this.props.addProductToWishList(JSON.parse(productDetailsForWishList));
+    if (this.props.redirectToAfterAuthUrl) {
+      localStorage.removeItem(PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST);
+      this.props.history.replace({
+        pathname: this.props.redirectToAfterAuthUrl,
+        state: { isSizeSelected: true, goToCartPageFlag: false }
+      });
+      this.props.clearUrlToRedirectToAfterAuth();
+    }
+  }
   render() {
     const pathName = this.props.location.pathname;
     let footerText = "";

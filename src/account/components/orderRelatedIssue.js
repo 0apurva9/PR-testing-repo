@@ -87,6 +87,9 @@ export default class OrderRelatedIssue extends React.Component {
   componentDidUpdate() {
     this.props.setHeaderText(CUSTOMER_CARE);
   }
+  componentWillUnmount() {
+    this.props.clearOrderTransactionDetails();
+  }
   getMoreOrder() {
     if (
       this.props.ordersTransactionData &&
@@ -183,6 +186,7 @@ export default class OrderRelatedIssue extends React.Component {
   onChangeSubReasonForOrderRelated(val) {
     const code = val.value;
     const label = val.label;
+
     this.setState({
       l3SelectedOption: code,
       l3SelectedReason: label,
@@ -213,6 +217,7 @@ export default class OrderRelatedIssue extends React.Component {
     }
     l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
     l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
+
     if (this.state.isSelected === 0 && !this.state.orderCode) {
       this.props.displayToast(SELECT_ORDER_TEXT);
       return false;
@@ -261,7 +266,7 @@ export default class OrderRelatedIssue extends React.Component {
           contactEmail: this.state.email,
           contactMobile: this.state.mobile,
           contactName: this.state.name,
-          comment: this.state.comment,
+          comment: this.state.comment ? this.state.comment : "",
           nodeL4:
             l3OptionsArray &&
             l3OptionsArray.children &&
@@ -350,18 +355,14 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   getOrderRelatedL3Issue(l2OptionsArray) {
-    const subTab =
+    return (
       this.state.l3SelectedOption &&
       l2OptionsArray &&
       l2OptionsArray.children &&
       l2OptionsArray.children.find(l3Object => {
         return l3Object.nodeCode === this.state.l3SelectedOption;
-      });
-    if (subTab && subTab.children && subTab.children.length > 0) {
-      return subTab;
-    } else {
-      return null;
-    }
+      })
+    );
   }
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -530,84 +531,101 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                 )}
               <div className={styles.selectIssue}>
-                <TextArea
-                  placeholder={"Comments(Optional)"}
-                  value={this.state.comment}
-                  onChange={comment => this.onChange({ comment })}
-                />
+                {l3OptionsArray && l3OptionsArray.ticketAnswer ? (
+                  <div
+                    className={styles.ticketAnswer}
+                    dangerouslySetInnerHTML={{
+                      __html: l3OptionsArray.ticketAnswer
+                    }}
+                  />
+                ) : (
+                  <TextArea
+                    placeholder={"Comments(Optional)"}
+                    value={this.state.comment}
+                    onChange={comment => this.onChange({ comment })}
+                  />
+                )}
               </div>
             </div>
-            <div className={styles.selectIssueHolder}>
-              <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber={this.state.isSelected === 0 ? "3" : "2"}
-                  confirmTitle="Personal Details"
-                />
-              </div>
-
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Name"
-                  value={this.state.name}
-                  onChange={name => this.onChange({ name })}
-                  onlyAlphabet={true}
-                  disabled={this.state.name ? true : false}
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Email"
-                  disabled={this.state.email ? true : false}
-                  value={this.state.email}
-                  onChange={email => this.onChange({ email })}
-                />
-              </div>
-              <div className={styles.textInformationHolder}>
-                <FloatingLabelInput
-                  label="Phone*"
-                  maxLength={"10"}
-                  value={this.state.mobile}
-                  onChange={mobile => this.onChange({ mobile })}
-                  disabled={this.state.mobile ? true : false}
-                  onlyNumber={true}
-                />
-              </div>
-            </div>
-            {this.state.isSelected === 0 && (
-              <div className={styles.selectImageHolder}>
+            {(!l3OptionsArray ||
+              (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+              <div className={styles.selectIssueHolder}>
                 <div className={styles.secondOrder}>
                   <CheckOutHeader
-                    indexNumber="4"
-                    confirmTitle="Add attachment (Optional)"
+                    indexNumber={this.state.isSelected === 0 ? "3" : "2"}
+                    confirmTitle="Personal Details"
                   />
                 </div>
-                <div className={styles.validImage}>
-                  Upload JPEG, PNG (Maximum size 5 MB)
+
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Name"
+                    value={this.state.name}
+                    onChange={name => this.onChange({ name })}
+                    onlyAlphabet={true}
+                    disabled={this.state.name ? true : false}
+                  />
                 </div>
-                <div className={styles.imageInput}>
-                  <ImageUpload
-                    value={
-                      this.state.file
-                        ? this.state.file.name
-                        : "Upload attachment"
-                    }
-                    onChange={file => this.onUploadFile(file)}
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Email"
+                    disabled={this.state.email ? true : false}
+                    value={this.state.email}
+                    onChange={email => this.onChange({ email })}
+                  />
+                </div>
+                <div className={styles.textInformationHolder}>
+                  <FloatingLabelInput
+                    label="Phone*"
+                    maxLength={"10"}
+                    value={this.state.mobile}
+                    onChange={mobile => this.onChange({ mobile })}
+                    disabled={this.state.mobile ? true : false}
+                    onlyNumber={true}
                   />
                 </div>
               </div>
             )}
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  type="primary"
-                  height={38}
-                  label={"Submit"}
-                  width={166}
-                  textStyle={{ color: "#fff", fontSize: 14 }}
-                  onClick={() => this.submitCustomerForm()}
-                />
+            {this.state.isSelected === 0 &&
+              (!l3OptionsArray ||
+                (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+                <div className={styles.selectImageHolder}>
+                  <div className={styles.secondOrder}>
+                    <CheckOutHeader
+                      indexNumber="4"
+                      confirmTitle="Add attachment (Optional)"
+                    />
+                  </div>
+                  <div className={styles.validImage}>
+                    Upload JPEG, PNG (Maximum size 5 MB)
+                  </div>
+                  <div className={styles.imageInput}>
+                    <ImageUpload
+                      value={
+                        this.state.file
+                          ? this.state.file.name
+                          : "Upload attachment"
+                      }
+                      onChange={file => this.onUploadFile(file)}
+                    />
+                  </div>
+                </div>
+              )}
+            {(!l3OptionsArray ||
+              (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    height={38}
+                    label={"Submit"}
+                    width={166}
+                    textStyle={{ color: "#fff", fontSize: 14 }}
+                    onClick={() => this.submitCustomerForm()}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
         {this.state.showOrder && (
