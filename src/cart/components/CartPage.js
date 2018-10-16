@@ -747,6 +747,7 @@ class CartPage extends React.Component {
                             ) / 100
                           : "0.00"
                       }
+                      cartAmount={cartDetails.cartAmount}
                       onCheckout={() => this.renderToCheckOutPage()}
                       label={CHECKOUT_BUTTON_TEXT}
                       isOnCartPage={true}
@@ -765,6 +766,7 @@ class CartPage extends React.Component {
                     cartDetails.cartAmount && (
                       <div className={styles.amountDetails}>
                         <DesktopCheckout
+                          cartAmount={cartDetails.cartAmount}
                           disabled={!this.state.isServiceable}
                           amount={
                             cartDetails.cartAmount.paybleAmount.value
