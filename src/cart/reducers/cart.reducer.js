@@ -205,7 +205,8 @@ const cart = (
     mergeTempCartWithOldCartStatus: null,
     mergeTempCartWithOldCart: null,
     mergeTempCartWithOldCartError: null,
-    mergeTempCartWithOldCartLoading: null
+    mergeTempCartWithOldCartLoading: null,
+    resetAllPaymentModeFlag: false
   },
   action
 ) => {
@@ -1711,7 +1712,14 @@ const cart = (
 
         isSoftReservationFailed: false
       });
-
+    case cartActions.RESET_ALL_PAYMENT_MODES:
+      return Object.assign({}, state, {
+        resetAllPaymentModeFlag: true
+      });
+    case cartActions.PREVENT_REQUESTING_ALL_PAYMENT_MODES:
+      return Object.assign({}, state, {
+        resetAllPaymentModeFlag: false
+      });
     default:
       return state;
   }

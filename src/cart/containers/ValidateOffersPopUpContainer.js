@@ -3,10 +3,11 @@ import ValidateOffersPopUp from "../components/ValidateOffersPopUp";
 import {
   releaseBankOffer,
   releaseUserCoupon,
-  removeNoCostEmi
+  removeNoCostEmi,
+  resetAllPaymentModes
 } from "../actions/cart.actions";
 import { withRouter } from "react-router";
-import { showModal } from "../../general/modal.actions";
+import { showModal, hideModal } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     releaseBankOffer: couponCode => {
@@ -20,6 +21,12 @@ const mapDispatchToProps = dispatch => {
     },
     showModal: (type, couponList) => {
       dispatch(showModal(type, couponList));
+    },
+    closeModal: () => {
+      dispatch(hideModal());
+    },
+    resetAllPaymentModes: () => {
+      return dispatch(resetAllPaymentModes());
     }
   };
 };

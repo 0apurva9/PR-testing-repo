@@ -52,7 +52,8 @@ import {
   jusPayTokenize,
   createJusPayOrderForNetBanking,
   createJusPayOrder,
-  resetIsSoftReservationFailed
+  resetIsSoftReservationFailed,
+  preventRestingAllPaymentMode
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -422,6 +423,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearPinCodeStatus: () => {
       dispatch(clearPinCodeStatus());
+    },
+    preventRestingAllPaymentMode: () => {
+      dispatch(preventRestingAllPaymentMode());
     }
   };
 };

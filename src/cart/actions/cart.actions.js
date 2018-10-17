@@ -92,6 +92,9 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
+export const RESET_ALL_PAYMENT_MODES = "RESET_ALL_PAYMENT_MODES";
+export const PREVENT_REQUESTING_ALL_PAYMENT_MODES =
+  "PREVENT_REQUESTING_ALL_PAYMENT_MODES";
 export const USER_CART_PATH = "v2/mpl/users";
 export const CART_PATH = "v2/mpl";
 export const ALL_STORES_PATH = "v2/mpl/allStores";
@@ -2090,9 +2093,18 @@ export function binValidationForNetBanking(paymentMode, bankName) {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
+          dispatch(applyBankOfferFailure(resultJsonStatus.message));
+          return dispatch(
+            showModal(VALIDATE_OFFERS_POPUP, {
+              result: resultJson,
+              offerType: OFFER_ERROR_PAYMENT_MODE_TYPE
+            })
+          );
+        } else {
+          throw new Error(resultJsonStatus.message);
+        }
       }
-
       dispatch(binValidationSuccess(resultJson));
     } catch (e) {
       dispatch(binValidationFailure(e.message));
@@ -3508,9 +3520,18 @@ export function binValidationForCOD(paymentMode) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
+          dispatch(applyBankOfferFailure(resultJsonStatus.message));
+          return dispatch(
+            showModal(VALIDATE_OFFERS_POPUP, {
+              result: resultJson,
+              offerType: OFFER_ERROR_PAYMENT_MODE_TYPE
+            })
+          );
+        } else {
+          throw new Error(resultJsonStatus.message);
+        }
       }
       localStorage.setItem(SELECTED_BANK_NAME, "");
       dispatch(binValidationForCODSuccess(resultJson));
@@ -4655,5 +4676,16 @@ export function generateCartIdAfterOrderPlace() {
         return dispatch(generateCartIdForLoggedInUser());
       }
     }
+  };
+}
+
+export function resetAllPaymentModes() {
+  return {
+    type: RESET_ALL_PAYMENT_MODES
+  };
+}
+export function preventRestingAllPaymentMode() {
+  return {
+    type: PREVENT_REQUESTING_ALL_PAYMENT_MODES
   };
 }
