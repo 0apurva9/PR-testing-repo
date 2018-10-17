@@ -2743,14 +2743,14 @@ if you have order id in local storage then you have to show order confirmation p
                     }
                     showDetails={this.state.showCartDetails}
                     showHideDetails={this.showHideDetails}
-                    isCliqCashApplied={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
+                    isCliqCashApplied={this.state.isCliqCashApplied}
                     cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                     isFromMyBag={false}
+                    cartAmount={
+                      this.props.cart &&
+                      this.props.cart.cartDetailsCNC &&
+                      this.props.cart.cartDetailsCNC.cartAmount
+                    }
                   />
                   {!this.state.isGiftCard &&
                     this.state.isRemainingAmount &&

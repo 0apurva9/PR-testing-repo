@@ -7,7 +7,7 @@
 .section {
   width: 100%;
   height: auto;
-  padding: 30px;
+  padding: 25px;
 }
 .bottomSection {
   composes: section;
@@ -72,4 +72,27 @@
 .bottomSectionCheckout {
   composes: section;
   border-top: 1px solid #ececec;
+}
+.toggleIcon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url(../../general/components/img/down-arrow-grey.svg) no-repeat;
+  background-size: auto 10px;
+  background-position: center;
+}
+.onToggleActive {
+  composes: toggleIcon;
+  transform: rotate(180deg);
+}
+.informationTotalSavingHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+.informationTotalSavingHolder .informationTotalSavingTextHolder {
+  font-family: light;
+  color: #417505;
 }
