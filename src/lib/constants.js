@@ -240,7 +240,7 @@ export const BUYER_POLICY_URL = "/buyer-policies";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
-export const NET_BANKING_PAYMENT_MODE = "Net banking";
+export const NET_BANKING_PAYMENT_MODE = "Netbanking";
 export const SAVED_CARD_PAYMENT_MODE = "Saved Cards";
 export const EMI = "EMI";
 export const NO_COST_EMI = "No Cost EMI";
