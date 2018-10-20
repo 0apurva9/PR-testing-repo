@@ -27,7 +27,8 @@ import {
   COLLECT,
   PAYPAL,
   BUY_NOW_PRODUCT_DETAIL,
-  NET_BANKING_PAYMENT_MODE
+  NET_BANKING_PAYMENT_MODE,
+  WALLET
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -3114,7 +3115,6 @@ export function jusPayPaymentMethodTypeForNetBanking(
     try {
       const result = await api.postJusPay(`txns?`, cardObject);
       const resultJson = await result.json();
-
       if (
         resultJson.status === JUS_PAY_PENDING ||
         resultJson.status === SUCCESS ||
@@ -3141,7 +3141,7 @@ export function jusPayPaymentMethodTypeForPaypal(
 ) {
   return async (dispatch, getState, { api }) => {
     const params = {
-      payment_method_type: paymentMethodType,
+      payment_method_type: WALLET,
       redirect_after_payment: "true",
       format: "json",
       merchant_id: getState().cart.paymentModes.merchantID,

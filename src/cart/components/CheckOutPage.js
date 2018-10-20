@@ -1528,8 +1528,9 @@ class CheckOutPage extends React.Component {
       } else {
         this.props.createJusPayOrderForNetBanking(
           PAYPAL,
-          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE))
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
     }
