@@ -150,12 +150,12 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 )}
               {cartAmount.additionalDiscount && (
-                <div>
+                <div className={styles.additionalDiscount}>
                   <div
                     className={styles.row}
                     onClick={() => this.additionDiscountToggleView()}
                   >
-                    <div className={styles.label}>
+                    <div className={styles.labelForAdditionalDiscount}>
                       <span>Additional Discount(s)</span>
                       {!this.state.isToggelAdditionDiscount && (
                         <span className={styles.toggleIcon} />
@@ -164,7 +164,7 @@ export default class DesktopCheckout extends React.Component {
                         <span className={styles.onToggleActive} />
                       )}
                     </div>
-                    <div className={styles.info}>
+                    <div className={styles.infoForAdditionalDiscount}>
                       -{cartAmount.additionalDiscount.totalAdditionalDiscount &&
                         cartAmount.additionalDiscount.totalAdditionalDiscount
                           .formattedValue}

@@ -49,6 +49,24 @@
   text-align: right;
   font-family: light;
 }
+.labelForAdditionalDiscount {
+  width: 60%;
+  display: inline-block;
+  vertical-align: top;
+  color: #212121;
+  font-family: semibold;
+  font-size: 14px;
+}
+.infoForAdditionalDiscount {
+  width: 40%;
+  display: inline-block;
+  vertical-align: top;
+  color: #212121;
+  font-family: semibold;
+  font-size: 14px;
+  text-align: right;
+  font-family: light;
+}
 .priceHeader {
   composes: info;
   text-align: left;
@@ -56,6 +74,11 @@
 .infoHiglight {
   composes: info;
   color: #ff1744;
+}
+.additionalDiscount {
+  width: 100%;
+  height: auto;
+  padding-bottom: 20px;
 }
 .button {
   position: absolute;
@@ -81,6 +104,7 @@
   background: url(../../general/components/img/down-arrow-grey.svg) no-repeat;
   background-size: auto 10px;
   background-position: center;
+  cursor: pointer;
 }
 .onToggleActive {
   composes: toggleIcon;
@@ -95,4 +119,25 @@
 .informationTotalSavingHolder .informationTotalSavingTextHolder {
   font-family: light;
   color: #417505;
+}
+.informationAdditionalDiscountHolder {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  color: #212121;
+  padding-left: 15px;
+  display: inline-block;
+}
+.informationQuestionHolder {
+  width: 60%;
+  height: auto;
+  font-family: semibold;
+  display: inline-block;
+}
+.informationAnswerHolder {
+  width: 40%;
+  height: auto;
+  font-family: light;
+  display: inline-block;
+  text-align: right;
 }
