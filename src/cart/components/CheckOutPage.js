@@ -1072,6 +1072,12 @@ class CheckOutPage extends React.Component {
 
       this.props.clearCartDetails();
     }
+    if (
+      this.props.cart &&
+      this.props.cart.orderConfirmationDetailsStatus === SUCCESS
+    ) {
+      localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
+    }
     this.props.resetIsSoftReservationFailed();
   }
   componentDidMount() {
