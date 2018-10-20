@@ -1069,8 +1069,6 @@ class CheckOutPage extends React.Component {
       if (this.state.selectedBankOfferCode && !this.state.isPaymentFailed) {
         this.props.releaseBankOffer(this.state.selectedBankOfferCode);
       }
-
-      this.props.clearCartDetails();
     }
     if (
       this.props.cart &&
@@ -1078,6 +1076,7 @@ class CheckOutPage extends React.Component {
     ) {
       localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
     }
+    this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
   }
   componentDidMount() {
