@@ -61,7 +61,7 @@ SavedProduct.propTypes = {
   isViewWishList: PropTypes.bool
 };
 SavedProduct.defaultProps = {
-  couponHeading: "Apply coupon",
+  couponHeading: "Check for Coupon",
   giftCardHeading: "Surprise for a special one ?",
   giftCardLabel: "Gift wrap for free",
   isViewWishList: false
