@@ -11,7 +11,9 @@ export default class PriceFilterTabDesktop extends React.Component {
     super(props);
     this.state = {
       minRange: "",
-      maxRange: ""
+      maxRange: "",
+      minPrice: "",
+      maxprice: ""
     };
   }
   onChangeOfRange = val => {
@@ -66,6 +68,19 @@ export default class PriceFilterTabDesktop extends React.Component {
       this.props.onFilterClick(val);
     }
   };
+
+  getMinPrice = val => {
+    let sym = /₹/gi;
+    var value = val.replace(sym, "");
+    var price = value.split("-");
+    return price[0];
+  };
+  getMaxPrice = val => {
+    let sym = /₹/gi;
+    var value = val.replace(sym, "");
+    var price = value.split("-");
+    return price[1];
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -91,7 +106,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           <div className={styles.inputWrapper}>
             <div className={styles.inputBox}>
               <Input2
-                placeholder="500"
+                placeholder={this.getMinPrice(this.props.priceList[0].value)}
                 onlyNumber
                 maxLength={7}
                 value={this.state.minRange}
@@ -100,7 +115,9 @@ export default class PriceFilterTabDesktop extends React.Component {
             </div>
             <div className={styles.inputBox}>
               <Input2
-                placeholder="1200"
+                placeholder={this.getMaxPrice(
+                  this.props.priceList[this.props.priceList.length - 1].value
+                )}
                 onlyNumber
                 maxLength={7}
                 value={this.state.maxRange}
