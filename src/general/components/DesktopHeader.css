@@ -224,7 +224,6 @@
 .logOutDropDown {
   width: 178px;
   height: auto;
-  padding: 20px 15px 15px 20px;
   background: #fff;
   right: 0;
   top: 33px;
@@ -238,7 +237,7 @@
     0 0 6px 0 rgba(0, 0, 0, 0.12);
 }
 .logOutDropDown::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -6%;
   right: 7%;
