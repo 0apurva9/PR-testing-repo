@@ -86,7 +86,11 @@ export default class SearchHeader extends React.Component {
     this.props.onSearchOrCloseIconClick();
     this.setState({ isWhite: true, isRed: false, increase: false, value: "" });
   }
-
+  handleBlur(event) {
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  }
   render() {
     let search = searchIcon;
     if (this.props.display) {
@@ -201,6 +205,7 @@ export default class SearchHeader extends React.Component {
                     borderBottom={"none"}
                     onKeyUp={event => this.handleKeyUp(event.key)}
                     value={this.state.increase ? this.state.value : ""}
+                    onBlur={event => this.handleBlur(event)}
                   />
                 </div>
               </div>

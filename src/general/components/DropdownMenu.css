@@ -73,3 +73,21 @@
   left: 0;
   top: 0;
 }
+.loginAndRegisterButtonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  cursor: pointer;
+  padding-top: 20px;
+  text-align: center;
+}
+.loginAndRegisterButton {
+  display: inline-block;
+  width: auto;
+  height: auto;
+}
+.accountHolder {
+  width: 100%;
+  height: auto;
+  padding: 20px 15px 15px 20px;
+}
