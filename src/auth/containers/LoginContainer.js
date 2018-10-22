@@ -175,6 +175,7 @@ const mapStateToProps = state => {
   return {
     authCallsInProcess: state.auth.authCallsInProcess,
     authCallsIsSucceed: state.auth.authCallsIsSucceed,
+    error: state.auth.error,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     tempCartIdForLoggedInUserLoading:
       state.cart.tempCartIdForLoggedInUserLoading

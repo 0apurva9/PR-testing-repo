@@ -38,6 +38,8 @@ export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\
 
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
+const EMAIL_ID_DOSE_NOT_EXIST = "Email ID or phone number does not exist";
+const FAILED_TO_FETCH = "Failed to fetch";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +63,7 @@ class Login extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.error);
     if (nextProps.authCallsIsSucceed) {
       /*
 check for user is coming from buy now option
@@ -84,6 +87,17 @@ then in this case we have to hit generate temp cart id for user
           this.props.history.replace(HOME_ROUTER);
         }
       }
+    }
+    if (nextProps.error === EMAIL_ID_DOSE_NOT_EXIST) {
+      this.setState({
+        passwordValue: ""
+      });
+    }
+    if (nextProps.error === FAILED_TO_FETCH) {
+      this.setState({
+        passwordValue: ""
+      });
+      this.props.displayToast("Can't connect to the internet");
     }
   }
 
@@ -231,7 +245,7 @@ then in this case we have to hit generate temp cart id for user
             <div className={styles.input}>
               <Input
                 placeholder={"Email & phone number"}
-                emailValue={
+                value={
                   this.props.emailValue
                     ? this.props.emailValue
                     : this.state.emailValue
@@ -239,7 +253,6 @@ then in this case we have to hit generate temp cart id for user
                 onChange={val => this.onChangeEmail(val)}
               />
             </div>
-
             <PasswordInput
               placeholder={"Password"}
               onKeyUp={event => {
