@@ -63,7 +63,6 @@ class Login extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.error);
     if (nextProps.authCallsIsSucceed) {
       /*
 check for user is coming from buy now option
