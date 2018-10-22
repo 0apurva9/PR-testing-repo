@@ -173,6 +173,22 @@ export default class SearchPage extends React.Component {
       currentFlag: null
     });
   }
+  handleBlur(event) {
+    if (!this.refs.elementScrollRefTop || !this.refs.elementScrollRefBottom) {
+      this.setState(
+        {
+          showResults: false,
+          searchString: null,
+          showSearchBar: false,
+          currentFlag: null,
+          setOnClick: true
+        },
+        () => {
+          this.setState({ setOnClick: false });
+        }
+      );
+    }
+  }
   handleUpDownArrow(val) {
     this.setState({ showData: true });
     const currentSelectedIndex = this.state.currentFlag;
@@ -337,6 +353,7 @@ export default class SearchPage extends React.Component {
             onKeyUp={event => {
               this.handleUpDownArrow(event);
             }}
+            onBlur={event => this.handleBlur(event)}
           />
         </div>
         <MobileOnly>

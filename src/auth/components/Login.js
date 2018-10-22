@@ -230,7 +230,7 @@ then in this case we have to hit generate temp cart id for user
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Enter Email"}
+                placeholder={"Email & phone number"}
                 emailValue={
                   this.props.emailValue
                     ? this.props.emailValue
@@ -241,7 +241,7 @@ then in this case we have to hit generate temp cart id for user
             </div>
 
             <PasswordInput
-              placeholder={"Enter Password"}
+              placeholder={"Password"}
               onKeyUp={event => {
                 this.checkLogin(event.key);
               }}
