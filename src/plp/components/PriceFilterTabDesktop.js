@@ -71,13 +71,17 @@ export default class PriceFilterTabDesktop extends React.Component {
 
   getMinPrice = val => {
     let sym = /₹/gi;
+    let AND = /and/gi;
     var value = val.replace(sym, "");
+    var value = value.replace(AND, "-");
     var price = value.split("-");
     return price[0];
   };
   getMaxPrice = val => {
     let sym = /₹/gi;
+    let AND = /and/gi;
     var value = val.replace(sym, "");
+    var value = value.replace(AND, "-");
     var price = value.split("-");
     return price[1];
   };
