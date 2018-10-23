@@ -323,7 +323,20 @@ export default class DesktopCheckout extends React.Component {
         </div>
       );
     } else {
-      return null;
+      if (this.props.isGiftCard) {
+        return (
+          <div className={styles.base}>
+            <div className={styles.section}>
+              <div className={styles.priceHeader}>{"Final Amount"}</div>
+              <div className={styles.checkoutPrice}>
+                {`${RUPEE_SYMBOL} ${this.props.amount}`}
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        return null;
+      }
     }
   };
   render() {

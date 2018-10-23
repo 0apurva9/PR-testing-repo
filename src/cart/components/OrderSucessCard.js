@@ -8,7 +8,10 @@ export default class OrderSucessCard extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.imageHolder}>
-          <ProductImage image={this.props.imageURL} />
+          <ProductImage
+            image={this.props.imageURL}
+            flatImage={this.props.productName === "Gift Card"}
+          />
         </div>
         <div className={styles.dataShowingHolder}>
           <div className={styles.dataShow}>
