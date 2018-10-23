@@ -739,7 +739,7 @@ export default class PdpApparel extends React.Component {
                   </div>
                 )}
 
-                <div className={styles.horizontalOffset}>
+                <div className={styles.buttonWrapper}>
                   <div className={styles.buttonHolder}>
                     <div className={styles.buttonAddToBag}>
                       <Button
