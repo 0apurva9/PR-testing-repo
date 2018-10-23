@@ -261,4 +261,26 @@
     padding-right: 0px;
     width: 100%;
   }
+  .FirstNameWrapper {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+  }
+  .firstNameHolder {
+    width: 96%;
+    height: auto;
+    display: inline-block;
+  }
+  .lastNameWrapper {
+    composes: FirstNameWrapper;
+    text-align: right;
+  }
+  .lastNameHolder {
+    composes: firstNameHolder;
+  }
+  .validAddress {
+    padding: 0px;
+  }
 }
