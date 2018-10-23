@@ -450,98 +450,141 @@ export default class AddDeliveryAddress extends React.Component {
                       }}
                     />
                   </div>
-                  <div className={styles.content}>
-                    <Input2
-                      option={this.state.options}
-                      placeholder="First Name*"
-                      value={
-                        this.props.firstName
-                          ? this.props.firstName
-                          : this.state.firstName
-                      }
-                      onChange={firstName => this.onChange({ firstName })}
-                      textStyle={{ fontSize: 14 }}
-                      height={33}
-                      onFocus={() => {
-                        this.handleOnFocusInput();
-                      }}
-                      onlyAlphabet={true}
-                    />
-                  </div>
-                  <div className={styles.threeSection}>
+                  <DesktopOnly>
                     <div className={styles.content}>
-                      <div className={styles.leftFirst}>
-                        <Input2
-                          boxy={true}
-                          placeholder="Last Name*"
-                          value={
-                            this.props.lastName
-                              ? this.props.lastName
-                              : this.state.lastName
-                          }
-                          onChange={lastName =>
-                            this.onChange({
-                              lastName
-                            })
-                          }
-                          textStyle={{ fontSize: 14 }}
-                          height={33}
-                          onFocus={() => {
-                            this.handleOnFocusInput();
-                          }}
-                          onlyAlphabet={true}
-                        />
-                      </div>
-                      <DesktopOnly>
-                        <div className={styles.leftSecond}>
-                          <SelectBoxMobile2
+                      <div className={styles.FirstNameWrapper}>
+                        <div className={styles.firstNameHolder}>
+                          <Input2
+                            option={this.state.options}
+                            placeholder="First Name*"
+                            value={
+                              this.props.firstName
+                                ? this.props.firstName
+                                : this.state.firstName
+                            }
+                            onChange={firstName => this.onChange({ firstName })}
+                            textStyle={{ fontSize: 14 }}
                             height={33}
-                            placeholder={"Landmark"}
-                            options={
-                              this.state.landmarkList.length > 0 &&
-                              this.state.landmarkList.map((val, i) => {
-                                return {
-                                  value: val && val.landmark,
-                                  label: val && val.landmark
-                                };
-                              })
-                            }
-                            isEnable={this.state.isEnable}
-                            onChange={landmark =>
-                              this.onSelectLandmark(landmark)
-                            }
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                            onlyAlphabet={true}
                           />
                         </div>
-                        {this.state.isOtherLandMarkSelected && (
-                          <div className={styles.leftSecond}>
-                            <Input2
-                              boxy={true}
-                              placeholder="Landmark*"
-                              value={
-                                this.props.line2
-                                  ? this.props.line2
-                                  : this.state.line2
-                              }
-                              onChange={line2 =>
-                                this.onChange({
-                                  line2
-                                })
-                              }
-                              textStyle={{
-                                fontSize: 14
-                              }}
-                              height={33}
-                              onFocus={() => {
-                                this.handleOnFocusInput();
-                              }}
-                            />
-                          </div>
-                        )}
+                      </div>
+                      <div className={styles.lastNameWrapper}>
+                        <div className={styles.lastNameHolder}>
+                          <Input2
+                            boxy={true}
+                            placeholder="Last Name*"
+                            value={
+                              this.props.lastName
+                                ? this.props.lastName
+                                : this.state.lastName
+                            }
+                            onChange={lastName =>
+                              this.onChange({
+                                lastName
+                              })
+                            }
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                            onlyAlphabet={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </DesktopOnly>
+                  <MobileOnly>
+                    <div className={styles.content}>
+                      <Input2
+                        option={this.state.options}
+                        placeholder="First Name*"
+                        value={
+                          this.props.firstName
+                            ? this.props.firstName
+                            : this.state.firstName
+                        }
+                        onChange={firstName => this.onChange({ firstName })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                        onlyAlphabet={true}
+                      />
+                    </div>
+                  </MobileOnly>
+                  <div className={styles.threeSection}>
+                    <div className={styles.content}>
+                      <DesktopOnly>
+                        <div className={styles.leftFirst}>
+                          <Input2
+                            boxy={true}
+                            placeholder="City/district*"
+                            value={
+                              this.props.town && this.props.town !== ""
+                                ? this.props.town
+                                : this.state.town
+                            }
+                            onChange={town => this.onChange({ town })}
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
+                        <div className={styles.leftSecond}>
+                          <Input2
+                            placeholder="State*"
+                            value={
+                              this.props.state && this.props.state !== ""
+                                ? this.props.state
+                                : this.state.state
+                            }
+                            boxy={true}
+                            onChange={state => this.onChange({ state })}
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
                       </DesktopOnly>
+                      <MobileOnly>
+                        <div className={styles.leftFirst}>
+                          <Input2
+                            boxy={true}
+                            placeholder="Last Name*"
+                            value={
+                              this.props.lastName
+                                ? this.props.lastName
+                                : this.state.lastName
+                            }
+                            onChange={lastName =>
+                              this.onChange({
+                                lastName
+                              })
+                            }
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                            onlyAlphabet={true}
+                          />
+                        </div>
+                      </MobileOnly>
                     </div>
                     <div className={styles.content}>
                       <TextArea
                         placeholder="Address*"
+                        height={70}
                         value={
                           this.props.line1 ? this.props.line1 : this.state.line1
                         }
@@ -550,6 +593,15 @@ export default class AddDeliveryAddress extends React.Component {
                           this.handleOnFocusInput();
                         }}
                       />
+                      <DesktopOnly>
+                        <div className={styles.validAddress}>
+                          Character Limit : 120
+                        </div>
+                        <div className={styles.validAddress}>
+                          Special characters allowed are - # & ( ) ' ' . , \ / +
+                          _
+                        </div>
+                      </DesktopOnly>
                     </div>
                     <MobileOnly>
                       <div className={styles.validAddress}>
@@ -598,40 +650,86 @@ export default class AddDeliveryAddress extends React.Component {
                       </div>
                     )}
                   </MobileOnly>
-                  <div className={styles.content}>
-                    <Input2
-                      boxy={true}
-                      placeholder="City/district*"
-                      value={
-                        this.props.town && this.props.town !== ""
-                          ? this.props.town
-                          : this.state.town
-                      }
-                      onChange={town => this.onChange({ town })}
-                      textStyle={{ fontSize: 14 }}
-                      height={33}
-                      onFocus={() => {
-                        this.handleOnFocusInput();
-                      }}
-                    />
-                  </div>
-                  <div className={styles.content}>
-                    <Input2
-                      placeholder="State*"
-                      value={
-                        this.props.state && this.props.state !== ""
-                          ? this.props.state
-                          : this.state.state
-                      }
-                      boxy={true}
-                      onChange={state => this.onChange({ state })}
-                      textStyle={{ fontSize: 14 }}
-                      height={33}
-                      onFocus={() => {
-                        this.handleOnFocusInput();
-                      }}
-                    />
-                  </div>
+                  <DesktopOnly>
+                    <div className={styles.content}>
+                      <SelectBoxMobile2
+                        height={33}
+                        placeholder={"Landmark"}
+                        options={
+                          this.state.landmarkList.length > 0 &&
+                          this.state.landmarkList.map((val, i) => {
+                            return {
+                              value: val && val.landmark,
+                              label: val && val.landmark
+                            };
+                          })
+                        }
+                        isEnable={this.state.isEnable}
+                        onChange={landmark => this.onSelectLandmark(landmark)}
+                      />
+                    </div>
+                    {this.state.isOtherLandMarkSelected && (
+                      <div className={styles.content}>
+                        <Input2
+                          boxy={true}
+                          placeholder="Landmark*"
+                          value={
+                            this.props.line2
+                              ? this.props.line2
+                              : this.state.line2
+                          }
+                          onChange={line2 =>
+                            this.onChange({
+                              line2
+                            })
+                          }
+                          textStyle={{
+                            fontSize: 14
+                          }}
+                          height={33}
+                          onFocus={() => {
+                            this.handleOnFocusInput();
+                          }}
+                        />
+                      </div>
+                    )}
+                  </DesktopOnly>
+                  <MobileOnly>
+                    <div className={styles.content}>
+                      <Input2
+                        boxy={true}
+                        placeholder="City/district*"
+                        value={
+                          this.props.town && this.props.town !== ""
+                            ? this.props.town
+                            : this.state.town
+                        }
+                        onChange={town => this.onChange({ town })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                    <div className={styles.content}>
+                      <Input2
+                        placeholder="State*"
+                        value={
+                          this.props.state && this.props.state !== ""
+                            ? this.props.state
+                            : this.state.state
+                        }
+                        boxy={true}
+                        onChange={state => this.onChange({ state })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                  </MobileOnly>
                   <MobileOnly>
                     <div className={styles.content}>
                       <Input2
@@ -650,6 +748,24 @@ export default class AddDeliveryAddress extends React.Component {
                       />
                     </div>
                   </MobileOnly>
+                  <DesktopOnly>
+                    <div className={styles.content}>
+                      <Input2
+                        onlyNumber={true}
+                        placeholder="Phone number*"
+                        value={
+                          this.props.phone ? this.props.phone : this.state.phone
+                        }
+                        boxy={true}
+                        onChange={phone => this.handlePhoneInput(phone)}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                  </DesktopOnly>
                   <div className={styles.content}>
                     <GridSelect
                       limit={1}
@@ -674,24 +790,7 @@ export default class AddDeliveryAddress extends React.Component {
                       })}
                     </GridSelect>
                   </div>
-                  <DesktopOnly>
-                    <div className={styles.content}>
-                      <Input2
-                        onlyNumber={true}
-                        placeholder="Phone number*"
-                        value={
-                          this.props.phone ? this.props.phone : this.state.phone
-                        }
-                        boxy={true}
-                        onChange={phone => this.handlePhoneInput(phone)}
-                        textStyle={{ fontSize: 14 }}
-                        height={33}
-                        onFocus={() => {
-                          this.handleOnFocusInput();
-                        }}
-                      />
-                    </div>
-                  </DesktopOnly>
+
                   <div className={styles.defaultText}>
                     <div className={styles.defaultTextWithButton}>
                       <CheckboxAndText
