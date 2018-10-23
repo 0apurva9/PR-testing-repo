@@ -2078,7 +2078,63 @@ if you have order id in local storage then you have to show order confirmation p
       );
     }
   };
-
+  renderDesktopCheckout = checkoutButtonStatus => {
+    return (
+      <DesktopCheckout
+        padding={this.state.padding}
+        disabled={checkoutButtonStatus}
+        onContinue={false}
+        noCostEmiEligibility={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount &&
+          this.props.cart.cartDetailsCNC.cartAmount
+        }
+        isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+        noCostEmiDiscount={this.state.noCostEmiDiscount}
+        amount={this.state.payableAmount}
+        bagTotal={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount &&
+          this.props.cart.cartDetailsCNC.cartAmount
+        }
+        payable={
+          this.state.isGiftCard
+            ? this.state.payableAmount
+            : this.props.cart &&
+              this.props.cart.cartDetailsCNC &&
+              this.props.cart.cartDetailsCNC.cartAmount
+        }
+        coupons={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount &&
+          this.props.cart.cartDetailsCNC.cartAmount
+        }
+        totalDiscount={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount
+        }
+        delivery={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount
+        }
+        showDetails={this.state.showCartDetails}
+        showHideDetails={this.showHideDetails}
+        isCliqCashApplied={this.state.isCliqCashApplied}
+        cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+        isFromMyBag={false}
+        cartAmount={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount
+        }
+      />
+    );
+  };
   captureOrderExperience = rating => {
     let orderId;
     if (this.props.cart.cliqCashJusPayDetails) {
@@ -2237,6 +2293,7 @@ if you have order id in local storage then you have to show order confirmation p
       return false;
     }
   }
+
   render() {
     let labelForButton,
       checkoutButtonStatus = false;
@@ -2365,52 +2422,62 @@ if you have order id in local storage then you have to show order confirmation p
     ) {
       return (
         <div className={styles.addDeliveryAddressHolder}>
-          <AddDeliveryAddress
-            history={this.props.history}
-            handleCancelAddress={() => this.handleCancelAddress()}
-            addUserAddress={address => this.addAddress(address)}
-            {...this.state}
-            showSecondaryLoader={this.props.showSecondaryLoader}
-            hideSecondaryLoader={this.props.hideSecondaryLoader}
-            loading={this.props.cart.loading}
-            onChange={val => this.onChange(val)}
-            isFirstAddress={false}
-            displayToast={message => this.props.displayToast(message)}
-            getPinCode={val => this.getPinCodeDetails(val)}
-            getPinCodeDetails={this.props.getPinCodeDetails}
-            getPincodeStatus={this.props.getPincodeStatus}
-            onFocusInput={() => this.onFocusInput()}
-            resetAddAddressDetails={() => this.props.resetAddAddressDetails()}
-            getUserDetails={() => this.getUserDetails()}
-            userDetails={this.props.userDetails}
-            clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
-            padding={this.state.padding}
-            disabled={checkoutButtonStatus}
-            label={labelForButton}
-            noCostEmiEligibility={
-              this.props.cart &&
-              this.props.cart.emiEligibilityDetails &&
-              this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
-            }
-            isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-            noCostEmiDiscount={this.state.noCostEmiDiscount}
-            amount={this.state.payableAmount}
-            bagTotal={this.state.bagAmount}
-            payable={this.state.payableAmount}
-            coupons={this.state.couponDiscount}
-            discount={this.state.totalDiscount}
-            delivery={this.state.deliveryCharge}
-            showDetails={this.state.showCartDetails}
-            showHideDetails={this.showHideDetails}
-            onCheckout={
-              this.state.isPaymentFailed
-                ? this.handleSubmitAfterPaymentFailure
-                : this.handleSubmit
-            }
-            isCliqCashApplied={this.state.isCliqCashApplied}
-            cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-            isFromMyBag={false}
-          />
+          <div className={styles.pageCenter}>
+            <div className={styles.leftSection}>
+              {" "}
+              <AddDeliveryAddress
+                history={this.props.history}
+                handleCancelAddress={() => this.handleCancelAddress()}
+                addUserAddress={address => this.addAddress(address)}
+                {...this.state}
+                showSecondaryLoader={this.props.showSecondaryLoader}
+                hideSecondaryLoader={this.props.hideSecondaryLoader}
+                loading={this.props.cart.loading}
+                onChange={val => this.onChange(val)}
+                isFirstAddress={false}
+                displayToast={message => this.props.displayToast(message)}
+                getPinCode={val => this.getPinCodeDetails(val)}
+                getPinCodeDetails={this.props.getPinCodeDetails}
+                getPincodeStatus={this.props.getPincodeStatus}
+                onFocusInput={() => this.onFocusInput()}
+                resetAddAddressDetails={() =>
+                  this.props.resetAddAddressDetails()
+                }
+                getUserDetails={() => this.getUserDetails()}
+                userDetails={this.props.userDetails}
+                clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
+                padding={this.state.padding}
+                disabled={checkoutButtonStatus}
+                label={labelForButton}
+                noCostEmiEligibility={
+                  this.props.cart &&
+                  this.props.cart.emiEligibilityDetails &&
+                  this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+                }
+                isNoCostEmiApplied={this.state.isNoCostEmiApplied}
+                noCostEmiDiscount={this.state.noCostEmiDiscount}
+                amount={this.state.payableAmount}
+                bagTotal={this.state.bagAmount}
+                payable={this.state.payableAmount}
+                coupons={this.state.couponDiscount}
+                discount={this.state.totalDiscount}
+                delivery={this.state.deliveryCharge}
+                showDetails={this.state.showCartDetails}
+                showHideDetails={this.showHideDetails}
+                onCheckout={
+                  this.state.isPaymentFailed
+                    ? this.handleSubmitAfterPaymentFailure
+                    : this.handleSubmit
+                }
+                isCliqCashApplied={this.state.isCliqCashApplied}
+                cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+                isFromMyBag={false}
+              />
+            </div>
+            <div className={styles.rightSection}>
+              {this.renderDesktopCheckout(false)}
+            </div>
+          </div>
         </div>
       );
     } else if (
@@ -2589,12 +2656,16 @@ if you have order id in local storage then you have to show order confirmation p
                       cardDetails={this.state.cardDetails}
                       captchaReseponseForCOD={this.state.captchaReseponseForCOD}
                       verifyCaptcha={captchaReseponseForCOD =>
-                        this.setState({ captchaReseponseForCOD })
+                        this.setState({
+                          captchaReseponseForCOD
+                        })
                       }
                       onChange={val => this.onChangePaymentMode(val)}
                       bankCodeForNetBanking={this.state.bankCodeForNetBanking}
                       onSelectBankForNetBanking={bankCodeForNetBanking =>
-                        this.setState({ bankCodeForNetBanking })
+                        this.setState({
+                          bankCodeForNetBanking
+                        })
                       }
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
                       binValidation={(paymentMode, binNo) =>
@@ -2704,59 +2775,8 @@ if you have order id in local storage then you have to show order confirmation p
 
               <DesktopOnly>
                 <div className={styles.rightSection}>
-                  <DesktopCheckout
-                    padding={this.state.padding}
-                    disabled={checkoutButtonStatus}
-                    onContinue={false}
-                    noCostEmiEligibility={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                    noCostEmiDiscount={this.state.noCostEmiDiscount}
-                    amount={this.state.payableAmount}
-                    bagTotal={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    payable={
-                      this.state.isGiftCard
-                        ? this.state.payableAmount
-                        : this.props.cart &&
-                          this.props.cart.cartDetailsCNC &&
-                          this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    coupons={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    totalDiscount={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    delivery={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    showDetails={this.state.showCartDetails}
-                    showHideDetails={this.showHideDetails}
-                    isCliqCashApplied={this.state.isCliqCashApplied}
-                    cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-                    isFromMyBag={false}
-                    cartAmount={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                  />
+                  {this.renderDesktopCheckout(checkoutButtonStatus)}
+
                   {!this.state.isGiftCard &&
                     this.state.isRemainingAmount &&
                     !(

@@ -810,19 +810,26 @@ export default class AddDeliveryAddress extends React.Component {
                     </DesktopOnly>
                   </div>
                 </div>
-                {!this.state.userEmailId &&
-                  this.state.userEmailId === "" && (
-                    <div className={styles.emailHolder}>
-                      <AddEmailAddress
-                        value={
-                          this.props.emailId
-                            ? this.props.emailId
-                            : this.state.emailId
-                        }
-                        onChange={emailId => this.onChangeEmailId(emailId)}
-                      />
-                    </div>
-                  )}
+
+                {/* Unsure about how to implement this commenting out till then ...
+                                {!this.state.userEmailId &&
+
+                                    this.state.userEmailId === "" && (
+                                        <div className={styles.emailHolder}>
+                                            <AddEmailAddress
+                                                value={
+                                                    this.props.emailId
+                                                        ? this.props.emailId
+                                                        : this.state.emailId
+                                                }
+                                                onChange={emailId =>
+                                                    this.onChangeEmailId(
+                                                        emailId
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    )} */}
                 <MobileOnly>
                   <div className={styles.buttonHolder}>
                     <div className={styles.saveAndContinueButton}>
@@ -843,35 +850,6 @@ export default class AddDeliveryAddress extends React.Component {
                   </div>
                 </MobileOnly>
               </div>
-              <DesktopOnly>
-                {this.props &&
-                  this.props.label &&
-                  !this.props.isReturn && (
-                    <div className={styles.rightSection}>
-                      <DesktopCheckout
-                        onContinue={false}
-                        padding={this.props.padding}
-                        disabled={this.props.disabled}
-                        label={this.props.label}
-                        noCostEmiEligibility={this.props.noCostEmiEligibility}
-                        isNoCostEmiApplied={this.props.isNoCostEmiApplied}
-                        noCostEmiDiscount={this.props.noCostEmiDiscount}
-                        amount={this.props.amount}
-                        bagTotal={this.props.bagTotal}
-                        payable={this.props.payable}
-                        coupons={this.props.coupons}
-                        discount={this.props.discount}
-                        delivery={this.props.delivery}
-                        showDetails={this.props.showCartDetails}
-                        showHideDetails={this.props.showHideDetails}
-                        onCheckout={() => this.handleCancel()}
-                        isCliqCashApplied={this.props.isCliqCashApplied}
-                        cliqCashPaidAmount={this.props.cliqCashPaidAmount}
-                      />
-                      <div className={styles.disclaimer}>{DISCLAIMER}</div>
-                    </div>
-                  )}
-              </DesktopOnly>
             </div>
           </div>
         )}
