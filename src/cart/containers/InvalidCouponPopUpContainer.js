@@ -3,7 +3,8 @@ import InvalidCouponPopUp from "../components/InvalidCouponPopUp";
 import {
   releaseBankOffer,
   releaseUserCoupon,
-  removeNoCostEmi
+  removeNoCostEmi,
+  resetAllPaymentModes
 } from "../actions/cart.actions";
 import { withRouter } from "react-router";
 const mapDispatchToProps = dispatch => {
@@ -16,6 +17,9 @@ const mapDispatchToProps = dispatch => {
     },
     releaseNoCostEmiCoupon: couponCode => {
       return dispatch(removeNoCostEmi(couponCode));
+    },
+    resetAllPaymentModes: () => {
+      return dispatch(resetAllPaymentModes());
     }
   };
 };

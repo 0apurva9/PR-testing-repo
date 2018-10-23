@@ -60,6 +60,7 @@ export default class InvalidCouponPopUp extends React.Component {
 
   changePaymentMethod() {
     if (this.props.changePaymentMethod) {
+      this.props.resetAllPaymentModes();
       this.props.changePaymentMethod();
     }
   }
@@ -159,7 +160,6 @@ export default class InvalidCouponPopUp extends React.Component {
   render() {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
-
     const data = this.props.result;
     return (
       <div className={styles.base}>
