@@ -8,6 +8,8 @@ import ApplyPriceFilterIcon from "./img/arrow.svg";
 const PRICE_FILTER_REG_EX = /(price:[,₹0-9]+-[,₹0-9]+)/;
 const sym = /₹/gi;
 const AND = /and/gi;
+const MAX_PRICE = "Max price";
+const MIN_PRICE = "Min price";
 export default class PriceFilterTabDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -73,13 +75,21 @@ export default class PriceFilterTabDesktop extends React.Component {
     var value = val.replace(sym, "");
     var value = value.replace(AND, "-");
     var price = value.split("-");
-    return price[0];
+    if (price[1] != undefined || price[1] != null) {
+      return price[0];
+    } else {
+      return MIN_PRICE;
+    }
   };
   getMaxPrice = val => {
     var value = val.replace(sym, "");
     var value = value.replace(AND, "-");
     var price = value.split("-");
-    return price[1];
+    if (price[1] != undefined || price[1] != null) {
+      return price[1];
+    } else {
+      return MAX_PRICE;
+    }
   };
   render() {
     return (
