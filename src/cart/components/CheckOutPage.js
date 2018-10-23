@@ -2127,6 +2127,7 @@ if you have order id in local storage then you have to show order confirmation p
         isCliqCashApplied={this.state.isCliqCashApplied}
         cliqCashPaidAmount={this.state.cliqCashPaidAmount}
         isFromMyBag={false}
+        isGiftCard={this.state.isGiftCard}
         cartAmount={
           this.props.cart &&
           this.props.cart.cartDetailsCNC &&
