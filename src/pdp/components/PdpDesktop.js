@@ -572,6 +572,7 @@ export default class PdpApparel extends React.Component {
                           productData.showPriceBrkUpPDP === "Yes"
                         }
                         showPriceBreakUp={this.showPriceBreakup}
+                        isPdp={true}
                       />
                     </div>
                     <div className={styles.wisthListIconHolder}>

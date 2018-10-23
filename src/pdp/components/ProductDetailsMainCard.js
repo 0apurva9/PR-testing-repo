@@ -16,6 +16,7 @@ import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
 } from "../../lib/adobeUtils";
+const NO_REVIEW_TEXT = "Be the first to review this product";
 export default class ProductDetailsMainCard extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -159,6 +160,17 @@ export default class ProductDetailsMainCard extends React.Component {
             </StarRating>
           </div>
         )}
+        {!this.props.averageRating &&
+          this.props.isPdp && (
+            <DesktopOnly>
+              <div
+                className={styles.noRatingText}
+                onClick={() => this.props.goToReviewPage()}
+              >
+                {NO_REVIEW_TEXT}
+              </div>
+            </DesktopOnly>
+          )}
       </div>
     );
   }
@@ -171,5 +183,9 @@ ProductDetailsMainCard.propTypes = {
   discountPrice: PropTypes.string,
   averageRating: PropTypes.number,
   onClick: PropTypes.func,
-  discount: PropTypes.string
+  discount: PropTypes.string,
+  isPdp: PropTypes.bool
+};
+ProductDetailsMainCard.defaultProps = {
+  isPdp: false
 };
