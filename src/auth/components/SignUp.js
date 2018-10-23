@@ -183,26 +183,28 @@ then in this case we have to hit generate temp cart id for user
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Enter Email"}
+                placeholder={"Email or phone number"}
                 value={
                   this.props.emailValue
                     ? this.props.emailValue
                     : this.state.emailValue
                 }
                 onChange={val => this.onChangeEmail(val)}
+                fontSize={14}
               />
             </div>
             <PasswordInput
               onKeyUp={event => {
                 this.checkSignUp(event.key);
               }}
-              placeholder={"Enter Password"}
+              placeholder={"Password"}
               password={
                 this.props.passwordValue
                   ? this.props.passwordValue
                   : this.state.passwordValue
               }
               onChange={val => this.onChangePassword(val)}
+              fontSize={14}
             />
           </div>
           <MediaQuery query="(min-device-width: 1025px)">

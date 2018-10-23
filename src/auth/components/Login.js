@@ -243,13 +243,14 @@ then in this case we have to hit generate temp cart id for user
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Email & phone number"}
+                placeholder={"Email or phone number"}
                 value={
                   this.props.emailValue
                     ? this.props.emailValue
                     : this.state.emailValue
                 }
                 onChange={val => this.onChangeEmail(val)}
+                fontSize={14}
               />
             </div>
             <PasswordInput
@@ -263,6 +264,7 @@ then in this case we have to hit generate temp cart id for user
                   : this.state.passwordValue
               }
               onChange={val => this.onChangePassword(val)}
+              fontSize={14}
             />
 
             <div className={styles.forgotButton}>

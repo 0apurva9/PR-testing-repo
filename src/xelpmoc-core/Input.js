@@ -63,6 +63,9 @@ class Input extends React.Component {
           onKeyUp={event => this.handleKeyUp(event)}
           onBlur={event => this.handleBlur(event)}
           placeholder={placeholder}
+          style={{
+            fontSize: `${this.props.fontSize}px`
+          }}
         />
         {rightChild && (
           <div className={this.styles.rightChild}>{rightChild}</div>
@@ -82,7 +85,8 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-  disabled: false
+  disabled: false,
+  fontSize: 12
 };
 
 export default Input;
