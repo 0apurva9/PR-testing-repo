@@ -2776,59 +2776,7 @@ if you have order id in local storage then you have to show order confirmation p
               <DesktopOnly>
                 <div className={styles.rightSection}>
                   {this.renderDesktopCheckout(checkoutButtonStatus)}
-                  {/* <DesktopCheckout
-                    padding={this.state.padding}
-                    disabled={checkoutButtonStatus}
-                    onContinue={false}
-                    noCostEmiEligibility={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    isNoCostEmiApplied={this.state.isNoCostEmiApplied}
-                    noCostEmiDiscount={this.state.noCostEmiDiscount}
-                    amount={this.state.payableAmount}
-                    bagTotal={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    payable={
-                      this.state.isGiftCard
-                        ? this.state.payableAmount
-                        : this.props.cart &&
-                          this.props.cart.cartDetailsCNC &&
-                          this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    coupons={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    totalDiscount={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    delivery={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                    showDetails={this.state.showCartDetails}
-                    showHideDetails={this.showHideDetails}
-                    isCliqCashApplied={this.state.isCliqCashApplied}
-                    cliqCashPaidAmount={this.state.cliqCashPaidAmount}
-                    isFromMyBag={false}
-                    cartAmount={
-                      this.props.cart &&
-                      this.props.cart.cartDetailsCNC &&
-                      this.props.cart.cartDetailsCNC.cartAmount
-                    }
-                  /> */}
+
                   {!this.state.isGiftCard &&
                     this.state.isRemainingAmount &&
                     !(

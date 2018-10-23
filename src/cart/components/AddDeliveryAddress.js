@@ -751,51 +751,6 @@ export default class AddDeliveryAddress extends React.Component {
                   </div>
                 </MobileOnly>
               </div>
-              {/* <DesktopOnly>
-                                {this.props && (
-                                    <div className={styles.rightSection}>
-                                        <DesktopCheckout
-                                            onContinue={false}
-                                            padding={this.props.padding}
-                                            disabled={this.props.disabled}
-                                            label={this.props.label}
-                                            noCostEmiEligibility={
-                                                this.props.noCostEmiEligibility
-                                            }
-                                            isNoCostEmiApplied={
-                                                this.props.isNoCostEmiApplied
-                                            }
-                                            noCostEmiDiscount={
-                                                this.props.noCostEmiDiscount
-                                            }
-                                            amount={this.props.amount}
-                                            bagTotal={this.props.bagTotal}
-                                            payable={this.props.payable}
-                                            coupons={this.props.coupons}
-                                            discount={this.props.discount}
-                                            delivery={this.props.delivery}
-                                            showDetails={
-                                                this.props.showCartDetails
-                                            }
-                                            showHideDetails={
-                                                this.props.showHideDetails
-                                            }
-                                            onCheckout={() =>
-                                                this.handleCancel()
-                                            }
-                                            isCliqCashApplied={
-                                                this.props.isCliqCashApplied
-                                            }
-                                            cliqCashPaidAmount={
-                                                this.props.cliqCashPaidAmount
-                                            }
-                                        />
-                                        <div className={styles.disclaimer}>
-                                            {DISCLAIMER}
-                                        </div>
-                                    </div>
-                                )}
-                            </DesktopOnly> */}
             </div>
           </div>
         )}
