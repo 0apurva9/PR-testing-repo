@@ -129,6 +129,7 @@
 @media only screen and (min-width: 1025px) {
   .base {
     display: inline-block;
+    padding: 0;
     padding-top: 30px;
     padding-bottom: 100px;
   }
@@ -188,8 +189,8 @@
     position: relative;
   }
   .leftSection {
-    width: 70%;
-    padding-right: 30px;
+    width: 100%;
+
     display: inline-block;
     vertical-align: top;
   }
