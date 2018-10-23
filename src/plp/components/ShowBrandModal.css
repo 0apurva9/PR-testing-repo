@@ -9,7 +9,7 @@
 }
 .dataDisplayHolder {
   width: 1021px;
-  max-width: 65%;
+  max-width: 74%;
   height: 657px;
   max-height: 90%;
   position: absolute;
@@ -24,20 +24,20 @@
 }
 .headerElement {
   width: 100%;
-  height: 87px;
+  height: 94px;
   background: #f9f9f9;
   position: absolute;
   left: 0;
   top: 0;
-  padding: 12px 50px;
+  padding: 17px 50px;
   display: flex;
 }
 .crossElement {
-  width: 35px;
-  height: 35px;
+  width: 18px;
+  height: 18px;
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 20px;
+  top: 17px;
   cursor: pointer;
   background: url(./img/cancelGrey.svg) no-repeat;
   background-size: auto 30px;
@@ -90,7 +90,7 @@
   margin: auto;
 }
 .searchHolder {
-  width: 30%;
+  width: 40%;
   height: auto;
   display: flex;
   flex-direction: column;

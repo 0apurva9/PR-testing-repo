@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ShowBrandModal.css";
 import SearchInput from "../../general/components/SearchInput";
 import Button from "../../general/components/Button";
+import ClearButton from "../../xelpmoc-core/Button";
 import CheckBox from "../../general/components/CheckBox.js";
 import { groupByBrandAccordingToFirstLetter } from "../../pdp/reducers/utils";
 const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
@@ -133,6 +134,22 @@ export default class ShowBrandModal extends React.Component {
               })}
           </div>
           <div className={styles.footerElement}>
+            <div className={styles.applyAndClearButton}>
+              <ClearButton
+                backgroundColor={"transparent"}
+                label={"Clear All"}
+                width={142}
+                height={40}
+                borderRadius={19.5}
+                borderColor={"#000000"}
+                onClick={() => this.closeModal()}
+                textStyle={{
+                  color: "#212121",
+                  fontSize: 14,
+                  fontFamily: "regular"
+                }}
+              />
+            </div>
             <div className={styles.applyAndClearButton}>
               <Button
                 label="Apply"
