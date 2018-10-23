@@ -32,12 +32,12 @@ const keyForCOD = "COD";
 const keyForPaytm = "PAYTM";
 const GIFT_CARD = "Have a gift card?";
 const sequanceOfPaymentMode = [
-  payPal,
   keyForCreditCard,
   keyForDebitCard,
   keyForEMI,
   keyForNetbanking,
   keyForPaytm,
+  payPal,
   keyForCOD
 ];
 // prettier-ignore

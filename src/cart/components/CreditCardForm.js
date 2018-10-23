@@ -11,10 +11,9 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
+import MobileOnly from "../../general/components/MobileOnly";
 const INSUFFICIENT_DATA_ERROR_MESSAGE = "Please enter valid card details";
-
 const MERCHANT_ID = "tul_uat2";
-
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 9;
 const REGX_FOR_WHITE_SPACE = /\W/gi;
@@ -203,60 +202,118 @@ export default class CreditCardForm extends React.Component {
               )}
             </div>
           </div>
-          <div className={styles.contentHolder}>
-            <div className={styles.content}>
-              <Input2
-                placeholder="Name on card*"
-                boxy={true}
-                value={
-                  this.props.cardName
-                    ? this.props.cardName
-                    : this.state.cardName
-                }
-                onChange={cardName => this.onChange({ cardName })}
-                textStyle={{ fontSize: 14 }}
-                height={33}
-                onFocus={() => {
-                  this.handleOnFocusInput();
-                }}
-                onBlur={() => this.handleOnBlur()}
-                onlyAlphabet={true}
-              />
-            </div>
-          </div>
-          <div className={styles.contentHolder}>
-            <div className={styles.dropDownHolder}>
-              <div className={styles.dropDownBox}>
-                <SelectBoxMobile2
-                  theme="hollowBox"
-                  placeholder="Expiry Month"
-                  onChange={monthValue =>
-                    this.onChange({
-                      monthValue: monthValue.value
-                    })
+          <MobileOnly>
+            <div className={styles.contentHolder}>
+              <div className={styles.content}>
+                <Input2
+                  placeholder="Name on card*"
+                  boxy={true}
+                  value={
+                    this.props.cardName
+                      ? this.props.cardName
+                      : this.state.cardName
                   }
-                  options={this.monthOptions}
+                  onChange={cardName => this.onChange({ cardName })}
                   textStyle={{ fontSize: 14 }}
-                  value={this.state.monthValue}
-                  label={this.state.monthValue}
-                />
-              </div>
-              <div className={styles.dropDownBox}>
-                <SelectBoxMobile2
-                  theme="hollowBox"
-                  placeholder="Expiry year"
-                  options={this.expiryYearObject}
-                  onChange={yearValue =>
-                    this.onChange({
-                      yearValue: yearValue.value
-                    })
-                  }
-                  value={this.state.yearValue}
-                  label={this.state.yearValue}
+                  height={33}
+                  onFocus={() => {
+                    this.handleOnFocusInput();
+                  }}
+                  onBlur={() => this.handleOnBlur()}
+                  onlyAlphabet={true}
                 />
               </div>
             </div>
-          </div>
+            <div className={styles.contentHolder}>
+              <div className={styles.dropDownHolder}>
+                <div className={styles.dropDownBox}>
+                  <SelectBoxMobile2
+                    theme="hollowBox"
+                    placeholder="Expiry Month"
+                    onChange={monthValue =>
+                      this.onChange({
+                        monthValue: monthValue.value
+                      })
+                    }
+                    options={this.monthOptions}
+                    textStyle={{ fontSize: 14 }}
+                    value={this.state.monthValue}
+                    label={this.state.monthValue}
+                  />
+                </div>
+                <div className={styles.dropDownBox}>
+                  <SelectBoxMobile2
+                    theme="hollowBox"
+                    placeholder="Expiry year"
+                    options={this.expiryYearObject}
+                    onChange={yearValue =>
+                      this.onChange({
+                        yearValue: yearValue.value
+                      })
+                    }
+                    value={this.state.yearValue}
+                    label={this.state.yearValue}
+                  />
+                </div>
+              </div>
+            </div>
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.contentHolder}>
+              <div className={styles.dropDownHolder}>
+                <div className={styles.dropDownBox}>
+                  <SelectBoxMobile2
+                    theme="hollowBox"
+                    placeholder="Expiry Month"
+                    onChange={monthValue =>
+                      this.onChange({
+                        monthValue: monthValue.value
+                      })
+                    }
+                    options={this.monthOptions}
+                    textStyle={{ fontSize: 14 }}
+                    value={this.state.monthValue}
+                    label={this.state.monthValue}
+                  />
+                </div>
+                <div className={styles.dropDownBox}>
+                  <SelectBoxMobile2
+                    theme="hollowBox"
+                    placeholder="Expiry year"
+                    options={this.expiryYearObject}
+                    onChange={yearValue =>
+                      this.onChange({
+                        yearValue: yearValue.value
+                      })
+                    }
+                    value={this.state.yearValue}
+                    label={this.state.yearValue}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={styles.contentHolder}>
+              <div className={styles.content}>
+                <Input2
+                  placeholder="Name on card*"
+                  boxy={true}
+                  value={
+                    this.props.cardName
+                      ? this.props.cardName
+                      : this.state.cardName
+                  }
+                  onChange={cardName => this.onChange({ cardName })}
+                  textStyle={{ fontSize: 14 }}
+                  height={33}
+                  onFocus={() => {
+                    this.handleOnFocusInput();
+                  }}
+                  onBlur={() => this.handleOnBlur()}
+                  onlyAlphabet={true}
+                />
+              </div>
+            </div>
+          </DesktopOnly>
           <div className={styles.contentHolder}>
             <div className={styles.payCardHolder}>
               <div className={styles.cardFooterText}>
