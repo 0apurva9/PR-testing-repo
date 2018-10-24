@@ -304,4 +304,9 @@
   .amountSelect {
     cursor: pointer;
   }
+  .enterAmountHolder {
+    width: 85%;
+    display: inline-block;
+    vertical-align: top;
+  }
 }

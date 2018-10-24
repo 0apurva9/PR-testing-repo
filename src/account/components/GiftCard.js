@@ -15,6 +15,7 @@ import {
   GIFT_CARD,
   HOME_ROUTER
 } from "../../lib/constants";
+
 import { SUCCESS } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 const PRODUCT_ID = "MP000000000127263";
@@ -225,32 +226,36 @@ export default class GiftCard extends React.Component {
                     })}
                 </div>
               </div>
-              <MediaQuery query="(max-device-width: 1024px)">
-                <div className={styles.inputHolder}>
-                  <div className={styles.labelHeader}>Or</div>
-                  <div className={styles.enterAmountHolder}>
-                    {this.state.amountText !== "" && (
-                      <div className={styles.rupyLabel} />
-                    )}
-                    <Input2
-                      boxy={true}
-                      placeholder="Enter Customer Amount"
-                      value={
-                        this.props.amountText
-                          ? this.props.amountText
-                          : this.state.amountText
-                      }
-                      onChange={amountText =>
-                        this.setState({ amountText: amountText })
-                      }
-                      onlyNumber={true}
-                      textStyle={{ fontSize: 14 }}
-                      height={33}
-                      leftChildSize={this.state.amountText !== "" ? 33 : 10}
-                    />
-                  </div>
+              <div
+                className={
+                  this.checkUserAgentIsMobile()
+                    ? styles.inputHolder
+                    : styles.amountHolder
+                }
+              >
+                <div className={styles.labelHeader}>Or</div>
+                <div className={styles.enterAmountHolder}>
+                  {this.state.amountText !== "" && (
+                    <div className={styles.rupyLabel} />
+                  )}
+                  <Input2
+                    boxy={true}
+                    placeholder="Enter Customer Amount"
+                    value={
+                      this.props.amountText
+                        ? this.props.amountText
+                        : this.state.amountText
+                    }
+                    onChange={amountText =>
+                      this.setState({ amountText: amountText })
+                    }
+                    onlyNumber={true}
+                    textStyle={{ fontSize: 14 }}
+                    height={33}
+                    leftChildSize={this.state.amountText !== "" ? 33 : 10}
+                  />
                 </div>
-              </MediaQuery>
+              </div>
             </div>
             <div className={styles.formCard}>
               <MediaQuery query="(max-device-width: 1024px)">
