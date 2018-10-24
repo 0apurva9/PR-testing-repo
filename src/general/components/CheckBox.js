@@ -2,10 +2,12 @@ import React from "react";
 import styles from "./CheckBox.css";
 export default class CheckBox extends React.Component {
   render() {
-    let className = styles.base;
+    let className = this.props.shape == "box" ? styles.boxBase : styles.base;
     if (this.props.selected) {
-      className = styles.selected;
+      className =
+        this.props.shape == "box" ? styles.boxSeleted : styles.selected;
     }
+
     return (
       <div
         className={className}
