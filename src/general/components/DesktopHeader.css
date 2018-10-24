@@ -117,7 +117,7 @@
   transform: scale(1);
 }
 .myBagShow:hover {
-  transform: scale(1.4);
+  transform: scale(1.2);
 }
 .mywishList {
   width: 30px;
@@ -131,7 +131,7 @@
   transform: scale(1);
 }
 .mywishList:hover {
-  transform: scale(1.4);
+  transform: scale(1.2);
 }
 .searchHolder {
   width: auto;
