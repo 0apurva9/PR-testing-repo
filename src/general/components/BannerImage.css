@@ -91,7 +91,11 @@
     margin: auto;
   }
 }
-
+@media screen and (max-width: 1370px) {
+  .logoAndText {
+    padding: 0px 50px 40px;
+  }
+}
 @media screen and (max-width: 1024px) {
   .logoAndText {
     position: absolute;

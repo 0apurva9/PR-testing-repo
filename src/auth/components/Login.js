@@ -251,6 +251,7 @@ then in this case we have to hit generate temp cart id for user
                 }
                 onChange={val => this.onChangeEmail(val)}
                 fontSize={14}
+                maxLength={240}
               />
             </div>
             <PasswordInput
@@ -265,6 +266,7 @@ then in this case we have to hit generate temp cart id for user
               }
               onChange={val => this.onChangePassword(val)}
               fontSize={14}
+              maxLength={200}
             />
 
             <div className={styles.forgotButton}>
