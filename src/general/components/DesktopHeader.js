@@ -5,7 +5,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   CONTACT_URL,
   MY_ACCOUNT_GIFT_CARD_PAGE,
-  MY_ACCOUNT_PAGE
+  MY_ACCOUNT_PAGE,
+  MY_ACCOUNT_CLIQ_CASH_PAGE
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
@@ -56,6 +57,10 @@ export default class DesktopHeader extends React.Component {
 
   onGiftCard() {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`;
+    this.props.history.push(url);
+  }
+  onCliqCash() {
+    const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`;
     this.props.history.push(url);
   }
   onHoverCategory(value) {
@@ -254,6 +259,12 @@ export default class DesktopHeader extends React.Component {
                     onClick={() => this.onGiftCard()}
                   >
                     Gift Card
+                  </div>
+                  <div
+                    className={styles.loginTab}
+                    onClick={() => this.onCliqCash()}
+                  >
+                    Cliq Cash
                   </div>
                 </div>
               </div>
