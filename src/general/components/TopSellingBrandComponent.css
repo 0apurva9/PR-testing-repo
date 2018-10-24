@@ -10,7 +10,7 @@
   transition: 300ms;
 }
 .base:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 .imageHolder {
   width: 100%;
