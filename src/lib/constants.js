@@ -60,9 +60,12 @@ export const SEARCH_RESULTS_PAGE = "/search/";
 export const HOME_ROUTER = "/";
 
 export const BRAND_LANDING_PAGE = "/brand";
-
+export const PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST =
+  "productDetailsForAddToWishList";
+export const PRODUCT_ADDED_TO_WISHLIST = "Product added to wishlist";
 export const PRODUCT_DESCRIPTION_PRODUCT_CODE = "/p-([a-z0-9A-Z]+)";
 export const PRODUCT_DESCRIPTION_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/product-reviews`;
+export const WRITE_REVIEW = `/write-review`;
 export const WRITE_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/write-review`;
 export const WRITE_REVIEWS_WITH_SLUG = `/:slug${WRITE_REVIEWS}`;
 export const PRODUCT_DESCRIPTION_REVIEWS_WITH_SLUG = `/:slug${PRODUCT_DESCRIPTION_REVIEWS}`;
@@ -339,6 +342,10 @@ export const PINCODE_NOT_SERVICEABLE_TEXT =
   "We are sorry, this pincode is not serviceable. Please enter another pincode.";
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
 export const DEFAULT_PINCODE = 110001;
+export const BANK_OFFER_TYPE = "bankOffer";
+export const NCE_OFFER_TYPE = "nceOfferType";
+export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
+
 export const BUY_NOW_ERROR_MESSAGE = "Something Went wrong.Please try again";
 
 export const BANK_OFFER_COMPONENT_NAME_HC = "bankOfferComponent";

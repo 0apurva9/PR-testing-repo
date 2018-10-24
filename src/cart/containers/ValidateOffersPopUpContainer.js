@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import InvalidCouponPopUp from "../components/InvalidCouponPopUp";
+import ValidateOffersPopUp from "../components/ValidateOffersPopUp";
 import {
   releaseBankOffer,
   releaseUserCoupon,
@@ -7,6 +7,7 @@ import {
   resetAllPaymentModes
 } from "../actions/cart.actions";
 import { withRouter } from "react-router";
+import { showModal, hideModal } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     releaseBankOffer: couponCode => {
@@ -18,6 +19,12 @@ const mapDispatchToProps = dispatch => {
     releaseNoCostEmiCoupon: couponCode => {
       return dispatch(removeNoCostEmi(couponCode));
     },
+    showModal: (type, couponList) => {
+      dispatch(showModal(type, couponList));
+    },
+    closeModal: () => {
+      dispatch(hideModal());
+    },
     resetAllPaymentModes: () => {
       return dispatch(resetAllPaymentModes());
     }
@@ -26,10 +33,13 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    ...ownProps
+    ...ownProps,
+    bankOffers:
+      state.cart.paymentModes && state.cart.paymentModes.paymentOffers,
+    nceOffers: state.cart.bankAndTenureDetails
   };
 };
-const InvalidCouponPopUpContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(InvalidCouponPopUp)
+const ValidateOffersPopUpContainer = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ValidateOffersPopUp)
 );
-export default InvalidCouponPopUpContainer;
+export default ValidateOffersPopUpContainer;

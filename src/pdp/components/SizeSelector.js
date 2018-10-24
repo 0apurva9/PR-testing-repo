@@ -10,7 +10,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   LOGIN_PATH,
   PRODUCT_CART_ROUTER,
-  BUY_NOW_ERROR_MESSAGE
+  BUY_NOW_ERROR_MESSAGE,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import {
@@ -28,6 +29,10 @@ export default class SizeSelector extends React.Component {
   }
   navigateToLogin() {
     const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    this.props.history.push(LOGIN_PATH);
+  }
+  navigateToLoginOnWishList(url) {
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
@@ -60,7 +65,6 @@ export default class SizeSelector extends React.Component {
           ussId: productDescription && productDescription.winningUssID,
           quantity: 1
         };
-
         if (this.props.buyNowFlag) {
           setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
           if (!checkUserLoggedIn()) {
@@ -77,11 +81,36 @@ export default class SizeSelector extends React.Component {
               this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
             }
           }
+        } else if (this.props.addToWishlist) {
+          let addToWishListObj = {
+            productListingId:
+              productDescription && productDescription.productListingId,
+            winningUssID: productDescription && productDescription.winningUssID
+          };
+          if (!checkUserLoggedIn()) {
+            localStorage.setItem(
+              PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+              JSON.stringify(addToWishListObj)
+            );
+            this.navigateToLoginOnWishList(
+              productCodeArray && productCodeArray[1]
+                ? `${productCodeArray[1]}/p-${productDescription &&
+                    productDescription.productListingId}`
+                : `p-${productDescription &&
+                    productDescription.productListingId}`
+            );
+          } else {
+            this.props.addProductToWishList(addToWishListObj);
+            this.props.history.replace({
+              pathname: `${productUrl}`,
+              state: { isSizeSelected: true, goToCartPageFlag: false }
+            });
+          }
         } else {
           this.props.addProductToCart(productDetailsObj);
           this.props.history.replace({
             pathname: `${productUrl}`,
-            state: { isSizeSelected: true, goToCartPageFlag: true }
+            state: { isSizeSelected: true, goToCartPageFlag: false }
           });
         }
       }
@@ -107,7 +136,6 @@ export default class SizeSelector extends React.Component {
       .map(val => {
         return val;
       });
-
     if (sizes.length !== 0) {
       return (
         <div className={styles.base}>

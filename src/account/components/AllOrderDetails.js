@@ -20,7 +20,8 @@ import {
   LOGIN_PATH,
   ORDER_HISTORY,
   MY_ACCOUNT_GIFT_CARD_PAGE,
-  MY_ACCOUNT_PAGE
+  MY_ACCOUNT_PAGE,
+  WRITE_REVIEW
 } from "../../lib/constants";
 
 import { HOME_ROUTER } from "../../lib/constants";
@@ -57,6 +58,11 @@ export default class AllOrderDetails extends React.Component {
   }
   onViewDetails(orderId) {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
+  }
+  writeReview(productCode) {
+    if (productCode && this.props.history) {
+      this.props.history.push(`p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
+    }
   }
   componentDidMount() {
     if (this.props.shouldCallHeaderContainer) {
@@ -204,59 +210,53 @@ export default class AllOrderDetails extends React.Component {
                     />
                   </div>
                   {orderDetails &&
-                    orderDetails.products && (
-                      <OrderCard
-                        estimatedDeliveryDate={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].estimateddeliverydate
-                        }
-                        statusDisplay={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].statusDisplay
-                        }
-                        imageUrl={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].imageURL
-                        }
-                        hasProduct={orderDetails && orderDetails.products}
-                        isGiveAway={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].isGiveAway
-                        }
-                        price={orderDetails && orderDetails.totalOrderAmount}
-                        discountPrice={""}
-                        productName={
-                          orderDetails &&
-                          orderDetails.products &&
-                          orderDetails.products[0] &&
-                          orderDetails.products[0].productName
-                        }
-                        isEgvOrder={orderDetails.isEgvOrder}
-                        resendAvailable={orderDetails.resendAvailable}
-                        reSendEmailForGiftCard={() =>
-                          this.reSendEmailForGiftCard(orderDetails.orderId)
-                        }
-                        egvCardNumber={orderDetails.egvCardNumber}
-                        onClick={() =>
-                          this.onClickImage(
-                            orderDetails.isEgvOrder,
-                            orderDetails &&
-                              orderDetails.products &&
-                              orderDetails.products[0] &&
-                              orderDetails.products.length &&
-                              orderDetails.products[0].productcode
-                          )
-                        }
-                      />
-                    )}
+                    orderDetails.products &&
+                    orderDetails.products.map(product => {
+                      return (
+                        <div className={styles.orderCardIndividual}>
+                          <OrderCard
+                            estimatedDeliveryDate={
+                              product.estimateddeliverydate
+                            }
+                            statusDisplay={product.statusDisplay}
+                            imageUrl={product.imageURL}
+                            hasProduct={orderDetails && orderDetails.products}
+                            isGiveAway={product.isGiveAway}
+                            price={product.price}
+                            discountPrice={""}
+                            productName={product.productName}
+                            isEgvOrder={orderDetails.isEgvOrder}
+                            resendAvailable={orderDetails.resendAvailable}
+                            reSendEmailForGiftCard={() =>
+                              this.reSendEmailForGiftCard(orderDetails.orderId)
+                            }
+                            egvCardNumber={orderDetails.egvCardNumber}
+                            onClick={() =>
+                              this.onClickImage(
+                                orderDetails.isEgvOrder,
+                                product.productcode
+                              )
+                            }
+                          >
+                            {product.productName !== "Gift Card" && (
+                              <div className={styles.reviewHolder}>
+                                <div
+                                  className={styles.reviewText}
+                                  onClick={val =>
+                                    this.writeReview(product.productcode)
+                                  }
+                                >
+                                  <UnderLinedButton
+                                    label="Write a review"
+                                    color="#ff1744"
+                                  />
+                                </div>
+                              </div>
+                            )}
+                          </OrderCard>
+                        </div>
+                      );
+                    })}
 
                   <PriceAndLink
                     onViewDetails={() =>
@@ -274,26 +274,6 @@ export default class AllOrderDetails extends React.Component {
                         deliveredAddress={deliveryAddress}
                         orderDeliveryHeaderText={placeHolder}
                       />
-                    )}
-                  {orderDetails &&
-                    orderDetails.products &&
-                    orderDetails.products[0] &&
-                    orderDetails.products[0].productName !== "Gift Card" && (
-                      <div className={styles.reviewHolder}>
-                        <div
-                          className={styles.reviewText}
-                          onClick={val =>
-                            this.onViewDetails(
-                              orderDetails && orderDetails.orderId
-                            )
-                          }
-                        >
-                          <UnderLinedButton
-                            label="Write a review"
-                            color="#ff1744"
-                          />
-                        </div>
-                      </div>
                     )}
                 </div>
               );

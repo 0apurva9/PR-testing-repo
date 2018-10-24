@@ -6,7 +6,12 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
-import { NO_COST_EMI, RUPEE_SYMBOL, SUCCESS } from "../../lib/constants";
+import {
+  NO_COST_EMI,
+  RUPEE_SYMBOL,
+  SUCCESS,
+  NO_COST_EMI_COUPON
+} from "../../lib/constants";
 
 export default class NoCostEmiBankDetails extends React.Component {
   constructor(props) {
@@ -62,6 +67,38 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCouponCode: null,
         selectedTenure: null,
         selectedFromDropDown: false
+      });
+    }
+    if (nextProps.isNoCostEmiApplied && !this.state.selectedCouponCode) {
+      console.log(this.props);
+      let bankObject =
+        this.props.bankList &&
+        this.props.bankList.find(
+          bank => bank.bankCode === this.state.selectedBankCode
+        );
+      bankObject = bankObject ? bankObject : {};
+      let selectedMonth;
+      let emiTenureObj =
+        bankObject.noCostEMICouponList &&
+        bankObject.noCostEMICouponList.find((emi, i) => {
+          if (emi.emicouponCode === localStorage.getItem(NO_COST_EMI_COUPON)) {
+            selectedMonth = i;
+            return true;
+          }
+          return false;
+        });
+      emiTenureObj = emiTenureObj ? emiTenureObj : {};
+      this.setState({
+        selectedMonth,
+        selectedCouponCode: emiTenureObj.emicouponCode,
+        selectedTenure: emiTenureObj.tenure
+      });
+      this.onChangeCardDetail({
+        is_emi: true,
+        emi_bank: this.state.selectedBankCode,
+        emi_tenure: emiTenureObj.tenure,
+        selectedMonth,
+        selectedCouponCode: emiTenureObj.emicouponCode
       });
     }
   }
@@ -319,6 +356,7 @@ export default class NoCostEmiBankDetails extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     let modifiedBankList;
     let filteredBankListWithLogo =
       this.props.bankList &&

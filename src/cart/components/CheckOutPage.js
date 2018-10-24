@@ -219,6 +219,7 @@ class CheckOutPage extends React.Component {
   onChangePaymentMode = val => {
     let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
     if (
+      val &&
       val.currentPaymentMode !== EMI &&
       val.currentPaymentMode !== null &&
       noCostEmiCouponCode
@@ -691,6 +692,10 @@ class CheckOutPage extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.cart.resetAllPaymentModeFlag) {
+      this.props.preventRestingAllPaymentMode();
+      this.onChangePaymentMode({ currentPaymentMode: null });
+    }
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
     }
@@ -729,7 +734,12 @@ class CheckOutPage extends React.Component {
           : "0.00"
       });
     }
-
+    if (nextProps.cart.isNoCostEmiApplied && !this.state.isNoCostEmiApplied) {
+      this.setState({
+        isNoCostEmiApplied: true,
+        isNoCostEmiProceeded: false
+      });
+    }
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&

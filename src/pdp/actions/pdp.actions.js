@@ -690,7 +690,7 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let accessToken, userName;
-  if (customerCookie) {
+  if (userDetails && customerCookie) {
     userName = JSON.parse(userDetails).userName;
     accessToken = JSON.parse(customerCookie).access_token;
   } else {

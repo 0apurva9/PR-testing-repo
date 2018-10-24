@@ -36,40 +36,42 @@ class BankOffersDetails extends Component {
             this.state.previousSelectedCouponCode,
             this.state.selectedBankOfferCode
           );
+
           if (applyNewBankOfferStatus.status === SUCCESS) {
             this.props.selecteBankOffer(this.state.selectedBankOfferCode);
             this.props.closeModal();
           } else {
-            if (
-              applyNewBankOfferStatus.status === ERROR &&
-              applyNewBankOfferStatus.type === RELEASE_BANK_OFFER_FAILURE
-            ) {
-              this.setState({
-                selectedBankOfferCode: this.state.previousSelectedCouponCode
-              });
-            } else if (
-              applyNewBankOfferStatus.status === ERROR &&
-              applyNewBankOfferStatus.type === APPLY_BANK_OFFER_FAILURE
-            ) {
-              this.props.selecteBankOffer("");
-              this.setState({
-                previousSelectedCouponCode: "",
-                selectedBankOfferCode: ""
-              });
-            }
+            // if (
+            //   applyNewBankOfferStatus.status === ERROR &&
+            //   applyNewBankOfferStatus.type === RELEASE_BANK_OFFER_FAILURE
+            // ) {
+            //   this.setState({
+            //     selectedBankOfferCode: this.state.previousSelectedCouponCode
+            //   });
+            // } else if (
+            //   applyNewBankOfferStatus.status === ERROR &&
+            //   applyNewBankOfferStatus.type === APPLY_BANK_OFFER_FAILURE
+            // ) {
+            //   this.props.selecteBankOffer("");
+            //   this.setState({
+            //     previousSelectedCouponCode: "",
+            //     selectedBankOfferCode: ""
+            //   });
+            // }
           }
         } else {
           const applyNewCouponCode = await this.props.applyBankOffer(
             this.state.selectedBankOfferCode
           );
+          console.log(applyNewCouponCode);
           if (applyNewCouponCode.status === SUCCESS) {
             this.props.selecteBankOffer(this.state.selectedBankOfferCode);
             this.props.closeModal();
           } else {
-            this.setState({
-              previousSelectedCouponCode: "",
-              selectedBankOfferCode: ""
-            });
+            // this.setState({
+            //   previousSelectedCouponCode: "",
+            //   selectedBankOfferCode: ""
+            // });
           }
         }
       } else {

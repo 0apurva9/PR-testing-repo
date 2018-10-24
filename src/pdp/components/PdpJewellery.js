@@ -245,7 +245,7 @@ export default class PdpJewellery extends React.Component {
     this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
-  showSizeSelector = buyNowFlag => {
+  showSizeSelector = (buyNowFlag, addToWishlist) => {
     if (this.props.showSizeSelector && this.props.productDetails) {
       this.props.showSizeSelector({
         sizeSelected: this.checkIfSizeSelected(),
@@ -255,7 +255,8 @@ export default class PdpJewellery extends React.Component {
         hasSizeGuide: this.props.productDetails.showSizeGuide,
         data: this.props.productDetails.variantOptions,
         productName: this.props.productDetails.productName,
-        buyNowFlag: buyNowFlag
+        buyNowFlag: buyNowFlag,
+        addToWishlist: addToWishlist
       });
     }
   };
@@ -451,6 +452,15 @@ export default class PdpJewellery extends React.Component {
           />
           <div className={styles.wishlist}>
             <AddToWishListButtonContainer
+              showSizeSelector={() => this.showSizeSelector(false, true)}
+              isSizeSelectedForAddToWishlist={
+                this.checkIfSizeSelected() ||
+                this.checkIfSizeDoesNotExist() ||
+                this.checkIfFreeSize() ||
+                this.checkIfNoSize()
+                  ? false
+                  : true
+              }
               productListingId={productData.productListingId}
               winningUssID={productData.winningUssID}
               type={WISHLIST_FOOTER_BUTTON_TYPE}
