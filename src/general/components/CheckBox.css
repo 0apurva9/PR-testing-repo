@@ -32,37 +32,3 @@
 .selected:before {
   opacity: 1;
 }
-.boxBase {
-  cursor: pointer;
-  position: relative;
-}
-.boxBase:after,
-.boxBase:before {
-  content: "";
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  transition: 300ms;
-}
-.boxBase:after {
-  background: url(./img/checkbox-untick.svg) no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-.boxBase:before {
-  background: url(./img/checkbox-tick.svg) no-repeat;
-  background-size: contain;
-  background-position: center;
-  opacity: 0;
-}
-.boxSelected {
-  composes: base;
-}
-.boxSelected:after {
-  opacity: 0;
-}
-.boxSelected:before {
-  opacity: 1;
-}
