@@ -66,6 +66,7 @@ class Input extends React.Component {
           style={{
             fontSize: `${this.props.fontSize}px`
           }}
+          maxLength={this.props.maxLength}
         />
         {rightChild && (
           <div className={this.styles.rightChild}>{rightChild}</div>
