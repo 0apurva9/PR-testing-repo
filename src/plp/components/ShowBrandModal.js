@@ -123,7 +123,6 @@ export default class ShowBrandModal extends React.Component {
                             <CheckBox
                               selected={brandsList.selected}
                               size={"15px"}
-                              shape={"box"}
                             />
                           </div>
                           {brandsList.name}
