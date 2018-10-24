@@ -183,7 +183,7 @@ then in this case we have to hit generate temp cart id for user
           <div>
             <div className={styles.input}>
               <Input
-                placeholder={"Email or phone number"}
+                placeholder={"Email"}
                 value={
                   this.props.emailValue
                     ? this.props.emailValue
