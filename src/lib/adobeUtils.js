@@ -578,7 +578,7 @@ function getDigitalDataForPdp(type, pdpResponse) {
   }
 
   if (pdpResponse && pdpResponse.seo && pdpResponse.seo.breadcrumbs) {
-    let categoryName = pdpResponse.seo.breadcrumbs[1].name;
+    let categoryName = pdpResponse.seo.breadcrumbs[0].name;
     categoryName = categoryName.replace(/ /g, "_").toLowerCase();
     Object.assign(data.cpj.product, {
       category: categoryName
@@ -596,6 +596,7 @@ function getDigitalDataForPdp(type, pdpResponse) {
       }
     });
   }
+  console.log(data);
   return data;
 }
 
@@ -661,10 +662,7 @@ function getDigitalDataForCart(type, cartResponse) {
       }
     });
   }
-  const productCategoryHierarchy = getProductCategoryHierarchy(
-    cartResponse,
-    true
-  ); //here we set second parameter as true because we need to set second level
+  const productCategoryHierarchy = getProductCategoryHierarchy(cartResponse);
   if (productCategoryHierarchy) {
     if (data.cpj && data.cpj.product) {
       Object.assign(data.cpj.product, {
@@ -693,7 +691,7 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
       }
     }
   };
-  const getProductData = getProductsDigitalData(CheckoutResponse, false, true); //here we set third parameter as true because we need to set second level
+  const getProductData = getProductsDigitalData(CheckoutResponse); //here we set third parameter as true because we need to set second level
   if (getProductData) {
     let {
       productIdsArray,
@@ -736,7 +734,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
     }
   };
 
-  const getProductData = getProductsDigitalData(response, true); //if we pass second parameter as true ; that the product is reverse.
+  const getProductData = getProductsDigitalData(response, { isReverse: true });
   if (getProductData) {
     let {
       productIdsArray,
@@ -768,7 +766,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
 // this function will update data with  cpj.proudct.id with
 // reponse product's ids . this is using in many place thats why we
 // need to make separate function for product ids
-function getProductsDigitalData(response, isReverse, setSecondLevel) {
+function getProductsDigitalData(response, type) {
   if (response && response.products && response.products.length > 0) {
     let productIdsArray = [],
       productQuantityArray = [],
@@ -801,27 +799,19 @@ function getProductsDigitalData(response, isReverse, setSecondLevel) {
         product.productBrand &&
           product.productBrand.replace(/ /g, "_").toLowerCase()
       );
-      if (isReverse) {
-        let reverseProduct =
-          product &&
-          product.categoryHierarchy &&
-          product.categoryHierarchy.reverse();
-        categoryArray.push(
-          reverseProduct &&
-            reverseProduct[0].category_name &&
-            reverseProduct[0].category_name.replace(/ /g, "_").toLowerCase()
-        );
-      }
-      if (setSecondLevel) {
+      if (type && type.isReverse) {
+        let reverseArrayLength =
+          product.categoryHierarchy && product.categoryHierarchy.length;
+        let currentReverseArray = reverseArrayLength - 1;
         categoryArray.push(
           product.categoryHierarchy &&
-            product.categoryHierarchy[1] &&
-            product.categoryHierarchy[1].category_name &&
-            product.categoryHierarchy[1].category_name
+            product.categoryHierarchy[currentReverseArray] &&
+            product.categoryHierarchy[currentReverseArray].category_name &&
+            product.categoryHierarchy[currentReverseArray].category_name
               .replace(/ /g, "_")
               .toLowerCase()
         );
-      } else if (!isReverse && !setSecondLevel) {
+      } else if (!type || !type.isReverse) {
         categoryArray.push(
           product.categoryHierarchy &&
             product.categoryHierarchy[0] &&

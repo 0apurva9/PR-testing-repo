@@ -6,7 +6,7 @@ import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js"
 const mapDispatchToProps = dispatch => {
   return {
     getUserAddress: () => {
-      dispatch(getUserAddress(true));
+      dispatch(getUserAddress());
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
