@@ -329,6 +329,7 @@ export default class ReturnAddressList extends React.Component {
         returnProducts={this.props.returnProducts}
         returnRequest={this.props.returnRequest}
         orderDetails={this.props.orderDetails}
+        isPaypal={this.props.isPaypal}
       />
     );
   };

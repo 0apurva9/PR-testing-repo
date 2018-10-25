@@ -64,6 +64,7 @@ export default class ReturnsStoreConfirmation extends React.Component {
   }
   render() {
     // Preventing user to open this page direct by hitting URL
+
     if (
       !this.props.location.state ||
       !this.props.location.state.authorizedRequest
@@ -90,6 +91,16 @@ export default class ReturnsStoreConfirmation extends React.Component {
               data.orderProductWsDTO[0].productName
             }`}
             price={data.orderProductWsDTO[0].price}
+            additionalContent={
+              this.props.isPaypal && (
+                <div className={styles.textSmall}>
+                  Note: The refund amount will be credited to the payment mode
+                  used to make the purchase. This usually takes 3-5 business
+                  days after we receive the item and is subject to a quality
+                  check.
+                </div>
+              )
+            }
           >
             {data.orderProductWsDTO[0].quantity && (
               <div>Qty {data.orderProductWsDTO[0].quantity}</div>
