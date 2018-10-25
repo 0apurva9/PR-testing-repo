@@ -129,6 +129,7 @@ export default class cancelOrderForDesktop extends React.Component<
         <div className={styles.textArea}>
           <TextArea
             onChange={(textValue: string) => this.handleChange(textValue)}
+            value={this.state.comment}
           />
         </div>
         <div className={styles.CancelAndContinueButton}>
