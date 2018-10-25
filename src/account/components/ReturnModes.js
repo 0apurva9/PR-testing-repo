@@ -78,6 +78,16 @@ export default class ReturnModes extends React.Component {
                 productInfo.totalPrice &&
                 productInfo.totalPrice.value
               }
+              additionalContent={
+                this.props.isPaypal && (
+                  <div className={styles.textSmall}>
+                    Note: The refund amount will be credited to the payment mode
+                    used to make the purchase. This usually takes 3-5 business
+                    days after we receive the item and is subject to a quality
+                    check.
+                  </div>
+                )
+              }
             >
               {productInfo &&
                 productInfo.quantity && (
