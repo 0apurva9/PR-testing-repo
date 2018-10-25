@@ -233,4 +233,8 @@
     margin-bottom: 30px;
     font-size: 30px;
   }
+  .emptyCardHeading {
+    composes: cartHeading;
+    text-align: left;
+  }
 }
