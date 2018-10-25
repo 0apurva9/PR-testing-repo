@@ -57,8 +57,8 @@ then in this case we have to hit generate temp cart id for user
         return this.goForBuyNow();
       }
       if (!nextProps.tempCartIdForLoggedInUserLoading) {
+        setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
         if (this.props.redirectToAfterAuthUrl) {
-          setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
           this.props.history.replace(this.props.redirectToAfterAuthUrl);
           this.props.clearUrlToRedirectToAfterAuth();
         } else {
