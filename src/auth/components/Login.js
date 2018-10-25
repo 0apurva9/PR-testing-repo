@@ -55,7 +55,8 @@ class Login extends Component {
       digitalData.page &&
       digitalData.page &&
       digitalData.page.pageInfo &&
-      digitalData.page.pageInfo.pageName !== "login"
+      digitalData.page.pageInfo.pageName !== "login" &&
+      this.props.location.pathname === LOGIN_PATH
     ) {
       let isLoginFromCheckoutPage =
         this.props.redirectToAfterAuthUrl === MY_ACCOUNT_CART_PAGE;
