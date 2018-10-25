@@ -43,9 +43,11 @@ export default class ReturnFlow extends React.Component {
       ? props.location.state.transactionId
       : null;
     this.isCOD = props.location.state && props.location.state.isCOD;
+    this.isPaypal = props.location.state && props.location.state.isPaypal;
     this.state = {
       bankDetail: {},
-      isCOD: this.isCOD
+      isCOD: this.isCOD,
+      isPaypal: this.isPaypal
     };
   }
   componentDidMount() {

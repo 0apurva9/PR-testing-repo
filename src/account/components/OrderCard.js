@@ -98,7 +98,7 @@ export default class OrderCard extends React.Component {
               </div>
             )}
         </div>
-        {this.props.children}
+        <div>{this.props.additionalContent}</div>
       </div>
     );
   }
@@ -106,6 +106,7 @@ export default class OrderCard extends React.Component {
 OrderCard.propTypes = {
   productImage: PropTypes.string,
   productName: PropTypes.string,
+  additionalContent: PropTypes.element,
   price: PropTypes.number,
   discountPrice: PropTypes.string,
   isSelect: PropTypes.bool
