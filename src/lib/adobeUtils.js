@@ -596,7 +596,6 @@ function getDigitalDataForPdp(type, pdpResponse) {
       }
     });
   }
-  console.log(data);
   return data;
 }
 
