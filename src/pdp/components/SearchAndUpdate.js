@@ -82,7 +82,7 @@ export default class SearchAndUpdate extends React.Component {
                   type="hollow"
                   width={143}
                   height={33}
-                  label="Update Pincode"
+                  label="Enter Pincode"
                   color="#ff1744"
                   onClick={() => this.onUpdate()}
                 />
