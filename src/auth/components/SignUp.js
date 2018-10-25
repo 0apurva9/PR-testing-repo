@@ -36,7 +36,9 @@ class SignUp extends Component {
     };
   }
   componentDidMount() {
-    setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
+    if (this.props.location.pathname === SIGN_UP_PATH) {
+      setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
