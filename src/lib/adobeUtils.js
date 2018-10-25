@@ -821,7 +821,7 @@ function getProductsDigitalData(response, isReverse, setSecondLevel) {
               .replace(/ /g, "_")
               .toLowerCase()
         );
-      } else {
+      } else if (!isReverse && !setSecondLevel) {
         categoryArray.push(
           product.categoryHierarchy &&
             product.categoryHierarchy[0] &&
