@@ -110,7 +110,7 @@ export default class SizeSelector extends React.Component {
           this.props.addProductToCart(productDetailsObj);
           this.props.history.replace({
             pathname: `${productUrl}`,
-            state: { isSizeSelected: true, goToCartPageFlag: false }
+            state: { isSizeSelected: true, goToCartPageFlag: true }
           });
         }
       }
