@@ -48,3 +48,35 @@
 .button {
   composes: bagImage;
 }
+@media screen and (min-width: 1025px) {
+  .buttonWrapper {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: center;
+  }
+  .buttonHolder {
+    width: auto;
+    margin-bottom: 0px;
+    margin-right: 20px;
+    margin-top: 40px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    transition: 300ms;
+    border-radius: 23px;
+  }
+  .buttonHolder:hover {
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+  }
+  .buttonHolder:last-child {
+    margin-right: 0px;
+  }
+  .headingText {
+    font-size: 20px;
+    font-family: semibold;
+    color: #212121;
+    margin-bottom: 0px;
+  }
+  .bagIconAndTextHolder {
+    padding: 70px 30px 80px;
+  }
+}

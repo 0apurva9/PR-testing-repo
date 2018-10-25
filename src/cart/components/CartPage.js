@@ -402,28 +402,75 @@ class CartPage extends React.Component {
 
     return (
       <div className={styles.base}>
-        <div className={styles.content}>
-          <TextWithUnderLine
-            heading={
-              defaultPinCode && defaultPinCode !== "undefined"
-                ? `Pincode-${defaultPinCode}`
-                : "Enter Pincode"
-            }
-            boxShadow={
-              defaultPinCode && defaultPinCode !== "undefined" ? true : false
-            }
-            onClick={() => this.changePinCode()}
-            buttonLabel="Change"
-          />
-        </div>
-        <div clasName={styles.pageCenter}>
+        <DesktopOnly>
+          <div className={styles.changePinCodeHolder}>
+            <div className={styles.checkHolder}>
+              {!defaultPinCode && (
+                <div className={styles.dummyTextForPinCode}>
+                  <span>Enter Pincode to check</span>
+                  <span className={styles.bold}> Delivery Option.</span>
+                </div>
+              )}
+
+              <div
+                className={
+                  !defaultPinCode
+                    ? styles.inputAndButtonHolder
+                    : styles.forDefault
+                }
+              >
+                <div className={styles.inputAndButton}>
+                  <TextWithUnderLine
+                    onClick={() => this.changePinCode()}
+                    buttonLabel="Change PIN code"
+                    checkPinCodeAvailability={pinCode =>
+                      this.checkPinCodeAvailability(pinCode)
+                    }
+                    onFocusInput={() => this.onFocusInput()}
+                    onBlur={() => this.onBlur()}
+                    onKeyPress={e => this.onKeyPress()}
+                    ovalButton={true}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div clasName={styles.pageCenter}>
+            <div className={styles.content}>
+              <div className={styles.emptyCardHeading}>My Bag</div>
+              <EmptyBag
+                onContinueShopping={() => this.navigateToHome()}
+                viewSavedProduct={() => this.goToWishList()}
+              />
+            </div>
+          </div>
+        </DesktopOnly>
+        <MobileOnly>
           <div className={styles.content}>
-            <EmptyBag
-              onContinueShopping={() => this.navigateToHome()}
-              viewSavedProduct={() => this.goToWishList()}
+            <TextWithUnderLine
+              heading={
+                defaultPinCode && defaultPinCode !== "undefined"
+                  ? `Pincode-${defaultPinCode}`
+                  : "Enter Pincode"
+              }
+              boxShadow={
+                defaultPinCode && defaultPinCode !== "undefined" ? true : false
+              }
+              onClick={() => this.changePinCode()}
+              buttonLabel="Change"
             />
           </div>
-        </div>
+
+          <div clasName={styles.pageCenter}>
+            <div className={styles.content}>
+              <EmptyBag
+                onContinueShopping={() => this.navigateToHome()}
+                viewSavedProduct={() => this.goToWishList()}
+              />
+            </div>
+          </div>
+        </MobileOnly>
       </div>
     );
   };
