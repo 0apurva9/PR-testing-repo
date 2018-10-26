@@ -266,7 +266,7 @@ class CartPage extends React.Component {
     }
     if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.push(LOGIN_PATH);
-    } else {
+    } else if (!UserAgent.checkUserAgentIsMobile()) {
       if (this.props.showAuthPopUp) {
         this.props.showAuthPopUp();
         return null;
