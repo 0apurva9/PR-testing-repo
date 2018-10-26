@@ -185,13 +185,6 @@ const CliqCashAndNoCostEmiPopup = Loadable({
     return <Loader />;
   }
 });
-
-// const DesktopAuth = Loadable({
-//   loader: () => import("../../auth/components/DesktopAuth.js"),
-//   loading() {
-//     return <Loader />;
-//   }
-// });
 const ChangePasswordForDesktop = Loadable({
   loader: () => import("../../general/components/ChangePasswordForDesktop"),
   loading() {
