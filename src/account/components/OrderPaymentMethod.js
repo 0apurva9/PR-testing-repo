@@ -11,7 +11,6 @@ export default class OrderPaymentMethod extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     let isDelivered = false;
     each(this.props.statusDisplay, (status, i) => {
       each(status.value.statusList, statusNew => {
