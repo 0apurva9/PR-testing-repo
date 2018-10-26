@@ -42,6 +42,9 @@ const mapDispatchToProps = dispatch => {
     displayToast: toastMessage => {
       dispatch(displayToast(toastMessage));
     },
+    showAuthPopUp: () => {
+      dispatch(showModal(DESKTOP_AUTH));
+    },
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
@@ -152,9 +155,6 @@ const mapDispatchToProps = dispatch => {
     },
     addressModal: pinCodeObj => {
       dispatch(showModal(ADDRESS, pinCodeObj));
-    },
-    showAuthPopUp: () => {
-      dispatch(showModal(DESKTOP_AUTH));
     },
     mergeTempCartWithOldCart: () => {
       dispatch(mergeTempCartWithOldCart());

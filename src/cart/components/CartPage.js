@@ -266,11 +266,11 @@ class CartPage extends React.Component {
     }
     if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.push(LOGIN_PATH);
-    } else if (!UserAgent.checkUserAgentIsMobile()) {
+    } else {
       if (this.props.showAuthPopUp) {
         this.props.showAuthPopUp();
-        return null;
       }
+      return null;
     }
   }
   onClickImage(productCode) {
