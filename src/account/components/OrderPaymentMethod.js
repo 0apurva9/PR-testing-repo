@@ -11,6 +11,7 @@ export default class OrderPaymentMethod extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     let isDelivered = false;
     each(this.props.statusDisplay, (status, i) => {
       each(status.value.statusList, statusNew => {
@@ -21,33 +22,40 @@ export default class OrderPaymentMethod extends React.Component {
     });
     return (
       <div className={styles.base}>
-        <div className={styles.paymentHolder}>
-          {this.props.paymentMethod && (
-            <div className={styles.paymentMethod}>Payment Method</div>
-          )}
-          {this.props.isInvoiceAvailable &&
-            isDelivered && (
-              <div className={styles.requestHolder}>
-                <div
-                  className={styles.requestWithUnderline}
-                  onClick={() => this.request()}
-                >
-                  <UnderLinedButton
-                    label={this.props.underlineButtonLabel}
-                    color={this.props.underlineButtonColour}
-                  />
+        {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
+          <div className={styles.paymentHolder}>
+            {this.props.paymentMethod && (
+              <div className={styles.paymentMethod}>Payment Method</div>
+            )}
+            {this.props.isInvoiceAvailable &&
+              isDelivered && (
+                <div className={styles.requestHolder}>
+                  <div
+                    className={styles.requestWithUnderline}
+                    onClick={() => this.request()}
+                  >
+                    <UnderLinedButton
+                      label={this.props.underlineButtonLabel}
+                      color={this.props.underlineButtonColour}
+                    />
+                  </div>
                 </div>
+              )}
+          </div>
+        )}
+        {(this.props.paymentMethod || this.props.phoneNumber) && (
+          <div className={styles.cashAndMobileHolder}>
+            {this.props.paymentMethod && (
+              <div className={styles.cashText}>{this.props.paymentMethod}</div>
+            )}
+
+            {this.props.phoneNumber && (
+              <div className={styles.mobileNumber}>
+                {`Ph: +${this.props.phoneNumber}`}
               </div>
             )}
-        </div>
-        <div className={styles.cashAndMobileHolder}>
-          <div className={styles.cashText}>{this.props.paymentMethod}</div>
-          {this.props.phoneNumber && (
-            <div className={styles.mobileNumber}>
-              {`Ph: +${this.props.phoneNumber}`}
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }
