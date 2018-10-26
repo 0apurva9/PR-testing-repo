@@ -165,7 +165,7 @@ export default class ProductDetailsMainCard extends React.Component {
             <DesktopOnly>
               <div
                 className={styles.noRatingText}
-                onClick={() => this.props.goToReviewPage()}
+                onClick={() => this.handleRatingLink()}
               >
                 {NO_REVIEW_TEXT}
               </div>

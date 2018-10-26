@@ -348,6 +348,7 @@ export default class PdpElectronics extends React.Component {
                   productName={productData.productName}
                   brandUrl={productData.brandURL}
                   history={this.props.history}
+                  location={this.props.location}
                   doublePrice={seoDoublePrice}
                   price={price}
                   numberOfReviews={productData.numberOfReviews}
