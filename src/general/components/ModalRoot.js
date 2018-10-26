@@ -18,12 +18,12 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   HOME_ROUTER
 } from "../../lib/constants.js";
-
 import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";
 import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
+import DesktopAuth from "../../auth/components/DesktopAuth.js";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
@@ -186,12 +186,12 @@ const CliqCashAndNoCostEmiPopup = Loadable({
   }
 });
 
-const DesktopAuth = Loadable({
-  loader: () => import("../../auth/components/DesktopAuth.js"),
-  loading() {
-    return <Loader />;
-  }
-});
+// const DesktopAuth = Loadable({
+//   loader: () => import("../../auth/components/DesktopAuth.js"),
+//   loading() {
+//     return <Loader />;
+//   }
+// });
 const ChangePasswordForDesktop = Loadable({
   loader: () => import("../../general/components/ChangePasswordForDesktop"),
   loading() {
