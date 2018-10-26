@@ -3,9 +3,14 @@ import PropTypes from "prop-types";
 import StarRating from "../../general/components/StarRating.js";
 import PdpLink from "./PdpLink";
 import styles from "./RatingAndTextLink.css";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
+} from "../../lib/adobeUtils";
 const NO_REVIEW_TEXT = "Be the first to review this product";
 export default class RatingAndTextLink extends React.Component {
   onClick() {
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
     if (this.props.onClick) {
       this.props.onClick();
     }
