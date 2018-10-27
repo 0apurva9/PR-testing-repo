@@ -25,14 +25,15 @@ import {
   ADOBE_SIGN_UP_START,
   ADOBE_SIGN_UP_SUCCESS
 } from "../../lib/adobeUtils";
-
+const PASSWORD_MATCH_TEXT = "Password did not match";
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
       nameValue: props.nameValue ? props.nameValue : "",
       emailValue: props.emailValue ? props.emailValue : "",
-      passwordValue: props.passwordValue ? props.passwordValue : ""
+      passwordValue: props.passwordValue ? props.passwordValue : "",
+      reEnterPasswordValue: ""
     };
   }
   componentDidMount() {
@@ -91,6 +92,10 @@ then in this case we have to hit generate temp cart id for user
     if (this.state.passwordValue.length < "8") {
       this.props.displayToast("Password length should be minimum 8 character");
       return false;
+    }
+    if (this.state.passwordValue !== this.state.reEnterPasswordValue) {
+      this.props.displayToast(PASSWORD_MATCH_TEXT);
+      return false;
     } else {
       this.props.onSubmit({
         emailId: this.state.emailValue,
@@ -133,6 +138,9 @@ then in this case we have to hit generate temp cart id for user
       this.props.onChangePassword(val);
     }
     this.setState({ passwordValue: val });
+  }
+  onChangeReEnterPassword(val) {
+    this.setState({ reEnterPasswordValue: val });
   }
 
   render() {
@@ -212,7 +220,18 @@ then in this case we have to hit generate temp cart id for user
             />
           </div>
           <MediaQuery query="(min-device-width: 1025px)">
-            <div className={styles.dummyDiv} />
+            <div className={styles.dummyDiv}>
+              <PasswordInput
+                onKeyUp={event => {
+                  this.checkSignUp(event.key);
+                }}
+                placeholder={"Re-enter-Password"}
+                password={this.state.reEnterPasswordValue}
+                onChange={val => this.onChangeReEnterPassword(val)}
+                fontSize={14}
+                maxLength={200}
+              />
+            </div>
           </MediaQuery>
           <div className={styles.buttonSignup}>
             <div className={styles.buttonHolder}>
