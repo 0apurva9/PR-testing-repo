@@ -1893,6 +1893,7 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
     Object.assign(data, {
       digitalData: { cpj: { brand: { name: response.brandName } } }
     });
+    console.log(data);
     if (response.followStatus) {
       if (window._satellite) {
         window._satellite.track(ADOBE_FOLLOW_BRAND);
@@ -2054,6 +2055,7 @@ export function widgetsTracking(widgetObj: {}) {
     return;
   }
   const data = cloneDeep(window.digitalData);
+  console.log(widgetObj);
   Object.assign(data.cpj, {
     widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
       widgetObj.widgetName
@@ -2063,6 +2065,7 @@ export function widgetsTracking(widgetObj: {}) {
       widgetObj.categoryName ? widgetObj.categoryName : "x"
     }`
   });
+  console.log(data);
   window.digitalData = data;
   let widgetType;
   switch (
