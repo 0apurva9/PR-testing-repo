@@ -41,12 +41,12 @@ export default class EmiDisplay extends React.Component {
           <div className={styles.buttonHolder}>
             <Button
               borderRadius={18}
-              borderColor="#d2d2d2"
+              borderColor="#ff1744"
               backgroundColor="#f9f9f9"
               height={36}
               label={"Change plan"}
               width={147}
-              textStyle={{ color: "#d2d2d2", fontSize: 14 }}
+              textStyle={{ color: "#ff1744", fontSize: 14 }}
               onClick={() => this.handleClick()}
             />
           </div>
