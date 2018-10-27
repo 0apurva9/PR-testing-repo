@@ -9,6 +9,7 @@
   border: none;
   padding: 0 10px;
   color: #212121;
+  -webkit-appearance: none;
   background-color: transparent;
 }
 .wrapper {
@@ -22,8 +23,8 @@
 }
 .hollow {
   composes: base;
-  border:none;
-  border-bottom: 2px solid #d3d3d3 ;
+  border: none;
+  border-bottom: 2px solid #d3d3d3;
 }
 
 .whiteHollow {
