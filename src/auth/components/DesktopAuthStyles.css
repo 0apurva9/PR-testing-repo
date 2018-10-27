@@ -36,6 +36,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding-bottom: 65px;
 }
 .popup {
   position: absolute;
@@ -73,4 +74,19 @@
   background-position: center;
   border-radius: 50%;
   cursor: pointer;
+}
+.termsAndConditionText {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  bottom: 25px;
+  color: #000000;
+  font-size: 14px;
+  font-family: regular;
+  text-align: center;
+  cursor: pointer;
+}
+.termsAndConditionText span {
+  padding: 0px 5px;
+  text-decoration: underline;
 }

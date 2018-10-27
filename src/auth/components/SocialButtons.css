@@ -10,17 +10,39 @@
   }
   .holder {
     display: inline-block;
-    transform: scale(1.5);
   }
-
+  .facebookImageHolderDesktop {
+    width: 200px;
+    height: 40px;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    background: url(./img/facebookForDesktop.svg) no-repeat;
+    background-size: auto 46px;
+    background-position: center;
+    cursor: pointer;
+  }
+  .googleImageForDesktop {
+    width: 200px;
+    height: 40px;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    background: url(./img/googleForDesktop.svg) no-repeat;
+    background-size: auto 46px;
+    background-position: center;
+    cursor: pointer;
+  }
+  .socialButtonHolder {
+    width: 100%;
+    height: auto;
+    margin-top: 26px;
+  }
   .separator {
     composes: holder;
-    margin: 0px 50px 0px 50px;
+    margin: 0px 0px 0px 30px;
   }
 
   .textHolder {
     text-align: center;
-    transform: translateY(15px);
   }
   .textHolder p {
     font-size: 16px;
