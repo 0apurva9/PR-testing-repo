@@ -2,7 +2,8 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  padding: 25px 0px;
+  padding: 15px 0px;
+  border-bottom: 1px solid #ececec;
 }
 .addressHolder {
   width: 100%;
@@ -28,7 +29,7 @@
   display: inline-block;
 }
 .deliverDateHolder {
-  width: 100;
+  width: 100%;
   height: auto;
   display: inline-block;
   margin-bottom: 10px;
@@ -52,17 +53,51 @@
   font-family: regular;
 }
 .orderSoldBy {
-  composes: deliverDateHolder;
-  margin-bottom: 0px;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+.soldLabelText {
+  composes: labelText;
+}
+.soldInfoText {
+  composes: infoText;
 }
 @media screen and (min-width: 1025px) {
-  .base {
-    padding: 0px;
-  }
   .deliveredTo {
     font-family: regular;
+    margin-bottom: 10px;
   }
   .address {
     font-family: light;
+  }
+  .labelText {
+    width: 100%;
+    height: auto;
+    font-family: regular;
+    margin-bottom: 10px;
+  }
+  .infoText {
+    width: 100%;
+    height: auto;
+    font-family: light;
+    padding-left: 0px;
+  }
+  .deliverDateHolder {
+    margin-top: 20px;
+  }
+  .addressHolder {
+    width: 50%;
+  }
+  .orderSoldBy {
+    width: 50%;
+    vertical-align: top;
+  }
+  .soldLabelText {
+    margin-top: 0px;
+    text-align: right;
+  }
+  .soldInfoText {
+    text-align: right;
   }
 }

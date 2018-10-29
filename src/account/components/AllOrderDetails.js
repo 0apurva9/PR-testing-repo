@@ -483,6 +483,20 @@ export default class AllOrderDetails extends React.Component {
                                   <OrderDelivered
                                     deliveredAddress={deliveryAddress}
                                     orderDeliveryHeaderText={placeHolder}
+                                    deliveredDate={
+                                      orderDetails &&
+                                      orderDetails.products &&
+                                      orderDetails.products[0] &&
+                                      orderDetails.products.length &&
+                                      orderDetails.products[0].deliveryDate
+                                    }
+                                    soldBy={
+                                      orderDetails &&
+                                      orderDetails.products &&
+                                      orderDetails.products[0] &&
+                                      orderDetails.products.length &&
+                                      orderDetails.products[0].sellerName
+                                    }
                                   />
                                 )}
                             </React.Fragment>
@@ -545,6 +559,20 @@ export default class AllOrderDetails extends React.Component {
                                         }`
                                       }
                                       orderDeliveryHeaderText={placeHolder}
+                                      deliveredDate={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].deliveryDate
+                                      }
+                                      soldBy={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].sellerName
+                                      }
                                     />
                                   )}
 
