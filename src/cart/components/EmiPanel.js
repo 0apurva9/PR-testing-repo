@@ -110,7 +110,7 @@ export default class EmiPanel extends React.Component {
     return (
       <div className={styles.base}>
         <MenuDetails
-          text={EMI}
+          text={"Easy Monthly Installments"}
           icon={emiIcon}
           isOpen={this.props.currentPaymentMode === EMI}
           onOpenMenu={currentPaymentMode =>

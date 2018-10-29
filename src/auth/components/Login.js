@@ -38,7 +38,6 @@ export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\
 
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
-const EMAIL_ID_DOSE_NOT_EXIST = "Email ID or phone number does not exist";
 const FAILED_TO_FETCH = "Failed to fetch";
 class Login extends Component {
   constructor(props) {
@@ -88,15 +87,12 @@ then in this case we have to hit generate temp cart id for user
         }
       }
     }
-    if (nextProps.error === EMAIL_ID_DOSE_NOT_EXIST) {
+    if (nextProps.error) {
       this.setState({
         passwordValue: ""
       });
     }
     if (nextProps.error === FAILED_TO_FETCH) {
-      this.setState({
-        passwordValue: ""
-      });
       this.props.displayToast("Can't connect to the internet");
     }
   }
