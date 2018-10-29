@@ -17,6 +17,12 @@ export default class SellerCard extends React.Component {
       this.props.addToBag();
     }
   }
+  goToCart() {
+    if (this.props.goToBag) {
+      this.props.goToBag();
+    }
+  }
+
   render() {
     let priceClass = styles.priceHolder;
     if (
@@ -128,10 +134,14 @@ export default class SellerCard extends React.Component {
                 <Button
                   type="hollow"
                   height={45}
-                  label={"Add to bag"}
+                  label={this.props.goToBagFlag ? "Go to bag" : "Add to bag"}
+                  onClick={
+                    this.props.goToBagFlag
+                      ? () => this.goToCart()
+                      : () => this.addToBag()
+                  }
                   width={160}
                   textStyle={{ color: "#212121", fontSize: 14 }}
-                  onClick={() => this.addToBag()}
                 />
               </div>
               <div className={styles.saveListIcon}>
