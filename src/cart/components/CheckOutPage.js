@@ -752,6 +752,9 @@ class CheckOutPage extends React.Component {
     if (noCostEmiCouponCode) {
       this.removeNoCostEmi(noCostEmiCouponCode);
     }
+    if (this.state.selectedBankOfferCode && !this.state.isPaymentFailed) {
+      this.props.releaseBankOffer(this.state.selectedBankOfferCode);
+    }
     this.setState({
       cardDetails: {},
       bankCodeForNetBanking: null,
@@ -1467,6 +1470,9 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (noCostEmiCouponCode) {
       this.removeNoCostEmi(noCostEmiCouponCode);
+    }
+    if (this.state.selectedBankOfferCode && !this.state.isPaymentFailed) {
+      this.props.releaseBankOffer(this.state.selectedBankOfferCode);
     }
     this.setState({
       cardDetails: {},
