@@ -573,7 +573,25 @@ export default class AllOrderDetails extends React.Component {
                                         orderDetails.products.length &&
                                         orderDetails.products[0].sellerName
                                       }
-                                    />
+                                      isShowDataHorizontal={true}
+                                    >
+                                      <div className={styles.priceRightHolder}>
+                                        <PriceAndLink
+                                          onViewDetails={() =>
+                                            this.onViewDetails(
+                                              orderDetails &&
+                                                orderDetails.orderId
+                                            )
+                                          }
+                                          isEgvOrder={orderDetails.isEgvOrder}
+                                          status={orderDetails.giftCardStatus}
+                                          price={
+                                            orderDetails &&
+                                            orderDetails.totalOrderAmount
+                                          }
+                                        />
+                                      </div>
+                                    </OrderDelivered>
                                   )}
 
                                 {orderDetails.isEgvOrder &&
@@ -587,21 +605,6 @@ export default class AllOrderDetails extends React.Component {
                                       </div>
                                     </div>
                                   )}
-                              </div>
-                              <div className={styles.priceRightHolder}>
-                                <PriceAndLink
-                                  onViewDetails={() =>
-                                    this.onViewDetails(
-                                      orderDetails && orderDetails.orderId
-                                    )
-                                  }
-                                  isEgvOrder={orderDetails.isEgvOrder}
-                                  status={orderDetails.giftCardStatus}
-                                  price={
-                                    orderDetails &&
-                                    orderDetails.totalOrderAmount
-                                  }
-                                />
                               </div>
                             </div>
                           </DesktopOnly>

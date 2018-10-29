@@ -86,6 +86,11 @@
   .deliverDateHolder {
     margin-top: 20px;
   }
+  .deliveryDateOnHorizontal {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+  }
   .addressHolder {
     width: 50%;
   }
@@ -99,5 +104,10 @@
   }
   .soldInfoText {
     text-align: right;
+  }
+  .inLineShowData {
+    width: 100%;
+    height: auto;
+    display: inline-block;
   }
 }
