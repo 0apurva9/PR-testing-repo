@@ -272,6 +272,10 @@ const AUTOMATED_BRAND_PRODUCT_CAROUSAL = "automated_brand_product_carousal";
 const BANNER_PRODUCT_CAROUSAL = "banner_product_carousel_component";
 const CURATED_PRODUCTS_COMPONENT = "curated_products_component";
 const VIDEO_PRODUCT_CAROUSEL = "video_product_carousel";
+const POPULAR_BRANDS = "popular_brands";
+const MULTICLICK_BANNER = "multiclick_banner";
+const EXCLUSIVE_FROM_WESTSIDE = "exclusive_from_westside";
+const EXCLUSIVE_FROM_WESTSIDE1 = "exclusivefrom_westside";
 // end of components name for widgets tracking
 
 // widgets tracking end poitns
@@ -1893,7 +1897,6 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
     Object.assign(data, {
       digitalData: { cpj: { brand: { name: response.brandName } } }
     });
-    console.log(data);
     if (response.followStatus) {
       if (window._satellite) {
         window._satellite.track(ADOBE_FOLLOW_BRAND);
@@ -2055,7 +2058,6 @@ export function widgetsTracking(widgetObj: {}) {
     return;
   }
   const data = cloneDeep(window.digitalData);
-  console.log(widgetObj);
   Object.assign(data.cpj, {
     widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
       widgetObj.widgetName
@@ -2065,7 +2067,6 @@ export function widgetsTracking(widgetObj: {}) {
       widgetObj.categoryName ? widgetObj.categoryName : "x"
     }`
   });
-  console.log(data);
   window.digitalData = data;
   let widgetType;
   switch (
@@ -2103,6 +2104,15 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case VIDEO_PRODUCT_CAROUSEL:
       widgetType = VIDEO_PRODUCT_CAROUSEL_ADOBE;
+      break;
+    case POPULAR_BRANDS:
+      widgetType = POPULAR_BRANDS;
+      break;
+    case MULTICLICK_BANNER:
+      widgetType = MULTICLICK_BANNER;
+      break;
+    case EXCLUSIVE_FROM_WESTSIDE:
+      widgetType = EXCLUSIVE_FROM_WESTSIDE1;
       break;
     default:
       break;

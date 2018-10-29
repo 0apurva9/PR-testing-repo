@@ -3,16 +3,21 @@ import MultiClickProduct from "./MultiClickProduct";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 import styles from "./MultiClickBanner.css";
-
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 export default class MultiClickBanner extends React.Component {
-  goToUrl(url) {
-    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    if (url.includes("/que")) {
+  goToUrl(data) {
+    widgetsTracking({
+      widgetName: "MultiClick Banner",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      brandName: data.brandName
+    });
+    const urlSuffix = data.url.replace(TATA_CLIQ_ROOT, "$1");
+    if (data.url.includes("/que")) {
       window.open(urlSuffix, "_blank");
       window.focus();
     }
-    if (url.includes("/luxury.tatacliq.com")) {
-      window.open(url, "_blank");
+    if (data.url.includes("/luxury.tatacliq.com")) {
+      window.open(data.url, "_blank");
       window.focus();
     } else {
       this.props.history.push(urlSuffix);
@@ -64,7 +69,12 @@ export default class MultiClickBanner extends React.Component {
                         brandName={val.brandName}
                         description={val.description}
                         price={val.price}
-                        onClick={() => this.goToUrl(val.url)}
+                        onClick={() =>
+                          this.goToUrl({
+                            url: val.url,
+                            brandName: val.brandName
+                          })
+                        }
                       />
                     </div>
                   );

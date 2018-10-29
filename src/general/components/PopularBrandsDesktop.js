@@ -21,25 +21,21 @@ export default class PopularBrandsDesktop extends React.Component {
       this.setState({ position });
     }
   }
-  onClick = data => {
-    console.log(data);
-    console.log(this.props);
+  onClick = webURL => {
     widgetsTracking({
       widgetName: this.props.feedComponentData.title
         ? this.props.feedComponentData.title
-        : "Fresh from Brands",
+        : "Popular brands",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
-      brandName: data.brandName,
       type: "Brand"
     });
-
-    // if (webURL) {
-    //   const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
-    //   this.props.history.push(urlSuffix);
-    //   if (this.props.setClickedElementId) {
-    //     this.props.setClickedElementId();
-    //   }
-    // }
+    if (webURL) {
+      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+      this.props.history.push(urlSuffix);
+      if (this.props.setClickedElementId) {
+        this.props.setClickedElementId();
+      }
+    }
   };
   switchTab(val) {
     this.setState({
@@ -122,7 +118,6 @@ export default class PopularBrandsDesktop extends React.Component {
                 {currentActivePopularBrands &&
                   currentActivePopularBrands.brands &&
                   currentActivePopularBrands.brands.map((val, i) => {
-                    console.log(val);
                     return (
                       <React.Fragment key={i}>
                         <div
@@ -135,16 +130,7 @@ export default class PopularBrandsDesktop extends React.Component {
                             <BrandImage
                               image={val.imageURL}
                               value={val.webURL}
-                              onClick={value =>
-                                this.onClick({
-                                  itemIds: val.itemIds,
-                                  image: val.imageURL,
-                                  title: val.title,
-                                  brandName: val.brandName,
-                                  history: this.props.history,
-                                  webUrl: val.webURL
-                                })
-                              }
+                              onClick={value => this.onClick(value)}
                             />
                           </div>
                         </div>
