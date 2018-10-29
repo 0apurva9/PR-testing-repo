@@ -6,6 +6,7 @@ import BrandsItem from "../../blp/components/BrandsItem.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 export default class PopularBrandsDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +22,13 @@ export default class PopularBrandsDesktop extends React.Component {
     }
   }
   onClick = webURL => {
+    widgetsTracking({
+      widgetName: this.props.feedComponentData.title
+        ? this.props.feedComponentData.title
+        : "Popular brands",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      type: "Brand"
+    });
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
