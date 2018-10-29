@@ -183,6 +183,8 @@ export default class OrderDetails extends React.Component {
                 let isReturned = false;
 
                 if (
+                  products &&
+                  products.statusDisplayMsg &&
                   products.statusDisplayMsg
                     .map(val => {
                       return val.key;

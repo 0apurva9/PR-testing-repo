@@ -7,6 +7,8 @@ import { default as styles } from "./AuthPopUp.css";
 import { default as ownStyles } from "./RestorePassword.css";
 import lockIcon from "./img/otpLock.svg";
 import Icon from "../../xelpmoc-core/Icon";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const NEW_PASSWORD_TEXT = "Please enter password";
 const PASSWORD_LENGTH_TEXT = "Password length should be minimum 8 character";
@@ -123,21 +125,42 @@ export default class NewPassword extends React.Component {
               textStyle={{ color: "#FFF", fontSize: 14 }}
             />
           </div>
+          <DesktopOnly>
+            <div className={ownStyles.cancel}>
+              <Button
+                label={"Cancel"}
+                width={150}
+                height={40}
+                borderColor={"#000000"}
+                borderRadius={20}
+                backgroundColor={"#f9f9f9"}
+                onClick={() => this.handleCancelClick()}
+                loading={this.props.loading}
+                textStyle={{
+                  color: "#000000",
+                  fontSize: 14,
+                  fontFamily: "regular"
+                }}
+              />
+            </div>
+          </DesktopOnly>
         </div>
-        <div className={styles.button}>
-          <div className={ownStyles.cancel}>
-            <Button
-              label={"Cancel"}
-              onClick={() => this.handleCancelClick()}
-              backgroundColor="transparent"
-              width={100}
-              height={40}
-              borderRadius={20}
-              loading={this.props.loading}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-            />
+        <MobileOnly>
+          <div className={styles.button}>
+            <div className={ownStyles.cancel}>
+              <Button
+                label={"Cancel"}
+                onClick={() => this.handleCancelClick()}
+                backgroundColor="transparent"
+                width={100}
+                height={40}
+                borderRadius={20}
+                loading={this.props.loading}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
       </AuthPopUp>
     );
   }
