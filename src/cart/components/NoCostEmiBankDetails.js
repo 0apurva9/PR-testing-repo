@@ -70,7 +70,6 @@ export default class NoCostEmiBankDetails extends React.Component {
       });
     }
     if (nextProps.isNoCostEmiApplied && !this.state.selectedCouponCode) {
-      console.log(this.props);
       let bankObject =
         this.props.bankList &&
         this.props.bankList.find(
@@ -356,7 +355,6 @@ export default class NoCostEmiBankDetails extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     let modifiedBankList;
     let filteredBankListWithLogo =
       this.props.bankList &&
