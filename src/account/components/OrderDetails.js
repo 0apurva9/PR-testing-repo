@@ -329,26 +329,58 @@ export default class OrderDetails extends React.Component {
                         )
                       }
                     />
-                    {orderDetails.billingAddress &&
-                      Object.keys(orderDetails.billingAddress).length !== 0 && (
+                    {orderDetails.deliveryAddress &&
+                      Object.keys(orderDetails.deliveryAddress).length !==
+                        0 && (
                         <OrderDelivered
                           deliveredAddress={`${
-                            orderDetails.billingAddress.addressLine1
-                              ? orderDetails.billingAddress.addressLine1
+                            orderDetails.deliveryAddress.addressLine1
+                              ? orderDetails.deliveryAddress.addressLine1
                               : ""
                           } ${
-                            orderDetails.billingAddress.town
-                              ? orderDetails.billingAddress.town
+                            orderDetails.deliveryAddress.town
+                              ? orderDetails.deliveryAddress.town
                               : ""
                           } ${
-                            orderDetails.billingAddress.state
-                              ? orderDetails.billingAddress.state
+                            orderDetails.deliveryAddress.state
+                              ? orderDetails.deliveryAddress.state
                               : ""
                           } ${
-                            orderDetails.billingAddress.postalcode
-                              ? orderDetails.billingAddress.postalcode
+                            orderDetails.deliveryAddress.postalcode
+                              ? orderDetails.deliveryAddress.postalcode
                               : ""
                           }`}
+                          deliveredAddress1={`${
+                            orderDetails.deliveryAddress.firstName
+                              ? orderDetails.deliveryAddress.firstName
+                              : ""
+                          } ${
+                            orderDetails.deliveryAddress.lastName
+                              ? orderDetails.deliveryAddress.lastName
+                              : ""
+                          }`}
+                          deliveredAddress2={`${
+                            orderDetails.deliveryAddress.addressLine1
+                              ? orderDetails.deliveryAddress.addressLine1
+                              : ""
+                          }`}
+                          deliveredAddress3={`
+                          ${
+                            orderDetails.deliveryAddress.town
+                              ? orderDetails.deliveryAddress.town
+                              : ""
+                          }, ${
+                            orderDetails.deliveryAddress.state
+                              ? orderDetails.deliveryAddress.state
+                              : ""
+                          } ${
+                            orderDetails.deliveryAddress.postalcode
+                              ? orderDetails.deliveryAddress.postalcode
+                              : ""
+                          }`}
+                          orderDeliveryHeaderText={"Delivered to"}
+                          deliveredDate={products.deliveryDate}
+                          soldBy={products.sellerName}
                         />
                       )}
                     {products.statusDisplayMsg &&

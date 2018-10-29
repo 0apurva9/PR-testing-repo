@@ -483,6 +483,20 @@ export default class AllOrderDetails extends React.Component {
                                   <OrderDelivered
                                     deliveredAddress={deliveryAddress}
                                     orderDeliveryHeaderText={placeHolder}
+                                    deliveredDate={
+                                      orderDetails &&
+                                      orderDetails.products &&
+                                      orderDetails.products[0] &&
+                                      orderDetails.products.length &&
+                                      orderDetails.products[0].deliveryDate
+                                    }
+                                    soldBy={
+                                      orderDetails &&
+                                      orderDetails.products &&
+                                      orderDetails.products[0] &&
+                                      orderDetails.products.length &&
+                                      orderDetails.products[0].sellerName
+                                    }
                                   />
                                 )}
                             </React.Fragment>
@@ -545,7 +559,39 @@ export default class AllOrderDetails extends React.Component {
                                         }`
                                       }
                                       orderDeliveryHeaderText={placeHolder}
-                                    />
+                                      deliveredDate={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].deliveryDate
+                                      }
+                                      soldBy={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].sellerName
+                                      }
+                                      isShowDataHorizontal={true}
+                                    >
+                                      <div className={styles.priceRightHolder}>
+                                        <PriceAndLink
+                                          onViewDetails={() =>
+                                            this.onViewDetails(
+                                              orderDetails &&
+                                                orderDetails.orderId
+                                            )
+                                          }
+                                          isEgvOrder={orderDetails.isEgvOrder}
+                                          status={orderDetails.giftCardStatus}
+                                          price={
+                                            orderDetails &&
+                                            orderDetails.totalOrderAmount
+                                          }
+                                        />
+                                      </div>
+                                    </OrderDelivered>
                                   )}
 
                                 {orderDetails.isEgvOrder &&
@@ -559,21 +605,6 @@ export default class AllOrderDetails extends React.Component {
                                       </div>
                                     </div>
                                   )}
-                              </div>
-                              <div className={styles.priceRightHolder}>
-                                <PriceAndLink
-                                  onViewDetails={() =>
-                                    this.onViewDetails(
-                                      orderDetails && orderDetails.orderId
-                                    )
-                                  }
-                                  isEgvOrder={orderDetails.isEgvOrder}
-                                  status={orderDetails.giftCardStatus}
-                                  price={
-                                    orderDetails &&
-                                    orderDetails.totalOrderAmount
-                                  }
-                                />
                               </div>
                             </div>
                           </DesktopOnly>
