@@ -510,10 +510,10 @@ export default class DesktopHeader extends React.Component {
                     className={styles.myBagShow}
                     onClick={() => this.handleSelect()}
                   >
-                    {userCookie &&
-                      this.props.bagCount !== null && (
+                    {this.props.bagCount !== null &&
+                      (this.props.bagCount > 0 && (
                         <span>{`(${this.props.bagCount})`}</span>
-                      )}
+                      ))}
                   </div>
                   <div
                     className={styles.mywishList}

@@ -15,8 +15,7 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   LOGIN_PATH,
   SUCCESS,
-  BUY_NOW_ERROR_MESSAGE,
-  ADD_TO_BAG_TEXT
+  BUY_NOW_ERROR_MESSAGE
 } from "../../lib/constants";
 import {
   PRICE_TEXT,
@@ -47,8 +46,7 @@ class ProductSellerPage extends Component {
       winningUssID: this.props.productDetails
         ? this.props.productDetails.winningUssID
         : null,
-      sortOption: PRICE_LOW_TO_HIGH,
-      goToBagFlag: false
+      sortOption: PRICE_LOW_TO_HIGH
     };
   }
   priceValue;
@@ -91,7 +89,7 @@ class ProductSellerPage extends Component {
       return this.props.addProductToCart(productDetails);
     }
   };
-  async addToCartAccordingToTheUssid(USSID) {
+  addToCartAccordingToTheUssid(USSID) {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -104,33 +102,19 @@ class ProductSellerPage extends Component {
     );
     let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (userDetails) {
-      const addProductToCartResponse = await this.props.addProductToCart(
+      return this.props.addProductToCart(
         productDetails,
         JSON.parse(userDetails).userName,
         JSON.parse(cartDetailsLoggedInUser).code,
         JSON.parse(customerCookie).access_token
       );
-
-      if (addProductToCartResponse.status === SUCCESS) {
-        this.setState({ goToBagFlag: true });
-        this.props.displayToast(ADD_TO_BAG_TEXT);
-      } else {
-        this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
-      }
     } else {
-      const addProductToCartResponse = await this.props.addProductToCart(
+      return this.props.addProductToCart(
         productDetails,
         ANONYMOUS_USER,
         JSON.parse(cartDetailsAnonymous).guid,
         JSON.parse(globalCookie).access_token
       );
-
-      if (addProductToCartResponse.status === SUCCESS) {
-        this.setState({ goToBagFlag: true });
-        this.props.displayToast(ADD_TO_BAG_TEXT);
-      } else {
-        this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
-      }
     }
   }
   goToCart = () => {
@@ -191,7 +175,11 @@ class ProductSellerPage extends Component {
       ? renderMetaTags(productDetails)
       : renderMetaTagsWithoutSeoObject(productDetails);
   };
-
+  onClickImage(productCode) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
   render() {
     const sellers = this.props.productDetails
       ? this.props.productDetails.otherSellers
@@ -248,6 +236,12 @@ class ProductSellerPage extends Component {
               }
               averageRating={this.props.productDetails.averageRating}
               totalNoOfReviews={this.props.productDetails.productReviewsCount}
+              onClickImage={() =>
+                this.onClickImage(
+                  this.props.productDetails &&
+                    this.props.productDetails.productListingId
+                )
+              }
             />
             <MobileOnly>
               <div className={styles.OtherSeller}>Other sellers</div>
@@ -406,13 +400,15 @@ class ProductSellerPage extends Component {
                           addToBag={() =>
                             this.addToCartAccordingToTheUssid(value.USSID)
                           }
-                          goToBagFlag={this.state.goToBagFlag}
                           goToBag={() => this.goToCart()}
                           productListingId={
                             this.props.productDetails &&
                             this.props.productDetails.productListingId
                           }
                           winningUssID={value.USSID}
+                          displayToast={message =>
+                            this.props.displayToast(message)
+                          }
                         />
                       );
                     })}
