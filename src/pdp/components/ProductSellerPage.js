@@ -102,18 +102,18 @@ class ProductSellerPage extends Component {
     );
     let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     if (userDetails) {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
+        productDetails,
         JSON.parse(userDetails).userName,
         JSON.parse(cartDetailsLoggedInUser).code,
-        JSON.parse(customerCookie).access_token,
-        productDetails
+        JSON.parse(customerCookie).access_token
       );
     } else {
-      this.props.addProductToCart(
+      return this.props.addProductToCart(
+        productDetails,
         ANONYMOUS_USER,
         JSON.parse(cartDetailsAnonymous).guid,
-        JSON.parse(globalCookie).access_token,
-        productDetails
+        JSON.parse(globalCookie).access_token
       );
     }
   }
@@ -175,7 +175,11 @@ class ProductSellerPage extends Component {
       ? renderMetaTags(productDetails)
       : renderMetaTagsWithoutSeoObject(productDetails);
   };
-
+  onClickImage(productCode) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
   render() {
     const sellers = this.props.productDetails
       ? this.props.productDetails.otherSellers
@@ -232,6 +236,12 @@ class ProductSellerPage extends Component {
               }
               averageRating={this.props.productDetails.averageRating}
               totalNoOfReviews={this.props.productDetails.productReviewsCount}
+              onClickImage={() =>
+                this.onClickImage(
+                  this.props.productDetails &&
+                    this.props.productDetails.productListingId
+                )
+              }
             />
             <MobileOnly>
               <div className={styles.OtherSeller}>Other sellers</div>
@@ -390,11 +400,15 @@ class ProductSellerPage extends Component {
                           addToBag={() =>
                             this.addToCartAccordingToTheUssid(value.USSID)
                           }
+                          goToBag={() => this.goToCart()}
                           productListingId={
                             this.props.productDetails &&
                             this.props.productDetails.productListingId
                           }
                           winningUssID={value.USSID}
+                          displayToast={message =>
+                            this.props.displayToast(message)
+                          }
                         />
                       );
                     })}

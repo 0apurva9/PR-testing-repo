@@ -6,17 +6,36 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import Button from "../../general/components/Button.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants";
 export default class SellerCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      goToBagFlag: false
+    };
+  }
   handleClick(val) {
     if (this.props.selectItem && !this.props.disabled) {
       this.props.selectItem(val);
     }
   }
-  addToBag() {
+  async addToBag() {
     if (this.props.addToBag) {
-      this.props.addToBag();
+      let addToBagResponse = await this.props.addToBag();
+      if (addToBagResponse && addToBagResponse.status === SUCCESS) {
+        this.setState({ goToBagFlag: true });
+        this.props.displayToast(ADD_TO_BAG_TEXT);
+      } else {
+        this.setState({ goToBagFlag: false });
+      }
     }
   }
+  goToCart() {
+    if (this.props.goToBag) {
+      this.props.goToBag();
+    }
+  }
+
   render() {
     let priceClass = styles.priceHolder;
     if (
@@ -128,10 +147,14 @@ export default class SellerCard extends React.Component {
                 <Button
                   type="hollow"
                   height={45}
-                  label={"Add to bag"}
+                  label={this.state.goToBagFlag ? "Go to bag" : "Add to bag"}
+                  onClick={
+                    this.state.goToBagFlag
+                      ? () => this.goToCart()
+                      : () => this.addToBag()
+                  }
                   width={160}
                   textStyle={{ color: "#212121", fontSize: 14 }}
-                  onClick={() => this.addToBag()}
                 />
               </div>
               <div className={styles.saveListIcon}>
