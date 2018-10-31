@@ -1897,6 +1897,7 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
     Object.assign(data, {
       digitalData: { cpj: { brand: { name: response.brandName } } }
     });
+    window.digitalData = data;
     if (response.followStatus) {
       if (window._satellite) {
         window._satellite.track(ADOBE_FOLLOW_BRAND);
