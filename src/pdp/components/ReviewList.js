@@ -4,19 +4,6 @@ import ReviewPage from "./ReviewPage";
 import PropTypes from "prop-types";
 
 export default class ReviewList extends React.Component {
-  validateEmail = email => {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
-  protect_email = user_email => {
-    let avg, splitted, part1, part2;
-    splitted = user_email.split("@");
-    part1 = splitted[0];
-    avg = part1.length / 2;
-    part1 = part1.substring(0, part1.length - avg);
-    part2 = splitted[1];
-    return `${part1}***@${part2}`;
-  };
   render() {
     return (
       <div className={styles.base}>
@@ -30,9 +17,6 @@ export default class ReviewList extends React.Component {
               data.principal &&
               data.principal.name &&
               data.principal.name.trim();
-            if (this.validateEmail(userName)) {
-              userName = this.protect_email(userName);
-            }
             return (
               <ReviewPage
                 rating={data && data.rating}
