@@ -27,7 +27,8 @@ import {
   MAIN_ROUTER,
   SOCIAL_LOG_IN,
   CHECKOUT_ROUTER,
-  PRODUCT_CART_ROUTER
+  PRODUCT_CART_ROUTER,
+  MY_ACCOUNT
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -124,8 +125,12 @@ then in this case we have to hit generate temp cart id for user
     if (this.props.history.length === 2) {
       this.props.history.push(HOME_ROUTER);
     }
+
     if (this.props.redirectToAfterAuthUrl === CHECKOUT_ROUTER) {
       this.props.history.replace(PRODUCT_CART_ROUTER);
+    }
+    if (this.props.redirectToAfterAuthUrl === MY_ACCOUNT) {
+      this.props.history.push(HOME_ROUTER);
     } else {
       this.props.history.goBack();
     }
@@ -190,6 +195,7 @@ then in this case we have to hit generate temp cart id for user
   }
 
   render() {
+    console.log(this.props.redirectToAfterAuthUrl);
     const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
     let footerClick;

@@ -281,14 +281,21 @@ export default class ProductReviewPage extends Component {
     if (this.props.productDetails) {
       const mobileGalleryImages =
         this.props.productDetails &&
+        this.props.productDetails.galleryImagesList &&
         this.props.productDetails.galleryImagesList
           .map(galleryImageList => {
-            return galleryImageList.galleryImages.filter(galleryImages => {
-              return galleryImages.key === "product";
-            });
+            if (
+              galleryImageList &&
+              galleryImageList.mediaType &&
+              galleryImageList.mediaType === "Image"
+            ) {
+              return galleryImageList.galleryImages.filter(galleryImages => {
+                return galleryImages.key === "product";
+              });
+            }
           })
           .map(image => {
-            return image[0].value;
+            if (image) return image[0].value;
           });
       let seoDoublePrice = 0;
       if (
