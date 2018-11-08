@@ -195,7 +195,6 @@ then in this case we have to hit generate temp cart id for user
   }
 
   render() {
-    console.log(this.props.redirectToAfterAuthUrl);
     const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
     let footerClick;
