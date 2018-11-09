@@ -62,7 +62,9 @@ class BankOffersDetails extends Component {
             this.state.selectedBankOfferCode
           );
           if (applyNewCouponCode.status === SUCCESS) {
-            this.props.selecteBankOffer(this.state.selectedBankOfferCode);
+            if (this.props.selecteBankOffer) {
+              this.props.selecteBankOffer(this.state.selectedBankOfferCode);
+            }
             this.props.closeModal();
           } else {
             // this.setState({

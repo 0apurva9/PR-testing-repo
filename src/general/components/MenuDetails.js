@@ -26,13 +26,15 @@ export default class MenuDetails extends React.Component {
     if (isOpen) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_SELECTING_PAYMENT_MODES,
-        this.props.text
+        this.props.textValue ? this.props.textValue : this.props.text
       );
     }
     this.setState({ isOpen });
     if (this.props.onOpenMenu) {
       if (isOpen) {
-        this.props.onOpenMenu(this.props.text);
+        this.props.onOpenMenu(
+          this.props.textValue ? this.props.textValue : this.props.text
+        );
       } else {
         this.props.onOpenMenu(null);
       }

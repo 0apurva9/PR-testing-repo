@@ -1964,6 +1964,7 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
   openBankOffers = () => {
+    console.log("herere");
     this.props.showCouponModal({
       selectedBankOfferCode: localStorage.getItem(BANK_COUPON_COOKIE),
       coupons: this.props.cart.paymentModes.paymentOffers,
