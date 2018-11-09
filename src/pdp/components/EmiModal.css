@@ -157,4 +157,7 @@
   .base {
     min-height: initial;
   }
+  .content {
+    padding-bottom: 20px;
+  }
 }
