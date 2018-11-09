@@ -3,7 +3,6 @@ import AddressItem from "./AddressItem";
 import styles from "./AddressList.css";
 export default class AddressList extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <div className={styles.base}>
         {this.props.data &&

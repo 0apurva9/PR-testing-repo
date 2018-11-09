@@ -205,7 +205,8 @@ const cart = (
     mergeTempCartWithOldCartStatus: null,
     mergeTempCartWithOldCart: null,
     mergeTempCartWithOldCartError: null,
-    mergeTempCartWithOldCartLoading: null
+    mergeTempCartWithOldCartLoading: null,
+    resetAllPaymentModeFlag: false
   },
   action
 ) => {
@@ -1315,7 +1316,8 @@ const cart = (
         noCostEmiDetails: action.noCostEmiResult,
         cartDetailsCNC: carDetailsCopy,
         loading: false,
-        cliqCashPaymentDetails: null
+        cliqCashPaymentDetails: null,
+        isNoCostEmiApplied: true
       });
 
     case cartActions.APPLY_NO_COST_EMI_FAILURE:
@@ -1357,7 +1359,8 @@ const cart = (
         noCostEmiDetails: action.noCostEmiResult,
         cartDetailsCNC: carDetailsCopy,
         loading: false,
-        cliqCashPaymentDetails: null
+        cliqCashPaymentDetails: null,
+        isNoCostEmiApplied: false
       });
 
     case cartActions.REMOVE_NO_COST_EMI_FAILURE:
@@ -1709,7 +1712,14 @@ const cart = (
 
         isSoftReservationFailed: false
       });
-
+    case cartActions.RESET_ALL_PAYMENT_MODES:
+      return Object.assign({}, state, {
+        resetAllPaymentModeFlag: true
+      });
+    case cartActions.PREVENT_REQUESTING_ALL_PAYMENT_MODES:
+      return Object.assign({}, state, {
+        resetAllPaymentModeFlag: false
+      });
     default:
       return state;
   }

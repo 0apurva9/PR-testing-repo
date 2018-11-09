@@ -12,6 +12,8 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import OrderCard from "./OrderCard.js";
 import StarRating from "../../general/components/StarRating.js";
+import format from "date-fns/format";
+const dateFormat = "DD MMM YYYY";
 export default class UserReview extends React.Component {
   componentDidMount() {
     if (this.props.getUserReview) {
@@ -87,7 +89,11 @@ export default class UserReview extends React.Component {
                         productTitle={reviews.productTitle}
                         averageRating={reviews.rating}
                         showAverageRatingWithDays={true}
-                        daysAgo={reviews.reviewAge}
+                        daysAgo={
+                          reviews.reviewAge
+                            ? reviews.reviewAge
+                            : format(reviews.date, dateFormat)
+                        }
                       />
                     </MobileOnly>
                     <DesktopOnly>

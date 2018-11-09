@@ -52,7 +52,8 @@ import {
   jusPayTokenize,
   createJusPayOrderForNetBanking,
   createJusPayOrder,
-  resetIsSoftReservationFailed
+  resetIsSoftReservationFailed,
+  preventRestingAllPaymentMode
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -431,6 +432,9 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    preventRestingAllPaymentMode: () => {
+      dispatch(preventRestingAllPaymentMode());
     }
   };
 };

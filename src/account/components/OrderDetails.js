@@ -48,6 +48,7 @@ const PRODUCT_CANCEL = "Cancel";
 const AWB_POPUP_TRUE = "Y";
 const AWB_POPUP_FALSE = "N";
 const CLICK_COLLECT = "click-and-collect";
+const PAY_PAL = "PayPal";
 export default class OrderDetails extends React.Component {
   onClickImage(productCode) {
     if (productCode) {
@@ -70,13 +71,18 @@ export default class OrderDetails extends React.Component {
   replaceItem(sellerorderno, paymentMethod, transactionId) {
     if (sellerorderno) {
       let isCOD = false;
+      let isPaypal = false;
       if (paymentMethod === CASH_ON_DELIVERY) {
         isCOD = true;
+      }
+      if (paymentMethod === PAY_PAL) {
+        isPaypal = true;
       }
       this.props.history.push({
         pathname: `${RETURNS_PREFIX}/${sellerorderno}${RETURN_LANDING}${RETURNS_REASON}`,
         state: {
           isCOD,
+          isPaypal: isPaypal,
           authorizedRequest: true,
           transactionId: transactionId
         }

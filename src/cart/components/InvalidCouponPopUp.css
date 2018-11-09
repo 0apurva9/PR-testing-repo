@@ -59,6 +59,9 @@
   margin-top: 40px;
   text-align: center;
 }
+.buttonHolderForPaymentModeForValidate {
+  composes: buttonHolderForPaymentMode;
+}
 .button {
   width: auto;
   height: auto;
@@ -69,12 +72,15 @@
   composes: buttonHolderForPaymentMode;
   margin-top: 20px;
 }
+.buttonHolderForContinueCouponForValidate {
+  composes: buttonHolderForContinueCoupon;
+}
 .invalidCouponHeading {
   margin-bottom: 10px;
 }
 @media screen and (min-width: 1025px) {
   .base {
-    width: 420px;
+    width: 480px;
     height: 320px;
     background: #fff;
     padding: 30px 20px;
@@ -108,5 +114,12 @@
     background-size: auto 100%;
     background-position: center;
     cursor: pointer;
+  }
+  .buttonHolderForPaymentModeForValidate {
+    width: 49%;
+  }
+  .buttonHolderForContinueCouponForValidate {
+    width: 49%;
+    margin-top: 40px;
   }
 }

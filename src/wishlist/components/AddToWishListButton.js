@@ -12,7 +12,8 @@ import downloadIconWhite from "../../general/components/img/downloadWhite.svg";
 import {
   LOGIN_PATH,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN
+  CUSTOMER_ACCESS_TOKEN,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
@@ -25,37 +26,52 @@ export default class AddToWishListButton extends React.Component {
     if (e) {
       e.stopPropagation();
     }
-
+    const { productListingId, winningUssID, wishlistItems } = this.props;
+    let addToWishListObj = Object.assign(
+      {},
+      {
+        productListingId: productListingId,
+        winningUssID: winningUssID
+      }
+    );
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
-      const url = this.props.location.pathname;
-      if (this.props.setUrlToRedirectToAfterAuth) {
-        this.props.setUrlToRedirectToAfterAuth(url);
-      }
-
-      if (UserAgent.checkUserAgentIsMobile()) {
-        this.props.history.push(LOGIN_PATH);
+      localStorage.setItem(
+        PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+        JSON.stringify(addToWishListObj)
+      );
+      if (this.props.isSizeSelectedForAddToWishlist) {
+        this.props.showSizeSelector();
       } else {
-        if (this.props.showAuthPopUp) {
-          this.props.showAuthPopUp();
-          return null;
+        const url = this.props.location.pathname;
+        this.props.setUrlToRedirectToAfterAuth(url);
+        if (UserAgent.checkUserAgentIsMobile()) {
+          this.props.history.push(LOGIN_PATH);
+        } else {
+          if (this.props.showAuthPopUp) {
+            this.props.showAuthPopUp();
+            return null;
+          }
         }
       }
     } else {
-      const { productListingId, winningUssID, wishlistItems } = this.props;
       const indexOfProduct = wishlistItems.findIndex(item => {
         return (
           item.productcode === productListingId || item.USSID === winningUssID
         );
       });
-      if (indexOfProduct < 0) {
-        this.props.addProductToWishList({
-          productListingId,
-          winningUssID
-        }); // adding product to wishlist
+      if (this.props.isSizeSelectedForAddToWishlist) {
+        this.props.showSizeSelector();
       } else {
-        this.props.displayToast(); // product is a already in wish list show toast
+        if (indexOfProduct < 0) {
+          this.props.addProductToWishList({
+            productListingId,
+            winningUssID
+          });
+        } else {
+          this.props.displayToast();
+        }
       }
     }
   }
@@ -129,6 +145,7 @@ AddToWishListButton.propTypes = {
 };
 AddToWishListButton.defaultProps = {
   size: 20,
+  isSizeSelectedForAddToWishlist: false,
   addProductToWishList: () => {},
   type: WISHLIST_FOOTER_ICON_TYPE
 };

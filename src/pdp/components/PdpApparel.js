@@ -241,7 +241,7 @@ export default class PdpApparel extends React.Component {
     this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
-  showSizeSelector = buyNowFlag => {
+  showSizeSelector = (buyNowFlag, addToWishlist) => {
     if (
       this.props.showSizeSelector &&
       this.props.productDetails &&
@@ -254,7 +254,8 @@ export default class PdpApparel extends React.Component {
         showSizeGuide: this.props.showSizeGuide,
         hasSizeGuide: this.props.productDetails.showSizeGuide,
         data: this.props.productDetails.variantOptions,
-        buyNowFlag: buyNowFlag
+        buyNowFlag: buyNowFlag,
+        addToWishlist: addToWishlist
       });
     }
   };
@@ -427,6 +428,15 @@ export default class PdpApparel extends React.Component {
           />
           <div className={styles.wishlist}>
             <AddToWishListButtonContainer
+              showSizeSelector={() => this.showSizeSelector(false, true)}
+              isSizeSelectedForAddToWishlist={
+                this.checkIfSizeSelected() ||
+                this.checkIfSizeDoesNotExist() ||
+                this.checkIfFreeSize() ||
+                this.checkIfNoSize()
+                  ? false
+                  : true
+              }
               productListingId={productData.productListingId}
               winningUssID={productData.winningUssID}
               type={WISHLIST_FOOTER_BUTTON_TYPE}

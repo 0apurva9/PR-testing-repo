@@ -135,7 +135,6 @@ class ProductListingsPage extends Component {
   }
 
   componentDidMount() {
-    console.log("COMPONENR DID MOUNT");
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true

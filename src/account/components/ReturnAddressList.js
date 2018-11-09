@@ -360,6 +360,7 @@ export default class ReturnAddressList extends React.Component {
         orderDetails={this.props.orderDetails}
         isCod={this.props.isCOD}
         onChangeBankDetails={val => this.props.onChangeBankDetails(val)}
+        isPaypal={this.props.isPaypal}
       />
     );
   };

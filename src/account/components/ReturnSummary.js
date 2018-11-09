@@ -112,7 +112,6 @@ export default class ReturnSummary extends React.Component {
             />
           </div>
         </MobileOnly>
-
         <div className={styles.card}>
           <MobileOnly>
             <OrderCard
@@ -126,6 +125,16 @@ export default class ReturnSummary extends React.Component {
                 this.props.returnProducts.orderProductWsDTO[0].productBrand
               } ${this.props.returnProducts.orderProductWsDTO[0].productName}`}
               price={this.props.returnProducts.orderProductWsDTO[0].price}
+              additionalContent={
+                this.props.isPaypal && (
+                  <div className={styles.textSmall}>
+                    Note: The refund amount will be credited to the payment mode
+                    used to make the purchase. This usually takes 3-5 business
+                    days after we receive the item and is subject to a quality
+                    check.
+                  </div>
+                )
+              }
             >
               {this.props.returnProducts.orderProductWsDTO[0].quantity && (
                 <div>
@@ -134,7 +143,6 @@ export default class ReturnSummary extends React.Component {
               )}
             </OrderCard>
           </MobileOnly>
-
           {this.props.orderDetails &&
             this.props.orderDetails.paymentCardDigit && (
               <ReturnsToBank

@@ -6,12 +6,13 @@ import { SUCCESS } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { removeItemFromCartLoggedIn } from "../../cart/actions/cart.actions";
-import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
+import {
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_ADDED_TO_WISHLIST
+} from "../../lib/constants";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 const toastMessageOnSuccessAddToWishlist = "Added";
-
 const toastMessageOnAlreadyInWishlist = "Already in wishlist";
-
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToWishList: async productObj => {
@@ -28,7 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             )
           );
         }
-        dispatch(displayToast(toastMessageOnSuccessAddToWishlist));
+        dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
     },
     displayToast: () => {
@@ -51,7 +52,9 @@ const mapStateToProps = (state, ownProps) => {
     isWhite: ownProps.isWhite,
     wishlistItems: state.wishlistItems.wishlistItems,
     type: ownProps.type,
-    index: ownProps.index
+    index: ownProps.index,
+    isSizeSelectedForAddToWishlist: ownProps.isSizeSelectedForAddToWishlist,
+    showSizeSelector: ownProps.showSizeSelector
   };
 };
 const AddToWishListButtonContainer = withRouter(
