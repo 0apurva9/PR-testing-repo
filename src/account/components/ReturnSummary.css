@@ -11,4 +11,11 @@
     padding: 25px 25px 0px 35px;
     margin-bottom: 0px;
   }
+  .textSmall {
+    width: 100%;
+    height: auto;
+    font-size: 12px;
+    padding-top: 10px;
+    font-family: light;
+  }
 }

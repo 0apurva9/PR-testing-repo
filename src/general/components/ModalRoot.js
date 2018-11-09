@@ -172,6 +172,12 @@ const InvalidCouponPopupContainer = Loadable({
     return <Loader />;
   }
 });
+const ValidateOffersPopUpContainer = Loadable({
+  loader: () => import("../../cart/containers/ValidateOffersPopUpContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const CancelOrderPopUp = Loadable({
   loader: () => import("../../account/components/CancelOrderPopUp.js"),
@@ -750,6 +756,13 @@ export default class ModalRoot extends React.Component {
         <CustomerQueryPopUp
           {...this.props.ownProps}
           history={this.props.history}
+        />
+      ),
+      ValidateOffersPopUp: (
+        <ValidateOffersPopUpContainer
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          changePaymentMethod={() => this.handleClose()}
         />
       )
     };

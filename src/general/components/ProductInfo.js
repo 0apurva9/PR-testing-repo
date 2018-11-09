@@ -16,15 +16,17 @@ export default class ProductInfo extends React.Component {
         {this.props.offerText && (
           <div className={styles.offerText}>{this.props.offerText}</div>
         )}
-        {this.props.averageRating && (
-          <StarRating averageRating={this.props.averageRating}>
-            {this.props.totalNoOfReviews && (
-              <div className={styles.totalNoOfReviews}>{`(${
-                this.props.totalNoOfReviews
-              })`}</div>
-            )}
-          </StarRating>
-        )}
+        {this.props.averageRating
+          ? this.props.averageRating && (
+              <StarRating averageRating={this.props.averageRating}>
+                {this.props.totalNoOfReviews && (
+                  <div className={styles.totalNoOfReviews}>{`(${
+                    this.props.totalNoOfReviews
+                  })`}</div>
+                )}
+              </StarRating>
+            )
+          : ""}
       </div>
     );
   }

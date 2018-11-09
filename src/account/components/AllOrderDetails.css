@@ -43,6 +43,14 @@
   height: 60px;
   background: #fff;
 }
+.reviewHolder {
+  width: auto;
+  height: auto;
+}
+.orderCardIndividual {
+  width: 100%;
+  height: auto;
+}
 @media screen and (min-width: 1025px) {
   .order {
     padding: 30px;

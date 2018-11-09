@@ -26,7 +26,8 @@ import {
   LOGIN_PATH,
   ORDER_HISTORY,
   MY_ACCOUNT_GIFT_CARD_PAGE,
-  MY_ACCOUNT_PAGE
+  MY_ACCOUNT_PAGE,
+  WRITE_REVIEW
 } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
@@ -82,6 +83,11 @@ export default class AllOrderDetails extends React.Component {
   }
   onViewDetails(orderId) {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
+  }
+  writeReview(productCode) {
+    if (productCode && this.props.history) {
+      this.props.history.push(`p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
+    }
   }
   componentDidMount() {
     if (this.props.shouldCallHeaderContainer) {

@@ -10,6 +10,7 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_ADDED_TO_WISHLIST,
   ERROR
 } from "../../lib/constants";
 import {
@@ -22,7 +23,10 @@ import {
   getCartId,
   getCartDetails
 } from "../../cart/actions/cart.actions";
-import { createWishlist } from "../../wishlist/actions/wishlist.actions";
+import {
+  createWishlist,
+  addProductToWishList
+} from "../../wishlist/actions/wishlist.actions";
 import * as Cookies from "../../lib/Cookie";
 import SignUp from "../components/SignUp.js";
 import {
@@ -89,6 +93,12 @@ const mapDispatchToProps = dispatch => {
     },
     clearUrlToRedirectToAfterAuth: () => {
       dispatch(clearUrlToRedirectToAfterAuth());
+    },
+    addProductToWishList: async productObj => {
+      const wishlistResponse = await dispatch(addProductToWishList(productObj));
+      if (wishlistResponse.status === SUCCESS) {
+        dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
+      }
     }
   };
 };
@@ -99,7 +109,9 @@ const mapStateToProps = state => {
     authCallsIsSucceed: state.auth.authCallsIsSucceed,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     tempCartIdForLoggedInUserLoading:
-      state.cart.tempCartIdForLoggedInUserLoading
+      state.cart.tempCartIdForLoggedInUserLoading,
+    loadingForAddProductToWishList:
+      state.wishlistItems.loadingForAddProductToWishList
   };
 };
 

@@ -234,6 +234,7 @@ class CheckOutPage extends React.Component {
   onChangePaymentMode = val => {
     let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
     if (
+      val &&
       val.currentPaymentMode !== EMI &&
       val.currentPaymentMode !== null &&
       noCostEmiCouponCode
@@ -774,6 +775,10 @@ class CheckOutPage extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.cart.resetAllPaymentModeFlag) {
+      this.props.preventRestingAllPaymentMode();
+      this.onChangePaymentMode({ currentPaymentMode: null });
+    }
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
     }
@@ -812,7 +817,12 @@ class CheckOutPage extends React.Component {
           : "0.00"
       });
     }
-
+    if (nextProps.cart.isNoCostEmiApplied && !this.state.isNoCostEmiApplied) {
+      this.setState({
+        isNoCostEmiApplied: true,
+        isNoCostEmiProceeded: false
+      });
+    }
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&
@@ -1641,8 +1651,9 @@ if you have order id in local storage then you have to show order confirmation p
       } else {
         this.props.createJusPayOrderForNetBanking(
           PAYPAL,
-          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE))
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
       }
     }
@@ -2754,6 +2765,7 @@ if you have order id in local storage then you have to show order confirmation p
                           ? this.handleSubmitAfterPaymentFailure
                           : this.handleSubmit
                       }
+                      redeemCliqVoucher={val => this.redeemCliqVoucher(val)}
                     />
                   </div>
                 )}

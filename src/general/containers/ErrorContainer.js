@@ -6,6 +6,7 @@ import delay from "lodash.delay";
 import keys from "lodash.keys";
 import each from "lodash.foreach";
 const FAILED_TO_FETCH = "Failed to fetch";
+const TYPE_ERROR = "Type error";
 const CANNOT_READ_PROPERTY = /Cannot read property/i;
 const REG_EX_FOR_UNEXPECTED_TOKEN = /unexpected token/i;
 const CLEAR_ERROR_DELAY = TOAST_DELAY + 1000;
@@ -25,7 +26,7 @@ const mapStateToProps = state => {
     cartDetailsCNCError: state.cart.cartDetailsCNCError,
     couponError: state.cart.couponError,
     paymentsModeError: state.cart.paymentsModeError,
-    bankOfferError: state.cart.bankOfferError,
+    // bankOfferError: state.cart.bankOfferError,
     cliqCashPaymentStatusError: state.cart.cliqCashPaymentStatusError,
     jusPayError: state.cart.jusPayError,
     transactionDetailsError: state.cart.transactionDetailsError,
@@ -74,7 +75,7 @@ const mapStateToProps = state => {
     emiEligibilityError: state.cart.emiEligibilityError,
     bankAndTenureError: state.cart.bankAndTenureError,
     emiTermsAndConditionError: state.cart.emiTermsAndConditionError,
-    noCostEmiError: state.cart.noCostEmiError,
+    // noCostEmiError: state.cart.noCostEmiError,
     emiItemBreakUpError: state.cart.emiItemBreakUpError,
     emiBankError: state.cart.emiBankError,
     reSendEmailError: state.profile.reSendEmailError
@@ -143,6 +144,7 @@ class ErrorDisplay extends React.Component {
   displayError(message) {
     if (
       message !== FAILED_TO_FETCH &&
+      message !== TYPE_ERROR &&
       !REG_EX_FOR_UNEXPECTED_TOKEN.test(message) &&
       !CANNOT_READ_PROPERTY.test(message)
     ) {

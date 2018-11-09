@@ -23,7 +23,8 @@ import {
   ERROR,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  PRODUCT_ADDED_TO_WISHLIST
 } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -40,11 +41,11 @@ import {
 import { getCartDetails } from "../../cart/actions/cart.actions.js";
 import {
   getWishListItems,
-  createWishlist
+  createWishlist,
+  addProductToWishList
 } from "../../wishlist/actions/wishlist.actions";
 import ProductDetails from "../../pdp/components/ProductDetails";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
-
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -167,6 +168,12 @@ const mapDispatchToProps = dispatch => {
     },
     tempCartIdForLoggedInUser: productDetails => {
       return dispatch(tempCartIdForLoggedInUser(productDetails));
+    },
+    addProductToWishList: async productObj => {
+      const wishlistResponse = await dispatch(addProductToWishList(productObj));
+      if (wishlistResponse.status === SUCCESS) {
+        dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
+      }
     }
   };
 };
@@ -178,7 +185,9 @@ const mapStateToProps = state => {
     error: state.auth.error,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     tempCartIdForLoggedInUserLoading:
-      state.cart.tempCartIdForLoggedInUserLoading
+      state.cart.tempCartIdForLoggedInUserLoading,
+    loadingForAddProductToWishList:
+      state.wishlistItems.loadingForAddProductToWishList
   };
 };
 
