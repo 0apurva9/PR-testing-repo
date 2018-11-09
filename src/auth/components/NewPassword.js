@@ -86,12 +86,22 @@ export default class NewPassword extends React.Component {
         <div className={ownStyles.content}>
           <div className={ownStyles.password}>
             Password reset for
-            <span className={styles.header}>
-              {" "}
-              {emailIdOrMobileNumber.indexOf("@") !== -1
-                ? emailIdOrMobileNumber
-                : `+91${emailIdOrMobileNumber}`}
-            </span>
+            <MobileOnly>
+              <span className={styles.header}>
+                {" "}
+                {emailIdOrMobileNumber.indexOf("@") !== -1
+                  ? emailIdOrMobileNumber
+                  : `+91${emailIdOrMobileNumber}`}
+              </span>
+            </MobileOnly>
+            <DesktopOnly>
+              <span className={styles.particulatEmail}>
+                {" "}
+                {emailIdOrMobileNumber.indexOf("@") !== -1
+                  ? emailIdOrMobileNumber
+                  : `+91${emailIdOrMobileNumber}`}
+              </span>
+            </DesktopOnly>
           </div>
         </div>
         <div className={styles.input}>
