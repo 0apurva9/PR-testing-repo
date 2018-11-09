@@ -172,6 +172,7 @@ const productListings = (
       existingProductListings = cloneDeep(state.productListings);
       existingProductListings.searchresult = searchResults;
       existingProductListings.pagination = action.productListings.pagination;
+      existingProductListings.seo = action.productListings.seo;
       return Object.assign({}, state, {
         productListings: existingProductListings,
         status: action.status
