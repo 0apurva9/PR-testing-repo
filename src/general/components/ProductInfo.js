@@ -16,7 +16,7 @@ export default class ProductInfo extends React.Component {
         {this.props.offerText && (
           <div className={styles.offerText}>{this.props.offerText}</div>
         )}
-        {this.props.averageRating
+        {this.props.averageRating != 0
           ? this.props.averageRating && (
               <StarRating averageRating={this.props.averageRating}>
                 {this.props.totalNoOfReviews && (
