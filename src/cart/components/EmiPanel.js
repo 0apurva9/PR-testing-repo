@@ -116,6 +116,7 @@ export default class EmiPanel extends React.Component {
           onOpenMenu={currentPaymentMode =>
             this.props.onChange({ currentPaymentMode })
           }
+          textValue={EMI}
         >
           {!this.props.isCliqCashApplied &&
             this.props.cart &&
