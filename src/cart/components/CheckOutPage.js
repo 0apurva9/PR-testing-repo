@@ -2765,6 +2765,7 @@ if you have order id in local storage then you have to show order confirmation p
                           ? this.handleSubmitAfterPaymentFailure
                           : this.handleSubmit
                       }
+                      redeemCliqVoucher={val => this.redeemCliqVoucher(val)}
                     />
                   </div>
                 )}
