@@ -94,7 +94,6 @@ export default class ValidateOffersPopUp extends React.Component {
   }
 
   changePaymentMethod() {
-    console.log(this.props.offerType);
     if (this.props.offerType === BANK_OFFER_TYPE) {
       this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
     } else if (this.props.offerType === NCE_OFFER_TYPE) {
