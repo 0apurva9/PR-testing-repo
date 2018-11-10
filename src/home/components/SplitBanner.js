@@ -27,19 +27,21 @@ export default class SplitBanner extends React.Component {
           </div>
           <div className={styles.title}>{this.props.title}</div>
           <div className={styles.subTitle}>{this.props.subTitle}</div>
-          <div className={styles.buttonHolder}>
-            <Button
-              borderRadius={22.5}
-              type="hollow"
-              color="#fff"
-              label={this.props.btnText}
-              width={180}
-              textStyle={{
-                fontSize: 14
-              }}
-              onClick={() => this.handleClick()}
-            />
-          </div>
+          {this.props.btnText && (
+            <div className={styles.buttonHolder}>
+              <Button
+                borderRadius={22.5}
+                type="hollow"
+                color="#fff"
+                label={this.props.btnText}
+                width={180}
+                textStyle={{
+                  fontSize: 14
+                }}
+                onClick={() => this.handleClick()}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

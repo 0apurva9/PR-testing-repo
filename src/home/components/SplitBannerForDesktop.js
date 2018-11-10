@@ -25,6 +25,7 @@ export default class SplitBannerForDesktop extends React.Component {
 
   render() {
     let { feedComponentData } = this.props;
+
     return (
       <CommonCenter>
         <div
@@ -39,23 +40,45 @@ export default class SplitBannerForDesktop extends React.Component {
               </div>
             )}
           {feedComponentData.items &&
-            feedComponentData.items.map((datum, i) => {
-              return (
-                <div
-                  className={styles.splitBannerHolder}
-                  onClick={() => this.handleClick(datum.webURL)}
-                >
-                  <SplitBanner
-                    logo={datum.brandLogo}
-                    image={datum.imageURL}
-                    subTitle={datum.description}
-                    title={datum.title}
-                    btnText={datum.btnText}
-                    onClick={() => this.handleClick(datum.webURL)}
-                  />
-                </div>
-              );
-            })}
+            feedComponentData.items[0] && (
+              <div
+                className={styles.splitBannerHolder}
+                onClick={() =>
+                  this.handleClick(feedComponentData.items[0].webURL)
+                }
+              >
+                <SplitBanner
+                  logo={feedComponentData.items[0].brandLogo}
+                  image={feedComponentData.items[0].imageURL}
+                  subTitle={feedComponentData.items[0].description}
+                  title={feedComponentData.items[0].title}
+                  btnText={feedComponentData.items[0].btnText}
+                  onClick={() =>
+                    this.handleClick(feedComponentData.items[0].webURL)
+                  }
+                />
+              </div>
+            )}
+          {feedComponentData.items &&
+            feedComponentData.items[1] && (
+              <div
+                className={styles.splitBannerHolder}
+                onClick={() =>
+                  this.handleClick(feedComponentData.items[1].webURL)
+                }
+              >
+                <SplitBanner
+                  logo={feedComponentData.items[1].brandLogo}
+                  image={feedComponentData.items[1].imageURL}
+                  subTitle={feedComponentData.items[1].description}
+                  title={feedComponentData.items[1].title}
+                  btnText={feedComponentData.items[1].btnText}
+                  onClick={() =>
+                    this.handleClick(feedComponentData.items[1].webURL)
+                  }
+                />
+              </div>
+            )}
         </div>
       </CommonCenter>
     );

@@ -9,7 +9,7 @@
   transform: scale(1);
 }
 .base:hover {
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 .imageHolder {
   width: 100%;
