@@ -410,16 +410,20 @@ export default class Plp extends React.Component {
               this.props.productListings.currentQuery &&
               this.props.productListings.currentQuery.searchQuery ? (
                 <div className={styles.headerText}>
-                  <div className={styles.plpHeading}>{`Showing "${
-                    this.props.productListings &&
-                    this.props.productListings.pagination &&
-                    this.props.productListings.pagination.totalResults
-                      ? this.props.productListings.pagination.totalResults
-                      : 0
-                  }" items for "${this.props.productListings &&
-                    this.props.productListings.currentQuery &&
-                    this.props.productListings.currentQuery
-                      .searchQuery}"`}</div>
+                  <div className={styles.plpHeading}>
+                    {`Showing "${
+                      this.props.productListings &&
+                      this.props.productListings.pagination &&
+                      this.props.productListings.pagination.totalResults
+                        ? this.props.productListings.pagination.totalResults
+                        : 0
+                    }" items for "`}
+                    <span className={styles.camelCase}>
+                      {this.props.productListings &&
+                        this.props.productListings.currentQuery &&
+                        this.props.productListings.currentQuery.searchQuery}"
+                    </span>
+                  </div>
                 </div>
               ) : (
                 <div className={styles.headerTextWithTotalProducts}>
