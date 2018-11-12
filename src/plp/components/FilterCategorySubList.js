@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default class FilterCategorySubList extends React.Component {
   handleClick() {
     if (this.props.onClick) {
-      this.props.onClick(this.props.value);
+      this.props.onClick(this.props.value, "Category", this.props.subListItem);
     }
   }
   render() {

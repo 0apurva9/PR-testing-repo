@@ -65,9 +65,9 @@ export default class PriceFilterTabDesktop extends React.Component {
       });
     }
   };
-  onFilterClick = val => {
+  onFilterClick = (data, filterType, filterValue) => {
     if (this.props.onFilterClick) {
-      this.props.onFilterClick(val);
+      this.props.onFilterClick(data, filterType, filterValue);
     }
   };
 
@@ -107,6 +107,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                   url={val.url}
                   value={val.value}
                   history={this.props.history}
+                  typeOfFilter={this.props.typeOfFilter}
                 />
               );
             })}

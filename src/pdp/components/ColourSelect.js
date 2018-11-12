@@ -7,7 +7,11 @@ export default class ColourAdd extends React.Component {
       this.props.selectItem();
     }
     if (this.props.onSelect) {
-      this.props.onSelect(this.props.value);
+      this.props.onSelect(
+        this.props.value,
+        this.props.typeOfFilter,
+        this.props.colour
+      );
     }
   };
   render() {

@@ -19,7 +19,10 @@ import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
 import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ShowBrandModal from "./ShowBrandModal";
-
+import {
+  setDataLayerForSelectedFilterDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_FILTER_OPTION
+} from "../../lib/adobeUtils";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
@@ -73,7 +76,12 @@ export default class FilterDesktop extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
-  onCategorySelect = (val, isFilter) => {
+  onCategorySelect = (val, filterType, filterValue, isFilter) => {
+    setDataLayerForSelectedFilterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
+      filterType,
+      filterValue
+    );
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
     let url;
@@ -91,18 +99,24 @@ export default class FilterDesktop extends React.Component {
       this.props.onL3CategorySelect();
     }
   };
-  onL1Click = val => {
-    this.onCategorySelect(val, true);
+  onL1Click = (val, filterType, filterValue) => {
+    this.onCategorySelect(val, filterType, filterValue, true);
   };
-  onL2Click = val => {
-    this.onCategorySelect(val, true);
+  onL2Click = (val, filterType, filterValue) => {
+    this.onCategorySelect(val, filterType, filterValue, true);
   };
-  onL3Click = val => {
-    this.onCategorySelect(val, false);
+  onL3Click = (val, filterType, filterValue) => {
+    this.onCategorySelect(val, filterType, filterValue, false);
   };
-  onFilterClick = val => {
+  onFilterClick = (val, filterType, filterValue) => {
+    console.log(filterType);
+    console.log(filterValue);
     const url = val.replace("{pageNo}", 1);
-
+    setDataLayerForSelectedFilterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
+      filterType,
+      filterValue
+    );
     this.props.history.push(url, {
       isFilter: false
     });
@@ -146,9 +160,12 @@ export default class FilterDesktop extends React.Component {
               facetDataValues.name === BRAND &&
               facetDataValues.values && (
                 <ShowBrandModal
+                  typeOfFilter={facetDataValues.name}
                   brandData={facetDataValues.values}
                   closeModal={() => this.setState({ openBrandPopUp: false })}
-                  onSelect={data => this.onFilterClick(data)}
+                  onSelect={(data, filterType, filterValue) =>
+                    this.onFilterClick(data, filterType, filterValue)
+                  }
                 />
               )
             );
@@ -208,8 +225,15 @@ export default class FilterDesktop extends React.Component {
                               facetDataValues.values.map((val, i) => {
                                 return (
                                   <ColourSelect
+                                    typeOfFilter={facetDataValues.name}
                                     colour={val.hexColor}
-                                    onSelect={data => this.onFilterClick(data)}
+                                    onSelect={(data, filterType, filterValue) =>
+                                      this.onFilterClick(
+                                        data,
+                                        filterType,
+                                        filterValue
+                                      )
+                                    }
                                     selected={val.selected}
                                     value={val.url}
                                   />
@@ -222,6 +246,7 @@ export default class FilterDesktop extends React.Component {
                               facetDataValues.values && (
                                 <div>
                                   <BrandFilterTabDesktop
+                                    typeOfFilter={facetDataValues.name}
                                     onFilterClick={this.onFilterClick}
                                     brandsList={facetDataValues.values}
                                     onBrandSearch={this.onBrandSearch}
@@ -250,6 +275,7 @@ export default class FilterDesktop extends React.Component {
                                 {facetDataValues.values && (
                                   <div>
                                     <PriceFilterTabDesktop
+                                      typeOfFilter={facetDataValues.name}
                                       priceList={facetDataValues.values}
                                       history={this.props.history}
                                       onFilterClick={this.onFilterClick}
@@ -280,6 +306,7 @@ export default class FilterDesktop extends React.Component {
                                           }
                                           categoryId={categoryId}
                                           history={this.props.history}
+                                          typeOfFilter={facetDataValues.name}
                                         />
                                       );
                                     })}
@@ -324,8 +351,15 @@ export default class FilterDesktop extends React.Component {
                               {facetDataValues.values.map((val, i) => {
                                 return (
                                   <ColourSelect
+                                    typeOfFilter={facetDataValues.name}
                                     colour={val.hexColor}
-                                    onSelect={data => this.onFilterClick(data)}
+                                    onSelect={(data, filterType, filterValue) =>
+                                      this.onFilterClick(
+                                        data,
+                                        filterType,
+                                        filterValue
+                                      )
+                                    }
                                     selected={val.selected}
                                     value={val.url}
                                   />
@@ -339,6 +373,7 @@ export default class FilterDesktop extends React.Component {
                               <div className={styles.allDataHolder}>
                                 {facetDataValues.values && (
                                   <BrandFilterTabDesktop
+                                    typeOfFilter={facetDataValues.name}
                                     brandsList={facetDataValues.values}
                                     onBrandSearch={this.onBrandSearch}
                                   />
@@ -350,6 +385,7 @@ export default class FilterDesktop extends React.Component {
                               <div className={styles.allDataHolder}>
                                 {facetDataValues.values && (
                                   <PriceFilterTabDesktop
+                                    typeOfFilter={facetDataValues.name}
                                     priceList={facetDataValues.values}
                                     history={this.props.history}
                                     onFilterClick={this.onFilterClick}
@@ -376,6 +412,7 @@ export default class FilterDesktop extends React.Component {
                                       isBrand={facetDataValues.name === BRAND}
                                       categoryId={categoryId}
                                       history={this.props.history}
+                                      typeOfFilter={facetDataValues.name}
                                     />
                                   );
                                 })}

@@ -241,10 +241,8 @@ export const ADOBE_MY_ACCOUNT_ORDER_RETURN = "ADOBE_MY_ACCOUNT_ORDER_RETURN";
 
 export const ADOBE_BLP_PAGE_LOAD = "ADOBE_BLP_PAGE_LOAD";
 export const ADOBE_CLP_PAGE_LOAD = "ADOBE_CLP_PAGE_LOAD";
-
 export const ADOBE_DEFAULT_BLP_PAGE_LOAD = "ADOBE_DEFAULT_BLP_PAGE_LOAD";
 export const ADOBE_DEFAULT_CLP_PAGE_LOAD = "ADOBE_DEFAULT_CLP_PAGE_LOAD";
-
 // end of  cosnt for BLP and CLP adobe calls
 // const for follow and un follow
 export const ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS =
@@ -252,15 +250,23 @@ export const ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS =
 export const ADOBE_ON_UN_FOLLOW_BRANDS = "ADOBE_ON_UN_FOLLOW_BRANDS";
 export const ADOBE_ON_CLICK_FOLLOWED_WIDGET = "ADOBE_ON_CLICK_FOLLOWED_WIDGET";
 // end const for follow and un follow
-
 export const ADOBE_STATIC_PAGE = "ADOBE_STATIC_PAGE";
 export const ADOBE_LOGIN_AND_SIGN_UP_PAGE = "ADOBE_LOGIN_AND_SIGN_UP_PAGE";
-
 export const ADOBE_SIGN_UP_START = "ADOBE_SIGN_UP_START";
 export const ADOBE_SIGN_UP_SUCCESS = "ADOBE_SIGN_UP_SUCCESS";
-
 export const ADOBE_AUTO_SUGGEST_SEARCH = "ADOBE_AUTO_SUGGEST_SEARCH";
-
+export const ADOBE_DIRECT_CALL_FOR_HEADER_CLICK =
+  "ADOBE_DIRECT_CALL_FOR_HEADER_CLICK";
+export const ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME =
+  "ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME";
+export const ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE =
+  "ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE";
+export const ADOBE_DIRECT_CALL_FOR_FILTER_OPTION =
+  "ADOBE_DIRECT_CALL_FOR_FILTER_OPTION";
+export const ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK =
+  "ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK";
+export const ADOBE_DIRECT_CALL_FOR_BRAND_CLICK =
+  "ADOBE_DIRECT_CALL_FOR_BRAND_CLICK";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -291,9 +297,12 @@ const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
 const BANNER_PRODUCT_CAROUSAL_ADOBE = "banner_product_carousal";
 const CURATED_PRODUCTS_COMPONENT_ADOBE = "curated_products_component";
 const VIDEO_PRODUCT_CAROUSEL_ADOBE = "video_product_carousel";
-
-// end of widgets tracking end points
-
+const HEADER_CLICK = "header_click";
+const CATEGORY_CLICK = "category_click";
+const BRAND_CLICK = "brand_click";
+const CHOOSE_DELIVERY_ADDRESS_HOME = "cpj_choose_delivery_address_home";
+const CHOOSE_DELIVERY_ADDRESS_OFFICE = "cpj_choose_delivery_address_office";
+const FILTER_OPTION = "cpj_filter_option";
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -1068,7 +1077,6 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
     }
   }
 }
-
 export function setDataLayerForCartDirectCalls(type, response) {
   let data = cloneDeep(window.digitalData);
   if (type === ADOBE_REMOVE_ITEM) {
@@ -2125,5 +2133,86 @@ export function widgetsTracking(widgetObj: {}) {
 export function setDataLayerForVisitBrand() {
   if (window._satellite) {
     window._satellite.track(VISIT_BRAND);
+  }
+}
+export function setDataLayerForHeaderDirectCalls(type, value) {
+  const previousDigitalData = cloneDeep(window.digitalData);
+  const currentDigitalData = window.digitalData;
+  if (
+    previousDigitalData &&
+    previousDigitalData.page &&
+    previousDigitalData.page.pageInfo &&
+    previousDigitalData.page.pageInfo.pageName
+  ) {
+    Object.assign(currentDigitalData, {
+      page: {
+        pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+      }
+    });
+    window.digitalData = currentDigitalData;
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_HEADER_CLICK) {
+    Object.assign(currentDigitalData, {
+      header: {
+        headerName: value
+      }
+    });
+    window.digitalData = currentDigitalData;
+    if (window._satellite) {
+      window._satellite.track(HEADER_CLICK);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK) {
+    Object.assign(currentDigitalData, {
+      header: {
+        categoryName: value
+      }
+    });
+    window.digitalData = currentDigitalData;
+    if (window._satellite) {
+      window._satellite.track(CATEGORY_CLICK);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_BRAND_CLICK) {
+    Object.assign(currentDigitalData, {
+      cpj: {
+        brand: { name: value }
+      }
+    });
+    window.digitalData = currentDigitalData;
+    if (window._satellite) {
+      window._satellite.track(BRAND_CLICK);
+    }
+  }
+}
+export function setDataLayerForSelectedAddressTypeDirectCalls(type) {
+  if (type === ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME) {
+    if (window._satellite) {
+      window._satellite.track(CHOOSE_DELIVERY_ADDRESS_HOME);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE) {
+    if (window._satellite) {
+      window._satellite.track(CHOOSE_DELIVERY_ADDRESS_OFFICE);
+    }
+  }
+}
+export function setDataLayerForSelectedFilterDirectCalls(
+  type,
+  filterType,
+  filterValue
+) {
+  const currentDigitalData = window.digitalData;
+  Object.assign(currentDigitalData, {
+    filter: {
+      filterType: filterType,
+      filterValue: filterValue
+    }
+  });
+  window.digitalData = currentDigitalData;
+  if (type === ADOBE_DIRECT_CALL_FOR_FILTER_OPTION) {
+    if (window._satellite) {
+      window._satellite.track(FILTER_OPTION);
+    }
   }
 }

@@ -15,9 +15,9 @@ class BrandFilterTabDesktop extends React.Component {
   onBrandSearch = val => {
     this.setState({ brandSearchString: val });
   };
-  onFilterClick = val => {
+  onFilterClick = (val, filterType, filterValue) => {
     if (this.props.onFilterClick) {
-      this.props.onFilterClick(val);
+      this.props.onFilterClick(val, filterType, filterValue);
     }
   };
   render() {
@@ -52,6 +52,7 @@ class BrandFilterTabDesktop extends React.Component {
                       url={val.url}
                       value={val.value}
                       history={this.props.history}
+                      typeOfFilter={this.props.typeOfFilter}
                     />
                   );
                 })}
@@ -70,6 +71,7 @@ class BrandFilterTabDesktop extends React.Component {
                         url={val.url}
                         value={val.value}
                         history={this.props.history}
+                        typeOfFilter={this.props.typeOfFilter}
                       />
                     );
                   }

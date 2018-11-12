@@ -14,7 +14,7 @@ export default class FilterCategoryL1 extends React.Component {
 
   onClick = () => {
     if (this.props.onClick) {
-      this.props.onClick(this.props.value);
+      this.props.onClick(this.props.value, "Category", this.props.name);
     }
   };
 

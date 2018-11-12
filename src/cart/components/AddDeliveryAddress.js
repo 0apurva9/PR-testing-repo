@@ -57,8 +57,14 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   MY_ACCOUNT_ADDRESS_PAGE,
   LOGIN_PATH,
-  PINCODE_NOT_SERVICEABLE_TEXT
+  PINCODE_NOT_SERVICEABLE_TEXT,
+  CHECKOUT_ROUTER
 } from "../../lib/constants";
+import {
+  setDataLayerForSelectedAddressTypeDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME,
+  ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE
+} from "../../lib/adobeUtils";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class AddDeliveryAddress extends React.Component {
@@ -142,6 +148,21 @@ export default class AddDeliveryAddress extends React.Component {
   }
   onChange(val) {
     this.setState(val);
+    if (
+      this.props.history.location.pathname === CHECKOUT_ROUTER &&
+      val &&
+      val.addressType
+    ) {
+      if (val.addressType === "Home") {
+        setDataLayerForSelectedAddressTypeDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME
+        );
+      } else {
+        setDataLayerForSelectedAddressTypeDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE
+        );
+      }
+    }
     if (this.props.getAddressDetails) {
       const cloneAddress = cloneDeep(this.state);
       Object.assign(cloneAddress, val);
