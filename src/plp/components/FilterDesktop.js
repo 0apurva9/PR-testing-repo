@@ -28,7 +28,8 @@ export default class FilterDesktop extends React.Component {
     super();
     this.state = {
       openedFilters: [],
-      openBrandPopUp: false
+      openBrandPopUp: false,
+      showAllColor: false
     };
   }
 
@@ -121,6 +122,9 @@ export default class FilterDesktop extends React.Component {
   viewMore(brandData) {
     this.setState({ openBrandPopUp: true });
   }
+  viewMoreColor() {
+    this.setState({ showAllColor: !this.state.showAllColor });
+  }
   render() {
     const { facetData, facetdatacategory } = this.props;
 
@@ -202,19 +206,55 @@ export default class FilterDesktop extends React.Component {
                             {facetDataValues.name}
                           </div>
                           <div className={styles.allDataHolder}>
-                            {facetDataValues &&
-                              facetDataValues.name === COLOUR &&
-                              facetDataValues.values &&
-                              facetDataValues.values.map((val, i) => {
-                                return (
-                                  <ColourSelect
-                                    colour={val.hexColor}
-                                    onSelect={data => this.onFilterClick(data)}
-                                    selected={val.selected}
-                                    value={val.url}
-                                  />
-                                );
-                              })}
+                            <div className={styles.colorHolder}>
+                              {facetDataValues &&
+                                facetDataValues.name === COLOUR &&
+                                facetDataValues.values &&
+                                this.state.showAllColor === false &&
+                                facetDataValues.values.map((val, i) => {
+                                  if (i < 10) {
+                                    return (
+                                      <ColourSelect
+                                        colour={val.hexColor}
+                                        onSelect={data =>
+                                          this.onFilterClick(data)
+                                        }
+                                        selected={val.selected}
+                                        value={val.url}
+                                      />
+                                    );
+                                  }
+                                })}
+                              {facetDataValues &&
+                                facetDataValues.name === COLOUR &&
+                                facetDataValues.values &&
+                                this.state.showAllColor === true &&
+                                facetDataValues.values.map((val, i) => {
+                                  return (
+                                    <ColourSelect
+                                      colour={val.hexColor}
+                                      onSelect={data =>
+                                        this.onFilterClick(data)
+                                      }
+                                      selected={val.selected}
+                                      value={val.url}
+                                    />
+                                  );
+                                })}
+                            </div>
+                            <DesktopOnly>
+                              {facetDataValues &&
+                                facetDataValues.name === COLOUR &&
+                                facetDataValues.values &&
+                                facetDataValues.values.length >= 10 && (
+                                  <div
+                                    className={styles.moreText}
+                                    onClick={() => this.viewMoreColor()}
+                                  >
+                                    {this.state.showAllColor ? "Less" : "More"}
+                                  </div>
+                                )}
+                            </DesktopOnly>
                           </div>
                           <div className={styles.filterBrandHolder}>
                             {facetDataValues &&

@@ -61,6 +61,12 @@
   color: #212121;
   padding: 20px 20px 10px;
 }
+.colorHolder {
+  width: 100%;
+  height: auto;
+  max-height: 215px;
+  overflow-y: auto;
+}
 .catagoryHolder {
   width: 100%;
   height: auto;
