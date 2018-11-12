@@ -415,6 +415,7 @@ export default class AllOrderDetails extends React.Component {
                               orderId={orderDetails && orderDetails.orderId}
                             />
                           </div>
+
                           {orderDetails &&
                             orderDetails.products && (
                               <OrderCard
@@ -433,7 +434,10 @@ export default class AllOrderDetails extends React.Component {
                                   orderDetails.products[0].isGiveAway
                                 }
                                 price={
-                                  orderDetails && orderDetails.totalOrderAmount
+                                  orderDetails &&
+                                  orderDetails.products &&
+                                  orderDetails.products[0] &&
+                                  orderDetails.products[0].price
                                 }
                                 discountPrice={""}
                                 productName={
@@ -623,7 +627,10 @@ export default class AllOrderDetails extends React.Component {
                     this.props.profile.orderDetails &&
                     (this.props.profile.orderDetails.currentPage + 1) * 3 <
                       this.props.profile.orderDetails.totalNoOfOrders && (
-                      <ShowMoreButton onClick={() => this.showMoreProducts()} />
+                      <ShowMoreButton
+                        onClick={() => this.showMoreProducts()}
+                        label={"Show more orders"}
+                      />
                     )}
                 </DesktopOnly>
               </div>

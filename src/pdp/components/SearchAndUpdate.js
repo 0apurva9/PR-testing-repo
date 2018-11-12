@@ -120,6 +120,7 @@ export default class SearchAndUpdate extends React.Component {
               id={this.props.id}
               value={this.state.pinCode}
               onlyNumber={true}
+              type="number"
               placeholder={this.props.placeholder}
               onChange={val => this.getValue(val)}
               textStyle={{ fontSize: 14 }}

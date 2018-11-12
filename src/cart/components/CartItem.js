@@ -82,12 +82,12 @@ export default class CartItem extends React.Component {
         });
       }
     }
-
     return (
       <div className={styles.base}>
         <div className={styles.productInformation}>
           <BagPageItem
             productImage={this.props.productImage}
+            quantity={this.props.quantity}
             productName={this.props.productName}
             productDetails={this.props.productDetails}
             price={this.props.price}
