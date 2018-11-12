@@ -531,6 +531,7 @@ class CheckOutPage extends React.Component {
                   hasFooter={false}
                   size={val.size}
                   color={val.color}
+                  quantity={val.qtySelectedByUser}
                   isGiveAway={val.isGiveAway}
                   //productDetails={val.productBrand}
                   productName={val.productName}
