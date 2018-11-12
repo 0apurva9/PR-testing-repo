@@ -91,7 +91,7 @@ export default class EmptyBag extends React.Component {
                     type="hollow"
                     color="#ff1744"
                     height={46}
-                    label="View saved products"
+                    label="Add items from Wishlist"
                     width={194}
                     onClick={() => this.handleOnSaved()}
                   />
