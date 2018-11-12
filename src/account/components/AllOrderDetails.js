@@ -415,6 +415,7 @@ export default class AllOrderDetails extends React.Component {
                               orderId={orderDetails && orderDetails.orderId}
                             />
                           </div>
+
                           {orderDetails &&
                             orderDetails.products && (
                               <OrderCard
@@ -433,7 +434,10 @@ export default class AllOrderDetails extends React.Component {
                                   orderDetails.products[0].isGiveAway
                                 }
                                 price={
-                                  orderDetails && orderDetails.totalOrderAmount
+                                  orderDetails &&
+                                  orderDetails.products &&
+                                  orderDetails.products[0] &&
+                                  orderDetails.products[0].price
                                 }
                                 discountPrice={""}
                                 productName={
