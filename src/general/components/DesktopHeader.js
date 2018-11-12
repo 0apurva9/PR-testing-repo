@@ -13,6 +13,12 @@ import LogoutButtonContainer from "../../account/containers/LogoutButtonContaine
 import * as Cookie from "../../lib/Cookie";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import BrandImage from "./BrandImage";
+import {
+  setDataLayerForHeaderDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+  ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
+  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
+} from "../../lib/adobeUtils";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
 
@@ -29,24 +35,40 @@ export default class DesktopHeader extends React.Component {
       this.props.redirectToHome();
     }
   }
-  openSignUpPopUp() {
+  openSignUpPopUp(value) {
     if (this.props.openSignUp) {
       this.props.openSignUp();
+      setDataLayerForHeaderDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+        value
+      );
     }
   }
   handleSelect() {
     if (this.props.onSelect) {
       this.props.onSelect();
+      setDataLayerForHeaderDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+        "Cart"
+      );
     }
   }
-  goToTrackOrders() {
+  goToTrackOrders(value) {
     if (this.props.goToTrackOrders) {
       this.props.goToTrackOrders();
+      setDataLayerForHeaderDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+        value
+      );
     }
   }
   goToWishList() {
     if (this.props.goToWishList) {
       this.props.goToWishList();
+      setDataLayerForHeaderDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+        "Wishlist"
+      );
     }
   }
   goToMyAccount() {
@@ -55,13 +77,15 @@ export default class DesktopHeader extends React.Component {
     }
   }
 
-  onGiftCard() {
+  onGiftCard(value) {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`;
     this.props.history.push(url);
+    setDataLayerForHeaderDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, value);
   }
-  onCliqCash() {
+  onCliqCash(value) {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`;
     this.props.history.push(url);
+    setDataLayerForHeaderDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, value);
   }
   onHoverCategory(value) {
     const headerBrandAndCategoryDetails =
@@ -126,10 +150,21 @@ export default class DesktopHeader extends React.Component {
       hoverInType: null
     });
   }
-  renderToAnotherURL(webURL) {
+  renderToAnotherUrlForHelp(webURL, value) {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
+      setDataLayerForHeaderDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+        value
+      );
+    }
+  }
+  renderToAnotherURL(webURL, triggerDirectCall, value) {
+    if (webURL) {
+      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+      this.props.history.push(urlSuffix);
+      setDataLayerForHeaderDirectCalls(triggerDirectCall, value);
     }
   }
   render() {
@@ -197,7 +232,17 @@ export default class DesktopHeader extends React.Component {
               <div className={styles.upperHeader}>
                 <a href="https://luxury.tatacliq.com/" target="_blank">
                   {" "}
-                  <div className={styles.luxeryTab}>Visit Luxury Store</div>
+                  <div
+                    className={styles.luxeryTab}
+                    onClick={() =>
+                      setDataLayerForHeaderDirectCalls(
+                        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+                        "Visit Luxury Store"
+                      )
+                    }
+                  >
+                    Visit Luxury Store
+                  </div>
                 </a>
                 <div className={styles.loginAndTrackTab}>
                   <div className={styles.signInAndLogout}>
@@ -208,7 +253,9 @@ export default class DesktopHeader extends React.Component {
                       !userCookie && (
                         <div
                           className={styles.loginTab}
-                          onClick={() => this.openSignUpPopUp()}
+                          onClick={() =>
+                            this.openSignUpPopUp("Sign in / Sign Up")
+                          }
                         >
                           Sign in / Sign Up
                         </div>
@@ -244,25 +291,27 @@ export default class DesktopHeader extends React.Component {
                   </div>
                   <div
                     className={styles.loginTab}
-                    onClick={() => this.goToTrackOrders()}
+                    onClick={() => this.goToTrackOrders("Track Orders")}
                   >
                     Track Orders
                   </div>
                   <div
                     className={styles.loginTab}
-                    onClick={() => this.renderToAnotherURL(CONTACT_URL)}
+                    onClick={() =>
+                      this.renderToAnotherUrlForHelp(CONTACT_URL, "Help")
+                    }
                   >
                     Help
                   </div>
                   <div
                     className={styles.loginTab}
-                    onClick={() => this.onGiftCard()}
+                    onClick={() => this.onGiftCard("Gift Card")}
                   >
                     Gift Card
                   </div>
                   <div
                     className={styles.loginTab}
-                    onClick={() => this.onCliqCash()}
+                    onClick={() => this.onCliqCash("Cliq Cash")}
                   >
                     Cliq Cash
                   </div>
@@ -337,7 +386,9 @@ export default class DesktopHeader extends React.Component {
                                           }
                                           onClick={() =>
                                             this.renderToAnotherURL(
-                                              subCategoriesHeader.webURL
+                                              subCategoriesHeader.webURL,
+                                              ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
+                                              subCategoriesHeader.category_name
                                             )
                                           }
                                         >
@@ -354,7 +405,9 @@ export default class DesktopHeader extends React.Component {
                                                   }
                                                   onClick={() =>
                                                     this.renderToAnotherURL(
-                                                      subCategoryDetails.webURL
+                                                      subCategoryDetails.webURL,
+                                                      ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
+                                                      subCategoryDetails.category_name
                                                     )
                                                   }
                                                 >
@@ -441,7 +494,9 @@ export default class DesktopHeader extends React.Component {
                                               className={styles.brandsDetails}
                                               onClick={() =>
                                                 this.renderToAnotherURL(
-                                                  popularBrands.webURL
+                                                  popularBrands.webURL,
+                                                  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+                                                  popularBrands.brandName
                                                 )
                                               }
                                             >
@@ -465,7 +520,9 @@ export default class DesktopHeader extends React.Component {
                                               className={styles.brandsDetails}
                                               onClick={() =>
                                                 this.renderToAnotherURL(
-                                                  featuredBrands.webURL
+                                                  featuredBrands.webURL,
+                                                  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+                                                  featuredBrands.brandName
                                                 )
                                               }
                                             >
@@ -491,7 +548,9 @@ export default class DesktopHeader extends React.Component {
                                           value={brandLogo.webURL}
                                           onClick={value =>
                                             this.renderToAnotherURL(
-                                              brandLogo.webURL
+                                              brandLogo.webURL,
+                                              ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+                                              ""
                                             )
                                           }
                                         />

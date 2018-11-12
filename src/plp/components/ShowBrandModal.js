@@ -31,9 +31,9 @@ export default class ShowBrandModal extends React.Component {
   ViewAll() {
     this.setState({ selectedBrandType: null });
   }
-  onFilterClick = val => {
+  onFilterClick = (val, filterType, filterValue) => {
     if (this.props.onSelect) {
-      this.props.onSelect(val);
+      this.props.onSelect(val, filterType, filterValue);
     }
   };
   render() {
@@ -70,7 +70,6 @@ export default class ShowBrandModal extends React.Component {
     const selectedFixBrandLabel = Object.keys(selectedFixBrand);
 
     parentBrandsLabel = Object.keys(brandsList);
-
     return (
       <div className={styles.base}>
         <div className={styles.dataDisplayHolder}>
@@ -117,7 +116,13 @@ export default class ShowBrandModal extends React.Component {
                         <div className={styles.brandNameHolder}>
                           <div
                             className={styles.checkBoxHolder}
-                            onClick={data => this.onFilterClick(brandsList.url)}
+                            onClick={data =>
+                              this.onFilterClick(
+                                brandsList.url,
+                                this.props.typeOfFilter,
+                                brandsList.name
+                              )
+                            }
                           >
                             <CheckBox
                               selected={brandsList.selected}

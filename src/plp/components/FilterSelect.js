@@ -10,13 +10,21 @@ export default class FilterSelect extends React.Component {
   handleUrlClick = e => {
     e.preventDefault();
     if (this.props.onClick) {
-      this.props.onClick(this.props.url);
+      this.props.onClick(
+        this.props.url,
+        this.props.typeOfFilter,
+        this.props.label
+      );
     }
   };
 
   handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick(this.props.url);
+      this.props.onClick(
+        this.props.url,
+        this.props.typeOfFilter,
+        this.props.label
+      );
     }
   };
 
