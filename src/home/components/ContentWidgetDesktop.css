@@ -80,7 +80,7 @@
   top: 0;
 }
 .buttons:after {
-  content: '';
+  content: "";
   height: 100%;
   width: 2px;
   background: #ececec;
@@ -93,7 +93,7 @@
 .forwardButton {
   width: 36px;
   height: 32px;
-  background: url('../../general/components/img/arrow.svg') no-repeat;
+  background: url("../../general/components/img/arrow.svg") no-repeat;
   background-size: 18px;
   background-position: center;
   position: absolute;
@@ -115,6 +115,8 @@
   font-size: 30px;
   line-height: 36px;
   margin-bottom: 15px;
+  max-height: 100px;
+  overflow: hidden;
 }
 .descriptionContent {
   width: 100%;
