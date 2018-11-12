@@ -623,7 +623,10 @@ export default class AllOrderDetails extends React.Component {
                     this.props.profile.orderDetails &&
                     (this.props.profile.orderDetails.currentPage + 1) * 3 <
                       this.props.profile.orderDetails.totalNoOfOrders && (
-                      <ShowMoreButton onClick={() => this.showMoreProducts()} />
+                      <ShowMoreButton
+                        onClick={() => this.showMoreProducts()}
+                        label={"Show more orders"}
+                      />
                     )}
                 </DesktopOnly>
               </div>
