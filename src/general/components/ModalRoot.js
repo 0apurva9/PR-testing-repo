@@ -263,7 +263,11 @@ export default class ModalRoot extends React.Component {
 
   handleRestoreClick(userDetails) {
     this.props.forgotPassword(userDetails);
-    this.props.hideModal();
+    if (userDetails === "") {
+      this.props.displayToast("enter mail id");
+    } else {
+      this.props.hideModal();
+    }
   }
   submitOtpForgotPassword(otpDetails) {
     this.props.forgotPasswordOtpVerification(otpDetails, this.props.ownProps);
