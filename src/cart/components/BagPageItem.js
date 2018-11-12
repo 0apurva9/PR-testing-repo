@@ -79,6 +79,11 @@ export default class BagPageItem extends React.Component {
               {`Color: ${this.props.color}`}
             </div>
           )}
+          {this.props.quantity && (
+            <div className={styles.informationText}>
+              {`Quantity: ${this.props.quantity}`}
+            </div>
+          )}
         </div>
         <div className={styles.productImage}>
           <ProductImage
