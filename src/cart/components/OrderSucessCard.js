@@ -21,7 +21,7 @@ export default class OrderSucessCard extends React.Component {
                 this.props.price
               }`}</div>
             </div>
-            <div className={styles.quantity}>{`Quantity ${
+            <div className={styles.quantity}>{`Quantity: ${
               this.props.quantity
             }`}</div>
           </div>
