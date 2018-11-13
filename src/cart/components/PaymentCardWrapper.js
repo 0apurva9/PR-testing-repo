@@ -45,8 +45,8 @@ const typeComponentMapping = {
   "Credit Card": props => <CheckoutCreditCard {...props} />,
     "Debit Card": props => <CheckoutDebitCard {...props} />,
     "Netbanking": props => <CheckoutNetbanking {...props} />,
-     "COD": props => <CheckoutCOD {...props}/>,
     "EMI": props => <EmiPanel {...props} />,
+     "COD": props => <CheckoutCOD {...props}/>,
     "PAYTM": props => <PaytmOption {...props} />,
     "PayPal" : props => <PayPalOptions {...props} />
 };
@@ -147,7 +147,7 @@ export default class PaymentCardWrapper extends React.Component {
         <div className={styles.base}>
           <DesktopOnly>
             <div className={styles.card}>
-              <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
+              <CheckOutHeader confirmTitle="Payment Method" indexNumber="3" />
             </div>
           </DesktopOnly>
           {!this.props.isFromGiftCard &&
@@ -195,7 +195,10 @@ export default class PaymentCardWrapper extends React.Component {
             <div className={styles.paymentModes}>
               <MobileOnly>
                 <div className={styles.card}>
-                  <CheckOutHeader confirmTitle="Make Payment" indexNumber="3" />
+                  <CheckOutHeader
+                    confirmTitle="Payment Method"
+                    indexNumber="3"
+                  />
                 </div>
               </MobileOnly>
               {this.props.cart.paymentModes &&
