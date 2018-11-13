@@ -14,7 +14,7 @@ import * as Cookie from "../../lib/Cookie";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import BrandImage from "./BrandImage";
 import {
-  setDataLayerForHeaderDirectCalls,
+  setDataLayerForHeaderAndFooterDirectCalls,
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
   ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
@@ -38,7 +38,7 @@ export default class DesktopHeader extends React.Component {
   openSignUpPopUp(value) {
     if (this.props.openSignUp) {
       this.props.openSignUp();
-      setDataLayerForHeaderDirectCalls(
+      setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         value
       );
@@ -47,7 +47,7 @@ export default class DesktopHeader extends React.Component {
   handleSelect() {
     if (this.props.onSelect) {
       this.props.onSelect();
-      setDataLayerForHeaderDirectCalls(
+      setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         "Cart"
       );
@@ -56,7 +56,7 @@ export default class DesktopHeader extends React.Component {
   goToTrackOrders(value) {
     if (this.props.goToTrackOrders) {
       this.props.goToTrackOrders();
-      setDataLayerForHeaderDirectCalls(
+      setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         value
       );
@@ -65,7 +65,7 @@ export default class DesktopHeader extends React.Component {
   goToWishList() {
     if (this.props.goToWishList) {
       this.props.goToWishList();
-      setDataLayerForHeaderDirectCalls(
+      setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         "Wishlist"
       );
@@ -80,12 +80,18 @@ export default class DesktopHeader extends React.Component {
   onGiftCard(value) {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`;
     this.props.history.push(url);
-    setDataLayerForHeaderDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, value);
+    setDataLayerForHeaderAndFooterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+      value
+    );
   }
   onCliqCash(value) {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`;
     this.props.history.push(url);
-    setDataLayerForHeaderDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, value);
+    setDataLayerForHeaderAndFooterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+      value
+    );
   }
   onHoverCategory(value) {
     const headerBrandAndCategoryDetails =
@@ -154,7 +160,7 @@ export default class DesktopHeader extends React.Component {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
-      setDataLayerForHeaderDirectCalls(
+      setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         value
       );
@@ -164,7 +170,7 @@ export default class DesktopHeader extends React.Component {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
-      setDataLayerForHeaderDirectCalls(triggerDirectCall, value);
+      setDataLayerForHeaderAndFooterDirectCalls(triggerDirectCall, value);
     }
   }
   render() {
@@ -235,7 +241,7 @@ export default class DesktopHeader extends React.Component {
                   <div
                     className={styles.luxeryTab}
                     onClick={() =>
-                      setDataLayerForHeaderDirectCalls(
+                      setDataLayerForHeaderAndFooterDirectCalls(
                         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
                         "Visit Luxury Store"
                       )
