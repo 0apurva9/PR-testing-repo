@@ -627,98 +627,6 @@ export default class PdpApparel extends React.Component {
                 </div>
                 {productData.variantOptions && (
                   <div>
-                    {!this.checkIfNoSize() &&
-                      !this.checkIfSizeDoesNotExist() && (
-                        <React.Fragment>
-                          {productData.rootCategory !== "HomeFurnishing" &&
-                            productData.rootCategory !== "FineJewellery" &&
-                            productData.rootCategory !== "FashionJewellery" && (
-                              <div
-                                className={
-                                  this.state.sizeError
-                                    ? styles.sizeError
-                                    : styles.sizeHolder
-                                }
-                              >
-                                <SizeSelector
-                                  history={this.props.history}
-                                  sizeSelected={this.checkIfSizeSelected()}
-                                  productId={productData.productListingId}
-                                  hasSizeGuide={productData.showSizeGuide}
-                                  showSizeGuide={this.props.showSizeGuide}
-                                  data={productData.variantOptions}
-                                  textSize={12}
-                                />
-                              </div>
-                            )}
-                          {(productData.rootCategory === "HomeFurnishing" ||
-                            productData.rootCategory === "FineJewellery" ||
-                            productData.rootCategory ===
-                              "FashionJewellery") && (
-                            <React.Fragment>
-                              <div
-                                className={
-                                  this.state.sizeError ||
-                                  this.state.quantityError
-                                    ? styles.sizeError
-                                    : styles.sizeHolder
-                                }
-                              >
-                                <SizeQuantitySelect
-                                  history={this.props.history}
-                                  sizeError={this.state.sizeError}
-                                  quantityError={this.state.quantityError}
-                                  showSizeGuide={
-                                    productData.showSizeGuide
-                                      ? this.props.showSizeGuide
-                                      : null
-                                  }
-                                  data={productData.variantOptions}
-                                  maxQuantity={productData.maxQuantityAllowed}
-                                  updateQuantity={this.updateQuantity}
-                                  updateSize={this.updateSize}
-                                  checkIfSizeSelected={this.checkIfSizeSelected}
-                                  checkIfQuantitySelected={
-                                    this.checkIfQuantitySelected
-                                  }
-                                  productQuantity={
-                                    this.state.productQuantityOption
-                                  }
-                                  noQuantity={
-                                    productData.rootCategory ===
-                                      "FineJewellery" ||
-                                    productData.rootCategory ===
-                                      "FashionJewellery"
-                                  }
-                                />
-                              </div>
-                            </React.Fragment>
-                          )}
-                          {productData.rootCategory === "HomeFurnishing" && (
-                            <div className={styles.horizontalOffset}>
-                              <div className={styles.customisation}>
-                                <div className={styles.customiseText}>
-                                  Customisation available - Contact seller for
-                                  Free Monogramming
-                                </div>
-                                {productData.buyingGuideUrl && (
-                                  <div className={styles.customisationButton}>
-                                    <UnderLinedButton
-                                      label="Checkout our buying guide"
-                                      onClick={() =>
-                                        this.goToBuyingGuide(
-                                          productData.buyingGuideUrl
-                                        )
-                                      }
-                                      color="#ff1744"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </React.Fragment>
-                      )}
                     <div className={styles.horizontalOffset}>
                       <ColourSelector
                         data={productData.variantOptions}
@@ -729,6 +637,101 @@ export default class PdpApparel extends React.Component {
                           this.props.getProductSpecification
                         }
                       />
+                      {!this.checkIfNoSize() &&
+                        !this.checkIfSizeDoesNotExist() && (
+                          <React.Fragment>
+                            {productData.rootCategory !== "HomeFurnishing" &&
+                              productData.rootCategory !== "FineJewellery" &&
+                              productData.rootCategory !==
+                                "FashionJewellery" && (
+                                <div
+                                  className={
+                                    this.state.sizeError
+                                      ? styles.sizeError
+                                      : styles.sizeHolder
+                                  }
+                                >
+                                  <SizeSelector
+                                    history={this.props.history}
+                                    sizeSelected={this.checkIfSizeSelected()}
+                                    productId={productData.productListingId}
+                                    hasSizeGuide={productData.showSizeGuide}
+                                    showSizeGuide={this.props.showSizeGuide}
+                                    data={productData.variantOptions}
+                                    textSize={12}
+                                  />
+                                </div>
+                              )}
+                            {(productData.rootCategory === "HomeFurnishing" ||
+                              productData.rootCategory === "FineJewellery" ||
+                              productData.rootCategory ===
+                                "FashionJewellery") && (
+                              <React.Fragment>
+                                <div
+                                  className={
+                                    this.state.sizeError ||
+                                    this.state.quantityError
+                                      ? styles.sizeError
+                                      : styles.sizeHolder
+                                  }
+                                >
+                                  <SizeQuantitySelect
+                                    history={this.props.history}
+                                    sizeError={this.state.sizeError}
+                                    quantityError={this.state.quantityError}
+                                    showSizeGuide={
+                                      productData.showSizeGuide
+                                        ? this.props.showSizeGuide
+                                        : null
+                                    }
+                                    data={productData.variantOptions}
+                                    maxQuantity={productData.maxQuantityAllowed}
+                                    updateQuantity={this.updateQuantity}
+                                    updateSize={this.updateSize}
+                                    checkIfSizeSelected={
+                                      this.checkIfSizeSelected
+                                    }
+                                    checkIfQuantitySelected={
+                                      this.checkIfQuantitySelected
+                                    }
+                                    productQuantity={
+                                      this.state.productQuantityOption
+                                    }
+                                    noQuantity={
+                                      productData.rootCategory ===
+                                        "FineJewellery" ||
+                                      productData.rootCategory ===
+                                        "FashionJewellery"
+                                    }
+                                  />
+                                </div>
+                              </React.Fragment>
+                            )}
+                            {productData.rootCategory === "HomeFurnishing" && (
+                              <div className={styles.horizontalOffset}>
+                                <div className={styles.customisation}>
+                                  <div className={styles.customiseText}>
+                                    Customisation available - Contact seller for
+                                    Free Monogramming
+                                  </div>
+                                  {productData.buyingGuideUrl && (
+                                    <div className={styles.customisationButton}>
+                                      <UnderLinedButton
+                                        label="Checkout our buying guide"
+                                        onClick={() =>
+                                          this.goToBuyingGuide(
+                                            productData.buyingGuideUrl
+                                          )
+                                        }
+                                        color="#ff1744"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </React.Fragment>
+                        )}
                     </div>
                   </div>
                 )}
