@@ -7,6 +7,10 @@ import bagIconDesktop from "./img/emptycard.png";
 import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART
+} from "../../lib/adobeUtils";
 export default class EmptyBag extends React.Component {
   handleOnContinue() {
     if (this.props.onContinueShopping) {
@@ -14,6 +18,7 @@ export default class EmptyBag extends React.Component {
     }
   }
   handleOnSaved() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART);
     if (this.props.viewSavedProduct) {
       this.props.viewSavedProduct();
     }
