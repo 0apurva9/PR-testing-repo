@@ -13,7 +13,7 @@ import {
   BRAND_REGEX,
   CATEGORY_REGEX
 } from "../plp/components/PlpBrandCategoryWrapper.js";
-
+import { IS_COMING_FOR_REVIEW_PAGE } from "./constants";
 export const ADOBE_TARGET_COOKIE_NAME =
   "AMCV_E9174ABF55BA76BA7F000101%40AdobeOrg";
 export const ADOBE_TARGET_SPLIT_VALUE = "%7C";
@@ -321,7 +321,13 @@ const EXTERNAL_CAMPAIGN = "external_campaign";
 const CONTINUE_SHOPPING = "continue_shopping";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
-export function setDataLayer(type, apiResponse, icid, icidType) {
+export function setDataLayer(
+  type,
+  apiResponse,
+  icid,
+  icidType,
+  behaviorOfPage
+) {
   const response = cloneDeep(apiResponse);
   const previousDigitalData = cloneDeep(window.digitalData);
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
@@ -348,7 +354,11 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
   }
 
   if (type === ADOBE_PDP_TYPE) {
-    const digitalDataForPDP = getDigitalDataForPdp(type, response);
+    const digitalDataForPDP = getDigitalDataForPdp(
+      type,
+      response,
+      behaviorOfPage
+    );
     //  this is neccasary for when user comes from plp page to pdp
     //  then we are setting badges from plp page and we need to
     //  pass that on pdp page
@@ -546,7 +556,7 @@ export function setDataLayer(type, apiResponse, icid, icidType) {
   }
 }
 
-function getDigitalDataForPdp(type, pdpResponse) {
+function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   const data = {
     cpj: {
       product: {
@@ -569,13 +579,23 @@ function getDigitalDataForPdp(type, pdpResponse) {
   }
   const productBreadcrumbs = getProductBreadCrumbs(pdpResponse);
   if (productBreadcrumbs) {
-    Object.assign(data.page, {
-      pageInfo: {
-        pageName: "product details:".concat(
-          productBreadcrumbs ? productBreadcrumbs : ""
-        )
-      }
-    });
+    if (behaviorOfPage === IS_COMING_FOR_REVIEW_PAGE) {
+      Object.assign(data.page, {
+        pageInfo: {
+          pageName: "product review:".concat(
+            productBreadcrumbs ? productBreadcrumbs : ""
+          )
+        }
+      });
+    } else {
+      Object.assign(data.page, {
+        pageInfo: {
+          pageName: "product details:".concat(
+            productBreadcrumbs ? productBreadcrumbs : ""
+          )
+        }
+      });
+    }
   }
   const displayHierarchy = getDisplayHierarchy(pdpResponse);
   Object.assign(data.page, {
@@ -1034,7 +1054,6 @@ export async function getMcvId() {
 }
 export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   let data = window.digitalData;
-
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_ADD_TO_CART);
@@ -1058,11 +1077,6 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
     window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_EMI_BANK_SELECT_ON_PDP);
-    }
-  }
-  if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
-    if (window._satellite) {
-      window._satellite.track(ADOBE_BUY_NOW);
     }
   }
   if (type === SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT) {
