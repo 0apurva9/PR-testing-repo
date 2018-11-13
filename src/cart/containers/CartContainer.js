@@ -19,6 +19,7 @@ import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
 import CartPage from "../components/CartPage";
 import { setHeaderText } from "../../general/header.actions";
+import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 
 import {
@@ -102,7 +103,6 @@ const mapDispatchToProps = dispatch => {
     setHeaderText: text => {
       dispatch(setHeaderText(text));
     },
-
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
@@ -131,6 +131,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeItemFromCartLoggedOut: (cartListItemPosition, pinCode) => {
       dispatch(removeItemFromCartLoggedOut(cartListItemPosition, pinCode));
+    },
+    getWishListItems: isSetDataLayer => {
+      dispatch(getWishListItems(isSetDataLayer));
     },
     updateQuantityInCartLoggedIn: (selectedItem, quantity, pinCode) => {
       dispatch(updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode));
@@ -167,7 +170,8 @@ const mapStateToProps = state => {
     cart: state.cart,
     user: state.user,
     loginFromMyBag: state.cart.loginFromMyBag,
-    loadingForCartDetail: state.cart.loadingForCartDetail
+    loadingForCartDetail: state.cart.loadingForCartDetail,
+    wishListCount: state.wishlistItems.count
   };
 };
 const CartContainer = withRouter(

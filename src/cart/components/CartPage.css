@@ -237,4 +237,37 @@
     composes: cartHeading;
     text-align: left;
   }
+  .wishListCountSection {
+    width: 100%;
+    height: auto;
+    padding: 25px 95px 25px 70px;
+    background: #fff;
+    border-radius: 4px;
+    position: relative;
+    color: #000;
+    font-size: 14px;
+    font-family: regular;
+  }
+  .iconWishList {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: url(../../general/components/img/download.svg) no-repeat;
+    background-size: auto 22px;
+    background-position: center;
+  }
+  .buttonHolder {
+    width: 45px;
+    height: 25px;
+    position: absolute;
+    right: 30px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    padding-bottom: 5px;
+  }
 }
