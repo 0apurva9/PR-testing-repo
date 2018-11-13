@@ -38,9 +38,15 @@ export default class SavedProduct extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             <Coupon
-              heading={couponText}
+              heading={
+                this.props.appliedCouponCode
+                  ? couponText
+                  : this.props.desktopCouponHeading
+              }
               onClick={() => this.onApplyCoupon()}
               backgroundColor={"#f9f9f9"}
+              showApplyButton={this.props.appliedCouponCode ? false : true}
+              color={this.props.appliedCouponCode ? "#6f6f6f" : "#000"}
             />
           </DesktopOnly>
         </div>
@@ -73,6 +79,7 @@ SavedProduct.propTypes = {
 };
 SavedProduct.defaultProps = {
   couponHeading: "Check for Coupon",
+  desktopCouponHeading: "Have a Coupon ?",
   giftCardHeading: "Surprise for a special one ?",
   giftCardLabel: "Gift wrap for free",
   isViewWishList: false

@@ -17,7 +17,7 @@ export default class StoryProduct extends React.Component {
         </div>
         <div className={styles.productSection}>
           <div className={styles.row}>{this.props.productName}</div>
-          <div className={styles.row}>{this.props.mrp} </div>
+          <div className={styles.row}>{this.props.winningSellerMOP} </div>
           <div className={styles.button}>
             <Button
               label="View Product"

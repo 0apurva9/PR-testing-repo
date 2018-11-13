@@ -629,7 +629,7 @@ export default class AllOrderDetails extends React.Component {
                       this.props.profile.orderDetails.totalNoOfOrders && (
                       <ShowMoreButton
                         onClick={() => this.showMoreProducts()}
-                        label={"Show more orders"}
+                        label={"Show Past Orders"}
                       />
                     )}
                 </DesktopOnly>
