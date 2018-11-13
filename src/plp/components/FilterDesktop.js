@@ -195,21 +195,23 @@ export default class FilterDesktop extends React.Component {
                       facetdatacategory &&
                       facetdatacategory.filters &&
                       facetdatacategory.filters.map((val, i) => {
-                        return (
-                          <FilterCategoryL1
-                            name={val.categoryName}
-                            count={val.quantity}
-                            value={val.categoryCode}
-                            onClick={this.onL1Click}
-                            isOpen={val.selected}
-                          >
-                            <FilterCategory
-                              onClick={this.onL2Click}
-                              onL3Click={this.onL3Click}
-                              categoryTypeList={val.childFilters}
-                            />
-                          </FilterCategoryL1>
-                        );
+                        if (val.quantity > 0) {
+                          return (
+                            <FilterCategoryL1
+                              name={val.categoryName}
+                              count={val.quantity}
+                              value={val.categoryCode}
+                              onClick={this.onL1Click}
+                              isOpen={val.selected}
+                            >
+                              <FilterCategory
+                                onClick={this.onL2Click}
+                                onL3Click={this.onL3Click}
+                                categoryTypeList={val.childFilters}
+                              />
+                            </FilterCategoryL1>
+                          );
+                        }
                       })}
                   </div>
 

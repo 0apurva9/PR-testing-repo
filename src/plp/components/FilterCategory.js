@@ -26,15 +26,17 @@ export default class FilterCategory extends Component {
             >
               {val.childFilters &&
                 val.childFilters.map((data, i) => {
-                  return (
-                    <FilterCategorySubList
-                      subListItem={data.categoryName}
-                      key={i}
-                      value={data.categoryCode}
-                      onClick={this.props.onL3Click}
-                      subListCount={data.quantity}
-                    />
-                  );
+                  if (data.quantity > 0) {
+                    return (
+                      <FilterCategorySubList
+                        subListItem={data.categoryName}
+                        key={i}
+                        value={data.categoryCode}
+                        onClick={this.props.onL3Click}
+                        subListCount={data.quantity}
+                      />
+                    );
+                  }
                 })}
             </FilterCategoryDetails>
           );
