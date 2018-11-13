@@ -184,7 +184,7 @@ export default class DesktopCheckout extends React.Component {
               )}
             {cartAmount.paybleAmount && (
               <div className={styles.row}>
-                <div className={styles.label}>Total Payable</div>
+                <div className={styles.label}>Total Savings</div>
                 <div className={styles.info}>
                   {cartAmount.paybleAmount.formattedValue}
                 </div>

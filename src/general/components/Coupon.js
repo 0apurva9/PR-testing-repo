@@ -24,9 +24,19 @@ export default class Coupon extends React.Component {
           <div className={styles.couponIcon}>
             <Icon image={couponIcon} size={25} />
           </div>
-          <div className={styles.headingText}>{this.props.heading}</div>
+          <div
+            className={styles.headingText}
+            style={{ color: this.props.color }}
+          >
+            {this.props.heading}
+          </div>
           {this.props.subText && (
             <div className={styles.subText}>{this.props.subText}</div>
+          )}
+          {this.props.showApplyButton && (
+            <div className={styles.apply}>
+              <UnderLinedButton label={"Apply"} color={"#000"} />
+            </div>
           )}
         </div>
       </div>
@@ -41,5 +51,7 @@ Coupon.propTypes = {
   subText: PropTypes.string
 };
 Coupon.defaultProps = {
-  backgroundColor: "#fff"
+  backgroundColor: "#fff",
+  showApplyButton: false,
+  color: "#6f6f6f"
 };
