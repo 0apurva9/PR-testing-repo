@@ -7,6 +7,12 @@ import Icon from "../../xelpmoc-core/Icon";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import companyLogo from "../../general/components/img/companylogo.svg";
 import TrustComponent from "../../general/components/TrustComponent";
+import {
+  setDataLayerForHeaderAndFooterDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK,
+  ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK,
+  ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE
+} from "../../lib/adobeUtils";
 const TEXT = "© 2017 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
@@ -14,9 +20,35 @@ class DesktopFooter extends React.Component {
       this.props.getDesktopFooter();
     }
   }
-  onClick = url => {
+  onClick = (url, value) => {
+    setDataLayerForHeaderAndFooterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK,
+      value
+    );
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
+  };
+  onClickSocialMedia = webUrl => {
+    let currentSocialMedia;
+    if (webUrl.indexOf("facebook") !== -1) {
+      currentSocialMedia = "facebook";
+    }
+    if (webUrl.indexOf("plus") !== -1) {
+      currentSocialMedia = "googlePlus";
+    }
+    if (webUrl.indexOf("twitter") !== -1) {
+      currentSocialMedia = "twitter";
+    }
+    if (webUrl.indexOf("youtube") !== -1) {
+      currentSocialMedia = "youtube";
+    }
+    if (webUrl.indexOf("instagram") !== -1) {
+      currentSocialMedia = "instagram";
+    }
+    setDataLayerForHeaderAndFooterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK,
+      currentSocialMedia
+    );
   };
   render() {
     let footerData = this.props && this.props.DesktopFooterDetails;
@@ -40,7 +72,7 @@ class DesktopFooter extends React.Component {
                         return (
                           <div
                             className={styles.link}
-                            onClick={() => this.onClick(data.webUrl)}
+                            onClick={() => this.onClick(data.webUrl, data.text)}
                           >
                             {data.text}
                           </div>
@@ -114,8 +146,11 @@ class DesktopFooter extends React.Component {
                 footerData.items[0].socialLinks[0].list.map((val, i) => {
                   return (
                     <a href={val.webUrl} target="_blank">
-                      <div className={styles.socialIcon}>
-                        <Icon image={val.webUrl} size={20} />
+                      <div
+                        className={styles.socialIcon}
+                        onClick={() => this.onClickSocialMedia(val.webUrl)}
+                      >
+                        <Icon image={val.imageURL} size={20} />
                       </div>
                     </a>
                   );

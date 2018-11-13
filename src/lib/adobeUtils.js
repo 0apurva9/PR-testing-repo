@@ -267,6 +267,12 @@ export const ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK =
   "ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK";
 export const ADOBE_DIRECT_CALL_FOR_BRAND_CLICK =
   "ADOBE_DIRECT_CALL_FOR_BRAND_CLICK";
+export const ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK =
+  "ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK";
+export const ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK =
+  "ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK";
+export const ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE =
+  "ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -300,6 +306,9 @@ const VIDEO_PRODUCT_CAROUSEL_ADOBE = "video_product_carousel";
 const HEADER_CLICK = "header_click";
 const CATEGORY_CLICK = "category_click";
 const BRAND_CLICK = "brand_click";
+const FOOTER_CLICK = "footer_click";
+const SOCIALMEDIA_CLICK = "socialmedia_click";
+const FOOTER_SUBSCRIBE = "footer_subscribe";
 const CHOOSE_DELIVERY_ADDRESS_HOME = "cpj_choose_delivery_address_home";
 const CHOOSE_DELIVERY_ADDRESS_OFFICE = "cpj_choose_delivery_address_office";
 const FILTER_OPTION = "cpj_filter_option";
@@ -2135,7 +2144,7 @@ export function setDataLayerForVisitBrand() {
     window._satellite.track(VISIT_BRAND);
   }
 }
-export function setDataLayerForHeaderDirectCalls(type, value) {
+export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
   const previousDigitalData = cloneDeep(window.digitalData);
   const currentDigitalData = window.digitalData;
   if (
@@ -2182,6 +2191,37 @@ export function setDataLayerForHeaderDirectCalls(type, value) {
     window.digitalData = currentDigitalData;
     if (window._satellite) {
       window._satellite.track(BRAND_CLICK);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK) {
+    Object.assign(currentDigitalData, {
+      footer: {
+        footerName: value
+      }
+    });
+    window.digitalData = currentDigitalData;
+    if (window._satellite) {
+      window._satellite.track(FOOTER_CLICK);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK) {
+    Object.assign(currentDigitalData, {
+      footer: {
+        socialmediaName: value
+      }
+    });
+    window.digitalData = currentDigitalData;
+    if (window._satellite) {
+      window._satellite.track(SOCIALMEDIA_CLICK);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE) {
+    Object.assign(currentDigitalData, {
+      subscriberemail: value
+    });
+    window.digitalData = currentDigitalData;
+    if (window._satellite) {
+      window._satellite.track(FOOTER_SUBSCRIBE);
     }
   }
 }
