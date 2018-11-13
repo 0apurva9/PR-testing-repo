@@ -8,6 +8,7 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopCheckout from "./DesktopCheckout.js";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
 import CartItemForDesktop from "./CartItemForDesktop";
 import {
   SUCCESS,
@@ -79,6 +80,7 @@ class CartPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
+    this.props.getWishListItems();
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -224,6 +226,9 @@ class CartPage extends React.Component {
     if (this.props.releaseCoupon) {
       this.props.releaseCoupon();
     }
+  };
+  redirectToSaveList = () => {
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
   };
   getPaymentModes = () => {
     if (
@@ -859,6 +864,24 @@ class CartPage extends React.Component {
                       />
                     </div>
                   )}
+                  {this.props &&
+                    this.props.wishListCount && (
+                      <div className={styles.wishListCountSection}>
+                        <div className={styles.iconWishList} />
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
+                        <div className={styles.buttonHolder}>
+                          <UnderLinedButton
+                            size="14px"
+                            fontFamily="regular"
+                            color="#000000"
+                            label="See all"
+                            onClick={() => this.redirectToSaveList()}
+                          />
+                        </div>
+                      </div>
+                    )}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                 </div>
               </div>
