@@ -12,7 +12,8 @@ import {
   SUCCESS,
   NO_COST_EMI_COUPON
 } from "../../lib/constants";
-
+import DesktopOnly from "../../general/components/DesktopOnly";
+import Button from "../../general/components/Button";
 export default class NoCostEmiBankDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -320,11 +321,10 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
         </div>
-
-        {noCostEmiDetails &&
-          noCostEmiDetails.noCostEMIPerMonthPayable &&
-          noCostEmiDetails.noCostEMIPerMonthPayable.value && (
-            <div className={styles.itemLevelButtonHolder}>
+        <div className={styles.itemLevelButtonHolder}>
+          {noCostEmiDetails &&
+            noCostEmiDetails.noCostEMIPerMonthPayable &&
+            noCostEmiDetails.noCostEMIPerMonthPayable.value && (
               <div className={styles.itemLevelButton}>
                 <UnderLinedButton
                   size="14px"
@@ -334,8 +334,29 @@ export default class NoCostEmiBankDetails extends React.Component {
                   onClick={() => this.itemBreakup()}
                 />
               </div>
-            </div>
-          )}
+            )}
+          <DesktopOnly>
+            {this.props.isNoCostEmiApplied &&
+              !this.props.isNoCostEmiProceeded && (
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label="Pay now"
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={this.props.onCheckout}
+                    />
+                  </div>
+                </div>
+              )}
+          </DesktopOnly>
+        </div>
       </div>
     );
   }
@@ -492,6 +513,7 @@ export default class NoCostEmiBankDetails extends React.Component {
               changePlan={() => this.changeNoCostEmiPlan()}
             />
             <CreditCardForm
+              buttonDisabled={this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               onChangeCvv={i => this.onChangeCvv(i)}
               binValidation={binNo => this.binValidation(binNo)}
@@ -500,6 +522,7 @@ export default class NoCostEmiBankDetails extends React.Component {
               }
               displayToast={this.props.displayToast}
               cardDetails={this.props.cardDetails}
+              onCheckout={this.props.onCheckout}
             />
           </React.Fragment>
         )}
