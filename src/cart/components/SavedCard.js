@@ -29,6 +29,7 @@ export default class SavedCard extends React.Component {
     }
   };
   render() {
+    console.log(this.props);
     return (
       <div className={styles.base}>
         <div className={styles.cardNumber}>
@@ -75,19 +76,55 @@ export default class SavedCard extends React.Component {
           </div>
           <DesktopOnly>
             <div className={styles.buttonHolder}>
-              <Button
-                disabled={this.props.validateSavedCard()}
-                type="primary"
-                backgroundColor="#ff1744"
-                height={40}
-                label="Pay now"
-                width={150}
-                textStyle={{
-                  color: "#FFF",
-                  fontSize: 14
-                }}
-                onClick={this.handleClick}
-              />
+              {this.props.selectedSavedCardDetails &&
+                this.props.selectedSavedCardDetails.cardEndingDigits ===
+                  this.props.cardNumber && (
+                  <Button
+                    disabled={this.props.validateSavedCard()}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Pay now"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={this.handleClick}
+                  />
+                )}
+              {this.props.selectedSavedCardDetails &&
+                this.props.selectedSavedCardDetails.cardEndingDigits !==
+                  this.props.cardNumber && (
+                  <Button
+                    disabled={true}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Pay now"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={this.handleClick}
+                  />
+                )}
+              {!this.props.selectedSavedCardDetails && (
+                <Button
+                  disabled={true}
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Pay now"
+                  width={150}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={this.handleClick}
+                />
+              )}
             </div>
           </DesktopOnly>
         </div>

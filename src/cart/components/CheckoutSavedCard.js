@@ -95,6 +95,7 @@ export default class CheckoutSavedCard extends React.Component {
                 selected={i === this.state.selectedCardIndex}
                 onChangeCvv={(cvv, cardNo) => this.onChangeCvv(cvv, cardNo, i)}
                 onCheckout={this.props.onCheckout}
+                selectedSavedCardDetails={this.props.selectedSavedCardDetails}
               />
             );
           })}
