@@ -24,8 +24,8 @@ const mapDispatchToProps = dispatch => {
     getProductReviews: (productCode, pageIndex, orderBy, sortBy) => {
       dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy));
     },
-    getProductDescription: productCode => {
-      dispatch(getProductDescription(productCode));
+    getProductDescription: (productCode, isComingForReviewPage) => {
+      dispatch(getProductDescription(productCode, isComingForReviewPage));
     },
     addProductReview: (productCode, productReview) => {
       return dispatch(addProductReview(productCode, productReview));

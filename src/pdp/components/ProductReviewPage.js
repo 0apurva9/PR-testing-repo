@@ -27,7 +27,8 @@ import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
 import {
   CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  IS_COMING_FOR_REVIEW_PAGE
 } from "../../lib/constants";
 import {
   setDataLayerForPdpDirectCalls,
@@ -97,7 +98,10 @@ export default class ProductReviewPage extends Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     this.throttledScroll = this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
-    this.props.getProductDescription(this.props.match.params[0]);
+    this.props.getProductDescription(
+      this.props.match.params[0],
+      IS_COMING_FOR_REVIEW_PAGE
+    );
     this.props.getProductReviews(
       this.props.match.params[0],
       0,

@@ -157,7 +157,11 @@ export function getProductDescriptionFailure(error) {
     error
   };
 }
-export function getProductDescription(productCode, isApiCall: 0) {
+export function getProductDescription(
+  productCode,
+  behaviorOfPage,
+  isApiCall: 0
+) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
     try {
@@ -187,7 +191,8 @@ export function getProductDescription(productCode, isApiCall: 0) {
             ADOBE_PDP_TYPE,
             resultJson,
             getState().icid.value,
-            getState().icid.icidType
+            getState().icid.icidType,
+            behaviorOfPage
           );
         }
 
