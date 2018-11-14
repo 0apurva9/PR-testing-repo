@@ -25,6 +25,7 @@ export default class BankOfferTNCModal extends React.Component {
                     <TermsAndConditionQuestion
                       offerTitle={val.offerTitle}
                       offerDescription={val.offerDescription}
+                      offerTermsConditions={val.offerTermsConditions}
                     >
                       <div
                         className={styles.answer}

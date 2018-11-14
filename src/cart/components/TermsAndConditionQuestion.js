@@ -30,7 +30,7 @@ export default class TermsAndConditionQuestion extends React.Component {
             this.openMenu();
           }}
         >
-          <div className={iconActive} />
+          {this.props.offerTermsConditions && <div className={iconActive} />}
           <span>{this.props.offerTitle}</span>
         </div>
         <div className={styles.offerDescription}>
