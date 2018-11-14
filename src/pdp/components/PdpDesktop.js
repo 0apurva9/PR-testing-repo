@@ -20,8 +20,7 @@ import {
   SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT,
-  SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT,
-  ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE
+  SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
@@ -453,9 +452,6 @@ export default class PdpApparel extends React.Component {
     }
   };
   onScroll = () => {
-    setDataLayerForPdpDirectCalls(
-      ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE
-    );
     let scroll2 = this.refs.scrollToViewGallery;
     let scroll1 = this.refs.scrollToViewAccrodian;
     window.scroll({
