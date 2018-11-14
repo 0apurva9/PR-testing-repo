@@ -428,12 +428,15 @@ export default class Plp extends React.Component {
               ) : (
                 <div className={styles.headerTextWithTotalProducts}>
                   <div className={styles.headerHeading}>
-                    {this.props.productListings &&
-                      this.props.productListings.facetdatacategory &&
-                      this.props.productListings.facetdatacategory.filters &&
-                      this.props.productListings.facetdatacategory.filters[0] &&
-                      this.props.productListings.facetdatacategory.filters[0]
-                        .categoryName}
+                    <h1>
+                      {this.props.productListings &&
+                        this.props.productListings.facetdatacategory &&
+                        this.props.productListings.facetdatacategory.filters &&
+                        this.props.productListings.facetdatacategory
+                          .filters[0] &&
+                        this.props.productListings.facetdatacategory.filters[0]
+                          .categoryName}
+                    </h1>
                   </div>
                   <div className={styles.totalProducts}>
                     {`${
