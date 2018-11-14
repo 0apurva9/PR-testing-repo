@@ -433,14 +433,11 @@
   .deliveyModesHolder {
     width: 100%;
     height: auto;
-    border-bottom: 1px solid #e2e2e2;
     margin-top: 10px;
   }
   .pinAndDeliveryHolder {
     width: 100%;
     height: auto;
-    border-top: 1px solid #e2e2e2;
-    margin-top: 50px;
   }
   .pointListHolder {
     width: 100%;
