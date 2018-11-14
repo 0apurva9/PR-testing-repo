@@ -15,6 +15,7 @@ export default class DeliveryModeSet extends React.Component {
         onClick={() => this.handleClick()}
         confirmTitle="Delivery Mode"
         indexNumber="2"
+        completed={true}
       >
         {this.props.productDelivery &&
           this.props.productDelivery.map((data, i) => {

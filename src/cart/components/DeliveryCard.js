@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
+import MobileOnly from "../../general/components/MobileOnly.js";
 import Image from "../../xelpmoc-core/Image";
 import checkIcon from "./img/check.svg";
 import CheckOutHeader from "./CheckOutHeader.js";
@@ -23,11 +24,15 @@ export default class DeliveryCard extends React.Component {
             onClick={() => this.handleClick()}
           />
         </div>
-        <div className={styles.checkIconHolder}>
-          <Image image={checkIcon} fit="cover" />
-        </div>
+
+        <MobileOnly>
+          <div className={styles.checkIconHolder}>
+            <Image image={checkIcon} fit="cover" />
+          </div>
+        </MobileOnly>
         <div className={styles.headerTextHolder}>
           <CheckOutHeader
+            completed={this.props.completed}
             confirmTitle={this.props.confirmTitle}
             indexNumber={this.props.indexNumber}
           />
@@ -42,5 +47,6 @@ export default class DeliveryCard extends React.Component {
 DeliveryCard.propTypes = {
   confirmTitle: PropTypes.string,
   indexNumber: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  completed: PropTypes.bool
 };

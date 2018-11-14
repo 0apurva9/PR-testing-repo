@@ -14,6 +14,7 @@ export default class DeliveryAddressSet extends React.Component {
         onClick={() => this.handleClick()}
         confirmTitle="Delivery Address"
         indexNumber="1"
+        completed={true}
       >
         <div className={styles.base}>
           <div className={styles.deliveryAddressSetText}>
