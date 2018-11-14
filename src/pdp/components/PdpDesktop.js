@@ -788,6 +788,35 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                 </div>
+                {productData &&
+                  productData.details &&
+                  productData.rootCategory === "Electronics" && (
+                    <div className={styles.pointListHolder}>
+                      <div className={styles.pointHeader}>Highlights</div>
+
+                      {productData.details &&
+                        productData.details.map(val => {
+                          return <div className={styles.list}>{val.value}</div>;
+                        })}
+                      {productData.rootCategory === "Electronics" && (
+                        <div
+                          className={styles.viewDetails}
+                          onClick={() => this.onScroll()}
+                        >
+                          View full details
+                        </div>
+                      )}
+                    </div>
+                  )}
+                <div className={styles.horizontalOffset}>
+                  <div className={styles.separator}>
+                    <OtherSellersLink
+                      onClick={this.goToSellerPage}
+                      otherSellers={productData.otherSellers}
+                      winningSeller={productData.winningSellerName}
+                    />
+                  </div>
+                </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
                     {productData.isServiceableToPincode &&
@@ -854,35 +883,6 @@ export default class PdpApparel extends React.Component {
                       />
                     </div>
                   )}
-                </div>
-                {productData &&
-                  productData.details &&
-                  productData.rootCategory === "Electronics" && (
-                    <div className={styles.pointListHolder}>
-                      <div className={styles.pointHeader}>Highlights</div>
-
-                      {productData.details &&
-                        productData.details.map(val => {
-                          return <div className={styles.list}>{val.value}</div>;
-                        })}
-                      {productData.rootCategory === "Electronics" && (
-                        <div
-                          className={styles.viewDetails}
-                          onClick={() => this.onScroll()}
-                        >
-                          View full details
-                        </div>
-                      )}
-                    </div>
-                  )}
-                <div className={styles.horizontalOffset}>
-                  <div className={styles.separator}>
-                    <OtherSellersLink
-                      onClick={this.goToSellerPage}
-                      otherSellers={productData.otherSellers}
-                      winningSeller={productData.winningSellerName}
-                    />
-                  </div>
                 </div>
               </div>
             </div>
