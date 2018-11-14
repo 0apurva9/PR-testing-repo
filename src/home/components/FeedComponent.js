@@ -9,7 +9,12 @@ import { withRouter } from "react-router";
 
 class FeedComponent extends React.Component {
   onClick = val => {
-    this.props.history.push(val);
+    if (this.props.location.pathname === "/") {
+      window.open(val, "_blank");
+    } else {
+      this.props.history.push(val);
+    }
+
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }
@@ -76,7 +81,7 @@ class FeedComponent extends React.Component {
                       productId={datum.productListingId}
                       showWishListButton={false}
                       ussId={datum.winningUssID}
-                      onClick={this.onClick}
+                      onClick={val => this.onClick(val)}
                       {...rest}
                       {...datum}
                       widgetName={

@@ -31,7 +31,7 @@ export default class ProductModule extends React.Component {
     }
     return urlSuffix;
   }
-  onClick = () => {
+  onClick = val => {
     if (this.props.widgetName && this.props.productId) {
       widgetsTracking({
         widgetName: this.props.widgetName,
@@ -133,7 +133,10 @@ export default class ProductModule extends React.Component {
               }}
               target="_blank"
             >
-              <div className={styles.dummyDiv} onClick={this.onClick} />
+              <div
+                className={styles.dummyDiv}
+                onClick={val => this.onClick(val)}
+              />
             </Link>
           </DesktopOnly>
         </React.Fragment>
