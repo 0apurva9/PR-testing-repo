@@ -65,6 +65,24 @@ export default class PriceFilterTabDesktop extends React.Component {
       });
     }
   };
+  removePriceFilters = () => {
+    let currentAppliedFilters = "";
+    currentAppliedFilters = decodeURIComponent(
+      this.props.history.location.search
+    );
+
+    if (currentAppliedFilters) {
+      if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
+        currentAppliedFilters = currentAppliedFilters
+          .substring(3)
+          .replace(PRICE_FILTER_REG_EX, "");
+      }
+      this.props.history.push({
+        pathname: this.props.history.location.pathname,
+        search: `q=${encodeURIComponent(currentAppliedFilters)}`
+      });
+    }
+  };
   onFilterClick = (data, filterType, filterValue) => {
     if (this.props.onFilterClick) {
       this.props.onFilterClick(data, filterType, filterValue);
@@ -94,6 +112,12 @@ export default class PriceFilterTabDesktop extends React.Component {
   render() {
     return (
       <div className={styles.base}>
+        {this.props.rangeApplied && (
+          <div className={styles.resetPrice} onClick={this.removePriceFilters}>
+            Any Price
+          </div>
+        )}
+
         <div className={styles.priceList}>
           {this.props.priceList &&
             this.props.priceList.map((val, i) => {

@@ -33,3 +33,11 @@
   margin-left: 15px;
   vertical-align: middle;
 }
+.resetPrice {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: regular;
+  color: #ff1744;
+  cursor: pointer;
+}
