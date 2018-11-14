@@ -26,8 +26,9 @@
   position: absolute;
   right: 20px;
   top: 0;
-  bottom: 0;
-  margin: auto;
+  bottom: 50px;
+  margin: 2px;
+  padding-left: 5px;
 }
 .areaChange {
   font-size: 14px;
