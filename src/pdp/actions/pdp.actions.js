@@ -165,6 +165,7 @@ export function getProductDescription(
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
     try {
+      let behaviorOfPageTheCurrent = behaviorOfPage ? behaviorOfPage : null;
       setTimeout(() => {
         if (getState().productDescription.getProductDetailsLoading) {
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
@@ -173,9 +174,7 @@ export function getProductDescription(
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
-
       const resultJson = await result.json();
-
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -192,10 +191,27 @@ export function getProductDescription(
             resultJson,
             getState().icid.value,
             getState().icid.icidType,
-            behaviorOfPage
+            behaviorOfPageTheCurrent
           );
+        } else if (!behaviorOfPageTheCurrent) {
+          if (
+            window.digitalData &&
+            window.digitalData.page &&
+            window.digitalData.page.pageInfo &&
+            window.digitalData.page.pageInfo.pageName &&
+            window.digitalData.page.pageInfo.pageName.indexOf(
+              "product review"
+            ) !== -1
+          ) {
+            setDataLayer(
+              ADOBE_PDP_TYPE,
+              resultJson,
+              getState().icid.value,
+              getState().icid.icidType,
+              behaviorOfPageTheCurrent
+            );
+          }
         }
-
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {

@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./PdpPaymentInfo.css";
 import { RUPEE_SYMBOL } from "../../lib/constants";
+import {
+  setDataLayerForPdpDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_EMI_VIEW_PLAN
+} from "../../lib/adobeUtils.js";
 export default class PdpPaymentInfo extends React.Component {
   showEmiModal = () => {
+    setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_EMI_VIEW_PLAN);
     if (this.props.showEmiModal) {
       this.props.showEmiModal();
     }

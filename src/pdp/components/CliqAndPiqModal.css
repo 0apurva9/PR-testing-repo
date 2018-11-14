@@ -86,6 +86,7 @@
   overflow: hidden;
   border-bottom: 1px solid #ececec;
   z-index: 1;
+  background: #fff;
 }
 .loadingIndicator {
   width:100%;

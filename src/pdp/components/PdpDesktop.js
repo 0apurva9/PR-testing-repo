@@ -49,7 +49,9 @@ import {
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+  ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
+  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
 } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
@@ -179,7 +181,10 @@ export default class PdpApparel extends React.Component {
       this.props.history.push(`/p-${productId}${PRODUCT_SELLER_ROUTER_SUFFIX}`);
     }
   };
-  goToCart = () => {
+  goToCart = isClickOnGoToBag => {
+    if (isClickOnGoToBag && isClickOnGoToBag.goToBag) {
+      setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_GO_TO_BAG);
+    }
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
       pathname: PRODUCT_CART_ROUTER,
@@ -426,6 +431,7 @@ export default class PdpApparel extends React.Component {
     this.props.history.push(HOME_ROUTER);
   };
   handleShowPiqPage = () => {
+    setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION);
     const eligibleForCNC =
       this.props.productDetails &&
       this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
@@ -775,7 +781,7 @@ export default class PdpApparel extends React.Component {
                         }
                         onClick={
                           this.state.goToCartPageFlag
-                            ? () => this.goToCart()
+                            ? () => this.goToCart({ goToBag: true })
                             : () => this.addToCart(false)
                         }
                         disabled={

@@ -3,7 +3,10 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import styles from "./OfferCard.css";
 import PropTypes from "prop-types";
-
+import {
+  setDataLayerForPdpDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_PDP_OFFER
+} from "../../lib/adobeUtils.js";
 export default class OfferCard extends React.Component {
   handleClick(val) {
     if (this.props.onClick) {
@@ -11,6 +14,7 @@ export default class OfferCard extends React.Component {
     }
   }
   handleShowDetails = () => {
+    setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
     if (this.props.showDetails) {
       this.props.showDetails({
         potentialPromotions: this.props.potentialPromotions,
