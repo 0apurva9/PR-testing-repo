@@ -115,6 +115,7 @@
   }
   .banner {
     flex-shrink: 0;
+    padding: 5px 0px;
   }
   .content {
     display: flex;
@@ -122,9 +123,6 @@
   }
   .element {
     padding: 5px 10px;
-  }
-  .sliderHolder {
-    padding: 5px 0px;
   }
 }
 @media screen and (max-width: 1024px) {
