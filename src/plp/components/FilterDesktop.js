@@ -153,6 +153,7 @@ export default class FilterDesktop extends React.Component {
     } else {
       return <div />;
     }
+
     return (
       <React.Fragment>
         {this.state.openBrandPopUp &&
@@ -326,6 +327,9 @@ export default class FilterDesktop extends React.Component {
                                 {facetDataValues.values && (
                                   <div>
                                     <PriceFilterTabDesktop
+                                      rangeApplied={
+                                        facetDataValues.rangeApplied
+                                      }
                                       typeOfFilter={facetDataValues.name}
                                       priceList={facetDataValues.values}
                                       history={this.props.history}
@@ -436,6 +440,7 @@ export default class FilterDesktop extends React.Component {
                               <div className={styles.allDataHolder}>
                                 {facetDataValues.values && (
                                   <PriceFilterTabDesktop
+                                    rangeApplied={facetDataValues.rangeApplied}
                                     typeOfFilter={facetDataValues.name}
                                     priceList={facetDataValues.values}
                                     history={this.props.history}
