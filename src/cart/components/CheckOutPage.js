@@ -231,7 +231,7 @@ class CheckOutPage extends React.Component {
     Object.assign(cardDetails, val);
     this.setState({ cardDetails });
   };
-  onChangePaymentMode = val => {
+  onChangePaymentMode = async val => {
     let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
     if (
       val &&
@@ -239,7 +239,7 @@ class CheckOutPage extends React.Component {
       val.currentPaymentMode !== null &&
       noCostEmiCouponCode
     ) {
-      this.removeNoCostEmi(noCostEmiCouponCode);
+      await this.removeNoCostEmi(noCostEmiCouponCode);
     }
     //here we need to reset captch if if already done .but payment mode is changed
     if (this.state.captchaReseponseForCOD) {
