@@ -93,6 +93,7 @@ export default class FilterDesktop extends React.Component {
       url = `${pathName}${searchValue}`;
       url = createUrlFromQueryAndCategory(searchValue, url, val);
     } else {
+      filterValue = filterValue.replace("&", "and");
       url = createUrlFromQueryAndCategory(filterValue, pathName, val);
     }
     this.props.history.push(url, { isFilter });
