@@ -583,7 +583,14 @@ export default class DesktopHeader extends React.Component {
                   <div
                     className={styles.mywishList}
                     onClick={() => this.goToWishList()}
-                  />
+                  >
+                    {this.props.wishListCount !== null &&
+                      (this.props.wishListCount > 0 && (
+                        <div className={styles.listCount}>{`(${
+                          this.props.wishListCount
+                        })`}</div>
+                      ))}
+                  </div>
                 </div>
                 {this.props.searchHolder && (
                   <div className={styles.searchHolder}>

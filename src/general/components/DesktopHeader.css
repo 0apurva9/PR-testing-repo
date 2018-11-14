@@ -120,15 +120,29 @@
   transform: scale(1.2);
 }
 .mywishList {
-  width: 30px;
+  width: auto;
   height: 30px;
   background: url(./img/downloadWhite.svg) no-repeat;
   background-size: auto 18px;
-  background-position: center 8px;
+  background-position: 10px 8px;
   cursor: pointer;
   float: right;
   transition: 300ms;
   transform: scale(1);
+  position: relative;
+  padding: 0px 40px 0px 10px;
+}
+.listCount {
+  width: auto;
+  height: 15px;
+  color: #fff;
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  font-family: semibold;
 }
 .mywishList:hover {
   transform: scale(1.2);

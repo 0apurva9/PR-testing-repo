@@ -136,6 +136,7 @@ export default class HeaderWrapper extends React.Component {
   };
 
   componentDidMount() {
+    this.props.getWishListItems();
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
@@ -363,6 +364,7 @@ export default class HeaderWrapper extends React.Component {
               searchHolder={<SearchContainer />}
               headerBrandAndCategoryDetails={this.props.headerDetails}
               goToWishList={() => this.goToDefaultWishList()}
+              wishListCount={this.props.wishListCount}
               goToMyAccount={() => this.goToMyAccount()}
               goToOrdersPage={() => this.goToOrdersPage()}
               goToDefaultWishList={() => this.goToDefaultWishList()}
