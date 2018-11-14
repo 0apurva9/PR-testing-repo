@@ -88,20 +88,17 @@ export default class FilterDesktop extends React.Component {
     let url;
     let query = parsedQueryString.q;
     let pathName = this.props.location.pathname;
-    if (parsedQueryString.searchCategory) {
-      const searchValue = this.props.location.search;
-      url = `${pathName}${searchValue}`;
-      url = createUrlFromQueryAndCategory(searchValue, url, val);
-    } else {
-      url = createUrlFromQueryAndCategory(query, pathName, val);
-    }
+
+    filterValue = filterValue.replace("&", "and");
+    url = createUrlFromQueryAndCategory(filterValue, pathName, val);
+
     this.props.history.push(url, { isFilter });
     if (isFilter === false) {
       this.props.onL3CategorySelect();
     }
   };
   onL1Click = (val, filterType, filterValue) => {
-    this.onCategorySelect(val, filterType, filterValue, true);
+    this.onCategorySelect(val, filterType, filterValue, false);
   };
   onL2Click = (val, filterType, filterValue) => {
     this.onCategorySelect(val, filterType, filterValue, true);
