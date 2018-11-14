@@ -273,6 +273,18 @@ export const ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK =
   "ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK";
 export const ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE =
   "ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE";
+export const ADOBE_DIRECT_CALL_FOR_GO_TO_BAG =
+  "ADOBE_DIRECT_CALL_FOR_GO_TO_BAG";
+export const ADOBE_DIRECT_CALL_FOR_EMI_VIEW_PLAN =
+  "ADOBE_DIRECT_CALL_FOR_EMI_VIEW_PLAN";
+export const ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION =
+  "ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION";
+export const ADOBE_DIRECT_CALL_FOR_PDP_OFFER =
+  "ADOBE_DIRECT_CALL_FOR_PDP_OFFER";
+export const ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE =
+  "ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE";
+export const ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE =
+  "ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -288,9 +300,6 @@ const POPULAR_BRANDS = "popular_brands";
 const MULTICLICK_BANNER = "multiclick_banner";
 const EXCLUSIVE_FROM_WESTSIDE = "exclusive_from_westside";
 const EXCLUSIVE_FROM_WESTSIDE1 = "exclusivefrom_westside";
-// end of components name for widgets tracking
-
-// widgets tracking end poitns
 const YOU_MAY_ALSO_LIKE_ADOBE = "youmay_alsolike";
 const FRESH_FROM_BRAND_ADOBE = "freshfrom_brands";
 const DISCOVER_MORE_ADOBE = "discover_more";
@@ -312,6 +321,12 @@ const FOOTER_SUBSCRIBE = "footer_subscribe";
 const CHOOSE_DELIVERY_ADDRESS_HOME = "cpj_choose_delivery_address_home";
 const CHOOSE_DELIVERY_ADDRESS_OFFICE = "cpj_choose_delivery_address_office";
 const FILTER_OPTION = "cpj_filter_option";
+const GO_TO_BAG = "cpj_go_to_bag";
+const EMI_VIEW_PLAN = "cpj_emi_view_plan";
+const PICK_UP_OPTION = "cpj_pickup_option";
+const PDP_OFFER = "cpj_pdp_offer";
+const PDP_PRODUCT_PLUS_VIEW_MORE = "cpj_pdp_product_plus_view_more";
+const PDP_SPEC_VIEW_MORE = "cpj_pdp_spec_view_more";
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -1053,6 +1068,7 @@ export async function getMcvId() {
   });
 }
 export function setDataLayerForPdpDirectCalls(type, layerData: null) {
+  const previousDigitalData = cloneDeep(window.digitalData);
   let data = window.digitalData;
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
@@ -1080,6 +1096,26 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
     }
   }
   if (type === SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT) {
+    if (
+      previousDigitalData &&
+      previousDigitalData.page &&
+      previousDigitalData.page.pageInfo &&
+      previousDigitalData.page.pageInfo.pageName
+    ) {
+      let previousPageName = previousDigitalData.page.pageInfo.pageName;
+      let reviewPage = previousPageName.replace(
+        "product details",
+        "product review"
+      );
+      Object.assign(data, {
+        page: {
+          pageInfo: {
+            pageName: reviewPage
+          }
+        }
+      });
+    }
+    window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOBE_REVIEW_AND_RATING);
     }
@@ -1097,6 +1133,36 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_RATE_THIS_PRODUCT);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_GO_TO_BAG) {
+    if (window._satellite) {
+      window._satellite.track(GO_TO_BAG);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_EMI_VIEW_PLAN) {
+    if (window._satellite) {
+      window._satellite.track(EMI_VIEW_PLAN);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION) {
+    if (window._satellite) {
+      window._satellite.track(PICK_UP_OPTION);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_PDP_OFFER) {
+    if (window._satellite) {
+      window._satellite.track(PDP_OFFER);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(PDP_PRODUCT_PLUS_VIEW_MORE);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(PDP_SPEC_VIEW_MORE);
     }
   }
 }

@@ -38,8 +38,8 @@ import {
   CANCEL
 } from "../../lib/constants";
 import {
-  setDataLayer,
-  ADOBE_MY_ACCOUNT_ORDER_DETAILS
+  setDataLayerForMyAccountDirectCalls,
+  ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -69,6 +69,7 @@ export default class OrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     if (sellerorderno) {
       let isCOD = false;
       let isPaypal = false;
@@ -90,6 +91,7 @@ export default class OrderDetails extends React.Component {
     }
   }
   cancelItem(transactionId, ussid, orderCode, orderId, orderDate) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     this.props.history.push({
       pathname: `${CANCEL}/${orderCode}`,
       state: {
