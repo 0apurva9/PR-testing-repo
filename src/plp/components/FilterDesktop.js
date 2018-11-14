@@ -93,7 +93,7 @@ export default class FilterDesktop extends React.Component {
       url = `${pathName}${searchValue}`;
       url = createUrlFromQueryAndCategory(searchValue, url, val);
     } else {
-      url = createUrlFromQueryAndCategory(query, pathName, val);
+      url = createUrlFromQueryAndCategory(filterValue, pathName, val);
     }
     this.props.history.push(url, { isFilter });
     if (isFilter === false) {
@@ -101,7 +101,7 @@ export default class FilterDesktop extends React.Component {
     }
   };
   onL1Click = (val, filterType, filterValue) => {
-    this.onCategorySelect(val, filterType, filterValue, true);
+    this.onCategorySelect(val, filterType, filterValue, false);
   };
   onL2Click = (val, filterType, filterValue) => {
     this.onCategorySelect(val, filterType, filterValue, true);
