@@ -85,7 +85,6 @@ export default class FilterDesktop extends React.Component {
     );
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
-    console.log(parsedQueryString);
     let url;
     let query = parsedQueryString.q;
     let pathName = this.props.location.pathname;
