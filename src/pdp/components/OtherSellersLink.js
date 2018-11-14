@@ -17,7 +17,7 @@ export default class OtherSellersLink extends React.Component {
   renderLink = () => {
     return (
       <div className={sellers}>
-        Sold by{" "}
+        Sold directly by{" "}
         <span className={winningSellerText}>{this.props.winningSeller}</span>
         {this.getValidSellerCount() !== 0 && (
           <span className={otherText}>
