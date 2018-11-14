@@ -36,7 +36,11 @@ export default class TermsAndConditionQuestion extends React.Component {
         <div className={styles.offerDescription}>
           {this.props.offerDescription}
         </div>
-        <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
+        {this.props.offerTermsConditions && (
+          <Collapse isOpened={this.state.isOpen}>
+            {this.props.children}
+          </Collapse>
+        )}
       </div>
     );
   }
