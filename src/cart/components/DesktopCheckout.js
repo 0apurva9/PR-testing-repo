@@ -182,14 +182,7 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.paybleAmount && (
-              <div className={styles.row}>
-                <div className={styles.label}>Total Savings</div>
-                <div className={styles.info}>
-                  {cartAmount.paybleAmount.formattedValue}
-                </div>
-              </div>
-            )}
+
             {!(
               (!cartAmount.totalDiscountAmount ||
                 cartAmount.totalDiscountAmount.value === 0) &&
@@ -240,7 +233,7 @@ export default class DesktopCheckout extends React.Component {
             }
           >
             <div className={styles.priceHeader}>
-              {this.props.onContinue ? "Total" : "Final Amount"}
+              {this.props.onContinue ? "Total" : "Total Payable"}
             </div>
             {this.props.payable &&
               this.props.payable.paybleAmount &&

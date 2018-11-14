@@ -27,6 +27,7 @@
   display: inline-block;
   vertical-align: top;
   text-align: right;
+  font-size: 20px;
 }
 .row {
   width: 100%;
@@ -40,8 +41,8 @@
   width: 50%;
   display: inline-block;
   vertical-align: top;
-  color: #212121;
-  font-family: semibold;
+  color: #4a4a4a;
+  font-family: regular;
   font-size: 14px;
 }
 .info {
@@ -54,7 +55,7 @@
   display: inline-block;
   vertical-align: top;
   color: #212121;
-  font-family: semibold;
+  font-family: light;
   font-size: 14px;
   cursor: pointer;
 }
@@ -71,6 +72,8 @@
 .priceHeader {
   composes: info;
   text-align: left;
+  font-family: semibold;
+  font-size: 20px;
 }
 .infoHiglight {
   composes: info;
@@ -117,8 +120,9 @@
 }
 
 .informationTotalSavingHolder .informationTotalSavingTextHolder {
-  font-family: light;
+  font-family: regular;
   color: #417505;
+  font-size: 14px;
 }
 .informationAdditionalDiscountHolder {
   width: 100%;
