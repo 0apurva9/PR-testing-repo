@@ -6,6 +6,7 @@ import { showFilter, hideFilter } from "../../plp/actions/plp.actions.js";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { getHeader } from "../../clp/actions/clp.actions";
+import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
 const mapDispatchToProps = dispatch => {
   return {
     setHeaderText: text => {
@@ -25,6 +26,9 @@ const mapDispatchToProps = dispatch => {
     },
     getHeader: () => {
       dispatch(getHeader());
+    },
+    getWishListItems: isSetDataLayer => {
+      dispatch(getWishListItems(isSetDataLayer));
     }
   };
 };
@@ -35,7 +39,8 @@ const mapStateToProps = state => {
     bagCount: state.header.bagCount,
     orderConfirmationDetails: state.cart.orderConfirmationDetails,
     cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails,
-    headerDetails: state.categoryDefault.headerDetails
+    headerDetails: state.categoryDefault.headerDetails,
+    wishListCount: state.wishlistItems.count
   };
 };
 
