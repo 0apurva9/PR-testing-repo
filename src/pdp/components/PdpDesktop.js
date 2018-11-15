@@ -1085,36 +1085,45 @@ export default class PdpApparel extends React.Component {
                     {this.renderRatings}
                   </div>
                 )}
-                {productData.numberOfReviews &&
-                (productData.numberOfReviews !== 0 ||
-                  productData.numberOfReviews !== "0") ? (
-                  <div className={styles.reviewsHolder}>
-                    <div className={styles.reviewsHeader}>
-                      Ratings and Reviews
-                      <div className={styles.reviewsButton}>
-                        <UnderLinedButton
-                          color="#ff1744"
-                          label="See All"
-                          fontFamily="light"
-                          onClick={this.goToReviewPage}
-                        />
-                      </div>
-                    </div>
-                    <ProductReviewListContainer
-                      productId={productData.productListingId}
-                    />
-                  </div>
-                ) : null}
-
                 <div className={styles.details}>
-                  {productData.APlusContent && (
-                    <APlusTemplate
-                      productContent={productData.APlusContent.productContent}
-                      template={productData.APlusContent.temlateName}
-                    />
-                  )}
-                  <div className={styles.blankSeparator} />
-                  <PDPRecommendedSectionsContainer />
+                  <React.Fragment>
+                    <React.Fragment>
+                      {productData.APlusContent && (
+                        <APlusTemplate
+                          productContent={
+                            productData.APlusContent.productContent
+                          }
+                          template={productData.APlusContent.temlateName}
+                        />
+                      )}
+                    </React.Fragment>
+                    <div className={styles.blankSeparator} />
+                    <React.Fragment>
+                      {productData.numberOfReviews &&
+                      (productData.numberOfReviews !== 0 ||
+                        productData.numberOfReviews !== "0") ? (
+                        <div className={styles.reviewsHolder}>
+                          <div className={styles.reviewsHeader}>
+                            Ratings and Reviews
+                            <div className={styles.reviewsButton}>
+                              <UnderLinedButton
+                                color="#ff1744"
+                                label="See All"
+                                fontFamily="light"
+                                onClick={this.goToReviewPage}
+                              />
+                            </div>
+                          </div>
+                          <ProductReviewListContainer
+                            productId={productData.productListingId}
+                          />
+                        </div>
+                      ) : null}
+                    </React.Fragment>
+                    <React.Fragment>
+                      <PDPRecommendedSectionsContainer />
+                    </React.Fragment>
+                  </React.Fragment>
                 </div>
               </div>
             </div>
