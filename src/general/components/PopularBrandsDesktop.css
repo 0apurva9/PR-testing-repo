@@ -45,6 +45,16 @@
   margin-left: 40px;
   transform: rotate(-180deg);
 }
+.btnDissabledForward {
+  composes: forward;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.btnDissabledBack {
+  composes: back;
+  opacity: 0.5;
+  pointer-events: none;
+}
 .staticElement {
   width: 100%;
   height: auto;

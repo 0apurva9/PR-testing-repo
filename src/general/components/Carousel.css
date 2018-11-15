@@ -64,6 +64,16 @@
   vertical-align: top;
   padding: 0 10px;
 }
+.btnDissabledForward {
+  composes: forward;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.btnDissabledBack {
+  composes: back;
+  opacity: 0.5;
+  pointer-events: none;
+}
 @media screen and (min-width: 1025px) {
   .header {
     display: flex;
