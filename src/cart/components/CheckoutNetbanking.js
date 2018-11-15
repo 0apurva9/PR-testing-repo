@@ -33,7 +33,6 @@ export default class CheckoutNetBanking extends React.Component {
         }
       );
     }
-
     return (
       <ManueDetails
         text={NET_BANKING_PAYMENT_MODE}
@@ -55,6 +54,7 @@ export default class CheckoutNetBanking extends React.Component {
           binValidationForNetBank={bankName =>
             this.binValidationForNetBank(bankName)
           }
+          bankCodeForNetBanking={this.props.bankCodeForNetBanking}
           onCheckout={this.props.onCheckout}
         />
       </ManueDetails>

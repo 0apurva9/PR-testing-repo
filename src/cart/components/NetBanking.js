@@ -68,7 +68,14 @@ export default class NetBanking extends React.Component {
       this.props.onCheckout();
     }
   };
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps && !nextProps.bankCodeForNetBanking) {
+      this.setState({
+        bankName: "",
+        bankCode: ""
+      });
+    }
+  }
   render() {
     return (
       <div>

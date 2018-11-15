@@ -11,7 +11,10 @@ import Button from "../../general/components/Button.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import PickUpDetails from "../../cart/components/PickUpDetails.js";
-
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_SELECT_STORE
+} from "../../lib/adobeUtils";
 export default class ReturnToStore extends React.Component {
   constructor(props) {
     super(props);
@@ -144,6 +147,7 @@ export default class ReturnToStore extends React.Component {
   }
 
   handleSubmit() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_SELECT_STORE);
     if (this.props.addPickupPersonCNC) {
       this.props.addPickupPersonCNC(this.state.mobile, this.state.name);
     }

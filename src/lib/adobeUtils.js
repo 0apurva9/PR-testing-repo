@@ -285,6 +285,8 @@ export const ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE =
   "ADOBE_DIRECT_CALL_FOR_PDP_PRODUCT_PLUS_VIEW_MORE";
 export const ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE =
   "ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE";
+export const ADOBE_DIRECT_CALL_FOR_SELECT_STORE =
+  "ADOBE_DIRECT_CALL_FOR_SELECT_STORE";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -327,6 +329,7 @@ const PICK_UP_OPTION = "cpj_pickup_option";
 const PDP_OFFER = "cpj_pdp_offer";
 const PDP_PRODUCT_PLUS_VIEW_MORE = "cpj_pdp_product_plus_view_more";
 const PDP_SPEC_VIEW_MORE = "cpj_pdp_spec_view_more";
+const SELECT_STORE = "cpj_select_store";
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -1245,6 +1248,11 @@ export function setDataLayerForCartDirectCalls(type, response) {
   if (type === ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING) {
     if (window._satellite) {
       window._satellite.track(CONTINUE_SHOPPING);
+    }
+  }
+  if (type === ADOBE_DIRECT_CALL_FOR_SELECT_STORE) {
+    if (window._satellite) {
+      window._satellite.track(SELECT_STORE);
     }
   }
 }

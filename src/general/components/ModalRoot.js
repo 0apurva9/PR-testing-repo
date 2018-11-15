@@ -34,6 +34,7 @@ const NEW_PASSWORD_TEXT = "Please enter new password";
 const PASSWORD_LENGTH_TEXT = "Password length should be minimum 8 character";
 const CONFIRM_PASSWORD_TEXT = "Please confirm your passowrd";
 const PASSWORD_MATCH_TEXT = "Password did not match";
+const OLD_NEW_PASSWORD_MATCH_TEXT = "Current and New password cannot be same";
 const Loader = () => {
   return (
     <div>
@@ -426,6 +427,10 @@ export default class ModalRoot extends React.Component {
     }
     if (newPassword !== confirmedPassword) {
       this.props.displayToast(PASSWORD_MATCH_TEXT);
+    }
+    if (oldPassword === newPassword) {
+      this.props.displayToast(OLD_NEW_PASSWORD_MATCH_TEXT);
+      return false;
     } else {
       this.props.changePassword(passwordDetails);
     }
