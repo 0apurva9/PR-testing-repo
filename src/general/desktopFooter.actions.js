@@ -25,11 +25,21 @@ export function getDesktopFooterFailure(error) {
     error
   };
 }
-export function getDesktopFooter() {
+export function getDesktopFooter(pathName) {
   return async (dispatch, getState, { api }) => {
     dispatch(getDesktopFooterRequest());
     try {
-      const result = await api.get("v2/mpl/cms/desktopservice/footer");
+      let footerApi;
+      var urlSearch = pathName.split("/c-");
+      if (
+        urlSearch[1].search("msh") !== -1 ||
+        urlSearch[1].search("mbh") !== -1
+      ) {
+        footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch[1]}`;
+      } else {
+        footerApi = "v2/mpl/cms/desktopservice/footer";
+      }
+      const result = await api.get(footerApi);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {

@@ -4,8 +4,8 @@ import { getDesktopFooter } from "../desktopFooter.actions";
 import DesktopFooter from "../components/DesktopFooter";
 const mapDispatchToProps = dispatch => {
   return {
-    getDesktopFooter: () => {
-      dispatch(getDesktopFooter());
+    getDesktopFooter: pathName => {
+      dispatch(getDesktopFooter(pathName));
     }
   };
 };
