@@ -16,8 +16,9 @@ import {
 const TEXT = "© 2017 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
+    let currentUrl = this.props.location.pathname;
     if (this.props.getDesktopFooter) {
-      this.props.getDesktopFooter();
+      this.props.getDesktopFooter(currentUrl);
     }
   }
   onClick = (url, value) => {

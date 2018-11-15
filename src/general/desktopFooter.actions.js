@@ -25,11 +25,28 @@ export function getDesktopFooterFailure(error) {
     error
   };
 }
-export function getDesktopFooter() {
+export function getDesktopFooter(pathName) {
   return async (dispatch, getState, { api }) => {
     dispatch(getDesktopFooterRequest());
     try {
-      const result = await api.get("v2/mpl/cms/desktopservice/footer");
+      let footerApi;
+      if (
+        (pathName.search("msh") !== -1 || pathName.search("mbh") !== -1) &&
+        pathName.search("/c-") !== -1
+      ) {
+        var urlSearch = pathName && pathName.split("/c-");
+        if (urlSearch[1].search("/") !== -1) {
+          var urlSearch2 = urlSearch[1].split("/");
+          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${
+            urlSearch2[0]
+          }`;
+        } else {
+          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch[1]}`;
+        }
+      } else {
+        footerApi = "v2/mpl/cms/desktopservice/footer";
+      }
+      const result = await api.get(footerApi);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
