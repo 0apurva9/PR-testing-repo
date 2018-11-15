@@ -14,12 +14,24 @@ export default class SlideModal extends React.Component {
         style={{ width: this.props.width, height: this.props.height }}
       >
         <div className={styles.content}>{this.props.children}</div>
-        <div
-          className={styles.cancel}
-          onClick={() => {
-            this.handleClose();
-          }}
-        />
+        <React.Fragment>
+          {this.props.isCancelWhite && (
+            <div
+              className={styles.cancelWhite}
+              onClick={() => {
+                this.handleClose();
+              }}
+            />
+          )}
+          {this.props.isCancelWhite === false && (
+            <div
+              className={styles.cancel}
+              onClick={() => {
+                this.handleClose();
+              }}
+            />
+          )}
+        </React.Fragment>
       </div>
     );
   }
@@ -27,5 +39,10 @@ export default class SlideModal extends React.Component {
 
 SlideModal.propTypes = {
   closeModal: PropTypes.func,
-  width: PropTypes.string
+  width: PropTypes.string,
+  isCancelWhite: PropTypes.bool,
+  isCancelBlack: PropTypes.bool
+};
+SlideModal.defaultProps = {
+  isCancelWhite: false
 };

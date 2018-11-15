@@ -19,11 +19,25 @@
   background-position: center;
   background-size: 25px;
 }
+
 .content {
   width: 100%;
   height: auto;
   max-height: 100vh;
   overflow: auto;
+}
+.cancelWhite {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: initial;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+  background: url(./img/cancel.svg) no-repeat;
+  background-position: center;
+  background-size: 25px;
+  z-index: 5;
 }
 @keyframes slideIn {
   0% {
@@ -61,7 +75,7 @@
   }
   .cancel {
     left: initial;
-    top: 10px;
+    top: 5px;
     right: 10px;
     cursor: pointer;
     background: url(./img/cancelBlack.svg) no-repeat;
@@ -69,6 +83,7 @@
     background-size: 25px;
     z-index: 5;
   }
+
   .couponHeader {
     line-height: 60px;
     z-index: initial;
