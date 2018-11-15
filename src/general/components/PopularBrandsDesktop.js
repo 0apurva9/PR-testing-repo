@@ -54,6 +54,7 @@ export default class PopularBrandsDesktop extends React.Component {
     }
   }
   render() {
+    console.log(this.state.position);
     let currentActivePopularBrands = [];
     const { feedComponentData } = this.props;
     if (
@@ -68,6 +69,18 @@ export default class PopularBrandsDesktop extends React.Component {
     const style = {
       transform: transform
     };
+    let buttonArrowForward = styles.forward;
+    if (
+      this.state.position === currentActivePopularBrands &&
+      currentActivePopularBrands.brands &&
+      currentActivePopularBrands.brands.length - 6
+    ) {
+      buttonArrowForward = styles.btnDissabledForward;
+    }
+    let buttonArrowBack = styles.back;
+    if (this.state.position === 0) {
+      buttonArrowBack = styles.btnDissabledBack;
+    }
     return (
       <DesktopOnly>
         <CommonCenter>
@@ -81,13 +94,13 @@ export default class PopularBrandsDesktop extends React.Component {
                 currentActivePopularBrands.brands.length > 6 && (
                   <div className={styles.nav}>
                     <div
-                      className={styles.back}
+                      className={buttonArrowBack}
                       onClick={() => {
                         this.slideBack();
                       }}
                     />
                     <div
-                      className={styles.forward}
+                      className={buttonArrowForward}
                       onClick={() => {
                         this.slideForward();
                       }}

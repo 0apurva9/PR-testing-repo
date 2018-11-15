@@ -34,7 +34,9 @@ export default class Carousel extends React.Component {
   }
   render() {
     const childrenCount = React.Children.count(this.props.children);
+
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
+
     const translationAmount = -(
       this.props.elementWidthDesktop * this.state.position
     );
@@ -54,7 +56,14 @@ export default class Carousel extends React.Component {
     if (this.props.seeAll && !this.props.withFooter) {
       buttonSpace = 110;
     }
-
+    let buttonArrowForward = styles.forward;
+    if (this.state.position === childrenCount - visibleChildren) {
+      buttonArrowForward = styles.btnDissabledForward;
+    }
+    let buttonArrowBack = styles.back;
+    if (this.state.position === 0) {
+      buttonArrowBack = styles.btnDissabledBack;
+    }
     return (
       <div className={styles.base} styles={{ color: this.props.color }}>
         <MediaQuery query="(min-device-width: 1025px)">
@@ -84,13 +93,13 @@ export default class Carousel extends React.Component {
               {childrenCount > visibleChildren && (
                 <React.Fragment>
                   <div
-                    className={styles.back}
+                    className={buttonArrowBack}
                     onClick={() => {
                       this.slideBack();
                     }}
                   />
                   <div
-                    className={styles.forward}
+                    className={buttonArrowForward}
                     onClick={() => {
                       this.slideForward();
                     }}
