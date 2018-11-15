@@ -40,6 +40,7 @@ export default class ReturnModesForDesktop extends React.Component<
   };
 
   private selectReturnMode() {
+    window.scrollTo(0, 0);
     this.setState({ isReturnModeSelected: true });
   }
   private cancelReturnMode = () => {
