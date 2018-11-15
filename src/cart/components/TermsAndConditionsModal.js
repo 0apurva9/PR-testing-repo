@@ -5,7 +5,7 @@ const TERMS_AND_CONDITION_TEXT = "Terms & Conditions";
 export default class TermsAndConditionsModal extends React.Component {
   render() {
     return (
-      <SlideModal closeModal={this.props.closeModal}>
+      <SlideModal closeModal={this.props.closeModal} isCancelWhite={true}>
         <div className={styles.base}>
           <div className={styles.header}>{TERMS_AND_CONDITION_TEXT}</div>
           <div className={styles.bankNameHeader}>
