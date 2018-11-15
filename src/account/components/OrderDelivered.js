@@ -84,21 +84,24 @@ export default class OrderDelivered extends React.Component {
         {this.props.children}
         {this.props.isShowDataHorizontal && (
           <div className={styles.inLineShowData}>
-            {this.props.deliveredDate && (
-              <div className={styles.deliveryDateOnHorizontal}>
-                <div className={styles.labelText}>Delivered on:</div>
-                <div className={styles.infoText}>
-                  {this.props.deliveredDate}
+            <div className={styles.leftHolder}>
+              {this.props.deliveredDate && (
+                <div className={styles.deliveryDateOnHorizontal}>
+                  <div className={styles.labelText}>Delivered on:</div>
+                  <div className={styles.infoText}>
+                    {this.props.deliveredDate}
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {this.props.soldBy && (
-              <div className={styles.orderSoldBy}>
-                <div className={styles.soldLabelText}>Sold by:</div>
-                <div className={styles.soldInfoText}>{this.props.soldBy}</div>
-              </div>
-            )}
+              )}
+            </div>
+            <div className={styles.rightHolder}>
+              {this.props.soldBy && (
+                <div className={styles.orderSoldBy}>
+                  <div className={styles.soldLabelText}>Sold by:</div>
+                  <div className={styles.soldInfoText}>{this.props.soldBy}</div>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

@@ -56,12 +56,24 @@
   width: 100%;
   height: auto;
   display: inline-block;
+  margin-top: 10px;
 }
 .soldLabelText {
   composes: labelText;
 }
 .soldInfoText {
   composes: infoText;
+}
+.leftHolder {
+  width: 50%;
+  height: auto;
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+}
+.rightHolder {
+  composes: leftHolder;
+  text-align: right;
 }
 @media screen and (min-width: 1025px) {
   .deliveredTo {
