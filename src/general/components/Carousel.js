@@ -23,7 +23,6 @@ export default class Carousel extends React.Component {
     );
   }
   slideForward() {
-    console.log("maa tara");
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
     if (
       this.state.position <
@@ -35,9 +34,9 @@ export default class Carousel extends React.Component {
   }
   render() {
     const childrenCount = React.Children.count(this.props.children);
-    console.log(childrenCount);
+
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
-    console.log(visibleChildren);
+
     const translationAmount = -(
       this.props.elementWidthDesktop * this.state.position
     );
