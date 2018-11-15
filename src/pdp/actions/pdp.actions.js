@@ -193,24 +193,6 @@ export function getProductDescription(
             getState().icid.icidType,
             behaviorOfPageTheCurrent
           );
-        } else if (!behaviorOfPageTheCurrent) {
-          if (
-            window.digitalData &&
-            window.digitalData.page &&
-            window.digitalData.page.pageInfo &&
-            window.digitalData.page.pageInfo.pageName &&
-            window.digitalData.page.pageInfo.pageName.indexOf(
-              "product review"
-            ) !== -1
-          ) {
-            setDataLayer(
-              ADOBE_PDP_TYPE,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType,
-              behaviorOfPageTheCurrent
-            );
-          }
         }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {

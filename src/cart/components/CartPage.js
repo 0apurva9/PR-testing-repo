@@ -865,7 +865,8 @@ class CartPage extends React.Component {
                     </div>
                   )}
                   {this.props &&
-                    this.props.wishListCount && (
+                    this.props.wishListCount !== null &&
+                    (this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
                         <span>{`You have ${
@@ -881,7 +882,7 @@ class CartPage extends React.Component {
                           />
                         </div>
                       </div>
-                    )}
+                    ))}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                 </div>
               </div>
