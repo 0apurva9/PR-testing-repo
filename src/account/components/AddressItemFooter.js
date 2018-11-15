@@ -46,7 +46,7 @@ export default class AddressItemFooter extends React.Component {
                   <Button
                     type="hollow"
                     color="#000"
-                    label={"Edit"}
+                    label={"Edit address"}
                     width={150}
                     onClick={() => this.editAddress()}
                   />

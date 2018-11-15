@@ -41,8 +41,11 @@ import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
-const PRODUCT_RETURN = "Return";
+const PRODUCT_RETURN = UserAgent.checkUserAgentIsMobile()
+  ? "Return"
+  : "Return or Replace";
 const RETURN = "RETURN";
 const PRODUCT_CANCEL = "Cancel";
 const AWB_POPUP_TRUE = "Y";
@@ -273,6 +276,7 @@ export default class OrderDetails extends React.Component {
                       productName={products.productName}
                       isGiveAway={products.isGiveAway}
                       onClick={() => this.onClickImage(products.productcode)}
+                      quantity={true}
                     />
                     <div className={styles.payment}>
                       <OrderViewPaymentDetails
