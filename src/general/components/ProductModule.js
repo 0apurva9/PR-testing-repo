@@ -133,10 +133,7 @@ export default class ProductModule extends React.Component {
               }}
               target="_blank"
             >
-              <div
-                className={styles.dummyDiv}
-                onClick={val => this.onClick(val)}
-              />
+              <div className={styles.dummyDiv} />
             </Link>
           </DesktopOnly>
         </React.Fragment>
