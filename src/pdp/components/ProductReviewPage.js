@@ -32,6 +32,7 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayerForPdpDirectCalls,
+  updatePdpDetailsBackFromReviewPage,
   SET_DATA_LAYER_FOR_WRITE_REVIEW_EVENT
 } from "../../lib/adobeUtils";
 import commentArray from "../../mock/lang_profanity.json";
@@ -122,6 +123,7 @@ export default class ProductReviewPage extends Component {
     }
   }
   componentWillUnmount() {
+    updatePdpDetailsBackFromReviewPage();
     window.removeEventListener("scroll", this.throttledScroll);
   }
 

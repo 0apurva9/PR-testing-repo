@@ -2336,3 +2336,27 @@ export function setDataLayerForSelectedFilterDirectCalls(
     }
   }
 }
+export function updatePdpDetailsBackFromReviewPage() {
+  const previousDigitalData = cloneDeep(window.digitalData);
+  const currentDigitalData = window.digitalData;
+  if (
+    previousDigitalData &&
+    previousDigitalData.page &&
+    previousDigitalData.page.pageInfo &&
+    previousDigitalData.page.pageInfo.pageName
+  ) {
+    let previousPageName = previousDigitalData.page.pageInfo.pageName;
+    let reviewPage = previousPageName.replace(
+      "product review",
+      "product details"
+    );
+    Object.assign(currentDigitalData, {
+      page: {
+        pageInfo: {
+          pageName: reviewPage
+        }
+      }
+    });
+  }
+  window.digitalData = currentDigitalData;
+}
