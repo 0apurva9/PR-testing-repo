@@ -139,7 +139,6 @@ export default class FilterDesktop extends React.Component {
     this.setState({ showAllColor: !this.state.showAllColor });
   }
   render() {
-    console.log("this", this.props);
     const { facetData, facetdatacategory } = this.props;
 
     const url = this.props.location.pathname;
