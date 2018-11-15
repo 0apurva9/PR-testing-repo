@@ -37,6 +37,10 @@ export default class FilterDesktop extends React.Component {
   }
 
   onClear = () => {
+    const firstSearchData =
+      this.props.facetdatacategory &&
+      this.props.facetdatacategory.filters &&
+      this.props.facetdatacategory.filters[0].categoryName;
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
     if (query) {
@@ -44,7 +48,7 @@ export default class FilterDesktop extends React.Component {
       if (firstChar !== ":") {
         const splitQuery = query.split(":");
         const searchText = splitQuery[0];
-        const url = `${this.props.location.pathname}?q=${searchText}`;
+        const url = `${this.props.location.pathname}?q=${firstSearchData}`;
 
         this.props.history.push(url, {
           isFilter: false
