@@ -72,8 +72,7 @@ export default class NetBanking extends React.Component {
     if (nextProps && !nextProps.bankCodeForNetBanking) {
       this.setState({
         bankName: "",
-        bankCode: "",
-        selectedFromDropDown: false
+        bankCode: ""
       });
     }
   }
