@@ -17,10 +17,16 @@ import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
-  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
+  setDataLayerForCartDirectCalls,
   setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT,
-  SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
+  SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT,
+  ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+  ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
+  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
@@ -46,13 +52,6 @@ import {
   BUY_NOW_ERROR_MESSAGE,
   LOGIN_PATH
 } from "../../lib/constants";
-import {
-  setDataLayerForCartDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-  ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
-  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
-} from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 const ProductDetailsMainCard = LoadableVisibility({
@@ -452,6 +451,7 @@ export default class PdpApparel extends React.Component {
     }
   };
   onScroll = () => {
+    setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE);
     let scroll2 = this.refs.scrollToViewGallery;
     let scroll1 = this.refs.scrollToViewAccrodian;
     window.scroll({
