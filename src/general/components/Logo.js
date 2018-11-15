@@ -8,7 +8,11 @@ export default class Logo extends React.Component {
     return (
       <div
         className={styles.base}
-        style={{ height: this.props.height, width: this.props.width }}
+        style={{
+          height: this.props.height,
+          width: this.props.width,
+          maxWidth: this.props.maxWidth
+        }}
       >
         <VisibilityChild>
           <img

@@ -32,9 +32,10 @@ export default class Banner extends React.Component {
             />
             <div className={styles.content}>
               <div className={styles.logoAndText}>
-                <div className={styles.logo}>
-                  <Logo image={this.props.logo} />
-                </div>
+                <div
+                  className={styles.logo}
+                  style={{ backgroundImage: `url(${this.props.logo})` }}
+                />
                 {this.props.title && (
                   <div className={styles.title}>{this.props.title}</div>
                 )}
