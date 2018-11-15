@@ -12,6 +12,7 @@ import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
+import infoIcon from "../../general/components/img/Info.svg";
 const INSUFFICIENT_DATA_ERROR_MESSAGE = "Please enter valid card details";
 const MERCHANT_ID = "tul_uat2";
 const MINIMUM_YEARS_TO_SHOW = 0;
@@ -170,7 +171,7 @@ export default class CreditCardForm extends React.Component {
           <div className={styles.contentHolder}>
             <div className={styles.content}>
               <Input2
-                placeholder="Card Number"
+                placeholder="Card Number *"
                 value={
                   this.props.cardNumber && this.props.cardNumber.length > 0
                     ? this.props.cardNumber
@@ -337,6 +338,12 @@ export default class CreditCardForm extends React.Component {
                         this.handleOnFocusInput();
                       }}
                       onBlur={() => this.handleOnBlur()}
+                      rightChildSize="16px"
+                      rightChild={
+                        <div className={styles.infoIcon}>
+                          <Icon image={infoIcon} size={16} />
+                        </div>
+                      }
                     />
                   </div>
                 </div>
