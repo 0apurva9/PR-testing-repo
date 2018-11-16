@@ -40,7 +40,7 @@ const mapStateToProps = state => {
     orderConfirmationDetails: state.cart.orderConfirmationDetails,
     cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails,
     headerDetails: state.categoryDefault.headerDetails,
-    wishListCount: state.wishlistItems.count
+    wishListCount: state.wishlistItems.wishlistItems
   };
 };
 
