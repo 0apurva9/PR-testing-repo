@@ -53,6 +53,7 @@ class DesktopFooter extends React.Component {
   };
   render() {
     let footerData = this.props && this.props.DesktopFooterDetails;
+
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
@@ -160,6 +161,15 @@ class DesktopFooter extends React.Component {
             <div className={styles.copyRightText}>{TEXT}</div>
           </div>
         </div>
+        <div
+          className={styles.footerData}
+          dangerouslySetInnerHTML={{
+            __html:
+              footerData &&
+              footerData.items &&
+              footerData.items[0].pageSpecificFooterData
+          }}
+        />
       </div>
     );
   }
