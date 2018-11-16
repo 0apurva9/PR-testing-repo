@@ -45,16 +45,24 @@ export default class OrderBanner extends React.Component {
           <DesktopOnly>
             {this.props.isContinueShopping && (
               <div className={styles.buttonHolder}>
-                <Button
-                  type="hollow"
-                  color="#fff"
-                  label={this.props.continueButton}
-                  height={37}
-                  width={175}
+                <div
+                  className={styles.button}
                   onClick={() => this.onContinueShopping()}
-                />
+                >
+                  {this.props.continueButton}
+                </div>
               </div>
             )}
+            <div className={styles.buttonHolder} style={{ marginLeft: 10 }}>
+              <Button
+                type="hollow"
+                color="#fff"
+                label="View order details"
+                height={37}
+                width={175}
+                onClick={() => this.handleClick()}
+              />
+            </div>
           </DesktopOnly>
         </div>
       </div>

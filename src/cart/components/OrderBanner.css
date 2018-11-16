@@ -35,6 +35,17 @@
   margin-top: 18px;
   display: inline-block;
 }
+.button {
+  width: 175px;
+  height: 37px;
+  border-radius: 18.5px;
+  background: #fff;
+  color: #16d4a3;
+  cursor: pointer;
+  line-height: 37px;
+  font-size: 14px;
+  font-family: semibold;
+}
 @media only screen and (min-width: 1025px) {
   .base {
     padding: 50px 20px;
