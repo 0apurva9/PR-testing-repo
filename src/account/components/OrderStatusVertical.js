@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./OrderStatusVertical.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import PropTypes from "prop-types";
-import format from "date-fns/format";
 const PAYMENT = "PAYMENT";
 const APPROVED = "APPROVED";
 const PROCESSING = "PROCESSING";
@@ -12,7 +11,6 @@ const DELIVERED = "DELIVERED";
 const REFUND_INITIATED = "REFUND_INITIATED";
 const READY_FOR_COLLECTION = "READY_FOR_COLLECTION";
 const ORDER_COLLECTED = "ORDER_COLLECTED";
-const dateFormat = "DD/MMM/YYYY";
 export default class OrderStatusVertical extends React.Component {
   handleMoreDetails(val) {
     if (this.props.showShippingDetails && val) {
@@ -201,9 +199,7 @@ export default class OrderStatusVertical extends React.Component {
           />
           <div className={styles.processNameHolder}>Approved</div>
           <div className={styles.dateAndTimeHolder}>
-            <div className={styles.dateHolder}>
-              {format(approvedDate, dateFormat)}
-            </div>
+            <div className={styles.dateHolder}>{approvedDate}</div>
             <div className={styles.timeHolder}>{approvedTime}</div>
           </div>
         </div>
@@ -225,9 +221,7 @@ export default class OrderStatusVertical extends React.Component {
           />
           <div className={styles.processNameHolder}>Processing</div>
           <div className={styles.dateAndTimeHolder}>
-            <div className={styles.dateHolder}>
-              {format(processingDate, dateFormat)}
-            </div>
+            <div className={styles.dateHolder}>{processingDate}</div>
             <div className={styles.timeHolder}>{processingTime}</div>
           </div>
         </div>
@@ -251,9 +245,7 @@ export default class OrderStatusVertical extends React.Component {
                   />
                   <div className={styles.processNameHolder}>Shipping</div>
                   <div className={styles.dateAndTimeHolder}>
-                    <div className={styles.dateHolder}>
-                      {format(shippingDate, dateFormat)}
-                    </div>
+                    <div className={styles.dateHolder}>{shippingDate}</div>
                     <div className={styles.timeHolder}>{shippingTime}</div>
                   </div>
                   {completedSteps.includes(SHIPPING) && (
@@ -298,9 +290,7 @@ export default class OrderStatusVertical extends React.Component {
                   />
                   <div className={styles.processNameHolder}>Delivered</div>
                   <div className={styles.dateAndTimeHolder}>
-                    <div className={styles.dateHolder}>
-                      {format(deliveredDate, dateFormat)}
-                    </div>
+                    <div className={styles.dateHolder}>{deliveredDate}</div>
                     <div className={styles.timeHolder}>{deliveredTime}</div>
                   </div>
                 </div>
