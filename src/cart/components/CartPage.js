@@ -80,6 +80,7 @@ class CartPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
+    document.title = "Shopping Cart - TATA CLiQ ";
     this.props.getWishListItems();
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -404,7 +405,6 @@ class CartPage extends React.Component {
 
   renderEmptyBag = () => {
     let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-
     return (
       <div className={styles.base}>
         <DesktopOnly>

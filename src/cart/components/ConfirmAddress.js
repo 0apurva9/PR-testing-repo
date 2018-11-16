@@ -11,6 +11,9 @@ import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
 
 export default class ConfirmAddress extends React.Component {
+  componentWillMount() {
+    document.title = "Select Delivery Address";
+  }
   constructor(props) {
     super(props);
     this.state = {

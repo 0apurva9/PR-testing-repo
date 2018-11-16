@@ -37,6 +37,7 @@ export default class SaveListDetails extends React.Component {
     this.setState({ isSelected: val });
   }
   componentDidMount() {
+    document.title = "My Wishlist ";
     this.props.setHeaderText(SAVED_LIST);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

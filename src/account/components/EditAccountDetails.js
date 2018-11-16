@@ -61,6 +61,7 @@ export default class EditAccountDetails extends React.Component {
     };
   }
   componentDidMount() {
+    document.title = "My Profile Details";
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie) {

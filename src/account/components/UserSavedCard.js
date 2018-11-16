@@ -67,6 +67,7 @@ export default class UserSavedCard extends React.Component {
   }
 
   componentDidMount() {
+    document.title = "My Saved Cards ";
     this.props.setHeaderText(SAVED_PAYMENTS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

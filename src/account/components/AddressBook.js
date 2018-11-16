@@ -26,6 +26,7 @@ const EDIT_LABEL = "Edit";
 const NO_ADDRESS_TEXT = "No Saved Address";
 export default class AddressBook extends React.Component {
   componentDidMount() {
+    document.title = "My Delivery Addresses";
     this.props.setHeaderText(ADDRESS_BOOK);
     this.props.getUserAddress();
   }

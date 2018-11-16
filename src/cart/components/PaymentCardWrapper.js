@@ -53,6 +53,7 @@ const typeComponentMapping = {
 
 export default class PaymentCardWrapper extends React.Component {
   componentDidMount = () => {
+    document.title = "Proceed with Payment";
     if (
       this.props.getCODEligibility &&
       !this.props.cart.codEligibilityDetails
