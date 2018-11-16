@@ -14,7 +14,7 @@ export default class BrandsItem extends React.Component {
     }
     return (
       <div className={className} onClick={() => this.onSelect()}>
-        {this.props.label}
+        <h2> {this.props.label}</h2>
       </div>
     );
   }

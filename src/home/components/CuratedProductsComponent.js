@@ -32,7 +32,9 @@ class CuratedProductsComponent extends React.Component {
       <CommonCenter>
         <div className={styles.base}>
           <div className={styles.header}>
-            <div className={styles.headingText}>{feedComponentData.title}</div>
+            <div className={styles.headingText}>
+              <h2>{feedComponentData.title}</h2>
+            </div>
           </div>
           <Grid offset={20}>
             {items &&

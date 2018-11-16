@@ -40,7 +40,9 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
           />
         </div>
         <div className={styles.descriptionHolder}>
-          <div className={styles.heading}>{this.props.title}</div>
+          <div className={styles.heading}>
+            <h2>{this.props.title}</h2>
+          </div>
           {this.props.items && (
             <div className={styles.listHolder}>
               {this.props.items &&
@@ -54,7 +56,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
                         className={styles.listLink}
                         onClick={() => this.goToLink(val.webURL)}
                       >
-                        {val.title}
+                        <h3> {val.title}</h3>
                       </div>
                     );
                   })}
