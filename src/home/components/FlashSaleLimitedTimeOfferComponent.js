@@ -19,7 +19,7 @@ export default class FlashSaleLimitedTimeOfferComponent extends React.Component 
         <div className={styles.limitedTimeHolder}>
           <div className={styles.limitedTimeHolderWithText}>
             <div className={styles.limitedTimeText}>
-              Grab these offers for a limited time only!
+              <h2> Grab these offers for a limited time only!</h2>
             </div>
             <div className={styles.countDownTimerHolder}>
               <TimerCounterForDesktop

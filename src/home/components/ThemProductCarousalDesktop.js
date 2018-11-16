@@ -46,7 +46,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
                 <Logo image={this.props.brandLogo} />
               </div>
               <div className={styles.descriptionText}>
-                {this.props.description}
+                <h2> {this.props.description}</h2>
               </div>
               <div className={styles.buttonHolder}>
                 <div className={styles.button}>

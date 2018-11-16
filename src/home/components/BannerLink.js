@@ -34,7 +34,9 @@ export default class BannerLink extends React.Component {
           />
         </div>
         <div className={styles.linkDetailsHolder}>
-          <div className={styles.linkHeader}>{this.props.linkHeader}</div>
+          <div className={styles.linkHeader}>
+            <h3>{this.props.linkHeader}</h3>
+          </div>
           <div className={styles.linkDetails}>
             {this.props.subItems &&
               this.props.subItems.map((val, i) => {
@@ -43,7 +45,7 @@ export default class BannerLink extends React.Component {
                     className={styles.link}
                     onClick={() => this.linkDetails(val.webURL)}
                   >
-                    {val.title}
+                    <h3> {val.title}</h3>
                   </div>
                 );
               })}
