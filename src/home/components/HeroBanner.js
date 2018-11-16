@@ -19,6 +19,7 @@ export default class HeroBanner extends React.Component {
                   <BannerImage
                     logo={datum.brandLogo}
                     title={datum.title}
+                    ratio={feedComponentData.dimension}
                     subTitle={datum.subTitle}
                     buttonLabel={datum.buttonLabel}
                     image={datum.imageURL}
@@ -42,6 +43,7 @@ export default class HeroBanner extends React.Component {
                     title={datum.title}
                     image={datum.imageURL}
                     subTitle={datum.subTitle}
+                    ratio={feedComponentData.dimension}
                     key={i}
                     url={datum.webURL}
                     {...rest}

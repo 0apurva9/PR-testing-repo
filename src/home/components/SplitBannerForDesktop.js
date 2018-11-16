@@ -22,6 +22,24 @@ export default class SplitBannerForDesktop extends React.Component {
       }
     }
   }
+  renderCard = feedComponentDatum => {
+    return (
+      <div
+        className={styles.splitBannerHolder}
+        onClick={() => this.handleClick(feedComponentDatum.webURL)}
+      >
+        <SplitBanner
+          logo={feedComponentDatum.brandLogo}
+          image={feedComponentDatum.imageURL}
+          ratio={feedComponentDatum.dimension}
+          subTitle={feedComponentDatum.description}
+          title={feedComponentDatum.title}
+          btnText={feedComponentDatum.btnText}
+          onClick={() => this.handleClick(feedComponentDatum.webURL)}
+        />
+      </div>
+    );
+  };
 
   render() {
     let { feedComponentData } = this.props;
@@ -39,46 +57,27 @@ export default class SplitBannerForDesktop extends React.Component {
                 {feedComponentData.title}
               </div>
             )}
-          {feedComponentData.items &&
-            feedComponentData.items[0] && (
-              <div
-                className={styles.splitBannerHolder}
-                onClick={() =>
-                  this.handleClick(feedComponentData.items[0].webURL)
-                }
-              >
-                <SplitBanner
-                  logo={feedComponentData.items[0].brandLogo}
-                  image={feedComponentData.items[0].imageURL}
-                  subTitle={feedComponentData.items[0].description}
-                  title={feedComponentData.items[0].title}
-                  btnText={feedComponentData.items[0].btnText}
-                  onClick={() =>
-                    this.handleClick(feedComponentData.items[0].webURL)
-                  }
-                />
+          {feedComponentData &&
+            feedComponentData.items && (
+              <div className={styles.splitColumn}>
+                {feedComponentData.items
+                  .filter((val, i) => {
+                    return i % 2 === 0 && i < 4;
+                  })
+                  .map(feedComponentDatum => {
+                    return this.renderCard(feedComponentDatum);
+                  })}
               </div>
             )}
-          {feedComponentData.items &&
-            feedComponentData.items[1] && (
-              <div
-                className={styles.splitBannerHolder}
-                onClick={() =>
-                  this.handleClick(feedComponentData.items[1].webURL)
-                }
-              >
-                <SplitBanner
-                  logo={feedComponentData.items[1].brandLogo}
-                  image={feedComponentData.items[1].imageURL}
-                  subTitle={feedComponentData.items[1].description}
-                  title={feedComponentData.items[1].title}
-                  btnText={feedComponentData.items[1].btnText}
-                  onClick={() =>
-                    this.handleClick(feedComponentData.items[1].webURL)
-                  }
-                />
-              </div>
-            )}
+          <div className={styles.splitColumn}>
+            {feedComponentData.items
+              .filter((val, i) => {
+                return i % 2 !== 0 && i < 4;
+              })
+              .map(feedComponentDatum => {
+                return this.renderCard(feedComponentDatum);
+              })}
+          </div>
         </div>
       </CommonCenter>
     );

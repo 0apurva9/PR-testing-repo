@@ -12,7 +12,10 @@ export default class SplitBanner extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{ paddingBottom: `${this.props.ratio}%` }}
+      >
         <div className={styles.imageHolder}>
           <Image image={this.props.image} lazyLoad={true} />
         </div>
