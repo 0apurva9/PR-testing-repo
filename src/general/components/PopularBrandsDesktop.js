@@ -87,7 +87,7 @@ export default class PopularBrandsDesktop extends React.Component {
           <div className={styles.base}>
             <div className={styles.header}>
               <div className={styles.showHeaderText}>
-                <h1> {feedComponentData && feedComponentData.title}</h1>
+                {feedComponentData && <h1>feedComponentData.title</h1>}
               </div>
               {currentActivePopularBrands &&
                 currentActivePopularBrands.brands &&
