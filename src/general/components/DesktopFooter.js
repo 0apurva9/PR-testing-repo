@@ -13,7 +13,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK,
   ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE
 } from "../../lib/adobeUtils";
-const TEXT = "© 2017 Tata CLiQ | All rights reserved";
+const TEXT = "© 2018 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
     let currentUrl = this.props.location.pathname;
