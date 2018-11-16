@@ -165,7 +165,8 @@ export function getProductListingsFailure(error, isPaginated) {
 export function getProductListings(
   suffix: null,
   paginated: false,
-  isFilter: false
+  isFilter: false,
+  componentName
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(showSecondaryLoader());
@@ -225,12 +226,20 @@ export function getProductListings(
           window.digitalData.page.pageInfo &&
           window.digitalData.page.pageInfo.pageName !== "product grid"
         ) {
-          setDataLayer(
-            ADOBE_PLP_TYPE,
-            resultJson,
-            getState().icid.value,
-            getState().icid.icidType
-          );
+          if (
+            componentName === "Flash Sale Component" ||
+            componentName === "Theme offers component" ||
+            componentName === "Curated products component"
+          ) {
+            setDataLayer(ADOBE_PLP_TYPE, resultJson);
+          } else {
+            setDataLayer(
+              ADOBE_PLP_TYPE,
+              resultJson,
+              getState().icid.value,
+              getState().icid.icidType
+            );
+          }
         }
       }
       if (paginated) {

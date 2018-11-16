@@ -7,17 +7,26 @@ import MediaQuery from "react-responsive";
 import ProductImageHeaderDesktop from "../../general/components/ProductImageHeaderDesktop.js";
 import ThemOfferComponentDesktop from "./ThemOfferComponentDesktop.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 const OFFER_AND_ITEM_LIMIT = 10;
 
 export default class ThemeOffer extends React.Component {
   handleClick() {
+    widgetsTracking({
+      widgetName: "Theme offers component",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+    });
     if (this.props.feedComponentData.webURL) {
       const urlSuffix = this.props.feedComponentData.webURL.replace(
         TATA_CLIQ_ROOT,
         "$1"
       );
-      this.props.history.push(urlSuffix);
+      this.props.history.push({
+        pathname: urlSuffix,
+        state: {
+          componentName: "Theme offers component"
+        }
+      });
       if (this.props.setClickedElementId) {
         this.props.setClickedElementId();
       }

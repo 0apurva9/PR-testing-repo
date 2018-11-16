@@ -125,7 +125,6 @@ export default class ProductModule extends React.Component {
               </div>
             )}
           </MobileOnly>
-
           <DesktopOnly>
             <Link
               to={{

@@ -312,8 +312,8 @@ const VISIT_BRAND = "visit_brand";
 const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
   "automated_brand_product_carousal";
 const BANNER_PRODUCT_CAROUSAL_ADOBE = "banner_product_carousal";
-const CURATED_PRODUCTS_COMPONENT_ADOBE = "curated_products_component";
-const VIDEO_PRODUCT_CAROUSEL_ADOBE = "video_product_carousel";
+const THEME_OFFER_COMPONENT = "theme_offers_component";
+const FLASH_SALE_COMPONENT = "flash_sale_component";
 const HEADER_CLICK = "header_click";
 const CATEGORY_CLICK = "category_click";
 const BRAND_CLICK = "brand_click";
@@ -2206,10 +2206,10 @@ export function widgetsTracking(widgetObj: {}) {
       widgetType = BANNER_PRODUCT_CAROUSAL_ADOBE;
       break;
     case CURATED_PRODUCTS_COMPONENT:
-      widgetType = CURATED_PRODUCTS_COMPONENT_ADOBE;
+      widgetType = CURATED_PRODUCTS_COMPONENT;
       break;
     case VIDEO_PRODUCT_CAROUSEL:
-      widgetType = VIDEO_PRODUCT_CAROUSEL_ADOBE;
+      widgetType = VIDEO_PRODUCT_CAROUSEL;
       break;
     case POPULAR_BRANDS:
       widgetType = POPULAR_BRANDS;
@@ -2219,6 +2219,12 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case EXCLUSIVE_FROM_WESTSIDE:
       widgetType = EXCLUSIVE_FROM_WESTSIDE1;
+      break;
+    case THEME_OFFER_COMPONENT:
+      widgetType = THEME_OFFER_COMPONENT;
+      break;
+    case FLASH_SALE_COMPONENT:
+      widgetType = FLASH_SALE_COMPONENT;
       break;
     default:
       break;

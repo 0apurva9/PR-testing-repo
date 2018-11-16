@@ -6,10 +6,19 @@ import Grid from "../../general/components/Grid";
 import ProductModule from "../../general/components/ProductModule";
 import { transformData } from "./utils.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 class CuratedProductsComponent extends React.Component {
   onClick = val => {
-    this.props.history.push(val);
+    widgetsTracking({
+      widgetName: "Curated products component",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+    });
+    this.props.history.push({
+      pathname: val,
+      state: {
+        componentName: "Curated products component"
+      }
+    });
   };
 
   handleSeeAll = () => {
