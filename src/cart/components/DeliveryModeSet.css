@@ -21,6 +21,16 @@
 }
 .deliveryWay {
   composes: productName;
-
   font-style: italic;
+}
+
+@media screen and (min-width: 1025px) {
+  .productName {
+    width: auto;
+  }
+  .deliveryWay {
+    margin-left: 10px;
+    font-style: initial;
+    font-family: semibold;
+  }
 }
