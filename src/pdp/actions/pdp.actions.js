@@ -160,7 +160,8 @@ export function getProductDescriptionFailure(error) {
 export function getProductDescription(
   productCode,
   behaviorOfPage,
-  isApiCall: 0
+  isApiCall: 0,
+  componentName
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
@@ -186,13 +187,26 @@ export function getProductDescription(
           !window.digitalData.cpj.product ||
           window.digitalData.cpj.product.id !== resultJson.productListingId
         ) {
-          setDataLayer(
-            ADOBE_PDP_TYPE,
-            resultJson,
-            getState().icid.value,
-            getState().icid.icidType,
-            behaviorOfPageTheCurrent
-          );
+          if (
+            componentName === "Flash Sale Component" ||
+            componentName === "Theme offers component"
+          ) {
+            setDataLayer(
+              ADOBE_PDP_TYPE,
+              resultJson,
+              null,
+              null,
+              behaviorOfPageTheCurrent
+            );
+          } else {
+            setDataLayer(
+              ADOBE_PDP_TYPE,
+              resultJson,
+              getState().icid.value,
+              getState().icid.icidType,
+              behaviorOfPageTheCurrent
+            );
+          }
         }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {

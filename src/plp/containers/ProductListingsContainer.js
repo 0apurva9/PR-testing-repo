@@ -9,7 +9,14 @@ import {
   clearProductModuleRef
 } from "../actions/plp.actions.js";
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  let componentName =
+    ownProps &&
+    ownProps.location &&
+    ownProps.location.state &&
+    ownProps.location.state.componentName
+      ? ownProps.location.state.componentName
+      : "";
   return {
     showSort: () => {
       dispatch(showModal(SORT));
@@ -17,11 +24,11 @@ const mapDispatchToProps = dispatch => {
     getProductListings: (search: null, suffix, page, isFilter) => {
       dispatch(setSearchString(search));
       dispatch(setPage(page));
-      dispatch(getProductListings(suffix, false, isFilter));
+      dispatch(getProductListings(suffix, false, isFilter, componentName));
     },
     paginate: (page, suffix) => {
       dispatch(setPage(page));
-      dispatch(getProductListings(suffix, true, false));
+      dispatch(getProductListings(suffix, true, false, componentName));
     },
     clearProductModuleRef: () => {
       dispatch(clearProductModuleRef());

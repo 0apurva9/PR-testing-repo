@@ -4,7 +4,7 @@ import Logo from "./Logo";
 import PropTypes from "prop-types";
 import Loadable from "react-loadable";
 import styles from "./ProductVideo.css";
-
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 const Video = Loadable({
   loader: () => import("./Video"),
   loading() {
@@ -23,6 +23,10 @@ export default class ProductVideo extends React.Component {
   };
 
   onPlay = () => {
+    widgetsTracking({
+      widgetName: "Video Product Carousel",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+    });
     this.setState({ played: true });
   };
   render() {

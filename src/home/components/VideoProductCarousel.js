@@ -30,11 +30,9 @@ export default class VideoProductCarousel extends React.Component {
 
   render() {
     const feedComponentData = this.props.feedComponentData;
-
     if (!feedComponentData) {
       return null;
     }
-
     let data = [];
     if (feedComponentData.items) {
       data = feedComponentData.items.map(transformData);
@@ -47,6 +45,7 @@ export default class VideoProductCarousel extends React.Component {
             image={feedComponentData.imageURL}
             logo={feedComponentData.brandLogo}
             description={feedComponentData.description}
+            postData={this.props.postData}
           />
         }
         carouselOptions={{

@@ -15,8 +15,8 @@ import FlashSaleLimitedTimeOfferComponent from "../../home/components/FlashSaleL
 import MediaQuery from "react-responsive";
 import Carousel from "../../general/components/Carousel";
 import CommonCenter from "../../general/components/CommonCenter";
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 const OFFER_AND_ITEM_LIMIT = 4;
-
 export default class FlashSale extends React.Component {
   constructor(props) {
     super(props);
@@ -42,8 +42,17 @@ export default class FlashSale extends React.Component {
   }
 
   handleItemClick = url => {
+    widgetsTracking({
+      widgetName: "Flash Sale Component",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+    });
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    this.props.history.push(urlSuffix);
+    this.props.history.push({
+      pathname: urlSuffix,
+      state: {
+        componentName: "Flash Sale Component"
+      }
+    });
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }

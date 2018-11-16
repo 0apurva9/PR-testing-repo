@@ -37,10 +37,17 @@ import {
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
+  let componentName =
+    ownProps &&
+    ownProps.location &&
+    ownProps.location.state &&
+    ownProps.location.state.componentName
+      ? ownProps.location.state.componentName
+      : "";
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
-        getProductDescription(productCode)
+        getProductDescription(productCode, componentName)
       );
 
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {

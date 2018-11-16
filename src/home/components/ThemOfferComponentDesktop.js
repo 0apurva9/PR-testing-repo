@@ -4,9 +4,22 @@ import ProductModule from "../../general/components/ProductModule";
 import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import styles from "./ThemOfferComponentDesktop.css";
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 export default class ThemOfferComponentDesktop extends React.Component {
-  onClick = val => {
-    this.props.history.push(val);
+  onClick = (val, brand) => {
+    console.log("herer");
+    widgetsTracking({
+      widgetName: "Theme offers component",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      brandName: brand,
+      type: "Brand"
+    });
+    this.props.history.push({
+      pathname: val,
+      state: {
+        componentName: "Theme offers component"
+      }
+    });
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }
@@ -43,7 +56,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
                     productCode={datum.productListingId}
                     showWishListButton={false}
                     ussId={datum.winningUssID}
-                    onClick={this.onClick}
+                    onClick={url => this.onClick(url, datum.brandName)}
                   />
                 );
               })}
