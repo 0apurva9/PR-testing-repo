@@ -31,6 +31,9 @@ export default class ReturnToStore extends React.Component {
   }
 
   selectStoreForDesktop = val => {
+    let element = document.getElementById("scrollToView");
+    element.scrollTop = element.offsetHeight + 20;
+
     if (val.length > 0) {
       let selectedStore =
         this.state.availableStores &&
@@ -195,7 +198,7 @@ export default class ReturnToStore extends React.Component {
                 lng={this.state.lng}
               />
             </div>
-            <div className={styles.storeListForDesktop}>
+            <div className={styles.storeListForDesktop} id="scrollToView">
               <div className={styles.searchPincode}>
                 <SearchLocationByPincode
                   header={`${
@@ -264,7 +267,7 @@ export default class ReturnToStore extends React.Component {
                         closingTime={this.state.selectedStore.mplClosingTime}
                       />
                     </div>
-                    <div className={styles.pickUpDetails}>
+                    <div className={styles.pickUpDetails} id="scrollHeight">
                       <PickUpDetails
                         getValue={val => this.getValue(val)}
                         onSubmit={() => this.handleSubmit()}
