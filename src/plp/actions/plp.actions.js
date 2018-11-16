@@ -230,12 +230,7 @@ export function getProductListings(
             componentName === "Flash Sale Component" ||
             componentName === "Theme offers component"
           ) {
-            setDataLayer(
-              ADOBE_PLP_TYPE,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType
-            );
+            setDataLayer(ADOBE_PLP_TYPE, resultJson);
           } else {
             setDataLayer(
               ADOBE_PLP_TYPE,
