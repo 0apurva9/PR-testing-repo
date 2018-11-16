@@ -6,10 +6,8 @@ import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import ApplyPriceFilterIcon from "./img/arrow.svg";
 const PRICE_FILTER_REG_EX = /(price:[,₹0-9]+-[,₹0-9]+)/;
-const sym = /₹/gi;
-const AND = /and/gi;
-const MAX_PRICE = "Max price";
-const MIN_PRICE = "Min price";
+const MAX_PRICE = "Max Price";
+const MIN_PRICE = "Min Price";
 export default class PriceFilterTabDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -89,26 +87,6 @@ export default class PriceFilterTabDesktop extends React.Component {
     }
   };
 
-  getMinPrice = val => {
-    var value = val.replace(sym, "");
-    var value = value.replace(AND, "-");
-    var price = value.split("-");
-    if (price[1] != undefined || price[1] != null) {
-      return price[0];
-    } else {
-      return MIN_PRICE;
-    }
-  };
-  getMaxPrice = val => {
-    var value = val.replace(sym, "");
-    var value = value.replace(AND, "-");
-    var price = value.split("-");
-    if (price[1] != undefined || price[1] != null) {
-      return price[1];
-    } else {
-      return MAX_PRICE;
-    }
-  };
   render() {
     return (
       <div className={styles.base}>
@@ -141,11 +119,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           <div className={styles.inputWrapper}>
             <div className={styles.inputBox}>
               <Input2
-                placeholder={this.getMinPrice(
-                  this.props.priceList &&
-                    this.props.priceList[0] &&
-                    this.props.priceList[0].value
-                )}
+                placeholder={MIN_PRICE}
                 onlyNumber
                 maxLength={7}
                 value={this.state.minRange}
@@ -154,11 +128,7 @@ export default class PriceFilterTabDesktop extends React.Component {
             </div>
             <div className={styles.inputBox}>
               <Input2
-                placeholder={this.getMaxPrice(
-                  this.props.priceList &&
-                    this.props.priceList[this.props.priceList.length - 1] &&
-                    this.props.priceList[this.props.priceList.length - 1].value
-                )}
+                placeholder={MAX_PRICE}
                 onlyNumber
                 maxLength={7}
                 value={this.state.maxRange}
