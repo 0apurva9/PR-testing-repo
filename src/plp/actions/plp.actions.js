@@ -228,7 +228,8 @@ export function getProductListings(
         ) {
           if (
             componentName === "Flash Sale Component" ||
-            componentName === "Theme offers component"
+            componentName === "Theme offers component" ||
+            componentName === "Curated products component"
           ) {
             setDataLayer(ADOBE_PLP_TYPE, resultJson);
           } else {

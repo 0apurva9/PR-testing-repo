@@ -187,10 +187,7 @@ export function getProductDescription(
           !window.digitalData.cpj.product ||
           window.digitalData.cpj.product.id !== resultJson.productListingId
         ) {
-          if (
-            componentName === "Flash Sale Component" ||
-            componentName === "Theme offers component"
-          ) {
+          if (componentName === "Theme offers component") {
             setDataLayer(
               ADOBE_PDP_TYPE,
               resultJson,

@@ -7,7 +7,6 @@ import styles from "./ThemOfferComponentDesktop.css";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
 export default class ThemOfferComponentDesktop extends React.Component {
   onClick = (val, brand) => {
-    console.log("herer");
     widgetsTracking({
       widgetName: "Theme offers component",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
