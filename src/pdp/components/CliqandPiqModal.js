@@ -31,7 +31,7 @@ export default class ReturnToStore extends React.Component {
   }
 
   selectStoreForDesktop = val => {
-    let element = document.getElementById("scrollToView");
+    let element = this.refs.scrollToView;
     element.scrollTop = element.offsetHeight + 20;
 
     if (val.length > 0) {
@@ -198,7 +198,7 @@ export default class ReturnToStore extends React.Component {
                 lng={this.state.lng}
               />
             </div>
-            <div className={styles.storeListForDesktop} id="scrollToView">
+            <div className={styles.storeListForDesktop} ref="scrollToView">
               <div className={styles.searchPincode}>
                 <SearchLocationByPincode
                   header={`${
