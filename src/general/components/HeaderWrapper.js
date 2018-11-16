@@ -179,6 +179,9 @@ export default class HeaderWrapper extends React.Component {
 
   render() {
     const searchQuery = queryString.parse(this.props.history.location.search);
+    let wishListCount = this.props.wishListCount;
+    let lengthOfWishList = wishListCount.length;
+
     const hasAppView = searchQuery.appview;
     if (hasAppView && !Cookie.getCookie(APP_VIEW)) {
       Cookie.createCookie(APP_VIEW, true);
@@ -364,7 +367,7 @@ export default class HeaderWrapper extends React.Component {
               searchHolder={<SearchContainer />}
               headerBrandAndCategoryDetails={this.props.headerDetails}
               goToWishList={() => this.goToDefaultWishList()}
-              wishListCount={this.props.wishListCount}
+              wishListCount={lengthOfWishList}
               goToMyAccount={() => this.goToMyAccount()}
               goToOrdersPage={() => this.goToOrdersPage()}
               goToDefaultWishList={() => this.goToDefaultWishList()}
