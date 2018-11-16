@@ -39,7 +39,7 @@ export default class ItemLevelPopup extends React.Component {
     }
 
     return (
-      <SlideModal closeModal={this.props.closeModal}>
+      <SlideModal closeModal={this.props.closeModal} isCancelWhite={true}>
         <div className={styles.base}>
           <div className={isStickyHeader ? styles.stickyHeader : styles.header}>
             Item Level Breakup
