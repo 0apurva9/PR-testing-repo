@@ -32,7 +32,7 @@ export default class ReturnToStore extends React.Component {
 
   selectStoreForDesktop = val => {
     let element = this.refs.scrollToView;
-    element.scrollTop = element.offsetHeight + 20;
+    element.scrollTop = element.offsetHeight + 40;
 
     if (val.length > 0) {
       let selectedStore =
@@ -267,7 +267,7 @@ export default class ReturnToStore extends React.Component {
                         closingTime={this.state.selectedStore.mplClosingTime}
                       />
                     </div>
-                    <div className={styles.pickUpDetails} id="scrollHeight">
+                    <div className={styles.pickUpDetails}>
                       <PickUpDetails
                         getValue={val => this.getValue(val)}
                         onSubmit={() => this.handleSubmit()}
