@@ -6,7 +6,8 @@ import {
   CONTACT_URL,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_CLIQ_CASH_PAGE
+  MY_ACCOUNT_CLIQ_CASH_PAGE,
+  HELP_URL
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
@@ -304,7 +305,7 @@ export default class DesktopHeader extends React.Component {
                   <div
                     className={styles.loginTab}
                     onClick={() =>
-                      this.renderToAnotherUrlForHelp(CONTACT_URL, "Help")
+                      this.renderToAnotherUrlForHelp(HELP_URL, "Help")
                     }
                   >
                     Help
