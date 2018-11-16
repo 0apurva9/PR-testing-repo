@@ -25,7 +25,11 @@ export default class Banner extends React.Component {
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
-          <div className={styles.base} onClick={this.onClick}>
+          <div
+            className={styles.base}
+            onClick={this.onClick}
+            style={{ paddingBottom: `${this.props.ratio}%` }}
+          >
             <div
               className={styles.imageHolder}
               style={{ backgroundImage: `url(${this.props.image})` }}

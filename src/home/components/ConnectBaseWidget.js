@@ -16,7 +16,10 @@ export default class ConnectBaseWidget extends React.Component {
     return (
       <div
         className={styles.base}
-        style={{ backgroundImage: `url(${data.backgroundImageURL})` }}
+        style={{
+          backgroundImage: `url(${data.backgroundImageURL})`,
+          paddingBottom: `${data.dimension}%`
+        }}
       >
         <React.Fragment>
           <MediaQuery query="(max-device-width: 1024px)">

@@ -17,14 +17,15 @@
   margin-bottom: 20px;
 }
 .splitBannerHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 5px;
+  cursor: pointer;
+}
+.splitColumn {
   width: 50%;
   height: auto;
   display: inline-block;
-  padding-right: 10px;
-  cursor: pointer;
-}
-
-.splitBannerHolder:last-child {
-  padding-right: 0px;
-  padding-left: 10px;
+  vertical-align: top;
 }
