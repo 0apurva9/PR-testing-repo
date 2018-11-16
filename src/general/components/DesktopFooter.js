@@ -13,7 +13,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK,
   ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE
 } from "../../lib/adobeUtils";
-const TEXT = "© 2017 Tata CLiQ | All rights reserved";
+const TEXT = "© 2018 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
     let currentUrl = this.props.location.pathname;
@@ -53,6 +53,7 @@ class DesktopFooter extends React.Component {
   };
   render() {
     let footerData = this.props && this.props.DesktopFooterDetails;
+
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
@@ -160,6 +161,15 @@ class DesktopFooter extends React.Component {
             <div className={styles.copyRightText}>{TEXT}</div>
           </div>
         </div>
+        <div
+          className={styles.footerData}
+          dangerouslySetInnerHTML={{
+            __html:
+              footerData &&
+              footerData.items &&
+              footerData.items[0].pageSpecificFooterData
+          }}
+        />
       </div>
     );
   }
