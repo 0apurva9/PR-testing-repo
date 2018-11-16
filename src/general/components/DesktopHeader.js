@@ -174,6 +174,8 @@ export default class DesktopHeader extends React.Component {
     }
   }
   render() {
+    let hostName = window.location.origin;
+
     const headerBrandAndCategoryDetails =
       this.props.headerBrandAndCategoryDetails &&
       this.props.headerBrandAndCategoryDetails.items &&
@@ -236,7 +238,14 @@ export default class DesktopHeader extends React.Component {
           {this.props.isSearch && (
             <div className={styles.headerFunctionality}>
               <div className={styles.upperHeader}>
-                <a href="https://luxury.tatacliq.com/" target="_blank">
+                <a
+                  href={
+                    hostName.includes("p2tmppprd")
+                      ? "luxtmppprd.tatacliq.com"
+                      : "https://luxury.tatacliq.com/"
+                  }
+                  target="_blank"
+                >
                   {" "}
                   <div
                     className={styles.luxeryTab}
