@@ -176,9 +176,7 @@ export default class ReturnAddressList extends React.Component {
                       addressTitle: addressSelected.addressType,
                       addressDescription: `${
                         addressSelected.line1 ? addressSelected.line1 : ""
-                      } ${addressSelected.town ? addressSelected.town : ""} ${
-                        addressSelected.city ? addressSelected.city : ""
-                      }, ${
+                      } ${addressSelected.town ? addressSelected.town : ""}, ${
                         addressSelected.state ? addressSelected.state : ""
                       } ${
                         addressSelected.postalCode
