@@ -73,5 +73,5 @@ BrandEdit.propTypes = {
 };
 BrandEdit.defaultProps = {
   btnText: "Edit",
-  header: "Followed Brands"
+  header: "Following Brands"
 };
