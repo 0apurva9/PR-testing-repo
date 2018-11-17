@@ -501,7 +501,7 @@ export default class AllOrderDetails extends React.Component {
                                 }
                               );
                               return (
-                                <div>
+                                <div className={styles.orderDetailsHolder}>
                                   <OrderCard
                                     imageUrl={product.imageURL}
                                     hasProduct={product}
