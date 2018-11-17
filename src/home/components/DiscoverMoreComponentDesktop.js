@@ -35,7 +35,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       <div className={styles.base}>
         <div className={styles.imageHolder}>
           <CircleProductDescriptionDesktop
-            onRedirect={() => this.showSeeAll(this.props.webURL)}
+            onRedirect={() => this.goToLink(this.props.webURL)}
             image={this.props.imageURL}
           />
         </div>
