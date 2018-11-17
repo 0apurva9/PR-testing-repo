@@ -13,12 +13,16 @@ class CuratedProductsComponent extends React.Component {
       widgetName: "Curated products component",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
     });
-    this.props.history.push({
-      pathname: val,
-      state: {
-        componentName: "Curated products component"
-      }
-    });
+    if (this.props.location.pathname === "/") {
+      window.open(val, "_blank");
+    } else {
+      this.props.history.push({
+        pathname: val,
+        state: {
+          componentName: "Curated products component"
+        }
+      });
+    }
   };
 
   handleSeeAll = () => {
