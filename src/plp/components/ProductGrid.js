@@ -100,6 +100,9 @@ export default class ProductGrid extends React.Component {
             ? data.price.sellingPrice.formattedValueNoDecimal
             : null
         }
+        alt={`${data.productname}-${data.brandname}-${
+          data.productCategoryType
+        }-TATA CLIQ`}
         description={data.productname}
         discountPercent={data.discountPercent}
         isOfferExisting={data.isOfferExisting}

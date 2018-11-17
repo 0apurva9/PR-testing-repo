@@ -69,6 +69,7 @@ export default class ProductModule extends React.Component {
             href={`${window.location.origin}${this.getProductURL()}`}
             className={styles.aTag}
             style={{ pointerEvents: "none" }}
+            title={this.props.alt}
           >
             <div
               className={
@@ -77,7 +78,10 @@ export default class ProductModule extends React.Component {
                   : styles.ListimageHolder
               }
             >
-              <ProductImage image={this.props.productImage} />
+              <ProductImage
+                alt={this.props.alt}
+                image={this.props.productImage}
+              />
               {this.props.onConnect && (
                 <ConnectButton onClick={this.handleConnect} />
               )}
@@ -131,6 +135,7 @@ export default class ProductModule extends React.Component {
                 pathname: `${this.getProductURL()}`
               }}
               target="_blank"
+              title={this.props.alt}
             >
               <div className={styles.dummyDiv} />
             </Link>
