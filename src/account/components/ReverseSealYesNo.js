@@ -27,11 +27,11 @@ export default class ReverseSealYesNo extends React.Component {
   render() {
     const options = [
       {
-        confirmation: "Yes",
+        confirmation: "Yes,",
         text: "I have the seal"
       },
       {
-        confirmation: "No ",
+        confirmation: "No, ",
         text: "I don't have the seal"
       }
     ];
