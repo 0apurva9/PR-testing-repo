@@ -15,7 +15,7 @@ export default class ProductImage extends React.Component {
       <div className={this.props.flatImage ? styles.flatImage : styles.base}>
         <div className={styles.imageHolder} onClick={() => this.onClickImage()}>
           <VisibilityChild>
-            <Image image={this.props.image} />
+            <Image image={this.props.image} alt={this.props.alt} />
           </VisibilityChild>
         </div>
       </div>

@@ -24,7 +24,7 @@ export default class Image extends React.Component {
     const img = (
       <img
         className={this.styles.actual}
-        alt="No Image"
+        alt={this.props.alt}
         src={this.props.image}
         onLoad={() => this.handleImageLoaded()}
         onError={() => this.handleImageErrored()}
@@ -63,10 +63,12 @@ Image.propTypes = {
   image: PropTypes.string.isRequired,
   fit: PropTypes.string,
   color: PropTypes.string,
+  alt: PropTypes.string,
   lazyLoad: PropTypes.bool
 };
 
 Image.defaultProps = {
+  alt: "No Image",
   fit: "cover",
   color: "#fff",
   lazyLoad: false

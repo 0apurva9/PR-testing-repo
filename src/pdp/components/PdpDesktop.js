@@ -528,6 +528,9 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
+                  alt={`${productData.productName}-${productData.brandName}-${
+                    productData.rootCategory
+                  }-TATA CLIQ`}
                 />
                 {(productData.allOOStock ||
                   (productData.winningSellerAvailableStock === "0" &&

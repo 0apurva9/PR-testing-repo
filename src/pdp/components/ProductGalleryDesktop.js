@@ -105,7 +105,7 @@ export default class ProductGalleryDesktop extends React.Component {
 
               return (
                 <div className={imageClass}>
-                  <Image image={val} fit="contain" />
+                  <Image image={val} fit="contain" alt={this.props.alt} />
                 </div>
               );
             } else {
@@ -141,7 +141,7 @@ export default class ProductGalleryDesktop extends React.Component {
                 }}
               >
                 <div className={styles.image}>
-                  <Image image={val} fit="contain" />
+                  <Image image={val} fit="contain" alt={this.props.alt} />
                 </div>
               </div>
             );
@@ -171,6 +171,7 @@ export default class ProductGalleryDesktop extends React.Component {
             <Image
               image={this.props.zoomImages[this.state.position]}
               fit="contain"
+              alt={this.props.alt}
             />
           </div>
         </div>
