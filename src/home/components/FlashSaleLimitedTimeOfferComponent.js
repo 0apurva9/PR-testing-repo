@@ -15,7 +15,14 @@ export default class FlashSaleLimitedTimeOfferComponent extends React.Component 
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{
+          backgroundColor: this.props.backgroundColor
+            ? this.props.backgroundColor
+            : "#212121"
+        }}
+      >
         <div className={styles.limitedTimeHolder}>
           <div className={styles.limitedTimeHolderWithText}>
             <div className={styles.limitedTimeText}>
