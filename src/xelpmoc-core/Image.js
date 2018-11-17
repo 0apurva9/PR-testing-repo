@@ -36,7 +36,6 @@ export default class Image extends React.Component {
     return img;
   };
   render() {
-    console.log("this", this.props.alt);
     const className = this.styles.base;
     const fit = this.props.fit;
     return (
