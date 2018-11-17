@@ -30,6 +30,9 @@ export default class CartItemForDesktop extends React.Component {
       label: "See all"
     };
   }
+  componentDidMount() {
+    document.title = "Shopping Cart - TATA CLiQ";
+  }
   onClick() {
     if (this.props.onClickImage) {
       this.props.onClickImage();
