@@ -12,7 +12,7 @@ import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
-import infoIcon from "../../general/components/img/Info.svg";
+
 const INSUFFICIENT_DATA_ERROR_MESSAGE = "Please enter valid card details";
 const MERCHANT_ID = "tul_uat2";
 const MINIMUM_YEARS_TO_SHOW = 0;
@@ -339,11 +339,6 @@ export default class CreditCardForm extends React.Component {
                       }}
                       onBlur={() => this.handleOnBlur()}
                       rightChildSize="16px"
-                      rightChild={
-                        <div className={styles.infoIcon}>
-                          <Icon image={infoIcon} size={16} />
-                        </div>
-                      }
                     />
                   </div>
                 </div>
