@@ -27,6 +27,10 @@
   text-align: center;
   padding: 20px 0px;
 }
+.orderDetailsHolder {
+  width: 100%;
+  height: auto;
+}
 .noOderText {
   font-family: semibold;
   font-size: 14px;
@@ -204,6 +208,34 @@
     top: 140px;
   }
 }
+.cancelProduct {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  padding-right: 40px;
+  color: #8d8d8d;
+  font-size: 14px;
+  font-family: semibold;
+  line-height: 35px;
+  cursor: pointer;
+}
+.returnReview {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  float: right;
+}
+.writeReviedButton {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+  transition: 300ms;
+  border-radius: 20px;
+}
+.writeReviedButton:hover {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
 @media screen and (max-width: 1024px) {
   .base {
     padding: 15px 15px 70px 15px;
