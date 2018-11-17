@@ -15,7 +15,12 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
+import each from "lodash.foreach";
 import UserReviewContainer from "../containers/UserReviewContainer";
+import {
+  setDataLayerForMyAccountDirectCalls,
+  ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
+} from "../../lib/adobeUtils";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
 import {
   MY_ACCOUNT,
@@ -34,10 +39,16 @@ import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import {
   HOME_ROUTER,
+  RETURNS_PREFIX,
+  RETURN_LANDING,
+  RETURNS_REASON,
   TERMS_AND_CONDITION_URL,
   ABOUT_US_URL,
   PRIVACY_POLICY_URL,
+  CASH_ON_DELIVERY,
   FAQ_URL,
+  SEARCH_RESULTS_PAGE,
+  PRODUCT_REVIEWS_PATH_SUFFIX,
   HELP_URL
 } from "../../lib/constants";
 import throttle from "lodash.throttle";
@@ -50,10 +61,15 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
+const RETURN = "RETURN";
+const PRODUCT_RETURN = UserAgent.checkUserAgentIsMobile()
+  ? "Return"
+  : "Return or Replace";
 const dateFormat = "DD MMM YYYY";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
+const PAY_PAL = "PayPal";
 const Loader = () => {
   return (
     <div>
@@ -184,6 +200,33 @@ export default class AllOrderDetails extends React.Component {
         this.props.profile.orderDetails.totalNoOfOrders
     ) {
       this.props.paginate(this.props.profile.orderDetails.pageSize + 1, SUFFIX);
+    }
+  }
+  Review(productCode) {
+    this.props.history.push(
+      `${SEARCH_RESULTS_PAGE}p-${productCode.toLowerCase()}/${PRODUCT_REVIEWS_PATH_SUFFIX}`
+    );
+  }
+  replaceItem(sellerorderno, paymentMethod, transactionId) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
+    if (sellerorderno) {
+      let isCOD = false;
+      let isPaypal = false;
+      if (paymentMethod === CASH_ON_DELIVERY) {
+        isCOD = true;
+      }
+      if (paymentMethod === PAY_PAL) {
+        isPaypal = true;
+      }
+      this.props.history.push({
+        pathname: `${RETURNS_PREFIX}/${sellerorderno}${RETURN_LANDING}${RETURNS_REASON}`,
+        state: {
+          isCOD,
+          isPaypal: isPaypal,
+          authorizedRequest: true,
+          transactionId: transactionId
+        }
+      });
     }
   }
   renderNoOrder() {
@@ -419,27 +462,107 @@ export default class AllOrderDetails extends React.Component {
                           {orderDetails &&
                             orderDetails.products &&
                             orderDetails.products.map((product, key) => {
+                              let isOrderReturnable = false;
+                              let isReturned = false;
+
+                              if (
+                                product &&
+                                product.statusDisplayMsg &&
+                                product.statusDisplayMsg
+                                  .map(val => {
+                                    return val.key;
+                                  })
+                                  .includes(RETURN)
+                              ) {
+                                isReturned = product.statusDisplayMsg
+                                  .map(val => {
+                                    return val.key;
+                                  })
+                                  .includes(RETURN);
+                              }
+
+                              each(
+                                product && product.statusDisplayMsg,
+                                orderStatus => {
+                                  each(
+                                    orderStatus &&
+                                      orderStatus.value &&
+                                      orderStatus.value.statusList,
+                                    status => {
+                                      if (
+                                        status.responseCode === "DELIVERED" ||
+                                        status.responseCode ===
+                                          "ORDER_COLLECTED"
+                                      ) {
+                                        isOrderReturnable = true;
+                                      }
+                                    }
+                                  );
+                                }
+                              );
                               return (
-                                <OrderCard
-                                  imageUrl={product.imageURL}
-                                  hasProduct={product}
-                                  isGiveAway={product.isGiveAway}
-                                  price={product.price}
-                                  quantity={true}
-                                  productName={product.productName}
-                                  productBrand={product.productBrand}
-                                  isEgvOrder={orderDetails.isEgvOrder}
-                                  resendAvailable={orderDetails.resendAvailable}
-                                  reSendEmailForGiftCard={() =>
-                                    this.reSendEmailForGiftCard(
-                                      orderDetails.orderId
-                                    )
-                                  }
-                                  egvCardNumber={orderDetails.egvCardNumber}
-                                  onClick={() =>
-                                    this.onClickImage(product.productcode)
-                                  }
-                                />
+                                <div>
+                                  <OrderCard
+                                    imageUrl={product.imageURL}
+                                    hasProduct={product}
+                                    isGiveAway={product.isGiveAway}
+                                    price={product.price}
+                                    quantity={true}
+                                    productName={product.productName}
+                                    productBrand={product.productBrand}
+                                    isEgvOrder={orderDetails.isEgvOrder}
+                                    resendAvailable={
+                                      orderDetails.resendAvailable
+                                    }
+                                    reSendEmailForGiftCard={() =>
+                                      this.reSendEmailForGiftCard(
+                                        orderDetails.orderId
+                                      )
+                                    }
+                                    egvCardNumber={orderDetails.egvCardNumber}
+                                    onClick={() =>
+                                      this.onClickImage(product.productcode)
+                                    }
+                                  />
+                                  <DesktopOnly>
+                                    <div className={styles.returnReview}>
+                                      {product.isReturned &&
+                                        isOrderReturnable && (
+                                          <div
+                                            className={styles.cancelProduct}
+                                            onClick={() =>
+                                              this.replaceItem(
+                                                product.sellerorderno,
+                                                orderDetails.paymentMethod,
+                                                product.transactionId
+                                              )
+                                            }
+                                          >
+                                            {PRODUCT_RETURN}
+                                          </div>
+                                        )}
+
+                                      <div className={styles.writeReviedButton}>
+                                        <Button
+                                          label={"Write a review"}
+                                          width={147}
+                                          height={36}
+                                          borderColor={"#000000"}
+                                          borderRadius={20}
+                                          backgroundColor={"#ffffff"}
+                                          onClick={val =>
+                                            this.Review(product.productcode)
+                                          }
+                                          textStyle={{
+                                            color: "#000000",
+                                            fontSize: 14,
+                                            fontFamily: "regular"
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  </DesktopOnly>
+                                </div>
                               );
                             })}
                           <MobileOnly>
