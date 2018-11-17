@@ -11,6 +11,8 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
+import gridImage from "./img/grid.svg";
+import listImage from "./img/list.svg";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -19,7 +21,7 @@ import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
 import styles from "./Plp.css";
 import { filterScroll, filterFixed } from "./FilterDesktop.css";
-
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   REQUESTING,
   AMP_BRAND_AND_CATEGORY_REG_EX,
@@ -51,7 +53,8 @@ const PlpMobileFooter = Loadable({
     return <Loader />;
   }
 });
-
+const LIST = "list";
+const GRID = "grid";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -61,6 +64,8 @@ export default class Plp extends React.Component {
     super();
     this.state = {
       totalHeight: 0,
+      view: GRID,
+      gridBreakup: false,
       fixedScroll: false
     };
   }
@@ -71,7 +76,17 @@ export default class Plp extends React.Component {
       this.props.showFilter();
     }
   };
-
+  switchView() {
+    if (checkUserAgentIsMobile()) {
+      if (this.state.view === LIST) {
+        this.setState({ view: GRID });
+      } else {
+        this.setState({ view: LIST });
+      }
+    } else {
+      this.setState({ gridBreakup: !this.state.gridBreakup });
+    }
+  }
   onApply = () => {
     const pathName = this.props.location.pathname;
     const search = this.props.location.search;
@@ -478,6 +493,19 @@ export default class Plp extends React.Component {
                   <SortDesktopContainer />
                 </div>
                 <div className={styles.gridIcon} />
+                <DesktopOnly>
+                  <div
+                    className={styles.icon}
+                    onClick={() => this.switchView()}
+                  >
+                    {this.state.gridBreakup && (
+                      <Icon image={gridImage} size={20} />
+                    )}
+                    {!this.state.gridBreakup && (
+                      <Icon image={listImage} size={20} />
+                    )}
+                  </div>
+                </DesktopOnly>
               </div>
             </MediaQuery>
             <MobileOnly>
@@ -536,6 +564,7 @@ export default class Plp extends React.Component {
                       totalResults={
                         this.props.productListings.pagination.totalResults
                       }
+                      gridBreakup={this.state.gridBreakup}
                       setProductModuleRef={this.props.setProductModuleRef}
                       sort={this.props.productListings.sorts}
                       setIfSortHasBeenClicked={() =>

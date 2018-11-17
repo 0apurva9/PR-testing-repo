@@ -30,7 +30,7 @@ export default class ProductGrid extends React.Component {
     super(props);
     this.state = {
       view: GRID,
-      gridBreakup: false
+      gridBreakup: this.props.gridBreakup ? this.props.gridBreakup : false
     };
   }
 
@@ -125,33 +125,31 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
+    console.log("this----", this.props.gridBreakup);
     return (
       <div className={styles.base}>
-        <div className={styles.header}>
-          <MediaQuery query="(max-device-width:1024px)">
+        <MediaQuery query="(max-device-width:1024px)">
+          <div className={styles.header}>
             <div className={styles.product}>
               {this.props.totalResults ? this.props.totalResults : 0} Products
             </div>
-          </MediaQuery>
-          <MobileOnly>
+          </div>
+        </MediaQuery>
+        <MobileOnly>
+          <div className={styles.header}>
             <div className={styles.icon} onClick={() => this.switchView()}>
               {this.state.view === LIST && <Icon image={gridImage} size={20} />}
               {this.state.view === GRID && <Icon image={listImage} size={20} />}
             </div>
-          </MobileOnly>
-          <DesktopOnly>
-            <div className={styles.icon} onClick={() => this.switchView()}>
-              {this.state.gridBreakup && <Icon image={gridImage} size={20} />}
-              {!this.state.gridBreakup && <Icon image={listImage} size={20} />}
-            </div>
-          </DesktopOnly>
-        </div>
+          </div>
+        </MobileOnly>
+
         <div className={styles.content}>
           <DumbGrid
             search={this.props.search}
             offset={0}
             elementWidthMobile={this.state.view === LIST ? 100 : 50}
-            elementWidthDesktop={this.state.gridBreakup ? 33.33 : 25}
+            elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
           >
             {this.props.data &&
               this.props.data.map((datum, i) => {
