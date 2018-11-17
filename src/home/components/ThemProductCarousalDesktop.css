@@ -3,7 +3,7 @@
   height: auto;
   min-height: 500px;
   display: flex;
-  padding: 30px 125px;
+  padding: 50px 125px;
   margin-top: 50px;
 }
 .firstItemBase {
@@ -53,7 +53,7 @@
   height: auto;
   display: flex;
   color: #fff;
-  font-size: 30px;
+  font-size: 60px;
   font-family: regular;
   line-height: normal;
   margin-bottom: 30px;

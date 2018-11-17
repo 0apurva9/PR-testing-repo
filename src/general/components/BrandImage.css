@@ -55,7 +55,6 @@
     cursor: pointer;
     transition: 300ms;
     transform: scale(1);
-    background-color: #000000;
   }
   .base:hover .imageHolder {
     transform: scale(1.05);

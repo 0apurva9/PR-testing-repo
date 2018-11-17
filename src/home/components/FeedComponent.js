@@ -55,7 +55,7 @@ class FeedComponent extends React.Component {
             <Carousel
               {...carouselOptions}
               banner={banner}
-              bannerWidth="42%"
+              bannerWidth="45.5%"
               elementWidthDesktop={this.props.elementWidthDesktop}
               offsetDesktop={10}
             >
