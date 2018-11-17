@@ -838,7 +838,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId
                           )
                         }
-                        placeholder={productData.isServiceableToPincode.pinCode}
+                        placeholder="Pincode"
                         value={productData.isServiceableToPincode.pinCode}
                         hasAutoFocus={false}
                         labelText={"Check"}
