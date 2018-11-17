@@ -75,6 +75,7 @@ export default class FlashSale extends React.Component {
 
   render() {
     const { feedComponentData, ...rest } = this.props;
+
     let items = [];
 
     if (
@@ -201,6 +202,7 @@ export default class FlashSale extends React.Component {
                     endTime={endDateTime}
                     onComplete={this.onComplete}
                     onClick={this.handleClick}
+                    backgroundColor={feedComponentData.timerHexCode}
                   />
                 }
                 bannerWidth="32%"
