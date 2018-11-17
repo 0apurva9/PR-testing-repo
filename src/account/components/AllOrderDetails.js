@@ -400,7 +400,7 @@ export default class AllOrderDetails extends React.Component {
                         orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile
                           ? "Pickup Details"
-                          : "Delivery address";
+                          : "Delivered to";
                       let formattedDate = "";
                       if (orderDetails && orderDetails.orderDate) {
                         formattedDate = format(
@@ -416,63 +416,32 @@ export default class AllOrderDetails extends React.Component {
                               orderId={orderDetails && orderDetails.orderId}
                             />
                           </div>
-
                           {orderDetails &&
-                            orderDetails.products && (
-                              <OrderCard
-                                imageUrl={
-                                  orderDetails &&
-                                  orderDetails.products &&
-                                  orderDetails.products[0].imageURL
-                                }
-                                hasProduct={
-                                  orderDetails && orderDetails.products
-                                }
-                                isGiveAway={
-                                  orderDetails &&
-                                  orderDetails.products &&
-                                  orderDetails.products[0] &&
-                                  orderDetails.products[0].isGiveAway
-                                }
-                                price={
-                                  orderDetails &&
-                                  orderDetails.products &&
-                                  orderDetails.products[0] &&
-                                  orderDetails.products[0].price
-                                }
-                                discountPrice={""}
-                                productName={
-                                  orderDetails &&
-                                  orderDetails.products &&
-                                  orderDetails.products[0] &&
-                                  orderDetails.products[0].productName
-                                }
-                                productBrand={
-                                  orderDetails &&
-                                  orderDetails.products &&
-                                  orderDetails.products[0] &&
-                                  orderDetails.products[0].productBrand
-                                }
-                                isEgvOrder={orderDetails.isEgvOrder}
-                                resendAvailable={orderDetails.resendAvailable}
-                                reSendEmailForGiftCard={() =>
-                                  this.reSendEmailForGiftCard(
-                                    orderDetails.orderId
-                                  )
-                                }
-                                egvCardNumber={orderDetails.egvCardNumber}
-                                onClick={() =>
-                                  this.onClickImage(
-                                    orderDetails.isEgvOrder,
-                                    orderDetails &&
-                                      orderDetails.products &&
-                                      orderDetails.products[0] &&
-                                      orderDetails.products.length &&
-                                      orderDetails.products[0].productcode
-                                  )
-                                }
-                              />
-                            )}
+                            orderDetails.products &&
+                            orderDetails.products.map((product, key) => {
+                              return (
+                                <OrderCard
+                                  imageUrl={product.imageURL}
+                                  hasProduct={product}
+                                  isGiveAway={product.isGiveAway}
+                                  price={product.price}
+                                  quantity={true}
+                                  productName={product.productName}
+                                  productBrand={product.productBrand}
+                                  isEgvOrder={orderDetails.isEgvOrder}
+                                  resendAvailable={orderDetails.resendAvailable}
+                                  reSendEmailForGiftCard={() =>
+                                    this.reSendEmailForGiftCard(
+                                      orderDetails.orderId
+                                    )
+                                  }
+                                  egvCardNumber={orderDetails.egvCardNumber}
+                                  onClick={() =>
+                                    this.onClickImage(product.productcode)
+                                  }
+                                />
+                              );
+                            })}
                           <MobileOnly>
                             <React.Fragment>
                               <PriceAndLink
