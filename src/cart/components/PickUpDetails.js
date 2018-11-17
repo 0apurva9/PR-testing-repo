@@ -25,7 +25,7 @@ export default class PickUpDetails extends React.Component {
         </div>
         <div className={styles.inputHolder}>
           <Input2
-            placeholder="Name"
+            placeholder="Full name"
             boxy={true}
             onChange={name => this.getValue({ name })}
             textStyle={{ fontSize: 14 }}
