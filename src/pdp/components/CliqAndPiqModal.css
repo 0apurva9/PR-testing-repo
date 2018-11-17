@@ -37,6 +37,9 @@
   position: absolute;
   top: 0;
   left: 0;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
 }
 .mapDesktopWithPincode {
   width: 100%;
@@ -44,20 +47,22 @@
   display: inline-block;
 }
 .cliqPiqText {
-  font-size: 30px;
+  font-size: 25px;
   font-family: semibold;
-  color: #fff;
+  color: #212121;
   width: 100%;
   height: auto;
   padding-right: 150px;
 }
 .closeButton {
   width: auto;
-  height: auto;
+  height: 40px;
   position: absolute;
   right: 0;
   top: 0;
   padding-right: 10px;
+  bottom: 0;
+  margin: auto;
 }
 .container {
   height: 50px;
@@ -72,7 +77,7 @@
   height: 70vh;
   position: fixed;
   background-color: transparent;
-  padding-top: 50px;
+  padding-top: 75px;
   overflow: hidden;
 }
 .searchPincode {
