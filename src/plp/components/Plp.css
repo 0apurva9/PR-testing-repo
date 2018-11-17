@@ -102,6 +102,17 @@
     display: flex;
     justify-content: center;
   }
+  .icon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    top: 7px;
+    bottom: 50px;
+    margin: 2px;
+    cursor: pointer;
+    padding-left: 11px;
+  }
   .viewMoreButton {
     width: auto;
     height: 36px;
