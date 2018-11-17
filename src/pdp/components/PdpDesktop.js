@@ -158,6 +158,9 @@ export default class PdpApparel extends React.Component {
           : false
     };
   }
+  componentDidMount() {
+    document.title = this.props.productDetails.seo.title;
+  }
   visitBrand() {
     if (this.props.visitBrandStore) {
       this.props.visitBrandStore();
