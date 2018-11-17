@@ -436,7 +436,7 @@ export default class AddDeliveryAddress extends React.Component {
                     <DesktopOnly>
                       <div className={styles.header}>
                         <CheckOutHeader
-                          confirmTitle="Choose delivery address "
+                          confirmTitle="Add Address"
                           indexNumber={"1"}
                         />
                       </div>
