@@ -184,7 +184,7 @@ export default class ReturnToStore extends React.Component {
                 height={40}
                 label={"Close"}
                 width={150}
-                color={"#fff"}
+                color={"#212121"}
                 textStyle={{ color: "#212121", fontSize: 14 }}
                 onClick={() => this.CloseCliqAndPiqModal()}
               />
