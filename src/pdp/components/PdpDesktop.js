@@ -464,7 +464,7 @@ export default class PdpApparel extends React.Component {
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
-      ? productData.galleryImagesList.filter(val => {
+      ? productData.galleryImagesList.filter((val, i) => {
           return val.mediaType === IMAGE;
         })
       : [];
@@ -528,6 +528,9 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
+                  alt={`${productData.productName}-${productData.brandName}-${
+                    productData.rootCategory
+                  }-TATA CLIQ`}
                 />
                 {(productData.allOOStock ||
                   (productData.winningSellerAvailableStock === "0" &&
