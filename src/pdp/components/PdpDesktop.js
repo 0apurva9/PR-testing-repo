@@ -159,7 +159,6 @@ export default class PdpApparel extends React.Component {
     };
   }
   componentDidMount() {
-    console.log("withinpdpd", this.props);
     document.title = this.props.productDetails.seo.title;
   }
   visitBrand() {
@@ -464,10 +463,6 @@ export default class PdpApparel extends React.Component {
     });
   };
   render() {
-    console.log(
-      "*********hsxgdjshPDPDPDPPDPDPD",
-      this.props.productDetails.seo.title
-    );
     const productData = this.props.productDetails;
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
