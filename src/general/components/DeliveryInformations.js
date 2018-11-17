@@ -18,9 +18,6 @@ const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QUiQ PiQ";
 
 export default class DeliveryInformations extends React.Component {
-  componentDidMount() {
-    document.title = "Select Delivery Method ";
-  }
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
