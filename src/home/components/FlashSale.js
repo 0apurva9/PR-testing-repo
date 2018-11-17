@@ -47,12 +47,17 @@ export default class FlashSale extends React.Component {
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
     });
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    this.props.history.push({
-      pathname: urlSuffix,
-      state: {
-        componentName: "Flash Sale Component"
-      }
-    });
+    if (this.props.location.pathname === "/") {
+      window.open(urlSuffix, "_blank");
+    } else {
+      this.props.history.push({
+        pathname: urlSuffix,
+        state: {
+          componentName: "Flash Sale Component"
+        }
+      });
+    }
+
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }
