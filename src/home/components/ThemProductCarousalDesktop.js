@@ -54,9 +54,9 @@ export default class ThemProductCarousalDesktop extends React.Component {
                     disabled={this.props.disabled}
                     type="primary"
                     backgroundColor="#ff1744"
-                    height={45}
+                    height={46}
                     label={this.props.label}
-                    width={160}
+                    width={196}
                     textStyle={{ color: "#FFF", fontSize: 14 }}
                     onClick={() => this.handleClick()}
                   />

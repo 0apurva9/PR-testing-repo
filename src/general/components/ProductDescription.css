@@ -7,10 +7,12 @@
   margin-bottom: 5px;
   position: relative;
   padding-right: 20px;
+  max-height: 17px;
+  overflow: hidden;
 }
 .headerText {
   width: 100%;
-  font-family: semibold;
+  font-family: regular;
   font-size: 14px;
   color: #212121;
   white-space: normal;
@@ -32,6 +34,8 @@
   -webkit-margin-before: inherit;
   -webkit-margin-after: inherit;
   font-size: inherit;
+  max-height: 40px;
+  overflow: hidden;
 }
 .content {
   width: 100%;

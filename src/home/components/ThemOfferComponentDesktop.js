@@ -35,7 +35,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
           <Carousel
             {...carouselOptions}
             banner={this.props.banner}
-            bannerWidth="23.33%"
+            bannerWidth="23.35%"
             elementWidthDesktop={25}
             offsetDesktop={10}
           >
