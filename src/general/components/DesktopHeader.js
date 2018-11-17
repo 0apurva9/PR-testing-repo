@@ -242,7 +242,7 @@ export default class DesktopHeader extends React.Component {
                 <a
                   href={
                     hostName.includes("p2tmppprd")
-                      ? "luxtmppprd.tatacliq.com"
+                      ? "https://luxtmppprd.tataunistore.com/"
                       : "https://luxury.tatacliq.com/"
                   }
                   target="_blank"
