@@ -10,17 +10,15 @@ export default class SearchLocationByPincode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pinCode: localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-        ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-        : null,
+      pinCode: this.props.pincode,
       errorMessage: null
     };
   }
-  getValue(pinCode) {
-    if (pinCode.length <= 6) {
-      this.setState({ pinCode });
-      if (pinCode.length === 6) {
-        this.onUpdate(pinCode);
+  getValue(pincode) {
+    if (pincode.length <= 6) {
+      this.setState({ pinCode: pincode });
+      if (pincode.length === 6) {
+        this.onUpdate(pincode);
       }
     }
   }
@@ -50,23 +48,13 @@ export default class SearchLocationByPincode extends React.Component {
           }
         >
           <Input2
-            placeholder={
-              this.state.pinCode ? this.state.pinCode : "Enter your pincode"
-            }
+            placeholder={"Enter your pincode"}
             onlyNumber={true}
-            value={this.state.pinCode ? this.state.pinCode : ""}
-            boxy={true}
+            value={this.state.pinCode}
             onChange={val => this.getValue(val)}
             textStyle={{ fontSize: 14 }}
             height={35}
             disabled={this.props.disabled}
-            leftChild={
-              this.state.pinCode && (
-                <div className={styles.pincodeText}> your pincode:</div>
-              )
-            }
-            rightChildSize={35}
-            leftChildSize={this.state.pinCode ? 100 : 10}
           />
         </div>
       </div>
