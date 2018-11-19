@@ -51,6 +51,9 @@ export default class ProductGrid extends React.Component {
     if (
       this.props.history.location.pathname === PRODUCT_LISTINGS_WITHOUT_SLASH
     ) {
+      if (!checkUserAgentIsMobile()) {
+        window.open(url, "_blank");
+      }
       setDataLayerForPlpDirectCalls(productObj, index);
     }
     if (checkUserAgentIsMobile()) {
