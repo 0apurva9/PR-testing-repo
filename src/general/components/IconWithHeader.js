@@ -11,7 +11,7 @@ export default class IconWithHeader extends React.Component {
       >
         {!this.props.iconShow && (
           <div className={styles.iconHolder}>
-            <VisibilityChild>
+            <VisibilityChild visible={true}>
               <Icon image={this.props.image} size={30} />
             </VisibilityChild>
           </div>
