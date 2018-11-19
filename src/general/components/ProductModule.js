@@ -31,6 +31,9 @@ export default class ProductModule extends React.Component {
     }
     return urlSuffix;
   }
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   onClick = val => {
     if (this.props.widgetName && this.props.productId) {
       widgetsTracking({
@@ -136,6 +139,7 @@ export default class ProductModule extends React.Component {
               }}
               target="_blank"
               title={this.props.alt}
+              onClick={event => this.handleClickOnLink(event)}
             >
               <div className={styles.dummyDiv} />
             </Link>
