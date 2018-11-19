@@ -23,6 +23,7 @@ export default class BankDetails extends React.Component {
           <div className={styles.header}>Bank Details</div>
           <div className={styles.left}>
             <Input2
+              type="number"
               placeholder={this.props.accountNumber}
               boxy={true}
               textStyle={{ fontSize: 14 }}
@@ -34,6 +35,7 @@ export default class BankDetails extends React.Component {
           </div>
           <div className={styles.right}>
             <Input2
+              type="number"
               placeholder={this.props.reEnterAccountNumber}
               boxy={true}
               textStyle={{ fontSize: 14 }}
