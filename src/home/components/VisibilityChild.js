@@ -10,7 +10,11 @@ export default class VisibilityChild extends React.Component {
   }
 
   handleIntersection = event => {
-    this.setState({ visible: event.isIntersecting });
+    if (this.props.visible) {
+      this.setState({ visible: true });
+    } else {
+      this.setState({ visible: event.isIntersecting });
+    }
   };
   render() {
     const options = {
