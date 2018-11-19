@@ -49,7 +49,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
                   <ProductModule
                     key={i}
                     productImage={datum.imageURL}
-                    title={datum.title ? datum.title : datum.brandName}
+                    title={datum.brandName ? datum.brandName : datum.title}
                     price={datum.price}
                     mrpPrice={datum.mrpPrice}
                     discountPrice={datum.discountPrice}
