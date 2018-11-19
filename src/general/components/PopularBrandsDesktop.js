@@ -54,7 +54,6 @@ export default class PopularBrandsDesktop extends React.Component {
     }
   }
   render() {
-    console.log(this.state.position);
     let currentActivePopularBrands = [];
     const { feedComponentData } = this.props;
     if (
@@ -63,6 +62,7 @@ export default class PopularBrandsDesktop extends React.Component {
     ) {
       currentActivePopularBrands = feedComponentData.items[this.state.isSelect];
     }
+
     const translationAmount = -(16.66 * this.state.position);
     const transform = `translateX(${translationAmount}%)`;
 
@@ -87,7 +87,7 @@ export default class PopularBrandsDesktop extends React.Component {
           <div className={styles.base}>
             <div className={styles.header}>
               <div className={styles.showHeaderText}>
-                {feedComponentData && <h1>feedComponentData.title</h1>}
+                {feedComponentData && <h1>{feedComponentData.title}</h1>}
               </div>
               {currentActivePopularBrands &&
                 currentActivePopularBrands.brands &&
