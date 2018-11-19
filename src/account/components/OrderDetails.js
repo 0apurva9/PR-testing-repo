@@ -43,9 +43,7 @@ import {
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
-const PRODUCT_RETURN = UserAgent.checkUserAgentIsMobile()
-  ? "Return"
-  : "Return or Replace";
+const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
 const PRODUCT_CANCEL = "Cancel";
 const AWB_POPUP_TRUE = "Y";
