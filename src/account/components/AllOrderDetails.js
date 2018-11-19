@@ -521,25 +521,29 @@ export default class AllOrderDetails extends React.Component {
                                     }
                                     egvCardNumber={orderDetails.egvCardNumber}
                                     onClick={() =>
-                                      this.onClickImage(product.productcode)
+                                      this.onClickImage(
+                                        orderDetails.isEgvOrder,
+                                        product.productcode
+                                      )
                                     }
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
-                                      {product.isReturned && (
-                                        <div
-                                          className={styles.cancelProduct}
-                                          onClick={() =>
-                                            this.replaceItem(
-                                              product.sellerorderno,
-                                              orderDetails.paymentMethod,
-                                              product.transactionId
-                                            )
-                                          }
-                                        >
-                                          {PRODUCT_RETURN}
-                                        </div>
-                                      )}
+                                      {product.isReturned &&
+                                        isOrderReturnable && (
+                                          <div
+                                            className={styles.cancelProduct}
+                                            onClick={() =>
+                                              this.replaceItem(
+                                                product.sellerorderno,
+                                                orderDetails.paymentMethod,
+                                                product.transactionId
+                                              )
+                                            }
+                                          >
+                                            {PRODUCT_RETURN}
+                                          </div>
+                                        )}
 
                                       <div className={styles.writeReviedButton}>
                                         <Button
