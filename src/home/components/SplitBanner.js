@@ -5,11 +5,6 @@ import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
 export default class SplitBanner extends React.Component {
-  handleClick = () => {
-    if (this.props.onClick) {
-      this.props.onClick();
-    }
-  };
   render() {
     return (
       <div
@@ -41,7 +36,6 @@ export default class SplitBanner extends React.Component {
                 textStyle={{
                   fontSize: 14
                 }}
-                onClick={() => this.handleClick()}
               />
             </div>
           )}

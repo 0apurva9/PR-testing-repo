@@ -35,7 +35,6 @@ export default class SplitBannerForDesktop extends React.Component {
           subTitle={feedComponentDatum.description}
           title={feedComponentDatum.title}
           btnText={feedComponentDatum.btnText}
-          onClick={() => this.handleClick(feedComponentDatum.webURL)}
         />
       </div>
     );
