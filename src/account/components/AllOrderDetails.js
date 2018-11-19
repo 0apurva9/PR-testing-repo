@@ -521,7 +521,10 @@ export default class AllOrderDetails extends React.Component {
                                     }
                                     egvCardNumber={orderDetails.egvCardNumber}
                                     onClick={() =>
-                                      this.onClickImage(product.productcode)
+                                      this.onClickImage(
+                                        orderDetails.isEgvOrder,
+                                        product.productcode
+                                      )
                                     }
                                   />
                                   <DesktopOnly>
