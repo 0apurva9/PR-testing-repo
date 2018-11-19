@@ -19,12 +19,7 @@ export default class SizeGuideMain extends React.Component {
     this.props.getSizeGuide(this.props.productCode);
   }
   toggleView(val) {
-    this.setState({ isOpen: val }, () => {
-      if (this.state.isOpen) {
-        let scroll = document.getElementById("currentOpenSize");
-        scroll.scrollIntoView();
-      }
-    });
+    this.setState({ isOpen: val });
   }
   render() {
     if (this.props.loading) {
