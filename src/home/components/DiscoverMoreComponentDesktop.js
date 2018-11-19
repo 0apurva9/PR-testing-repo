@@ -30,6 +30,12 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       }
     });
   };
+  onRedirectToHeader = val => {
+    if (val) {
+      const urlSuffix = val.replace(TATA_CLIQ_ROOT, "$1");
+      this.props.history.push(urlSuffix);
+    }
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -40,7 +46,10 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
           />
         </div>
         <div className={styles.descriptionHolder}>
-          <div className={styles.heading}>
+          <div
+            className={styles.heading}
+            onClick={() => this.onRedirectToHeader(this.props.webURL)}
+          >
             <h2>{this.props.title}</h2>
           </div>
           {this.props.items && (

@@ -25,6 +25,7 @@
   font-family: semibold;
   margin-bottom: 5px;
   display: flex;
+  cursor: pointer;
 }
 .listHolder {
   width: 100%;
