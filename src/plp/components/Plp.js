@@ -78,7 +78,6 @@ export default class Plp extends React.Component {
     }
   };
   switchView() {
-    console.log("here");
     if (checkUserAgentIsMobile()) {
       if (this.state.view === LIST) {
         this.setState({ view: GRID });
