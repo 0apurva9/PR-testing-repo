@@ -11,8 +11,6 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
-import gridImage from "./img/grid.svg";
-import listImage from "./img/list.svg";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -21,7 +19,7 @@ import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
 import styles from "./Plp.css";
 import { filterScroll, filterFixed } from "./FilterDesktop.css";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+
 import {
   REQUESTING,
   AMP_BRAND_AND_CATEGORY_REG_EX,
@@ -29,6 +27,9 @@ import {
   AMP_BRAND_REG_EX,
   AMP_SEARCH_REG_EX
 } from "../../lib/constants";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import gridImage from "./img/grid.svg";
+import listImage from "./img/list.svg";
 const SortDesktopContainer = Loadable({
   loader: () => import("../containers/SortDesktopContainer"),
   loading() {
@@ -53,20 +54,20 @@ const PlpMobileFooter = Loadable({
     return <Loader />;
   }
 });
-const LIST = "list";
-const GRID = "grid";
+
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
-
+const LIST = "list";
+const GRID = "grid";
 export default class Plp extends React.Component {
   constructor() {
     super();
     this.state = {
       totalHeight: 0,
+      fixedScroll: false,
       view: GRID,
-      gridBreakup: false,
-      fixedScroll: false
+      gridBreakup: false
     };
   }
   toggleFilter = () => {
@@ -510,6 +511,14 @@ export default class Plp extends React.Component {
             </MediaQuery>
             <MobileOnly>
               <div className={styles.productWithFilter}>
+                <div className={styles.icon} onClick={() => this.switchView()}>
+                  {this.state.view === LIST && (
+                    <Icon image={gridImage} size={20} />
+                  )}
+                  {this.state.view === GRID && (
+                    <Icon image={listImage} size={20} />
+                  )}
+                </div>
                 <div className={styles.main}>
                   <ProductGrid
                     history={this.props.history}
@@ -523,6 +532,8 @@ export default class Plp extends React.Component {
                     setIfSortHasBeenClicked={() =>
                       this.props.setIfSortHasBeenClicked()
                     }
+                    view={this.state.view}
+                    gridBreakup={this.state.gridBreakup}
                   />
                 </div>
                 <FilterContainer
@@ -564,12 +575,13 @@ export default class Plp extends React.Component {
                       totalResults={
                         this.props.productListings.pagination.totalResults
                       }
-                      gridBreakup={this.state.gridBreakup}
                       setProductModuleRef={this.props.setProductModuleRef}
                       sort={this.props.productListings.sorts}
                       setIfSortHasBeenClicked={() =>
                         this.props.setIfSortHasBeenClicked()
                       }
+                      view={this.state.view}
+                      gridBreakup={this.state.gridBreakup}
                     />
                   </div>
                   <DesktopOnly>

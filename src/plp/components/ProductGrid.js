@@ -30,21 +30,10 @@ export default class ProductGrid extends React.Component {
     super(props);
     this.state = {
       view: GRID,
-      gridBreakup: this.props.gridBreakup ? this.props.gridBreakup : false
+      gridBreakup: false
     };
   }
 
-  switchView() {
-    if (checkUserAgentIsMobile()) {
-      if (this.state.view === LIST) {
-        this.setState({ view: GRID });
-      } else {
-        this.setState({ view: LIST });
-      }
-    } else {
-      this.setState({ gridBreakup: !this.state.gridBreakup });
-    }
-  }
   changeAddress() {
     if (this.props.changeAddress) {
       this.props.changeAddress();
@@ -100,9 +89,6 @@ export default class ProductGrid extends React.Component {
             ? data.price.sellingPrice.formattedValueNoDecimal
             : null
         }
-        alt={`${data.productname}-${data.brandname}-${
-          data.productCategoryType
-        }-TATA CLIQ`}
         description={data.productname}
         discountPercent={data.discountPercent}
         isOfferExisting={data.isOfferExisting}
@@ -125,7 +111,6 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
-    console.log("this----", this.props.gridBreakup);
     return (
       <div className={styles.base}>
         <MediaQuery query="(max-device-width:1024px)">
@@ -135,20 +120,12 @@ export default class ProductGrid extends React.Component {
             </div>
           </div>
         </MediaQuery>
-        <MobileOnly>
-          <div className={styles.header}>
-            <div className={styles.icon} onClick={() => this.switchView()}>
-              {this.state.view === LIST && <Icon image={gridImage} size={20} />}
-              {this.state.view === GRID && <Icon image={listImage} size={20} />}
-            </div>
-          </div>
-        </MobileOnly>
 
         <div className={styles.content}>
           <DumbGrid
             search={this.props.search}
             offset={0}
-            elementWidthMobile={this.state.view === LIST ? 100 : 50}
+            elementWidthMobile={this.props.view === LIST ? 100 : 50}
             elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
           >
             {this.props.data &&
