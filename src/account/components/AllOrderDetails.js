@@ -62,9 +62,7 @@ import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 const RETURN = "RETURN";
-const PRODUCT_RETURN = UserAgent.checkUserAgentIsMobile()
-  ? "Return"
-  : "Return or Replace";
+const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
