@@ -125,8 +125,8 @@
 .textHeader {
   width: auto;
   height: auto;
-  font-size: 24px;
-  font-family: semibold;
+  font-size: 18px;
+  font-family: regular;
   margin-top: 20px;
   text-align: left;
 }
