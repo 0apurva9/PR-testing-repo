@@ -16,7 +16,7 @@ import MediaQuery from "react-responsive";
 import Carousel from "../../general/components/Carousel";
 import CommonCenter from "../../general/components/CommonCenter";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
-const OFFER_AND_ITEM_LIMIT = 4;
+const OFFER_AND_ITEM_LIMIT = 10;
 export default class FlashSale extends React.Component {
   constructor(props) {
     super(props);
