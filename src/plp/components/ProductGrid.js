@@ -115,39 +115,45 @@ export default class ProductGrid extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
-        <MediaQuery query="(max-device-width:1024px)">
-          <div className={styles.header}>
-            <div className={styles.product}>
-              {this.props.totalResults ? this.props.totalResults : 0} Products
+      <React.Fragment>
+        <div
+          className={styles.base}
+          style={{ position: this.props.isPosition ? "relative" : "" }}
+        >
+          <MediaQuery query="(max-device-width:1024px)">
+            <div className={styles.header}>
+              <div className={styles.product}>
+                {this.props.totalResults ? this.props.totalResults : 0} Products
+              </div>
             </div>
-          </div>
-        </MediaQuery>
+          </MediaQuery>
 
-        <div className={styles.content}>
-          <DumbGrid
-            search={this.props.search}
-            offset={0}
-            elementWidthMobile={this.props.view === LIST ? 100 : 50}
-            elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
-          >
-            {this.props.data &&
-              this.props.data.map((datum, i) => {
-                let widthMobile = false;
-                return (
-                  <PlpComponent
-                    key={i}
-                    gridWidthMobile={widthMobile}
-                    view={this.state.view}
-                    type={datum && datum.type}
-                  >
-                    {this.renderComponent(datum, i)}
-                  </PlpComponent>
-                );
-              })}
-          </DumbGrid>
+          <div className={styles.content}>
+            <DumbGrid
+              search={this.props.search}
+              offset={0}
+              elementWidthMobile={this.props.view === LIST ? 100 : 50}
+              elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
+            >
+              {this.props.data &&
+                this.props.data.map((datum, i) => {
+                  let widthMobile = false;
+                  return (
+                    <PlpComponent
+                      key={i}
+                      gridWidthMobile={widthMobile}
+                      view={this.state.view}
+                      type={datum && datum.type}
+                    >
+                      {this.renderComponent(datum, i)}
+                    </PlpComponent>
+                  );
+                })}
+            </DumbGrid>
+          </div>
         </div>
-      </div>
+        <React.Fragment>{this.props.children}</React.Fragment>
+      </React.Fragment>
     );
   }
 }

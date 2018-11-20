@@ -383,6 +383,7 @@ export default class Plp extends React.Component {
       );
     }
   };
+
   render() {
     let selectedFilterCount = 0;
     let selectedFilter = [];
@@ -411,6 +412,7 @@ export default class Plp extends React.Component {
         }
       });
     }
+
     return (
       <React.Fragment>
         {this.props.productListings && (
@@ -493,32 +495,25 @@ export default class Plp extends React.Component {
                 <div className={styles.sort}>
                   <SortDesktopContainer />
                 </div>
-                <div className={styles.gridIcon} />
-                <DesktopOnly>
-                  <div
-                    className={styles.icon}
-                    onClick={() => this.switchView()}
-                  >
-                    {this.state.gridBreakup && (
-                      <Icon image={gridImage} size={20} />
-                    )}
-                    {!this.state.gridBreakup && (
-                      <Icon image={listImage} size={20} />
-                    )}
-                  </div>
-                </DesktopOnly>
+                <div className={styles.gridIcon}>
+                  <DesktopOnly>
+                    <div
+                      className={styles.icon}
+                      onClick={() => this.switchView()}
+                    >
+                      {this.state.gridBreakup && (
+                        <Icon image={gridImage} size={20} />
+                      )}
+                      {!this.state.gridBreakup && (
+                        <Icon image={listImage} size={20} />
+                      )}
+                    </div>
+                  </DesktopOnly>
+                </div>
               </div>
             </MediaQuery>
             <MobileOnly>
               <div className={styles.productWithFilter}>
-                <div className={styles.icon} onClick={() => this.switchView()}>
-                  {this.state.view === LIST && (
-                    <Icon image={gridImage} size={20} />
-                  )}
-                  {this.state.view === GRID && (
-                    <Icon image={listImage} size={20} />
-                  )}
-                </div>
                 <div className={styles.main}>
                   <ProductGrid
                     history={this.props.history}
@@ -534,7 +529,20 @@ export default class Plp extends React.Component {
                     }
                     view={this.state.view}
                     gridBreakup={this.state.gridBreakup}
-                  />
+                    isPosition={true}
+                  >
+                    <div
+                      className={styles.icon}
+                      onClick={() => this.switchView()}
+                    >
+                      {this.state.view === LIST && (
+                        <Icon image={gridImage} size={20} />
+                      )}
+                      {this.state.view === GRID && (
+                        <Icon image={listImage} size={20} />
+                      )}
+                    </div>
+                  </ProductGrid>
                 </div>
                 <FilterContainer
                   backPage={this.backPage}

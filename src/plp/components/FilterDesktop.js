@@ -384,7 +384,11 @@ export default class FilterDesktop extends React.Component {
                     <div className={styles.facetData}>
                       <Accordion
                         key={i}
-                        text={facetDataValues.name}
+                        text1={facetDataValues.name}
+                        widthForText1="100%"
+                        text1Color="#212121"
+                        text1FontFamily="light"
+                        text1Size="14px"
                         headerFontSize={16}
                         isOpen={
                           (facetDataValues.values &&

@@ -114,4 +114,10 @@
     margin: auto;
     line-height: 50px;
   }
+  .data {
+    color: #212121;
+  }
+  .countSelected {
+    color: #212121;
+  }
 }
