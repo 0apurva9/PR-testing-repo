@@ -2,6 +2,7 @@ import React from "react";
 import DumbGrid from "../../general/components/DumbGrid";
 import ProductModule from "../../general/components/ProductModule";
 import PlpComponent from "./PlpComponent";
+import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import styles from "./ProductGrid.css";
 import gridImage from "./img/grid.svg";
@@ -157,7 +158,10 @@ export default class ProductGrid extends React.Component {
     );
   }
 }
-
+ProductGrid.propTypes = {
+  isPosition: PropTypes.bool
+};
 ProductGrid.defaultProps = {
-  area: "Delhi - 560345"
+  area: "Delhi - 560345",
+  isPosition: false
 };
