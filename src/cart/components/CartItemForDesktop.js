@@ -107,6 +107,9 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
             <div className={styles.textWithOutOfStock}>
+              {this.props.isGiveAway === YES && (
+                <div className={styles.isGiveAwayText}>FREE</div>
+              )}
               {this.props.isGiveAway === NO && (
                 <div className={styles.informationTextWithBolder}>
                   {!this.props.offerPrice && (
