@@ -359,7 +359,8 @@ export default class ReturnToStore extends React.Component {
               />
             </div>
           </div>
-          {this.props.returnRequest &&
+          {!this.props.error &&
+            this.props.returnRequest &&
             this.props.returnRequest.returnStoreDetailsList &&
             !this.props.showPickupPerson && (
               <div className={styles.addressDetail}>
