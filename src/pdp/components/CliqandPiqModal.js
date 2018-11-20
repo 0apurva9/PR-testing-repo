@@ -178,17 +178,10 @@ export default class ReturnToStore extends React.Component {
         <div className={styles.base}>
           <div className={styles.mapButton}>
             <div className={styles.cliqPiqText}>CliQ n PiQ</div>
-            <div className={styles.closeButton}>
-              <Button
-                type="hollow"
-                height={40}
-                label={"Close"}
-                width={150}
-                color={"#212121"}
-                textStyle={{ color: "#212121", fontSize: 14 }}
-                onClick={() => this.CloseCliqAndPiqModal()}
-              />
-            </div>
+            <div
+              className={styles.closeButton}
+              onClick={() => this.CloseCliqAndPiqModal()}
+            />
           </div>
           <div className={styles.mapDesktopWithPincode}>
             <div className={styles.mapDesktop}>

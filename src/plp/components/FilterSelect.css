@@ -99,6 +99,7 @@
   .item {
     padding-left: 30px;
     padding-right: 0px;
+    font-family: light;
   }
   .check {
     min-width: 20px;

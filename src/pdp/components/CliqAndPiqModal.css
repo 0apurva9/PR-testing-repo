@@ -14,7 +14,6 @@
   display: inline-block;
   vertical-align: top;
   position: relative;
-  padding-right: 20px;
 }
 .mapDesktop:before {
   content: "";
@@ -38,8 +37,7 @@
   top: 0;
   left: 0;
   background: #f9f9f9;
-  padding: 15px;
-  border-radius: 4px;
+  padding: 15px 20px;
 }
 .mapDesktopWithPincode {
   width: 100%;
@@ -55,14 +53,17 @@
   padding-right: 150px;
 }
 .closeButton {
-  width: auto;
+  width: 40px;
   height: 40px;
   position: absolute;
-  right: 0;
+  right: 20px;
   top: 0;
-  padding-right: 10px;
+  background: url(../../general/components/img/cancelBlack.svg) no-repeat;
+  background-size: auto 25px;
+  background-position: center;
   bottom: 0;
   margin: auto;
+  cursor: pointer;
 }
 .container {
   height: 50px;
@@ -76,9 +77,11 @@
   max-width: 100%;
   height: 70vh;
   position: fixed;
-  background-color: transparent;
+
   padding-top: 75px;
   overflow: hidden;
+  background-color: #fff;
+  padding-top: 59px;
 }
 .searchPincode {
   width: 100%;
