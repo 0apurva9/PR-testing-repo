@@ -80,7 +80,6 @@ export default class CartItemForDesktop extends React.Component {
     }
   }
   render() {
-    console.log("is give away", this.props);
     let fetchedQuantityList = [];
     if (this.props.isOutOfStock) {
       fetchedQuantityList = [{}];
