@@ -24,20 +24,17 @@
   z-index: 10;
 }
 .icon {
-  width: 20px;
+  width: 40px;
   height: 20px;
   position: absolute;
-  right: 20px;
-  top: 7px;
-  bottom: 50px;
-  margin: 2px;
-  padding-left: 11px;
+  top: 15px;
+  right: 0px;
 }
 @media only screen and (min-width: 1024px) {
   .base {
     display: inline-block;
     text-align: center;
-    padding: 50px 0 60px 0;
+    padding: 30px 0 60px 0;
   }
   .dummyHolder {
     width: 100%;
@@ -74,11 +71,14 @@
     right: 35px;
     height: auto;
     display: inline-block;
-    position: absolute;
+    vertical-align: top;
   }
   .gridIcon {
-    width: 3%;
+    width: 5%;
     display: inline-block;
+    height: 45px;
+    vertical-align: top;
+    position: relative;
   }
   .selectedFilter {
     width: 70%;
@@ -86,17 +86,18 @@
     left: 0px;
     display: inline-block;
   }
+
   .selectedFilterWithIcon {
     width: auto;
     height: auto;
     display: inline-block;
     line-height: 30px;
     border-radius: 100px;
-    color: #000;
+    color: #8d8d8d;
     font-size: 14px;
     padding: 0px 30px 0px 10px;
     background-color: #f9f9f9;
-    font-family: regular;
+    font-family: light;
     position: relative;
     margin: 5px;
     cursor: pointer;
@@ -125,7 +126,7 @@
     color: #212121;
     font-size: 20px;
     font-family: semibold;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
   .headerTextWithTotalProducts {
     width: 100%;
@@ -149,6 +150,15 @@
     color: #000000;
     font-size: 14px;
     font-family: light;
+  }
+  .icon {
+    width: 40px;
+    height: 25px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    bottom: 0;
+    margin: auto;
   }
 }
 .productWithFilterDesktop {
