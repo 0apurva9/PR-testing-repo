@@ -80,6 +80,7 @@ export default class CartItemForDesktop extends React.Component {
     }
   }
   render() {
+    console.log("is give away", this.props);
     let fetchedQuantityList = [];
     if (this.props.isOutOfStock) {
       fetchedQuantityList = [{}];
@@ -107,6 +108,9 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
             <div className={styles.textWithOutOfStock}>
+              {this.props.isGiveAway === YES && (
+                <div className={styles.isGiveAwayText}>FREE</div>
+              )}
               {this.props.isGiveAway === NO && (
                 <div className={styles.informationTextWithBolder}>
                   {!this.props.offerPrice && (
