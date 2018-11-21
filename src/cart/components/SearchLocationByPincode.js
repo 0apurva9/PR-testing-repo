@@ -6,11 +6,12 @@ import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import styles from "./SearchLocationByPincode.css";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
+const defaultPincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 export default class SearchLocationByPincode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pinCode: this.props.pincode,
+      pinCode: this.props.pincode ? this.props.pinCode : "",
       errorMessage: null
     };
   }
@@ -48,7 +49,11 @@ export default class SearchLocationByPincode extends React.Component {
           }
         >
           <Input2
-            placeholder={"Enter your pincode"}
+            placeholder={
+              !this.props.pinCode
+                ? `Your pincode: ${defaultPincode}`
+                : "Enter your Pincode "
+            }
             onlyNumber={true}
             value={this.state.pinCode}
             onChange={val => this.getValue(val)}
