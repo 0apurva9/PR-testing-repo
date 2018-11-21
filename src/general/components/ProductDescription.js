@@ -91,7 +91,7 @@ export default class ProductDescription extends Component {
           {!this.props.isRange &&
             this.props.mrpPrice &&
             typeof this.props.mrpPrice !== "object" && (
-              <div>
+              <div className={priceClass}>
                 <h3>{this.props.mrpPrice}</h3>
               </div>
             )}
