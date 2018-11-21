@@ -52,7 +52,7 @@ export default class SearchLocationByPincode extends React.Component {
             placeholder={
               !this.props.pinCode
                 ? `Your pincode: ${defaultPincode}`
-                : this.state.pinCode
+                : "Enter your Pincode "
             }
             onlyNumber={true}
             value={this.state.pinCode}
