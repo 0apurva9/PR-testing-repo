@@ -11,7 +11,7 @@ export default class SearchLocationByPincode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pinCode: this.props.pincode ? this.props.pinCode : "",
+      pinCode: this.props.pincode,
       errorMessage: null
     };
   }
