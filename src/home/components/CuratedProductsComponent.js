@@ -8,10 +8,11 @@ import { transformData } from "./utils.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
 class CuratedProductsComponent extends React.Component {
-  onClick = val => {
+  onClick = (val, i) => {
     widgetsTracking({
       widgetName: "Curated products component",
-      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      PositionOfProduct: i + 1
     });
     if (this.props.location.pathname === "/") {
       window.open(val, "_blank");
@@ -61,7 +62,7 @@ class CuratedProductsComponent extends React.Component {
                     discountPrice={datum.discountPrice}
                     description={datum.description}
                     webURL={datum.webURL}
-                    onClick={this.onClick}
+                    onClick={url => this.onClick(url, i)}
                     {...rest}
                     widgetName={"Curated Products Component"}
                     sourceOfWidget={

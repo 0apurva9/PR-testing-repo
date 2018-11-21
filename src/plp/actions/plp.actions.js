@@ -213,12 +213,14 @@ export function getProductListings(
         resultJson.currentQuery.searchQuery &&
         !paginated
       ) {
-        setDataLayer(
-          ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
-          resultJson,
-          getState().icid.value,
-          getState().icid.icidType
-        );
+        if (!componentName || componentName !== "Popular brands") {
+          setDataLayer(
+            ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
+            resultJson,
+            getState().icid.value,
+            getState().icid.icidType
+          );
+        }
       } else {
         if (
           window.digitalData &&

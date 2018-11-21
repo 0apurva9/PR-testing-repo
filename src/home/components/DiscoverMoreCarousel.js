@@ -9,7 +9,7 @@ import styles from "./DiscoverMoreCarousel.css";
 import { widgetsTracking } from "../../lib/adobeUtils";
 
 class DiscoverMoreCarousel extends React.Component {
-  handleClick = (webUrl, categoryName) => {
+  handleClick = (webUrl, categoryName, i) => {
     widgetsTracking({
       widgetName:
         this.props.feedComponentData && this.props.feedComponentData.title,
@@ -18,7 +18,8 @@ class DiscoverMoreCarousel extends React.Component {
         this.props.feedComponentData.postParams &&
         this.props.feedComponentData.postParams.widgetPlatform,
       categoryName,
-      type: "Category"
+      type: "Category",
+      PositionOfProduct: i
     });
     const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -41,7 +42,9 @@ class DiscoverMoreCarousel extends React.Component {
                     label={datum.title}
                     key={i}
                     value={datum.webURL}
-                    onClick={this.handleClick}
+                    onClick={(webUrl, categoryName) =>
+                      this.handleClick(webUrl, categoryName, i)
+                    }
                   />
                 );
               })}

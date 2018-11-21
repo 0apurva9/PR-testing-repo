@@ -39,7 +39,8 @@ export default class ProductModule extends React.Component {
       widgetsTracking({
         widgetName: this.props.widgetName,
         productId: this.props.productId,
-        sourceOfWidget: this.props.sourceOfWidget
+        sourceOfWidget: this.props.sourceOfWidget,
+        PositionOfProduct: this.props.key + 1
       });
     }
     if (this.props.onClick) {

@@ -6,10 +6,18 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import {
+  setDataLayerForHeaderAndFooterDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
+} from "../../lib/adobeUtils";
 const LOGOUT_TEXT = "You have logged out successfully";
 export default class LogoutButton extends React.Component {
   async logoutUser() {
     if (this.props.logoutUser) {
+      setDataLayerForHeaderAndFooterDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+        "Logout"
+      );
       const logoutResponse = await this.props.logoutUser();
       this.props.displayToast(LOGOUT_TEXT);
       this.props.history.push(`${HOME_ROUTER}`);
