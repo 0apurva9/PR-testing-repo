@@ -17,7 +17,7 @@ import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
 import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { WISHLIST_BUTTON_TEXT_TYPE } from "../../wishlist/components/AddToWishListButton";
+import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddToWishListButton";
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
 const NO_SIZE = "NO SIZE";
 const NOT_SERVICEABLE = "Not available at your PIN code";
@@ -185,7 +185,7 @@ export default class CartItemForDesktop extends React.Component {
               <div className={styles.footer}>
                 <div className={styles.wishlist}>
                   <AddToWishListButtonContainer
-                    type={WISHLIST_BUTTON_TEXT_TYPE}
+                    type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
                     productListingId={this.props.product.productcode}
                     winningUssID={this.props.product.USSID}
                     setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}

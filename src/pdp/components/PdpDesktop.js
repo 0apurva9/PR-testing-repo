@@ -1050,14 +1050,16 @@ export default class PdpApparel extends React.Component {
                       )}
                     {productData.knowMore && (
                       <Accordion text="Know More" headerFontSize={18}>
-                        {productData.knowMore &&
-                          productData.knowMore.map(val => {
-                            return (
-                              <div className={styles.list}>
-                                {val.knowMoreItem}
-                              </div>
-                            );
-                          })}
+                        <div className={styles.containerWithBottomBorder}>
+                          {productData.knowMore &&
+                            productData.knowMore.map(val => {
+                              return (
+                                <div className={styles.list}>
+                                  {val.knowMoreItem}
+                                </div>
+                              );
+                            })}
+                        </div>
                       </Accordion>
                     )}
                     {productData.warranty &&
