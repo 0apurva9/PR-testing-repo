@@ -1974,7 +1974,7 @@ if you have order id in local storage then you have to show order confirmation p
     });
   };
 
-  applyCliqCash = () => {
+  applyCliqCash = async () => {
     if (this.state.isNoCostEmiApplied) {
       const doCallForApplyCliqCash = () => {
         this.setState({
@@ -1998,9 +1998,15 @@ if you have order id in local storage then you have to show order confirmation p
         PAYMENT_MODE_TYPE: "Cliq Cash"
       });
       this.props.applyCliqCash();
+      let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);
+      if (bankOffer) {
+        const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
+        if (releaseCouponReq.status === SUCCESS) {
+          this.setState({ selectedBankOfferCode: "" });
+        }
+      }
     }
   };
-
   removeCliqCash = () => {
     this.setState({
       isCliqCashApplied: false,
