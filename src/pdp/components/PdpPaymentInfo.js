@@ -21,16 +21,22 @@ export default class PdpPaymentInfo extends React.Component {
               No Cost EMI from {RUPEE_SYMBOL}
               {this.props.nceStartingPrice}/month,{" "}
             </span>
-            Standard EMI from {RUPEE_SYMBOL}
-            {this.props.seStartingPrice}/month
+            <span className={styles.text}>
+              Standard EMI from {RUPEE_SYMBOL}
+              {this.props.seStartingPrice}/month
+            </span>
+
             <span className={styles.link} onClick={this.showEmiModal}>
               View plans
             </span>
           </div>
         ) : this.props.hasEmi === "Y" && !this.props.nceAvailable ? (
           <div className={styles.content}>
-            Standard EMI from {RUPEE_SYMBOL}
-            {this.props.seStartingPrice}/month
+            <span className={styles.text}>
+              Standard EMI from {RUPEE_SYMBOL}
+              {this.props.seStartingPrice}/month
+            </span>
+
             <span className={styles.link} onClick={this.showEmiModal}>
               View plans
             </span>
@@ -40,8 +46,10 @@ export default class PdpPaymentInfo extends React.Component {
           this.props.nceAvailable && (
             <div className={styles.content}>
               <span lassName={styles.noCostEmi}>
-                No Cost EMI from {RUPEE_SYMBOL}
-                {this.props.nceStartingPrice}/month,{" "}
+                <span className={styles.text}>
+                  No Cost EMI from {RUPEE_SYMBOL}
+                  {this.props.nceStartingPrice}/month,
+                </span>
               </span>
               <span className={styles.link} onClick={this.showEmiModal}>
                 View plans

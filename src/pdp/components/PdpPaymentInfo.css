@@ -11,18 +11,22 @@
 .noCostEmi {
   font-family: regular;
 }
+
 .link {
   font-size: 14px;
   color: #ff1744;
   font-family: light;
   display: inline-block;
-  margin-left: 10px;
+
   cursor: pointer;
 }
 .content {
   width: 100%;
   height: auto;
   font-family: light;
+}
+.text {
+  padding-right: 10px;
 }
 
 @media screen and (min-width: 1025px) {

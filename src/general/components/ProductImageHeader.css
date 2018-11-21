@@ -99,4 +99,7 @@
     overflow: hidden;
     padding-bottom: 67.5%;
   }
+  .hasDescription {
+    margin: 0;
+  }
 }

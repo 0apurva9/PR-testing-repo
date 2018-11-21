@@ -5,13 +5,13 @@
   flex-direction: row;
 }
 .leftSection {
-  width: 50%;
+  width: 47%;
   height: auto;
   display: flex;
   padding-right: 10px;
 }
 .rightSection {
-  width: 50%;
+  width: 53%;
   height: auto;
   display: flex;
   padding-left: 10px;

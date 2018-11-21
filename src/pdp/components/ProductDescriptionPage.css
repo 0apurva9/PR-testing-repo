@@ -236,6 +236,16 @@
   font-family: light;
   color: #212121;
   padding-bottom: 15px;
+  position: relative;
+}
+.accordionContent:after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background: #ececec;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 .trustLogo {
   width: 100%;
@@ -246,6 +256,21 @@
   width: 100%;
   height: auto;
   padding-left: 15px;
+}
+.containerWithBottomBorder {
+  width: 100%;
+  height: auto;
+  position: relative;
+  padding-bottom: 10px;
+}
+.containerWithBottomBorder:after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background: #ececec;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 @media screen and (min-width: 1025px) {
   .base {
@@ -301,6 +326,7 @@
   .details {
     background: #ececec;
     padding: 0;
+    padding-bottom: 40px;
   }
   .detailsCard {
     width: 100%;
@@ -428,7 +454,7 @@
     right: 10px;
     top: 10px;
     border-radius: 50%;
-    background: #d8d8d8;
+    background: #f2f2f2;
   }
   .deliveyModesHolder {
     width: 100%;
@@ -466,6 +492,6 @@
   .buttonWrapper {
     width: 100%;
     height: auto;
-    margin-top: 40px;
+    margin-top: 20px;
   }
 }

@@ -20,6 +20,7 @@ import queryString, { parse } from "query-string";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
+export const WISHLIST_BUTTON_TEXT_TYPE_SMALL = "wishlistTextSmall";
 export const ONLY_ICON = "wishlistIconForPdp";
 export default class AddToWishListButton extends React.Component {
   onClick(e) {
@@ -97,11 +98,25 @@ export default class AddToWishListButton extends React.Component {
       );
     }
 
-    if (this.props.type === WISHLIST_BUTTON_TEXT_TYPE) {
+    if (
+      this.props.type === WISHLIST_BUTTON_TEXT_TYPE ||
+      this.props.type === WISHLIST_BUTTON_TEXT_TYPE_SMALL
+    ) {
       return (
         <div className={styles.saveButton} onClick={e => this.onClick(e)}>
-          <div className={styles.iconHolder}>
-            <Icon image={saveIcon} size={24} />
+          <div
+            className={
+              this.props.type === WISHLIST_BUTTON_TEXT_TYPE_SMALL
+                ? styles.iconHolderSmall
+                : styles.iconHolder
+            }
+          >
+            <Icon
+              image={saveIcon}
+              size={
+                this.props.type === WISHLIST_BUTTON_TEXT_TYPE_SMALL ? 18 : 24
+              }
+            />
           </div>
           <MobileOnly>
             <div className={styles.saveLabel}>Save</div>

@@ -43,6 +43,7 @@
 }
 .heading {
   width: 100%;
+
   height: auto;
   color: #fff;
   font-family: semibold;
@@ -52,8 +53,11 @@
   margin-bottom: 40px;
 }
 .logoHolder {
-  width: 100%;
-  height: auto;
+  width: 120px;
+  height: 60px;
+  margin-bottom: 10px;
+  background-size: contain;
+  background-position: left bottom;
 }
 .headingHolder {
   width: 100%;
@@ -62,10 +66,15 @@
 .title {
   width: 100%;
   height: auto;
+  max-height: 36px;
+  overflow: hidden;
+  font-family: regular;
 }
 .subTitle {
   width: 100%;
   height: auto;
   font-size: 30px;
-  font-family: regular;
+  max-height: 36px;
+  overflow: hidden;
+  font-family: light;
 }

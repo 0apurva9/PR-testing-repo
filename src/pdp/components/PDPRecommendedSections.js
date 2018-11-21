@@ -98,6 +98,7 @@ class PDPRecommendedSections extends React.Component {
             <DesktopOnly>
               <div className={styles.banner}>
                 <ProductImageHeader
+                  hasDescription={false}
                   logo={
                     <Logo
                       height={40}

@@ -908,7 +908,7 @@ export default class PdpApparel extends React.Component {
                     {productData.productDescription && (
                       <Accordion
                         text="Product Description"
-                        headerFontSize={20}
+                        headerFontSize={18}
                         isOpen={true}
                       >
                         <div
@@ -937,7 +937,7 @@ export default class PdpApparel extends React.Component {
                     )}
                     {productData.rootCategory === "HomeFurnishing" &&
                       productData.classificationList && (
-                        <Accordion text="Overview" headerFontSize={20}>
+                        <Accordion text="Overview" headerFontSize={18}>
                           {productData.classificationList &&
                             productData.classificationList.map(value => {
                               return (
@@ -987,7 +987,7 @@ export default class PdpApparel extends React.Component {
                       productData.classifications && (
                         <Accordion
                           text="Features & Functions"
-                          headerFontSize={20}
+                          headerFontSize={18}
                           isOpen={false}
                         >
                           {productData.classifications.map(val => {
@@ -1012,7 +1012,7 @@ export default class PdpApparel extends React.Component {
                       )}
                     {productData.fineJewelleryClassificationList && (
                       <JewelleryClassification
-                        headerFontSize={20}
+                        headerFontSize={18}
                         data={productData.fineJewelleryClassificationList}
                         sideBySide={true}
                       />
@@ -1020,13 +1020,13 @@ export default class PdpApparel extends React.Component {
                     {productData.priceBreakUpDetailsMap &&
                       productData.showPriceBrkUpPDP === "Yes" && (
                         <PriceBreakUp
-                          headerFontSize={20}
+                          headerFontSize={18}
                           data={productData.priceBreakUpDetailsMap}
                           sideBySide={true}
                         />
                       )}
                     {productData.returnAndRefund && (
-                      <Accordion text="Return & Refunds" headerFontSize={20}>
+                      <Accordion text="Return & Refunds" headerFontSize={18}>
                         {productData.returnAndRefund.map(val => {
                           return (
                             <div
@@ -1044,32 +1044,34 @@ export default class PdpApparel extends React.Component {
                       productData.rootCategory !== "FineJewellery" &&
                       productData.details && (
                         <ProductDetails
-                          headerFontSize={20}
+                          headerFontSize={18}
                           data={productData.details}
                         />
                       )}
                     {productData.knowMore && (
-                      <Accordion text="Know More" headerFontSize={20}>
-                        {productData.knowMore &&
-                          productData.knowMore.map(val => {
-                            return (
-                              <div className={styles.list}>
-                                {val.knowMoreItem}
-                              </div>
-                            );
-                          })}
+                      <Accordion text="Know More" headerFontSize={18}>
+                        <div className={styles.containerWithBottomBorder}>
+                          {productData.knowMore &&
+                            productData.knowMore.map(val => {
+                              return (
+                                <div className={styles.list}>
+                                  {val.knowMoreItem}
+                                </div>
+                              );
+                            })}
+                        </div>
                       </Accordion>
                     )}
                     {productData.warranty &&
                       productData.warranty.length > 0 && (
                         <ProductFeature
-                          headerFontSize={20}
+                          headerFontSize={18}
                           heading="Warranty"
                           content={productData.warranty[0]}
                         />
                       )}
                     {productData.brandInfo && (
-                      <Accordion text="Brand Info" headerFontSize={20}>
+                      <Accordion text="Brand Info" headerFontSize={18}>
                         <div className={styles.accordionContent}>
                           {productData.brandInfo}
                         </div>
@@ -1083,7 +1085,7 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.detailsCard}>
                       {productData.classifications && (
                         <ProductFeatures
-                          headerFontSize={20}
+                          headerFontSize={18}
                           features={productData.classifications}
                         />
                       )}
