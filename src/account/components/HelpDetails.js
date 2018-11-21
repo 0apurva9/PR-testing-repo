@@ -22,9 +22,11 @@ import {
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import { setDataLayer, ADOBE_HELP } from "../../lib/adobeUtils";
 export default class HelpDetails extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(HELP);
+    setDataLayer(ADOBE_HELP);
     window.scroll(0, 0);
   }
   componentDidUpdate() {

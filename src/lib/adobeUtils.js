@@ -287,6 +287,9 @@ export const ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE =
   "ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE";
 export const ADOBE_DIRECT_CALL_FOR_SELECT_STORE =
   "ADOBE_DIRECT_CALL_FOR_SELECT_STORE";
+export const ADOBE_HELP = "ADOBE_HELP";
+export const ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW =
+  "ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -327,6 +330,7 @@ const GO_TO_BAG = "cpj_go_to_bag";
 const EMI_VIEW_PLAN = "cpj_emi_view_plan";
 const PICK_UP_OPTION = "cpj_pickup_option";
 const PDP_OFFER = "cpj_pdp_offer";
+const FRESH_FROM_BRANDS_PDP_VIEW = "fresh_from_brand_pdp_view";
 const PDP_PRODUCT_PLUS_VIEW_MORE = "cpj_pdp_product_plus_view_more";
 const PDP_SPEC_VIEW_MORE = "cpj_pdp_spec_view_more";
 const SELECT_STORE = "cpj_select_store";
@@ -473,6 +477,15 @@ export function setDataLayer(
   }
   if (type === ADOBE_STATIC_PAGE) {
     window.digitalData = getDigitalDataForStatic(response);
+  }
+  if (type === ADOBE_HELP) {
+    const data = window.digitalData;
+    Object.assign(data.page, {
+      pageInfo: {
+        pageName: window.location.pathname.replace(/\//g, "")
+      }
+    });
+    window.digitalData = data;
   }
 
   if (icidType === ICID2) {
@@ -2163,6 +2176,7 @@ export function widgetsTracking(widgetObj: {}) {
   if (!widgetObj.widgetName) {
     return;
   }
+
   const data = cloneDeep(window.digitalData);
   Object.assign(data.cpj, {
     widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
@@ -2171,7 +2185,11 @@ export function widgetsTracking(widgetObj: {}) {
       widgetObj.type ? widgetObj.type : "product"
     }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
       widgetObj.categoryName ? widgetObj.categoryName : "x"
-    }`
+    }:${
+      data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
+        ? data.page.pageInfo.pageName
+        : "x"
+    }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
   });
   window.digitalData = data;
   let widgetType;
@@ -2255,12 +2273,14 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     window.digitalData = currentDigitalData;
   }
   if (type === ADOBE_DIRECT_CALL_FOR_HEADER_CLICK) {
-    Object.assign(currentDigitalData, {
-      header: {
-        headerName: value
-      }
-    });
-    window.digitalData = currentDigitalData;
+    if (value) {
+      Object.assign(currentDigitalData, {
+        header: {
+          headerName: value
+        }
+      });
+      window.digitalData = currentDigitalData;
+    }
     if (window._satellite) {
       window._satellite.track(HEADER_CLICK);
     }
@@ -2373,4 +2393,11 @@ export function updatePdpDetailsBackFromReviewPage() {
     });
   }
   window.digitalData = currentDigitalData;
+}
+export function setDataLayerForStoryModal(type) {
+  if (type === ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW) {
+    if (window._satellite) {
+      window._satellite.track(FRESH_FROM_BRANDS_PDP_VIEW);
+    }
+  }
 }

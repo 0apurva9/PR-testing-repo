@@ -13,6 +13,7 @@ export default class SuggestedAndSimilar extends React.Component {
             {this.props.suggested.map((val, i) => {
               return (
                 <ProductModule
+                  key={i}
                   productImage={val.imageURL}
                   title={val.name}
                   description={val.description}
@@ -28,6 +29,7 @@ export default class SuggestedAndSimilar extends React.Component {
             {this.props.similar.map((val, i) => {
               return (
                 <ProductModule
+                  key={i}
                   productImage={val.imageURL}
                   title={val.name}
                   description={val.description}

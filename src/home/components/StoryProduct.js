@@ -2,9 +2,13 @@ import React from "react";
 import Image from "../../xelpmoc-core/Image";
 import Button from "../../general/components/Button";
 import styles from "./StoryWidget.css";
-
+import {
+  setDataLayerForStoryModal,
+  ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW
+} from "../../lib/adobeUtils.js";
 export default class StoryProduct extends React.Component {
   handleClick() {
+    setDataLayerForStoryModal(ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW);
     this.props.history.push(`/p-${this.props.productListingId.toLowerCase()}`);
   }
   render() {

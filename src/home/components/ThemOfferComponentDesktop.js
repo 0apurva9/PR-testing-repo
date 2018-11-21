@@ -6,12 +6,13 @@ import PropTypes from "prop-types";
 import styles from "./ThemOfferComponentDesktop.css";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
 export default class ThemOfferComponentDesktop extends React.Component {
-  onClick = (val, brand) => {
+  onClick = (val, brand, i) => {
     widgetsTracking({
       widgetName: "Theme offers component",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
       brandName: brand,
-      type: "Brand"
+      type: "Brand",
+      PositionOfProduct: i + 1
     });
     if (this.props.location.pathname === "/") {
       window.open(val, "_blank");
@@ -59,7 +60,7 @@ export default class ThemOfferComponentDesktop extends React.Component {
                     productCode={datum.productListingId}
                     showWishListButton={false}
                     ussId={datum.winningUssID}
-                    onClick={url => this.onClick(url, datum.brandName)}
+                    onClick={url => this.onClick(url, datum.brandName, i)}
                   />
                 );
               })}

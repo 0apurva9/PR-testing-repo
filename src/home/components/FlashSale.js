@@ -41,10 +41,11 @@ export default class FlashSale extends React.Component {
     }
   }
 
-  handleItemClick = url => {
+  handleItemClick = (url, i) => {
     widgetsTracking({
       widgetName: "Flash Sale Component",
-      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      PositionOfProduct: i + 1
     });
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     if (this.props.location.pathname === "/") {
@@ -171,7 +172,7 @@ export default class FlashSale extends React.Component {
                       discountPrice={datum.discountPrice}
                       description={datum.description}
                       webURL={datum.webURL}
-                      onClick={this.handleItemClick}
+                      onClick={url => this.handleItemClick(url)}
                       {...rest}
                       {...datum}
                     />
@@ -225,7 +226,7 @@ export default class FlashSale extends React.Component {
                         discountPrice={datum.discountPrice}
                         description={datum.description}
                         webURL={datum.webURL}
-                        onClick={this.handleItemClick}
+                        onClick={url => this.handleItemClick(url, i)}
                         {...rest}
                         {...datum}
                       />

@@ -7,6 +7,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
+import queryString from "query-string";
 export default class PopularBrandsDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -21,17 +22,18 @@ export default class PopularBrandsDesktop extends React.Component {
       this.setState({ position });
     }
   }
-  onClick = webURL => {
+  onClick = (webURL, i) => {
     widgetsTracking({
       widgetName: this.props.feedComponentData.title
         ? this.props.feedComponentData.title
         : "Popular brands",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
-      type: "Brand"
+      type: "Brand",
+      PositionOfProduct: i + 1
     });
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
-      this.props.history.push(urlSuffix);
+      this.props.history.push(urlSuffix, { componentName: "Popular brands" });
       if (this.props.setClickedElementId) {
         this.props.setClickedElementId();
       }
@@ -143,7 +145,7 @@ export default class PopularBrandsDesktop extends React.Component {
                             <BrandImage
                               image={val.imageURL}
                               value={val.webURL}
-                              onClick={value => this.onClick(value)}
+                              onClick={value => this.onClick(value, i)}
                             />
                           </div>
                         </div>

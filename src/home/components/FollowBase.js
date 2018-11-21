@@ -19,14 +19,15 @@ export default class FollowBase extends React.Component {
         : null
     };
   }
-  handleClick = data => {
+  handleClick = (data, i) => {
     widgetsTracking({
       widgetName: this.props.feedComponentData.title
         ? this.props.feedComponentData.title
         : "Fresh from Brands",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
       brandName: data.brandName,
-      type: "Brand"
+      type: "Brand",
+      PositionOfProduct: i + 1
     });
     this.props.showStory({
       positionInFeed: this.props.positionInFeed,
@@ -55,7 +56,7 @@ export default class FollowBase extends React.Component {
             <Carousel elementWidthMobile={85} elementWidthDesktop={33.333}>
               {feedComponentData &&
                 (feedComponentData.length > 0 &&
-                  feedComponentData.map(datum => {
+                  feedComponentData.map((datum, i) => {
                     return (
                       <NewBrand
                         image={datum.imageURL}
@@ -114,7 +115,7 @@ export default class FollowBase extends React.Component {
                             data={{ ...updateFeed }}
                             {...rest}
                             history={this.props.history}
-                            onClick={val => this.handleClick(val)}
+                            onClick={val => this.handleClick(val, index)}
                           />
                         );
                       }
