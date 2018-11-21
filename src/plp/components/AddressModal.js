@@ -71,12 +71,16 @@ export default class AddressModal extends React.Component {
                 />
               </MobileOnly>
               <DesktopOnly>
-                <AddressList
-                  data={this.props.userAddress.addresses}
-                  selectAddress={pincode =>
-                    this.checkPinCodeAvailability(pincode)
-                  }
-                />
+                {this.props &&
+                  this.props.userAddress &&
+                  this.props.userAddress.addresses && (
+                    <AddressList
+                      data={this.props.userAddress.addresses}
+                      selectAddress={pincode =>
+                        this.checkPinCodeAvailability(pincode)
+                      }
+                    />
+                  )}
               </DesktopOnly>
             </React.Fragment>
           )}
