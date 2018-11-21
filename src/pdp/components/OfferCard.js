@@ -29,7 +29,6 @@ export default class OfferCard extends React.Component {
           className={
             this.props.theme === 2 ? styles.themeElectronics : styles.base
           }
-          onClick={this.handleShowDetails}
         >
           <MobileOnly>
             <div className={styles.offerText}>Offer(s)</div>
