@@ -379,6 +379,12 @@ export default class FilterDesktop extends React.Component {
             </div>
             <div className={styles.filtersOptions}>
               {filterWithCollapse.map((facetDataValues, i) => {
+                const isOpen =
+                  (facetDataValues.values &&
+                    facetDataValues.values.filter(filter => {
+                      return filter.selected;
+                    }).length > 0) ||
+                  this.state.openedFilters.includes(facetDataValues.name);
                 return (
                   facetDataValues && (
                     <div className={styles.facetData}>
@@ -386,19 +392,11 @@ export default class FilterDesktop extends React.Component {
                         key={i}
                         text1={facetDataValues.name}
                         widthForText1="100%"
+                        text1FontFamily={isOpen ? "semibold" : "light"}
                         text1Color="#212121"
-                        text1FontFamily="light"
                         text1Size="14px"
                         headerFontSize={16}
-                        isOpen={
-                          (facetDataValues.values &&
-                            facetDataValues.values.filter(filter => {
-                              return filter.selected;
-                            }).length > 0) ||
-                          this.state.openedFilters.includes(
-                            facetDataValues.name
-                          )
-                        }
+                        isOpen={isOpen}
                         padding="0px 40px 0px 20px"
                         onOpen={() =>
                           this.onOpenAccordion(facetDataValues.name)

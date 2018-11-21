@@ -11,6 +11,7 @@
   font-size: 20px;
   font-family: semibold;
   padding: 0px 15px;
+  position: relative;
 }
 .button {
   padding-left: 20px;
@@ -19,5 +20,13 @@
   .base {
     max-width: 1200px;
     margin: 50px auto 0px;
+  }
+  .desktopButtonHolder {
+    position: absolute;
+    right: 25px;
+    top: 0;
+  }
+  .headingText {
+    font-size: 30px;
   }
 }
