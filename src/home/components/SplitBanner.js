@@ -1,18 +1,15 @@
 import React from "react";
 import styles from "./SplitBanner.css";
-import Image from "../../xelpmoc-core/Image";
+import ImageFlexible from "../../general/components/ImageFlexible";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
 export default class SplitBanner extends React.Component {
   render() {
     return (
-      <div
-        className={styles.base}
-        style={{ paddingBottom: `${this.props.ratio}%` }}
-      >
+      <div className={styles.base}>
         <div className={styles.imageHolder}>
-          <Image image={this.props.image} lazyLoad={true} />
+          <ImageFlexible image={this.props.image} lazyLoad={true} />
         </div>
         <div className={styles.textLine}>
           <div className={styles.headingHolder}>
