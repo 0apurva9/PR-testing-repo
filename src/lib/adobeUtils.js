@@ -2000,7 +2000,7 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
   let data = {};
   if (type === ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS) {
     Object.assign(data, {
-      digitalData: { cpj: { brand: { name: response.brandName } } }
+      cpj: { brand: { name: response.brandName } }
     });
     window.digitalData = data;
     if (response.followStatus) {
