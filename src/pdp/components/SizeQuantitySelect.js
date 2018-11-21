@@ -79,6 +79,18 @@ export default class SizeQuantitySelect extends React.Component {
               />
             </div>
           )}
+          {this.props.noQuantity && (
+            <div className={styles.inLineButton}>
+              <UnderLinedButton
+                disabled={!this.props.showSizeGuide}
+                label="Size Guide"
+                fontFamily="light"
+                onClick={() => {
+                  this.handleShowSize();
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className={styles.selectHolder}>
           <div className={styles.sizeSelect}>
@@ -125,18 +137,6 @@ export default class SizeQuantitySelect extends React.Component {
                   onChange={value => this.updateQuantity(value)}
                 />
               </div>
-            </div>
-          )}
-          {this.props.noQuantity && (
-            <div className={styles.inLineButton}>
-              <UnderLinedButton
-                disabled={!this.props.showSizeGuide}
-                label="Size Guide"
-                fontFamily="light"
-                onClick={() => {
-                  this.handleShowSize();
-                }}
-              />
             </div>
           )}
         </div>
