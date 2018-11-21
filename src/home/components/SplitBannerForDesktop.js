@@ -31,7 +31,6 @@ export default class SplitBannerForDesktop extends React.Component {
         <SplitBanner
           logo={feedComponentDatum.brandLogo}
           image={feedComponentDatum.imageURL}
-          ratio={feedComponentDatum.dimension}
           subTitle={feedComponentDatum.description}
           title={feedComponentDatum.title}
           btnText={feedComponentDatum.btnText}

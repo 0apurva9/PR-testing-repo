@@ -1,0 +1,13 @@
+.base {
+  width: 100%;
+  height: auto;
+}
+.actual {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+.loaded {
+  composes: actual;
+  display: block;
+}
