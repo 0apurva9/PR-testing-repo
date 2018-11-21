@@ -17,9 +17,10 @@ export default class SplitBanner extends React.Component {
         <div className={styles.textLine}>
           <div className={styles.headingHolder}>
             {this.props.logo && (
-              <div className={styles.logoHolder}>
-                <Icon image={this.props.logo} size={60} />
-              </div>
+              <div
+                className={styles.logoHolder}
+                style={{ backgroundImage: `url(${this.props.image})` }}
+              />
             )}
             <div className={styles.heading}>{this.props.header}</div>
           </div>

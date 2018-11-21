@@ -253,11 +253,11 @@ export default class DesktopHeader extends React.Component {
                     onClick={() =>
                       setDataLayerForHeaderAndFooterDirectCalls(
                         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
-                        "Visit Luxury Store"
+                        "Tata CLiQ Luxury"
                       )
                     }
                   >
-                    Visit Luxury Store
+                    Tata CLiQ Luxury
                   </div>
                 </a>
                 <div className={styles.loginAndTrackTab}>

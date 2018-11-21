@@ -2,9 +2,8 @@
   width: 100%;
   height: auto;
   background: #fff;
-  padding: 30px 0;
   color: #212121;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 .brandHeader {
   width: 100%;
@@ -16,7 +15,7 @@
 }
 
 .observer {
-  min-height: 80px;
+  min-height: 10px;
 }
 .brandLogoSection {
   width: 100%;
@@ -61,35 +60,34 @@
   margin-top: 20px;
 }
 
-@media  screen  and (min-width:1025px){
+@media screen and (min-width: 1025px) {
   .brandSection {
-    background:transparent;
+    background: transparent;
   }
-  .brandHeader{
-    font-size:30px;
-    position:relative;
-    padding-right:250px;
-
+  .brandHeader {
+    font-size: 30px;
+    position: relative;
+    padding-right: 250px;
   }
-  .banner{
-    width:43%;
-    display:inline-block;
-    vertical-align:top;
-    padding-right:10px;
-    margin-top:20px;
+  .banner {
+    width: 43%;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 10px;
+    margin-top: 20px;
   }
-  .sliderHolder{
-    width:57%;
-    vertical-align:top;
-    display:inline-block;
+  .sliderHolder {
+    width: 57%;
+    vertical-align: top;
+    display: inline-block;
   }
-  .followButton{
-    position:static;
-    margin-top:20px;
+  .followButton {
+    position: static;
+    margin-top: 20px;
   }
-  .headerButton{
-    position:absolute;
-    bottom:0;
-    right:125px;
+  .headerButton {
+    position: absolute;
+    bottom: 0;
+    right: 125px;
   }
 }

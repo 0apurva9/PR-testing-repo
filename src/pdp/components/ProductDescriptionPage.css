@@ -301,6 +301,7 @@
   .details {
     background: #ececec;
     padding: 0;
+    padding-bottom: 40px;
   }
   .detailsCard {
     width: 100%;
@@ -428,7 +429,7 @@
     right: 10px;
     top: 10px;
     border-radius: 50%;
-    background: #d8d8d8;
+    background: #f2f2f2;
   }
   .deliveyModesHolder {
     width: 100%;
@@ -466,6 +467,6 @@
   .buttonWrapper {
     width: 100%;
     height: auto;
-    margin-top: 40px;
+    margin-top: 20px;
   }
 }

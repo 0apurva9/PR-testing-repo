@@ -66,7 +66,7 @@
   height: 1px;
   font-size: 15px;
   line-height: 20px;
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   background-color: #fff;
@@ -86,7 +86,7 @@
 }
 @media screen and (min-width: 1025px) {
   .base {
-    padding: 0px 0px 33.61% 0px;
+    padding: 0px 0px 11.718% 0px;
     position: relative;
     transition: 300ms;
     overflow: hidden;

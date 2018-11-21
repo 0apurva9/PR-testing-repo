@@ -17,8 +17,7 @@ export default class ConnectBaseWidget extends React.Component {
       <div
         className={styles.base}
         style={{
-          backgroundImage: `url(${data.backgroundImageURL})`,
-          paddingBottom: `${data.dimension}%`
+          backgroundImage: `url(${data.backgroundImageURL})`
         }}
       >
         <React.Fragment>

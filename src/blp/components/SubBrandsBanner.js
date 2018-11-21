@@ -25,6 +25,7 @@ export default class SubBrandsBanner extends React.Component {
             header={
               this.props.feedComponentData && this.props.feedComponentData.title
             }
+            elementWidthDesktop={20}
           >
             {this.props.feedComponentData &&
               this.props.feedComponentData.items &&
