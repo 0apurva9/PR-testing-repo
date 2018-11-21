@@ -2007,7 +2007,6 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
   };
-
   removeCliqCash = () => {
     this.setState({
       isCliqCashApplied: false,
