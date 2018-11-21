@@ -92,7 +92,12 @@ export default class ProductDescription extends Component {
             this.props.mrpPrice &&
             typeof this.props.mrpPrice !== "object" && (
               <div className={priceClass}>
-                <h3>{this.props.mrpPrice}</h3>
+                <h3>
+                  {" "}
+                  {this.props.mrpPrice.toString().includes(RUPEE_SYMBOL)
+                    ? this.props.mrpPrice
+                    : `${RUPEE_SYMBOL}${Math.floor(this.props.mrpPrice)}`}
+                </h3>
               </div>
             )}
           {this.props.isRange &&
