@@ -283,7 +283,7 @@ export default class FilterDesktop extends React.Component {
                               {facetDataValues &&
                                 facetDataValues.name === COLOUR &&
                                 facetDataValues.values &&
-                                facetDataValues.values.length >= 10 && (
+                                facetDataValues.values.length > 10 && (
                                   <div
                                     className={styles.moreText}
                                     onClick={() => this.viewMoreColor()}
