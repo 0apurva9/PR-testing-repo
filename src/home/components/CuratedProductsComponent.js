@@ -1,6 +1,9 @@
 import React from "react";
 import Button from "../../general/components/Button";
 import CommonCenter from "../../general/components/CommonCenter";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
 import styles from "./CuratedProductsComponent.css";
 import Grid from "../../general/components/Grid";
 import ProductModule from "../../general/components/ProductModule";
@@ -47,6 +50,16 @@ class CuratedProductsComponent extends React.Component {
           <div className={styles.header}>
             <div className={styles.headingText}>
               <h2>{feedComponentData.title}</h2>
+              <DesktopOnly>
+                <div className={styles.desktopButtonHolder}>
+                  <UnderLinedButton
+                    color="#212121"
+                    fontFamily="light"
+                    onClick={this.handleSeeAll}
+                    label={feedComponentData.btnText}
+                  />
+                </div>
+              </DesktopOnly>
             </div>
           </div>
           <Grid offset={20}>
@@ -71,17 +84,19 @@ class CuratedProductsComponent extends React.Component {
                 );
               })}
           </Grid>
-          <div className={styles.button}>
-            {feedComponentData.btnText && (
-              <Button
-                type="hollow"
-                width={100}
-                onClick={this.handleSeeAll}
-                label={feedComponentData.btnText}
-                color="#212121"
-              />
-            )}
-          </div>
+          <MobileOnly>
+            <div className={styles.button}>
+              {feedComponentData.btnText && (
+                <Button
+                  type="hollow"
+                  width={100}
+                  onClick={this.handleSeeAll}
+                  label={feedComponentData.btnText}
+                  color="#212121"
+                />
+              )}
+            </div>
+          </MobileOnly>
         </div>
       </CommonCenter>
     );

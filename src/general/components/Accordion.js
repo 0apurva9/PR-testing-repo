@@ -127,7 +127,7 @@ Accordion.defaultProps = {
   headerElement: false,
   text1Color: "#000",
   text1Size: "14",
-  text1FontFamily: "regular",
+  text1FontFamily: "light",
   text2Color: "#000",
   text2Size: "14",
   text2FontFamily: "regular",

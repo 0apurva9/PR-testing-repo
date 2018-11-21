@@ -54,6 +54,7 @@ export default class BannerLink extends React.Component {
             <UnderLinedButton
               label="See all"
               color="#212121"
+              fontFamily="light"
               onClick={() => this.showSeeAll()}
             />
           </div>

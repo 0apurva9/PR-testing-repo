@@ -107,23 +107,39 @@
   right: initail;
   left: 0;
 }
+.forwardButtonDisabled {
+  composes: forwardButton;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.backButtonDisabled {
+  composes: backButton;
+  opacity: 0.4;
+  pointer-events: none;
+}
 .descriptionHeader {
   width: 100%;
   height: auto;
   color: #212121;
   font-family: semibold;
-  font-size: 30px;
-  line-height: 36px;
+  font-size: 26px;
+  line-height: 32px;
   margin-bottom: 15px;
   max-height: 100px;
   overflow: hidden;
+  text-transform: lowercase;
+}
+.descriptionHeader::first-letter {
+  text-transform: uppercase;
 }
 .descriptionContent {
   width: 100%;
   height: auto;
   font-family: light;
   font-size: 14px;
-  line-height: 24px;
+  line-height: 22px;
+  max-height: 48px;
+  overflow: hidden;
 }
 .readMore {
   width: 100%;

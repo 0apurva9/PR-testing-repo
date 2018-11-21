@@ -82,8 +82,22 @@ export default class ContentWidgetDesktop extends React.Component {
               <Logo image={queLogo} />
             </div>
             <div className={styles.buttons}>
-              <div className={styles.backButton} onClick={this.goBack} />
-              <div className={styles.forwardButton} onClick={this.goForward} />
+              <div
+                className={
+                  this.state.position === 0
+                    ? styles.backButtonDisabled
+                    : styles.backButton
+                }
+                onClick={this.goBack}
+              />
+              <div
+                className={
+                  this.props.allData.length === this.state.position + 1
+                    ? styles.forwardButtonDisabled
+                    : styles.forwardButton
+                }
+                onClick={this.goForward}
+              />
             </div>
           </div>
           <div className={styles.descriptionHolder}>
