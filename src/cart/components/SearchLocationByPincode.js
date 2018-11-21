@@ -11,7 +11,7 @@ export default class SearchLocationByPincode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pinCode: this.props.pincode,
+      pinCode: this.props.pincode ? this.props.pinCode : "",
       errorMessage: null
     };
   }
@@ -49,13 +49,13 @@ export default class SearchLocationByPincode extends React.Component {
           }
         >
           <Input2
-            placeholder={"Enter your pincode"}
-            onlyNumber={true}
-            value={
+            placeholder={
               !this.props.pinCode
                 ? `Your pincode: ${defaultPincode}`
                 : this.state.pinCode
             }
+            onlyNumber={true}
+            value={this.state.pinCode}
             onChange={val => this.getValue(val)}
             textStyle={{ fontSize: 14 }}
             height={35}
