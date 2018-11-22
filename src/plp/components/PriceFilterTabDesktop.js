@@ -119,6 +119,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           <div className={styles.inputWrapper}>
             <div className={styles.inputBox}>
               <Input2
+                height={33}
                 placeholder={MIN_PRICE}
                 onlyNumber
                 maxLength={7}
@@ -128,6 +129,7 @@ export default class PriceFilterTabDesktop extends React.Component {
             </div>
             <div className={styles.inputBox}>
               <Input2
+                height={33}
                 placeholder={MAX_PRICE}
                 onlyNumber
                 maxLength={7}
@@ -144,7 +146,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                     ? "#fe214c"
                     : "#d8d8d8"
                 }
-                size={30}
+                size={33}
                 onClick={this.applyPriceManually}
               />
             </div>

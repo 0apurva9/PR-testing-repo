@@ -184,6 +184,7 @@ export default class FilterDesktop extends React.Component {
                 headerFontSize={16}
                 text1Size={14}
                 text2Color={"#fe214c"}
+                text2FontFamily="light"
                 text2Size={14}
                 textAlign={"right"}
                 handleClick={() => this.onClear()}
@@ -284,11 +285,15 @@ export default class FilterDesktop extends React.Component {
                                 facetDataValues.name === COLOUR &&
                                 facetDataValues.values &&
                                 facetDataValues.values.length > 10 && (
-                                  <div
-                                    className={styles.moreText}
-                                    onClick={() => this.viewMoreColor()}
-                                  >
-                                    {this.state.showAllColor ? "Less" : "More"}
+                                  <div className={styles.expandButtonHolder}>
+                                    <div
+                                      className={styles.moreText}
+                                      onClick={() => this.viewMoreColor()}
+                                    >
+                                      {this.state.showAllColor
+                                        ? "Less"
+                                        : "More"}
+                                    </div>
                                   </div>
                                 )}
                             </DesktopOnly>
@@ -311,13 +316,16 @@ export default class FilterDesktop extends React.Component {
                               {facetDataValues &&
                                 facetDataValues.name === BRAND &&
                                 facetDataValues.values.length > 5 && (
-                                  <div
-                                    className={styles.moreText}
-                                    onClick={() =>
-                                      this.viewMore(facetDataValues.values)
-                                    }
-                                  >
-                                    More Brands
+                                  <div className={styles.expandButtonHolder}>
+                                    <div
+                                      className={styles.moreText}
+                                      style={{ marginRight: 0 }}
+                                      onClick={() =>
+                                        this.viewMore(facetDataValues.values)
+                                      }
+                                    >
+                                      More Brands
+                                    </div>
                                   </div>
                                 )}
                             </DesktopOnly>

@@ -58,20 +58,22 @@ export default class BannerDesktop extends React.Component {
             );
           })}
         </div>
-        <div className={styles.nav}>
-          {this.props.children.map((val, i) => {
-            return (
-              <div
-                className={
-                  this.state.position === i ? styles.active : styles.navButton
-                }
-                key={i}
-                onClick={() => {
-                  this.changePosition(i);
-                }}
-              />
-            );
-          })}
+        <div className={styles.maxWidth}>
+          <div className={styles.nav}>
+            {this.props.children.map((val, i) => {
+              return (
+                <div
+                  className={
+                    this.state.position === i ? styles.active : styles.navButton
+                  }
+                  key={i}
+                  onClick={() => {
+                    this.changePosition(i);
+                  }}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     );

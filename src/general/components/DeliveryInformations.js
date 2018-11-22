@@ -91,7 +91,7 @@ export default class DeliveryInformations extends React.Component {
                       size={
                         UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
                       }
-                      fontFamily="regular"
+                      fontFamily="light"
                       color="#ff1744"
                       label="Check for pick up options"
                       onClick={() => this.onPiq()}
