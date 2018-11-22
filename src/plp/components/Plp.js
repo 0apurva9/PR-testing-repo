@@ -232,6 +232,27 @@ export default class Plp extends React.Component {
       }
     }
   };
+  setHeaderTextDesktop = () => {
+    if (
+      this.props.productListings.seo &&
+      this.props.productListings.seo.breadcrumbs &&
+      this.props.productListings.seo.breadcrumbs[0] &&
+      this.props.productListings.seo.breadcrumbs[0].name
+    ) {
+      return this.props.productListings.seo.breadcrumbs[0].name;
+    } else {
+      return (
+        <React.Fragment>
+          {this.props.productListings &&
+            this.props.productListings.facetdatacategory &&
+            this.props.productListings.facetdatacategory.filters &&
+            this.props.productListings.facetdatacategory.filters[0] &&
+            this.props.productListings.facetdatacategory.filters[0]
+              .categoryName}
+        </React.Fragment>
+      );
+    }
+  };
   onClickCancelIcon(val) {
     const url = val.replace("{pageNo}", 1);
     this.props.history.push(url, {
@@ -446,15 +467,7 @@ export default class Plp extends React.Component {
               ) : (
                 <div className={styles.headerTextWithTotalProducts}>
                   <div className={styles.headerHeading}>
-                    <h1>
-                      {this.props.productListings &&
-                        this.props.productListings.facetdatacategory &&
-                        this.props.productListings.facetdatacategory.filters &&
-                        this.props.productListings.facetdatacategory
-                          .filters[0] &&
-                        this.props.productListings.facetdatacategory.filters[0]
-                          .categoryName}
-                    </h1>
+                    <h1>{this.setHeaderTextDesktop()}</h1>
                   </div>
                   <div className={styles.totalProducts}>
                     {`${

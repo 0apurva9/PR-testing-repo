@@ -124,10 +124,18 @@ class ProductListingsPage extends Component {
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
-    if (isAddOutOfStockFlag && !searchText.includes("relevance")) {
+    if (
+      isAddOutOfStockFlag &&
+      searchText &&
+      !searchText.includes("relevance")
+    ) {
       searchText = `${searchText}:relevance:${OUT_OF_STOCK_FLAG}:true`;
     }
-    if (isAddOutOfStockFlag && !searchText.includes(OUT_OF_STOCK_FLAG)) {
+    if (
+      isAddOutOfStockFlag &&
+      searchText &&
+      !searchText.includes(OUT_OF_STOCK_FLAG)
+    ) {
       searchText = `${searchText}:${OUT_OF_STOCK_FLAG}:true`;
     }
 
