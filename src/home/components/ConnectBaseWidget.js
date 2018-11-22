@@ -15,13 +15,7 @@ export default class ConnectBaseWidget extends React.Component {
     let data = this.props;
 
     return (
-      <div
-        className={styles.base}
-        // style={{
-        //   backgroundImage: `url(${data.backgroundImageURL})`,
-        //   paddingBottom: `${data.dimension}%`
-        // }}
-      >
+      <div className={styles.base}>
         <ImageFlexible image={data.backgroundImageURL} />
         <div className={styles.content}>
           <React.Fragment>
