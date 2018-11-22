@@ -44,6 +44,7 @@ import {
 import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
+const PRODUCT_RETURN_WINDOW_CLOSED = "Return window closed";
 const RETURN = "RETURN";
 const PRODUCT_CANCEL = "Cancel";
 const AWB_POPUP_TRUE = "Y";
@@ -620,6 +621,12 @@ export default class OrderDetails extends React.Component {
                                 {PRODUCT_CANCEL}
                               </div>
                             )}
+                            {isOrderReturnable &&
+                              products.isReturned === false && (
+                                <div className={styles.cancelProduct}>
+                                  {PRODUCT_RETURN_WINDOW_CLOSED}
+                                </div>
+                              )}
                             {products.isReturned &&
                               isOrderReturnable && (
                                 <div
@@ -659,7 +666,7 @@ export default class OrderDetails extends React.Component {
                             </div>
                           </div>
                           <div className={styles.reviewHolder}>
-                            {products.isReturned && (
+                            {!products.isReturned && (
                               <div
                                 className={styles.review}
                                 onClick={() =>
@@ -674,6 +681,11 @@ export default class OrderDetails extends React.Component {
                                   label={PRODUCT_RETURN}
                                   color="#ff1744"
                                 />
+                              </div>
+                            )}
+                            {!products.isReturned && (
+                              <div className={styles.review}>
+                                Return window is Closed
                               </div>
                             )}
                             {products.cancel && (
