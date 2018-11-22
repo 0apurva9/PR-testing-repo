@@ -32,7 +32,7 @@
     height: auto;
     top: 45px;
     padding: 0px;
-    background: #fff;
+    background: #f0f0f0;
     max-height: 200px;
     overflow-y: auto;
   }
@@ -45,7 +45,10 @@
   .color {
     background: #ececec;
   }
+  .searchItemBack {
+    background: #f0f0f0;
+  }
   .back {
-    background: #fff;
+    background: #f9f9f9;
   }
 }

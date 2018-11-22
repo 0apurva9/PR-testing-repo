@@ -435,71 +435,6 @@ export default class SearchPage extends React.Component {
           {this.state.showData && (
             <div className={styles.searchResults} ref={this.setWrapperRef}>
               {data &&
-                data.topCategories &&
-                data.topCategories.map((val, i) => {
-                  return (
-                    <div
-                      ref={"elementScrollRefTop"}
-                      className={
-                        this.state.currentFlag === i
-                          ? styles.color
-                          : styles.back
-                      }
-                    >
-                      <SearchResultItem
-                        key={i}
-                        suggestedText={
-                          firstSuggestedKeyWord &&
-                          firstSuggestedKeyWord[0] &&
-                          firstSuggestedKeyWord[0].suggestedWord
-                        }
-                        categoryOrBrandText={val.categoryName}
-                        singleWord={this.checkIfSingleWordinSearchString()}
-                        onClick={() => {
-                          this.handleCategoryClick(
-                            val.categoryCode,
-                            {
-                              term: `${data.suggestionText[0]} in ${
-                                val.categoryName
-                              }`
-                            },
-                            i,
-                            firstSuggestedKeyWord &&
-                              firstSuggestedKeyWord[0] &&
-                              firstSuggestedKeyWord[0].suggestedWord
-                          );
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              {suggestedKeyWord &&
-                suggestedKeyWord.map((val, i) => {
-                  return (
-                    <div
-                      ref={"elementScrollRefBottom"}
-                      className={
-                        this.state.currentFlag ===
-                        i +
-                          (data.topCategories && data.topCategories.length > 0
-                            ? data.topCategories.length
-                            : 0)
-                          ? styles.color
-                          : styles.back
-                      }
-                    >
-                      <SearchResultItem
-                        key={i}
-                        suggestedText={val.suggestedWord}
-                        singleWord={this.checkIfSingleWordinSearchString()}
-                        onClick={() => {
-                          this.handleOnSearchString(val.suggestedWord);
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              {data &&
                 data.topBrands &&
                 data.topBrands.map((val, i) => {
                   return (
@@ -529,6 +464,7 @@ export default class SearchPage extends React.Component {
                           firstSuggestedKeyWord[0] &&
                           firstSuggestedKeyWord[0].suggestedWord
                         }
+                        categories={true}
                         categoryOrBrandText={val.categoryName}
                         singleWord={this.checkIfSingleWordinSearchString()}
                         onClick={() => {
@@ -542,6 +478,72 @@ export default class SearchPage extends React.Component {
                             i,
                             data.suggestionText[0]
                           );
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              {data &&
+                data.topCategories &&
+                data.topCategories.map((val, i) => {
+                  return (
+                    <div
+                      ref={"elementScrollRefTop"}
+                      className={
+                        this.state.currentFlag === i
+                          ? styles.color
+                          : styles.searchItemBack
+                      }
+                    >
+                      <SearchResultItem
+                        key={i}
+                        suggestedText={
+                          firstSuggestedKeyWord &&
+                          firstSuggestedKeyWord[0] &&
+                          firstSuggestedKeyWord[0].suggestedWord
+                        }
+                        categoryOrBrandText={val.categoryName}
+                        singleWord={this.checkIfSingleWordinSearchString()}
+                        onClick={() => {
+                          this.handleCategoryClick(
+                            val.categoryCode,
+                            {
+                              term: `${data.suggestionText[0]} in ${
+                                val.categoryName
+                              }`
+                            },
+                            i,
+                            firstSuggestedKeyWord &&
+                              firstSuggestedKeyWord[0] &&
+                              firstSuggestedKeyWord[0].suggestedWord
+                          );
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+
+              {suggestedKeyWord &&
+                suggestedKeyWord.map((val, i) => {
+                  return (
+                    <div
+                      ref={"elementScrollRefBottom"}
+                      className={
+                        this.state.currentFlag ===
+                        i +
+                          (data.topCategories && data.topCategories.length > 0
+                            ? data.topCategories.length
+                            : 0)
+                          ? styles.color
+                          : styles.searchItemBack
+                      }
+                    >
+                      <SearchResultItem
+                        key={i}
+                        suggestedText={val.suggestedWord}
+                        singleWord={this.checkIfSingleWordinSearchString()}
+                        onClick={() => {
+                          this.handleOnSearchString(val.suggestedWord);
                         }}
                       />
                     </div>
