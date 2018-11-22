@@ -432,125 +432,127 @@ export default class SearchPage extends React.Component {
           )}
         </MobileOnly>
         <DesktopOnly>
-          {this.state.showData && (
-            <div className={styles.searchResults} ref={this.setWrapperRef}>
-              {data &&
-                data.topBrands &&
-                data.topBrands.map((val, i) => {
-                  return (
-                    <div
-                      className={
-                        this.state.currentFlag ===
-                        i +
-                          (data.topCategories &&
-                          data.topCategories.length &&
-                          suggestedKeyWord &&
-                          suggestedKeyWord.length
-                            ? data.topCategories.length +
-                              suggestedKeyWord.length
-                            : suggestedKeyWord && suggestedKeyWord.length > 0
-                              ? suggestedKeyWord.length
-                              : data.topCategories && data.topBrands.length > 0
-                                ? data.topCategories.length
-                                : 0)
-                          ? styles.color
-                          : styles.back
-                      }
-                    >
-                      <SearchResultItem
-                        key={i}
-                        suggestedText={
-                          firstSuggestedKeyWord &&
-                          firstSuggestedKeyWord[0] &&
-                          firstSuggestedKeyWord[0].suggestedWord
+          {this.state.searchString &&
+            this.state.showData && (
+              <div className={styles.searchResults} ref={this.setWrapperRef}>
+                {data &&
+                  data.topBrands &&
+                  data.topBrands.map((val, i) => {
+                    return (
+                      <div
+                        className={
+                          this.state.currentFlag ===
+                          i +
+                            (data.topCategories &&
+                            data.topCategories.length &&
+                            suggestedKeyWord &&
+                            suggestedKeyWord.length
+                              ? data.topCategories.length +
+                                suggestedKeyWord.length
+                              : suggestedKeyWord && suggestedKeyWord.length > 0
+                                ? suggestedKeyWord.length
+                                : data.topCategories &&
+                                  data.topBrands.length > 0
+                                  ? data.topCategories.length
+                                  : 0)
+                            ? styles.color
+                            : styles.back
                         }
-                        categories={true}
-                        categoryOrBrandText={val.categoryName}
-                        singleWord={this.checkIfSingleWordinSearchString()}
-                        onClick={() => {
-                          this.handleBrandClick(
-                            val.categoryCode,
-                            {
-                              term: `${data.suggestionText[0]} in ${
-                                val.categoryName
-                              }`
-                            },
-                            i,
-                            data.suggestionText[0]
-                          );
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              {data &&
-                data.topCategories &&
-                data.topCategories.map((val, i) => {
-                  return (
-                    <div
-                      ref={"elementScrollRefTop"}
-                      className={
-                        this.state.currentFlag === i
-                          ? styles.color
-                          : styles.searchItemBack
-                      }
-                    >
-                      <SearchResultItem
-                        key={i}
-                        suggestedText={
-                          firstSuggestedKeyWord &&
-                          firstSuggestedKeyWord[0] &&
-                          firstSuggestedKeyWord[0].suggestedWord
-                        }
-                        categoryOrBrandText={val.categoryName}
-                        singleWord={this.checkIfSingleWordinSearchString()}
-                        onClick={() => {
-                          this.handleCategoryClick(
-                            val.categoryCode,
-                            {
-                              term: `${data.suggestionText[0]} in ${
-                                val.categoryName
-                              }`
-                            },
-                            i,
+                      >
+                        <SearchResultItem
+                          key={i}
+                          suggestedText={
                             firstSuggestedKeyWord &&
-                              firstSuggestedKeyWord[0] &&
-                              firstSuggestedKeyWord[0].suggestedWord
-                          );
-                        }}
-                      />
-                    </div>
-                  );
-                })}
+                            firstSuggestedKeyWord[0] &&
+                            firstSuggestedKeyWord[0].suggestedWord
+                          }
+                          categories={true}
+                          categoryOrBrandText={val.categoryName}
+                          singleWord={this.checkIfSingleWordinSearchString()}
+                          onClick={() => {
+                            this.handleBrandClick(
+                              val.categoryCode,
+                              {
+                                term: `${data.suggestionText[0]} in ${
+                                  val.categoryName
+                                }`
+                              },
+                              i,
+                              data.suggestionText[0]
+                            );
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+                {data &&
+                  data.topCategories &&
+                  data.topCategories.map((val, i) => {
+                    return (
+                      <div
+                        ref={"elementScrollRefTop"}
+                        className={
+                          this.state.currentFlag === i
+                            ? styles.color
+                            : styles.searchItemBack
+                        }
+                      >
+                        <SearchResultItem
+                          key={i}
+                          suggestedText={
+                            firstSuggestedKeyWord &&
+                            firstSuggestedKeyWord[0] &&
+                            firstSuggestedKeyWord[0].suggestedWord
+                          }
+                          categoryOrBrandText={val.categoryName}
+                          singleWord={this.checkIfSingleWordinSearchString()}
+                          onClick={() => {
+                            this.handleCategoryClick(
+                              val.categoryCode,
+                              {
+                                term: `${data.suggestionText[0]} in ${
+                                  val.categoryName
+                                }`
+                              },
+                              i,
+                              firstSuggestedKeyWord &&
+                                firstSuggestedKeyWord[0] &&
+                                firstSuggestedKeyWord[0].suggestedWord
+                            );
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
 
-              {suggestedKeyWord &&
-                suggestedKeyWord.map((val, i) => {
-                  return (
-                    <div
-                      ref={"elementScrollRefBottom"}
-                      className={
-                        this.state.currentFlag ===
-                        i +
-                          (data.topCategories && data.topCategories.length > 0
-                            ? data.topCategories.length
-                            : 0)
-                          ? styles.color
-                          : styles.searchItemBack
-                      }
-                    >
-                      <SearchResultItem
-                        key={i}
-                        suggestedText={val.suggestedWord}
-                        singleWord={this.checkIfSingleWordinSearchString()}
-                        onClick={() => {
-                          this.handleOnSearchString(val.suggestedWord);
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-            </div>
-          )}
+                {suggestedKeyWord &&
+                  suggestedKeyWord.map((val, i) => {
+                    return (
+                      <div
+                        ref={"elementScrollRefBottom"}
+                        className={
+                          this.state.currentFlag ===
+                          i +
+                            (data.topCategories && data.topCategories.length > 0
+                              ? data.topCategories.length
+                              : 0)
+                            ? styles.color
+                            : styles.searchItemBack
+                        }
+                      >
+                        <SearchResultItem
+                          key={i}
+                          suggestedText={val.suggestedWord}
+                          singleWord={this.checkIfSingleWordinSearchString()}
+                          onClick={() => {
+                            this.handleOnSearchString(val.suggestedWord);
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
         </DesktopOnly>
       </div>
     );
