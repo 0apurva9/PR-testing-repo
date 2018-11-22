@@ -252,7 +252,8 @@ export default class PdpApparel extends React.Component {
           this.checkIfSizeSelected() ||
           this.checkIfSizeDoesNotExist() ||
           this.checkIfFreeSize() ||
-          this.checkIfNoSize()
+          this.checkIfNoSize() ||
+          this.checkIfOneSize()
         ) {
           if (
             (!this.checkIfQuantitySelected() ||
@@ -420,6 +421,13 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails.variantOptions[0].sizelink &&
       this.props.productDetails.variantOptions[0].sizelink.size === FREE_SIZE
     ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  checkIfOneSize = () => {
+    if (this.props.productDetails.variantOptions.length === 1) {
       return true;
     } else {
       return false;
