@@ -8,12 +8,13 @@ import {
   BANK_OFFER_COMPONENT_NAME_HC,
   MULTIPLE_BANNER_COMPONENT_NAME_HC,
   QUICK_LINKS_COMPONENT_NAME_HC,
-  HARD_CODED_KEY_FOR_COMPONENT
+  HARD_CODED_KEY_FOR_COMPONENT,
+  DESKTOP_THEME_OFFER_CN,
+  THEME_OFFER_CN
 } from "../../lib/constants";
 
 import { transformFetchingItemsOrder } from "./utils";
-const DESKTOP_THEME_OFFER_CN = "desktopThemeOfferComponent";
-const THEME_OFFER_CN = "themeOffersComponent";
+
 const feed = (
   state = {
     homeFeed: [], //array of objects,
