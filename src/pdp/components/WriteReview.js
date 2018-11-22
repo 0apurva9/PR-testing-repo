@@ -17,7 +17,7 @@ import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
 let buttonColor = "#212121";
-var atleastOneAlpanum = new RegExp(/[\s a-zA-Z0-9]*[a-zA-z0-9]+/i);
+const atleastOneAlpanum = new RegExp(/[\s a-zA-Z0-9]*[a-zA-z0-9]+/i);
 class WriteReview extends React.Component {
   constructor(props) {
     super(props);
