@@ -240,7 +240,7 @@ export default class GiftCard extends React.Component {
                   )}
                   <Input2
                     boxy={true}
-                    placeholder="Enter Customer Amount"
+                    placeholder="Enter custom amount"
                     value={
                       this.props.amountText
                         ? this.props.amountText
