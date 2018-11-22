@@ -17,6 +17,7 @@ import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
 let buttonColor = "#212121";
+var atleastOneAlpanum = new RegExp(/[\s a-zA-Z0-9]*[a-zA-z0-9]+/i);
 class WriteReview extends React.Component {
   constructor(props) {
     super(props);
@@ -28,17 +29,21 @@ class WriteReview extends React.Component {
     };
   }
   onChangeTitle(val) {
-    if (this.props.onChangeTitle) {
-      this.props.onChangeTitle(val);
+    if (atleastOneAlpanum.test(val)) {
+      if (this.props.onChangeTitle) {
+        this.props.onChangeTitle(val);
+      }
+      this.setState({ title: val });
     }
-    this.setState({ title: val });
   }
 
   onChangeComment(val) {
-    if (this.props.onChangeComment) {
-      this.props.onChangeComment(val);
+    if (atleastOneAlpanum.test(val)) {
+      if (this.props.onChangeComment) {
+        this.props.onChangeComment(val);
+      }
+      this.setState({ comment: val });
     }
-    this.setState({ comment: val });
   }
 
   onRatingChange = val => {
