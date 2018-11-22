@@ -4,7 +4,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import { FAQ_URL, CONTACT_URL } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 const sslLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_4.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/cart_confidence_callout_4.png";
 
 class SaveAndSecure extends React.Component {
   onClick = url => {

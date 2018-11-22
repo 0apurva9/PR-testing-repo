@@ -8,7 +8,7 @@ import PickUpDetails from "./PickUpDetails";
 import SearchLocationByPincode from "./SearchLocationByPincode";
 import styles from "./PiqPage.css";
 const WestSideIcon =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536214679/googleSearch.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/google_search.png";
 
 export default class PiqPage extends React.Component {
   constructor(props) {

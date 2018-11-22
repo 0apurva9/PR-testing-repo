@@ -5,7 +5,7 @@ import Button from "../../general/components/Button";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import styles from "./ContentWidgetDesktop.css";
 const queLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536214679/que_logo.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/tatacliq_que_logo.png";
 
 export default class ContentWidgetDesktop extends React.Component {
   constructor(props) {

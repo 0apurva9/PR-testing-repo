@@ -2,13 +2,13 @@ import React from "react";
 import styles from "./TrustComponent.css";
 import Icon from "../../xelpmoc-core/Icon";
 const trustLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237751/footer/Tata_Trust_1.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/tata_trust_1.png";
 const cliqAndPigLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/CliQ_PIQ_Icon.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/cliq_and_piq_icon.png";
 const brandLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Brands_Icon.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/brands_icon.png";
 const returnLogo =
-  "https://res.cloudinary.com/sid1512/image/upload/v1536237751/footer/Return_icon.png";
+  "https://assets.tatacliq.com/medias/sys_master/pwaImg/return_icon.png";
 
 class TrustComponent extends React.Component {
   render() {

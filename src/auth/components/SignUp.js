@@ -248,7 +248,7 @@ then in this case we have to hit generate temp cart id for user
                 onKeyUp={event => {
                   this.checkSignUp(event.key);
                 }}
-                placeholder={"Re-enter-Password"}
+                placeholder={"Re-enter Password"}
                 password={this.state.reEnterPasswordValue}
                 onChange={val => this.onChangeReEnterPassword(val)}
                 fontSize={14}
