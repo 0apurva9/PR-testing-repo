@@ -54,6 +54,8 @@
     background: #f9f9f9;
     padding: 20px 50px;
     border-radius: initial;
+    height: 200px;
+    overflow: auto;
   }
   .buttonHolder {
     position: static;
