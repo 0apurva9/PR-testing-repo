@@ -8,9 +8,13 @@ import {
   BANK_OFFER_COMPONENT_NAME_HC,
   MULTIPLE_BANNER_COMPONENT_NAME_HC,
   QUICK_LINKS_COMPONENT_NAME_HC,
-  HARD_CODED_KEY_FOR_COMPONENT
+  HARD_CODED_KEY_FOR_COMPONENT,
+  DESKTOP_THEME_OFFER_CN,
+  THEME_OFFER_CN
 } from "../../lib/constants";
+
 import { transformFetchingItemsOrder } from "./utils";
+
 const feed = (
   state = {
     homeFeed: [], //array of objects,
@@ -61,6 +65,9 @@ const feed = (
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
+        if (componentName === DESKTOP_THEME_OFFER_CN) {
+          componentName = THEME_OFFER_CN;
+        }
         return {
           ...subData[componentName],
           loading: false,
@@ -103,6 +110,9 @@ const feed = (
             componentName === QUICK_LINKS_COMPONENT_NAME_HC
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
+          }
+          if (componentName === DESKTOP_THEME_OFFER_CN) {
+            componentName = THEME_OFFER_CN;
           }
           return {
             ...subData[componentName],
@@ -163,7 +173,9 @@ const feed = (
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
-
+          if (componentName === DESKTOP_THEME_OFFER_CN) {
+            componentName = THEME_OFFER_CN;
+          }
           return {
             ...subData[componentName],
             loading: false,
@@ -219,6 +231,9 @@ const feed = (
         componentName === QUICK_LINKS_COMPONENT_NAME_HC
       ) {
         componentName = HARD_CODED_KEY_FOR_COMPONENT;
+      }
+      if (componentName === DESKTOP_THEME_OFFER_CN) {
+        componentName = THEME_OFFER_CN;
       }
       homeFeedData = state.homeFeed;
       homeFeedData[action.positionInFeed].useBackUpData = false;
@@ -350,6 +365,9 @@ const feed = (
           componentName === QUICK_LINKS_COMPONENT_NAME_HC
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
+        }
+        if (componentName === DESKTOP_THEME_OFFER_CN) {
+          componentName = THEME_OFFER_CN;
         }
         if (!action.isMsd) {
           toUpdate = action.data[componentName];
