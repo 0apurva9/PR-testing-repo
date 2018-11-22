@@ -66,7 +66,8 @@ export default class SizeQuantitySelect extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          Select a size & quantity
+          {this.props.noQuantity && "Select a size"}
+          {!this.props.noQuantity && "Select a size & quantity"}
           {!this.props.noQuantity && (
             <div className={styles.button}>
               <UnderLinedButton
