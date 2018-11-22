@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./BannerImage.css";
 import Button from "./Button";
 import Logo from "./Logo";
+import ImageFlexible from "../../general/components/ImageFlexible";
 import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -25,15 +26,10 @@ export default class Banner extends React.Component {
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
-          <div
-            className={styles.base}
-            onClick={this.onClick}
-            style={{ paddingBottom: `${this.props.ratio}%` }}
-          >
-            <div
-              className={styles.imageHolder}
-              style={{ backgroundImage: `url(${this.props.image})` }}
-            />
+          <div className={styles.base} onClick={this.onClick}>
+            <div className={styles.flexImageHolder}>
+              <ImageFlexible image={this.props.image} />
+            </div>
             <div className={styles.content}>
               <div className={styles.logoAndText}>
                 <div

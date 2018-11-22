@@ -16,4 +16,7 @@
     max-width: 1600px;
     margin: 30px auto 0px;
   }
+  .monoBanner {
+    transform: scale(1);
+  }
 }
