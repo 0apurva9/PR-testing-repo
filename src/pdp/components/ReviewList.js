@@ -5,17 +5,11 @@ import PropTypes from "prop-types";
 
 export default class ReviewList extends React.Component {
   render() {
-    let reviewList = this.props.reviewList;
-    console.log(reviewList);
-    console.log(this.props.limit);
-
-    if (true) {
-      reviewList.slice(0, 4);
-    }
     return (
       <div className={styles.base}>
-        {reviewList &&
-          reviewList.map((data, i) => {
+        {this.props &&
+          this.props.reviewList &&
+          this.props.reviewList.map((data, i) => {
             if (!data) return null;
             let userName = data.userName;
             let name =

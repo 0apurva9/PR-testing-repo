@@ -34,7 +34,6 @@ export default class DeliveryInformations extends React.Component {
     }
   }
   onPiq() {
-    console.log(this.props);
     if (this.props.onPiq && this.props.isClickable) {
       this.props.onPiq();
     }
