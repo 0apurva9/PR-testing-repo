@@ -38,14 +38,14 @@
   background-size: auto 35px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_1.png");
+  background-image: url("https://assets.tatacliq.com/medias/sys_master/pwaImg/cart_confidence_callout_1.png");
 }
 .cashLogo {
   width: 75px;
   height: 60px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_2.png");
+  background-image: url("https://assets.tatacliq.com/medias/sys_master/pwaImg/cart_confidence_callout_2.png");
 }
 .bankLogoHolderWithPadding {
   width: auto;
@@ -59,7 +59,7 @@
   height: 60px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("https://res.cloudinary.com/sid1512/image/upload/v1536237750/footer/Cart_Confidence_Callout_3.png");
+  background-image: url("https://assets.tatacliq.com/medias/sys_master/pwaImg/cart_confidence_callout_3.png");
 }
 
 .sslSection {
