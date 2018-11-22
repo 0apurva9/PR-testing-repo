@@ -18,15 +18,26 @@ export default class SearchResultItem extends React.Component {
         }}
       >
         {suggestedText}
-        {this.props.categoryOrBrandText && (
-          <React.Fragment>
-            {" "}
-            in{" "}
-            <span className={styles.bolder}>
-              {this.props.categoryOrBrandText}
-            </span>
-          </React.Fragment>
-        )}
+        {this.props.categories &&
+          this.props.categoryOrBrandText && (
+            <React.Fragment>
+              {" "}
+              in{" "}
+              <span className={styles.bolder}>
+                {this.props.categoryOrBrandText}
+              </span>
+            </React.Fragment>
+          )}
+        {!this.props.categories &&
+          this.props.categoryOrBrandText && (
+            <React.Fragment>
+              {" "}
+              in{" "}
+              <span className={styles.regular}>
+                {this.props.categoryOrBrandText}
+              </span>
+            </React.Fragment>
+          )}
       </div>
     );
   }
