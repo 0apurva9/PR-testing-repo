@@ -938,49 +938,53 @@ export default class PdpApparel extends React.Component {
                     {productData.rootCategory === "HomeFurnishing" &&
                       productData.classificationList && (
                         <Accordion text="Overview" headerFontSize={18}>
-                          {productData.classificationList &&
-                            productData.classificationList.map(value => {
-                              return (
-                                <div className={styles.featureHolder}>
-                                  <div className={styles.header}>
-                                    {value.key}
-                                  </div>
-                                  {value.value.classificationList &&
-                                    value.value.classificationList.map(val => {
-                                      return (
-                                        <div>
-                                          <div
-                                            className={
-                                              styles.contentTextForHome
-                                            }
-                                          >
-                                            {val.key}
-                                            :
-                                            {val.value}
-                                          </div>
-                                        </div>
-                                      );
-                                    })}
-                                  {value.value.classificationValues &&
-                                    value.value.classificationValues.map(
-                                      val => {
-                                        return (
-                                          <div>
-                                            <div
-                                              className={
-                                                styles.contentTextForHome
-                                              }
-                                            >
-                                              {val}
+                          <div className={styles.accordionContent}>
+                            {productData.classificationList &&
+                              productData.classificationList.map(value => {
+                                return (
+                                  <div className={styles.featureHolder}>
+                                    <div className={styles.header}>
+                                      {value.key}
+                                    </div>
+                                    {value.value.classificationList &&
+                                      value.value.classificationList.map(
+                                        val => {
+                                          return (
+                                            <div>
+                                              <div
+                                                className={
+                                                  styles.contentTextForHome
+                                                }
+                                              >
+                                                {val.key}
+                                                :
+                                                {val.value}
+                                              </div>
                                             </div>
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  <div className={styles.blankSeparator} />
-                                </div>
-                              );
-                            })}
+                                          );
+                                        }
+                                      )}
+                                    {value.value.classificationValues &&
+                                      value.value.classificationValues.map(
+                                        val => {
+                                          return (
+                                            <div>
+                                              <div
+                                                className={
+                                                  styles.contentTextForHome
+                                                }
+                                              >
+                                                {val}
+                                              </div>
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                    <div className={styles.blankSeparator} />
+                                  </div>
+                                );
+                              })}
+                          </div>
                         </Accordion>
                       )}
                     {productData.rootCategory !== "Electronics" &&
@@ -990,24 +994,26 @@ export default class PdpApparel extends React.Component {
                           headerFontSize={18}
                           isOpen={false}
                         >
-                          {productData.classifications.map(val => {
-                            if (val.specifications) {
-                              return val.specifications.map(value => {
-                                return (
-                                  <div className={styles.featureHolder}>
-                                    <div className={styles.sideHeader}>
-                                      {value.key}
+                          <div className={styles.accordionContent}>
+                            {productData.classifications.map(val => {
+                              if (val.specifications) {
+                                return val.specifications.map(value => {
+                                  return (
+                                    <div className={styles.featureHolder}>
+                                      <div className={styles.sideHeader}>
+                                        {value.key}
+                                      </div>
+                                      <div className={styles.sideContent}>
+                                        {value.value}
+                                      </div>
                                     </div>
-                                    <div className={styles.sideContent}>
-                                      {value.value}
-                                    </div>
-                                  </div>
-                                );
-                              });
-                            } else {
-                              return null;
-                            }
-                          })}
+                                  );
+                                });
+                              } else {
+                                return null;
+                              }
+                            })}
+                          </div>
                         </Accordion>
                       )}
                     {productData.fineJewelleryClassificationList && (
@@ -1123,6 +1129,7 @@ export default class PdpApparel extends React.Component {
                             </div>
                           </div>
                           <ProductReviewListContainer
+                            limit={true}
                             productId={productData.productListingId}
                           />
                         </div>

@@ -362,6 +362,7 @@
   .sideContent {
     width: 100%;
     margin: 0;
+    font-family: light;
   }
   .featureHolder {
     width: 33.33%;
