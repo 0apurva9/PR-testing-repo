@@ -51,12 +51,14 @@
 @media screen and (min-width: 1025px) {
   .grey .header {
     background-color: #f8f8f8;
+    width: 60px;
   }
   .white .header {
     background-color: #ffffff;
+    width: 60px;
   }
   .header {
     position: sticky;
-    top: 90px;
+    top: 66px;
   }
 }
