@@ -1153,7 +1153,8 @@ export function getAllOrdersFailure(error, isPaginated) {
 export function getAllOrdersDetails(
   suffix: null,
   paginated: false,
-  isSetDataLayer: true
+  isSetDataLayer: true,
+  showDataAccordingToUser
 ) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -1165,13 +1166,21 @@ export function getAllOrdersDetails(
       currentPage = getState().profile.orderDetails.currentPage + 1;
     }
     try {
-      const result = await api.get(
-        `${USER_PATH}/${
+      let getOrderDetails = "";
+      if (showDataAccordingToUser) {
+        getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/orderhistorylist?currentPage=${currentPage}&access_token=${
+        }/orderhistorylist?access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${PAGE_SIZE}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
-      );
+        }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
+      } else {
+        getOrderDetails = `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/orderhistorylist?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
+      }
+      const result = await api.get(getOrderDetails);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 

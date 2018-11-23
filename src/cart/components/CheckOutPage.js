@@ -1227,6 +1227,16 @@ if you have order id in local storage then you have to show order confirmation p
               .value
         );
       } else {
+        let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
+        if (noCostEmiCouponCode) {
+          this.removeNoCostEmi(noCostEmiCouponCode);
+        }
+        this.setState({
+          isNoCostEmiApplied: false,
+          isNoCostEmiProceeded: false,
+          noCostEmiBankName: null,
+          noCostEmiDiscount: "0.00"
+        });
         this.props.getEmiBankDetails(
           this.props.cart.cartDetailsCNC.cartAmount &&
             this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value

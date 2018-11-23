@@ -32,8 +32,10 @@ import {
   ORDER_HISTORY,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
-  WRITE_REVIEW
+  WRITE_REVIEW,
+  REQUESTING
 } from "../../lib/constants";
+import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
@@ -82,9 +84,26 @@ export default class AllOrderDetails extends React.Component {
       showOrder: null,
       isSelected: 0,
       stickyPortion: false,
-      showStickyPortion: 0
+      showStickyPortion: 0,
+      sortValue: "",
+      sortLabel: ""
     };
+    const currentYear = new Date().getFullYear();
+    this.filterOptions = [
+      { label: "Last 6 months", value: "" },
+      { label: `${currentYear}`, value: currentYear },
+      { label: `${currentYear - 1}`, value: currentYear - 1 },
+      { label: `${currentYear - 2}`, value: currentYear - 2 }
+    ];
   }
+  changeFilterValues = val => {
+    this.setState({
+      sortValue: val.value,
+      sortLabel: val.label
+    });
+    this.props.clearOrderDetails();
+    this.props.getAllOrdersDetails(val.value);
+  };
   tabSelect(val) {
     this.setState({ isSelected: val });
   }
@@ -168,7 +187,7 @@ export default class AllOrderDetails extends React.Component {
         ) {
           this.props.paginate(
             this.props.profile.orderDetails.pageSize + 1,
-            SUFFIX
+            this.state.sortValue
           );
         }
       }
@@ -197,7 +216,10 @@ export default class AllOrderDetails extends React.Component {
       (this.props.profile.orderDetails.currentPage + 1) * 3 <
         this.props.profile.orderDetails.totalNoOfOrders
     ) {
-      this.props.paginate(this.props.profile.orderDetails.pageSize + 1, SUFFIX);
+      this.props.paginate(
+        this.props.profile.orderDetails.pageSize + 1,
+        this.state.sortValue
+      );
     }
   }
   Review(productCode) {
@@ -229,20 +251,24 @@ export default class AllOrderDetails extends React.Component {
   }
   renderNoOrder() {
     return (
-      <div className={styles.noOrder}>
-        <div className={styles.noOderText}>
-          You have not made any purchase yet
-        </div>
-        <div className={styles.continueShoppingButton}>
-          <Button
-            label="Continue Shopping"
-            type="primary"
-            width={170}
-            height={40}
-            onClick={() => this.renderToContinueShopping()}
-          />
-        </div>
-      </div>
+      <React.Fragment>
+        {this.props.profile.orderDetailsStatus !== REQUESTING && (
+          <div className={styles.noOrder}>
+            <div className={styles.noOderText}>
+              You have not made any purchase yet
+            </div>
+            <div className={styles.continueShoppingButton}>
+              <Button
+                label="Continue Shopping"
+                type="primary"
+                width={170}
+                height={40}
+                onClick={() => this.renderToContinueShopping()}
+              />
+            </div>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
   reSendEmailForGiftCard = orderId => {
@@ -398,6 +424,32 @@ export default class AllOrderDetails extends React.Component {
                     <UserReviewContainer />
                   </div>
                 )}
+                {this.state.isSelected === 0 &&
+                  orderDetails &&
+                  orderDetails.orderData &&
+                  orderDetails.orderData.length > 0 && (
+                    <div className={styles.dropDownHolder}>
+                      <div className={styles.dropDown}>
+                        <div
+                          className={styles.orderText}
+                          onClick={this.reviewSection}
+                        >
+                          {"Show orders from"}
+                        </div>
+                        <div className={styles.dropDownBox}>
+                          <SelectBoxMobile2
+                            value={this.state.sortValue}
+                            label={this.state.sortLabel}
+                            onChange={changedValue =>
+                              this.changeFilterValues(changedValue)
+                            }
+                            options={this.filterOptions}
+                            textStyle={{ fontSize: 14 }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {this.state.isSelected === 0 &&
                 orderDetails &&
                 orderDetails.orderData

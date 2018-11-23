@@ -27,6 +27,7 @@
   font-size: 14px;
   line-height: 22px;
   display: inline-block;
+  word-wrap: break-word;
 }
 .deliverDateHolder {
   width: 100%;

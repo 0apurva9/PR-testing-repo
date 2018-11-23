@@ -264,6 +264,7 @@ export default class PdpApparel extends React.Component {
             this.setState({ quantityError: true });
           } else {
             if (buyNowFlag) {
+              setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
               if (!checkUserLoggedIn()) {
                 localStorage.setItem(
                   BUY_NOW_PRODUCT_DETAIL,
@@ -454,7 +455,6 @@ export default class PdpApparel extends React.Component {
   };
 
   onClickOfBuyNow = () => {
-    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
     if (this.state.goToCartPageFlag) {
       this.goToCart();
     } else {

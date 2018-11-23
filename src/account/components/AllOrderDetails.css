@@ -235,7 +235,33 @@
 .writeReviedButton:hover {
   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
 }
-
+.dropDownHolder {
+  width: 100%;
+  display: inline-block;
+}
+.dropDown {
+  width: 100%;
+  padding: 10px 0px 20px 0px;
+  display: inline-block;
+}
+.orderText {
+  width: 50%;
+  text-align: left;
+  color: #181818;
+  font-family: semibold;
+  font-size: 14px;
+  vertical-align: top;
+  display: inline-block;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 15px;
+}
+.dropDownBox {
+  width: 50%;
+  height: auto;
+  display: inline-block;
+  border: grey;
+}
 @media screen and (max-width: 1024px) {
   .base {
     padding: 15px 15px 70px 15px;
