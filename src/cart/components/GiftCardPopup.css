@@ -44,6 +44,7 @@
   height: auto;
   display: inline-block;
   text-align: center;
+  cursor: pointer;
 }
 .button {
   width: auto;
@@ -90,5 +91,9 @@
   }
   .termsAndConditionCheck {
     margin-bottom: 0;
+  }
+  .buttonDisabled {
+    composes: buttonHolder;
+    pointer-events: none;
   }
 }

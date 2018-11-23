@@ -103,14 +103,16 @@ export default class GiftCardPopup extends React.Component {
             </div>
           )}
           {!this.state.isEnable && (
-            <div className={styles.buttonHolder}>
+            <div className={styles.buttonDisabled}>
               <div className={styles.button}>
                 <Button
                   disabled={true}
-                  type="tertiary"
+                  type="primary"
+                  backgroundColor="#ff1744"
                   height={36}
                   label="Add Gift Card"
                   width={211}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
                 />
               </div>
             </div>
