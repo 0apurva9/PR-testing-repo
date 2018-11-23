@@ -879,7 +879,6 @@ export function addUserAddressFailure(error) {
 }
 
 export function addUserAddress(userAddress, fromAccount) {
-  console.log("herere");
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
