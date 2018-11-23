@@ -206,7 +206,13 @@ export default class ReturnToStore extends React.Component {
                       : ""
                   }`}
                   disabled={this.props.pinCodeUpdateDisabled}
-                  pincode={this.props.pincode}
+                  pincode={
+                    this.props.pincode
+                      ? this.props.pinCode
+                      : this.props.productDetails &&
+                        this.props.productDetails.isServiceableToPincode &&
+                        this.props.productDetails.isServiceableToPincode.pinCode
+                  }
                   changePincode={pincode => this.getPinCodeDetails(pincode)}
                 />
               </div>
