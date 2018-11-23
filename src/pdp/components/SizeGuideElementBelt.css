@@ -59,6 +59,8 @@
   }
   .header {
     position: sticky;
-    top: 74px;
+    top: 60px;
+    padding-top: 21px;
+    padding-bottom: 42px;
   }
 }
