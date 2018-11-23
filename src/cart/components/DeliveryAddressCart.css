@@ -23,6 +23,7 @@
   font-size: 14px;
   position: relative;
   padding-right: 60px;
+  word-wrap: break-word;
 }
 .checkCircle {
   position: absolute;
