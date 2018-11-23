@@ -132,6 +132,15 @@
     line-height: 35px;
     cursor: pointer;
   }
+  .returnClosed {
+    width: 50%;
+    height: auto;
+    padding-right: 40px;
+    color: #8d8d8d;
+    font-size: 14px;
+    font-family: light;
+    cursor: pointer;
+  }
 
   .writeReviedButton:hover {
     box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);

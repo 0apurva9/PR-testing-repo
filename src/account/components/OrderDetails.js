@@ -44,7 +44,8 @@ import {
 import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
-const PRODUCT_RETURN_WINDOW_CLOSED = "Return window closed";
+const PRODUCT_RETURN_WINDOW_CLOSED =
+  "You cannot return this product as the window for returns has expired";
 const RETURN = "RETURN";
 const PRODUCT_CANCEL = "Cancel";
 const AWB_POPUP_TRUE = "Y";
@@ -623,7 +624,7 @@ export default class OrderDetails extends React.Component {
                             )}
                             {isOrderReturnable &&
                               products.isReturned === false && (
-                                <div className={styles.cancelProduct}>
+                                <div className={styles.returnClosed}>
                                   {PRODUCT_RETURN_WINDOW_CLOSED}
                                 </div>
                               )}
