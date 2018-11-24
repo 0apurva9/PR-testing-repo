@@ -86,6 +86,22 @@ export default class PriceFilterTabDesktop extends React.Component {
       this.props.onFilterClick(data, filterType, filterValue);
     }
   };
+  geturl = () => {
+    let url =
+      this.props.priceList &&
+      this.props.priceList[0] &&
+      this.props.priceList[0].url;
+    url = url.split("price");
+    url = url[0];
+    return url;
+  };
+  pricefilter = () => {
+    let url = this.geturl();
+    url = url + `price%3A${this.state.minRange}-${this.state.maxRange}`;
+    if (this.props.onFilterClick) {
+      this.props.onFilterClick(url);
+    }
+  };
 
   render() {
     return (
@@ -147,7 +163,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                     : "#d8d8d8"
                 }
                 size={33}
-                onClick={this.applyPriceManually}
+                onClick={() => this.pricefilter()}
               />
             </div>
           </div>
