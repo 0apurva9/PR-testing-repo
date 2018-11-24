@@ -35,7 +35,7 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background-image: url("./img/down-arrow.svg");
+  background-image: url("./img/arrow.svg");
   position: absolute;
   background-size: auto 14px;
   background-repeat: no-repeat;
@@ -45,10 +45,11 @@
   margin: auto;
   background-position: center;
   transition: 300ms;
+  transform: rotate(-90deg);
 }
 .iconup {
   composes: icon;
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 .faqQuestion {
   width: 100%;
