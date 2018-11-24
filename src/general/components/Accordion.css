@@ -46,6 +46,22 @@
   background-position: center;
   transition: 300ms;
 }
+.iconlight {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("./img/down-arrow-grey.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+}
+
 .iconup {
   composes: icon;
   transform: rotate(180deg);
