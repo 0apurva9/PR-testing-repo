@@ -8,7 +8,7 @@ import ApplyPriceFilterIcon from "./img/arrow.svg";
 const PRICE_FILTER_REG_EX = /(price:[,₹0-9]+-[,₹0-9]+)/;
 const MAX_PRICE = "Max Price";
 const MIN_PRICE = "Min Price";
-const PRICE_QUERY = "price%3A";
+const PRICE_TAG = "price%3A";
 export default class PriceFilterTabDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -98,7 +98,7 @@ export default class PriceFilterTabDesktop extends React.Component {
   };
   pricefilter = () => {
     let url = this.geturl();
-    url = url + `${PRICE_QUERY}${this.state.minRange}-${this.state.maxRange}`;
+    url = url + `${PRICE_TAG}${this.state.minRange}-${this.state.maxRange}`;
     if (this.props.onFilterClick) {
       this.props.onFilterClick(url);
     }
