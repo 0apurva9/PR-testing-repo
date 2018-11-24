@@ -8,6 +8,8 @@ import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import { createUrlFromQueryAndCategory } from "../components/FilterUtils";
+import { CATEGORY_REGEX } from "../components/PlpBrandCategoryWrapper";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
@@ -18,8 +20,8 @@ import {
 import Button from "../../general/components/Button.js";
 import { URL_ROOT } from "../../lib/apiRequest";
 import styles from "./Plp.css";
-import { filterScroll, filterFixed } from "./FilterDesktop.css";
 
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   REQUESTING,
   AMP_BRAND_AND_CATEGORY_REG_EX,
@@ -27,7 +29,7 @@ import {
   AMP_BRAND_REG_EX,
   AMP_SEARCH_REG_EX
 } from "../../lib/constants";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import { filterScroll, filterFixed } from "./FilterDesktop.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 const SortDesktopContainer = Loadable({
@@ -254,7 +256,18 @@ export default class Plp extends React.Component {
     }
   };
   onClickCancelIcon(val) {
-    const url = val.replace("{pageNo}", 1);
+    let url = "";
+    if (CATEGORY_REGEX.test(this.props.location.pathname)) {
+      //console.log(this.props.location.pathname, "has location");
+      url = createUrlFromQueryAndCategory(
+        "",
+        this.props.location.pathname,
+        val
+      );
+      //  console.log(url);
+    } else {
+      url = val.replace("{pageNo}", 1);
+    }
     this.props.history.push(url, {
       isFilter: false
     });
@@ -586,7 +599,9 @@ export default class Plp extends React.Component {
                 <div
                   className={styles.productGridDesktop}
                   id="grid-container"
-                  style={{ minHeight: `${this.state.totalHeight}px` }}
+                  style={{
+                    minHeight: `${this.state.totalHeight}px`
+                  }}
                 >
                   <div id="grid-wrapper_desktop">
                     <ProductGrid
