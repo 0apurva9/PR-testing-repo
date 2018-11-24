@@ -51,7 +51,11 @@ export default class SearchLocationByPincode extends React.Component {
           <Input2
             placeholder={
               !this.props.pinCode
-                ? `Your pincode: ${defaultPincode}`
+                ? `Your pincode: ${
+                    this.props.ServiceablePincode
+                      ? this.props.ServiceablePincode
+                      : defaultPincode
+                  }`
                 : "Enter your Pincode "
             }
             onlyNumber={true}
