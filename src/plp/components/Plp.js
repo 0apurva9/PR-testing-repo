@@ -257,17 +257,9 @@ export default class Plp extends React.Component {
   };
   onClickCancelIcon(val) {
     let url = "";
-    if (CATEGORY_REGEX.test(this.props.location.pathname)) {
-      //console.log(this.props.location.pathname, "has location");
-      url = createUrlFromQueryAndCategory(
-        "",
-        this.props.location.pathname,
-        val
-      );
-      //  console.log(url);
-    } else {
-      url = val.replace("{pageNo}", 1);
-    }
+    url = val.replace("page-{pageNo}", "");
+    url = url.replace("/search/", "");
+    url = this.props.location.pathname + url;
     this.props.history.push(url, {
       isFilter: false
     });
