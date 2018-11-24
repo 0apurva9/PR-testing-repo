@@ -110,12 +110,7 @@ export function applySortToUrl(query, url, sortValue, icid2, cid) {
     }
   }
 
-  newUrl = `${newUrl}${newQuery}`;
-  if (icid2) {
-    newUrl = `${newUrl}&icid2=${icid2}`;
-  }
-  if (cid) {
-    newUrl = `${newUrl}&cid=${cid}`;
-  }
+  newUrl = `${url}?q=${newQuery}`;
+
   return newUrl;
 }
