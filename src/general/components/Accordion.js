@@ -31,7 +31,7 @@ export default class Accordion extends React.Component {
     }
   }
   render() {
-    let iconActive = styles.iconlight;
+    let iconActive = styles.iconLight;
     let activeheader = styles.textBox;
     let background = "";
     if (this.state.isOpen) {
