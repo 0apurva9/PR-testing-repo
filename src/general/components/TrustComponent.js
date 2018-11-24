@@ -25,7 +25,7 @@ class TrustComponent extends React.Component {
             <div className={styles.logo}>
               <Icon image={cliqAndPigLogo} size={35} />
             </div>
-            <div className={styles.text}>Cliq and piq</div>
+            <div className={styles.text}>QUiQ PiQ</div>
           </div>
           <div className={styles.iconWithText}>
             <div className={styles.logo}>
