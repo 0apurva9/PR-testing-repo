@@ -80,6 +80,8 @@
     display: inline-block;
     vertical-align: top;
     padding-right: 15px;
+    position: sticky;
+    top: 60px;
   }
   .header {
     height: 60px;
