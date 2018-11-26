@@ -2434,24 +2434,39 @@ export function submitOrderDetails(submitOrderDetails) {
   return async (dispatch, getState, { api }) => {
     dispatch(submitOrderDetailsRequest());
     try {
-      const result = await api.post(
+      let result,
+        transactionIdWithAttachmentFile,
+        currentOrderCode,
+        currentSubOrderCode;
+      if (submitOrderDetails.currentState === 0) {
+        transactionIdWithAttachmentFile = `transactionId=${
+          submitOrderDetails.transactionId
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=`;
+        currentOrderCode = `${submitOrderDetails.orderCode}`;
+        currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
+      } else {
+        transactionIdWithAttachmentFile = `transactionId=&nodeL2=${
+          submitOrderDetails.nodeL2
+        }`;
+        currentOrderCode = `""`;
+        currentSubOrderCode = `""`;
+      }
+      result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/submitTicket?&transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=&contactEmail=${
+        }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
           submitOrderDetails.contactEmail
-        }&contactMobile=${submitOrderDetails.contactMobile}&orderCode=${
-          submitOrderDetails.orderCode
-        }&ticketType=CL&nodeL0=${submitOrderDetails.nodeL0}&nodeL3=${
-          submitOrderDetails.nodeL3
-        }&contactName=${submitOrderDetails.contactName}&access_token=${
-          JSON.parse(customerCookie).access_token
-        }&nodeL1=${submitOrderDetails.nodeL1}&comment=${encodeURIComponent(
-          submitOrderDetails.comment
-        )}&nodeL4=${
+        }&contactMobile=${
+          submitOrderDetails.contactMobile
+        }&orderCode=${currentOrderCode}&ticketType=CL&nodeL0=${
+          submitOrderDetails.nodeL0
+        }&nodeL3=${submitOrderDetails.nodeL3}&contactName=${
+          submitOrderDetails.contactName
+        }&access_token=${JSON.parse(customerCookie).access_token}&nodeL1=${
+          submitOrderDetails.nodeL1
+        }&comment=${encodeURIComponent(submitOrderDetails.comment)}&nodeL4=${
           submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
-        }&channel=mobile&subOrderCode=${submitOrderDetails.subOrderCode}`
+        }&channel=mobile&subOrderCode=${currentSubOrderCode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
