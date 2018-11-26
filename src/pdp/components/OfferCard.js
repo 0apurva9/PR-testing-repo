@@ -36,20 +36,26 @@ export default class OfferCard extends React.Component {
           {this.props.potentialPromotions && (
             <div
               className={styles.headingText}
-              dangerouslySetInnerHTML={{
-                __html: this.props.potentialPromotions.title
-              }}
               onClick={this.handleShowDetails}
-            />
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: this.props.potentialPromotions.title
+                }}
+              />
+            </div>
           )}
           {this.props.secondaryPromotions && (
             <div
               className={styles.headingText}
-              dangerouslySetInnerHTML={{
-                __html: this.props.secondaryPromotions.messageID
-              }}
               onClick={this.handleShowDetails}
-            />
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: this.props.secondaryPromotions.messageID
+                }}
+              />
+            </div>
           )}
         </div>
       );
