@@ -15,7 +15,7 @@ import { EXPRESS, COLLECT } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 const EXPRESS_TEXT = "Express Delivery";
 const HOME_TEXT = "Standard Delivery";
-const COLLECT_TEXT = "QUiQ PiQ";
+const COLLECT_TEXT = "QLiQ PiQ";
 
 export default class DeliveryInformations extends React.Component {
   handleClick() {
