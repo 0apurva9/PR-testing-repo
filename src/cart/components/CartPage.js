@@ -348,7 +348,7 @@ class CartPage extends React.Component {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       if (!userDetails || !customerCookie) {
-        const url = this.props.location.pathname;
+        const url = `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`;
         if (this.props.setUrlToRedirectToAfterAuth) {
           this.props.setUrlToRedirectToAfterAuth(url);
         }
