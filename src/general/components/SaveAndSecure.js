@@ -3,11 +3,20 @@ import styles from "./SaveAndSecure.css";
 import Icon from "../../xelpmoc-core/Icon";
 import { FAQ_URL, CONTACT_URL } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CART_FOOTER_LINK_CLICK
+} from "../../lib/adobeUtils";
 const sslLogo =
   "https://assets.tatacliq.com/medias/sys_master/pwaImg/cart_confidence_callout_4.png";
 
 class SaveAndSecure extends React.Component {
-  onClick = url => {
+  onClick = (url, linkName) => {
+    setDataLayerForCartDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_CART_FOOTER_LINK_CLICK,
+      "",
+      linkName
+    );
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
@@ -47,12 +56,15 @@ class SaveAndSecure extends React.Component {
           Need Help ?
           <span
             className={styles.contact}
-            onClick={() => this.onClick(CONTACT_URL)}
+            onClick={() => this.onClick(CONTACT_URL, "Contact Us")}
           >
             Contact Us
           </span>
           |
-          <span className={styles.faq} onClick={() => this.onClick(FAQ_URL)}>
+          <span
+            className={styles.faq}
+            onClick={() => this.onClick(FAQ_URL, "FAQ")}
+          >
             FAQ
           </span>
         </div>

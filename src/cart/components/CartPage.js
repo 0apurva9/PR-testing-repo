@@ -44,7 +44,8 @@ import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT,
-  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
+  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
@@ -229,6 +230,7 @@ class CartPage extends React.Component {
     }
   };
   redirectToSaveList = () => {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST);
     this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
   };
   getPaymentModes = () => {
