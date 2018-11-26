@@ -27,7 +27,7 @@
 .ratingBar {
   width: auto;
   height: auto;
-  width: 55%;
+  width: 35%;
   display: inline-block;
 }
 
@@ -60,4 +60,12 @@
   width: 100%;
   height: auto;
   text-align: center;
+}
+@media screen and (min-width: 1025px) {
+  .ratingBar {
+    width: auto;
+    height: auto;
+    width: 15%;
+    display: inline-block;
+  }
 }
