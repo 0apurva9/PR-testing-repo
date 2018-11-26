@@ -69,6 +69,9 @@ export default class UserProfile extends React.Component {
                         )}
                         <div className={styles.addressLine1}>{datum.line1}</div>
                         <div className={styles.addressLine1}>
+                          {datum.landmark}
+                        </div>
+                        <div className={styles.addressLine1}>
                           {`${datum.state},${datum.postalCode} ,${datum.town}`}
                         </div>
 
