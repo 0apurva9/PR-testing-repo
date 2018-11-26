@@ -46,7 +46,15 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
     if (query.indexOf(":") === -1) {
       // this deals with q=text, with nothing else.
       // in this case I need to add a relevance.
-      url = `/search/?q=${query}:category:${val}`;
+      if (CATEGORY_REGEX.test(pathName)) {
+        // If we are on a page that is category we remove the icid2 and construct a new url
+        // seo requirement
+        url = val
+          .split("?&icid2")[0]
+          .replace("/search/page-{pageNo}", pathName);
+      } else {
+        url = `/search/?q=${query}:category:${val}`;
+      }
     } else {
       // We have q = text, as well as a sort, category or brand.
       const hasCategory = CATEGORY_URL_REGEX.test(query);

@@ -111,7 +111,16 @@ export default class FilterDesktop extends React.Component {
     this.onCategorySelect(val, filterType, filterValue, false);
   };
   onFilterClick = (val, filterType, filterValue) => {
-    const url = val.replace("{pageNo}", 1);
+    let url = "";
+    if (CATEGORY_REGEX.test(this.props.location.pathname)) {
+      url = createUrlFromQueryAndCategory(
+        filterValue,
+        this.props.location.pathname,
+        val
+      );
+    } else {
+      url = val.replace("{pageNo}", 1);
+    }
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
       filterType,

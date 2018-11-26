@@ -16,10 +16,11 @@ import { ICID2 } from "../../lib/adobeUtils";
 it("should work with category landing page", () => {
   let url = `/electronics-mobile-phones/c-${ANOTHER_DUMMY_CATEGORY_VALUE}${DUMMY_ICID2_URL}`;
   let endUrl = applySortToUrl("", url, ARRAY_OF_SORTS[3], DUMMY_ICID2);
+
   expect(endUrl).toEqual(
-    `/search/?q=:${
+    `${url}?q=:${
       ARRAY_OF_SORTS[3]
-    }:category:${ANOTHER_DUMMY_CATEGORY_VALUE.toUpperCase()}${DUMMY_ICID2_URL}`
+    }:category:${ANOTHER_DUMMY_CATEGORY_VALUE.toUpperCase()}`
   );
 });
 
@@ -33,27 +34,26 @@ it("should work with a category page that has a query", () => {
   );
 
   expect(endUrl).toEqual(
-    `/search/?q=:${
+    `${url}?q=:${
       ARRAY_OF_SORTS[3]
-    }:inStockFlag:true:isLuxuryProduct:false:category:${DUMMY_CATEGORY_VALUE.toUpperCase()}&icid2=auto:mul:msd:MSH1311115:all:none:00:030518`
+    }:inStockFlag:true:isLuxuryProduct:false:category:${DUMMY_CATEGORY_VALUE.toUpperCase()}`
   );
 });
 
 it("should work with brand landing page", () => {
   let url = `/electronics-mobile-phones/c-${DUMMY_BRAND_VALUE}${DUMMY_ICID2_URL}`;
   let endUrl = applySortToUrl("", url, ARRAY_OF_SORTS[3], DUMMY_ICID2);
+
   expect(endUrl).toEqual(
-    `/search/?q=:${
-      ARRAY_OF_SORTS[3]
-    }:brand:${DUMMY_BRAND_VALUE.toUpperCase()}${DUMMY_ICID2_URL}`
+    `${url}?q=:${ARRAY_OF_SORTS[3]}:brand:${DUMMY_BRAND_VALUE.toUpperCase()}`
   );
 });
 
 it("should work with search/?q=<text>", () => {
   let endUrl = applySortToUrl(
     "shirt",
-    `search/?q=shirt${DUMMY_CID_URL}`,
-    ARRAY_OF_SORTS[3],
+    `/search/`,
+    `${ARRAY_OF_SORTS[3]}${DUMMY_CID_URL}`,
     null,
     DUMMY_ICID2
   );
@@ -65,8 +65,8 @@ it("should work with search/?q=<text>", () => {
 it("should work with search/?q=<text>:sort", () => {
   let endUrl = applySortToUrl(
     "shirt:relevance",
-    `search/?q=shirt:relevance${DUMMY_ICID2_URL}`,
-    ARRAY_OF_SORTS[3],
+    `/search/`,
+    `${ARRAY_OF_SORTS[3]}${DUMMY_ICID2_URL}`,
     DUMMY_ICID2
   );
 
@@ -78,7 +78,7 @@ it("should work with search/?q=<text>:sort", () => {
 it("should work with search/?q=:sort", () => {
   let endUrl = applySortToUrl(
     `:${ARRAY_OF_SORTS[0]}`,
-    `/search/?q=${ARRAY_OF_SORTS[0]}`,
+    `/search/`,
     ARRAY_OF_SORTS[3]
   );
   expect(endUrl).toEqual(`/search/?q=:${ARRAY_OF_SORTS[3]}`);
@@ -87,7 +87,7 @@ it("should work with search/?q=:sort", () => {
 it("should work with /search/?q=:sort:category:<SOME CATEGORY>", () => {
   let endUrl = applySortToUrl(
     `:${ARRAY_OF_SORTS[0]}:category:${DUMMY_CATEGORY_VALUE}`,
-    `/search/?q=:${ARRAY_OF_SORTS[0]}:category:${DUMMY_CATEGORY_VALUE}`,
+    `/search/`,
     ARRAY_OF_SORTS[3]
   );
 
@@ -98,9 +98,9 @@ it("should work with /search/?q=:sort:category:<SOME CATEGORY>", () => {
 
 it("should work with /search/?q=text:sort:category:<SOME_CATEGORY>", () => {
   let endUrl = applySortToUrl(
-    `shirt:${ARRAY_OF_SORTS[0]}:category:${DUMMY_CATEGORY_VALUE}`,
-    `/search/?q=shirt:${ARRAY_OF_SORTS[0]}:category:${DUMMY_CATEGORY_VALUE}`,
-    ARRAY_OF_SORTS[3]
+    `shirt`,
+    `/search/`,
+    `${ARRAY_OF_SORTS[3]}:category:${DUMMY_CATEGORY_VALUE}`
   );
 
   expect(endUrl).toEqual(
@@ -111,8 +111,8 @@ it("should work with /search/?q=text:sort:category:<SOME_CATEGORY>", () => {
 it("should work with /search/?q=:category:<SOME_CATEGORY>", () => {
   let endUrl = applySortToUrl(
     `:category:${DUMMY_CATEGORY_VALUE}`,
-    `/search/?q=:category:${DUMMY_CATEGORY_VALUE}`,
-    ARRAY_OF_SORTS[2]
+    `/search/`,
+    `${ARRAY_OF_SORTS[2]}`
   );
 
   expect(endUrl).toEqual(
@@ -123,8 +123,8 @@ it("should work with /search/?q=:category:<SOME_CATEGORY>", () => {
 it("should work with /search/?q=:brand:<SOME BRAND>", () => {
   let endUrl = applySortToUrl(
     `:brand:${DUMMY_BRAND_VALUE}`,
-    `/search/?q=:brand:${DUMMY_BRAND_VALUE}`,
-    ARRAY_OF_SORTS[3]
+    `/search/`,
+    `${ARRAY_OF_SORTS[3]}`
   );
 
   expect(endUrl).toEqual(
@@ -135,8 +135,8 @@ it("should work with /search/?q=:brand:<SOME BRAND>", () => {
 it("should work with /search/?q=text:brand:<SOME BRAND>", () => {
   let endUrl = applySortToUrl(
     `text:brand:${DUMMY_BRAND_VALUE}`,
-    `/search/?q=text:brand:${DUMMY_BRAND_VALUE}`,
-    ARRAY_OF_SORTS[3]
+    `/search/`,
+    `${ARRAY_OF_SORTS[3]}`
   );
 
   expect(endUrl).toEqual(
@@ -147,8 +147,8 @@ it("should work with /search/?q=text:brand:<SOME BRAND>", () => {
 it("should work with /search/?q=text:category:<SOME_CATEGORY", () => {
   let endUrl = applySortToUrl(
     `text:category:${DUMMY_CATEGORY_VALUE}`,
-    `/search/?q=text:category:${DUMMY_CATEGORY_VALUE}`,
-    ARRAY_OF_SORTS[5]
+    `/search/`,
+    `${ARRAY_OF_SORTS[5]}`
   );
 
   expect(endUrl).toEqual(
@@ -159,8 +159,8 @@ it("should work with /search/?q=text:category:<SOME_CATEGORY", () => {
 it("should work with /search/?q=text:category:<SOME_CATEGORY:brand:<SOME_BRAND>", () => {
   let endUrl = applySortToUrl(
     `text:category:${DUMMY_CATEGORY_VALUE}:brand:${DUMMY_BRAND_VALUE}`,
-    `/search/?q=text:category:${DUMMY_CATEGORY_VALUE}:brand:${DUMMY_BRAND_VALUE}`,
-    ARRAY_OF_SORTS[2]
+    `/search/`,
+    `${ARRAY_OF_SORTS[2]}`
   );
 
   expect(endUrl).toEqual(
@@ -171,9 +171,7 @@ it("should work with /search/?q=text:category:<SOME_CATEGORY:brand:<SOME_BRAND>"
 });
 
 it("should work with custom sku pages, or pages that look like /custom/:slug", () => {
-  let endUrl = applySortToUrl("", `/custom/test-page`, ARRAY_OF_SORTS[2]);
+  let endUrl = applySortToUrl("", `/search/`, ARRAY_OF_SORTS[2]);
 
-  expect(endUrl).toEqual(
-    `/search/?q=:${ARRAY_OF_SORTS[2]}:collectionIds:test-page`
-  );
+  expect(endUrl).toEqual(`/search/?q=:${ARRAY_OF_SORTS[2]}:collectionIds:`);
 });
