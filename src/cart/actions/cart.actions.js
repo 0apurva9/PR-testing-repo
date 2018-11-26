@@ -3928,7 +3928,10 @@ export function updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode) {
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
-          setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_CHANGE_QUANTITY);
+          setDataLayerForCartDirectCalls(
+            ADOBE_CALLS_FOR_CHANGE_QUANTITY,
+            resultJson
+          );
           dispatch(updateQuantityInCartLoggedInSuccess(resultJson));
         }
       });
