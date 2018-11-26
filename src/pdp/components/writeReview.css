@@ -61,3 +61,11 @@
   height: auto;
   text-align: center;
 }
+@media screen and (min-width: 1025px) {
+  .ratingBar {
+    width: auto;
+    height: auto;
+    width: 150px;
+    display: inline-block;
+  }
+}
