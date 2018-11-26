@@ -131,7 +131,8 @@
     padding: 30px;
   }
   .cardName {
-    font-size: 14px;
+    font-size: 12px;
+    padding-right: 12px;
   }
   .cardLogo {
     height: auto;
