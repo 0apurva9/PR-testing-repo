@@ -47,7 +47,6 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
       // this deals with q=text, with nothing else.
       // in this case I need to add a relevance.
       if (CATEGORY_REGEX.test(pathName)) {
-        console.log("in special case");
         // If we are on a page that is category we remove the icid2 and construct a new url
         // seo requirement
         url = val
