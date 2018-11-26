@@ -213,7 +213,12 @@ export function getProductListings(
         resultJson.currentQuery.searchQuery &&
         !paginated
       ) {
-        if (!componentName || componentName !== "Popular brands") {
+        if (
+          !componentName ||
+          (componentName !== "Popular brands" &&
+            componentName !== "isSortTrue" &&
+            componentName !== "isFilterTrue")
+        ) {
           setDataLayer(
             ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
             resultJson,

@@ -16,6 +16,10 @@ import {
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
+import {
+  setDataLayerForPdpDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
+} from "../../lib/adobeUtils";
 let buttonColor = "#212121";
 const atleastOneAlpanum = new RegExp(/[\s a-zA-Z0-9]*[a-zA-z0-9]+/i);
 class WriteReview extends React.Component {
@@ -47,6 +51,9 @@ class WriteReview extends React.Component {
   }
 
   onRatingChange = val => {
+    setDataLayerForPdpDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
+    );
     this.setState({ rating: val });
   };
   onCancel() {

@@ -45,7 +45,8 @@ export default class SortDesktop extends React.Component {
         cid
       );
       this.props.history.push(url, {
-        isFilter: false
+        isFilter: false,
+        componentName: "isSortTrue"
       });
       this.props.onClick();
       this.props.setIfSortHasBeenClicked();

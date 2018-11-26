@@ -936,9 +936,6 @@ export function addUserAddress(userAddress, fromAccount) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      setDataLayerForCheckoutDirectCalls(
-        ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE
-      );
       return dispatch(addUserAddressSuccess());
     } catch (e) {
       return dispatch(addUserAddressFailure(e.message));

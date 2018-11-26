@@ -96,7 +96,7 @@ export default class FilterDesktop extends React.Component {
     filterValue = filterValue.replace("&", "and");
     url = createUrlFromQueryAndCategory(filterValue, pathName, val);
 
-    this.props.history.push(url, { isFilter });
+    this.props.history.push(url, { isFilter, componentName: "isFilterTrue" });
     if (isFilter === false) {
       this.props.onL3CategorySelect();
     }
@@ -118,7 +118,8 @@ export default class FilterDesktop extends React.Component {
       filterValue
     );
     this.props.history.push(url, {
-      isFilter: false
+      isFilter: false,
+      componentName: "isFilterTrue"
     });
   };
   onOpenAccordion = filterName => {

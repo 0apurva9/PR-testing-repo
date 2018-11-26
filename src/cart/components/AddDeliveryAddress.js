@@ -63,7 +63,10 @@ import {
 import {
   setDataLayerForSelectedAddressTypeDirectCalls,
   ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME,
-  ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE
+  ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE,
+  setDataLayerForCheckoutDirectCalls,
+  ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE,
+  ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE
 } from "../../lib/adobeUtils";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
@@ -362,6 +365,16 @@ export default class AddDeliveryAddress extends React.Component {
         Object.assign(addressObj, {
           firstName: `${salutation} ${firstName}`
         });
+      }
+      const getUrl = this.props.history.location.pathname;
+      if (this.props.history.location.pathname === CHECKOUT_ROUTER) {
+        setDataLayerForCheckoutDirectCalls(
+          ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE
+        );
+      } else {
+        setDataLayerForCheckoutDirectCalls(
+          ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE
+        );
       }
       this.props.addUserAddress(addressObj);
     }

@@ -31,7 +31,8 @@ import * as Cookies from "../../lib/Cookie";
 import SignUp from "../components/SignUp.js";
 import {
   setDataLayerForSignupProcess,
-  ADOBE_SIGN_UP_START
+  ADOBE_SIGN_UP_START,
+  ADOBE_SIGN_UP_SUCCESS
 } from "../../lib/adobeUtils.js";
 import {
   singleAuthCallHasFailed,
@@ -51,6 +52,7 @@ const mapDispatchToProps = dispatch => {
             generateCartIdForLoggedInUser()
           );
           if (createdCartVal.status === SUCCESS) {
+            setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
             await dispatch(createWishlist());
             const mergeCartIdResponse = await dispatch(
               mergeCartId(createdCartVal.cartDetails.guid)
