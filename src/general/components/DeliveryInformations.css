@@ -74,4 +74,12 @@
     composes: checkboxHolder;
     top: -21px;
   }
+  .arrowLink {
+    composes: checkboxHolder;
+    top: -21px;
+  }
+  .arrowLink1 {
+    composes: checkboxHolder;
+    top: 0px;
+  }
 }
