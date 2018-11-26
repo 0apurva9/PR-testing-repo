@@ -1082,7 +1082,7 @@ export default class PdpApparel extends React.Component {
                       )}
                     {productData.brandInfo && (
                       <Accordion text="Brand Info" headerFontSize={18}>
-                        <div className={styles.accordionContent}>
+                        <div className={styles.accordionContentWithoutBorder}>
                           {productData.brandInfo}
                         </div>
                       </Accordion>

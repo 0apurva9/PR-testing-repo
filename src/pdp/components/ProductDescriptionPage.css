@@ -226,7 +226,17 @@
   color: #212121;
   margin-top: 10px;
 }
-
+.accordionContentWithoutBorder {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 15px;
+  position: relative;
+}
 .accordionContent {
   width: 100%;
   height: auto;
