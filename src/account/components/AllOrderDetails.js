@@ -351,6 +351,31 @@ export default class AllOrderDetails extends React.Component {
                   </TabHolder>
                 </div>
               </DesktopOnly>
+              <React.Fragment>
+                {this.state.isSelected === 0 && (
+                  <div className={styles.dropDownHolder}>
+                    <div className={styles.dropDown}>
+                      <div
+                        className={styles.orderText}
+                        onClick={this.reviewSection}
+                      >
+                        {"Show orders from"}
+                      </div>
+                      <div className={styles.dropDownBox}>
+                        <SelectBoxMobile2
+                          value={this.state.sortValue}
+                          label={this.state.sortLabel}
+                          onChange={changedValue =>
+                            this.changeFilterValues(changedValue)
+                          }
+                          options={this.filterOptions}
+                          textStyle={{ fontSize: 14 }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
               <div className={styles.dataHolder}>
                 {this.state.isSelected === 1 && (
                   <div className={styles.alertsHolder}>
@@ -424,32 +449,7 @@ export default class AllOrderDetails extends React.Component {
                     <UserReviewContainer />
                   </div>
                 )}
-                {this.state.isSelected === 0 &&
-                  orderDetails &&
-                  orderDetails.orderData &&
-                  orderDetails.orderData.length > 0 && (
-                    <div className={styles.dropDownHolder}>
-                      <div className={styles.dropDown}>
-                        <div
-                          className={styles.orderText}
-                          onClick={this.reviewSection}
-                        >
-                          {"Show orders from"}
-                        </div>
-                        <div className={styles.dropDownBox}>
-                          <SelectBoxMobile2
-                            value={this.state.sortValue}
-                            label={this.state.sortLabel}
-                            onChange={changedValue =>
-                              this.changeFilterValues(changedValue)
-                            }
-                            options={this.filterOptions}
-                            textStyle={{ fontSize: 14 }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
+
                 {this.state.isSelected === 0 &&
                 orderDetails &&
                 orderDetails.orderData
