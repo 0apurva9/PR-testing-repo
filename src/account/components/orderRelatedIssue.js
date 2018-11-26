@@ -288,7 +288,9 @@ export default class OrderRelatedIssue extends React.Component {
               : undefined,
           transactionId: this.state.transactionId,
           orderCode: this.state.orderCode,
-          subOrderCode: this.state.sellerOrderNumber
+
+          subOrderCode: this.state.sellerOrderNumber,
+          currentState: this.state.isSelected
         }
       );
       let getCustomerQueryDetailsObject = Object.assign(
