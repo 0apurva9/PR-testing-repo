@@ -41,9 +41,11 @@ export default class DeliveryInformations extends React.Component {
   render() {
     let iconImage = HomeImage;
     let typeName = HOME_TEXT;
+    let arrowStyle = styles.arrowLink1;
     if (this.props.type === EXPRESS) {
       iconImage = ExpressImage;
       typeName = EXPRESS_TEXT;
+      arrowStyle = styles.arrowLink;
     } else if (this.props.type === COLLECT) {
       iconImage = CollectImage;
       typeName = COLLECT_TEXT;
@@ -83,7 +85,8 @@ export default class DeliveryInformations extends React.Component {
               </div>
             )}
 
-            {this.props.type === COLLECT &&
+            {this.props.isClickable &&
+              this.props.type === COLLECT &&
               this.props.isShowCliqAndPiqUnderLineText && (
                 <div className={styles.underLineButtonHolder}>
                   <span className={styles.buttonHolderPiq}>
@@ -93,6 +96,7 @@ export default class DeliveryInformations extends React.Component {
                       }
                       fontFamily="light"
                       color="#ff1744"
+                      size="11px"
                       label="Check for pick up options"
                       onClick={() => this.onPiq()}
                     />
@@ -137,12 +141,10 @@ export default class DeliveryInformations extends React.Component {
               </div>
             )}
           {this.props.showCliqAndPiqButton &&
+            this.props.isClickable &&
             !this.props.selected &&
             this.props.type === COLLECT && (
-              <div
-                className={styles.checkboxHolder}
-                onClick={() => this.onPiq()}
-              >
+              <div className={arrowStyle} onClick={() => this.onPiq()}>
                 <Icon image={greyArrow} size={20} />
               </div>
             )}
