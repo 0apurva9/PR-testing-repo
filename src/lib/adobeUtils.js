@@ -2231,7 +2231,6 @@ export function setDataLayerForAutoSuggestSearch(response) {
     }
   });
   window.digitalData = data;
-  console.log(window.digitalData);
   if (window._satellite) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);
   }
