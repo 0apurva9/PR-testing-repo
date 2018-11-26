@@ -21,6 +21,7 @@ export default class SearchPage extends React.Component {
       categoryAndBrandCode: null
     };
     this.searchDown = [];
+    this.newSearchArray = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
@@ -46,8 +47,37 @@ export default class SearchPage extends React.Component {
     });
   };
   handleBrandClick(webURL, dtmDataObject, position) {
+    const data = this.props.searchResult;
+    let firstSuggestedKeyWord = "";
+    const firstSuggestionNew = cloneDeep(
+      data && data.suggestionsNew ? data.suggestionsNew : ""
+    );
+    firstSuggestedKeyWord = firstSuggestionNew
+      ? firstSuggestionNew.splice(0, 1)
+      : "";
+    const suggestedKeyWord = data && data.suggestionsNew;
+    if (data) {
+      if (data) {
+        const topBrands = this.props.searchResult.topBrands
+          ? this.props.searchResult.topBrands
+          : [];
+        const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
+        const topCategories = this.props.searchResult.topCategories
+          ? this.props.searchResult.topCategories
+          : [];
+        this.newSearchArray = [
+          ...topBrands,
+          ...topCategories,
+          ...suggestionsNew
+        ];
+      }
+    }
+    let stringWithOutIn = dtmDataObject.term.split("in ");
+    const indexOfCurrentBrands = this.newSearchArray.findIndex(brands => {
+      return brands.categoryName === stringWithOutIn[1];
+    });
     Object.assign(dtmDataObject, {
-      position: position + 1
+      position: indexOfCurrentBrands + 1
     });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
@@ -75,11 +105,36 @@ export default class SearchPage extends React.Component {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
+    let firstSuggestedKeyWord = "";
+    const firstSuggestionNew = cloneDeep(
+      data && data.suggestionsNew ? data.suggestionsNew : ""
+    );
+    firstSuggestedKeyWord = firstSuggestionNew
+      ? firstSuggestionNew.splice(0, 1)
+      : "";
+    const suggestedKeyWord = data && data.suggestionsNew;
+    if (data) {
+      if (data) {
+        const topBrands = this.props.searchResult.topBrands
+          ? this.props.searchResult.topBrands
+          : [];
+        const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
+        const topCategories = this.props.searchResult.topCategories
+          ? this.props.searchResult.topCategories
+          : [];
+        this.newSearchArray = [
+          ...topBrands,
+          ...topCategories,
+          ...suggestionsNew
+        ];
+      }
+    }
+    let stringWithOutIn = dtmDataObject.term.split("in ");
+    const indexOfCurrentBrands = this.newSearchArray.findIndex(brands => {
+      return brands.categoryName === stringWithOutIn[1];
+    });
     Object.assign(dtmDataObject, {
-      position:
-        data && data.topBrands
-          ? data.topBrands.length + position + 1
-          : position + 1
+      position: indexOfCurrentBrands + 1
     });
     setDataLayerForAutoSuggestSearch(dtmDataObject);
     const url = `/search/?searchCategory=all&text=${
@@ -158,6 +213,40 @@ export default class SearchPage extends React.Component {
         );
       }
     } else {
+      const data = this.props.searchResult;
+      let firstSuggestedKeyWord = "";
+      const firstSuggestionNew = cloneDeep(
+        data && data.suggestionsNew ? data.suggestionsNew : ""
+      );
+      firstSuggestedKeyWord = firstSuggestionNew
+        ? firstSuggestionNew.splice(0, 1)
+        : "";
+      const suggestedKeyWord = data && data.suggestionsNew;
+      if (data) {
+        if (data) {
+          const topBrands = this.props.searchResult.topBrands
+            ? this.props.searchResult.topBrands
+            : [];
+          const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
+          const topCategories = this.props.searchResult.topCategories
+            ? this.props.searchResult.topCategories
+            : [];
+          this.newSearchArray = [
+            ...topBrands,
+            ...topCategories,
+            ...suggestionsNew
+          ];
+        }
+      }
+      const indexOfCurrentBrands = this.newSearchArray.findIndex(brands => {
+        return brands.suggestedWord === currentSearchString;
+      });
+      let dtmDataObject = {};
+      Object.assign(dtmDataObject, {
+        position: indexOfCurrentBrands + 1,
+        term: currentSearchString
+      });
+      setDataLayerForAutoSuggestSearch(dtmDataObject);
       this.props.history.push(
         `/search/?searchCategory=all&text=${currentSearchString}`,
         {

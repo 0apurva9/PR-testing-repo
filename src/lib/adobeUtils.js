@@ -44,7 +44,7 @@ const ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_SUCCESS =
   "cpj_checkout_payment_coupon_success";
 const ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_FAIL =
   "cpj_checkout_payment_coupon_fail";
-const ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART = "cpj_button_save'";
+const ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART = "cpj_cart_button_save";
 // end of direct call url for cart page
 const ADOBE_ORDER_CONFIRMATION_FAILURE = "cpj_order_fail";
 const ADOBE_ORDER_CONFIRMATION_SUCCESS = "cpj_order_successful";
@@ -862,22 +862,28 @@ function getProductsDigitalData(response, type) {
         product.productcode && product.productcode.toLowerCase()
       );
       productQuantityArray.push(
-        product.qtySelectedByUser
-          ? product.qtySelectedByUser
-          : product.quantity
-            ? product.quantity
-            : null
+        parseInt(
+          product.qtySelectedByUser
+            ? product.qtySelectedByUser
+            : product.quantity
+              ? product.quantity
+              : null,
+          10
+        )
       );
       productPriceArray.push(
-        product.offerPrice
-          ? product.offerPrice
-          : product.pricevalue
-            ? product.pricevalue
-            : product.price
-              ? product.price
-              : product.mrp && product.mrp.value
-                ? product.mrp.value
-                : null
+        parseInt(
+          product.offerPrice
+            ? product.offerPrice
+            : product.pricevalue
+              ? product.pricevalue
+              : product.price
+                ? product.price
+                : product.mrp && product.mrp.value
+                  ? product.mrp.value
+                  : null,
+          10
+        )
       );
       productBrandArray.push(
         product.productBrand &&
@@ -1201,6 +1207,7 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
 }
 export function setDataLayerForCartDirectCalls(type, response, linkName) {
   let data = cloneDeep(window.digitalData);
+  let currentDigitalData = window.digitalData;
   if (type === ADOBE_REMOVE_ITEM) {
     const getProductData = getProductsDigitalData(response);
     if (getProductData) {
@@ -1234,6 +1241,25 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_CHANGE_QUANTITY) {
+    let productQuantityArray = [];
+    if (response && response.products && response.products.length > 0) {
+      response.products.forEach(function(product) {
+        productQuantityArray.push(
+          parseInt(
+            product.qtySelectedByUser
+              ? product.qtySelectedByUser
+              : product.quantity
+                ? product.quantity
+                : null,
+            10
+          )
+        );
+      });
+      Object.assign(data.cpj.product, {
+        quantity: productQuantityArray
+      });
+      window.digitalData = data;
+    }
     if (window._satellite) {
       window._satellite.track(ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART);
     }
@@ -2195,7 +2221,6 @@ export function setDataLayerForLogoutSuccess() {
   }
 }
 export function setDataLayerForAutoSuggestSearch(response) {
-  console.log(response);
   let data = window.digitalData;
   Object.assign(data, {
     search: {
@@ -2206,6 +2231,7 @@ export function setDataLayerForAutoSuggestSearch(response) {
     }
   });
   window.digitalData = data;
+  console.log(window.digitalData);
   if (window._satellite) {
     window._satellite.track(AUTO_SUGGEST_SEARCH);
   }
