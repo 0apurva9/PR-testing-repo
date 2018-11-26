@@ -65,7 +65,7 @@
   .ratingBar {
     width: auto;
     height: auto;
-    width: 15%;
+    width: 150px;
     display: inline-block;
   }
 }
