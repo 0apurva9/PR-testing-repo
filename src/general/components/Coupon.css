@@ -56,3 +56,14 @@
   top: 0;
   right: 0;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 25px 30px;
+  }
+  .couponInnerBox {
+    padding: 0px 45px 0px 35px;
+  }
+  .couponIcon {
+    left: 0;
+  }
+}

@@ -7,7 +7,7 @@
 .section {
   width: 100%;
   height: auto;
-  padding: 25px;
+  padding: 30px;
 }
 .bottomSection {
   composes: section;

@@ -55,3 +55,8 @@
   vertical-align: top;
   padding-left: 30px;
 }
+@media screen and (min-width: 1025px) {
+  .base {
+    padding: 20px 30px;
+  }
+}
