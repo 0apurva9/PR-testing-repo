@@ -47,7 +47,6 @@
 .descriptionBrands {
   width: 100%;
   height: auto;
-  display: flex;
   color: #fff;
   font-size: 16px;
   font-family: light;
@@ -57,8 +56,19 @@
   line-height: normal;
   margin-bottom: 10px;
 }
+.brandPrice {
+  color: #fff;
+  font-size: 16px;
+  font-family: light;
+  text-align: center;
+  margin: 5px;
+}
+.priceHolder {
+  display: flex;
+  justify-content: center;
+}
 .discountPrice {
-  composes: descriptionBrands;
+  composes: brandPrice;
   margin-bottom: 10px;
 }
 .priceCancelled {

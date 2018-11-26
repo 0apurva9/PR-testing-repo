@@ -45,28 +45,30 @@ export default class CircleProductDescriptionDesktop extends React.Component {
               <h3> {this.props.description}</h3>
             </div>
           )}
-          {this.props.discountPrice &&
-            this.props.discountPrice !== this.props.price && (
-              <div className={styles.discountPrice}>
+          <div className={styles.priceHolder}>
+            {this.props.discountPrice &&
+              this.props.discountPrice !== this.props.price && (
+                <div className={styles.discountPrice}>
+                  <h3>
+                    {" "}
+                    {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.discountPrice
+                      : `${RUPEE_SYMBOL}${this.props.discountPrice}`}
+                  </h3>
+                </div>
+              )}
+
+            {this.props.price && (
+              <div className={priceClass}>
                 <h3>
                   {" "}
-                  {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)
-                    ? this.props.discountPrice
-                    : `${RUPEE_SYMBOL}${this.props.discountPrice}`}
+                  {this.props.price.toString().includes(RUPEE_SYMBOL)
+                    ? this.props.price
+                    : `${RUPEE_SYMBOL}${this.props.price}`}
                 </h3>
               </div>
             )}
-
-          {this.props.price && (
-            <div className={priceClass}>
-              <h3>
-                {" "}
-                {this.props.price.toString().includes(RUPEE_SYMBOL)
-                  ? this.props.price
-                  : `${RUPEE_SYMBOL}${this.props.price}`}
-              </h3>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     );
