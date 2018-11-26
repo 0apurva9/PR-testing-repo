@@ -100,24 +100,34 @@
   padding: 5px 0px;
 }
 
-@media  screen  and (min-width:1025px){
-  .base , .themeElectronics{
-    background-image:none;
-    padding:0;
-    pointer-events:none;
-    margin-top:10px;
+@media screen and (min-width: 1025px) {
+  .base,
+  .themeElectronics {
+    background-image: none;
+    padding: 0;
+    pointer-events: none;
   }
-  .headingText , .headingText a ,.descriptionText , .offerText {
-    color:#212121;
+  .headingText,
+  .headingText a,
+  .descriptionText,
+  .offerText {
+    color: #212121;
   }
-  .descriptionLink{
-    width:100%;
+  .descriptionLink {
+    width: 100%;
   }
-  .headingText{
-    display:inline-block;
-    width:auto;
-    vertical-align:top;
-    line-height:21px;
+  .headingText {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    line-height: 20px;
+    margin-bottom: 15px;
+  }
+  .headingText:last-child {
+    margin-bottom: 0px;
+  }
+  .headingText span {
+    padding-right: 10px;
   }
   .link {
     font-size: 14px;
@@ -126,9 +136,9 @@
     display: inline-block;
     margin-left: 10px;
     cursor: pointer;
-    vertical-align:top;
-    pointer-events:auto;
-    cursor:pointer
+    vertical-align: top;
+    pointer-events: auto;
+    cursor: pointer;
   }
   .link:after {
     content: "";
@@ -137,25 +147,24 @@
     display: inline-block;
     margin-left: 10px;
     transform: rotate(-90deg);
-    background:url("../../general/components/img/down-arrow-red.svg")no-repeat;
+    background: url("../../general/components/img/down-arrow-red.svg") no-repeat;
     background-position: center;
     background-size: contain;
-
   }
-  .headingText:after{
-    content:" Check details";
+  .headingText:after {
+    content: " Check details";
     font-size: 14px;
     color: #ff1744;
     font-family: light;
     display: inline-block;
-    margin-left: 10px;
     cursor: pointer;
-    vertical-align:top;
-    pointer-events:auto;
-    cursor:pointer;
-    background:url("../../general/components/img/right-arrow-red.svg")no-repeat;
-    background-position:right center;
+    vertical-align: top;
+    pointer-events: auto;
+    cursor: pointer;
+    background: url("../../general/components/img/right-arrow-red.svg")
+      no-repeat;
+    background-position: right center;
     background-size: 10px;
-    padding-right:15px;
+    padding-right: 15px;
   }
 }
