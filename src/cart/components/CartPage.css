@@ -128,6 +128,7 @@
     min-height: 300px;
     position: sticky;
     top: 180px;
+    margin-bottom: 30px;
   }
   .bagTotalFixed {
     width: 100%;
@@ -242,13 +243,14 @@
   .wishListCountSection {
     width: 100%;
     height: auto;
-    padding: 25px 95px 25px 70px;
+    padding: 25px 95px 25px 60px;
     background: #fff;
     border-radius: 4px;
     position: relative;
     color: #000;
     font-size: 14px;
     font-family: regular;
+    margin-top: 30px;
   }
   .iconWishList {
     width: 25px;
@@ -266,7 +268,7 @@
     width: 45px;
     height: 25px;
     position: absolute;
-    right: 30px;
+    right: 25px;
     top: 0;
     bottom: 0;
     margin: auto;
