@@ -72,6 +72,6 @@
   }
   .checkboxHolder {
     composes: checkboxHolder;
-    top: -35px;
+    top: -21px;
   }
 }

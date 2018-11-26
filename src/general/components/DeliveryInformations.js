@@ -83,7 +83,8 @@ export default class DeliveryInformations extends React.Component {
               </div>
             )}
 
-            {this.props.type === COLLECT &&
+            {this.props.isClickable &&
+              this.props.type === COLLECT &&
               this.props.isShowCliqAndPiqUnderLineText && (
                 <div className={styles.underLineButtonHolder}>
                   <span className={styles.buttonHolderPiq}>
@@ -93,6 +94,7 @@ export default class DeliveryInformations extends React.Component {
                       }
                       fontFamily="light"
                       color="#ff1744"
+                      size="11px"
                       label="Check for pick up options"
                       onClick={() => this.onPiq()}
                     />
@@ -137,6 +139,7 @@ export default class DeliveryInformations extends React.Component {
               </div>
             )}
           {this.props.showCliqAndPiqButton &&
+            this.props.isClickable &&
             !this.props.selected &&
             this.props.type === COLLECT && (
               <div
