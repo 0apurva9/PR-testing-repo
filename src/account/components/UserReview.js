@@ -117,9 +117,6 @@ export default class UserReview extends React.Component {
                     {reviews.rating && (
                       <div className={styles.rating}>
                         <StarRating averageRating={reviews.rating}>
-                          <span className={styles.showAverageRatingWithDays}>
-                            {reviews.reviewAge}
-                          </span>
                           <DesktopOnly>
                             <span className={styles.dateHolder}>
                               {reviews.reviewAge
