@@ -161,8 +161,9 @@
     color: initial;
   }
   .statusHolder {
-    width: 100%;
+    width: 50%;
     height: auto;
+    display: inline-block;
   }
   .priceHeader {
     width: 100%;
