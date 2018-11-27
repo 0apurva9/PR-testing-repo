@@ -80,6 +80,11 @@
     padding-top: 20px;
     padding-left: 0px;
   }
+  .totalReview {
+    background: #ffffff;
+    margin-bottom: 5px;
+    border: none;
+  }
   .showAverageRatingWithDays {
     width: auto;
     height: auto;
