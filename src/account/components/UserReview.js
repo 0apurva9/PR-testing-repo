@@ -116,18 +116,15 @@ export default class UserReview extends React.Component {
                   <div className={styles.commentAndHeadlineHolder}>
                     {reviews.rating && (
                       <div className={styles.rating}>
-                        <StarRating averageRating={reviews.rating}>
-                          <span className={styles.showAverageRatingWithDays}>
-                            {reviews.reviewAge}
-                          </span>
-                          <DesktopOnly>
+                        <DesktopOnly>
+                          <StarRating averageRating={reviews.rating}>
                             <span className={styles.dateHolder}>
                               {reviews.reviewAge
                                 ? reviews.reviewAge
                                 : format(reviews.date, dateFormat)}
                             </span>
-                          </DesktopOnly>
-                        </StarRating>
+                          </StarRating>
+                        </DesktopOnly>
                       </div>
                     )}
                     <div className={styles.headline}>{reviews.headline} </div>
