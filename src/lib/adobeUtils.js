@@ -110,7 +110,7 @@ const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
 const SIGN_UP_START = "signup_starts";
 const SIGN_UP_SUCCESS = "signup_successful";
 const LOGOUT_SUCCESS = "logout_successful";
-
+const LOGIN_START = "login_start";
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT";
@@ -299,6 +299,7 @@ export const ADOBE_DIRECT_CALL_FOR_CART_FOOTER_LINK_CLICK =
   "ADOBE_DIRECT_CALL_FOR_CART_FOOTER_LINK_CLICK";
 export const ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT =
   "ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT";
+export const ADOBE_LOGIN_START = "ADOBE_LOGIN_START";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -1638,6 +1639,11 @@ export function setDataLayerForLogin(type, lastLocation) {
     }
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_FAILURE);
+    }
+  }
+  if (type === ADOBE_LOGIN_START) {
+    if (window._satellite) {
+      window._satellite.track(LOGIN_START);
     }
   }
 }

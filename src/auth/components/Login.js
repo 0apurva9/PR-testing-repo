@@ -32,7 +32,9 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayer,
-  ADOBE_LOGIN_AND_SIGN_UP_PAGE
+  setDataLayerForLogin,
+  ADOBE_LOGIN_AND_SIGN_UP_PAGE,
+  ADOBE_LOGIN_START
 } from "../../lib/adobeUtils";
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
@@ -48,6 +50,7 @@ class Login extends Component {
   }
   componentDidMount() {
     const digitalData = window.digitalData;
+    setDataLayerForLogin(ADOBE_LOGIN_START);
     if (
       digitalData &&
       digitalData.page &&

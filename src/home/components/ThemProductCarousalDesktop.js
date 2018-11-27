@@ -4,6 +4,7 @@ import Button from "../../general/components/Button.js";
 import PropTypes from "prop-types";
 import styles from "./ThemProductCarousalDesktop.css";
 import CircleProductDescriptionDesktop from "./CircleProductDescriptionDesktop.js";
+import { widgetsTracking } from "../../lib/adobeUtils.js";
 export default class ThemProductCarousalDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -17,11 +18,22 @@ export default class ThemProductCarousalDesktop extends React.Component {
     }
   }
   handleClick() {
+    widgetsTracking({
+      widgetName: this.props.feedComponentData.type,
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+    });
     if (this.props.onClick) {
       this.props.onClick();
     }
   }
-  onRedirect(url) {
+  onRedirect(url, brandsName) {
+    widgetsTracking({
+      widgetName: this.props.feedComponentData.type,
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
+      brandName: brandsName,
+      type: "Brand",
+      PositionOfProduct: this.state.position + 1
+    });
     if (this.props.onRedirect) {
       this.props.onRedirect(url);
     }
@@ -78,7 +90,9 @@ export default class ThemProductCarousalDesktop extends React.Component {
                   }
                   price={this.props.items[this.state.position].mrp}
                   webURL={this.props.items[this.state.position].webURL}
-                  onRedirect={url => this.onRedirect(url)}
+                  onRedirect={(url, brandsName) =>
+                    this.onRedirect(url, brandsName)
+                  }
                 />
               )}
 
