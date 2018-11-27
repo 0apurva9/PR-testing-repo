@@ -120,11 +120,13 @@ export default class UserReview extends React.Component {
                           <span className={styles.showAverageRatingWithDays}>
                             {reviews.reviewAge}
                           </span>
-                          <span>
-                            {reviews.reviewAge
-                              ? reviews.reviewAge
-                              : format(reviews.date, dateFormat)}
-                          </span>
+                          <DesktopOnly>
+                            <span>
+                              {reviews.reviewAge
+                                ? reviews.reviewAge
+                                : format(reviews.date, dateFormat)}
+                            </span>
+                          </DesktopOnly>
                         </StarRating>
                       </div>
                     )}
