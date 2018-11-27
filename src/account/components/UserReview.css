@@ -66,6 +66,10 @@
     height: auto;
     background: #ececec;
   }
+  .dateHolder {
+    font-family: light;
+    font-size: 14px;
+  }
   .reviewsHolder {
     padding: 30px;
     border-radius: 4px;

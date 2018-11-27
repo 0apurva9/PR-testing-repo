@@ -121,7 +121,7 @@ export default class UserReview extends React.Component {
                             {reviews.reviewAge}
                           </span>
                           <DesktopOnly>
-                            <span>
+                            <span className={styles.dateHolder}>
                               {reviews.reviewAge
                                 ? reviews.reviewAge
                                 : format(reviews.date, dateFormat)}
