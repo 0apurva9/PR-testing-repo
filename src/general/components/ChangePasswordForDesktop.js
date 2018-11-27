@@ -24,6 +24,10 @@ export default class ChangePasswordForDesktop extends React.Component {
     if (this.props.updateProfile) {
       this.props.updateProfile(this.state);
     }
+    window.scroll({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
   render() {
