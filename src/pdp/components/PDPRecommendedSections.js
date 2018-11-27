@@ -145,7 +145,7 @@ class PDPRecommendedSections extends React.Component {
     );
   }
 
-  renderCarousel(items, elementWidthDesktop, widgetName) {
+  renderCarousel(items, widgetName) {
     return (
       <div className={styles.brandProductCarousel}>
         <CarouselWithControls elementWidth={45} elementWidthDesktop={25}>

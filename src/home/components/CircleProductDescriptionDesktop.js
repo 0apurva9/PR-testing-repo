@@ -15,7 +15,7 @@ export default class CircleProductDescriptionDesktop extends React.Component {
       urlSuffix = `p-${this.props.productListingId.toLowerCase()}`;
     }
     if (this.props.onRedirect) {
-      this.props.onRedirect(urlSuffix);
+      this.props.onRedirect(urlSuffix, this.props.brandsName);
     }
   }
   render() {
