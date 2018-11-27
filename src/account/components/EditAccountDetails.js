@@ -211,42 +211,33 @@ export default class EditAccountDetails extends React.Component {
     }
 
     let userDetails = this.props.userDetails;
-    if (userDetails && !this.state.changePassword) {
+    if (
+      userDetails &&
+      !this.state.changePassword &&
+      UserAgent.checkUserAgentIsMobile()
+    ) {
       return (
         <div className={styles.base}>
           <div className={myAccountStyles.holder}>
-            <DesktopOnly>
-              <div className={myAccountStyles.profileMenu}>
-                <ProfileMenu {...this.props} />
-              </div>
-            </DesktopOnly>
             <div className={styles.editAccountDetail}>
               <div className={styles.editAccountDetailWithHolder}>
-                <DesktopOnly>
-                  <div className={styles.infoHeader}>General Information</div>
-                </DesktopOnly>
-                <MobileOnly>
-                  <div className={styles.profileImage}>
-                    <ProfilePicture
-                      firstName={
-                        this.state.firstName !== "undefined"
-                          ? this.state.firstName
-                          : ""
-                      }
-                      lastName={
-                        this.state.lastName !== "undefined"
-                          ? this.state.lastName
-                          : ""
-                      }
-                    />
-                  </div>
-                </MobileOnly>
+                <div className={styles.profileImage}>
+                  <ProfilePicture
+                    firstName={
+                      this.state.firstName !== "undefined"
+                        ? this.state.firstName
+                        : ""
+                    }
+                    lastName={
+                      this.state.lastName !== "undefined"
+                        ? this.state.lastName
+                        : ""
+                    }
+                  />
+                </div>
                 <div className={styles.userDataHolder}>
                   <div className={styles.holder}>
                     <div className={styles.container}>
-                      <DesktopOnly>
-                        <div className={styles.textHolder}>First Name</div>
-                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="First Name"
@@ -264,9 +255,6 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <DesktopOnly>
-                        <div className={styles.textHolder}>Last Name</div>
-                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="Last Name"
@@ -284,9 +272,6 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <DesktopOnly>
-                        <div className={styles.textHolder}>Email</div>
-                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="Email"
@@ -299,9 +284,6 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <DesktopOnly>
-                        <div className={styles.textHolder}>Phone</div>
-                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <Input2
                           placeholder="Mobile Number"
@@ -318,9 +300,6 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <DesktopOnly>
-                        <div className={styles.textHolder}>Gender</div>
-                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <SelectBoxMobile2
                           placeholder={"Gender"}
@@ -337,9 +316,6 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div>
                     <div className={styles.container}>
-                      <DesktopOnly>
-                        <div className={styles.textHolder}>Date of Birth</div>
-                      </DesktopOnly>
                       <div className={styles.inputHolder}>
                         <MobileDatePicker
                           value={this.state.dateOfBirth}
@@ -356,50 +332,173 @@ export default class EditAccountDetails extends React.Component {
                       onClick={() => this.renderChangePassword()}
                     />
                   </div>
-                  <DesktopOnly>
-                    <div className={styles.updateButtonHolder}>
-                      <div className={styles.updateButton}>
-                        <Button
-                          type="hollow"
-                          color="#000"
-                          label={"Update"}
-                          width={150}
-                          onClick={() => this.updateProfile()}
-                        />
-                      </div>
-                    </div>
-                  </DesktopOnly>
-                  <MobileOnly>
-                    <AccountFooter
-                      cancel={() => this.cancel()}
-                      update={() => this.updateProfile()}
-                    />
-                  </MobileOnly>
+
+                  <AccountFooter
+                    cancel={() => this.cancel()}
+                    update={() => this.updateProfile()}
+                  />
                 </div>
               </div>
             </div>
-            <DesktopOnly>
-              <div className={myAccountStyles.userProfile}>
-                <UserProfile
-                  image={userData && userData.imageUrl}
-                  userLogin={userData && userData.userName}
-                  loginType={userData && userData.loginType}
-                  onClick={() => this.renderToAccountSetting()}
-                  firstName={
-                    userData &&
-                    userData.firstName &&
-                    userData.firstName.trim().charAt(0)
-                  }
-                  heading={
-                    userData && userData.firstName && `${userData.firstName} `
-                  }
-                  lastName={
-                    userData && userData.lastName && `${userData.lastName}`
-                  }
-                  userAddress={this.props.userAddress}
-                />
+          </div>
+        </div>
+      );
+    } else if (!UserAgent.checkUserAgentIsMobile()) {
+      return (
+        <div className={styles.base}>
+          <div className={myAccountStyles.holder}>
+            <div className={myAccountStyles.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+            <div className={styles.editAccountDetail}>
+              <div className={styles.editAccountDetailWithHolder}>
+                <div className={styles.infoHeader}>General Information</div>
+
+                <div className={styles.userDataHolder}>
+                  <div className={styles.holder}>
+                    <div className={styles.container}>
+                      <div className={styles.textHolder}>First Name</div>
+
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="First Name"
+                          value={
+                            this.state.firstName !== "undefined"
+                              ? this.state.firstName
+                              : ""
+                          }
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={firstName => this.onChange({ firstName })}
+                          onlyAlphabet={true}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <div className={styles.textHolder}>Last Name</div>
+
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="Last Name"
+                          value={
+                            this.state.lastName !== "undefined"
+                              ? this.state.lastName
+                              : ""
+                          }
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={lastName => this.onChange({ lastName })}
+                          onlyAlphabet={true}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <div className={styles.textHolder}>Email</div>
+
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="Email"
+                          value={this.state.emailId}
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={emailId => this.onChange({ emailId })}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <div className={styles.textHolder}>Phone</div>
+
+                      <div className={styles.inputHolder}>
+                        <Input2
+                          placeholder="Mobile Number"
+                          value={this.state.mobileNumber}
+                          boxy={true}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onChange={mobileNumber =>
+                            this.onChangeMobileNumber(mobileNumber)
+                          }
+                          disabled={false}
+                          onlyNumber={true}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <div className={styles.textHolder}>Gender</div>
+
+                      <div className={styles.inputHolder}>
+                        <SelectBoxMobile2
+                          placeholder={"Gender"}
+                          label={this.state.gender}
+                          value={this.state.gender}
+                          options={[
+                            { label: "Female", value: "FEMALE" },
+                            { label: "Male", value: "MALE" }
+                          ]}
+                          arrowColour="grey"
+                          height={33}
+                          onChange={gender => this.onChangeGender(gender)}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.container}>
+                      <div className={styles.textHolder}>Date of Birth</div>
+
+                      <div className={styles.inputHolder}>
+                        <MobileDatePicker
+                          value={this.state.dateOfBirth}
+                          onChange={dateOfBirth =>
+                            this.onChangeDateOfBirth(dateOfBirth)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.changePassword}>
+                    <ShopByBrandLists
+                      brandList={"Change Password"}
+                      onClick={() => this.renderChangePassword()}
+                    />
+                  </div>
+
+                  <div className={styles.updateButtonHolder}>
+                    <div className={styles.updateButton}>
+                      <Button
+                        type="hollow"
+                        color="#000"
+                        label={"Update"}
+                        width={150}
+                        onClick={() => this.updateProfile()}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </DesktopOnly>
+            </div>
+
+            <div className={myAccountStyles.userProfile}>
+              <UserProfile
+                image={userData && userData.imageUrl}
+                userLogin={userData && userData.userName}
+                loginType={userData && userData.loginType}
+                onClick={() => this.renderToAccountSetting()}
+                firstName={
+                  userData &&
+                  userData.firstName &&
+                  userData.firstName.trim().charAt(0)
+                }
+                heading={
+                  userData && userData.firstName && `${userData.firstName} `
+                }
+                lastName={
+                  userData && userData.lastName && `${userData.lastName}`
+                }
+                userAddress={this.props.userAddress}
+              />
+            </div>
           </div>
         </div>
       );
