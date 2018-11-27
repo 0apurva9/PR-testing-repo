@@ -170,8 +170,8 @@
   .reSendEmail {
     font-size: 14px;
     padding-top: 0px;
-    margin-top: 0px;
-    padding-right: 0px;
+    margin-top: 1px;
+    padding-left: 10px;
     float: right;
   }
 }

@@ -751,12 +751,30 @@ export default class AllOrderDetails extends React.Component {
 
                                 {orderDetails.isEgvOrder &&
                                   orderDetails.giftCardStatus && (
-                                    <div className={styles.statusHolder}>
-                                      <div className={styles.priceHeader}>
-                                        Status
+                                    <div>
+                                      <div className={styles.statusHolder}>
+                                        <div className={styles.priceHeader}>
+                                          Status
+                                        </div>
+                                        <div className={styles.statusFailed}>
+                                          {orderDetails.giftCardStatus}
+                                        </div>
                                       </div>
-                                      <div className={styles.statusFailed}>
-                                        {orderDetails.giftCardStatus}
+                                      <div className={styles.priceRightHolder}>
+                                        <PriceAndLink
+                                          onViewDetails={() =>
+                                            this.onViewDetails(
+                                              orderDetails &&
+                                                orderDetails.orderId
+                                            )
+                                          }
+                                          isEgvOrder={orderDetails.isEgvOrder}
+                                          status={orderDetails.giftCardStatus}
+                                          price={
+                                            orderDetails &&
+                                            orderDetails.totalOrderAmount
+                                          }
+                                        />
                                       </div>
                                     </div>
                                   )}
