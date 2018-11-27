@@ -30,6 +30,7 @@
 .orderDetailsHolder {
   width: 100%;
   height: auto;
+  display: inline-block;
 }
 .noOderText {
   font-family: semibold;
