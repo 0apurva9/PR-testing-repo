@@ -66,6 +66,10 @@
     height: auto;
     background: #ececec;
   }
+  .dateHolder {
+    font-family: light;
+    font-size: 14px;
+  }
   .reviewsHolder {
     padding: 30px;
     border-radius: 4px;
@@ -79,6 +83,11 @@
   .commentAndHeadlineHolder {
     padding-top: 20px;
     padding-left: 0px;
+  }
+  .totalReview {
+    background: #ffffff;
+    margin-bottom: 5px;
+    border: none;
   }
   .showAverageRatingWithDays {
     width: auto;

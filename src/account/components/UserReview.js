@@ -78,6 +78,14 @@ export default class UserReview extends React.Component {
                 </span>
               </div>
             </MobileOnly>
+            <DesktopOnly>
+              <div className={styles.totalReview}>
+                You have made{" "}
+                <span className={styles.totalReviewLength}>
+                  {this.props.userReview.reviews.length} reviews
+                </span>
+              </div>
+            </DesktopOnly>
             {this.props.userReview.reviews.map((reviews, i) => {
               return (
                 <div className={styles.reviewsHolder} key={i}>
@@ -112,6 +120,13 @@ export default class UserReview extends React.Component {
                           <span className={styles.showAverageRatingWithDays}>
                             {reviews.reviewAge}
                           </span>
+                          <DesktopOnly>
+                            <span className={styles.dateHolder}>
+                              {reviews.reviewAge
+                                ? reviews.reviewAge
+                                : format(reviews.date, dateFormat)}
+                            </span>
+                          </DesktopOnly>
                         </StarRating>
                       </div>
                     )}
