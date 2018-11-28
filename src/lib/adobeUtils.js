@@ -321,7 +321,6 @@ const YOU_MAY_ALSO_LIKE_ADOBE = "youmay_alsolike";
 const FRESH_FROM_BRAND_ADOBE = "freshfrom_brands";
 const DISCOVER_MORE_ADOBE = "discover_more";
 const ABOUT_THE_BRAND_ADOBE = "aboutthe_brand";
-const SIMILAR_PRODUCTS_ADOBE = "similar_product";
 const FREQUENTLY_BOUGHT_TOGETHER_ADOBE = "frequently_bought_together";
 const VISIT_BRAND = "visit_brand";
 const AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
@@ -349,6 +348,8 @@ const SELECT_STORE = "cpj_select_store";
 const CART_SAVED_LIST = "cpj_cart_savedList";
 const CART_FOOTER_LINK_CLICK = "cpj_cart_footer_linkClick";
 const MY_ACCOUNT_WISHLIST_REMOVE = "myAccount_wishlist_remove";
+const MULTI_PURPOSE_BANNER = "multi_purpose_banner_component";
+const PDP_SIMILAR_PRODUCT = "pdp_similar_product";
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -1248,6 +1249,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_CHANGE_QUANTITY) {
+    console.log(response);
     let productQuantityArray = [];
     if (response && response.products && response.products.length > 0) {
       response.products.forEach(function(product) {
@@ -2319,7 +2321,7 @@ export function widgetsTracking(widgetObj: {}) {
       widgetType = ABOUT_THE_BRAND_ADOBE;
       break;
     case SIMILAR_PRODUCTS:
-      widgetType = SIMILAR_PRODUCTS_ADOBE;
+      widgetType = PDP_SIMILAR_PRODUCT;
       break;
     case FREQUENTLY_BOUGHT_TOGETHER:
       widgetType = FREQUENTLY_BOUGHT_TOGETHER_ADOBE;
@@ -2350,6 +2352,9 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case FLASH_SALE_COMPONENT:
       widgetType = FLASH_SALE_COMPONENT;
+      break;
+    case "desktop_multi_click_component":
+      widgetType = MULTI_PURPOSE_BANNER;
       break;
     default:
       break;
