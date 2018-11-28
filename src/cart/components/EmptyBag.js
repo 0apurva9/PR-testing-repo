@@ -9,7 +9,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import {
   setDataLayerForCartDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART
+  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST
 } from "../../lib/adobeUtils";
 export default class EmptyBag extends React.Component {
   handleOnContinue() {
@@ -18,7 +18,7 @@ export default class EmptyBag extends React.Component {
     }
   }
   handleOnSaved() {
-    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART);
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST);
     if (this.props.viewSavedProduct) {
       this.props.viewSavedProduct();
     }
