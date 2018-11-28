@@ -30,6 +30,10 @@ class CuratedProductsComponent extends React.Component {
   };
 
   handleSeeAll = () => {
+    widgetsTracking({
+      widgetName: "Curated products component",
+      sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
+    });
     const urlSuffix = this.props.feedComponentData.webURL.replace(
       TATA_CLIQ_ROOT,
       "$1"
