@@ -35,6 +35,9 @@
   font-size: inherit;
   max-height: 40px;
   overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .content {
   width: 100%;
