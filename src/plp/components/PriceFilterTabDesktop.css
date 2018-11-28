@@ -27,12 +27,17 @@
   vertical-align: middle;
 }
 .applyPriceRange {
-  width: 30px;
+  width: 33px;
   display: inline-block;
   position: absolute;
   right: 0;
   top: 0;
   vertical-align: middle;
+  pointer-events: none;
+}
+.clickableButton {
+  composes: applyPriceRange;
+  pointer-events: auto;
 }
 .resetPrice {
   width: 100%;
