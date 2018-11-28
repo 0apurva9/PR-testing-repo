@@ -22,6 +22,7 @@ export default class OrderBanner extends React.Component {
       JSON.parse(userDetails).firstName
         ? `${JSON.parse(userDetails).firstName}!`
         : "";
+
     return (
       <div className={styles.base}>
         <div className={styles.orderInnerBox}>
@@ -53,16 +54,18 @@ export default class OrderBanner extends React.Component {
                 </div>
               </div>
             )}
-            <div className={styles.buttonHolder} style={{ marginLeft: 10 }}>
-              <Button
-                type="hollow"
-                color="#fff"
-                label="View order details"
-                height={37}
-                width={175}
-                onClick={() => this.handleClick()}
-              />
-            </div>
+            {this.props.isGiftCard && (
+              <div className={styles.buttonHolder} style={{ marginLeft: 10 }}>
+                <Button
+                  type="hollow"
+                  color="#fff"
+                  label="View order details"
+                  height={37}
+                  width={175}
+                  onClick={() => this.handleClick()}
+                />
+              </div>
+            )}
           </DesktopOnly>
         </div>
       </div>

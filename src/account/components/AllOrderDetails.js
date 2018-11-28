@@ -589,26 +589,30 @@ export default class AllOrderDetails extends React.Component {
                                         </div>
                                       )}
 
-                                      <div className={styles.writeReviedButton}>
-                                        <Button
-                                          label={"Write a review"}
-                                          width={147}
-                                          height={36}
-                                          borderColor={"#000000"}
-                                          borderRadius={20}
-                                          backgroundColor={"#ffffff"}
-                                          onClick={val =>
-                                            this.writeReview(
-                                              product.productcode
-                                            )
-                                          }
-                                          textStyle={{
-                                            color: "#000000",
-                                            fontSize: 14,
-                                            fontFamily: "regular"
-                                          }}
-                                        />
-                                      </div>
+                                      {product.productName !== "Gift Card" && (
+                                        <div
+                                          className={styles.writeReviedButton}
+                                        >
+                                          <Button
+                                            label={"Write a review"}
+                                            width={147}
+                                            height={36}
+                                            borderColor={"#000000"}
+                                            borderRadius={20}
+                                            backgroundColor={"#ffffff"}
+                                            onClick={val =>
+                                              this.writeReview(
+                                                product.productcode
+                                              )
+                                            }
+                                            textStyle={{
+                                              color: "#000000",
+                                              fontSize: 14,
+                                              fontFamily: "regular"
+                                            }}
+                                          />
+                                        </div>
+                                      )}
                                     </div>
                                   </DesktopOnly>
                                 </div>
