@@ -31,7 +31,7 @@ const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
 const ADOBE_REVIEW_AND_RATING = "cpj_rating_review";
 const ADOBE_VIEW_ALL_RATING_AND_REVIEW = "cpj_rating_review_viewall";
 const ADOBE_SUBMIT_REVIEW = "cpj_rating_review_review_submit";
-const ADOBE_RATE_THIS_PRODUCT = "cpj_rating_review_rate_product";
+const ADOBE_RATE_THIS_PRODUCT = "cpj_review_write_review";
 // direct call url for cart page
 const PINCODE_SUCCESS = "pin_successful";
 const PINCODE_FAILURE = "pin_failed";
@@ -300,6 +300,8 @@ export const ADOBE_DIRECT_CALL_FOR_CART_FOOTER_LINK_CLICK =
 export const ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT =
   "ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT";
 export const ADOBE_LOGIN_START = "ADOBE_LOGIN_START";
+export const ADOBE_MY_ACCOUNT_WISHLIST_REMOVE =
+  "ADOBE_MY_ACCOUNT_WISHLIST_REMOVE";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -346,6 +348,7 @@ const PDP_SPEC_VIEW_MORE = "cpj_pdp_spec_view_more";
 const SELECT_STORE = "cpj_select_store";
 const CART_SAVED_LIST = "cpj_cart_savedList";
 const CART_FOOTER_LINK_CLICK = "cpj_cart_footer_linkClick";
+const MY_ACCOUNT_WISHLIST_REMOVE = "myAccount_wishlist_remove";
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -1208,7 +1211,6 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
 }
 export function setDataLayerForCartDirectCalls(type, response, linkName) {
   let data = cloneDeep(window.digitalData);
-  let currentDigitalData = window.digitalData;
   if (type === ADOBE_REMOVE_ITEM) {
     const getProductData = getProductsDigitalData(response);
     if (getProductData) {
@@ -1237,6 +1239,10 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT) {
+    Object.assign(data.page, {
+      pageInfo: { pageName: "Checkout Login Page" }
+    });
+    window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT);
     }
@@ -1534,6 +1540,7 @@ export function setDataLayerForLogin(type, lastLocation) {
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
   }
+  const previousDigitalData = cloneDeep(window.digitalData);
   const data = {};
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
     if (userDetails) {
@@ -1627,6 +1634,18 @@ export function setDataLayerForLogin(type, lastLocation) {
     }
     window.digitalData = data;
     window.digitalData.flag = ADOBE_LOGIN_SUCCESS;
+    if (
+      previousDigitalData &&
+      previousDigitalData.page &&
+      previousDigitalData.page.pageInfo &&
+      previousDigitalData.page.pageInfo.pageName
+    ) {
+      Object.assign(window.digitalData, {
+        page: {
+          pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+        }
+      });
+    }
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_SUCCESS);
     }
@@ -1971,6 +1990,11 @@ export function setDataLayerForMyAccountDirectCalls(
       window._satellite.track(ADOBE_ORDER_RETURN);
     }
   }
+  if (type === ADOBE_MY_ACCOUNT_WISHLIST_REMOVE) {
+    if (window._satellite) {
+      window._satellite.track(MY_ACCOUNT_WISHLIST_REMOVE);
+    }
+  }
 }
 export function getDigitalDataForMyAccount(pageTitle, response) {
   const data = {
@@ -2080,6 +2104,20 @@ export function getDigitalDataForCLP(response) {
 }
 export function setDataLayerForFollowAndUnFollowBrand(type, response) {
   let data = {};
+  const previousDigitalData = cloneDeep(window.digitalData);
+  if (
+    previousDigitalData &&
+    previousDigitalData.page &&
+    previousDigitalData.page.pageInfo &&
+    previousDigitalData.page.pageInfo.pageName
+  ) {
+    Object.assign(data, {
+      page: {
+        pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+      }
+    });
+    window.digitalData = data;
+  }
   if (type === ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS) {
     Object.assign(data, {
       cpj: { brand: { name: response.brandName } }
@@ -2357,6 +2395,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
   if (type === ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK) {
     Object.assign(currentDigitalData, {
       header: {
+        headerName: "Categories",
         categoryName: value
       }
     });
@@ -2369,6 +2408,9 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     Object.assign(currentDigitalData, {
       cpj: {
         brand: { name: value }
+      },
+      header: {
+        headerName: "Brands"
       }
     });
     window.digitalData = currentDigitalData;

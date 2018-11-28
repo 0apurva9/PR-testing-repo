@@ -23,6 +23,10 @@ import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import {
+  setDataLayerForMyAccountDirectCalls,
+  ADOBE_MY_ACCOUNT_WISHLIST_REMOVE
+} from "../../lib/adobeUtils";
 const dateFormat = "MMMM DD YYYY";
 const PRODUCT_QUANTITY = "1";
 const NO_SAVELIST_TEXT = "No item saved to your Wish List";
@@ -56,6 +60,7 @@ export default class SaveListDetails extends React.Component {
     this.props.addProductToCart(productDetails);
   }
   removeItem(ussid) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_WISHLIST_REMOVE);
     const productDetails = {};
     productDetails.ussId = ussid;
     if (this.props.removeProductFromWishList) {
