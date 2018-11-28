@@ -106,7 +106,11 @@ export default class SaveListDetails extends React.Component {
                           //productName={product.productBrand}
                           outOfStock={product.availableStock === 0}
                           productName={product.productName}
-                          price={product.mrp && product.mrp.value}
+                          price={
+                            product.mop
+                              ? product.mop && product.mop.value
+                              : product.mrp && product.mrp.value
+                          }
                           date={format(product.date, dateFormat)}
                           day=""
                           offer=""
