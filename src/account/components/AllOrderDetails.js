@@ -726,6 +726,13 @@ export default class AllOrderDetails extends React.Component {
                                         orderDetails.products[0].sellerName
                                       }
                                       isShowDataHorizontal={true}
+                                      isCancel={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].cancel
+                                      }
                                     >
                                       <div className={styles.priceRightHolder}>
                                         <PriceAndLink
