@@ -62,10 +62,28 @@
   text-align: center;
 }
 @media screen and (min-width: 1025px) {
+  .base {
+    padding: 0px;
+  }
+  .centerSubmitButton {
+    text-align: right;
+  }
   .ratingBar {
     width: auto;
     height: auto;
     width: 150px;
     display: inline-block;
+  }
+  .cancelButton {
+    width: auto;
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  .ratingContainer {
+    margin-bottom: 25px;
+  }
+  .submitButtonHolder {
+    width: 100%;
   }
 }

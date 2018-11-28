@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import ReviewList from "./ReviewList";
 import styles from "./ProductReviewPage.css";
 import ProductDetailsCard from "./ProductDetailsCard";
+import ProductDetailsForReview from "./ProductDetailsForReview";
 import WriteReview from "./WriteReview";
 import PropTypes from "prop-types";
 import RatingHolder from "./RatingHolder";
 import PdpFrame from "./PdpFrame";
 import throttle from "lodash.throttle";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -324,6 +326,7 @@ export default class ProductReviewPage extends Component {
           gotoPreviousPage={() => this.goBack()}
           displayToast={message => this.props.displayToast(message)}
           goToCart={() => this.goToCart()}
+          isWriteReview={UserAgent.checkUserAgentIsMobile() ? false : true}
         >
           {this.renderMetaTags()}
           <div
@@ -335,75 +338,160 @@ export default class ProductReviewPage extends Component {
               ? renderMetaTags(this.props.productDetails)
               : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
             <div className={styles.productBackground}>
-              <ProductDetailsCard
-                productImage={mobileGalleryImages[0]}
-                brandName={this.props.productDetails.brandName}
-                productName={this.props.productDetails.productName}
-                price={
-                  this.props.productDetails &&
-                  this.props.productDetails.winningSellerPrice &&
-                  this.props.productDetails.winningSellerPrice
-                    .formattedValueNoDecimal
-                }
-                seoDoublePrice={seoDoublePrice}
-                discountPrice={
-                  this.props.productDetails &&
-                  this.props.productDetails.mrpPrice &&
-                  this.props.productDetails.mrpPrice.formattedValueNoDecimal
-                }
-                averageRating={this.props.productDetails.averageRating}
-                numberOfReviews={this.props.productDetails.numberOfReviews}
-              />
-              <RatingHolder ratingData={this.props.ratingData} />
+              <MobileOnly>
+                <ProductDetailsCard
+                  productImage={mobileGalleryImages[0]}
+                  brandName={this.props.productDetails.brandName}
+                  productName={this.props.productDetails.productName}
+                  price={
+                    this.props.productDetails &&
+                    this.props.productDetails.winningSellerPrice &&
+                    this.props.productDetails.winningSellerPrice
+                      .formattedValueNoDecimal
+                  }
+                  seoDoublePrice={seoDoublePrice}
+                  discountPrice={
+                    this.props.productDetails &&
+                    this.props.productDetails.mrpPrice &&
+                    this.props.productDetails.mrpPrice.formattedValueNoDecimal
+                  }
+                  averageRating={this.props.productDetails.averageRating}
+                  numberOfReviews={this.props.productDetails.numberOfReviews}
+                />
+                <RatingHolder ratingData={this.props.ratingData} />
+              </MobileOnly>
+              <DesktopOnly>
+                <ProductDetailsForReview
+                  productImage={mobileGalleryImages[0]}
+                  brandName={this.props.productDetails.brandName}
+                  productName={this.props.productDetails.productName}
+                  price={
+                    this.props.productDetails &&
+                    this.props.productDetails.winningSellerPrice &&
+                    this.props.productDetails.winningSellerPrice
+                      .formattedValueNoDecimal
+                  }
+                  seoDoublePrice={seoDoublePrice}
+                  discountPrice={
+                    this.props.productDetails &&
+                    this.props.productDetails.mrpPrice &&
+                    this.props.productDetails.mrpPrice.formattedValueNoDecimal
+                  }
+                  averageRating={this.props.productDetails.averageRating}
+                  numberOfReviews={this.props.productDetails.numberOfReviews}
+                />
+              </DesktopOnly>
             </div>
             <div className={styles.dropDownHolder}>
-              <div className={styles.dropDownHolderWithReviewText}>
-                <div className={styles.headerWrapper}>
-                  <DesktopOnly>
-                    <div className={styles.headerWithRating}>
-                      <div className={styles.header}>All Reviews</div>
-                    </div>
-                  </DesktopOnly>
-                  <div className={styles.dropdownWithButton}>
-                    <div className={styles.dropdown}>
-                      <div className={styles.dropDownBox}>
-                        <SelectBoxMobile2
-                          value={this.state.sortValue}
-                          label={this.state.sortLabel}
-                          onChange={changedValue =>
-                            this.changeFilterValues(changedValue)
-                          }
-                          options={this.filterOptions}
-                          textStyle={{ fontSize: 14 }}
-                        />
+              <DesktopOnly>
+                {this.state.visible && (
+                  <div className={styles.writtingReview}>
+                    <div className={styles.headerWrapper}>
+                      <div className={styles.headerWithRating}>
+                        <div className={styles.header1}>
+                          Ratings and Reviews
+                        </div>
                       </div>
                     </div>
-                    {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
-                      this.props.match.path !== WRITE_REVIEWS && (
-                        <div
-                          className={styles.reviewText}
-                          onClick={this.reviewSection}
-                        >
-                          {WRITE_REVIEW_TEXT}
-                        </div>
-                      )}
-                  </div>
-                </div>
-                {this.state.visible && (
-                  <div className={styles.reviewHolder}>
-                    {this.renderReviewSection()}
+                    <div className={styles.reviewHolder}>
+                      {this.renderReviewSection()}
+                    </div>
                   </div>
                 )}
+              </DesktopOnly>
+              <MobileOnly>
+                <div className={styles.dropDownHolderWithReviewText}>
+                  <div className={styles.headerWrapper}>
+                    <div className={styles.dropdownWithButton}>
+                      <div className={styles.dropdown}>
+                        <div className={styles.dropDownBox}>
+                          <SelectBoxMobile2
+                            value={this.state.sortValue}
+                            label={this.state.sortLabel}
+                            onChange={changedValue =>
+                              this.changeFilterValues(changedValue)
+                            }
+                            options={this.filterOptions}
+                            textStyle={{ fontSize: 14 }}
+                          />
+                        </div>
+                      </div>
+                      {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+                        this.props.match.path !== WRITE_REVIEWS && (
+                          <div
+                            className={styles.reviewText}
+                            onClick={this.reviewSection}
+                          >
+                            {WRITE_REVIEW_TEXT}
+                          </div>
+                        )}
+                    </div>
+                  </div>
 
-                <div className={styles.reviews}>
-                  {this.props.reviews && (
-                    <ReviewList
-                      reviewList={this.props.reviews.reviews}
-                      totalNoOfReviews={this.props.reviews.totalNoOfPages}
-                    />
+                  {this.state.visible && (
+                    <div className={styles.reviewHolder}>
+                      {this.renderReviewSection()}
+                    </div>
                   )}
+
+                  <div className={styles.reviews}>
+                    {this.props.reviews && (
+                      <ReviewList
+                        reviewList={this.props.reviews.reviews}
+                        totalNoOfReviews={this.props.reviews.totalNoOfPages}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
+              </MobileOnly>
+              <DesktopOnly>
+                {this.props.reviews &&
+                  this.props.reviews.reviews &&
+                  this.props.reviews.reviews.length > 0 && (
+                    <div className={styles.dropDownHolderWithReviewText}>
+                      <div className={styles.headerWrapper}>
+                        <div className={styles.headerWithRating}>
+                          <div className={styles.header}>All Reviews</div>
+                        </div>
+
+                        <div className={styles.dropdownWithButton}>
+                          <div className={styles.dropdown}>
+                            <div className={styles.dropDownBox}>
+                              <SelectBoxMobile2
+                                value={this.state.sortValue}
+                                label={this.state.sortLabel}
+                                onChange={changedValue =>
+                                  this.changeFilterValues(changedValue)
+                                }
+                                options={this.filterOptions}
+                                textStyle={{ fontSize: 14 }}
+                              />
+                            </div>
+                          </div>
+                          {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+                            this.props.match.path !== WRITE_REVIEWS &&
+                            !this.state.visible && (
+                              <div
+                                className={styles.reviewText}
+                                onClick={this.reviewSection}
+                              >
+                                {WRITE_REVIEW_TEXT}
+                              </div>
+                            )}
+                        </div>
+                      </div>
+
+                      <div className={styles.reviews}>
+                        {this.props.reviews && (
+                          <ReviewList
+                            reviewList={this.props.reviews.reviews}
+                            totalNoOfReviews={this.props.reviews.totalNoOfPages}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )}
+              </DesktopOnly>
             </div>
           </div>
         </PdpFrame>

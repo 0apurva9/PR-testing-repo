@@ -20,6 +20,8 @@ import {
   setDataLayerForPdpDirectCalls,
   ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
 } from "../../lib/adobeUtils";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 let buttonColor = "#212121";
 const atleastOneAlpanum = new RegExp(/[\s a-zA-Z0-9]*[a-zA-z0-9]+/i);
 class WriteReview extends React.Component {
@@ -120,15 +122,17 @@ class WriteReview extends React.Component {
           placeholder="Tell us what you think of this product"
         />
         <div className={styles.buttonContainer}>
-          {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
-            this.props.match.path !== WRITE_REVIEWS && (
-              <div
-                className={styles.cancelButton}
-                onClick={() => this.onCancel()}
-              >
-                Cancel
-              </div>
-            )}
+          <MobileOnly>
+            {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+              this.props.match.path !== WRITE_REVIEWS && (
+                <div
+                  className={styles.cancelButton}
+                  onClick={() => this.onCancel()}
+                >
+                  Cancel
+                </div>
+              )}
+          </MobileOnly>
           <div
             className={
               this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
@@ -137,6 +141,17 @@ class WriteReview extends React.Component {
                 : styles.submitButtonHolder
             }
           >
+            <DesktopOnly>
+              {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
+                this.props.match.path !== WRITE_REVIEWS && (
+                  <div
+                    className={styles.cancelButton}
+                    onClick={() => this.onCancel()}
+                  >
+                    Cancel
+                  </div>
+                )}
+            </DesktopOnly>
             <div className={styles.submitButton}>
               <Button
                 className={styles.ratingBar}

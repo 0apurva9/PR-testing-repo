@@ -55,16 +55,26 @@
   display: inline-block;
 }
 @media screen and (min-width: 1025px) {
+  .base {
+    max-width: 1190px;
+    margin: auto;
+  }
+  .productBackground {
+    width: 20%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+  }
   .dropDownHolder {
     background: #ececec;
-    padding: 0px;
-    padding: 40px 0px;
+    padding: 0px 0px 0px 20px;
+    width: 80%;
   }
   .dropDownHolderWithReviewText {
     max-width: 1200px;
     background: #fff;
     margin: auto;
-    padding: 45px 35px;
+    padding: 35px;
     border-radius: 4px;
   }
   .dropdown {
@@ -98,6 +108,11 @@
     font-family: semibold;
     font-size: 30px;
     margin-bottom: 15px;
+    color: #000;
+  }
+  .header1 {
+    composes: header;
+    margin-bottom: 20px;
   }
   .ratngAndReviews {
     width: 100%;
@@ -119,5 +134,17 @@
   .headerWrapper {
     width: 100%;
     height: auto;
+  }
+  .writtingReview {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    padding: 35px;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .reviewHolder {
+    padding: 0px;
   }
 }
