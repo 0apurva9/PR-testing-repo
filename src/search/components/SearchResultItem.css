@@ -11,12 +11,10 @@
 .bolder {
   font-family: semibold;
 }
-.regular {
-  font-family: regular;
-}
+
 @media screen and (min-width: 1025px) {
   .base {
     cursor: pointer;
-    padding: 0px 20px;
+    padding: 0px 30px;
   }
 }
