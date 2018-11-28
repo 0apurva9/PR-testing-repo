@@ -4,6 +4,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 import styles from "./MultiClickBanner.css";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
+import ImageFlexible from "../../general/components/ImageFlexible";
 export default class MultiClickBanner extends React.Component {
   goToUrl(data) {
     widgetsTracking({
@@ -44,15 +45,10 @@ export default class MultiClickBanner extends React.Component {
                 : ""
           }}
         >
-          <div
-            className={styles.imageHolder}
-            style={{
-              backgroundImage:
-                feedComponentData && feedComponentData.backgroundImage
-                  ? `url(${feedComponentData.backgroundImage})`
-                  : ""
-            }}
-          >
+          <div className={styles.imageHolder}>
+            <ImageFlexible
+              image={feedComponentData && feedComponentData.backgroundImage}
+            />
             <div className={styles.content}>
               {feedComponentData &&
                 feedComponentData.items &&
