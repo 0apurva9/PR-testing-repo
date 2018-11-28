@@ -39,7 +39,11 @@ export default class PdpFrame extends React.Component {
   };
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={
+          this.props.isWriteReview ? styles.baseWithOutPadding : styles.base
+        }
+      >
         <MobileOnly>
           <PdpFooter
             goToCartPageFlag={this.props.goToCartPageFlag}
@@ -65,5 +69,9 @@ export default class PdpFrame extends React.Component {
   }
 }
 PdpFrame.propTypes = {
-  onAddToBag: PropTypes.func
+  onAddToBag: PropTypes.func,
+  isWriteReview: PropTypes.bool
+};
+PdpFrame.defaultProps = {
+  isWriteReview: false
 };

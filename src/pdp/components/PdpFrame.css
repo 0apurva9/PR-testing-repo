@@ -15,6 +15,11 @@
 @media screen and (min-width: 1025px) {
   .base {
     background: #fff;
-    padding-top:30px;
+    padding-top: 30px;
+  }
+  .baseWithOutPadding {
+    composes: base;
+    background: #ececec;
+    padding-top: 0px;
   }
 }

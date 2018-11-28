@@ -6,6 +6,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import {
   RUPEE_SYMBOL,
+  WRITE_REVIEW,
   PRODUCT_REVIEWS_PATH_SUFFIX
 } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -36,6 +37,11 @@ export default class ProductDetailsMainCard extends React.Component {
     }
   }
   handleRatingLink() {
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
+    const url = `${this.props.location.pathname}${WRITE_REVIEW}`;
+    this.props.history.push(url);
+  }
+  seeRatingReview() {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
     const url = `${
       this.props.location.pathname
@@ -134,7 +140,7 @@ export default class ProductDetailsMainCard extends React.Component {
         {this.props.averageRating && (
           <div
             className={styles.ratingHolder}
-            onClick={() => this.handleRatingLink()}
+            onClick={() => this.seeRatingReview()}
           >
             <StarRating averageRating={this.props.averageRating}>
               {this.props.averageRating && (
