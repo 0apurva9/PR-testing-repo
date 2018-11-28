@@ -773,6 +773,7 @@ export default class OrderRelatedIssue extends React.Component {
                           indexNumber="1"
                           confirmTitle="Select your order"
                         />
+                        <div className={styles.iconHolder} />
                       </div>
                       {!this.state.productImageURL &&
                       !this.state.orderDate &&
