@@ -533,7 +533,7 @@ export default class SearchPage extends React.Component {
                         className={
                           this.state.currentFlag === i
                             ? styles.color
-                            : styles.searchItemBack
+                            : styles.back
                         }
                       >
                         <SearchResultItem
@@ -575,7 +575,7 @@ export default class SearchPage extends React.Component {
                               ? data.topCategories.length
                               : 0)
                             ? styles.color
-                            : styles.searchItemBack
+                            : styles.back
                         }
                       >
                         <SearchResultItem
