@@ -108,7 +108,7 @@ export default class SaveListDetails extends React.Component {
                           productName={product.productName}
                           price={
                             product.mop
-                              ? product.mop && product.mop.value
+                              ? product.mop.value
                               : product.mrp && product.mrp.value
                           }
                           date={format(product.date, dateFormat)}
