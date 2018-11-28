@@ -1534,6 +1534,7 @@ export function setDataLayerForLogin(type, lastLocation) {
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
   }
+  const previousDigitalData = cloneDeep(window.digitalData);
   const data = {};
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
     if (userDetails) {
@@ -1627,6 +1628,18 @@ export function setDataLayerForLogin(type, lastLocation) {
     }
     window.digitalData = data;
     window.digitalData.flag = ADOBE_LOGIN_SUCCESS;
+    if (
+      previousDigitalData &&
+      previousDigitalData.page &&
+      previousDigitalData.page.pageInfo &&
+      previousDigitalData.page.pageInfo.pageName
+    ) {
+      Object.assign(window.digitalData, {
+        page: {
+          pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+        }
+      });
+    }
     if (window._satellite) {
       window._satellite.track(ADOBE_LOGIN_SUCCESS);
     }
@@ -2080,6 +2093,20 @@ export function getDigitalDataForCLP(response) {
 }
 export function setDataLayerForFollowAndUnFollowBrand(type, response) {
   let data = {};
+  const previousDigitalData = cloneDeep(window.digitalData);
+  if (
+    previousDigitalData &&
+    previousDigitalData.page &&
+    previousDigitalData.page.pageInfo &&
+    previousDigitalData.page.pageInfo.pageName
+  ) {
+    Object.assign(data, {
+      page: {
+        pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+      }
+    });
+    window.digitalData = data;
+  }
   if (type === ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS) {
     Object.assign(data, {
       cpj: { brand: { name: response.brandName } }
@@ -2357,6 +2384,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
   if (type === ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK) {
     Object.assign(currentDigitalData, {
       header: {
+        headerName: "Categories",
         categoryName: value
       }
     });
@@ -2369,6 +2397,9 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     Object.assign(currentDigitalData, {
       cpj: {
         brand: { name: value }
+      },
+      header: {
+        headerName: "Brands"
       }
     });
     window.digitalData = currentDigitalData;
