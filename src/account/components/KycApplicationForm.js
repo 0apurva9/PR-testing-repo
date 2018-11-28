@@ -8,7 +8,8 @@ import {
   NAME_TEXT,
   LAST_NAME_TEXT,
   PHONE_VALID_TEXT,
-  SUCCESS
+  SUCCESS,
+  ERROR
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -41,7 +42,9 @@ export default class KycApplicationForm extends React.Component {
     } else {
       this.setState({ isLoader: true });
       const generateOtp = await this.props.generateOtp(this.state);
-
+      if (generateOtp.status === ERROR) {
+        this.setState({ isLoader: false });
+      }
       if (generateOtp.status === SUCCESS) {
         this.setState({ isLoader: false });
       }
