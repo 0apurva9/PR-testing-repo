@@ -113,3 +113,14 @@
   font-size: 14px;
   font-family: light;
 }
+.isGiveAwayQuantity {
+  width: 80px;
+  color: #212121;
+  font-family: light;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.isGiveAwayQuantityValue {
+  padding-left: 12px;
+}

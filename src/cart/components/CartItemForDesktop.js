@@ -143,6 +143,15 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     ))}
             </div>
+            {this.props.isGiveAway === YES && (
+              <div className={styles.isGiveAwayQuantity}>
+                Quantity:
+                <span className={styles.isGiveAwayQuantityValue}>
+                  {this.props.qtySelectedByUser}
+                </span>
+              </div>
+            )}
+
             {this.props.isGiveAway === NO &&
               this.props.hasFooter && (
                 <div className={styles.dropDown}>
@@ -160,7 +169,7 @@ export default class CartItemForDesktop extends React.Component {
                     arrowColour="black"
                     disabled={this.props.isOutOfStock}
                     theme="hollowBox"
-                    paddingLeftColour={"#000"}
+                    paddingLeftColour={"#212121"}
                     paddingLeftFontFamily={"light"}
                     paddingLeft={"0px"}
                     rightArrow={0}
