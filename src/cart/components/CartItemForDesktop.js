@@ -143,6 +143,15 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     ))}
             </div>
+            {this.props.isGiveAway === YES && (
+              <div className={styles.isGiveAwayQuantity}>
+                Quantity:
+                <span className={styles.isGiveAwayQuantityValue}>
+                  {this.props.qtySelectedByUser}
+                </span>
+              </div>
+            )}
+
             {this.props.isGiveAway === NO &&
               this.props.hasFooter && (
                 <div className={styles.dropDown}>
