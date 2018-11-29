@@ -30,6 +30,9 @@
   .input {
     margin-bottom: 25px;
   }
+  .buttonSignup {
+    text-align: center;
+  }
 }
 .loadingIndicator {
   display: flex;
