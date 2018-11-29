@@ -382,6 +382,13 @@ export default class DesktopHeader extends React.Component {
                                         onMouseEnter={() =>
                                           this.hoverIn(categories.category_name)
                                         }
+                                        onClick={() =>
+                                          this.renderToAnotherURL(
+                                            categories.webURL,
+                                            ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
+                                            categories.category_name
+                                          )
+                                        }
                                       >
                                         {categories.category_name}
                                         <div
