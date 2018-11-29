@@ -173,7 +173,8 @@ export default class DesktopHeader extends React.Component {
   }
   renderToAnotherURL(webURL, triggerDirectCall, value) {
     if (webURL) {
-      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+      let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+      urlSuffix = urlSuffix.replace("?q=", `?q=${value}`);
       this.props.history.push(urlSuffix);
       setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
