@@ -2860,7 +2860,6 @@ if you have order id in local storage then you have to show order confirmation p
                   )
                 }
                 orderDetails={this.props.cart.orderConfirmationDetails}
-                isGiftCard={this.state.isGiftCard}
               />
             </div>
           )}
