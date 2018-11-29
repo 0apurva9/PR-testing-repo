@@ -34,7 +34,7 @@ export default class DesktopHeader extends React.Component {
   redirectToHome() {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
-      ""
+      "Tata CLiQ Logo"
     );
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
