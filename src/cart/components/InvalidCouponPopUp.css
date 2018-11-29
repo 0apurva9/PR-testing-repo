@@ -122,4 +122,7 @@
     width: 49%;
     margin-top: 40px;
   }
+  .buttonHolderForPaymentMode {
+    width: 49%;
+  }
 }
