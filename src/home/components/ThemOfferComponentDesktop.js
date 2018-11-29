@@ -56,7 +56,9 @@ export default class ThemOfferComponentDesktop extends React.Component {
                     price={datum.price}
                     mrpPrice={datum.mrpPrice}
                     discountPrice={datum.discountPrice}
-                    description={datum.productName}
+                    description={
+                      datum.productName ? datum.productName : datum.description
+                    }
                     onDownload={datum.onDownload}
                     webURL={datum.webURL}
                     productCode={datum.productListingId}
