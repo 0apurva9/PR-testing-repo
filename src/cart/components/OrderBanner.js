@@ -54,7 +54,7 @@ export default class OrderBanner extends React.Component {
                 </div>
               </div>
             )}
-            {this.props.isGiftCard && (
+            {!this.props.isGiftCard && (
               <div className={styles.buttonHolder} style={{ marginLeft: 10 }}>
                 <Button
                   type="hollow"
