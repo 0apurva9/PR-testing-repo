@@ -53,7 +53,10 @@ export default class OrderConfirmation extends React.Component {
                   label={this.props.orderId}
                   onClick={() => this.trackOrder()}
                   isContinueShopping={true}
-                  isGiftCard={this.props.isGiftCard}
+                  isGiftCard={
+                    this.props.orderDetails &&
+                    this.props.orderDetails.isEgvOrder
+                  }
                 />
               </div>
               <MobileOnly>
