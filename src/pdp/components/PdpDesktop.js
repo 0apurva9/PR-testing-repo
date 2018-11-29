@@ -428,7 +428,12 @@ export default class PdpApparel extends React.Component {
     }
   };
   checkIfOneSize = () => {
-    if (this.props.productDetails.variantOptions.length === 1) {
+    if (
+      this.props.productDetails.variantOptions.length === 1 &&
+      this.props.productDetails.rootCategory !== "HomeFurnishing" &&
+      this.props.productDetails.rootCategory !== "FineJewellery" &&
+      this.props.productDetails.rootCategory !== "FashionJewellery"
+    ) {
       return true;
     } else {
       return false;
