@@ -46,7 +46,7 @@ const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return Order";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
-const RETURN = "RETURN ";
+const RETURN = "RETURN";
 const PRODUCT_CANCEL = "Cancel Order";
 const AWB_POPUP_TRUE = "Y";
 const AWB_POPUP_FALSE = "N";
