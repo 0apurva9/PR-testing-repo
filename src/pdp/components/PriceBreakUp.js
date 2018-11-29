@@ -2,6 +2,7 @@ import React from "react";
 import Accordion from "../../general/components/Accordion";
 import PropTypes from "prop-types";
 import styles from "./ProductFeatures.css";
+const GrossWeight = "Gross Weight";
 export default class PriceBreakUp extends React.Component {
   render() {
     return (
@@ -22,7 +23,7 @@ export default class PriceBreakUp extends React.Component {
               >
                 <div className={styles.header}>{val.name}</div>
                 <div className={styles.description}>
-                  {val.name !== "Gross Weight"
+                  {val.name !== GrossWeight
                     ? val.price && val.price.formattedValue
                     : val.weightRateList && val.weightRateList[0]}
                 </div>
