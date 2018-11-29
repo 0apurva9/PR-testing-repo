@@ -169,7 +169,7 @@ export default class CartItemForDesktop extends React.Component {
                     arrowColour="black"
                     disabled={this.props.isOutOfStock}
                     theme="hollowBox"
-                    paddingLeftColour={"#000"}
+                    paddingLeftColour={"#212121"}
                     paddingLeftFontFamily={"light"}
                     paddingLeft={"0px"}
                     rightArrow={0}
