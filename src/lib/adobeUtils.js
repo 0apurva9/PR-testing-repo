@@ -302,6 +302,7 @@ export const ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT =
 export const ADOBE_LOGIN_START = "ADOBE_LOGIN_START";
 export const ADOBE_MY_ACCOUNT_WISHLIST_REMOVE =
   "ADOBE_MY_ACCOUNT_WISHLIST_REMOVE";
+export const ADOBE_PLP = "ADOBE_PLP";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -350,6 +351,7 @@ const CART_FOOTER_LINK_CLICK = "cpj_cart_footer_linkClick";
 const MY_ACCOUNT_WISHLIST_REMOVE = "myAccount_wishlist_remove";
 const MULTI_PURPOSE_BANNER = "multi_purpose_banner_component";
 const PDP_SIMILAR_PRODUCT = "pdp_similar_product";
+const ADOBE_PLP_CPJ = "cpj_plp";
 const GOOGLE = "google";
 const FACEBOOK = "facebook";
 const MOBILE = "mobile";
@@ -379,7 +381,12 @@ export function setDataLayer(
   if (type === ADOBE_PLP_TYPE) {
     window.digitalData = getDigitalDataForPlp(type, response);
   }
-  if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT) {
+  if (
+    type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT &&
+    behaviorOfPage !== "Popular brands" &&
+    behaviorOfPage !== "isSortTrue" &&
+    behaviorOfPage !== "isFilterTrue"
+  ) {
     window.digitalData = getDigitalDataForSearchPageSuccess(response);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
@@ -504,7 +511,11 @@ export function setDataLayer(
     });
     window.digitalData = data;
   }
-
+  if (type === ADOBE_PLP) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PLP_CPJ);
+    }
+  }
   if (icidType === ICID2) {
     window.digitalData.flag = INTERNAL_CAMPAIGN;
     window.digitalData.internal = {
@@ -899,21 +910,25 @@ function getProductsDigitalData(response, type) {
           product.categoryHierarchy && product.categoryHierarchy.length;
         let currentReverseArray = reverseArrayLength - 1;
         categoryArray.push(
-          product.categoryHierarchy &&
-            product.categoryHierarchy[currentReverseArray] &&
-            product.categoryHierarchy[currentReverseArray].category_name &&
-            product.categoryHierarchy[currentReverseArray].category_name
-              .replace(/ /g, "_")
-              .toLowerCase()
+          product.productName === "Gift Card"
+            ? "Gift card"
+            : product.categoryHierarchy &&
+              product.categoryHierarchy[currentReverseArray] &&
+              product.categoryHierarchy[currentReverseArray].category_name &&
+              product.categoryHierarchy[currentReverseArray].category_name
+                .replace(/ /g, "_")
+                .toLowerCase()
         );
       } else if (!type || !type.isReverse) {
         categoryArray.push(
-          product.categoryHierarchy &&
-            product.categoryHierarchy[0] &&
-            product.categoryHierarchy[0].category_name &&
-            product.categoryHierarchy[0].category_name
-              .replace(/ /g, "_")
-              .toLowerCase()
+          product.productName === "Gift Card"
+            ? "Gift card"
+            : product.categoryHierarchy &&
+              product.categoryHierarchy[0] &&
+              product.categoryHierarchy[0].category_name &&
+              product.categoryHierarchy[0].category_name
+                .replace(/ /g, "_")
+                .toLowerCase()
         );
       }
     });
@@ -1249,7 +1264,6 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_CHANGE_QUANTITY) {
-    console.log(response);
     let productQuantityArray = [];
     if (response && response.products && response.products.length > 0) {
       response.products.forEach(function(product) {
