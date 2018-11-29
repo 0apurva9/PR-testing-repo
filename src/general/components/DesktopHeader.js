@@ -172,7 +172,6 @@ export default class DesktopHeader extends React.Component {
     }
   }
   renderToAnotherURL(webURL, triggerDirectCall, value) {
-    console.log(webURL);
     if (webURL) {
       let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       urlSuffix = urlSuffix.replace("?q=", `?q=${value}`);
