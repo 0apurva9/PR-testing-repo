@@ -469,8 +469,12 @@ class CheckOutPage extends React.Component {
   }
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
-    let defaultAddressId = null;
-
+    let addressSelectedId =
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.addressDetailsList &&
+      this.props.cart.cartDetailsCNC.addressDetailsList.addresses[0];
+    let fetchId = addressSelectedId && addressSelectedId.id;
+    let defaultAddressId = fetchId;
     if (this.state.addressId) {
       defaultAddressId = this.state.addressId;
     }
@@ -497,7 +501,7 @@ class CheckOutPage extends React.Component {
               ? this.handleSubmitAfterPaymentFailure
               : this.handleSubmit
           }
-          disabled={disabled}
+          disabled={[defaultAddressId] ? false : true}
           selected={[defaultAddressId]}
           onNewAddress={() => this.addNewAddress()}
           onSelectAddress={address => this.onSelectAddress(address)}
