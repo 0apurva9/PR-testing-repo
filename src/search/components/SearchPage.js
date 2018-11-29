@@ -66,9 +66,9 @@ export default class SearchPage extends React.Component {
           ? this.props.searchResult.topCategories
           : [];
         this.newSearchArray = [
-          ...topBrands,
           ...topCategories,
-          ...suggestionsNew
+          ...suggestionsNew,
+          ...topBrands
         ];
       }
     }
@@ -123,9 +123,9 @@ export default class SearchPage extends React.Component {
           ? this.props.searchResult.topCategories
           : [];
         this.newSearchArray = [
-          ...topBrands,
           ...topCategories,
-          ...suggestionsNew
+          ...suggestionsNew,
+          ...topBrands
         ];
       }
     }
@@ -232,12 +232,13 @@ export default class SearchPage extends React.Component {
             ? this.props.searchResult.topCategories
             : [];
           this.newSearchArray = [
-            ...topBrands,
             ...topCategories,
-            ...suggestionsNew
+            ...suggestionsNew,
+            ...topBrands
           ];
         }
       }
+
       const indexOfCurrentBrands = this.newSearchArray.findIndex(brands => {
         return brands.suggestedWord === currentSearchString;
       });
