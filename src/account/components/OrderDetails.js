@@ -35,7 +35,8 @@ import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_PAGE,
-  CANCEL
+  CANCEL,
+  WRITE_REVIEW
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
@@ -106,9 +107,7 @@ export default class OrderDetails extends React.Component {
     });
   }
   writeReview(productCode) {
-    this.props.history.push(
-      `${SEARCH_RESULTS_PAGE}p-${productCode.toLowerCase()}/${PRODUCT_REVIEWS_PATH_SUFFIX}`
-    );
+    this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
