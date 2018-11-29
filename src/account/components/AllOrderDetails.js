@@ -119,7 +119,7 @@ export default class AllOrderDetails extends React.Component {
   }
   writeReview(productCode) {
     if (productCode && this.props.history) {
-      this.props.history.push(`p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
+      this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
     }
   }
   componentDidMount() {
