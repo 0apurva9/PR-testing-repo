@@ -9,7 +9,6 @@ export default class NewBrandDesktop extends React.Component {
     }
   }
   render() {
-    console.log(this.props.data);
     return (
       <div className={styles.base}>
         {this.props &&
