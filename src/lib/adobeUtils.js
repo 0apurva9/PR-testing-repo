@@ -610,7 +610,7 @@ export function setDataLayer(
     window.digitalData = currentDigitalData;
   }
 
-  if (window._satellite && type !== ADOBE_ORDER_CONFIRMATION) {
+  if (window._satellite && type !== ADOBE_PLP) {
     window._satellite.track(ADOBE_SATELLITE_CODE);
   }
 }

@@ -3,7 +3,7 @@ import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import MediaQuery from "react-responsive";
-import { setDataLayer, ADOBE_PLP_TYPE } from "../../lib/adobeUtils";
+import { setDataLayer, ADOBE_PLP_TYPE, ICID2, CID } from "../../lib/adobeUtils";
 import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -195,7 +195,31 @@ export default class Plp extends React.Component {
         !window.digitalData.page.pageInfo ||
         window.digitalData.page.pageInfo.pageName !== "product grid"
       ) {
-        setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+        if (
+          this.props.lastVisitedPlpUrl &&
+          (this.props.lastVisitedPlpUrl.includes("icid2") ||
+            this.props.lastVisitedPlpUrl.includes("cid"))
+        ) {
+          const search = parse(
+            this.props.location && this.props.location.search
+          );
+          let icid, icidType;
+          if (search.icid2) {
+            icid = search.icid2;
+            icidType = ICID2;
+          } else if (search.cid) {
+            icid = search.cid;
+            icidType = CID;
+          }
+          setDataLayer(
+            ADOBE_PLP_TYPE,
+            this.props.productListings,
+            icid,
+            icidType
+          );
+        } else {
+          setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+        }
       }
     }
 
