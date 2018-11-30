@@ -327,7 +327,7 @@ export function homeFeedBackUp() {
     dispatch(homeFeedBackUpRequest());
     try {
       const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=defaulthomepage10&channel=${WCMS_PLATFORM}`
+        `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       );
       const resultJson = await result.json();
       const failureResponse = ErrorHandling.getFailureResponse(resultJson);
