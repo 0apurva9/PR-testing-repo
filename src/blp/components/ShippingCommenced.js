@@ -10,13 +10,13 @@ export default class ShippingCommenced extends React.Component {
         {this.props.heading && (
           <div className={styles.couponInnerBox}>
             <div className={styles.couponIcon}>
-              <Icon image={couponIcon} size={25} />
+              <Icon image={couponIcon} size={22} />
             </div>
             <div className={styles.headingText}>{this.props.heading}</div>
           </div>
         )}
 
-        <div className={styles.lebelText}>{this.props.label}</div>
+        <div className={styles.labelText}>{this.props.label}</div>
         {this.props.orderNotificationPassDate && (
           <div className={styles.dayAgo}>{`${
             this.props.orderNotificationPassDate

@@ -240,16 +240,16 @@ export default class OrderDetails extends React.Component {
                     <DesktopOnly>
                       <div className={styles.orderIdAndPlacedHolder}>
                         <div className={styles.orderIdHolder}>
-                          <span className={styles.highlitedText}>
-                            Order Placed:
+                          <span className={styles.highlightedText}>
+                            Order Placed:{" "}
                           </span>
                           <span>
                             {format(orderDetails.orderDate, dateFormat)}
                           </span>
                         </div>
                         <div className={styles.orderIdHolder}>
-                          <span className={styles.highlitedText}>
-                            Order ID:
+                          <span className={styles.highlightedText}>
+                            Order ID:{" "}
                           </span>
                           <span>{orderDetails.orderId}</span>
                         </div>
