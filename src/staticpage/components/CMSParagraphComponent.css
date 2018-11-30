@@ -43,3 +43,8 @@ a {
   color: blue;
   text-decoration: underline;
 }
+@media screen and (min-width: 1025px) {
+  .contentHolder {
+    padding: 45px 15px 15px 15px;
+  }
+}
