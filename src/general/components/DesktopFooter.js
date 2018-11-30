@@ -70,6 +70,7 @@ class DesktopFooter extends React.Component {
                       {val && val.heading}
                     </div>
                     {val &&
+                      val.list &&
                       val.list.map((data, i) => {
                         return (
                           <div
