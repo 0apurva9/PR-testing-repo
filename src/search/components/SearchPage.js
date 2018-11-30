@@ -200,7 +200,6 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
-    console.log("hrerere");
     let currentSearchString = searchString && searchString.trim();
     let code =
       this.state.categoryAndBrandCode && this.state.categoryAndBrandCode.trim();
