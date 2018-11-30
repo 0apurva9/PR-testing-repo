@@ -33,8 +33,8 @@ class SignUp extends Component {
     this.state = {
       nameValue: props.nameValue ? props.nameValue : "",
       emailValue: props.emailValue ? props.emailValue : "",
-      passwordValue: props.passwordValue ? props.passwordValue : "",
-      reEnterPasswordValue: ""
+      passwordValue: props.passwordValue ? props.passwordValue : ""
+      // reEnterPasswordValue: ""
     };
   }
   componentDidMount() {
@@ -100,10 +100,6 @@ then in this case we have to hit generate temp cart id for user
     if (this.state.passwordValue.length < "8") {
       this.props.displayToast("Password length should be minimum 8 character");
       return false;
-    }
-    if (this.state.passwordValue !== this.state.reEnterPasswordValue) {
-      this.props.displayToast(PASSWORD_MATCH_TEXT);
-      return false;
     } else {
       this.props.onSubmit({
         emailId: this.state.emailValue,
@@ -147,9 +143,9 @@ then in this case we have to hit generate temp cart id for user
     }
     this.setState({ passwordValue: val });
   }
-  onChangeReEnterPassword(val) {
-    this.setState({ reEnterPasswordValue: val });
-  }
+  // onChangeReEnterPassword(val) {
+  //   this.setState({ reEnterPasswordValue: val });
+  // }
 
   goForWishlist() {
     const productDetailsForWishList = localStorage.getItem(
@@ -241,7 +237,7 @@ then in this case we have to hit generate temp cart id for user
               maxLength={200}
             />
           </div>
-          <MediaQuery query="(min-device-width: 1025px)">
+          {/* <MediaQuery query="(min-device-width: 1025px)">
             <div className={styles.dummyDiv}>
               <PasswordInput
                 onKeyUp={event => {
@@ -254,7 +250,7 @@ then in this case we have to hit generate temp cart id for user
                 maxLength={200}
               />
             </div>
-          </MediaQuery>
+          </MediaQuery> */}
           <div className={styles.buttonSignup}>
             <div className={styles.buttonHolder}>
               <MediaQuery query="(min-device-width: 1025px)">
