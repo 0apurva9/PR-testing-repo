@@ -76,7 +76,6 @@ export default class ProductGrid extends React.Component {
     const altTag = `${data.productname}-${data.brandname}-${
       data.productCategoryType
     }-TATA CLIQ`;
-    // if (data.type === PRODUCT) {
     return (
       <ProductModule
         isRange={data.price.isRange}
