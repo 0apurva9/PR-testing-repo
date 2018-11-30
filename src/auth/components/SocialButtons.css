@@ -17,7 +17,7 @@
     border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
     background: url(./img/facebookForDesktop.svg) no-repeat;
-    background-size: auto 46px;
+    background-size: auto 40px;
     background-position: center;
     cursor: pointer;
   }
@@ -27,7 +27,7 @@
     border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
     background: url(./img/googleForDesktop.svg) no-repeat;
-    background-size: auto 46px;
+    background-size: auto 40px;
     background-position: center;
     cursor: pointer;
   }
