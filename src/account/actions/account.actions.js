@@ -694,7 +694,7 @@ export function quickDropStore(pincode, ussId) {
       ) {
         let errorMessage = resultJsonStatus.message;
         if (resultJson.status === "Store Not available") {
-          errorMessage = "Store Not available";
+          errorMessage = "Store not available.Please try another pincode.";
         }
 
         throw new Error(errorMessage);
