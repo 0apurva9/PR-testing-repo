@@ -7,7 +7,7 @@
   width: 100%;
   height: auto;
   position: relative;
-  padding: 0px 0px 0px 40px;
+  padding: 0px 0px 0px 35px;
   margin-bottom: 10px;
 }
 .couponIcon {
@@ -27,7 +27,7 @@
   line-height: 25px;
   height: auto;
 }
-.lebelText {
+.labelText {
   width: 100%;
   color: #000000;
   font-size: 14px;
@@ -39,21 +39,14 @@
 .daysAgo {
   font-family: regular;
   font-size: 14px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: justify;
   color: #000000;
-  color: var(--black);
 }
 @media screen and (min-width: 1025px) {
-  .lebelText {
+  .labelText {
     font-family: light;
-    padding-left: 40px;
+    padding-left: 35px;
   }
   .dayAgo {
-    composes: lebelText;
+    composes: labelText;
   }
 }

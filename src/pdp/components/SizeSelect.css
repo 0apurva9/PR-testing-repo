@@ -17,7 +17,7 @@
 .disabled {
   composes: base;
   opacity: 0.5;
-  background: #c5c5c5;
+  background: #e4e4e4;
   pointer-events: none;
 }
 .textHolder {
@@ -50,6 +50,7 @@
     padding: 0px;
     min-width: 36px;
     text-align: center;
+    margin-top: 10px;
   }
   .textHolder {
     height: 100%;

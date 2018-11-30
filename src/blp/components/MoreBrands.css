@@ -31,15 +31,25 @@
   .base {
     background-color: #fff;
     border-radius: 4px;
+    position: relative;
+    height: 100px;
   }
   .headerText {
     width: 40%;
     text-align: left;
     font-family: semibold;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .buttonHolder {
     width: 60%;
     text-align: right;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .button {
     cursor: pointer;

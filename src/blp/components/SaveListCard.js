@@ -49,8 +49,9 @@ export default class SaveListCard extends React.Component {
             )}
           </div>
         </div>
+        {/* This may come back so commenting it */}
 
-        <MediaQuery query="(max-device-width: 1024px)">
+        {/* <MediaQuery query="(max-device-width: 1024px)">
           <div className={styles.textContainer}>
             <div className={styles.offers}>{`${
               this.props.offer
@@ -66,7 +67,7 @@ export default class SaveListCard extends React.Component {
               </span>
             </div>
           </div>
-        </MediaQuery>
+        </MediaQuery> */}
 
         <div className={styles.footer}>
           <OrderReturn

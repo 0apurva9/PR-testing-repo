@@ -93,19 +93,20 @@ export default class MyAccountBrands extends React.Component {
                 label="More Brands"
                 onClick={() => this.navigateToBLP()}
               />
-              {followedBrands && (
-                <div className={styles.brandsHolder}>
-                  <BrandEdit
-                    data={followedBrands}
-                    onClick={(brandId, followStatus) =>
-                      this.followAndUnFollow(brandId, followStatus)
-                    }
-                    onRedirectToBrandPage={webURL =>
-                      this.onRedirectToBrandPage(webURL)
-                    }
-                  />
-                </div>
-              )}
+              {followedBrands &&
+                followedBrands.length > 0 && (
+                  <div className={styles.brandsHolder}>
+                    <BrandEdit
+                      data={followedBrands}
+                      onClick={(brandId, followStatus) =>
+                        this.followAndUnFollow(brandId, followStatus)
+                      }
+                      onRedirectToBrandPage={webURL =>
+                        this.onRedirectToBrandPage(webURL)
+                      }
+                    />
+                  </div>
+                )}
             </div>
           </div>
           <DesktopOnly>
