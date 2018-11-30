@@ -133,11 +133,14 @@
   margin: auto;
   color: #000;
   font-size: 14px;
-  font-family: regular;
+  font-family: regular !important;
   line-height: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 .footerData a {
   text-decoration: underline;
+}
+.footerData [style] {
+  font-family: regular !important;
 }
