@@ -51,7 +51,6 @@ export default class Banner extends React.Component {
                         height={46}
                         label={this.props.buttonLabel}
                         type={"primary"}
-                        onClick={this.onClick}
                       />
                     </div>
                   )}

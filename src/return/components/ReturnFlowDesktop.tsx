@@ -49,14 +49,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
       returnCancelFlag: RETURN_FLAG,
       orderCode: orderCode
     };
-
     this.props.returnProductDetailsFunc(productDetails);
     this.props.getReturnRequest(orderCode, transactionId);
     if (this.props.getUserAddress) {
       this.props.getUserAddress();
     }
-
-    if (!this.props.orderDetails) {
+    if (!transactionId) {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
     }
   }

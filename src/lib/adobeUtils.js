@@ -1264,25 +1264,6 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_CHANGE_QUANTITY) {
-    let productQuantityArray = [];
-    if (response && response.products && response.products.length > 0) {
-      response.products.forEach(function(product) {
-        productQuantityArray.push(
-          parseInt(
-            product.qtySelectedByUser
-              ? product.qtySelectedByUser
-              : product.quantity
-                ? product.quantity
-                : null,
-            10
-          )
-        );
-      });
-      Object.assign(data.cpj.product, {
-        quantity: productQuantityArray
-      });
-      window.digitalData = data;
-    }
     if (window._satellite) {
       window._satellite.track(ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART);
     }

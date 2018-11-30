@@ -574,21 +574,6 @@ export default class AllOrderDetails extends React.Component {
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
-                                      {product.isReturned && (
-                                        <div
-                                          className={styles.cancelProduct}
-                                          onClick={() =>
-                                            this.replaceItem(
-                                              product.sellerorderno,
-                                              orderDetails.paymentMethod,
-                                              product.transactionId
-                                            )
-                                          }
-                                        >
-                                          {PRODUCT_RETURN}
-                                        </div>
-                                      )}
-
                                       {product.productName !== "Gift Card" && (
                                         <div
                                           className={styles.writeReviedButton}

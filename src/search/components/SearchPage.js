@@ -46,7 +46,13 @@ export default class SearchPage extends React.Component {
       showSearchBar: !this.state.showSearchBar
     });
   };
-  handleBrandClick(webURL, dtmDataObject, position) {
+  handleBrandClick(
+    webURL,
+    dtmDataObject,
+    position,
+    currentString,
+    isSetDataLayer
+  ) {
     const data = this.props.searchResult;
     let firstSuggestedKeyWord = "";
     const firstSuggestionNew = cloneDeep(
@@ -81,7 +87,10 @@ export default class SearchPage extends React.Component {
     });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
-    setDataLayerForAutoSuggestSearch(dtmDataObject);
+    if (isSetDataLayer) {
+      setDataLayerForAutoSuggestSearch(dtmDataObject);
+    }
+
     this.props.clearSearchResults();
     this.setState({
       showResults: false,
@@ -101,7 +110,13 @@ export default class SearchPage extends React.Component {
       isFilter: false
     });
   }
-  handleCategoryClick(webURL, dtmDataObject, position) {
+  handleCategoryClick(
+    webURL,
+    dtmDataObject,
+    position,
+    currentString,
+    isSetDataLayer
+  ) {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     const searchQuery = this.state.searchString;
@@ -136,7 +151,10 @@ export default class SearchPage extends React.Component {
     Object.assign(dtmDataObject, {
       position: indexOfCurrentBrands + 1
     });
-    setDataLayerForAutoSuggestSearch(dtmDataObject);
+    if (isSetDataLayer) {
+      setDataLayerForAutoSuggestSearch(dtmDataObject);
+    }
+
     const url = `/search/?searchCategory=all&text=${
       dtmDataObject.term
     }:relevance:category:${categoryCode}`;
@@ -196,7 +214,9 @@ export default class SearchPage extends React.Component {
           {
             term: currentSearchString
           },
-          indexOfCurrentCategories
+          indexOfCurrentCategories,
+          "",
+          false
         );
       }
       if (code.includes("MBH")) {
@@ -209,45 +229,12 @@ export default class SearchPage extends React.Component {
           {
             term: currentSearchString
           },
-          indexOfCurrentBrands
+          indexOfCurrentBrands,
+          "",
+          false
         );
       }
     } else {
-      const data = this.props.searchResult;
-      let firstSuggestedKeyWord = "";
-      const firstSuggestionNew = cloneDeep(
-        data && data.suggestionsNew ? data.suggestionsNew : ""
-      );
-      firstSuggestedKeyWord = firstSuggestionNew
-        ? firstSuggestionNew.splice(0, 1)
-        : "";
-      const suggestedKeyWord = data && data.suggestionsNew;
-      if (data) {
-        if (data) {
-          const topBrands = this.props.searchResult.topBrands
-            ? this.props.searchResult.topBrands
-            : [];
-          const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
-          const topCategories = this.props.searchResult.topCategories
-            ? this.props.searchResult.topCategories
-            : [];
-          this.newSearchArray = [
-            ...topCategories,
-            ...suggestionsNew,
-            ...topBrands
-          ];
-        }
-      }
-
-      const indexOfCurrentBrands = this.newSearchArray.findIndex(brands => {
-        return brands.suggestedWord === currentSearchString;
-      });
-      let dtmDataObject = {};
-      Object.assign(dtmDataObject, {
-        position: indexOfCurrentBrands + 1,
-        term: currentSearchString
-      });
-      setDataLayerForAutoSuggestSearch(dtmDataObject);
       this.props.history.push(
         `/search/?searchCategory=all&text=${currentSearchString}`,
         {
@@ -471,7 +458,8 @@ export default class SearchPage extends React.Component {
                             }`
                           },
                           i,
-                          firstSuggestedKeyWord[0].suggestedWord
+                          firstSuggestedKeyWord[0].suggestedWord,
+                          true
                         );
                       }}
                     />
@@ -512,7 +500,8 @@ export default class SearchPage extends React.Component {
                             }`
                           },
                           i,
-                          data.suggestionText[0]
+                          data.suggestionText[0],
+                          true
                         );
                       }}
                     />
@@ -557,7 +546,8 @@ export default class SearchPage extends React.Component {
                               i,
                               firstSuggestedKeyWord &&
                                 firstSuggestedKeyWord[0] &&
-                                firstSuggestedKeyWord[0].suggestedWord
+                                firstSuggestedKeyWord[0].suggestedWord,
+                              true
                             );
                           }}
                         />
@@ -634,7 +624,8 @@ export default class SearchPage extends React.Component {
                                 }`
                               },
                               i,
-                              data.suggestionText[0]
+                              data.suggestionText[0],
+                              true
                             );
                           }}
                         />
