@@ -6,7 +6,6 @@
 .buttonLogin {
   text-align: center;
   width: 100%;
-
   margin-top: 10px;
 }
 .buttonHolder {
@@ -22,7 +21,7 @@
   .forgotButton {
     display: flex;
     justify-content: flex-end;
-    margin: 30px 0px 15px;
+    margin: 20px 0px 10px;
   }
   .buttonHolder {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
@@ -34,6 +33,19 @@
   }
   .input {
     margin-bottom: 25px;
+  }
+  .forgotPasswordLink {
+    width: auto;
+    height: auto;
+    color: #ff1744;
+    font-size: 14px;
+    font-family: regular;
+    display: flex;
+    cursor: pointer;
+  }
+  .buttonLogin {
+    text-align: left;
+    margin-top: 20px;
   }
 }
 @media screen and (max-width: 1024px) {

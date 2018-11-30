@@ -292,17 +292,12 @@ class Login extends Component {
 
             <div className={styles.forgotButton}>
               <MediaQuery query="(min-device-width: 1025px)">
-                <Button
-                  backgroundColor={"transparent"}
-                  label={"Forgot Password?"}
+                <div
+                  className={styles.forgotPasswordLink}
                   onClick={() => this.onForgotPassword()}
-                  loading={this.props.loading}
-                  textStyle={{
-                    color: "#FF1744",
-                    fontSize: 14,
-                    fontFamily: "regular"
-                  }}
-                />
+                >
+                  Forgot Password?
+                </div>
               </MediaQuery>
 
               <MediaQuery query="(max-device-width:1024px)">

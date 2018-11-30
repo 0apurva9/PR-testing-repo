@@ -31,7 +31,8 @@
     margin-bottom: 25px;
   }
   .buttonSignup {
-    text-align: center;
+    text-align: left;
+    margin-top: 30px;
   }
 }
 .loadingIndicator {
