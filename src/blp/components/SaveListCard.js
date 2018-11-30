@@ -52,9 +52,6 @@ export default class SaveListCard extends React.Component {
 
         <MediaQuery query="(max-device-width: 1024px)">
           <div className={styles.textContainer}>
-            <div className={styles.text}>{`Get it by ${this.props.day} , ${
-              this.props.date
-            }`}</div>
             <div className={styles.offers}>{`${
               this.props.offer
             } offers from Rs.${this.props.offerPrice}`}</div>
@@ -62,11 +59,6 @@ export default class SaveListCard extends React.Component {
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <div className={styles.textContainer}>
-            <div className={styles.text}>
-              <span>Get it by</span>{" "}
-              <span className={styles.highlitedDate}>{this.props.day}</span>{" "}
-              <span className={styles.highlitedDate}>{this.props.date}</span>
-            </div>
             <div className={styles.offers}>
               <span>{this.props.offer}</span> <span>offers from Rs.</span>{" "}
               <span className={styles.highlitedDate}>
