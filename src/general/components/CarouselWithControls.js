@@ -23,12 +23,23 @@ export default class CarouselWithControls extends React.Component {
     }
   };
   render() {
+    const childrenCount = React.Children.count(this.props.children);
+    const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
+    let buttonArrowForward = styles.forwardButton;
+    if (this.state.position === childrenCount - visibleChildren) {
+      buttonArrowForward = styles.btnDisabledForward;
+    }
+    let buttonArrowBack = styles.backButton;
+    if (this.state.position === 0) {
+      buttonArrowBack = styles.btnDisabledBack;
+    }
+
     return (
       <div className={styles.base}>
         <DesktopOnly>
           <div className={styles.buttons}>
-            <div className={styles.backButton} onClick={this.back} />
-            <div className={styles.forwardButton} onClick={this.forward} />
+            <div className={buttonArrowBack} onClick={this.back} />
+            <div className={buttonArrowForward} onClick={this.forward} />
           </div>
         </DesktopOnly>
         <DumbCarousel

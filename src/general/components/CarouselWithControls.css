@@ -1,7 +1,7 @@
-.base{
-  width:100%;
-  height:auto;
-  position:relative;
+.base {
+  width: 100%;
+  height: auto;
+  position: relative;
 }
 
 .buttons {
@@ -9,7 +9,7 @@
   height: 36px;
   border-radius: 18px;
   border: 2px solid #ececec;
-  background:#fff;
+  background: #fff;
   position: absolute;
   right: 0;
   top: -56px;
@@ -41,4 +41,14 @@
   transform: rotate(180deg);
   right: initial;
   left: 0;
+}
+.btnDisabledForward {
+  composes: forwardButton;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.btnDisabledBack {
+  composes: backButton;
+  opacity: 0.3;
+  pointer-events: none;
 }
