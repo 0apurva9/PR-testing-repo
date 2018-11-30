@@ -66,7 +66,9 @@ export default class ProductGrid extends React.Component {
   };
 
   renderComponent = (data, index) => {
-    // if (data.type === PRODUCT) {
+    const altTag = `${data.productname}-${data.brandname}-${
+      data.productCategoryType
+    }-TATA CLIQ`;
     return (
       <ProductModule
         key={index}
@@ -76,6 +78,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice &&
           data.price.maxPrice.formattedValueNoDecimal
         }
+        alt={altTag}
         minPrice={
           data.price &&
           data.price.minPrice &&
