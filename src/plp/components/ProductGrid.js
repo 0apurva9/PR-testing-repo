@@ -73,7 +73,7 @@ export default class ProductGrid extends React.Component {
   };
 
   renderComponent = (data, index) => {
-    const alertTag = `${data.productname}-${data.brandname}-${
+    const altTag = `${data.productname}-${data.brandname}-${
       data.productCategoryType
     }-TATA CLIQ`;
     // if (data.type === PRODUCT) {
@@ -85,7 +85,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice &&
           data.price.maxPrice.formattedValueNoDecimal
         }
-        alt={alertTag}
+        alt={altTag}
         minPrice={
           data.price &&
           data.price.minPrice &&
