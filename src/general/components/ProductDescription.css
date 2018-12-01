@@ -5,6 +5,7 @@
 .header {
   width: 100%;
   margin-bottom: 5px;
+  height: 17px;
   position: relative;
   padding-right: 20px;
   overflow: hidden;
@@ -28,16 +29,10 @@
 }
 
 .description {
-  white-space: normal;
-  font-weight: inherit;
-  -webkit-margin-before: inherit;
-  -webkit-margin-after: inherit;
   font-size: inherit;
   max-height: 40px;
   overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  word-wrap: break-word;
 }
 .content {
   width: 100%;
