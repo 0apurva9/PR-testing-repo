@@ -44,6 +44,7 @@ export default class FilterDesktop extends React.Component {
       this.props.facetdatacategory.filters[0].categoryName;
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
+    const EOOF_Flag = "%3AinStockFlag%3Atrue";
     if (query) {
       const firstChar = query.charAt(0);
       if (firstChar !== ":") {
@@ -53,7 +54,7 @@ export default class FilterDesktop extends React.Component {
         if (searchQuery.match(/inStockFlag%3Atrue/i)) {
           url = `${
             this.props.location.pathname
-          }?q=${firstSearchData}%3AinStockFlag%3Atrue`;
+          }?q=${firstSearchData}${EOOF_Flag}`;
         }
 
         this.props.history.push(url, {
@@ -77,7 +78,7 @@ export default class FilterDesktop extends React.Component {
           if (searchQuery.match(/inStockFlag%3Atrue/i)) {
             url = `${
               this.props.location.pathname
-            }?q=${clearedQuery}%3AinStockFlag%3Atrue`;
+            }?q=${clearedQuery}${EOOF_Flag}`;
           }
           this.props.history.push(url, {
             isFilter: false
