@@ -37,18 +37,25 @@ export default class FilterDesktop extends React.Component {
   }
 
   onClear = () => {
+    const searchQuery = this.props.location.search;
     const firstSearchData =
       this.props.facetdatacategory &&
       this.props.facetdatacategory.filters &&
       this.props.facetdatacategory.filters[0].categoryName;
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
+    const EOOF_Flag = "%3AinStockFlag%3Atrue";
     if (query) {
       const firstChar = query.charAt(0);
       if (firstChar !== ":") {
         const splitQuery = query.split(":");
         const searchText = splitQuery[0];
-        const url = `${this.props.location.pathname}?q=${firstSearchData}`;
+        let url = `${this.props.location.pathname}?q=${firstSearchData}`;
+        if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+          url = `${
+            this.props.location.pathname
+          }?q=${firstSearchData}${EOOF_Flag}`;
+        }
 
         this.props.history.push(url, {
           isFilter: false
@@ -67,7 +74,12 @@ export default class FilterDesktop extends React.Component {
             brandOrCategoryIdIndex + brandOrCategoryId[0].length
           );
 
-          const url = `${this.props.location.pathname}?q=${clearedQuery}`;
+          let url = `${this.props.location.pathname}?q=${clearedQuery}`;
+          if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+            url = `${
+              this.props.location.pathname
+            }?q=${clearedQuery}${EOOF_Flag}`;
+          }
           this.props.history.push(url, {
             isFilter: false
           });
