@@ -64,6 +64,10 @@
   transition: 300ms;
   white-space: nowrap;
 }
+.slider {
+  composes: imageHolder;
+  transition: none;
+}
 .maxWidth {
   width: 100%;
   height: 100%;
@@ -75,6 +79,7 @@
   margin: auto;
   pointer-events: none;
 }
+
 @media screen and (min-width: 1025px) {
   .item {
     position: relative;
