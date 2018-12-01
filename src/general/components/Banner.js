@@ -7,7 +7,7 @@ export default class Banner extends React.Component {
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
-          <BannerDesktop>{this.props.children}</BannerDesktop>
+          <BannerDesktop {...this.props}>{this.props.children}</BannerDesktop>
         </MediaQuery>
         <MediaQuery query="(max-device-width: 1024px)">
           <BannerMobile>{this.props.children}</BannerMobile>

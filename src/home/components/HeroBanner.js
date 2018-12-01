@@ -11,7 +11,7 @@ export default class HeroBanner extends React.Component {
     if (!this.props.loading) {
       if (feedComponentData.items && feedComponentData.items.length > 1) {
         return (
-          <Banner>
+          <Banner {...feedComponentData}>
             {feedComponentData.items &&
               feedComponentData.items.map &&
               feedComponentData.items.map((datum, i) => {
