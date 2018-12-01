@@ -116,13 +116,12 @@
     cursor: pointer;
   }
   .buttonHolderForPaymentModeForValidate {
-    width: 49%;
+    width: 100%;
   }
   .buttonHolderForContinueCouponForValidate {
-    width: 49%;
-    margin-top: 40px;
+    width: 100%;
   }
   .buttonHolderForPaymentMode {
-    width: 49%;
+    width: 100%;
   }
 }
