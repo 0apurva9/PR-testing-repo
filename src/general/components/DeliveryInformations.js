@@ -16,6 +16,7 @@ import * as UserAgent from "../../lib/UserAgent.js";
 const EXPRESS_TEXT = "Express Delivery";
 const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QLiQ PiQ";
+const NOT_AVAILABLE = "Not Available";
 
 export default class DeliveryInformations extends React.Component {
   handleClick() {
@@ -84,10 +85,13 @@ export default class DeliveryInformations extends React.Component {
                 <span className={styles.text}>{this.props.textHeading}</span>
               </div>
             )}
-
+            {!this.props.available && (
+              <div className={styles.placeTime}>{NOT_AVAILABLE}</div>
+            )}
             {this.props.isClickable &&
               this.props.type === COLLECT &&
-              this.props.isShowCliqAndPiqUnderLineText && (
+              this.props.isShowCliqAndPiqUnderLineText &&
+              this.props.available && (
                 <div className={styles.underLineButtonHolder}>
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
