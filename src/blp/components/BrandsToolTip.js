@@ -11,30 +11,38 @@ export default class BrandsToolTip extends React.Component {
       this.props.onClick();
     }
   }
+  unfollow() {
+    if (this.props.unfollow) {
+      this.props.unfollow();
+    }
+  }
   render() {
     let className = styles.delete;
     return (
       <div className={styles.base}>
         <div className={styles.iconAndToolTip}>
           <DesktopOnly>
-            <div className={styles.onDelete}>
+            <div
+              className={this.props.onDelete ? styles.onDelete : className}
+              onClick={() => this.unfollow()}
+            >
               <Icon image={deleteIcon} size={20} />
             </div>
           </DesktopOnly>
           <MobileOnly>
             <div className={this.props.onDelete ? styles.onDelete : className}>
-              <Icon image={deleteIcon} size={18} />
+              <Icon image={deleteIcon} size={20} />
             </div>
           </MobileOnly>
           <div className={styles.brandsIconHolder}>
             <div
               className={styles.logoHolder}
-              onClick={() => this.handleClick()}
               style={{
                 backgroundImage: `url(${this.props.logo})`,
                 backgroundSize: "60%",
                 backgroundPosition: "center"
               }}
+              onClick={() => this.handleClick()}
             />
           </div>
         </div>
