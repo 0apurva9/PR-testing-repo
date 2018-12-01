@@ -1,23 +1,29 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./BannerDesktop.css";
 export default class BannerDesktop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      juke:
+        this.props.children && this.props.children.length
+          ? this.props.children.length
+          : 0,
       position: 0
     };
   }
   changePosition(i) {
     if (i !== undefined) {
-      this.setState({ position: i });
+      this.setState({ juke: this.props.children.length }, () => {
+        this.setState({ position: i });
+      });
     }
   }
   autoRun = () => {
     setTimeout(() => {
-      const i = (this.state.position + 1) % 3;
-      this.changePosition(i);
+      this.goForward();
       this.autoRun();
-    }, this.props.interval);
+    }, this.props.interval * 1000);
   };
   componentDidMount() {
     if (this.props.interval) {
@@ -25,18 +31,33 @@ export default class BannerDesktop extends React.Component {
     }
   }
   goForward = () => {
-    if (
-      this.props.children &&
-      this.props.children.length - 1 > this.state.position
-    ) {
-      const position = this.state.position + 1;
-      this.setState({ position });
+    const childCount = React.Children.count(this.props.children);
+    if ((Math.abs(this.state.position) + 1) % childCount === 0) {
+      this.setState(
+        {
+          juke: this.state.juke - this.props.children.length
+        },
+        () => {
+          this.setState({ position: this.state.position + 1 });
+        }
+      );
+    } else {
+      this.setState({ position: this.state.position + 1 });
     }
   };
   goBack = () => {
-    if (this.state.position > 0) {
-      const position = this.state.position - 1;
-      this.setState({ position });
+    const childCount = React.Children.count(this.props.children);
+    if (Math.abs(this.state.position) === Math.abs(this.state.juke)) {
+      this.setState(
+        {
+          juke: this.state.juke + childCount
+        },
+        () => {
+          this.setState({ position: this.state.position - 1 });
+        }
+      );
+    } else {
+      this.setState({ position: this.state.position - 1 });
     }
   };
   render() {
@@ -45,18 +66,32 @@ export default class BannerDesktop extends React.Component {
     const style = {
       transform: transform
     };
+    const jukeTranslationAmount = -(100 * this.state.juke);
+    const jukeTransform = `translateX(${jukeTranslationAmount}%)`;
+    const jukeStyle = {
+      transform: jukeTransform
+    };
     return (
       <div className={styles.base}>
         <div className={styles.rightArrow} onClick={() => this.goForward()} />
         <div className={styles.leftArrow} onClick={() => this.goBack()} />
-        <div style={style} className={styles.imageHolder}>
-          {this.props.children.map((child, i) => {
-            return (
-              <div className={styles.item} key={i}>
-                {child}
-              </div>
-            );
-          })}
+        <div className={styles.slider} style={jukeStyle}>
+          <div style={style} className={styles.imageHolder}>
+            {this.props.children.map((child, i) => {
+              return (
+                <div className={styles.item} key={i}>
+                  {child}
+                </div>
+              );
+            })}
+            {this.props.children.map((child, i) => {
+              return (
+                <div className={styles.item} key={i}>
+                  {child}
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div className={styles.maxWidth}>
           <div className={styles.nav}>
@@ -64,7 +99,11 @@ export default class BannerDesktop extends React.Component {
               return (
                 <div
                   className={
-                    this.state.position === i ? styles.active : styles.navButton
+                    (this.state.position + this.state.juke) %
+                      this.props.children.length ===
+                    i
+                      ? styles.active
+                      : styles.navButton
                   }
                   key={i}
                   onClick={() => {
@@ -79,3 +118,10 @@ export default class BannerDesktop extends React.Component {
     );
   }
 }
+
+BannerDesktop.propTypes = {
+  interval: PropTypes.number
+};
+BannerDesktop.defaultProps = {
+  interval: 9
+};

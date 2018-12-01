@@ -8,11 +8,31 @@ export default class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      juke:
+        this.props.children && this.props.children.length
+          ? this.props.children.length
+          : 0,
       position: 0
     };
   }
+  componentWillReceiveProps(props) {
+    if (props.children && props.children.length !== this.props.children) {
+      this.setState({ juke: props.children.length });
+    }
+  }
   slideBack() {
-    if (this.state.position > 0) {
+    const childCount = React.Children.count(this.props.children);
+    if (Math.abs(this.state.position) === Math.abs(this.state.juke)) {
+      this.setState(
+        {
+          juke: this.state.juke + childCount
+        },
+        () => {
+          const position = this.state.position - 1;
+          this.setState({ position });
+        }
+      );
+    } else {
       const position = this.state.position - 1;
       this.setState({ position });
     }
@@ -24,25 +44,43 @@ export default class Carousel extends React.Component {
   }
   slideForward() {
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
+    const childCount = React.Children.count(this.props.children);
     if (
-      this.state.position <
-      React.Children.count(this.props.children) - visibleChildren
+      (Math.abs(this.state.position) + visibleChildren) % childCount ===
+      Math.abs(this.state.juke % childCount)
     ) {
+      this.setState(
+        {
+          juke: this.state.juke - childCount
+        },
+        () => {
+          const position = this.state.position + 1;
+          this.setState({ position });
+        }
+      );
+    } else {
       const position = this.state.position + 1;
       this.setState({ position });
     }
   }
   render() {
     const childrenCount = React.Children.count(this.props.children);
-
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
-
     const translationAmount = -(
       this.props.elementWidthDesktop * this.state.position
     );
+
+    const jukeTranslationAmount = -(
+      this.props.elementWidthDesktop * this.state.juke
+    );
     const transform = `translateX(${translationAmount}%)`;
+    const jukeTransform = `translateX(${jukeTranslationAmount}%)`;
+
     const style = {
       transform: transform
+    };
+    const jukeStyle = {
+      transform: jukeTransform
     };
     let headerClass = styles.header;
     let buttonClass = styles.button;
@@ -56,14 +94,7 @@ export default class Carousel extends React.Component {
     if (this.props.seeAll && !this.props.withFooter) {
       buttonSpace = 110;
     }
-    let buttonArrowForward = styles.forward;
-    if (this.state.position === childrenCount - visibleChildren) {
-      buttonArrowForward = styles.btnDissabledForward;
-    }
-    let buttonArrowBack = styles.back;
-    if (this.state.position === 0) {
-      buttonArrowBack = styles.btnDissabledBack;
-    }
+
     return (
       <div className={styles.base} styles={{ color: this.props.color }}>
         <MediaQuery query="(min-device-width: 1025px)">
@@ -93,13 +124,13 @@ export default class Carousel extends React.Component {
               {childrenCount > visibleChildren && (
                 <React.Fragment>
                   <div
-                    className={buttonArrowBack}
+                    className={styles.back}
                     onClick={() => {
                       this.slideBack();
                     }}
                   />
                   <div
-                    className={buttonArrowForward}
+                    className={styles.forward}
                     onClick={() => {
                       this.slideForward();
                     }}
@@ -149,48 +180,75 @@ export default class Carousel extends React.Component {
               </div>
             )}
           </MediaQuery>
-          <div
-            className={styles.sliderHolder}
-            style={{
-              paddingLeft: this.checkUserAgentIsMobile()
-                ? `${this.props.offsetMobile}px`
-                : `${this.props.offsetDesktop}px`
-            }}
-          >
-            <div className={styles.slider} style={style}>
-              {this.props.children &&
-                this.props.children.map((child, i) => {
-                  return (
-                    <React.Fragment key={i}>
-                      <MediaQuery query="(min-device-width: 1025px)">
-                        <div
-                          className={styles.element}
-                          style={{
-                            width: `${this.props.elementWidthDesktop}%`
-                          }}
-                        >
-                          <VisibilityChild>{child}</VisibilityChild>
-                        </div>
-                      </MediaQuery>
-                      <MediaQuery query="(max-device-width: 1024px)">
-                        <div
-                          className={styles.element}
-                          style={{
-                            width:
-                              this.props.elementWidthMobile === "auto"
-                                ? "auto"
-                                : `${this.props.elementWidthMobile}%`,
-                            padding: this.props.padding
-                          }}
-                        >
-                          <VisibilityChild>{child}</VisibilityChild>
-                        </div>
-                      </MediaQuery>
-                    </React.Fragment>
-                  );
-                })}
+          <MediaQuery query="(min-device-width: 1025px)">
+            <div
+              className={styles.sliderHolder}
+              style={{
+                paddingLeft: `${this.props.offsetDesktop}px`
+              }}
+            >
+              <div className={styles.sliderJuke} style={jukeStyle}>
+                <div className={styles.slider} style={style}>
+                  {this.props.children &&
+                    this.props.children.map((child, i) => {
+                      return (
+                        <React.Fragment key={i}>
+                          <div
+                            className={styles.element}
+                            style={{
+                              width: `${this.props.elementWidthDesktop}%`
+                            }}
+                          >
+                            <VisibilityChild>{child}</VisibilityChild>
+                          </div>
+                        </React.Fragment>
+                      );
+                    })}
+                  {this.props.children &&
+                    this.props.children.map((child, i) => {
+                      return (
+                        <React.Fragment key={i}>
+                          <div
+                            className={styles.element}
+                            style={{
+                              width: `${this.props.elementWidthDesktop}%`
+                            }}
+                          >
+                            <VisibilityChild>{child}</VisibilityChild>
+                          </div>
+                        </React.Fragment>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
-          </div>
+          </MediaQuery>
+          <MediaQuery query="(max-device-width: 1024px)">
+            <div
+              className={styles.sliderHolder}
+              style={{
+                paddingLeft: `${this.props.offsetMobile}px`
+              }}
+            >
+              <div className={styles.slider} style={style}>
+                {this.props.children &&
+                  this.props.children.map((child, i) => {
+                    return (
+                      <React.Fragment key={i}>
+                        <div
+                          className={styles.element}
+                          style={{
+                            width: `${this.props.elementWidthMobile}%`
+                          }}
+                        >
+                          <VisibilityChild>{child}</VisibilityChild>
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+              </div>
+            </div>
+          </MediaQuery>
         </div>
         <MediaQuery query="(max-device-width: 1024px)">
           {this.props.seeAll &&
