@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import styles from "./SearchAndUpdate.css";
 import Button from "../../general/components/Button.js";
@@ -57,17 +58,19 @@ export default class SearchAndUpdate extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        {this.state.errorMessage && (
-          <div
-            className={
-              this.props.ovalButton
-                ? styles.alignLeftErrorMessage
-                : styles.errorMessage
-            }
-          >
-            {this.state.errorMessage}
-          </div>
-        )}
+        <MobileOnly>
+          {this.state.errorMessage && (
+            <div
+              className={
+                this.props.ovalButton
+                  ? styles.alignLeftErrorMessage
+                  : styles.errorMessage
+              }
+            >
+              {this.state.errorMessage}
+            </div>
+          )}
+        </MobileOnly>
         <div
           className={
             this.props.ovalButton
@@ -141,6 +144,19 @@ export default class SearchAndUpdate extends React.Component {
             />
           </div>
         </div>
+        <DesktopOnly>
+          {this.state.errorMessage && (
+            <div
+              className={
+                this.props.ovalButton
+                  ? styles.alignLeftErrorMessage
+                  : styles.errorMessage
+              }
+            >
+              {this.state.errorMessage}
+            </div>
+          )}
+        </DesktopOnly>
       </div>
     );
   }
