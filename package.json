@@ -104,6 +104,7 @@
     "p2": "REACT_APP_STAGE=p2 node scripts/build.js",
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
     "uat5": "REACT_APP_STAGE=uat5 node scripts/build.js",
+    "uat6tcs": "REACT_APP_STAGE=uat6tcs node scripts/build.js",
     "production":
       "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
     "production-cdn":
