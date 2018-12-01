@@ -5,19 +5,37 @@ import styles from "./BankSelect.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 export default class BankSelect extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hoverd: false
+    };
+  }
   handleClick() {
     if (this.props.selectItem) {
       this.props.selectItem();
     }
   }
+  hoverIn() {
+    this.setState({ hoverd: true });
+  }
+  hoverOut() {
+    this.setState({ hoverd: false });
+  }
   render() {
     return (
       <div>
         <div
-          className={this.props.selected ? styles.selected : styles.base}
+          className={
+            this.props.selected || this.state.hoverd
+              ? styles.selected
+              : styles.base
+          }
           onClick={() => {
             this.handleClick();
           }}
+          onMouseEnter={() => this.hoverIn()}
+          onMouseLeave={() => this.hoverOut()}
         >
           <div className={styles.image}>
             <Image image={this.props.image} />
@@ -31,6 +49,10 @@ export default class BankSelect extends React.Component {
         <DesktopOnly>
           {this.props.name &&
             this.props.selected && (
+              <div className={styles.name}>{this.props.name}</div>
+            )}
+          {this.state.hoverd &&
+            !this.props.selected && (
               <div className={styles.name}>{this.props.name}</div>
             )}
         </DesktopOnly>
