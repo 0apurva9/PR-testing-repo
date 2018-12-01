@@ -58,7 +58,8 @@ export default class DesktopHeader extends React.Component {
       );
     }
   }
-  goToTrackOrders(value) {
+  goToTrackOrders(value, event) {
+    event.preventDefault();
     if (this.props.goToTrackOrders) {
       this.props.goToTrackOrders();
       setDataLayerForHeaderAndFooterDirectCalls(
@@ -82,7 +83,8 @@ export default class DesktopHeader extends React.Component {
     }
   }
 
-  onGiftCard(value) {
+  onGiftCard(value, event) {
+    event.preventDefault();
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`;
     this.props.history.push(url);
     setDataLayerForHeaderAndFooterDirectCalls(
@@ -90,7 +92,8 @@ export default class DesktopHeader extends React.Component {
       value
     );
   }
-  onCliqCash(value) {
+  onCliqCash(value, event) {
+    event.preventDefault();
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`;
     this.props.history.push(url);
     setDataLayerForHeaderAndFooterDirectCalls(
@@ -161,7 +164,8 @@ export default class DesktopHeader extends React.Component {
       hoverInType: null
     });
   }
-  renderToAnotherUrlForHelp(webURL, value) {
+  renderToAnotherUrlForHelp(webURL, value, event) {
+    event.preventDefault();
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
@@ -314,32 +318,42 @@ export default class DesktopHeader extends React.Component {
                         </div>
                       )}
                   </div>
-                  <div
-                    className={styles.loginTab}
-                    onClick={() => this.goToTrackOrders("Track Orders")}
-                  >
-                    Track Orders
-                  </div>
-                  <div
-                    className={styles.loginTab}
-                    onClick={() =>
-                      this.renderToAnotherUrlForHelp(HELP_URL, "Help")
-                    }
-                  >
-                    Help
-                  </div>
-                  <div
-                    className={styles.loginTab}
-                    onClick={() => this.onGiftCard("Gift Card")}
-                  >
-                    Gift Card
-                  </div>
-                  <div
-                    className={styles.loginTab}
-                    onClick={() => this.onCliqCash("Cliq Cash")}
-                  >
-                    Cliq Cash
-                  </div>
+                  <a href={""} target="_blank">
+                    <div
+                      className={styles.loginTab}
+                      onClick={event =>
+                        this.goToTrackOrders("Track Orders", event)
+                      }
+                    >
+                      Track Orders
+                    </div>
+                  </a>
+                  <a href={""} target="_blank">
+                    <div
+                      className={styles.loginTab}
+                      onClick={event =>
+                        this.renderToAnotherUrlForHelp(HELP_URL, "Help", event)
+                      }
+                    >
+                      Help
+                    </div>
+                  </a>
+                  <a href={""} target="_blank">
+                    <div
+                      className={styles.loginTab}
+                      onClick={event => this.onGiftCard("Gift Card", event)}
+                    >
+                      Gift Card
+                    </div>
+                  </a>
+                  <a href={""} target="_blank">
+                    <div
+                      className={styles.loginTab}
+                      onClick={event => this.onCliqCash("Cliq Cash", event)}
+                    >
+                      Cliq Cash
+                    </div>
+                  </a>
                 </div>
               </div>
               <div className={styles.lowerHeader}>
