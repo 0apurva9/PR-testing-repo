@@ -137,7 +137,7 @@
     height: auto;
   }
   .paymentDetailsHolder {
-    padding-bottom: 30px;
+    border-bottom: none;
   }
   .cardNameNumberAndValidityHolder {
     width: 100%;
@@ -169,6 +169,10 @@
   }
   .cardName {
     font-family: light;
+  }
+  .bankLogoForDesktop {
+    composes: bankLogoAndNameHolder;
+    margin-top: 16px;
   }
 }
 @media screen and (max-width: 1024px) {

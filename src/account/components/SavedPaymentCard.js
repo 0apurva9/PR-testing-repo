@@ -5,6 +5,7 @@ import styles from "./SavedPaymentCard.css";
 import SavedCardItemFooter from "./SavedCardItemFooter.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import * as UserAgent from "../../lib/UserAgent.js";
 export default class SavedPaymentCard extends React.Component {
   replaceItem() {
     if (this.props.replaceItem) {
@@ -23,7 +24,13 @@ export default class SavedPaymentCard extends React.Component {
       <div className={styles.base}>
         <div className={styles.paymentDetailsHolder}>
           <div className={styles.bankAndCardHolder}>
-            <div className={styles.bankLogoAndNameHolder}>
+            <div
+              className={
+                UserAgent.checkUserAgentIsMobile()
+                  ? styles.bankLogoAndNameHolder
+                  : styles.bankLogoForDesktop
+              }
+            >
               <div className={styles.bankLogo}>
                 <Logo image={this.props.bankLogo} />
               </div>
@@ -76,14 +83,25 @@ export default class SavedPaymentCard extends React.Component {
               </DesktopOnly>
             </div>
           </div>
+          <DesktopOnly>
+            <React.Fragment>
+              <SavedCardItemFooter
+                buttonLabel="Remove"
+                underlineButtonLabel="Edit"
+                removeSavedCardDetails={() => this.removeSavedCardDetails()}
+              />
+            </React.Fragment>
+          </DesktopOnly>
         </div>
-        <div className={styles.actionHolder}>
-          <SavedCardItemFooter
-            buttonLabel="Remove"
-            underlineButtonLabel="Edit"
-            removeSavedCardDetails={() => this.removeSavedCardDetails()}
-          />
-        </div>
+        <MobileOnly>
+          <div className={styles.actionHolder}>
+            <SavedCardItemFooter
+              buttonLabel="Remove"
+              underlineButtonLabel="Edit"
+              removeSavedCardDetails={() => this.removeSavedCardDetails()}
+            />
+          </div>
+        </MobileOnly>
       </div>
     );
   }
