@@ -425,9 +425,9 @@
     content: "Delivery";
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 20px;
     font-size: 14px;
-    line-height: 30px;
+    line-height: 0px;
     color: #212121;
     font-family: semibold;
   }
@@ -437,7 +437,7 @@
     height: 1px;
     background: #212121;
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     right: 0;
   }
   .otherText {
