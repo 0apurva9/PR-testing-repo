@@ -26,16 +26,16 @@ export default class PdpDeliveryModes extends React.Component {
           }
         >
           <DeliveryInformation
-            type={EXPRESS}
+            type={HOME_DELIVERY}
             available={eligibleDeliveryModes
               .map(val => {
                 return val.code;
               })
-              .includes(EXPRESS)}
+              .includes(HOME_DELIVERY)}
             placedTime={
               deliveryModesATP
                 .filter(val => {
-                  return val.key === EXPRESS;
+                  return val.key === HOME_DELIVERY;
                 })
                 .map(val => {
                   return val.value;
@@ -52,16 +52,16 @@ export default class PdpDeliveryModes extends React.Component {
           }
         >
           <DeliveryInformation
-            type={HOME_DELIVERY}
+            type={EXPRESS}
             available={eligibleDeliveryModes
               .map(val => {
                 return val.code;
               })
-              .includes(HOME_DELIVERY)}
+              .includes(EXPRESS)}
             placedTime={
               deliveryModesATP
                 .filter(val => {
-                  return val.key === HOME_DELIVERY;
+                  return val.key === EXPRESS;
                 })
                 .map(val => {
                   return val.value;
