@@ -26,9 +26,6 @@ export default class BrandEdit extends React.Component {
       this.props.onRedirectToBrandPage(webURL);
     }
   }
-  unfollowBrand(brandId, followStatus, webURL) {
-    this.props.onClick(brandId, followStatus);
-  }
   onShowDelete() {
     this.setState({ onDelete: !this.state.onDelete });
     if (this.state.label === "Edit") {
