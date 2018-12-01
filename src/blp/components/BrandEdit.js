@@ -20,8 +20,10 @@ export default class BrandEdit extends React.Component {
       } else {
         this.props.onRedirectToBrandPage(webURL);
       }
-    } else {
+    } else if (this.state.brandEdit === true) {
       this.props.onClick(brandId, followStatus);
+    } else {
+      this.props.onRedirectToBrandPage(webURL);
     }
   }
   onShowDelete() {
@@ -32,6 +34,9 @@ export default class BrandEdit extends React.Component {
       this.setState({ label: "Edit", brandEdit: false });
     }
   }
+  handleDelete = (brandId, followStatus) => {
+    this.props.onClick(brandId, followStatus);
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -52,6 +57,7 @@ export default class BrandEdit extends React.Component {
                 onClick={() =>
                   this.onClickButton(val.id, val.isFollowing, val.webURL)
                 }
+                unfollow={() => this.handleDelete(val.id, val.isFollowing)}
               />
             );
           })}
