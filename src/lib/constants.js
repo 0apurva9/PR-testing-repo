@@ -38,7 +38,7 @@ export const REFRESH_TOKEN = "refresh_token";
 export const BRAND_PAGE = "/c-(mbh[a-zA-Z0-9]+)";
 export const BRAND_PAGE_WITH_SLUG = `/:slug/c-(mbh[0-9a-zA-z]+)`;
 export const BRAND_PAGE_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
-export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
+export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/:slug/c-(mbh[0-9a-zA-z]+)?&`;
 
 export const BRAND_AND_CATEGORY_PAGE =
   "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
