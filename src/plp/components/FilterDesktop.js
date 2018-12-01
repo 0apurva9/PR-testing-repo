@@ -37,6 +37,7 @@ export default class FilterDesktop extends React.Component {
   }
 
   onClear = () => {
+    const searchQuery = this.props.location.search;
     const firstSearchData =
       this.props.facetdatacategory &&
       this.props.facetdatacategory.filters &&
@@ -48,7 +49,12 @@ export default class FilterDesktop extends React.Component {
       if (firstChar !== ":") {
         const splitQuery = query.split(":");
         const searchText = splitQuery[0];
-        const url = `${this.props.location.pathname}?q=${firstSearchData}`;
+        let url = `${this.props.location.pathname}?q=${firstSearchData}`;
+        if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+          url = `${
+            this.props.location.pathname
+          }?q=${firstSearchData}%3AinStockFlag%3Atrue`;
+        }
 
         this.props.history.push(url, {
           isFilter: false
@@ -67,7 +73,12 @@ export default class FilterDesktop extends React.Component {
             brandOrCategoryIdIndex + brandOrCategoryId[0].length
           );
 
-          const url = `${this.props.location.pathname}?q=${clearedQuery}`;
+          let url = `${this.props.location.pathname}?q=${clearedQuery}`;
+          if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+            url = `${
+              this.props.location.pathname
+            }?q=${clearedQuery}%3AinStockFlag%3Atrue`;
+          }
           this.props.history.push(url, {
             isFilter: false
           });
