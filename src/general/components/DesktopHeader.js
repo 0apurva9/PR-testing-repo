@@ -320,7 +320,7 @@ export default class DesktopHeader extends React.Component {
                               userCookie.firstName === " " &&
                               userCookie.lastName === " " &&
                               userCookie.userName && (
-                                <span>{userCookie.userName}</span>
+                                <span>Hello</span>
                               )}
                           </div>
                         </div>
