@@ -61,9 +61,7 @@ class DesktopFooter extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-    let footerData = this.props && this.props.DesktopFooterDetails;
-
+    const footerData = this.props && this.props.DesktopFooterDetails;
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
