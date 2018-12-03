@@ -780,7 +780,6 @@ class CheckOutPage extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.cart.resetAllPaymentModeFlag) {
       this.props.preventRestingAllPaymentMode();
       this.onChangePaymentMode({ currentPaymentMode: null });
