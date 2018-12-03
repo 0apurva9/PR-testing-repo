@@ -184,7 +184,6 @@ class PDPRecommendedSections extends React.Component {
         <DesktopOnly>
           <Carousel elementWidth={45} elementWidthDesktop={25}>
             {items.map((val, i) => {
-              console.log(widgetName);
               const transformedDatum = transformData(val);
               const productImage = transformedDatum.image;
               const discountedPrice = transformedDatum.discountPrice;
@@ -198,7 +197,7 @@ class PDPRecommendedSections extends React.Component {
                   mrpInteger *
                   100
               );
-              console.log(val);
+
               return (
                 <ProductModule
                   key={i}
