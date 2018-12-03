@@ -2297,6 +2297,7 @@ export function widgetsTracking(widgetObj: {}) {
   });
   window.digitalData = data;
   let widgetType;
+  const DEFAULT_FALLBACK_ADOBE = widgetObj.widgetName.split(" ").join("_").toUpperCase();
   switch (
     widgetObj.widgetName
       .split(" ")
@@ -2352,6 +2353,7 @@ export function widgetsTracking(widgetObj: {}) {
       widgetType = MULTI_PURPOSE_BANNER;
       break;
     default:
+      widgetType = DEFAULT_FALLBACK_ADOBE;
       break;
   }
   if (window._satellite) {
