@@ -1077,16 +1077,17 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </Accordion>
                     )}
-                    {productData.warranty && (
-                      <Accordion text="Warranty" headerFontSize={18}>
-                        <div className={styles.containerWithBottomBorder}>
-                          {productData.warranty &&
-                            productData.warranty.map(val => {
-                              return <div className={styles.list}>{val}</div>;
-                            })}
-                        </div>
-                      </Accordion>
-                    )}
+                    {productData.rootCategory !== "Electronics" &&
+                      productData.warranty && (
+                        <Accordion text="Warranty" headerFontSize={18}>
+                          <div className={styles.containerWithBottomBorder}>
+                            {productData.warranty &&
+                              productData.warranty.map(val => {
+                                return <div className={styles.list}>{val}</div>;
+                              })}
+                          </div>
+                        </Accordion>
+                      )}
                     {productData.brandInfo && (
                       <Accordion text="Brand Info" headerFontSize={18}>
                         <div className={styles.accordionContentWithoutBorder}>
