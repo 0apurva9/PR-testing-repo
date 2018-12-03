@@ -35,7 +35,7 @@
     height: 100px;
   }
   .headerText {
-    width: 40%;
+    width: 100%;
     text-align: left;
     font-family: semibold;
     position: absolute;
