@@ -16,11 +16,19 @@ import {
 const TEXT = "© 2018 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
-    let currentUrl = this.props.location.pathname;
+    const currentUrl = this.props.location.pathname;
     if (this.props.getDesktopFooter) {
       this.props.getDesktopFooter(currentUrl);
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location && nextProps.location) {
+      if (this.props.location.pathname !== nextProps.location.pathname) {
+        this.props.getDesktopFooter(nextProps.location.pathname);
+      }
+    }
+  }
+
   onClick = (url, value) => {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK,
@@ -51,7 +59,9 @@ class DesktopFooter extends React.Component {
       currentSocialMedia
     );
   };
+
   render() {
+    console.log(this.props);
     let footerData = this.props && this.props.DesktopFooterDetails;
 
     return (
