@@ -84,10 +84,10 @@ class WriteReview extends React.Component {
           if (this.state.resetRating === true) {
             this.setState({ resetRating: false });
           }
-          let url = this.props.location.pathname;
-          url = url.replace("/write-review", "");
-          this.props.history.push(url);
         }
+        let url = this.props.location.pathname;
+        url = url.replace("/write-review", "");
+        this.props.history.push(url);
       }
     } else {
       const url = this.props.location.pathname;
