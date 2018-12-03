@@ -101,11 +101,14 @@ then in this case we have to hit generate temp cart id for user
       this.props.displayToast("Password length should be minimum 8 character");
       return false;
     } else {
-      this.props.onSubmit({
-        emailId: this.state.emailValue,
-        username: this.state.emailValue,
-        password: this.state.passwordValue
-      });
+      this.props.onSubmit(
+        {
+          emailId: this.state.emailValue,
+          username: this.state.emailValue,
+          password: this.state.passwordValue
+        },
+        this.props.redirectToAfterAuthUrl
+      );
     }
   }
   goBack() {

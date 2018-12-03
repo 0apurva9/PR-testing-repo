@@ -40,7 +40,7 @@ import {
 } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
   return {
-    onSubmit: async userSignUpDetails => {
+    onSubmit: async (userSignUpDetails, lastUrl) => {
       setDataLayerForSignupProcess(ADOBE_SIGN_UP_START);
       const signUpResult = await dispatch(signUpUser(userSignUpDetails));
       if (signUpResult.status === SUCCESS) {
@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(customerCookie).access_token,
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                  true
+                  lastUrl === "/cart" ? true : false
                 )
               );
               dispatch(setIfAllAuthCallsHaveSucceeded());

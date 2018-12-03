@@ -96,7 +96,7 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(customerCookie).access_token,
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                  true
+                  lastUrl === "/cart" ? true : false
                 )
               );
               const existingWishList = await dispatch(getWishListItems());
@@ -138,7 +138,7 @@ const mapDispatchToProps = dispatch => {
                     JSON.parse(customerCookie).access_token,
                     JSON.parse(cartDetailsLoggedInUser).code,
                     localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                    true
+                    lastUrl === "/cart" ? true : false
                   )
                 );
                 const existingWishList = await dispatch(getWishListItems());
