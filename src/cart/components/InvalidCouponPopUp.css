@@ -81,14 +81,14 @@
 @media screen and (min-width: 1025px) {
   .base {
     width: 480px;
-    height: 320px;
+    height: auto;
     background: #fff;
     padding: 30px 20px;
     position: absolute;
-    bottom: 0;
+    bottom: initial;
     left: 0;
     right: 0;
-    top: 0;
+    top: 20%;
     margin: auto;
     animation: slideUp 200ms forwards;
     opacity: 0;
