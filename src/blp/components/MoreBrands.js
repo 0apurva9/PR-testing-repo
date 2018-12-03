@@ -5,6 +5,8 @@ import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
 import plusIcon from "../../general/components/img/circle_plus_white.svg";
 import ButtonWithIcon from "../../general/components/ButtonWithIcon.js";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 export default class MoreBrands extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -17,24 +19,26 @@ export default class MoreBrands extends React.Component {
         <div className={styles.headerText}>
           See the latest products from your favorite Brand.
         </div>
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <ButtonWithIcon
-              backgroundColor="#ff1744"
-              height={40}
-              label={this.props.label}
-              width={this.props.width}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-              onClick={() => this.handleClick()}
-              icon={{
-                height: 20,
-                width: 20,
-                offset: 5,
-                element: <Icon image={plusIcon} size={20} />
-              }}
-            />
+        <MobileOnly>
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <ButtonWithIcon
+                backgroundColor="#ff1744"
+                height={40}
+                label={this.props.label}
+                width={this.props.width}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+                onClick={() => this.handleClick()}
+                icon={{
+                  height: 20,
+                  width: 20,
+                  offset: 5,
+                  element: <Icon image={plusIcon} size={20} />
+                }}
+              />
+            </div>
           </div>
-        </div>
+        </MobileOnly>
       </div>
     );
   }
