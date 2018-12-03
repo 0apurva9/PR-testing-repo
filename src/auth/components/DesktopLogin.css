@@ -62,7 +62,7 @@
 }
 .socialButtonHolder {
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   align-items: center;
   justify-content: center;
   width: 100%;

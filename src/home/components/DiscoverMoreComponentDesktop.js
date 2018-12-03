@@ -57,7 +57,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
               {this.props.items &&
                 this.props.items
                   .filter((val, i) => {
-                    return !this.state.showAll ? i < 4 : true;
+                    return !this.state.showAll ? i < 3 : true;
                   })
                   .map((val, i) => {
                     return (

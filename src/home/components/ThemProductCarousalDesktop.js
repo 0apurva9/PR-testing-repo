@@ -60,20 +60,22 @@ export default class ThemProductCarousalDesktop extends React.Component {
               <div className={styles.descriptionText}>
                 <h2> {this.props.description}</h2>
               </div>
-              <div className={styles.buttonHolder}>
-                <div className={styles.button}>
-                  <Button
-                    disabled={this.props.disabled}
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={46}
-                    label={this.props.label}
-                    width={196}
-                    textStyle={{ color: "#FFF", fontSize: 14 }}
-                    onClick={() => this.handleClick()}
-                  />
+              {this.props.label && (
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    <Button
+                      disabled={this.props.disabled}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={46}
+                      label={this.props.label}
+                      width={196}
+                      textStyle={{ color: "#FFF", fontSize: 14 }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className={styles.carousalHolder}>
