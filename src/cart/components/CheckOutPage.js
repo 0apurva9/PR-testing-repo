@@ -780,6 +780,7 @@ class CheckOutPage extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.cart.resetAllPaymentModeFlag) {
       this.props.preventRestingAllPaymentMode();
       this.onChangePaymentMode({ currentPaymentMode: null });
@@ -850,7 +851,6 @@ class CheckOutPage extends React.Component {
           return address.defaultAddress;
         });
       }
-
       if (defaultAddress) {
         defaultAddressId = defaultAddress.id;
       }
@@ -860,10 +860,11 @@ class CheckOutPage extends React.Component {
         selectedAddress: defaultAddress
       });
     }
-    // end of adding default address is selected
-
-    // adding selected default delivery modes for every product
-
+    if (!nextProps.cart.getUserAddressStatus && !this.state.isPaymentFailed) {
+      this.props.getUserAddress(
+        localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+      );
+    }
     if (
       !this.state.isDeliveryModeSelected &&
       !this.state.isSelectedDeliveryModes &&
