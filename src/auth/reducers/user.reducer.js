@@ -11,6 +11,7 @@ import {
   CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants";
 import { LOGIN_WITH_MOBILE, LOGIN_WITH_EMAIL } from "../actions/user.actions";
+const clevertap = window.clevertap;
 const user = (
   state = {
     user: null,
@@ -78,6 +79,12 @@ const user = (
       }
 
       Cookies.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
+      clevertap.profile.push({
+        Site: {
+          Email: userDetails.userName,
+          CustomerId: userDetails.customerId
+        }
+      });
       return Object.assign({}, state, {
         status: action.status,
         user: action.user,
@@ -103,7 +110,12 @@ const user = (
       userDetails.userName = action.userName;
       userDetails.customerId = action.customerId;
       Cookies.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
-
+      clevertap.profile.push({
+        Site: {
+          Email: userDetails.userName,
+          CustomerId: userDetails.customerId
+        }
+      });
       return Object.assign({}, state, {
         status: action.status,
         loading: false,
@@ -337,6 +349,12 @@ const user = (
       }
       userDetails.imageUrl = action.userDetailObj.profileImage;
       Cookies.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
+      clevertap.profile.push({
+        Site: {
+          Email: userDetails.userName,
+          CustomerId: userDetails.customerId
+        }
+      });
       return Object.assign({}, state, {
         status: action.status,
         loading: false,
