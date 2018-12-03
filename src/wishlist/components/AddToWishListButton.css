@@ -39,7 +39,8 @@
     cursor: pointer;
   }
   .saveLabel {
-    font-family: light;
+    color: #221122;
+    font-family: regular;
   }
   .iconHolderForPdp {
     width: 30px;
