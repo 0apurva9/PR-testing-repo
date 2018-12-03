@@ -35,6 +35,8 @@ app.get("*.css", function(req, res, next) {
   next();
 });
 
+
+app.use(require('prerender-node').set('prerenderToken', 'NYax1xFNwJGOvG1c0fyj'));
 app.use(express.static("build"));
 
 function removeWord(originalWord, searchWord) {
