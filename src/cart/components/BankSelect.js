@@ -47,14 +47,13 @@ export default class BankSelect extends React.Component {
           )}
         </MobileOnly>
         <DesktopOnly>
-          {this.props.name &&
-            this.props.selected && (
-              <div className={styles.name}>{this.props.name}</div>
-            )}
-          {this.state.hoverd &&
+          {this.props.name && (
+            <div className={styles.name}>{this.props.name}</div>
+          )}
+          {/* {this.state.hoverd &&
             !this.props.selected && (
               <div className={styles.name}>{this.props.name}</div>
-            )}
+            )} */}
         </DesktopOnly>
       </div>
     );
