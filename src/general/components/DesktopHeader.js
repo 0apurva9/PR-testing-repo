@@ -244,6 +244,8 @@ export default class DesktopHeader extends React.Component {
                       userCookie.lastName && <span>{userCookie.lastName}</span>}
                   </span>
                   {userCookie &&
+                    userCookie.firstName === " " &&
+                    userCookie.lastName === " " &&
                     userCookie.userName && <span>{userCookie.userName}</span>}
                 </div>
               </div>
@@ -299,18 +301,24 @@ export default class DesktopHeader extends React.Component {
                               onClick={() => this.goToMyAccount()}
                             />
                             <span className={styles.nameSpan}>
-                              <span>
-                                {userCookie &&
-                                  userCookie.firstName &&
-                                  `${userCookie.firstName} `}
-                              </span>
-                              <span>
-                                {userCookie &&
-                                  userCookie.lastName &&
-                                  `${userCookie.lastName}`}
-                              </span>
+                              {userCookie.firstName !== " " && (
+                                <span>
+                                  {userCookie &&
+                                    userCookie.firstName &&
+                                    `${userCookie.firstName} `}
+                                </span>
+                              )}
+                              {userCookie.lastName !== " " && (
+                                <span>
+                                  {userCookie &&
+                                    userCookie.lastName &&
+                                    `${userCookie.lastName}`}
+                                </span>
+                              )}
                             </span>
                             {userCookie &&
+                              userCookie.firstName === " " &&
+                              userCookie.lastName === " " &&
                               userCookie.userName && (
                                 <span>{userCookie.userName}</span>
                               )}
