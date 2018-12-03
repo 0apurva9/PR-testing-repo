@@ -100,10 +100,6 @@ export default class ShowBrandModal extends React.Component {
                 All Brands
               </div>
             </div>
-            <div
-              className={styles.crossElement}
-              onClick={() => this.closeModal()}
-            />
           </div>
           <div className={styles.displayDataElement}>
             {parentBrandsLabel &&
@@ -141,7 +137,7 @@ export default class ShowBrandModal extends React.Component {
           <div className={styles.footerElement}>
             <div className={styles.applyAndClearButton}>
               <Button
-                label="Apply"
+                label="Close"
                 type="primary"
                 width={142}
                 height={40}
