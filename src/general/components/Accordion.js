@@ -31,11 +31,11 @@ export default class Accordion extends React.Component {
     }
   }
   render() {
-    let iconActive = styles.icon;
+    let iconActive = styles.iconup;
     let activeheader = styles.textBox;
     let background = "";
     if (this.state.isOpen) {
-      iconActive = styles.iconup;
+      iconActive = styles.icon;
       activeheader = styles.textBoxActive;
       background = this.props.activeBackground;
     }

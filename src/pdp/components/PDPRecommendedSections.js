@@ -1,5 +1,6 @@
 import React from "react";
 import CarouselWithControls from "../../general/components/CarouselWithControls.js";
+import Carousel from "../../general/components/Carousel";
 import ProductModule from "../../general/components/ProductModule.js";
 import ProductImageHeader from "../../general/components/ProductImageHeader.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
@@ -10,7 +11,6 @@ import { transformData } from "../../home/components/utils.js";
 import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
 import Observer from "@researchgate/react-intersection-observer";
-
 import {
   ABOUT_THE_BRAND_WIDGET_KEY,
   SIMILAR_PRODUCTS_WIDGET_KEY
@@ -149,37 +149,72 @@ class PDPRecommendedSections extends React.Component {
   renderCarousel(items, widgetName) {
     return (
       <div className={styles.brandProductCarousel}>
-        <CarouselWithControls elementWidth={45} elementWidthDesktop={25}>
-          {items.map((val, i) => {
-            const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
-            const mrpInteger = parseInt(
-              transformedDatum.price.replace(RUPEE_SYMBOL, ""),
-              10
-            );
-            const discount = Math.floor(
-              (mrpInteger -
-                parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                mrpInteger *
-                100
-            );
-            return (
-              <ProductModule
-                key={i}
-                {...transformedDatum}
-                {...this.props}
-                productImage={productImage}
-                productId={val.productListingId}
-                isShowAddToWishlistIcon={false}
-                discountPercent={discount}
-                onClick={url => this.goToProductDescription(url)}
-                widgetName={widgetName}
-                sourceOfWidget="msd"
-              />
-            );
-          })}
-        </CarouselWithControls>
+        <MobileOnly>
+          <CarouselWithControls elementWidth={45} elementWidthDesktop={25}>
+            {items.map((val, i) => {
+              const transformedDatum = transformData(val);
+              const productImage = transformedDatum.image;
+              const discountedPrice = transformedDatum.discountPrice;
+              const mrpInteger = parseInt(
+                transformedDatum.price.replace(RUPEE_SYMBOL, ""),
+                10
+              );
+              const discount = Math.floor(
+                (mrpInteger -
+                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+                  mrpInteger *
+                  100
+              );
+              return (
+                <ProductModule
+                  key={i}
+                  {...transformedDatum}
+                  {...this.props}
+                  productImage={productImage}
+                  productId={val.productListingId}
+                  isShowAddToWishlistIcon={false}
+                  discountPercent={discount}
+                  onClick={url => this.goToProductDescription(url)}
+                  widgetName={widgetName}
+                  sourceOfWidget="msd"
+                />
+              );
+            })}
+          </CarouselWithControls>
+        </MobileOnly>
+        <DesktopOnly>
+          <Carousel elementWidth={45} elementWidthDesktop={25}>
+            {items.map((val, i) => {
+              const transformedDatum = transformData(val);
+              const productImage = transformedDatum.image;
+              const discountedPrice = transformedDatum.discountPrice;
+              const mrpInteger = parseInt(
+                transformedDatum.price.replace(RUPEE_SYMBOL, ""),
+                10
+              );
+              const discount = Math.floor(
+                (mrpInteger -
+                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+                  mrpInteger *
+                  100
+              );
+              return (
+                <ProductModule
+                  key={i}
+                  {...transformedDatum}
+                  {...this.props}
+                  productImage={productImage}
+                  productId={val.productListingId}
+                  isShowAddToWishlistIcon={false}
+                  discountPercent={discount}
+                  onClick={url => this.goToProductDescription(url)}
+                  widgetName={widgetName}
+                  sourceOfWidget="msd"
+                />
+              );
+            })}
+          </Carousel>
+        </DesktopOnly>
       </div>
     );
   }
