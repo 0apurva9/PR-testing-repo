@@ -126,6 +126,10 @@ export default class FilterDesktop extends React.Component {
     this.onCategorySelect(val, filterType, filterValue, false);
   };
   onFilterClick = (val, filterType, filterValue) => {
+    val = val.replace(
+      "/search/page-{pageNo}",
+      `${this.props.location.pathname}`
+    );
     let url = "";
     if (CATEGORY_REGEX.test(this.props.location.pathname)) {
       url = createUrlFromQueryAndCategory(
