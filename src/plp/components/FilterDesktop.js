@@ -109,6 +109,7 @@ export default class FilterDesktop extends React.Component {
     if (url.endsWith(":relevance")) {
       url = url.replace(":relevance", "");
       url = url.replace("MSH", "c-msh");
+      url = url.replace("MBH", "c-mbh");
     }
     this.props.history.push(url, { isFilter, componentName: "isFilterTrue" });
     if (isFilter === false) {
