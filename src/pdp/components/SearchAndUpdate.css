@@ -84,5 +84,18 @@
     left: 0;
     font-family: regular;
     font-size: 12px;
+    padding-left: 10px;
+  }
+  .errorMessage::before {
+    content: "*";
+    width: 10px;
+    height: 25px;
+    line-height: 25px;
+    color: #ff1744;
+    font-size: 12px;
+    font-family: regular;
+    left: 0;
+    top: 0;
+    position: absolute;
   }
 }
