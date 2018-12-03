@@ -142,7 +142,7 @@ const OUT_OF_STOCK_MESSAGE = "Some Products are out of stock";
 export const EGV_GIFT_CART_ID = "giftCartId";
 const CASH_ON_DELIVERY_TEXT = "Cash on Delivery";
 const FAILURE_TEXT =
-  "your payment didn't go through,please try again with different payment mode";
+  "Your payment didn't go through, please try again with different payment mode";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 class CheckOutPage extends React.Component {
