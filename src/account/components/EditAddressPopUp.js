@@ -21,7 +21,9 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
-  PINCODE_NOT_SERVICEABLE_TEXT
+  PINCODE_NOT_SERVICEABLE_TEXT,
+  MY_ACCOUNT,
+  MY_ACCOUNT_ADDRESS_PAGE
 } from "../../lib/constants.js";
 import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
@@ -278,7 +280,9 @@ export default class EditAddressPopUp extends React.Component {
       }
     }
   };
-
+  onCancel = () => {
+    this.props.history.push(`${MY_ACCOUNT}${MY_ACCOUNT_ADDRESS_PAGE}`);
+  };
   clearAllValue = () => {
     this.setState({
       postalCode: "",
@@ -696,6 +700,16 @@ export default class EditAddressPopUp extends React.Component {
                 />
               </div>
               <div className={styles.buttonHolder}>
+                <div className={styles.cancelButtonHolder}>
+                  <Button
+                    type="hollow"
+                    label="Cancel"
+                    width={176}
+                    height={38}
+                    onClick={() => this.onCancel()}
+                    textStyle={{ color: "#000", fontSize: 14 }}
+                  />
+                </div>
                 <div className={styles.saveAndContinueButton}>
                   <Button
                     type="primary"
