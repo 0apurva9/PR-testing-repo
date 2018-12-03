@@ -62,14 +62,14 @@
     padding: 0px 0px 40px;
   }
   .logo {
-    width: 250px;
+    width: 200px;
     height: 80px;
     background-size: contain;
     background-position: left bottom;
     background-repeat: no-repeat;
   }
   .title {
-    font-size: 46px;
+    font-size: 40px;
     line-height: normal;
     margin-top: 20px;
     color: white;
@@ -82,7 +82,7 @@
     line-height: normal;
     color: #fff;
     font-family: light;
-    font-size: 46px;
+    font-size: 40px;
     margin-top: 5px;
     white-space: normal;
     word-wrap: break-word;
