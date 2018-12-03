@@ -125,7 +125,6 @@ class PDPRecommendedSections extends React.Component {
                 this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY].length > 0 &&
                 this.renderCarousel(
                   this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY],
-                  33.33,
                   "About the Brand"
                 )}
               <MobileOnly>
@@ -198,6 +197,7 @@ class PDPRecommendedSections extends React.Component {
                   mrpInteger *
                   100
               );
+
               return (
                 <ProductModule
                   key={i}
@@ -207,7 +207,7 @@ class PDPRecommendedSections extends React.Component {
                   productId={val.productListingId}
                   isShowAddToWishlistIcon={false}
                   discountPercent={discount}
-                  onClick={url => this.goToProductDescription(url)}
+                  onClick={url => this.goToProductDescription(val.webURL)}
                   widgetName={widgetName}
                   sourceOfWidget="msd"
                 />
