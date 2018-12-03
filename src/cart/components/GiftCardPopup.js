@@ -26,7 +26,9 @@ export default class GiftCardPopup extends React.Component {
     });
   }
   onVoucher(val) {
-    this.setState({ cardNumber: val });
+    if (val !== " ") {
+      this.setState({ cardNumber: val });
+    }
     if (!UserAgent.checkUserAgentIsMobile()) {
       if (val.length > 0) {
         this.setState({
@@ -37,6 +39,11 @@ export default class GiftCardPopup extends React.Component {
           isEnable: false
         });
       }
+    }
+  }
+  handlePin(val) {
+    if (val !== " ") {
+      this.setState({ pinNumber: val });
     }
   }
   render() {
@@ -64,7 +71,7 @@ export default class GiftCardPopup extends React.Component {
                   ? this.props.voucherNumber
                   : this.state.cardNumber
               }
-              onChange={val => this.onVoucher(val)}
+              onChange={val => this.onVoucher(val.trim())}
               textStyle={{ fontSize: 14 }}
               height={33}
             />
@@ -79,7 +86,7 @@ export default class GiftCardPopup extends React.Component {
                   ? this.props.voucherPin
                   : this.state.pinNumber
               }
-              onChange={pinNumber => this.setState({ pinNumber })}
+              onChange={pinNumber => this.handlePin(pinNumber.trim())}
               textStyle={{ fontSize: 14 }}
               height={33}
             />
