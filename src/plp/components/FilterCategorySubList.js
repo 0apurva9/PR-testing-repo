@@ -11,8 +11,22 @@ export default class FilterCategorySubList extends React.Component {
     return (
       <div className={styles.base} onClick={() => this.handleClick()}>
         <div className={this.props.selected ? styles.active : styles.header}>
-          <div className={styles.subCategoryList}>{this.props.subListItem}</div>
-          <div className={styles.subCategoryListCount}>
+          <div
+            className={
+              this.props.selected
+                ? styles.subCategoryListActive
+                : styles.subCategoryList
+            }
+          >
+            {this.props.subListItem}
+          </div>
+          <div
+            className={
+              this.props.selected
+                ? styles.subCategoryListCountActive
+                : styles.subCategoryListCount
+            }
+          >
             {this.props.subListCount}
           </div>
         </div>

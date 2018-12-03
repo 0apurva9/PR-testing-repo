@@ -34,6 +34,7 @@ export default class FilterCategory extends Component {
                         value={data.categoryCode}
                         onClick={this.props.onL3Click}
                         subListCount={data.quantity}
+                        selected={data.selected}
                       />
                     );
                   }
