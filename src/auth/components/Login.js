@@ -36,6 +36,7 @@ import {
   ADOBE_LOGIN_AND_SIGN_UP_PAGE,
   ADOBE_LOGIN_START
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
@@ -51,13 +52,14 @@ class Login extends Component {
   componentDidMount() {
     const digitalData = window.digitalData;
     setDataLayerForLogin(ADOBE_LOGIN_START);
+
     if (
+      UserAgent.checkUserAgentIsMobile() &&
       digitalData &&
       digitalData.page &&
       digitalData.page &&
       digitalData.page.pageInfo &&
-      digitalData.page.pageInfo.pageName !== "login" &&
-      this.props.location.pathname === LOGIN_PATH
+      digitalData.page.pageInfo.pageName !== "login"
     ) {
       let isLoginFromCheckoutPage =
         this.props.redirectToAfterAuthUrl === MY_ACCOUNT_CART_PAGE;

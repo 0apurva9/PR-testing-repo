@@ -2189,12 +2189,10 @@ function getDigitalDataForDefaultBlpOrClp(response) {
 
 function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
   let pageTitle = window.location.pathname.replace(/\//g, "");
-  if (pageTitle === "login") {
-    if (isLoginFromCheckoutPage) {
-      pageTitle = "checkout-login page";
-    } else {
-      pageTitle = "login page";
-    }
+  if (isLoginFromCheckoutPage) {
+    pageTitle = "checkout-login page";
+  } else {
+    pageTitle = "login page";
   }
   const data = {
     page: {
