@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
@@ -15,11 +15,12 @@ export default class SearchAndUpdate extends React.Component {
     };
   }
   getValue(pinCode) {
+    const pin = pinCode.replace(/\D/g, "");
     if (pinCode.length <= 6) {
-      this.setState({ pinCode });
+      this.setState({ pinCode: pin });
     }
     if (this.props.onChange) {
-      this.props.onChange(pinCode);
+      this.props.onChange(pin);
     }
   }
   getLocation() {
@@ -117,13 +118,11 @@ export default class SearchAndUpdate extends React.Component {
             </div>
           )}
           <div className={styles.inputHolder}>
-            <Input2
+            <ControlInput
               boxy={this.props.uiType === "default" ? true : false}
               hollow={this.props.uiType === "hollow" ? true : false}
               id={this.props.id}
               value={this.state.pinCode}
-              onlyNumber={true}
-              type="number"
               placeholder={this.props.placeholder}
               onChange={val => this.getValue(val)}
               textStyle={{ fontSize: 14 }}
