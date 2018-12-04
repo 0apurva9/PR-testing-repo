@@ -110,12 +110,14 @@ export default class FilterDesktop extends React.Component {
     let query = parsedQueryString.q;
     let pathName = this.props.location.pathname;
     filterValue = filterValue.replace("&", "and");
-    url = createUrlFromQueryAndCategory(filterValue, pathName, val);
+
+    url = createUrlFromQueryAndCategory(query, pathName, val);
     if (url.endsWith(":relevance")) {
       url = url.replace(":relevance", "");
       url = url.replace("MSH", "c-msh");
       url = url.replace("MBH", "c-mbh");
     }
+
     this.props.history.push(url, { isFilter, componentName: "isFilterTrue" });
     if (isFilter === false) {
       this.props.onL3CategorySelect();
