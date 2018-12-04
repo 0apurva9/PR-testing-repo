@@ -50,13 +50,18 @@ export default class FilterDesktop extends React.Component {
       if (firstChar !== ":") {
         const splitQuery = query.split(":");
         const searchText = splitQuery[0];
-        let url = `${this.props.location.pathname}?q=${firstSearchData}`;
-        if (searchQuery.match(/inStockFlag%3Atrue/i)) {
-          url = `${
-            this.props.location.pathname
-          }?q=${firstSearchData}${EOOF_Flag}`;
+        let url = "";
+        if (firstSearchData != null || firstSearchData != undefined) {
+          url = `${this.props.location.pathname}?q=${firstSearchData}`;
+          if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+            url = `${
+              this.props.location.pathname
+            }?q=${firstSearchData}${EOOF_Flag}`;
+          }
+        } else {
+          let queryparam = this.props.location.search.split("%3");
+          url = `${this.props.location.pathname}${queryparam[0]}`;
         }
-
         this.props.history.push(url, {
           isFilter: false
         });
