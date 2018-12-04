@@ -1,6 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./MobileDatePicker.css";
+var today = new Date();
+var min =
+  today.getFullYear() -
+  110 +
+  "-" +
+  (today.getMonth() + 1) +
+  "-" +
+  0 +
+  today.getDate();
+var max =
+  today.getFullYear() +
+  "-" +
+  (today.getMonth() + 1) +
+  "-" +
+  0 +
+  today.getDate();
 export default class MobileDatePicker extends React.Component {
   constructor(props) {
     super(props);
@@ -8,6 +24,7 @@ export default class MobileDatePicker extends React.Component {
       value: this.props.value
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
@@ -30,6 +47,8 @@ export default class MobileDatePicker extends React.Component {
             onChange={value => this.handleChange(value)}
             value={this.state.value}
             placeholder="Pick a date"
+            min={min}
+            max={max}
           />
           {!this.state.value && (
             <div className={styles.placeholder}>dd/mm/yy</div>
