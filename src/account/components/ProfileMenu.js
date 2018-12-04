@@ -13,7 +13,8 @@ import {
   MY_ACCOUNT_COUPON_PAGE,
   SAVE_LIST_PAGE,
   ORDER_PREFIX,
-  RETURNS
+  RETURNS,
+  REDMI_WALLET_FROM_EMAIL
 } from "../../lib/constants";
 import savedList from "../../general/components/img/download.svg";
 import savedListRed from "./img/SaveListRed.png";
@@ -68,7 +69,10 @@ export default class PofileMenuGridForDesktop extends React.Component {
     ) {
       selected = "Alerts & Coupons";
     }
-    if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`) {
+    if (
+      pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}` ||
+      pathName === REDMI_WALLET_FROM_EMAIL
+    ) {
       selected = "CLiQ Cash";
     }
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`) {
@@ -130,7 +134,8 @@ export default class PofileMenuGridForDesktop extends React.Component {
       { image: giftCards, text: "Gift Card", url: MY_ACCOUNT_GIFT_CARD_PAGE },
       {
         image:
-          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
+          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}` ||
+          pathName === REDMI_WALLET_FROM_EMAIL
             ? cliqCashRed
             : cliqCash,
         text: "CLiQ Cash",
