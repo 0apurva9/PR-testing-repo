@@ -95,11 +95,35 @@
   flex-direction: row;
 }
 .socialIconHolder {
-  width: 75%;
+  width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.downLoadAppHolder {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+.downLoaAppText {
+  width: auto;
+  height: auto;
+  color: #000;
+  font-size: 14px;
+  font-family: regular;
+  display: flex;
+  margin-right: 15px;
+}
+.appIconHolder {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  margin-right: 10px;
+  cursor: pointer;
 }
 .socialIcon {
   width: 20px;
