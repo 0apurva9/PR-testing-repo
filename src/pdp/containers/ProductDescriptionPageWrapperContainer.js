@@ -18,6 +18,7 @@ import {
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import { setHeaderText } from "../../general/header.actions";
+import { getUserAddress } from "../../cart/actions/cart.actions";
 import {
   showModal,
   EMI_MODAL,
@@ -125,6 +126,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    getUserAddress: () => {
+      dispatch(getUserAddress(true));
     }
   };
 };
@@ -136,7 +140,8 @@ const mapStateToProps = state => {
     stores: state.productDescription.storeDetails,
     showPiqPage: state.productDescription.showPiqPage,
     slaveData: state.productDescription.slaveData,
-    loadingForCliqAndPiq: state.productDescription.loadingForCliqAndPiq
+    loadingForCliqAndPiq: state.productDescription.loadingForCliqAndPiq,
+    userAddress: state.profile.userAddress
   };
 };
 

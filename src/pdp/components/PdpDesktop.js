@@ -160,6 +160,7 @@ export default class PdpApparel extends React.Component {
   }
   componentDidMount() {
     document.title = this.props.productDetails.seo.title;
+    this.props.getUserAddress();
   }
   visitBrand() {
     if (this.props.visitBrandStore) {
@@ -476,6 +477,16 @@ export default class PdpApparel extends React.Component {
     });
   };
   render() {
+    const getPinCode =
+      this.props &&
+      this.props.userAddress &&
+      this.props.userAddress.addresses &&
+      this.props.userAddress.addresses[0] &&
+      this.props.userAddress.addresses[0].postalCode;
+    let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (userCookie) {
+      userCookie = JSON.parse(userCookie);
+    }
     const productData = this.props.productDetails;
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
@@ -840,45 +851,48 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {productData.isServiceableToPincode &&
-                    productData.isServiceableToPincode.pinCode ? (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
-                            pincode,
-                            productData.productListingId
-                          )
-                        }
-                        placeholder="Pincode"
-                        value={productData.isServiceableToPincode.pinCode}
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
-                      />
-                    ) : (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
-                            pincode,
-                            productData.productListingId
-                          )
-                        }
-                        placeholder={
-                          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-                            ? localStorage.getItem(
-                                DEFAULT_PIN_CODE_LOCAL_STORAGE
-                              )
-                            : "Enter your PIN code"
-                        }
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
-                      />
-                    )}
+                    {getPinCode &&
+                      userCookie && (
+                        <SearchAndUpdate
+                          uiType="hollow"
+                          checkPinCodeAvailability={pincode =>
+                            this.checkPinCodeAvailability(
+                              pincode,
+                              productData.productListingId
+                            )
+                          }
+                          placeholder="Pincode"
+                          value={getPinCode}
+                          hasAutoFocus={false}
+                          labelText={"Check"}
+                          borderColor="transparent"
+                          borderBottom="0px solid #transparent"
+                        />
+                      )}
+
+                    {!getPinCode &&
+                      !userCookie && (
+                        <SearchAndUpdate
+                          uiType="hollow"
+                          checkPinCodeAvailability={pincode =>
+                            this.checkPinCodeAvailability(
+                              pincode,
+                              productData.productListingId
+                            )
+                          }
+                          placeholder={
+                            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                              ? localStorage.getItem(
+                                  DEFAULT_PIN_CODE_LOCAL_STORAGE
+                                )
+                              : "Enter your PIN code"
+                          }
+                          hasAutoFocus={false}
+                          labelText={"Check"}
+                          borderColor="transparent"
+                          borderBottom="0px solid #transparent"
+                        />
+                      )}
                   </div>
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
