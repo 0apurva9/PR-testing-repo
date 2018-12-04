@@ -203,7 +203,8 @@ export default class SearchPage extends React.Component {
     if (
       searchString !== null &&
       searchString !== undefined &&
-      /\S/.test(searchString)
+      /\S/.test(searchString) &&
+      !/\W|_/.test(searchString)
     ) {
       let currentSearchString = searchString && searchString.trim();
       let code =
