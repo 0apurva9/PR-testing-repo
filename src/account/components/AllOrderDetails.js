@@ -410,13 +410,15 @@ export default class AllOrderDetails extends React.Component {
                           Privacy policy
                         </div>
                       </AccountUsefulLink>
-                      <AccountUsefulLink>
-                        <div className={styles.usefulLinkText}>
-                          <div className={styles.callClass}>
-                            <a href="tel:9029108282">Call Tata CLIQ Care</a>
+                      <MobileOnly>
+                        <AccountUsefulLink>
+                          <div className={styles.usefulLinkText}>
+                            <div className={styles.callClass}>
+                              <a href="tel:9029108282">Call Tata CLIQ Care</a>
+                            </div>
                           </div>
-                        </div>
-                      </AccountUsefulLink>
+                        </AccountUsefulLink>
+                      </MobileOnly>
                       <AccountUsefulLink
                         onClick={() =>
                           this.redirectToHelp(TERMS_AND_CONDITION_URL)
