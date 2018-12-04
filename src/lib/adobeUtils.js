@@ -834,7 +834,7 @@ function getDigitalDataForOrderConfirmation(type, response) {
     }
   };
 
-  const getProductData = getProductsDigitalData(response, { isReverse: true });
+  const getProductData = getProductsDigitalData(response);
   if (getProductData) {
     let {
       productIdsArray,
@@ -2297,7 +2297,10 @@ export function widgetsTracking(widgetObj: {}) {
   });
   window.digitalData = data;
   let widgetType;
-  const DEFAULT_FALLBACK_ADOBE = widgetObj.widgetName.split(" ").join("_").toUpperCase();
+  const DEFAULT_FALLBACK_ADOBE = widgetObj.widgetName
+    .split(" ")
+    .join("_")
+    .toUpperCase();
   switch (
     widgetObj.widgetName
       .split(" ")
