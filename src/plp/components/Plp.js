@@ -284,10 +284,18 @@ export default class Plp extends React.Component {
       );
     }
   };
-  onClickCancelIcon(val) {
+  onClickCancelIcon(val, filterName) {
     let url = "";
     url = val.replace("page-{pageNo}", "");
     url = url.replace("/search/", "");
+    filterName = new RegExp(filterName, "g");
+    let parsingurl = url;
+    parsingurl = url.replace("+", " ");
+    if (parsingurl.match(filterName)) {
+      parsingurl = parsingurl.replace(filterName, "");
+      parsingurl = parsingurl.replace(/[A-za-z0-9]+%3/, "%3", 1);
+      url = parsingurl;
+    }
     url = this.props.location.pathname + url;
     this.props.history.push(url, {
       isFilter: false
@@ -523,8 +531,11 @@ export default class Plp extends React.Component {
                       return (
                         <div
                           className={styles.selectedFilterWithIcon}
-                          onClick={url =>
-                            this.onClickCancelIcon(selectedFilterData.url)
+                          onClick={(url, name) =>
+                            this.onClickCancelIcon(
+                              selectedFilterData.url,
+                              selectedFilterData.name
+                            )
                           }
                         >
                           {selectedFilterData.name}
