@@ -23,7 +23,7 @@ export default class ProductImageHeader extends React.Component {
               <div className={styles.logo}>{this.props.logo}</div>
             )}
           </MediaQuery>
-          <div className={styles.imageOverlay}>
+          <div>
             {this.props.name && (
               <div className={styles.name}>{this.props.name}</div>
             )}
