@@ -178,6 +178,7 @@ export default class DesktopHeader extends React.Component {
   renderToAnotherURL(webURL, triggerDirectCall, value) {
     if (webURL) {
       let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+      value = value.replace("&", " and ");
       urlSuffix = urlSuffix.replace("?q=", `?q=${value}`);
       this.props.history.push(urlSuffix);
       setDataLayerForHeaderAndFooterDirectCalls(
@@ -319,9 +320,7 @@ export default class DesktopHeader extends React.Component {
                             {userCookie &&
                               userCookie.firstName === " " &&
                               userCookie.lastName === " " &&
-                              userCookie.userName && (
-                                <span>Hello</span>
-                              )}
+                              userCookie.userName && <span>Hello</span>}
                           </div>
                         </div>
                       )}
