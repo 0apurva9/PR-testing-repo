@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import Button from "../../general/components/Button.js";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -14,10 +14,12 @@ export default class SearchCupon extends React.Component {
     };
   }
   getValue(val) {
-    if (this.props.getValue) {
-      this.props.getValue(val);
+    if (val.length <= 30) {
+      this.setState({ couponCode: val });
+      if (this.props.getValue) {
+        this.props.getValue(val);
+      }
     }
-    this.setState({ couponCode: val });
   }
 
   onApply() {
@@ -56,7 +58,7 @@ export default class SearchCupon extends React.Component {
           </div>
         </div>
         <div className={styles.inputHolder}>
-          <Input2
+          <ControlInput
             boxy={true}
             placeholder={this.props.placeholder}
             onChange={val => this.getValue(val)}
