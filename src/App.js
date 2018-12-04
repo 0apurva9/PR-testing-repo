@@ -68,7 +68,8 @@ import {
   WRITE_REVIEWS_WITH_SLUG,
   WRITE_REVIEWS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  DEFAULT_PINCODE
+  DEFAULT_PINCODE,
+  REDMI_WALLET_FROM_EMAIL
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -570,6 +571,12 @@ class App extends Component {
               path={NOT_FOUND}
               render={() => <NoResultPage {...this.props} />}
             />
+            <Route
+              exact
+              path={REDMI_WALLET_FROM_EMAIL}
+              component={MyAccountWrapper}
+            />
+            } />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
