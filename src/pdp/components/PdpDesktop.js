@@ -297,6 +297,7 @@ export default class PdpApparel extends React.Component {
                 }
               }
             } else {
+              this.setState({ isLoader: false });
               const addProductToCartResponse = await this.props.addProductToCart(
                 productDetails
               );
