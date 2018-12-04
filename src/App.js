@@ -347,6 +347,7 @@ class App extends Component {
         }
       }
     }
+    window.prerenderReady = true;
   }
   componentWillMount() {
     const parsedQueryString = queryString.parse(this.props.location.search);
