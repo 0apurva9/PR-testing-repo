@@ -32,7 +32,9 @@ export default class ThemeOffer extends React.Component {
       }
     }
   }
-
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   componentDidUpdate() {
     const offers = this.props.feedComponentData.offers;
 
@@ -102,11 +104,17 @@ export default class ThemeOffer extends React.Component {
                 }
               }}
               banner={
-                <ProductImageHeaderDesktop
-                  backgroundColor={feedComponentData.backgroundHexCode}
-                  backgroundImage={feedComponentData.backgroundImageURL}
-                  onClick={() => this.handleClick()}
-                />
+                <a
+                  href={this.props.feedComponentData.webURL}
+                  target="_blank"
+                  onClick={event => this.handleClickOnLink(event)}
+                >
+                  <ProductImageHeaderDesktop
+                    backgroundColor={feedComponentData.backgroundHexCode}
+                    backgroundImage={feedComponentData.backgroundImageURL}
+                    onClick={() => this.handleClick()}
+                  />
+                </a>
               }
               {...rest}
               data={themeData}

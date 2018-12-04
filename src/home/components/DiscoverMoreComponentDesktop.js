@@ -36,14 +36,24 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       this.props.history.push(urlSuffix);
     }
   };
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.imageHolder}>
-          <CircleProductDescriptionDesktop
-            onRedirect={() => this.goToLink(this.props.webURL)}
-            image={this.props.imageURL}
-          />
+          <a
+            href={this.props.webURL}
+            target="_blank"
+            onClick={event => this.handleClickOnLink(event)}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <CircleProductDescriptionDesktop
+              onRedirect={() => this.goToLink(this.props.webURL)}
+              image={this.props.imageURL}
+            />
+          </a>
         </div>
         <div className={styles.descriptionHolder}>
           <div

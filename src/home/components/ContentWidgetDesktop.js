@@ -29,6 +29,9 @@ export default class ContentWidgetDesktop extends React.Component {
       this.props.setClickedElementId();
     }
   }
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   goForward = () => {
     if (
       this.props.allData &&
@@ -53,29 +56,39 @@ export default class ContentWidgetDesktop extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div
-          className={styles.banner}
-          onClick={() =>
-            this.handleReadMore(this.props.allData[this.state.position].webURL)
-          }
+        <a
+          href={this.props.allData[this.state.position].webURL}
+          target="_blank"
+          onClick={event => this.handleClickOnLink(event)}
         >
-          <div className={styles.bannerHolder}>
-            <Image image={this.props.allData[this.state.position].imageURL} />;
+          <div
+            className={styles.banner}
+            onClick={() =>
+              this.handleReadMore(
+                this.props.allData[this.state.position].webURL
+              )
+            }
+          >
+            <div className={styles.bannerHolder}>
+              <Image image={this.props.allData[this.state.position].imageURL} />;
+            </div>
+            <div className={styles.navHolder}>
+              {this.props.allData &&
+                this.props.allData.map((val, i) => {
+                  return (
+                    <div
+                      className={
+                        this.state.position === i
+                          ? styles.navActive
+                          : styles.nav
+                      }
+                      onClick={evt => this.swithPosition(i, evt)}
+                    />
+                  );
+                })}
+            </div>
           </div>
-          <div className={styles.navHolder}>
-            {this.props.allData &&
-              this.props.allData.map((val, i) => {
-                return (
-                  <div
-                    className={
-                      this.state.position === i ? styles.navActive : styles.nav
-                    }
-                    onClick={evt => this.swithPosition(i, evt)}
-                  />
-                );
-              })}
-          </div>
-        </div>
+        </a>
         <div className={styles.content}>
           <div className={styles.contentHeader}>
             <div className={styles.logo}>
