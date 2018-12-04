@@ -21,7 +21,9 @@ export default class HeroBanner extends React.Component {
                     title={datum.title}
                     ratio={feedComponentData.dimension}
                     subTitle={datum.subTitle}
-                    buttonLabel={datum.buttonLabel}
+                    buttonLabel={
+                      datum.buttonLabel ? datum.buttonLabel : "Shop Now"
+                    }
                     image={datum.imageURL}
                     key={i}
                     url={datum.webURL}
