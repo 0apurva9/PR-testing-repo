@@ -200,55 +200,65 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
-    let currentSearchString = searchString && searchString.trim();
-    let code =
-      this.state.categoryAndBrandCode && this.state.categoryAndBrandCode.trim();
-    if (code) {
-      if (code.includes("MSH")) {
-        const topCategories = this.props.searchResult.topCategories;
-        const indexOfCurrentCategories = topCategories.findIndex(categories => {
-          return categories.categoryCode === code;
-        });
-        this.handleCategoryClick(
-          code,
-          {
-            term: currentSearchString
-          },
-          indexOfCurrentCategories,
-          "",
-          false
-        );
-      }
-      if (code.includes("MBH")) {
-        const topBrands = this.props.searchResult.topBrands;
-        const indexOfCurrentBrands = topBrands.findIndex(brands => {
-          return brands.categoryCode === code;
-        });
-        this.handleBrandClick(
-          code,
-          {
-            term: currentSearchString
-          },
-          indexOfCurrentBrands,
-          "",
-          false
-        );
-      }
-    } else {
-      this.props.history.push(
-        `/search/?searchCategory=all&text=${currentSearchString}`,
-        {
-          isFilter: false
+    if (
+      searchString !== null &&
+      searchString !== undefined &&
+      /\S/.test(searchString) &&
+      !/\W|_/.test(searchString)
+    ) {
+      let currentSearchString = searchString && searchString.trim();
+      let code =
+        this.state.categoryAndBrandCode &&
+        this.state.categoryAndBrandCode.trim();
+      if (code) {
+        if (code.includes("MSH")) {
+          const topCategories = this.props.searchResult.topCategories;
+          const indexOfCurrentCategories = topCategories.findIndex(
+            categories => {
+              return categories.categoryCode === code;
+            }
+          );
+          this.handleCategoryClick(
+            code,
+            {
+              term: currentSearchString
+            },
+            indexOfCurrentCategories,
+            "",
+            false
+          );
         }
-      );
+        if (code.includes("MBH")) {
+          const topBrands = this.props.searchResult.topBrands;
+          const indexOfCurrentBrands = topBrands.findIndex(brands => {
+            return brands.categoryCode === code;
+          });
+          this.handleBrandClick(
+            code,
+            {
+              term: currentSearchString
+            },
+            indexOfCurrentBrands,
+            "",
+            false
+          );
+        }
+      } else {
+        this.props.history.push(
+          `/search/?searchCategory=all&text=${currentSearchString}`,
+          {
+            isFilter: false
+          }
+        );
+      }
+      this.props.clearSearchResults();
+      this.setState({
+        showResults: false,
+        searchString,
+        showSearchBar: false,
+        currentFlag: null
+      });
     }
-    this.props.clearSearchResults();
-    this.setState({
-      showResults: false,
-      searchString,
-      showSearchBar: false,
-      currentFlag: null
-    });
   }
   handleBlur(event) {
     if (!this.refs.elementScrollRefTop || !this.refs.elementScrollRefBottom) {
