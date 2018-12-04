@@ -18,7 +18,8 @@ import {
   LOGIN_PATH,
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  REDMI_WALLET_FROM_EMAIL
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 
@@ -62,6 +63,8 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`}
           component={SavedCardContainer}
         />
+        <Route path={REDMI_WALLET_FROM_EMAIL} component={CliqCashContainer} />
+
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`}
