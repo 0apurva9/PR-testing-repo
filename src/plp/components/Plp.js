@@ -296,12 +296,8 @@ export default class Plp extends React.Component {
     parsingurl = url.replace(/\+/g, " ");
 
     if (parsingurl.match(filterName)) {
-      parsingurl = parsingurl.replace(filterName, "");
-
-      if (!parsingurl.startsWith("?q=%")) {
-        parsingurl = parsingurl.replace(/[A-za-z0-9\s\w]+%3/, "%3", 1);
-      }
-      url = parsingurl;
+      parsingurl = url.split("?");
+      url = parsingurl[0];
     }
     url = this.props.location.pathname + url;
     this.props.history.push(url, {
