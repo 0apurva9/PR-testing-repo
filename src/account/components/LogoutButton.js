@@ -21,11 +21,16 @@ export default class LogoutButton extends React.Component {
       );
       const logoutResponse = await this.props.logoutUser();
       this.props.displayToast(LOGOUT_TEXT);
-      this.props.history.push(`${HOME_ROUTER}`);
+      if (this.props.location.pathname != "/checkout") {
+        this.props.history.push(this.props.location.pathname);
+      } else {
+        this.props.history.push(`${HOME_ROUTER}`);
+      }
       if (logoutResponse.status === SUCCESS) {
         if (this.props.setBagCount) {
           this.props.setBagCount(0);
         }
+
         const generateCartIdForAnonymous = await this.props.generateCartIdForAnonymous();
         if (generateCartIdForAnonymous.status === SUCCESS) {
           this.props.setFalseForAllAuthCallHasSucceedFlag();
@@ -35,6 +40,7 @@ export default class LogoutButton extends React.Component {
     }
   }
   render() {
+    console.log("---------", this.props);
     return (
       <React.Fragment>
         <MobileOnly>
