@@ -37,6 +37,7 @@ export default class AddressBook extends React.Component {
     if (this.props.removeAddress) {
       this.props.removeAddress(addressId);
       this.props.getUserAddress();
+      this.props.displayToast("Address deleted sucessfully");
     }
   };
   renderLoader = () => {
@@ -176,9 +177,6 @@ export default class AddressBook extends React.Component {
     );
   };
   render() {
-    if (this.props.removeAddressStatus === "success") {
-      this.props.displayToast("Address deleted sucessfully");
-    }
     if (this.props.loading) {
       this.props.showSecondaryLoader();
     } else {
