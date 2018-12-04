@@ -181,7 +181,8 @@ class ProductListingsPage extends Component {
       let searchText = this.getSearchTextFromUrl(true);
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
-    } else if (
+    }
+    if (
       this.props.match.path === BRAND_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === BRAND_PAGE_WITH_SLUG
     ) {
@@ -189,7 +190,8 @@ class ProductListingsPage extends Component {
       let searchText = this.getSearchTextFromUrl(true);
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
-    } else if (this.props.match.path === BRAND_AND_CATEGORY_PAGE) {
+    }
+    if (this.props.match.path === BRAND_AND_CATEGORY_PAGE) {
       const categoryId = this.props.match.params[0].toUpperCase();
       const brandId = this.props.match.params[1].toUpperCase();
       const searchText = `:relevance:category:${categoryId}:brand:${brandId}:${OUT_OF_STOCK_FLAG}:true`;
@@ -207,10 +209,8 @@ class ProductListingsPage extends Component {
       }
       this.props.getProductListings(searchText, suffix, page, true);
       return;
-    } else if (
-      this.props.location.state &&
-      !this.props.location.state.isFilter
-    ) {
+    }
+    if (this.props.location.state && !this.props.location.state.isFilter) {
       const searchText = this.getSearchTextFromUrl(true);
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {

@@ -198,7 +198,6 @@ export default class Plp extends React.Component {
             !window.digitalData.page.pageInfo ||
             window.digitalData.page.pageInfo.pageName !== "product grid"
           ) {
-            console.log(this.props);
             if (
               this.props.lastVisitedPlpUrl &&
               (this.props.lastVisitedPlpUrl.includes("icid2") ||
