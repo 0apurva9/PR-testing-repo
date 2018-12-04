@@ -115,7 +115,5 @@ ControlInput.defaultProps = {
     fontSize: 14
   },
   disabled: false,
-  borderBottom: "1px solid #d2d2d2",
-  onlyAlphabet: false,
-  onlyNumber: false
+  borderBottom: "1px solid #d2d2d2"
 };
