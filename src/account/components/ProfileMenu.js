@@ -71,7 +71,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
     }
     if (
       pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}` ||
-      REDMI_WALLET_FROM_EMAIL
+      pathName === REDMI_WALLET_FROM_EMAIL
     ) {
       selected = "CLiQ Cash";
     }
