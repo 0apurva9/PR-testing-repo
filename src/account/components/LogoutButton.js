@@ -21,7 +21,10 @@ export default class LogoutButton extends React.Component {
       );
       const logoutResponse = await this.props.logoutUser();
       this.props.displayToast(LOGOUT_TEXT);
-      if (this.props.location.pathname != "/checkout") {
+      if (
+        this.props.location.pathname != "/checkout" &&
+        this.props.location.pathname != "/cart"
+      ) {
         this.props.history.push(
           `${this.props.location.pathname}${this.props.location.search}`
         );
