@@ -35,8 +35,12 @@ app.get("*.css", function(req, res, next) {
   next();
 });
 
+var prerender = require('prerender-node').set('prerenderToken', 'NYax1xFNwJGOvG1c0fyj');
+prerender.crawlerUserAgents.push('googlebot');
+prerender.crawlerUserAgents.push('bingbot');
+prerender.crawlerUserAgents.push('yandex');
+app.use(prerender);
 
-app.use(require('prerender-node').set('prerenderToken', 'NYax1xFNwJGOvG1c0fyj'));
 app.use(express.static("build"));
 
 function removeWord(originalWord, searchWord) {
