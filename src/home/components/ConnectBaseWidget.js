@@ -11,6 +11,9 @@ export default class ConnectBaseWidget extends React.Component {
       this.props.onClick();
     }
   };
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   render() {
     let data = this.props;
 
@@ -52,41 +55,47 @@ export default class ConnectBaseWidget extends React.Component {
               </div>
             </MediaQuery>
             <MediaQuery query="(min-device-width: 1025px)">
-              <div className={styles.dataHolder}>
-                <div className={styles.textAndDescription}>
-                  <div className={styles.header}>
-                    <div className={styles.iconBase}>
-                      {data.iconImageURL && (
-                        <div className={styles.iconHolder}>
-                          <Icon image={data.iconImageURL} size={50} />
-                        </div>
-                      )}
-                    </div>
-                    {this.props.heading &&
-                      !this.props.heading === "" && (
-                        <div className={styles.heading}>
-                          {this.props.heading}
-                        </div>
-                      )}
+              <a
+                href={data.webURL}
+                target="_blank"
+                onClick={event => this.handleClickOnLink(event)}
+              >
+                <div className={styles.dataHolder}>
+                  <div className={styles.textAndDescription}>
+                    <div className={styles.header}>
+                      <div className={styles.iconBase}>
+                        {data.iconImageURL && (
+                          <div className={styles.iconHolder}>
+                            <Icon image={data.iconImageURL} size={50} />
+                          </div>
+                        )}
+                      </div>
+                      {this.props.heading &&
+                        !this.props.heading === "" && (
+                          <div className={styles.heading}>
+                            {this.props.heading}
+                          </div>
+                        )}
 
-                    <div className={styles.descriptionHolder}>
-                      {data.description}
-                    </div>
-                  </div>
-                  {data.btnText && (
-                    <div className={styles.buttonBox}>
-                      <div
-                        className={styles.button}
-                        onClick={() => {
-                          this.handleClick();
-                        }}
-                      >
-                        {data.btnText}
+                      <div className={styles.descriptionHolder}>
+                        {data.description}
                       </div>
                     </div>
-                  )}
+                    {data.btnText && (
+                      <div className={styles.buttonBox}>
+                        <div
+                          className={styles.button}
+                          onClick={() => {
+                            this.handleClick();
+                          }}
+                        >
+                          {data.btnText}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </a>
             </MediaQuery>
           </React.Fragment>
         </div>
