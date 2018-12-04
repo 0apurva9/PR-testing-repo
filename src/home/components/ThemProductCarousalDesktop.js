@@ -12,7 +12,8 @@ export default class ThemProductCarousalDesktop extends React.Component {
       position: 0
     };
   }
-  swithPosition(i) {
+  swithPosition(i, evt) {
+    evt.stopPropagation();
     if (i !== undefined) {
       this.setState({ position: i });
     }
@@ -50,6 +51,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}
+        onClick={() => this.handleClick()}
       >
         <div className={styles.infoAndCarousel}>
           <div className={styles.logoAndDescriptionHolder}>
@@ -71,7 +73,6 @@ export default class ThemProductCarousalDesktop extends React.Component {
                       label={this.props.label}
                       width={196}
                       textStyle={{ color: "#FFF", fontSize: 14 }}
-                      onClick={() => this.handleClick()}
                     />
                   </div>
                 </div>
@@ -108,7 +109,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
                           ? styles.navActive
                           : styles.nav
                       }
-                      onClick={() => this.swithPosition(i)}
+                      onClick={evt => this.swithPosition(i, evt)}
                     />
                   );
                 })}
