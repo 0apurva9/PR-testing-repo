@@ -13,6 +13,9 @@ export default class SubBrandsBanner extends React.Component {
       this.props.setClickedElementId();
     }
   }
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   render() {
     return (
       <CommonCenter>
@@ -31,12 +34,18 @@ export default class SubBrandsBanner extends React.Component {
               this.props.feedComponentData.items &&
               this.props.feedComponentData.items.map((datum, i) => {
                 return (
-                  <ProductImageAndLogo
-                    key={i}
-                    imageUrl={datum.imageURL}
-                    logo={datum.brandLogo}
-                    onClick={() => this.handleClick(datum.webURL)}
-                  />
+                  <a
+                    href={datum.webURL}
+                    target="_blank"
+                    onClick={event => this.handleClickOnLink(event)}
+                  >
+                    <ProductImageAndLogo
+                      key={i}
+                      imageUrl={datum.imageURL}
+                      logo={datum.brandLogo}
+                      onClick={() => this.handleClick(datum.webURL)}
+                    />
+                  </a>
                 );
               })}
           </Carousel>
