@@ -6,6 +6,7 @@ import {
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AddressBook from "../components/AddressBook.js";
+import { displayToast } from "../../general/toast.actions.js";
 import { setHeaderText } from "../../general/header.actions";
 import {
   showSecondaryLoader,
@@ -34,6 +35,9 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    displayToast: val => {
+      dispatch(displayToast(val));
     }
   };
 };

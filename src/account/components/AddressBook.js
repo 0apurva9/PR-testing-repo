@@ -176,6 +176,9 @@ export default class AddressBook extends React.Component {
     );
   };
   render() {
+    if (this.props.removeAddressStatus === "success") {
+      this.props.displayToast("Address deleted sucessfully");
+    }
     if (this.props.loading) {
       this.props.showSecondaryLoader();
     } else {
