@@ -5,6 +5,9 @@ import Carousel from "../../general/components/Carousel";
 import CommonCenter from "../../general/components/CommonCenter";
 import TopSellingBrandComponent from "../../general/components/TopSellingBrandComponent";
 export default class TopSellingBrandSlider extends React.Component {
+  handleClickOnLink = event => {
+    event.preventDefault();
+  };
   render() {
     let { feedComponentData } = this.props;
     return (
@@ -14,13 +17,19 @@ export default class TopSellingBrandSlider extends React.Component {
             {feedComponentData.items &&
               feedComponentData.items.map((datum, i) => {
                 return (
-                  <TopSellingBrandComponent
-                    imageURL={datum.imageURL}
-                    webURL={datum.webURL}
-                    logoImageURL={datum.logoImageURL}
-                    history={this.props.history}
-                    setClickedElementId={this.props.setClickedElementId}
-                  />
+                  <a
+                    href={datum.webURL}
+                    target="_blank"
+                    onClick={event => this.handleClickOnLink(event)}
+                  >
+                    <TopSellingBrandComponent
+                      imageURL={datum.imageURL}
+                      webURL={datum.webURL}
+                      logoImageURL={datum.logoImageURL}
+                      history={this.props.history}
+                      setClickedElementId={this.props.setClickedElementId}
+                    />
+                  </a>
                 );
               })}
           </Carousel>
