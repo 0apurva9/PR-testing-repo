@@ -751,7 +751,12 @@ export default class ModalRoot extends React.Component {
           continueWithNoCostEmi={() => this.handleClose()}
         />
       ),
-      DesktopAuth: <DesktopAuth closeModal={() => this.handleClose()} />,
+      DesktopAuth: (
+        <DesktopAuth
+          closeModal={() => this.handleClose()}
+          redirectToAfterAuthUrl={this.props.redirectToAfterAuthUrl}
+        />
+      ),
       ChangePasswordForDesktop: (
         <ChangePasswordForDesktop
           closeModal={() => this.handleClose()}

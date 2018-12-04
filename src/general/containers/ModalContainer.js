@@ -91,7 +91,8 @@ const mapStateToProps = (state, ownProps) => {
     loadingForVerifyWallet: state.profile.loadingForverifyWallet,
     loadingForCancelProduct: state.profile.loadingForCancelProduct,
     loading: state.profile.loading,
-    stores: state.productDescription.storeDetails
+    stores: state.productDescription.storeDetails,
+    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl
   };
 };
 

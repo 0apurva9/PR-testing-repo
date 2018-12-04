@@ -26,6 +26,7 @@ import {
   ADOBE_SIGN_UP_START,
   ADOBE_SIGN_UP_SUCCESS
 } from "../../lib/adobeUtils";
+import * as UserAgent from "../../lib/UserAgent.js";
 const PASSWORD_MATCH_TEXT = "Password did not match";
 class SignUp extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class SignUp extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.location.pathname === SIGN_UP_PATH) {
+    if (UserAgent.checkUserAgentIsMobile()) {
       setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
     }
   }

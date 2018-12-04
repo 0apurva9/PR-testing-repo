@@ -3,9 +3,35 @@ import styles from "./DesktopAuthStyles.css";
 import LoginContainer from "../containers/LoginContainer";
 import SignUpContainer from "../containers/SignUpContainer";
 import SocialButtonsContainer from "../containers/SocialButtonsContainer";
-import { TERMS_AND_CONDITION_URL } from "../../lib/constants";
+import {
+  TERMS_AND_CONDITION_URL,
+  MY_ACCOUNT_CART_PAGE
+} from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import {
+  setDataLayer,
+  ADOBE_LOGIN_AND_SIGN_UP_PAGE
+} from "../../lib/adobeUtils";
 export default class DesktopAuth extends React.Component {
+  componentDidMount() {
+    const digitalData = window.digitalData;
+    if (
+      digitalData &&
+      digitalData.page &&
+      digitalData.page &&
+      digitalData.page.pageInfo &&
+      digitalData.page.pageInfo.pageName !== "login"
+    ) {
+      if (this.props.redirectToAfterAuthUrl === MY_ACCOUNT_CART_PAGE) {
+        setDataLayer(
+          ADOBE_LOGIN_AND_SIGN_UP_PAGE,
+          this.props.redirectToAfterAuthUrl
+        );
+      } else {
+        setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
+      }
+    }
+  }
   handleClose() {
     if (this.props.closeModal) {
       this.props.closeModal();
