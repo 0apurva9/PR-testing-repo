@@ -62,6 +62,7 @@ class DesktopFooter extends React.Component {
 
   render() {
     const footerData = this.props && this.props.DesktopFooterDetails;
+
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
@@ -147,6 +148,32 @@ class DesktopFooter extends React.Component {
           <div className={styles.socialLinkAndLogoHolder}>
             <div className={styles.companyLogo}>
               <Icon image={companyLogo} size={80} />
+            </div>
+            <div className={styles.downLoadAppHolder}>
+              {footerData &&
+                footerData.items &&
+                footerData.items[0] &&
+                footerData.items[0].socialLinks &&
+                footerData.items[0].socialLinks[1] &&
+                footerData.items[0].socialLinks[1].heading && (
+                  <div className={styles.downLoaAppText}>
+                    {footerData.items[0].socialLinks[1].heading}
+                  </div>
+                )}
+              {footerData &&
+                footerData.items &&
+                footerData.items[0] &&
+                footerData.items[0].socialLinks &&
+                footerData.items[0].socialLinks[1] &&
+                footerData.items[0].socialLinks[1].list.map((val, i) => {
+                  return (
+                    <a href={val.webUrl} target="_blank">
+                      <div className={styles.appIconHolder}>
+                        <Icon image={val.imageURL} size={20} />
+                      </div>
+                    </a>
+                  );
+                })}
             </div>
             <div className={styles.socialIconHolder}>
               {footerData &&
