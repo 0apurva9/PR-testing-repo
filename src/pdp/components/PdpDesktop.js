@@ -153,6 +153,7 @@ export default class PdpApparel extends React.Component {
       sizeError: false,
       quantityError: false,
       showProductDetails: false,
+      isLoader: false,
       goToCartPageFlag:
         this.props.location.state && this.props.location.state.goToCartPageFlag
           ? this.props.location.state.goToCartPageFlag
@@ -241,6 +242,7 @@ export default class PdpApparel extends React.Component {
     }
   };
   addToCart = async buyNowFlag => {
+    this.setState({ isLoader: true });
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
@@ -289,6 +291,7 @@ export default class PdpApparel extends React.Component {
                 const buyNowResponse = await this.props.buyNow(productDetails);
                 if (buyNowResponse && buyNowResponse.status === SUCCESS) {
                   this.props.history.push(PRODUCT_CART_ROUTER);
+                  this.setState({ isLoader: false });
                 } else {
                   this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
                 }
@@ -308,6 +311,7 @@ export default class PdpApparel extends React.Component {
           }
         } else {
           this.props.displayToast("Please select a size to continue");
+          this.setState({ isLoader: false });
           this.setState({ sizeError: true });
         }
       }
@@ -789,7 +793,18 @@ export default class PdpApparel extends React.Component {
                 )}
 
                 <div className={styles.buttonWrapper}>
-                  <div className={styles.buttonHolder}>
+                  <div
+                    className={
+                      this.state.isLoader
+                        ? styles.nonClickButton
+                        : styles.buttonHolder
+                    }
+                  >
+                    {this.state.isLoader && (
+                      <div className={styles.loaderHolder}>
+                        <div className={styles.loader} />
+                      </div>
+                    )}
                     <div className={styles.buttonAddToBag}>
                       <Button
                         type="primary"
