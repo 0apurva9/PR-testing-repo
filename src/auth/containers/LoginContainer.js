@@ -24,7 +24,8 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  PRODUCT_ADDED_TO_WISHLIST
+  PRODUCT_ADDED_TO_WISHLIST,
+  CART_BAG_DETAILS
 } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -47,6 +48,10 @@ import {
 import ProductDetails from "../../pdp/components/ProductDetails";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
 const mapDispatchToProps = dispatch => {
+  const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
+  const currentBagCount = currentBagObject
+    ? JSON.parse(currentBagObject).length
+    : 0;
   return {
     displayToast: toastMessage => {
       dispatch(displayToast(toastMessage));
@@ -82,10 +87,8 @@ const mapDispatchToProps = dispatch => {
             const mergeCartIdWithOldOneResponse = await dispatch(
               mergeCartId(cartVal.cartDetails.guid)
             );
-
             if (mergeCartIdWithOldOneResponse.status === SUCCESS) {
               const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
-
               const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
               const cartDetailsLoggedInUser = Cookies.getCookie(
                 CART_DETAILS_FOR_LOGGED_IN_USER
@@ -96,7 +99,13 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(customerCookie).access_token,
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                  lastUrl === "/cart" ? true : false
+                  lastUrl === "/cart" &&
+                  parseInt(
+                    mergeCartIdWithOldOneResponse.cartDetails.count,
+                    10
+                  ) !== currentBagCount
+                    ? true
+                    : false
                 )
               );
               const existingWishList = await dispatch(getWishListItems());
@@ -138,7 +147,13 @@ const mapDispatchToProps = dispatch => {
                     JSON.parse(customerCookie).access_token,
                     JSON.parse(cartDetailsLoggedInUser).code,
                     localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                    lastUrl === "/cart" ? true : false
+                    lastUrl === "/cart" &&
+                    parseInt(
+                      mergeCartIdResponse.cartDetails.count !== currentBagCount,
+                      10
+                    )
+                      ? true
+                      : false
                   )
                 );
                 const existingWishList = await dispatch(getWishListItems());

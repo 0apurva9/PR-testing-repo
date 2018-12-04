@@ -19,7 +19,6 @@ import {
   CATEGORY_REGEX,
   BRAND_CATEGORY_PREFIX
 } from "./PlpBrandCategoryWrapper.js";
-import { setDataLayer, ADOBE_PLP } from "../../lib/adobeUtils";
 const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
@@ -141,7 +140,6 @@ class ProductListingsPage extends Component {
     return encodeURIComponent(searchText);
   }
   componentDidMount() {
-    setDataLayer(ADOBE_PLP);
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true

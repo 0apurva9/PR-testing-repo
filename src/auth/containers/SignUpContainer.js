@@ -11,7 +11,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   PRODUCT_ADDED_TO_WISHLIST,
-  ERROR
+  ERROR,
+  CART_BAG_DETAILS
 } from "../../lib/constants";
 import {
   signUpUser,
@@ -39,6 +40,10 @@ import {
   setIfAllAuthCallsHaveSucceeded
 } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = dispatch => {
+  const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
+  const currentBagCount = currentBagObject
+    ? JSON.parse(currentBagObject).length
+    : 0;
   return {
     onSubmit: async (userSignUpDetails, lastUrl) => {
       setDataLayerForSignupProcess(ADOBE_SIGN_UP_START);
@@ -69,7 +74,11 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(customerCookie).access_token,
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                  lastUrl === "/cart" ? true : false
+                  lastUrl === "/cart" &&
+                  parseInt(mergeCartIdResponse.cartDetails.count, 10) !==
+                    currentBagCount
+                    ? true
+                    : false
                 )
               );
               dispatch(setIfAllAuthCallsHaveSucceeded());

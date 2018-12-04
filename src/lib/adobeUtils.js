@@ -380,6 +380,9 @@ export function setDataLayer(
   }
   if (type === ADOBE_PLP_TYPE) {
     window.digitalData = getDigitalDataForPlp(type, response);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PLP_CPJ);
+    }
   }
   if (
     type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT &&
@@ -511,11 +514,7 @@ export function setDataLayer(
     });
     window.digitalData = data;
   }
-  if (type === ADOBE_PLP) {
-    if (window._satellite) {
-      window._satellite.track(ADOBE_PLP_CPJ);
-    }
-  }
+
   if (icidType === ICID2) {
     window.digitalData.flag = INTERNAL_CAMPAIGN;
     window.digitalData.internal = {
@@ -610,7 +609,7 @@ export function setDataLayer(
     window.digitalData = currentDigitalData;
   }
 
-  if (window._satellite && type !== ADOBE_PLP) {
+  if (window._satellite) {
     window._satellite.track(ADOBE_SATELLITE_CODE);
   }
 }
@@ -2204,7 +2203,6 @@ function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
       display: { hierarchy: `"home"|"${pageTitle}"` }
     }
   };
-
   return data;
 }
 function getDigitalDataForStatic(response) {
