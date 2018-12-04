@@ -2276,21 +2276,45 @@ export function widgetsTracking(widgetObj: {}) {
   if (!widgetObj.widgetName) {
     return;
   }
-
   const data = cloneDeep(window.digitalData);
-  Object.assign(data.cpj, {
-    widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-      widgetObj.widgetName
-    }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-      widgetObj.type ? widgetObj.type : "product"
-    }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-      widgetObj.categoryName ? widgetObj.categoryName : "x"
-    }:${
-      data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
-        ? data.page.pageInfo.pageName
-        : "x"
-    }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
-  });
+  const currentDigitalData = window.digitalData;
+  if (currentDigitalData.cpj) {
+    Object.assign(data && data.cpj, {
+      widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+        widgetObj.widgetName
+      }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+        widgetObj.type ? widgetObj.type : "product"
+      }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+        widgetObj.categoryName ? widgetObj.categoryName : "x"
+      }:${
+        data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
+          ? data.page.pageInfo.pageName
+          : "x"
+      }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
+    });
+  } else {
+    Object.assign(data, {
+      cpj: {
+        pdp: {
+          findingMethod: data.page.pageInfo.pageName,
+          widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+            widgetObj.widgetName
+          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+            widgetObj.type ? widgetObj.type : "product"
+          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+            widgetObj.categoryName ? widgetObj.categoryName : "x"
+          }:${
+            data &&
+            data.page &&
+            data.page.pageInfo &&
+            data.page.pageInfo.pageName
+              ? data.page.pageInfo.pageName
+              : "x"
+          }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
+        }
+      }
+    });
+  }
   window.digitalData = data;
   let widgetType;
   const DEFAULT_FALLBACK_ADOBE = widgetObj.widgetName
