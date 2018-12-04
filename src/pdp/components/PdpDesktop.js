@@ -50,7 +50,8 @@ import {
   HOME_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
-  LOGIN_PATH
+  LOGIN_PATH,
+  ERROR
 } from "../../lib/constants";
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
@@ -208,6 +209,9 @@ export default class PdpApparel extends React.Component {
       pincode,
       productCode
     );
+    if (productPincodeObj.status === ERROR) {
+      this.props.displayToast("Please enter a valid pincode");
+    }
     if (
       productPincodeObj.status === SUCCESS &&
       this.props.productDetails &&
@@ -215,8 +219,17 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails.isServiceableToPincode.status
     ) {
       if (this.props.productDetails.isServiceableToPincode.status === "Y") {
+        this.props.displayToast("Product is servicable to pincode");
         setDataLayerForCartDirectCalls(
           ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+          pincode
+        );
+      } else if (
+        this.props.productDetails.isServiceableToPincode.status === "N"
+      ) {
+        this.props.displayToast("Product is not servicable to pincode");
+        setDataLayerForCartDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
           pincode
         );
       } else {
