@@ -1255,7 +1255,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
   }
   if (type === ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT) {
     Object.assign(data.page, {
-      pageInfo: { pageName: "Checkout Login Page" }
+      pageInfo: { pageName: "multi checkout summary page" }
     });
     window.digitalData = data;
     if (window._satellite) {
