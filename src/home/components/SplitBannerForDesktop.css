@@ -6,7 +6,7 @@
 }
 .firstItemBase {
   composes: base;
-  margin-top: 20px;
+  margin-top: 60px;
 }
 .shopeRangeHeader {
   width: 100%;
