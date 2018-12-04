@@ -35,7 +35,7 @@ class WriteReview extends React.Component {
     };
   }
   onChangeTitle(val) {
-    if (atleastOneAlpanum.test(val)) {
+    if (val > 0) {
       if (this.props.onChangeTitle) {
         this.props.onChangeTitle(val);
       }
@@ -44,7 +44,7 @@ class WriteReview extends React.Component {
   }
 
   onChangeComment(val) {
-    if (atleastOneAlpanum.test(val)) {
+    if (val > 0) {
       if (this.props.onChangeComment) {
         this.props.onChangeComment(val);
       }
