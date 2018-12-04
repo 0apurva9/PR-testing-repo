@@ -45,7 +45,9 @@ export default class ThemeProductWidget extends React.Component {
   }
 
   handleThemeProductClick = url => {
-    this.props.history.push(url);
+    window.open(url, "_blank");
+    window.focus();
+    // this.props.history.push(url);
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }

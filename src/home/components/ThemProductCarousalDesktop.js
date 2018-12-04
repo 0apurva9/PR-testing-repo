@@ -27,7 +27,8 @@ export default class ThemProductCarousalDesktop extends React.Component {
       this.props.onClick();
     }
   }
-  onRedirect(url, brandsName) {
+  onRedirect(url, brandsName, evt) {
+    evt.stopPropagation();
     widgetsTracking({
       widgetName: this.props.feedComponentData.type,
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
@@ -93,8 +94,8 @@ export default class ThemProductCarousalDesktop extends React.Component {
                   }
                   price={this.props.items[this.state.position].mrp}
                   webURL={this.props.items[this.state.position].webURL}
-                  onRedirect={(url, brandsName) =>
-                    this.onRedirect(url, brandsName)
+                  onRedirect={(url, brandsName, evt) =>
+                    this.onRedirect(url, brandsName, evt)
                   }
                 />
               )}
