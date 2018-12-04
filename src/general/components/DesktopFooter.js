@@ -206,6 +206,15 @@ class DesktopFooter extends React.Component {
               footerData.items[0].pageSpecificFooterData
           }}
         />
+        <div
+          className={styles.footerData}
+          dangerouslySetInnerHTML={{
+            __html:
+              footerData &&
+              footerData.items &&
+              footerData.items[0].popularSearches
+          }}
+        />
       </div>
     );
   }
