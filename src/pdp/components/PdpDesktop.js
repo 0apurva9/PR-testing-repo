@@ -938,16 +938,15 @@ export default class PdpApparel extends React.Component {
                       </Overlay>
                     </div>
                   ) : (
-                    <div className={styles.overlay}>
-                      <Overlay labelText="This item can't be delivered to your PIN code">
-                        <PdpDeliveryModes
-                          eligibleDeliveryModes={
-                            productData.eligibleDeliveryModes
-                          }
-                          deliveryModesATP={productData.deliveryModesATP}
-                          iconShow={true}
-                        />
-                      </Overlay>
+                    <div className={styles.deliveyModesHolder}>
+                      <PdpDeliveryModes
+                        onPiq={this.handleShowPiqPage}
+                        eligibleDeliveryModes={
+                          productData.eligibleDeliveryModes
+                        }
+                        deliveryModesATP={productData.deliveryModesATP}
+                        iconShow={true}
+                      />
                     </div>
                   )}
                 </div>
