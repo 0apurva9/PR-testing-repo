@@ -108,7 +108,14 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
       // If i hit this am I in a custom sku page?
       const splitUrl = pathName.split("/");
       const slug = splitUrl[splitUrl.length - 1];
-      url = `/search/?q=:relevance:collectionIds:${slug}`;
+
+      if (slug != null && slug != undefined && /\S/.test(slug)) {
+        url = `/search/?q=:relevance:collectionIds:${slug}`;
+      } else {
+        val = val.replace("MSH", "c-msh");
+        val = val.replace("MBH", "c-mbh");
+        url = `/search/${val}`;
+      }
     }
   }
 
