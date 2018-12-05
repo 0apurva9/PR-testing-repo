@@ -6,13 +6,13 @@ import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import styles from "./FeedComponent.css";
 import { withRouter } from "react-router";
-
+import * as UserAgent from "../../lib/UserAgent.js";
 class FeedComponent extends React.Component {
   onClick = val => {
-    if (this.props.location.pathname === "/") {
-      window.open(val, "_blank");
-    } else {
+    if (UserAgent.checkUserAgentIsMobile()) {
       this.props.history.push(val);
+    } else {
+      window.open(val, "_blank");
     }
 
     if (this.props.setClickedElementId) {
