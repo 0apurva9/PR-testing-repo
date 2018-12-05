@@ -80,8 +80,8 @@ export default class ThemeOffer extends React.Component {
               header: feedComponentData.title,
               buttonText: feedComponentData.btnText,
               isWhite: true,
-              seeAll: () => {
-                this.handleClick();
+              seeAll: val => {
+                this.handleClick(this.props.feedComponentData.webURL);
               }
             }}
             {...rest}
