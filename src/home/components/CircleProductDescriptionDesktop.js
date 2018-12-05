@@ -5,7 +5,7 @@ import { RUPEE_SYMBOL } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 export default class CircleProductDescriptionDesktop extends React.Component {
-  onClick() {
+  onClick(evt) {
     let urlSuffix;
     if (this.props.webURL) {
       urlSuffix = this.props.webURL.replace(TATA_CLIQ_ROOT, "$1");
@@ -15,7 +15,7 @@ export default class CircleProductDescriptionDesktop extends React.Component {
       urlSuffix = `p-${this.props.productListingId.toLowerCase()}`;
     }
     if (this.props.onRedirect) {
-      this.props.onRedirect(urlSuffix, this.props.brandsName);
+      this.props.onRedirect(urlSuffix, this.props.brandsName, evt);
     }
   }
   render() {
@@ -28,7 +28,7 @@ export default class CircleProductDescriptionDesktop extends React.Component {
     }
 
     return (
-      <div className={styles.base} onClick={() => this.onClick()}>
+      <div className={styles.base} onClick={evt => this.onClick(evt)}>
         <div className={styles.brandImageHolder}>
           <div className={styles.brandImage}>
             <Image image={this.props.image} />
