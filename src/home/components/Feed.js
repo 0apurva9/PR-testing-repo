@@ -468,7 +468,8 @@ class Feed extends Component {
         className={styles.base}
         ref={ref}
         style={{
-          background: this.props.background ? this.props.background : "#ececec"
+          background: this.props.background ? this.props.background : "#ececec",
+          marginTop: this.props.marginTop
         }}
       >
         <div className={styles.center}>{items}</div>
@@ -531,7 +532,12 @@ class Feed extends Component {
           </List>
         ) : null}
         <MobileOnly>
-          <div style={{ width: "100%", height: 100 }} />
+          <div
+            style={{
+              width: "100%",
+              height: 100
+            }}
+          />
         </MobileOnly>
       </React.Fragment>
     );
@@ -546,11 +552,13 @@ Feed.propTypes = {
   emailValue: PropTypes.string,
   passwordValue: PropTypes.string,
   loading: PropTypes.bool,
+  marginTop: PropTypes.string,
   feedType: PropTypes.oneOf([HOME_FEED_TYPE, SECONDARY_FEED_TYPE])
 };
 
 Feed.defaultProps = {
-  loading: false
+  loading: false,
+  marginTop: "-30px"
 };
 
 export default Feed;
