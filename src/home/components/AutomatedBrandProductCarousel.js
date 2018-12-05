@@ -51,6 +51,7 @@ export default class AutomatedBrandProductCarousel extends React.Component {
             image={componentData.imageURL}
             description={componentData.description}
             logo={<Logo image={componentData.brandLogo} />}
+            onClick={() => this.handleClick()}
           />
         }
         backgroundColor="#e4e4e4"
