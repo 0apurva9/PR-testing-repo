@@ -926,15 +926,17 @@ export default class PdpApparel extends React.Component {
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
-                    <Overlay labelText="This item can't be delivered to your PIN code">
-                      <PdpDeliveryModes
-                        eligibleDeliveryModes={
-                          productData.eligibleDeliveryModes
-                        }
-                        deliveryModesATP={productData.deliveryModesATP}
-                        iconShow={true}
-                      />
-                    </Overlay>
+                    <div className={styles.overlay}>
+                      <Overlay labelText="This item can't be delivered to your PIN code">
+                        <PdpDeliveryModes
+                          eligibleDeliveryModes={
+                            productData.eligibleDeliveryModes
+                          }
+                          deliveryModesATP={productData.deliveryModesATP}
+                          iconShow={true}
+                        />
+                      </Overlay>
+                    </div>
                   ) : (
                     <div className={styles.deliveyModesHolder}>
                       <PdpDeliveryModes

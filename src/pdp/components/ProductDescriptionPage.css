@@ -426,6 +426,9 @@
     padding-left: 75px;
     margin: 15px 0;
   }
+  .overlay {
+    padding-top: 14px;
+  }
   .updatePincodeHolder:before {
     content: "Delivery";
     position: absolute;
