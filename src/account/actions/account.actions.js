@@ -1747,7 +1747,7 @@ export function getFollowedBrands(isSetDataLayer) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        throw new Error();
       }
       if (isSetDataLayer) {
         setDataLayer(ADOBE_MY_ACCOUNT_BRANDS);
