@@ -26,7 +26,6 @@ export default class Offer extends React.Component {
           <div className={styles.imageHolder}>
             <Image image={datum.imageURL} key={key} />
           </div>
-          <div onClick={this.handleClick} />
           <MediaQuery query="(max-device-width: 1024px)">
             {datum.discountText &&
               datum.discountText !== " " && (
