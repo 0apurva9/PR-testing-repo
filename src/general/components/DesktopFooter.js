@@ -146,9 +146,9 @@ class DesktopFooter extends React.Component {
         </div>
         <div className={styles.footerBottomHolder}>
           <div className={styles.socialLinkAndLogoHolder}>
-            <div className={styles.companyLogo}>
+            {/* <div className={styles.companyLogo}>
               <Icon image={companyLogo} size={80} />
-            </div>
+            </div> */}
             <div className={styles.downLoadAppHolder}>
               {footerData &&
                 footerData.items &&
