@@ -49,7 +49,8 @@ TextArea.propTypes = {
   onChange: PropTypes.func,
   height: PropTypes.number,
   value: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number
 };
 TextArea.defaultProps = {
   height: 100,
