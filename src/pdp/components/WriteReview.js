@@ -35,20 +35,21 @@ class WriteReview extends React.Component {
     };
   }
   onChangeTitle(val) {
-    if (val > 0) {
+    if (/\S/.test(val)) {
+      this.setState({ title: val });
       if (this.props.onChangeTitle) {
         this.props.onChangeTitle(val);
       }
-      this.setState({ title: val });
     }
   }
 
   onChangeComment(val) {
-    if (val > 0) {
+    if (/\S/.test(val)) {
+      this.setState({ comment: val });
+
       if (this.props.onChangeComment) {
         this.props.onChangeComment(val);
       }
-      this.setState({ comment: val });
     }
   }
 
