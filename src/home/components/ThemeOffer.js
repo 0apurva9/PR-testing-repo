@@ -11,27 +11,25 @@ import { widgetsTracking } from "../../lib/adobeUtils.js";
 const OFFER_AND_ITEM_LIMIT = 10;
 
 export default class ThemeOffer extends React.Component {
-  handleClick() {
+  handleClick = webUrl => {
     widgetsTracking({
       widgetName: "Theme offers component",
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform
     });
-    if (this.props.feedComponentData.webURL) {
-      const urlSuffix = this.props.feedComponentData.webURL.replace(
-        TATA_CLIQ_ROOT,
-        "$1"
-      );
-      this.props.history.push({
-        pathname: urlSuffix,
-        state: {
-          componentName: "Theme offers component"
-        }
-      });
+    if (webUrl) {
+      const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1").trim();
+      this.props.history.push(urlSuffix);
+      // this.props.history.push({
+      //   pathname: urlSuffix,
+      //   state: {
+      //     componentName: "Theme offers component"
+      //   }
+      // });
       if (this.props.setClickedElementId) {
         this.props.setClickedElementId();
       }
     }
-  }
+  };
   handleClickOnLink = event => {
     event.preventDefault();
   };
@@ -82,8 +80,8 @@ export default class ThemeOffer extends React.Component {
               header: feedComponentData.title,
               buttonText: feedComponentData.btnText,
               isWhite: true,
-              seeAll: () => {
-                this.handleClick();
+              seeAll: val => {
+                this.handleClick(this.props.feedComponentData.webURL);
               }
             }}
             {...rest}
@@ -99,8 +97,8 @@ export default class ThemeOffer extends React.Component {
               carouselOptions={{
                 header: feedComponentData.title,
                 buttonText: feedComponentData.btnText,
-                seeAll: () => {
-                  this.handleClick();
+                seeAll: val => {
+                  this.handleClick(this.props.feedComponentData.webURL);
                 }
               }}
               banner={
@@ -112,7 +110,9 @@ export default class ThemeOffer extends React.Component {
                   <ProductImageHeaderDesktop
                     backgroundColor={feedComponentData.backgroundHexCode}
                     backgroundImage={feedComponentData.backgroundImageURL}
-                    onClick={() => this.handleClick()}
+                    onClick={val =>
+                      this.handleClick(this.props.feedComponentData.webURL)
+                    }
                   />
                 </a>
               }
