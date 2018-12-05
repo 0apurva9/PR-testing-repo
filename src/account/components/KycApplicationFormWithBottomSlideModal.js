@@ -27,6 +27,7 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
         closeModal={value => this.onCancel()}
       >
         <KycApplicationForm
+          {...this.props}
           onCancel={value => this.onCancel()}
           generateOtp={value => this.generateOtp(value)}
           mobileNumber={this.props.mobileNumber}

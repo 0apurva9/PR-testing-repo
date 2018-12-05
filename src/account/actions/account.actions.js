@@ -749,6 +749,17 @@ export function getGiftCardDetails() {
       ) {
         if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
           dispatch(showModal(GENERATE_OTP_FOR_EGV));
+        } else if (
+          resultJson.isWalletCreated &&
+          !resultJson.isWalletOtpVerified
+        ) {
+          dispatch(
+            showModal(GENERATE_OTP_FOR_EGV, {
+              firstName: resultJson.firstName,
+              lastName: resultJson.lastName,
+              mobileNumber: resultJson.mobileNumber
+            })
+          );
         }
         setDataLayer(ADOBE_MY_ACCOUNT_GIFT_CARD);
         return dispatch(giftCardSuccess(resultJson));
