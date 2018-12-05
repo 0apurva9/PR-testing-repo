@@ -978,7 +978,7 @@ export default class AddDeliveryAddress extends React.Component {
                         onFocus={() => {
                           this.handleOnFocusInput();
                         }}
-                        maxLength={250}
+                        maxLength={255}
                       />
                     </div>
                     <DesktopOnly>
