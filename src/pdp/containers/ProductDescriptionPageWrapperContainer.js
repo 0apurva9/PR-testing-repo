@@ -128,7 +128,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
     getUserAddress: () => {
-      dispatch(getUserAddress(true));
+      dispatch(getUserAddress());
     }
   };
 };
