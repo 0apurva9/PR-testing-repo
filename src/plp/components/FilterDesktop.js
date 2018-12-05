@@ -127,7 +127,7 @@ export default class FilterDesktop extends React.Component {
     this.onCategorySelect(val, filterType, filterValue, false);
   };
   onL2Click = (val, filterType, filterValue) => {
-    this.onCategorySelect(val, filterType, filterValue, true);
+    this.onCategorySelect(val, filterType, filterValue, false);
   };
   onL3Click = (val, filterType, filterValue) => {
     this.onCategorySelect(val, filterType, filterValue, false);
