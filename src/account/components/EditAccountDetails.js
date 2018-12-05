@@ -372,6 +372,7 @@ export default class EditAccountDetails extends React.Component {
                           height={33}
                           onChange={firstName => this.onChange({ firstName })}
                           onlyAlphabet={true}
+                          maxLength={20}
                         />
                       </div>
                     </div>
@@ -391,6 +392,7 @@ export default class EditAccountDetails extends React.Component {
                           height={33}
                           onChange={lastName => this.onChange({ lastName })}
                           onlyAlphabet={true}
+                          maxLength={20}
                         />
                       </div>
                     </div>
