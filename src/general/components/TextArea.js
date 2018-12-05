@@ -39,6 +39,7 @@ export default class TextArea extends React.Component {
           }}
           style={{ height: `${this.props.height}px` }}
           onFocus={event => this.handleFocus(event)}
+          maxLength={this.props.maxLength}
         />
       </div>
     );
@@ -48,7 +49,8 @@ TextArea.propTypes = {
   onChange: PropTypes.func,
   height: PropTypes.number,
   value: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number
 };
 TextArea.defaultProps = {
   height: 100,

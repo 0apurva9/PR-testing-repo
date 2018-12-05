@@ -944,6 +944,7 @@ export default class AddDeliveryAddress extends React.Component {
                       this.handleOnFocusInput();
                     }}
                     onlyAlphabet={true}
+                    maxLength={20}
                   />
                 </div>
                 <div className={styles.threeSection}>
@@ -964,6 +965,7 @@ export default class AddDeliveryAddress extends React.Component {
                           this.handleOnFocusInput();
                         }}
                         onlyAlphabet={true}
+                        maxLength={20}
                       />
                     </div>
                     <div className={styles.contentAddAddress}>
@@ -976,6 +978,7 @@ export default class AddDeliveryAddress extends React.Component {
                         onFocus={() => {
                           this.handleOnFocusInput();
                         }}
+                        maxLength={149}
                       />
                     </div>
                     <DesktopOnly>
