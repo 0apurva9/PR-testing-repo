@@ -140,6 +140,7 @@ class ProductListingsPage extends Component {
     return encodeURIComponent(searchText);
   }
   componentDidMount() {
+    console.log("SITH MOUNTING");
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true
@@ -230,82 +231,84 @@ class ProductListingsPage extends Component {
     }
   }
   componentDidUpdate() {
-    let page = null;
-    if (this.props.lastVisitedPlpUrl === window.location.href) {
-      if (this.props.clickedProductModuleRef) {
-        const clickedElement = document.getElementById(
-          this.props.clickedProductModuleRef
-        );
-        if (clickedElement) {
-          delay(() => {
-            clickedElement.scrollIntoView();
-          }, 50);
+    if (this.props.lastVisitedPlpUrl !== window.location.href) {
+      let page = null;
+      if (this.props.lastVisitedPlpUrl === window.location.href) {
+        if (this.props.clickedProductModuleRef) {
+          const clickedElement = document.getElementById(
+            this.props.clickedProductModuleRef
+          );
+          if (clickedElement) {
+            delay(() => {
+              clickedElement.scrollIntoView();
+            }, 50);
+          }
         }
+        return;
       }
-      return;
-    }
-    if (this.props.match.path === SKU_PAGE) {
-      const skuId = this.props.match.params.slug;
-      const searchText = `:relevance:collectionIds:${skuId}`;
-      this.props.getProductListings(searchText, SKU_SUFFIX, 0);
-      return;
-    }
-    if (this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE) {
-      page = this.props.match.params[1];
-      page = page - 1;
-      const searchText = this.getSearchTextFromUrl();
-      this.props.getProductListings(searchText, SUFFIX, page);
-      return;
-    }
-    if (this.props.match.path === BRAND_AND_CATEGORY_PAGE) {
-      const categoryId = this.props.match.params[0].toUpperCase();
-      const brandId = this.props.match.params[1].toUpperCase();
-      const searchText = `:relevance:category:${categoryId}:brand:${brandId}`;
-      this.props.getProductListings(searchText, SUFFIX, 0, false);
-      return;
-    }
-    if (
-      this.props.location.state &&
-      this.props.location.state.disableSerpSearch === true
-    ) {
-      return;
-    }
-    page = 0;
-    if (
-      this.props.location.state &&
-      this.props.location.state.isFilter === true
-    ) {
-      const suffix = "&isFilter=true";
-      const searchText = this.getSearchTextFromUrl();
-      const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
-      if (pageMatch) {
-        page = pageMatch[1] ? pageMatch[1] : 1;
+      if (this.props.match.path === SKU_PAGE) {
+        const skuId = this.props.match.params.slug;
+        const searchText = `:relevance:collectionIds:${skuId}`;
+        this.props.getProductListings(searchText, SKU_SUFFIX, 0);
+        return;
+      }
+      if (this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE) {
+        page = this.props.match.params[1];
         page = page - 1;
+        const searchText = this.getSearchTextFromUrl();
+        this.props.getProductListings(searchText, SUFFIX, page);
+        return;
       }
-      this.props.getProductListings(searchText, suffix, page, true);
-      return;
-    } else if (
-      this.props.location.state &&
-      this.props.location.state.isFilter === false
-    ) {
-      const searchText = this.getSearchTextFromUrl();
-      const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
-      if (pageMatch) {
-        page = pageMatch[1] ? pageMatch[1] : 1;
-        page = page - 1;
+      if (this.props.match.path === BRAND_AND_CATEGORY_PAGE) {
+        const categoryId = this.props.match.params[0].toUpperCase();
+        const brandId = this.props.match.params[1].toUpperCase();
+        const searchText = `:relevance:category:${categoryId}:brand:${brandId}`;
+        this.props.getProductListings(searchText, SUFFIX, 0, false);
+        return;
       }
-      this.props.getProductListings(searchText, SUFFIX, page);
-      return;
-    }
-    if (!this.props.location.state) {
-      const searchText = this.getSearchTextFromUrl();
-      const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
-      if (pageMatch) {
-        page = pageMatch[1] ? pageMatch[1] : 1;
-        page = page - 1;
+      if (
+        this.props.location.state &&
+        this.props.location.state.disableSerpSearch === true
+      ) {
+        return;
       }
-      this.props.getProductListings(searchText, SUFFIX, page);
-      return;
+      page = 0;
+      if (
+        this.props.location.state &&
+        this.props.location.state.isFilter === true
+      ) {
+        const suffix = "&isFilter=true";
+        const searchText = this.getSearchTextFromUrl();
+        const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
+        if (pageMatch) {
+          page = pageMatch[1] ? pageMatch[1] : 1;
+          page = page - 1;
+        }
+        this.props.getProductListings(searchText, suffix, page, true);
+        return;
+      } else if (
+        this.props.location.state &&
+        this.props.location.state.isFilter === false
+      ) {
+        const searchText = this.getSearchTextFromUrl();
+        const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
+        if (pageMatch) {
+          page = pageMatch[1] ? pageMatch[1] : 1;
+          page = page - 1;
+        }
+        this.props.getProductListings(searchText, SUFFIX, page);
+        return;
+      }
+      if (!this.props.location.state) {
+        const searchText = this.getSearchTextFromUrl();
+        const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
+        if (pageMatch) {
+          page = pageMatch[1] ? pageMatch[1] : 1;
+          page = page - 1;
+        }
+        this.props.getProductListings(searchText, SUFFIX, page);
+        return;
+      }
     }
   }
   render() {
