@@ -204,7 +204,8 @@ export default class SearchPage extends React.Component {
     if (
       /\s*[0-9a-zA-z]+/.test(searchString) &&
       !format.test(searchString) &&
-      searchString != null
+      searchString != null &&
+      searchString != undefined
     ) {
       let currentSearchString = searchString && searchString.trim();
       let code =
