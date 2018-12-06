@@ -223,10 +223,7 @@ table th {
   .chatAndCallLink:last-child {
     border-bottom: none;
   }
-  a {
-    color: #212121 !important;
-    text-decoration: none !important;
-  }
+
   .aboutUsImageHolder {
     width: 100%;
     height: auto;
