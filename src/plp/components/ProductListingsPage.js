@@ -140,7 +140,6 @@ class ProductListingsPage extends Component {
     return encodeURIComponent(searchText);
   }
   componentDidMount() {
-    console.log("SITH MOUNTING");
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true
