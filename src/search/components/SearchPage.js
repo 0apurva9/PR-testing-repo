@@ -200,13 +200,8 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
-    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-    if (
-      searchString !== null &&
-      searchString !== undefined &&
-      /\S/.test(searchString) &&
-      !format.test(searchString)
-    ) {
+    var format = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]+/;
+    if (/\s*[0-9a-zA-z]+/.test(searchString) && !format.test(searchString)) {
       let currentSearchString = searchString && searchString.trim();
       let code =
         this.state.categoryAndBrandCode &&
