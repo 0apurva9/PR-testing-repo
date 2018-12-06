@@ -24,7 +24,8 @@ import delay from "lodash.delay";
 import { setDataLayer, ADOBE_HOME_TYPE } from "../../lib/adobeUtils";
 
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
-
+const DEFAULT_TITLE =
+  "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
 const typeKeyMapping = {
   "Hero Banner Component": "heroBannerComponent"
 };
@@ -342,9 +343,9 @@ class Feed extends Component {
     this.pageSize = this.props.pageSize;
   }
   componentDidMount() {
-    if (this.props.seo) {
-      document.title = this.props.seo.title;
-    }
+    this.props.seo
+      ? (document.title = this.props.seo.title)
+      : (document.title = DEFAULT_TITLE);
     const titleObj =
       this.props.homeFeedData &&
       this.props.homeFeedData.find(data => {
