@@ -342,6 +342,9 @@ class Feed extends Component {
     this.pageSize = this.props.pageSize;
   }
   componentDidMount() {
+    if (this.props.seo) {
+      document.title = this.props.seo.title;
+    }
     const titleObj =
       this.props.homeFeedData &&
       this.props.homeFeedData.find(data => {
@@ -479,9 +482,11 @@ class Feed extends Component {
 
   renderMetaTags = () => {
     const data = this.props.homeFeedData;
-    return data.seo
-      ? renderMetaTags(data)
-      : renderMetaTagsWithoutSeoObject(data);
+    if (this.props.feedType !== "secondaryFeed") {
+      return data.seo
+        ? renderMetaTags(data)
+        : renderMetaTagsWithoutSeoObject(data);
+    }
   };
 
   renderAmpTags = () => {
@@ -497,6 +502,7 @@ class Feed extends Component {
       this.props.setPageFeedSize(this.pageSize);
     }
   }
+
   render() {
     if (this.props.loading) {
       return <HomeSkeleton />;
@@ -520,7 +526,7 @@ class Feed extends Component {
     }
     return (
       <React.Fragment>
-        {this.renderMetaTags()}
+        {this.props.feedType !== "secondaryFeed" && this.renderMetaTags()}
         {this.props.isHomePage ? this.renderAmpTags() : null}
         {this.props.homeFeedData ? (
           <List
