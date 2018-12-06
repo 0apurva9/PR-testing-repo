@@ -374,7 +374,7 @@ export function getFeed(pageId: null) {
           if (resultJson.pageName) {
             dispatch(setHeaderText(resultJson.pageName));
           }
-          dispatch(secondaryFeedSuccess(resultJson.items, feedTypeRequest));
+          dispatch(secondaryFeedSuccess(resultJson, feedTypeRequest));
           if (CATEGORY_REGEX.test(pageId)) {
             setDataLayer(
               ADOBE_CLP_PAGE_LOAD,

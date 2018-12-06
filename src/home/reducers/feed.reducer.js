@@ -31,6 +31,7 @@ const feed = (
     useBackUpData: false,
     useBackUpHomeFeed: false,
     secondaryFeedStatus: null,
+    seo: null,
     clickedElementId: null,
     pageSize: 1
   },
@@ -53,8 +54,7 @@ const feed = (
         clickedElementId: action.id
       });
     case homeActions.SECONDARY_FEED_SUCCESS:
-      secondaryFeedClonedData = cloneDeep(action.data);
-
+      secondaryFeedClonedData = cloneDeep(action.data.items);
       secondaryFeedData = secondaryFeedClonedData.map(subData => {
         // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
         let componentName = subData.componentName;
@@ -77,7 +77,8 @@ const feed = (
       return Object.assign({}, state, {
         loading: false,
         secondaryFeedStatus: action.status,
-        secondaryFeed: secondaryFeedData
+        secondaryFeed: secondaryFeedData,
+        seo: action.data.seo
       });
     case homeActions.SECONDARY_FEED_FAILURE:
       return Object.assign({}, state, {
