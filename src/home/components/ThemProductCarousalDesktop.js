@@ -150,5 +150,5 @@ ThemProductCarousalDesktop.PropTypes = {
   interval: PropTypes.number
 };
 ThemProductCarousalDesktop.defaultProps = {
-  interval: 4
+  interval: 9
 };
