@@ -18,6 +18,21 @@ export default class ThemProductCarousalDesktop extends React.Component {
       this.setState({ position: i });
     }
   }
+  autoRun = () => {
+    setTimeout(() => {
+      this.goForward();
+      this.autoRun();
+    }, this.props.interval * 1000);
+  };
+  componentDidMount() {
+    if (this.props.interval) {
+      this.autoRun();
+    }
+  }
+  goForward = () => {
+    let childCount = this.props.items && this.props.items.length;
+    this.setState({ position: (this.state.position + 1) % childCount });
+  };
   handleClick() {
     widgetsTracking({
       widgetName: this.props.feedComponentData.type,
@@ -131,5 +146,9 @@ ThemProductCarousalDesktop.PropTypes = {
   brandsName: PropTypes.string,
   discountPrice: PropTypes.string,
   price: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  interval: PropTypes.number
+};
+ThemProductCarousalDesktop.defaultProps = {
+  interval: 9
 };
