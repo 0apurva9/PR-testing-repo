@@ -291,11 +291,12 @@ export function homeFeedBackUpFailure(error) {
   };
 }
 
-export function secondaryFeedSuccess(data) {
+export function secondaryFeedSuccess(data, seodata) {
   return {
     type: SECONDARY_FEED_SUCCESS,
     status: SUCCESS,
-    data
+    data,
+    seodata
   };
 }
 
@@ -374,7 +375,13 @@ export function getFeed(pageId: null) {
           if (resultJson.pageName) {
             dispatch(setHeaderText(resultJson.pageName));
           }
-          dispatch(secondaryFeedSuccess(resultJson.items, feedTypeRequest));
+          dispatch(
+            secondaryFeedSuccess(
+              resultJson.items,
+              resultJson.seo,
+              feedTypeRequest
+            )
+          );
           if (CATEGORY_REGEX.test(pageId)) {
             setDataLayer(
               ADOBE_CLP_PAGE_LOAD,
