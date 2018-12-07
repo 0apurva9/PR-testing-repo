@@ -37,10 +37,7 @@ export default class FilterDesktop extends React.Component {
   }
 
   onClear = () => {
-    // cow(.*)milk
-
     const searchQuery = this.props.location.search;
-
     const firstSearchData =
       this.props.facetdatacategory &&
       this.props.facetdatacategory.filters &&
