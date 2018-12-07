@@ -31,7 +31,7 @@ export default class CircleProductDescriptionDesktop extends React.Component {
       <div className={styles.base} onClick={evt => this.onClick(evt)}>
         <div className={styles.brandImageHolder}>
           <div className={styles.brandImage}>
-            <Image image={this.props.image} />
+            <Image image={this.props.image} fit="contain" />
           </div>
         </div>
         <div className={styles.productDescription}>
