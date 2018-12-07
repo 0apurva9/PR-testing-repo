@@ -344,7 +344,9 @@ class Feed extends Component {
   }
   componentDidMount() {
     this.props.seo
-      ? (document.title = this.props.seo.title)
+      ? this.props.seo.title
+        ? (document.title = this.props.seo.title)
+        : (document.title = DEFAULT_TITLE)
       : (document.title = DEFAULT_TITLE);
     const titleObj =
       this.props.homeFeedData &&
