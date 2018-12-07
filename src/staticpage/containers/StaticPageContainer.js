@@ -23,7 +23,6 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     data: state.feed.secondaryFeed,
-    seo: state.feed.seo,
     loading: state.feed.loading,
     feedType: SECONDARY_FEED_TYPE,
     status: state.feed.secondaryFeedStatus
