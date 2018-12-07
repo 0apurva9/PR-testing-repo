@@ -245,7 +245,6 @@ export default class StaticPage extends Component {
                             <Feed
                               feedType={this.props.feedType}
                               homeFeedData={this.props.data}
-                              seo={this.props.seo}
                               setHeaderText={this.props.setHeaderText}
                               marginTop="0px"
                               background="#fff"
@@ -373,7 +372,6 @@ export default class StaticPage extends Component {
         <Feed
           feedType={this.props.feedType}
           homeFeedData={this.props.data}
-          seo={this.props.seo}
           setHeaderText={this.props.setHeaderText}
         />
       );
