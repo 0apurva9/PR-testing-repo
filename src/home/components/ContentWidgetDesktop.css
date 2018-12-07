@@ -127,11 +127,8 @@
   margin-bottom: 15px;
   max-height: 100px;
   overflow: hidden;
-  text-transform: lowercase;
 }
-.descriptionHeader::first-letter {
-  text-transform: uppercase;
-}
+
 .descriptionContent {
   width: 100%;
   height: auto;
