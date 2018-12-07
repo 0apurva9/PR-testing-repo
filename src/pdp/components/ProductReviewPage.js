@@ -280,7 +280,6 @@ export default class ProductReviewPage extends Component {
   };
 
   render() {
-    console.log(this.props);
     if (this.props.loadingForAddProduct || this.props.loading) {
       this.props.showSecondaryLoader();
     } else {
