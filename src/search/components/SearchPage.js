@@ -103,9 +103,7 @@ export default class SearchPage extends React.Component {
     setTimeout(() => {
       this.setState({ setOnClick: false });
     }, 50);
-    const url = `/search/?searchCategory=all&text=${
-      dtmDataObject.term
-    }:relevance:brand:${brandCode}`;
+    const url = `/search/?searchCategory=all&text=${currentString}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
       isFilter: false
     });
@@ -155,9 +153,7 @@ export default class SearchPage extends React.Component {
       setDataLayerForAutoSuggestSearch(dtmDataObject);
     }
 
-    const url = `/search/?searchCategory=all&text=${
-      dtmDataObject.term
-    }:relevance:category:${categoryCode}`;
+    const url = `/search/?searchCategory=all&text=${currentString}:relevance:category:${categoryCode}`;
     this.props.clearSearchResults();
     this.setState({
       showResults: false,
@@ -200,7 +196,7 @@ export default class SearchPage extends React.Component {
       : true;
   }
   handleOnSearchString(searchString) {
-    var format = /[!@#$%^&*_+\=\[\]{};:\\|.<>\/?]+/;
+    var format = /[!@#$%^&*()_+\=\[\]{};:\\|,.<>\/?]+/;
     if (
       /\s*[0-9a-zA-z]+/.test(searchString) &&
       !format.test(searchString) &&

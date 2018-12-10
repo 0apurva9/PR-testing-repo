@@ -478,6 +478,10 @@ export default class Plp extends React.Component {
         }
       });
     }
+    const headerName =
+      this.props.productListings &&
+      this.props.productListings.seo &&
+      this.props.productListings.seo.breadcrumbs;
 
     return (
       <React.Fragment>
@@ -503,9 +507,11 @@ export default class Plp extends React.Component {
                         : 0
                     }" items for "`}
                     <span className={styles.camelCase}>
-                      {this.props.productListings &&
-                        this.props.productListings.currentQuery &&
-                        this.props.productListings.currentQuery.searchQuery}"
+                      {headerName
+                        ? headerName[0].name
+                        : this.props.productListings &&
+                          this.props.productListings.currentQuery &&
+                          this.props.productListings.currentQuery.searchQuery}"
                     </span>
                   </div>
                 </div>
