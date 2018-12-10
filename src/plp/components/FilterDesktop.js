@@ -125,7 +125,10 @@ export default class FilterDesktop extends React.Component {
       url = url.replace("MBH", "c-mbh");
     }
 
-    this.props.history.push(url, { isFilter, componentName: "isFilterTrue" });
+    this.props.history.push(url, {
+      isFilter,
+      componentName: "isFilterTrue"
+    });
     if (isFilter === false) {
       this.props.onL3CategorySelect();
     }
@@ -362,7 +365,9 @@ export default class FilterDesktop extends React.Component {
                                   <div className={styles.expandButtonHolder}>
                                     <div
                                       className={styles.moreText}
-                                      style={{ marginRight: 0 }}
+                                      style={{
+                                        marginRight: 0
+                                      }}
                                       onClick={() =>
                                         this.viewMore(facetDataValues.values)
                                       }
@@ -384,6 +389,7 @@ export default class FilterDesktop extends React.Component {
                                       }
                                       typeOfFilter={facetDataValues.name}
                                       priceList={facetDataValues.values}
+                                      customRange={facetDataValues.customeRange}
                                       history={this.props.history}
                                       onFilterClick={this.onFilterClick}
                                     />
@@ -435,7 +441,8 @@ export default class FilterDesktop extends React.Component {
                     facetDataValues.values.filter(filter => {
                       return filter.selected;
                     }).length > 0) ||
-                  this.state.openedFilters.includes(facetDataValues.name);
+                  this.state.openedFilters.includes(facetDataValues.name) ||
+                  facetDataValues.customeRange;
                 return (
                   facetDataValues && (
                     <div className={styles.facetData}>
@@ -497,6 +504,7 @@ export default class FilterDesktop extends React.Component {
                                     rangeApplied={facetDataValues.rangeApplied}
                                     typeOfFilter={facetDataValues.name}
                                     priceList={facetDataValues.values}
+                                    customRange={facetDataValues.customeRange}
                                     history={this.props.history}
                                     onFilterClick={this.onFilterClick}
                                   />
