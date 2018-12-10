@@ -289,9 +289,9 @@ export default class PdpApparel extends React.Component {
                 this.navigateToLogin();
               } else {
                 const buyNowResponse = await this.props.buyNow(productDetails);
+                this.setState({ isLoader: false });
                 if (buyNowResponse && buyNowResponse.status === SUCCESS) {
                   this.props.history.push(PRODUCT_CART_ROUTER);
-                  this.setState({ isLoader: false });
                 } else {
                   this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
                 }
