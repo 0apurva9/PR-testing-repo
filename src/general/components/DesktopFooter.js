@@ -62,6 +62,9 @@ class DesktopFooter extends React.Component {
 
   render() {
     const footerData = this.props && this.props.DesktopFooterDetails;
+    const isNotPdp = /p-mp[0-9]+/.test(this.props.location.pathname)
+      ? false
+      : true;
 
     return (
       <div className={styles.contentHolder}>
@@ -197,24 +200,28 @@ class DesktopFooter extends React.Component {
             <div className={styles.copyRightText}>{TEXT}</div>
           </div>
         </div>
-        <div
-          className={styles.footerData}
-          dangerouslySetInnerHTML={{
-            __html:
-              footerData &&
-              footerData.items &&
-              footerData.items[0].pageSpecificFooterData
-          }}
-        />
-        <div
-          className={styles.footerData}
-          dangerouslySetInnerHTML={{
-            __html:
-              footerData &&
-              footerData.items &&
-              footerData.items[0].popularSearches
-          }}
-        />
+        {isNotPdp && (
+          <div
+            className={styles.footerData}
+            dangerouslySetInnerHTML={{
+              __html:
+                footerData &&
+                footerData.items &&
+                footerData.items[0].pageSpecificFooterData
+            }}
+          />
+        )}
+        {isNotPdp && (
+          <div
+            className={styles.footerData}
+            dangerouslySetInnerHTML={{
+              __html:
+                footerData &&
+                footerData.items &&
+                footerData.items[0].popularSearches
+            }}
+          />
+        )}
       </div>
     );
   }
