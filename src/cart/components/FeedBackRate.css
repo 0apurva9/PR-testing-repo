@@ -1,0 +1,34 @@
+.base {
+  width: 20%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+}
+.checkAndText {
+  width: 35px;
+  height: 50px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+.checkBox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #8d8d8d;
+  display: inline-block;
+}
+.ratingText {
+  width: 100%;
+  height: auto;
+  color: #4a4a4a;
+  font-size: 18px;
+  display: inline-block;
+  margin-top: 10px;
+  font-family: regular;
+}
+.activeCheckbox {
+  composes: checkBox;
+  border: 1px solid #ff1744;
+  background: #ff1744;
+}
