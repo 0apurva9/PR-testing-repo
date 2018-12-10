@@ -40,5 +40,5 @@ ControlTextArea.propTypes = {
 ControlTextArea.defaultProps = {
   height: 100,
   value: "",
-  placeholder: "Write your comment"
+  placeholder: ""
 };
