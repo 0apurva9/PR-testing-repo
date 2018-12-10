@@ -69,16 +69,17 @@ export default class SearchHeader extends React.Component {
       });
     }
   }
-  handleKeyUp = val => {
-    if (val === "Enter") {
+  handleKeyUp = event => {
+    if (event.key === "Enter") {
       this.searchString();
       this.setState({
         increase: false,
         value: ""
       });
+      event.target.blur();
     }
     if (this.props.onKeyUp) {
-      this.props.onKeyUp(val);
+      this.props.onKeyUp(event.key);
     }
   };
 
@@ -163,7 +164,7 @@ export default class SearchHeader extends React.Component {
                       type="search"
                       borderColor={"#212121"}
                       borderBottom={"0px solid #212121"}
-                      onKeyUp={event => this.handleKeyUp(event.key)}
+                      onKeyUp={event => this.handleKeyUp(event)}
                       autoFocus={this.state.autoFocus}
                     />
                   </div>
@@ -203,7 +204,7 @@ export default class SearchHeader extends React.Component {
                     type="search"
                     borderColor={this.state.increase ? "#fff" : "#212121"}
                     borderBottom={"none"}
-                    onKeyUp={event => this.handleKeyUp(event.key)}
+                    onKeyUp={event => this.handleKeyUp(event)}
                     value={this.state.increase ? this.state.value : ""}
                     onBlur={event => this.handleBlur(event)}
                   />
