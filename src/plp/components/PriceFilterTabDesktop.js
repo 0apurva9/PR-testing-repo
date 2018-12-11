@@ -119,7 +119,7 @@ export default class PriceFilterTabDesktop extends React.Component {
               return (
                 <FilterSelect
                   onClick={this.onFilterClick}
-                  selected={val.selected}
+                  selected={val.selected || this.props.customRange}
                   hexColor={val.hexColor}
                   label={val.name}
                   count={val.count}
