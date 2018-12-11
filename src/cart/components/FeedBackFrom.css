@@ -10,12 +10,17 @@
   max-width: 1200px;
   margin: auto;
 }
+.RatingHolderForCustomer {
+  width: 100%;
+  height: auto;
+}
 .header {
   width: 100%;
   height: auto;
   color: #000000;
   font-size: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  font-family: semibold;
 }
 .feedBackCardHolder {
   width: 100%;
@@ -28,6 +33,34 @@
   width: 100%;
   height: auto;
   margin-bottom: 50px;
+}
+.enterFeedBackHolder {
+  width: 100%;
+  height: auto;
+}
+.enterFeedBackTextHeader {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-family: regular;
+}
+.resetAndSubmitButtonHolder {
+  width: 100%;
+  height: auto;
+  margin-top: 50px;
+  display: inline-block;
+  text-align: center;
+}
+.submitAndResetButton {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  margin-right: 15px;
+}
+.submitAndResetButton .submitAndResetButton:last-child {
+  margin-right: 0px;
 }
 .feedBackText {
   width: 100%;
@@ -76,4 +109,46 @@
   height: auto;
   display: inline-block;
   vertical-align: top;
+}
+.afterSubMitReviewHolder {
+  width: 100%;
+  height: auto;
+  background-image: linear-gradient(119deg, #ff878b, #9538ae);
+  max-width: 1190px;
+  padding: 15% 20%;
+  text-align: center;
+  border-radius: 4px;
+  margin: auto;
+}
+.thankYouText {
+  width: 100%;
+  height: auto;
+  color: #fff;
+  font-size: 60px;
+  font-family: semibold;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.subText {
+  width: 100%;
+  height: auto;
+  color: #fff;
+  font-size: 30px;
+  line-height: normal;
+  font-family: regular;
+  display: inline-block;
+  text-align: center;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  margin-top: 80px;
+}
+.button {
+  width: auto;
+  height: auto;
+  display: inline-block;
 }

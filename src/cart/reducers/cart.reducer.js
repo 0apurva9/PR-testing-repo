@@ -211,7 +211,12 @@ const cart = (
     feedBackDetails: null,
     feedBackDetailsStatus: null,
     feedBackDetailsError: null,
-    loadingForfeedBackDetails: false
+    loadingForfeedBackDetails: false,
+
+    feedBackSent: null,
+    feedBackSentStatus: null,
+    feedBackSentError: null,
+    loadingForfeedBackSent: false
   },
   action
 ) => {
@@ -1562,6 +1567,24 @@ const cart = (
         feedBackDetailsStatus: action.status,
         feedBackDetailsError: action.error,
         loadingForfeedBackDetails: false
+      });
+
+    case cartActions.POST_FEEDBACK_REQUEST:
+      return Object.assign({}, state, {
+        feedBackSentStatus: action.status,
+        loadingForfeedBackSent: true
+      });
+    case cartActions.POST_FEEDBACK_SUCCESS:
+      return Object.assign({}, state, {
+        feedBackSentStatus: action.status,
+        feedBackSent: action.feedBackSent,
+        loadingForfeedBackSent: false
+      });
+    case cartActions.POST_FEEDBACK_FAILURE:
+      return Object.assign({}, state, {
+        feedBackSentStatus: action.status,
+        feedBackSentError: action.error,
+        loadingForfeedBackSent: false
       });
 
     case cartActions.CLEAR_CART_DETAILS:
