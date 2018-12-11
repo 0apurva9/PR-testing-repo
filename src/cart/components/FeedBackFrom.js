@@ -10,7 +10,6 @@ export default class FeedBackForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      toatalArray: null,
       textDetails: ""
     };
     this.questionRatingArray = [];
@@ -46,6 +45,10 @@ export default class FeedBackForm extends React.Component {
   };
   onChange = val => {
     this.setState({ textDetails: val });
+  };
+  onReset = () => {
+    this.questionRatingArray = [];
+    this.setState({ textDetails: "" });
   };
   onContinueShopping() {
     this.props.history.push(HOME_ROUTER);
