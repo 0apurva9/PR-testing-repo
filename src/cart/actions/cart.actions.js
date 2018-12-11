@@ -405,7 +405,13 @@ export const CART_ITEM_COOKIE = "cartItems";
 export const ADDRESS_FOR_PLACE_ORDER = "orderAddress";
 export const ANONYMOUS_USER = "anonymous";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
+export const GET_FEEDBACK_REQUEST = "GET_FEEDBACK_REQUEST";
+export const GET_FEEDBACK_SUCCESS = "GET_FEEDBACK_SUCCESS";
+export const GET_FEEDBACK_FAILURE = "GET_FEEDBACK_FAILURE";
 
+export const POST_FEEDBACK_REQUEST = "POST_FEEDBACK_REQUEST";
+export const POST_FEEDBACK_SUCCESS = "POST_FEEDBACK_SUCCESS";
+export const POST_FEEDBACK_FAILURE = "POST_FEEDBACK_FAILURE";
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -4692,5 +4698,96 @@ export function resetAllPaymentModes() {
 export function preventRestingAllPaymentMode() {
   return {
     type: PREVENT_REQUESTING_ALL_PAYMENT_MODES
+  };
+}
+export function getFeedBackFormRequest() {
+  return {
+    type: GET_FEEDBACK_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getFeedBackFormSuccess(feedBackDetails) {
+  return {
+    type: GET_FEEDBACK_SUCCESS,
+    status: SUCCESS,
+    feedBackDetails
+  };
+}
+export function getFeedBackFormFailure(error) {
+  return {
+    type: GET_FEEDBACK_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getFeedBackForm(getUserDetails) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getFeedBackFormRequest());
+    try {
+      const result = await api.get(
+        `v2/mpl/getQuestionsForNPS?originalUid=${
+          getUserDetails.originalUid
+        }&transactionId=${getUserDetails.transactionId}&rating=${
+          getUserDetails.rating
+        }&deliveryMode=${getUserDetails.deliveryMode}`
+      );
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getFeedBackFormSuccess(resultJson));
+    } catch (e) {
+      dispatch(getFeedBackFormFailure(e.message));
+    }
+  };
+}
+
+export function postFeedBackFormRequest() {
+  return {
+    type: POST_FEEDBACK_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function postFeedBackFormSuccess(feedBackSent) {
+  return {
+    type: POST_FEEDBACK_SUCCESS,
+    status: SUCCESS,
+    feedBackSent
+  };
+}
+export function postFeedBackFormFailure(error) {
+  return {
+    type: POST_FEEDBACK_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function postFeedBackForm(commemt, questionRatingArray, transactionId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(postFeedBackFormRequest());
+    try {
+      let productDetails = {};
+      productDetails.transactionId = transactionId;
+      productDetails.anyotherfeedback = commemt;
+      productDetails.items = questionRatingArray;
+
+      const result = await api.post(
+        `v2/mpl/getFeedbackCapturedData`,
+        productDetails
+      );
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(postFeedBackFormSuccess(resultJson));
+    } catch (e) {
+      dispatch(postFeedBackFormFailure(e.message));
+    }
   };
 }

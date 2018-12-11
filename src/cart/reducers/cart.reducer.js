@@ -206,7 +206,17 @@ const cart = (
     mergeTempCartWithOldCart: null,
     mergeTempCartWithOldCartError: null,
     mergeTempCartWithOldCartLoading: null,
-    resetAllPaymentModeFlag: false
+    resetAllPaymentModeFlag: false,
+
+    feedBackDetails: null,
+    feedBackDetailsStatus: null,
+    feedBackDetailsError: null,
+    loadingForfeedBackDetails: false,
+
+    feedBackSent: null,
+    feedBackSentStatus: null,
+    feedBackSentError: null,
+    loadingForfeedBackSent: false
   },
   action
 ) => {
@@ -1539,6 +1549,42 @@ const cart = (
         eddDetailsStatus: action.status,
         eddDetailsError: action.error,
         loadingForEddDetails: false
+      });
+
+    case cartActions.GET_FEEDBACK_REQUEST:
+      return Object.assign({}, state, {
+        feedBackDetailsStatus: action.status,
+        loadingForfeedBackDetails: true
+      });
+    case cartActions.GET_FEEDBACK_SUCCESS:
+      return Object.assign({}, state, {
+        feedBackDetailsStatus: action.status,
+        feedBackDetails: action.feedBackDetails,
+        loadingForfeedBackDetails: false
+      });
+    case cartActions.GET_FEEDBACK_FAILURE:
+      return Object.assign({}, state, {
+        feedBackDetailsStatus: action.status,
+        feedBackDetailsError: action.error,
+        loadingForfeedBackDetails: false
+      });
+
+    case cartActions.POST_FEEDBACK_REQUEST:
+      return Object.assign({}, state, {
+        feedBackSentStatus: action.status,
+        loadingForfeedBackSent: true
+      });
+    case cartActions.POST_FEEDBACK_SUCCESS:
+      return Object.assign({}, state, {
+        feedBackSentStatus: action.status,
+        feedBackSent: action.feedBackSent,
+        loadingForfeedBackSent: false
+      });
+    case cartActions.POST_FEEDBACK_FAILURE:
+      return Object.assign({}, state, {
+        feedBackSentStatus: action.status,
+        feedBackSentError: action.error,
+        loadingForfeedBackSent: false
       });
 
     case cartActions.CLEAR_CART_DETAILS:

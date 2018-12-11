@@ -69,7 +69,8 @@ import {
   WRITE_REVIEWS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   DEFAULT_PINCODE,
-  REDMI_WALLET_FROM_EMAIL
+  REDMI_WALLET_FROM_EMAIL,
+  FEEDBACK_PAGE
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -101,7 +102,12 @@ const MyAccountWrapper = Loadable({
     return <Loader />;
   }
 });
-
+const FeedBackContainer = Loadable({
+  loader: () => import("./cart/containers/FeedBackContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
 const BrandLandingPageContainer = Loadable({
   loader: () => import("./blp/containers/BrandLandingPageContainer"),
   loading() {
@@ -536,6 +542,7 @@ class App extends Component {
               path={PRODUCT_DELIVERY_ADDRESSES}
               component={CheckoutAddressContainer}
             />
+            <Route exact path={FEEDBACK_PAGE} component={FeedBackContainer} />
             <Route
               exact
               path={PRODUCT_CART_DELIVERY_MODES}
