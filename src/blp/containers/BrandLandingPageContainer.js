@@ -14,6 +14,7 @@ const mapStateToProps = state => {
     homeFeedData: state.feed.secondaryFeed,
     loading: state.feed.loading,
     isOnBrandLandingPage: true,
+    seo: state.feed.seo,
     feedType: SECONDARY_FEED_TYPE
   };
 };
