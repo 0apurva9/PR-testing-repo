@@ -1106,6 +1106,24 @@ const account = (
         loadingForUserReview: false
       });
 
+    case accountActions.RETRY_PAYMENT_REQUEST:
+      return Object.assign({}, state, {
+        retryPaymentDetailsStatus: action.status,
+        retryPaymentDetailsLoading: true
+      });
+
+    case accountActions.RETRY_PAYMENT_SUCCESS:
+      return Object.assign({}, state, {
+        retryPaymentDetailsStatus: action.status,
+        retryPaymentDetailsLoading: false,
+        retryPaymentDetails: action.retryPaymentDetails
+      });
+    case accountActions.RETRY_PAYMENT_FAILURE:
+      return Object.assign({}, state, {
+        retryPaymentDetailsStatus: action.status,
+        retryPaymentDetailsError: action.error,
+        retryPaymentDetailsLoading: false
+      });
     default:
       return state;
   }

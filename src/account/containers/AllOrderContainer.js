@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import {
   getAllOrdersDetails,
   clearOrderDetails,
-  reSendEmailForGiftCard
+  reSendEmailForGiftCard,
+  retryPayment
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -34,6 +35,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
+      return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
     }
   };
 };

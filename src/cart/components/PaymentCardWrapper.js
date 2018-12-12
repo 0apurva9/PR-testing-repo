@@ -152,7 +152,8 @@ export default class PaymentCardWrapper extends React.Component {
             </div>
           </DesktopOnly>
           {!this.props.isFromGiftCard &&
-            !this.props.isPaymentFailed && (
+            !this.props.isPaymentFailed &&
+            !this.props.isFromRetryUrl && (
               <div>
                 <CliqCashToggle
                   cashText="Use My CLiQ Cash Balance"
@@ -214,7 +215,8 @@ export default class PaymentCardWrapper extends React.Component {
             </div>
           )}
           {!this.props.isFromGiftCard &&
-            !this.props.isPaymentFailed && (
+            !this.props.isPaymentFailed &&
+            !this.props.isFromRetryUrl && (
               <DesktopOnly>
                 <div className={styles.giftCardAccrodian}>
                   <ManueDetails

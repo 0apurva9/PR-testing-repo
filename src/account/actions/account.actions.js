@@ -251,6 +251,10 @@ export const GET_USER_REVIEW_FAILURE = "GET_USER_REVIEW_FAILURE";
 export const GET_USER_REVIEW_REQUEST = "GET_USER_REVIEW_REQUEST";
 export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
 
+export const RETRY_PAYMENT_REQUEST = "RETRY_PAYMENT_REQUEST";
+export const RETRY_PAYMENT_SUCCESS = "RETRY_PAYMENT_SUCCESS";
+export const RETRY_PAYMENT_FAILURE = "RETRY_PAYMENT_FAILURE";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
@@ -2531,6 +2535,52 @@ export function getUserReview(pageIndex) {
       return dispatch(getUserReviewSuccess(resultJson));
     } catch (e) {
       return dispatch(getUserReviewFailure(e.message));
+    }
+  };
+}
+export function retryPaymentRequest() {
+  return {
+    type: RETRY_PAYMENT_REQUEST,
+    status: REQUESTING
+  };
+}
+export function retryPaymentSuccess(retryPaymentDetails) {
+  return {
+    type: RETRY_PAYMENT_SUCCESS,
+    status: SUCCESS,
+    retryPaymentDetails
+  };
+}
+export function retryPaymentFailure() {
+  return {
+    type: RETRY_PAYMENT_FAILURE,
+    status: FAILURE
+  };
+}
+export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(retryPaymentRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/failedorderdetails?&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJson.status === FAILURE && resultJson.error) {
+        dispatch(displayToast(resultJson.error));
+      }
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(retryPaymentSuccess(resultJson));
+    } catch (e) {
+      return dispatch(retryPaymentFailure(e.message));
     }
   };
 }

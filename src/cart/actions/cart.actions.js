@@ -390,6 +390,7 @@ export const MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS =
   "MERGE_TEMP_CART_WITH_OLD_CART_SUCCESS";
 export const MERGE_TEMP_CART_WITH_OLD_CART_FAILURE =
   "MERGE_TEMP_CART_WITH_OLD_CART_FAILURE";
+
 export const EDD_IN_COMMERCE_REQUEST = "EDD_IN_COMMERCE_REQUEST";
 export const EDD_IN_COMMERCE_FAILURE = "EDD_IN_COMMERCE_FAILURE";
 export const EDD_IN_COMMERCE_SUCCESS = "EDD_IN_COMMERCE_SUCCESS";
@@ -401,10 +402,12 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_1 = "B9078";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
+const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
+
 export const CART_ITEM_COOKIE = "cartItems";
 export const ADDRESS_FOR_PLACE_ORDER = "orderAddress";
 export const ANONYMOUS_USER = "anonymous";
-const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
+
 export const GET_FEEDBACK_REQUEST = "GET_FEEDBACK_REQUEST";
 export const GET_FEEDBACK_SUCCESS = "GET_FEEDBACK_SUCCESS";
 export const GET_FEEDBACK_FAILURE = "GET_FEEDBACK_FAILURE";
@@ -412,6 +415,13 @@ export const GET_FEEDBACK_FAILURE = "GET_FEEDBACK_FAILURE";
 export const POST_FEEDBACK_REQUEST = "POST_FEEDBACK_REQUEST";
 export const POST_FEEDBACK_SUCCESS = "POST_FEEDBACK_SUCCESS";
 export const POST_FEEDBACK_FAILURE = "POST_FEEDBACK_FAILURE";
+
+export const GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_REQUEST =
+  "GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_REQUEST";
+export const GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_SUCCESS =
+  "GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_SUCCESS";
+export const GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_FAILURE =
+  "GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_FAILURE";
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -4788,6 +4798,59 @@ export function postFeedBackForm(commemt, questionRatingArray, transactionId) {
       dispatch(postFeedBackFormSuccess(resultJson));
     } catch (e) {
       dispatch(postFeedBackFormFailure(e.message));
+    }
+  };
+}
+
+export function getUserAddressAndDeliveryModesByRetryPaymentRequest() {
+  return {
+    type: GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getUserAddressAndDeliveryModesByRetryPaymentFailure(error) {
+  return {
+    type: GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+export function getUserAddressAndDeliveryModesByRetryPaymentSuccess(
+  getUserAddressAndDeliveryModesByRetryPayment
+) {
+  return {
+    type: GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_SUCCESS,
+    status: SUCCESS,
+    getUserAddressAndDeliveryModesByRetryPayment
+  };
+}
+
+export function getUserAddressAndDeliveryModesByRetryPayment(guId) {
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getUserAddressAndDeliveryModesByRetryPaymentRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/failedOrderPincodeAndAddressResponse?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isUpdatedPwa=true&cartGuid=${guId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(
+        getUserAddressAndDeliveryModesByRetryPaymentSuccess(resultJson)
+      );
+    } catch (e) {
+      return dispatch(
+        getUserAddressAndDeliveryModesByRetryPaymentFailure(e.message)
+      );
     }
   };
 }

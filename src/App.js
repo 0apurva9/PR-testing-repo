@@ -70,7 +70,8 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   DEFAULT_PINCODE,
   REDMI_WALLET_FROM_EMAIL,
-  FEEDBACK_PAGE
+  FEEDBACK_PAGE,
+  RETRY_FAILED_ORDER
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -570,6 +571,11 @@ class App extends Component {
               exact
               path={SKU_PAGE_FILTER}
               component={ProductListingsContainer}
+            />
+            <Route
+              exact
+              path={RETRY_FAILED_ORDER}
+              component={CheckOutContainer}
             />
             <Route exact path={HELP_URL} component={HelpDetailsContainer} />
             <Route exact path={SKU_PAGE} component={ProductListingsContainer} />

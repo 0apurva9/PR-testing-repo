@@ -51,7 +51,9 @@ import {
   FAQ_URL,
   SEARCH_RESULTS_PAGE,
   PRODUCT_REVIEWS_PATH_SUFFIX,
-  HELP_URL
+  HELP_URL,
+  SUCCESS,
+  CHECKOUT_ROUTER
 } from "../../lib/constants";
 import throttle from "lodash.throttle";
 import {
@@ -70,6 +72,8 @@ const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 const Loader = () => {
   return (
     <div>
@@ -269,6 +273,31 @@ export default class AllOrderDetails extends React.Component {
   reSendEmailForGiftCard = orderId => {
     if (this.props.reSendEmailForGiftCard) {
       this.props.reSendEmailForGiftCard(orderId);
+    }
+  };
+  onClickRetryPayment = async retryUrl => {
+    let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
+    let guId = retryPaymentSplitUrl[0].split("value=")[1];
+    let userId = retryPaymentSplitUrl[1].split("userId=")[1];
+    if (this.props.retryPayment) {
+      let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+      if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+        let retryPaymentDetailsObject = {};
+        retryPaymentDetailsObject.retryPaymentDetails =
+          retryPaymentResponse.retryPaymentDetails;
+        localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+        this.props.history.push({
+          pathname: CHECKOUT_ROUTER,
+          state: {
+            isFromRetryUrl: true,
+            retryPaymentGuid: guId
+          }
+        });
+      }
     }
   };
   render() {
@@ -602,10 +631,15 @@ export default class AllOrderDetails extends React.Component {
                                             borderRadius={20}
                                             backgroundColor={"#ffffff"}
                                             onClick={val =>
-                                              this.writeReview(
-                                                product.productcode
+                                              this.onClickRetryPayment(
+                                                orderDetails.retryPaymentUrl
                                               )
                                             }
+                                            // onClick={val =>
+                                            //   this.writeReview(
+                                            //     product.productcode
+                                            //   )
+                                            // }
                                             textStyle={{
                                               color: "#000000",
                                               fontSize: 14,

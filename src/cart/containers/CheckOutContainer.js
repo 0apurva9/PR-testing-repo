@@ -53,7 +53,8 @@ import {
   createJusPayOrderForNetBanking,
   createJusPayOrder,
   resetIsSoftReservationFailed,
-  preventRestingAllPaymentMode
+  preventRestingAllPaymentMode,
+  getUserAddressAndDeliveryModesByRetryPayment
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -74,7 +75,8 @@ import {
   resetAddAddressDetails,
   updateProfile,
   clearPinCodeStatus,
-  redeemCliqVoucher
+  redeemCliqVoucher,
+  retryPayment
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -89,9 +91,10 @@ import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js"
 import {
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  SUCCESS
+  SUCCESS,
+  MY_ACCOUNT
 } from "../../lib/constants.js";
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getCartDetailsCNC: (
       userId,
@@ -219,14 +222,28 @@ const mapDispatchToProps = dispatch => {
     updateTransactionDetails: (paymentMode, juspayOrderID, cartId) => {
       dispatch(updateTransactionDetails(paymentMode, juspayOrderID, cartId));
     },
-    getCODEligibility: isPaymentFailed => {
-      dispatch(getCODEligibility(isPaymentFailed));
+    getCODEligibility: (isPaymentFailed, isFromRetryUrl, retryCartGuid) => {
+      dispatch(
+        getCODEligibility(isPaymentFailed, isFromRetryUrl, retryCartGuid)
+      );
     },
     binValidationForCOD: paymentMode => {
       dispatch(binValidationForCOD(paymentMode));
     },
-    updateTransactionDetailsForCOD: (paymentMode, juspayOrderID) => {
-      dispatch(updateTransactionDetailsForCOD(paymentMode, juspayOrderID));
+    updateTransactionDetailsForCOD: (
+      paymentMode,
+      juspayOrderID,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        updateTransactionDetailsForCOD(
+          paymentMode,
+          juspayOrderID,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
     },
     softReservationForCODPayment: pinCode => {
       dispatch(softReservationForCODPayment(pinCode));
@@ -285,7 +302,9 @@ const mapDispatchToProps = dispatch => {
       address,
       cardDetails,
       paymentMode,
-      bankName
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
     ) => {
       dispatch(
         createJusPayOrder(
@@ -294,7 +313,9 @@ const mapDispatchToProps = dispatch => {
           address,
           cardDetails,
           paymentMode,
-          true
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
         )
       );
     },
@@ -323,14 +344,26 @@ const mapDispatchToProps = dispatch => {
     getEmiEligibility: cartGuId => {
       dispatch(getEmiEligibility(cartGuId));
     },
-    getBankAndTenureDetails: () => {
-      dispatch(getBankAndTenureDetails());
+    getBankAndTenureDetails: (
+      retryFlagForEmiCoupon,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        getBankAndTenureDetails(
+          retryFlagForEmiCoupon,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
     },
     getEmiTermsAndConditionsForBank: (code, bankName) => {
       dispatch(getEmiTermsAndConditionsForBank(code, bankName));
     },
-    applyNoCostEmi: (couponCode, carGuId, cartId) => {
-      return dispatch(applyNoCostEmi(couponCode, carGuId, cartId));
+    applyNoCostEmi: (couponCode, carGuId, cartId, isFromRetryUrl) => {
+      return dispatch(
+        applyNoCostEmi(couponCode, carGuId, cartId, isFromRetryUrl)
+      );
     },
     removeNoCostEmi: (couponCode, carGuId, cartId) => {
       return dispatch(removeNoCostEmi(couponCode, carGuId, cartId));
@@ -366,10 +399,18 @@ const mapDispatchToProps = dispatch => {
     createJusPayOrderForSavedCards: (
       cardDetails,
       cartItem,
-      isPaymentFailed
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
     ) => {
       dispatch(
-        createJusPayOrderForSavedCards(cardDetails, cartItem, isPaymentFailed)
+        createJusPayOrderForSavedCards(
+          cardDetails,
+          cartItem,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
       );
     },
     createJusPayOrderForCliqCash: (pinCode, cartItem, isPaymentFailed) => {
@@ -407,14 +448,18 @@ const mapDispatchToProps = dispatch => {
       paymentMethodType,
       cartItem,
       bankName,
-      pinCode
+      pinCode,
+      isFromRetryUrl,
+      retryCartGuid
     ) => {
       dispatch(
         createJusPayOrderForNetBanking(
           paymentMethodType,
           cartItem,
           bankName,
-          pinCode
+          pinCode,
+          isFromRetryUrl,
+          retryCartGuid
         )
       );
     },
@@ -435,6 +480,42 @@ const mapDispatchToProps = dispatch => {
     },
     preventRestingAllPaymentMode: () => {
       dispatch(preventRestingAllPaymentMode());
+    },
+    getUserAddressAndDeliveryModesByRetryPayment: async guId => {
+      let getUserAddressAndDeliveryModesResponse = await dispatch(
+        getUserAddressAndDeliveryModesByRetryPayment(guId)
+      );
+      if (
+        getUserAddressAndDeliveryModesResponse &&
+        getUserAddressAndDeliveryModesResponse.getUserAddressAndDeliveryModesByRetryPayment &&
+        getUserAddressAndDeliveryModesResponse
+          .getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList &&
+        getUserAddressAndDeliveryModesResponse
+          .getUserAddressAndDeliveryModesByRetryPayment
+          .pinCodeResponseList[0] &&
+        getUserAddressAndDeliveryModesResponse
+          .getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList[0]
+          .isServicable === "N" &&
+        getUserAddressAndDeliveryModesResponse.status === SUCCESS
+      ) {
+        dispatch(
+          displayToast("We're sorry, we don't service this PIN code right now")
+        );
+        ownProps.history.push(MY_ACCOUNT);
+      }
+    },
+    retryPayment: async (retryPaymentGuId, retryPaymentUserId) => {
+      let retryPaymentResponse = await dispatch(
+        retryPayment(retryPaymentGuId, retryPaymentUserId)
+      );
+      if (retryPaymentResponse.status === "Failure") {
+        dispatch(
+          displayToast(
+            "Unfortunately, we can't currently fulfil this order.We apologise for the inconvenience caused to you."
+          )
+        );
+        ownProps.history.push(MY_ACCOUNT);
+      }
     }
   };
 };
@@ -445,7 +526,9 @@ const mapStateToProps = state => {
     userDetails: state.profile.userDetails,
     getPincodeStatus: state.profile.getPinCodeStatus,
     addUserAddressStatus: state.profile.addUserAddressStatus,
-    loading: state.profile.loading
+    loading: state.profile.loading,
+    retryPaymentDetails: state.profile.retryPaymentDetails,
+    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus
   };
 };
 
