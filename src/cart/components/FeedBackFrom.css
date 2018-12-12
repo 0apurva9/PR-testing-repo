@@ -113,7 +113,9 @@
 .afterSubMitReviewHolder {
   width: 100%;
   height: auto;
-  background-image: linear-gradient(119deg, #ff878b, #9538ae);
+  background: url(./img/reviewthanku.svg) no-repeat;
+  background-size: cover;
+  background-position: center;
   max-width: 1190px;
   padding: 15% 20%;
   text-align: center;
@@ -136,7 +138,7 @@
   color: #fff;
   font-size: 30px;
   line-height: normal;
-  font-family: regular;
+  font-family: light;
   display: inline-block;
   text-align: center;
 }
