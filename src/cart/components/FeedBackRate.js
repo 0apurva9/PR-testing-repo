@@ -13,9 +13,11 @@ export default class FeedBackRate extends React.Component {
       checkbox = styles.activeCheckbox;
     }
     return (
-      <div className={styles.base} onClick={() => this.onSelect()}>
+      <div className={styles.base}>
         <div className={styles.checkAndText}>
-          <div className={checkbox} />
+          <div className={checkbox} onClick={() => this.onSelect()}>
+            <div className={styles.activeMark} />
+          </div>
           <div className={styles.ratingText}>{this.props.ratingText}</div>
         </div>
       </div>

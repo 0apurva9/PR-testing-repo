@@ -17,6 +17,22 @@
   border-radius: 50%;
   border: 1px solid #8d8d8d;
   display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.activeMark {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #ff1744;
+  border-radius: 50%;
+  transition: 300ms;
+  transform: scale(0);
 }
 .ratingText {
   width: 100%;
@@ -30,5 +46,9 @@
 .activeCheckbox {
   composes: checkBox;
   border: 1px solid #ff1744;
-  background: #ff1744;
+
+  pointer-events: none;
+}
+.activeCheckbox .activeMark {
+  transform: scale(1);
 }
