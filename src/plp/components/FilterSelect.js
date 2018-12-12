@@ -13,7 +13,8 @@ export default class FilterSelect extends React.Component {
       this.props.onClick(
         this.props.url,
         this.props.typeOfFilter,
-        this.props.label
+        this.props.label,
+        this.props.selected
       );
     }
   };
@@ -23,7 +24,8 @@ export default class FilterSelect extends React.Component {
       this.props.onClick(
         this.props.url,
         this.props.typeOfFilter,
-        this.props.label
+        this.props.label,
+        this.props.selected
       );
     }
   };

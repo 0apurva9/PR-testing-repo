@@ -44,6 +44,8 @@ export const SORT_HAS_BEEN_CLICKED = "SORT_HAS_BEEN_CLICKED";
 export const SET_PRODUCT_MODULE_REF = "SET_PRODUCT_MODULE_REF";
 export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
 export const SET_PLP_PATH = "SET_PLP_PATH";
+export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
+const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
 
 export function setProductModuleRef(ref) {
   return {
@@ -94,6 +96,12 @@ export function resetFilterSelectedData() {
 export function showFilter() {
   return {
     type: SHOW_FILTER
+  };
+}
+export function userSelectedOutOfStock(deselectedOutOfStock) {
+  return {
+    type: USER_SELECTED_OUT_OF_STOCK,
+    deselectedOutOfStock
   };
 }
 
@@ -178,13 +186,17 @@ export function getProductListings(
     try {
       const searchState = getState().search;
       const pageNumber = getState().productListings.pageNumber;
-      const encodedString =
+      let encodedString =
         searchState.string.includes("%3A") || searchState.string.includes("%20")
           ? searchState.string
           : encodeURI(searchState.string);
-
+      if (
+        !encodedString.includes(EXCLUDE_OUT_OF_STOCK_FLAG) &&
+        !getState().productListings.deselectedOutOfStock
+      ) {
+        encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
+      }
       let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}`;
-
       if (suffix) {
         queryString = `${queryString}${suffix}`;
       }

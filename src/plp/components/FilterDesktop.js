@@ -142,7 +142,7 @@ export default class FilterDesktop extends React.Component {
   onL3Click = (val, filterType, filterValue) => {
     this.onCategorySelect(val, filterType, filterValue, false);
   };
-  onFilterClick = (val, filterType, filterValue) => {
+  onFilterClick = (val, filterType, filterValue, filterSelected) => {
     val = val.replace(
       "/search/page-{pageNo}",
       `${this.props.location.pathname}`
@@ -162,6 +162,10 @@ export default class FilterDesktop extends React.Component {
       filterType,
       filterValue
     );
+    if (filterType === "Availability") {
+      this.props.userSelectedOutOfStock(filterSelected);
+    }
+
     this.props.history.push(url, {
       isFilter: false,
       componentName: "isFilterTrue"
