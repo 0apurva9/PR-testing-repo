@@ -137,6 +137,7 @@ export default class FeedBackForm extends React.Component {
                         value={this.state.textDetails}
                         height={175}
                         onChange={val => this.onChange(val)}
+                        placeholder="Enter SomeThing (optional)"
                       />
                     </div>
                     <div className={styles.resetAndSubmitButtonHolder}>
