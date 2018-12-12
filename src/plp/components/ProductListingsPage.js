@@ -34,7 +34,7 @@ class ProductListingsPage extends Component {
       isVirtualPageLoaded: false
     };
   }
-  getSearchTextFromUrl(isAddOutOfStockFlag) {
+  getSearchTextFromUrl() {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const searchCategory = parsedQueryString.searchCategory;
     let searchText = parsedQueryString.q;
@@ -123,20 +123,7 @@ class ProductListingsPage extends Component {
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
-    if (
-      isAddOutOfStockFlag &&
-      searchText &&
-      !searchText.includes("relevance")
-    ) {
-      searchText = `${searchText}:relevance:${OUT_OF_STOCK_FLAG}:true`;
-    }
-    if (
-      isAddOutOfStockFlag &&
-      searchText &&
-      !searchText.includes(OUT_OF_STOCK_FLAG)
-    ) {
-      searchText = `${searchText}:${OUT_OF_STOCK_FLAG}:true`;
-    }
+
     return encodeURIComponent(searchText);
   }
   componentDidMount() {
@@ -166,7 +153,7 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.searchText) {
-      let searchText = this.getSearchTextFromUrl(false);
+      let searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, 0);
       return;
     }
@@ -176,7 +163,7 @@ class ProductListingsPage extends Component {
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
     ) {
       page = this.props.match.params[1];
-      let searchText = this.getSearchTextFromUrl(false);
+      let searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
     }
@@ -185,7 +172,7 @@ class ProductListingsPage extends Component {
       this.props.match.path === BRAND_PAGE_WITH_SLUG
     ) {
       page = this.props.match.params[1];
-      let searchText = this.getSearchTextFromUrl(false);
+      let searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
     }
@@ -199,7 +186,7 @@ class ProductListingsPage extends Component {
     page = 0;
     if (this.props.location.state && this.props.location.state.isFilter) {
       const suffix = "&isFilter=true";
-      const searchText = this.getSearchTextFromUrl(false);
+      const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
@@ -209,7 +196,7 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.location.state && !this.props.location.state.isFilter) {
-      const searchText = this.getSearchTextFromUrl(false);
+      const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
@@ -219,7 +206,7 @@ class ProductListingsPage extends Component {
       return;
     }
     if (!this.props.location.state) {
-      const searchText = this.getSearchTextFromUrl(false);
+      const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;

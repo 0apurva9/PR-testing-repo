@@ -288,9 +288,10 @@ export default class Plp extends React.Component {
     let url = "";
     url = val.replace("page-{pageNo}", "");
     url = url.replace("/search/", "");
+
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
-    filterName = new RegExp(filterName, "g");
+
     let parsingurl = url;
 
     parsingurl = url.replace(/\+/g, " ");
@@ -300,6 +301,9 @@ export default class Plp extends React.Component {
       url = parsingurl[0];
     }
     url = this.props.location.pathname + url;
+    if (filterName.includes("Exclude out of stock")) {
+      this.props.userSelectedOutOfStock(true);
+    }
     this.props.history.push(url, {
       isFilter: false
     });

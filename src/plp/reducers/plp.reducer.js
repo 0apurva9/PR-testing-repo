@@ -17,7 +17,8 @@ const productListings = (
     filterHasBeenClicked: false,
     sortHasBeenClicked: false,
     clickedProductModuleRef: null,
-    lastVisitedPlpUrl: null
+    lastVisitedPlpUrl: null,
+    deselectedOutOfStock: false
   },
   action
 ) => {
@@ -162,6 +163,10 @@ const productListings = (
     case plpActions.SET_PAGE:
       return Object.assign({}, state, {
         pageNumber: action.pageNumber
+      });
+    case plpActions.USER_SELECTED_OUT_OF_STOCK:
+      return Object.assign({}, state, {
+        deselectedOutOfStock: action.deselectedOutOfStock
       });
     case plpActions.GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS:
       let searchResults = cloneDeep(state.productListings.searchresult);

@@ -3,7 +3,8 @@ import FilterWrapper from "../components/FilterWrapper.js";
 import { withRouter } from "react-router-dom";
 import {
   setFilterSelectedData,
-  resetFilterSelectedData
+  resetFilterSelectedData,
+  userSelectedOutOfStock
 } from "../actions/plp.actions.js";
 import findIndex from "lodash.findindex";
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onL3CategorySelect: () => {
       ownProps.onL3CategorySelect();
+    },
+    userSelectedOutOfStock: flag => {
+      dispatch(userSelectedOutOfStock(flag));
     }
   };
 };
