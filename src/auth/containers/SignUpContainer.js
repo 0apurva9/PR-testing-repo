@@ -39,6 +39,7 @@ import {
   singleAuthCallHasFailed,
   setIfAllAuthCallsHaveSucceeded
 } from "../../auth/actions/auth.actions.js";
+import { retryPayment } from "../../account/actions/account.actions";
 const mapDispatchToProps = dispatch => {
   const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
   const currentBagCount = currentBagObject
@@ -111,6 +112,9 @@ const mapDispatchToProps = dispatch => {
       if (wishlistResponse.status === SUCCESS) {
         dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
+    },
+    retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
+      return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
     }
   };
 };
@@ -123,7 +127,8 @@ const mapStateToProps = state => {
     tempCartIdForLoggedInUserLoading:
       state.cart.tempCartIdForLoggedInUserLoading,
     loadingForAddProductToWishList:
-      state.wishlistItems.loadingForAddProductToWishList
+      state.wishlistItems.loadingForAddProductToWishList,
+    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus
   };
 };
 

@@ -16,8 +16,13 @@ import {
   HOME_ROUTER,
   MAIN_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
-  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
+  LOGGED_IN_USER_DETAILS,
+  SUCCESS,
+  CHECKOUT_ROUTER
 } from "../../lib/constants";
+import * as Cookie from "../../lib/Cookie";
 import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
 import {
   setDataLayer,
@@ -27,6 +32,8 @@ import {
   ADOBE_SIGN_UP_SUCCESS
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 const PASSWORD_MATCH_TEXT = "Password did not match";
 class SignUp extends Component {
   constructor(props) {
@@ -55,6 +62,9 @@ then in this case we have to hit generate temp cart id for user
       const productDetailsForAddToWishList = localStorage.getItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
       );
+      const getCartIsAndUserIDForRetryPayment = localStorage.getItem(
+        RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+      );
       if (
         productDetailsForBuyNow &&
         !nextProps.tempCartIdForLoggedInUserLoading
@@ -66,6 +76,12 @@ then in this case we have to hit generate temp cart id for user
         !nextProps.loadingForAddProductToWishList
       ) {
         return this.goForWishlist();
+      }
+      if (
+        getCartIsAndUserIDForRetryPayment &&
+        !nextProps.retryPaymentDetailsStatus
+      ) {
+        return this.goForRetryPayment();
       }
       if (!nextProps.tempCartIdForLoggedInUserLoading) {
         if (this.props.redirectToAfterAuthUrl) {
@@ -163,6 +179,44 @@ then in this case we have to hit generate temp cart id for user
         state: { isSizeSelected: true, goToCartPageFlag: false }
       });
       this.props.clearUrlToRedirectToAfterAuth();
+    }
+  }
+  async goForRetryPayment() {
+    const getCartIsAndUserIDForRetryPayment = localStorage.getItem(
+      RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+    );
+    let userId = JSON.parse(getCartIsAndUserIDForRetryPayment).userId;
+    let guId = JSON.parse(getCartIsAndUserIDForRetryPayment).cartId;
+    let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails = JSON.parse(userDetailsCookie);
+    if (userId === userDetails.customerId) {
+      if (this.props.retryPayment) {
+        let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+        if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+          let retryPaymentDetailsObject = {};
+          retryPaymentDetailsObject.retryPaymentDetails =
+            retryPaymentResponse.retryPaymentDetails;
+          localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+          localStorage.setItem(
+            RETRY_PAYMENT_DETAILS,
+            JSON.stringify(retryPaymentDetailsObject)
+          );
+          localStorage.removeItem(RETRY_PAYMENT_CART_AND_USER_ID_DETAILS);
+          this.props.history.push({
+            pathname: CHECKOUT_ROUTER,
+            state: {
+              isFromRetryUrl: true,
+              retryPaymentGuid: guId
+            }
+          });
+          this.props.clearUrlToRedirectToAfterAuth();
+        }
+      }
+    } else {
+      this.props.displayToast(
+        "PLease use your login credentials to complete this transaction"
+      );
+      this.props.history.push(HOME_ROUTER);
     }
   }
   render() {

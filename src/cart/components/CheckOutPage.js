@@ -25,7 +25,6 @@ import size from "lodash.size";
 import TransactionFailed from "./TransactionFailed.js";
 import cardValidator from "simple-card-validator";
 import * as Cookies from "../../lib/Cookie";
-
 import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
 import ModalPanel from "../../general/components/ModalPanel.js";
 import Button from "../../general/components/Button";
@@ -100,7 +99,8 @@ import {
   ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
   PAYPAL,
   E_WALLET_PAYPAL,
-  RETRY_FAILED_ORDER
+  RETRY_FAILED_ORDER,
+  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -221,7 +221,20 @@ class CheckOutPage extends React.Component {
   }
   navigateToLogin() {
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
+    if (url === `${RETRY_FAILED_ORDER}`) {
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      let guId = parsedQueryString.value;
+      let userId = parsedQueryString.userId;
+      let retryPaymentUserIdAndCartIdObject = {};
+      retryPaymentUserIdAndCartIdObject.cartId = guId;
+      retryPaymentUserIdAndCartIdObject.userId = userId;
+      localStorage.setItem(
+        RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
+        JSON.stringify(retryPaymentUserIdAndCartIdObject)
+      );
+    } else {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
     this.props.history.replace(LOGIN_PATH);
   }
   navigateUserToMyBagAfter15MinOfpaymentFailure() {
@@ -1406,9 +1419,18 @@ if you have order id in local storage then you have to show order confirmation p
       const parsedQueryString = queryString.parse(this.props.location.search);
       let guId = parsedQueryString.value;
       let userId = parsedQueryString.userId;
-      localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
-      if (this.props.retryPayment) {
-        this.props.retryPayment(guId, userId);
+      let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const userDetails = JSON.parse(userDetailsCookie);
+      if (userId === userDetails.customerId) {
+        localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+        if (this.props.retryPayment) {
+          this.props.retryPayment(guId, userId);
+        }
+      } else {
+        this.props.displayToast(
+          "PLease use your login credentials to complete this transaction"
+        );
+        this.props.history.push(HOME_ROUTER);
       }
     }
   }
@@ -2962,7 +2984,8 @@ if you have order id in local storage then you have to show order confirmation p
                 {((!this.state.paymentMethod &&
                   (this.state.confirmAddress && this.state.deliverMode)) ||
                   this.state.isPaymentFailed ||
-                  this.state.isGiftCard) && (
+                  this.state.isGiftCard ||
+                  this.state.isComingFromRetryUrl) && (
                   <div className={styles.paymentCardHolderπp}>
                     <PaymentCardWrapper
                       creditCardValid={this.validateCreditCard}

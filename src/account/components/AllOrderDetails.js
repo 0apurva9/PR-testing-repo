@@ -619,6 +619,32 @@ export default class AllOrderDetails extends React.Component {
                                           {PRODUCT_RETURN}
                                         </div>
                                       )}
+                                      {orderDetails &&
+                                        orderDetails.retryPaymentUrl && (
+                                          <div className={styles.retryPayment}>
+                                            <div
+                                              className={
+                                                styles.buttonHolderForRetryPayment
+                                              }
+                                            >
+                                              <Button
+                                                type="hollow"
+                                                height={36}
+                                                label="Retry payment"
+                                                color="#ff1744"
+                                                textStyle={{
+                                                  color: "#212121",
+                                                  fontSize: 14
+                                                }}
+                                                onClick={() =>
+                                                  this.onClickRetryPayment(
+                                                    orderDetails.retryPaymentUrl
+                                                  )
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        )}
                                       {product.productName !== "Gift Card" && (
                                         <div
                                           className={styles.writeReviedButton}
@@ -631,15 +657,10 @@ export default class AllOrderDetails extends React.Component {
                                             borderRadius={20}
                                             backgroundColor={"#ffffff"}
                                             onClick={val =>
-                                              this.onClickRetryPayment(
-                                                orderDetails.retryPaymentUrl
+                                              this.writeReview(
+                                                product.productcode
                                               )
                                             }
-                                            // onClick={val =>
-                                            //   this.writeReview(
-                                            //     product.productcode
-                                            //   )
-                                            // }
                                             textStyle={{
                                               color: "#000000",
                                               fontSize: 14,

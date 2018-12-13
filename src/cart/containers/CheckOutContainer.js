@@ -494,14 +494,37 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           .getUserAddressAndDeliveryModesByRetryPayment
           .pinCodeResponseList[0] &&
         getUserAddressAndDeliveryModesResponse
-          .getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList[0]
-          .isServicable === "N" &&
+          .getUserAddressAndDeliveryModesByRetryPayment.products &&
         getUserAddressAndDeliveryModesResponse.status === SUCCESS
       ) {
-        dispatch(
-          displayToast("We're sorry, we don't service this PIN code right now")
-        );
-        ownProps.history.push(MY_ACCOUNT);
+        let selectedDeliveryMode =
+          getUserAddressAndDeliveryModesResponse
+            .getUserAddressAndDeliveryModesByRetryPayment.products[0] &&
+          getUserAddressAndDeliveryModesResponse
+            .getUserAddressAndDeliveryModesByRetryPayment.products[0]
+            .selectedDeliveryModeCode;
+        let validDeliveryModes =
+          getUserAddressAndDeliveryModesResponse
+            .getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList[0]
+            .validDeliveryModes &&
+          getUserAddressAndDeliveryModesResponse.getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList[0].validDeliveryModes.find(
+            validDeliveryModesObject => {
+              return validDeliveryModesObject.type === selectedDeliveryMode;
+            }
+          );
+        if (
+          getUserAddressAndDeliveryModesResponse
+            .getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList[0]
+            .isServicable === "N" ||
+          !validDeliveryModes
+        ) {
+          dispatch(
+            displayToast(
+              "We're sorry, we don't service this PIN code right now"
+            )
+          );
+          ownProps.history.push(MY_ACCOUNT);
+        }
       }
     },
     retryPayment: async (retryPaymentGuId, retryPaymentUserId) => {
