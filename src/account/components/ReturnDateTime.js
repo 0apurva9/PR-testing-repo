@@ -56,10 +56,11 @@ export default class ReturnDateTime extends React.Component {
             </div>
           </div>
         </MobileOnly>
-        <div className={styles.cardOffset}>
+        {/* <div className={styles.cardOffset}>
           <div className={styles.header}>Select return date</div>
           {this.props.dateSlot &&
             this.props.dateSlot.map(val => {
+              console.log(val);
               return (
                 <SelectReturnDate
                   label={val}
@@ -75,6 +76,7 @@ export default class ReturnDateTime extends React.Component {
         <div className={styles.card}>
           <div className={styles.header}>Select return time</div>
           {this.props.timeSlot.map(val => {
+            console.log(val);
             return (
               <SelectReturnDate
                 label={val}
@@ -85,7 +87,7 @@ export default class ReturnDateTime extends React.Component {
               />
             );
           })}
-        </div>
+        </div> */}
       </ReturnsFrame>
     );
   }

@@ -45,7 +45,7 @@ export default class SelectedReasonForReturn extends React.Component {
           )}
         </div>
         {(this.props.date || this.props.time) && (
-          <div className={styles.dateAndTimeHolder}>
+          <div className={styles.dateAndTimeHolder} style={{ display: "none" }}>
             {this.props.date && (
               <div className={styles.date}>
                 <div className={styles.dateHeader}>
