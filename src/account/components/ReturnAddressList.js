@@ -51,8 +51,16 @@ export default class ReturnAddressList extends React.Component {
     this.state = {
       selectedAddress: "",
       addressSelectedByUser: false,
-      selectedDate: "",
-      selectedTime: "",
+      selectedDate: this.props.returnRequest
+        ? this.props.returnRequest &&
+          this.props.returnRequest.returnDates &&
+          this.props.returnRequest.returnDates[0]
+        : "",
+      selectedTime: this.props.returnRequest
+        ? this.props.returnRequest &&
+          this.props.returnRequest.returnTimeSlots &&
+          this.props.returnRequest.returnTimeSlots[0]
+        : "",
       addNewAddress: false,
       errorMessage: "",
       error: false,
@@ -288,7 +296,10 @@ export default class ReturnAddressList extends React.Component {
   newReturnInitiate = () => {
     let isCodOrder = NO;
     let reverseSealAvailable = "N";
-    if (this.props.orderDetails.paymentMethod === "COD") {
+    if (
+      this.props.orderDetails &&
+      this.props.orderDetails.paymentMethod === "COD"
+    ) {
       isCodOrder = YES;
     }
     let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
