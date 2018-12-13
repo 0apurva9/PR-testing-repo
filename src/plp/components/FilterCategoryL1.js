@@ -9,7 +9,6 @@ export default class FilterCategoryL1 extends React.Component {
   }
 
   onClick = () => {
-    console.log("Sith click");
     if (this.props.onL1Click) {
       this.props.onL1Click(
         this.props.value,

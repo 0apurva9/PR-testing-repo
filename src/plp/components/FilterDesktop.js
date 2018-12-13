@@ -254,7 +254,7 @@ export default class FilterDesktop extends React.Component {
                               name={val.categoryName}
                               count={val.quantity}
                               value={val.categoryCode}
-                              onL1Click={this.onL1Click}
+                              onClick={this.onL1Click}
                               isOpen={val.selected}
                             >
                               <FilterCategory

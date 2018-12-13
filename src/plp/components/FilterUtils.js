@@ -41,8 +41,6 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
       .replace(/\s+/g, "-")
       .toLowerCase()}/c-${val.toLowerCase()}`;
   }
-
-  console.log("Sith condition3", modifiedCode);
   if (query) {
     // deal with the searchCategory case
     if (query.indexOf("searchCategory") > -1) {
@@ -58,12 +56,10 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
       if (CATEGORY_REGEX.test(pathName)) {
         // If we are on a page that is category we remove the icid2 and construct a new url
         // seo requirement
-        console.log("Sith condition");
         url = val
           .split("?&icid2")[0]
           .replace("/search/page-{pageNo}", pathName);
       } else {
-        console.log("Sith condition2");
         url = `/${modifiedCode}/?q=${query}:category:${val}`;
       }
     } else {
