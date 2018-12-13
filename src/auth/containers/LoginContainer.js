@@ -29,7 +29,6 @@ import {
 } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
-
 import {
   singleAuthCallHasFailed,
   setIfAllAuthCallsHaveSucceeded
@@ -46,6 +45,7 @@ import {
   addProductToWishList
 } from "../../wishlist/actions/wishlist.actions";
 import ProductDetails from "../../pdp/components/ProductDetails";
+import { retryPayment } from "../../account/actions/account.actions";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
 const mapDispatchToProps = dispatch => {
   const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
@@ -191,6 +191,9 @@ const mapDispatchToProps = dispatch => {
       if (wishlistResponse.status === SUCCESS) {
         dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
+    },
+    retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
+      return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
     }
   };
 };
@@ -204,7 +207,8 @@ const mapStateToProps = state => {
     tempCartIdForLoggedInUserLoading:
       state.cart.tempCartIdForLoggedInUserLoading,
     loadingForAddProductToWishList:
-      state.wishlistItems.loadingForAddProductToWishList
+      state.wishlistItems.loadingForAddProductToWishList,
+    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus
   };
 };
 

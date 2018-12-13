@@ -235,7 +235,8 @@ export default class DesktopCheckout extends React.Component {
             <div className={styles.priceHeader}>
               {this.props.onContinue ? "Total" : "Total Payable"}
             </div>
-            {this.props.payable &&
+            {!this.props.isFromRetryUrl &&
+              this.props.payable &&
               this.props.payable.paybleAmount &&
               this.props.payable.paybleAmount.formattedValue && (
                 <div
@@ -253,6 +254,19 @@ export default class DesktopCheckout extends React.Component {
                 }
               >
                 {`Rs. ${this.props.payableForCartPage}`}
+              </div>
+            )}
+            {this.props.isFromRetryUrl && (
+              <div
+                className={
+                  this.props.onContinue ? styles.price : styles.checkoutPrice
+                }
+              >
+                {this.props.payable &&
+                this.props.payable.paybleAmount &&
+                this.props.payable.paybleAmount.formattedValue
+                  ? this.props.payable.paybleAmount.formattedValue
+                  : `Rs. ${this.props.amount}`}
               </div>
             )}
             {this.props.onContinue && (

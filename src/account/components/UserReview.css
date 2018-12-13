@@ -86,8 +86,9 @@
   }
   .totalReview {
     background: #ffffff;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     border: none;
+    border-radius: 4px;
   }
   .showAverageRatingWithDays {
     width: auto;

@@ -13,7 +13,8 @@ import {
   CLIQ_CASH_APPLIED_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
-
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
 const VALIDITY_OF_OLD_CART_ID = 15;
 const cart = (
   state = {
@@ -216,7 +217,12 @@ const cart = (
     feedBackSent: null,
     feedBackSentStatus: null,
     feedBackSentError: null,
-    loadingForfeedBackSent: false
+    loadingForfeedBackSent: false,
+
+    getUserAddressAndDeliveryModesByRetryPaymentStatus: null,
+    getUserAddressAndDeliveryModesByRetryPayment: null,
+    loadingForGetUserAddressAndDeliveryModesByRetryPayment: false,
+    getUserAddressAndDeliveryModesByRetryPaymentError: null
   },
   action
 ) => {
@@ -897,6 +903,8 @@ const cart = (
       localStorage.removeItem(NO_COST_EMI_COUPON);
       localStorage.removeItem(OLD_CART_CART_ID);
       localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
+      localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+      localStorage.removeItem(RETRY_PAYMENT_CART_ID);
       return Object.assign({}, state, {
         jusPayDetails: action.jusPayDetails
       });
@@ -1313,8 +1321,11 @@ const cart = (
 
     case cartActions.APPLY_NO_COST_EMI_SUCCESS:
       localStorage.setItem(NO_COST_EMI_COUPON, action.couponCode);
-
-      carDetailsCopy = cloneDeep(state.cartDetailsCNC);
+      if (action.isFromRetryUrl) {
+        carDetailsCopy = {};
+      } else {
+        carDetailsCopy = cloneDeep(state.cartDetailsCNC);
+      }
       let emiCartAmount =
         action.noCostEmiResult && action.noCostEmiResult.cartAmount
           ? action.noCostEmiResult.cartAmount
@@ -1585,6 +1596,27 @@ const cart = (
         feedBackSentStatus: action.status,
         feedBackSentError: action.error,
         loadingForfeedBackSent: false
+      });
+
+    case cartActions.GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_REQUEST:
+      return Object.assign({}, state, {
+        getUserAddressAndDeliveryModesByRetryPaymentStatus: action.status,
+        loadingForGetUserAddressAndDeliveryModesByRetryPayment: true
+      });
+
+    case cartActions.GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_SUCCESS:
+      return Object.assign({}, state, {
+        getUserAddressAndDeliveryModesByRetryPaymentStatus: action.status,
+        getUserAddressAndDeliveryModesByRetryPayment:
+          action.getUserAddressAndDeliveryModesByRetryPayment,
+        loadingForGetUserAddressAndDeliveryModesByRetryPayment: false
+      });
+
+    case cartActions.GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_FAILURE:
+      return Object.assign({}, state, {
+        getUserAddressAndDeliveryModesByRetryPaymentStatus: action.status,
+        getUserAddressAndDeliveryModesByRetryPaymentError: action.error,
+        loadingForGetUserAddressAndDeliveryModesByRetryPayment: false
       });
 
     case cartActions.CLEAR_CART_DETAILS:

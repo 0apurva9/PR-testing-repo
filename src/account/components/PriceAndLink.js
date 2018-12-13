@@ -13,7 +13,10 @@ export default class PriceAndLink extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{ borderBottom: `1px solid ${this.props.borderColor}` }}
+      >
         <MobileOnly>
           {!this.props.isEgvOrder && (
             <div className={styles.buttonHolder}>
@@ -74,5 +77,9 @@ export default class PriceAndLink extends React.Component {
 }
 PriceAndLink.propTypes = {
   price: PropTypes.string,
-  onViewDetails: PropTypes.func
+  onViewDetails: PropTypes.func,
+  borderColor: PropTypes.string
+};
+PriceAndLink.defaultProps = {
+  borderColor: "#ececec"
 };

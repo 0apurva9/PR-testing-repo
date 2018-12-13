@@ -12,7 +12,9 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
   BUY_NOW_ERROR_MESSAGE,
-  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import AuthFrame from "./AuthFrame.js";
@@ -41,6 +43,8 @@ export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\
 export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
 const FAILED_TO_FETCH = "Failed to fetch";
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -74,6 +78,9 @@ class Login extends Component {
       const productDetailsForAddToWishList = localStorage.getItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
       );
+      const getCartIsAndUserIDForRetryPayment = localStorage.getItem(
+        RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+      );
       if (
         productDetailsForBuyNow &&
         !nextProps.tempCartIdForLoggedInUserLoading
@@ -85,6 +92,12 @@ class Login extends Component {
         !nextProps.loadingForAddProductToWishList
       ) {
         return this.goForWishlist();
+      }
+      if (
+        getCartIsAndUserIDForRetryPayment &&
+        !nextProps.retryPaymentDetailsStatus
+      ) {
+        return this.goForRetryPayment();
       }
       if (!nextProps.tempCartIdForLoggedInUserLoading) {
         if (this.props.redirectToAfterAuthUrl) {
@@ -134,6 +147,44 @@ class Login extends Component {
         this.props.history.replace(this.props.redirectToAfterAuthUrl);
         this.props.clearUrlToRedirectToAfterAuth();
       }
+    }
+  }
+  async goForRetryPayment() {
+    const getCartIsAndUserIDForRetryPayment = localStorage.getItem(
+      RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+    );
+    let userId = JSON.parse(getCartIsAndUserIDForRetryPayment).userId;
+    let guId = JSON.parse(getCartIsAndUserIDForRetryPayment).cartId;
+    let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails = JSON.parse(userDetailsCookie);
+    if (userId === userDetails.customerId) {
+      if (this.props.retryPayment) {
+        let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+        if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+          let retryPaymentDetailsObject = {};
+          retryPaymentDetailsObject.retryPaymentDetails =
+            retryPaymentResponse.retryPaymentDetails;
+          localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+          localStorage.setItem(
+            RETRY_PAYMENT_DETAILS,
+            JSON.stringify(retryPaymentDetailsObject)
+          );
+          localStorage.removeItem(RETRY_PAYMENT_CART_AND_USER_ID_DETAILS);
+          this.props.history.push({
+            pathname: CHECKOUT_ROUTER,
+            state: {
+              isFromRetryUrl: true,
+              retryPaymentGuid: guId
+            }
+          });
+          this.props.clearUrlToRedirectToAfterAuth();
+        }
+      }
+    } else {
+      this.props.displayToast(
+        "PLease use your login credentials to complete this transaction"
+      );
+      this.props.history.push(HOME_ROUTER);
     }
   }
   navigateToSignUp() {

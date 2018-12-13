@@ -51,7 +51,9 @@ import {
   FAQ_URL,
   SEARCH_RESULTS_PAGE,
   PRODUCT_REVIEWS_PATH_SUFFIX,
-  HELP_URL
+  HELP_URL,
+  SUCCESS,
+  CHECKOUT_ROUTER
 } from "../../lib/constants";
 import throttle from "lodash.throttle";
 import {
@@ -70,6 +72,8 @@ const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 const Loader = () => {
   return (
     <div>
@@ -269,6 +273,31 @@ export default class AllOrderDetails extends React.Component {
   reSendEmailForGiftCard = orderId => {
     if (this.props.reSendEmailForGiftCard) {
       this.props.reSendEmailForGiftCard(orderId);
+    }
+  };
+  onClickRetryPayment = async retryUrl => {
+    let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
+    let guId = retryPaymentSplitUrl[0].split("value=")[1];
+    let userId = retryPaymentSplitUrl[1].split("userId=")[1];
+    if (this.props.retryPayment) {
+      let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+      if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+        let retryPaymentDetailsObject = {};
+        retryPaymentDetailsObject.retryPaymentDetails =
+          retryPaymentResponse.retryPaymentDetails;
+        localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+        this.props.history.push({
+          pathname: CHECKOUT_ROUTER,
+          state: {
+            isFromRetryUrl: true,
+            retryPaymentGuid: guId
+          }
+        });
+      }
     }
   };
   render() {
@@ -590,30 +619,60 @@ export default class AllOrderDetails extends React.Component {
                                           {PRODUCT_RETURN}
                                         </div>
                                       )}
-                                      {product.productName !== "Gift Card" && (
-                                        <div
-                                          className={styles.writeReviedButton}
-                                        >
-                                          <Button
-                                            label={"Write a review"}
-                                            width={147}
-                                            height={36}
-                                            borderColor={"#000000"}
-                                            borderRadius={20}
-                                            backgroundColor={"#ffffff"}
-                                            onClick={val =>
-                                              this.writeReview(
-                                                product.productcode
-                                              )
-                                            }
-                                            textStyle={{
-                                              color: "#000000",
-                                              fontSize: 14,
-                                              fontFamily: "regular"
-                                            }}
-                                          />
-                                        </div>
-                                      )}
+                                      {orderDetails &&
+                                        orderDetails.retryPaymentUrl && (
+                                          <div className={styles.retryPayment}>
+                                            <div
+                                              className={
+                                                styles.writeReviedButton
+                                              }
+                                            >
+                                              <Button
+                                                type="hollow"
+                                                width={147}
+                                                height={36}
+                                                label="Retry payment"
+                                                color="#ff1744"
+                                                textStyle={{
+                                                  color: "#212121",
+                                                  fontSize: 14,
+                                                  fontFamily: "regular"
+                                                }}
+                                                onClick={() =>
+                                                  this.onClickRetryPayment(
+                                                    orderDetails.retryPaymentUrl
+                                                  )
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        )}
+                                      {orderDetails &&
+                                        !orderDetails.retryPaymentUrl &&
+                                        product.productName !== "Gift Card" && (
+                                          <div
+                                            className={styles.writeReviedButton}
+                                          >
+                                            <Button
+                                              label={"Write a review"}
+                                              width={147}
+                                              height={36}
+                                              borderColor={"#000000"}
+                                              borderRadius={20}
+                                              backgroundColor={"#ffffff"}
+                                              onClick={val =>
+                                                this.writeReview(
+                                                  product.productcode
+                                                )
+                                              }
+                                              textStyle={{
+                                                color: "#000000",
+                                                fontSize: 14,
+                                                fontFamily: "regular"
+                                              }}
+                                            />
+                                          </div>
+                                        )}
                                     </div>
                                   </DesktopOnly>
                                 </div>
@@ -621,19 +680,63 @@ export default class AllOrderDetails extends React.Component {
                             })}
                           <MobileOnly>
                             <React.Fragment>
-                              <PriceAndLink
-                                onViewDetails={() =>
-                                  this.onViewDetails(
-                                    orderDetails && orderDetails.orderId
-                                  )
-                                }
-                                isEgvOrder={orderDetails.isEgvOrder}
-                                status={orderDetails.giftCardStatus}
-                                price={
-                                  orderDetails && orderDetails.totalOrderAmount
-                                }
-                              />
-
+                              <div
+                                style={{
+                                  paddingBottom:
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "20px"
+                                      : "0px",
+                                  borderBottom:
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "1px solid #ececec"
+                                      : "none"
+                                }}
+                              >
+                                <PriceAndLink
+                                  onViewDetails={() =>
+                                    this.onViewDetails(
+                                      orderDetails && orderDetails.orderId
+                                    )
+                                  }
+                                  isEgvOrder={orderDetails.isEgvOrder}
+                                  status={orderDetails.giftCardStatus}
+                                  price={
+                                    orderDetails &&
+                                    orderDetails.totalOrderAmount
+                                  }
+                                  borderColor={
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "#fff"
+                                      : "#ececec"
+                                  }
+                                />
+                                {orderDetails &&
+                                  orderDetails.retryPaymentUrl && (
+                                    <div className={styles.retryPayment}>
+                                      <div
+                                        className={
+                                          styles.buttonHolderForRetryPayment
+                                        }
+                                      >
+                                        <Button
+                                          type="hollow"
+                                          height={36}
+                                          label="Retry payment"
+                                          color="#ff1744"
+                                          textStyle={{
+                                            color: "#212121",
+                                            fontSize: 14
+                                          }}
+                                          onClick={() =>
+                                            this.onClickRetryPayment(
+                                              orderDetails.retryPaymentUrl
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                              </div>
                               {!orderDetails.isEgvOrder &&
                                 orderDetails &&
                                 orderDetails.billingAddress && (
@@ -753,6 +856,7 @@ export default class AllOrderDetails extends React.Component {
                                             orderDetails &&
                                             orderDetails.totalOrderAmount
                                           }
+                                          borderColor={"#fff"}
                                         />
                                       </div>
                                     </OrderDelivered>

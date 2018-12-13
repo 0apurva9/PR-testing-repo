@@ -370,3 +370,6 @@ export const IS_COMING_FOR_REVIEW_PAGE = "isComingForProductReview";
 export const DESKTOP_THEME_OFFER_CN = "desktopThemeOfferComponent";
 export const THEME_OFFER_CN = "themeOffersComponent";
 export const REDMI_WALLET_FROM_EMAIL = "/wallet/redimWalletFromEmail/";
+export const RETRY_FAILED_ORDER = "/retryFailedOrder";
+export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
+  "retryPaymentCartIdAndUserID";
