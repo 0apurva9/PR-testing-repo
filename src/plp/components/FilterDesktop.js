@@ -99,7 +99,7 @@ export default class FilterDesktop extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
-  onCategorySelect = (val, filterType, filterValue, isFilter) => {
+  onCategorySelect = (val, filterType, filterValue, filterName, isFilter) => {
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
       filterType,
@@ -114,9 +114,9 @@ export default class FilterDesktop extends React.Component {
     if (parsedQueryString.searchCategory) {
       const searchValue = this.props.location.search;
       url = `${pathName}${searchValue}`;
-      url = createUrlFromQueryAndCategory(searchValue, url, val);
+      url = createUrlFromQueryAndCategory(searchValue, url, val, filterName);
     } else {
-      url = createUrlFromQueryAndCategory(query, pathName, val);
+      url = createUrlFromQueryAndCategory(query, pathName, val, filterName);
     }
 
     if (url.endsWith(":relevance")) {
@@ -133,14 +133,14 @@ export default class FilterDesktop extends React.Component {
       this.props.onL3CategorySelect();
     }
   };
-  onL1Click = (val, filterType, filterValue) => {
-    this.onCategorySelect(val, filterType, filterValue, false);
+  onL1Click = (val, filterType, filterValue, filterName) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false);
   };
-  onL2Click = (val, filterType, filterValue) => {
-    this.onCategorySelect(val, filterType, filterValue, false);
+  onL2Click = (val, filterType, filterValue, filterName) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false);
   };
-  onL3Click = (val, filterType, filterValue) => {
-    this.onCategorySelect(val, filterType, filterValue, false);
+  onL3Click = (val, filterType, filterValue, filterName) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false);
   };
   onFilterClick = (val, filterType, filterValue, filterSelected) => {
     val = val.replace(
@@ -254,7 +254,7 @@ export default class FilterDesktop extends React.Component {
                               name={val.categoryName}
                               count={val.quantity}
                               value={val.categoryCode}
-                              onClick={this.onL1Click}
+                              onL1Click={this.onL1Click}
                               isOpen={val.selected}
                             >
                               <FilterCategory

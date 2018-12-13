@@ -7,21 +7,23 @@ export default class FilterCategoryL1 extends React.Component {
       isOpen: false
     };
   }
-  toggleOpen() {
-    this.setState({ isOpen: !this.state.isOpen });
-    this.onClick();
-  }
 
   onClick = () => {
-    if (this.props.onClick) {
-      this.props.onClick(this.props.value, "Category", this.props.name);
+    console.log("Sith click");
+    if (this.props.onL1Click) {
+      this.props.onL1Click(
+        this.props.value,
+        "Category",
+        this.props.name,
+        this.props.name
+      );
     }
   };
 
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.header} onClick={() => this.toggleOpen()}>
+        <div className={styles.header} onClick={this.onClick}>
           {this.props.name}
           <div className={styles.count}>{this.props.count}</div>
         </div>

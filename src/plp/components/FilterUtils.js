@@ -32,14 +32,23 @@ export function insertSubStringAt(str, toInsert, index) {
   return stringWithSubStringInserted;
 }
 
-export function createUrlFromQueryAndCategory(query, pathName, val) {
+export function createUrlFromQueryAndCategory(query, pathName, val, name) {
   let url;
+
+  let modifiedCode = "search";
+  if (name && val) {
+    modifiedCode = `${name
+      .replace(/\s+/g, "-")
+      .toLowerCase()}/c-${val.toLowerCase()}`;
+  }
+
+  console.log("Sith condition3", modifiedCode);
   if (query) {
     // deal with the searchCategory case
     if (query.indexOf("searchCategory") > -1) {
       // there is a text option here
       const textParam = TEXT_REGEX.exec(query);
-      url = `/search/?q=${textParam[1]}:relevance:category:${val}`;
+      url = `/${modifiedCode}/?q=${textParam[1]}:relevance:category:${val}`;
       return url;
     }
 
@@ -49,11 +58,13 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
       if (CATEGORY_REGEX.test(pathName)) {
         // If we are on a page that is category we remove the icid2 and construct a new url
         // seo requirement
+        console.log("Sith condition");
         url = val
           .split("?&icid2")[0]
           .replace("/search/page-{pageNo}", pathName);
       } else {
-        url = `/search/?q=${query}:category:${val}`;
+        console.log("Sith condition2");
+        url = `/${modifiedCode}/?q=${query}:category:${val}`;
       }
     } else {
       // We have q = text, as well as a sort, category or brand.
@@ -62,9 +73,10 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
       if (hasCategory && !hasBrand) {
         // we have an existing category
         // we want to replace this category
+
         const test = query.replace(CATEGORY_URL_CAPTURE_REGEX, `$1${val}$3`);
 
-        url = `/search/?q=${test}`;
+        url = `/${modifiedCode}/?q=${test}`;
       } else if (hasBrand && !hasCategory) {
         const index = query.indexOf(":brand");
         const queryWithCategoryInserted = insertSubStringAt(
@@ -76,20 +88,22 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
         // in this case there is a brand, but not category.
         // we need to put the category before the brand.
 
-        url = `/search/?q=${queryWithCategoryInserted}`;
+        url = `/${modifiedCode}/?q=${queryWithCategoryInserted}`;
       } else if (hasBrand && hasCategory) {
         // I know it has a brand and a category
 
         const test = SEARCH_TEXT_BEFORE_CATEGORY.exec(query);
         const brand = BRAND_URL_REGEX.exec(query);
-        url = `/search/?q=${test[1]}:category:${val}:brand:${brand[1]}`;
+        url = `/${modifiedCode}/?q=${test[1]}:category:${val}:brand:${
+          brand[1]
+        }`;
       } else {
         // Now we don't have a category or brand, but we have some q value.
         // As we had the earlier if, we know that there is a sort here, but we don't know if there is a text.
         if (query.startsWith(":")) {
-          url = `/search/?q=${query}:category:${val}`;
+          url = `/${modifiedCode}/?q=${query}:category:${val}`;
         } else {
-          url = `/search/?q=${query}:category:${val}`;
+          url = `/${modifiedCode}/?q=${query}:category:${val}`;
         }
 
         // I need to check if there is a sort or not.
@@ -102,13 +116,13 @@ export function createUrlFromQueryAndCategory(query, pathName, val) {
     } else if (BRAND_REGEX.test(pathName)) {
       let brandId = BRAND_CAPTURE_REGEX.exec(pathName)[0];
       brandId = brandId.replace(BRAND_CATEGORY_PREFIX, "");
-      url = `/search/?q=:category:${val}:brand:${brandId.toUpperCase()}`;
+      url = `/${modifiedCode}/?q=:category:${val}:brand:${brandId.toUpperCase()}`;
     } else {
       //now it is a url that looks like a static page?
       // If i hit this am I in a custom sku page?
       const splitUrl = pathName.split("/");
       const slug = splitUrl[splitUrl.length - 1];
-      url = `/search/?q=:relevance:collectionIds:${slug}`;
+      url = `/${modifiedCode}/?q=:relevance:collectionIds:${slug}`;
     }
   }
 

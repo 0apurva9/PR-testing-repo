@@ -11,7 +11,12 @@ export default class FilterCategoryDetails extends React.Component {
   handleClick() {
     this.setState({ isOpen: !this.state.isOpen }, () => {
       if (this.props.onClick) {
-        this.props.onClick(this.props.value, "Category", this.props.category);
+        this.props.onClick(
+          this.props.value,
+          "Category",
+          this.props.category,
+          this.props.category
+        );
       }
     });
   }
