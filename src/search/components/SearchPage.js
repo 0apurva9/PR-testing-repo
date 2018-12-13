@@ -20,6 +20,7 @@ export default class SearchPage extends React.Component {
       setOnClick: false,
       categoryAndBrandCode: null
     };
+    this.timeOut = "searchPageTimeout";
     this.searchDown = [];
     this.newSearchArray = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -179,7 +180,10 @@ export default class SearchPage extends React.Component {
     }
     if (this.props.getSearchResults) {
       this.setState({ searchString: val });
-      this.props.getSearchResults(val);
+      clearTimeout(this.timeOut);
+      this.timeOut = setTimeout(() => {
+        this.props.getSearchResults(this.state.searchString);
+      }, 1000);
     }
   }
   handleBackClick() {
@@ -518,129 +522,134 @@ export default class SearchPage extends React.Component {
           )}
         </MobileOnly>
         <DesktopOnly>
-          {this.state.searchString &&
-            this.state.showData && (
-              <div className={styles.searchResults} ref={this.setWrapperRef}>
-                {data &&
-                  data.topCategories &&
-                  data.topCategories.map((val, i) => {
-                    return (
-                      <div
-                        ref={"elementScrollRefTop"}
-                        className={
-                          this.state.currentFlag === i
-                            ? styles.color
-                            : styles.back
-                        }
-                      >
-                        <SearchResultItem
-                          key={i}
-                          suggestedText={
-                            firstSuggestedKeyWord &&
-                            firstSuggestedKeyWord[0] &&
-                            firstSuggestedKeyWord[0].suggestedWord
+          {this.state.searchString && (
+            <div className={styles.searchHolder}>
+              {this.state.showData && (
+                <div className={styles.searchResults} ref={this.setWrapperRef}>
+                  {data &&
+                    data.topCategories &&
+                    data.topCategories.map((val, i) => {
+                      return (
+                        <div
+                          ref={"elementScrollRefTop"}
+                          className={
+                            this.state.currentFlag === i
+                              ? styles.color
+                              : styles.back
                           }
-                          categoryOrBrandText={val.categoryName}
-                          singleWord={this.checkIfSingleWordinSearchString()}
-                          onClick={() => {
-                            this.handleCategoryClick(
-                              val.categoryCode,
-                              {
-                                term: `${data.suggestionText[0]} in ${
-                                  val.categoryName
-                                }`
-                              },
-                              i,
+                        >
+                          <SearchResultItem
+                            key={i}
+                            suggestedText={
                               firstSuggestedKeyWord &&
-                                firstSuggestedKeyWord[0] &&
-                                firstSuggestedKeyWord[0].suggestedWord,
-                              true
-                            );
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
-                {suggestedKeyWord &&
-                  suggestedKeyWord.map((val, i) => {
-                    return (
-                      <div
-                        ref={"elementScrollRefBottom"}
-                        className={
-                          this.state.currentFlag ===
-                          i +
-                            (data.topCategories && data.topCategories.length > 0
-                              ? data.topCategories.length
-                              : 0)
-                            ? styles.color
-                            : styles.back
-                        }
-                      >
-                        <SearchResultItem
-                          key={i}
-                          suggestedText={val.suggestedWord}
-                          singleWord={this.checkIfSingleWordinSearchString()}
-                          onClick={() => {
-                            this.handleOnSearchString(val.suggestedWord);
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
-
-                {data &&
-                  data.topBrands &&
-                  data.topBrands.map((val, i) => {
-                    return (
-                      <div
-                        className={
-                          this.state.currentFlag ===
-                          i +
-                            (data.topCategories &&
-                            data.topCategories.length &&
-                            suggestedKeyWord &&
-                            suggestedKeyWord.length
-                              ? data.topCategories.length +
-                                suggestedKeyWord.length
-                              : suggestedKeyWord && suggestedKeyWord.length > 0
-                                ? suggestedKeyWord.length
-                                : data.topCategories &&
-                                  data.topBrands.length > 0
-                                  ? data.topCategories.length
-                                  : 0)
-                            ? styles.color
-                            : styles.back
-                        }
-                      >
-                        <SearchResultItem
-                          key={i}
-                          suggestedText={
-                            firstSuggestedKeyWord &&
-                            firstSuggestedKeyWord[0] &&
-                            firstSuggestedKeyWord[0].suggestedWord
+                              firstSuggestedKeyWord[0] &&
+                              firstSuggestedKeyWord[0].suggestedWord
+                            }
+                            categoryOrBrandText={val.categoryName}
+                            singleWord={this.checkIfSingleWordinSearchString()}
+                            onClick={() => {
+                              this.handleCategoryClick(
+                                val.categoryCode,
+                                {
+                                  term: `${data.suggestionText[0]} in ${
+                                    val.categoryName
+                                  }`
+                                },
+                                i,
+                                firstSuggestedKeyWord &&
+                                  firstSuggestedKeyWord[0] &&
+                                  firstSuggestedKeyWord[0].suggestedWord,
+                                true
+                              );
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  {suggestedKeyWord &&
+                    suggestedKeyWord.map((val, i) => {
+                      return (
+                        <div
+                          ref={"elementScrollRefBottom"}
+                          className={
+                            this.state.currentFlag ===
+                            i +
+                              (data.topCategories &&
+                              data.topCategories.length > 0
+                                ? data.topCategories.length
+                                : 0)
+                              ? styles.color
+                              : styles.back
                           }
-                          categories={true}
-                          categoryOrBrandText={val.categoryName}
-                          singleWord={this.checkIfSingleWordinSearchString()}
-                          onClick={() => {
-                            this.handleBrandClick(
-                              val.categoryCode,
-                              {
-                                term: `${data.suggestionText[0]} in ${
-                                  val.categoryName
-                                }`
-                              },
-                              i,
-                              data.suggestionText[0],
-                              true
-                            );
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
+                        >
+                          <SearchResultItem
+                            key={i}
+                            suggestedText={val.suggestedWord}
+                            singleWord={this.checkIfSingleWordinSearchString()}
+                            onClick={() => {
+                              this.handleOnSearchString(val.suggestedWord);
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+
+                  {data &&
+                    data.topBrands &&
+                    data.topBrands.map((val, i) => {
+                      return (
+                        <div
+                          className={
+                            this.state.currentFlag ===
+                            i +
+                              (data.topCategories &&
+                              data.topCategories.length &&
+                              suggestedKeyWord &&
+                              suggestedKeyWord.length
+                                ? data.topCategories.length +
+                                  suggestedKeyWord.length
+                                : suggestedKeyWord &&
+                                  suggestedKeyWord.length > 0
+                                  ? suggestedKeyWord.length
+                                  : data.topCategories &&
+                                    data.topBrands.length > 0
+                                    ? data.topCategories.length
+                                    : 0)
+                              ? styles.color
+                              : styles.back
+                          }
+                        >
+                          <SearchResultItem
+                            key={i}
+                            suggestedText={
+                              firstSuggestedKeyWord &&
+                              firstSuggestedKeyWord[0] &&
+                              firstSuggestedKeyWord[0].suggestedWord
+                            }
+                            categories={true}
+                            categoryOrBrandText={val.categoryName}
+                            singleWord={this.checkIfSingleWordinSearchString()}
+                            onClick={() => {
+                              this.handleBrandClick(
+                                val.categoryCode,
+                                {
+                                  term: `${data.suggestionText[0]} in ${
+                                    val.categoryName
+                                  }`
+                                },
+                                i,
+                                data.suggestionText[0],
+                                true
+                              );
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
+          )}
         </DesktopOnly>
       </div>
     );

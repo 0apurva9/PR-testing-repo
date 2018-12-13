@@ -9,6 +9,7 @@ import searchwhiteIcon from "./img/searchwhite.svg";
 import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput";
 import companyLogo from "../../general/components/img/group.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -191,7 +192,7 @@ export default class SearchHeader extends React.Component {
               )}
               <div className={styles.searchWithInputRedHolder}>
                 <div className={styles.input} onClick={() => this.onClick()}>
-                  <Input2
+                  <ControlInput
                     onChange={val => this.onTypedSearch(val)}
                     placeholder="Search"
                     textStyle={{

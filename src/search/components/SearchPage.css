@@ -23,6 +23,13 @@
   background-color: #ececec;
 }
 @media screen and (min-width: 1025px) {
+  .searchHolder {
+    background: #fff;
+    height: 360px;
+    position: absolute;
+    top: 60px;
+    width: 100%;
+  }
   .base {
     padding-top: 0px;
     float: left;
@@ -30,7 +37,7 @@
   }
   .searchResults {
     height: auto;
-    top: 45px;
+    top: 0px;
     padding: 0px;
     background: #fff;
     max-height: 480px;
