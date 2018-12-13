@@ -56,6 +56,17 @@
   width: 100%;
   height: auto;
 }
+.retryPayment {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+}
+.buttonHolderForRetryPayment {
+  width: auto;
+  height: auto;
+  display: inline-block;
+}
 @media screen and (min-width: 1025px) {
   .order {
     padding: 30px;

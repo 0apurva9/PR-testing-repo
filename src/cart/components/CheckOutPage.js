@@ -2652,7 +2652,6 @@ if you have order id in local storage then you have to show order confirmation p
   render() {
     let labelForButton,
       checkoutButtonStatus = false;
-
     if (
       !this.state.isPaymentFailed &&
       !this.state.confirmAddress &&
@@ -2745,7 +2744,6 @@ if you have order id in local storage then you have to show order confirmation p
     const OrderIdForOrderUsingNonJusPayPayments = localStorage.getItem(
       ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
     );
-
     if (
       this.props.cart.getUserAddressStatus === REQUESTING ||
       (OrderIdForOrderUsingNonJusPayPayments &&
@@ -2845,7 +2843,7 @@ if you have order id in local storage then you have to show order confirmation p
         !this.state.orderConfirmation &&
         !this.props.cart.isPaymentProceeded) ||
       this.state.isGiftCard ||
-      this.state.isComingFromRetryUrl
+      (this.state.isComingFromRetryUrl && !this.state.orderConfirmation)
     ) {
       let retryPaymentDetailsObj = JSON.parse(
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -2988,7 +2986,6 @@ if you have order id in local storage then you have to show order confirmation p
                     </div>
                   )}
                 </MobileOnly>
-
                 {((!this.state.paymentMethod &&
                   (this.state.confirmAddress && this.state.deliverMode)) ||
                   this.state.isPaymentFailed ||
@@ -3149,7 +3146,6 @@ if you have order id in local storage then you have to show order confirmation p
                   )}
                 </MobileOnly>
               </div>
-
               <DesktopOnly>
                 <div className={styles.rightSection}>
                   {this.renderDesktopCheckout(checkoutButtonStatus)}

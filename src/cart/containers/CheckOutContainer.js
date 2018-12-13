@@ -515,9 +515,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         if (
           getUserAddressAndDeliveryModesResponse
             .getUserAddressAndDeliveryModesByRetryPayment.pinCodeResponseList[0]
-            .isServicable === "N" ||
-          !validDeliveryModes
+            .isServicable === "N"
         ) {
+          dispatch(
+            displayToast(
+              "Unfortunately, we can't currently fulfil this order.We apologise for the inconvenience caused to you."
+            )
+          );
+          ownProps.history.push(MY_ACCOUNT);
+        } else if (!validDeliveryModes) {
           dispatch(
             displayToast(
               "We're sorry, we don't service this PIN code right now"

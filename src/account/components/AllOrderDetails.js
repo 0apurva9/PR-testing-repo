@@ -680,19 +680,63 @@ export default class AllOrderDetails extends React.Component {
                             })}
                           <MobileOnly>
                             <React.Fragment>
-                              <PriceAndLink
-                                onViewDetails={() =>
-                                  this.onViewDetails(
-                                    orderDetails && orderDetails.orderId
-                                  )
-                                }
-                                isEgvOrder={orderDetails.isEgvOrder}
-                                status={orderDetails.giftCardStatus}
-                                price={
-                                  orderDetails && orderDetails.totalOrderAmount
-                                }
-                              />
-
+                              <div
+                                style={{
+                                  paddingBottom:
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "20px"
+                                      : "0px",
+                                  borderBottom:
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "1px solid #ececec"
+                                      : "none"
+                                }}
+                              >
+                                <PriceAndLink
+                                  onViewDetails={() =>
+                                    this.onViewDetails(
+                                      orderDetails && orderDetails.orderId
+                                    )
+                                  }
+                                  isEgvOrder={orderDetails.isEgvOrder}
+                                  status={orderDetails.giftCardStatus}
+                                  price={
+                                    orderDetails &&
+                                    orderDetails.totalOrderAmount
+                                  }
+                                  borderColor={
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "#fff"
+                                      : "#ececec"
+                                  }
+                                />
+                                {orderDetails &&
+                                  orderDetails.retryPaymentUrl && (
+                                    <div className={styles.retryPayment}>
+                                      <div
+                                        className={
+                                          styles.buttonHolderForRetryPayment
+                                        }
+                                      >
+                                        <Button
+                                          type="hollow"
+                                          height={36}
+                                          label="Retry payment"
+                                          color="#ff1744"
+                                          textStyle={{
+                                            color: "#212121",
+                                            fontSize: 14
+                                          }}
+                                          onClick={() =>
+                                            this.onClickRetryPayment(
+                                              orderDetails.retryPaymentUrl
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                              </div>
                               {!orderDetails.isEgvOrder &&
                                 orderDetails &&
                                 orderDetails.billingAddress && (
@@ -812,6 +856,7 @@ export default class AllOrderDetails extends React.Component {
                                             orderDetails &&
                                             orderDetails.totalOrderAmount
                                           }
+                                          borderColor={"#fff"}
                                         />
                                       </div>
                                     </OrderDelivered>
