@@ -1,9 +1,10 @@
 {
     "applinks": {
         "apps": [],
-        "details": [{
-            "appID": "P868WMUCZ8.com.tata.tatacliq",
-            "paths": ["*"]
+        "details": [
+            {
+                "appID": "P868WMUCZ8.com.tata.tatacliq",
+                "paths": [ "*" ]
             }
         ]
     }
