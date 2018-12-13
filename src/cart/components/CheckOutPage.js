@@ -2425,6 +2425,9 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
   renderDesktopCheckout = checkoutButtonStatus => {
+    let retryPaymentDetailsObj = JSON.parse(
+      localStorage.getItem(RETRY_PAYMENT_DETAILS)
+    );
     return (
       <DesktopCheckout
         padding={this.state.padding}
@@ -2475,10 +2478,15 @@ if you have order id in local storage then you have to show order confirmation p
         isFromMyBag={false}
         isGiftCard={this.state.isGiftCard}
         cartAmount={
-          this.props.cart &&
-          this.props.cart.cartDetailsCNC &&
-          this.props.cart.cartDetailsCNC.cartAmount
+          this.state.isComingFromRetryUrl
+            ? retryPaymentDetailsObj &&
+              retryPaymentDetailsObj.retryPaymentDetails &&
+              retryPaymentDetailsObj.retryPaymentDetails.cartAmount
+            : this.props.cart &&
+              this.props.cart.cartDetailsCNC &&
+              this.props.cart.cartDetailsCNC.cartAmount
         }
+        isFromRetryUrl={this.state.isComingFromRetryUrl}
       />
     );
   };

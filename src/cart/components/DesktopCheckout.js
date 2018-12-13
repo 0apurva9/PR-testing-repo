@@ -255,6 +255,15 @@ export default class DesktopCheckout extends React.Component {
                 {`Rs. ${this.props.payableForCartPage}`}
               </div>
             )}
+            {this.props.isFromRetryUrl && (
+              <div
+                className={
+                  this.props.onContinue ? styles.price : styles.checkoutPrice
+                }
+              >
+                {`Rs. ${this.props.amount}`}
+              </div>
+            )}
             {this.props.onContinue && (
               <React.Fragment>
                 {!this.props.isOnCartPage && (

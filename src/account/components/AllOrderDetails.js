@@ -624,17 +624,19 @@ export default class AllOrderDetails extends React.Component {
                                           <div className={styles.retryPayment}>
                                             <div
                                               className={
-                                                styles.buttonHolderForRetryPayment
+                                                styles.writeReviedButton
                                               }
                                             >
                                               <Button
                                                 type="hollow"
+                                                width={147}
                                                 height={36}
                                                 label="Retry payment"
                                                 color="#ff1744"
                                                 textStyle={{
                                                   color: "#212121",
-                                                  fontSize: 14
+                                                  fontSize: 14,
+                                                  fontFamily: "regular"
                                                 }}
                                                 onClick={() =>
                                                   this.onClickRetryPayment(
@@ -645,30 +647,32 @@ export default class AllOrderDetails extends React.Component {
                                             </div>
                                           </div>
                                         )}
-                                      {product.productName !== "Gift Card" && (
-                                        <div
-                                          className={styles.writeReviedButton}
-                                        >
-                                          <Button
-                                            label={"Write a review"}
-                                            width={147}
-                                            height={36}
-                                            borderColor={"#000000"}
-                                            borderRadius={20}
-                                            backgroundColor={"#ffffff"}
-                                            onClick={val =>
-                                              this.writeReview(
-                                                product.productcode
-                                              )
-                                            }
-                                            textStyle={{
-                                              color: "#000000",
-                                              fontSize: 14,
-                                              fontFamily: "regular"
-                                            }}
-                                          />
-                                        </div>
-                                      )}
+                                      {orderDetails &&
+                                        !orderDetails.retryPaymentUrl &&
+                                        product.productName !== "Gift Card" && (
+                                          <div
+                                            className={styles.writeReviedButton}
+                                          >
+                                            <Button
+                                              label={"Write a review"}
+                                              width={147}
+                                              height={36}
+                                              borderColor={"#000000"}
+                                              borderRadius={20}
+                                              backgroundColor={"#ffffff"}
+                                              onClick={val =>
+                                                this.writeReview(
+                                                  product.productcode
+                                                )
+                                              }
+                                              textStyle={{
+                                                color: "#000000",
+                                                fontSize: 14,
+                                                fontFamily: "regular"
+                                              }}
+                                            />
+                                          </div>
+                                        )}
                                     </div>
                                   </DesktopOnly>
                                 </div>
