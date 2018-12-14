@@ -613,7 +613,9 @@ export default class DesktopHeader extends React.Component {
                   >
                     {this.props.bagCount !== null &&
                       (this.props.bagCount > 0 && (
-                        <span>{`(${this.props.bagCount})`}</span>
+                        <span className={styles.cartCount}>{`${
+                          this.props.bagCount
+                        }`}</span>
                       ))}
                   </div>
                   <div
@@ -623,9 +625,9 @@ export default class DesktopHeader extends React.Component {
                     {userCookie &&
                       this.props.wishListCount !== null &&
                       (this.props.wishListCount > 0 && (
-                        <div className={styles.listCount}>{`(${
+                        <div className={styles.cartCount}>{`${
                           this.props.wishListCount
-                        })`}</div>
+                        }`}</div>
                       ))}
                   </div>
                 </div>
