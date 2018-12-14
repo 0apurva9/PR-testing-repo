@@ -253,12 +253,18 @@ export default class SearchPage extends React.Component {
         );
       }
       this.props.clearSearchResults();
-      this.setState({
-        showResults: false,
-        searchString,
-        showSearchBar: false,
-        currentFlag: null
-      });
+      this.setState(
+        {
+          showResults: false,
+          searchString: null,
+          showSearchBar: false,
+          currentFlag: null,
+          setOnClick: true
+        },
+        () => {
+          this.setState({ setOnClick: false });
+        }
+      );
     }
   }
   handleBlur(event) {
