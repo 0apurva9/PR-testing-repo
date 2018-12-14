@@ -314,6 +314,7 @@
   .sellers {
     display: inline-block;
     font-family: light;
+    font-size: 13px;
   }
   .info {
     padding: 0;
@@ -545,6 +546,6 @@
   .buttonWrapper {
     width: 100%;
     height: auto;
-    margin-top: 20px;
+    margin-top: 25px;
   }
 }
