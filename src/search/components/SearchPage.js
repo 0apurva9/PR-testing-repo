@@ -20,7 +20,6 @@ export default class SearchPage extends React.Component {
       setOnClick: false,
       categoryAndBrandCode: null
     };
-    this.timeOut = "searchPageTimeout";
     this.searchDown = [];
     this.newSearchArray = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -180,10 +179,7 @@ export default class SearchPage extends React.Component {
     }
     if (this.props.getSearchResults) {
       this.setState({ searchString: val });
-      clearTimeout(this.timeOut);
-      this.timeOut = setTimeout(() => {
-        this.props.getSearchResults(this.state.searchString);
-      }, 1000);
+      this.props.getSearchResults(val);
     }
   }
   handleBackClick() {
