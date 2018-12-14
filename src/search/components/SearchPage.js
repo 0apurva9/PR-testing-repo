@@ -20,7 +20,6 @@ export default class SearchPage extends React.Component {
       setOnClick: false,
       categoryAndBrandCode: null
     };
-    this.timeOut = "searchPageTimeout";
     this.searchDown = [];
     this.newSearchArray = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
