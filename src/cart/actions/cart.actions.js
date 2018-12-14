@@ -2341,7 +2341,9 @@ export function jusPayTokenize(
   address,
   cartItem,
   paymentMode,
-  isPaymentFailed
+  isPaymentFailed,
+  isFromRetryUrl,
+  retryCartGuid
 ) {
   if (!isPaymentFailed) {
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
@@ -2371,7 +2373,9 @@ export function jusPayTokenize(
           address,
           cardDetails,
           paymentMode,
-          isPaymentFailed
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
         )
       );
     } catch (e) {
@@ -2469,13 +2473,16 @@ export function createJusPayOrder(
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartId;
   let url = queryString.parse(window.location.search);
-
   if (url && url.value) {
     cartId = url && url.value;
   } else {
-    localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
-    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    cartId = JSON.parse(cartDetails).guid;
+    if (isFromRetryUrl) {
+      cartId = retryCartGuid;
+    } else {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
+      let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      cartId = JSON.parse(cartDetails).guid;
+    }
   }
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
@@ -2507,7 +2514,7 @@ export function createJusPayOrder(
             address.city ? address.city : ""
           }&state=${address.state ? address.state : ""}&pincode=${
             address.postalCode
-          }&cardSaved=true&sameAsShipping=true&cartGuid=${retryCartGuid}&token=${token}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&juspayUrl=${encodeURIComponent(
+          }&cardSaved=true&sameAsShipping=true&cartGuid=${cartId}&token=${token}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&juspayUrl=${encodeURIComponent(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
@@ -2640,8 +2647,12 @@ export function createJusPayOrderForNetBanking(
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
   } else {
-    localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
-    cartId = JSON.parse(cartDetails).guid;
+    if (isFromRetryUrl) {
+      cartId = retryCartGuid;
+    } else {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
+      cartId = JSON.parse(cartDetails).guid;
+    }
   }
   let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   let firstName = "";
@@ -2658,7 +2669,6 @@ export function createJusPayOrderForNetBanking(
         true,
         getState().cart.getUserAddressAndDeliveryModesByRetryPayment
       );
-      cartId = retryCartGuid;
     }
     try {
       let result = "";
@@ -2816,7 +2826,7 @@ export function createJusPayOrderForSavedCards(
             cardDetails.cardFingerprint
           }&platformNumber=${PLAT_FORM_NUMBER}&pincode=${localStorage.getItem(
             DEFAULT_PIN_CODE_LOCAL_STORAGE
-          )}&city=&cartGuid=${retryCartGuid}&token=&cardRefNo=${
+          )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
             cardDetails.cardReferenceNumber
           }&country=&addressLine1=&access_token=${
             JSON.parse(customerCookie).access_token

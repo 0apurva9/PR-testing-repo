@@ -426,7 +426,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       address,
       cartItem,
       paymentMode,
-      isPaymentFailed
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
     ) => {
       dispatch(
         jusPayTokenize(
@@ -434,7 +436,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           address,
           cartItem,
           paymentMode,
-          isPaymentFailed
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
         )
       );
     },
