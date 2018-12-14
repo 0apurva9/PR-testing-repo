@@ -5,6 +5,7 @@ import { RUPEE_SYMBOL } from "../../lib/constants";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import Button from "../../general/components/Button";
 export default class PriceAndLink extends React.Component {
   handleClick() {
     if (this.props.onViewDetails) {
@@ -70,6 +71,26 @@ export default class PriceAndLink extends React.Component {
               />
             </div>
           )}
+          {!this.props.products &&
+            this.props.retryPaymentUrl && (
+              <div className={styles.retryPayment}>
+                <div className={styles.buttonHolderForRetryPayment}>
+                  <Button
+                    type="hollow"
+                    width={147}
+                    height={36}
+                    label="Retry payment"
+                    color="#ff1744"
+                    textStyle={{
+                      color: "#212121",
+                      fontSize: 14,
+                      fontFamily: "regular"
+                    }}
+                    onClick={() => this.props.onClickRetryPayment()}
+                  />
+                </div>
+              </div>
+            )}
         </DesktopOnly>
       </div>
     );

@@ -841,6 +841,7 @@ export default class AllOrderDetails extends React.Component {
                                         orderDetails.products.length &&
                                         orderDetails.products[0].cancel
                                       }
+                                      borderBottom={"#fff"}
                                     >
                                       <div className={styles.priceRightHolder}>
                                         <PriceAndLink
@@ -850,6 +851,11 @@ export default class AllOrderDetails extends React.Component {
                                                 orderDetails.orderId
                                             )
                                           }
+                                          onClickRetryPayment={() =>
+                                            this.onClickRetryPayment(
+                                              orderDetails.retryPaymentUrl
+                                            )
+                                          }
                                           isEgvOrder={orderDetails.isEgvOrder}
                                           status={orderDetails.giftCardStatus}
                                           price={
@@ -857,6 +863,14 @@ export default class AllOrderDetails extends React.Component {
                                             orderDetails.totalOrderAmount
                                           }
                                           borderColor={"#fff"}
+                                          retryPaymentUrl={
+                                            orderDetails &&
+                                            orderDetails.retryPaymentUrl
+                                          }
+                                          products={
+                                            orderDetails &&
+                                            orderDetails.products
+                                          }
                                         />
                                       </div>
                                     </OrderDelivered>
