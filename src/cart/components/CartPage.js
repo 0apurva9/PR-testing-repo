@@ -815,6 +815,15 @@ class CartPage extends React.Component {
             <DesktopOnly>
               <div className={styles.bagTotal}>
                 <div className={styles.bagTotalFixed}>
+                  {cartDetails.products && (
+                    <div className={styles.couponCard}>
+                      <SavedProduct
+                        saveProduct={() => this.goToWishList()}
+                        onApplyCoupon={() => this.goToCouponPage()}
+                        appliedCouponCode={this.state.appliedCouponCode}
+                      />
+                    </div>
+                  )}
                   {this.state.showCheckoutSection &&
                     cartDetails.products &&
                     cartDetails.cartAmount && (
@@ -857,15 +866,6 @@ class CartPage extends React.Component {
                         />
                       </div>
                     )}
-                  {cartDetails.products && (
-                    <div className={styles.couponCard}>
-                      <SavedProduct
-                        saveProduct={() => this.goToWishList()}
-                        onApplyCoupon={() => this.goToCouponPage()}
-                        appliedCouponCode={this.state.appliedCouponCode}
-                      />
-                    </div>
-                  )}
                   {this.props &&
                     this.props.wishListCount !== null &&
                     (this.props.wishListCount > 0 && (

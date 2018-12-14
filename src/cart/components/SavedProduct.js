@@ -79,7 +79,7 @@ SavedProduct.propTypes = {
 };
 SavedProduct.defaultProps = {
   couponHeading: "Check for Coupon",
-  desktopCouponHeading: "Have a Coupon ?",
+  desktopCouponHeading: "Check for Coupon",
   giftCardHeading: "Surprise for a special one ?",
   giftCardLabel: "Gift wrap for free",
   isViewWishList: false
