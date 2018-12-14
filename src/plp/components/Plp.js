@@ -515,7 +515,10 @@ export default class Plp extends React.Component {
                         ? headerName[0].name
                         : this.props.productListings &&
                           this.props.productListings.currentQuery &&
-                          this.props.productListings.currentQuery.searchQuery}"
+                          this.props.productListings.currentQuery.searchQuery.replace(
+                            "%22",
+                            '"'
+                          )}"
                     </span>
                   </div>
                 </div>
