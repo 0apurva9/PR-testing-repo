@@ -827,12 +827,7 @@ class CheckOutPage extends React.Component {
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
-      if (
-        (this.props.location &&
-          this.props.location.state &&
-          this.props.location.state.isFromRetryUrl) ||
-        this.props.location.pathname === `${RETRY_FAILED_ORDER}`
-      ) {
+      if (localStorage.getItem(RETRY_PAYMENT_CART_ID)) {
         let retryPaymentDetailsObj = JSON.parse(
           localStorage.getItem(RETRY_PAYMENT_DETAILS)
         );
@@ -1268,10 +1263,8 @@ if you have order id in local storage then you have to show order confirmation p
       }
       this.setState({ isPaymentFailed: true });
       this.props.getPaymentFailureOrderDetails();
-
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
-
         this.setState({
           isGiftCard: true,
           isRemainingAmount: true,
@@ -1279,6 +1272,62 @@ if you have order id in local storage then you have to show order confirmation p
           bagAmount: Math.round(giftCartObj.amount * 100) / 100,
           egvCartGuid: giftCartObj.egvCartGuid
         });
+      } else if (localStorage.getItem(RETRY_PAYMENT_CART_ID)) {
+        let retryPaymentDetailsObj = JSON.parse(
+          localStorage.getItem(RETRY_PAYMENT_DETAILS)
+        );
+        let retryCartId = JSON.parse(
+          localStorage.getItem(RETRY_PAYMENT_CART_ID)
+        );
+        this.setState(
+          {
+            isComingFromRetryUrl: true,
+            payableAmount:
+              Math.round(
+                retryPaymentDetailsObj &&
+                  retryPaymentDetailsObj.retryPaymentDetails &&
+                  retryPaymentDetailsObj.retryPaymentDetails.cartAmount &&
+                  retryPaymentDetailsObj.retryPaymentDetails.cartAmount
+                    .paybleAmount.doubleValue * 100
+              ) / 100,
+            bagAmount:
+              Math.round(
+                retryPaymentDetailsObj &&
+                  retryPaymentDetailsObj.retryPaymentDetails &&
+                  retryPaymentDetailsObj.retryPaymentDetails.cartAmount &&
+                  retryPaymentDetailsObj.retryPaymentDetails.cartAmount.bagTotal
+                    .doubleValue * 100
+              ) / 100,
+            retryCartGuid: retryCartId,
+            retryFlagForEmiCoupon:
+              retryPaymentDetailsObj &&
+              retryPaymentDetailsObj.retryPaymentDetails &&
+              retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
+                ? retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
+                : false,
+            isRemainingAmount: true,
+            deliverMode: true,
+            confirmAddress: true
+          },
+          () => {
+            if (
+              (this.props.location &&
+                this.props.location.state &&
+                this.props.location.state.retryPaymentGuid) ||
+              (this.state.isComingFromRetryUrl && this.state.retryCartGuid)
+            ) {
+              let retryCartGuId;
+              if (this.state.retryCartGuid) {
+                retryCartGuId = this.state.retryCartGuid;
+              } else {
+                retryCartGuId = this.props.location.state.retryPaymentGuid;
+              }
+              this.props.getUserAddressAndDeliveryModesByRetryPayment(
+                retryCartGuId
+              );
+            }
+          }
+        );
       }
       this.getPaymentModes();
     } else if (value === JUS_PAY_CHARGED) {
@@ -1838,6 +1887,14 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.savedCardDetails,
           this.state.egvCartGuid
         );
+      } else if (this.state.isComingFromRetryUrl) {
+        this.props.createJusPayOrderForSavedCards(
+          this.state.savedCardDetails,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          true,
+          true,
+          this.state.retryCartGuid
+        );
       } else {
         this.props.createJusPayOrderForSavedCards(
           this.state.savedCardDetails,
@@ -1858,6 +1915,16 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.paymentModeSelected,
           this.state.egvCartGuid
         );
+      } else if (this.state.isComingFromRetryUrl) {
+        this.props.jusPayTokenize(
+          this.state.cardDetails,
+          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          this.state.paymentModeSelected,
+          true,
+          true,
+          this.state.retryCartGuid
+        );
       } else {
         this.props.jusPayTokenize(
           this.state.cardDetails,
@@ -1868,19 +1935,31 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
-
     if (
       this.state.currentPaymentMode === EMI &&
       this.state.isNoCostEmiProceeded
     ) {
-      this.props.createJusPayOrder(
-        "",
-        JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-        JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
-        this.state.cardDetails,
-        this.state.paymentModeSelected,
-        true
-      );
+      if (this.state.isComingFromRetryUrl) {
+        this.props.createJusPayOrder(
+          "",
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          this.state.cardDetails,
+          this.state.paymentModeSelected,
+          true,
+          true,
+          this.state.retryCartGuid
+        );
+      } else {
+        this.props.createJusPayOrder(
+          "",
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          this.state.cardDetails,
+          this.state.paymentModeSelected,
+          true
+        );
+      }
     }
     if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
       if (this.state.isGiftCard) {
@@ -1890,6 +1969,15 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.bankCodeForNetBanking
           );
         }
+      } else if (this.state.isComingFromRetryUrl) {
+        this.props.createJusPayOrderForNetBanking(
+          NET_BANKING,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          this.state.bankCodeForNetBanking,
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          true,
+          this.state.retryCartGuid
+        );
       } else {
         this.props.createJusPayOrderForNetBanking(
           NET_BANKING,
@@ -1906,6 +1994,15 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.egvCartGuid
           );
         }
+      } else if (this.state.isComingFromRetryUrl) {
+        this.props.createJusPayOrderForNetBanking(
+          WALLET,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          true,
+          this.state.retryCartGuid
+        );
       } else {
         this.props.createJusPayOrderForNetBanking(
           WALLET,
@@ -1921,6 +2018,15 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.egvCartGuid
           );
         }
+      } else if (this.state.isComingFromRetryUrl) {
+        this.props.createJusPayOrderForNetBanking(
+          PAYPAL,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          true,
+          this.state.retryCartGuid
+        );
       } else {
         this.props.createJusPayOrderForNetBanking(
           PAYPAL,
@@ -1941,7 +2047,16 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.binValidationCOD &&
       !this.state.isCliqCashApplied
     ) {
-      this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
+      if (this.state.isComingFromRetryUrl) {
+        this.props.updateTransactionDetailsForCOD(
+          CASH_ON_DELIVERY,
+          "",
+          true,
+          this.state.retryCartGuid
+        );
+      } else {
+        this.props.updateTransactionDetailsForCOD(CASH_ON_DELIVERY, "");
+      }
     }
   };
   handleSubmit = () => {
