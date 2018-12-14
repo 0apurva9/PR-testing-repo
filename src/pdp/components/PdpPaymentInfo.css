@@ -32,7 +32,8 @@
 @media screen and (min-width: 1025px) {
   .base {
     padding: 0;
-    margin-top: 15px;
+    margin-top: 8px;
+    font-size: 13px;
   }
   .link:after {
     content: "";
@@ -46,7 +47,7 @@
     background-size: contain;
   }
   .content {
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     display: inline-block;
   }
 }

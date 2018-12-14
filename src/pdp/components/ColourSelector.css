@@ -23,11 +23,12 @@
 @media screen and (min-width: 1025px) {
   .base {
     background-color: transparent;
-    padding: 15px 0;
+    padding: 8px 0px;
   }
   .header {
     padding: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
   }
   .colour {
     display: inline-block;

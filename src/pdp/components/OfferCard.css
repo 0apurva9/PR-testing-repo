@@ -121,7 +121,8 @@
     width: 100%;
     vertical-align: top;
     line-height: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    font-size: 13px;
   }
   .headingText:last-child {
     margin-bottom: 0px;

@@ -22,7 +22,7 @@ export default class PdpPaymentInfo extends React.Component {
               {this.props.nceStartingPrice}/month,{" "}
             </span>
             <span className={styles.text}>
-              Standard EMI from {RUPEE_SYMBOL}
+              EMI from {RUPEE_SYMBOL}
               {this.props.seStartingPrice}/month
             </span>
 
@@ -33,7 +33,7 @@ export default class PdpPaymentInfo extends React.Component {
         ) : this.props.hasEmi === "Y" && !this.props.nceAvailable ? (
           <div className={styles.content}>
             <span className={styles.text}>
-              Standard EMI from {RUPEE_SYMBOL}
+              EMI from {RUPEE_SYMBOL}
               {this.props.seStartingPrice}/month
             </span>
 
