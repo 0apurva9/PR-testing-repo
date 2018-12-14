@@ -11,7 +11,10 @@ export default class OrderDelivered extends React.Component {
       deliveredAddress = address.trim();
     }
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{ borderBottom: `1px solid ${this.props.borderBottom}` }}
+      >
         <MobileOnly>
           {deliveredAddress && (
             <div className={styles.addressHolder}>
@@ -113,9 +116,11 @@ OrderDelivered.propTypes = {
   deliveredAddress: PropTypes.string,
   deliveredDate: PropTypes.string,
   soldBy: PropTypes.string,
-  isShowDataHorizontal: PropTypes.bool
+  isShowDataHorizontal: PropTypes.bool,
+  borderBottom: PropTypes.string
 };
 OrderDelivered.defaultProps = {
   orderDeliveryHeaderText: "Delivery address",
-  isShowDataHorizontal: false
+  isShowDataHorizontal: false,
+  borderBottom: "#ececec"
 };

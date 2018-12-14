@@ -100,4 +100,16 @@
     display: initial;
     float: left;
   }
+  .retryPayment {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: right;
+    margin-top: 10px;
+  }
+  .buttonHolderForRetryPayment {
+    width: auto;
+    height: auto;
+    display: inline-block;
+  }
 }
