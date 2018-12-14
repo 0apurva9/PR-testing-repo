@@ -1,5 +1,5 @@
 import delay from "lodash.delay";
-export const TOAST_DELAY = 2000;
+export const TOAST_DELAY = 3000;
 export const SHOW_TOAST = "SHOW_TOAST";
 export const HIDE_TOAST = "HIDE_TOAST";
 export function hideToast() {
