@@ -2765,6 +2765,13 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    let data =
+      this.props &&
+      this.props.cart &&
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentOffers &&
+      this.props.cart.paymentModes.paymentOffers.coupons;
+    console.log(data);
     let labelForButton,
       checkoutButtonStatus = false;
     if (
@@ -3101,6 +3108,25 @@ if you have order id in local storage then you have to show order confirmation p
                     </div>
                   )}
                 </MobileOnly>
+                <DesktopOnly>
+                  {!this.state.isGiftCard &&
+                    this.state.isRemainingAmount &&
+                    !(
+                      this.state.isPaymentFailed && this.state.isCliqCashApplied
+                    ) &&
+                    (this.props.cart.paymentModes &&
+                      this.props.cart.paymentModes.paymentOffers &&
+                      this.props.cart.paymentModes.paymentOffers.coupons) && (
+                      <BankOfferWrapper
+                        cart={this.props.cart}
+                        applyBankCoupons={val => this.applyBankCoupons(val)}
+                        openBankOffers={() => this.openBankOffers()}
+                        openBankOfferTncModal={() =>
+                          this.props.openBankOfferTncModal()
+                        }
+                      />
+                    )}
+                </DesktopOnly>
                 {((!this.state.paymentMethod &&
                   (this.state.confirmAddress && this.state.deliverMode)) ||
                   this.state.isPaymentFailed ||
@@ -3264,24 +3290,6 @@ if you have order id in local storage then you have to show order confirmation p
               <DesktopOnly>
                 <div className={styles.rightSection}>
                   {this.renderDesktopCheckout(checkoutButtonStatus)}
-
-                  {!this.state.isGiftCard &&
-                    this.state.isRemainingAmount &&
-                    !(
-                      this.state.isPaymentFailed && this.state.isCliqCashApplied
-                    ) &&
-                    (this.props.cart.paymentModes &&
-                      this.props.cart.paymentModes.paymentOffers &&
-                      this.props.cart.paymentModes.paymentOffers.coupons) && (
-                      <BankOfferWrapper
-                        cart={this.props.cart}
-                        applyBankCoupons={val => this.applyBankCoupons(val)}
-                        openBankOffers={() => this.openBankOffers()}
-                        openBankOfferTncModal={() =>
-                          this.props.openBankOfferTncModal()
-                        }
-                      />
-                    )}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                 </div>
               </DesktopOnly>
