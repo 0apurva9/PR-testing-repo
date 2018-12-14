@@ -2765,13 +2765,6 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
-    let data =
-      this.props &&
-      this.props.cart &&
-      this.props.cart.paymentModes &&
-      this.props.cart.paymentModes.paymentOffers &&
-      this.props.cart.paymentModes.paymentOffers.coupons;
-    console.log(data);
     let labelForButton,
       checkoutButtonStatus = false;
     if (
