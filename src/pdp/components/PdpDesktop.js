@@ -899,29 +899,28 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
 
-                    {!getPinCode &&
-                      !userCookie && (
-                        <SearchAndUpdate
-                          uiType="hollow"
-                          checkPinCodeAvailability={pincode =>
-                            this.checkPinCodeAvailability(
-                              pincode,
-                              productData.productListingId
-                            )
-                          }
-                          placeholder={
-                            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-                              ? localStorage.getItem(
-                                  DEFAULT_PIN_CODE_LOCAL_STORAGE
-                                )
-                              : "Enter your PIN code"
-                          }
-                          hasAutoFocus={false}
-                          labelText={"Check"}
-                          borderColor="transparent"
-                          borderBottom="0px solid #transparent"
-                        />
-                      )}
+                    {!userCookie && (
+                      <SearchAndUpdate
+                        uiType="hollow"
+                        checkPinCodeAvailability={pincode =>
+                          this.checkPinCodeAvailability(
+                            pincode,
+                            productData.productListingId
+                          )
+                        }
+                        placeholder={
+                          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                            ? localStorage.getItem(
+                                DEFAULT_PIN_CODE_LOCAL_STORAGE
+                              )
+                            : "Enter your PIN code"
+                        }
+                        hasAutoFocus={false}
+                        labelText={"Check"}
+                        borderColor="transparent"
+                        borderBottom="0px solid #transparent"
+                      />
+                    )}
                   </div>
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
