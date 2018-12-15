@@ -58,15 +58,14 @@ export default class BankOfferWrapper extends React.Component {
           .offerTitle;
         offerCode = this.props.cart.paymentModes.paymentOffers.coupons[0]
           .offerCode;
-        offerDescription1 = this.props.cart.paymentModes.paymentOffers
-          .coupons[1].offerDescription;
-        offerTitle1 = this.props.cart.paymentModes.paymentOffers.coupons[1]
-          .offerTitle;
-        offerCode1 = this.props.cart.paymentModes.paymentOffers.coupons[1]
-          .offerCode;
       }
+      offerDescription1 = this.props.cart.paymentModes.paymentOffers.coupons[1]
+        .offerDescription;
+      offerTitle1 = this.props.cart.paymentModes.paymentOffers.coupons[1]
+        .offerTitle;
+      offerCode1 = this.props.cart.paymentModes.paymentOffers.coupons[1]
+        .offerCode;
     }
-
     return (
       <div className={styles.base}>
         <MobileOnly>
@@ -89,7 +88,7 @@ export default class BankOfferWrapper extends React.Component {
           </GridSelect>
         </MobileOnly>
         <DesktopOnly>
-          {selectedCoupon || localStorage.getItem(BANK_COUPON_COOKIE) ? (
+          <React.Fragment>
             <GridSelect
               elementWidthMobile={100}
               elementWidthDesktop={100}
@@ -99,58 +98,54 @@ export default class BankOfferWrapper extends React.Component {
               selected={[localStorage.getItem(BANK_COUPON_COOKIE)]}
             >
               <BankOffer
-                bankName={offerTitle}
-                offerText={offerDescription}
+                bankName={
+                  offerCode === offerCode1
+                    ? this.props.cart.paymentModes.paymentOffers.coupons[0]
+                        .offerTitle
+                    : offerTitle
+                }
+                offerText={
+                  offerCode === offerCode1
+                    ? this.props.cart.paymentModes.paymentOffers.coupons[0]
+                        .offerDescription
+                    : offerDescription
+                }
                 label={SEE_ALL_BANK_OFFERS}
                 applyBankOffers={() => this.openBankOffers()}
                 openBankOfferTncModal={() => this.openBankOfferTncModal()}
-                value={offerCode}
+                value={
+                  offerCode === offerCode1
+                    ? this.props.cart.paymentModes.paymentOffers.coupons[0]
+                        .offerCode
+                    : offerCode
+                }
+                border={true}
+                padding={true}
               />
             </GridSelect>
-          ) : (
-            <React.Fragment>
-              <GridSelect
-                elementWidthMobile={100}
-                elementWidthDesktop={100}
-                offset={0}
-                limit={1}
-                onSelect={val => this.handleSelect(val)}
-                selected={[localStorage.getItem(BANK_COUPON_COOKIE)]}
-              >
-                <BankOffer
-                  bankName={offerTitle}
-                  offerText={offerDescription}
-                  label={SEE_ALL_BANK_OFFERS}
-                  applyBankOffers={() => this.openBankOffers()}
-                  openBankOfferTncModal={() => this.openBankOfferTncModal()}
-                  value={offerCode}
-                  border={true}
-                  padding={true}
-                />
-              </GridSelect>
-              <GridSelect
-                elementWidthMobile={100}
-                elementWidthDesktop={100}
-                offset={0}
-                limit={1}
-                onSelect={val => this.handleSelect(val)}
-                selected={[localStorage.getItem(BANK_COUPON_COOKIE)]}
-              >
-                <BankOffer
-                  bankName={offerTitle1}
-                  offerText={offerDescription1}
-                  applyBankOffers={() => this.openBankOffers()}
-                  openBankOfferTncModal={() => this.openBankOfferTncModal()}
-                  value={offerCode1}
-                  showTermAndCondition={false}
-                  border={false}
-                  padding={false}
-                  margin={false}
-                  paddingTop={false}
-                />
-              </GridSelect>
-            </React.Fragment>
-          )}
+            <GridSelect
+              elementWidthMobile={100}
+              elementWidthDesktop={100}
+              offset={0}
+              limit={1}
+              onSelect={val => this.handleSelect(val)}
+              selected={[localStorage.getItem(BANK_COUPON_COOKIE)]}
+            >
+              <BankOffer
+                bankName={offerTitle1}
+                offerText={offerDescription1}
+                applyBankOffers={() => this.openBankOffers()}
+                openBankOfferTncModal={() => this.openBankOfferTncModal()}
+                value={offerCode1}
+                showTermAndCondition={false}
+                border={false}
+                padding={false}
+                margin={false}
+                paddingTop={false}
+              />
+            </GridSelect>
+          </React.Fragment>
+          {/* )} */}
         </DesktopOnly>
       </div>
     );
