@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import BankOffer from "./BankOffer.js";
 import GridSelect from "../../general/components/GridSelect";
 import { BANK_COUPON_COOKIE } from "../../lib/constants";
@@ -22,7 +23,13 @@ export default class BankOfferWrapper extends React.Component {
       this.props.openBankOfferTncModal();
     }
   }
+  componentDidMount() {
+    const bankOfferRef = ReactDOM.findDOMNode(this.refs.bankOfferRef);
 
+    setTimeout(() => {
+      window.scrollTo(0, bankOfferRef.offsetTop);
+    }, 0);
+  }
   render() {
     let offerDescription, offerTitle, offerCode;
     let offerDescription1, offerTitle1, offerCode1;
@@ -67,7 +74,7 @@ export default class BankOfferWrapper extends React.Component {
         .offerCode;
     }
     return (
-      <div className={styles.base}>
+      <div className={styles.base} ref="bankOfferRef">
         <MobileOnly>
           <GridSelect
             elementWidthMobile={100}
