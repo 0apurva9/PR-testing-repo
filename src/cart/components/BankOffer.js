@@ -23,7 +23,10 @@ export default class BankOffer extends React.Component {
   }
   render() {
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        style={{ paddingTop: this.props.paddingTop ? "20px" : "0px" }}
+      >
         <MobileOnly>
           <React.Fragment>
             <div className={styles.container}>
@@ -61,11 +64,9 @@ export default class BankOffer extends React.Component {
         </MobileOnly>
         <DesktopOnly>
           <div className={styles.dataHolderForOffer}>
-            <div className={styles.headersForBankOffer}>
-              {this.props.showBankOffer && (
+            {this.props.showTermAndCondition && (
+              <div className={styles.headersForBankOffer}>
                 <div className={styles.labelText}>Bank Offers</div>
-              )}
-              {this.props.showTermAndCondition && (
                 <div className={styles.buttonHolder}>
                   <div className={styles.termsAndConditionButton}>
                     <UnderLinedButton
@@ -84,10 +85,20 @@ export default class BankOffer extends React.Component {
                     />
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
             <div className={styles.offerShowHolder}>
-              <div className={styles.offerCard}>
+              <div
+                className={styles.offerCard}
+                style={{
+                  borderBottom: this.props.border
+                    ? "1px solid #dddddd"
+                    : "none",
+                  paddingBottom: this.props.padding ? "18px" : "0px",
+                  marginBottom: this.props.margin ? "20px" : "0px"
+                }}
+              >
                 <div
                   className={styles.checkBoxHolder}
                   onClick={val => this.applyCoupons(val)}
@@ -114,9 +125,15 @@ BankOffer.propTypes = {
   offerText: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
-  labelText: PropTypes.bool
+  labelText: PropTypes.bool,
+  border: PropTypes.bool,
+  padding: PropTypes.bool,
+  margin: PropTypes.bool,
+  paddingTop: PropTypes.bool
 };
 BankOffer.defaultProps = {
-  showBankOffer: true,
-  showTermAndCondition: true
+  showTermAndCondition: true,
+  border: false,
+  paddingTop: true,
+  margin: false
 };

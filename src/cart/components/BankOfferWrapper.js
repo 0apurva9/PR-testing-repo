@@ -124,6 +124,8 @@ export default class BankOfferWrapper extends React.Component {
                   applyBankOffers={() => this.openBankOffers()}
                   openBankOfferTncModal={() => this.openBankOfferTncModal()}
                   value={offerCode}
+                  border={true}
+                  padding={true}
                 />
               </GridSelect>
               <GridSelect
@@ -140,8 +142,11 @@ export default class BankOfferWrapper extends React.Component {
                   applyBankOffers={() => this.openBankOffers()}
                   openBankOfferTncModal={() => this.openBankOfferTncModal()}
                   value={offerCode1}
-                  showBankOffer={false}
                   showTermAndCondition={false}
+                  border={false}
+                  padding={false}
+                  margin={false}
+                  paddingTop={false}
                 />
               </GridSelect>
             </React.Fragment>
