@@ -314,7 +314,7 @@ export default class PdpApparel extends React.Component {
                   state: {
                     ProductCode: this.props.productDetails.productListingId,
                     pinCode: defaultPinCode,
-                    isClickOnAddToBag: true
+                    isClickOnAddToBag: !buyNowFlag
                   }
                 });
               }
