@@ -306,6 +306,7 @@ export default class PdpApparel extends React.Component {
                 this.setState({
                   goToCartPageFlag: true
                 });
+                this.goToCart();
               }
             }
             this.setState({ sizeError: false });
