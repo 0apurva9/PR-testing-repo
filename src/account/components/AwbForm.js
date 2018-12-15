@@ -13,6 +13,7 @@ export default class AwbForm extends React.Component {
       logisticsPartner: this.props.logisticsPartner
         ? this.props.logisticsPartner
         : "",
+      file: "",
       courierCharge: this.props.courierCharge ? this.props.courierCharge : ""
     };
   }
@@ -24,6 +25,15 @@ export default class AwbForm extends React.Component {
   onUpdate() {
     if (this.props.onUpdate) {
       this.props.onUpdate(this.state);
+    }
+  }
+  onUploadFile(file) {
+    if (file) {
+      if (file.size <= 5000000) {
+        this.setState({ file });
+      } else {
+        this.props.displayToast("File size should be less then 5 Mb");
+      }
     }
   }
   render() {
@@ -72,7 +82,10 @@ export default class AwbForm extends React.Component {
         </div>
 
         <div className={styles.inputHolder}>
-          <ImageUpload onChange={file => this.setState({ file })} />
+          <ImageUpload
+            value={this.state.file ? this.state.file.name : "Upload attachment"}
+            onChange={file => this.onUploadFile({ file })}
+          />
         </div>
 
         {this.props.isShowButton && (
