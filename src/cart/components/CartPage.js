@@ -10,6 +10,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import CartItemForDesktop from "./CartItemForDesktop";
+import Button from "../../general/components/Button.js";
 import {
   SUCCESS,
   HOME_ROUTER,
@@ -719,6 +720,20 @@ class CartPage extends React.Component {
                     );
                   })}
               </div>
+              <DesktopOnly>
+                <div className={styles.continueButtonHolder}>
+                  <div className={styles.buttonContinueShopping}>
+                    <Button
+                      type="hollow"
+                      height={36}
+                      label="Continue Shopping"
+                      width={210}
+                      textStyle={{ color: "#212121", fontSize: 14 }}
+                      onClick={() => this.navigateToHome()}
+                    />
+                  </div>
+                </div>
+              </DesktopOnly>
               <MobileOnly>
                 {cartDetails.products && (
                   <SavedProduct
