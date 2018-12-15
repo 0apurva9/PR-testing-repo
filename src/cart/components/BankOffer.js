@@ -62,25 +62,29 @@ export default class BankOffer extends React.Component {
         <DesktopOnly>
           <div className={styles.dataHolderForOffer}>
             <div className={styles.headersForBankOffer}>
-              <div className={styles.labelText}>Bank Offers</div>
-              <div className={styles.buttonHolder}>
-                <div className={styles.termsAndConditionButton}>
-                  <UnderLinedButton
-                    label="T&C"
-                    onClick={() => {
-                      this.openBankOfferTncModal();
-                    }}
-                  />
+              {this.props.showBankOffer && (
+                <div className={styles.labelText}>Bank Offers</div>
+              )}
+              {this.props.showTermAndCondition && (
+                <div className={styles.buttonHolder}>
+                  <div className={styles.termsAndConditionButton}>
+                    <UnderLinedButton
+                      label="T&C"
+                      onClick={() => {
+                        this.openBankOfferTncModal();
+                      }}
+                    />
+                  </div>
+                  <div className={styles.button}>
+                    <UnderLinedButton
+                      label="View all offers"
+                      onClick={() => {
+                        this.handleClick();
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className={styles.button}>
-                  <UnderLinedButton
-                    label="View all offers"
-                    onClick={() => {
-                      this.handleClick();
-                    }}
-                  />
-                </div>
-              </div>
+              )}
             </div>
             <div className={styles.offerShowHolder}>
               <div className={styles.offerCard}>
@@ -111,4 +115,8 @@ BankOffer.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   labelText: PropTypes.bool
+};
+BankOffer.defaultProps = {
+  showBankOffer: true,
+  showTermAndCondition: true
 };
