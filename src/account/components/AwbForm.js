@@ -84,7 +84,7 @@ export default class AwbForm extends React.Component {
         <div className={styles.inputHolder}>
           <ImageUpload
             value={this.state.file ? this.state.file.name : "Upload attachment"}
-            onChange={file => this.onUploadFile({ file })}
+            onChange={file => this.onUploadFile(file)}
           />
         </div>
 
