@@ -666,23 +666,24 @@ export default class OrderDetails extends React.Component {
                             </div>
                           </div>
                           <div className={styles.reviewHolder}>
-                            {!products.isReturned && (
-                              <div
-                                className={styles.review}
-                                onClick={() =>
-                                  this.replaceItem(
-                                    products.sellerorderno,
-                                    orderDetails.paymentMethod,
-                                    products.transactionId
-                                  )
-                                }
-                              >
-                                <UnderLinedButton
-                                  label={PRODUCT_RETURN}
-                                  color="#ff1744"
-                                />
-                              </div>
-                            )}
+                            {products.isReturned &&
+                              isOrderReturnable && (
+                                <div
+                                  className={styles.review}
+                                  onClick={() =>
+                                    this.replaceItem(
+                                      products.sellerorderno,
+                                      orderDetails.paymentMethod,
+                                      products.transactionId
+                                    )
+                                  }
+                                >
+                                  <UnderLinedButton
+                                    label={PRODUCT_RETURN}
+                                    color="#ff1744"
+                                  />
+                                </div>
+                              )}
                             {!products.isReturned && (
                               <div className={styles.review}>
                                 Return window is Closed
