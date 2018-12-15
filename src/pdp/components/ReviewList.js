@@ -17,6 +17,7 @@ export default class ReviewList extends React.Component {
             .map((data, i) => {
               if (!data) return null;
               let userName = data.userName;
+              let alias = data.alias;
               let name =
                 data &&
                 data.principal &&
@@ -30,7 +31,7 @@ export default class ReviewList extends React.Component {
                   date={data && data.date}
                   isBuyer={data && data.isBuyer}
                   reviewAge={data && data.reviewAge}
-                  name={name ? name : userName}
+                  name={userName ? userName : alias}
                 />
               );
             })}
@@ -40,6 +41,7 @@ export default class ReviewList extends React.Component {
           this.props.reviewList.map((data, i) => {
             if (!data) return null;
             let userName = data.userName;
+            let alias = data.alias;
             let name =
               data &&
               data.principal &&
@@ -53,7 +55,7 @@ export default class ReviewList extends React.Component {
                 date={data && data.date}
                 isBuyer={data && data.isBuyer}
                 reviewAge={data && data.reviewAge}
-                name={name ? name : userName}
+                name={userName ? userName : alias}
               />
             );
           })}
