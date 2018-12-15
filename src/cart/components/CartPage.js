@@ -151,6 +151,12 @@ class CartPage extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     this.props.setHeaderText(YOUR_BAG);
     if (prevProps.cart) {
+      if (
+        this.props.location.state &&
+        this.props.location.state.isClickOnAddToBag
+      ) {
+        window.scrollTo(0, document.body.scrollHeight);
+      }
       if (prevProps.cart.cartDetails !== this.props.cart.cartDetails) {
         let productServiceAvailability = filter(
           this.props.cart &&
