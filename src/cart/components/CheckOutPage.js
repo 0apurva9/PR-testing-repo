@@ -2455,16 +2455,24 @@ if you have order id in local storage then you have to show order confirmation p
     this.props.removeCliqCash();
   };
 
-  binValidation = (paymentMode, binNo) => {
+  binValidation = async (paymentMode, binNo) => {
+    console.log(paymentMode, binNo);
     if (this.state.isPaymentFailed) {
       localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value;
       this.props.binValidation(paymentMode, binNo, cartGuId);
     } else {
-      localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
-      this.setState({ paymentModeSelected: paymentMode });
-      this.props.binValidation(paymentMode, binNo);
+      if (paymentMode === EMI) {
+        let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
+          binNo
+        );
+        console.log(binValidationOfEmiEligibleResponse);
+      } else {
+        localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+        this.setState({ paymentModeSelected: paymentMode });
+        this.props.binValidation(paymentMode, binNo);
+      }
     }
   };
   softReservationPaymentForWallet = bankName => {

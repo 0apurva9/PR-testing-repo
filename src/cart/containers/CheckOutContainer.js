@@ -54,7 +54,8 @@ import {
   createJusPayOrder,
   resetIsSoftReservationFailed,
   preventRestingAllPaymentMode,
-  getUserAddressAndDeliveryModesByRetryPayment
+  getUserAddressAndDeliveryModesByRetryPayment,
+  binValidationOfEmiEligible
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -549,6 +550,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         );
         ownProps.history.push(MY_ACCOUNT);
       }
+    },
+    binValidationOfEmiEligible: binNo => {
+      return dispatch(binValidationOfEmiEligible(binNo));
     }
   };
 };
