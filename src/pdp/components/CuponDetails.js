@@ -25,7 +25,6 @@ export default class CuponDetails extends React.Component {
         " " +
         couponExpiryDate[5];
     }
-
     return (
       <div className={styles.base}>
         <div
