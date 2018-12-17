@@ -22,7 +22,6 @@ export default class SavedProduct extends React.Component {
   }
   render() {
     let couponText = this.props.couponHeading;
-
     if (this.props.appliedCouponCode) {
       couponText = `Coupon: ${this.props.appliedCouponCode}`;
     }
@@ -45,8 +44,9 @@ export default class SavedProduct extends React.Component {
               }
               onClick={() => this.onApplyCoupon()}
               backgroundColor={"#f9f9f9"}
-              showApplyButton={this.props.appliedCouponCode ? false : true}
+              showApplyButton={true}
               color={this.props.appliedCouponCode ? "#6f6f6f" : "#000"}
+              buttonLabel={this.props.appliedCouponCode ? "Change" : "Apply"}
             />
           </DesktopOnly>
         </div>
