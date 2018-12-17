@@ -5051,7 +5051,7 @@ export function binValidationOfEmiEligible(binNo) {
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationOfEmiEligibleRequest());
     try {
-      const result = await api.get(
+      const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
         }/payments/emiEligibleBin?access_token=${
