@@ -188,7 +188,6 @@ table th {
   .chatAndCallLink {
     width: 100%;
     height: 50px;
-    cursor: pointer;
     line-height: 50px;
     font-size: 13px;
     font-family: light;
@@ -197,7 +196,7 @@ table th {
   .linkAndIconHolder {
     width: 100%;
     height: 50px;
-    padding: 0px 35px;
+    padding: 0px 0px 0px 35px;
     position: relative;
     border-bottom: 1px solid #979797;
   }

@@ -35,7 +35,7 @@ export default class Coupon extends React.Component {
           )}
           {this.props.showApplyButton && (
             <div className={styles.apply}>
-              <UnderLinedButton label={"Apply"} color={"#000"} />
+              <UnderLinedButton label={this.props.buttonLabel} color={"#000"} />
             </div>
           )}
         </div>
@@ -48,10 +48,12 @@ Coupon.propTypes = {
   heading: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
-  subText: PropTypes.string
+  subText: PropTypes.string,
+  buttonLabel: PropTypes.string
 };
 Coupon.defaultProps = {
   backgroundColor: "#fff",
   showApplyButton: false,
-  color: "#6f6f6f"
+  color: "#6f6f6f",
+  buttonLabel: "Apply"
 };

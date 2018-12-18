@@ -174,9 +174,9 @@ export default class StaticPage extends Component {
                               <div className={styles.linkIconHolder}>
                                 <Icon image={callUsIcon} size={20} />
                               </div>
-                              <div className={styles.arrowIconHolder}>
+                              {/* <div className={styles.arrowIconHolder}>
                                 <Icon image={arrowLeft} size={15} />
-                              </div>
+                              </div> */}
                               <div
                                 className={styles.chatAndCallLink}
                                 dangerouslySetInnerHTML={{
@@ -190,9 +190,9 @@ export default class StaticPage extends Component {
                               <div className={styles.linkIconHolder}>
                                 <Icon image={callUsIcon} size={20} />
                               </div>
-                              <div className={styles.arrowIconHolder}>
+                              {/* <div className={styles.arrowIconHolder}>
                                 <Icon image={arrowLeft} size={15} />
-                              </div>
+                              </div> */}
                               <div
                                 className={styles.chatAndCallLink}
                                 dangerouslySetInnerHTML={{

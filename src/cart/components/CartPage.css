@@ -274,4 +274,16 @@
     margin: auto;
     padding-bottom: 5px;
   }
+  .continueButtonHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: center;
+    margin: 12px 0px 30px;
+  }
+  .buttonContinueShopping {
+    width: auto;
+    height: auto;
+    display: inline-block;
+  }
 }

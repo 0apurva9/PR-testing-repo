@@ -7,8 +7,10 @@ import { RUPEE_SYMBOL } from "../../lib/constants.js";
 const COUPON_TYPE = "COUPON";
 export default class CuponDetails extends React.Component {
   handleClick(val) {
-    if (this.props.selectItem) {
-      this.props.selectItem();
+    if (this.props.couponType === COUPON_TYPE) {
+      if (this.props.selectItem) {
+        this.props.selectItem();
+      }
     }
   }
   render() {
@@ -23,7 +25,6 @@ export default class CuponDetails extends React.Component {
         " " +
         couponExpiryDate[5];
     }
-
     return (
       <div className={styles.base}>
         <div

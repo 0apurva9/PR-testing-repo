@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Toggle from "../../general/components/Toggle";
 import MediaQuery from "react-responsive";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import styles from "./CliqCashToggle.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
@@ -26,9 +27,11 @@ export default class CliqCashToggle extends React.Component {
   };
   componentDidMount() {
     const clikCashRefNode = ReactDOM.findDOMNode(this.refs.clikCashRef);
-    setTimeout(() => {
-      window.scrollTo(0, clikCashRefNode.offsetTop - 100);
-    }, 0);
+    if (checkUserAgentIsMobile()) {
+      setTimeout(() => {
+        window.scrollTo(0, clikCashRefNode.offsetTop - 100);
+      }, 0);
+    }
   }
   render() {
     let toggleDisable = this.props.value === 0 ? true : false;
