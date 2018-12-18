@@ -31,16 +31,17 @@ export default class CuponDetails extends React.Component {
           className={styles.cuponCard}
           onClick={val => this.handleClick(val)}
         >
-          {this.props.couponType === COUPON_TYPE && (
+          {
             <div className={styles.headerText}>
               <span>{this.props.promotionTitle}</span>
-              {this.props.selectItem && (
-                <div className={styles.checkBoxHolder}>
-                  <CheckBox selected={this.props.selected} />
-                </div>
-              )}
+              {this.props.couponType === COUPON_TYPE &&
+                this.props.selectItem && (
+                  <div className={styles.checkBoxHolder}>
+                    <CheckBox selected={this.props.selected} />
+                  </div>
+                )}
             </div>
-          )}
+          }
           <div
             className={styles.promotionDetailsText}
             dangerouslySetInnerHTML={
