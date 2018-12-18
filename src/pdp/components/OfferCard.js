@@ -67,7 +67,21 @@ export default class OfferCard extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             {this.props.secondaryPromotions &&
-              getId !== "true" &&
+              getId === "false" && (
+                <div
+                  className={styles.headingText}
+                  onClick={this.handleShowDetails}
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.secondaryPromotions.messageID
+                    }}
+                  />
+                </div>
+              )}
+
+            {this.props.secondaryPromotions &&
+              getId === "true" &&
               !getMessage.includes("No Cost EMI") && (
                 <div
                   className={styles.headingText}

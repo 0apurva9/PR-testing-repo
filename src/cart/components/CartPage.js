@@ -428,7 +428,6 @@ class CartPage extends React.Component {
                   <span className={styles.bold}> Delivery Option.</span>
                 </div>
               )}
-
               <div
                 className={
                   !defaultPinCode
@@ -437,6 +436,7 @@ class CartPage extends React.Component {
                 }
               >
                 <div className={styles.inputAndButton}>
+                  <div className={styles.myBagTitle}>My Bag</div>
                   <TextWithUnderLine
                     onClick={() => this.changePinCode()}
                     buttonLabel="Change PIN code"
@@ -452,10 +452,8 @@ class CartPage extends React.Component {
               </div>
             </div>
           </div>
-
           <div clasName={styles.pageCenter}>
             <div className={styles.content}>
-              <div className={styles.emptyCardHeading}>My Bag</div>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
                 viewSavedProduct={() => this.goToWishList()}
@@ -592,6 +590,7 @@ class CartPage extends React.Component {
                   }
                 >
                   <div className={styles.inputAndButton}>
+                    <div className={styles.myBagTitle}>My Bag</div>
                     <TextWithUnderLine
                       onClick={() => this.changePinCode()}
                       buttonLabel="Change PIN code"
@@ -624,7 +623,10 @@ class CartPage extends React.Component {
           </MobileOnly>
           <div className={styles.pageCenter}>
             <DesktopOnly>
-              <div className={styles.cartHeading}>My Bag</div>
+              <div className={styles.offerText}>
+                <span>Bank Offer,</span> if applicable, can be selected on the
+                payment page
+              </div>
             </DesktopOnly>
             <div className={styles.content}>
               <div className={styles.desktopBuffer}>
