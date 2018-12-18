@@ -5051,12 +5051,22 @@ export function binValidationOfEmiEligible(binNo) {
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationOfEmiEligibleRequest());
     try {
-      const result = await api.post(
+      const params = {
+        access_token: JSON.parse(customerCookie).access_token,
+        bin: binNo
+      };
+      let cardObject = Object.keys(params)
+        .map(key => {
+          return (
+            encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
+          );
+        })
+        .join("&");
+      const result = await api.corePostByUrlEncoded(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/emiEligibleBin?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&bin=${binNo}`
+        }/payments/emiEligibleBin`,
+        cardObject
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

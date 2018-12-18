@@ -205,13 +205,17 @@ class CheckOutPage extends React.Component {
       isOpenTransactionFailedPopUp: true,
       isComingFromRetryUrl: false,
       retryCartGuid: null,
-      retryFlagForEmiCoupon: false
+      retryFlagForEmiCoupon: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     };
   }
 
   changeEmiPlan = () => {
     this.setState({
-      cardDetails: {}
+      cardDetails: {},
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     });
   };
   onClickImage(productCode) {
@@ -322,13 +326,14 @@ class CheckOutPage extends React.Component {
     if (noCostEmiCouponCode) {
       this.removeNoCostEmi(noCostEmiCouponCode);
     }
-
     this.setState({
       currentSelectedEMIType,
       cardDetails: {},
       noCostEmiBankName: null,
       noCostEmiDiscount: "0.00",
-      isNoCostEmiApplied: false
+      isNoCostEmiApplied: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     });
   }
   updateLocalStoragePinCode(pincode) {
@@ -2456,7 +2461,6 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   binValidation = async (paymentMode, binNo) => {
-    console.log(paymentMode, binNo);
     if (this.state.isPaymentFailed) {
       localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
       const parsedQueryString = queryString.parse(this.props.location.search);
@@ -2467,7 +2471,56 @@ if you have order id in local storage then you have to show order confirmation p
         let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
           binNo
         );
-        console.log(binValidationOfEmiEligibleResponse);
+        if (
+          binValidationOfEmiEligibleResponse &&
+          binValidationOfEmiEligibleResponse.status === "success"
+        ) {
+          if (
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
+              .isEMIEligibleBin === false
+          ) {
+            this.setState({
+              emiBinValidationStatus: true,
+              emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+                this.state.cardDetails.emi_bank
+              } card.`
+            });
+          } else if (
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
+            this.state.cardDetails &&
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
+              .bank !== this.state.cardDetails.emi_bank
+          ) {
+            this.setState({
+              emiBinValidationStatus: true,
+              emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+                binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
+                  .bank
+              } card only.`
+            });
+          }
+          // else if(binValidationOfEmiEligibleResponse && !binValidationOfEmiEligibleResponse.isEMIEligibleBin){
+          //   this.state.emiBinValidationErrorMessage=""
+          // }
+          else {
+            this.setState({
+              emiBinValidationStatus: false,
+              emiBinValidationErrorMessage: null
+            });
+            localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+            this.setState({ paymentModeSelected: paymentMode });
+            this.props.binValidation(paymentMode, binNo);
+          }
+        } else {
+          this.setState({
+            emiBinValidationErrorMessage: null,
+            emiBinValidationStatus: false
+          });
+          localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+          this.setState({ paymentModeSelected: paymentMode });
+          this.props.binValidation(paymentMode, binNo);
+        }
       } else {
         localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
         this.setState({ paymentModeSelected: paymentMode });
@@ -2694,7 +2747,14 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.currentPaymentMode === CREDIT_CARD ||
       this.state.currentPaymentMode === EMI
     ) {
-      return this.validateCard();
+      if (
+        this.state.currentPaymentMode === EMI &&
+        this.state.emiBinValidationStatus
+      ) {
+        return true;
+      } else {
+        return this.validateCard();
+      }
     }
   };
   validateDebitCard = () => {
@@ -3258,6 +3318,9 @@ if you have order id in local storage then you have to show order confirmation p
                           : this.handleSubmit
                       }
                       redeemCliqVoucher={val => this.redeemCliqVoucher(val)}
+                      emiBinValidationErrorMessage={
+                        this.state.emiBinValidationErrorMessage
+                      }
                     />
                   </div>
                 )}

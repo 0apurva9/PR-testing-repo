@@ -82,7 +82,10 @@ export default class CreditCardForm extends React.Component {
           ? this.props.cardDetails.yearValue
           : "",
       isCalledBinValidation: false,
-      invalidCard: false
+      invalidCard: false,
+      emiInvalidCardError: this.props.emiBinValidationErrorMessage
+        ? this.props.emiBinValidationErrorMessage
+        : ""
     };
   }
 
@@ -154,7 +157,8 @@ export default class CreditCardForm extends React.Component {
         ExpiryMonth: nextProps.cardDetails && nextProps.cardDetails.monthValue,
         ExpiryYear: nextProps.cardDetails && nextProps.cardDetails.yearValue,
         monthValue: nextProps.cardDetails && nextProps.cardDetails.monthValue,
-        yearValue: nextProps.cardDetails && nextProps.cardDetails.yearValue
+        yearValue: nextProps.cardDetails && nextProps.cardDetails.yearValue,
+        emiInvalidCardError: nextProps.emiBinValidationErrorMessage
       });
     }
   }
@@ -196,9 +200,15 @@ export default class CreditCardForm extends React.Component {
                 isCard={true}
                 onBlur={() => this.onBlurOfCardInput()}
               />
-              {this.state.invalidCard && (
+              {this.state.invalidCard &&
+                !this.state.emiInvalidCardError && (
+                  <span className={styles.invalidCardText}>
+                    Please enter a valid card number
+                  </span>
+                )}
+              {this.state.emiInvalidCardError && (
                 <span className={styles.invalidCardText}>
-                  Please enter a valid card number
+                  {this.state.emiInvalidCardError}
                 </span>
               )}
             </div>

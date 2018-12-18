@@ -184,6 +184,9 @@ export default class EmiAccordion extends React.Component {
               binValidation={binNo => this.binValidation(binNo)}
               displayToast={this.props.displayToast}
               onCheckout={this.props.onCheckout}
+              emiBinValidationErrorMessage={
+                this.props.emiBinValidationErrorMessage
+              }
             />
           </React.Fragment>
         )}
