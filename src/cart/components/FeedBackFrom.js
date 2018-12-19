@@ -23,13 +23,10 @@ export default class FeedBackForm extends React.Component {
     }
   }
   onclickQuestion = (rating, questionNumber) => {
-    console.log(this.questionRatingArray);
     if (this.questionRatingArray.length !== 0) {
       const indexOfQuestionRatingArray = this.questionRatingArray.findIndex(
         questionRatingArrayDetails => {
-          return (
-            questionRatingArrayDetails.questionRatingArray === questionNumber
-          );
+          return questionRatingArrayDetails.questionCode === questionNumber;
         }
       );
       if (indexOfQuestionRatingArray !== -1) {
