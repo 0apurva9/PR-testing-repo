@@ -2475,6 +2475,12 @@ if you have order id in local storage then you have to show order confirmation p
           binValidationOfEmiEligibleResponse &&
           binValidationOfEmiEligibleResponse.status === "success"
         ) {
+          let minAmountOfEmiEligible =
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
+              .minAmount;
+          let integerValueOfMinAmount =
+            minAmountOfEmiEligible && parseInt(minAmountOfEmiEligible, 10);
           if (
             binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
             binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
@@ -2499,11 +2505,33 @@ if you have order id in local storage then you have to show order confirmation p
                   .bank
               } card only.`
             });
-          }
-          // else if(binValidationOfEmiEligibleResponse && !binValidationOfEmiEligibleResponse.isEMIEligibleBin){
-          //   this.state.emiBinValidationErrorMessage=""
-          // }
-          else {
+          } else if (
+            this.props.cart &&
+            this.props.cart.cartDetailsCNC &&
+            this.props.cart.cartDetailsCNC.cartAmount &&
+            this.props.cart.cartDetailsCNC.cartAmount.paybleAmount &&
+            this.props.cart.cartDetailsCNC.cartAmount.paybleAmount
+              .doubleValue &&
+            integerValueOfMinAmount &&
+            integerValueOfMinAmount >
+              this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.doubleValue
+          ) {
+            this.setState({
+              emiBinValidationStatus: true,
+              emiBinValidationErrorMessage:
+                "This order amount doesn't meet the EMI eligibility criterion."
+            });
+          } else if (
+            this.state.payableAmount &&
+            integerValueOfMinAmount &&
+            integerValueOfMinAmount > this.state.payableAmount
+          ) {
+            this.setState({
+              emiBinValidationStatus: true,
+              emiBinValidationErrorMessage:
+                "This order amount doesn't meet the EMI eligibility criterion."
+            });
+          } else {
             this.setState({
               emiBinValidationStatus: false,
               emiBinValidationErrorMessage: null

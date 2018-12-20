@@ -206,11 +206,12 @@ export default class CreditCardForm extends React.Component {
                     Please enter a valid card number
                   </span>
                 )}
-              {this.state.emiInvalidCardError && (
-                <span className={styles.invalidCardText}>
-                  {this.state.emiInvalidCardError}
-                </span>
-              )}
+              {this.state.emiInvalidCardError &&
+                this.state.cardNumber.length > 6 && (
+                  <span className={styles.invalidCardText}>
+                    {this.state.emiInvalidCardError}
+                  </span>
+                )}
             </div>
           </div>
           <MobileOnly>
