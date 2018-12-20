@@ -48,6 +48,38 @@ class ProductListingsPage extends Component {
     if (!searchText) {
       searchText = parsedQueryString.text;
     }
+    if (this.props.match.path === SKU_PAGE) {
+      if (searchText) {
+        if (searchText.includes("relevance")) {
+          searchText = searchText.replace(
+            ":relevance",
+            `:relevance:collectionIds:${this.props.match.params.slug}`
+          );
+        } else if (
+          searchText.includes("price-asc") &&
+          !searchText.includes(
+            `:price-asc:collectionIds:${this.props.match.params.slug}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-asc",
+            `:price-asc:collectionIds:${this.props.match.params.slug}`
+          );
+        } else if (
+          searchText.includes("price-desc") &&
+          !searchText.includes(
+            `:price-desc:collectionIds:${this.props.match.params.slug}`
+          )
+        ) {
+          searchText = searchText.replace(
+            ":price-desc",
+            `:price-desc:collectionIds:${this.props.match.params.slug}`
+          );
+        }
+      } else {
+        searchText = `:relevance:collectionIds:${this.props.match.params.slug}`;
+      }
+    }
     if (
       this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
@@ -234,7 +266,7 @@ class ProductListingsPage extends Component {
       }
       if (this.props.match.path === SKU_PAGE) {
         const skuId = this.props.match.params.slug;
-        const searchText = `:relevance:collectionIds:${skuId}`;
+        const searchText = this.getSearchTextFromUrl();
         this.props.getProductListings(searchText, SKU_SUFFIX, 0);
         return;
       }
