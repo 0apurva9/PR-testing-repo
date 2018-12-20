@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./writeReview.css";
 import PropTypes from "prop-types";
-import Input from "../../general/components/Input2";
-import TextArea from "../../general/components/TextArea";
+import Input from "../../general/components/ControlInput";
+import TextArea from "../../general/components/ControlTextArea";
 import FillupRating from "./FillupRating";
 import Button from "../../general/components/Button";
 import {
@@ -35,21 +35,17 @@ class WriteReview extends React.Component {
     };
   }
   onChangeTitle(val) {
-    if (/\S/.test(val)) {
-      this.setState({ title: val });
-      if (this.props.onChangeTitle) {
-        this.props.onChangeTitle(val);
-      }
+    this.setState({ title: val });
+    if (this.props.onChangeTitle) {
+      this.props.onChangeTitle(val);
     }
   }
 
   onChangeComment(val) {
-    if (/\S/.test(val)) {
-      this.setState({ comment: val });
+    this.setState({ comment: val });
 
-      if (this.props.onChangeComment) {
-        this.props.onChangeComment(val);
-      }
+    if (this.props.onChangeComment) {
+      this.props.onChangeComment(val);
     }
   }
 
@@ -65,35 +61,40 @@ class WriteReview extends React.Component {
     }
   }
   onSubmit = async () => {
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (customerCookie) {
-      let getResponseOfAddReview = await this.props.onSubmit({
-        comment: this.state.comment,
-        rating: this.state.rating,
-        headline: this.state.title
-      });
-      if (getResponseOfAddReview) {
-        if (
-          this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
-          this.props.match.path === WRITE_REVIEWS
-        ) {
-          this.setState({
-            resetRating: true,
-            title: "",
-            comment: ""
-          });
-          if (this.state.resetRating === true) {
-            this.setState({ resetRating: false });
+    if (
+      /\s*[0-9a-zA-Z]+/.test(this.state.comment) &&
+      /\s*[0-9a-zA-Z]+/.test(this.state.title)
+    ) {
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      if (customerCookie) {
+        let getResponseOfAddReview = await this.props.onSubmit({
+          comment: this.state.comment,
+          rating: this.state.rating,
+          headline: this.state.title
+        });
+        if (getResponseOfAddReview) {
+          if (
+            this.props.match.path === WRITE_REVIEWS_WITH_SLUG ||
+            this.props.match.path === WRITE_REVIEWS
+          ) {
+            this.setState({
+              resetRating: true,
+              title: "",
+              comment: ""
+            });
+            if (this.state.resetRating === true) {
+              this.setState({ resetRating: false });
+            }
           }
+          let url = this.props.location.pathname;
+          url = url.replace("/write-review", "");
+          this.props.history.push(url);
         }
-        let url = this.props.location.pathname;
-        url = url.replace("/write-review", "");
-        this.props.history.push(url);
+      } else {
+        const url = this.props.location.pathname;
+        this.props.setUrlToRedirectToAfterAuth(url);
+        this.props.history.push(LOGIN_PATH);
       }
-    } else {
-      const url = this.props.location.pathname;
-      this.props.setUrlToRedirectToAfterAuth(url);
-      this.props.history.push(LOGIN_PATH);
     }
   };
   render() {
