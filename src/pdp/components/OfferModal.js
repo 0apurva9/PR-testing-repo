@@ -4,6 +4,12 @@ import PropTypes from "prop-types";
 import styles from "./OfferModal.css";
 export default class OfferModal extends React.Component {
   render() {
+    let getId =
+      this.props.secondaryPromotions &&
+      this.props.secondaryPromotions.isNoCostEmi;
+    let getMessage =
+      this.props.secondaryPromotions &&
+      this.props.secondaryPromotions.messageID;
     return (
       <SlideModal closeModal={this.props.closeModal}>
         <div className={styles.base}>
@@ -42,12 +48,24 @@ export default class OfferModal extends React.Component {
           {this.props.secondaryPromotions && (
             <div className={styles.content}>
               <div className={styles.border} />
-              <div
-                className={styles.headingText}
-                dangerouslySetInnerHTML={{
-                  __html: this.props.secondaryPromotions.messageID
-                }}
-              />
+              {getId === "false" && (
+                <div
+                  className={styles.headingText}
+                  dangerouslySetInnerHTML={{
+                    __html: this.props.secondaryPromotions.messageID
+                  }}
+                />
+              )}
+
+              {getId === "true" &&
+                !getMessage.includes("No Cost EMI") && (
+                  <div
+                    className={styles.headingText}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.secondaryPromotions.messageID
+                    }}
+                  />
+                )}
 
               {this.props.secondaryPromotions.messageDetails && (
                 <div className={styles.section}>

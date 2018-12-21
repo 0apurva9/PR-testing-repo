@@ -58,12 +58,15 @@
   .base {
     max-width: 1190px;
     margin: auto;
+    position: relative;
   }
   .productBackground {
     width: 20%;
     height: auto;
     display: inline-block;
     vertical-align: top;
+    position: sticky;
+    top: 60px;
   }
   .dropDownHolder {
     background: #ececec;

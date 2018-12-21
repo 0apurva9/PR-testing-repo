@@ -10,6 +10,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import CartItemForDesktop from "./CartItemForDesktop";
+import Button from "../../general/components/Button.js";
 import {
   SUCCESS,
   HOME_ROUTER,
@@ -151,6 +152,15 @@ class CartPage extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     this.props.setHeaderText(YOUR_BAG);
     if (prevProps.cart) {
+      if (
+        this.props.location.state &&
+        this.props.location.state.isClickOnAddToBag
+      ) {
+        window.scrollTo(
+          0,
+          document.body.scrollHeight - window.outerHeight - 100
+        );
+      }
       if (prevProps.cart.cartDetails !== this.props.cart.cartDetails) {
         let productServiceAvailability = filter(
           this.props.cart &&
@@ -418,7 +428,6 @@ class CartPage extends React.Component {
                   <span className={styles.bold}> Delivery Option.</span>
                 </div>
               )}
-
               <div
                 className={
                   !defaultPinCode
@@ -427,6 +436,7 @@ class CartPage extends React.Component {
                 }
               >
                 <div className={styles.inputAndButton}>
+                  <div className={styles.myBagTitle}>My Bag</div>
                   <TextWithUnderLine
                     onClick={() => this.changePinCode()}
                     buttonLabel="Change PIN code"
@@ -442,10 +452,8 @@ class CartPage extends React.Component {
               </div>
             </div>
           </div>
-
           <div clasName={styles.pageCenter}>
             <div className={styles.content}>
-              <div className={styles.emptyCardHeading}>My Bag</div>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
                 viewSavedProduct={() => this.goToWishList()}
@@ -582,6 +590,7 @@ class CartPage extends React.Component {
                   }
                 >
                   <div className={styles.inputAndButton}>
+                    <div className={styles.myBagTitle}>My Bag</div>
                     <TextWithUnderLine
                       onClick={() => this.changePinCode()}
                       buttonLabel="Change PIN code"
@@ -614,7 +623,10 @@ class CartPage extends React.Component {
           </MobileOnly>
           <div className={styles.pageCenter}>
             <DesktopOnly>
-              <div className={styles.cartHeading}>My Bag</div>
+              <div className={styles.offerText}>
+                <span>Bank Offer,</span> if applicable, can be selected on the
+                payment page
+              </div>
             </DesktopOnly>
             <div className={styles.content}>
               <div className={styles.desktopBuffer}>
@@ -713,6 +725,20 @@ class CartPage extends React.Component {
                     );
                   })}
               </div>
+              <DesktopOnly>
+                <div className={styles.continueButtonHolder}>
+                  <div className={styles.buttonContinueShopping}>
+                    <Button
+                      type="hollow"
+                      height={36}
+                      label="Continue Shopping"
+                      width={210}
+                      textStyle={{ color: "#212121", fontSize: 14 }}
+                      onClick={() => this.navigateToHome()}
+                    />
+                  </div>
+                </div>
+              </DesktopOnly>
               <MobileOnly>
                 {cartDetails.products && (
                   <SavedProduct
