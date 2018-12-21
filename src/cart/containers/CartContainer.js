@@ -85,7 +85,9 @@ const mapDispatchToProps = dispatch => {
       // here we are setting data layer for pincode change on cart page
       if (setDataLayerForPincode) {
         if (
+          cartDetailsObj &&
           cartDetailsObj.status === SUCCESS &&
+          productServiceAvailability &&
           productServiceAvailability.length === 0
         ) {
           setDataLayerForCartDirectCalls(
