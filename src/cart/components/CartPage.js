@@ -511,6 +511,13 @@ class CartPage extends React.Component {
     this.setState({ showCheckoutSection: true });
   }
   render() {
+    const getPinCode =
+      this.props &&
+      this.props.cart &&
+      this.props.cart.userAddress &&
+      this.props.cart.userAddress.addresses &&
+      this.props.cart.userAddress.addresses[0] &&
+      this.props.cart.userAddress.addresses[0].postalCode;
     const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const cartDetailsForAnonymous = Cookie.getCookie(
       CART_DETAILS_FOR_ANONYMOUS
@@ -585,6 +592,7 @@ class CartPage extends React.Component {
           <DesktopOnly>
             <div className={styles.changePinCodeHolder}>
               <div className={styles.checkHolder}>
+                <div className={styles.myBagTitle}>My Bag</div>
                 {!defaultPinCode && (
                   <div className={styles.dummyTextForPinCode}>
                     <span>Enter Pincode to check</span>
@@ -600,7 +608,6 @@ class CartPage extends React.Component {
                   }
                 >
                   <div className={styles.inputAndButton}>
-                    <div className={styles.myBagTitle}>My Bag</div>
                     <TextWithUnderLine
                       onClick={() => this.changePinCode()}
                       buttonLabel="Change PIN code"
@@ -611,6 +618,7 @@ class CartPage extends React.Component {
                       onBlur={() => this.onBlur()}
                       onKeyPress={e => this.onKeyPress()}
                       ovalButton={true}
+                      getPinCode={getPinCode}
                     />
                   </div>
                 </div>

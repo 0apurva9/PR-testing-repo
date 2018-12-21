@@ -12,7 +12,7 @@ export default class TextWithUnderLine extends React.Component {
     this.state = {
       borderColor: "#d2d2d2",
       borderBottom: "1px solid #d2d2d2",
-      getPinCode: ""
+      getPinCode: null
     };
   }
   onClick() {
@@ -43,6 +43,7 @@ export default class TextWithUnderLine extends React.Component {
       this.setState({ getPinCode: props.getPinCode });
     }
   }
+
   componentDidMount() {
     if (this.state.getPinCode !== this.props.getPinCode) {
       this.setState({ getPinCode: this.props.getPinCode });
@@ -77,18 +78,18 @@ export default class TextWithUnderLine extends React.Component {
     return (
       <div
         className={
-          defaultPinCode || this.state.getPinCode !== ""
+          defaultPinCode || this.state.getPinCode
             ? styles.base
             : styles.noOffset
         }
       >
-        {(defaultPinCode || this.state.getPinCode !== "") && (
+        {(defaultPinCode || this.state.getPinCode) && (
           <div className={styles.headingText}>
             {defaultPinCode ? defaultPinCode : this.state.getPinCode}
           </div>
         )}
         {!defaultPinCode &&
-          this.state.getPinCode === "" && (
+          !this.state.getPinCode && (
             <SearchAndUpdate
               id="searchAndUpdateInput"
               focused={true}
@@ -106,7 +107,7 @@ export default class TextWithUnderLine extends React.Component {
             />
           )}
 
-        {(defaultPinCode || this.state.getPinCode !== "") && (
+        {(defaultPinCode || this.state.getPinCode) && (
           <React.Fragment>
             <MobileOnly>
               <div className={styles.button}>
