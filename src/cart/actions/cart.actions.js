@@ -423,6 +423,14 @@ export const GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_SUCCESS =
   "GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_SUCCESS";
 export const GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_FAILURE =
   "GET_USER_ADDRESS_AND_DELIVERY_MODES_BY_RETRY_PAYMENT_FAILURE";
+
+export const BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST =
+  "BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST";
+export const BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE =
+  "BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE";
+export const BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS =
+  "BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -5011,6 +5019,63 @@ export function getUserAddressAndDeliveryModesByRetryPayment(guId) {
       return dispatch(
         getUserAddressAndDeliveryModesByRetryPaymentFailure(e.message)
       );
+    }
+  };
+}
+
+export function binValidationOfEmiEligibleRequest() {
+  return {
+    type: BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function binValidationOfEmiEligibleFailure(error) {
+  return {
+    type: BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+export function binValidationOfEmiEligibleSuccess(binValidationOfEmiEligible) {
+  return {
+    type: BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS,
+    status: SUCCESS,
+    binValidationOfEmiEligible
+  };
+}
+
+export function binValidationOfEmiEligible(binNo) {
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(binValidationOfEmiEligibleRequest());
+    try {
+      const params = {
+        access_token: JSON.parse(customerCookie).access_token,
+        bin: binNo
+      };
+      let cardObject = Object.keys(params)
+        .map(key => {
+          return (
+            encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
+          );
+        })
+        .join("&");
+      const result = await api.corePostByUrlEncoded(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/emiEligibleBin`,
+        cardObject
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(binValidationOfEmiEligibleSuccess(resultJson));
+    } catch (e) {
+      return dispatch(binValidationOfEmiEligibleFailure(e.message));
     }
   };
 }

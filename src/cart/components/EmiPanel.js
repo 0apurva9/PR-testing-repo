@@ -184,6 +184,9 @@ export default class EmiPanel extends React.Component {
                     changeEmiPlan={() => this.changeEmiPlan()}
                     onCheckout={this.props.onCheckout}
                     creditCardValid={this.props.creditCardValid}
+                    emiBinValidationErrorMessage={
+                      this.props.emiBinValidationErrorMessage
+                    }
                   />
                 </NoCostEmi>
               </div>
@@ -208,6 +211,9 @@ export default class EmiPanel extends React.Component {
                 changeEmiPlan={() => this.changeEmiPlan()}
                 onCheckout={this.props.onCheckout}
                 creditCardValid={this.props.creditCardValid}
+                emiBinValidationErrorMessage={
+                  this.props.emiBinValidationErrorMessage
+                }
               />
             </NoCostEmi>
           </div>
