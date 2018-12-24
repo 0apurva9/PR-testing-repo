@@ -252,7 +252,6 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={firstName => this.onChange({ firstName })}
-                          onlyAlphabet={true}
                         />
                       </div>
                     </div>
@@ -269,7 +268,6 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={lastName => this.onChange({ lastName })}
-                          onlyAlphabet={true}
                         />
                       </div>
                     </div>
@@ -297,7 +295,6 @@ export default class EditAccountDetails extends React.Component {
                             this.onChangeMobileNumber(mobileNumber)
                           }
                           disabled={false}
-                          onlyNumber={true}
                         />
                       </div>
                     </div>
@@ -373,7 +370,6 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={firstName => this.onChange({ firstName })}
-                          onlyAlphabet={true}
                           maxLength={20}
                         />
                       </div>
@@ -393,7 +389,6 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={lastName => this.onChange({ lastName })}
-                          onlyAlphabet={true}
                           maxLength={20}
                         />
                       </div>
@@ -426,7 +421,6 @@ export default class EditAccountDetails extends React.Component {
                             this.onChangeMobileNumber(mobileNumber)
                           }
                           disabled={false}
-                          onlyNumber={true}
                         />
                       </div>
                     </div>
