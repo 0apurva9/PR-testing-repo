@@ -1,7 +1,7 @@
 import React from "react";
 import FilterSelect from "./FilterSelect";
 import styles from "./PriceFilterTabDesktop.css";
-import Input2 from "../../general/components/Input2";
+import ControlInput from "../../general/components/ControlInput";
 import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import ApplyPriceFilterIcon from "./img/arrow.svg";
@@ -135,7 +135,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           <span className={styles.priceRangeLabel}>Price Range</span>
           <div className={styles.inputWrapper}>
             <div className={styles.inputBox}>
-              <Input2
+              <ControlInput
                 height={33}
                 placeholder={MIN_PRICE}
                 onlyNumber
@@ -145,7 +145,7 @@ export default class PriceFilterTabDesktop extends React.Component {
               />
             </div>
             <div className={styles.inputBox}>
-              <Input2
+              <ControlInput
                 height={33}
                 placeholder={MAX_PRICE}
                 onlyNumber
