@@ -153,9 +153,9 @@ export default class UserSavedCard extends React.Component {
             <DesktopOnly>
               <div className={myAccountStyles.userProfile}>
                 <UserProfile
-                  image={userData.imageUrl}
-                  userLogin={userData.userName}
-                  loginType={userData.loginType}
+                  image={userData && userData.imageUrl}
+                  userLogin={userData && userData.userName}
+                  loginType={userData && userData.loginType}
                   onClick={() => this.renderToAccountSetting()}
                   firstName={
                     userData &&
