@@ -286,7 +286,7 @@ export default class Plp extends React.Component {
   };
   onClickCancelIcon(val, filterName) {
     let url = "";
-    url = val.replace("page-{pageNo}", "");
+    url = val.replace("page-{pageNo}", "page-1");
     url = url.replace("/search/", "");
 
     filterName = filterName.replace("&", " and ");
@@ -518,7 +518,8 @@ export default class Plp extends React.Component {
                           this.props.productListings.currentQuery.searchQuery.replace(
                             "%22",
                             '"'
-                          )}"
+                          )}
+                      "
                     </span>
                   </div>
                 </div>
@@ -702,8 +703,9 @@ export default class Plp extends React.Component {
             </MediaQuery>
           </div>
         )}
-        {!this.props.productListings &&
-          !this.props.productListings && <div className={styles.dummyHolder} />}
+        {!this.props.productListings && !this.props.productListings && (
+          <div className={styles.dummyHolder} />
+        )}
       </React.Fragment>
     );
   }
