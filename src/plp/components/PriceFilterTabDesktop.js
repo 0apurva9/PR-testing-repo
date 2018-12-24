@@ -59,7 +59,6 @@ export default class PriceFilterTabDesktop extends React.Component {
             );
         }
       }
-      console.log("**********", currentAppliedFilters);
       this.props.history.push({
         pathname: this.props.history.location.pathname,
         search: `q=${encodeURIComponent(currentAppliedFilters)}`
@@ -71,7 +70,7 @@ export default class PriceFilterTabDesktop extends React.Component {
     currentAppliedFilters = decodeURIComponent(
       this.props.history.location.search
     );
-    console.log(currentAppliedFilters);
+
     if (currentAppliedFilters) {
       if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
         currentAppliedFilters = currentAppliedFilters
@@ -96,7 +95,6 @@ export default class PriceFilterTabDesktop extends React.Component {
     }
   };
   onFilterClick = (data, filterType, filterValue) => {
-    console.log(data, filterType, filterValue);
     if (this.props.onFilterClick) {
       this.props.onFilterClick(data, filterType, filterValue);
     }
