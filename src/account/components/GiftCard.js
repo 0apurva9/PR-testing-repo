@@ -3,6 +3,7 @@ import styles from "./GiftCard.css";
 import Image from "../../xelpmoc-core/Image.js";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput";
 import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
 import MediaQuery from "react-responsive";
@@ -59,7 +60,16 @@ export default class GiftCard extends React.Component {
       this.props.clearGiftCardStatus();
     }
   }
-
+  onChangeSenderName(name) {
+    if (name === "" || /^[a-zA-Z]+$/.test(name)) {
+      this.setState({ senderName: name });
+    }
+  }
+  onChangeAmount(amount) {
+    if (amount === "" || /^[0-9]+$/.test(amount)) {
+      this.setState({ amountText: amount });
+    }
+  }
   selectAmount(val, amount) {
     this.setState({ amountText: amount });
   }
@@ -238,7 +248,7 @@ export default class GiftCard extends React.Component {
                   {this.state.amountText !== "" && (
                     <div className={styles.rupyLabel} />
                   )}
-                  <Input2
+                  <ControlInput
                     boxy={true}
                     placeholder="Enter custom amount"
                     value={
@@ -246,10 +256,7 @@ export default class GiftCard extends React.Component {
                         ? this.props.amountText
                         : this.state.amountText
                     }
-                    onChange={amountText =>
-                      this.setState({ amountText: amountText })
-                    }
-                    onlyNumber={true}
+                    onChange={amountText => this.onChangeAmount(amountText)}
                     textStyle={{ fontSize: 14 }}
                     height={33}
                     leftChildSize={this.state.amountText !== "" ? 33 : 10}
@@ -266,7 +273,7 @@ export default class GiftCard extends React.Component {
               <div className={styles.inputHolder}>
                 <div className={styles.labelHeader}>To</div>
                 <div className={styles.inputTextHolder}>
-                  <Input2
+                  <ControlInput
                     boxy={true}
                     placeholder="Enter recipient e-mail address"
                     value={
@@ -281,7 +288,7 @@ export default class GiftCard extends React.Component {
               <div className={styles.amountHolder}>
                 <div className={styles.labelHeader}>From</div>
                 <div className={styles.inputTextHolder}>
-                  <Input2
+                  <ControlInput
                     boxy={true}
                     placeholder="Sender Name"
                     value={
@@ -289,10 +296,9 @@ export default class GiftCard extends React.Component {
                         ? this.props.senderName
                         : this.state.senderName
                     }
-                    onChange={senderName => this.setState({ senderName })}
+                    onChange={senderName => this.onChangeSenderName(senderName)}
                     textStyle={{ fontSize: 14 }}
                     height={33}
-                    onlyAlphabet={true}
                   />
                 </div>
               </div>
