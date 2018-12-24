@@ -287,8 +287,6 @@ export default class Plp extends React.Component {
   onClickCancelIcon(val, filterName) {
     let url = "";
     url = val.replace("page-{pageNo}", "page-1");
-    url = url.replace("/search/", "");
-
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
 
@@ -300,7 +298,13 @@ export default class Plp extends React.Component {
       parsingurl = url.split("?");
       url = parsingurl[0];
     }
-    url = this.props.location.pathname + url;
+    if (url.match("/search/")) {
+      url = url.replace("/search", "");
+      url = this.props.location.pathname + url;
+    } else {
+      url = url;
+    }
+
     if (filterName.includes("Exclude out of stock")) {
       this.props.userSelectedOutOfStock(true);
     }
