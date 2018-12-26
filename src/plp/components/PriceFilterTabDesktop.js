@@ -42,7 +42,7 @@ export default class PriceFilterTabDesktop extends React.Component {
         if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
           currentAppliedFilters = currentAppliedFilters
             .substring(3)
-            .replace(PRICE_FILTER_REG_EX, `price:${minRange}-${maxRange}`);
+            .replace(PRICE_FILTER_REG_EX, `:price:${minRange}-${maxRange}`);
         } else {
           currentAppliedFilters = `${currentAppliedFilters.substring(
             3
