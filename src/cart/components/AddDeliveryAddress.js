@@ -503,7 +503,7 @@ export default class AddDeliveryAddress extends React.Component {
                     <div className={styles.content}>
                       <div className={styles.FirstNameWrapper}>
                         <div className={styles.firstNameHolder}>
-                          <Input2
+                          <ControlInput
                             option={this.state.options}
                             placeholder="First Name*"
                             value={
@@ -514,16 +514,16 @@ export default class AddDeliveryAddress extends React.Component {
                             onChange={firstName => this.onChange({ firstName })}
                             textStyle={{ fontSize: 14 }}
                             height={33}
+                            maxLength={30}
                             onFocus={() => {
                               this.handleOnFocusInput();
                             }}
-                            onlyAlphabet={true}
                           />
                         </div>
                       </div>
                       <div className={styles.lastNameWrapper}>
                         <div className={styles.lastNameHolder}>
-                          <Input2
+                          <ControlInput
                             boxy={true}
                             placeholder="Last Name*"
                             value={
@@ -538,10 +538,10 @@ export default class AddDeliveryAddress extends React.Component {
                             }
                             textStyle={{ fontSize: 14 }}
                             height={33}
+                            maxLength={30}
                             onFocus={() => {
                               this.handleOnFocusInput();
                             }}
-                            onlyAlphabet={true}
                           />
                         </div>
                       </div>
@@ -571,7 +571,7 @@ export default class AddDeliveryAddress extends React.Component {
                     <div className={styles.content}>
                       <DesktopOnly>
                         <div className={styles.leftFirst}>
-                          <Input2
+                          <ControlInput
                             boxy={true}
                             placeholder="City/district*"
                             value={
@@ -588,7 +588,7 @@ export default class AddDeliveryAddress extends React.Component {
                           />
                         </div>
                         <div className={styles.leftSecond}>
-                          <Input2
+                          <ControlInput
                             placeholder="State*"
                             value={
                               this.props.state && this.props.state !== ""
@@ -799,8 +799,7 @@ export default class AddDeliveryAddress extends React.Component {
                   </MobileOnly>
                   <DesktopOnly>
                     <div className={styles.content}>
-                      <Input2
-                        onlyNumber={true}
+                      <ControlInput
                         placeholder="Phone number*"
                         value={
                           this.props.phone ? this.props.phone : this.state.phone
