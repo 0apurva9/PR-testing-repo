@@ -90,9 +90,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
 
         const test = SEARCH_TEXT_BEFORE_CATEGORY.exec(query);
         const brand = BRAND_URL_REGEX.exec(query);
-        url = `/${modifiedCode}/?q=${test[1]}:category:${val}:brand:${
-          brand[1]
-        }`;
+        url = `/${modifiedCode}/?q=${query}`;
       } else {
         // Now we don't have a category or brand, but we have some q value.
         // As we had the earlier if, we know that there is a sort here, but we don't know if there is a text.
@@ -108,7 +106,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
     }
   } else {
     if (CATEGORY_REGEX.test(pathName)) {
-      url = `/search/?q=:category:${val}`;
+      url = `${val}`;
     } else if (BRAND_REGEX.test(pathName)) {
       let brandId = BRAND_CAPTURE_REGEX.exec(pathName)[0];
       brandId = brandId.replace(BRAND_CATEGORY_PREFIX, "");
