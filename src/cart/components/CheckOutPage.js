@@ -282,7 +282,9 @@ class CheckOutPage extends React.Component {
       noCostEmiDiscount: "0.00",
       isNoCostEmiProceeded: false,
       paymentModeSelected: null,
-      binValidationCOD: false
+      binValidationCOD: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     });
   };
   navigateToJusPayOnGET(url) {
