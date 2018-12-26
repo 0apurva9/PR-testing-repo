@@ -5,7 +5,9 @@ import ControlInput from "../../general/components/ControlInput";
 import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import ApplyPriceFilterIcon from "./img/arrow.svg";
-const PRICE_FILTER_REG_EX = /(price:[,₹0-9]+-[,₹0-9]+)/;
+const PRICE_FILTER_REG_EX = /(:price:[,₹0-9]+-[,₹0-9]+)/g;
+const ABOVE_PRICE_FILTER_REGEX = /(:price:[,₹0-9]+\+and\+Above)/g;
+const LAST_PRICE_LIMIT_REGEX = /(:price:[,₹0-9]+\+-[,₹0-9]+)/g;
 const MAX_PRICE = "Max Price";
 const MIN_PRICE = "Min Price";
 const PRICE_TAG = "price%3A";
@@ -57,7 +59,6 @@ export default class PriceFilterTabDesktop extends React.Component {
             );
         }
       }
-
       this.props.history.push({
         pathname: this.props.history.location.pathname,
         search: `q=${encodeURIComponent(currentAppliedFilters)}`
@@ -75,6 +76,17 @@ export default class PriceFilterTabDesktop extends React.Component {
         currentAppliedFilters = currentAppliedFilters
           .substring(3)
           .replace(PRICE_FILTER_REG_EX, "");
+      }
+
+      if (ABOVE_PRICE_FILTER_REGEX.test(currentAppliedFilters)) {
+        currentAppliedFilters = currentAppliedFilters
+          .substring(3)
+          .replace(ABOVE_PRICE_FILTER_REGEX, "");
+      }
+      if (LAST_PRICE_LIMIT_REGEX.test(currentAppliedFilters)) {
+        currentAppliedFilters = currentAppliedFilters
+          .substring(3)
+          .replace(LAST_PRICE_LIMIT_REGEX, "");
       }
       this.props.history.push({
         pathname: this.props.history.location.pathname,

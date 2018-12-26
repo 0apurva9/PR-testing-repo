@@ -254,7 +254,7 @@ export default class FilterDesktop extends React.Component {
                               name={val.categoryName}
                               count={val.quantity}
                               value={val.categoryCode}
-                              onClick={this.onL1Click}
+                              onL1Click={this.onL1Click}
                               isOpen={val.selected}
                             >
                               <FilterCategory
@@ -382,25 +382,22 @@ export default class FilterDesktop extends React.Component {
                                 )}
                             </DesktopOnly>
                           </div>
-                          {facetDataValues &&
-                            facetDataValues.name === PRICE && (
-                              <div className={styles.filterPriceHolder}>
-                                {facetDataValues.values && (
-                                  <div>
-                                    <PriceFilterTabDesktop
-                                      rangeApplied={
-                                        facetDataValues.rangeApplied
-                                      }
-                                      typeOfFilter={facetDataValues.name}
-                                      priceList={facetDataValues.values}
-                                      customRange={facetDataValues.customeRange}
-                                      history={this.props.history}
-                                      onFilterClick={this.onFilterClick}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                          {facetDataValues && facetDataValues.name === PRICE && (
+                            <div className={styles.filterPriceHolder}>
+                              {facetDataValues.values && (
+                                <div>
+                                  <PriceFilterTabDesktop
+                                    rangeApplied={facetDataValues.rangeApplied}
+                                    typeOfFilter={facetDataValues.name}
+                                    priceList={facetDataValues.values}
+                                    customRange={facetDataValues.customeRange}
+                                    history={this.props.history}
+                                    onFilterClick={this.onFilterClick}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          )}
                           {facetDataValues &&
                             facetDataValues.name !== COLOUR &&
                             facetDataValues.name !== BRAND &&
