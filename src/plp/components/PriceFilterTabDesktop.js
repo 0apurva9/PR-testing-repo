@@ -28,21 +28,27 @@ export default class PriceFilterTabDesktop extends React.Component {
       this.state.maxRange &&
       parseInt(this.state.minRange, 10) < parseInt(this.state.maxRange, 10)
     ) {
-      let currentAppliedFilters = decodeURIComponent(
-        this.props.history.location.search
-      );
+      let minRange =
+        "₹" +
+        this.state.minRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      let maxRange =
+        "₹" +
+        this.state.maxRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      let currentAppliedFilters = "   :relevance";
+      if (/q=/.test(this.props.history.location.search)) {
+        currentAppliedFilters = decodeURIComponent(
+          this.props.history.location.search
+        );
+      }
       if (currentAppliedFilters) {
         if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
           currentAppliedFilters = currentAppliedFilters
             .substring(3)
-            .replace(
-              PRICE_FILTER_REG_EX,
-              `price:${this.state.minRange}-${this.state.maxRange}`
-            );
+            .replace(PRICE_FILTER_REG_EX, `price:${minRange}-${maxRange}`);
         } else {
           currentAppliedFilters = `${currentAppliedFilters.substring(
             3
-          )}:price:${this.state.minRange}-${this.state.maxRange}`;
+          )}:price:${minRange}-${maxRange}`;
         }
       } else {
         if (this.props.priceList[0] && this.props.priceList[0].url) {
@@ -53,10 +59,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           );
           currentAppliedFilters = newSearchUrl
             .substring(3)
-            .replace(
-              PRICE_FILTER_REG_EX,
-              `price:${this.state.minRange}-${this.state.maxRange}`
-            );
+            .replace(PRICE_FILTER_REG_EX, `price:${minRange}-${maxRange}`);
         }
       }
       this.props.history.push({
@@ -182,7 +185,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                     : "#d8d8d8"
                 }
                 size={33}
-                onClick={() => this.pricefilter()}
+                onClick={() => this.applyPriceManually()}
               />
             </div>
           </div>
