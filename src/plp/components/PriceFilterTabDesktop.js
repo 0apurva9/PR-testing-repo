@@ -100,14 +100,8 @@ export default class PriceFilterTabDesktop extends React.Component {
     return url;
   };
   pricefilter = () => {
-    let minRange =
-      "₹" +
-      this.state.minRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    let maxRange =
-      "₹" +
-      this.state.maxRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     let url = this.geturl();
-    url = url + `${PRICE_TAG}${minRange}-${maxRange}`;
+    url = url + `${PRICE_TAG}${this.state.minRange}-${this.state.maxRange}`;
     if (this.props.onFilterClick) {
       this.props.onFilterClick(url);
     }

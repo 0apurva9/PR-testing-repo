@@ -165,6 +165,7 @@ export default class FilterDesktop extends React.Component {
     if (filterType === "Availability") {
       this.props.userSelectedOutOfStock(filterSelected);
     }
+
     this.props.history.push(url, {
       isFilter: false,
       componentName: "isFilterTrue"
