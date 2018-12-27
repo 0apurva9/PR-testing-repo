@@ -87,10 +87,12 @@ export default class PriceFilterTabDesktop extends React.Component {
           .replace(ABOVE_PRICE_FILTER_REGEX, "");
       }
       if (LAST_PRICE_LIMIT_REGEX.test(currentAppliedFilters)) {
-        currentAppliedFilters = currentAppliedFilters
-          .substring(3)
-          .replace(LAST_PRICE_LIMIT_REGEX, "");
+        currentAppliedFilters = currentAppliedFilters.replace(
+          LAST_PRICE_LIMIT_REGEX,
+          ""
+        );
       }
+      console.log(currentAppliedFilters);
       this.props.history.push({
         pathname: this.props.history.location.pathname,
         search: `q=${encodeURIComponent(currentAppliedFilters)}`
