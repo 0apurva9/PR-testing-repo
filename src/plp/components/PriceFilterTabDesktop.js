@@ -82,15 +82,18 @@ export default class PriceFilterTabDesktop extends React.Component {
       }
 
       if (ABOVE_PRICE_FILTER_REGEX.test(currentAppliedFilters)) {
-        currentAppliedFilters = currentAppliedFilters
-          .substring(3)
-          .replace(ABOVE_PRICE_FILTER_REGEX, "");
+        currentAppliedFilters = currentAppliedFilters.replace(
+          ABOVE_PRICE_FILTER_REGEX,
+          ""
+        );
+        currentAppliedFilters = currentAppliedFilters.replace("?q=", "");
       }
       if (LAST_PRICE_LIMIT_REGEX.test(currentAppliedFilters)) {
         currentAppliedFilters = currentAppliedFilters.replace(
           LAST_PRICE_LIMIT_REGEX,
           ""
         );
+        currentAppliedFilters = currentAppliedFilters.replace("?q=", "");
       }
       this.props.history.push({
         pathname: this.props.history.location.pathname,
