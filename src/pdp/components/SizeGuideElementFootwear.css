@@ -1,10 +1,9 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
 }
 .display {
-  width: 25%;
   height: auto;
   display: inline-block;
   margin: auto;
@@ -12,14 +11,13 @@
   vertical-align: top;
   padding: 10px;
   min-height: 300px;
+  background-color: #ffffff;
 }
-.grey {
-  composes: display;
+.display:nth-child(even) {
   background-color: #f8f8f8;
 }
-.white {
-  composes: display;
-  background-color: #ffffff;
+.display:nth-child(even) .header {
+  background-color: #f8f8f8;
 }
 .header {
   width: 100%;
@@ -30,6 +28,7 @@
   font-family: semibold;
   font-size: 14px;
 }
+
 .dimensionValue {
   width: 100%;
   height: auto;
@@ -49,18 +48,11 @@
   padding-top: 20px;
 }
 @media screen and (min-width: 1025px) {
-  .grey .header {
-    background-color: #f8f8f8;
-    width: 100%;
-  }
-  .white .header {
-    background-color: #ffffff;
-    width: 100%;
-  }
   .header {
     position: sticky;
     top: 60px;
     padding-top: 21px;
     padding-bottom: 50px;
+    background-color: #ffffff;
   }
 }
