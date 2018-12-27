@@ -91,6 +91,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           LAST_PRICE_LIMIT_REGEX,
           ""
         );
+        currentAppliedFilters = currentAppliedFilters.replace("?q=", "");
       }
       this.props.history.push({
         pathname: this.props.history.location.pathname,
