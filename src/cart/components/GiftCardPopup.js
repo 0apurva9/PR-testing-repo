@@ -3,7 +3,7 @@ import styles from "./GiftCardPopup.css";
 import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button.js";
-import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput";
 import giftImageURL from "../../general/components/img/Gift.svg";
 import MDSpinner from "../../general/components/Loader";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -63,7 +63,7 @@ export default class GiftCardPopup extends React.Component {
 
         <div className={styles.content}>
           <div className={styles.inputHolder}>
-            <Input2
+            <ControlInput
               boxy={true}
               placeholder="Voucher number"
               value={
@@ -78,7 +78,7 @@ export default class GiftCardPopup extends React.Component {
           </div>
 
           <div className={styles.inputHolder}>
-            <Input2
+            <ControlInput
               boxy={true}
               placeholder="Voucher pin"
               value={
