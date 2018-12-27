@@ -4,7 +4,6 @@ import propTypes from "prop-types";
 export default class SizeGuideElement extends React.Component {
   render() {
     const data = this.props.data;
-
     return (
       <div className={styles.base}>
         {data[0].age && (
@@ -19,7 +18,6 @@ export default class SizeGuideElement extends React.Component {
             </div>
           </div>
         )}
-
         <div className={styles.display}>
           <div className={styles.header}>IND/UK</div>
           <div className={styles.dimensionValue}>
@@ -43,7 +41,6 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-
         <div className={styles.display}>
           <div className={styles.header}>EURO</div>
           <div className={styles.dimensionValue}>
@@ -56,7 +53,6 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-
         <div className={styles.display}>
           <div className={styles.header}>FOOT LENGTH (CM)</div>
           <div className={styles.dimensionValue}>
