@@ -4,9 +4,23 @@ import propTypes from "prop-types";
 export default class SizeGuideElement extends React.Component {
   render() {
     const data = this.props.data;
+    const display = data[0].age ? styles.kidsdisplay : styles.display;
     return (
       <div className={styles.base}>
-        <div className={styles.grey}>
+        {data[0].age && (
+          <div className={display}>
+            <div className={styles.header}>AGE</div>
+            <div className={styles.dimensionValue}>
+              {data.map((datum, i) => {
+                return (
+                  <div className={styles.dimensionValueList}>{datum.age}</div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className={display}>
           <div className={styles.header}>IND/UK</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
@@ -18,7 +32,8 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-        <div className={styles.white}>
+
+        <div className={display}>
           <div className={styles.header}>US</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
@@ -28,7 +43,8 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-        <div className={styles.grey}>
+
+        <div className={display}>
           <div className={styles.header}>EURO</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
@@ -40,7 +56,8 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-        <div className={styles.white}>
+
+        <div className={display}>
           <div className={styles.header}>FOOT LENGTH (CM)</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
