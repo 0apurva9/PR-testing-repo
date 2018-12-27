@@ -92,7 +92,6 @@ export default class PriceFilterTabDesktop extends React.Component {
           ""
         );
       }
-      console.log(currentAppliedFilters);
       this.props.history.push({
         pathname: this.props.history.location.pathname,
         search: `q=${encodeURIComponent(currentAppliedFilters)}`
