@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 var url = require("url");
 
-//app.enable('trust proxy');
+app.enable("trust proxy");
 app.use(function(req, res, next) {
   if (req.headers.host === "e2e.tataunistore.com") {
     var ua = req.headers["user-agent"].toLowerCase(),
