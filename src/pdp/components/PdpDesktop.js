@@ -412,9 +412,9 @@ export default class PdpApparel extends React.Component {
       this.checkIfNoSize() ||
       this.checkIfOneSize()
     ) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   };
   isSizeNotSelectedForAddToWishlist = () => {

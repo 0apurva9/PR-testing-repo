@@ -249,6 +249,17 @@ export default class PdpApparel extends React.Component {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
   }
+  isSizeSelectedForAddToWishlist = () => {
+    if (this.checkIfSizeSelected()) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  isSizeNotSelectedForAddToWishlist = () => {
+    this.props.displayToast("Please select a size to continue");
+    this.setState({ sizeError: true });
+  };
   checkIfSizeSelected = () => {
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
@@ -391,6 +402,8 @@ export default class PdpApparel extends React.Component {
                 winningUssID={productData.winningUssID}
                 type={WISHLIST_FOOTER_BUTTON_TYPE}
                 setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
+                isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
               />
             </div>
             <OfferCard
