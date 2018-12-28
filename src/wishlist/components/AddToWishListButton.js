@@ -42,7 +42,7 @@ export default class AddToWishListButton extends React.Component {
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)
       );
-      if (this.props.isSizeSelectedForAddToWishlist) {
+      if (!this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
         const url = this.props.location.pathname;
@@ -62,7 +62,7 @@ export default class AddToWishListButton extends React.Component {
           item.productcode === productListingId || item.USSID === winningUssID
         );
       });
-      if (this.props.isSizeSelectedForAddToWishlist) {
+      if (!this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
         if (indexOfProduct < 0) {
