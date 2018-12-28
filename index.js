@@ -17,7 +17,11 @@ app.use(function(req, res, next) {
   if (isMobile) {
     res.redirect("https://m-e2e.tataunistore.com" + req.url);
   } else {
-    res.redirect("https://" + req.headers.host + req.url);
+    if (req.secure) {
+      next();
+    } else {
+      res.redirect("https://" + req.headers.host + req.url);
+    }
   }
   //}
 });
