@@ -404,6 +404,24 @@ export default class PdpApparel extends React.Component {
       });
     }
   };
+  isSizeSelectedForAddToWishlist = () => {
+    if (
+      this.checkIfSizeSelected() ||
+      this.checkIfSizeDoesNotExist() ||
+      this.checkIfFreeSize() ||
+      this.checkIfNoSize() ||
+      this.checkIfOneSize()
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  isSizeNotSelectedForAddToWishlist = () => {
+    this.props.displayToast("Please select a size to continue");
+    this.setState({ isLoader: false });
+    this.setState({ sizeError: true });
+  };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
       this.props.showPriceBreakup(
@@ -647,6 +665,10 @@ export default class PdpApparel extends React.Component {
                         winningUssID={productData.winningUssID}
                         setDataLayerType={
                           SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                        }
+                        isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                        showSizeSelector={
+                          this.isSizeNotSelectedForAddToWishlist
                         }
                       />
                     </div>
