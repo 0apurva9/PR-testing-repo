@@ -20,9 +20,9 @@ export default class PdpFlags extends React.Component {
     } else if (this.props.isOfferExisting == "Y") {
       return <div className={styles.offer}>On offer</div>;
     } else if (this.props.onlineExclusive == "Y") {
-      return <div className={styles.base}>New</div>;
+      return <div className={styles.new}>New</div>;
     } else if (this.props.newProduct == "Y") {
-      return <div className={styles.base}>New</div>;
+      return <div className={styles.new}>New</div>;
     } else {
       return null;
     }
