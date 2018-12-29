@@ -9,7 +9,7 @@ export default class ProductFlags extends React.Component {
       return (
         <div className={styles.overlay}>
           <div
-            className={styles.base}
+            className={this.props.notPlp ? styles.flag : styles.base}
             style={{ backgroundImage: `url(${newFlag})` }}
           >
             Out of Stock
@@ -22,34 +22,34 @@ export default class ProductFlags extends React.Component {
     ) {
       return (
         <div
-          className={styles.base}
+          className={this.props.notPlp ? styles.flag : styles.base}
           style={{ backgroundImage: `url(${offerFlag})` }}
         >
           {parseInt(this.props.discountPercent, 10)}% off{" "}
         </div>
       );
-    } else if (this.props.isOfferExisting) {
+    } else if (this.props.isOfferExisting == "Y") {
       return (
         <div
-          className={styles.base}
+          className={this.props.notPlp ? styles.flag : styles.base}
           style={{ backgroundImage: `url(${offerFlag})` }}
         >
           On offer
         </div>
       );
-    } else if (this.props.onlineExclusive) {
+    } else if (this.props.onlineExclusive == "Y") {
       return (
         <div
-          className={styles.base}
+          className={this.props.notPlp ? styles.flag : styles.base}
           style={{ backgroundImage: `url(${exclusiveFlag})` }}
         >
           New
         </div>
       );
-    } else if (this.props.newProduct) {
+    } else if (this.props.newProduct == "Y") {
       return (
         <div
-          className={styles.base}
+          className={this.props.notPlp ? styles.flag : styles.base}
           style={{ backgroundImage: `url(${newFlag})` }}
         >
           New
@@ -60,6 +60,7 @@ export default class ProductFlags extends React.Component {
     }
   };
   render() {
+    console.log(this.props);
     return <React.Fragment>{this.renderFlag()}</React.Fragment>;
   }
 }

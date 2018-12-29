@@ -55,6 +55,7 @@ import {
 } from "../../lib/constants";
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import PdpFlags from "../components/PdpFlags.js";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -588,6 +589,9 @@ export default class PdpApparel extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
+      {
+        console.log(productData);
+      }
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -605,12 +609,18 @@ export default class PdpApparel extends React.Component {
                   alt={`${productData.productName}-${productData.brandName}-${
                     productData.rootCategory
                   }-TATA CLIQ`}
+                  onlineExclusive={productData.isOnlineExclusive}
                 />
-                {(productData.allOOStock ||
-                  (productData.winningSellerAvailableStock === "0" &&
-                    this.checkIfSizeSelected())) && (
-                  <div className={styles.flag}>Out of stock</div>
+                {productData.winningSellerPrice && (
+                  <PdpFlags
+                    discountPercent={productData.discount}
+                    isOfferExisting={productData.isOfferExisting}
+                    onlineExclusive={productData.isOnlineExclusive}
+                    outOfStock={productData.allOOStock}
+                    newProduct={productData.isProductNew}
+                  />
                 )}
+
                 {!productData.winningSellerPrice && (
                   <div className={styles.flag}>Not Saleable</div>
                 )}
