@@ -55,6 +55,7 @@ import {
 } from "../../lib/constants";
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import PdpFlags from "../components/PdpFlags.js";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -606,11 +607,16 @@ export default class PdpApparel extends React.Component {
                     productData.rootCategory
                   }-TATA CLIQ`}
                 />
-                {(productData.allOOStock ||
-                  (productData.winningSellerAvailableStock === "0" &&
-                    this.checkIfSizeSelected())) && (
-                  <div className={styles.flag}>Out of stock</div>
+                {productData.winningSellerPrice && (
+                  <PdpFlags
+                    discountPercent={productData.discount}
+                    isOfferExisting={productData.isOfferExisting}
+                    onlineExclusive={productData.isOnlineExclusive}
+                    outOfStock={productData.allOOStock}
+                    newProduct={productData.isProductNew}
+                  />
                 )}
+
                 {!productData.winningSellerPrice && (
                   <div className={styles.flag}>Not Saleable</div>
                 )}

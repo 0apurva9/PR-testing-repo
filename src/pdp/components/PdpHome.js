@@ -7,6 +7,7 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Accordion from "../../general/components/Accordion.js";
 import * as Cookie from "../../lib/Cookie";
+import PdpFlags from "../components/PdpFlags.js";
 import {
   GLOBAL_ACCESS_TOKEN,
   PRODUCT_SELLER_ROUTER_SUFFIX,
@@ -362,10 +363,14 @@ export default class PdpApparel extends React.Component {
                 return <Image image={val} key={idx} />;
               })}
             </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              (productData.winningSellerAvailableStock === "0" &&
-                this.checkIfSizeSelected())) && (
-              <div className={styles.flag}>Out of stock</div>
+            {productData.winningSellerPrice && (
+              <PdpFlags
+                discountPercent={productData.discount}
+                isOfferExisting={productData.isOfferExisting}
+                onlineExclusive={productData.isOnlineExclusive}
+                outOfStock={productData.allOOStock}
+                newProduct={productData.isProductNew}
+              />
             )}
             {!productData.winningSellerPrice && (
               <div className={styles.flag}>Not Saleable</div>
