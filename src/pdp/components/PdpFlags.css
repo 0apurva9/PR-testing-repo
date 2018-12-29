@@ -8,7 +8,7 @@
   font-family: bolder;
   background-size: contain;
   position: absolute;
-  top: 90px;
+  top: 50px;
   text-align: center;
   left: 0px;
   pointer-events: none;
@@ -23,8 +23,8 @@
   font-family: semibold;
   background-size: contain;
   position: absolute;
-  top: 90px;
-  left: 40px;
+  top: 50px;
+  left: 0px;
   pointer-events: none;
 }
 
@@ -37,31 +37,35 @@
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.3);
 }
-.outOfStock {
-  width: 157px;
-  height: 40px;
-  color: #fff;
-  font-size: 18px;
-  padding: 10px 20px;
-  font-family: semibold;
-  background: url(../components/img/flag.svg) no-repeat;
-  position: absolute;
-  top: 90px;
-  text-align: center;
-  left: 0px;
-  pointer-events: none;
+
+@media screen and (min-width: 1025px) {
+  .base {
+    width: 157px;
+    height: 40px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    background: url(../components/img/flag.svg) no-repeat;
+    font-family: bolder;
+    background-size: contain;
+    position: absolute;
+    top: 90px;
+    text-align: center;
+    left: 0px;
+    pointer-events: none;
+  }
+  .offer {
+    width: 157px;
+    height: 40px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    background: url(../components/img/offer.svg) no-repeat;
+    font-family: semibold;
+    background-size: contain;
+    position: absolute;
+    top: 90px;
+    left: 45px;
+    pointer-events: none;
+  }
 }
-/* width: auto;
-height: 18px;
-color: #fff;
-font-size: 9px;
-background-size: 100%;
-background-repeat: no-repeat;
-background-position: center;
-line-height: 18px;
-text-align: center;
-padding: 0 15px 0 10px;
-font-family: semibold;
-position: absolute;
-left: 0;
-top: 10px; */
