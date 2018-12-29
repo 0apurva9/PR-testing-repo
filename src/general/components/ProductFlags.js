@@ -28,7 +28,7 @@ export default class ProductFlags extends React.Component {
           {parseInt(this.props.discountPercent, 10)}% off{" "}
         </div>
       );
-    } else if (this.props.isOfferExisting == "Y") {
+    } else if (this.props.isOfferExisting) {
       return (
         <div
           className={styles.base}
@@ -37,7 +37,7 @@ export default class ProductFlags extends React.Component {
           On offer
         </div>
       );
-    } else if (this.props.onlineExclusive == "Y") {
+    } else if (this.props.onlineExclusive) {
       return (
         <div
           className={styles.base}
@@ -46,7 +46,7 @@ export default class ProductFlags extends React.Component {
           New
         </div>
       );
-    } else if (this.props.newProduct == "Y") {
+    } else if (this.props.newProduct) {
       return (
         <div
           className={styles.base}
