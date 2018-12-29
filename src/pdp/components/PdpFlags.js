@@ -28,7 +28,6 @@ export default class PdpFlags extends React.Component {
     }
   };
   render() {
-    console.log(this.props);
     return <React.Fragment>{this.renderFlag()}</React.Fragment>;
   }
 }

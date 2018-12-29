@@ -606,7 +606,6 @@ export default class PdpApparel extends React.Component {
                   alt={`${productData.productName}-${productData.brandName}-${
                     productData.rootCategory
                   }-TATA CLIQ`}
-                  onlineExclusive={productData.isOnlineExclusive}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags
