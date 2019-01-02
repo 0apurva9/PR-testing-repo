@@ -3,7 +3,6 @@ import Image from "../../xelpmoc-core/Image";
 import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
 import Video from "../../general/components/Video";
-import play from "../../general/components/img/play.svg";
 export default class ProductGalleryDesktop extends React.Component {
   constructor(props) {
     super(props);
