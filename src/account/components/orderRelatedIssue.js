@@ -709,12 +709,17 @@ export default class OrderRelatedIssue extends React.Component {
                     );
                   }
                 )}
-              <div
-                className={styles.loadData}
-                onClick={() => this.getMoreOrder()}
-              >
-                Load More
-              </div>
+              {this.props.ordersTransactionData &&
+                (this.props.ordersTransactionData.currentPage + 1) *
+                  this.props.ordersTransactionData.pageSize <
+                  this.props.ordersTransactionData.totalNoOfOrders && (
+                  <div
+                    className={styles.loadData}
+                    onClick={() => this.getMoreOrder()}
+                  >
+                    Load More
+                  </div>
+                )}
             </div>
           )}
         </MobileOnly>
