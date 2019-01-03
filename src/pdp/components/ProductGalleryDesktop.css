@@ -149,6 +149,19 @@
   left: 0;
   background: rgba(255, 255, 255, 0.6);
 }
+
+.videoImage {
+  background-image: url("../../general/components/img/play.svg");
+  background-repeat: no-repeat;
+  background-size: 80%;
+  background-position: center;
+  position: absolute;
+  background-color: #212121;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
 .hideZoomArea {
   composes: zoomArea;
   opacity: 0;
