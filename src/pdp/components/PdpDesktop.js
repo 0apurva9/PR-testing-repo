@@ -937,8 +937,9 @@ export default class PdpApparel extends React.Component {
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
                     <div className={styles.overlay}>
-                      {productData.rootCategory === "Clothing" ? (
-                        <Overlay labelText="This product or some sizes may be out of stock or not serviceable at your PIN code. Please select and try another size.">
+                      {productData.rootCategory === "Clothing" ||
+                      productData.rootCategory === "Footwear" ? (
+                        <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
                           <PdpDeliveryModes
                             eligibleDeliveryModes={
                               productData.eligibleDeliveryModes
