@@ -149,6 +149,15 @@ if (
   process.env.REACT_APP_JUS_PAY_API_URL_ROOT = "https://sandbox.juspay.in";
 }
 
+// for samsung chat on pdp
+if (process.env.REACT_APP_STAGE === "production") {
+  process.env.REACT_APP_SAMSUNG_CHAT_URL =
+    "https://www.samsung.com/in/chatclient/v1/partnerchat/?refurl=";
+} else {
+  process.env.REACT_APP_SAMSUNG_CHAT_URL =
+    "https://qashop.samsung.com/in/chatclient/v1/partnerchat/?refurl=";
+}
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))

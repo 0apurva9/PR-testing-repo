@@ -145,6 +145,8 @@ const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
+const env = process.env;
+const samsungChatUrl = env.REACT_APP_SAMSUNG_CHAT_URL + window.location.href;
 export default class PdpApparel extends React.Component {
   constructor(props) {
     super(props);
@@ -1211,6 +1213,19 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
           </div>
+
+          {productData.brandName === "Samsung" ? (
+            <a
+              href={samsungChatUrl}
+              target="_blank"
+              className={styles.samsungChatImgHolder}
+            >
+              <img
+                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                alt="Samsung Chat"
+              />
+            </a>
+          ) : null}
         </PdpFrame>
       );
     } else {
