@@ -382,22 +382,25 @@ export default class FilterDesktop extends React.Component {
                                 )}
                             </DesktopOnly>
                           </div>
-                          {facetDataValues && facetDataValues.name === PRICE && (
-                            <div className={styles.filterPriceHolder}>
-                              {facetDataValues.values && (
-                                <div>
-                                  <PriceFilterTabDesktop
-                                    rangeApplied={facetDataValues.rangeApplied}
-                                    typeOfFilter={facetDataValues.name}
-                                    priceList={facetDataValues.values}
-                                    customRange={facetDataValues.customeRange}
-                                    history={this.props.history}
-                                    onFilterClick={this.onFilterClick}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          )}
+                          {facetDataValues &&
+                            facetDataValues.name === PRICE && (
+                              <div className={styles.filterPriceHolder}>
+                                {facetDataValues.values && (
+                                  <div>
+                                    <PriceFilterTabDesktop
+                                      rangeApplied={
+                                        facetDataValues.rangeApplied
+                                      }
+                                      typeOfFilter={facetDataValues.name}
+                                      priceList={facetDataValues.values}
+                                      customRange={facetDataValues.customeRange}
+                                      history={this.props.history}
+                                      onFilterClick={this.onFilterClick}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           {facetDataValues &&
                             facetDataValues.name !== COLOUR &&
                             facetDataValues.name !== BRAND &&
