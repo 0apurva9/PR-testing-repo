@@ -272,8 +272,8 @@ export default class OrderRelatedIssue extends React.Component {
       let submitDetailsObject = Object.assign(
         {},
         {
-          nodeL0: orderRelatedIssue.nodeL0,
-          nodeL1: orderRelatedIssue.nodeCode,
+          nodeL0: l1OptionsArray.nodeL0,
+          nodeL1: l1OptionsArray.nodeCode,
           nodeL2: this.state.l2SelectedOption,
           nodeL3: this.state.l3SelectedOption,
           contactEmail: this.state.email,
