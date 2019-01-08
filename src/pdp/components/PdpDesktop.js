@@ -146,7 +146,10 @@ const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
 const env = process.env;
-const samsungChatUrl = env.REACT_APP_SAMSUNG_CHAT_URL + window.location.href;
+const samsungChatUrl =
+  env.REACT_APP_SAMSUNG_CHAT_URL +
+  window.location.href +
+  env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
 export default class PdpApparel extends React.Component {
   constructor(props) {
     super(props);

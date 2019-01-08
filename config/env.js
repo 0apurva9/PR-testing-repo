@@ -153,9 +153,11 @@ if (
 if (process.env.REACT_APP_STAGE === "production") {
   process.env.REACT_APP_SAMSUNG_CHAT_URL =
     "https://www.samsung.com/in/chatclient/v1/partnerchat/?refurl=";
+  process.env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER = "";
 } else {
   process.env.REACT_APP_SAMSUNG_CHAT_URL =
     "https://qashop.samsung.com/in/chatclient/v1/partnerchat/?refurl=";
+  process.env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER = "&referrer=tatacliq";
 }
 
 function getClientEnvironment(publicUrl) {
