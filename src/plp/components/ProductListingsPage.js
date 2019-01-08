@@ -123,6 +123,9 @@ class ProductListingsPage extends Component {
       searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
+    if (!searchText.includes("relevance")) {
+      searchText = `${searchText}:relevance`;
+    }
 
     return encodeURIComponent(searchText);
   }
