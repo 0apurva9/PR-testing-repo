@@ -186,8 +186,28 @@ export default class DesktopHeader extends React.Component {
       setDataLayerForHeaderAndFooterDirectCalls(triggerDirectCall, value);
     }
   }
+  getLuxURL() {
+    const hostName = window.location.href;
+    switch (hostName) {
+      case "https://tmppprd.tataunistore.com/":
+        return "https://luxtmppprd.tataunistore.com/";
+        break;
+      case "https://p2tmppprd.tataunistore.com/":
+        return "https://luxtmppprd.tataunistore.com/";
+        break;
+      case "https://uat6-tcs.tataunistore.com/":
+        return "https://luxuat6-tcs.tataunistore.com";
+        break;
+      case "https://www.tatacliq.com/":
+        return "https://luxury.tatacliq.com/";
+        break;
+      default:
+        return "https://luxury.tatacliq.com/";
+    }
+  }
+
   render() {
-    let hostName = window.location.origin;
+    //let hostName = window.location.origin;
 
     const headerBrandAndCategoryDetails =
       this.props.headerBrandAndCategoryDetails &&
@@ -251,14 +271,7 @@ export default class DesktopHeader extends React.Component {
           {this.props.isSearch && (
             <div className={styles.headerFunctionality}>
               <div className={styles.upperHeader}>
-                <a
-                  href={
-                    hostName.includes("p2tmppprd")
-                      ? "https://luxtmppprd.tataunistore.com/"
-                      : "https://luxury.tatacliq.com/"
-                  }
-                  target="_blank"
-                >
+                <a href={this.getLuxURL()} target="_blank">
                   {" "}
                   <div
                     className={styles.luxeryTab}
