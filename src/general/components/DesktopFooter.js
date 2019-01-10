@@ -168,6 +168,7 @@ class DesktopFooter extends React.Component {
                 footerData.items[0] &&
                 footerData.items[0].socialLinks &&
                 footerData.items[0].socialLinks[1] &&
+                footerData.items[0].socialLinks[1].list &&
                 footerData.items[0].socialLinks[1].list.map((val, i) => {
                   return (
                     <a href={val.webUrl} target="_blank">
@@ -184,6 +185,7 @@ class DesktopFooter extends React.Component {
                 footerData.items[0] &&
                 footerData.items[0].socialLinks &&
                 footerData.items[0].socialLinks[0] &&
+                footerData.items[0].socialLinks[0].list &&
                 footerData.items[0].socialLinks[0].list.map((val, i) => {
                   return (
                     <a href={val.webUrl} target="_blank">
