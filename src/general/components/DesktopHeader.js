@@ -195,7 +195,7 @@ export default class DesktopHeader extends React.Component {
       case "https://p2tmppprd.tataunistore.com/":
         return "https://luxtmppprd.tataunistore.com/";
         break;
-      case "https://uat6-tcs.tataunistore.com/":
+      case "https://deskuat6-tcs.tataunistore.com/":
         return "https://luxuat6-tcs.tataunistore.com";
         break;
       case "https://www.tatacliq.com/":
