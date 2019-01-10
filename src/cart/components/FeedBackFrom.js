@@ -10,7 +10,9 @@ export default class FeedBackForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      textDetails: ""
+      textDetails: "",
+      selected: false,
+      isReset: false
     };
     this.questionRatingArray = [];
   }
@@ -24,9 +26,7 @@ export default class FeedBackForm extends React.Component {
     if (this.questionRatingArray.length !== 0) {
       const indexOfQuestionRatingArray = this.questionRatingArray.findIndex(
         questionRatingArrayDetails => {
-          return (
-            questionRatingArrayDetails.questionRatingArray === questionNumber
-          );
+          return questionRatingArrayDetails.questionCode === questionNumber;
         }
       );
       if (indexOfQuestionRatingArray !== -1) {
@@ -44,11 +44,11 @@ export default class FeedBackForm extends React.Component {
     }
   };
   onChange = val => {
-    this.setState({ textDetails: val });
+    this.setState({ textDetails: val, isReset: false });
   };
   onReset = () => {
     this.questionRatingArray = [];
-    this.setState({ textDetails: "" });
+    this.setState({ textDetails: "", isReset: true, selected: false });
   };
   onContinueShopping() {
     this.props.history.push(HOME_ROUTER);
@@ -115,9 +115,11 @@ export default class FeedBackForm extends React.Component {
                             <div className={styles.textOfRating}> Very Bad</div>
                             <div className={styles.ratingHolder}>
                               <FeedBackRateGrid
+                                selected={this.state.selected}
                                 onSelect={rating =>
                                   this.onclickQuestion(rating, val.questionCode)
                                 }
+                                isReset={this.state.isReset}
                               />
                             </div>
                             <div className={styles.endTextOfRating}>
