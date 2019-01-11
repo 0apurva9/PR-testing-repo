@@ -34,6 +34,8 @@ const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
 const EMAIL_TEXT = "Please enter emailId";
 const EMAIL_VALID_TEXT = "Please enter  valid emailId";
+const DUPLICATE_QUERY =
+  "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
 const OFFSET_BOTTOM = 800;
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
@@ -318,7 +320,17 @@ export default class OrderRelatedIssue extends React.Component {
               submitDetailsObject
             );
             if (submitOrderDetailsResponse.status === SUCCESS) {
-              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              if (
+                submitOrderDetailsResponse.submitOrder &&
+                submitOrderDetailsResponse.submitOrder.referenceNum !==
+                  "duplicate"
+              ) {
+                this.props.showCustomerQueryModal(
+                  getCustomerQueryDetailsObject
+                );
+              } else {
+                this.props.displayToast(DUPLICATE_QUERY);
+              }
             }
           }
         }
@@ -328,7 +340,15 @@ export default class OrderRelatedIssue extends React.Component {
             submitDetailsObject
           );
           if (submitOrderDetailsResponse.status === SUCCESS) {
-            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            if (
+              submitOrderDetailsResponse.submitOrder &&
+              submitOrderDetailsResponse.submitOrder.referenceNum !==
+                "duplicate"
+            ) {
+              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            } else {
+              this.props.displayToast(DUPLICATE_QUERY);
+            }
           }
         }
       }
