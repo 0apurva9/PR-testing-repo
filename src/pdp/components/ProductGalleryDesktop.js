@@ -2,6 +2,7 @@ import React from "react";
 import Image from "../../xelpmoc-core/Image";
 import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
+import Video from "../../general/components/Video";
 
 export default class ProductGalleryDesktop extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomPositionY = null;
     this.zoomHeight = null;
     this.zoomWidth = null;
+    this.type = null;
   }
   swapViews(prev, next) {
     if (
@@ -50,8 +52,10 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomWidth = element.offsetWidth;
   }
   componentDidMount() {
-    this.getPosition(this.refs.zoom);
-    this.getDimensions(this.refs.zoom);
+    if (this.type == "image") {
+      this.getPosition(this.refs.zoom);
+      this.getDimensions(this.refs.zoom);
+    }
   }
   handleZoomMove(evt) {
     const scrollTop =
@@ -84,6 +88,9 @@ export default class ProductGalleryDesktop extends React.Component {
         <div className={styles.content}>
           {this.props.productImages.map((val, i) => {
             let imageClass = styles.image;
+            if (i === this.state.position) {
+              this.type = val.type;
+            }
             if (
               this.state.position === i ||
               this.state.previousPage === i ||
@@ -105,30 +112,41 @@ export default class ProductGalleryDesktop extends React.Component {
 
               return (
                 <div className={imageClass}>
-                  <Image image={val} fit="contain" alt={this.props.alt} />
+                  {val.type === "image" && (
+                    <Image
+                      image={val.value}
+                      fit="contain"
+                      alt={this.props.alt}
+                    />
+                  )}
+                  {val.type === "video" && (
+                    <Video url={val.value} controls={true} />
+                  )}
                 </div>
               );
             } else {
               return null;
             }
           })}
-          <div
-            className={styles.image}
-            ref="zoom"
-            onMouseMove={evt => this.handleZoomMove(evt)}
-            onMouseEnter={evt => this.handleMouseEnter(evt)}
-            onMouseLeave={evt => this.handleMouseLeave(evt)}
-          >
+          {this.type == "image" && (
             <div
-              className={
-                this.state.isZoom ? styles.zoomArea : styles.hideZoomArea
-              }
-              style={{
-                left: `${-this.state.zoomX}%`,
-                top: `${-this.state.zoomY}%`
-              }}
-            />
-          </div>
+              className={styles.image}
+              ref="zoom"
+              onMouseMove={evt => this.handleZoomMove(evt)}
+              onMouseEnter={evt => this.handleMouseEnter(evt)}
+              onMouseLeave={evt => this.handleMouseLeave(evt)}
+            >
+              <div
+                className={
+                  this.state.isZoom ? styles.zoomArea : styles.hideZoomArea
+                }
+                style={{
+                  left: `${-this.state.zoomX}%`,
+                  top: `${-this.state.zoomY}%`
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className={styles.nav}>
           {this.props.thumbNailImages.map((val, i) => {
@@ -140,9 +158,15 @@ export default class ProductGalleryDesktop extends React.Component {
                   this.swapViews(position, i);
                 }}
               >
-                <div className={styles.image}>
-                  <Image image={val} fit="contain" alt={this.props.alt} />
-                </div>
+                {this.props.productImages[i].type == "image" && (
+                  <div className={styles.image}>
+                    <Image image={val} fit="contain" alt={this.props.alt} />
+                  </div>
+                )}
+
+                {this.props.productImages[i].type == "video" && (
+                  <div className={styles.videoImage} />
+                )}
               </div>
             );
           })}

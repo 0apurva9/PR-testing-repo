@@ -526,17 +526,36 @@ export default class PdpApparel extends React.Component {
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
-          return val.mediaType === IMAGE;
+          return val.mediaType === IMAGE || val.mediaType === "Video";
         })
       : [];
     const productImages = images
       .map(galleryImageList => {
-        return galleryImageList.galleryImages.filter(galleryImages => {
-          return galleryImages.key === "product";
-        });
+        if (galleryImageList.mediaType === IMAGE) {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return {
+              product: galleryImages.key === "product",
+              type: "image"
+            };
+          });
+        } else if (galleryImageList.mediaType === "Video") {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return {
+              product: galleryImages.key === "thumbnail",
+              type: "video"
+            };
+          });
+        }
       })
       .map(image => {
-        return image[0].value;
+        if (image[0].value) {
+          return {
+            value: image[0].value,
+            type: image[0].key === "product" ? "image" : "video"
+          };
+        } else {
+          return image;
+        }
       });
     const thumbNailImages = images
       .map(galleryImageList => {
@@ -549,9 +568,15 @@ export default class PdpApparel extends React.Component {
       });
     const zoomImages = images
       .map(galleryImageList => {
-        return galleryImageList.galleryImages.filter(galleryImages => {
-          return galleryImages.key === "superZoom";
-        });
+        if (galleryImageList.mediaType === IMAGE) {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return galleryImages.key === "superZoom";
+          });
+        } else if (galleryImageList.mediaType === "Video") {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return galleryImages.key === "thumbnail";
+          });
+        }
       })
       .map(image => {
         return image[0].value;
