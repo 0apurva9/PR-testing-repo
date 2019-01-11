@@ -163,6 +163,16 @@ export default class PdpApparel extends React.Component {
   componentDidMount() {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Apparel
+      window.GEM.setGeminiPageId("0002321000100700");
+    } else {
+      window.gemPageId = "0002321000100700";
+    }
+
+    /* End- Gemini Script */
   }
   visitBrand() {
     if (this.props.visitBrandStore) {

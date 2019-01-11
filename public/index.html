@@ -98,6 +98,10 @@
           font-weight: normal
         }
       </style>
+  <script type="text/javascript">
+    function loadJS(x) { var tag = document.createElement("script"); tag.src = x; document.getElementsByTagName("body")[0].appendChild(tag); }
+    function postLoadFunction(a){if("undefined"!=typeof(window.attachEvent)){return window.attachEvent("onload",a)}else{if(window.addEventListener){return window.addEventListener("load",a,false)}}};
+  </script>
 </head>
 
 <body>
@@ -119,6 +123,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
       -->
+  <!-- Start -- Adding Script for Gemini Integration-->
+  <script>   ci = "0002321"; gemErrList = []; gemp = "index";
+  window.addEventListener('error',function(e){ if(e.error) {
+    var obj={};
+    try{
+      obj['m']=(e.message);obj['f']=(e.filename).replace(/(\r\n|\n|\r)/gm,"");obj['l']=(e.lineno);obj['c']=(e.colno);obj['s']=(e.error.stack);gemErrList.push(obj);
+    }
+    catch(ex){}
+  }});
+  </script>
+  <!-- End -- Adding Script for Gemini Integration-->
   <script type="text/javascript"> window.prerenderReady = false; </script>
   <script defer="defer" type="text/javascript">
         <% if (htmlWebpackPlugin.options.stage === "production") { %>
@@ -130,31 +145,40 @@
     clevertap.account.push({ "id": clevertap_account_id });
     clevertap.privacy.push({ optOut: false });
     clevertap.privacy.push({ useIP: false });
-    (function () {
-      var wzrk = document.createElement('script');
-      wzrk.type = 'text/javascript';
-      wzrk.async = true;
-      wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(wzrk, s);
-    })();
-    setTimeout(function () {
-      clevertap.notifications.push({
-        "titleText": 'Stay updated on the latest collections and offers',
-        "bodyText": 'We promise to only send you relevant content and give you updates on your transactions through notifications',
-        "okButtonText": 'Yes, I\'m in!',
-        "rejectButtonText": 'No, thanks',
-        "okButtonColor": '#f28046',
-        "askAgainTimeInSeconds": 604800,
-        "serviceWorkerPath": "/service-worker.js",
-        "okCallback": function () {
-          clevertap.event.push("Web Push Notifications", { "User Accepted": "Yes" });
-        },
-        "rejectCallback": function () {
-          clevertap.event.push("Web Push Notifications", { "User Accepted": "No" });
-        }
-      });
-    }, 10000);
+
+            function clevertapJS(){
+              var cleverTapJS  = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+              loadJS(cleverTapJS);
+              setTimeout(function () {
+              clevertap.notifications.push({
+              "titleText": 'Stay updated on the latest collections and offers',
+              "bodyText": 'We promise to only send you relevant content and give you updates on your transactions through notifications',
+              "okButtonText": 'Yes, I\'m in!',
+              "rejectButtonText": 'No, thanks',
+              "okButtonColor": '#f28046',
+              "askAgainTimeInSeconds": 604800,
+              "serviceWorkerPath": "/service-worker.js",
+              "okCallback": function () {
+              clevertap.event.push("Web Push Notifications", {"User Accepted": "Yes"});
+            },
+              "rejectCallback": function () {
+              clevertap.event.push("Web Push Notifications", {"User Accepted": "No"});
+            }
+            });
+            }, 10000);
+            }
+
+
+            postLoadFunction(clevertapJS);
+            (function () {
+              var geminiJs = document.createElement('script');
+              geminiJs.type = 'text/javascript';
+              geminiJs.async = true;
+              geminiJs.src = ('https:' == document.location.protocol ? 'https://cdn.epsilondelta.co/static/gemGen.js' : 'https://cdn.epsilondelta.co/static/gemGen.js');
+              var s1 = document.getElementsByTagName('script')[0];
+              s1.parentNode.insertBefore(geminiJs, s1);
+            })();
+
   </script>
   <script type="text/javascript">
     const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i
