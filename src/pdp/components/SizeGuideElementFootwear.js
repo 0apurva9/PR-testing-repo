@@ -4,8 +4,6 @@ import propTypes from "prop-types";
 export default class SizeGuideElement extends React.Component {
   render() {
     const data = this.props.data;
-    console.log(Object.keys(this.props.data[0]));
-    console.log(Object.keys(this.props.data[0]).includes("age"));
     return (
       <div className={styles.base}>
         {Object.keys(this.props.data[0]).includes("age") ? (

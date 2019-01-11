@@ -68,7 +68,7 @@ export default class SizeGuideMain extends React.Component {
               )}
             {this.props.category === "Footwear" &&
               this.props.sizeData.sizeGuideList && (
-                <div className={styles.sizeList}>
+                <div className={styles.sizeListFootwear}>
                   {this.props.sizeData.sizeGuideList.map((list, i) => {
                     return (
                       <SizeGuideElementFootwear
@@ -90,7 +90,13 @@ export default class SizeGuideMain extends React.Component {
                 </div>
               )}
             <DesktopOnly>
-              <div className={styles.imageHolder}>
+              <div
+                className={
+                  this.props.category === "Footwear"
+                    ? styles.imageHolderFootwear
+                    : styles.imageHolder
+                }
+              >
                 <div className={styles.image}>
                   <Image fit="contain" image={this.props.sizeData.imageURL} />
                 </div>
