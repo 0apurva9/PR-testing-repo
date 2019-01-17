@@ -332,6 +332,16 @@ export default class PdpApparel extends React.Component {
         state: { isSizeSelected: true }
       });
     }
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Apparel
+      window.GEM.setGeminiPageId("0002321000100400");
+    } else {
+      window.gemPageId = "0002321000100400";
+    }
+
+    /* End- Gemini Script */
   }
   render() {
     const productData = this.props.productDetails;

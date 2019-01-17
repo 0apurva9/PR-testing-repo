@@ -329,6 +329,16 @@ export default class PdpJewellery extends React.Component {
       this.addToCart();
       this.props.history.replace(this.props.location.pathname);
     }
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Jewellery
+      window.GEM.setGeminiPageId("0002321000100300");
+    } else {
+      window.gemPageId = "0002321000100300";
+    }
+
+    /* End - Gemini Script */
   }
   render() {
     const productData = this.props.productDetails;

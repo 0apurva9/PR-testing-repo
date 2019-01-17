@@ -3,6 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
@@ -270,6 +271,9 @@ module.exports = {
         minifyURLs: true
       },
       stage: process.env.REACT_APP_STAGE
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: "defer"
     }),
     new PreloadWebpackPlugin({
       rel: "preload",
