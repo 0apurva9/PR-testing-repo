@@ -574,13 +574,19 @@ export default class PdpApparel extends React.Component {
         });
       })
       .map(image => {
-        return image[0].value;
+        if (image[0] && image[0].value) {
+          return image[0].value;
+        }
       });
     const zoomImages = images
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
           return galleryImageList.galleryImages.filter(galleryImages => {
-            return galleryImages.key === "superZoom";
+            if (galleryImages.key === "superZoom") {
+              return galleryImages.key === "superZoom";
+            } else {
+              return galleryImages.key === "zoom";
+            }
           });
         } else if (galleryImageList.mediaType === "Video") {
           return galleryImageList.galleryImages.filter(galleryImages => {
@@ -589,7 +595,9 @@ export default class PdpApparel extends React.Component {
         }
       })
       .map(image => {
-        return image[0].value;
+        if (image[0] && image[0].value) {
+          return image[0].value;
+        }
       });
 
     if (productData) {
