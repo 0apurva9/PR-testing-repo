@@ -548,4 +548,10 @@
     height: auto;
     margin-top: 25px;
   }
+  .samsungChatImgHolder{
+    position: fixed;
+    right: 0;
+    top: 80%;
+    z-index: 1;
+  }
 }

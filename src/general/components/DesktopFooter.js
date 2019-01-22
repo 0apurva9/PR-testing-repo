@@ -5,6 +5,12 @@ import Button from "../../general/components/Button.js";
 import Input2 from "../../general/components/Input2.js";
 import Icon from "../../xelpmoc-core/Icon";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import {
+  LOGGED_IN_USER_DETAILS,
+  MY_ACCOUNT_PAGE,
+  SAVE_LIST_PAGE,
+  MY_ACCOUNT_ORDERS_PAGE
+} from "../../../src/lib/constants";
 import companyLogo from "../../general/components/img/companylogo.svg";
 import TrustComponent from "../../general/components/TrustComponent";
 import {
@@ -13,7 +19,8 @@ import {
   ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK,
   ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE
 } from "../../lib/adobeUtils";
-const TEXT = "© 2018 Tata CLiQ | All rights reserved";
+import * as Cookie from "../../lib/Cookie";
+const TEXT = "© 2019 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
     const currentUrl = this.props.location.pathname;
@@ -30,12 +37,37 @@ class DesktopFooter extends React.Component {
   }
 
   onClick = (url, value) => {
+    let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK,
       value
     );
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    this.props.history.push(urlSuffix);
+    if (userCookie && value === "My Account") {
+      userCookie = JSON.parse(userCookie);
+      this.props.history.push(MY_ACCOUNT_PAGE);
+    } else if (!userCookie && value === "My Account") {
+      this.props.setUrlToRedirectToAfterAuth(MY_ACCOUNT_PAGE);
+      this.props.history.push(urlSuffix);
+    } else if (userCookie && value === "My Wishlist") {
+      userCookie = JSON.parse(userCookie);
+      this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
+    } else if (!userCookie && value === "My Wishlist") {
+      this.props.setUrlToRedirectToAfterAuth(
+        `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`
+      );
+      this.props.history.push(urlSuffix);
+    } else if (userCookie && value === "My Orders") {
+      userCookie = JSON.parse(userCookie);
+      this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
+    } else if (!userCookie && value === "My Orders") {
+      this.props.setUrlToRedirectToAfterAuth(
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`
+      );
+      this.props.history.push(urlSuffix);
+    } else {
+      this.props.history.push(urlSuffix);
+    }
   };
   onClickSocialMedia = webUrl => {
     let currentSocialMedia;
@@ -168,6 +200,7 @@ class DesktopFooter extends React.Component {
                 footerData.items[0] &&
                 footerData.items[0].socialLinks &&
                 footerData.items[0].socialLinks[1] &&
+                footerData.items[0].socialLinks[1].list &&
                 footerData.items[0].socialLinks[1].list.map((val, i) => {
                   return (
                     <a href={val.webUrl} target="_blank">
@@ -184,6 +217,7 @@ class DesktopFooter extends React.Component {
                 footerData.items[0] &&
                 footerData.items[0].socialLinks &&
                 footerData.items[0].socialLinks[0] &&
+                footerData.items[0].socialLinks[0].list &&
                 footerData.items[0].socialLinks[0].list.map((val, i) => {
                   return (
                     <a href={val.webUrl} target="_blank">

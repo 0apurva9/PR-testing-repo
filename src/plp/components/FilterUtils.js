@@ -89,8 +89,11 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
         // I know it has a brand and a category
 
         const test = SEARCH_TEXT_BEFORE_CATEGORY.exec(query);
+        let subquery = query;
+        subquery = subquery.replace(/category:[a-zA-Z0-9]+:/, "");
+        subquery = subquery.replace(/:brand:[a-zA-Z0-9]+$/, "");
         const brand = BRAND_URL_REGEX.exec(query);
-        url = `/${modifiedCode}/?q=${test[1]}:category:${val}:brand:${
+        url = `/${modifiedCode}/?q=${subquery}:category:${val}:brand:${
           brand[1]
         }`;
       } else {

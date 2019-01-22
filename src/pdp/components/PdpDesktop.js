@@ -55,6 +55,7 @@ import {
 } from "../../lib/constants";
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import PdpFlags from "../components/PdpFlags.js";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -145,6 +146,11 @@ const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
+const env = process.env;
+const samsungChatUrl =
+  env.REACT_APP_SAMSUNG_CHAT_URL +
+  window.location.href +
+  env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
 export default class PdpApparel extends React.Component {
   constructor(props) {
     super(props);
@@ -163,6 +169,16 @@ export default class PdpApparel extends React.Component {
   componentDidMount() {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Apparel
+      window.GEM.setGeminiPageId("0002321000100700");
+    } else {
+      window.gemPageId = "0002321000100700";
+    }
+
+    /* End- Gemini Script */
   }
   visitBrand() {
     if (this.props.visitBrandStore) {
@@ -404,6 +420,24 @@ export default class PdpApparel extends React.Component {
       });
     }
   };
+  isSizeSelectedForAddToWishlist = () => {
+    if (
+      this.checkIfSizeSelected() ||
+      this.checkIfSizeDoesNotExist() ||
+      this.checkIfFreeSize() ||
+      this.checkIfNoSize() ||
+      this.checkIfOneSize()
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  isSizeNotSelectedForAddToWishlist = () => {
+    this.props.displayToast("Please select a size to continue");
+    this.setState({ isLoader: false });
+    this.setState({ sizeError: true });
+  };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
       this.props.showPriceBreakup(
@@ -521,17 +555,37 @@ export default class PdpApparel extends React.Component {
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
       ? productData.galleryImagesList.filter(val => {
-          return val.mediaType === IMAGE;
+          return val.mediaType === IMAGE || val.mediaType === "Video";
         })
       : [];
+
     const productImages = images
       .map(galleryImageList => {
-        return galleryImageList.galleryImages.filter(galleryImages => {
-          return galleryImages.key === "product";
-        });
+        if (galleryImageList.mediaType === IMAGE) {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return {
+              product: galleryImages.key === "product",
+              type: "image"
+            };
+          });
+        } else if (galleryImageList.mediaType === "Video") {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return {
+              product: galleryImages.key === "thumbnail",
+              type: "video"
+            };
+          });
+        }
       })
       .map(image => {
-        return image[0].value;
+        if (image[0].value) {
+          return {
+            value: image[0].value,
+            type: image[0].key === "product" ? "image" : "video"
+          };
+        } else {
+          return image;
+        }
       });
     const thumbNailImages = images
       .map(galleryImageList => {
@@ -542,11 +596,18 @@ export default class PdpApparel extends React.Component {
       .map(image => {
         return image[0].value;
       });
+
     const zoomImages = images
       .map(galleryImageList => {
-        return galleryImageList.galleryImages.filter(galleryImages => {
-          return galleryImages.key === "superZoom";
-        });
+        if (galleryImageList.mediaType === IMAGE) {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return galleryImages.key === "superZoom";
+          });
+        } else if (galleryImageList.mediaType === "Video") {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return galleryImages.key === "thumbnail";
+          });
+        }
       })
       .map(image => {
         return image[0].value;
@@ -588,11 +649,16 @@ export default class PdpApparel extends React.Component {
                     productData.rootCategory
                   }-TATA CLIQ`}
                 />
-                {(productData.allOOStock ||
-                  (productData.winningSellerAvailableStock === "0" &&
-                    this.checkIfSizeSelected())) && (
-                  <div className={styles.flag}>Out of stock</div>
+                {productData.winningSellerPrice && (
+                  <PdpFlags
+                    discountPercent={productData.discount}
+                    isOfferExisting={productData.isOfferExisting}
+                    onlineExclusive={productData.isOnlineExclusive}
+                    outOfStock={productData.allOOStock}
+                    newProduct={productData.isProductNew}
+                  />
                 )}
+
                 {!productData.winningSellerPrice && (
                   <div className={styles.flag}>Not Saleable</div>
                 )}
@@ -647,6 +713,10 @@ export default class PdpApparel extends React.Component {
                         winningUssID={productData.winningUssID}
                         setDataLayerType={
                           SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                        }
+                        isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                        showSizeSelector={
+                          this.isSizeNotSelectedForAddToWishlist
                         }
                       />
                     </div>
@@ -937,15 +1007,28 @@ export default class PdpApparel extends React.Component {
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
                     <div className={styles.overlay}>
-                      <Overlay labelText="This item can't be delivered to your PIN code">
-                        <PdpDeliveryModes
-                          eligibleDeliveryModes={
-                            productData.eligibleDeliveryModes
-                          }
-                          deliveryModesATP={productData.deliveryModesATP}
-                          iconShow={true}
-                        />
-                      </Overlay>
+                      {productData.rootCategory === "Clothing" ||
+                      productData.rootCategory === "Footwear" ? (
+                        <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
+                          <PdpDeliveryModes
+                            eligibleDeliveryModes={
+                              productData.eligibleDeliveryModes
+                            }
+                            deliveryModesATP={productData.deliveryModesATP}
+                            iconShow={true}
+                          />
+                        </Overlay>
+                      ) : (
+                        <Overlay labelText="This item can't be delivered to your PIN code">
+                          <PdpDeliveryModes
+                            eligibleDeliveryModes={
+                              productData.eligibleDeliveryModes
+                            }
+                            deliveryModesATP={productData.deliveryModesATP}
+                            iconShow={true}
+                          />
+                        </Overlay>
+                      )}
                     </div>
                   ) : (
                     <div className={styles.deliveyModesHolder}>
@@ -1210,6 +1293,19 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
           </div>
+
+          {productData.brandName === "Samsung" ? (
+            <a
+              href={samsungChatUrl}
+              target="_blank"
+              className={styles.samsungChatImgHolder}
+            >
+              <img
+                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                alt="Samsung Chat"
+              />
+            </a>
+          ) : null}
         </PdpFrame>
       );
     } else {

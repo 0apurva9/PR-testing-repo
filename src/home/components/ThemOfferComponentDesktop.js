@@ -17,12 +17,13 @@ export default class ThemOfferComponentDesktop extends React.Component {
     if (this.props.location.pathname === "/") {
       window.open(val, "_blank");
     } else {
-      this.props.history.push({
-        pathname: val,
-        state: {
-          componentName: "Theme offers component"
-        }
-      });
+      this.props.history.push(val);
+      // this.props.history.push({
+      //   pathname: val,
+      //   state: {
+      //     componentName: "Theme offers component"
+      //   }
+      // });
     }
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();

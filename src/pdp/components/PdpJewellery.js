@@ -32,6 +32,7 @@ import {
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT
 } from "../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import PdpFlags from "../components/PdpFlags.js";
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
   loading: () => <div />
@@ -329,6 +330,16 @@ export default class PdpJewellery extends React.Component {
       this.addToCart();
       this.props.history.replace(this.props.location.pathname);
     }
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Jewellery
+      window.GEM.setGeminiPageId("0002321000100300");
+    } else {
+      window.gemPageId = "0002321000100300";
+    }
+
+    /* End - Gemini Script */
   }
   render() {
     const productData = this.props.productDetails;
@@ -394,10 +405,14 @@ export default class PdpJewellery extends React.Component {
                 );
               })}
             </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              (this.props.productDetails.winningSellerAvailableStock === "0" &&
-                this.checkIfSizeSelected())) && (
-              <div className={styles.flag}>Out of stock</div>
+            {productData.winningSellerPrice && (
+              <PdpFlags
+                discountPercent={productData.discount}
+                isOfferExisting={productData.isOfferExisting}
+                onlineExclusive={productData.isOnlineExclusive}
+                outOfStock={productData.allOOStock}
+                newProduct={productData.isProductNew}
+              />
             )}
             {!productData.winningSellerPrice && (
               <div className={styles.flag}>Not Saleable</div>

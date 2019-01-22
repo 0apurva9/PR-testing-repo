@@ -11,13 +11,12 @@ import HomeImage from "./img/homeDelivery.svg";
 import arrowIcon from "./img/arrowBackblack.svg";
 import greyArrow from "./img/greyArrow.svg";
 import CollectImage from "./img/collect.svg";
-import { EXPRESS, COLLECT } from "../../lib/constants";
+import { EXPRESS, COLLECT, HOME_DELIVERY } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 const EXPRESS_TEXT = "Express Delivery";
 const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QUiQ PiQ";
 const NOT_AVAILABLE = "Not Available";
-
 export default class DeliveryInformations extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -40,13 +39,16 @@ export default class DeliveryInformations extends React.Component {
     }
   }
   render() {
-    let iconImage = HomeImage;
-    let typeName = HOME_TEXT;
+    let iconImage = "";
+    let typeName = "";
     let arrowStyle = styles.arrowLink1;
     if (this.props.type === EXPRESS) {
       iconImage = ExpressImage;
       typeName = EXPRESS_TEXT;
       arrowStyle = styles.arrowLink;
+    } else if (this.props.type === HOME_DELIVERY) {
+      iconImage = HomeImage;
+      typeName = HOME_TEXT;
     } else if (this.props.type === COLLECT) {
       iconImage = CollectImage;
       typeName = COLLECT_TEXT;

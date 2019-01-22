@@ -34,6 +34,8 @@ const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
 const EMAIL_TEXT = "Please enter emailId";
 const EMAIL_VALID_TEXT = "Please enter  valid emailId";
+const DUPLICATE_QUERY =
+  "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
 const OFFSET_BOTTOM = 800;
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
@@ -87,6 +89,9 @@ export default class OrderRelatedIssue extends React.Component {
   }
   componentDidUpdate() {
     this.props.setHeaderText(CUSTOMER_CARE);
+  }
+  componentWillUnmount() {
+    this.props.clearOrderTransactionDetails();
   }
   getMoreOrder() {
     if (
@@ -272,8 +277,8 @@ export default class OrderRelatedIssue extends React.Component {
       let submitDetailsObject = Object.assign(
         {},
         {
-          nodeL0: orderRelatedIssue.nodeL0,
-          nodeL1: orderRelatedIssue.nodeCode,
+          nodeL0: l1OptionsArray.nodeL0,
+          nodeL1: l1OptionsArray.nodeCode,
           nodeL2: this.state.l2SelectedOption,
           nodeL3: this.state.l3SelectedOption,
           contactEmail: this.state.email,
@@ -315,7 +320,17 @@ export default class OrderRelatedIssue extends React.Component {
               submitDetailsObject
             );
             if (submitOrderDetailsResponse.status === SUCCESS) {
-              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              if (
+                submitOrderDetailsResponse.submitOrder &&
+                submitOrderDetailsResponse.submitOrder.referenceNum !==
+                  "duplicate"
+              ) {
+                this.props.showCustomerQueryModal(
+                  getCustomerQueryDetailsObject
+                );
+              } else {
+                this.props.displayToast(DUPLICATE_QUERY);
+              }
             }
           }
         }
@@ -325,7 +340,15 @@ export default class OrderRelatedIssue extends React.Component {
             submitDetailsObject
           );
           if (submitOrderDetailsResponse.status === SUCCESS) {
-            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            if (
+              submitOrderDetailsResponse.submitOrder &&
+              submitOrderDetailsResponse.submitOrder.referenceNum !==
+                "duplicate"
+            ) {
+              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            } else {
+              this.props.displayToast(DUPLICATE_QUERY);
+            }
           }
         }
       }
@@ -709,12 +732,17 @@ export default class OrderRelatedIssue extends React.Component {
                     );
                   }
                 )}
-              <div
-                className={styles.loadData}
-                onClick={() => this.getMoreOrder()}
-              >
-                Load More
-              </div>
+              {this.props.ordersTransactionData &&
+                (this.props.ordersTransactionData.currentPage + 1) *
+                  this.props.ordersTransactionData.pageSize <
+                  this.props.ordersTransactionData.totalNoOfOrders && (
+                  <div
+                    className={styles.loadData}
+                    onClick={() => this.getMoreOrder()}
+                  >
+                    Load More
+                  </div>
+                )}
             </div>
           )}
         </MobileOnly>

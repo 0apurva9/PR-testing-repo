@@ -35,6 +35,7 @@ import {
 } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 import queryString, { parse } from "query-string";
+import PdpFlags from "../components/PdpFlags.js";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -332,6 +333,16 @@ export default class PdpApparel extends React.Component {
         state: { isSizeSelected: true }
       });
     }
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Apparel
+      window.GEM.setGeminiPageId("0002321000100400");
+    } else {
+      window.gemPageId = "0002321000100400";
+    }
+
+    /* End- Gemini Script */
   }
   render() {
     const productData = this.props.productDetails;
@@ -393,10 +404,14 @@ export default class PdpApparel extends React.Component {
                 return <Image lazyLoad={true} image={val} key={idx} />;
               })}
             </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              (productData.winningSellerAvailableStock === "0" &&
-                this.checkIfSizeSelected())) && (
-              <div className={styles.flag}>Out of stock</div>
+            {productData.winningSellerPrice && (
+              <PdpFlags
+                discountPercent={productData.discount}
+                isOfferExisting={productData.isOfferExisting}
+                onlineExclusive={productData.isOnlineExclusive}
+                outOfStock={productData.allOOStock}
+                newProduct={productData.isProductNew}
+              />
             )}
             {!productData.winningSellerPrice && (
               <div className={styles.flag}>Not Saleable</div>
@@ -485,7 +500,7 @@ export default class PdpApparel extends React.Component {
           )}
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
-            <Overlay labelText="This item can't be delivered to your PIN code">
+            <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}

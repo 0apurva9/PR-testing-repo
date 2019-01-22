@@ -48,6 +48,9 @@ export default class CheckoutEmi extends React.Component {
               changeEmiPlan={() => this.changeEmiPlan()}
               onCheckout={this.props.onCheckout}
               creditCardValid={this.props.creditCardValid}
+              emiBinValidationErrorMessage={
+                this.props.emiBinValidationErrorMessage
+              }
             />
           )}
         {!this.props.cart.emiBankDetails &&

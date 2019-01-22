@@ -233,6 +233,15 @@ export default class Plp extends React.Component {
     if (parsedQueryString.filtersOpenAmp === "true") {
       this.props.showFilter();
     }
+    /* Start - Gemini Script */
+    //gemini JS object check.
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Listing Page
+      window.GEM.setGeminiPageId("0002321000100200");
+    } else {
+      window.gemPageId = "0002321000100200";
+    }
+    /* End - Gemini Script */
   }
 
   setHeaderText = () => {
@@ -286,9 +295,7 @@ export default class Plp extends React.Component {
   };
   onClickCancelIcon(val, filterName) {
     let url = "";
-    url = val.replace("page-{pageNo}", "");
-    url = url.replace("/search/", "");
-
+    url = val.replace("page-{pageNo}", "page-1");
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
 
@@ -300,7 +307,13 @@ export default class Plp extends React.Component {
       parsingurl = url.split("?");
       url = parsingurl[0];
     }
-    url = this.props.location.pathname + url;
+    if (url.match("/search/")) {
+      url = url.replace("/search", "");
+      url = this.props.location.pathname + url;
+    } else {
+      url = url;
+    }
+
     if (filterName.includes("Exclude out of stock")) {
       this.props.userSelectedOutOfStock(true);
     }
@@ -518,7 +531,8 @@ export default class Plp extends React.Component {
                           this.props.productListings.currentQuery.searchQuery.replace(
                             "%22",
                             '"'
-                          )}"
+                          )}
+                      "
                     </span>
                   </div>
                 </div>
