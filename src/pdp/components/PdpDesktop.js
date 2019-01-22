@@ -146,6 +146,11 @@ const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
+const env = process.env;
+const samsungChatUrl =
+  env.REACT_APP_SAMSUNG_CHAT_URL +
+  window.location.href +
+  env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
 export default class PdpApparel extends React.Component {
   constructor(props) {
     super(props);
@@ -164,6 +169,16 @@ export default class PdpApparel extends React.Component {
   componentDidMount() {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Apparel
+      window.GEM.setGeminiPageId("0002321000100700");
+    } else {
+      window.gemPageId = "0002321000100700";
+    }
+
+    /* End- Gemini Script */
   }
   visitBrand() {
     if (this.props.visitBrandStore) {
@@ -548,7 +563,10 @@ export default class PdpApparel extends React.Component {
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
           return galleryImageList.galleryImages.filter(galleryImages => {
-            return { product: galleryImages.key === "product", type: "image" };
+            return {
+              product: galleryImages.key === "product",
+              type: "image"
+            };
           });
         } else if (galleryImageList.mediaType === "Video") {
           return galleryImageList.galleryImages.filter(galleryImages => {
@@ -989,15 +1007,28 @@ export default class PdpApparel extends React.Component {
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
                     <div className={styles.overlay}>
-                      <Overlay labelText="This item can't be delivered to your PIN code">
-                        <PdpDeliveryModes
-                          eligibleDeliveryModes={
-                            productData.eligibleDeliveryModes
-                          }
-                          deliveryModesATP={productData.deliveryModesATP}
-                          iconShow={true}
-                        />
-                      </Overlay>
+                      {productData.rootCategory === "Clothing" ||
+                      productData.rootCategory === "Footwear" ? (
+                        <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
+                          <PdpDeliveryModes
+                            eligibleDeliveryModes={
+                              productData.eligibleDeliveryModes
+                            }
+                            deliveryModesATP={productData.deliveryModesATP}
+                            iconShow={true}
+                          />
+                        </Overlay>
+                      ) : (
+                        <Overlay labelText="This item can't be delivered to your PIN code">
+                          <PdpDeliveryModes
+                            eligibleDeliveryModes={
+                              productData.eligibleDeliveryModes
+                            }
+                            deliveryModesATP={productData.deliveryModesATP}
+                            iconShow={true}
+                          />
+                        </Overlay>
+                      )}
                     </div>
                   ) : (
                     <div className={styles.deliveyModesHolder}>
@@ -1262,6 +1293,19 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
           </div>
+
+          {productData.brandName === "Samsung" ? (
+            <a
+              href={samsungChatUrl}
+              target="_blank"
+              className={styles.samsungChatImgHolder}
+            >
+              <img
+                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                alt="Samsung Chat"
+              />
+            </a>
+          ) : null}
         </PdpFrame>
       );
     } else {

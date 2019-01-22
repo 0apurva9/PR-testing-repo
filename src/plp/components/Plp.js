@@ -233,6 +233,15 @@ export default class Plp extends React.Component {
     if (parsedQueryString.filtersOpenAmp === "true") {
       this.props.showFilter();
     }
+    /* Start - Gemini Script */
+    //gemini JS object check.
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Listing Page
+      window.GEM.setGeminiPageId("0002321000100200");
+    } else {
+      window.gemPageId = "0002321000100200";
+    }
+    /* End - Gemini Script */
   }
 
   setHeaderText = () => {
@@ -707,9 +716,8 @@ export default class Plp extends React.Component {
             </MediaQuery>
           </div>
         )}
-        {!this.props.productListings && !this.props.productListings && (
-          <div className={styles.dummyHolder} />
-        )}
+        {!this.props.productListings &&
+          !this.props.productListings && <div className={styles.dummyHolder} />}
       </React.Fragment>
     );
   }
