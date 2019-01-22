@@ -47,6 +47,21 @@
   font-size: 14px;
   padding-top: 20px;
 }
+.sizeColumn {
+  composes: display;
+}
+.sizeColumn:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+.sizeColumn:nth-child(even) {
+  background-color: #ffffff;
+}
+.sizeColumn:nth-child(odd) .header {
+  background-color: #f8f8f8;
+}
+.sizeColumn:nth-child(even) .header {
+  background-color: #ffffff;
+}
 @media screen and (min-width: 1025px) {
   .header {
     position: sticky;
