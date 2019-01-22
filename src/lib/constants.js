@@ -180,7 +180,7 @@ export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
 
 export const PLAT_FORM_NUMBER = "5";
-export const CHANNEL = "mobile";
+export const CHANNEL = "web";
 
 export const TRUE = "true";
 
