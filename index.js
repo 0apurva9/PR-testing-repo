@@ -4,7 +4,6 @@ var url = require("url");
 
 app.enable("trust proxy");
 app.use(function(req, res, next) {
-  //if (req.headers.host === "e2e.tataunistore.com") {
   var ua = req.headers["user-agent"].toLowerCase(),
     isMobile =
       /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(
@@ -15,7 +14,12 @@ app.use(function(req, res, next) {
       );
 
   if (isMobile) {
-    res.redirect("https://m-e2e.tataunistore.com" + req.url);
+    if (req.headers.host === "e2e.tataunistore.com") {
+      res.redirect("https://m-e2e.tataunistore.com" + req.url);
+    }
+    if (req.headers.host === "uat5.tataunistore.com") {
+      res.redirect("https://m-uat5.tataunistore.com" + req.url);
+    }
   } else {
     if (req.secure) {
       next();
@@ -23,7 +27,6 @@ app.use(function(req, res, next) {
       res.redirect("https://" + req.headers.host + req.url);
     }
   }
-  //}
 });
 
 app.get("*.js", function(req, res, next) {
