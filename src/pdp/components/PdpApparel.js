@@ -332,6 +332,16 @@ export default class PdpApparel extends React.Component {
         state: { isSizeSelected: true }
       });
     }
+    /* Start- Gemini Script */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Apparel
+      window.GEM.setGeminiPageId("0002321000100400");
+    } else {
+      window.gemPageId = "0002321000100400";
+    }
+
+    /* End- Gemini Script */
   }
   render() {
     const productData = this.props.productDetails;
@@ -485,7 +495,7 @@ export default class PdpApparel extends React.Component {
           )}
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
-            <Overlay labelText="This item can't be delivered to your PIN code">
+            <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}

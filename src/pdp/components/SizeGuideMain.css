@@ -74,8 +74,27 @@
     position: sticky;
     top: 90px;
   }
+  .imageHolderFootwear {
+    width: 40%;
+    height: 322px;
+    margin-bottom: 0px;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 15px;
+    position: sticky;
+    top: 90px;
+  }
   .sizeList {
     width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 15px;
+    position: sticky;
+    top: 60px;
+  }
+  .sizeListFootwear {
+    width: 60%;
     height: auto;
     display: inline-block;
     vertical-align: top;

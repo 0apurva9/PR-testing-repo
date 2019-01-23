@@ -6,7 +6,20 @@ export default class SizeGuideElement extends React.Component {
     const data = this.props.data;
     return (
       <div className={styles.base}>
-        <div className={styles.grey}>
+        {Object.keys(this.props.data[0]).includes("age") ? (
+          <div className={styles.sizeColumn}>
+            <div className={styles.header}>AGE</div>
+            <div className={styles.dimensionValue}>
+              {data.map((datum, i) => {
+                return (
+                  <div className={styles.dimensionValueList}>{datum.age}</div>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        <div className={styles.sizeColumn}>
           <div className={styles.header}>IND/UK</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
@@ -18,17 +31,23 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-        <div className={styles.white}>
-          <div className={styles.header}>US</div>
-          <div className={styles.dimensionValue}>
-            {data.map((datum, i) => {
-              return (
-                <div className={styles.dimensionValueList}>{datum.usSize}</div>
-              );
-            })}
+
+        {Object.keys(this.props.data[0]).includes("usSize") ? (
+          <div className={styles.sizeColumn}>
+            <div className={styles.header}>US</div>
+            <div className={styles.dimensionValue}>
+              {data.map((datum, i) => {
+                return (
+                  <div className={styles.dimensionValueList}>
+                    {datum.usSize}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div className={styles.grey}>
+        ) : null}
+
+        <div className={styles.sizeColumn}>
           <div className={styles.header}>EURO</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
@@ -40,7 +59,7 @@ export default class SizeGuideElement extends React.Component {
             })}
           </div>
         </div>
-        <div className={styles.white}>
+        <div className={styles.sizeColumn}>
           <div className={styles.header}>FOOT LENGTH (CM)</div>
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {

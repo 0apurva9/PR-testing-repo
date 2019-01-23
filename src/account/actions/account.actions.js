@@ -2459,30 +2459,48 @@ export function submitOrderDetails(submitOrderDetails) {
         }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
+
+        result = await api.post(
+          `${USER_PATH}/${
+            JSON.parse(userDetails).userName
+          }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
+            submitOrderDetails.contactEmail
+          }&contactMobile=${
+            submitOrderDetails.contactMobile
+          }&orderCode=${currentOrderCode}&ticketType=CL&nodeL0=${
+            submitOrderDetails.nodeL0
+          }&nodeL3=${submitOrderDetails.nodeL3}&contactName=${
+            submitOrderDetails.contactName
+          }&access_token=${JSON.parse(customerCookie).access_token}&nodeL1=${
+            submitOrderDetails.nodeL1
+          }&comment=${encodeURIComponent(submitOrderDetails.comment)}&nodeL4=${
+            submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
+          }&subOrderCode=${currentSubOrderCode}`
+        );
       } else {
-        transactionIdWithAttachmentFile = `transactionId=&nodeL2=${
-          submitOrderDetails.nodeL2
-        }`;
-        currentOrderCode = `""`;
-        currentSubOrderCode = `""`;
+        transactionIdWithAttachmentFile = `nodeL2=${submitOrderDetails.nodeL2}`;
+        //currentOrderCode = `""`;
+        //currentSubOrderCode = `""`;
+
+        result = await api.post(
+          `${USER_PATH}/${
+            JSON.parse(userDetails).userName
+          }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
+            submitOrderDetails.contactEmail
+          }&contactMobile=${
+            submitOrderDetails.contactMobile
+          }&ticketType=CL&nodeL0=${submitOrderDetails.nodeL0}&nodeL3=${
+            submitOrderDetails.nodeL3
+          }&contactName=${submitOrderDetails.contactName}&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&nodeL1=${submitOrderDetails.nodeL1}&comment=${encodeURIComponent(
+            submitOrderDetails.comment
+          )}&nodeL4=${
+            submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
+          }`
+        );
       }
-      result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
-          submitOrderDetails.contactEmail
-        }&contactMobile=${
-          submitOrderDetails.contactMobile
-        }&orderCode=${currentOrderCode}&ticketType=CL&nodeL0=${
-          submitOrderDetails.nodeL0
-        }&nodeL3=${submitOrderDetails.nodeL3}&contactName=${
-          submitOrderDetails.contactName
-        }&access_token=${JSON.parse(customerCookie).access_token}&nodeL1=${
-          submitOrderDetails.nodeL1
-        }&comment=${encodeURIComponent(submitOrderDetails.comment)}&nodeL4=${
-          submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
-        }&channel=mobile&subOrderCode=${currentSubOrderCode}`
-      );
+
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {

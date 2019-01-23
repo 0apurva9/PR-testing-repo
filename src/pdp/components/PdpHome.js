@@ -289,6 +289,16 @@ export default class PdpApparel extends React.Component {
       this.addToCart();
       this.props.history.replace(this.props.location.pathname);
     }
+    /* Start - Gemini Script  */
+    //gemini rum JS object check
+    if (typeof window.GEM == "object") {
+      //gemini custom ID for Product Detail Page - Home
+
+      window.GEM.setGeminiPageId("0002321000100600");
+    } else {
+      window.gemPageId = "0002321000100600";
+    }
+    /* End - Gemini Script  */
   }
 
   render() {
