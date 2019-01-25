@@ -642,8 +642,9 @@ class CartPage extends React.Component {
           <div className={styles.pageCenter}>
             <DesktopOnly>
               <div className={styles.offerText}>
-                <span>Bank Offer,</span> if applicable, can be selected on the
-                payment page
+                Additional <span>bank offers</span>, if any, can be applied on
+                the payment page. <span>Cashback offers</span>, if any, will be
+                credited to your account after the order has been placed.
               </div>
             </DesktopOnly>
             <div className={styles.content}>
