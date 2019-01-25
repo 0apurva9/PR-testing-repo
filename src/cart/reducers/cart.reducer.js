@@ -1029,6 +1029,7 @@ const cart = (
       return Object.assign({}, state, {
         codEligibilityStatus: action.status,
         codEligibilityError: action.error,
+        codEligibilityDetails: action.status,
         loading: false
       });
 
