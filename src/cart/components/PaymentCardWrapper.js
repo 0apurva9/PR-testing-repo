@@ -63,11 +63,13 @@ export default class PaymentCardWrapper extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (
-      this.props.getCODEligibility &&
-      this.props.cart.paymentModes !== nextProps.cart.paymentModes
-    ) {
-      this.props.getCODEligibility();
+    if (nextProps !== this.props) {
+      if (
+        this.props.getCODEligibility &&
+        this.props.cart.paymentModes !== nextProps.cart.paymentModes
+      ) {
+        this.props.getCODEligibility();
+      }
     }
   }
 

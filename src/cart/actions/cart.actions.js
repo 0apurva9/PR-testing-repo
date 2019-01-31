@@ -1145,13 +1145,15 @@ export function emiBankingDetailsFailure(error) {
 
 export function getEmiBankDetails(price) {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartGuid = JSON.parse(cartDetails).guid;
   return async (dispatch, getState, { api }) => {
     dispatch(emiBankingDetailsRequest());
     try {
       const result = await api.get(
         `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true`
+        }&guid=${cartGuid}&isFromNewVersion=true&isPwa=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
