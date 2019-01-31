@@ -40,7 +40,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     searchText: ownProps.searchText ? ownProps.searchText : null,
     clickedProductModuleRef: state.productListings.clickedProductModuleRef,
-    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl
+    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
+    urlString: state.productListings.urlString
   };
 };
 

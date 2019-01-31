@@ -253,6 +253,22 @@ class ProductListingsPage extends Component {
       return;
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.urlString != this.props.urlString && nextProps.urlString) {
+      if (
+        nextProps.urlString.indexOf("https") != -1 ||
+        nextProps.urlString.indexOf("http") != -1
+      )
+        window.location.href = nextProps.urlString;
+      else {
+        this.props.history.push(nextProps.urlString, {
+          isFilter: false
+        });
+      }
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.lastVisitedPlpUrl !== window.location.href) {
       let page = null;

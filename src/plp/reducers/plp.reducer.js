@@ -18,7 +18,8 @@ const productListings = (
     sortHasBeenClicked: false,
     clickedProductModuleRef: null,
     lastVisitedPlpUrl: null,
-    deselectedOutOfStock: false
+    deselectedOutOfStock: false,
+    urlString: null
   },
   action
 ) => {
@@ -181,6 +182,10 @@ const productListings = (
       return Object.assign({}, state, {
         productListings: existingProductListings,
         status: action.status
+      });
+    case plpActions.SEARCH_URL_REDIRECT:
+      return Object.assign({}, state, {
+        urlString: action.value
       });
     default:
       return state;
