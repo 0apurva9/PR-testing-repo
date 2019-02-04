@@ -621,6 +621,7 @@ export function getComponentData(
         if (type === AUTOMATED_BRAND_CAROUSEL) {
           postData.append("num_brands", JSON.stringify(MSD_NUM_BRANDS));
           postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
+          postData.append("channel", "pwa");
         }
 
         if (type === FOLLOW_WIDGET) {
