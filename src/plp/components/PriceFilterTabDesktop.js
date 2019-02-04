@@ -5,6 +5,7 @@ import ControlInput from "../../general/components/ControlInput";
 import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import ApplyPriceFilterIcon from "./img/arrow.svg";
+import { TEXT_REGEX } from "./FilterUtils";
 const PRICE_FILTER_REG_EX = /(:price:[,₹0-9]+-[,₹0-9]+)/g;
 const ABOVE_PRICE_FILTER_REGEX = /(:price:[,₹0-9]+\+and\+Above)/g;
 const LAST_PRICE_LIMIT_REGEX = /(:price:[,₹0-9]+\+-[,₹0-9]+)/g;
@@ -34,11 +35,17 @@ export default class PriceFilterTabDesktop extends React.Component {
       let maxRange =
         "₹" +
         this.state.maxRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
       let currentAppliedFilters = "   :relevance";
       if (/q=/.test(this.props.history.location.search)) {
         currentAppliedFilters = decodeURIComponent(
           this.props.history.location.search
         );
+      } else {
+        if (TEXT_REGEX.test(this.props.history.location.search)) {
+          const textParam = TEXT_REGEX.exec(this.props.history.location.search);
+          currentAppliedFilters = `   ${textParam[1]}:relevance`;
+        }
       }
       if (currentAppliedFilters) {
         if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
