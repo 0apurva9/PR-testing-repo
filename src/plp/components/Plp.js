@@ -308,7 +308,7 @@ export default class Plp extends React.Component {
       url = parsingurl[0];
     }
     if (url.match("/search/")) {
-      url = url.replace("/search", "");
+      url = url.replace("/search/", "");
       url = this.props.location.pathname + url;
     } else {
       url = url;
