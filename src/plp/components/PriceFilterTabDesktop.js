@@ -44,7 +44,9 @@ export default class PriceFilterTabDesktop extends React.Component {
       } else {
         if (TEXT_REGEX.test(this.props.history.location.search)) {
           const textParam = TEXT_REGEX.exec(this.props.history.location.search);
-          currentAppliedFilters = `   ${textParam[1]}:relevance`;
+          currentAppliedFilters = `   ${
+            textParam && textParam[1] ? textParam[1] : ""
+          }:relevance`;
         }
       }
       if (currentAppliedFilters) {

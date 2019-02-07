@@ -257,11 +257,11 @@ class ProductListingsPage extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.urlString != this.props.urlString && nextProps.urlString) {
       if (
-        nextProps.urlString.indexOf("https") != -1 ||
-        nextProps.urlString.indexOf("http") != -1
-      )
+        nextProps.urlString.includes("https") ||
+        nextProps.urlString.includes("http")
+      ) {
         window.location.href = nextProps.urlString;
-      else {
+      } else {
         this.props.history.push(nextProps.urlString, {
           isFilter: false
         });
