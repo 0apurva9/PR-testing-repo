@@ -125,13 +125,15 @@ export default class SellerCard extends React.Component {
           >
             {this.props.eligibleDeliveryModes &&
               this.props.eligibleDeliveryModes.map((val, i) => {
-                return (
-                  <div className={styles.shippingText}>
-                    {val.name}
-                    {val.description && <span>-</span>}
-                    {val.description}
-                  </div>
-                );
+                if (val.name !== "Same Day Delivery") {
+                  return (
+                    <div className={styles.shippingText}>
+                      {val.name}
+                      {val.description && <span>-</span>}
+                      {val.description}
+                    </div>
+                  );
+                }
               })}
             {this.props.hasCod && (
               <div className={styles.offerText}>{this.props.cashText}</div>
