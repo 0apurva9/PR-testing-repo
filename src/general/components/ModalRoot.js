@@ -608,6 +608,7 @@ export default class ModalRoot extends React.Component {
             this.releaseBankOffer(couponCode, newCouponCode)
           }
           {...this.props.ownProps}
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       generateOtpForCliqCash: (
