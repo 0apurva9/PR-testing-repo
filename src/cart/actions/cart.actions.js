@@ -1731,7 +1731,7 @@ export function paymentModesFailure(error) {
 }
 
 // Action Creator for Soft Reservation
-export function getPaymentModes(guId) {
+export function getPaymentModes(guId, isPaymentFailed, isComingFromRetryUrl) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -1757,6 +1757,7 @@ export function getPaymentModes(guId) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
       );
+      dispatch(getCODEligibility(isPaymentFailed, isComingFromRetryUrl, guId));
     } catch (e) {
       dispatch(paymentModesFailure(e.message));
     }
