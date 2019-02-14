@@ -106,7 +106,8 @@ const productListings = (
       return Object.assign({}, state, toUpdate);
     case plpActions.PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR:
       toUpdate = {
-        status: action.status
+        status: action.status,
+        urlString: null
       };
 
       if (action.isPaginated) {
