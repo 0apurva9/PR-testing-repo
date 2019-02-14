@@ -3233,7 +3233,9 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (this.props.cart.paymentModes &&
+                    (this.state.confirmAddress &&
+                      this.state.deliverMode &&
+                      this.props.cart.paymentModes &&
                       this.props.cart.paymentModes.paymentOffers &&
                       this.props.cart.paymentModes.paymentOffers.coupons) && (
                       <BankOfferWrapper
