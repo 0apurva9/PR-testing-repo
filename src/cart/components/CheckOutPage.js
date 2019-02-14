@@ -2463,7 +2463,14 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.applyCliqCash();
     }
   };
-  removeCliqCash = () => {
+  removeCliqCash = async () => {
+    let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);
+    if (bankOffer) {
+      const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
+      if (releaseCouponReq.status === SUCCESS) {
+        this.setState({ selectedBankOfferCode: "" });
+      }
+    }
     this.setState({
       isCliqCashApplied: false,
       isCliqCashApplied: false,
@@ -3233,7 +3240,9 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (this.props.cart.paymentModes &&
+                    (this.state.confirmAddress &&
+                      this.state.deliverMode &&
+                      this.props.cart.paymentModes &&
                       this.props.cart.paymentModes.paymentOffers &&
                       this.props.cart.paymentModes.paymentOffers.coupons) && (
                       <BankOfferWrapper
