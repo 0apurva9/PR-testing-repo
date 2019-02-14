@@ -170,8 +170,17 @@ export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
   let stringVal = null;
   let searchText = "",
     completeUrl = "";
-  if (resultJson.currentQuery.pageRedirectType == "SEARCH") {
-    if (resultJson.currentQuery.query.value.split(":")[0] == "") {
+  if (
+    resultJson &&
+    resultJson.currentQuery &&
+    resultJson.currentQuery.pageRedirectType &&
+    resultJson.currentQuery.pageRedirectType === "SEARCH"
+  ) {
+    if (
+      resultJson.currentQuery.query &&
+      resultJson.currentQuery.query.value &&
+      resultJson.currentQuery.query.value.split(":")[0] === ""
+    ) {
       if (JSON.parse(localStorage.getItem(USER_SEARCH_LOCAL_STORAGE)).length) {
         searchText = JSON.parse(
           localStorage.getItem(USER_SEARCH_LOCAL_STORAGE)
@@ -183,7 +192,12 @@ export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
     }
 
     stringVal = "/search/?searchCategory=all&text=" + completeUrl;
-  } else if (resultJson.currentQuery.pageRedirectType == "OTHERS") {
+  } else if (
+    resultJson &&
+    resultJson.currentQuery &&
+    resultJson.currentQuery.pageRedirectType &&
+    resultJson.currentQuery.pageRedirectType === "OTHERS"
+  ) {
     stringVal = resultJson.currentQuery.redirectUrl;
   }
   return {
