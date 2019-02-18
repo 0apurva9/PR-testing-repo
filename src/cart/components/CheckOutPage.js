@@ -1718,15 +1718,15 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getCODEligibility = cartId => {
-    if (this.props.getCODEligibility) {
-      this.props.getCODEligibility(
-        this.state.isPaymentFailed,
-        this.state.isComingFromRetryUrl,
-        this.state.retryCartGuid
-      );
-    }
-  };
+  // getCODEligibility = cartId => {
+  //   if (this.props.getCODEligibility) {
+  //     this.props.getCODEligibility(
+  //       this.state.isPaymentFailed,
+  //       this.state.isComingFromRetryUrl,
+  //       this.state.retryCartGuid
+  //     );
+  //   }
+  // };
 
   getPaymentModes = () => {
     if (
@@ -1741,7 +1741,11 @@ if you have order id in local storage then you have to show order confirmation p
       } else {
         egvGiftCartGuId = this.props.location.state.egvCartGuid;
       }
-      this.props.getPaymentModes(egvGiftCartGuId);
+      this.props.getPaymentModes(
+        egvGiftCartGuId,
+        this.state.isPaymentFailed,
+        this.state.isComingFromRetryUrl
+      );
     } else if (
       (this.props.location &&
         this.props.location.state &&
@@ -1754,7 +1758,11 @@ if you have order id in local storage then you have to show order confirmation p
       } else {
         retryCartGuId = this.props.location.state.retryPaymentGuid;
       }
-      this.props.getPaymentModes(retryCartGuId);
+      this.props.getPaymentModes(
+        retryCartGuId,
+        this.state.isPaymentFailed,
+        true
+      );
     } else {
       let cartGuId;
       const parsedQueryString = queryString.parse(this.props.location.search);
@@ -1764,7 +1772,11 @@ if you have order id in local storage then you have to show order confirmation p
         let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
         cartGuId = JSON.parse(cartDetails).guid;
       }
-      this.props.getPaymentModes(cartGuId);
+      this.props.getPaymentModes(
+        cartGuId,
+        this.state.isPaymentFailed,
+        this.state.isComingFromRetryUrl
+      );
     }
   };
   onSelectAddress(selectedAddress) {
@@ -2451,7 +2463,14 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.applyCliqCash();
     }
   };
-  removeCliqCash = () => {
+  removeCliqCash = async () => {
+    let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);
+    if (bankOffer) {
+      const releaseCouponReq = await this.props.releaseBankOffer(bankOffer);
+      if (releaseCouponReq.status === SUCCESS) {
+        this.setState({ selectedBankOfferCode: "" });
+      }
+    }
     this.setState({
       isCliqCashApplied: false,
       isCliqCashApplied: false,
@@ -3221,7 +3240,9 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (this.props.cart.paymentModes &&
+                    (this.state.confirmAddress &&
+                      this.state.deliverMode &&
+                      this.props.cart.paymentModes &&
                       this.props.cart.paymentModes.paymentOffers &&
                       this.props.cart.paymentModes.paymentOffers.coupons) && (
                       <BankOfferWrapper
