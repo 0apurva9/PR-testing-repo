@@ -202,8 +202,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getNetBankDetails: () => {
       dispatch(getNetBankDetails());
     },
-    getEmiBankDetails: cartTotalProducts => {
-      dispatch(getEmiBankDetails(cartTotalProducts));
+    getEmiBankDetails: (cartTotalProducts, isFromRetryUrl, retryCartGuid) => {
+      dispatch(
+        getEmiBankDetails(cartTotalProducts, isFromRetryUrl, retryCartGuid)
+      );
     },
     openBankOfferTncModal: () => {
       dispatch(showModal(TNC_FOR_BANK_OFFER_POPUP));

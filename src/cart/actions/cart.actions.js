@@ -1143,10 +1143,15 @@ export function emiBankingDetailsFailure(error) {
   };
 }
 
-export function getEmiBankDetails(price) {
+export function getEmiBankDetails(price, isFromRetryUrl, retryCartGuid) {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartGuid = JSON.parse(cartDetails).guid;
+  let cartGuid = "";
+  if (isFromRetryUrl) {
+    cartGuid = retryCartGuid;
+  } else {
+    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartGuid = JSON.parse(cartDetails).guid;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(emiBankingDetailsRequest());
     try {
