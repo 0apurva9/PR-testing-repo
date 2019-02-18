@@ -3341,7 +3341,6 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
-                      getCODEligibility={() => this.getCODEligibility()}
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEmiEligibility()}
