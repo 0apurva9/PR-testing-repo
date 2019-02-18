@@ -186,8 +186,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     softReservation: (pinCode, payload) => {
       dispatch(softReservation(pinCode, payload));
     },
-    getPaymentModes: guIdDetails => {
-      dispatch(getPaymentModes(guIdDetails));
+    getPaymentModes: (guIdDetails, isPaymentFailed, isComingFromRetryUr) => {
+      dispatch(
+        getPaymentModes(guIdDetails, isPaymentFailed, isComingFromRetryUr)
+      );
     },
     showCouponModal: data => {
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER);
