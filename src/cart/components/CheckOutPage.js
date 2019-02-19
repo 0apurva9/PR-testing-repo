@@ -205,13 +205,17 @@ class CheckOutPage extends React.Component {
       isOpenTransactionFailedPopUp: true,
       isComingFromRetryUrl: false,
       retryCartGuid: null,
-      retryFlagForEmiCoupon: false
+      retryFlagForEmiCoupon: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     };
   }
 
   changeEmiPlan = () => {
     this.setState({
-      cardDetails: {}
+      cardDetails: {},
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     });
   };
   onClickImage(productCode) {
@@ -278,7 +282,9 @@ class CheckOutPage extends React.Component {
       noCostEmiDiscount: "0.00",
       isNoCostEmiProceeded: false,
       paymentModeSelected: null,
-      binValidationCOD: false
+      binValidationCOD: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     });
   };
   navigateToJusPayOnGET(url) {
@@ -322,13 +328,14 @@ class CheckOutPage extends React.Component {
     if (noCostEmiCouponCode) {
       this.removeNoCostEmi(noCostEmiCouponCode);
     }
-
     this.setState({
       currentSelectedEMIType,
       cardDetails: {},
       noCostEmiBankName: null,
       noCostEmiDiscount: "0.00",
-      isNoCostEmiApplied: false
+      isNoCostEmiApplied: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
     });
   }
   updateLocalStoragePinCode(pincode) {
@@ -2455,16 +2462,116 @@ if you have order id in local storage then you have to show order confirmation p
     this.props.removeCliqCash();
   };
 
-  binValidation = (paymentMode, binNo) => {
-    if (this.state.isPaymentFailed) {
-      localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
-      const parsedQueryString = queryString.parse(this.props.location.search);
-      const cartGuId = parsedQueryString.value;
-      this.props.binValidation(paymentMode, binNo, cartGuId);
+  binValidation = async (paymentMode, binNo) => {
+    if (paymentMode === EMI) {
+      let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
+        binNo
+      );
+      if (
+        binValidationOfEmiEligibleResponse &&
+        binValidationOfEmiEligibleResponse.status === "success"
+      ) {
+        let minAmountOfEmiEligible =
+          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
+          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
+            .minAmount;
+        let integerValueOfMinAmount =
+          minAmountOfEmiEligible && parseInt(minAmountOfEmiEligible, 10);
+        if (
+          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
+          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible
+            .isEMIEligibleBin === false
+        ) {
+          this.setState({
+            emiBinValidationStatus: true,
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
+          });
+        } else if (
+          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
+          this.state.cardDetails &&
+          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank !==
+            this.state.cardDetails.emi_bank
+        ) {
+          this.setState({
+            emiBinValidationStatus: true,
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+            } card only.`
+          });
+        } else if (
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount &&
+          this.props.cart.cartDetailsCNC.cartAmount.paybleAmount &&
+          this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.doubleValue &&
+          integerValueOfMinAmount &&
+          integerValueOfMinAmount >
+            this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.doubleValue
+        ) {
+          this.setState({
+            emiBinValidationStatus: true,
+            emiBinValidationErrorMessage:
+              "This order amount doesn't meet the EMI eligibility criterion."
+          });
+        } else if (
+          this.state.payableAmount &&
+          integerValueOfMinAmount &&
+          integerValueOfMinAmount > this.state.payableAmount
+        ) {
+          this.setState({
+            emiBinValidationStatus: true,
+            emiBinValidationErrorMessage:
+              "This order amount doesn't meet the EMI eligibility criterion."
+          });
+        } else {
+          this.setState({
+            emiBinValidationStatus: false,
+            emiBinValidationErrorMessage: null
+          });
+          if (this.state.isPaymentFailed) {
+            localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+            const parsedQueryString = queryString.parse(
+              this.props.location.search
+            );
+            const cartGuId = parsedQueryString.value;
+            this.props.binValidation(paymentMode, binNo, cartGuId);
+          } else {
+            localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+            this.setState({ paymentModeSelected: paymentMode });
+            this.props.binValidation(paymentMode, binNo);
+          }
+        }
+      } else {
+        this.setState({
+          emiBinValidationErrorMessage: null,
+          emiBinValidationStatus: false
+        });
+        if (this.state.isPaymentFailed) {
+          localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+          const parsedQueryString = queryString.parse(
+            this.props.location.search
+          );
+          const cartGuId = parsedQueryString.value;
+          this.props.binValidation(paymentMode, binNo, cartGuId);
+        } else {
+          localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+          this.setState({ paymentModeSelected: paymentMode });
+          this.props.binValidation(paymentMode, binNo);
+        }
+      }
     } else {
-      localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
-      this.setState({ paymentModeSelected: paymentMode });
-      this.props.binValidation(paymentMode, binNo);
+      if (this.state.isPaymentFailed) {
+        localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+        const parsedQueryString = queryString.parse(this.props.location.search);
+        const cartGuId = parsedQueryString.value;
+        this.props.binValidation(paymentMode, binNo, cartGuId);
+      } else {
+        localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+        this.setState({ paymentModeSelected: paymentMode });
+        this.props.binValidation(paymentMode, binNo);
+      }
     }
   };
   softReservationPaymentForWallet = bankName => {
@@ -2686,7 +2793,14 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.currentPaymentMode === CREDIT_CARD ||
       this.state.currentPaymentMode === EMI
     ) {
-      return this.validateCard();
+      if (
+        this.state.currentPaymentMode === EMI &&
+        this.state.emiBinValidationStatus
+      ) {
+        return true;
+      } else {
+        return this.validateCard();
+      }
     }
   };
   validateDebitCard = () => {
@@ -3250,6 +3364,9 @@ if you have order id in local storage then you have to show order confirmation p
                           : this.handleSubmit
                       }
                       redeemCliqVoucher={val => this.redeemCliqVoucher(val)}
+                      emiBinValidationErrorMessage={
+                        this.state.emiBinValidationErrorMessage
+                      }
                     />
                   </div>
                 )}

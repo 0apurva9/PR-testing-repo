@@ -32,6 +32,7 @@ import {
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT
 } from "../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import PdpFlags from "../components/PdpFlags.js";
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
   loading: () => <div />
@@ -404,10 +405,14 @@ export default class PdpJewellery extends React.Component {
                 );
               })}
             </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              (this.props.productDetails.winningSellerAvailableStock === "0" &&
-                this.checkIfSizeSelected())) && (
-              <div className={styles.flag}>Out of stock</div>
+            {productData.winningSellerPrice && (
+              <PdpFlags
+                discountPercent={productData.discount}
+                isOfferExisting={productData.isOfferExisting}
+                onlineExclusive={productData.isOnlineExclusive}
+                outOfStock={productData.allOOStock}
+                newProduct={productData.isProductNew}
+              />
             )}
             {!productData.winningSellerPrice && (
               <div className={styles.flag}>Not Saleable</div>
