@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PlpContainer from "../containers/PlpContainer";
+import Loader from "../../general/components/Loader";
 import queryString from "query-string";
 import {
   CATEGORY_PRODUCT_LISTINGS_WITH_PAGE,
@@ -270,18 +271,6 @@ class ProductListingsPage extends Component {
   // }
 
   componentDidUpdate() {
-    if (this.props.urlString && window.location.href !== this.props.urlString) {
-      if (
-        this.props.urlString.includes("https") ||
-        this.props.urlString.includes("http")
-      ) {
-        window.location.href = this.props.urlString;
-      } else {
-        this.props.history.push(this.props.urlString, {
-          isFilter: false
-        });
-      }
-    }
     if (this.props.lastVisitedPlpUrl !== window.location.href) {
       let page = null;
       if (this.props.lastVisitedPlpUrl === window.location.href) {
@@ -364,6 +353,9 @@ class ProductListingsPage extends Component {
   }
   render() {
     let isFilter = false;
+    if (this.props.urlString) {
+      return <Loader />;
+    }
     if (this.props.location.state && this.props.location.state.isFilter) {
       isFilter = true;
     }
