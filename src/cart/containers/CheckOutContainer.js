@@ -54,7 +54,8 @@ import {
   createJusPayOrder,
   resetIsSoftReservationFailed,
   preventRestingAllPaymentMode,
-  getUserAddressAndDeliveryModesByRetryPayment
+  getUserAddressAndDeliveryModesByRetryPayment,
+  binValidationOfEmiEligible
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -185,8 +186,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     softReservation: (pinCode, payload) => {
       dispatch(softReservation(pinCode, payload));
     },
-    getPaymentModes: guIdDetails => {
-      dispatch(getPaymentModes(guIdDetails));
+    getPaymentModes: (guIdDetails, isPaymentFailed, isComingFromRetryUr) => {
+      dispatch(
+        getPaymentModes(guIdDetails, isPaymentFailed, isComingFromRetryUr)
+      );
     },
     showCouponModal: data => {
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER);
@@ -201,8 +204,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getNetBankDetails: () => {
       dispatch(getNetBankDetails());
     },
-    getEmiBankDetails: cartTotalProducts => {
-      dispatch(getEmiBankDetails(cartTotalProducts));
+    getEmiBankDetails: (cartTotalProducts, isFromRetryUrl, retryCartGuid) => {
+      dispatch(
+        getEmiBankDetails(cartTotalProducts, isFromRetryUrl, retryCartGuid)
+      );
     },
     openBankOfferTncModal: () => {
       dispatch(showModal(TNC_FOR_BANK_OFFER_POPUP));
@@ -549,6 +554,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         );
         ownProps.history.push(MY_ACCOUNT);
       }
+    },
+    binValidationOfEmiEligible: binNo => {
+      return dispatch(binValidationOfEmiEligible(binNo));
     }
   };
 };

@@ -295,9 +295,7 @@ export default class Plp extends React.Component {
   };
   onClickCancelIcon(val, filterName) {
     let url = "";
-    url = val.replace("page-{pageNo}", "");
-    url = url.replace("/search/", "");
-
+    url = val.replace("page-{pageNo}", "page-1");
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
 
@@ -309,7 +307,13 @@ export default class Plp extends React.Component {
       parsingurl = url.split("?");
       url = parsingurl[0];
     }
-    url = this.props.location.pathname + url;
+    if (url.match("/search/")) {
+      url = url.replace("/search/", "");
+      url = this.props.location.pathname + url;
+    } else {
+      url = url;
+    }
+
     if (filterName.includes("Exclude out of stock")) {
       this.props.userSelectedOutOfStock(true);
     }
@@ -356,74 +360,76 @@ export default class Plp extends React.Component {
 
   renderPageTags = () => {
     let url = `${URL_ROOT}${this.props.productListings.currentQuery.url}`;
-    const lastPage = Number.parseInt(
-      this.props.productListings.pagination.totalPages,
-      10
-    );
-    const page =
-      Number.parseInt(this.props.productListings.pagination.currentPage, 10) +
-      1;
+    if (this.props.productListings.pagination) {
+      const lastPage = Number.parseInt(
+        this.props.productListings.pagination.totalPages,
+        10
+      );
+      const page =
+        Number.parseInt(this.props.productListings.pagination.currentPage, 10) +
+        1;
 
-    if (page === 1) {
-      url = url.replace("{pageNo}", page + 1);
-      return (
-        <Helmet>
-          <link
-            rel="next"
-            id="next"
-            href={
-              this.props.productListings.seo &&
-              this.props.productListings.seo.relNext
-                ? this.props.productListings.seo.relNext
-                : url
-            }
-          />
-        </Helmet>
-      );
-    } else if (page === lastPage) {
-      url = url.replace("{pageNo}", page - 1);
+      if (page === 1) {
+        url = url.replace("{pageNo}", page + 1);
+        return (
+          <Helmet>
+            <link
+              rel="next"
+              id="next"
+              href={
+                this.props.productListings.seo &&
+                this.props.productListings.seo.relNext
+                  ? this.props.productListings.seo.relNext
+                  : url
+              }
+            />
+          </Helmet>
+        );
+      } else if (page === lastPage) {
+        url = url.replace("{pageNo}", page - 1);
 
-      return (
-        <Helmet>
-          <link
-            rel="prev"
-            id="prev"
-            href={
-              this.props.productListings.seo &&
-              this.props.productListings.seo.relPrev
-                ? this.props.productListings.seo.relPrev
-                : url
-            }
-          />
-        </Helmet>
-      );
-    } else if (page > 1 && page < lastPage) {
-      const prevUrl = url.replace("{pageNo}", page - 1);
-      const nextUrl = url.replace("{pageNo}", page + 1);
-      return (
-        <Helmet>
-          <link
-            rel="next"
-            id="next"
-            href={
-              this.props.productListings.seo &&
-              this.props.productListings.seo.relNext
-                ? this.props.productListings.seo.relNext
-                : nextUrl
-            }
-          />
-          <link
-            rel="prev"
-            id="prev"
-            href={
-              this.props.productListings.seo &&
-              this.props.productListings.seo.relPrev
-                ? this.props.productListings.seo.relPrev
-                : prevUrl
-            }
-          />
-        </Helmet>
-      );
+        return (
+          <Helmet>
+            <link
+              rel="prev"
+              id="prev"
+              href={
+                this.props.productListings.seo &&
+                this.props.productListings.seo.relPrev
+                  ? this.props.productListings.seo.relPrev
+                  : url
+              }
+            />
+          </Helmet>
+        );
+      } else if (page > 1 && page < lastPage) {
+        const prevUrl = url.replace("{pageNo}", page - 1);
+        const nextUrl = url.replace("{pageNo}", page + 1);
+        return (
+          <Helmet>
+            <link
+              rel="next"
+              id="next"
+              href={
+                this.props.productListings.seo &&
+                this.props.productListings.seo.relNext
+                  ? this.props.productListings.seo.relNext
+                  : nextUrl
+              }
+            />
+            <link
+              rel="prev"
+              id="prev"
+              href={
+                this.props.productListings.seo &&
+                this.props.productListings.seo.relPrev
+                  ? this.props.productListings.seo.relPrev
+                  : prevUrl
+              }
+            />
+          </Helmet>
+        );
+      }
     }
 
     return null;
@@ -527,7 +533,8 @@ export default class Plp extends React.Component {
                           this.props.productListings.currentQuery.searchQuery.replace(
                             "%22",
                             '"'
-                          )}"
+                          )}
+                      "
                     </span>
                   </div>
                 </div>
@@ -603,6 +610,7 @@ export default class Plp extends React.Component {
                     location={this.props.location}
                     data={this.props.productListings.searchresult}
                     totalResults={
+                      this.props.productListings.pagination &&
                       this.props.productListings.pagination.totalResults
                     }
                     setProductModuleRef={this.props.setProductModuleRef}
@@ -666,6 +674,7 @@ export default class Plp extends React.Component {
                       location={this.props.location}
                       data={this.props.productListings.searchresult}
                       totalResults={
+                        this.props.productListings.pagination &&
                         this.props.productListings.pagination.totalResults
                       }
                       setProductModuleRef={this.props.setProductModuleRef}
@@ -679,6 +688,7 @@ export default class Plp extends React.Component {
                   </div>
                   <DesktopOnly>
                     {this.props.productListings &&
+                      this.props.productListings.pagination &&
                       this.props.pageNumber <
                         this.props.productListings.pagination.totalPages -
                           1 && (

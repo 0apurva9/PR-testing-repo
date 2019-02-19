@@ -3,7 +3,6 @@ import Image from "../../xelpmoc-core/Image";
 import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
 import Video from "../../general/components/Video";
-
 export default class ProductGalleryDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -57,6 +56,7 @@ export default class ProductGalleryDesktop extends React.Component {
       this.getDimensions(this.refs.zoom);
     }
   }
+
   handleZoomMove(evt) {
     const scrollTop =
       (window.pageYOffset || this.refs.zoom.scrollTop) -

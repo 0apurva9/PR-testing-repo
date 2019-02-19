@@ -76,7 +76,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
       selected = "CLiQ Cash";
     }
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`) {
-      selected = "Settings";
+      selected = "Profile";
     }
     const data = [
       {
@@ -146,7 +146,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
           pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`
             ? settingsRed
             : settings,
-        text: "Settings",
+        text: "Profile",
         url: MY_ACCOUNT_UPDATE_PROFILE_PAGE
       }
     ];

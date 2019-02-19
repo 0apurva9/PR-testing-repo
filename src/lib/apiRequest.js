@@ -580,3 +580,13 @@ export async function postMsdRowData(url, payload) {
     }
   });
 }
+export async function corePostByUrlEncoded(path, postData) {
+  const url = `${API_URL_ROOT}/${path}`;
+  return await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: postData
+  });
+}

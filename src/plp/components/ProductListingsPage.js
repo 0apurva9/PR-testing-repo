@@ -253,7 +253,35 @@ class ProductListingsPage extends Component {
       return;
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.urlString !== this.props.urlString && nextProps.urlString) {
+  //     if (
+  //       nextProps.urlString.includes("https") ||
+  //       nextProps.urlString.includes("http")
+  //     ) {
+  //       window.location.href = nextProps.urlString;
+  //     } else {
+  //       this.props.history.push(nextProps.urlString, {
+  //         isFilter: false
+  //       });
+  //     }
+  //   }
+  // }
+
   componentDidUpdate() {
+    if (this.props.urlString && window.location.href !== this.props.urlString) {
+      if (
+        this.props.urlString.includes("https") ||
+        this.props.urlString.includes("http")
+      ) {
+        window.location.href = this.props.urlString;
+      } else {
+        this.props.history.push(this.props.urlString, {
+          isFilter: false
+        });
+      }
+    }
     if (this.props.lastVisitedPlpUrl !== window.location.href) {
       let page = null;
       if (this.props.lastVisitedPlpUrl === window.location.href) {

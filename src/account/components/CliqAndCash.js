@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Logo from "../../general/components/Logo";
-import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button.js";
 import cliqCashIcon from "./img/cliqcash.png";
@@ -69,6 +69,18 @@ export default class CliqAndCash extends React.Component {
       }
     }
   }
+  onChangeCardNumber(cardNumber) {
+    if (cardNumber === "" || /^[0-9]+$/.test(cardNumber))
+      if (cardNumber.length <= 16) {
+        this.setState({ cardNumber: cardNumber });
+      }
+  }
+  onChangePinNumber(pinNumber) {
+    if (pinNumber === "" || /^[0-9]+$/.test(pinNumber))
+      if (pinNumber.length <= 6) {
+        this.setState({ pinNumber: pinNumber });
+      }
+  }
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
@@ -124,16 +136,17 @@ export default class CliqAndCash extends React.Component {
                   <div className={styles.inputBoxHolder}>
                     <div className={styles.labelHeader}>Card Number</div>
                     <div className={styles.inputTextHolder}>
-                      <Input2
+                      <ControlInput
                         boxy={true}
-                        onlyNumber={true}
                         placeholder="Enter 16 digit card number"
                         value={
                           this.props.cardNumber
                             ? this.props.cardNumber
                             : this.state.cardNumber
                         }
-                        onChange={cardNumber => this.setState({ cardNumber })}
+                        onChange={cardNumber =>
+                          this.onChangeCardNumber(cardNumber)
+                        }
                         textStyle={{ fontSize: 14 }}
                         height={33}
                       />
@@ -142,16 +155,17 @@ export default class CliqAndCash extends React.Component {
                   <div className={styles.inputBoxHolder}>
                     <div className={styles.labelHeader}>Card Pin</div>
                     <div className={styles.inputTextHolder}>
-                      <Input2
+                      <ControlInput
                         boxy={true}
-                        onlyNumber={true}
                         placeholder="Enter 6 digit number"
                         value={
                           this.props.pinNumber
                             ? this.props.pinNumber
                             : this.state.pinNumber
                         }
-                        onChange={pinNumber => this.setState({ pinNumber })}
+                        onChange={pinNumber =>
+                          this.onChangePinNumber(pinNumber)
+                        }
                         textStyle={{ fontSize: 14 }}
                         height={33}
                       />

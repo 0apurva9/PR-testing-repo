@@ -32,7 +32,9 @@ export default function withMultiSelect(Component, ownProps) {
     }
     componentWillReceiveProps(props) {
       if (props.selected !== this.props.selected) {
-        this.setState({ selected: props.selected });
+        this.setState({
+          selected: props.selected
+        });
       }
     }
     render() {

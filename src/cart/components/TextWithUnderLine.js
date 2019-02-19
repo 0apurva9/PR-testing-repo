@@ -11,7 +11,8 @@ export default class TextWithUnderLine extends React.Component {
     super(props);
     this.state = {
       borderColor: "#d2d2d2",
-      borderBottom: "1px solid #d2d2d2"
+      borderBottom: "1px solid #d2d2d2",
+      getPinCode: null
     };
   }
   onClick() {
@@ -35,6 +36,17 @@ export default class TextWithUnderLine extends React.Component {
     }
     if (this.props.onFocusInput) {
       this.props.onFocusInput();
+    }
+  }
+  componentWillReceiveProps(props) {
+    if (this.state.getPinCode !== props.getPinCode) {
+      this.setState({ getPinCode: props.getPinCode });
+    }
+  }
+
+  componentDidMount() {
+    if (this.state.getPinCode !== this.props.getPinCode) {
+      this.setState({ getPinCode: this.props.getPinCode });
     }
   }
   onChange(pinCode) {
@@ -64,29 +76,38 @@ export default class TextWithUnderLine extends React.Component {
         : null;
 
     return (
-      <div className={defaultPinCode ? styles.base : styles.noOffset}>
-        {defaultPinCode && (
-          <div className={styles.headingText}>{defaultPinCode}</div>
+      <div
+        className={
+          defaultPinCode || this.state.getPinCode
+            ? styles.base
+            : styles.noOffset
+        }
+      >
+        {(defaultPinCode || this.state.getPinCode) && (
+          <div className={styles.headingText}>
+            {defaultPinCode ? defaultPinCode : this.state.getPinCode}
+          </div>
         )}
-        {!defaultPinCode && (
-          <SearchAndUpdate
-            id="searchAndUpdateInput"
-            focused={true}
-            checkPinCodeAvailability={pincode =>
-              this.checkPinCodeAvailability(pincode)
-            }
-            onFocusInput={event => this.onFocusInput(event)}
-            onBlur={() => this.onBlur()}
-            labelText="Submit"
-            borderColor={this.state.borderColor}
-            borderBottom={this.state.borderBottom}
-            onKeyPress={this.props.onKeyPress}
-            onChange={pincode => this.onChange(pincode)}
-            ovalButton={this.props.ovalButton}
-          />
-        )}
+        {!defaultPinCode &&
+          !this.state.getPinCode && (
+            <SearchAndUpdate
+              id="searchAndUpdateInput"
+              focused={true}
+              checkPinCodeAvailability={pincode =>
+                this.checkPinCodeAvailability(pincode)
+              }
+              onFocusInput={event => this.onFocusInput(event)}
+              onBlur={() => this.onBlur()}
+              labelText="Submit"
+              borderColor={this.state.borderColor}
+              borderBottom={this.state.borderBottom}
+              onKeyPress={this.props.onKeyPress}
+              onChange={pincode => this.onChange(pincode)}
+              ovalButton={this.props.ovalButton}
+            />
+          )}
 
-        {defaultPinCode && (
+        {(defaultPinCode || this.state.getPinCode) && (
           <React.Fragment>
             <MobileOnly>
               <div className={styles.button}>
