@@ -140,15 +140,20 @@ export default class OrderRelatedPopup extends React.Component {
                     </div>
                   );
                 }
+              )}{" "}
+            {this.props.ordersTransactionData &&
+              (this.props.ordersTransactionData.currentPage + 1) *
+                this.props.ordersTransactionData.pageSize <
+                this.props.ordersTransactionData.totalNoOfOrders && (
+                <div className={styles.loadMore}>
+                  <div
+                    className={styles.loadMoreText}
+                    onClick={() => this.getMoreOrder()}
+                  >
+                    Load More
+                  </div>
+                </div>
               )}
-            <div className={styles.loadMore}>
-              <div
-                className={styles.loadMoreText}
-                onClick={() => this.getMoreOrder()}
-              >
-                Load More
-              </div>
-            </div>
           </div>
         </div>
       </div>

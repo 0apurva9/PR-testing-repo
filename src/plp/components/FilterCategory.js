@@ -26,7 +26,7 @@ export default class FilterCategory extends Component {
             >
               {val.childFilters &&
                 val.childFilters.map((data, i) => {
-                  if (data.quantity > 0) {
+                  if (data.quantity > 0 && !data.childFilters) {
                     return (
                       <FilterCategorySubList
                         subListItem={data.categoryName}
@@ -36,6 +36,33 @@ export default class FilterCategory extends Component {
                         subListCount={data.quantity}
                         selected={data.selected}
                       />
+                    );
+                  }
+                  if (data.childFilters && data.childFilters.length > 0) {
+                    return (
+                      <FilterCategoryDetails
+                        category={data.categoryName}
+                        categoryCount={data.quantity}
+                        key={i}
+                        value={data.categoryCode}
+                        onClick={this.props.onClick}
+                      >
+                        {data.childFilters &&
+                          data.childFilters.map((val, i) => {
+                            if (val.quantity > 0) {
+                              return (
+                                <FilterCategorySubList
+                                  subListItem={val.categoryName}
+                                  key={i}
+                                  value={val.categoryCode}
+                                  onClick={this.props.onL3Click}
+                                  subListCount={val.quantity}
+                                  selected={val.selected}
+                                />
+                              );
+                            }
+                          })}
+                      </FilterCategoryDetails>
                     );
                   }
                 })}

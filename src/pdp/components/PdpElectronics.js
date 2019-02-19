@@ -7,6 +7,7 @@ import ProductFeatures from "./ProductFeatures";
 import Accordion from "../../general/components/Accordion.js";
 import styles from "./ProductDescriptionPage.css";
 import * as Cookie from "../../lib/Cookie";
+import PdpFlags from "../components/PdpFlags.js";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import queryString, { parse } from "query-string";
 import {
@@ -336,9 +337,14 @@ export default class PdpElectronics extends React.Component {
                 );
               })}
             </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              productData.winningSellerAvailableStock === "0") && (
-              <div className={styles.flag}>Out of stock</div>
+            {productData.winningSellerPrice && (
+              <PdpFlags
+                discountPercent={productData.discount}
+                isOfferExisting={productData.isOfferExisting}
+                onlineExclusive={productData.isOnlineExclusive}
+                outOfStock={productData.allOOStock}
+                newProduct={productData.isProductNew}
+              />
             )}
             {!productData.winningSellerPrice && (
               <div className={styles.flag}>Not Saleable</div>

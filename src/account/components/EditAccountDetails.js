@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./EditAccountDetails.css";
 import PropTypes from "prop-types";
-import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import MobileDatePicker from "../../general/components/MobileDatePicker";
 import ShopByBrandLists from "../../blp/components/ShopByBrandLists.js";
@@ -132,13 +132,15 @@ export default class EditAccountDetails extends React.Component {
   onChange(val) {
     this.setState(val);
   }
+
   onChangeDateOfBirth = val => {
     this.setState({ dateOfBirth: val });
   };
   onChangeMobileNumber(val) {
-    if (val.length <= 10) {
-      this.setState({ mobileNumber: val });
-    }
+    if (val === "" || /^[0-9]+$/.test(val))
+      if (val.length <= 10) {
+        this.setState({ mobileNumber: val });
+      }
   }
   updateProfile = () => {
     if (
@@ -239,7 +241,7 @@ export default class EditAccountDetails extends React.Component {
                   <div className={styles.holder}>
                     <div className={styles.container}>
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="First Name"
                           value={
                             this.state.firstName !== "undefined"
@@ -250,13 +252,12 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={firstName => this.onChange({ firstName })}
-                          onlyAlphabet={true}
                         />
                       </div>
                     </div>
                     <div className={styles.container}>
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="Last Name"
                           value={
                             this.state.lastName !== "undefined"
@@ -267,13 +268,12 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={lastName => this.onChange({ lastName })}
-                          onlyAlphabet={true}
                         />
                       </div>
                     </div>
                     <div className={styles.container}>
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="Email"
                           value={this.state.emailId}
                           boxy={true}
@@ -285,7 +285,7 @@ export default class EditAccountDetails extends React.Component {
                     </div>
                     <div className={styles.container}>
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="Mobile Number"
                           value={this.state.mobileNumber}
                           boxy={true}
@@ -295,7 +295,6 @@ export default class EditAccountDetails extends React.Component {
                             this.onChangeMobileNumber(mobileNumber)
                           }
                           disabled={false}
-                          onlyNumber={true}
                         />
                       </div>
                     </div>
@@ -360,7 +359,7 @@ export default class EditAccountDetails extends React.Component {
                       <div className={styles.textHolder}>First Name</div>
 
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="First Name"
                           value={
                             this.state.firstName !== "undefined"
@@ -371,7 +370,6 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={firstName => this.onChange({ firstName })}
-                          onlyAlphabet={true}
                           maxLength={20}
                         />
                       </div>
@@ -380,7 +378,7 @@ export default class EditAccountDetails extends React.Component {
                       <div className={styles.textHolder}>Last Name</div>
 
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="Last Name"
                           value={
                             this.state.lastName !== "undefined"
@@ -391,7 +389,6 @@ export default class EditAccountDetails extends React.Component {
                           textStyle={{ fontSize: 14 }}
                           height={33}
                           onChange={lastName => this.onChange({ lastName })}
-                          onlyAlphabet={true}
                           maxLength={20}
                         />
                       </div>
@@ -400,7 +397,7 @@ export default class EditAccountDetails extends React.Component {
                       <div className={styles.textHolder}>Email</div>
 
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="Email"
                           value={this.state.emailId}
                           boxy={true}
@@ -414,7 +411,7 @@ export default class EditAccountDetails extends React.Component {
                       <div className={styles.textHolder}>Phone</div>
 
                       <div className={styles.inputHolder}>
-                        <Input2
+                        <ControlInput
                           placeholder="Mobile Number"
                           value={this.state.mobileNumber}
                           boxy={true}
@@ -424,7 +421,6 @@ export default class EditAccountDetails extends React.Component {
                             this.onChangeMobileNumber(mobileNumber)
                           }
                           disabled={false}
-                          onlyNumber={true}
                         />
                       </div>
                     </div>

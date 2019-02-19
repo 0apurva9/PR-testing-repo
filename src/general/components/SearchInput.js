@@ -1,6 +1,6 @@
 import React from "react";
 import searchIcon from "./img/Search.svg";
-import Input2 from "./Input2";
+import ControlInput from "./ControlInput";
 import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import styles from "./SearchInput.css";
@@ -21,7 +21,7 @@ export default class SearchInput extends React.Component {
   }
   render() {
     return (
-      <Input2
+      <ControlInput
         height={35}
         placeholder={this.props.placeholder}
         onChange={val => this.handleOnChange(val)}

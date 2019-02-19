@@ -254,49 +254,53 @@ export default class StaticPage extends Component {
                       </div>
                     )}
                 </div>
-                <div
-                  className={styles.sectionHolder}
-                  style={{
-                    maxWidth:
-                      this.props.location.pathname === "/contact"
-                        ? "1200px"
-                        : "",
-                    margin:
-                      this.props.location.pathname === "/contact" ? "auto" : "",
-                    borderTop:
-                      this.props.location.pathname === "/contact"
-                        ? "none"
-                        : "1px solid #979797;"
-                  }}
-                >
+                {this.props.location.pathname !== "/contact" && (
                   <div
-                    className={styles.sectionPart}
-                    onClick={() => this.onClick(CONTACT_URL)}
+                    className={styles.sectionHolder}
+                    style={{
+                      maxWidth:
+                        this.props.location.pathname === "/contact"
+                          ? "1200px"
+                          : "",
+                      margin:
+                        this.props.location.pathname === "/contact"
+                          ? "auto"
+                          : "",
+                      borderTop:
+                        this.props.location.pathname === "/contact"
+                          ? "none"
+                          : "1px solid #979797;"
+                    }}
                   >
-                    <div className={styles.iconHolder}>
-                      <Icon image={contactUsIcon} size={30} />
+                    <div
+                      className={styles.sectionPart}
+                      onClick={() => this.onClick(CONTACT_URL)}
+                    >
+                      <div className={styles.iconHolder}>
+                        <Icon image={contactUsIcon} size={30} />
+                      </div>
+                      <div className={styles.sectionLabel}>Contact us</div>
                     </div>
-                    <div className={styles.sectionLabel}>Contact us</div>
-                  </div>
-                  <div
-                    className={styles.sectionPart}
-                    onClick={() => this.onClick(ABOUT_US_URL)}
-                  >
-                    <div className={styles.iconHolder}>
-                      <Icon image={aboutUsIcon} size={30} />
+                    <div
+                      className={styles.sectionPart}
+                      onClick={() => this.onClick(ABOUT_US_URL)}
+                    >
+                      <div className={styles.iconHolder}>
+                        <Icon image={aboutUsIcon} size={30} />
+                      </div>
+                      <div className={styles.sectionLabel}>About us</div>
                     </div>
-                    <div className={styles.sectionLabel}>About us</div>
-                  </div>
-                  <div
-                    className={styles.sectionPart}
-                    onClick={() => this.redirectToOrderRelatedPage()}
-                  >
-                    <div className={styles.iconHolder}>
-                      <Icon image={customerCareIcon} size={30} />
+                    <div
+                      className={styles.sectionPart}
+                      onClick={() => this.redirectToOrderRelatedPage()}
+                    >
+                      <div className={styles.iconHolder}>
+                        <Icon image={customerCareIcon} size={30} />
+                      </div>
+                      <div className={styles.sectionLabel}>Customer care</div>
                     </div>
-                    <div className={styles.sectionLabel}>Customer care</div>
                   </div>
-                </div>
+                )}
               </div>
             )}
             {this.props.location.pathname === "/aboutus" && (

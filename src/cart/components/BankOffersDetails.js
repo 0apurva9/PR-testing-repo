@@ -39,6 +39,9 @@ class BankOffersDetails extends Component {
             this.props.selecteBankOffer(this.state.selectedBankOfferCode);
             this.props.closeModal();
           } else {
+            if (applyNewBankOfferStatus.status === ERROR) {
+              this.props.displayToast(applyNewBankOfferStatus.error);
+            }
             // if (
             //   applyNewBankOfferStatus.status === ERROR &&
             //   applyNewBankOfferStatus.type === RELEASE_BANK_OFFER_FAILURE
@@ -61,12 +64,17 @@ class BankOffersDetails extends Component {
           const applyNewCouponCode = await this.props.applyBankOffer(
             this.state.selectedBankOfferCode
           );
+
           if (applyNewCouponCode.status === SUCCESS) {
             if (this.props.selecteBankOffer) {
               this.props.selecteBankOffer(this.state.selectedBankOfferCode);
             }
             this.props.closeModal();
           } else {
+            if (applyNewCouponCode.status === ERROR) {
+              this.props.displayToast(applyNewCouponCode.error);
+            }
+
             // this.setState({
             //   previousSelectedCouponCode: "",
             //   selectedBankOfferCode: ""
