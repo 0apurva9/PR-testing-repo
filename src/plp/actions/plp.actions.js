@@ -199,9 +199,6 @@ export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
     resultJson.currentQuery.pageRedirectType === "OTHERS"
   ) {
     stringVal = resultJson.currentQuery.redirectUrl;
-    if (stringVal.includes("https") || stringVal.includes("http")) {
-      window.location.href = stringVal;
-    }
   }
   return {
     type: SEARCH_URL_REDIRECT,
