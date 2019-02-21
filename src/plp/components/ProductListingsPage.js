@@ -278,10 +278,6 @@ class ProductListingsPage extends Component {
         let urlString = this.props.urlString;
         urlString = urlString.replace(/^.*\/\/[^\/]+/, "");
         this.props.history.push(urlString);
-      } else {
-        this.props.history.push(this.props.urlString, {
-          isFilter: false
-        });
       }
     }
     if (this.props.lastVisitedPlpUrl !== window.location.href) {
