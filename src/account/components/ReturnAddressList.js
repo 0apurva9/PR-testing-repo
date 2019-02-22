@@ -296,10 +296,7 @@ export default class ReturnAddressList extends React.Component {
   newReturnInitiate = () => {
     let isCodOrder = NO;
     let reverseSealAvailable = "N";
-    if (
-      this.props.orderDetails &&
-      this.props.orderDetails.paymentMethod === "COD"
-    ) {
+    if (this.props.isCOD) {
       isCodOrder = YES;
     }
     let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
@@ -348,6 +345,8 @@ export default class ReturnAddressList extends React.Component {
         returnCliqAndPiqObject.accountHolderName = this.props.bankDetail.userName;
         returnCliqAndPiqObject.bankName = this.props.bankDetail.bankName;
         returnCliqAndPiqObject.IFSCCode = this.props.bankDetail.code;
+        returnCliqAndPiqObject.refundMode = this.props.returnRequest.codSelfShipData.paymentMode;
+        returnCliqAndPiqObject.title = this.props.returnRequest.codSelfShipData.title;
       }
     }
     this.props.newReturnInitial(
