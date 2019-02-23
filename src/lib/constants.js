@@ -229,6 +229,7 @@ export const STATIC_PAGE = "/:slug";
 export const NOT_FOUND = "/404-not-found";
 export const REVIEW_SUBMIT_TOAST_TEXT =
   "Your review has been submitted and will be displayed after moderation";
+export const MAINTENANCE = "/maintenance";
 
 export const CDN_URL_ROOT =
   "https://assets.tatacliq.com/medias/sys_master/pwaImg/";
