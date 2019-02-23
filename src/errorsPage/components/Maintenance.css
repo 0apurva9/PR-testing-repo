@@ -2,13 +2,13 @@
   width: 100%;
   height: calc(100vh);
   position: relative;
-  background: url(./img/maintenance_desktop.jpg) no-repeat;
-  background-size: cover;
-  margin-top: 10px;
+  background: #cbcdc2 url(./img/maintenance_desktop.jpg) no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 .maintenanceHeader{
   width: 100%;
-  height: 100px;
+  height: 82px;
   position: fixed;
   z-index: 100;
   left: 0;
