@@ -56,6 +56,7 @@ import {
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+import FlixMediaContainer from "./FlixMediaContainer";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -151,6 +152,7 @@ const samsungChatUrl =
   env.REACT_APP_SAMSUNG_CHAT_URL +
   window.location.href +
   env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+
 export default class PdpApparel extends React.Component {
   constructor(props) {
     super(props);
@@ -631,6 +633,12 @@ export default class PdpApparel extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
+      let flixModelNo = "";
+      if (productData.details && productData.details.length) {
+        flixModelNo = productData.details.find(detail => {
+          return detail.key === "Model Number";
+        });
+      }
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -938,7 +946,9 @@ export default class PdpApparel extends React.Component {
 
                       {productData.details &&
                         productData.details.map(val => {
-                          return <div className={styles.list}>{val.value}</div>;
+                          return val.key !== "Model Number" ? (
+                            <div className={styles.list}>{val.value}</div>
+                          ) : null;
                         })}
                       {productData.rootCategory === "Electronics" && (
                         <div
@@ -1071,11 +1081,11 @@ export default class PdpApparel extends React.Component {
                             >
                               {productData.details &&
                                 productData.details.map(val => {
-                                  return (
+                                  return val.key !== "Model Number" ? (
                                     <div className={styles.list}>
                                       {val.value}
                                     </div>
-                                  );
+                                  ) : null;
                                 })}
                             </div>
                           )}
@@ -1283,6 +1293,14 @@ export default class PdpApparel extends React.Component {
                             productId={productData.productListingId}
                           />
                         </div>
+                      ) : null}
+                    </React.Fragment>
+                    <React.Fragment>
+                      {flixModelNo && productData.brandName ? (
+                        <FlixMediaContainer
+                          flixModelNo={flixModelNo}
+                          brandName={productData.brandName}
+                        />
                       ) : null}
                     </React.Fragment>
                     <React.Fragment>
