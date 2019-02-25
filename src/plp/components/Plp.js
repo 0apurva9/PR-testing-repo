@@ -520,7 +520,10 @@ export default class Plp extends React.Component {
               {this.props.productListings &&
               this.props.productListings &&
               this.props.productListings.currentQuery &&
-              this.props.productListings.currentQuery.searchQuery ? (
+              this.props.productListings.currentQuery.searchQuery &&
+              !this.props.productListings.currentQuery.searchQuery.includes(
+                ":relevance"
+              ) ? (
                 <div className={styles.headerText}>
                   <div className={styles.plpHeading}>
                     {`Showing "${

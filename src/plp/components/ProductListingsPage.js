@@ -275,11 +275,9 @@ class ProductListingsPage extends Component {
         this.props.urlString.includes("https") ||
         this.props.urlString.includes("http")
       ) {
-        window.location.href = this.props.urlString;
-      } else {
-        this.props.history.push(this.props.urlString, {
-          isFilter: false
-        });
+        let urlString = this.props.urlString;
+        urlString = urlString.replace(/^.*\/\/[^\/]+/, "");
+        this.props.history.push(urlString);
       }
     }
     if (this.props.lastVisitedPlpUrl !== window.location.href) {
@@ -362,6 +360,7 @@ class ProductListingsPage extends Component {
       }
     }
   }
+
   render() {
     let isFilter = false;
     if (this.props.location.state && this.props.location.state.isFilter) {
@@ -372,6 +371,7 @@ class ProductListingsPage extends Component {
         paginate={this.props.paginate}
         onFilterClick={this.onFilterClick}
         isFilter={isFilter}
+        urlString={this.props.urlString}
       />
     );
   }
