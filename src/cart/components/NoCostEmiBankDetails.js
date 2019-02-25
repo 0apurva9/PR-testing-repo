@@ -513,6 +513,9 @@ export default class NoCostEmiBankDetails extends React.Component {
               changePlan={() => this.changeNoCostEmiPlan()}
             />
             <CreditCardForm
+              emiBinValidationErrorMessage={
+                this.props.emiBinValidationErrorMessage
+              }
               buttonDisabled={this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               onChangeCvv={i => this.onChangeCvv(i)}

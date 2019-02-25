@@ -2,21 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./MobileDatePicker.css";
 var today = new Date();
-var min =
-  today.getFullYear() -
-  110 +
-  "-" +
-  (today.getMonth() + 1) +
-  "-" +
-  0 +
-  today.getDate();
-var max =
-  today.getFullYear() +
-  "-" +
-  (today.getMonth() + 1) +
-  "-" +
-  0 +
-  today.getDate();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+if (dd < 10) {
+  dd = "0" + dd;
+}
+if (mm < 10) {
+  mm = "0" + mm;
+}
+
+today = yyyy + "-" + mm + "-" + dd;
+var max = today;
+var min = yyyy - 110 + "-" + mm + "-" + dd;
 export default class MobileDatePicker extends React.Component {
   constructor(props) {
     super(props);

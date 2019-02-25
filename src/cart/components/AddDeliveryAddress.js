@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./AddDeliveryAddress.css";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
+import ControlInput from "../../general/components/ControlInput";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import CircleButton from "../../xelpmoc-core/CircleButton";
@@ -115,28 +116,32 @@ export default class AddDeliveryAddress extends React.Component {
 
   getPinCodeDetails = val => {
     let landmarkList = [];
-    if (val.length <= 6) {
-      this.setState({
-        postalCode: val,
-        state: "",
-        town: "",
-        landmarkList,
-        isEnable: false,
-        line2: ""
-      });
-    }
-    if (val.length === 6 && this.props.getPinCode) {
-      this.setState({ isEnable: true });
-      this.props.getPinCode(val);
+    if (val === "" || /^[0-9]+$/.test(val)) {
+      if (val.length <= 6) {
+        this.setState({
+          postalCode: val,
+          state: "",
+          town: "",
+          landmarkList,
+          isEnable: false,
+          line2: ""
+        });
+      }
+      if (val.length === 6 && this.props.getPinCode) {
+        this.setState({ isEnable: true });
+        this.props.getPinCode(val);
+      }
     }
   };
   handlePhoneInput(val) {
-    if (val.length <= 10) {
-      const cloneAddress = cloneDeep(this.state);
-      Object.assign(cloneAddress, { phone: val });
-      this.setState({ phone: val });
-      if (this.props.getAddressDetails) {
-        this.props.getAddressDetails(cloneAddress);
+    if (val === "" || /^[0-9]+$/.test(val)) {
+      if (val.length <= 10) {
+        const cloneAddress = cloneDeep(this.state);
+        Object.assign(cloneAddress, { phone: val });
+        this.setState({ phone: val });
+        if (this.props.getAddressDetails) {
+          this.props.getAddressDetails(cloneAddress);
+        }
       }
     }
   }
@@ -150,20 +155,30 @@ export default class AddDeliveryAddress extends React.Component {
     }
   }
   onChange(val) {
-    this.setState(val);
-    if (
-      this.props.history.location.pathname === CHECKOUT_ROUTER &&
-      val &&
-      val.addressType
-    ) {
-      if (val.addressType === "Home") {
-        setDataLayerForSelectedAddressTypeDirectCalls(
-          ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME
-        );
-      } else {
-        setDataLayerForSelectedAddressTypeDirectCalls(
-          ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE
-        );
+    if (val.firstName) {
+      if (/^[a-zA-Z]+$/.test(val.firstName)) {
+        this.setState(val);
+      }
+    } else if (val.lastName) {
+      if (/^[a-zA-Z]+$/.test(val.lastName)) {
+        this.setState(val);
+      }
+    } else {
+      this.setState(val);
+      if (
+        this.props.history.location.pathname === CHECKOUT_ROUTER &&
+        val &&
+        val.addressType
+      ) {
+        if (val.addressType === "Home") {
+          setDataLayerForSelectedAddressTypeDirectCalls(
+            ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME
+          );
+        } else {
+          setDataLayerForSelectedAddressTypeDirectCalls(
+            ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE
+          );
+        }
       }
     }
     if (this.props.getAddressDetails) {
@@ -464,7 +479,7 @@ export default class AddDeliveryAddress extends React.Component {
                     </div>
                   </div>
                   <div className={styles.content}>
-                    <Input2
+                    <ControlInput
                       placeholder="Enter your PIN code*"
                       onChange={postalCode =>
                         this.getPinCodeDetails(postalCode)
@@ -488,7 +503,7 @@ export default class AddDeliveryAddress extends React.Component {
                     <div className={styles.content}>
                       <div className={styles.FirstNameWrapper}>
                         <div className={styles.firstNameHolder}>
-                          <Input2
+                          <ControlInput
                             option={this.state.options}
                             placeholder="First Name*"
                             value={
@@ -499,16 +514,16 @@ export default class AddDeliveryAddress extends React.Component {
                             onChange={firstName => this.onChange({ firstName })}
                             textStyle={{ fontSize: 14 }}
                             height={33}
+                            maxLength={30}
                             onFocus={() => {
                               this.handleOnFocusInput();
                             }}
-                            onlyAlphabet={true}
                           />
                         </div>
                       </div>
                       <div className={styles.lastNameWrapper}>
                         <div className={styles.lastNameHolder}>
-                          <Input2
+                          <ControlInput
                             boxy={true}
                             placeholder="Last Name*"
                             value={
@@ -523,10 +538,10 @@ export default class AddDeliveryAddress extends React.Component {
                             }
                             textStyle={{ fontSize: 14 }}
                             height={33}
+                            maxLength={30}
                             onFocus={() => {
                               this.handleOnFocusInput();
                             }}
-                            onlyAlphabet={true}
                           />
                         </div>
                       </div>
@@ -556,7 +571,7 @@ export default class AddDeliveryAddress extends React.Component {
                     <div className={styles.content}>
                       <DesktopOnly>
                         <div className={styles.leftFirst}>
-                          <Input2
+                          <ControlInput
                             boxy={true}
                             placeholder="City/district*"
                             value={
@@ -573,7 +588,7 @@ export default class AddDeliveryAddress extends React.Component {
                           />
                         </div>
                         <div className={styles.leftSecond}>
-                          <Input2
+                          <ControlInput
                             placeholder="State*"
                             value={
                               this.props.state && this.props.state !== ""
@@ -784,8 +799,7 @@ export default class AddDeliveryAddress extends React.Component {
                   </MobileOnly>
                   <DesktopOnly>
                     <div className={styles.content}>
-                      <Input2
-                        onlyNumber={true}
+                      <ControlInput
                         placeholder="Phone number*"
                         value={
                           this.props.phone ? this.props.phone : this.state.phone
@@ -910,7 +924,7 @@ export default class AddDeliveryAddress extends React.Component {
                   </div>
                 </div>
                 <div className={styles.contentAddAddress}>
-                  <Input2
+                  <ControlInput
                     placeholder="Enter your PIN code*"
                     onChange={postalCode => this.getPinCodeDetails(postalCode)}
                     textStyle={{ fontSize: 14 }}
@@ -920,7 +934,6 @@ export default class AddDeliveryAddress extends React.Component {
                         : this.state.postalCode
                     }
                     maxLength={"6"}
-                    onlyNumber={true}
                     height={33}
                     rightChildSize={33}
                     onFocus={() => {
@@ -929,7 +942,7 @@ export default class AddDeliveryAddress extends React.Component {
                   />
                 </div>
                 <div className={styles.contentAddAddress}>
-                  <Input2
+                  <ControlInput
                     option={this.state.options}
                     placeholder="First Name*"
                     value={
@@ -943,14 +956,13 @@ export default class AddDeliveryAddress extends React.Component {
                     onFocus={() => {
                       this.handleOnFocusInput();
                     }}
-                    onlyAlphabet={true}
                     maxLength={20}
                   />
                 </div>
                 <div className={styles.threeSection}>
                   <div className={styles.contentAddAddress}>
                     <div className={styles.leftFirst}>
-                      <Input2
+                      <ControlInput
                         boxy={true}
                         placeholder="Last Name*"
                         value={
@@ -964,7 +976,6 @@ export default class AddDeliveryAddress extends React.Component {
                         onFocus={() => {
                           this.handleOnFocusInput();
                         }}
-                        onlyAlphabet={true}
                         maxLength={20}
                       />
                     </div>
@@ -1029,7 +1040,7 @@ export default class AddDeliveryAddress extends React.Component {
                 </div>
 
                 <div className={styles.contentAddAddress}>
-                  <Input2
+                  <ControlInput
                     boxy={true}
                     placeholder="City/district*"
                     value={
@@ -1046,7 +1057,7 @@ export default class AddDeliveryAddress extends React.Component {
                   />
                 </div>
                 <div className={styles.contentAddAddress}>
-                  <Input2
+                  <ControlInput
                     placeholder="State*"
                     value={
                       this.props.state && this.props.state !== ""
@@ -1064,7 +1075,7 @@ export default class AddDeliveryAddress extends React.Component {
                 </div>
                 <DesktopOnly>
                   <div className={styles.contentAddAddress}>
-                    <Input2
+                    <ControlInput
                       onlyNumber={true}
                       placeholder="Phone number*"
                       value={

@@ -222,7 +222,12 @@ const cart = (
     getUserAddressAndDeliveryModesByRetryPaymentStatus: null,
     getUserAddressAndDeliveryModesByRetryPayment: null,
     loadingForGetUserAddressAndDeliveryModesByRetryPayment: false,
-    getUserAddressAndDeliveryModesByRetryPaymentError: null
+    getUserAddressAndDeliveryModesByRetryPaymentError: null,
+
+    binValidationOfEmiEligibleStatus: null,
+    binValidationOfEmiEligible: null,
+    loadingForBinValidationOfEmiEligible: false,
+    binValidationOfEmiEligibleError: null
   },
   action
 ) => {
@@ -1618,6 +1623,26 @@ const cart = (
         getUserAddressAndDeliveryModesByRetryPaymentStatus: action.status,
         getUserAddressAndDeliveryModesByRetryPaymentError: action.error,
         loadingForGetUserAddressAndDeliveryModesByRetryPayment: false
+      });
+
+    case cartActions.BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST:
+      return Object.assign({}, state, {
+        binValidationOfEmiEligibleStatus: action.status,
+        loadingForBinValidationOfEmiEligible: true
+      });
+
+    case cartActions.BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS:
+      return Object.assign({}, state, {
+        binValidationOfEmiEligibleStatus: action.status,
+        binValidationOfEmiEligible: action.binValidationOfEmiEligible,
+        loadingForBinValidationOfEmiEligible: false
+      });
+
+    case cartActions.BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE:
+      return Object.assign({}, state, {
+        binValidationOfEmiEligibleStatus: action.status,
+        binValidationOfEmiEligibleError: action.error,
+        loadingForBinValidationOfEmiEligible: false
       });
 
     case cartActions.CLEAR_CART_DETAILS:

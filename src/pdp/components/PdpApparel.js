@@ -35,6 +35,7 @@ import {
 } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
 import queryString, { parse } from "query-string";
+import PdpFlags from "../components/PdpFlags.js";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -403,10 +404,14 @@ export default class PdpApparel extends React.Component {
                 return <Image lazyLoad={true} image={val} key={idx} />;
               })}
             </ProductGalleryMobile>
-            {(productData.allOOStock ||
-              (productData.winningSellerAvailableStock === "0" &&
-                this.checkIfSizeSelected())) && (
-              <div className={styles.flag}>Out of stock</div>
+            {productData.winningSellerPrice && (
+              <PdpFlags
+                discountPercent={productData.discount}
+                isOfferExisting={productData.isOfferExisting}
+                onlineExclusive={productData.isOnlineExclusive}
+                outOfStock={productData.allOOStock}
+                newProduct={productData.isProductNew}
+              />
             )}
             {!productData.winningSellerPrice && (
               <div className={styles.flag}>Not Saleable</div>

@@ -162,7 +162,6 @@
   left: 0;
   top: 0;
 }
-
 .hideZoomArea {
   composes: zoomArea;
   opacity: 0;

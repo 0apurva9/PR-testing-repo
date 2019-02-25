@@ -1,4 +1,9 @@
-import { SUCCESS, REQUESTING, ERROR } from "../../lib/constants";
+import {
+  SUCCESS,
+  REQUESTING,
+  ERROR,
+  USER_SEARCH_LOCAL_STORAGE
+} from "../../lib/constants";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
@@ -27,7 +32,7 @@ export const SORT_PRODUCT_LISTINGS_PATH = "searchProducts";
 export const FILTER_PRODUCT_LISTINGS_PATH = "searchProducts";
 export const GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS =
   "GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS";
-
+export const SEARCH_URL_REDIRECT = "SEARCH_URL_REDIRECT";
 export const SHOW_FILTER = "SHOW_FILTER";
 export const HIDE_FILTER = "HIDE_FILTER";
 
@@ -161,6 +166,46 @@ export function getProductListingsSuccess(productListings, isPaginated: false) {
   };
 }
 
+export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
+  let stringVal = null;
+  let searchText = "",
+    completeUrl = "";
+  if (
+    resultJson &&
+    resultJson.currentQuery &&
+    resultJson.currentQuery.pageRedirectType &&
+    resultJson.currentQuery.pageRedirectType === "SEARCH"
+  ) {
+    if (
+      resultJson.currentQuery.query &&
+      resultJson.currentQuery.query.value &&
+      resultJson.currentQuery.query.value.split(":")[0] === ""
+    ) {
+      if (JSON.parse(localStorage.getItem(USER_SEARCH_LOCAL_STORAGE)).length) {
+        searchText = JSON.parse(
+          localStorage.getItem(USER_SEARCH_LOCAL_STORAGE)
+        ).pop();
+        completeUrl = searchText + resultJson.currentQuery.query.value;
+      }
+    } else {
+      completeUrl = resultJson.currentQuery.query.value;
+    }
+
+    stringVal = "/search/?searchCategory=all&text=" + completeUrl;
+  } else if (
+    resultJson &&
+    resultJson.currentQuery &&
+    resultJson.currentQuery.pageRedirectType &&
+    resultJson.currentQuery.pageRedirectType === "OTHERS"
+  ) {
+    stringVal = resultJson.currentQuery.redirectUrl;
+  }
+  return {
+    type: SEARCH_URL_REDIRECT,
+    value: stringVal
+  };
+}
+
 export function getProductListingsFailure(error, isPaginated) {
   return {
     type: PRODUCT_LISTINGS_FAILURE,
@@ -196,7 +241,8 @@ export function getProductListings(
       ) {
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
-      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}`;
+      let keyWordRedirect = false;
+      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
       }
@@ -204,6 +250,13 @@ export function getProductListings(
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
       const resultJson = await result.json();
+
+      if (resultJson && resultJson.currentQuery) {
+        keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
+        if (keyWordRedirect) {
+          dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
+        }
+      }
       if (resultJson.error) {
         if (
           resultJson &&

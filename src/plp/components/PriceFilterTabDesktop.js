@@ -1,11 +1,14 @@
 import React from "react";
 import FilterSelect from "./FilterSelect";
 import styles from "./PriceFilterTabDesktop.css";
-import Input2 from "../../general/components/Input2";
+import ControlInput from "../../general/components/ControlInput";
 import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import ApplyPriceFilterIcon from "./img/arrow.svg";
-const PRICE_FILTER_REG_EX = /(price:[,₹0-9]+-[,₹0-9]+)/;
+import { TEXT_REGEX } from "./FilterUtils";
+const PRICE_FILTER_REG_EX = /(:price:[,₹0-9]+-[,₹0-9]+)/g;
+const ABOVE_PRICE_FILTER_REGEX = /(:price:[,₹0-9]+\+and\+Above)/g;
+const LAST_PRICE_LIMIT_REGEX = /(:price:[,₹0-9]+\+-[,₹0-9]+)/g;
 const MAX_PRICE = "Max Price";
 const MIN_PRICE = "Min Price";
 const PRICE_TAG = "price%3A";
@@ -26,21 +29,35 @@ export default class PriceFilterTabDesktop extends React.Component {
       this.state.maxRange &&
       parseInt(this.state.minRange, 10) < parseInt(this.state.maxRange, 10)
     ) {
-      let currentAppliedFilters = decodeURIComponent(
-        this.props.history.location.search
-      );
+      let minRange =
+        "₹" +
+        this.state.minRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      let maxRange =
+        "₹" +
+        this.state.maxRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      let currentAppliedFilters = "   :relevance";
+      if (/q=/.test(this.props.history.location.search)) {
+        currentAppliedFilters = decodeURIComponent(
+          this.props.history.location.search
+        );
+      } else {
+        if (TEXT_REGEX.test(this.props.history.location.search)) {
+          const textParam = TEXT_REGEX.exec(this.props.history.location.search);
+          currentAppliedFilters = `   ${
+            textParam && textParam[1] ? textParam[1] : ""
+          }:relevance`;
+        }
+      }
       if (currentAppliedFilters) {
         if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
           currentAppliedFilters = currentAppliedFilters
             .substring(3)
-            .replace(
-              PRICE_FILTER_REG_EX,
-              `price:${this.state.minRange}-${this.state.maxRange}`
-            );
+            .replace(PRICE_FILTER_REG_EX, `:price:${minRange}-${maxRange}`);
         } else {
           currentAppliedFilters = `${currentAppliedFilters.substring(
             3
-          )}:price:${this.state.minRange}-${this.state.maxRange}`;
+          )}:price:${minRange}-${maxRange}`;
         }
       } else {
         if (this.props.priceList[0] && this.props.priceList[0].url) {
@@ -51,13 +68,9 @@ export default class PriceFilterTabDesktop extends React.Component {
           );
           currentAppliedFilters = newSearchUrl
             .substring(3)
-            .replace(
-              PRICE_FILTER_REG_EX,
-              `price:${this.state.minRange}-${this.state.maxRange}`
-            );
+            .replace(PRICE_FILTER_REG_EX, `price:${minRange}-${maxRange}`);
         }
       }
-
       this.props.history.push({
         pathname: this.props.history.location.pathname,
         search: `q=${encodeURIComponent(currentAppliedFilters)}`
@@ -75,6 +88,21 @@ export default class PriceFilterTabDesktop extends React.Component {
         currentAppliedFilters = currentAppliedFilters
           .substring(3)
           .replace(PRICE_FILTER_REG_EX, "");
+      }
+
+      if (ABOVE_PRICE_FILTER_REGEX.test(currentAppliedFilters)) {
+        currentAppliedFilters = currentAppliedFilters.replace(
+          ABOVE_PRICE_FILTER_REGEX,
+          ""
+        );
+        currentAppliedFilters = currentAppliedFilters.replace("?q=", "");
+      }
+      if (LAST_PRICE_LIMIT_REGEX.test(currentAppliedFilters)) {
+        currentAppliedFilters = currentAppliedFilters.replace(
+          LAST_PRICE_LIMIT_REGEX,
+          ""
+        );
+        currentAppliedFilters = currentAppliedFilters.replace("?q=", "");
       }
       this.props.history.push({
         pathname: this.props.history.location.pathname,
@@ -135,7 +163,7 @@ export default class PriceFilterTabDesktop extends React.Component {
           <span className={styles.priceRangeLabel}>Price Range</span>
           <div className={styles.inputWrapper}>
             <div className={styles.inputBox}>
-              <Input2
+              <ControlInput
                 height={33}
                 placeholder={MIN_PRICE}
                 onlyNumber
@@ -145,7 +173,7 @@ export default class PriceFilterTabDesktop extends React.Component {
               />
             </div>
             <div className={styles.inputBox}>
-              <Input2
+              <ControlInput
                 height={33}
                 placeholder={MAX_PRICE}
                 onlyNumber
@@ -170,7 +198,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                     : "#d8d8d8"
                 }
                 size={33}
-                onClick={() => this.pricefilter()}
+                onClick={() => this.applyPriceManually()}
               />
             </div>
           </div>
