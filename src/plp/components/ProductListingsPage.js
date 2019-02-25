@@ -157,7 +157,7 @@ class ProductListingsPage extends Component {
       }
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
-    if (!searchText.includes("relevance")) {
+    if (searchText && !searchText.includes("relevance")) {
       searchText = `${searchText}:relevance`;
     }
 
