@@ -2206,8 +2206,9 @@ export function softReservationForPayment(cardDetails, address) {
 export function softReservationPaymentForNetBanking(
   paymentMethodType,
   paymentMode,
-  bankName,
-  pinCode
+  bankCode,
+  pinCode,
+  bankName
 ) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -2239,8 +2240,11 @@ export function softReservationPaymentForNetBanking(
         createJusPayOrderForNetBanking(
           paymentMethodType,
           productItems,
-          bankName,
-          pinCode
+          bankCode,
+          pinCode,
+          false,
+          "",
+          bankName
         )
       );
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
@@ -2641,10 +2645,11 @@ export function createJusPayOrderForGiftCard(
 export function createJusPayOrderForNetBanking(
   paymentMethodType,
   cartItem,
-  bankName,
+  bankCode,
   pinCode,
   isFromRetryUrl,
-  retryCartGuid
+  retryCartGuid,
+  bankName
 ) {
   const jusPayUrl = `${
     window.location.origin
@@ -2729,7 +2734,7 @@ export function createJusPayOrderForNetBanking(
           jusPayPaymentMethodTypeForPaypal(
             paymentMethodType,
             resultJson.juspayOrderId,
-            bankName
+            bankCode
           )
         );
       } else {
@@ -2737,7 +2742,7 @@ export function createJusPayOrderForNetBanking(
           jusPayPaymentMethodTypeForNetBanking(
             paymentMethodType,
             resultJson.juspayOrderId,
-            bankName
+            bankCode
           )
         );
       }
@@ -2747,7 +2752,11 @@ export function createJusPayOrderForNetBanking(
   };
 }
 
-export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
+export function createJusPayOrderForGiftCardNetBanking(
+  guId,
+  bankCode,
+  bankName
+) {
   const jusPayUrl = `${
     window.location.origin
   }/checkout/payment-method/cardPayment`;
@@ -2761,7 +2770,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl

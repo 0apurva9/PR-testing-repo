@@ -5,7 +5,6 @@ import Grid from "../../general/components/Grid";
 import BankSelect from "./BankSelect";
 import styles from "./NetBanking.css";
 import Button from "../../general/components/Button";
-
 import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
 import axisBankIcon from "./img/pwa_NB_DUMMY.svg";
@@ -39,16 +38,16 @@ export default class NetBanking extends React.Component {
       selectedFromDropDown: false
     };
   }
-  handleSelectForIcon(val) {
+  handleSelectForIcon(bankCode, bankName) {
     this.setState({
-      bankCode: val,
-      bankName: val,
+      bankCode: bankCode,
+      bankName: bankName,
       selectedFromDropDown: false
     });
     if (this.props.binValidationForNetBank) {
-      this.props.binValidationForNetBank(val);
+      this.props.binValidationForNetBank(bankName);
     }
-    this.props.onSelectBankForNetBanking(val);
+    this.props.onSelectBankForNetBanking(bankCode, bankName);
   }
   handleSelect(val) {
     const bankCode = val.value;
@@ -59,9 +58,9 @@ export default class NetBanking extends React.Component {
       selectedFromDropDown: true
     });
     if (this.props.binValidationForNetBank) {
-      this.props.binValidationForNetBank(bankCode);
+      this.props.binValidationForNetBank(bankName);
     }
-    this.props.onSelectBankForNetBanking(bankCode);
+    this.props.onSelectBankForNetBanking(bankCode, bankName);
   }
   handleCheckout = () => {
     if (this.props.onCheckout) {
@@ -69,7 +68,11 @@ export default class NetBanking extends React.Component {
     }
   };
   componentWillReceiveProps(nextProps) {
-    if (nextProps && !nextProps.bankCodeForNetBanking) {
+    if (
+      nextProps &&
+      !nextProps.bankCodeForNetBanking &&
+      !nextProps.bankNameForNetBanking
+    ) {
       this.setState({
         bankName: "",
         bankCode: ""
@@ -90,7 +93,9 @@ export default class NetBanking extends React.Component {
               return bank.bankCode === axisBankCode;
             }) ? (
               <BankSelect
-                selectItem={() => this.handleSelectForIcon(axisBankCode)}
+                selectItem={() =>
+                  this.handleSelectForIcon(axisBankCode, "Axis Bank")
+                }
                 image={axisBankIcon}
                 selected={this.state.bankCode === axisBankCode}
                 name="Axis Bank"
@@ -102,7 +107,9 @@ export default class NetBanking extends React.Component {
               return bank.bankCode === hdfcBankCode;
             }) ? (
               <BankSelect
-                selectItem={() => this.handleSelectForIcon(hdfcBankCode)}
+                selectItem={() =>
+                  this.handleSelectForIcon(hdfcBankCode, "HDFC Bank")
+                }
                 image={hdfcBankIcon}
                 selected={this.state.bankCode === hdfcBankCode}
                 name="HDFC BANK, LTD."
@@ -114,7 +121,9 @@ export default class NetBanking extends React.Component {
               return bank.bankCode === iciciBankCode;
             }) ? (
               <BankSelect
-                selectItem={() => this.handleSelectForIcon(iciciBankCode)}
+                selectItem={() =>
+                  this.handleSelectForIcon(iciciBankCode, "ICICI Bank")
+                }
                 image={iciciBankIcon}
                 selected={this.state.bankCode === iciciBankCode}
                 name="ICICI Bank"
@@ -126,7 +135,9 @@ export default class NetBanking extends React.Component {
               return bank.bankCode === sbiBankCode;
             }) ? (
               <BankSelect
-                selectItem={() => this.handleSelectForIcon(sbiBankCode)}
+                selectItem={() =>
+                  this.handleSelectForIcon(sbiBankCode, "State Bank of India")
+                }
                 image={sbiBankIcon}
                 selected={this.state.bankCode === sbiBankCode}
                 name="State Bank of India"
@@ -138,7 +149,9 @@ export default class NetBanking extends React.Component {
               return bank.bankCode === kotakBankCode;
             }) ? (
               <BankSelect
-                selectItem={() => this.handleSelectForIcon(kotakBankCode)}
+                selectItem={() =>
+                  this.handleSelectForIcon(kotakBankCode, "Kotak Bank")
+                }
                 image={kotakBankIcon}
                 selected={this.state.bankCode === kotakBankCode}
                 name="Kotak Bank"
@@ -150,7 +163,9 @@ export default class NetBanking extends React.Component {
               return bank.bankCode === induslandBankCode;
             }) ? (
               <BankSelect
-                selectItem={() => this.handleSelectForIcon(induslandBankCode)}
+                selectItem={() =>
+                  this.handleSelectForIcon(induslandBankCode, "IndusInd Bank")
+                }
                 image={induslandBankIcon}
                 selected={this.state.bankCode === induslandBankCode}
                 name="IndusInd Bank"
