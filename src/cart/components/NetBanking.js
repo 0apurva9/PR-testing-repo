@@ -80,7 +80,6 @@ export default class NetBanking extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     return (
       <div>
         {this.props.bankList && (
@@ -109,7 +108,7 @@ export default class NetBanking extends React.Component {
             }) ? (
               <BankSelect
                 selectItem={() =>
-                  this.handleSelectForIcon(hdfcBankCode, "HDFC BANK, LTD.")
+                  this.handleSelectForIcon(hdfcBankCode, "HDFC Bank")
                 }
                 image={hdfcBankIcon}
                 selected={this.state.bankCode === hdfcBankCode}
