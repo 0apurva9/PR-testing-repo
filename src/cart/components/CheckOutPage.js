@@ -194,6 +194,7 @@ class CheckOutPage extends React.Component {
       cardDetails: {}, // for store card detail in card details
       cvvForCurrentPaymentMode: null, // in case on saved card
       bankCodeForNetBanking: null, // in case on net banking
+      bankNameForNetBanking: null,
       captchaReseponseForCOD: null, // in case of COD order its holding that ceptcha verification
       noCostEmiDiscount: "0.00",
       egvCartGuid: null,
@@ -276,6 +277,7 @@ class CheckOutPage extends React.Component {
     this.setState({
       cardDetails: {},
       bankCodeForNetBanking: null,
+      bankNameForNetBanking: null,
       savedCardDetails: null,
       captchaReseponseForCOD: null,
       noCostEmiBankName: null,
@@ -385,6 +387,12 @@ class CheckOutPage extends React.Component {
       return <div> Address Expand</div>;
     }
   };
+  onSelectBankForNetBanking(bankCodeForNetBanking, bankNameForNetBanking) {
+    this.setState({
+      bankCodeForNetBanking: bankCodeForNetBanking,
+      bankNameForNetBanking: bankNameForNetBanking
+    });
+  }
 
   handleSelectDeliveryMode(deliveryMode, ussId, cartId) {
     let deliverModeInShortTerm;
@@ -794,6 +802,7 @@ class CheckOutPage extends React.Component {
     this.setState({
       cardDetails: {},
       bankCodeForNetBanking: null,
+      bankNameForNetBanking: null,
       savedCardDetails: null,
       captchaReseponseForCOD: null,
       noCostEmiBankName: null,
@@ -1815,6 +1824,7 @@ if you have order id in local storage then you have to show order confirmation p
     this.setState({
       cardDetails: {},
       bankCodeForNetBanking: null,
+      bankNameForNetBanking: null,
       savedCardDetails: null,
       captchaReseponseForCOD: null,
       noCostEmiBankName: null,
@@ -1973,7 +1983,8 @@ if you have order id in local storage then you have to show order confirmation p
         if (this.props.createJusPayOrderForGiftCardNetBanking) {
           this.props.createJusPayOrderForGiftCardNetBanking(
             this.state.egvCartGuid,
-            this.state.bankCodeForNetBanking
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
@@ -1983,14 +1994,18 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.bankCodeForNetBanking,
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           true,
-          this.state.retryCartGuid
+          this.state.retryCartGuid,
+          this.state.bankNameForNetBanking
         );
       } else {
         this.props.createJusPayOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           this.state.bankCodeForNetBanking,
-          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          false,
+          "",
+          this.state.bankNameForNetBanking
         );
       }
     }
@@ -2008,13 +2023,18 @@ if you have order id in local storage then you have to show order confirmation p
           "",
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           true,
-          this.state.retryCartGuid
+          this.state.retryCartGuid,
+          ""
         );
       } else {
         this.props.createJusPayOrderForNetBanking(
           WALLET,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE))
+          false,
+          "",
+          ""
         );
       }
     }
@@ -2039,7 +2059,10 @@ if you have order id in local storage then you have to show order confirmation p
           PAYPAL,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           "",
-          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          false,
+          "",
+          ""
         );
       }
     }
@@ -2180,7 +2203,8 @@ if you have order id in local storage then you have to show order confirmation p
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
-            this.state.bankCodeForNetBanking
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
           this.props.createJusPayOrderForNetBanking(
@@ -2189,11 +2213,13 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.bankCodeForNetBanking,
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             true,
-            this.state.retryCartGuid
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
           );
         } else {
           this.softReservationPaymentForNetBanking(
-            this.state.bankCodeForNetBanking
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
           );
         }
       }
@@ -2223,7 +2249,8 @@ if you have order id in local storage then you have to show order confirmation p
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
-            this.state.bankCodeForNetBanking
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
           this.props.createJusPayOrderForNetBanking(
@@ -2232,17 +2259,19 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.bankCodeForNetBanking,
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             true,
-            this.state.retryCartGuid
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
           );
         } else {
-          this.softReservationPaymentForWallet(PAYTM);
+          this.softReservationPaymentForWallet(PAYTM, PAYTM);
         }
       }
       if (this.state.paymentModeSelected === PAYPAL) {
         if (this.state.isGiftCard) {
           this.props.createJusPayOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
-            this.state.bankCodeForNetBanking
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
           this.props.createJusPayOrderForNetBanking(
@@ -2251,14 +2280,16 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.bankCodeForNetBanking,
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             true,
-            this.state.retryCartGuid
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
           );
         } else {
           this.props.softReservationPaymentForNetBanking(
             WALLET,
             PAYPAL,
             "",
-            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            ""
           );
         }
       }
@@ -2574,12 +2605,13 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
   };
-  softReservationPaymentForWallet = bankName => {
+  softReservationPaymentForWallet = (bankName, bankCode) => {
     this.props.softReservationPaymentForNetBanking(
       WALLET,
       PAYTM,
-      bankName,
-      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+      bankCode,
+      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+      bankName
     );
   };
   binValidationForCOD = paymentMode => {
@@ -2629,12 +2661,13 @@ if you have order id in local storage then you have to show order confirmation p
     );
   };
 
-  softReservationPaymentForNetBanking = bankName => {
+  softReservationPaymentForNetBanking = (bankCode, bankName) => {
     this.props.softReservationPaymentForNetBanking(
       NET_BANKING,
       this.state.paymentModeSelected,
-      bankName,
-      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+      bankCode,
+      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+      bankName
     );
   };
 
@@ -2642,7 +2675,8 @@ if you have order id in local storage then you have to show order confirmation p
     if (this.props.createJusPayOrderForGiftCardNetBanking) {
       this.props.createJusPayOrderForGiftCardNetBanking(
         this.props.location.state.egvCartGuid,
-        this.state.bankCodeForNetBanking
+        this.state.bankCodeForNetBanking,
+        this.state.bankNameForNetBanking
       );
     }
   };
@@ -2810,7 +2844,10 @@ if you have order id in local storage then you have to show order confirmation p
   };
   validateNetBanking = () => {
     if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE)
-      if (!this.state.bankCodeForNetBanking) {
+      if (
+        !this.state.bankCodeForNetBanking &&
+        !this.state.bankNameForNetBanking
+      ) {
         return true;
       } else {
         return false;
@@ -2857,7 +2894,10 @@ if you have order id in local storage then you have to show order confirmation p
           return true;
         }
       } else if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
-        if (!this.state.bankCodeForNetBanking) {
+        if (
+          !this.state.bankCodeForNetBanking &&
+          !this.state.bankNameForNetBanking
+        ) {
           return true;
         } else {
           return false;
@@ -3278,10 +3318,15 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       onChange={val => this.onChangePaymentMode(val)}
                       bankCodeForNetBanking={this.state.bankCodeForNetBanking}
-                      onSelectBankForNetBanking={bankCodeForNetBanking =>
-                        this.setState({
-                          bankCodeForNetBanking
-                        })
+                      bankNameForNetBanking={this.state.bankNameForNetBanking}
+                      onSelectBankForNetBanking={(
+                        bankCodeForNetBanking,
+                        bankNameForNetBanking
+                      ) =>
+                        this.onSelectBankForNetBanking(
+                          bankCodeForNetBanking,
+                          bankNameForNetBanking
+                        )
                       }
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
                       binValidation={(paymentMode, binNo) =>
