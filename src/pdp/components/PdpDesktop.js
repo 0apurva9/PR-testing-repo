@@ -229,7 +229,7 @@ export default class PdpApparel extends React.Component {
       productCode
     );
     if (productPincodeObj.status === ERROR) {
-      this.props.displayToast("Please enter a valid pincode");
+      this.props.displayToast("Product is not servicable to pincode");
     }
     if (
       productPincodeObj.status === SUCCESS &&
