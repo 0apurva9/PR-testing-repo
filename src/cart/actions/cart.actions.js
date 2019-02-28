@@ -1143,10 +1143,15 @@ export function emiBankingDetailsFailure(error) {
   };
 }
 
-export function getEmiBankDetails(price) {
+export function getEmiBankDetails(price, isFromRetryUrl, retryCartGuid) {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartGuid = JSON.parse(cartDetails).guid;
+  let cartGuid = "";
+  if (isFromRetryUrl) {
+    cartGuid = retryCartGuid;
+  } else {
+    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartGuid = JSON.parse(cartDetails).guid;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(emiBankingDetailsRequest());
     try {
@@ -1733,7 +1738,7 @@ export function paymentModesFailure(error) {
 }
 
 // Action Creator for Soft Reservation
-export function getPaymentModes(guId) {
+export function getPaymentModes(guId, isPaymentFailed, isComingFromRetryUrl) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -1759,6 +1764,7 @@ export function getPaymentModes(guId) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
       );
+      dispatch(getCODEligibility(isPaymentFailed, isComingFromRetryUrl, guId));
     } catch (e) {
       dispatch(paymentModesFailure(e.message));
     }
