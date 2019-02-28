@@ -274,6 +274,9 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
+    if (this.props.headerText) {
+      return this.props.headerText;
+    }
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
