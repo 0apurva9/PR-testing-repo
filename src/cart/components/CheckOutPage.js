@@ -1512,11 +1512,7 @@ if you have order id in local storage then you have to show order confirmation p
           noCostEmiDiscount: "0.00"
         });
         if (this.state.isComingFromRetryUrl) {
-          this.props.getEmiBankDetails(
-            this.state.payableAmount,
-            this.state.isComingFromRetryUrl,
-            this.state.retryCartGuid
-          );
+          this.props.getEmiBankDetails(this.state.payableAmount);
         } else {
           this.props.getEmiBankDetails(
             this.props.cart.cartDetailsCNC.cartAmount &&
@@ -1722,15 +1718,15 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  // getCODEligibility = cartId => {
-  //   if (this.props.getCODEligibility) {
-  //     this.props.getCODEligibility(
-  //       this.state.isPaymentFailed,
-  //       this.state.isComingFromRetryUrl,
-  //       this.state.retryCartGuid
-  //     );
-  //   }
-  // };
+  getCODEligibility = cartId => {
+    if (this.props.getCODEligibility) {
+      this.props.getCODEligibility(
+        this.state.isPaymentFailed,
+        this.state.isComingFromRetryUrl,
+        this.state.retryCartGuid
+      );
+    }
+  };
 
   getPaymentModes = () => {
     if (
@@ -1745,11 +1741,7 @@ if you have order id in local storage then you have to show order confirmation p
       } else {
         egvGiftCartGuId = this.props.location.state.egvCartGuid;
       }
-      this.props.getPaymentModes(
-        egvGiftCartGuId,
-        this.state.isPaymentFailed,
-        this.state.isComingFromRetryUrl
-      );
+      this.props.getPaymentModes(egvGiftCartGuId);
     } else if (
       (this.props.location &&
         this.props.location.state &&
@@ -1762,11 +1754,7 @@ if you have order id in local storage then you have to show order confirmation p
       } else {
         retryCartGuId = this.props.location.state.retryPaymentGuid;
       }
-      this.props.getPaymentModes(
-        retryCartGuId,
-        this.state.isPaymentFailed,
-        true
-      );
+      this.props.getPaymentModes(retryCartGuId);
     } else {
       let cartGuId;
       const parsedQueryString = queryString.parse(this.props.location.search);
@@ -1776,11 +1764,7 @@ if you have order id in local storage then you have to show order confirmation p
         let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
         cartGuId = JSON.parse(cartDetails).guid;
       }
-      this.props.getPaymentModes(
-        cartGuId,
-        this.state.isPaymentFailed,
-        this.state.isComingFromRetryUrl
-      );
+      this.props.getPaymentModes(cartGuId);
     }
   };
   onSelectAddress(selectedAddress) {
@@ -2467,7 +2451,7 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.applyCliqCash();
     }
   };
-  removeCliqCash = async () => {
+  removeCliqCash = () => {
     this.setState({
       isCliqCashApplied: false,
       isCliqCashApplied: false,
@@ -3237,9 +3221,7 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (this.state.confirmAddress &&
-                      this.state.deliverMode &&
-                      this.props.cart.paymentModes &&
+                    (this.props.cart.paymentModes &&
                       this.props.cart.paymentModes.paymentOffers &&
                       this.props.cart.paymentModes.paymentOffers.coupons) && (
                       <BankOfferWrapper
@@ -3334,6 +3316,7 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
+                      getCODEligibility={() => this.getCODEligibility()}
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEmiEligibility()}

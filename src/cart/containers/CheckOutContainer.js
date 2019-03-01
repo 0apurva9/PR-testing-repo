@@ -186,10 +186,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     softReservation: (pinCode, payload) => {
       dispatch(softReservation(pinCode, payload));
     },
-    getPaymentModes: (guIdDetails, isPaymentFailed, isComingFromRetryUr) => {
-      dispatch(
-        getPaymentModes(guIdDetails, isPaymentFailed, isComingFromRetryUr)
-      );
+    getPaymentModes: guIdDetails => {
+      dispatch(getPaymentModes(guIdDetails));
     },
     showCouponModal: data => {
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER);
@@ -204,10 +202,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getNetBankDetails: () => {
       dispatch(getNetBankDetails());
     },
-    getEmiBankDetails: (cartTotalProducts, isFromRetryUrl, retryCartGuid) => {
-      dispatch(
-        getEmiBankDetails(cartTotalProducts, isFromRetryUrl, retryCartGuid)
-      );
+    getEmiBankDetails: cartTotalProducts => {
+      dispatch(getEmiBankDetails(cartTotalProducts));
     },
     openBankOfferTncModal: () => {
       dispatch(showModal(TNC_FOR_BANK_OFFER_POPUP));
