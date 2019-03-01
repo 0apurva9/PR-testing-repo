@@ -94,7 +94,12 @@ export default class ReturnToStore extends React.Component {
         return (
           slaves.CNCServiceableSlavesData &&
           slaves.CNCServiceableSlavesData.map(slave => {
-            return slave;
+            return (
+              slave &&
+              slave.serviceableSlaves.map(serviceableSlave => {
+                return serviceableSlave;
+              })
+            );
           })
         );
       })
@@ -106,12 +111,12 @@ export default class ReturnToStore extends React.Component {
           })
         );
       });
+
     const allStoreIds = [].concat
       .apply([], [].concat.apply([], someData))
       .map(store => {
-        return store && store.storeId;
+        return store && store.slaveId;
       });
-
     const availableStores = this.props.stores
       ? this.props.stores.filter(val => {
           return allStoreIds.includes(val.slaveId);
@@ -212,7 +217,7 @@ export default class ReturnToStore extends React.Component {
               </div>
               {!this.state.showPickupPerson &&
                 this.state.availableStores &&
-                this.state.availableStores.length > 0 && (
+                this.state.availableStores.length > 1 && (
                   <GridSelect
                     limit={1}
                     offset={0}

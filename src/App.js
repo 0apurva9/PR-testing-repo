@@ -71,8 +71,7 @@ import {
   DEFAULT_PINCODE,
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
-  RETRY_FAILED_ORDER,
-  MAINTENANCE
+  RETRY_FAILED_ORDER
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -305,13 +304,6 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
-
-const MaintenancePage = Loadable({
-  loader: () => import("./errorsPage/components/Maintenance"),
-  loading() {
-    return <Loader />;
-  }
-});
 class App extends Component {
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -417,9 +409,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <div className={className} style={{ transform: appTransform }}>
-          {this.props.location.pathname !== "/maintenance" ? (
-            <HeaderContainer />
-          ) : null}
+          <HeaderContainer />
           <MobileOnly>
             <MobileFooter />
           </MobileOnly>
@@ -596,11 +586,6 @@ class App extends Component {
             />
             <Route
               exact
-              path={MAINTENANCE}
-              render={() => <MaintenancePage {...this.props} />}
-            />
-            <Route
-              exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
             />
@@ -614,8 +599,7 @@ class App extends Component {
             {!this.props.location.pathname.includes(CHECKOUT_ROUTER) &&
               !this.props.location.pathname.includes(PRODUCT_CART_ROUTER) &&
               !this.props.location.pathname.includes(LOGIN_PATH) &&
-              !this.props.location.pathname.includes(SIGN_UP_PATH) &&
-              !this.props.location.pathname.includes(MAINTENANCE) && (
+              !this.props.location.pathname.includes(SIGN_UP_PATH) && (
                 <DesktopFooterContainer />
               )}
           </DesktopOnly>
