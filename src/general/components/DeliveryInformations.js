@@ -41,21 +41,17 @@ export default class DeliveryInformations extends React.Component {
   render() {
     let iconImage = "";
     let typeName = "";
-    let validDelivaryModes = false;
     let arrowStyle = styles.arrowLink1;
     if (this.props.type === EXPRESS) {
       iconImage = ExpressImage;
       typeName = EXPRESS_TEXT;
       arrowStyle = styles.arrowLink;
-      validDelivaryModes = true;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
-      validDelivaryModes = true;
       typeName = HOME_TEXT;
     } else if (this.props.type === COLLECT) {
       iconImage = CollectImage;
       typeName = COLLECT_TEXT;
-      validDelivaryModes = true;
     }
     if (!this.props.available) {
       typeName = `${typeName}`;
@@ -69,101 +65,96 @@ export default class DeliveryInformations extends React.Component {
         deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
       }
     }
-
     return (
       <div className={styles.base}>
-        {validDelivaryModes && (
-          <div
-            className={
-              this.props.available ? styles.dataHolder : styles.notAvailable
-            }
+        <div
+          className={
+            this.props.available ? styles.dataHolder : styles.notAvailable
+          }
+        >
+          <IconWithHeader
+            image={iconImage}
+            iconShow={this.props.iconShow}
+            header={`${typeName} ${deliveryCharge}`}
           >
-            <IconWithHeader
-              image={iconImage}
-              iconShow={this.props.iconShow}
-              header={`${typeName} ${deliveryCharge}`}
-            >
-              {this.props.placedTime &&
-                this.props.available && (
-                  <div className={styles.placeTime}>
-                    {this.props.placedTime}
-                  </div>
-                )}
-              {this.props.deliverText && (
-                <div className={styles.placeTime}>
-                  {this.props.deliverText}
-                  <span className={styles.text}>{this.props.textHeading}</span>
+            {this.props.placedTime &&
+              this.props.available && (
+                <div className={styles.placeTime}>{this.props.placedTime}</div>
+              )}
+            {this.props.deliverText && (
+              <div className={styles.placeTime}>
+                {this.props.deliverText}
+                <span className={styles.text}>{this.props.textHeading}</span>
+              </div>
+            )}
+            {!this.props.available && (
+              <div className={styles.placeTime}>{NOT_AVAILABLE}</div>
+            )}
+            {this.props.isClickable &&
+              this.props.type === COLLECT &&
+              this.props.isShowCliqAndPiqUnderLineText &&
+              this.props.available && (
+                <div className={styles.underLineButtonHolder}>
+                  <span className={styles.buttonHolderPiq}>
+                    <UnderLinedButton
+                      size={
+                        UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
+                      }
+                      fontFamily="light"
+                      color="#ff1744"
+                      size="11px"
+                      label="Check for pick up options"
+                      onClick={() => this.onPiq()}
+                    />
+                  </span>
                 </div>
               )}
-              {!this.props.available && (
-                <div className={styles.placeTime}>{NOT_AVAILABLE}</div>
-              )}
-              {this.props.isClickable &&
-                this.props.type === COLLECT &&
-                this.props.isShowCliqAndPiqUnderLineText &&
-                this.props.available && (
-                  <div className={styles.underLineButtonHolder}>
-                    <span className={styles.buttonHolderPiq}>
-                      <UnderLinedButton
-                        size={
-                          UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
-                        }
-                        fontFamily="light"
-                        color="#ff1744"
-                        size="11px"
-                        label="Check for pick up options"
-                        onClick={() => this.onPiq()}
-                      />
-                    </span>
-                  </div>
-                )}
-            </IconWithHeader>
-            {this.props.type === COLLECT
-              ? this.props.selected &&
-                this.props.onSelect && (
-                  <div
-                    className={styles.checkboxHolder}
-                    onClick={() => {
-                      this.handleSelect();
-                    }}
-                  >
-                    {this.props.isClickable && (
-                      <CheckBox selected={this.props.selected} />
-                    )}
-                  </div>
-                )
-              : this.props.onSelect && (
-                  <div
-                    className={styles.checkboxHolder}
-                    onClick={() => {
-                      this.handleSelect();
-                    }}
-                  >
-                    {this.props.isClickable && (
-                      <CheckBox selected={this.props.selected} />
-                    )}
-                  </div>
-                )}
-
-            {this.props.arrowClick &&
-              this.props.type === COLLECT && (
+          </IconWithHeader>
+          {this.props.type === COLLECT
+            ? this.props.selected &&
+              this.props.onSelect && (
                 <div
-                  className={styles.arrowHolder}
-                  onClick={() => this.arrowClick()}
+                  className={styles.checkboxHolder}
+                  onClick={() => {
+                    this.handleSelect();
+                  }}
                 >
-                  <Icon image={arrowIcon} size={20} />
+                  {this.props.isClickable && (
+                    <CheckBox selected={this.props.selected} />
+                  )}
+                </div>
+              )
+            : this.props.onSelect && (
+                <div
+                  className={styles.checkboxHolder}
+                  onClick={() => {
+                    this.handleSelect();
+                  }}
+                >
+                  {this.props.isClickable && (
+                    <CheckBox selected={this.props.selected} />
+                  )}
                 </div>
               )}
-            {this.props.showCliqAndPiqButton &&
-              this.props.isClickable &&
-              !this.props.selected &&
-              this.props.type === COLLECT && (
-                <div className={arrowStyle} onClick={() => this.onPiq()}>
-                  <Icon image={greyArrow} size={20} />
-                </div>
-              )}
-          </div>
-        )}
+
+          {this.props.arrowClick &&
+            this.props.type === COLLECT && (
+              <div
+                className={styles.arrowHolder}
+                onClick={() => this.arrowClick()}
+              >
+                <Icon image={arrowIcon} size={20} />
+              </div>
+            )}
+          {this.props.showCliqAndPiqButton &&
+            this.props.isClickable &&
+            !this.props.selected &&
+            this.props.type === COLLECT && (
+              <div className={arrowStyle} onClick={() => this.onPiq()}>
+                <Icon image={greyArrow} size={20} />
+              </div>
+            )}
+        </div>
       </div>
     );
   }
