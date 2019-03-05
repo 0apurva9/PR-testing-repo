@@ -216,8 +216,7 @@ export default class ReturnToStore extends React.Component {
                 />
               </div>
               {!this.state.showPickupPerson &&
-                this.state.availableStores &&
-                this.state.availableStores.length && (
+                this.state.availableStores && (
                   <GridSelect
                     limit={1}
                     offset={0}
