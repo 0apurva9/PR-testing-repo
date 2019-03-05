@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const StyleExtHtmlWebpackPlugin = require("style-ext-html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
@@ -257,6 +258,7 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
+      filename: "index.html",
       template: paths.appHtml,
       minify: {
         removeComments: true,
@@ -272,13 +274,31 @@ module.exports = {
       },
       stage: process.env.REACT_APP_STAGE
     }),
+
+    // Generates an `other.html` file with the <script> injected.
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: "other.html",
+      template: paths.appOtherHtml,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      stage: process.env.REACT_APP_STAGE
+    }),
+
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
-    new PreloadWebpackPlugin({
-      rel: "preload",
-      include: "initial"
-    }),
+
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
@@ -309,6 +329,10 @@ module.exports = {
     new ExtractTextPlugin({
       filename: cssFilename
     }),
+
+    //StyleExtHtmlWebpackPlugin  remove css link tag add that css inline in html -  here main.css will inline in htmls
+    new StyleExtHtmlWebpackPlugin(),
+
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
