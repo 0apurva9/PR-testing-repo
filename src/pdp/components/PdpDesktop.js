@@ -1248,6 +1248,14 @@ export default class PdpApparel extends React.Component {
                   </div>
                   {this.renderRatings}
                 </div>
+                <React.Fragment>
+                  {flixModelNo && productData.brandName ? (
+                    <FlixMediaContainer
+                      flixModelNo={flixModelNo}
+                      brandName={productData.brandName}
+                    />
+                  ) : null}
+                </React.Fragment>
                 {productData.rootCategory === "Electronics" && (
                   <div className={styles.detailsHolder}>
                     <div className={styles.detailsCard}>
@@ -1295,14 +1303,6 @@ export default class PdpApparel extends React.Component {
                             productId={productData.productListingId}
                           />
                         </div>
-                      ) : null}
-                    </React.Fragment>
-                    <React.Fragment>
-                      {flixModelNo && productData.brandName ? (
-                        <FlixMediaContainer
-                          flixModelNo={flixModelNo}
-                          brandName={productData.brandName}
-                        />
                       ) : null}
                     </React.Fragment>
                     <React.Fragment>
