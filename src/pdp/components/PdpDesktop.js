@@ -783,27 +783,33 @@ export default class PdpApparel extends React.Component {
                       {!this.checkIfNoSize() &&
                         !this.checkIfSizeDoesNotExist() && (
                           <React.Fragment>
-                            {productData.rootCategory !== "HomeFurnishing" && (
-                              <div
-                                className={
-                                  this.state.sizeError
-                                    ? styles.sizeError
-                                    : styles.sizeHolder
-                                }
-                              >
-                                <SizeSelector
-                                  history={this.props.history}
-                                  headerText={productData.isSizeOrLength}
-                                  sizeSelected={this.checkIfSizeSelected()}
-                                  productId={productData.productListingId}
-                                  hasSizeGuide={productData.showSizeGuide}
-                                  showSizeGuide={this.props.showSizeGuide}
-                                  data={productData.variantOptions}
-                                  textSize={12}
-                                />
-                              </div>
-                            )}
-                            {productData.rootCategory === "HomeFurnishing" && (
+                            {productData.rootCategory !== "HomeFurnishing" &&
+                              productData.rootCategory !== "FineJewellery" &&
+                              productData.rootCategory !==
+                                "FashionJewellery" && (
+                                <div
+                                  className={
+                                    this.state.sizeError
+                                      ? styles.sizeError
+                                      : styles.sizeHolder
+                                  }
+                                >
+                                  <SizeSelector
+                                    history={this.props.history}
+                                    headerText={productData.isSizeOrLength}
+                                    sizeSelected={this.checkIfSizeSelected()}
+                                    productId={productData.productListingId}
+                                    hasSizeGuide={productData.showSizeGuide}
+                                    showSizeGuide={this.props.showSizeGuide}
+                                    data={productData.variantOptions}
+                                    textSize={12}
+                                  />
+                                </div>
+                              )}
+                            {(productData.rootCategory === "HomeFurnishing" ||
+                              productData.rootCategory === "FineJewellery" ||
+                              productData.rootCategory ===
+                                "FashionJewellery") && (
                               <React.Fragment>
                                 <div
                                   className={
@@ -815,6 +821,7 @@ export default class PdpApparel extends React.Component {
                                 >
                                   <SizeQuantitySelect
                                     history={this.props.history}
+                                    headerText={productData.isSizeOrLength}
                                     sizeError={this.state.sizeError}
                                     quantityError={this.state.quantityError}
                                     showSizeGuide={
