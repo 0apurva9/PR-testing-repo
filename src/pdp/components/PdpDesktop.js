@@ -788,6 +788,7 @@ export default class PdpApparel extends React.Component {
                                 >
                                   <SizeSelector
                                     history={this.props.history}
+                                    headerText={productData.isSizeOrLength}
                                     sizeSelected={this.checkIfSizeSelected()}
                                     productId={productData.productListingId}
                                     hasSizeGuide={productData.showSizeGuide}
@@ -812,6 +813,7 @@ export default class PdpApparel extends React.Component {
                                 >
                                   <SizeQuantitySelect
                                     history={this.props.history}
+                                    headerText={productData.isSizeOrLength}
                                     sizeError={this.state.sizeError}
                                     quantityError={this.state.quantityError}
                                     showSizeGuide={

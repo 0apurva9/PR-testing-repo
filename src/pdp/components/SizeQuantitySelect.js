@@ -39,6 +39,7 @@ export default class SizeQuantitySelect extends React.Component {
     const selectedColour = selectedVariant.colorlink.color;
     const selectedUrl = selectedVariant.sizelink.url;
     const selectedSize = selectedVariant.sizelink.size;
+    let headerText = this.props.headerText ? this.props.headerText : "Size";
     const sizes = this.props.data
 
       .filter(val => {
@@ -48,7 +49,7 @@ export default class SizeQuantitySelect extends React.Component {
         return val.sizelink;
       });
     if (!this.props.checkIfSizeSelected())
-      sizes.unshift({ size: "Size", value: "size" });
+      sizes.unshift({ size: headerText, value: headerText.toLowerCase() });
     let fetchedQuantityList = [];
     if (
       !this.props.checkIfQuantitySelected() ||
@@ -66,7 +67,10 @@ export default class SizeQuantitySelect extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          {this.props.noQuantity && "Select a size"}
+          {this.props.noQuantity &&
+            (this.props.headerText
+              ? `Select a ${this.props.headerText}`
+              : "Select a size")}
           {!this.props.noQuantity && "Select a size & quantity"}
           {!this.props.noQuantity && (
             <div className={styles.button}>
@@ -102,8 +106,14 @@ export default class SizeQuantitySelect extends React.Component {
             >
               <SelectBoxMobile2
                 theme="hollowBox"
-                value={this.props.checkIfSizeSelected() ? selectedUrl : "size"}
-                label={this.props.checkIfSizeSelected() ? selectedSize : "Size"}
+                value={
+                  this.props.checkIfSizeSelected()
+                    ? selectedUrl
+                    : headerText.toLowerCase()
+                }
+                label={
+                  this.props.checkIfSizeSelected() ? selectedSize : headerText
+                }
                 options={sizes.map(val => {
                   return { label: val.size, value: val.url };
                 })}
