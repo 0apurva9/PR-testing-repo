@@ -109,7 +109,7 @@ export default class SaveListDetails extends React.Component {
                       <div className={styles.listCardHolder} key={i}>
                         <SaveListCard
                           //productName={product.productBrand}
-                          outOfStock={product.availableStock === 0}
+                          outOfStock={product.availableStock <= 0}
                           productName={product.productName}
                           price={
                             product.mop
