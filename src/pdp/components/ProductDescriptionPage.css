@@ -298,8 +298,6 @@
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    position: sticky;
-    top: 120px;
     z-index: 5;
   }
   .content {
