@@ -106,7 +106,16 @@ export default class ProductModule extends React.Component {
               this.props.view === "grid" ? styles.content : styles.Listcontent
             }
           >
-            <ProductDescription {...this.props} />
+            <ProductDescription
+              {...this.props}
+              onClickDescription={this.onClick}
+              showWishListButton={this.props.showWishListButton}
+              productListingId={this.props.productId}
+              isShowAddToWishlistIcon={this.props.isShowAddToWishlistIcon}
+              winningUssID={this.props.winningUssID}
+              productListings={this.props.productListings}
+              discountPercent={this.props.discountPercent}
+            />
             {this.props.view === "list" && (
               <ProductInfo
                 averageRating={this.props.averageRating}
