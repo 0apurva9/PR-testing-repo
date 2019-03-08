@@ -9,6 +9,8 @@ import styles from "./AddToWishListButton.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import downloadIconWhite from "../../general/components/img/downloadWhite.svg";
+import wishlistUnfilled from "./img/wishlist_unfilled.svg";
+import wishlistFilled from "./img/wishlist_filled.svg";
 import {
   LOGIN_PATH,
   LOGGED_IN_USER_DETAILS,
@@ -137,9 +139,9 @@ export default class AddToWishListButton extends React.Component {
       );
     }
     return (
-      <div className={styles.iconButton} onClick={e => this.onClick(e)}>
+      <div onClick={e => this.onClick(e)}>
         <Icon
-          image={this.props.isWhite ? downloadIconWhite : downloadIcon}
+          image={this.props.isWhite ? wishlistFilled : wishlistUnfilled}
           size={this.props.size}
         />
       </div>
