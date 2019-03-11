@@ -64,6 +64,7 @@ export default class ControlInput extends React.Component {
               maxLength={this.props.maxLength}
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}
+              autocomplete="nope"
               onKeyPress={event => this.handleKeyPress(event)}
             />
           </div>

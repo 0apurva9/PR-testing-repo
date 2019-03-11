@@ -13,6 +13,16 @@
   background-color: transparent;
 }
 
+.inputBox:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  background-color: transparent !important;
+}
+
+.inputBox:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  background-color: transparent !important;
+}
+
 .wrapper {
   composes: container;
 }
