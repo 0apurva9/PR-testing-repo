@@ -52,6 +52,8 @@ export default class ControlInput extends React.Component {
           >
             <input
               type={this.props.type}
+              autocomplete="off"
+              autocorrect="off"
               id={this.props.id}
               placeholder={this.props.placeholder}
               className={styles.inputBox}
@@ -64,7 +66,6 @@ export default class ControlInput extends React.Component {
               maxLength={this.props.maxLength}
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}
-              autocomplete="nope"
               onKeyPress={event => this.handleKeyPress(event)}
             />
           </div>
