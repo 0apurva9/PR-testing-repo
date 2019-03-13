@@ -74,13 +74,19 @@ export default class DropdownMenu extends React.Component {
   }
   render() {
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let custName;
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
+      custName = userCookie.userName;
     }
+
+    // if (userCookie) {
+    // userCookie = JSON.parse(userCookie);
+    //}
     return (
       <div className={styles.base}>
-        {!userCookie &&
-          !userCookie && (
+        {!custName &&
+          typeof custName !== undefined && (
             <div className={styles.loginAndRegisterButtonHolder}>
               <div className={styles.loginAndRegisterButton}>
                 <Button
