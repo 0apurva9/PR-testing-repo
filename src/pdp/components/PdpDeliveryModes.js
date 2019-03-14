@@ -219,18 +219,6 @@ export default class PdpDeliveryModes extends React.Component {
   }
 }
 PdpDeliveryModes.propTypes = {
-  eligibleDeliveryModes: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.oneOf([EXPRESS, COLLECT, HOME_DELIVERY]),
-      name: PropTypes.string
-    })
-  ),
-  deliveryModesATP: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.oneOf([EXPRESS, COLLECT, HOME_DELIVERY]),
-      value: PropTypes.string
-    })
-  ),
   iconShow: PropTypes.bool
 };
 PdpDeliveryModes.defaultProps = {
