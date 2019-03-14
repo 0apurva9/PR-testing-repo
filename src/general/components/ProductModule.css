@@ -89,4 +89,12 @@
     height: 100%;
     z-index: 1;
   }
+  
+}
+.similarIcon{
+  cursor: pointer;
+  position: absolute;
+  top: 275px;
+  right: 20px;
+  z-index: 1;
 }

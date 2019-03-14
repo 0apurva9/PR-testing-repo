@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ProductImage.css";
 import Image from "../../xelpmoc-core/Image";
+
 import PropTypes from "prop-types";
 import VisibilityChild from "../../home/components/VisibilityChild.js";
 
@@ -10,6 +11,7 @@ export default class ProductImage extends React.Component {
       this.props.onClickImage();
     }
   }
+
   render() {
     return (
       <div className={this.props.flatImage ? styles.flatImage : styles.base}>

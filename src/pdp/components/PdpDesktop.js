@@ -171,7 +171,7 @@ export default class PdpApparel extends React.Component {
     this.props.getUserAddress();
     /* Start- Gemini Script */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Apparel
       window.GEM.setGeminiPageId("0002321000100700");
     } else {
@@ -614,6 +614,7 @@ export default class PdpApparel extends React.Component {
       });
 
     if (productData) {
+      console.log("productData", productData);
       let price = "";
       let discountPrice = "";
       if (productData.mrpPrice) {
@@ -636,6 +637,8 @@ export default class PdpApparel extends React.Component {
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
           ussId={productData.winningUssID}
+          productListingId={productData.productListingId}
+          showSimilarProducts={this.props.showSimilarProducts}
         >
           <div className={styles.base}>
             <div className={styles.pageCenter} ref="scrollToViewGallery">
@@ -648,6 +651,8 @@ export default class PdpApparel extends React.Component {
                   alt={`${productData.productName}-${productData.brandName}-${
                     productData.rootCategory
                   }-TATA CLIQ`}
+                  details={productData.details}
+                  showSimilarProducts={this.props.showSimilarProducts}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags
