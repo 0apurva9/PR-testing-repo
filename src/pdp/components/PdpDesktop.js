@@ -540,7 +540,6 @@ export default class PdpApparel extends React.Component {
     });
   };
   render() {
-    console.log(this.props);
     const getPinCode =
       this.props &&
       this.props.userAddress &&

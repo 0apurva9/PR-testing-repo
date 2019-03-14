@@ -52,7 +52,6 @@ export default class PdpDeliveryModes extends React.Component {
       deliveryDates =
         deliveryMode && deliveryMode[0] && deliveryMode[0].validDeliveryModes;
     }
-    console.log(deliveryDates);
     const isCod = this.props && this.props.isCod;
     return (
       <div className={styles.base}>
