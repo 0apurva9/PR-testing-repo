@@ -387,6 +387,8 @@
   }
   .horizontalOffset {
     width: 100%;
+    height: auto;
+    display: inline-block;
   }
   .sizeHolder {
     width: 100%;
@@ -518,6 +520,7 @@
   .pinAndDeliveryHolder {
     width: 100%;
     height: auto;
+    display: inline-block;
   }
   .pointListHolder {
     width: 100%;
@@ -548,7 +551,7 @@
     height: auto;
     margin-top: 25px;
   }
-  .samsungChatImgHolder{
+  .samsungChatImgHolder {
     position: fixed;
     right: 0;
     top: 80%;

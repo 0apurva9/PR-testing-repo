@@ -1,4 +1,4 @@
-.base {
+/* .base {
   width: 100%;
   height: auto;
   background: #fff;
@@ -14,4 +14,61 @@
   height: auto;
   display: inline-block;
   vertical-align: top;
+} */
+.base,
+.baseClass {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 10px 0px 10px 0px;
+}
+.basePdp {
+  float: left;
+  width: 100%;
+  /* padding: 20px 0px; */
+}
+.standardAndCashOnDelivery {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  background: #fff;
+  position: relative;
+  padding-top: 20px;
+}
+.standardAndCashOnDelivery::before {
+  content: "";
+  width: 90%;
+  height: 0px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 5px;
+  border-top: 1px solid #ececec;
+  z-index: 1;
+}
+.infoHolder {
+  width: 50%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.noStandardAndCashOnDelivery {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  background: #fff;
+  position: relative;
+  padding-top: 0px;
+}
+.noStandardAndCashOnDelivery::before {
+  content: "";
+  width: 90%;
+  height: 0px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 5px;
+  z-index: 1;
 }

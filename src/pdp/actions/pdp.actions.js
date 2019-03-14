@@ -246,9 +246,13 @@ export function getProductPinCodeFailure(error) {
   };
 }
 
-export function getProductPinCode(pinCode: null, productCode) {
+export function getProductPinCode(
+  pinCode: null,
+  productCode,
+  isComingFromPiqPage,
+  isFirstTimeRender = false
+) {
   let validProductCode = productCode.toUpperCase();
-
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
   }
@@ -271,10 +275,54 @@ export function getProductPinCode(pinCode: null, productCode) {
       const result = await api.post(url);
 
       const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      let cncDeliveryModes = "";
+      if (
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        resultJson.listOfDataList[0].value.pincodeListResponse &&
+        resultJson.listOfDataList[0].value.pincodeListResponse[0] &&
+        resultJson.listOfDataList[0].value.pincodeListResponse[0]
+          .validDeliveryModes
+      ) {
+        cncDeliveryModes = resultJson.listOfDataList[0].value.pincodeListResponse[0].validDeliveryModes.find(
+          val => {
+            return val.type === "CNC";
+          }
+        );
+      }
+      if (
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        Object.keys(resultJson.listOfDataList[0].value).length === 0
+      ) {
+        dispatch(displayToast("please enter a valid pincode"));
+      } else if (
+        isComingFromPiqPage &&
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        resultJson.listOfDataList[0].value.pincodeListResponse &&
+        resultJson.listOfDataList[0].value.pincodeListResponse[0] &&
+        (!resultJson.listOfDataList[0].value.pincodeListResponse[0]
+          .validDeliveryModes ||
+          !cncDeliveryModes ||
+          !cncDeliveryModes.CNCServiceableSlavesData)
+      ) {
+        dispatch(
+          displayToast(
+            "Unfortunately, we're currently unable to ship this item to your PIN code. Can we ship it to another address?"
+          )
+        );
+        dispatch(hidePdpPiqPage());
+        window.scroll({
+          top: 230,
+          behavior: "smooth"
+        });
       }
       return dispatch(
         getProductPinCodeSuccess({
@@ -282,6 +330,9 @@ export function getProductPinCode(pinCode: null, productCode) {
           deliveryOptions: resultJson.listOfDataList[0].value
         })
       );
+      if (isComingFromPiqPage) {
+        dispatch(getAllStoresForCliqAndPiq());
+      }
     } catch (e) {
       return dispatch(getProductPinCodeFailure(e.message));
     }

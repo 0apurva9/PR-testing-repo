@@ -5,10 +5,60 @@
   position: relative;
   margin: 20px 0;
 }
+.basePdp {
+  /* background-color: #fff !important; */
+  background-color: #fff;
+  z-index: 11;
+  float: left;
+  padding: 20px 20px 25px 15px;
+  width: 100%;
+  height: auto;
+  position: relative;
+}
 .label {
   width: 100%;
   height: auto;
   line-height: 25px;
+  font-size: 14px;
+}
+.pinCodeAndButtonHolder {
+  width: 100%;
+  height: auto;
+  padding-right: 70px;
+  position: relative;
+}
+.pinCodeAndButtonHolder::after {
+  content: "";
+  width: 100%;
+  border-top: 1px solid #ececec;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+.borderLeft {
+  width: 100%;
+  height: auto;
+  padding-right: 70px;
+  position: relative;
+}
+.borderLeft::after {
+  content: "";
+  width: 70%;
+  border-top: 1px solid #000;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+.borderForNoPinCode {
+  composes: borderLeft;
+}
+.borderForNoPinCode:after {
+  content: "";
+  width: 70%;
+  border-top: 1px solid #000;
+  position: absolute;
+  left: 0;
+  bottom: -5px;
 }
 .labelMessage {
   width: 100%;
@@ -16,7 +66,14 @@
   font-size: 14px;
   color: #000000;
 }
-.buttonHolder {
+.labelMessagePdp {
+  width: 60%;
+  height: auto;
+  font-size: 14px;
+  color: #000000;
+}
+.buttonHolder,
+.buttonHolderPdp {
   width: 120px;
   height: auto;
   top: 0;
@@ -24,7 +81,24 @@
   text-align: right;
   position: absolute;
 }
+.buttonHolderPdp {
+  width: auto;
+  right: 0;
+}
 .button {
   width: auto;
   display: inline-block;
+  position: absolute;
+  color: #ff1744;
+  font-size: 14px;
+  font-family: semibold;
+  right: 0;
+}
+.shipToLabel {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 12px;
+  font-family: semibold;
+  margin-bottom: 15px;
 }

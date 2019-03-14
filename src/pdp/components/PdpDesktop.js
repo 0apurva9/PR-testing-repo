@@ -171,7 +171,7 @@ export default class PdpApparel extends React.Component {
     this.props.getUserAddress();
     /* Start- Gemini Script */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Apparel
       window.GEM.setGeminiPageId("0002321000100700");
     } else {
@@ -540,6 +540,7 @@ export default class PdpApparel extends React.Component {
     });
   };
   render() {
+    console.log(this.props);
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -612,7 +613,23 @@ export default class PdpApparel extends React.Component {
       .map(image => {
         return image[0].value;
       });
-
+    const firstSlaveData =
+      this.props.productDetails &&
+      this.props.productDetails.pincodeResponseList &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse[0] &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse[0].validDeliveryModes &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions.pincodeListResponse[0].validDeliveryModes.find(
+        val => {
+          return val.type === "CNC";
+        }
+      );
+    const availableStores =
+      firstSlaveData && firstSlaveData.CNCServiceableSlavesData;
     if (productData) {
       let price = "";
       let discountPrice = "";
@@ -961,45 +978,44 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {getPinCode &&
-                      userCookie && (
-                        <SearchAndUpdate
-                          uiType="hollow"
-                          checkPinCodeAvailability={pincode =>
-                            this.checkPinCodeAvailability(
-                              pincode,
-                              productData.productListingId
-                            )
-                          }
-                          placeholder="Pincode"
-                          value={getPinCode}
-                          hasAutoFocus={false}
-                          labelText={"Check"}
-                          borderColor="transparent"
-                          borderBottom="0px solid #transparent"
-                        />
-                      )}
-
-                    {!userCookie && (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
+                    {this.props.productDetails.isServiceableToPincode &&
+                    this.props.productDetails.isServiceableToPincode.pinCode ? (
+                      <PdpPincode
+                        hasPincode={true}
+                        pincode={
+                          this.props.productDetails.isServiceableToPincode
+                            .pinCode
+                        }
+                        status={
+                          this.props.productDetails &&
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode
+                            .status
+                        }
+                        onClick={() => this.showPincodeModal()}
+                        city={
+                          this.props.productDetails &&
+                          this.props.productDetails.pincodeResponseList &&
+                          this.props.productDetails.pincodeResponseList
+                            .deliveryOptions &&
+                          this.props.productDetails.pincodeResponseList
+                            .deliveryOptions.pincodeListResponse &&
+                          this.props.productDetails.pincodeResponseList
+                            .deliveryOptions.pincodeListResponse[0] &&
+                          this.props.productDetails.pincodeResponseList
+                            .deliveryOptions.pincodeListResponse[0].city
+                        }
+                      />
+                    ) : (
+                      <PdpPincode
+                        pdpApparel={true}
+                        displayToast={val => this.props.displayToast(val)}
+                        onCheckPinCode={pincode =>
+                          this.props.getProductPinCode(
                             pincode,
                             productData.productListingId
                           )
                         }
-                        placeholder={
-                          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-                            ? localStorage.getItem(
-                                DEFAULT_PIN_CODE_LOCAL_STORAGE
-                              )
-                            : "Enter your PIN code"
-                        }
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
                       />
                     )}
                   </div>
@@ -1039,6 +1055,11 @@ export default class PdpApparel extends React.Component {
                         }
                         deliveryModesATP={productData.deliveryModesATP}
                         iconShow={true}
+                        pincodeDetails={productData.pincodeResponseList}
+                        isCod={productData.isCOD}
+                        availableStores={
+                          availableStores && availableStores.length
+                        }
                       />
                     </div>
                   )}

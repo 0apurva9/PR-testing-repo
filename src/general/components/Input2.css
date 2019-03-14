@@ -12,7 +12,10 @@
   -webkit-appearance: none;
   background-color: transparent;
 }
-
+.inputBoxNoPadding {
+  composes: inputBox;
+  padding: 0px;
+}
 .wrapper {
   composes: container;
 }
@@ -27,7 +30,6 @@
   border: none;
   border-bottom: 2px solid #d3d3d3;
 }
-
 .whiteHollow {
   composes: container;
   color: #fff;
