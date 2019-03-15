@@ -345,8 +345,18 @@ export default class ReturnAddressList extends React.Component {
         returnCliqAndPiqObject.accountHolderName = this.props.bankDetail.userName;
         returnCliqAndPiqObject.bankName = this.props.bankDetail.bankName;
         returnCliqAndPiqObject.IFSCCode = this.props.bankDetail.code;
-        returnCliqAndPiqObject.refundMode = this.props.returnRequest.codSelfShipData.paymentMode;
-        returnCliqAndPiqObject.title = this.props.returnRequest.codSelfShipData.title;
+        if (this.props.returnRequest) {
+          returnCliqAndPiqObject.refundMode =
+            this.props.returnRequest.codSelfShipData &&
+            this.props.returnRequest.codSelfShipData.paymentMode
+              ? this.props.returnRequest.codSelfShipData.paymentMode
+              : null;
+          returnCliqAndPiqObject.title =
+            this.props.returnRequest.codSelfShipData &&
+            this.props.returnRequest.codSelfShipData.title
+              ? this.props.returnRequest.codSelfShipData.title
+              : null;
+        }
       }
     }
     this.props.newReturnInitial(
