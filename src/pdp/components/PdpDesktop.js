@@ -539,6 +539,8 @@ export default class PdpApparel extends React.Component {
       behavior: "smooth"
     });
   };
+
+  tail = ([x, ...xs]) => xs;
   render() {
     const getPinCode =
       this.props &&
@@ -551,6 +553,8 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
+    const tailedKnowMoreV2 = this.tail(productData.knowMoreV2);
+
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
@@ -614,7 +618,6 @@ export default class PdpApparel extends React.Component {
       });
 
     if (productData) {
-      console.log("productData", productData);
       let price = "";
       let discountPrice = "";
       if (productData.mrpPrice) {
@@ -1206,6 +1209,23 @@ export default class PdpApparel extends React.Component {
                           data={productData.details}
                         />
                       )}
+                    {productData.knowMoreV2 && (
+                      <Accordion text="Return & Exchange" headerFontSize={18}>
+                        <div className={styles.containerWithBottomBorder}>
+                          <div className={styles.accordionContentBold}>
+                            {productData.knowMoreV2[0].knowMoreItemV2}
+                          </div>
+                          {tailedKnowMoreV2.map(val => {
+                            return (
+                              <div className={styles.accordionLight}>
+                                {val.knowMoreItemV2}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </Accordion>
+                    )}
+
                     {productData.knowMore && (
                       <Accordion text="Know More" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
