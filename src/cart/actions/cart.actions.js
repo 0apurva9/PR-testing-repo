@@ -32,7 +32,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   NET_BANKING_PAYMENT_MODE,
   WALLET,
-  OFFER_ERROR_PAYMENT_MODE_TYPE
+  OFFER_ERROR_PAYMENT_MODE_TYPE,
+  EMI_TENURE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2070,6 +2071,9 @@ export function binValidation(paymentMode, binNo) {
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
+      if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
+        localStorage.removeItem(EMI_TENURE);
+      }
       if (resultJsonStatus.status) {
         if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
           dispatch(applyBankOfferFailure(resultJsonStatus.message));
@@ -2500,6 +2504,10 @@ export function createJusPayOrder(
   }
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  const noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
+  const selectedEmiTenure = localStorage.getItem(EMI_TENURE);
+  const childPaymentMode = noCostEmiCouponCode ? "NCEMI" : "null";
+  let emiTenure = selectedEmiTenure ? `&emiTenure=${selectedEmiTenure}` : "";
   return async (dispatch, getState, { api }) => {
     let productItems = "";
     if (isFromRetryUrl) {
@@ -2532,7 +2540,7 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
           productItems
         );
       } else {
@@ -2555,7 +2563,7 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
           cartItem
         );
       }
@@ -3186,6 +3194,9 @@ export function jusPayPaymentMethodType(
         localStorage.setItem(CART_BAG_DETAILS, []);
         if (localStorage.getItem(EMI_TYPE)) {
           localStorage.removeItem(EMI_TYPE);
+        }
+        if (localStorage.getItem(EMI_TENURE)) {
+          localStorage.removeItem(EMI_TENURE);
         }
         dispatch(generateCartIdAfterOrderPlace());
       } else {

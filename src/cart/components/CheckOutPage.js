@@ -100,7 +100,8 @@ import {
   PAYPAL,
   E_WALLET_PAYPAL,
   RETRY_FAILED_ORDER,
-  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
+  EMI_TENURE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -257,6 +258,9 @@ class CheckOutPage extends React.Component {
   onChangeCardDetail = val => {
     const cardDetails = cloneDeep(this.state.cardDetails);
     Object.assign(cardDetails, val);
+    if (val.emi_tenure) {
+      localStorage.setItem(EMI_TENURE, val.emi_tenure);
+    }
     this.setState({ cardDetails });
   };
   onChangePaymentMode = async val => {
@@ -2422,7 +2426,7 @@ if you have order id in local storage then you have to show order confirmation p
     if (val) {
       localStorage.setItem(PAYMENT_MODE_TYPE, PAYPAL);
       this.setState({ paymentModeSelected: PAYPAL });
-      this.props.binValidationForNetBanking(NET_BANKING_PAYMENT_MODE, PAYPAL);
+      this.props.binValidationForNetBanking(NET_BANKING_PAYMENT_MODE, "PAYPAL");
     } else {
       if (localStorage.getItem(PAYMENT_MODE_TYPE)) {
         localStorage.removeItem(PAYMENT_MODE_TYPE);

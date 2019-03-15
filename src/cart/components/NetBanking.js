@@ -112,7 +112,7 @@ export default class NetBanking extends React.Component {
                 }
                 image={hdfcBankIcon}
                 selected={this.state.bankCode === hdfcBankCode}
-                name="HDFC BANK, LTD."
+                name="HDFC Bank"
               />
             ) : (
               <div />
