@@ -258,9 +258,6 @@ class CheckOutPage extends React.Component {
   onChangeCardDetail = val => {
     const cardDetails = cloneDeep(this.state.cardDetails);
     Object.assign(cardDetails, val);
-    if (val.emi_tenure) {
-      localStorage.setItem(EMI_TENURE, val.emi_tenure);
-    }
     this.setState({ cardDetails });
   };
   onChangePaymentMode = async val => {

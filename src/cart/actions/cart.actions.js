@@ -2506,8 +2506,8 @@ export function createJusPayOrder(
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
   const noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
   const selectedEmiTenure = localStorage.getItem(EMI_TENURE);
-  const childPaymentMode = noCostEmiCouponCode ? "NCEMI" : "null";
-  let emiTenure = selectedEmiTenure ? `&emiTenure=${selectedEmiTenure}` : "";
+  const childPaymentMode = noCostEmiCouponCode ? "NCEMI" : null;
+  let emiTenure = selectedEmiTenure ? selectedEmiTenure : null;
   return async (dispatch, getState, { api }) => {
     let productItems = "";
     if (isFromRetryUrl) {
@@ -2540,7 +2540,7 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
           productItems
         );
       } else {
@@ -2563,7 +2563,7 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
           cartItem
         );
       }
