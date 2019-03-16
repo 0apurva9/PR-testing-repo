@@ -20,7 +20,7 @@ const renderScript = preloadedState => {
 </script>`;
 };
 
-const prepHTML = (data, { html, head, body, preloadedState, css }) => {
+const prepHTML = (data, { html, head, body, preloadedState }) => {
   console.log("PREP HTML");
   data = data.replace('<html lang="en"  class="en">', `<html ${html}`);
   data = data.replace("</head>", `${head}</head>`);

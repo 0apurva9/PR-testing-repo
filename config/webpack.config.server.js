@@ -68,7 +68,11 @@ module.exports = {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: [paths.appSrc, paths.serverPath],
+            include: [
+              paths.appSrc,
+              paths.serverPath,
+              paths.serverMiddlewarePath
+            ],
             use: {
               loader: "babel-loader",
               options: {
