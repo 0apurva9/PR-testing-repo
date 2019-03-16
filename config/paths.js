@@ -40,7 +40,7 @@ function getServedPath(appPackageJson) {
 module.exports = {
   dotenv: resolveApp(".env"),
   appBuild: resolveApp("build"),
-  serverBuild: resolveApp("build/server"),
+  serverBuild: resolveApp("build/server"), //TODO this should likely not exist and we should put the build server stuff into the build folder
   appPublic: resolveApp("public"),
   appHtml: resolveApp("public/index.html"),
   appIndexJs: resolveApp("src/index.js"),
@@ -51,6 +51,7 @@ module.exports = {
   appNodeModules: resolveApp("node_modules"),
   publicUrl: getPublicUrl(resolveApp("package.json")),
   servedPath: getServedPath(resolveApp("package.json")),
-  serverPath: resolveApp("server"),
-  serverMiddlewarePath: resolveApp("server/middleware")
+  serverPath: resolveApp("server/index.js"),
+  serverMiddlewarePath: resolveApp("server/middleware/renderer.js"),
+  xelpmocCore: resolveApp("src/xelpmoc-core")
 };

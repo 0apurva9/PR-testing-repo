@@ -1,7 +1,11 @@
 const paths = require("./paths");
 const path = require("path");
+const nodeExternals = require("webpack-node-externals");
+const eslintFormatter = require("react-dev-utils/eslintFormatter");
 const autoprefixer = require("autoprefixer");
 
+console.log("NODE PATH");
+console.log(process.env.NODE_PATH);
 module.exports = {
   bail: true,
   target: "node",
@@ -83,7 +87,7 @@ module.exports = {
           },
           {
             test: /\.css$/,
-            include: [paths.appSrc],
+            include: [paths.appSrc, paths.xelpmocCore],
             use: [
               {
                 loader: "css-loader",
