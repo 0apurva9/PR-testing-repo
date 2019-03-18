@@ -204,23 +204,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         } else {
           return <PdpDesktop {...this.props} />;
         }
-        // console.log("DO I GET TO THIS?");
-        // console.log(checkUserAgentIsMobile());
-        // return (
-        //   <div itemScope itemType="http://schema.org/Product">
-        //     {/* <DesktopOnly> */}
-        //     <PdpDesktop {...this.props} />
-        //     {/* </DesktopOnly> */}
-        //     {/* TODO --> figure out how to make this work on the server */}
-        //     {/* <MobileOnly>
-        //       {this.renderAmpTags()}
-        //       {this.props.productDetails.seo
-        //         ? renderMetaTags(this.props.productDetails)
-        //         : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
-        //       {this.renderRootCategory(this.props.productDetails.rootCategory)}
-        //     </MobileOnly> */}
-        //   </div>
-        // );
       } else {
         return (
           <div>
