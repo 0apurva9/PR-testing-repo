@@ -119,7 +119,7 @@ export default class ReturnToStore extends React.Component {
       });
     const availableStores = this.props.stores
       ? this.props.stores.filter(val => {
-          return allStoreIds.includes(val.slaveId);
+          return allStoreIds.includes(val.slaveId) && val.clicknCollect === "Y";
         })
       : [];
     const lat =

@@ -678,7 +678,9 @@ class CheckOutPage extends React.Component {
         });
       const availableStores = this.props.cart.storeDetails
         ? this.props.cart.storeDetails.filter(val => {
-            return allStoreIds.includes(val.slaveId);
+            return (
+              allStoreIds.includes(val.slaveId) && val.clicknCollect === "Y"
+            );
           })
         : [];
       return (
