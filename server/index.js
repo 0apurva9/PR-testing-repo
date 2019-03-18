@@ -20,6 +20,23 @@ app.get("*.css", function(req, res, next) {
   next();
 });
 
+app.get("*.js", function(req, res, next) {
+  const encodings = req.acceptsEncodings();
+  if (req.url !== "/service-worker.js") {
+    if (encodings.indexOf("br") > -1) {
+      // use brotli
+      req.url = req.url + ".br";
+      res.set("Content-Encoding", "br");
+    } else {
+      req.url = req.url + ".gz";
+      res.set("Content-Encoding", "gzip");
+    }
+  }
+
+  res.set("Content-Type", "application/javascript");
+  next();
+});
+
 app.use("^/$", serverRenderer);
 
 app.use(
