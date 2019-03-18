@@ -364,9 +364,11 @@ export default class HeaderWrapper extends React.Component {
               redirectToHome={this.redirectToHome}
               isSticky={isSticky ? this.state.stickyHeader : false}
               bagCount={
-                localStorage.getItem(CART_BAG_DETAILS) &&
-                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
-                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)).length
+                typeof localStorage !== "undefined"
+                  ? localStorage.getItem(CART_BAG_DETAILS) &&
+                    JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
+                    JSON.parse(localStorage.getItem(CART_BAG_DETAILS)).length
+                  : 0
               }
               onSelect={val => this.handleSelect(PRODUCT_CART_ROUTER)}
               goToTrackOrders={() => this.goToOrdersPage()}
