@@ -35,7 +35,8 @@ const prepHTML = (data, { html, head, body, preloadedState }) => {
 };
 
 export default (req, res, next) => {
-  console.log("AM I HITTING THIS?");
+  console.log("SERVER RENDERER");
+  console.log(req.url);
   // point to the html file
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
