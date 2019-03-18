@@ -75,9 +75,6 @@ export function pdpRenderer(req, res, next) {
             preloadedState: preloadedState
           });
 
-          console.log("HTML");
-          console.log(html);
-
           // Up, up, and away...
           return res.send(html);
         });
