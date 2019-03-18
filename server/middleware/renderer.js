@@ -8,6 +8,9 @@ import { Helmet } from "react-helmet";
 import DummyApp from "../../src/DummyApp";
 import { getDesktopFooter } from "../../src/general/desktopFooter.actions";
 import { getHeader } from "../../src/clp/actions/clp.actions";
+import { getProductDescription } from "../../src/pdp/actions/pdp.actions";
+import ProductDescriptionPageWrapperContainer from "../../src/pdp/containers/ProductDescriptionPageWrapperContainer";
+// import AppContainer from "../../src/general/AppContainer";
 const path = require("path");
 const fs = require("fs");
 
@@ -34,9 +37,55 @@ const prepHTML = (data, { html, head, body, preloadedState }) => {
   return data;
 };
 
+export function pdpRenderer(req, res, next) {
+  console.log("PDP RENDER HIT");
+  const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
+  fs.readFile(filePath, "utf8", (err, htmlData) => {
+    if (err) {
+      console.log("err", err);
+      return res.status(404).end();
+    }
+    const store = configureStore();
+    store.dispatch(getDesktopFooter(`${req.url}`)).then(data => {
+      store
+        .dispatch(getProductDescription(req.params.productDescriptionCode))
+        .then(pdpData => {
+          const preloadedState = store.getState();
+          const renderedBody = ReactDOMServer.renderToStaticMarkup(
+            <StaticRouter location={{ pathname: req.url }}>
+              <Provider store={store}>
+                <ProductDescriptionPageWrapperContainer />
+              </Provider>
+            </StaticRouter>
+          );
+
+          // const renderedBody = "";
+          //render the app as a string
+          const helmet = Helmet.renderStatic();
+
+          //inject the rendered app into our html and send it
+          // Form the final HTML response
+          const html = prepHTML(htmlData, {
+            html: helmet.htmlAttributes.toString(),
+            head:
+              helmet.title.toString() +
+              helmet.meta.toString() +
+              helmet.link.toString(),
+            body: renderedBody,
+            preloadedState: preloadedState
+          });
+
+          console.log("HTML");
+          console.log(html);
+
+          // Up, up, and away...
+          return res.send(html);
+        });
+    });
+  });
+}
+
 export default (req, res, next) => {
-  console.log("SERVER RENDERER");
-  console.log(req.url);
   // point to the html file
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {

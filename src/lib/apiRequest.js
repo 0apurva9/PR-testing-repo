@@ -179,6 +179,10 @@ export async function get(url) {
 }
 
 export async function coreGetMiddlewareUrl(url) {
+  function btoa(str) {
+    if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
+    return Buffer(str, "binary").toString("base64");
+  }
   return await fetch(`${MIDDLEWARE_API_URL_ROOT}/${url}`, {
     headers: {
       Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#")
