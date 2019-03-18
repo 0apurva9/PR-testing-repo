@@ -101,12 +101,3 @@
   height: auto;
   padding: 20px 15px 15px 20px;
 }
-
-.loginButtonClass {
-  width: 135px;
-  height: 35px;
-  border-radius: 18px;
-  background-color: #ff1744;
-  color: #FFF;
-  font-size: 14px
-}

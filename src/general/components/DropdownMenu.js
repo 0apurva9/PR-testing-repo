@@ -74,25 +74,23 @@ export default class DropdownMenu extends React.Component {
   }
   render() {
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let custName;
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
-      custName = userCookie.userName;
     }
-
-    // if (userCookie) {
-    // userCookie = JSON.parse(userCookie);
-    //}
     return (
       <div className={styles.base}>
-        {!custName &&
-          typeof custName !== undefined && (
+        {!userCookie &&
+          !userCookie && (
             <div className={styles.loginAndRegisterButtonHolder}>
               <div className={styles.loginAndRegisterButton}>
                 <Button
-                  className={styles.loginButtonClass}
                   label={"Login/ Register"}
+                  width={135}
+                  height={35}
+                  borderRadius={18}
+                  backgroundColor={"#ff1744"}
                   onClick={() => this.openSignUpPopUp("Login/ Register")}
+                  textStyle={{ color: "#FFF", fontSize: 14 }}
                 />
               </div>
             </div>
