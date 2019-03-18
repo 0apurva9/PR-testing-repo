@@ -125,6 +125,10 @@ async function corePost(path, postData, doNotUseApiSuffix) {
 }
 
 export async function coreGet(url) {
+  function btoa(str) {
+    if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
+    return Buffer(str, "binary").toString("base64");
+  }
   return await fetch(`${API_URL_ROOT}/${url}`, {
     headers: {
       Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),

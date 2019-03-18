@@ -46,35 +46,40 @@ export default (req, res, next) => {
     }
     const store = configureStore();
     store.dispatch(getDesktopFooter(`${req.url}`)).then(data => {
-      store.dispatch(getHeader()).then(data => {
-        const preloadedState = store.getState();
-        const renderedBody = ReactDOMServer.renderToStaticMarkup(
-          <StaticRouter location={{ pathname: req.url }}>
-            <Provider store={store}>
-              <DummyApp />
-            </Provider>
-          </StaticRouter>
-        );
+      // store.dispatch(getHeader()).then(data => {
 
-        // const renderedBody = "";
-        //render the app as a string
-        const helmet = Helmet.renderStatic();
+      const preloadedState = store.getState();
 
-        //inject the rendered app into our html and send it
-        // Form the final HTML response
-        const html = prepHTML(htmlData, {
-          html: helmet.htmlAttributes.toString(),
-          head:
-            helmet.title.toString() +
-            helmet.meta.toString() +
-            helmet.link.toString(),
-          body: renderedBody,
-          preloadedState: preloadedState
-        });
+      const renderedBody = ReactDOMServer.renderToStaticMarkup(
+        <StaticRouter location={{ pathname: req.url }}>
+          <Provider store={store}>
+            <DummyApp />
+          </Provider>
+        </StaticRouter>
+      );
 
-        // Up, up, and away...
-        return res.send(html);
+      // const renderedBody = "";
+      //render the app as a string
+      const helmet = Helmet.renderStatic();
+
+      //inject the rendered app into our html and send it
+      // Form the final HTML response
+      const html = prepHTML(htmlData, {
+        html: helmet.htmlAttributes.toString(),
+        head:
+          helmet.title.toString() +
+          helmet.meta.toString() +
+          helmet.link.toString(),
+        body: renderedBody,
+        preloadedState: preloadedState
       });
+
+      console.log("HTMl");
+      console.log(html);
+
+      // Up, up, and away...
+      return res.send(html);
+      // });
     });
   });
 };

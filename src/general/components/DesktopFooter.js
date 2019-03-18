@@ -98,6 +98,9 @@ class DesktopFooter extends React.Component {
       ? false
       : true;
 
+    console.log("DESKTOP FOOTER");
+    console.log(footerData);
+
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
