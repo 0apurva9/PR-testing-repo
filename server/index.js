@@ -39,6 +39,7 @@ app.get("*.js", function(req, res, next) {
 
 app.use("^/$", serverRenderer);
 app.use("/:slug/p-:productDescriptionCode", pdpRenderer);
+app.use("/p-:productDescriptionCode", pdpRenderer);
 
 app.use(
   express.static(path.resolve(__dirname, "..", "..", ".."), {
