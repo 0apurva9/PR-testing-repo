@@ -21,7 +21,6 @@ const renderScript = preloadedState => {
 };
 
 const prepHTML = (data, { html, head, body, preloadedState }) => {
-  console.log("PREP HTML");
   data = data.replace('<html lang="en"  class="en">', `<html ${html}`);
   data = data.replace("</head>", `${head}</head>`);
   if (preloadedState) {
@@ -73,9 +72,6 @@ export default (req, res, next) => {
         body: renderedBody,
         preloadedState: preloadedState
       });
-
-      console.log("HTMl");
-      console.log(html);
 
       // Up, up, and away...
       return res.send(html);

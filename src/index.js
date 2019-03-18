@@ -35,4 +35,4 @@ const displayToastFunc = message => {
     document.getElementById("service-worker-toast-root").innerHTML = "";
   }, TOAST_DELAY);
 };
-registerServiceWorker(displayToastFunc);
+// registerServiceWorker(displayToastFunc);

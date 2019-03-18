@@ -6,13 +6,11 @@ const app = express();
 const router = express.Router();
 router.use("^/", serverRenderer);
 
-app.use(router);
-app.listen(PORT, error => {
-  console.log("listening on 3000 from the server");
-  if (error) {
-    console.log(error);
-  }
-});
+app.use(
+  express.static(path.resolve(__dirname, "..", "..", ".."), {
+    maxAge: "30d"
+  })
+);
 
 app.get("*.css", function(req, res, next) {
   console.log("CSS");
@@ -30,4 +28,13 @@ app.get("*.css", function(req, res, next) {
   res.set("Content-Type", "text/css");
 
   next();
+});
+
+app.use(router);
+
+app.listen(PORT, error => {
+  console.log("listening on 3000 from the server");
+  if (error) {
+    console.log(error);
+  }
 });
