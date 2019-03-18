@@ -124,6 +124,11 @@ async function corePost(path, postData, doNotUseApiSuffix) {
   });
 }
 
+export async function mockGetFooter() {
+  const url = "https://assessable-fridays.000webhostapp.com/footer.json";
+  return await fetch(url);
+}
+
 export async function coreGet(url) {
   function btoa(str) {
     if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
