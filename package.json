@@ -107,17 +107,13 @@
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
     "uat5": "REACT_APP_STAGE=uat5 node scripts/build.js",
     "uat6tcs": "REACT_APP_STAGE=uat6tcs node scripts/build.js",
-    "production":
-      "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
-    "production-cdn":
-      "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
-    "p2-production-cdn":
-      "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
+    "production": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
+    "production-cdn": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
+    "p2-production-cdn": "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
     "production-cdn-desktop": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com/desktop node scripts/build.js",
     "test": "cross-env node scripts/test.js --env=jsdom",
     "lint": "eslint 'src/**/*.js'",
-    "pre-build":
-      "yarn run tmpprod-desktop  && sudo pm2 startOrRestart ecosystem.config.js",
+    "pre-build": "yarn run tmpprod-desktop  && sudo pm2 startOrRestart ecosystem.config.js",
     "deploy": "pm2 deploy ecosystem.config.js production --force",
     "precommit": "lint-staged",
     "ssr": "NODE_ENV=DFGDFG server/bootstrap.js"
