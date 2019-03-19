@@ -13,6 +13,21 @@
   left: 0px;
   pointer-events: none;
 }
+.basePdp {
+  width: 157px;
+  height: 40px;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: url(../components/img/offerpdp.svg) no-repeat;
+  font-family: bolder;
+  background-size: contain;
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  pointer-events: none;
+}
+
 .offer {
   width: 157px;
   height: 45px;
@@ -88,6 +103,20 @@
     font-size: 18px;
     padding: 10px 20px;
     background: url(../components/img/offer.svg) no-repeat;
+    font-family: semibold;
+    background-size: contain;
+    position: absolute;
+    top: 90px;
+    left: 45px;
+    pointer-events: none;
+  }
+  .basePdp {
+    width: 157px;
+    height: 45px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    background: url(../components/img/offerpdp.svg) no-repeat;
     font-family: semibold;
     background-size: contain;
     position: absolute;

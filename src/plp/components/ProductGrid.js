@@ -79,6 +79,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice.formattedValueNoDecimal
         }
         alt={altTag}
+        seasonTag={data.seasonTag}
         minPrice={
           data.price &&
           data.price.minPrice &&

@@ -580,6 +580,15 @@ export default class PdpApparel extends React.Component {
     });
   };
   render() {
+    let seasonData = {};
+
+    if (this.props.productDetails["seasonDetails"] != undefined) {
+      seasonData = this.props.productDetails["seasonDetails"].find(item => {
+        return item.key == "Season";
+      });
+    }
+
+    console.log("productdetails", seasonData);
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -695,6 +704,7 @@ export default class PdpApparel extends React.Component {
                     isOfferExisting={productData.isOfferExisting}
                     onlineExclusive={productData.isOnlineExclusive}
                     outOfStock={productData.allOOStock}
+                    seasonSale={seasonData}
                     newProduct={productData.isProductNew}
                   />
                 )}
