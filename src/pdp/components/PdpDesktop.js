@@ -554,7 +554,7 @@ export default class PdpApparel extends React.Component {
         let separateValue = value.split("|");
         return (
           <div className={styles.tableCellSingleComponent} key={index}>
-            {<img src={separateValue[1]} alt="" height="86px" width="93px" />}
+            {<img src={separateValue[1]} alt="" height={86} width={93} />}
             <div className={styles.width95px}>
               <div className={styles.textAlignCenter}>{separateValue[0]}</div>
             </div>
