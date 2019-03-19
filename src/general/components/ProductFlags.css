@@ -15,6 +15,7 @@
   left: 0;
   top: 10px;
 }
+
 /* .basePdp {
   top: 45px !important;
 } */
@@ -27,6 +28,7 @@
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.3);
 }
+
 .outOfStock {
   height: 18px;
   width: auto;

@@ -125,6 +125,7 @@ export default class ProductModule extends React.Component {
                 this.props.view === "grid" ? styles.content : styles.Listcontent
               }
             >
+<<<<<<< HEAD
               <ProductDescription {...this.props} />
               {this.props.view === "list" && (
                 <ProductInfo
@@ -132,6 +133,24 @@ export default class ProductModule extends React.Component {
                   totalNoOfReviews={this.props.totalNoOfReviews}
                   offerText={this.props.offerText}
                   bestDeliveryInfo={this.props.bestDeliveryInfo}
+=======
+              <ProductImage
+                alt={this.props.alt}
+                image={this.props.productImage}
+              />
+              {this.props.onConnect && (
+                <ConnectButton onClick={this.handleConnect} />
+              )}
+
+              <div className={styles.flagHolder}>
+                <ProductFlags
+                  discountPercent={this.props.discountPercent}
+                  isOfferExisting={this.props.isOfferExisting}
+                  onlineExclusive={this.props.onlineExclusive}
+                  seasonTag={this.props.seasonTag}
+                  outOfStock={this.props.outOfStock}
+                  newProduct={this.props.newProduct}
+>>>>>>> season tag
                 />
               )}
             </div>
