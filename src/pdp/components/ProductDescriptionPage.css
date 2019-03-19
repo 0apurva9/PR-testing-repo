@@ -374,6 +374,28 @@
     padding: 20px 40px;
     border-radius: 4px;
   }
+  .productDetailsImagesCard{
+    width: 100%;
+    background: #fafafa;
+    padding:  20px 40px;
+    border-radius: 4px;
+    margin:20px 0px 5px 0px;
+  }
+  .tableCellSingleComponent{
+    display:table-cell;
+    padding: 0px 50px;
+  }
+
+  .width95px{
+    width:98px;
+    height:20px;
+    text-align: center;
+  }
+
+  .inline{
+    display: inline;
+
+  }
   .detailsHolder {
     margin-top: 60px;
     display: flex;

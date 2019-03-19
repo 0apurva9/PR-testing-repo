@@ -38,7 +38,6 @@ export default class PdpFrame extends React.Component {
     );
   };
   render() {
-    console.log(this.props, "props");
     return (
       <div
         className={

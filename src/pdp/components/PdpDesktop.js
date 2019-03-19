@@ -56,6 +56,9 @@ import {
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+const WASH = "Wash";
+const NECK_COLLAR = "Neck/Collar";
+const SLEEVE = "Sleeve";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
@@ -537,6 +540,27 @@ export default class PdpApparel extends React.Component {
     window.scroll({
       top: scroll2.offsetHeight + scroll1.offsetHeight + 170,
       behavior: "smooth"
+    });
+  };
+  // method needed TPR-10076
+  displayPrdDetails = (prdDetails, key) => {
+    let details = prdDetails;
+
+    return details.map((detail, index) => {
+      if (detail["key"] !== key) {
+        return null;
+      } else {
+        let value = detail["value"];
+        let separateValue = value.split("|");
+        return (
+          <div className={styles.tableCellSingleComponent} key={index}>
+            {<img src={separateValue[1]} alt="" height="86px" width="93px" />}
+            <div className={styles.width95px}>
+              <div className={styles.textAlignCenter}>{separateValue[0]}</div>
+            </div>
+          </div>
+        );
+      }
     });
   };
 
@@ -1071,6 +1095,22 @@ export default class PdpApparel extends React.Component {
                           itemProp="description"
                         >
                           {productData.productDescription}
+                          {productData.prdDetails && (
+                            <div className={styles.productDetailsImagesCard}>
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                WASH
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                NECK_COLLAR
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                SLEEVE
+                              )}
+                            </div>
+                          )}
                           {productData.rootCategory === "Electronics" && (
                             <div
                               style={{
