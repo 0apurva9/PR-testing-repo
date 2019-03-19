@@ -506,6 +506,28 @@ const productDescription = (
       return Object.assign({}, state, {
         showPiqPage: false
       });
+
+    case pdpActions.PDP_OFFER_REQUEST:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerLoading: true,
+        offerDetails: [],
+        impulseOfferCalloutList: [],
+        productDescription: null
+      });
+    case pdpActions.PDP_OFFER_SUCCESS:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerDetails: action.offers,
+        impulseOfferCalloutList: action.impulseOfferCalloutList,
+        offerLoading: false
+      });
+    case pdpActions.PDP_OFFER_FAILURE:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerError: action.error,
+        offerLoading: false
+      });
     default:
       return state;
   }

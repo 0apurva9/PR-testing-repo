@@ -10,7 +10,8 @@ import {
   getProductPinCode,
   getAllStoresForCliqAndPiq,
   showPdpPiqPage,
-  hidePdpPiqPage
+  hidePdpPiqPage,
+  getPdpOffers
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -127,6 +128,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
+    getPdpOffers: async () => {
+      await dispatch(getPdpOffers());
+    },
     getUserAddress: () => {
       dispatch(getUserAddress());
     }
@@ -141,7 +145,9 @@ const mapStateToProps = state => {
     showPiqPage: state.productDescription.showPiqPage,
     slaveData: state.productDescription.slaveData,
     loadingForCliqAndPiq: state.productDescription.loadingForCliqAndPiq,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    offers: state.productDescription.offerDetails,
+    impulseOfferCalloutList: state.productDescription.impulseOfferCalloutList
   };
 };
 

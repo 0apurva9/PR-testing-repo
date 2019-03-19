@@ -167,11 +167,13 @@ export default class PdpApparel extends React.Component {
     };
   }
   componentDidMount() {
+    //console.log(this.props);
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
+    this.props.getPdpOffers();
     /* Start- Gemini Script */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Apparel
       window.GEM.setGeminiPageId("0002321000100700");
     } else {
@@ -658,7 +660,6 @@ export default class PdpApparel extends React.Component {
                     newProduct={productData.isProductNew}
                   />
                 )}
-
                 {!productData.winningSellerPrice && (
                   <div className={styles.flag}>Not Saleable</div>
                 )}
@@ -758,6 +759,8 @@ export default class PdpApparel extends React.Component {
                     showDetails={this.props.showOfferDetails}
                     potentialPromotions={productData.potentialPromotions}
                     secondaryPromotions={productData.productOfferMsg}
+                    offers={this.props.offers}
+                    showVoucherOffersModal={this.props.showVoucherOffersModal}
                   />
                 </div>
                 {productData.variantOptions && (

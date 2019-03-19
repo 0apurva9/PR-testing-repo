@@ -75,7 +75,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       //need to show error page
     }
-
     const parsedQueryString = queryString.parse(this.props.location.search);
 
     //show the pinCodeModal if showAmpPincode is true
@@ -157,6 +156,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
   */
 
   render() {
+    console.log(this.props);
     if (this.props.loading) {
       this.showLoader();
     } else {
@@ -176,6 +176,9 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {
+      console.log(
+        "PDPWrapper for Desktop Product details>>>>" + this.props.productDetails
+      );
       if (!this.props.showPiqPage || !checkUserAgentIsMobile()) {
         return (
           <div itemScope itemType="http://schema.org/Product">

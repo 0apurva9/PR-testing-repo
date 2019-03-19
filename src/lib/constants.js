@@ -374,3 +374,4 @@ export const REDMI_WALLET_FROM_EMAIL = "/wallet/redimWalletFromEmail/";
 export const RETRY_FAILED_ORDER = "/retryFailedOrder";
 export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
+export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
