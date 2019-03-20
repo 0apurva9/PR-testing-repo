@@ -264,15 +264,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     softReservationPaymentForNetBanking: (
       paymentMethodType,
       paymentMode,
-      bankName,
-      pinCode
+      bankCode,
+      pinCode,
+      bankName
     ) => {
       dispatch(
         softReservationPaymentForNetBanking(
           paymentMethodType,
           paymentMode,
-          bankName,
-          pinCode
+          bankCode,
+          pinCode,
+          bankName
         )
       );
     },
@@ -320,8 +322,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         )
       );
     },
-    createJusPayOrderForGiftCardNetBanking: (guId, bankCode) => {
-      dispatch(createJusPayOrderForGiftCardNetBanking(guId, bankCode));
+    createJusPayOrderForGiftCardNetBanking: (guId, bankCode, bankName) => {
+      dispatch(
+        createJusPayOrderForGiftCardNetBanking(guId, bankCode, bankName)
+      );
     },
     createJusPayOrderForGiftCardFromSavedCards: (cardDetails, guId) => {
       dispatch(createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId));
@@ -452,19 +456,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createJusPayOrderForNetBanking: (
       paymentMethodType,
       cartItem,
-      bankName,
+      bankCode,
       pinCode,
       isFromRetryUrl,
-      retryCartGuid
+      retryCartGuid,
+      bankName
     ) => {
       dispatch(
         createJusPayOrderForNetBanking(
           paymentMethodType,
           cartItem,
-          bankName,
+          bankCode,
           pinCode,
           isFromRetryUrl,
-          retryCartGuid
+          retryCartGuid,
+          bankName
         )
       );
     },
