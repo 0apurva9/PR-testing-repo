@@ -44,7 +44,11 @@ export default class SelfCourier extends React.Component {
       initiateReturn.orderCode = orderDetails.sellerorderno;
       initiateReturn.returnMethod = SELF_SHIPMENT;
       initiateReturn.paymentMethod = returnRequest && returnRequest.paymentMode;
-      initiateReturn.isCODorder = "N";
+      if (this.props.isCOD) {
+        initiateReturn.isCODorder = "Y";
+      } else {
+        initiateReturn.isCODorder = "N";
+      }
       if (this.props.bankDetail.accountNumber) {
         initiateReturn.accountNumber =
           returnRequest && returnRequest.bankAccount;

@@ -119,7 +119,7 @@ export default class ReturnToStore extends React.Component {
       });
     const availableStores = this.props.stores
       ? this.props.stores.filter(val => {
-          return allStoreIds.includes(val.slaveId);
+          return allStoreIds.includes(val.slaveId) && val.clicknCollect === "Y";
         })
       : [];
     const lat =
@@ -216,8 +216,7 @@ export default class ReturnToStore extends React.Component {
                 />
               </div>
               {!this.state.showPickupPerson &&
-                this.state.availableStores &&
-                this.state.availableStores.length > 1 && (
+                this.state.availableStores && (
                   <GridSelect
                     limit={1}
                     offset={0}
