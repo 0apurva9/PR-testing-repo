@@ -59,6 +59,7 @@ import PdpFlags from "../components/PdpFlags.js";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
+import FlixMediaContainer from "./FlixMediaContainer";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
