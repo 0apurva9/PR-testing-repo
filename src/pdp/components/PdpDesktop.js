@@ -171,7 +171,7 @@ export default class PdpApparel extends React.Component {
     this.props.getUserAddress();
     /* Start- Gemini Script */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Apparel
       window.GEM.setGeminiPageId("0002321000100700");
     } else {
@@ -763,15 +763,6 @@ export default class PdpApparel extends React.Component {
                 {productData.variantOptions && (
                   <div>
                     <div className={styles.horizontalOffset}>
-                      <ColourSelector
-                        data={productData.variantOptions}
-                        productId={productData.productListingId}
-                        history={this.props.history}
-                        updateColour={val => {}}
-                        getProductSpecification={
-                          this.props.getProductSpecification
-                        }
-                      />
                       {!this.checkIfNoSize() &&
                         !this.checkIfSizeDoesNotExist() && (
                           <React.Fragment>
@@ -863,6 +854,15 @@ export default class PdpApparel extends React.Component {
                             )}
                           </React.Fragment>
                         )}
+                      <ColourSelector
+                        data={productData.variantOptions}
+                        productId={productData.productListingId}
+                        history={this.props.history}
+                        updateColour={val => {}}
+                        getProductSpecification={
+                          this.props.getProductSpecification
+                        }
+                      />
                     </div>
                   </div>
                 )}
