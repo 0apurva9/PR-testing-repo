@@ -32,30 +32,11 @@ import {
 import { filterScroll, filterFixed } from "./FilterDesktop.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
-const SortDesktopContainer = Loadable({
-  loader: () => import("../containers/SortDesktopContainer"),
-  loading() {
-    return <Loader />;
-  }
-});
-const FilterContainer = Loadable({
-  loader: () => import("../containers/FilterContainer"),
-  loading() {
-    return <Loader />;
-  }
-});
-const ProductGrid = Loadable({
-  loader: () => import("./ProductGrid"),
-  loading() {
-    return <Loader />;
-  }
-});
-const PlpMobileFooter = Loadable({
-  loader: () => import("./PlpMobileFooter"),
-  loading() {
-    return <Loader />;
-  }
-});
+import { isBrowser } from "browser-or-node";
+import SortDesktopContainer from "../containers/SortDesktopContainer";
+import FilterContainer from "../containers/FilterContainer";
+import ProductGrid from "./ProductGrid";
+import PlpMobileFooter from "./PlpMobileFooter";
 
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
@@ -235,7 +216,7 @@ export default class Plp extends React.Component {
     }
     /* Start - Gemini Script */
     //gemini JS object check.
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Listing Page
       window.GEM.setGeminiPageId("0002321000100200");
     } else {
@@ -359,6 +340,8 @@ export default class Plp extends React.Component {
   };
 
   renderPageTags = () => {
+    console.log("RENDER PAGE TAGS");
+    console.log(this.props.productListings.currentQuery);
     let url = `${URL_ROOT}${this.props.productListings.currentQuery.url}`;
     if (this.props.productListings.pagination) {
       const lastPage = Number.parseInt(
@@ -470,6 +453,7 @@ export default class Plp extends React.Component {
   };
 
   render() {
+    console.log("ARE WE RENDERING HTE PLP?");
     let selectedFilterCount = 0;
     let selectedFilter = [];
     let filterSelected = false;
@@ -507,11 +491,14 @@ export default class Plp extends React.Component {
         {this.props.productListings && (
           <div className={styles.base}>
             {this.renderPageTags()}
-            {this.renderAmpTags()}
+            {isBrowser && this.renderAmpTags()}
             {this.props.productListings.seo
               ? renderMetaTags(this.props.productListings)
               : renderMetaTagsWithoutSeoObject(this.props.productListings)}
-            <MediaQuery query="(min-device-width: 1025px)">
+            <MediaQuery
+              query="(min-device-width: 1025px)"
+              values={{ deviceWidth: 1026 }}
+            >
               {this.props.productListings &&
               this.props.productListings &&
               this.props.productListings.currentQuery &&
@@ -555,7 +542,10 @@ export default class Plp extends React.Component {
                 </div>
               )}
             </MediaQuery>
-            <MediaQuery query="(min-device-width:1025px)">
+            <MediaQuery
+              query="(min-device-width:1025px)"
+              values={{ deviceWidth: 1026 }}
+            >
               <div className={styles.headerSortWithFilter}>
                 <div className={styles.selectedFilter}>
                   {selectedFilter &&
@@ -602,48 +592,51 @@ export default class Plp extends React.Component {
                 </div>
               </div>
             </MediaQuery>
-            <MobileOnly>
-              <div className={styles.productWithFilter}>
-                <div className={styles.main}>
-                  <ProductGrid
-                    history={this.props.history}
-                    location={this.props.location}
-                    data={this.props.productListings.searchresult}
-                    totalResults={
-                      this.props.productListings.pagination &&
-                      this.props.productListings.pagination.totalResults
-                    }
-                    setProductModuleRef={this.props.setProductModuleRef}
-                    sort={this.props.productListings.sorts}
-                    setIfSortHasBeenClicked={() =>
-                      this.props.setIfSortHasBeenClicked()
-                    }
-                    view={this.state.view}
-                    gridBreakup={this.state.gridBreakup}
-                    isPosition={true}
-                  >
-                    <div
-                      className={styles.icon}
-                      onClick={() => this.switchView()}
+            {checkUserAgentIsMobile() && (
+              <MobileOnly>
+                <div className={styles.productWithFilter}>
+                  <div className={styles.main}>
+                    <ProductGrid
+                      history={this.props.history}
+                      location={this.props.location}
+                      data={this.props.productListings.searchresult}
+                      totalResults={
+                        this.props.productListings.pagination &&
+                        this.props.productListings.pagination.totalResults
+                      }
+                      setProductModuleRef={this.props.setProductModuleRef}
+                      sort={this.props.productListings.sorts}
+                      setIfSortHasBeenClicked={() =>
+                        this.props.setIfSortHasBeenClicked()
+                      }
+                      view={this.state.view}
+                      gridBreakup={this.state.gridBreakup}
+                      isPosition={true}
                     >
-                      {this.state.view === LIST && (
-                        <Icon image={gridImage} size={20} />
-                      )}
-                      {this.state.view === GRID && (
-                        <Icon image={listImage} size={20} />
-                      )}
-                    </div>
-                  </ProductGrid>
+                      <div
+                        className={styles.icon}
+                        onClick={() => this.switchView()}
+                      >
+                        {this.state.view === LIST && (
+                          <Icon image={gridImage} size={20} />
+                        )}
+                        {this.state.view === GRID && (
+                          <Icon image={listImage} size={20} />
+                        )}
+                      </div>
+                    </ProductGrid>
+                  </div>
+                  <FilterContainer
+                    backPage={this.backPage}
+                    isFilterOpen={this.props.isFilterOpen}
+                    onApply={this.onApply}
+                    onClear={this.props.hideFilter}
+                    onL3CategorySelect={this.onL3CategorySelect}
+                  />
                 </div>
-                <FilterContainer
-                  backPage={this.backPage}
-                  isFilterOpen={this.props.isFilterOpen}
-                  onApply={this.onApply}
-                  onClear={this.props.hideFilter}
-                  onL3CategorySelect={this.onL3CategorySelect}
-                />
-              </div>
-            </MobileOnly>
+              </MobileOnly>
+            )}
+
             <DesktopOnly>
               <div
                 className={styles.productWithFilterDesktop}
@@ -709,7 +702,10 @@ export default class Plp extends React.Component {
                 </div>
               </div>
             </DesktopOnly>
-            <MediaQuery query="(max-device-width:1024px)">
+            <MediaQuery
+              query="(max-device-width:1024px)"
+              values={{ deviceWidth: 1026 }}
+            >
               <div className={styles.footer}>
                 <PlpMobileFooter
                   hasFilters={filterSelected && this.props.filterHasBeenClicked}

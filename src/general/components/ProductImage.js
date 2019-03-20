@@ -3,6 +3,7 @@ import styles from "./ProductImage.css";
 import Image from "../../xelpmoc-core/Image";
 import PropTypes from "prop-types";
 import VisibilityChild from "../../home/components/VisibilityChild.js";
+import { isBrowser } from "browser-or-node";
 
 export default class ProductImage extends React.Component {
   onClickImage() {
@@ -14,9 +15,13 @@ export default class ProductImage extends React.Component {
     return (
       <div className={this.props.flatImage ? styles.flatImage : styles.base}>
         <div className={styles.imageHolder} onClick={() => this.onClickImage()}>
-          <VisibilityChild>
+          {isBrowser ? (
+            <VisibilityChild>
+              <Image image={this.props.image} alt={this.props.alt} />
+            </VisibilityChild>
+          ) : (
             <Image image={this.props.image} alt={this.props.alt} />
-          </VisibilityChild>
+          )}
         </div>
       </div>
     );

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import { widgetsTracking } from "../../lib/adobeUtils";
+import { isBrowser } from "browser-or-node";
 
 export default class ProductModule extends React.Component {
   onDownload = () => {
@@ -61,6 +62,12 @@ export default class ProductModule extends React.Component {
     if (this.props.isWhite) {
       downloadImage = downloadIconWhite;
     }
+
+    let href = this.getProductURL();
+    if (isBrowser) {
+      href = `${window.location.origin}${href}`;
+    }
+
     return (
       <div
         className={styles.base}
@@ -70,7 +77,7 @@ export default class ProductModule extends React.Component {
         {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
         <div className={styles.imageAndDescriptionWrapper}>
           <a
-            href={`${window.location.origin}${this.getProductURL()}`}
+            href={href}
             className={styles.aTag}
             style={{ pointerEvents: "none" }}
             title={this.props.alt}

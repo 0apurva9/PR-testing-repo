@@ -119,13 +119,17 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
+    console.log("IS PRODUCT GRID RENDERED");
     return (
       <React.Fragment>
         <div
           className={styles.base}
           style={{ position: this.props.isPosition ? "relative" : "" }}
         >
-          <MediaQuery query="(max-device-width:1024px)">
+          <MediaQuery
+            query="(max-device-width:1024px)"
+            values={{ deviceWidth: 1026 }}
+          >
             <div className={styles.header}>
               <div className={styles.product}>
                 {this.props.totalResults ? this.props.totalResults : 0} Products

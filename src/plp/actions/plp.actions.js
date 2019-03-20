@@ -15,6 +15,8 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL
 } from "../../lib/adobeUtils";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
+import { COMPONENT_BACK_UP_FAILURE } from "../../home/actions/home.actions";
+import { isBrowser } from "browser-or-node";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR =
   "PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR";
@@ -221,6 +223,9 @@ export function getProductListings(
   isFilter: false,
   componentName
 ) {
+  console.log("SUFFIX");
+  console.log(suffix);
+  console.log(componentName);
   return async (dispatch, getState, { api }) => {
     dispatch(showSecondaryLoader());
     if (checkUserAgentIsMobile()) {
@@ -230,6 +235,8 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
+      console.log("SEARCH STATE");
+      console.log(searchState);
       const pageNumber = getState().productListings.pageNumber;
       let encodedString =
         searchState.string.includes("%3A") || searchState.string.includes("%20")
@@ -250,18 +257,20 @@ export function getProductListings(
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
       const resultJson = await result.json();
-
-      if (resultJson && resultJson.currentQuery) {
+      if (resultJson && resultJson.currentQuery && isBrowser) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
         if (keyWordRedirect) {
           dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
         }
       }
+
+      console.log("LINE 267");
       if (resultJson.error) {
         if (
-          resultJson &&
-          resultJson.currentQuery &&
-          resultJson.currentQuery.searchQuery
+          isBrowser &&
+          (resultJson &&
+            resultJson.currentQuery &&
+            resultJson.currentQuery.searchQuery)
         ) {
           setDataLayer(
             ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
@@ -272,11 +281,13 @@ export function getProductListings(
         }
         throw new Error(`${resultJson.error}`);
       }
+      console.log("LINE 284");
       if (
-        resultJson &&
-        resultJson.currentQuery &&
-        resultJson.currentQuery.searchQuery &&
-        !paginated
+        isBrowser &&
+        (resultJson &&
+          resultJson.currentQuery &&
+          resultJson.currentQuery.searchQuery &&
+          !paginated)
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
@@ -287,10 +298,11 @@ export function getProductListings(
         );
       } else {
         if (
-          window.digitalData &&
-          window.digitalData.page &&
-          window.digitalData.page.pageInfo &&
-          window.digitalData.page.pageInfo.pageName !== "product grid"
+          isBrowser &&
+          (window.digitalData &&
+            window.digitalData.page &&
+            window.digitalData.page.pageInfo &&
+            window.digitalData.page.pageInfo.pageName !== "product grid")
         ) {
           if (
             componentName === "Flash Sale Component" ||
@@ -308,6 +320,7 @@ export function getProductListings(
           }
         }
       }
+      console.log("LINE 323");
       if (paginated) {
         if (resultJson.searchresult) {
           dispatch(getProductListingsPaginatedSuccess(resultJson, true));
@@ -317,7 +330,9 @@ export function getProductListings(
         dispatch(updateFacets(resultJson));
         dispatch(hideSecondaryLoader());
       } else {
-        dispatch(setLastPlpPath(window.location.href));
+        if (isBrowser) {
+          dispatch(setLastPlpPath(window.location.href));
+        }
         dispatch(getProductListingsSuccess(resultJson, paginated));
         dispatch(hideSecondaryLoader());
       }

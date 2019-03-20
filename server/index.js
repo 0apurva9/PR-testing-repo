@@ -1,5 +1,8 @@
 import express from "express";
-import serverRenderer, { pdpRenderer } from "./middleware/renderer";
+import serverRenderer, {
+  pdpRenderer,
+  plpRenderer
+} from "./middleware/renderer";
 const PORT = 3000;
 const path = require("path");
 const app = express();
@@ -39,6 +42,7 @@ app.get("*.js", function(req, res, next) {
 
 app.use("^/$", serverRenderer);
 app.use("/:slug/p-:productDescriptionCode", pdpRenderer);
+app.use("/search/:searchTerm($|/*)", plpRenderer);
 
 app.use(
   express.static(path.resolve(__dirname, "..", "..", ".."), {

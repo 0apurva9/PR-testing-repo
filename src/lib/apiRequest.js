@@ -8,6 +8,8 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CART_DETAILS_FOR_ANONYMOUS
 } from "./constants.js";
+import { isNode } from "browser-or-node";
+import axios from "axios";
 import * as ErrorHandling from "../general/ErrorHandling.js";
 import { CUSTOMER_ACCESS_TOKEN, GLOBAL_ACCESS_TOKEN } from "../lib/constants";
 import { USER_CART_PATH } from "../cart/actions/cart.actions";
@@ -183,6 +185,24 @@ export async function coreGetMiddlewareUrl(url) {
     if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
     return Buffer(str, "binary").toString("base64");
   }
+  if (isNode) {
+    const result = await axios.get(`${MIDDLEWARE_API_URL_ROOT}/${url}`, {
+      headers: {
+        Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#")
+      }
+    });
+    // doing thisbecause isoomrphic-fetch is failing and I want to make a minimal change
+    // to use axios in Node.
+    const resultJson = {
+      clone: () => {
+        return {
+          json: () => result.data
+        };
+      }
+    };
+    return resultJson;
+  }
+
   return await fetch(`${MIDDLEWARE_API_URL_ROOT}/${url}`, {
     headers: {
       Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#")
@@ -193,7 +213,11 @@ export async function coreGetMiddlewareUrl(url) {
 export async function getMiddlewareUrl(url) {
   const result = await coreGetMiddlewareUrl(url);
   const resultClone = result.clone();
-  const resultJson = await result.json();
+  console.log("IN GET MIDDLEWARE URL");
+  // console.log(resultClone);
+  const resultJson = await resultClone.json();
+  console.log("RESULT JSON");
+  // console.log(resultJson);
   const errorStatus = ErrorHandling.getFailureResponse(resultJson);
 
   try {
