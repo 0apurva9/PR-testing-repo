@@ -34,6 +34,7 @@ import {
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT
 } from "../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import FlixMediaContainer from "./FlixMediaContainer";
 const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
@@ -300,6 +301,12 @@ export default class PdpElectronics extends React.Component {
         productData.winningSellerPrice.formattedValueNoDecimal
       ) {
         discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+      }
+      let flixModelNo = "";
+      if (productData.details && productData.details.length) {
+        flixModelNo = productData.details.find(detail => {
+          return detail.key === "Model Number";
+        });
       }
       return (
         <PdpFrame
@@ -605,6 +612,14 @@ export default class PdpElectronics extends React.Component {
               productContent={productData.APlusContent.productContent}
             />
           )}
+          <React.Fragment>
+            {flixModelNo && productData.brandName ? (
+              <FlixMediaContainer
+                flixModelNo={flixModelNo}
+                brandName={productData.brandName}
+              />
+            ) : null}
+          </React.Fragment>
           <PDPRecommendedSectionsContainer />
           <div className={styles.trustLogo}>
             <Image image={TrustBadgeImage} fit="cover" />

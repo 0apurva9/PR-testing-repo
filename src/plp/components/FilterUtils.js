@@ -46,8 +46,10 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
     if (query.indexOf("searchCategory") > -1) {
       // there is a text option here
       const textParam = TEXT_REGEX.exec(query);
-      url = `/${modifiedCode}/?q=${textParam[1]}:relevance:category:${val}`;
-      return url;
+      if (textParam && textParam[1]) {
+        url = `/${modifiedCode}/?q=${textParam[1]}:relevance:category:${val}`;
+        return url;
+      }
     }
 
     if (query.indexOf(":") === -1) {
