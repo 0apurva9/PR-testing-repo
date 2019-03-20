@@ -152,7 +152,9 @@ export default class ReturnToStore extends React.Component {
         reEnterAccountNumber: this.props.bankDetail.reEnterAccountNumber,
         accountHolderName: this.props.bankDetail.userName,
         bankName: this.props.bankDetail.bankName,
-        IFSCCode: this.props.bankDetail.code
+        IFSCCode: this.props.bankDetail.code,
+        refundMode: this.props.returnRequest.codSelfShipData.paymentMode,
+        title: this.props.returnRequest.codSelfShipData.title
       });
     }
     if (reasonAndCommentDetails) {

@@ -175,7 +175,7 @@ export default class SizeSelector extends React.Component {
                 <UnderLinedButton
                   disabled={!this.props.hasSizeGuide}
                   label={SIZE_GUIDE}
-                  color={"#ff1744"}
+                  color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
                   fontFamily={"light"}
                   onClick={() => {
                     this.handleShowSize();

@@ -47,13 +47,14 @@ export default class CheckoutNetBanking extends React.Component {
         <NetBanking
           validateNetBanking={this.props.validateNetBanking}
           selected={["1"]}
-          onSelectBankForNetBanking={bankCode =>
-            this.props.onSelectBankForNetBanking(bankCode)
+          onSelectBankForNetBanking={(bankCode, bankName) =>
+            this.props.onSelectBankForNetBanking(bankCode, bankName)
           }
           bankList={validNetBankingDetails}
           binValidationForNetBank={bankName =>
             this.binValidationForNetBank(bankName)
           }
+          bankNameForNetBanking={this.props.bankNameForNetBanking}
           bankCodeForNetBanking={this.props.bankCodeForNetBanking}
           onCheckout={this.props.onCheckout}
         />

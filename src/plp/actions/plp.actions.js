@@ -253,7 +253,7 @@ export function getProductListings(
 
       if (resultJson && resultJson.currentQuery) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
-        if (keyWordRedirect) {
+        if (keyWordRedirect && resultJson.currentQuery.pageRedirectType) {
           dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
         }
       }
