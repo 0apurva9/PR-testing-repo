@@ -40,17 +40,35 @@
 }
 .forward {
   composes: navButton;
+  
 }
 .back {
   composes: navButton;
   margin-right: 2px;
   margin-left: 40px;
   transform: rotate(-180deg);
+  ;
+}
+
+.leftButton{
+ 
+  composes: navButton;
+  margin-right: 2px;
+  margin-left: 40px;
+  transform: rotate(-180deg);
+  background-color: #f5f5f5;
+}
+
+.rightButton{
+  composes: navButton;
+  background-color: #f5f5f5;
 }
 .sliderHolder {
   width: 100%;
   height: auto;
   overflow: hidden;
+  max-width: 1080px;
+  margin:auto;
 }
 .slider {
   width: 100%;
@@ -76,6 +94,18 @@
     -webkit-align-items: center;
     margin-bottom: 20px;
     font-size: 30px;
+  }
+  .headerpaddingTop21{
+    display: flex;
+      -webkit-display: flex;
+      align-items: center;
+      -webkit-align-items: center;
+      font-size: 30px;
+      padding-top: 21px ;
+      font-family: semibold;
+      max-width: 1080px;
+      position: relative;
+      margin: auto;
   }
   .nav {
     display: flex;
@@ -155,3 +185,4 @@
     width: 100px;
   }
 }
+

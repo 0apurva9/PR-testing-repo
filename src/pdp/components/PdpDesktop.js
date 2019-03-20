@@ -56,6 +56,9 @@ import {
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+const WASH = "Wash";
+const NECK_COLLAR = "Neck/Collar";
+const SLEEVE = "Sleeve";
 import FlixMediaContainer from "./FlixMediaContainer";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
@@ -541,6 +544,29 @@ export default class PdpApparel extends React.Component {
       behavior: "smooth"
     });
   };
+  // method needed TPR-10076
+  displayPrdDetails = (prdDetails, key) => {
+    let details = prdDetails;
+
+    return details.map((detail, index) => {
+      if (detail["key"] !== key) {
+        return null;
+      } else {
+        let value = detail["value"];
+        let separateValue = value.split("|");
+        return (
+          <div className={styles.tableCellSingleComponent} key={index}>
+            {<img src={separateValue[1]} alt="" height={86} width={93} />}
+            <div className={styles.width95px}>
+              <div className={styles.textAlignCenter}>{separateValue[0]}</div>
+            </div>
+          </div>
+        );
+      }
+    });
+  };
+
+  tail = ([x, ...xs]) => xs;
   render() {
     const getPinCode =
       this.props &&
@@ -553,6 +579,8 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
+    const tailedKnowMoreV2 = this.tail(productData.knowMoreV2);
+
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
@@ -644,6 +672,8 @@ export default class PdpApparel extends React.Component {
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
           ussId={productData.winningUssID}
+          productListingId={productData.productListingId}
+          showSimilarProducts={this.props.showSimilarProducts}
         >
           <div className={styles.base}>
             <div className={styles.pageCenter} ref="scrollToViewGallery">
@@ -656,6 +686,8 @@ export default class PdpApparel extends React.Component {
                   alt={`${productData.productName}-${productData.brandName}-${
                     productData.rootCategory
                   }-TATA CLIQ`}
+                  details={productData.details}
+                  showSimilarProducts={this.props.showSimilarProducts}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags
@@ -1075,6 +1107,22 @@ export default class PdpApparel extends React.Component {
                           itemProp="description"
                         >
                           {productData.productDescription}
+                          {productData.prdDetails && (
+                            <div className={styles.productDetailsImagesCard}>
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                WASH
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                NECK_COLLAR
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                SLEEVE
+                              )}
+                            </div>
+                          )}
                           {productData.rootCategory === "Electronics" && (
                             <div
                               style={{
@@ -1213,6 +1261,23 @@ export default class PdpApparel extends React.Component {
                           data={productData.details}
                         />
                       )}
+                    {productData.knowMoreV2 && (
+                      <Accordion text="Return & Exchange" headerFontSize={18}>
+                        <div className={styles.containerWithBottomBorder}>
+                          <div className={styles.accordionContentBold}>
+                            {productData.knowMoreV2[0].knowMoreItemV2}
+                          </div>
+                          {tailedKnowMoreV2.map(val => {
+                            return (
+                              <div className={styles.accordionLight}>
+                                {val.knowMoreItemV2}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </Accordion>
+                    )}
+
                     {productData.knowMore && (
                       <Accordion text="Know More" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>

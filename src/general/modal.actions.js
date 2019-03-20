@@ -37,6 +37,7 @@ export const CHANGE_PASSWORD_POP_UP = "ChangePasswordForDesktop";
 export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export const CUSTOMER_QUERY_POPUP = "CustomerQueryPopUp";
 export const VALIDATE_OFFERS_POPUP = "ValidateOffersPopUp";
+export const SIMILAR_PRODUCTS_MODAL = "SimilarProductsModal";
 
 export function showModal(type, ownProps) {
   const scrollPosition =

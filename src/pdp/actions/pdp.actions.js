@@ -17,6 +17,7 @@ import {
   getMcvId,
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT,
+  QA2_MCV_ID,
   SET_DATA_LAYER_FOR_SUBMIT_REVIEW
 } from "../../lib/adobeUtils.js";
 import each from "lodash.foreach";
@@ -802,17 +803,36 @@ export function productMsdFailure(error) {
     error
   };
 }
-
-export function getMsdRequest(productCode) {
+export function getMsdRequest(
+  productCode,
+  similarProducts,
+  filters,
+  resultsRequired
+) {
   return async (dispatch, getState, { api }) => {
     let msdRequestObject = new FormData();
     msdRequestObject.append("api_key", API_KEY);
-    msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
-    msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
-    const mcvId = await getMcvId();
-    msdRequestObject.append("mad_uuid", mcvId);
+    if (process.env.REACT_APP_STAGE === "qa2") {
+      msdRequestObject.append("mad_uuid", QA2_MCV_ID);
+    } else {
+      const mcvId = await getMcvId();
+      msdRequestObject.append("mad_uuid", mcvId);
+    }
+    if (similarProducts) {
+      msdRequestObject.append("widget_list", JSON.stringify([0]));
+    } else {
+      msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
+    }
+    if (resultsRequired !== undefined && resultsRequired.length) {
+      msdRequestObject.append("num_results", JSON.stringify(resultsRequired));
+    } else {
+      msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    }
     msdRequestObject.append("details", false);
     msdRequestObject.append("product_id", productCode.toUpperCase());
+    if (filters) {
+      msdRequestObject.append("filters", JSON.stringify(filters));
+    }
     dispatch(productMsdRequest());
     try {
       const result = await api.postMsd(
@@ -825,13 +845,20 @@ export function getMsdRequest(productCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      // if (process.env.REACT_APP_STAGE == "tmpprod") {
+      //   resultJson.data[0] = SIMILAR_PRODUCTS_TMPPROD;
+      // } else if (process.env.REACT_APP_STAGE === "qa2") {
+      //   resultJson.data[0] = SIMILAR_PRODUCTS_QA2;
+      // }
 
-      if (resultJson.data[0].length > 0) {
+      if (resultJson.data[0] && resultJson.data[0].length > 0) {
         dispatch(
           getPdpItems(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
         );
+      } else {
+        dispatch(getPdpItems([], RECOMMENDED_PRODUCTS_WIDGET_KEY));
       }
-      if (resultJson.data[1].length > 0) {
+      if (resultJson.data[1] && resultJson.data[1].length > 0) {
         dispatch(getPdpItems(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
       }
     } catch (e) {
