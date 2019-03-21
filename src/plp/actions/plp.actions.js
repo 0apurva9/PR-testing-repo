@@ -251,11 +251,11 @@ export function getProductListings(
       queryString = `${queryString}&page=${pageNumber}`;
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
-      console.log("RESULT");
-      console.log(result);
+      // console.log("RESULT");
+      // console.log(result);
       const resultJson = await result.json();
-      console.log("RESULT JSON");
-      console.log(resultJson);
+      // console.log("RESULT JSON");
+      // console.log(resultJson);
       if (resultJson && resultJson.currentQuery && isBrowser) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
         if (keyWordRedirect) {

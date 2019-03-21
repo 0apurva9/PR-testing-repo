@@ -34,6 +34,8 @@ export function getPlpSearchText(location) {
   let match;
   let searchText;
   const parsedQueryString = queryString.parse(location.search);
+  console.log("PARSED QUERY STRING");
+  console.log(parsedQueryString);
   if (parsedQueryString && parsedQueryString.q) {
     searchText = parsedQueryString.q;
     return searchText;

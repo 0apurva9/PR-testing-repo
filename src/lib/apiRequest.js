@@ -230,7 +230,7 @@ export async function getMiddlewareUrl(url) {
       !isCartNotFoundError(resultJson)
     ) {
       console.log("IS THIS HIT");
-      return result;
+      return result.clone();
     }
     let newUrl;
 

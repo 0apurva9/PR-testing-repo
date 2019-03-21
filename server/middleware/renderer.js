@@ -140,7 +140,8 @@ export function plpRenderer(req, res, next) {
   const searchCategory = req.query.searchCategory;
 
   const match = matchPath(req.originalUrl, routes[0]);
-  const searchText = getPlpSearchText(
+
+  const searchText = getSearchTextFromUrl(
     { pathname: req._parsedUrl.pathname, search: req.url },
     match
   );
@@ -160,6 +161,7 @@ export function plpRenderer(req, res, next) {
       // store.dispatch(setSearchString(searchText)).then(() => {
       store.dispatch(getProductListings(SUFFIX)).then(pdpData => {
         const preloadedState = store.getState();
+        console.log(preloadedState.productListings);
         const renderedBody = ReactDOMServer.renderToStaticMarkup(
           <StaticRouter location={req.originalUrl}>
             <Provider store={store}>
@@ -184,8 +186,8 @@ export function plpRenderer(req, res, next) {
           preloadedState: preloadedState
         });
 
-        console.log("HTML");
-        console.log(html);
+        // console.log("HTML");
+        // console.log(html);
 
         // Up, up, and away...
         return res.send(html);
