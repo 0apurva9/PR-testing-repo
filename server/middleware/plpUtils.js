@@ -12,6 +12,13 @@ import {
   PRODUCT_LISTINGS
 } from "../../src/lib/constants";
 import ProductListingsContainer from "../../src/plp/containers/ProductListingsContainer";
+import {
+  CATEGORY_REGEX,
+  BRAND_REGEX,
+  BRAND_CATEGORY_PREFIX,
+  BRAND_CAPTURE_REGEX,
+  CATEGORY_CAPTURE_REGEX
+} from "../../src/plp/components/PlpBrandCategoryWrapper";
 
 // ok now I need to make sure that I am passing in the correct location and match
 
@@ -21,6 +28,36 @@ export const routes = [
     component: ProductListingsContainer
   }
 ];
+
+export function getPlpSearchText(location) {
+  const url = location.pathname;
+  let match;
+  let searchText;
+  const parsedQueryString = queryString.parse(location.search);
+  if (parsedQueryString && parsedQueryString.q) {
+    searchText = parsedQueryString.q;
+    return searchText;
+  }
+  if (CATEGORY_REGEX.test(url)) {
+    match = CATEGORY_CAPTURE_REGEX.exec(url)[0];
+    match = match.replace(BRAND_CATEGORY_PREFIX, "");
+
+    match = match.toUpperCase();
+
+    searchText = `:relevance:category:${match}`;
+  }
+
+  if (BRAND_REGEX.test(url)) {
+    match = BRAND_CAPTURE_REGEX.exec(url)[0];
+    match = match.replace(BRAND_CATEGORY_PREFIX, "");
+
+    match = match.toUpperCase();
+
+    searchText = `:relevance:brand:${match}`;
+  }
+
+  return searchText;
+}
 
 export function getSearchTextFromUrl(location, match) {
   const parsedQueryString = queryString.parse(location.search);

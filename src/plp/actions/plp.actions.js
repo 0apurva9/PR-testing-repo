@@ -235,8 +235,6 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
-      console.log("SEARCH STATE");
-      console.log(searchState);
       const pageNumber = getState().productListings.pageNumber;
       let encodedString =
         searchState.string.includes("%3A") || searchState.string.includes("%20")

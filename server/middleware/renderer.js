@@ -12,12 +12,13 @@ import { getProductDescription } from "../../src/pdp/actions/pdp.actions";
 import ProductDescriptionPageWrapperContainer from "../../src/pdp/containers/ProductDescriptionPageWrapperContainer";
 import ProductListingsContainer from "../../src/plp/containers/ProductListingsContainer";
 import { getProductListings } from "../../src/plp/actions/plp.actions";
-import { SUFFIX } from "../../src/plp/components/ProductListingsPage";
+import { SUFFIX } from "../../src/plp/components/Plp";
 import { routes } from "./plpUtils";
 import { matchPath } from "react-router-dom";
-import { getSearchTextFromUrl } from "./plpUtils";
+import { getSearchTextFromUrl, getPlpSearchText } from "./plpUtils";
 import url from "url";
 import { setSearchString } from "../../src/search/actions/search.actions";
+import { getFeed } from "../../src/home/actions/home.actions";
 
 const path = require("path");
 const fs = require("fs");
@@ -45,14 +46,79 @@ const prepHTML = (data, { html, head, body, preloadedState }) => {
   return data;
 };
 
+export function blpOrClpRenderer(req, res, next) {
+  // First check to see if there is a feed
+  // If there is...render that.
+  // if there is not, render PLP.
+  // TODO --> actual CLP and BLP pages
+  console.log("HITTING BLP OR CLP RENDER");
+  const brandOrCategoryId = req.params.brandOrCategoryId;
+  const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
+  fs.readFile(filePath, "utf8", (err, htmlData) => {
+    if (err) {
+      console.log("err", err);
+      return res.status(404).end();
+    }
+
+    const store = configureStore();
+    store.dispatch(getDesktopFooter(`${req.originalUrl}`)).then(data => {
+      store.dispatch(getFeed(brandOrCategoryId)).then(feedData => {
+        let preloadedState = store.getState();
+        if (preloadedState.feed.secondaryFeed.length === 0) {
+          console.log("PARSED URL");
+          console.log(req._parsedUrl);
+          const searchText = getPlpSearchText({
+            pathname: req._parsedUrl.pathname,
+            search: req.url
+          });
+
+          store.dispatch(setSearchString(searchText));
+          store.dispatch(getProductListings(SUFFIX)).then(plpData => {
+            preloadedState = store.getState();
+            console.log(preloadedState.feed);
+
+            const renderedBody = ReactDOMServer.renderToStaticMarkup(
+              <StaticRouter location={req.originalUrl}>
+                <Provider store={store}>
+                  <ProductListingsContainer searchText={searchText} />
+                </Provider>
+              </StaticRouter>
+            );
+
+            // const renderedBody = "";
+            //render the app as a string
+            const helmet = Helmet.renderStatic();
+
+            //inject the rendered app into our html and send it
+            // Form the final HTML response
+            const html = prepHTML(htmlData, {
+              html: helmet.htmlAttributes.toString(),
+              head:
+                helmet.title.toString() +
+                helmet.meta.toString() +
+                helmet.link.toString(),
+              body: renderedBody,
+              preloadedState: preloadedState
+            });
+
+            console.log("HTML");
+            console.log(html);
+
+            // Up, up, and away...
+            return res.send(html);
+          });
+        }
+      });
+    });
+  });
+}
+
 export function plpRenderer(req, res, next) {
   console.log("HITTING PLP RENDER");
   const searchCategory = req.query.searchCategory;
-  // console.log("REQ.PATH");
-  // console.log(req);
 
   const match = matchPath(req.originalUrl, routes[0]);
-  const searchText = getSearchTextFromUrl(
+  const searchText = getPlpSearchText(
     { pathname: req._parsedUrl.pathname, search: req.url },
     match
   );

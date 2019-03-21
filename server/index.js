@@ -1,7 +1,8 @@
 import express from "express";
 import serverRenderer, {
   pdpRenderer,
-  plpRenderer
+  plpRenderer,
+  blpOrClpRenderer
 } from "./middleware/renderer";
 const PORT = 3000;
 const path = require("path");
@@ -43,6 +44,10 @@ app.get("*.js", function(req, res, next) {
 app.use("^/$", serverRenderer);
 app.use("/:slug/p-:productDescriptionCode", pdpRenderer);
 app.use("/search/:searchTerm($|/*)", plpRenderer);
+// CATEGORY_PRODUCT_LISTINGS_WITH_PAGE
+app.use("/:slug/c-:brandOrCategoryId/", blpOrClpRenderer);
+
+app.use("/:slug/c-:categoryCode/page-:page", plpRenderer);
 
 app.use(
   express.static(path.resolve(__dirname, "..", "..", ".."), {
