@@ -223,9 +223,6 @@ export function getProductListings(
   isFilter: false,
   componentName
 ) {
-  console.log("SUFFIX");
-  console.log(suffix);
-  console.log(componentName);
   return async (dispatch, getState, { api }) => {
     dispatch(showSecondaryLoader());
     if (checkUserAgentIsMobile()) {
@@ -254,7 +251,11 @@ export function getProductListings(
       queryString = `${queryString}&page=${pageNumber}`;
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
+      console.log("RESULT");
+      console.log(result);
       const resultJson = await result.json();
+      console.log("RESULT JSON");
+      console.log(resultJson);
       if (resultJson && resultJson.currentQuery && isBrowser) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
         if (keyWordRedirect) {

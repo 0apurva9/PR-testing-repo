@@ -485,7 +485,8 @@ export default class Plp extends React.Component {
       this.props.productListings &&
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs;
-
+    console.log("PRODUCT LISTINGS");
+    console.log(this.props.productListings);
     return (
       <React.Fragment>
         {this.props.productListings && (

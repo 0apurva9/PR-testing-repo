@@ -361,16 +361,17 @@ export function getFeed(pageId: null) {
       if (pageId) {
         feedTypeRequest = SECONDARY_FEED_TYPE;
         try {
-          console.log("BEORE RSULT");
+          console.log("IN GET FEED");
           result = await api.getMiddlewareUrl(
             `v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
           );
-          console.log(result);
         } catch (e) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
         }
 
         resultJson = await result.json();
+        console.log("RESULT JSON");
+        console.log(resultJson);
         if (resultJson.errors) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
         } else {
