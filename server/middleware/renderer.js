@@ -52,7 +52,6 @@ export function blpOrClpRenderer(req, res, next) {
   // If there is...render that.
   // if there is not, render PLP.
   // TODO --> actual CLP and BLP pages
-  console.log("HITTING BLP OR CLP RENDER");
   const brandOrCategoryId = req.params.brandOrCategoryId;
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
@@ -105,7 +104,7 @@ export function blpOrClpRenderer(req, res, next) {
           renderedBody = ReactDOMServer.renderToStaticMarkup(
             <StaticRouter location={req.originalUrl}>
               <Provider store={store}>
-                <BrandLandingPageContainer />
+                <DummyApp />
               </Provider>
             </StaticRouter>
           );

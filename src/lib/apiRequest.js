@@ -185,18 +185,13 @@ export async function coreGetMiddlewareUrl(url) {
     if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
     return Buffer(str, "binary").toString("base64");
   }
-  console.log("IN CORE GET MIDDLEWARE URL");
-  console.log(isNode);
   if (isNode) {
-    console.log(`${MIDDLEWARE_API_URL_ROOT}/${url}`);
     try {
       const result = await axios.get(`${MIDDLEWARE_API_URL_ROOT}/${url}`, {
         headers: {
           Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#")
         }
       });
-      console.log("GETTING BACK A RESULT");
-      console.log(result);
       // doing thisbecause isoomrphic-fetch is failing and I want to make a minimal change
       // to use axios in Node.
       const resultJson = {
@@ -208,8 +203,6 @@ export async function coreGetMiddlewareUrl(url) {
       };
       return resultJson;
     } catch (e) {
-      console.log("IS THERE AN ERROR?");
-      console.log(e);
       throw e;
     }
   }
