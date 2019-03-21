@@ -19,6 +19,7 @@ import { getSearchTextFromUrl, getPlpSearchText } from "./plpUtils";
 import url from "url";
 import { setSearchString } from "../../src/search/actions/search.actions";
 import { getFeed } from "../../src/home/actions/home.actions";
+import BrandLandingPageContainer from "../../src/blp/containers/BrandLandingPageContainer";
 
 const path = require("path");
 const fs = require("fs");
@@ -61,12 +62,11 @@ export function blpOrClpRenderer(req, res, next) {
     }
 
     const store = configureStore();
+    let renderedBody;
     store.dispatch(getDesktopFooter(`${req.originalUrl}`)).then(data => {
       store.dispatch(getFeed(brandOrCategoryId)).then(feedData => {
         let preloadedState = store.getState();
         if (preloadedState.feed.secondaryFeed.length === 0) {
-          console.log("PARSED URL");
-          console.log(req._parsedUrl);
           const searchText = getPlpSearchText({
             pathname: req._parsedUrl.pathname,
             search: req.url
@@ -75,9 +75,8 @@ export function blpOrClpRenderer(req, res, next) {
           store.dispatch(setSearchString(searchText));
           store.dispatch(getProductListings(SUFFIX)).then(plpData => {
             preloadedState = store.getState();
-            console.log(preloadedState.feed);
 
-            const renderedBody = ReactDOMServer.renderToStaticMarkup(
+            renderedBody = ReactDOMServer.renderToStaticMarkup(
               <StaticRouter location={req.originalUrl}>
                 <Provider store={store}>
                   <ProductListingsContainer searchText={searchText} />
@@ -85,8 +84,6 @@ export function blpOrClpRenderer(req, res, next) {
               </StaticRouter>
             );
 
-            // const renderedBody = "";
-            //render the app as a string
             const helmet = Helmet.renderStatic();
 
             //inject the rendered app into our html and send it
@@ -101,12 +98,38 @@ export function blpOrClpRenderer(req, res, next) {
               preloadedState: preloadedState
             });
 
-            console.log("HTML");
-            console.log(html);
-
             // Up, up, and away...
             return res.send(html);
           });
+        } else {
+          renderedBody = ReactDOMServer.renderToStaticMarkup(
+            <StaticRouter location={req.originalUrl}>
+              <Provider store={store}>
+                <BrandLandingPageContainer />
+              </Provider>
+            </StaticRouter>
+          );
+
+          // TODO - code repetition here, need to move this into another function.
+
+          const helmet = Helmet.renderStatic();
+
+          //inject the rendered app into our html and send it
+          // Form the final HTML response
+          const html = prepHTML(htmlData, {
+            html: helmet.htmlAttributes.toString(),
+            head:
+              helmet.title.toString() +
+              helmet.meta.toString() +
+              helmet.link.toString(),
+            body: renderedBody,
+            preloadedState: preloadedState
+          });
+
+          // Up, up, and away...
+          return res.send(html);
+
+          // now we need to render the
         }
       });
     });
