@@ -27,7 +27,8 @@ import {
   PRICE_BREAKUP,
   SIZE_SELECTOR,
   SIZE_GUIDE,
-  CLIQ_PIQ_MODAL
+  CLIQ_PIQ_MODAL,
+  SIMILAR_PRODUCTS_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -72,6 +73,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showOfferDetails: data => {
       dispatch(showModal(OFFER_MODAL, data));
+    },
+    showSimilarProducts: () => {
+      dispatch(showModal(SIMILAR_PRODUCTS_MODAL));
     },
     getProductSizeGuide: productCode => {
       dispatch(getProductSizeGuide(productCode));

@@ -20,15 +20,16 @@ export const getPdpSchemaMetaTags = productDetails => {
 };
 
 export const renderMetaTags = (productDetails, isReviewPage: false) => {
+  let title = "";
+  let description = "",
+    keywords = productDetails.seo.keywords;
   let canonicalUrl = productDetails.seo.canonicalURL
     ? productDetails.seo.canonicalURL
     : window.location.href;
   let alternateUrl = productDetails.seo.alternateURL
     ? productDetails.seo.alternateURL
     : window.location.href;
-  let title = productDetails.seo.title
-    ? productDetails.seo.title
-    : TITLE_DEFAULT;
+  title = productDetails.seo.title ? productDetails.seo.title : TITLE_DEFAULT;
   if (title.length === 0) {
     title = TITLE_DEFAULT;
   }
@@ -41,7 +42,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
     alternateUrl = window.location.href;
   }
 
-  let description = productDetails.seo.description;
+  description = productDetails.seo.description;
   if (isReviewPage) {
     description = `${productDetails.productName} Review - Check ${
       productDetails.productName
@@ -49,16 +50,81 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
     title = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
   }
 
+  if (productDetails.type == "productSearchPageWsDto") {
+    let discountPercentArray = [];
+    let maxDiscount = 0;
+    if (productDetails.searchresult) {
+      productDetails.searchresult.map(key => {
+        discountPercentArray.push(parseInt(key.discountPercent));
+      });
+    }
+    maxDiscount = Math.max.apply(0, discountPercentArray);
+    if (
+      productDetails.currentQuery.appliedFilters.indexOf("brand") != -1 &&
+      productDetails.seo != undefined &&
+      productDetails.searchresult != undefined &&
+      productDetails.seo.title != undefined
+    ) {
+      title = `Buy ${productDetails.searchresult[0].brandname} ${
+        productDetails.seo.title.split(" ")[0]
+      } - Upto ${maxDiscount}% Off Online - TATA CLIQ`;
+      description = `Shop for top ${productDetails.searchresult[0].brandname} ${
+        productDetails.seo.title.split("|")[0]
+      } Online with best offers online at TATA CLiQ. Buy best quality ${
+        productDetails.seo.title.split("|")[0]
+      } by ${
+        productDetails.searchresult[0].brandname
+      } with Free Shipping✯COD✯Easy Returns.`;
+      keywords = `${productDetails.searchresult[0].brandname} ${
+        productDetails.seo.title.split("|")[0]
+      }, ${productDetails.searchresult[0].brandname} ${
+        productDetails.seo.title.split("|")[0]
+      } Online, Buy ${productDetails.searchresult[0].brandname} ${
+        productDetails.seo.title.split("|")[0]
+      }, Buy ${productDetails.searchresult[0].brandname} ${
+        productDetails.seo.title.split("|")[0]
+      } Online`;
+    } else {
+      if (
+        productDetails.seo != undefined &&
+        productDetails.seo.title != undefined
+      ) {
+        title = `Buy ${
+          productDetails.seo.title.split(" ")[0]
+        } - Upto ${maxDiscount}% Off Online - TATA CLIQ`;
+        description = `Shop for top ${
+          productDetails.seo.title.split("|")[0]
+        } Online with best offers online at TATA CLiQ. Buy best quality ${
+          productDetails.seo.title.split("|")[0]
+        } with Free Shipping✯COD✯Easy Returns.`;
+        keywords = `${productDetails.seo.title.split("|")[0]}, ${
+          productDetails.seo.title.split("|")[0]
+        } Online, Buy ${productDetails.seo.title.split("|")[0]}, Buy ${
+          productDetails.seo.title.split("|")[0]
+        } Online`;
+      }
+    }
+  }
+  if (window.location.href.indexOf("viewSellers") != -1) {
+    title = `${productDetails.productName} Sellers at Tata CLIQ`;
+    description = `Shop ${
+      productDetails.productName
+    } Online at Tata CLiQ. View sellers, Price and Shipping details for a hassle-free shopping experience.`;
+  }
+
   return (
     <MetaTags>
       <title> {title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={productDetails.seo.keywords} />
-      <link
-        rel="canonical"
-        href={`${URL_ROOT}${canonicalUrl}`}
-        hrefLang="en-in"
-      />
+      <meta name="keywords" content={keywords} />
+      {window.location.href.indexOf("viewSellers") == -1 ? (
+        <link
+          rel="canonical"
+          href={`${URL_ROOT}${canonicalUrl}`}
+          hrefLang="en-in"
+        />
+      ) : null}
+
       <link
         rel="alternate"
         href={`${URL_ROOT}${alternateUrl}`}

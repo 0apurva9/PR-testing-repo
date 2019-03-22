@@ -10,7 +10,8 @@ import {
   NO_COST_EMI,
   RUPEE_SYMBOL,
   SUCCESS,
-  NO_COST_EMI_COUPON
+  NO_COST_EMI_COUPON,
+  EMI_TENURE
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
@@ -218,6 +219,9 @@ export default class NoCostEmiBankDetails extends React.Component {
           selectedCouponCode: val.emicouponCode,
           selectedTenure: val.tenure
         });
+        if (val.tenure) {
+          localStorage.setItem(EMI_TENURE, val.tenure);
+        }
         this.onChangeCardDetail({
           is_emi: true,
           emi_bank: this.state.selectedBankCode,
