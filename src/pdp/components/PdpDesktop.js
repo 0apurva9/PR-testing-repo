@@ -143,45 +143,6 @@ const PDPRecommendedSectionsContainer = LoadableVisibility({
   delay: 400
 });
 
-const tempProductData = {
-  seasonDetails: [
-    {
-      key: "brandLogoUrl",
-      value: "Spring Summer ’18  Bandhini Collection by"
-    },
-    {
-      key: "brandLogo",
-      value: "utsa {desgin is not ready}"
-    },
-    {
-      key: "bannerUrl",
-      value: "bandini.jpg {image come from backend}"
-    },
-    {
-      key: "Collection",
-      value:
-        "Inspired by the cultural heritage of Gujarat and Rajasthan, Utsa’s Bandhani Collection features elegant kurtas, all in the deep jewel tones of red and orange and rani pink. Presented in a range of silhouettes, from A-line and pintucked to straight fit, these kurtas are a perfect choice for the festive season."
-    },
-    {
-      key: "Collection Date",
-      value: "Collection Launched in May 2018"
-    },
-    {
-      key: "Season",
-      value: "SS19"
-    },
-    {
-      key: "Style Note",
-      value:
-        "Mix and match your kurta with well-tailored cropped cigarette pants; pick from Utsa's collection of neutral tone bottoms to complete your festive look. "
-    },
-    {
-      key: "bannerDestinationUrl",
-      value: "bandiniDestinatuion.jpg"
-    }
-  ]
-};
-
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
@@ -588,7 +549,6 @@ export default class PdpApparel extends React.Component {
       });
     }
 
-    console.log("productdetails", seasonData);
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -1097,69 +1057,6 @@ export default class PdpApparel extends React.Component {
             </div>
 
             <div className={styles.details}>
-              {tempProductData.seasonDetails && (
-                <div className={styles.season}>
-                  <div className={styles.pageCenter}>
-                    <div className={styles.seasonDetails}>
-                      <div className={styles.detailsCard}>
-                        <div className={styles.seasonImage}>
-                          <div className={styles.seasonTitle}>
-                            {tempProductData &&
-                              tempProductData.seasonDetails[0].value}
-                          </div>
-                          <div className={styles.seasonLogo}>
-                            {tempProductData &&
-                              tempProductData.seasonDetails[1].value}
-                          </div>
-                          <div className={styles.seasonBanner}>
-                            {tempProductData &&
-                              tempProductData.seasonDetails[2].value}
-                          </div>
-                        </div>
-
-                        <div className={styles.seasonTextDetails}>
-                          <div className={styles.seasonCollection}>
-                            <div className={styles.collectionNotesTile}>
-                              <h3>
-                                {" "}
-                                {tempProductData &&
-                                  tempProductData.seasonDetails[3].key}
-                              </h3>
-                            </div>
-                            <div className={styles.collectionNotesContent}>
-                              {tempProductData &&
-                                tempProductData.seasonDetails[3].value}
-                            </div>
-                          </div>
-                          <div className={styles.seasonStyleDescription}>
-                            <div className={styles.collectionNotesTile}>
-                              <h3> {tempProductData.seasonDetails[6].key}</h3>
-                            </div>
-                            <div className={styles.collectionNotesContent}>
-                              {tempProductData &&
-                                tempProductData.seasonDetails[6].value}
-                            </div>
-                          </div>
-                          <div className={styles.seasonLaunchDate}>
-                            {tempProductData &&
-                              tempProductData.seasonDetails[4].value}
-                          </div>
-                          <div className={styles.seasonButton}>
-                            <Button
-                              type="hollow"
-                              height={45}
-                              width={195}
-                              label="VIEW ALL"
-                              // onClick={this.onClickOfBuyNow}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
