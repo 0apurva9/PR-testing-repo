@@ -154,6 +154,9 @@ export default class FilterDesktop extends React.Component {
         this.props.location.pathname,
         val
       );
+      if (url.match("page-{pageNo}")) {
+        url = url.replace("page-{pageNo}", "page-1");
+      }
     } else {
       url = val.replace("{pageNo}", 1);
     }

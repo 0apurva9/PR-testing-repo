@@ -4,7 +4,7 @@ import EmiCartSelect from "./EmiCartSelect";
 import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
-import { STANDARD_EMI, EMI_TYPE } from "../../lib/constants";
+import { STANDARD_EMI, EMI_TYPE, EMI_TENURE } from "../../lib/constants";
 import EmiSectionDesktop from "../../pdp/components/EmiSectionDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -51,6 +51,9 @@ export default class EmiAccordion extends React.Component {
         selectedEmi: val.term,
         selectedPrice: val.monthlyInstallment
       });
+      if (val.term) {
+        localStorage.setItem(EMI_TENURE, val.term);
+      }
       this.onChangeCardDetail({
         emi_bank: this.state.selectedBank,
         emi_tenure: val.term,

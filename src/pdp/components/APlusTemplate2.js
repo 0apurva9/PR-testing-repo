@@ -1,4 +1,5 @@
 import React from "react";
+import ProductVideoForAPlusTemplate3 from "./ProductVideoForAPlusTemplate3";
 import styles from "./APlusTemplates.css";
 export default class APlusTemplate2 extends React.Component {
   render() {
@@ -169,6 +170,21 @@ export default class APlusTemplate2 extends React.Component {
               data["Section6"][1].value.imageList &&
               data["Section6"][1].value.imageList[0] ? (
                 <img src={data["Section6"][1].value.imageList[0]} alt="" />
+              ) : null}
+            </div>
+          </div>
+        )}
+        {data["Section7"] && (
+          <div className={styles.section4}>
+            <div className={styles.longSectionOfImage}>
+              {data["Section7"] &&
+              data["Section7"][0] &&
+              data["Section7"][0].value &&
+              data["Section7"][0].value.videoList &&
+              data["Section7"][0].value.videoList[0] ? (
+                <ProductVideoForAPlusTemplate3
+                  url={data["Section7"][0].value.videoList[0]}
+                />
               ) : null}
             </div>
           </div>

@@ -10,7 +10,8 @@ import {
   NO_COST_EMI_COUPON,
   OLD_CART_CART_ID,
   CART_BAG_DETAILS,
-  CLIQ_CASH_APPLIED_LOCAL_STORAGE
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE,
+  EMI_TENURE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -910,6 +911,7 @@ const cart = (
       localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
+      localStorage.removeItem(EMI_TENURE);
       return Object.assign({}, state, {
         jusPayDetails: action.jusPayDetails
       });
@@ -1362,6 +1364,7 @@ const cart = (
 
     case cartActions.REMOVE_NO_COST_EMI_SUCCESS:
       localStorage.removeItem(NO_COST_EMI_COUPON);
+      localStorage.removeItem(EMI_TENURE);
       carDetailsCopy = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
