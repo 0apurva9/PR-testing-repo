@@ -80,6 +80,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice.formattedValueNoDecimal
         }
         alt={altTag}
+        seasonTag={data.seasonTag}
         minPrice={
           data.price &&
           data.price.minPrice &&
@@ -109,12 +110,13 @@ export default class ProductGrid extends React.Component {
         averageRating={data.averageRating}
         totalNoOfReviews={data.totalNoOfReviews}
         view={this.state.view}
+        winningUssID={data.winningUssID ? data.winningUssID : data.ussid}
         onClick={(url, data, ref) =>
           this.goToProductDescription(url, data, ref, index)
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
-        showWishListButton={false}
+        showWishListButton={true}
         plpAttrMap={data && data.plpAttrMap}
         shouldShowSimilarIcon={true}
       />

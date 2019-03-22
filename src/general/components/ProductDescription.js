@@ -54,7 +54,9 @@ export default class ProductDescription extends Component {
                 <AddToWishListButtonContainer
                   productListingId={this.props.productListingId}
                   winningUssID={this.props.winningUssID}
+                  productListings={this.props.productListings}
                   isWhite={this.props.isWhite}
+                  size={17}
                 />
               </div>
             )}

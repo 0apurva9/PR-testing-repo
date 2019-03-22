@@ -115,6 +115,59 @@
   padding: 0 15px;
   margin-top: 30px;
 }
+.season {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 0 15px;
+  margin-top: 30px;
+}
+.collectionNotesTile {
+  width: 166px;
+  height: 20px;
+  font-family: semibold;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: 0.4px;
+  color: var(--black-93);
+}
+.collectionNotesContent {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 15px;
+  position: relative;
+}
+.seasonLaunchDate {
+  width: 100%;
+  font-family: Baskerville;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: 1.25;
+  letter-spacing: 0.3px;
+  color: #ff1744;
+}
+.seasonTitle {
+  width: 100%;
+  font-family: Baskerville;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #af1566;
+}
 .separator {
   width: 100%;
   height: auto;
@@ -363,6 +416,30 @@
     cursor: pointer;
     font-family: light;
   }
+  .season {
+    background: #ececec;
+    padding: 0;
+    padding-bottom: 40px;
+  }
+  .seasonDetails {
+    margin-top: 60px;
+    display: flex;
+  }
+  .seasonImage {
+    width: 43%;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 10px;
+    margin-top: 20px;
+  }
+  .seasonTextDetails {
+    width: 57%;
+    vertical-align: top;
+    display: inline-block;
+  }
+  .seasonButton {
+    margin-top: 21px;
+  }
   .details {
     background: #ececec;
     padding: 0;
@@ -599,7 +676,7 @@
     height: auto;
     margin-top: 25px;
   }
-  .samsungChatImgHolder{
+  .samsungChatImgHolder {
     position: fixed;
     right: 0;
     top: 80%;
