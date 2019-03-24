@@ -1,5 +1,4 @@
-.base,
-.basePdp {
+.base {
   width: auto;
   height: 18px;
   color: #fff;
@@ -16,9 +15,6 @@
   top: 10px;
 }
 
-/* .basePdp {
-  top: 45px !important;
-} */
 .overlay {
   width: 100%;
   height: 100%;
