@@ -219,17 +219,12 @@ export async function getMiddlewareUrl(url) {
     const result = await coreGetMiddlewareUrl(url);
     const resultClone = await result.clone();
     const resultJson = await resultClone.json();
-    console.log("IN GET MIDDLE WARE URL");
-    console.log(resultClone);
-    console.log("RESULT");
-    console.log(result);
     const errorStatus = ErrorHandling.getFailureResponse(resultJson);
     if (
       (!errorStatus.status ||
         !isInvalidAccessTokenError(errorStatus.message)) &&
       !isCartNotFoundError(resultJson)
     ) {
-      console.log("IS THIS HIT");
       return result.clone();
     }
     let newUrl;

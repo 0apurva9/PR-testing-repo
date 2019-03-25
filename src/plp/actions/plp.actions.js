@@ -251,11 +251,7 @@ export function getProductListings(
       queryString = `${queryString}&page=${pageNumber}`;
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
-      // console.log("RESULT");
-      // console.log(result);
       const resultJson = await result.json();
-      // console.log("RESULT JSON");
-      // console.log(resultJson);
       if (resultJson && resultJson.currentQuery && isBrowser) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
         if (keyWordRedirect) {
@@ -263,7 +259,6 @@ export function getProductListings(
         }
       }
 
-      console.log("LINE 267");
       if (resultJson.error) {
         if (
           isBrowser &&
@@ -280,7 +275,6 @@ export function getProductListings(
         }
         throw new Error(`${resultJson.error}`);
       }
-      console.log("LINE 284");
       if (
         isBrowser &&
         (resultJson &&
@@ -319,7 +313,6 @@ export function getProductListings(
           }
         }
       }
-      console.log("LINE 323");
       if (paginated) {
         if (resultJson.searchresult) {
           dispatch(getProductListingsPaginatedSuccess(resultJson, true));

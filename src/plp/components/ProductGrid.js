@@ -119,7 +119,6 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
-    console.log("IS PRODUCT GRID RENDERED");
     return (
       <React.Fragment>
         <div

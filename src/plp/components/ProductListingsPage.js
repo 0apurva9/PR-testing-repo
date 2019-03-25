@@ -19,7 +19,7 @@ import {
   CATEGORY_REGEX,
   BRAND_CATEGORY_PREFIX
 } from "./PlpBrandCategoryWrapper.js";
-import { isNode, isBrowser } from "browser-or-node";
+import { isBrowser } from "browser-or-node";
 
 const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";

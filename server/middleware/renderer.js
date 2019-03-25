@@ -11,7 +11,7 @@ import { getHeader } from "../../src/clp/actions/clp.actions";
 import { getProductDescription } from "../../src/pdp/actions/pdp.actions";
 import ProductDescriptionPageWrapperContainer from "../../src/pdp/containers/ProductDescriptionPageWrapperContainer";
 import ProductListingsContainer from "../../src/plp/containers/ProductListingsContainer";
-import { getProductListings } from "../../src/plp/actions/plp.actions";
+import { getProductListings, setPage } from "../../src/plp/actions/plp.actions";
 import { SUFFIX } from "../../src/plp/components/Plp";
 import { routes } from "./plpUtils";
 import { matchPath } from "react-router-dom";
@@ -138,15 +138,29 @@ export function blpOrClpRenderer(req, res, next) {
 export function plpRenderer(req, res, next) {
   console.log("HITTING PLP RENDER");
   const searchCategory = req.query.searchCategory;
+  // console.log("REQ PARAMS");
+  // console.log(req.params);
+  let match;
+  if (req.originalUrl.indexOf("custom") > -1) {
+    match = matchPath(req.originalUrl, routes[1]);
+  } else if (req.originalUrl.indexOf("CustomSkuCollection") > -1) {
+    match = matchPath(req.originalUrl, routes[2]);
+    // console.log(match);
+  } else {
+    match = matchPath(req.originalUrl, routes[0]);
+  }
 
-  const match = matchPath(req.originalUrl, routes[0]);
+  console.log("MATCH");
+  console.log(req.query);
+  console.log(req.params.page);
 
   const searchText = getSearchTextFromUrl(
-    { pathname: req._parsedUrl.pathname, search: req.url },
+    { pathname: req._parsedUrl.pathname, search: req._parsedUrl.query },
     match
   );
   console.log("SEARCH TEXT");
   console.log(searchText);
+
   // Let's see if I can just use the APP?
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
@@ -158,6 +172,9 @@ export function plpRenderer(req, res, next) {
     const store = configureStore();
     store.dispatch(getDesktopFooter(`${req.originalUrl}`)).then(data => {
       store.dispatch(setSearchString(searchText));
+      if (req.params.page) {
+        store.dispatch(setPage(req.params.page));
+      }
       // store.dispatch(setSearchString(searchText)).then(() => {
       store.dispatch(getProductListings(SUFFIX)).then(pdpData => {
         const preloadedState = store.getState();

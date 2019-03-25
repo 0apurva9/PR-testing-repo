@@ -9,7 +9,8 @@ import {
   MAX_PRICE_FROM_API,
   MAX_PRICE_FROM_API_2,
   MAX_PRICE_FROM_UI,
-  PRODUCT_LISTINGS
+  PRODUCT_LISTINGS,
+  SKU_PAGE_FILTER
 } from "../../src/lib/constants";
 import ProductListingsContainer from "../../src/plp/containers/ProductListingsContainer";
 import {
@@ -25,6 +26,14 @@ import {
 export const routes = [
   {
     path: PRODUCT_LISTINGS,
+    component: ProductListingsContainer
+  },
+  {
+    path: SKU_PAGE,
+    component: ProductListingsContainer
+  },
+  {
+    path: "/CustomSkuCollection/:slug/",
     component: ProductListingsContainer
   }
 ];
@@ -62,9 +71,16 @@ export function getPlpSearchText(location) {
 }
 
 export function getSearchTextFromUrl(location, match) {
+  console.log("SERACH");
+  console.log(location.search);
   const parsedQueryString = queryString.parse(location.search);
+  console.log("PARSED QUERY STRING");
+  console.log(parsedQueryString);
   const searchCategory = parsedQueryString.searchCategory;
   let searchText = parsedQueryString.q;
+  console.log("SEARCH TEXT");
+  console.log(searchText);
+  console.log(location);
   if (
     searchCategory &&
     searchCategory !== "" &&
