@@ -162,7 +162,7 @@ class ProductListingsPage extends Component {
       }
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
-    if (!searchText.includes("relevance")) {
+    if (searchText && !searchText.includes("relevance")) {
       searchText = `${searchText}:relevance`;
     }
 
@@ -284,11 +284,9 @@ class ProductListingsPage extends Component {
         this.props.urlString.includes("https") ||
         this.props.urlString.includes("http")
       ) {
-        window.location.href = this.props.urlString;
-      } else {
-        this.props.history.push(this.props.urlString, {
-          isFilter: false
-        });
+        let urlString = this.props.urlString;
+        urlString = urlString.replace(/^.*\/\/[^\/]+/, "");
+        this.props.history.replace(urlString);
       }
     }
     if (this.props.lastVisitedPlpUrl !== window.location.href) {
@@ -371,6 +369,7 @@ class ProductListingsPage extends Component {
       }
     }
   }
+
   render() {
     console.log("IN PRODUCT LISTINGS PAGE");
     let isFilter = false;
@@ -382,6 +381,7 @@ class ProductListingsPage extends Component {
         paginate={this.props.paginate}
         onFilterClick={this.onFilterClick}
         isFilter={isFilter}
+        urlString={this.props.urlString}
       />
     );
   }

@@ -67,6 +67,8 @@ import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
 import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
 import ColourSelector from "./ColourSelector";
+import FlixMediaContainer from "./FlixMediaContainer";
+
 export const ONLY_ICON = "wishlistIconForPdp";
 
 const NO_SIZE = "NO SIZE";
@@ -562,7 +564,12 @@ export default class PdpApparel extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
-      console.log("IS THIS RENDERED");
+      let flixModelNo = "";
+      if (productData.details && productData.details.length) {
+        flixModelNo = productData.details.find(detail => {
+          return detail.key === "Model Number";
+        });
+      }
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -720,6 +727,7 @@ export default class PdpApparel extends React.Component {
                                 >
                                   <SizeSelector
                                     history={this.props.history}
+                                    headerText={productData.isSizeOrLength}
                                     sizeSelected={this.checkIfSizeSelected()}
                                     productId={productData.productListingId}
                                     hasSizeGuide={productData.showSizeGuide}
@@ -744,6 +752,7 @@ export default class PdpApparel extends React.Component {
                                 >
                                   <SizeQuantitySelect
                                     history={this.props.history}
+                                    headerText={productData.isSizeOrLength}
                                     sizeError={this.state.sizeError}
                                     quantityError={this.state.quantityError}
                                     showSizeGuide={
@@ -870,7 +879,9 @@ export default class PdpApparel extends React.Component {
 
                       {productData.details &&
                         productData.details.map(val => {
-                          return <div className={styles.list}>{val.value}</div>;
+                          return val.key !== "Model Number" ? (
+                            <div className={styles.list}>{val.value}</div>
+                          ) : null;
                         })}
                       {productData.rootCategory === "Electronics" && (
                         <div
@@ -1007,11 +1018,11 @@ export default class PdpApparel extends React.Component {
                             >
                               {productData.details &&
                                 productData.details.map(val => {
-                                  return (
+                                  return val.key !== "Model Number" ? (
                                     <div className={styles.list}>
                                       {val.value}
                                     </div>
-                                  );
+                                  ) : null;
                                 })}
                             </div>
                           )}
@@ -1172,6 +1183,14 @@ export default class PdpApparel extends React.Component {
                   </div>
                   {this.renderRatings}
                 </div>
+                <React.Fragment>
+                  {flixModelNo && productData.brandName ? (
+                    <FlixMediaContainer
+                      flixModelNo={flixModelNo}
+                      brandName={productData.brandName}
+                    />
+                  ) : null}
+                </React.Fragment>
                 {productData.rootCategory === "Electronics" && (
                   <div className={styles.detailsHolder}>
                     <div className={styles.detailsCard}>

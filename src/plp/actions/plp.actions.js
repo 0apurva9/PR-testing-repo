@@ -254,7 +254,7 @@ export function getProductListings(
       const resultJson = await result.json();
       if (resultJson && resultJson.currentQuery && isBrowser) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
-        if (keyWordRedirect) {
+        if (keyWordRedirect && resultJson.currentQuery.pageRedirectType) {
           dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
         }
       }

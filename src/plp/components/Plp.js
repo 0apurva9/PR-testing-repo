@@ -43,6 +43,7 @@ const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const LIST = "list";
 const GRID = "grid";
+const PAGE_REGEX = /\/page-(\d+)/;
 export default class Plp extends React.Component {
   constructor() {
     super();
@@ -254,6 +255,9 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
+    if (this.props.headerText) {
+      return this.props.headerText;
+    }
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
@@ -283,14 +287,18 @@ export default class Plp extends React.Component {
     let parsingurl = url;
 
     parsingurl = url.replace(/\+/g, " ");
+    // if (parsingurl.match(filterName)) {
+    //   parsingurl = url.split("?");
+    //   url = parsingurl[0];
+    // }
 
-    if (parsingurl.match(filterName)) {
-      parsingurl = url.split("?");
-      url = parsingurl[0];
-    }
-    if (url.match("/search/")) {
-      url = url.replace("/search/", "");
-      url = this.props.location.pathname + url;
+    if (url.match("/search")) {
+      url = url.replace("/search", "");
+      let pathname = this.props.location.pathname.replace(PAGE_REGEX, "");
+      if (pathname.charAt(pathname.length - 1).match("/")) {
+        url = url.replace(/\//g, "");
+      }
+      url = pathname + url;
     } else {
       url = url;
     }
@@ -503,7 +511,10 @@ export default class Plp extends React.Component {
               {this.props.productListings &&
               this.props.productListings &&
               this.props.productListings.currentQuery &&
-              this.props.productListings.currentQuery.searchQuery ? (
+              this.props.productListings.currentQuery.searchQuery &&
+              !this.props.productListings.currentQuery.searchQuery.includes(
+                ":relevance"
+              ) ? (
                 <div className={styles.headerText}>
                   <div className={styles.plpHeading}>
                     {`Showing "${
