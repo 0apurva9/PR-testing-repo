@@ -11,7 +11,7 @@ import ProductReviewListContainer from "../containers/ProductReviewListContainer
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-import TrustBadgeImage from "../components/img/trustBadge.jpg";
+//import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -31,12 +31,12 @@ import {
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
-  CUSTOMER_ACCESS_TOKEN,
+  // CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS,
-  ANONYMOUS_USER,
+  //CART_DETAILS_FOR_LOGGED_IN_USER,
+  //CART_DETAILS_FOR_ANONYMOUS,
+  //ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -56,16 +56,16 @@ import {
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+import FlixMediaContainer from "./FlixMediaContainer";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
-import FlixMediaContainer from "./FlixMediaContainer";
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
   delay: 400
 });
-const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
+//const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
@@ -78,7 +78,7 @@ const Overlay = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+/*
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
   loading: () => <div />,
@@ -102,7 +102,7 @@ const RatingAndTextLink = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+*/
 const PdpPaymentInfo = LoadableVisibility({
   loader: () => import("./PdpPaymentInfo"),
   loading: () => <div />,
@@ -268,13 +268,14 @@ export default class PdpApparel extends React.Component {
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
+    //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    //let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    //let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    /*let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);*/
+
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
     } else {
@@ -579,7 +580,10 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
-    const tailedKnowMoreV2 = this.tail(productData.knowMoreV2);
+    const tailedKnowMoreV2 =
+      productData &&
+      productData.knowMoreV2 &&
+      this.tail(productData.knowMoreV2);
 
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
