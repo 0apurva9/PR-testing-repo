@@ -106,6 +106,8 @@
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
     "uat5": "REACT_APP_STAGE=uat5 node scripts/build.js",
     "uat6tcs": "REACT_APP_STAGE=uat6tcs node scripts/build.js",
+    "qa2": "REACT_APP_STAGE=qa2 node scripts/build.js",
+    "pt": "REACT_APP_STAGE=pt node scripts/build.js",
     "production": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
     "production-cdn": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production PUBLIC_URL=https://pwassets.tatacliq.com node scripts/build.js",
     "p2-production-cdn": "REACT_APP_STAGE=p2 PUBLIC_URL=https://pwassetsp2.tatacliq.com node scripts/build.js",
@@ -118,7 +120,11 @@
     "ssr": "NODE_ENV=DFGDFG server/bootstrap.js"
   },
   "lint-staged": {
-    "*.js": ["eslint", "prettier --parser flow --write", "git add"]
+    "*.js": [
+      "eslint",
+      "prettier --parser flow --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "brotli-webpack-plugin": "^1.0.0",
@@ -138,8 +144,12 @@
     "webpack-bundle-analyzer": "^2.11.1"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx,mjs}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,mjs}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -151,7 +161,9 @@
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
+    ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     },
@@ -166,7 +178,9 @@
     ]
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
