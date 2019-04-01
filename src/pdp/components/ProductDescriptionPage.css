@@ -225,7 +225,8 @@
 
 
 .list a {
-  color: #ff1744;
+  color: #ff1744 !important;
+  text-decoration: underline !important;
 }
 .list:before {
   content: "";
@@ -379,8 +380,6 @@
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    position: sticky;
-    top: 120px;
     z-index: 5;
   }
   .content {
