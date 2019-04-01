@@ -35,10 +35,13 @@ app.get("*.css", function(req, res, next) {
   next();
 });
 
-var prerender = require('prerender-node').set('prerenderToken', 'NYax1xFNwJGOvG1c0fyj');
-prerender.crawlerUserAgents.push('googlebot');
-prerender.crawlerUserAgents.push('bingbot');
-prerender.crawlerUserAgents.push('yandex');
+var prerender = require("prerender-node").set(
+  "prerenderToken",
+  "NYax1xFNwJGOvG1c0fyj"
+);
+prerender.crawlerUserAgents.push("googlebot");
+prerender.crawlerUserAgents.push("bingbot");
+prerender.crawlerUserAgents.push("yandex");
 app.use(prerender);
 
 app.use(express.static("build"));
@@ -263,7 +266,12 @@ app.get("/*", (req, res) => {
 
     //Code end for AMP
   } else {
-    res.sendFile(__dirname + "/build/index.html");
+    var q = url.parse(req.url, true);
+    if (q.pathname == "/cart" || q.pathname == "/checkout") {
+      res.sendFile(__dirname + "/build/other.html");
+    } else {
+      res.sendFile(__dirname + "/build/index.html");
+    }
   }
 });
 
