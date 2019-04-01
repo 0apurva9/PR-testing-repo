@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_REQUEST } from "../pdp/actions/pdp.actions";
-
+export const PANCARD_PAGE = "/panCard/panCardDetailsUpload/(.*)";
 export const SUCCESS = "success";
 export const SUCCESS_UPPERCASE = "SUCCESS";
 export const SUCCESS_CAMEL_CASE = "Success";
@@ -15,6 +15,8 @@ export const FAILURE_LOWERCASE = "failure";
 export const WRONG_FAILURE = "faliure";
 export const JUS_PAY_PENDING = "PENDING_VBV";
 export const JUS_PAY_CHARGED = "CHARGED";
+export const PANCARD_SUCCES_MESSAGE =
+  "The Pan Card Copy is submitted successfully.";
 export const JUS_PAY_SUCCESS = "S";
 export const JUS_PAY_AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED";
 export const JUS_PAY_AUTHORIZATION_FAILED = "JUS_PAY_AUTHORIZATION_FAILED";
