@@ -106,6 +106,7 @@ export default class ConfirmAddress extends React.Component {
                         addressDescription={val.addressDescription}
                         contact={val.value}
                         key={i}
+                        phone={val.phone}
                         value={val.value}
                         selected={val.selected}
                         isReturn={this.props.isReturn}
