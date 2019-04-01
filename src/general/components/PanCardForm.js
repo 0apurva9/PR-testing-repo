@@ -77,11 +77,12 @@ export default class PanCardForm extends Component {
         </div>
         <div className={styles.pancarddetailsHolder}>
           <div className={styles.orderText}>
-            Order ID:{this.props.panCardDetails &&
-              this.props.panCardDetails.orderID}
+            <strong>Order ID:</strong>{" "}
+            {this.props.panCardDetails && this.props.panCardDetails.orderID}
           </div>
           <div className={styles.orderText}>
-            Name:{this.props.panCardDetails &&
+            <strong>Name:</strong>{" "}
+            {this.props.panCardDetails &&
               this.props.panCardDetails.customerName}
           </div>
           <div className={styles.pancardHolder}>
@@ -160,33 +161,33 @@ export default class PanCardForm extends Component {
               />
             </div>
           </div>
-        </div>
 
-        <div className={styles.submitButton}>
-          <div
-            className={
-              this.props.panCardDetails &&
-              (this.props.panCardDetails.status !==
-                "PENDING_FOR_VERIFICATION" &&
-                this.props.panCardDetails.status !== "APPROVED" &&
-                this.state.file != "" &&
-                this.state.Pancard_number.length !== "")
-                ? styles.buttonCover
-                : styles.buttonCoverDisabled
-            }
-          >
-            <Button
-              type="primary"
-              label="Submit"
-              backgroundColor="#ff1744"
-              height={40}
-              width={165}
-              textStyle={{
-                color: "#FFF",
-                fontSize: 14
-              }}
-              onClick={() => this.onSubmit()}
-            />
+          <div className={styles.submitButton}>
+            <div
+              className={
+                this.props.panCardDetails &&
+                (this.props.panCardDetails.status !==
+                  "PENDING_FOR_VERIFICATION" &&
+                  this.props.panCardDetails.status !== "APPROVED" &&
+                  this.state.file != "" &&
+                  this.state.Pancard_number.length !== "")
+                  ? styles.buttonCover
+                  : styles.buttonCoverDisabled
+              }
+            >
+              <Button
+                type="primary"
+                label="Submit"
+                backgroundColor="#ff1744"
+                height={40}
+                width={165}
+                textStyle={{
+                  color: "#FFF",
+                  fontSize: 14
+                }}
+                onClick={() => this.onSubmit()}
+              />
+            </div>
           </div>
         </div>
       </div>

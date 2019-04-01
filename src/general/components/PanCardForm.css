@@ -3,45 +3,52 @@
   height: auto;
   background: #f2f2f2;
   min-height: calc(100vh - 50px);
-  padding: 10px;
+  padding: 50px 10px;
   overflow-y: auto;
 }
 .text {
-  font-size: 18px;
+  font-size: 28px;
   font-family: semibold;
   padding: 10px 10px 0px 10px;
+  text-align: center;
 }
 .subText {
-  font-size: 12px;
+  font-size: 18px;
   color: rgb(74, 74, 74);
   font-family: light;
-  padding: 7px 10px 20px 10px;
+  padding: 7px 10px 35px 10px;
+  text-align: center;
 }
 .pancarddetailsHolder {
-  width: 100%;
+  width: 584px;
   height: auto;
-  display: inline-block;
-  margin-bottom: 15px;
+  margin: 0 auto;
   background: #fff;
-  padding: 20px 20px 20px;
+  padding: 33px;
   border-radius: 4px;
 }
 .orderText {
-  color: rgd(74, 74, 74);
-  font-size: 12px;
+  color: rgb(74, 74, 74);
+  font-size: 15px;
   font-family: regular;
   padding: 5px 0px 5px 0px;
+  width: 50%;
+  display: inline-block;
+}
+.orderText:nth-child(2){
+  text-align: right;
 }
 .pancard {
-  padding: 25px 0px 8px 0px;
+  padding: 35px 0px 10px 0px;
   font-family: semibold;
   text-align: center;
-  font-size: 14px;
+  font-size: 24px;
 }
 .subdetails {
   text-align: center;
-  font-family: regular;
-  font-size: 12px;
+  font-family: light;
+  font-size: 14px;
+  width: 400px;
   padding: 0px 30px;
 }
 .inputHolder {
@@ -64,14 +71,14 @@
 }
 .uploadPancardMessage {
   text-align: center;
-  font-family: regular;
-  font-size: 12px;
-  padding: 25px 0px 5px 0px;
+  font-family: light;
+  font-size: 14px;
+  padding: 40px 0px 5px 0px;
 }
 .uploadSubText {
   text-align: center;
   font-family: regular;
-  font-size: 11px;
+  font-size: 10px;
 }
 .pancardHolder {
   display: flex;
@@ -80,9 +87,13 @@
   flex-direction: column;
 }
 .uploadimageButton {
-  padding-top: 12px;
+  padding: 20px 0 30px 0;
   position: relative;
   height: auto;
+  text-transform: capitalize;
+}
+.uploadimageButton > div{
+  border: 1px dashed rgb(33, 33, 33) !important;
 }
 .submitButton {
   display: flex;
@@ -99,7 +110,7 @@
   z-index: 1;
 }
 .showerror {
-  font-size: 12px;
+  font-size: 10px;
   color: rgb(255, 23, 68);
   padding: 6px 0px 16px 0px;
   font-family: light;
