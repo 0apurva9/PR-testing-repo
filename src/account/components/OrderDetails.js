@@ -21,6 +21,7 @@ import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import { Redirect } from "react-router-dom";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -159,6 +160,13 @@ export default class OrderDetails extends React.Component {
     }
   }
 
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+
+    return <Redirect to={LOGIN_PATH} />;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {
       this.props.displayToast("Invoice has been sent");
@@ -172,7 +180,10 @@ export default class OrderDetails extends React.Component {
     }
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
