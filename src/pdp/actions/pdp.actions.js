@@ -9,9 +9,14 @@ import {
   CART_BAG_DETAILS,
   PLAT_FORM_NUMBER,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS
+  CART_DETAILS_FOR_ANONYMOUS,
+  FAILURE,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  ANONYMOUS_USER,
+  TIME_OUT_FOR_APIS,
+  LOW_INTERNET_CONNECTION_MESSAGE
 } from "../../lib/constants";
-import { FAILURE } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
   getMcvId,
@@ -25,17 +30,9 @@ import {
   showModal,
   GO_TO_CART_PAGE_POPUP
 } from "../../general/modal.actions.js";
-import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  ANONYMOUS_USER,
-  TIME_OUT_FOR_APIS,
-  LOW_INTERNET_CONNECTION_MESSAGE
-} from "../../lib/constants";
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
-
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -102,6 +99,10 @@ export const GET_PDP_ITEMS_FAILURE = "GET_PDP_ITEMS_FAILURE";
 export const PDP_ABOUT_BRAND_REQUEST = "PDP_ABOUT_BRAND_REQUEST";
 export const PDP_ABOUT_BRAND_SUCCESS = "PDP_ABOUT_BRAND_SUCCESS";
 export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
+//NU-385 for Desktop
+export const PDP_OFFER_REQUEST = "PDP_OFFER_REQUEST";
+export const PDP_OFFER_SUCCESS = "PDP_OFFER_SUCCESS";
+export const PDP_OFFER_FAILURE = "PDP_OFFER_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
@@ -136,6 +137,10 @@ const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
 const NUMBER_RESULTS = [10, 10];
+//TPR-9957 for Desktop
+export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
+export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
+export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 
 export function getProductDescriptionRequest() {
   return {
@@ -973,7 +978,71 @@ export function getPdpItems(itemIds, widgetKey) {
     }
   };
 }
+//NU-385 for Desktop
+export function pdpOfferRequest() {
+  return {
+    type: PDP_OFFER_REQUEST,
+    status: REQUESTING
+  };
+}
 
+export function pdpOfferSuccess(offers, impulseOfferCalloutList) {
+  return {
+    type: PDP_OFFER_SUCCESS,
+    status: SUCCESS,
+    offers: offers,
+    impulseOfferCalloutList: impulseOfferCalloutList
+  };
+}
+
+export function pdpOfferFailure(error) {
+  return {
+    type: PDP_OFFER_FAILURE,
+    status: ERROR,
+    error: error
+  };
+}
+export function getPdpOffers() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(pdpOfferRequest());
+    try {
+      let productDetails = getState().productDescription.productDetails;
+      let categoryCode =
+        productDetails.categoryHierarchy[
+          productDetails.categoryHierarchy.length - 1
+        ].category_id;
+
+      let brandCode = productDetails.brandURL.split("-");
+      let brandCodeLength = brandCode.length;
+      let brandCodeLast = brandCode[brandCodeLength - 1];
+      const pdpOffersApi = await api.pdpOffersApi(
+        productDetails.productListingId,
+        productDetails.winningSellerID,
+        categoryCode,
+        brandCodeLast.toUpperCase()
+      );
+      const pdpOffersApiJson = await pdpOffersApi.json();
+      if (pdpOffersApiJson.offerCalloutList) {
+        dispatch(
+          pdpOfferSuccess(
+            pdpOffersApiJson.offerCalloutList,
+            pdpOffersApiJson.impulseOfferCalloutList
+              ? pdpOffersApiJson.impulseOfferCalloutList
+              : []
+          )
+        );
+      } else if (pdpOffersApiJson.impulseOfferCalloutList) {
+        dispatch(pdpOfferSuccess([], pdpOffersApiJson.impulseOfferCalloutList));
+      } else if (pdpOffersApiJson.status === "Success") {
+        dispatch(pdpOfferSuccess([], []));
+      } else {
+        dispatch(pdpOfferFailure("error"));
+      }
+    } catch (e) {
+      dispatch(pdpOfferFailure(e.message));
+    }
+  };
+}
 // Actions to get All Stores CNC
 export function getAllStoresForCliqAndPiqRequest() {
   return {
@@ -1042,5 +1111,70 @@ export function showPdpPiqPage() {
 export function hidePdpPiqPage() {
   return {
     type: HIDE_PDP_PIQ_PAGE
+  };
+}
+
+export function pdpManufacturerRequest() {
+  return {
+    type: PDP_MANUFACTURER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function pdpManufacturerSuccess(manufacturers) {
+  return {
+    type: PDP_MANUFACTURER_SUCCESS,
+    status: SUCCESS,
+    manufacturers: manufacturers
+  };
+}
+
+export function pdpManufacturerFailure(error) {
+  return {
+    type: PDP_MANUFACTURER_FAILURE,
+    status: ERROR,
+    error: error
+  };
+}
+
+export function getManufacturerDetails() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(pdpManufacturerRequest());
+    try {
+      let productDetails = getState().productDescription.productDetails;
+      let categoryCode =
+        productDetails.categoryHierarchy[
+          productDetails.categoryHierarchy.length - 1
+        ].category_id;
+      // let brandCode = productDetails.brandURL.length > 6 ? (productDetails.brandURL
+      //   .substr(
+      //     productDetails.brandURL.length - 6,
+      //     productDetails.brandURL.length
+      //   )
+      //   .toUpperCase()) : (productDetails.brandURL.toUpperCase());
+      let brandCode = productDetails.brandURL.split("-");
+      let brandCodeLength = brandCode.length;
+      let brandCodeLast = brandCode[brandCodeLength - 1];
+      // let brandCodeLastLength = brandCodeLast.length;
+      // let brandCodeFinal = "";
+      // if(brandCodeLast.length > 6){
+      //     brandCodeFinal = brandCodeLast.substr(brandCodeLastLength - 6,brandCodeLastLength)
+      // }
+      const pdpManufacturerApi = await api.pdpManufacturersApi(
+        categoryCode.toUpperCase(),
+        brandCodeLast.toUpperCase()
+      );
+
+      const pdpManufacturerApiJson = await pdpManufacturerApi.json();
+      // if (pdpManufacturerApiJson.status == "Success") {
+
+      // } else {
+      if (pdpManufacturerApiJson.errorCode) {
+        dispatch(pdpManufacturerFailure("error"));
+      } else {
+        dispatch(pdpManufacturerSuccess(pdpManufacturerApiJson));
+      }
+    } catch (e) {
+      dispatch(pdpManufacturerFailure(e.message));
+    }
   };
 }

@@ -9,7 +9,8 @@ export const SIZE_GUIDE = "SizeGuide";
 export const SORT = "Sort";
 export const ADDRESS = "Address";
 export const EMI_MODAL = "EmiModal";
-export const OFFER_MODAL = "OfferModal";
+export const OFFER_MODAL = "OfferDetailsModal";
+export const TERMSNCONDITIONS_MODAL = "TermsNConditionsWrapperModal";
 export const SIZE_SELECTOR = "SizeSelector";
 export const PRICE_BREAKUP = "PriceBreakup";
 export const BANK_OFFERS = "BankOffers";
@@ -37,6 +38,7 @@ export const CHANGE_PASSWORD_POP_UP = "ChangePasswordForDesktop";
 export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export const CUSTOMER_QUERY_POPUP = "CustomerQueryPopUp";
 export const VALIDATE_OFFERS_POPUP = "ValidateOffersPopUp";
+export const MANUFACTURER_MODAL = "ManufacturerModal";
 export const SIMILAR_PRODUCTS_MODAL = "SimilarProductsModal";
 
 export function showModal(type, ownProps) {

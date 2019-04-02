@@ -583,3 +583,30 @@ export async function corePostByUrlEncoded(path, postData) {
     body: postData
   });
 }
+
+export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
+  const globalAccessToken = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
+  return await fetch(
+    API_URL_ROOT +
+      "/v2/mpl/products/" +
+      code +
+      "/voucherSequence?access_token=" +
+      globalAccessToken.access_token +
+      "&sellerId=" +
+      sellerId +
+      "&categoryCode=" +
+      categoryCode +
+      "&brandCode=" +
+      brandCode +
+      "&channel=Web&updatedFlag=true"
+  );
+}
+export async function pdpManufacturersApi(categoryCode, brandCode) {
+  return await fetch(
+    API_URL_ROOT +
+      "/v2/mpl/products/manufacturingdetails?category=" +
+      categoryCode +
+      "&brand=" +
+      brandCode
+  );
+}

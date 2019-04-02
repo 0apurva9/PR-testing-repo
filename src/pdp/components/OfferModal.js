@@ -1,110 +1,124 @@
 import React from "react";
-import SlideModal from "../../general/components/SlideModal";
-import PropTypes from "prop-types";
 import styles from "./OfferModal.css";
-export default class OfferModal extends React.Component {
-  render() {
-    let getId =
-      this.props.secondaryPromotions &&
-      this.props.secondaryPromotions.isNoCostEmi;
-    let getMessage =
-      this.props.secondaryPromotions &&
-      this.props.secondaryPromotions.messageID;
-    return (
-      <SlideModal closeModal={this.props.closeModal}>
-        <div className={styles.base}>
-          <div className={styles.header}>Offers</div>
-          {this.props.potentialPromotions && (
-            <div className={styles.content}>
-              <div
-                className={styles.headingText}
-                dangerouslySetInnerHTML={{
-                  __html: this.props.potentialPromotions.title
-                }}
-              />
+import BottomSlideModal from "../../general/components/BottomSlideModal.js";
+import TimerCounter from "../../general/components/TimerCounter";
+import {
+  setDataLayer,
+  ADOBE_OFFER_CARD_VIEW_MORE_TNC
+} from "../../lib/adobeUtils";
+export default class VoucherOfferModal extends React.Component {
+  handleShowDetails = (selectedOffer, offers) => {
+    // this.props.closeModal();
+    if (this.props.showDetails) {
+      this.props.showDetails({
+        offers: offers,
+        selectedOffer: selectedOffer,
+        showVoucherModal: true,
+        showDetails: this.props.showDetails,
+        potentialPromotions: this.props.potentialPromotions,
+        productListings: this.props.productListings
+      });
+    }
+    // setDataLayer(ADOBE_OFFER_CARD_VIEM_MORE, this.props.productListings);
+  };
+  handleTnCDetails = (selectedOffer, offers) => {
+    if (this.props.showDetails) {
+      this.props.showDetails({
+        offers: offers,
+        selectedOffer: selectedOffer,
+        showVoucherModal: true,
+        showDetails: this.props.showDetails,
+        potentialPromotions: this.props.potentialPromotions,
+        productListings: this.props.productListings
+      });
+    }
+    // setDataLayer(ADOBE_OFFER_CARD_VIEW_MORE_TNC, this.props.productListings);
+  };
+  checkTimerForPotential() {
+    let endDateTime;
+    let timerStartTime;
+    if (
+      this.props.potentialPromotions &&
+      this.props.potentialPromotions.endDate &&
+      this.props.potentialPromotions.timerStartTime
+    ) {
+      endDateTime = this.props.potentialPromotions.endDate.split(" ");
 
-              {this.props.potentialPromotions.description && (
-                <div className={styles.section}>
-                  <div
-                    className={styles.description}
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.potentialPromotions.description
-                    }}
-                  />
-                </div>
-              )}
-              <div className={styles.section}>
-                <div className={styles.timeSection}>
-                  <div className={styles.subHeader}>Valid From</div>
-                  {this.props.potentialPromotions.startDate}
-                </div>
-                <div className={styles.timeSection}>
-                  <div className={styles.subHeader}>Valid Till</div>
-                  {this.props.potentialPromotions.endDate}
-                </div>
-              </div>
-            </div>
-          )}
-          {this.props.secondaryPromotions && (
-            <div className={styles.content}>
-              <div className={styles.border} />
-              {getId === "false" && (
-                <div
-                  className={styles.headingText}
-                  dangerouslySetInnerHTML={{
-                    __html: this.props.secondaryPromotions.messageID
-                  }}
-                />
-              )}
+      let time = endDateTime[3];
+      let year = endDateTime[5];
 
-              {getId === "true" &&
-                !getMessage.includes("No Cost EMI") && (
-                  <div
-                    className={styles.headingText}
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.secondaryPromotions.messageID
-                    }}
-                  />
-                )}
+      endDateTime[3] = year;
+      endDateTime[4] = time;
+      endDateTime.splice(5, 1);
+      endDateTime = new Date(endDateTime.join().replace(",", " "));
 
-              {this.props.secondaryPromotions.messageDetails && (
-                <div className={styles.section}>
-                  <div
-                    className={styles.description}
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.secondaryPromotions.messageDetails
-                    }}
-                  />
-                </div>
-              )}
-              <div className={styles.section}>
-                <div className={styles.timeSection}>
-                  <div className={styles.subHeader}>Valid From</div>
-                  {this.props.secondaryPromotions.startDate}
-                </div>
-                <div className={styles.timeSection}>
-                  <div className={styles.subHeader}>Valid Till</div>
-                  {this.props.secondaryPromotions.endDate}
-                </div>
-              </div>
-            </div>
-          )}
+      timerStartTime = this.props.potentialPromotions.timerStartTime.split(" ");
+      time = timerStartTime[3];
+      year = timerStartTime[5];
+
+      timerStartTime[3] = year;
+      timerStartTime[4] = time;
+      timerStartTime.splice(5, 1);
+      timerStartTime = new Date(timerStartTime.join().replace(",", " "));
+
+      if (new Date() >= timerStartTime && timerStartTime <= endDateTime) {
+        return (
+          <div className={styles.counterModal}>
+            <span className={styles.offerEndsIn}>OFFER ENDS IN</span>
+            <TimerCounter endTime={endDateTime} onComplete={this.onComplete} />
+          </div>
+        );
+      }
+    }
+  }
+  checkTimer(timerStartTime, endDateTime, isPotential) {
+    if (isPotential) {
+      return this.checkTimerForPotential();
+    }
+    if (
+      new Date() >= new Date(timerStartTime) &&
+      new Date(timerStartTime) <= new Date(endDateTime)
+    ) {
+      return (
+        <div className={styles.counter}>
+          <span className={styles.offerEndsIn}>OFFER ENDS IN</span>
+          <TimerCounter endTime={endDateTime} onComplete={this.onComplete} />
         </div>
-      </SlideModal>
+      );
+    } else {
+      return null;
+    }
+  }
+  render() {
+    return (
+      <div className={styles.base}>
+        <div className={styles.header}>Offers</div>
+        {this.props.offers.map((offer, index) => {
+          return (
+            <div key={index} className={styles.container}>
+              <div
+                className={styles.description}
+                onClick={() => this.handleShowDetails(offer, this.props.offers)}
+              >
+                {offer.name}
+              </div>
+              <div
+                className={styles.termsAndConditions}
+                onClick={() => this.handleTnCDetails(offer, this.props.offers)}
+              >
+                T&C
+              </div>
+              {offer.offerEndTimerStartDateAndTime
+                ? this.checkTimer(
+                    offer.offerEndTimerStartDateAndTime,
+                    offer.endDateAndTime,
+                    offer.isPotential
+                  )
+                : null}
+            </div>
+          );
+        })}
+      </div>
     );
   }
 }
-OfferModal.propTypes = {
-  potentialPromotions: PropTypes.shape({
-    title: PropTypes.string,
-    description: PropTypes.string,
-    endDate: PropTypes.string,
-    startDate: PropTypes.string
-  }),
-  secondaryPromotions: PropTypes.shape({
-    messageId: PropTypes.string,
-    messageDetails: PropTypes.string,
-    endDate: PropTypes.string,
-    startDate: PropTypes.string
-  })
-};
