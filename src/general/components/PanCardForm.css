@@ -94,6 +94,8 @@
 }
 .uploadimageButton > div{
   border: 1px dashed rgb(33, 33, 33) !important;
+  padding: 0 35px 0 15px;
+  justify-content: flex-end;
 }
 .submitButton {
   display: flex;
@@ -103,10 +105,10 @@
 .file {
   position: absolute;
   opacity: 0;
-  top: 10px;
+  top: 20px;
   left: 0;
   width: 100%;
-  height: 32px;
+  height: 40px;
   z-index: 1;
 }
 .showerror {
@@ -139,4 +141,9 @@
   composes: buttonCover;
   pointer-events: none;
   opacity: 0.5;
+}
+.uploadIcon{
+  position: absolute;
+  top: 32px;
+  left: 30px;
 }

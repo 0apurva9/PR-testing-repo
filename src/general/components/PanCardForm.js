@@ -4,6 +4,7 @@ import queryString from "query-string";
 import Input2 from "./Input2.js";
 import Button from "./Button.js";
 import cancel from "./img/canceltransperent.png";
+import upload from "./img/upload.svg";
 import { SUCCESS, REQUESTING, ERROR, HOME_ROUTER } from "../../lib/constants";
 const panRegEx = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 export default class PanCardForm extends Component {
@@ -149,8 +150,13 @@ export default class PanCardForm extends Component {
                   this.props.panCardDetails &&
                   this.props.panCardDetails.uploadimageButton
                 }
-                height={32}
-                width={144}
+                height={40}
+                width={200}
+              />
+              <img
+                src={upload}
+                alt="upload icon"
+                className={styles.uploadIcon}
               />
               <input
                 type="file"
