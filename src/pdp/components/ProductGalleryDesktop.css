@@ -167,3 +167,22 @@
   opacity: 0;
   pointer-events: none;
 }
+
+.product_desc_desktop{
+  margin-top: 30px;
+  font-weight: inherit;
+  font-family:light;
+  font-size: 14px;
+  line-height: 19px
+}
+.marginTop10{
+  margin-top:10px;
+}
+
+.similarIcon{
+  position: absolute;
+  z-index: 100;
+  cursor: pointer;
+  bottom: 5px;
+  right: 35px;
+}

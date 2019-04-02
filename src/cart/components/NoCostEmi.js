@@ -65,7 +65,12 @@ export default class NoCostEmi extends React.Component {
                 <span className={styles.subText}> (Credit card only)</span>
               </span>
             )}
-            {this.props.EMIText !== STANDARD_EMI && this.props.EMIText}
+            {this.props.EMIText !== STANDARD_EMI && (
+              <span>
+                {this.props.EMIText}
+                <span className={styles.subText}> (Credit card only)</span>
+              </span>
+            )}
           </div>
         </div>
         <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>

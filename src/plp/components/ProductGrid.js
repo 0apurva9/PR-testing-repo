@@ -1,6 +1,6 @@
 import React from "react";
 import DumbGrid from "../../general/components/DumbGrid";
-import ProductModule from "../../general/components/ProductModule";
+import ProductModuleContainer from "../../general/containers/ProductModuleContainer";
 import PlpComponent from "./PlpComponent";
 import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
@@ -21,6 +21,7 @@ import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
+
 const LIST = "list";
 const GRID = "grid";
 const PRODUCT = "product";
@@ -70,7 +71,7 @@ export default class ProductGrid extends React.Component {
       data.productCategoryType
     }-TATA CLIQ`;
     return (
-      <ProductModule
+      <ProductModuleContainer
         key={index}
         isRange={data.price.isRange}
         maxPrice={
@@ -79,6 +80,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice.formattedValueNoDecimal
         }
         alt={altTag}
+        seasonTag={data.seasonTag}
         minPrice={
           data.price &&
           data.price.minPrice &&
@@ -108,13 +110,15 @@ export default class ProductGrid extends React.Component {
         averageRating={data.averageRating}
         totalNoOfReviews={data.totalNoOfReviews}
         view={this.state.view}
+        winningUssID={data.winningUssID ? data.winningUssID : data.ussid}
         onClick={(url, data, ref) =>
           this.goToProductDescription(url, data, ref, index)
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
-        showWishListButton={false}
+        showWishListButton={true}
         plpAttrMap={data && data.plpAttrMap}
+        shouldShowSimilarIcon={true}
       />
     );
   };

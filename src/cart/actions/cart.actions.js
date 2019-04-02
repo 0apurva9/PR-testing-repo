@@ -32,7 +32,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   NET_BANKING_PAYMENT_MODE,
   WALLET,
-  OFFER_ERROR_PAYMENT_MODE_TYPE
+  OFFER_ERROR_PAYMENT_MODE_TYPE,
+  EMI_TENURE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2070,6 +2071,9 @@ export function binValidation(paymentMode, binNo) {
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
+      if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
+        localStorage.removeItem(EMI_TENURE);
+      }
       if (resultJsonStatus.status) {
         if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
           dispatch(applyBankOfferFailure(resultJsonStatus.message));
@@ -2206,8 +2210,9 @@ export function softReservationForPayment(cardDetails, address) {
 export function softReservationPaymentForNetBanking(
   paymentMethodType,
   paymentMode,
-  bankName,
-  pinCode
+  bankCode,
+  pinCode,
+  bankName
 ) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -2239,8 +2244,11 @@ export function softReservationPaymentForNetBanking(
         createJusPayOrderForNetBanking(
           paymentMethodType,
           productItems,
-          bankName,
-          pinCode
+          bankCode,
+          pinCode,
+          false,
+          "",
+          bankName
         )
       );
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
@@ -2496,6 +2504,10 @@ export function createJusPayOrder(
   }
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  const noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
+  const selectedEmiTenure = localStorage.getItem(EMI_TENURE);
+  const childPaymentMode = noCostEmiCouponCode ? "NCEMI" : null;
+  let emiTenure = selectedEmiTenure ? selectedEmiTenure : null;
   return async (dispatch, getState, { api }) => {
     let productItems = "";
     if (isFromRetryUrl) {
@@ -2528,7 +2540,7 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
           productItems
         );
       } else {
@@ -2551,7 +2563,7 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
           cartItem
         );
       }
@@ -2641,10 +2653,11 @@ export function createJusPayOrderForGiftCard(
 export function createJusPayOrderForNetBanking(
   paymentMethodType,
   cartItem,
-  bankName,
+  bankCode,
   pinCode,
   isFromRetryUrl,
-  retryCartGuid
+  retryCartGuid,
+  bankName
 ) {
   const jusPayUrl = `${
     window.location.origin
@@ -2729,7 +2742,7 @@ export function createJusPayOrderForNetBanking(
           jusPayPaymentMethodTypeForPaypal(
             paymentMethodType,
             resultJson.juspayOrderId,
-            bankName
+            bankCode
           )
         );
       } else {
@@ -2737,7 +2750,7 @@ export function createJusPayOrderForNetBanking(
           jusPayPaymentMethodTypeForNetBanking(
             paymentMethodType,
             resultJson.juspayOrderId,
-            bankName
+            bankCode
           )
         );
       }
@@ -2747,7 +2760,11 @@ export function createJusPayOrderForNetBanking(
   };
 }
 
-export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
+export function createJusPayOrderForGiftCardNetBanking(
+  guId,
+  bankCode,
+  bankName
+) {
   const jusPayUrl = `${
     window.location.origin
   }/checkout/payment-method/cardPayment`;
@@ -2761,7 +2778,7 @@ export function createJusPayOrderForGiftCardNetBanking(guId, bankCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankCode}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
+        }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&bankName=${bankName}&addressLine3=&sameAsShipping=true&cardSaved=false&cardFingerPrint=&platformNumber=${PLAT_FORM_NUMBER}&pincode=&city=&cartGuid=${guId}&token=&cardRefNo=&country=&addressLine1=&access_token=${
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
@@ -3177,6 +3194,9 @@ export function jusPayPaymentMethodType(
         localStorage.setItem(CART_BAG_DETAILS, []);
         if (localStorage.getItem(EMI_TYPE)) {
           localStorage.removeItem(EMI_TYPE);
+        }
+        if (localStorage.getItem(EMI_TENURE)) {
+          localStorage.removeItem(EMI_TENURE);
         }
         dispatch(generateCartIdAfterOrderPlace());
       } else {

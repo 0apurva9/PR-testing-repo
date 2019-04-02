@@ -3,7 +3,7 @@ import styles from "./SearchPage.css";
 import SearchHeader from "./SearchHeader";
 import SearchResultItem from "./SearchResultItem";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import { HOME_ROUTER } from "../../lib/constants";
+import { HOME_ROUTER, USER_SEARCH_LOCAL_STORAGE } from "../../lib/constants";
 import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -86,7 +86,7 @@ export default class SearchPage extends React.Component {
       position: indexOfCurrentBrands + 1
     });
     const brandCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
-    const searchQuery = this.state.searchString;
+    //const searchQuery = this.state.searchString;
     if (isSetDataLayer) {
       setDataLayerForAutoSuggestSearch(dtmDataObject);
     }
@@ -117,7 +117,7 @@ export default class SearchPage extends React.Component {
   ) {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
-    const searchQuery = this.state.searchString;
+    //const searchQuery = this.state.searchString;
     let firstSuggestedKeyWord = "";
     const firstSuggestionNew = cloneDeep(
       data && data.suggestionsNew ? data.suggestionsNew : ""
@@ -398,6 +398,42 @@ export default class SearchPage extends React.Component {
       this.setState({ showData: false, searchString: null });
     }
   }
+  handleStoreBrandMerClick(redirectUrl, searchString) {
+    if (
+      redirectUrl.indexOf("http") !== -1 ||
+      redirectUrl.indexOf("https") !== -1
+    ) {
+      window.location.href = redirectUrl;
+    } else {
+      this.props.history.push(redirectUrl);
+    }
+    let searchResultHistory = [...this.state.searchItemsHistory];
+    // searchResultHistory.push(searchString);
+    if (searchResultHistory.indexOf(searchString) !== -1) {
+      searchResultHistory.splice(searchResultHistory.indexOf(searchString), 1);
+    }
+    searchResultHistory.unshift(searchString);
+    this.setState(
+      {
+        showResults: false,
+        searchString,
+        showSearchBar: false,
+        searchItemsHistory: searchResultHistory,
+        isSearchIconClicked: false,
+        showSearchPageNew: true
+      },
+      () => {
+        localStorage.setItem(
+          USER_SEARCH_LOCAL_STORAGE,
+          JSON.stringify(this.state.searchItemsHistory)
+        );
+        this.props.searchShowFooter();
+      }
+    );
+
+    this.setState({ boardAddModalShow: true });
+  }
+
   render() {
     const data = this.props.searchResult;
     let firstSuggestedKeyWord = "";
@@ -449,6 +485,21 @@ export default class SearchPage extends React.Component {
         <MobileOnly>
           {this.state.showResults && (
             <div className={styles.searchResults}>
+              {/* store details or brand details */}
+              {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
+                <SearchResultItem
+                  suggestedText={suggestedKeyWord[0].storeDetails.storeTitle}
+                  imageUrl={suggestedKeyWord[0].storeDetails.storeImageUrl}
+                  storeBrandMer={true}
+                  onClick={() => {
+                    this.handleStoreBrandMerClick(
+                      suggestedKeyWord[0].storeDetails.storeDestinationUrl,
+                      suggestedKeyWord[0].storeDetails.storeTitle
+                    );
+                  }}
+                />
+              ) : null}
+              {/* category details */}
               {data &&
                 data.topCategories &&
                 data.topCategories.map((val, i) => {
@@ -478,9 +529,31 @@ export default class SearchPage extends React.Component {
                     />
                   );
                 })}
+
+              {/* merchandise details */}
+              {suggestedKeyWord &&
+                suggestedKeyWord[0].merchandiseDetails &&
+                suggestedKeyWord[0].merchandiseDetails.map((val, i) => {
+                  return i < 5 ? (
+                    <SearchResultItem
+                      // key={j}
+                      storeBrandMer={true}
+                      merchandise={val.merchandiseTitle}
+                      suggestedText={suggestedKeyWord[0].keyword + " "}
+                      onClick={() =>
+                        this.handleStoreBrandMerClick(
+                          val.merchandiseLink,
+                          val.merchandiseTitle
+                        )
+                      }
+                    />
+                  ) : null;
+                })}
+
+              {/* keyword details */}
               {suggestedKeyWord &&
                 suggestedKeyWord.map((val, i) => {
-                  return (
+                  return i < 5 ? (
                     <SearchResultItem
                       key={i}
                       suggestedText={val.suggestedWord}
@@ -489,8 +562,10 @@ export default class SearchPage extends React.Component {
                         this.handleOnSearchString(val.suggestedWord);
                       }}
                     />
-                  );
+                  ) : null;
                 })}
+
+              {/* brands details */}
               {data &&
                 data.topBrands &&
                 data.topBrands.map((val, i) => {
@@ -528,6 +603,24 @@ export default class SearchPage extends React.Component {
             <div className={styles.searchHolder}>
               {this.state.showData && (
                 <div className={styles.searchResults} ref={this.setWrapperRef}>
+                  {/* store details or brand details */}
+                  {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
+                    <SearchResultItem
+                      suggestedText={
+                        suggestedKeyWord[0].storeDetails.storeTitle
+                      }
+                      imageUrl={suggestedKeyWord[0].storeDetails.storeImageUrl}
+                      storeBrandMer={true}
+                      onClick={() => {
+                        this.handleStoreBrandMerClick(
+                          suggestedKeyWord[0].storeDetails.storeDestinationUrl,
+                          suggestedKeyWord[0].storeDetails.storeTitle
+                        );
+                      }}
+                    />
+                  ) : null}
+                  {/* category details */}
+
                   {data &&
                     data.topCategories &&
                     data.topCategories.map((val, i) => {
@@ -568,6 +661,27 @@ export default class SearchPage extends React.Component {
                         </div>
                       );
                     })}
+                  {/* merchandise details */}
+                  {suggestedKeyWord &&
+                    suggestedKeyWord[0].merchandiseDetails &&
+                    suggestedKeyWord[0].merchandiseDetails.map((val, i) => {
+                      return i < 5 ? (
+                        <SearchResultItem
+                          // key={j}
+                          storeBrandMer={true}
+                          merchandise={val.merchandiseTitle}
+                          suggestedText={suggestedKeyWord[0].keyword + " "}
+                          onClick={() =>
+                            this.handleStoreBrandMerClick(
+                              val.merchandiseLink,
+                              val.merchandiseTitle
+                            )
+                          }
+                        />
+                      ) : null;
+                    })}
+
+                  {/* keyword details */}
                   {suggestedKeyWord &&
                     suggestedKeyWord.map((val, i) => {
                       return (
@@ -595,7 +709,7 @@ export default class SearchPage extends React.Component {
                         </div>
                       );
                     })}
-
+                  {/* brands details */}
                   {data &&
                     data.topBrands &&
                     data.topBrands.map((val, i) => {

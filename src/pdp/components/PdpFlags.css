@@ -13,6 +13,7 @@
   left: 0px;
   pointer-events: none;
 }
+
 .offer {
   width: 157px;
   height: 45px;
@@ -27,6 +28,7 @@
   left: 0px;
   pointer-events: none;
 }
+
 .new {
   width: 157px;
   height: 40px;
@@ -41,6 +43,7 @@
   left: 0px;
   pointer-events: none;
 }
+
 .overlay {
   width: 100%;
   height: 100%;
@@ -67,6 +70,7 @@
     left: 0px;
     pointer-events: none;
   }
+
   .new {
     width: 157px;
     height: 40px;
@@ -81,6 +85,7 @@
     left: 40px;
     pointer-events: none;
   }
+
   .offer {
     width: 157px;
     height: 45px;

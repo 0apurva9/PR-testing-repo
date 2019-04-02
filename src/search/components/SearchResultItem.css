@@ -7,7 +7,21 @@
   color: #212121;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-bottom: 1px solid #ececec;
 }
+
+.suggestedText {
+  float: left;
+}
+
+.imageStoreOrBrand {
+  float: right;
+  width: 30px;
+  height: 30px;
+  background: grey;
+  background-size: contain;
+}
+
 .bolder {
   font-family: semibold;
 }

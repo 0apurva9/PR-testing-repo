@@ -183,6 +183,9 @@ export default class ProductDescriptionPageWrapper extends React.Component {
               {this.renderRootCategory(this.props.productDetails.rootCategory)}
             </MobileOnly>
             <DesktopOnly>
+              {this.props.productDetails.seo
+                ? renderMetaTags(this.props.productDetails)
+                : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
               <PdpDesktop {...this.props} />
             </DesktopOnly>
           </div>

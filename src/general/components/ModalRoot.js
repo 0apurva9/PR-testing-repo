@@ -220,6 +220,14 @@ const CliqAndPiq = Loadable({
     return <Loader />;
   }
 });
+
+const SimilarProductsModal = Loadable({
+  loader: () => import("../containers/SimilarProductsModalContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -537,6 +545,7 @@ export default class ModalRoot extends React.Component {
       });
     }
   };
+
   render() {
     const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -819,6 +828,14 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           changePaymentMethod={() => this.handleClose()}
+        />
+      ),
+
+      SimilarProductsModal: (
+        <SimilarProductsModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
         />
       )
     };
