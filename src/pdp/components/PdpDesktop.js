@@ -949,7 +949,10 @@ export default class PdpApparel extends React.Component {
                       {productData.details &&
                         productData.details.map(val => {
                           return val.key !== "Model Number" ? (
-                            <div className={styles.list}>{val.value}</div>
+                            <div
+                              className={styles.list}
+                              dangerouslySetInnerHTML={{ __html: val.value }}
+                            />
                           ) : null;
                         })}
                       {productData.rootCategory === "Electronics" && (
