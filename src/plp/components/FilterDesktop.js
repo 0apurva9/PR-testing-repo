@@ -159,6 +159,9 @@ export default class FilterDesktop extends React.Component {
       }
     } else {
       url = val.replace("{pageNo}", 1);
+      if (filterType === "Capacity") {
+        url = url.replace(/[+]/g, "%20");
+      }
     }
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
