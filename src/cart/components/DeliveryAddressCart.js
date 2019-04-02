@@ -54,7 +54,7 @@ export default class DeliveryAddressCopy extends React.Component {
                 : styles.titleContact
             }
           >
-            Ph. {this.props.contact}
+            Ph. {this.props.phone}
           </div>
         )}
         <DesktopOnly>

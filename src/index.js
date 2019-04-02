@@ -61,14 +61,26 @@ let store = createStore(
   )
 );
 
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <AppContainer />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById("root")
-);
+var elementRoot = document.getElementById("root");
+if (elementRoot.hasChildNodes()) {
+  ReactDOM.hydrate(
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContainer />
+      </BrowserRouter>
+    </Provider>,
+    elementRoot
+  );
+} else {
+  ReactDOM.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContainer />
+      </BrowserRouter>
+    </Provider>,
+    elementRoot
+  );
+}
 
 const displayToastFunc = message => {
   ReactDOM.render(

@@ -401,7 +401,10 @@ class App extends Component {
       cartIdForAnonymousUserStatus === REQUESTING
     ) {
       if (checkUserAgentIsMobile()) {
-        return <HomeSkeleton />;
+        //this is performance change , we will show skeleton only for home
+        if (this.props.location.pathname === "/") {
+          return <HomeSkeleton />;
+        }
       }
     }
 

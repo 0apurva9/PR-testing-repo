@@ -27,8 +27,10 @@ export default function register(displayToastFunc) {
         // This is running on localhost. Lets check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, displayToastFunc);
       } else {
-        // Is not local host. Just register service worker
-        registerValidSW(swUrl, displayToastFunc);
+        // Is not local host. Just register service worker with delay of 2 sec
+        setTimeout(function() {
+          registerValidSW(swUrl, displayToastFunc);
+        }, 2000);
       }
     });
   }
@@ -79,8 +81,10 @@ function checkValidServiceWorker(swUrl, displayToastFunc) {
           });
         });
       } else {
-        // Service worker found. Proceed as normal.
-        registerValidSW(swUrl, displayToastFunc);
+        // Service worker found. Proceed as normal. with delay of  second
+        setTimeout(function() {
+          registerValidSW(swUrl, displayToastFunc);
+        }, 2000);
       }
     })
     .catch(() => {
