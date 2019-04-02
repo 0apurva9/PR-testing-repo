@@ -151,12 +151,8 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       </div>
     );
   }
-  /*
-
-  */
 
   render() {
-    console.log(this.props);
     if (this.props.loading) {
       this.showLoader();
     } else {
@@ -176,9 +172,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {
-      console.log(
-        "PDPWrapper for Desktop Product details>>>>" + this.props.productDetails
-      );
       if (!this.props.showPiqPage || !checkUserAgentIsMobile()) {
         return (
           <div itemScope itemType="http://schema.org/Product">

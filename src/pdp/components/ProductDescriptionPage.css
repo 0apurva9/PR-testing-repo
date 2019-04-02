@@ -554,4 +554,32 @@
     top: 80%;
     z-index: 1;
   }
+  .genericCountryPart{
+    float: left;
+    width: 100%;
+  }
+  .countryOfOrigin{
+    margin-bottom: 25px;
+  }
+
+  .genericName{
+    margin-bottom: 25px;
+  }
+  .genericLabel{
+
+    font-size: 14px;
+    color: #4a4a4a;
+    float: left;
+    padding-right: 65px;
+    width: 300px;
+  }
+  .manufacturerDetailsBoldText{
+     font-family: semibold;
+  }
+  .clickHere{
+    font-size: 14px;
+  font-family: light;
+  border-bottom: 1px solid;
+  cursor:pointer;
+  }
 }

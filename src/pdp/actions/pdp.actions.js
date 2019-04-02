@@ -136,6 +136,10 @@ const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
 const NUMBER_RESULTS = [10, 10];
+//TPR-9957 for Desktop
+export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
+export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
+export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 
 export function getProductDescriptionRequest() {
   return {
@@ -975,12 +979,12 @@ export function getPdpOffers() {
   return async (dispatch, getState, { api }) => {
     dispatch(pdpOfferRequest());
     try {
-      console.log("i am in getPDPOffers()>>>>");
       let productDetails = getState().productDescription.productDetails;
       let categoryCode =
         productDetails.categoryHierarchy[
           productDetails.categoryHierarchy.length - 1
         ].category_id;
+
       let brandCode = productDetails.brandURL.split("-");
       let brandCodeLength = brandCode.length;
       let brandCodeLast = brandCode[brandCodeLength - 1];
@@ -1082,8 +1086,30 @@ export function hidePdpPiqPage() {
     type: HIDE_PDP_PIQ_PAGE
   };
 }
-//TPR-9957
-/*export function getManufacturerDetails() {
+
+export function pdpManufacturerRequest() {
+  return {
+    type: PDP_MANUFACTURER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function pdpManufacturerSuccess(manufacturers) {
+  return {
+    type: PDP_MANUFACTURER_SUCCESS,
+    status: SUCCESS,
+    manufacturers: manufacturers
+  };
+}
+
+export function pdpManufacturerFailure(error) {
+  return {
+    type: PDP_MANUFACTURER_FAILURE,
+    status: ERROR,
+    error: error
+  };
+}
+
+export function getManufacturerDetails() {
   return async (dispatch, getState, { api }) => {
     dispatch(pdpManufacturerRequest());
     try {
@@ -1092,14 +1118,25 @@ export function hidePdpPiqPage() {
         productDetails.categoryHierarchy[
           productDetails.categoryHierarchy.length - 1
         ].category_id;
+      // let brandCode = productDetails.brandURL.length > 6 ? (productDetails.brandURL
+      //   .substr(
+      //     productDetails.brandURL.length - 6,
+      //     productDetails.brandURL.length
+      //   )
+      //   .toUpperCase()) : (productDetails.brandURL.toUpperCase());
       let brandCode = productDetails.brandURL.split("-");
       let brandCodeLength = brandCode.length;
       let brandCodeLast = brandCode[brandCodeLength - 1];
-
+      // let brandCodeLastLength = brandCodeLast.length;
+      // let brandCodeFinal = "";
+      // if(brandCodeLast.length > 6){
+      //     brandCodeFinal = brandCodeLast.substr(brandCodeLastLength - 6,brandCodeLastLength)
+      // }
       const pdpManufacturerApi = await api.pdpManufacturersApi(
         categoryCode.toUpperCase(),
         brandCodeLast.toUpperCase()
       );
+
       const pdpManufacturerApiJson = await pdpManufacturerApi.json();
       // if (pdpManufacturerApiJson.status == "Success") {
 
@@ -1113,4 +1150,4 @@ export function hidePdpPiqPage() {
       dispatch(pdpManufacturerFailure(e.message));
     }
   };
-}*/
+}

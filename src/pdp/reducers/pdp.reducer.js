@@ -33,7 +33,11 @@ const productDescription = (
     showPiqPage: false,
     loadingForCliqAndPiq: false,
     visitedNewProduct: false,
-    getProductDetailsLoading: false
+    getProductDetailsLoading: false,
+    manufacturerStatus: null,
+    manufacturerError: null,
+    manufacturerLoading: null,
+    manufacturerDetails: {}
   },
   action
 ) => {
@@ -527,6 +531,26 @@ const productDescription = (
         offerStatus: action.status,
         offerError: action.error,
         offerLoading: false
+      });
+
+    case pdpActions.PDP_MANUFACTURER_REQUEST:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerLoading: true
+      });
+
+    case pdpActions.PDP_MANUFACTURER_SUCCESS:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerDetails: action.manufacturers,
+        manufacturerLoading: false
+      });
+
+    case pdpActions.PDP_MANUFACTURER_FAILURE:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerError: action.error,
+        manufacturerLoading: false
       });
     default:
       return state;

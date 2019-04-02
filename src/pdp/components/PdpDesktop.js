@@ -167,10 +167,10 @@ export default class PdpApparel extends React.Component {
     };
   }
   componentDidMount() {
-    //console.log(this.props);
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
     this.props.getPdpOffers();
+    this.props.getManufacturerDetails();
     /* Start- Gemini Script */
     //gemini rum JS object check
     if (typeof window.GEM === "object") {
@@ -394,6 +394,9 @@ export default class PdpApparel extends React.Component {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
   };
+  showManufacturerDetailsModal = () => {
+    this.props.showManufactureDetailsModal(this.props.manufacturerDetails);
+  };
   showProductDetails = () => {
     this.setState({ showProductDetails: true });
   };
@@ -452,6 +455,7 @@ export default class PdpApparel extends React.Component {
       this.props.getProductSizeGuide();
     }
   }
+
   checkIfSizeSelected = () => {
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
@@ -553,6 +557,8 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
+    const manufacturerDetails = this.props.manufacturerDetails;
+
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
@@ -756,11 +762,12 @@ export default class PdpApparel extends React.Component {
                     showEmiModal={() => this.showEmiModal()}
                   />
                   <OfferCard
-                    showDetails={this.props.showOfferDetails}
+                    productListings={this.props.productDetails}
+                    showDetails={this.props.showTermsNConditions}
+                    showVoucherOffersModal={this.props.showOfferDetails}
                     potentialPromotions={productData.potentialPromotions}
                     secondaryPromotions={productData.productOfferMsg}
                     offers={this.props.offers}
-                    showVoucherOffersModal={this.props.showVoucherOffersModal}
                   />
                 </div>
                 {productData.variantOptions && (
@@ -1236,6 +1243,51 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </Accordion>
                     )}
+
+                    {manufacturerDetails &&
+                      manufacturerDetails.countryOfOrigin && (
+                        <Accordion
+                          text="Manufacturing, Packaging and Import Info"
+                          headerFontSize={18}
+                        >
+                          <div className={styles.accordionContentWithoutBorder}>
+                            <div className={styles.genericCountryPart}>
+                              <div className={styles.genericName}>
+                                <div className={styles.genericLabel}>
+                                  Generic Name
+                                </div>
+                                <div
+                                  className={styles.manufacturerDetailsBoldText}
+                                >
+                                  {manufacturerDetails.productType}
+                                </div>
+                              </div>
+
+                              <div className={styles.countryOfOrigin}>
+                                <div className={styles.genericLabel}>
+                                  Country of Origin
+                                </div>
+                                <div
+                                  className={styles.manufacturerDetailsBoldText}
+                                >
+                                  {manufacturerDetails.countryOfOrigin}
+                                </div>
+                              </div>
+                            </div>
+                            <div className={styles.modalDisplayMore}>
+                              <div>
+                                For more details{" "}
+                                <span
+                                  onClick={this.showManufacturerDetailsModal}
+                                  className={styles.clickHere}
+                                >
+                                  click here
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Accordion>
+                      )}
                   </div>
                   {this.renderRatings}
                 </div>

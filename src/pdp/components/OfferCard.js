@@ -31,7 +31,8 @@ export default class OfferCard extends React.Component {
         potentialPromotions: this.props.potentialPromotions,
         secondaryPromotions: this.props.secondaryPromotions,
         offers: offers,
-        selectedOffer: selectedOffer
+        selectedOffer: selectedOffer,
+        showVoucherOffersModal: this.props.showVoucherOffersModal
       });
     }
   };
@@ -76,7 +77,7 @@ export default class OfferCard extends React.Component {
       ) {
         return (
           <div className={styles.counter}>
-            <span className={styles.offerEndsIn}>OFFER ENDS IN</span>
+            <div className={styles.offerEndsIn}>OFFER ENDS IN </div>
             <TimerCounter endTime={endDateTime} onComplete={this.onComplete} />
           </div>
         );
@@ -123,41 +124,25 @@ export default class OfferCard extends React.Component {
     if (offers.length) {
       return (
         <div className={styles.offers}>
-          <div className={styles.offerTextNew}>OFFERS</div>
           {offersTobeShown.map((offer, key) => {
             let mainDivClass = styles.mainDivWithoutBorder;
             if (offersTobeShown.length === 1) {
               mainDivClass = styles.mainDivWithoutBorder;
             } else if (key === 0) {
-              mainDivClass = styles.mainDiv;
+              mainDivClass = styles.mainDivWithoutBorder;
             } else {
               mainDivClass = styles.mainDivWithoutBorder;
             }
             return (
               <div className={mainDivClass}>
                 <div className={styles.container}>
-                  <div
-                    className={styles.icon}
-                    onClick={() => this.handleShowDetails(offer, offers)}
-                  >
-                    <img
-                      src={offer.imageUrl ? offer.imageUrl : voucherImage}
-                      onError={e => {
-                        e.target.onerror = null;
-                        e.target.src = voucherImage;
-                        e.target.className = styles.fallBackSrc;
-                      }}
-                      className={
-                        offer.imageUrl ? styles.iconSrc : styles.fallBackSrc
-                      }
-                      alt="offer_image"
+                  <ul className={styles.liHeader}>
+                    <li
+                      className={styles.headingTextNew}
+                      dangerouslySetInnerHTML={{ __html: offer.name }}
+                      onClick={() => this.handleShowDetails(offer, offers)}
                     />
-                  </div>
-                  <div
-                    className={styles.headingTextNew}
-                    dangerouslySetInnerHTML={{ __html: offer.name }}
-                    onClick={() => this.handleShowDetails(offer, offers)}
-                  />
+                  </ul>
                   <div
                     className={styles.terms}
                     onClick={() => this.handleTerms(offer, offers)}
@@ -165,6 +150,7 @@ export default class OfferCard extends React.Component {
                     T&C
                   </div>
                 </div>
+
                 {offer.offerEndTimerStartDateAndTime
                   ? this.checkTimer(
                       offer.offerEndTimerStartDateAndTime,
