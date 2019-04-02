@@ -42,7 +42,7 @@ class DesktopFooter extends React.Component {
       ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK,
       value
     );
-    if (url.contains(".xml")) {
+    if (url.contains("sitemap.xml")) {
       window.open(url, "_blank");
     }
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
