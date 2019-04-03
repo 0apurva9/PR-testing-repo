@@ -54,6 +54,10 @@ if (
 } else if (process.env.REACT_APP_STAGE === "pt") {
   API_URL_ROOT = "https://pt.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://pt.tatacliq.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "uat5") {
+  API_URL_ROOT = "https://uat5.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://uat5.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -76,6 +80,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://uat6-tcs.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "pt") {
   URL_ROOT = "https://pt.tatacliq.com";
+} else if (process.env.REACT_APP_STAGE === "uat5") {
+  URL_ROOT = "https://uat5.tataunistore.com";
 }
 
 export const API_URL_ROOT_DUMMY =
