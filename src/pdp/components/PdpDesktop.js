@@ -584,7 +584,7 @@ export default class PdpApparel extends React.Component {
         return item.key == "Season";
       });
     }
-   const getPinCode =
+    const getPinCode =
       this.props &&
       this.props.userAddress &&
       this.props.userAddress.addresses &&
@@ -602,7 +602,6 @@ export default class PdpApparel extends React.Component {
       productData &&
       productData.knowMoreV2 &&
       this.tail(productData.knowMoreV2);
-
 
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
@@ -718,6 +717,7 @@ export default class PdpApparel extends React.Component {
                     isOfferExisting={productData.isOfferExisting}
                     onlineExclusive={productData.isOnlineExclusive}
                     outOfStock={productData.allOOStock}
+                    seasonSale={seasonData}
                     newProduct={productData.isProductNew}
                   />
                 )}
