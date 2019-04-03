@@ -13,7 +13,6 @@
   left: 0px;
   pointer-events: none;
 }
-
 .offer {
   width: 157px;
   height: 45px;
@@ -85,14 +84,13 @@
     left: 40px;
     pointer-events: none;
   }
-
-  .offer {
+  .basePdp {
     width: 157px;
     height: 45px;
     color: #fff;
     font-size: 18px;
     padding: 10px 20px;
-    background: url(../components/img/offer.svg) no-repeat;
+    background: url(../components/img/offerpdp.svg) no-repeat;
     font-family: semibold;
     background-size: contain;
     position: absolute;
@@ -100,4 +98,19 @@
     left: 45px;
     pointer-events: none;
   }
+}
+
+.offer {
+  width: 157px;
+  height: 45px;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: url(../components/img/offer.svg) no-repeat;
+  font-family: semibold;
+  background-size: contain;
+  position: absolute;
+  top: 90px;
+  left: 45px;
+  pointer-events: none;
 }

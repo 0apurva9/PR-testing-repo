@@ -5,7 +5,6 @@ import offerFlag from "./img/offer.svg";
 import exclusiveFlag from "./img/exclusive.svg";
 export default class ProductFlags extends React.Component {
   renderFlag = () => {
-    console.log("flag", this.props.seasonSale, this.props.seasonSale);
     if (this.props.outOfStock) {
       return (
         <div className={styles.overlay}>

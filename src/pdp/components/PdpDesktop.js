@@ -148,6 +148,7 @@ const PDPRecommendedSectionsContainer = LoadableVisibility({
   },
   delay: 400
 });
+
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
@@ -577,6 +578,12 @@ export default class PdpApparel extends React.Component {
 
   tail = ([x, ...xs]) => xs;
   render() {
+    let seasonData = {};
+    if (this.props.productDetails["seasonDetails"] != undefined) {
+      seasonData = this.props.productDetails["seasonDetails"].find(item => {
+        return item.key == "Season";
+      });
+    }
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -595,7 +602,6 @@ export default class PdpApparel extends React.Component {
       productData &&
       productData.knowMoreV2 &&
       this.tail(productData.knowMoreV2);
-
 
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
@@ -711,6 +717,7 @@ export default class PdpApparel extends React.Component {
                     isOfferExisting={productData.isOfferExisting}
                     onlineExclusive={productData.isOnlineExclusive}
                     outOfStock={productData.allOOStock}
+                    seasonSale={seasonData}
                     newProduct={productData.isProductNew}
                   />
                 )}
