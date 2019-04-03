@@ -1,5 +1,4 @@
 import React from "react";
-import ssFlag from "./img/offerpdp.svg";
 import styles from "./PdpFlags.css";
 export default class PdpFlags extends React.Component {
   renderFlag = () => {
@@ -7,20 +6,6 @@ export default class PdpFlags extends React.Component {
       return (
         <div className={styles.overlay}>
           <div className={styles.base}>Out of Stock</div>
-        </div>
-      );
-    } else if (
-      (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
-      this.props.seasonTag
-    ) {
-      return (
-        <div
-          className={styles.basePdp}
-          // style={{ backgroundImage: `url(${ssFlag})` }}
-        >
-          {this.props.seasonSale
-            ? this.props.seasonSale.value
-            : this.props.seasonTag}
         </div>
       );
     } else if (

@@ -531,6 +531,7 @@ class CheckOutPage extends React.Component {
                   address.postalCode ? address.postalCode : ""
                 }`,
                 value: address.id,
+                phone: address.phone,
                 selected: address.defaultAddress
               };
             })

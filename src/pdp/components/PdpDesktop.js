@@ -11,7 +11,7 @@ import ProductReviewListContainer from "../containers/ProductReviewListContainer
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-import TrustBadgeImage from "../components/img/trustBadge.jpg";
+//import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -31,12 +31,12 @@ import {
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
-  CUSTOMER_ACCESS_TOKEN,
+  // CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS,
-  ANONYMOUS_USER,
+  //CART_DETAILS_FOR_LOGGED_IN_USER,
+  //CART_DETAILS_FOR_ANONYMOUS,
+  //ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -56,16 +56,18 @@ import {
 import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+import FlixMediaContainer from "./FlixMediaContainer";
+
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
-import FlixMediaContainer from "./FlixMediaContainer";
+
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
   delay: 400
 });
-const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
+//const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
@@ -78,7 +80,7 @@ const Overlay = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+/*
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
   loading: () => <div />,
@@ -102,7 +104,7 @@ const RatingAndTextLink = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+*/
 const PdpPaymentInfo = LoadableVisibility({
   loader: () => import("./PdpPaymentInfo"),
   loading: () => <div />,
@@ -175,6 +177,8 @@ export default class PdpApparel extends React.Component {
   componentDidMount() {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
+    this.props.getPdpOffers();
+    this.props.getManufacturerDetails();
     /* Start- Gemini Script */
     //gemini rum JS object check
     if (typeof window.GEM === "object") {
@@ -269,13 +273,14 @@ export default class PdpApparel extends React.Component {
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
+    //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    //let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    //let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    /*let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);*/
+
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
     } else {
@@ -398,6 +403,9 @@ export default class PdpApparel extends React.Component {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
   };
+  showManufacturerDetailsModal = () => {
+    this.props.showManufactureDetailsModal(this.props.manufacturerDetails);
+  };
   showProductDetails = () => {
     this.setState({ showProductDetails: true });
   };
@@ -456,6 +464,7 @@ export default class PdpApparel extends React.Component {
       this.props.getProductSizeGuide();
     }
   }
+
   checkIfSizeSelected = () => {
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
@@ -570,14 +579,12 @@ export default class PdpApparel extends React.Component {
   tail = ([x, ...xs]) => xs;
   render() {
     let seasonData = {};
-
     if (this.props.productDetails["seasonDetails"] != undefined) {
       seasonData = this.props.productDetails["seasonDetails"].find(item => {
         return item.key == "Season";
       });
     }
-
-    const getPinCode =
+   const getPinCode =
       this.props &&
       this.props.userAddress &&
       this.props.userAddress.addresses &&
@@ -588,7 +595,14 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
-    const tailedKnowMoreV2 = this.tail(productData.knowMoreV2);
+
+    const manufacturerDetails = this.props.manufacturerDetails;
+
+    const tailedKnowMoreV2 =
+      productData &&
+      productData.knowMoreV2 &&
+      this.tail(productData.knowMoreV2);
+
 
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
@@ -704,11 +718,9 @@ export default class PdpApparel extends React.Component {
                     isOfferExisting={productData.isOfferExisting}
                     onlineExclusive={productData.isOnlineExclusive}
                     outOfStock={productData.allOOStock}
-                    seasonSale={seasonData}
                     newProduct={productData.isProductNew}
                   />
                 )}
-
                 {!productData.winningSellerPrice && (
                   <div className={styles.flag}>Not Saleable</div>
                 )}
@@ -805,9 +817,12 @@ export default class PdpApparel extends React.Component {
                     showEmiModal={() => this.showEmiModal()}
                   />
                   <OfferCard
-                    showDetails={this.props.showOfferDetails}
+                    productListings={this.props.productDetails}
+                    showDetails={this.props.showTermsNConditions}
+                    showVoucherOffersModal={this.props.showOfferDetails}
                     potentialPromotions={productData.potentialPromotions}
                     secondaryPromotions={productData.productOfferMsg}
+                    offers={this.props.offers}
                   />
                 </div>
                 {productData.variantOptions && (
@@ -1099,7 +1114,6 @@ export default class PdpApparel extends React.Component {
                 </div>
               </div>
             </div>
-
             <div className={styles.details}>
               <div className={styles.pageCenter}>
                 <div
@@ -1292,7 +1306,20 @@ export default class PdpApparel extends React.Component {
                     {productData.knowMore && (
                       <Accordion text="Know More" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
-                          {productData.knowMore &&
+                          {productData.rootCategory === "Electronics" &&
+                            productData.knowMore &&
+                            productData.knowMore.map(val => {
+                              return (
+                                <div
+                                  className={styles.list}
+                                  dangerouslySetInnerHTML={{
+                                    __html: val.knowMoreItem
+                                  }}
+                                />
+                              );
+                            })}
+                          {productData.rootCategory !== "Electronics" &&
+                            productData.knowMore &&
                             productData.knowMore.map(val => {
                               return (
                                 <div className={styles.list}>
@@ -1321,6 +1348,51 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </Accordion>
                     )}
+
+                    {manufacturerDetails &&
+                      manufacturerDetails.countryOfOrigin && (
+                        <Accordion
+                          text="Manufacturing, Packaging and Import Info"
+                          headerFontSize={18}
+                        >
+                          <div className={styles.accordionContentWithoutBorder}>
+                            <div className={styles.genericCountryPart}>
+                              <div className={styles.genericName}>
+                                <div className={styles.genericLabel}>
+                                  Generic Name
+                                </div>
+                                <div
+                                  className={styles.manufacturerDetailsBoldText}
+                                >
+                                  {manufacturerDetails.productType}
+                                </div>
+                              </div>
+
+                              <div className={styles.countryOfOrigin}>
+                                <div className={styles.genericLabel}>
+                                  Country of Origin
+                                </div>
+                                <div
+                                  className={styles.manufacturerDetailsBoldText}
+                                >
+                                  {manufacturerDetails.countryOfOrigin}
+                                </div>
+                              </div>
+                            </div>
+                            <div className={styles.modalDisplayMore}>
+                              <div>
+                                For more details{" "}
+                                <span
+                                  onClick={this.showManufacturerDetailsModal}
+                                  className={styles.clickHere}
+                                >
+                                  click here
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Accordion>
+                      )}
                   </div>
                   {this.renderRatings}
                 </div>

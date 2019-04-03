@@ -9,8 +9,22 @@ export default class SearchResultItem extends React.Component {
   }
   render() {
     let suggestedText = this.props.suggestedText;
-
-    return (
+    return this.props.storeBrandMer ? (
+      <div
+        className={styles.base}
+        onClick={val => {
+          this.handleClick(val);
+        }}
+      >
+        <div className={styles.suggestedText}>{suggestedText}</div>
+        {this.props.imageUrl ? (
+          <div
+            className={styles.imageStoreOrBrand}
+            style={{ backgroundImage: `url(${this.props.imageUrl})` }}
+          />
+        ) : null}
+      </div>
+    ) : (
       <div
         className={styles.base}
         onClick={val => {

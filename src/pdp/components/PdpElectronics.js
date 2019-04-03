@@ -251,7 +251,7 @@ export default class PdpElectronics extends React.Component {
     }
     /* Start- Gemini Script */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Electronics
       window.GEM.setGeminiPageId("0002321000100500");
     } else {
@@ -418,6 +418,8 @@ export default class PdpElectronics extends React.Component {
               showDetails={this.props.showOfferDetails}
               potentialPromotions={productData.potentialPromotions}
               secondaryPromotions={productData.productOfferMsg}
+              offers={this.props.offers}
+              showVoucherOffersModal={this.props.showVoucherOffersModal}
             />
             {productData.variantOptions && (
               <React.Fragment>
@@ -500,7 +502,10 @@ export default class PdpElectronics extends React.Component {
                   {productData.knowMore &&
                     productData.knowMore.map(val => {
                       return (
-                        <div className={styles.list}>{val.knowMoreItem}</div>
+                        <div
+                          className={styles.list}
+                          dangerouslySetInnerHTML={{ __html: val.knowMoreItem }}
+                        />
                       );
                     })}
                 </Accordion>

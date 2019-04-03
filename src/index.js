@@ -24,6 +24,7 @@ import icid from "../src/general/icid.reducer.js";
 import wishlistItems from "./wishlist/reducers/wishlist.reducer";
 import auth from "./auth/reducers/auth.reducer";
 import cart from "./cart/reducers/cart.reducer";
+import pancard from "./general/panCard.reducer";
 import Toast from "./general/components/Toast";
 import delay from "lodash.delay";
 import { TOAST_DELAY } from "./general/toast.actions";
@@ -47,7 +48,8 @@ const rootReducer = combineReducers({
   wishlistItems,
   header,
   icid,
-  desktopFooter
+  desktopFooter,
+  pancard
 });
 
 let store = createStore(
@@ -59,14 +61,26 @@ let store = createStore(
   )
 );
 
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <AppContainer />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById("root")
-);
+var elementRoot = document.getElementById("root");
+if (elementRoot.hasChildNodes()) {
+  ReactDOM.hydrate(
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContainer />
+      </BrowserRouter>
+    </Provider>,
+    elementRoot
+  );
+} else {
+  ReactDOM.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContainer />
+      </BrowserRouter>
+    </Provider>,
+    elementRoot
+  );
+}
 
 const displayToastFunc = message => {
   ReactDOM.render(
