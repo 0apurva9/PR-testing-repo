@@ -32,7 +32,9 @@ import {
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
   TERMSNCONDITIONS_MODAL,
-  SIMILAR_PRODUCTS_MODAL
+  SIMILAR_PRODUCTS_MODAL,
+  SIMILAR_PRODUCTS_OOS_MODAL,
+  SIZE_SELECTOR_OOS_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -87,7 +89,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showSimilarProducts: () => {
       dispatch(showModal(SIMILAR_PRODUCTS_MODAL));
-
     },
     getProductSizeGuide: productCode => {
       dispatch(getProductSizeGuide(productCode));
@@ -151,6 +152,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getUserAddress: async () => {
       await dispatch(getUserAddress());
+    },
+    showSimilarSizeOOSModal: data => {
+      console.log("datasimilar", data);
+      dispatch(showModal(SIMILAR_PRODUCTS_OOS_MODAL, data));
+    },
+    showOOSSizeSelectorModal: data => {
+      console.log("datasize", data);
+      dispatch(showModal(SIZE_SELECTOR_OOS_MODAL, data));
     }
   };
 };

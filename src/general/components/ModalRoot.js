@@ -228,6 +228,19 @@ const SimilarProductsModal = Loadable({
   }
 });
 
+const SimilarProductsOOSModal = Loadable({
+  loader: () => import("../containers/SimilarProductsOOSModalContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const SizeSelectorOOSModal = Loadable({
+  loader: () => import("./SizeSelectorOOSModalWrapper.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -834,6 +847,22 @@ export default class ModalRoot extends React.Component {
       SimilarProductsModal: (
         <SimilarProductsModal
           {...this.props.ownProps}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+
+      SimilarProductsOOSModal: (
+        <SimilarProductsOOSModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+
+      SizeSelectorOOSModal: (
+        <SizeSelectorOOSModal
+          {...this.props}
           history={this.props.history}
           closeModal={() => this.handleClose()}
         />
