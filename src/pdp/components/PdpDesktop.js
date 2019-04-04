@@ -581,23 +581,25 @@ export default class PdpApparel extends React.Component {
     let seasonData = this.props.productDetails.seasonDetails;
     let value = "";
     let details = seasonData.find(val => {
-      return val.key == key;
+      return val.key === key;
     });
     value = details.value;
     return value;
   }
 
   onClickBanner(key) {
+    let seasonData = this.props.productDetails.seasonDetails;
     let value = "";
-    let details = this.props.data.seasonDetails.find(val => {
-      return val.key == key;
+    let details = seasonData.find(val => {
+      return val.key === key;
     });
     if (details && details.key) {
       if (details.value) {
         value = details.value;
       }
     }
-    window.location.href = value;
+
+    // window.location.href = value;
   }
   render() {
     const getPinCode =
@@ -1136,7 +1138,7 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.seasonDetails}>
                       <div className={styles.detailsCard}>
                         <div className={styles.seasonImage}>
-                          <div className={styles.seasonTitle}>
+                          <div className={styles.seasonImg}>
                             <img
                               alt="season_icon"
                               className={styles.seasonIconImage}
