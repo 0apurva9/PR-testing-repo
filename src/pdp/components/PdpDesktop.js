@@ -849,7 +849,15 @@ export default class PdpApparel extends React.Component {
                                     productId={productData.productListingId}
                                     hasSizeGuide={productData.showSizeGuide}
                                     showSizeGuide={this.props.showSizeGuide}
+                                    showOOSSizeSelectorModal={
+                                      this.props.showOOSSizeSelectorModal
+                                    }
+                                    showSimilarSizeOOSModal={
+                                      this.props.showSimilarSizeOOSModal
+                                    }
                                     data={productData.variantOptions}
+                                    infoDetails={productData.details}
+                                    showSizeSelectorIcon={false}
                                     textSize={12}
                                   />
                                 </div>

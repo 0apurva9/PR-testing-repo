@@ -108,6 +108,7 @@
   width: 100%;
   height: auto;
   display: inline-block;
+  margin-bottom: 15px;
 }
 .icon{
   width: 30px;
@@ -116,7 +117,6 @@
   float: left;
 }
 .headingTextNew{
-
   float: left;
   height: auto;
   font-size: 13px;
@@ -125,6 +125,8 @@
   text-align: left;
   position: relative;
   padding-top: 8px;
+  line-height: 1.81;
+  font-stretch: normal;
 }
 .offerTextNew {
   padding-bottom: 5px;

@@ -19,6 +19,21 @@
   display: inline-block;
   padding-bottom: 5px;
 }
+.oosButton{
+  font-size: 13px;
+  font-family: regular;
+  /* padding-left: 11px; */
+  color: #212121;
+  float: left;
+  margin-right: 5px;
+}
+.viewSimilarBtn{
+  font-size: 13px;
+  font-family: semibold;
+  color: #ff1744;
+  padding-left: 5px;
+  cursor: pointer;
+}
 @media screen and (min-width: 1025px) {
   .base {
     background-color: transparent;
@@ -31,6 +46,10 @@
   }
   .size {
     display: inline-block;
-    margin-right: 10px;
+
   }
+  .buttonView{
+    margin: 15px 0px
+  }
+
 }
