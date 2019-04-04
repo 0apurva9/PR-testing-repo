@@ -120,10 +120,9 @@
   height: auto;
   background: #fff;
   padding: 0 15px;
-  margin-top: 30px;
 }
 .collectionNotesTile {
-  width: 166px;
+  width: 100%;
   height: 20px;
   font-family: semibold;
   font-size: 18px;
@@ -223,7 +222,6 @@
   position: relative;
 }
 
-
 .list a {
   color: #ff1744 !important;
   text-decoration: underline !important;
@@ -256,6 +254,9 @@
   width: 100%;
 }
 .details:empty {
+  margin: 0;
+}
+.season :empty {
   margin: 0;
 }
 .blankSeparator {
@@ -336,9 +337,6 @@
 
   position: relative;
 }
-
-
-
 
 .trustLogo {
   width: 100%;
@@ -424,15 +422,18 @@
     margin-top: 60px;
     display: flex;
   }
+  .seasonBanner {
+    text-align: center;
+  }
   .seasonImage {
-    width: 43%;
+    width: 50%;
     display: inline-block;
     vertical-align: top;
     padding-right: 10px;
     margin-top: 20px;
   }
   .seasonTextDetails {
-    width: 57%;
+    width: 50%;
     vertical-align: top;
     display: inline-block;
   }
@@ -444,33 +445,37 @@
     padding: 0;
     padding-bottom: 40px;
   }
+  .seasonImg {
+    width: 100%;
+    text-align: center;
+    padding: 0 0 12px 0;
+  }
   .detailsCard {
     width: 100%;
     background: #fff;
     padding: 20px 40px;
     border-radius: 4px;
   }
-  .productDetailsImagesCard{
+  .productDetailsImagesCard {
     width: 100%;
     background: #fafafa;
-    padding:  20px 40px;
+    padding: 20px 40px;
     border-radius: 4px;
-    margin:20px 0px 5px 0px;
+    margin: 20px 0px 5px 0px;
   }
-  .tableCellSingleComponent{
-    display:table-cell;
+  .tableCellSingleComponent {
+    display: table-cell;
     padding: 0px 50px;
   }
 
-  .width95px{
-    width:98px;
-    height:20px;
+  .width95px {
+    width: 98px;
+    height: 20px;
     text-align: center;
   }
 
-  .inline{
+  .inline {
     display: inline;
-
   }
   .detailsHolder {
     margin-top: 60px;
@@ -681,33 +686,32 @@
     top: 80%;
     z-index: 1;
   }
-  .genericCountryPart{
+  .genericCountryPart {
     float: left;
     width: 100%;
   }
-  .countryOfOrigin{
+  .countryOfOrigin {
     margin-bottom: 25px;
   }
 
-  .genericName{
+  .genericName {
     margin-bottom: 25px;
   }
-  .genericLabel{
-
+  .genericLabel {
     font-size: 14px;
     color: #4a4a4a;
     float: left;
     padding-right: 65px;
     width: 300px;
   }
-  .manufacturerDetailsBoldText{
-     font-family: semibold;
+  .manufacturerDetailsBoldText {
+    font-family: semibold;
   }
-  .clickHere{
+  .clickHere {
     font-size: 14px;
-  font-family: light;
-  border-bottom: 1px solid;
-  cursor:pointer;
+    font-family: light;
+    border-bottom: 1px solid;
+    cursor: pointer;
   }
 }
 
