@@ -150,6 +150,10 @@ export async function get(url) {
   const errorStatus = ErrorHandling.getFailureResponse(resultJson);
 
   try {
+    if (errorStatus.status && url.includes("cartDetails")) {
+      throw errorStatus.message;
+    }
+
     if (
       (!errorStatus.status ||
         !isInvalidAccessTokenError(errorStatus.message)) &&

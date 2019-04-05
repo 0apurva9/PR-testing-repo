@@ -562,6 +562,7 @@ export function getCartDetails(
       dispatch(setBagCount(cartProducts.length));
       return dispatch(cartDetailsSuccess(resultJson));
     } catch (e) {
+      dispatch(displayToast(e.message));
       return dispatch(cartDetailsFailure(e.message));
     }
   };
