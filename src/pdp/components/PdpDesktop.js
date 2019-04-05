@@ -598,9 +598,9 @@ export default class PdpApparel extends React.Component {
         value = details.value;
       }
     }
-
-    // window.location.href = value;
+    window.location.href = value;
   }
+
   render() {
     const getPinCode =
       this.props &&
@@ -1138,13 +1138,15 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.seasonDetails}>
                       <div className={styles.detailsCard}>
                         <div className={styles.seasonImage}>
-                          <div className={styles.seasonImg}>
-                            <img
-                              alt="season_icon"
-                              className={styles.seasonIconImage}
-                              src={this.getSeasonDetails("seasonIconURL")}
-                            />
-                          </div>
+                          {this.getSeasonDetails("seasonIconURL").length ? (
+                            <div className={styles.seasonImg}>
+                              <img
+                                alt="season_icon"
+                                className={styles.seasonIconImage}
+                                src={this.getSeasonDetails("seasonIconURL")}
+                              />
+                            </div>
+                          ) : null}
                           {this.getSeasonDetails("bannerUrl").length ? (
                             <div
                               className={styles.seasonBanner}
@@ -1181,6 +1183,17 @@ export default class PdpApparel extends React.Component {
                           <div className={styles.seasonLaunchDate}>
                             Collection Launched in{" "}
                             {this.getSeasonDetails("Collection Date")}
+                          </div>
+                          <div className={styles.seasonButton}>
+                            <Button
+                              type="hollow"
+                              height={45}
+                              width={195}
+                              label="VIEW ALL"
+                              onClick={() =>
+                                this.onClickBanner("bannerDestinationUrl")
+                              }
+                            />
                           </div>
                         </div>
                       </div>
