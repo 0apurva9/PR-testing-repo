@@ -151,7 +151,7 @@ export async function get(url) {
 
   try {
     if (errorStatus.status && url.includes("cartDetails")) {
-      throw errorStatus.message;
+      throw errorStatus;
     }
 
     if (
