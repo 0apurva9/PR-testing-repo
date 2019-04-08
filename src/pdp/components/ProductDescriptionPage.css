@@ -425,12 +425,16 @@
   .seasonBanner {
     text-align: center;
   }
+  .seasonBanner img {
+    width: 100%;
+    display: block;
+  }
   .seasonImage {
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    padding-right: 10px;
-    margin-top: 20px;
+    padding-right: 27px;
+    padding: 0px 25px 0px 0;
   }
   .seasonTextDetails {
     width: 50%;
