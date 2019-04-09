@@ -466,7 +466,7 @@ class CartPage extends React.Component {
               </div>
             </div>
           </div>
-          <div clasName={styles.pageCenter}>
+          <div className={styles.pageCenter}>
             <div className={styles.emptyBagHolder}>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
@@ -491,7 +491,7 @@ class CartPage extends React.Component {
             />
           </div>
 
-          <div clasName={styles.pageCenter}>
+          <div className={styles.pageCenter}>
             <div className={styles.content}>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
