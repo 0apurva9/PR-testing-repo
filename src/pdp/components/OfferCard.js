@@ -143,21 +143,15 @@ export default class OfferCard extends React.Component {
                       onClick={() => this.handleShowDetails(offer, offers)}
                     />
                   </ul>
-                  <div
-                    className={styles.terms}
-                    onClick={() => this.handleTerms(offer, offers)}
-                  >
-                    T&C
-                  </div>
                 </div>
 
-                {offer.offerEndTimerStartDateAndTime
+                {/* {offer.offerEndTimerStartDateAndTime
                   ? this.checkTimer(
                       offer.offerEndTimerStartDateAndTime,
                       offer.endDateAndTime,
                       offer.couponType
                     )
-                  : null}
+                  : null} */}
               </div>
             );
           })}
