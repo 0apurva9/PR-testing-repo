@@ -647,6 +647,7 @@ export default class PdpApparel extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
+      console.log(this.props);
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1024,42 +1025,28 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.overlay}>
                       {productData.rootCategory === "Clothing" ||
                       productData.rootCategory === "Footwear" ? (
-                        <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
-                          <PdpDeliveryModes
-                            eligibleDeliveryModes={
-                              productData.eligibleDeliveryModes
-                            }
-                            deliveryModesATP={productData.deliveryModesATP}
-                            iconShow={true}
-                          />
-                        </Overlay>
+                        <div>* This item is currently out of stock</div>
                       ) : (
-                        <Overlay labelText="This item can't be delivered to your PIN code">
-                          <PdpDeliveryModes
-                            eligibleDeliveryModes={
-                              productData.eligibleDeliveryModes
-                            }
-                            deliveryModesATP={productData.deliveryModesATP}
-                            iconShow={true}
-                          />
-                        </Overlay>
+                        <div>* This item non serviceable at your PIN code</div>
                       )}
                     </div>
+                  ) : this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode.pinCode ? (
+                    <PdpDeliveryModes
+                      onPiq={() => this.handleShowPiqPage()}
+                      eligibleDeliveryModes={productData.eligibleDeliveryModes}
+                      deliveryModesATP={productData.deliveryModesATP}
+                      pdpApparel={true}
+                      pincodeDetails={productData.pincodeResponseList}
+                      isCod={productData.isCOD}
+                      availableStores={
+                        availableStores && availableStores.length
+                      }
+                    />
                   ) : (
-                    <div className={styles.deliveyModesHolder}>
-                      <PdpDeliveryModes
-                        onPiq={this.handleShowPiqPage}
-                        eligibleDeliveryModes={
-                          productData.eligibleDeliveryModes
-                        }
-                        deliveryModesATP={productData.deliveryModesATP}
-                        iconShow={true}
-                        pincodeDetails={productData.pincodeResponseList}
-                        isCod={productData.isCOD}
-                        availableStores={
-                          availableStores && availableStores.length
-                        }
-                      />
+                    <div className={styles.invalidPinText}>
+                      To check for delivery options please enter you pincode
+                      above{" "}
                     </div>
                   )}
                 </div>
