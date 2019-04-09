@@ -182,6 +182,17 @@ export default class PdpApparel extends React.Component {
 
     /* End- Gemini Script */
   }
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.serviceableSellerMessage !==
+        prevProps.productDetails.serviceableSellerMessage
+    ) {
+      this.props.displayToast(
+        this.props.productDetails.serviceableSellerMessage
+      );
+    }
+  }
   visitBrand() {
     if (this.props.visitBrandStore) {
       this.props.visitBrandStore();
