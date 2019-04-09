@@ -2,7 +2,7 @@
   width: 100%;
   height: auto;
   background-color: #fff;
-  padding: 5px 0px 5px 70px;
+  padding: 5px 0px 5px 55px;
   display: inline-block;
   position: relative;
 }
@@ -22,7 +22,7 @@
   width: 30px;
   height: 30px;
   position: absolute;
-  left: 20px;
+  left: 0px;
   top: 0px;
   bottom: 0px;
   margin: auto;
@@ -33,5 +33,13 @@
   }
   .base {
     background-color: unset;
+  }
+  .labelHolder {
+    width: 100%;
+    height: auto;
+    color: rgb(33, 33, 33);
+    font-size: 14px;
+    line-height: 20px;
+    font-family: light;
   }
 }

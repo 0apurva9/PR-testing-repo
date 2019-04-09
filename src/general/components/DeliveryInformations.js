@@ -64,7 +64,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
       typeName = HOME_TEXT;
-      iconSize = 24;
+      iconSize = 35;
     } else if (this.props.type === COLLECT) {
       iconImage = CollectImage;
       typeName = !this.props.deliveryInformationByCart
@@ -85,6 +85,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
       typeName = COD_TEXT;
+      iconSize = 35;
     }
     if (!this.props.available) {
       typeName = `${typeName}`;

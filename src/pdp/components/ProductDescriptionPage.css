@@ -523,6 +523,7 @@
     width: 100%;
     height: auto;
     display: inline-block;
+    margin-top: 10px;
   }
   .pointListHolder {
     width: 100%;
@@ -576,5 +577,12 @@
     font-size: 12px;
     font-family: regular;
     padding-left: 75px;
+  }
+  .deliveryModesHolder {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    border-top: 1px solid #e2e2e2;
+    margin-top: 35px;
   }
 }

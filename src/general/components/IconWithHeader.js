@@ -126,13 +126,15 @@ export default class IconWithHeader extends React.Component {
             fontSize: this.props.fontSize
           }}
         >
-          {this.props.isTop && <span> {this.props.header}</span>}
+          {this.props.isTop && (
+            <div className={styles.labelHolder}> {this.props.header}</div>
+          )}
           {this.props.placedTime &&
             this.props.code !== SAME_DAY_DELIVERY &&
             this.props.code !== SHORT_SAME_DAY_DELIVERY &&
             this.props.code !== EXPRESS &&
             this.props.code !== SHORT_EXPRESS && (
-              <span
+              <div
                 className={
                   this.props.isHomeDelivery ? styles.spanBlock : styles.span
                 }
@@ -148,11 +150,11 @@ export default class IconWithHeader extends React.Component {
                   placedTime &&
                   placedTime.deliveryDate &&
                   this.getDayNumberSuffix(placedTime.deliveryDate)}
-              </span>
+              </div>
             )}
           {(this.props.code === SAME_DAY_DELIVERY ||
             this.props.code === SHORT_SAME_DAY_DELIVERY) && (
-            <span
+            <div
               className={
                 this.props.isHomeDelivery ? styles.spanBlock : styles.span
               }
@@ -161,11 +163,11 @@ export default class IconWithHeader extends React.Component {
                 <span className={styles.titleAboutTime}>Delivery By </span>
               )}
               Today
-            </span>
+            </div>
           )}
           {(this.props.code === EXPRESS ||
             this.props.code === SHORT_EXPRESS) && (
-            <span
+            <div
               className={
                 this.props.isHomeDelivery ? styles.spanBlock : styles.span
               }
@@ -174,7 +176,7 @@ export default class IconWithHeader extends React.Component {
                 <span className={styles.titleAboutTime}>Delivery By </span>
               )}
               Tomorrow
-            </span>
+            </div>
           )}
           {!this.props.isTop && (
             <span>
@@ -184,9 +186,9 @@ export default class IconWithHeader extends React.Component {
             </span>
           )}
           {this.props.placedTimeForCod && (
-            <span className={styles.spanBlock}>
+            <div className={styles.spanBlock}>
               {this.props.placedTimeForCod}
-            </span>
+            </div>
           )}
           {this.props.selectedDeliveryMode !== COLLECT &&
             this.props.isShowCliqAndPiqUnderLineText &&

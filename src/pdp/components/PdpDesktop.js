@@ -1036,17 +1036,21 @@ export default class PdpApparel extends React.Component {
                     </div>
                   ) : this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.pinCode ? (
-                    <PdpDeliveryModes
-                      onPiq={() => this.handleShowPiqPage()}
-                      eligibleDeliveryModes={productData.eligibleDeliveryModes}
-                      deliveryModesATP={productData.deliveryModesATP}
-                      pdpApparel={true}
-                      pincodeDetails={productData.pincodeResponseList}
-                      isCod={productData.isCOD}
-                      availableStores={
-                        availableStores && availableStores.length
-                      }
-                    />
+                    <div className={styles.deliveryModesHolder}>
+                      <PdpDeliveryModes
+                        onPiq={() => this.handleShowPiqPage()}
+                        eligibleDeliveryModes={
+                          productData.eligibleDeliveryModes
+                        }
+                        deliveryModesATP={productData.deliveryModesATP}
+                        pdpApparel={true}
+                        pincodeDetails={productData.pincodeResponseList}
+                        isCod={productData.isCOD}
+                        availableStores={
+                          availableStores && availableStores.length
+                        }
+                      />
+                    </div>
                   ) : (
                     <div className={styles.invalidPinText}>
                       To check for delivery options please enter you pincode
