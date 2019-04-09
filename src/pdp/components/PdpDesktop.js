@@ -185,8 +185,8 @@ export default class PdpApparel extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       this.props.productDetails &&
-      (this.props.productDetails.serviceableSellerMessage &&
-        this.props.productDetails.serviceableSellerMessage !==
+      this.props.productDetails.serviceableSellerMessage &&
+        (this.props.productDetails.serviceableSellerMessage !==
           prevProps.productDetails.serviceableSellerMessage)
     ) {
       this.props.displayToast(
