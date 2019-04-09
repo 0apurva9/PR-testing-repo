@@ -33,7 +33,8 @@ const productDescription = (
     showPiqPage: false,
     loadingForCliqAndPiq: false,
     visitedNewProduct: false,
-    getProductDetailsLoading: false
+    getProductDetailsLoading: false,
+    serviceableSellerMessage: null
   },
   action
 ) => {
@@ -150,6 +151,10 @@ const productDescription = (
         listOfAllServiceableUssid.length &&
         currentPdpDetail.otherSellers
       ) {
+        Object.assign(currentPdpDetail, {
+          serviceableSellerMessage:
+            "Finding a serviceable seller on the selected pincode, the price of the product may be different"
+        });
         let otherSellersList = currentPdpDetail.otherSellers;
         let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
         let eligibleDeliveryModeForThisSeller;
