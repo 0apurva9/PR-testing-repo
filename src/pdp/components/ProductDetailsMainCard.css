@@ -164,4 +164,22 @@
     margin-top: 25px;
     cursor: pointer;
   }
+  .counter div{
+    display: inline-block;
+    box-sizing:border-box;
+    font-size: 13px;
+    color:#ff1744;
+    padding:5px 0px 0px;
+  }
+  .offerEndsIn{
+    font-size: 13px;
+    color:#ff1744;
+  }
+  .impulseOfferCalloutList{
+    padding-top: 5px 0px 0px
+  }
+  .impulseOfferCalloutListSpan{
+    color: #ff1744;
+    font-size: 13px;
+  }
 }

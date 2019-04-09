@@ -765,6 +765,11 @@ export default class PdpApparel extends React.Component {
                           productData.showPriceBrkUpPDP === "Yes"
                         }
                         showPriceBreakUp={this.showPriceBreakup}
+                        offers={this.props.offers}
+                        impulseOfferCalloutList={
+                          this.props.impulseOfferCalloutList
+                        }
+                        potentialPromotions={productData.potentialPromotions}
                         isPdp={true}
                       />
                     </div>
