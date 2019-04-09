@@ -577,6 +577,31 @@ export default class PdpApparel extends React.Component {
   };
 
   tail = ([x, ...xs]) => xs;
+
+  getSeasonDetails(key) {
+    let seasonData = this.props.productDetails.seasonDetails;
+    let value = "";
+    let details = seasonData.find(val => {
+      return val.key === key;
+    });
+    value = details.value;
+    return value;
+  }
+
+  onClickBanner(key) {
+    let seasonData = this.props.productDetails.seasonDetails;
+    let value = "";
+    let details = seasonData.find(val => {
+      return val.key === key;
+    });
+    if (details && details.key) {
+      if (details.value) {
+        value = details.value;
+      }
+    }
+    window.location.href = value;
+  }
+
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] != undefined) {
@@ -1128,6 +1153,75 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
             <div className={styles.details}>
+              {productData.seasonDetails != null && (
+                <div className={styles.season}>
+                  <div className={styles.pageCenter}>
+                    <div className={styles.seasonDetails}>
+                      <div className={styles.detailsCard}>
+                        <div className={styles.seasonImage}>
+                          {this.getSeasonDetails("seasonIconURL").length ? (
+                            <div className={styles.seasonImg}>
+                              <img
+                                alt="season_icon"
+                                className={styles.seasonIconImage}
+                                src={this.getSeasonDetails("seasonIconURL")}
+                              />
+                            </div>
+                          ) : null}
+                          {this.getSeasonDetails("bannerUrl").length ? (
+                            <div
+                              className={styles.seasonBanner}
+                              onClick={() =>
+                                this.onClickBanner("bannerDestinationUrl")
+                              }
+                            >
+                              <img
+                                alt="bannerUrl"
+                                className={styles.seasonIconImage}
+                                src={this.getSeasonDetails("bannerUrl")}
+                              />
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className={styles.seasonTextDetails}>
+                          <div className={styles.seasonCollection}>
+                            <div className={styles.collectionNotesTile}>
+                              <h3>COLLECTION NOTES</h3>
+                            </div>
+                            <div className={styles.collectionNotesContent}>
+                              {this.getSeasonDetails("Collection Info")}
+                            </div>
+                          </div>
+                          <div className={styles.seasonStyleDescription}>
+                            <div className={styles.collectionNotesTile}>
+                              STYLE NOTE
+                            </div>
+                            <div className={styles.collectionNotesContent}>
+                              {productData.styleNote}
+                            </div>
+                          </div>
+                          <div className={styles.seasonLaunchDate}>
+                            Collection Launched in{" "}
+                            {this.getSeasonDetails("Collection Date")}
+                          </div>
+                          <div className={styles.seasonButton}>
+                            <Button
+                              type="hollow"
+                              height={45}
+                              width={195}
+                              label="VIEW ALL"
+                              onClick={() =>
+                                this.onClickBanner("bannerDestinationUrl")
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
