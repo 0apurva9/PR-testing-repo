@@ -215,7 +215,7 @@ export default class SizeSelector extends React.Component {
                 return (
                   <div className={styles.size}>{this.renderSize(datum, i)}</div>
                 );
-              })}
+              })}{" "}
               <DesktopOnly>
                 <UnderLinedButton
                   disabled={!this.props.hasSizeGuide}
