@@ -50,8 +50,7 @@ export default class PdpPincode extends React.Component {
       ? styles.labelMessagePdp
       : styles.labelMessage;
     return this.props.hasPincode ? (
-      <div className={styles.baseClass}>
-        <div className={styles.shipToLabel}>SHIP TO</div>
+      <div className={baseClass}>
         <div
           className={
             this.props.status === "N"
@@ -76,8 +75,7 @@ export default class PdpPincode extends React.Component {
         </div>
       </div>
     ) : (
-      <div className={styles.baseClass}>
-        <div className={styles.shipToLabel}>SHIP TO</div>
+      <div className={baseClass}>
         <div className={styles.borderForNoPinCode}>
           <Input2
             placeholder={"Enter Pincode"}
