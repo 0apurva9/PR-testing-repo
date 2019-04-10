@@ -444,18 +444,18 @@ export default class SearchPage extends React.Component {
       ? firstSuggestionNew.splice(0, 1)
       : "";
     const suggestedKeyWord = data && data.suggestionsNew;
+    // Unused right now
     if (data) {
-      if (data) {
-        const topBrands = this.props.searchResult.topBrands
-          ? this.props.searchResult.topBrands
-          : [];
-        const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
-        const topCategories = this.props.searchResult.topCategories
-          ? this.props.searchResult.topCategories
-          : [];
-        this.searchDown = [...topCategories, ...suggestionsNew, ...topBrands];
-      }
+      const topBrands = this.props.searchResult.topBrands
+        ? this.props.searchResult.topBrands
+        : [];
+      const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
+      const topCategories = this.props.searchResult.topCategories
+        ? this.props.searchResult.topCategories
+        : [];
+      this.searchDown = [...topCategories, ...suggestionsNew, ...topBrands];
     }
+    // Unused code till here
     return (
       <div className={styles.base}>
         <div className={styles.searchBar}>
