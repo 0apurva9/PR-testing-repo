@@ -5,8 +5,11 @@ export default class PdpPincode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pincode: this.props.pincode ? this.props.pincode : ""
+      pincode: this.props.pincode ? this.props.pincode : "",
+      showDropDown: false
     };
+    this.showDropdownMenu = this.showDropdownMenu.bind(this);
+    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
   }
   onClick() {
     if (this.props.onClick) {
@@ -16,10 +19,28 @@ export default class PdpPincode extends React.Component {
   enterPassword(val) {
     if (val === "Enter") {
       this.onCheckPinCode(this.state.pincode);
+      this.setState({ showDropDown: false });
     }
   }
+
   onChange(val) {
     this.setState({ pincode: val });
+    if (val.length >= 3) {
+      this.showDropdownMenu();
+    } else if (val.length < 3) {
+      this.hideDropdownMenu();
+    }
+  }
+  showDropdownMenu() {
+    this.setState({ showDropDown: true }, () => {
+      document.addEventListener("click", this.hideDropdownMenu);
+    });
+  }
+
+  hideDropdownMenu() {
+    this.setState({ showDropDown: false }, () => {
+      document.removeEventListener("click", this.hideDropdownMenu);
+    });
   }
   onCheckPinCode(val) {
     if (val.length < 6) {
@@ -30,12 +51,21 @@ export default class PdpPincode extends React.Component {
       }
     }
   }
+  dropDownClick = val => {
+    this.setState({ pincode: val });
+
+    if (this.props.onCheckPinCode) {
+      this.props.onCheckPinCode(val);
+    }
+  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.pincode && nextProps.pincode !== this.state.pincode) {
       this.setState({ pincode: nextProps.pincode });
     }
   }
   render() {
+    const listOfAllPinCode = this.props.listOfAllPinCode;
+    console.log(listOfAllPinCode);
     let baseClass =
       this.props.pdpApparel ||
       this.props.pdpHome ||
@@ -89,9 +119,73 @@ export default class PdpPincode extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.showDropDown && (
+          <div className={styles.pincodeListDropDown}>
+            <div className={styles.listOfPincode}>
+              {listOfAllPinCode &&
+                listOfAllPinCode.map((val, i) => {
+                  if (i < 2) {
+                    return (
+                      <div
+                        className={styles.dropdownList}
+                        onClick={() => this.dropDownClick(val.postalCode)}
+                      >
+                        <div className={styles.addressHeader}>
+                          {val.addressType}
+                        </div>
+                        <div className={styles.addressDetails}>
+                          <span className={styles.pinSection}>
+                            {val.postalCode}
+                          </span>,{val.line1},{val.town},{val.state}
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+            </div>
+            {listOfAllPinCode.length > 2 && (
+              <div
+                className={styles.moreAddress}
+              >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+            )}
+          </div>
+        )}
       </div>
     ) : (
       <div className={baseClass}>
+        {this.state.showDropDown && (
+          <div className={styles.pincodeListDropDown}>
+            {this.state.showDropDown && (
+              <div className={styles.pincodeListDropDown}>
+                <div className={styles.listOfPincode}>
+                  {listOfAllPinCode &&
+                    listOfAllPinCode.map((val, i) => {
+                      if (i < 2) {
+                        return (
+                          <div className={styles.dropdownList}>
+                            <div className={styles.addressHeader}>
+                              {val.addressType}
+                            </div>
+                            <div className={styles.addressDetails}>
+                              <span className={styles.pinSection}>
+                                {val.postalCode}
+                              </span>,{val.line1},{val.town},{val.state}
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                </div>
+                {listOfAllPinCode.length > 2 && (
+                  <div
+                    className={styles.moreAddress}
+                  >{`+ ${listOfAllPinCode.length -
+                    2} more saved addresses`}</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
         <div className={styles.borderForNoPinCode}>
           <Input2
             placeholder={"Enter Pincode"}

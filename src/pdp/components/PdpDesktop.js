@@ -546,6 +546,9 @@ export default class PdpApparel extends React.Component {
       this.props.userAddress.addresses &&
       this.props.userAddress.addresses[0] &&
       this.props.userAddress.addresses[0].postalCode;
+    const address =
+      this.props && this.props.userAddress && this.props.userAddress.addresses;
+
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
@@ -1012,6 +1015,7 @@ export default class PdpApparel extends React.Component {
                           this.props.productDetails.pincodeResponseList
                             .deliveryOptions.pincodeListResponse[0].city
                         }
+                        listOfAllPinCode={address}
                       />
                     ) : (
                       <PdpPincode
@@ -1023,6 +1027,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId
                           )
                         }
+                        listOfAllPinCode={address}
                       />
                     )}
                   </div>
