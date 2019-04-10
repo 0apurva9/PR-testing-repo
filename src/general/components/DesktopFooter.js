@@ -44,32 +44,34 @@ class DesktopFooter extends React.Component {
     );
     if (url.includes("sitemap.xml")) {
       window.open(url, "_blank");
-    }
-    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    if (userCookie && value === "My Account") {
-      userCookie = JSON.parse(userCookie);
-      this.props.history.push(MY_ACCOUNT_PAGE);
-    } else if (!userCookie && value === "My Account") {
-      this.props.setUrlToRedirectToAfterAuth(MY_ACCOUNT_PAGE);
-      this.props.history.push(urlSuffix);
-    } else if (userCookie && value === "My Wishlist") {
-      userCookie = JSON.parse(userCookie);
-      this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
-    } else if (!userCookie && value === "My Wishlist") {
-      this.props.setUrlToRedirectToAfterAuth(
-        `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`
-      );
-      this.props.history.push(urlSuffix);
-    } else if (userCookie && value === "My Orders") {
-      userCookie = JSON.parse(userCookie);
-      this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
-    } else if (!userCookie && value === "My Orders") {
-      this.props.setUrlToRedirectToAfterAuth(
-        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`
-      );
-      this.props.history.push(urlSuffix);
+      window.focus();
     } else {
-      this.props.history.push(urlSuffix);
+      const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+      if (userCookie && value === "My Account") {
+        userCookie = JSON.parse(userCookie);
+        this.props.history.push(MY_ACCOUNT_PAGE);
+      } else if (!userCookie && value === "My Account") {
+        this.props.setUrlToRedirectToAfterAuth(MY_ACCOUNT_PAGE);
+        this.props.history.push(urlSuffix);
+      } else if (userCookie && value === "My Wishlist") {
+        userCookie = JSON.parse(userCookie);
+        this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
+      } else if (!userCookie && value === "My Wishlist") {
+        this.props.setUrlToRedirectToAfterAuth(
+          `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`
+        );
+        this.props.history.push(urlSuffix);
+      } else if (userCookie && value === "My Orders") {
+        userCookie = JSON.parse(userCookie);
+        this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
+      } else if (!userCookie && value === "My Orders") {
+        this.props.setUrlToRedirectToAfterAuth(
+          `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`
+        );
+        this.props.history.push(urlSuffix);
+      } else {
+        this.props.history.push(urlSuffix);
+      }
     }
   };
   onClickSocialMedia = webUrl => {
