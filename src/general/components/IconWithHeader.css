@@ -42,4 +42,10 @@
     line-height: 20px;
     font-family: light;
   }
+  .spanBlock {
+    width: 100%;
+  }
+  .span {
+    width: 100%;
+  }
 }
