@@ -584,7 +584,11 @@ export default class PdpApparel extends React.Component {
     let details = seasonData.find(val => {
       return val.key === key;
     });
-    value = details.value;
+    if (details && details.key) {
+      if (details.value) {
+        value = details.value;
+      }
+    }
     return value;
   }
 
@@ -1190,7 +1194,9 @@ export default class PdpApparel extends React.Component {
                               <h3>COLLECTION NOTES</h3>
                             </div>
                             <div className={styles.collectionNotesContent}>
-                              {this.getSeasonDetails("Collection Info")}
+                              {this.getSeasonDetails("Collection Info").length
+                                ? this.getSeasonDetails("Collection Info")
+                                : null}
                             </div>
                           </div>
                           <div className={styles.seasonStyleDescription}>
@@ -1203,7 +1209,9 @@ export default class PdpApparel extends React.Component {
                           </div>
                           <div className={styles.seasonLaunchDate}>
                             Collection Launched in{" "}
-                            {this.getSeasonDetails("Collection Date")}
+                            {this.getSeasonDetails("Collection Date").length
+                              ? this.getSeasonDetails("Collection Date")
+                              : null}
                           </div>
                           <div className={styles.seasonButton}>
                             <Button

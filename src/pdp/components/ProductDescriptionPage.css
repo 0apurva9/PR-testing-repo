@@ -144,6 +144,10 @@
   padding-bottom: 15px;
   position: relative;
 }
+
+.collectionNotesContent:empty{
+margin:0;
+}
 .seasonLaunchDate {
   width: 100%;
   font-family: Baskerville;
