@@ -982,6 +982,13 @@ export default class PdpApparel extends React.Component {
                     this.props.productDetails.isServiceableToPincode.pinCode ? (
                       <PdpPincode
                         hasPincode={true}
+                        displayToast={val => this.props.displayToast(val)}
+                        onCheckPinCode={pincode =>
+                          this.props.getProductPinCode(
+                            pincode,
+                            productData.productListingId
+                          )
+                        }
                         pincode={
                           this.props.productDetails.isServiceableToPincode
                             .pinCode

@@ -30,7 +30,11 @@ export default class PdpPincode extends React.Component {
       }
     }
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pincode && nextProps.pincode !== this.state.pincode) {
+      this.setState({ pincode: nextProps.pincode });
+    }
+  }
   render() {
     let baseClass =
       this.props.pdpApparel ||
@@ -59,15 +63,27 @@ export default class PdpPincode extends React.Component {
           }
         >
           <div className={styles.label}>
-            {this.props.status !== "N" &&
-              this.props.city && <span>{this.props.city}, </span>}
-            {this.props.pincode}
+            <Input2
+              boxy={true}
+              textStyle={{ fontSize: 14 }}
+              height={25}
+              maxLength={"6"}
+              onChange={val => this.onChange(val)}
+              onlyNumber={true}
+              border={"none"}
+              value={this.state.pincode}
+              noPadding={true}
+              onKeyUp={event => {
+                this.enterPassword(event.key);
+              }}
+            />
           </div>
           <div className={buttonHolderClass}>
             <div
               className={styles.button}
               id="change"
-              onClick={() => this.onClick()}
+              onClick={() => this.onCheckPinCode(this.state.pincode)}
+              //  onClick={() => this.onClick()}
             >
               Change
             </div>
