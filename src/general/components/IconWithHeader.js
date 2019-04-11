@@ -127,7 +127,16 @@ export default class IconWithHeader extends React.Component {
           }}
         >
           {this.props.isTop && (
-            <div className={styles.labelHolder}> {this.props.header}</div>
+            <div
+              className={
+                this.props.isStaticText
+                  ? styles.labelHolderBold
+                  : styles.labelHolder
+              }
+            >
+              {" "}
+              {this.props.header}
+            </div>
           )}
           {this.props.placedTime &&
             this.props.code !== SAME_DAY_DELIVERY &&

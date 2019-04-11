@@ -26,7 +26,7 @@ import {
 } from "../../lib/constants";
 const EXPRESS_TEXT = "Delivery By";
 const HOME_TEXT = "Standard Delivery";
-const COLLECT_TEXT = "Pick from store:";
+const COLLECT_TEXT = "Pick from store";
 const COLLECT_TEXT_CART = "Pick from store";
 const COD_TEXT = "Cash on Delivery";
 export default class DeliveryInformations extends React.Component {
@@ -70,7 +70,7 @@ export default class DeliveryInformations extends React.Component {
       typeName = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
-      iconSize = 22;
+      iconSize = 35;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = clockImage;
       typeName = SHORT_SAME_DAY_TEXT;
@@ -82,6 +82,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.isQuiqPiq === "Y") {
       iconImage = quiqpiqImage;
       typeName = QUIQPIQ;
+      iconSize = 40;
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
       typeName = COD_TEXT;
@@ -115,7 +116,7 @@ export default class DeliveryInformations extends React.Component {
             paddingBottom: this.props.paddingBottom,
             paddingRight: this.props.paddingRight,
             borderBottom: this.props.borderBottom,
-            marginBottom: this.props.isCartForMargin ? "5px" : "0px"
+            marginBottom: this.props.isCartForMargin ? "5px" : "20px"
           }}
         >
           <div
@@ -175,6 +176,7 @@ export default class DeliveryInformations extends React.Component {
               image={iconImage}
               header={typeName}
               deliveryModes={typeName}
+              isStaticText={this.props.isStaticText}
               fontFamily={this.props.fontFamily}
               isTop={this.props.isTop}
               isNotUnderLineButton={this.props.isNotUnderLineButton}
