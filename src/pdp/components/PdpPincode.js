@@ -172,7 +172,7 @@ export default class PdpPincode extends React.Component {
     ) : (
       <div className={baseClass}>
         {this.state.showDropDown && (
-          <div className={styles.pincodeListDropDown}>
+          <div className={styles.pincodeListDropDownForNotDefault}>
             <div className={styles.listOfPincode}>
               {userDetails &&
                 listOfAllPinCode &&

@@ -114,6 +114,10 @@
   z-index: 2;
   background: #fff;
 }
+.pincodeListDropDownForNotDefault {
+  composes: pincodeListDropDown;
+  top: 50px;
+}
 .listOfPincode {
   width: 100%;
   height: auto;
