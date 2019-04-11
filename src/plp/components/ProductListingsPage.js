@@ -159,7 +159,8 @@ class ProductListingsPage extends Component {
     if (searchText) {
       if (
         !searchText.includes("capacityCC-classification") &&
-        !searchText.includes("internalStorage-classification")
+        !searchText.includes("internalStorage-classification") &&
+        !searchText.includes("type-classification")
       ) {
         searchText = searchText.replace("+", " ");
       }
