@@ -66,7 +66,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
       productDetails.seo.title != undefined
     ) {
       title = `Buy ${productDetails.searchresult[0].brandname} ${
-        productDetails.seo.title.split(" ")[0]
+        productDetails.seo.title.split("|")[0]
       } - Upto ${maxDiscount}% Off Online - TATA CLIQ`;
       description = `Shop for top ${productDetails.searchresult[0].brandname} ${
         productDetails.seo.title.split("|")[0]
