@@ -236,7 +236,7 @@ export default class Plp extends React.Component {
     }
     /* Start - Gemini Script */
     //gemini JS object check.
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Listing Page
       window.GEM.setGeminiPageId("0002321000100200");
     } else {
@@ -632,6 +632,7 @@ export default class Plp extends React.Component {
                     view={this.state.view}
                     gridBreakup={this.state.gridBreakup}
                     isPosition={true}
+                    productListings={this.props.productListings}
                   >
                     <div
                       className={styles.icon}
@@ -695,6 +696,7 @@ export default class Plp extends React.Component {
                       }
                       view={this.state.view}
                       gridBreakup={this.state.gridBreakup}
+                      productListings={this.props.productListings}
                     />
                   </div>
                   <DesktopOnly>

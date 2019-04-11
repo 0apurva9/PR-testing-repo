@@ -51,7 +51,8 @@
 .button {
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: 10px;
+  z-index:10;
 }
 .priceHolder {
   display: inline-block;
