@@ -186,8 +186,8 @@ export default class PdpApparel extends React.Component {
     if (
       this.props.productDetails &&
       this.props.productDetails.serviceableSellerMessage &&
-      this.props.productDetails.serviceableSellerMessage !==
-        prevProps.productDetails.serviceableSellerMessage
+        (this.props.productDetails.serviceableSellerMessage !==
+          prevProps.productDetails.serviceableSellerMessage)
     ) {
       this.props.displayToast(
         this.props.productDetails.serviceableSellerMessage
@@ -624,9 +624,7 @@ export default class PdpApparel extends React.Component {
         }
       })
       .map(image => {
-        if (image[0] && image[0].value) {
-          return image[0].value;
-        }
+        return image[0].value;
       });
 
     if (productData) {
