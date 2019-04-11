@@ -16,7 +16,14 @@ export default class SearchResultItem extends React.Component {
           this.handleClick(val);
         }}
       >
-        <div className={styles.suggestedText}>{suggestedText}</div>
+        {this.props.merchandise ? (
+          <div className={styles.suggestedText}>
+            {suggestedText}
+            <span className={styles.bolder}>{this.props.merchandise}</span>
+          </div>
+        ) : (
+          <div className={styles.suggestedText}>{suggestedText}</div>
+        )}
         {this.props.imageUrl ? (
           <div
             className={styles.imageStoreOrBrand}

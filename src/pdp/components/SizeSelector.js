@@ -200,17 +200,6 @@ export default class SizeSelector extends React.Component {
                   }}
                 />
               </MobileOnly>
-              <DesktopOnly>
-                <UnderLinedButton
-                  disabled={!this.props.hasSizeGuide}
-                  label={SIZE_GUIDE}
-                  color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
-                  fontFamily={"light"}
-                  onClick={() => {
-                    this.handleShowSize();
-                  }}
-                />
-              </DesktopOnly>
             </div>
           </div>
           <MobileOnly>
@@ -226,7 +215,18 @@ export default class SizeSelector extends React.Component {
                 return (
                   <div className={styles.size}>{this.renderSize(datum, i)}</div>
                 );
-              })}
+              })}{" "}
+              <DesktopOnly>
+                <UnderLinedButton
+                  disabled={!this.props.hasSizeGuide}
+                  label={SIZE_GUIDE}
+                  color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
+                  fontFamily={"light"}
+                  onClick={() => {
+                    this.handleShowSize();
+                  }}
+                />
+              </DesktopOnly>
               {OOSProducts.length > 0 && (
                 <div className={styles.buttonView}>
                   <span className={styles.oosButton}>Size out of stock?</span>{" "}

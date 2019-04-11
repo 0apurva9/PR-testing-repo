@@ -154,11 +154,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       await dispatch(getUserAddress());
     },
     showSimilarSizeOOSModal: data => {
-      console.log("datasimilar", data);
       dispatch(showModal(SIMILAR_PRODUCTS_OOS_MODAL, data));
     },
     showOOSSizeSelectorModal: data => {
-      console.log("datasize", data);
       dispatch(showModal(SIZE_SELECTOR_OOS_MODAL, data));
     }
   };

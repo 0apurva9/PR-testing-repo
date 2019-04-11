@@ -108,7 +108,6 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  margin-bottom: 15px;
 }
 .icon{
   width: 30px;
@@ -124,7 +123,6 @@
   color: #4a4a4a;
   text-align: left;
   position: relative;
-  padding-top: 8px;
   line-height: 1.81;
   font-stretch: normal;
 }
@@ -145,7 +143,7 @@
   color: #ff1744;
   margin-right: 10px;
   font-size: 14px;
-  padding-top: 15px;
+  padding-top: 10px;
   cursor: pointer;
   margin-bottom: 10px;
 }
@@ -157,7 +155,6 @@
 .counter{
   color: #ff1744;
   font-size: 12px;
-  margin-top: 5px;
   font-family: light;
 }
 .counterModal{
@@ -195,6 +192,7 @@
   border-bottom: 1px solid;
   padding-top: 5px;
   margin-left: 10px;
+  padding-top: 10px;
 }
 .iconSrc{
   height: 30px;

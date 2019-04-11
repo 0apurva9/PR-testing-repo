@@ -119,6 +119,7 @@ export default class ProductGrid extends React.Component {
         showWishListButton={true}
         plpAttrMap={data && data.plpAttrMap}
         shouldShowSimilarIcon={true}
+        productListings={this.props.productListings}
       />
     );
   };
