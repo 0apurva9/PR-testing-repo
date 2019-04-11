@@ -119,6 +119,14 @@ export default class FilterDesktop extends React.Component {
       url = createUrlFromQueryAndCategory(query, pathName, val, filterName);
     }
 
+    if (url.includes("capacityCC-classification")) {
+      let attributeCapacity = url.match(
+        new RegExp("capacityCC-classification:" + "(.*)" + ":")
+      );
+      let attributeCapacityMatched = attributeCapacity[1].replace("+", "%2B");
+      url = url.replace(attributeCapacity[1], attributeCapacityMatched);
+    }
+
     if (url.endsWith(":relevance")) {
       url = url.replace(":relevance", "");
       url = url.replace("MSH", "c-msh");
