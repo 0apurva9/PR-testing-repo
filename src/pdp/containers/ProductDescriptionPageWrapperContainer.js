@@ -33,10 +33,23 @@ import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageW
 import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  NO
 } from "../../lib/constants.js";
-import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import {
+  tempCartIdForLoggedInUser,
+  getCartDetails,
+  addStoreCNC,
+  addPickupPersonCNC,
+  mergeTempCartWithOldCart
+} from "../../cart/actions/cart.actions";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
+} from "../../lib/adobeUtils";
+import { getUserDetails } from "../../account/actions/account.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   let componentName =
     ownProps &&
@@ -129,6 +142,64 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getUserAddress: () => {
       dispatch(getUserAddress());
+    },
+    /** */
+    addressModal: pinCodeObj => {
+      dispatch(showModal(ADDRESS, pinCodeObj));
+    },
+    getCartDetails: async (
+      cartId,
+      userId,
+      accessToken,
+      pinCode,
+      setDataLayerForPincode: false
+    ) => {
+      const cartDetailsObj = await dispatch(
+        getCartDetails(cartId, userId, accessToken, pinCode, true)
+      );
+      let productServiceAvailability =
+        cartDetailsObj &&
+        cartDetailsObj.cartDetails &&
+        cartDetailsObj.cartDetails.products &&
+        cartDetailsObj.cartDetails.products.filter(product => {
+          return (
+            product.isGiveAway === NO &&
+            (product.pinCodeResponse === undefined ||
+              (product.pinCodeResponse &&
+                product.pinCodeResponse.isServicable === "N") ||
+              product.isOutOfStock)
+          );
+        });
+      // here we are setting data layer for pincode change on cart page
+      if (setDataLayerForPincode) {
+        if (
+          cartDetailsObj.status === SUCCESS &&
+          productServiceAvailability.length === 0
+        ) {
+          setDataLayerForCartDirectCalls(
+            ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+            pinCode
+          );
+        } else {
+          setDataLayerForCartDirectCalls(
+            ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+            pinCode
+          );
+        }
+      }
+    },
+    getUserDetails: () => {
+      dispatch(getUserDetails());
+    },
+    /** */
+    addStoreCNC: (ussId, slaveId) => {
+      return dispatch(addStoreCNC(ussId, slaveId));
+    },
+    addPickupPersonCNC: (personMobile, personName) => {
+      return dispatch(addPickupPersonCNC(personMobile, personName));
+    },
+    mergeTempCartWithOldCart: () => {
+      dispatch(mergeTempCartWithOldCart());
     }
   };
 };
@@ -141,7 +212,11 @@ const mapStateToProps = state => {
     showPiqPage: state.productDescription.showPiqPage,
     slaveData: state.productDescription.slaveData,
     loadingForCliqAndPiq: state.productDescription.loadingForCliqAndPiq,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    userDetails: state.profile.userDetails,
+    loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
+    loadingForAddStoreToCnc: state.cart.loadingForAddStore,
+    loadingForCartDetail: state.cart.loadingForCartDetail
   };
 };
 

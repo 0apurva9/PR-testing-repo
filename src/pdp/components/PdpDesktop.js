@@ -653,7 +653,6 @@ export default class PdpApparel extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
-      console.log(this.props);
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}

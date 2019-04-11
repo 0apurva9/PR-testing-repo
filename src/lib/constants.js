@@ -224,7 +224,7 @@ export const GIFT_CARD = "Gift Card";
 export const YOUR_BAG = "Your Bag";
 export const CATEGORIES = "Categories";
 export const CHECKOUT = "Checkout";
-export const THANK_YOU = "Thank You";
+export const THANK_YOU = "Order Success";
 export const EDIT_YOUR_ADDRESS = "Edit Your Address";
 export const ERROR_MESSAGE_FOR_VERIFY_OTP = "Please Enter an Valid OTP";
 export const HELP = "Help";
@@ -351,7 +351,6 @@ export const AMP_BRAND_REG_EX = /\/[a-zA-z0-9-]+\/c-mbh[0-9a-zA-Z]+/;
 export const AMP_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+/;
 export const AMP_SEARCH_REG_EX = /\/search\//;
 export const AMP_PRODUCT_CODE_REG_EX = /\/p-mp[0-9]+/;
-
 export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";
@@ -361,12 +360,12 @@ export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
 export const PINCODE_NOT_SERVICEABLE_TEXT =
   "We are sorry, this pincode is not serviceable. Please enter another pincode.";
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
+export const CLIQ_PIQ_PRODUCT_DETAIL = "cliqAndPiqTempProduct";
+export const STORE_DETAILS = "storeDetails";
 export const BANK_OFFER_TYPE = "bankOffer";
 export const NCE_OFFER_TYPE = "nceOfferType";
 export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
-
 export const BUY_NOW_ERROR_MESSAGE = "Something Went wrong.Please try again";
-
 export const BANK_OFFER_COMPONENT_NAME_HC = "bankOfferComponent";
 export const MULTIPLE_BANNER_COMPONENT_NAME_HC = "multipleBannerComponent";
 export const QUICK_LINKS_COMPONENT_NAME_HC = "quickLinksComponent";
@@ -379,3 +378,5 @@ export const REDMI_WALLET_FROM_EMAIL = "/wallet/redimWalletFromEmail/";
 export const RETRY_FAILED_ORDER = "/retryFailedOrder";
 export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
+export const IS_COMING_FROM_ORDER_CONFIRMATION =
+  "isComingFromOrderConfirmation";

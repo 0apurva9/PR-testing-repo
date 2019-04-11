@@ -29,7 +29,11 @@ export default class ReturnToStore extends React.Component {
       name: this.props.userDetails && this.props.userDetails.firstName
     };
   }
-
+  componentDidMount = () => {
+    if (this.props.getUserDetails) {
+      this.props.getUserDetails();
+    }
+  };
   selectStoreForDesktop = val => {
     let element = this.refs.scrollToView;
     element.scrollTop = element.offsetHeight + 40;
@@ -53,7 +57,7 @@ export default class ReturnToStore extends React.Component {
       });
     }
 
-    if (this.props.from === "Checkout") {
+    if (this.props.from === "Checkout" || this.props.from === "Pdp") {
       if (this.props.addStoreCNC) {
         this.setState({ showPickupPerson: true });
         this.props.addStoreCNC(val[0]);
