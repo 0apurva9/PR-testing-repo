@@ -133,6 +133,7 @@
   height: auto;
   font-size: 14px;
   color: rgb(33, 33, 33);
+  cursor: pointer;
 }
 .addressHeaderWithoutLogin span {
   color: rgb(255, 23, 68);

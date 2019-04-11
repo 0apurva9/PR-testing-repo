@@ -350,6 +350,9 @@ export default class PdpApparel extends React.Component {
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+  redirectToLoginPage() {
+    this.props.history.push(LOGIN_PATH);
+  }
   goToReviewPage = isNeedToSetDataLayer => {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
@@ -1016,6 +1019,7 @@ export default class PdpApparel extends React.Component {
                             .deliveryOptions.pincodeListResponse[0].city
                         }
                         listOfAllPinCode={address}
+                        redirectToLoginPage={() => this.redirectToLoginPage()}
                       />
                     ) : (
                       <PdpPincode
@@ -1028,6 +1032,8 @@ export default class PdpApparel extends React.Component {
                           )
                         }
                         listOfAllPinCode={address}
+                        onClick={() => this.showPincodeModal()}
+                        redirectToLoginPage={() => this.redirectToLoginPage()}
                       />
                     )}
                   </div>

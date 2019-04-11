@@ -55,7 +55,6 @@ export default class PdpPincode extends React.Component {
   }
   dropDownClick = val => {
     this.setState({ pincode: val });
-
     if (this.props.onCheckPinCode) {
       this.props.onCheckPinCode(val);
     }
@@ -63,6 +62,11 @@ export default class PdpPincode extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.pincode && nextProps.pincode !== this.state.pincode) {
       this.setState({ pincode: nextProps.pincode });
+    }
+  }
+  redirectToLoginPage() {
+    if (this.props.redirectToLoginPage) {
+      this.props.redirectToLoginPage();
     }
   }
   render() {
@@ -145,7 +149,10 @@ export default class PdpPincode extends React.Component {
                   }
                 })}
               {!userDetails && (
-                <div className={styles.withoutLoginSection}>
+                <div
+                  className={styles.withoutLoginSection}
+                  onClick={() => this.redirectToLoginPage()}
+                >
                   <div className={styles.addressHeaderWithoutLogin}>
                     <span>Sign In</span> to view saved addresses
                   </div>
@@ -166,46 +173,47 @@ export default class PdpPincode extends React.Component {
       <div className={baseClass}>
         {this.state.showDropDown && (
           <div className={styles.pincodeListDropDown}>
-            {this.state.showDropDown && (
-              <div className={styles.pincodeListDropDown}>
-                <div className={styles.listOfPincode}>
-                  {userDetails &&
-                    listOfAllPinCode &&
-                    listOfAllPinCode.map((val, i) => {
-                      if (i < 2) {
-                        return (
-                          <div className={styles.dropdownList}>
-                            <div className={styles.addressHeader}>
-                              {val.addressType}
-                            </div>
-                            <div className={styles.addressDetails}>
-                              <span className={styles.pinSection}>
-                                {val.postalCode}
-                              </span>,{val.line1},{val.town},{val.state}
-                            </div>
-                          </div>
-                        );
-                      }
-                    })}
-                  {!userDetails && (
-                    <div className={styles.withoutLoginSection}>
-                      <div className={styles.addressHeaderWithoutLogin}>
-                        <span>Sign In</span> to view saved addresses
+            <div className={styles.listOfPincode}>
+              {userDetails &&
+                listOfAllPinCode &&
+                listOfAllPinCode.map((val, i) => {
+                  if (i < 2) {
+                    return (
+                      <div
+                        className={styles.dropdownList}
+                        onClick={() => this.dropDownClick(val.postalCode)}
+                      >
+                        <div className={styles.addressHeader}>
+                          {val.addressType}
+                        </div>
+                        <div className={styles.addressDetails}>
+                          <span className={styles.pinSection}>
+                            {val.postalCode}
+                          </span>,{val.line1},{val.town},{val.state}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    );
+                  }
+                })}
+              {!userDetails && (
+                <div
+                  className={styles.withoutLoginSection}
+                  onClick={() => this.redirectToLoginPage()}
+                >
+                  <div className={styles.addressHeaderWithoutLogin}>
+                    <span>Sign In</span> to view saved addresses
+                  </div>
                 </div>
-                {userDetails &&
-                  listOfAllPinCode &&
-                  listOfAllPinCode.length > 2 && (
-                    <div
-                      className={styles.moreAddress}
-                      onClick={() => this.onClick()}
-                    >{`+ ${listOfAllPinCode.length -
-                      2} more saved addresses`}</div>
-                  )}
-              </div>
-            )}
+              )}
+            </div>
+            {userDetails &&
+              listOfAllPinCode &&
+              listOfAllPinCode.length > 2 && (
+                <div
+                  className={styles.moreAddress}
+                  onClick={() => this.onClick()}
+                >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+              )}
           </div>
         )}
         <div className={styles.borderForNoPinCode}>
