@@ -145,9 +145,9 @@ export default class PdpPincode extends React.Component {
                   }
                 })}
               {!userDetails && (
-                <div className={styles.dropdownList}>
+                <div className={styles.withoutLoginSection}>
                   <div className={styles.addressHeaderWithoutLogin}>
-                    Sign In to view saved addresses
+                    <span>Sign In</span> to view saved addresses
                   </div>
                 </div>
               )}

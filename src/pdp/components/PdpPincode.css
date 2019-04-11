@@ -124,6 +124,19 @@
   margin-bottom: 20px;
   color: #000;
 }
+.withoutLoginSection {
+  width: 100%;
+  height: auto;
+}
+.addressHeaderWithoutLogin {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  color: rgb(33, 33, 33);
+}
+.addressHeaderWithoutLogin span {
+  color: rgb(255, 23, 68);
+}
 .addressHeader {
   width: 100%;
   height: auto;
