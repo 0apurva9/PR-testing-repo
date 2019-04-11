@@ -1,6 +1,8 @@
 import React from "react";
 import Input2 from "../../general/components/Input2.js";
 import styles from "./PdpPincode.css";
+import * as Cookie from "../../lib/Cookie";
+import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 export default class PdpPincode extends React.Component {
   constructor(props) {
     super(props);
@@ -65,7 +67,7 @@ export default class PdpPincode extends React.Component {
   }
   render() {
     const listOfAllPinCode = this.props.listOfAllPinCode;
-    console.log(listOfAllPinCode);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let baseClass =
       this.props.pdpApparel ||
       this.props.pdpHome ||
@@ -113,7 +115,6 @@ export default class PdpPincode extends React.Component {
               className={styles.button}
               id="change"
               onClick={() => this.onCheckPinCode(this.state.pincode)}
-              //  onClick={() => this.onClick()}
             >
               Change
             </div>
@@ -122,7 +123,8 @@ export default class PdpPincode extends React.Component {
         {this.state.showDropDown && (
           <div className={styles.pincodeListDropDown}>
             <div className={styles.listOfPincode}>
-              {listOfAllPinCode &&
+              {userDetails &&
+                listOfAllPinCode &&
                 listOfAllPinCode.map((val, i) => {
                   if (i < 2) {
                     return (
@@ -142,12 +144,21 @@ export default class PdpPincode extends React.Component {
                     );
                   }
                 })}
+              {!userDetails && (
+                <div className={styles.dropdownList}>
+                  <div className={styles.addressHeaderWithoutLogin}>
+                    Sign In to view saved addresses
+                  </div>
+                </div>
+              )}
             </div>
-            {listOfAllPinCode.length > 2 && (
-              <div
-                className={styles.moreAddress}
-              >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
-            )}
+            {userDetails &&
+              listOfAllPinCode.length > 2 && (
+                <div
+                  className={styles.moreAddress}
+                  onClick={() => this.onClick()}
+                >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+              )}
           </div>
         )}
       </div>
@@ -158,7 +169,8 @@ export default class PdpPincode extends React.Component {
             {this.state.showDropDown && (
               <div className={styles.pincodeListDropDown}>
                 <div className={styles.listOfPincode}>
-                  {listOfAllPinCode &&
+                  {userDetails &&
+                    listOfAllPinCode &&
                     listOfAllPinCode.map((val, i) => {
                       if (i < 2) {
                         return (
@@ -175,13 +187,23 @@ export default class PdpPincode extends React.Component {
                         );
                       }
                     })}
+                  {!userDetails && (
+                    <div className={styles.dropdownList}>
+                      <div className={styles.addressHeaderWithoutLogin}>
+                        Sign In to view saved addresses
+                      </div>
+                    </div>
+                  )}
                 </div>
-                {listOfAllPinCode.length > 2 && (
-                  <div
-                    className={styles.moreAddress}
-                  >{`+ ${listOfAllPinCode.length -
-                    2} more saved addresses`}</div>
-                )}
+                {userDetails &&
+                  listOfAllPinCode &&
+                  listOfAllPinCode.length > 2 && (
+                    <div
+                      className={styles.moreAddress}
+                      onClick={() => this.onClick()}
+                    >{`+ ${listOfAllPinCode.length -
+                      2} more saved addresses`}</div>
+                  )}
               </div>
             )}
           </div>
