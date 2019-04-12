@@ -249,9 +249,11 @@ export function getProductPinCodeFailure(error) {
 export function getProductPinCode(
   pinCode: null,
   productCode,
+  winningUssID,
   isComingFromPiqPage,
   isFirstTimeRender = false
 ) {
+  console.log(winningUssID);
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
@@ -273,20 +275,27 @@ export function getProductPinCode(
         url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
       }
       const result = await api.post(url);
-
       const resultJson = await result.json();
       let cncDeliveryModes = "";
+      let getDeliveryModesByWinningUssid = "";
       if (
         resultJson &&
         resultJson.listOfDataList &&
         resultJson.listOfDataList[0] &&
         resultJson.listOfDataList[0].value &&
-        resultJson.listOfDataList[0].value.pincodeListResponse &&
-        resultJson.listOfDataList[0].value.pincodeListResponse[0] &&
-        resultJson.listOfDataList[0].value.pincodeListResponse[0]
-          .validDeliveryModes
+        resultJson.listOfDataList[0].value.pincodeListResponse
       ) {
-        cncDeliveryModes = resultJson.listOfDataList[0].value.pincodeListResponse[0].validDeliveryModes.find(
+        getDeliveryModesByWinningUssid = resultJson.listOfDataList[0].value.pincodeListResponse.find(
+          val => {
+            return val.ussid === winningUssID;
+          }
+        );
+      }
+      if (
+        getDeliveryModesByWinningUssid &&
+        getDeliveryModesByWinningUssid.validDeliveryModes
+      ) {
+        cncDeliveryModes = getDeliveryModesByWinningUssid.validDeliveryModes.find(
           val => {
             return val.type === "CNC";
           }
@@ -302,14 +311,8 @@ export function getProductPinCode(
         dispatch(displayToast("please enter a valid pincode"));
       } else if (
         isComingFromPiqPage &&
-        resultJson &&
-        resultJson.listOfDataList &&
-        resultJson.listOfDataList[0] &&
-        resultJson.listOfDataList[0].value &&
-        resultJson.listOfDataList[0].value.pincodeListResponse &&
-        resultJson.listOfDataList[0].value.pincodeListResponse[0] &&
-        (!resultJson.listOfDataList[0].value.pincodeListResponse[0]
-          .validDeliveryModes ||
+        getDeliveryModesByWinningUssid &&
+        (!getDeliveryModesByWinningUssid.validDeliveryModes ||
           !cncDeliveryModes ||
           !cncDeliveryModes.CNCServiceableSlavesData)
       ) {

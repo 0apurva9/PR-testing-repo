@@ -40,11 +40,9 @@ export default class ReturnToStore extends React.Component {
           return store.slaveId === val[0];
         });
       this.setState({ selectedStore: selectedStore });
-
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
-
       this.setState({
         lat,
         lng,
@@ -167,6 +165,22 @@ export default class ReturnToStore extends React.Component {
   }
 
   render() {
+    let getDeliveryModesByWinningUssid = "";
+    if (!this.props.isFromCheckOut) {
+      if (
+        this.props &&
+        this.props.pincodeResponseList &&
+        this.props.pincodeResponseList.deliveryOptions &&
+        this.props.pincodeResponseList.deliveryOptions.pincodeListResponse
+      ) {
+        getDeliveryModesByWinningUssid = this.props.pincodeResponseList.deliveryOptions.pincodeListResponse.find(
+          val => {
+            return val.ussid === this.props.winningUssID;
+          }
+        );
+      }
+    }
+    console.log(this.props);
     if (!this.state.availableStores) {
       return (
         <div className={styles.base}>
@@ -245,14 +259,8 @@ export default class ReturnToStore extends React.Component {
                             this.props.pincodeResponse
                               ? this.props.pincodeResponse
                               : this.props.pincodeResponseList &&
-                                this.props.pincodeResponseList
-                                  .deliveryOptions &&
-                                this.props.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse &&
-                                this.props.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0] &&
-                                this.props.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0].validDeliveryModes
+                                getDeliveryModesByWinningUssid &&
+                                getDeliveryModesByWinningUssid.validDeliveryModes
                           }
                         />
                       );
@@ -276,8 +284,13 @@ export default class ReturnToStore extends React.Component {
                         workingDays={this.state.selectedStore.mplWorkingDays}
                         openingTime={this.state.selectedStore.mplOpeningTime}
                         closingTime={this.state.selectedStore.mplClosingTime}
-                        // pincodeDetails={this.props.pincodeResponseList}
-                        //selectedSlaveId={this.props.selectedSlaveId}
+                        pincodeDetails={
+                          this.props.isFromCheckOut
+                            ? this.props.pincodeResponseList
+                            : getDeliveryModesByWinningUssid
+                        }
+                        selectedSlaveId={this.state.selectedStore.slaveId}
+                        isFromCheckOut={this.props.isFromCheckOut}
                       />
                     </div>
                     <div className={styles.pickUpDetails}>
@@ -297,3 +310,6 @@ export default class ReturnToStore extends React.Component {
     }
   }
 }
+ReturnToStore.defaultProps = {
+  isFromCheckOut: false
+};

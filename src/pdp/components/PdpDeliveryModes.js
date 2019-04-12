@@ -20,37 +20,27 @@ export default class PdpDeliveryModes extends React.Component {
     let deliveryDates = "";
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
     const deliveryModesATP = this.props.deliveryModesATP;
-    const QuiqPiq =
-      this.props &&
-      this.props.pincodeDetails &&
-      this.props.pincodeDetails.deliveryOptions &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse[0] &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse[0].QUIQPIQ;
+    let getDeliveryModesByWinningUssid = "";
     if (
       this.props &&
       this.props.pincodeDetails &&
       this.props.pincodeDetails.deliveryOptions &&
       this.props.pincodeDetails.deliveryOptions.pincodeListResponse &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse[0] &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse[0]
-        .validDeliveryModes
+      this.props.pincodeDetails.deliveryOptions.pincodeListResponse
     ) {
-      deliveryDates = this.props.pincodeDetails.deliveryOptions
-        .pincodeListResponse[0].validDeliveryModes;
-    } else {
-      deliveryMode =
-        this.props &&
-        this.props.pincodeDetails &&
-        this.props.pincodeDetails.deliveryOptions &&
-        this.props.pincodeDetails.deliveryOptions.pincodeListResponse &&
-        this.props.pincodeDetails.deliveryOptions.pincodeListResponse.filter(
-          val => {
-            return val.validDeliveryModes;
-          }
-        );
-      deliveryDates =
-        deliveryMode && deliveryMode[0] && deliveryMode[0].validDeliveryModes;
+      getDeliveryModesByWinningUssid = this.props.pincodeDetails.deliveryOptions.pincodeListResponse.find(
+        val => {
+          return val.ussid === this.props.winningUssID;
+        }
+      );
+    }
+    const QuiqPiq =
+      getDeliveryModesByWinningUssid && getDeliveryModesByWinningUssid.QUIQPIQ;
+    if (
+      getDeliveryModesByWinningUssid &&
+      getDeliveryModesByWinningUssid.validDeliveryModes
+    ) {
+      deliveryDates = getDeliveryModesByWinningUssid.validDeliveryModes;
     }
     const isCod = this.props && this.props.isCod;
     return (

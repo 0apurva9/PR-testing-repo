@@ -113,7 +113,6 @@ export default class PickUpLocation extends React.Component {
     }
   };
   render() {
-    console.log(this.props);
     let getClickAndPiqSelectedDate = "";
     let productDayFormatOfClqAndPiq = "";
     let getClickAndPiqSelectedSlaveId = this.props && this.props.slaveId;

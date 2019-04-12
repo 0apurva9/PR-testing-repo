@@ -63,11 +63,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const productDetailsResponse = await dispatch(
         getProductDescription(productCode, componentName)
       );
-
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
-          dispatch(getProductPinCode(pinCode, productCode));
+          dispatch(
+            getProductPinCode(
+              pinCode,
+              productCode,
+              productDetailsResponse.productDescription.winningUssID
+            )
+          );
         }
       }
     },
@@ -107,11 +112,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showEmiModal: () => {
       dispatch(showModal(EMI_MODAL));
     },
-    showPincodeModal: productCode => {
-      dispatch(showModal(ADDRESS, { productCode }));
+    showPincodeModal: (productCode, winningUssID) => {
+      dispatch(showModal(ADDRESS, { productCode }, { winningUssID }));
     },
-    getProductPinCode: (pinCode, productCode) => {
-      return dispatch(getProductPinCode(pinCode, productCode));
+    getProductPinCode: (pinCode, productCode, winningUssID) => {
+      return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());

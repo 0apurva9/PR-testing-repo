@@ -221,10 +221,11 @@ export default class PdpApparel extends React.Component {
       this.props.history.push(urlSuffix);
     }
   };
-  checkPinCodeAvailability = async (pincode, productCode) => {
+  checkPinCodeAvailability = async (pincode, productCode, winningUssID) => {
     let productPincodeObj = await this.props.getProductPinCode(
       pincode,
-      productCode
+      productCode,
+      winningUssID
     );
     if (productPincodeObj.status === ERROR) {
       this.props.displayToast("Product is not servicable to pincode");
@@ -572,7 +573,6 @@ export default class PdpApparel extends React.Component {
           return val.mediaType === IMAGE || val.mediaType === "Video";
         })
       : [];
-
     const productImages = images
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
@@ -610,7 +610,6 @@ export default class PdpApparel extends React.Component {
       .map(image => {
         return image[0].value;
       });
-
     const zoomImages = images
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
@@ -626,21 +625,28 @@ export default class PdpApparel extends React.Component {
       .map(image => {
         return image[0].value;
       });
-    const firstSlaveData =
+    let getDeliveryModesByWinningUssid = "";
+    if (
       this.props.productDetails &&
       this.props.productDetails.pincodeResponseList &&
       this.props.productDetails.pincodeResponseList.deliveryOptions &&
       this.props.productDetails.pincodeResponseList.deliveryOptions
         .pincodeListResponse &&
       this.props.productDetails.pincodeResponseList.deliveryOptions
-        .pincodeListResponse[0] &&
-      this.props.productDetails.pincodeResponseList.deliveryOptions
-        .pincodeListResponse[0].validDeliveryModes &&
-      this.props.productDetails.pincodeResponseList.deliveryOptions.pincodeListResponse[0].validDeliveryModes.find(
+        .pincodeListResponse
+    ) {
+      getDeliveryModesByWinningUssid = this.props.productDetails.pincodeResponseList.deliveryOptions.pincodeListResponse.find(
         val => {
-          return val.type === "CNC";
+          return val.ussid === productData.winningUssID;
         }
       );
+    }
+    const firstSlaveData =
+      getDeliveryModesByWinningUssid &&
+      getDeliveryModesByWinningUssid.validDeliveryModes &&
+      getDeliveryModesByWinningUssid.validDeliveryModes.find(val => {
+        return val.type === "CNC";
+      });
     const availableStores =
       firstSlaveData && firstSlaveData.CNCServiceableSlavesData;
     if (productData) {
@@ -999,7 +1005,8 @@ export default class PdpApparel extends React.Component {
                         onCheckPinCode={pincode =>
                           this.props.getProductPinCode(
                             pincode,
-                            productData.productListingId
+                            productData.productListingId,
+                            productData.winningUssID
                           )
                         }
                         pincode={
@@ -1013,18 +1020,6 @@ export default class PdpApparel extends React.Component {
                             .status
                         }
                         onClick={() => this.showPincodeModal()}
-                        city={
-                          this.props.productDetails &&
-                          this.props.productDetails.pincodeResponseList &&
-                          this.props.productDetails.pincodeResponseList
-                            .deliveryOptions &&
-                          this.props.productDetails.pincodeResponseList
-                            .deliveryOptions.pincodeListResponse &&
-                          this.props.productDetails.pincodeResponseList
-                            .deliveryOptions.pincodeListResponse[0] &&
-                          this.props.productDetails.pincodeResponseList
-                            .deliveryOptions.pincodeListResponse[0].city
-                        }
                         listOfAllPinCode={address}
                         redirectToLoginPage={() => this.redirectToLoginPage()}
                       />
@@ -1035,7 +1030,8 @@ export default class PdpApparel extends React.Component {
                         onCheckPinCode={pincode =>
                           this.props.getProductPinCode(
                             pincode,
-                            productData.productListingId
+                            productData.productListingId,
+                            productData.winningUssID
                           )
                         }
                         listOfAllPinCode={address}
@@ -1074,6 +1070,7 @@ export default class PdpApparel extends React.Component {
                         availableStores={
                           availableStores && availableStores.length
                         }
+                        winningUssID={productData.winningUssID}
                       />
                     </div>
                   ) : (

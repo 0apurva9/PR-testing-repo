@@ -391,6 +391,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.pincodeResponseList;
+      cliqAndPiqDetails.winningUssID =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.winningUssID;
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {
