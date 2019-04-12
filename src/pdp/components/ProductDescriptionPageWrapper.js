@@ -82,9 +82,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     super(props);
     this.state = {
       showPiqPage: false,
-      selectedSlaveIdObj: {},
-      selectedProductsUssIdForCliqAndPiq: null,
-      isCliqAndPicValidateNumber: false
+      selectedProductsUssIdForCliqAndPiq: null
     };
   }
   componentDidMount = async () => {
@@ -287,13 +285,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       localStorage.setItem(STORE_DETAILS, JSON.stringify(selectedStore));
       this.navigateToLogin();
     } else {
-      const selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
-      selectedSlaveIdObj[
-        this.props.productDetails && this.props.productDetails.winningUssID
-      ] = selectedSlaveId;
       this.setState({
-        isCliqAndPicValidateNumber: true,
-        selectedSlaveIdObj,
         selectedProductsUssIdForCliqAndPiq:
           this.props.productDetails && this.props.productDetails.winningUssID
       });
@@ -370,18 +362,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       });
     }
   }
-  togglePickupPersonForm() {
-    const currentSelectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
-    if (
-      currentSelectedSlaveIdObj[this.state.selectedProductsUssIdForCliqAndPiq]
-    ) {
-      delete currentSelectedSlaveIdObj[
-        this.state.selectedProductsUssIdForCliqAndPiq
-      ];
-    }
-    this.setState({ selectedSlaveIdObj: currentSelectedSlaveIdObj });
-  }
-
   render() {
     if (this.props.loading) {
       this.showLoader();

@@ -29,11 +29,6 @@ export default class ReturnToStore extends React.Component {
       name: this.props.userDetails && this.props.userDetails.firstName
     };
   }
-  componentDidMount = () => {
-    if (this.props.getUserDetails) {
-      this.props.getUserDetails();
-    }
-  };
   selectStoreForDesktop = val => {
     let element = this.refs.scrollToView;
     element.scrollTop = element.offsetHeight + 40;
@@ -82,6 +77,9 @@ export default class ReturnToStore extends React.Component {
   }
   componentDidMount() {
     this.getAvailableStores();
+    if (this.props.getUserDetails) {
+      this.props.getUserDetails();
+    }
   }
 
   getAvailableStores() {
