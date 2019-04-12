@@ -387,6 +387,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       cliqAndPiqDetails.getUserDetails = () => this.getUserDetails();
       cliqAndPiqDetails.mergeTempCartWithOldCart = () =>
         this.props.mergeTempCartWithOldCart();
+      cliqAndPiqDetails.pincodeResponseList =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.pincodeResponseList;
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {

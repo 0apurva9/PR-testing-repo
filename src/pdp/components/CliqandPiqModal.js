@@ -240,12 +240,25 @@ export default class ReturnToStore extends React.Component {
                           headingText={val.displayName}
                           value={val.slaveId}
                           canSelectStore={this.props.canSelectStore}
+                          slaveId={val.slaveId}
+                          deliveryInformationWithDate={
+                            this.props.pincodeResponse
+                              ? this.props.pincodeResponse
+                              : this.props.pincodeResponseList &&
+                                this.props.pincodeResponseList
+                                  .deliveryOptions &&
+                                this.props.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse &&
+                                this.props.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse[0] &&
+                                this.props.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse[0].validDeliveryModes
+                          }
                         />
                       );
                     })}
                   </GridSelect>
                 )}
-
               {this.state.showPickupPerson &&
                 this.state.selectedStore && (
                   <div className={styles.getLocationDetailsHolder}>
@@ -263,6 +276,8 @@ export default class ReturnToStore extends React.Component {
                         workingDays={this.state.selectedStore.mplWorkingDays}
                         openingTime={this.state.selectedStore.mplOpeningTime}
                         closingTime={this.state.selectedStore.mplClosingTime}
+                        // pincodeDetails={this.props.pincodeResponseList}
+                        //selectedSlaveId={this.props.selectedSlaveId}
                       />
                     </div>
                     <div className={styles.pickUpDetails}>
