@@ -33,7 +33,8 @@ import {
   NET_BANKING_PAYMENT_MODE,
   WALLET,
   OFFER_ERROR_PAYMENT_MODE_TYPE,
-  EMI_TENURE
+  EMI_TENURE,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1418,7 +1419,10 @@ export function mergeCartId(cartGuId) {
         : 0;
       const updatedBagCount = parseInt(resultJson.count, 10);
       if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
-        if (updatedBagCount === currentBagCount) {
+        const isAddToWishlist = localStorage.getItem(
+          PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+        );
+        if (!isAddToWishlist && updatedBagCount === currentBagCount) {
           dispatch(setUrlToRedirectToAfterAuth(CHECKOUT_ROUTER));
         } else {
           dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
