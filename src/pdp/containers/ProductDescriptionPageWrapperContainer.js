@@ -188,10 +188,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
       }
     },
+    /** */
     getUserDetails: () => {
       dispatch(getUserDetails());
     },
-    /** */
     addStoreCNC: (ussId, slaveId) => {
       return dispatch(addStoreCNC(ussId, slaveId));
     },
