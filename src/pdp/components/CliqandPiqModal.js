@@ -180,7 +180,6 @@ export default class ReturnToStore extends React.Component {
         );
       }
     }
-    console.log(this.props);
     if (!this.state.availableStores) {
       return (
         <div className={styles.base}>

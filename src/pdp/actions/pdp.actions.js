@@ -253,7 +253,6 @@ export function getProductPinCode(
   isComingFromPiqPage,
   isFirstTimeRender = false
 ) {
-  console.log(winningUssID);
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
