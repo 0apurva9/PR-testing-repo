@@ -57,4 +57,12 @@
   .span {
     width: 100%;
   }
+  .storeCount {
+    width: 100%;
+    height: auto;
+    color: rgb(255, 23, 68);
+    font-size: 14px;
+    font-family: semibold;
+    cursor: pointer;
+  }
 }

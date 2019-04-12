@@ -207,14 +207,13 @@ export default class IconWithHeader extends React.Component {
                   this.props.isHomeDelivery ? styles.spanBlock : styles.span
                 }
               >
-                <UnderLinedButton
-                  id="checkForPickUpOpt"
-                  size="14px"
-                  fontFamily="light"
-                  color="#ff1744"
-                  label={this.props.numberOfStore}
+                <span
+                  className={styles.storeCount}
                   onClick={() => this.props.onPiq()}
-                />
+                  id="checkForPickUpOpt"
+                >
+                  {this.props.numberOfStore}
+                </span>
               </span>
             )}
           {this.props.isShowCliqAndPiqUnderLineText &&

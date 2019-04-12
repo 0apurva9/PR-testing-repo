@@ -133,7 +133,7 @@ export default class PdpDeliveryModes extends React.Component {
               DEFAULT_PIN_CODE_LOCAL_STORAGE
             )}
             numberOfStore={`
-                    ${this.props.availableStores} stores nearby`}
+                    ${this.props.availableStores} more stores nearby`}
           />
         )}
         <div
