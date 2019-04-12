@@ -385,6 +385,8 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         this.addPickupPersonCNC(mobile, name);
       cliqAndPiqDetails.addStoreCNC = slavesId => this.addStoreCNC(slavesId);
       cliqAndPiqDetails.getUserDetails = () => this.getUserDetails();
+      cliqAndPiqDetails.mergeTempCartWithOldCart = () =>
+        this.props.mergeTempCartWithOldCart();
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {

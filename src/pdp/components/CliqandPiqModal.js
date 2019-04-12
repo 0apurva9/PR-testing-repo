@@ -161,6 +161,9 @@ export default class ReturnToStore extends React.Component {
       lng: 77.2310456,
       storeId: null
     });
+    if (this.props.mergeTempCartWithOldCart) {
+      this.props.mergeTempCartWithOldCart();
+    }
   }
 
   render() {
