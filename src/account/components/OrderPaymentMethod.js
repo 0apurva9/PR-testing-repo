@@ -14,7 +14,10 @@ export default class OrderPaymentMethod extends React.Component {
     let isDelivered = false;
     each(this.props.statusDisplay, (status, i) => {
       each(status.value.statusList, statusNew => {
-        if (statusNew.responseCode === "DELIVERED") {
+        if (
+          statusNew.responseCode === "DELIVERED" ||
+          statusNew.responseCode === "ORDER_COLLECTED"
+        ) {
           isDelivered = true;
         }
       });

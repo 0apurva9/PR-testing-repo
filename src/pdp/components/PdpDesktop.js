@@ -182,6 +182,18 @@ export default class PdpApparel extends React.Component {
 
     /* End- Gemini Script */
   }
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.serviceableSellerMessage &&
+        (this.props.productDetails.serviceableSellerMessage !==
+          prevProps.productDetails.serviceableSellerMessage)
+    ) {
+      this.props.displayToast(
+        this.props.productDetails.serviceableSellerMessage
+      );
+    }
+  }
   visitBrand() {
     if (this.props.visitBrandStore) {
       this.props.visitBrandStore();
@@ -949,7 +961,10 @@ export default class PdpApparel extends React.Component {
                       {productData.details &&
                         productData.details.map(val => {
                           return val.key !== "Model Number" ? (
-                            <div className={styles.list}>{val.value}</div>
+                            <div
+                              className={styles.list}
+                              dangerouslySetInnerHTML={{ __html: val.value }}
+                            />
                           ) : null;
                         })}
                       {productData.rootCategory === "Electronics" && (

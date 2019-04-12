@@ -168,8 +168,7 @@ export function getProductListingsSuccess(productListings, isPaginated: false) {
 
 export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
   let stringVal = null;
-  let searchText = "",
-    completeUrl = "";
+  let completeUrl = "";
   if (
     resultJson &&
     resultJson.currentQuery &&
@@ -181,11 +180,8 @@ export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
       resultJson.currentQuery.query.value &&
       resultJson.currentQuery.query.value.split(":")[0] === ""
     ) {
-      if (JSON.parse(localStorage.getItem(USER_SEARCH_LOCAL_STORAGE)).length) {
-        searchText = JSON.parse(
-          localStorage.getItem(USER_SEARCH_LOCAL_STORAGE)
-        ).pop();
-        completeUrl = searchText + resultJson.currentQuery.query.value;
+      if (encodedString) {
+        completeUrl = encodedString + resultJson.currentQuery.query.value;
       }
     } else {
       completeUrl = resultJson.currentQuery.query.value;
