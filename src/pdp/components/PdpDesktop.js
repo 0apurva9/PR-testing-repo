@@ -739,6 +739,7 @@ export default class PdpApparel extends React.Component {
                   }-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
+                  category={productData.rootCategory}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags

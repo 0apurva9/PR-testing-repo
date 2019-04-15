@@ -10,8 +10,24 @@ export default class SizeSelectorOOSModal extends React.Component {
     super();
     this.state = {
       datum: {},
-      active: null
+      active: null,
+      ownProps: null
     };
+  }
+  pushToArray(arr, i, bool) {
+    for (let j = 0; j < arr.sizes.length; j++) {
+      arr.sizes[j].colorlink.selected = !bool;
+    }
+    arr.sizes[i].colorlink.selected = bool;
+  }
+  updateSize(datum, i, bool) {
+    this.setState({ datum: datum });
+    let sizeArray = this.state.ownProps;
+    this.pushToArray(sizeArray, i, bool);
+  }
+  componentDidMount() {
+    let sizeArray = this.props.ownProps;
+    this.setState({ ownProps: sizeArray });
   }
 
   render() {
@@ -26,15 +42,12 @@ export default class SizeSelectorOOSModal extends React.Component {
             return (
               <SizeSelect
                 key={i}
-                selected={
-                  datum.colorlink.selected
-                    ? this.props.history.location.state.isSizeSelected
-                    : false
-                }
+                selected={datum.colorlink.selected}
+                id={`selectSize${i}`}
                 size={datum.sizelink.size}
                 value={datum.sizelink.size}
                 fontSize={this.props.textSize}
-                onSelect={() => this.setState({ datum: datum })}
+                onSelect={() => this.updateSize(datum, i, true)}
               />
             );
           })}

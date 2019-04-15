@@ -203,18 +203,22 @@ export default class ProductGalleryDesktop extends React.Component {
             );
           })}
           <div className={styles.product_desc_desktop}>
-            <div className={styles.marginTop10}>
-              <div className={styles.description}>
-                {this.getKeyValue(MODEL_FIT)}
-              </div>
-            </div>
-            <div className={styles.marginTop10}>
-              <div className={styles.fabtype}>
-                {this.getKeyValue(FABRIC)}
-                {<span>, </span>}
-                {this.getKeyValue(WASH)}
-              </div>
-            </div>
+            {this.props.category === "Clothing" && (
+              <React.Fragment>
+                <div className={styles.marginTop10}>
+                  <div className={styles.description}>
+                    {this.getKeyValue(MODEL_FIT)}
+                  </div>
+                </div>
+                <div className={styles.marginTop10}>
+                  <div className={styles.fabtype}>
+                    {this.getKeyValue(FABRIC)}
+                    {<span>, </span>}
+                    {this.getKeyValue(WASH)}
+                  </div>
+                </div>
+              </React.Fragment>
+            )}
           </div>
         </div>
         <div
