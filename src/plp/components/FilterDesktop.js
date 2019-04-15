@@ -123,6 +123,9 @@ export default class FilterDesktop extends React.Component {
       let attributeCapacity = url.match(
         new RegExp("capacityCC-classification:" + "(.*)" + ":")
       );
+      attributeCapacity = attributeCapacity
+        ? attributeCapacity
+        : url.match(new RegExp("capacityCC-classification:" + "(.*)"));
       if (attributeCapacity && attributeCapacity[1]) {
         let attributeCapacityMatched = attributeCapacity[1].replace("+", "%2B");
         url = url.replace(attributeCapacity[1], attributeCapacityMatched);
@@ -133,6 +136,9 @@ export default class FilterDesktop extends React.Component {
       let attributeStorage = url.match(
         new RegExp("internalStorage-classification:" + "(.*)" + ":")
       );
+      attributeStorage = attributeStorage
+        ? attributeStorage
+        : url.match(new RegExp("internalStorage-classification:" + "(.*)"));
       if (attributeStorage && attributeStorage[1]) {
         let attributeStorageMatched = attributeStorage[1].replace("+", "%2B");
         url = url.replace(attributeStorage[1], attributeStorageMatched);
@@ -143,6 +149,9 @@ export default class FilterDesktop extends React.Component {
       let attributeType = url.match(
         new RegExp("type-classification:" + "(.*)" + ":")
       );
+      attributeType = attributeType
+        ? attributeType
+        : url.match(new RegExp("type-classification:" + "(.*)"));
       if (attributeType && attributeType[1]) {
         let attributeTypeMatched = attributeType[1].replace("+", "%2B");
         url = url.replace(attributeType[1], attributeTypeMatched);
