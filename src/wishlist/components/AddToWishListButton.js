@@ -25,11 +25,15 @@ export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
 export const WISHLIST_BUTTON_TEXT_TYPE_SMALL = "wishlistTextSmall";
 export const ONLY_ICON = "wishlistIconForPdp";
 export default class AddToWishListButton extends React.Component {
+  state = {
+    foundInWishList: false
+  };
   onClick(e) {
     if (e) {
       e.stopPropagation();
     }
     const { productListingId, winningUssID, wishlistItems } = this.props;
+    // console.log("this.props",productListingId, winningUssID, wishlistItems );
     let addToWishListObj = Object.assign(
       {},
       {
@@ -40,6 +44,15 @@ export default class AddToWishListButton extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
+      // const url = this.props.location.pathname;
+      // const { productListingId, winningUssID } = this.props;
+      // this.props.setUrlToRedirectToAfterAuth(url);
+      // this.props.addProductToWishListAfterAuth({
+      //   productListingId: productListingId,
+      //   winningUssID: winningUssID
+      // });
+      // this.props.history.push(LOGIN_PATH);
+      console.log("localStrorage", addToWishListObj);
       localStorage.setItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)
@@ -86,6 +99,35 @@ export default class AddToWishListButton extends React.Component {
     if (parsedQueryString.saveToListAmp === "true") {
       this.onClick();
     }
+    this.checkInWishlist(this.props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.checkInWishlist(nextProps);
+  }
+  checkInWishlist(props) {
+    if (props.wishlistItems && props.wishlistItems.length) {
+      let foundWishListItem = props.wishlistItems.find(item => {
+        return item.USSID == this.props.winningUssID;
+      });
+      if (foundWishListItem) {
+        this.setState({ foundInWishList: true });
+      } else {
+        this.setState({ foundInWishList: false });
+      }
+    } else {
+      this.setState({ foundInWishList: false });
+    }
+  }
+  removeProduct(e, ussid) {
+    if (e) {
+      e.stopPropagation();
+    }
+    const productDetails = {};
+    productDetails.ussId = ussid;
+
+    if (this.props.removeProductFromWishList) {
+      this.props.removeProductFromWishList(productDetails);
+    }
   }
   render() {
     if (this.props.type === WISHLIST_FOOTER_BUTTON_TYPE) {
@@ -126,6 +168,16 @@ export default class AddToWishListButton extends React.Component {
           <DesktopOnly>
             <div className={styles.saveLabel}>Save to wishlist</div>
           </DesktopOnly>
+        </div>
+      );
+    }
+    if (this.state.foundInWishList) {
+      return (
+        <div onClick={e => this.removeProduct(e, this.props.winningUssID)}>
+          <Icon
+            image={this.props.isWhite ? wishlistUnfilled : wishlistFilled}
+            size={this.props.size}
+          />
         </div>
       );
     }
