@@ -15,6 +15,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import { widgetsTracking } from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
+const ELECTRONICS = "Electronics";
 
 export default class ProductModule extends React.Component {
   onDownload = () => {
@@ -64,11 +65,18 @@ export default class ProductModule extends React.Component {
     this.props.showSimilarProducts();
   }
   showSimilarIcons = () => {
-    return (
-      <div className={styles.similarIcon} onClick={e => this.onClickSimilar()}>
-        <Icon image={similarIcon} size={17} backgroundSize="auto 16px" />
-      </div>
-    );
+    if (this.props.productCategory === ELECTRONICS) {
+      return null;
+    } else {
+      return (
+        <div
+          className={styles.similarIcon}
+          onClick={e => this.onClickSimilar()}
+        >
+          <Icon image={similarIcon} size={17} backgroundSize="auto 16px" />
+        </div>
+      );
+    }
   };
 
   render() {
@@ -76,6 +84,7 @@ export default class ProductModule extends React.Component {
     if (this.props.isWhite) {
       downloadImage = downloadIconWhite;
     }
+
     return (
       <React.Fragment>
         {this.props.shouldShowSimilarIcon && this.showSimilarIcons()}

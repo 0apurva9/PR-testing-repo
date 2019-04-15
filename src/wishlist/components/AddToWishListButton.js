@@ -33,7 +33,6 @@ export default class AddToWishListButton extends React.Component {
       e.stopPropagation();
     }
     const { productListingId, winningUssID, wishlistItems } = this.props;
-    // console.log("this.props",productListingId, winningUssID, wishlistItems );
     let addToWishListObj = Object.assign(
       {},
       {
@@ -52,7 +51,6 @@ export default class AddToWishListButton extends React.Component {
       //   winningUssID: winningUssID
       // });
       // this.props.history.push(LOGIN_PATH);
-      console.log("localStrorage", addToWishListObj);
       localStorage.setItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)
