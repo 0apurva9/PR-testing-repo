@@ -17,6 +17,11 @@
 .text {
   color: #9b9b9b;
 }
+.content {
+  width: 100%;
+  height: auto;
+  padding-bottom: 10px;
+}
 .breadcrumbsText {
   width: auto;
   max-width: 90px;
@@ -60,10 +65,11 @@
 .breadcrumbsText:last-child:after {
   background: url("");
 }
-.content {
+.contentDetails {
   width: 100%;
   height: auto;
   padding: 0 15px;
+  margin:10px 0px;
 }
 .whiteBackground {
   composes: base;
@@ -188,6 +194,16 @@ margin:0;
   left: 0;
   top: 0;
   z-index: 10;
+}
+
+.headerDetails {
+  font-family: semibold;
+}
+
+.descriptionDetails{
+  width:50%;
+  display:inline-block;
+  vertical-align:top;
 }
 
 .winningSellerText {
@@ -371,6 +387,12 @@ margin:0;
   .base {
     text-align: center;
   }
+  .contentDetails{
+    width:33.33%;
+    display:inline-block;
+    min-width:250px;
+    vertical-align:top;
+  }
   .pageCenter {
     width: 100%;
     display: inline-block;
@@ -470,6 +492,9 @@ margin:0;
     padding: 20px 40px;
     border-radius: 4px;
     margin: 20px 0px 5px 0px;
+  }
+  .productDetails{
+    margin-top:20px;
   }
   .tableCellSingleComponent {
     display: table-cell;

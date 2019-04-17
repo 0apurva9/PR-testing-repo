@@ -564,14 +564,18 @@ export default class PdpApparel extends React.Component {
       } else {
         let value = detail["value"];
         let separateValue = value.split("|");
-        return (
-          <div className={styles.tableCellSingleComponent} key={index}>
-            {<img src={separateValue[1]} alt="" height={86} width={93} />}
-            <div className={styles.width95px}>
-              <div className={styles.textAlignCenter}>{separateValue[0]}</div>
+        if (value && separateValue.length === 2) {
+          return (
+            <div className={styles.tableCellSingleComponent} key={index}>
+              {<img src={separateValue[1]} alt="" height={86} width={93} />}
+              <div className={styles.width95px}>
+                <div className={styles.textAlignCenter}>{separateValue[0]}</div>
+              </div>
             </div>
-          </div>
-        );
+          );
+        } else {
+          return null;
+        }
       }
     });
   };
@@ -1248,6 +1252,23 @@ export default class PdpApparel extends React.Component {
                           itemProp="description"
                         >
                           {productData.productDescription}
+                          <div className={styles.productDetails}>
+                            {productData.rootCategory !== "Electronics" &&
+                              productData.rootCategory !== "FashionJewellery" &&
+                              productData.rootCategory !== "FineJewellery" &&
+                              productData.details.map(val => {
+                                return (
+                                  <div className={styles.contentDetails}>
+                                    <div className={styles.headerDetails}>
+                                      {val.key}
+                                    </div>
+                                    <div className={styles.descriptionDetails}>
+                                      {val.value}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
                           {productData.prdDetails && (
                             <div className={styles.productDetailsImagesCard}>
                               {this.displayPrdDetails(
@@ -1393,15 +1414,6 @@ export default class PdpApparel extends React.Component {
                         })}
                       </Accordion>
                     )}
-                    {productData.rootCategory !== "Electronics" &&
-                      productData.rootCategory !== "FashionJewellery" &&
-                      productData.rootCategory !== "FineJewellery" &&
-                      productData.details && (
-                        <ProductDetails
-                          headerFontSize={18}
-                          data={productData.details}
-                        />
-                      )}
                     {productData.knowMoreV2 && (
                       <Accordion text="Return & Exchange" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
