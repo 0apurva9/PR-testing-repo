@@ -58,8 +58,21 @@ export default class AddToWishListButton extends React.Component {
       if (this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
-        const url = this.props.location.pathname;
+        const href = window.location.href;
+        const protocol = window.location.protocol;
+        const hostName = window.location.hostname;
+        const port = window.location.port;
+        let domainName;
+        if (window.location.port) {
+          domainName = protocol + "//" + hostName + ":" + port;
+        } else {
+          domainName = protocol + "//" + hostName;
+        }
+
+        const url = href.replace(domainName, "");
+
         this.props.setUrlToRedirectToAfterAuth(url);
+
         if (UserAgent.checkUserAgentIsMobile()) {
           this.props.history.push(LOGIN_PATH);
         } else {
