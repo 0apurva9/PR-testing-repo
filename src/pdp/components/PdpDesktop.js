@@ -1196,7 +1196,7 @@ export default class PdpApparel extends React.Component {
                         <div className={styles.seasonTextDetails}>
                           <div className={styles.seasonCollection}>
                             <div className={styles.collectionNotesTile}>
-                              <h3>COLLECTION NOTES</h3>
+                              <h3>Collection Notes</h3>
                             </div>
                             <div className={styles.collectionNotesContent}>
                               {this.getSeasonDetails("Collection Info").length
@@ -1206,7 +1206,7 @@ export default class PdpApparel extends React.Component {
                           </div>
                           <div className={styles.seasonStyleDescription}>
                             <div className={styles.collectionNotesTile}>
-                              STYLE NOTE
+                              Style Note
                             </div>
                             <div className={styles.collectionNotesContent}>
                               {productData.styleNote}
