@@ -223,6 +223,10 @@ export default class CartItemForDesktop extends React.Component {
                 onSelect={val => this.selectDeliveryMode(val)}
                 onPiq={val => this.getPickUpDetails()}
                 isClickable={this.props.isClickable}
+                deliveryInformationWithDate={
+                  this.props.deliveryInformationWithDate
+                }
+                allStores={this.props.allStores}
               />
             </div>
           )}

@@ -160,6 +160,7 @@ export default class PdpPincode extends React.Component {
               )}
             </div>
             {userDetails &&
+              listOfAllPinCode &&
               listOfAllPinCode.length > 2 && (
                 <div
                   className={styles.moreAddress}

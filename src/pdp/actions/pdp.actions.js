@@ -278,6 +278,7 @@ export function getProductPinCode(
       let cncDeliveryModes = "";
       let getDeliveryModesByWinningUssid = "";
       if (
+        isComingFromPiqPage &&
         resultJson &&
         resultJson.listOfDataList &&
         resultJson.listOfDataList[0] &&
@@ -291,6 +292,7 @@ export function getProductPinCode(
         );
       }
       if (
+        isComingFromPiqPage &&
         getDeliveryModesByWinningUssid &&
         getDeliveryModesByWinningUssid.validDeliveryModes
       ) {

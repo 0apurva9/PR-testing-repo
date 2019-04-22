@@ -82,6 +82,7 @@ export default class OfferCard extends React.Component {
 
             {this.props.secondaryPromotions &&
               getId === "true" &&
+              getMessage &&
               !getMessage.includes("No Cost EMI") && (
                 <div
                   className={styles.headingText}

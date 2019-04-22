@@ -113,6 +113,7 @@ class CartPage extends React.Component {
         JSON.parse(customerCookie).access_token,
         JSON.parse(cartDetailsLoggedInUser).guid
       );
+      this.props.getAllStoresForCliqAndPiq();
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
         this.props.getCartDetails(
@@ -125,6 +126,7 @@ class CartPage extends React.Component {
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token
         );
+        this.props.getAllStoresForCliqAndPiq();
       }
     }
     // delete bank coupon localstorage if it is exits.
@@ -720,6 +722,11 @@ class CartPage extends React.Component {
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].desc
                             }
+                            deliveryInformationWithDate={
+                              product.pinCodeResponse &&
+                              product.pinCodeResponse.validDeliveryModes
+                            }
+                            allStores={this.props.stores}
                             deliveryType={
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].code

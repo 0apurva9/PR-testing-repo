@@ -13,7 +13,8 @@ import {
   displayCouponsForAnonymous,
   clearCartDetails,
   getPaymentModes,
-  mergeTempCartWithOldCart
+  mergeTempCartWithOldCart,
+  getAllStoresCNC
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -38,6 +39,11 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
+import {
+  getAllStoresForCliqAndPiq,
+  showPdpPiqPage,
+  hidePdpPiqPage
+} from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -163,6 +169,18 @@ const mapDispatchToProps = dispatch => {
     },
     mergeTempCartWithOldCart: () => {
       dispatch(mergeTempCartWithOldCart());
+    },
+    getAllStoresForCliqAndPiq: pinCode => {
+      dispatch(getAllStoresForCliqAndPiq(pinCode));
+    },
+    getAllStoresCNC: pinCode => {
+      dispatch(getAllStoresCNC(pinCode));
+    },
+    showPdpPiqPage: () => {
+      dispatch(showPdpPiqPage());
+    },
+    hidePdpPiqPage: () => {
+      dispatch(hidePdpPiqPage());
     }
   };
 };
@@ -173,7 +191,11 @@ const mapStateToProps = state => {
     user: state.user,
     loginFromMyBag: state.cart.loginFromMyBag,
     loadingForCartDetail: state.cart.loadingForCartDetail,
-    wishListCount: state.wishlistItems.count
+    wishListCount: state.wishlistItems.count,
+    loadingForCartDetail: state.cart.loadingForCartDetail,
+    stores: state.productDescription.storeDetails,
+    loading: state.productDescription.loading,
+    showPiqPage: state.productDescription.showPiqPage
   };
 };
 const CartContainer = withRouter(
