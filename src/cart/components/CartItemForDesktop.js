@@ -61,7 +61,9 @@ export default class CartItemForDesktop extends React.Component {
   }
 
   getPickUpDetails = () => {
-    this.props.onPiq();
+    if (this.props.onPiq) {
+      this.props.onPiq();
+    }
   };
   onHide() {
     this.setState({ showDelivery: !this.state.showDelivery }, () => {
