@@ -60,7 +60,7 @@ export default class DeliveryInformations extends React.Component {
       typeName = !this.props.deliveryInformationByCart
         ? EXPRESS_TEXT
         : EXPRESS_SHIPPING;
-      iconSize = 26;
+      iconSize = 35;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
       typeName = HOME_TEXT;
@@ -74,7 +74,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = clockImage;
       typeName = SHORT_SAME_DAY_TEXT;
-      iconSize = 24;
+      iconSize = 35;
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
       typeName = SAME_DAY_DELIVERY_SHIPPING;
@@ -116,7 +116,7 @@ export default class DeliveryInformations extends React.Component {
             paddingBottom: this.props.paddingBottom,
             paddingRight: this.props.paddingRight,
             borderBottom: this.props.borderBottom,
-            marginBottom: this.props.isCartForMargin ? "5px" : "20px"
+            marginBottom: this.props.isCartForMargin ? "5px" : "15px"
           }}
         >
           <div
@@ -200,6 +200,7 @@ export default class DeliveryInformations extends React.Component {
               selectedStoreDetails={this.props.selectedStoreDetails}
               selectedDeliveryMode={this.props.selectedDeliveryMode}
               notShowDay={this.props.notShowDay}
+              splitIntoTwoLine={this.props.splitIntoTwoLine}
             >
               {this.props.deliverText && (
                 <div className={styles.placeTime}>

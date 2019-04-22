@@ -106,7 +106,14 @@ export default class IconWithHeader extends React.Component {
         "DD-MMM-YYYY"
       );
     }
-
+    let classForSplit = styles.labelHolder;
+    if (this.props.splitIntoTwoLine) {
+      classForSplit = styles.autoLabelHolder;
+    }
+    let styleInSameLine = styles.span;
+    if (this.props.splitIntoTwoLine) {
+      styleInSameLine = styles.spanInSameLine;
+    }
     return (
       <div
         className={styles.base}
@@ -129,9 +136,7 @@ export default class IconWithHeader extends React.Component {
           {this.props.isTop && (
             <div
               className={
-                this.props.isStaticText
-                  ? styles.labelHolderBold
-                  : styles.labelHolder
+                this.props.isStaticText ? styles.labelHolderBold : classForSplit
               }
             >
               {" "}
@@ -165,7 +170,7 @@ export default class IconWithHeader extends React.Component {
             this.props.code === SHORT_SAME_DAY_DELIVERY) && (
             <div
               className={
-                this.props.isHomeDelivery ? styles.spanBlock : styles.span
+                this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
               }
             >
               {this.props.deliveryInformationByCart && (
@@ -178,7 +183,7 @@ export default class IconWithHeader extends React.Component {
             this.props.code === SHORT_EXPRESS) && (
             <div
               className={
-                this.props.isHomeDelivery ? styles.spanBlock : styles.span
+                this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
               }
             >
               {this.props.deliveryInformationByCart && (
@@ -282,12 +287,14 @@ IconWithHeader.propTypes = {
   isHomeDelivery: PropTypes.bool,
   isTop: PropTypes.bool,
   isNotUnderLineButton: PropTypes.bool,
-  notShowDay: PropTypes.bool
+  notShowDay: PropTypes.bool,
+  splitIntoTwoLine: PropTypes.bool
 };
 IconWithHeader.defaultProps = {
   isHomeDelivery: false,
   deliveryInformationByCart: false,
   isTop: true,
   isNotUnderLineButton: false,
-  notShowDay: false
+  notShowDay: false,
+  splitIntoTwoLine: true
 };
