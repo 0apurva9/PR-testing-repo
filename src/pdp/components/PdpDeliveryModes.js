@@ -124,6 +124,7 @@ export default class PdpDeliveryModes extends React.Component {
             )}
             numberOfStore={`
                     ${this.props.availableStores} more stores nearby`}
+            splitIntoTwoLine={false}
           />
         )}
         <div
