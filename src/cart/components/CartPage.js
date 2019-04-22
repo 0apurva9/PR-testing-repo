@@ -745,6 +745,7 @@ class CartPage extends React.Component {
                             onClickImage={() =>
                               this.onClickImage(product.productcode)
                             }
+                            isTop={false}
                           />
                         </DesktopOnly>
                       </div>

@@ -227,6 +227,7 @@ export default class CartItemForDesktop extends React.Component {
                   this.props.deliveryInformationWithDate
                 }
                 allStores={this.props.allStores}
+                isTop={this.props.isTop}
               />
             </div>
           )}

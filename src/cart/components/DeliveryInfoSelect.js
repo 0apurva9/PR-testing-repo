@@ -82,6 +82,7 @@ export default class DeliveryInfoSelect extends React.Component {
                 this.props.deliveryInformationWithDate
               }
               deliveryInformationByCart={true}
+              isTop={this.props.isTop}
             />
           );
         })}
