@@ -555,13 +555,12 @@ export default class Plp extends React.Component {
                     <h1>{this.setHeaderTextDesktop()}</h1>
                   </div>
                   <div className={styles.totalProducts}>
-                    {`${
-                      this.props.productListings &&
+                    {this.props.productListings &&
                       this.props.productListings.pagination &&
-                      this.props.productListings.pagination.totalResults
-                        ? this.props.productListings.pagination.totalResults
-                        : 0
-                    } Products`}
+                      this.props.productListings.pagination.totalResults &&
+                      `${
+                        this.props.productListings.pagination.totalResults
+                      } Products`}
                   </div>
                 </div>
               )}

@@ -226,7 +226,8 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
-      const pageNumber = getState().productListings.pageNumber;
+      const listingsPageNumber = getState().productListings.pageNumber;
+      const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
       let encodedString =
         searchState.string.includes("%3A") || searchState.string.includes("%20")
           ? searchState.string
