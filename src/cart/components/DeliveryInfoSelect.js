@@ -83,6 +83,9 @@ export default class DeliveryInfoSelect extends React.Component {
               }
               deliveryInformationByCart={true}
               isTop={this.props.isTop}
+              inCartPage={this.props.inCartPage}
+              inCartPageIcon={this.props.inCartPageIcon}
+              isArrowIcon={this.props.isArrowIcon}
             />
           );
         })}

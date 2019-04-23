@@ -60,7 +60,7 @@ export default class DeliveryInformations extends React.Component {
       typeName = !this.props.deliveryInformationByCart
         ? EXPRESS_TEXT
         : EXPRESS_SHIPPING;
-      iconSize = 35;
+      iconSize = this.props.inCartPageIcon ? 40 : 35;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
       typeName = HOME_TEXT;
@@ -78,7 +78,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
       typeName = SAME_DAY_DELIVERY_SHIPPING;
-      iconSize = 24;
+      iconSize = 35;
     } else if (this.props.isQuiqPiq === "Y") {
       iconImage = quiqpiqImage;
       typeName = QUIQPIQ;
@@ -201,6 +201,7 @@ export default class DeliveryInformations extends React.Component {
               selectedDeliveryMode={this.props.selectedDeliveryMode}
               notShowDay={this.props.notShowDay}
               splitIntoTwoLine={this.props.splitIntoTwoLine}
+              inCartPage={this.props.inCartPage}
             >
               {this.props.deliverText && (
                 <div className={styles.placeTime}>
@@ -232,7 +233,9 @@ DeliveryInformations.propTypes = {
   showDeliveryCharge: PropTypes.bool,
   isShowCliqAndPiqUnderLineText: PropTypes.bool,
   isArrowIcon: PropTypes.bool,
-  isCartForMargin: PropTypes.bool
+  isCartForMargin: PropTypes.bool,
+  inCartPage: PropTypes.bool,
+  inCartPageIcon: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
@@ -241,5 +244,7 @@ DeliveryInformations.defaultProps = {
   isShowCliqAndPiqUnderLineText: true,
   isArrowIcon: true,
   deliveryInformationByCart: false,
-  isCartForMargin: false
+  isCartForMargin: false,
+  inCartPage: false,
+  inCartPageIcon: false
 };

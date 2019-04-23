@@ -55,6 +55,7 @@ export default class IconWithHeader extends React.Component {
     return this.getDateMonthFormate(date, month);
   }
   render() {
+    console.log(this.props.inCartPage);
     let placedTime = "";
     let getClickAndPiqSelectedDate = "";
     let productDayFormatOfClqAndPiq = "";
@@ -153,9 +154,10 @@ export default class IconWithHeader extends React.Component {
                   this.props.isHomeDelivery ? styles.spanBlock : styles.span
                 }
               >
-                {this.props.deliveryInformationByCart && (
-                  <span className={styles.titleAboutTime}>Delivery By </span>
-                )}
+                {this.props.deliveryInformationByCart &&
+                  !this.props.inCartPage && (
+                    <span className={styles.titleAboutTime}>Delivery By </span>
+                  )}
                 {!this.props.deliveryInformationByCart &&
                   this.props.placedTime &&
                   this.props.placedTime.deliveryDate &&
@@ -167,33 +169,56 @@ export default class IconWithHeader extends React.Component {
               </div>
             )}
           {(this.props.code === SAME_DAY_DELIVERY ||
-            this.props.code === SHORT_SAME_DAY_DELIVERY) && (
-            <div
-              className={
-                this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
-              }
-            >
-              {this.props.deliveryInformationByCart && (
-                <span className={styles.titleAboutTime}>Delivery By </span>
-              )}
-              Today
-            </div>
-          )}
-          {(this.props.code === EXPRESS ||
-            this.props.code === SHORT_EXPRESS) && (
-            <div
-              className={
-                this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
-              }
-            >
-              {this.props.deliveryInformationByCart && (
-                <span className={styles.titleAboutTime}>Delivery By </span>
-              )}
-              Tomorrow
-            </div>
-          )}
+            this.props.code === SHORT_SAME_DAY_DELIVERY) &&
+            (this.props.inCartPage ? (
+              <div
+                className={
+                  this.props.isHomeDelivery
+                    ? styles.spanBlock
+                    : styles.cartPageData
+                }
+              >
+                Today
+              </div>
+            ) : (
+              <div
+                className={
+                  this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
+                }
+              >
+                {this.props.deliveryInformationByCart && (
+                  <span className={styles.titleAboutTime}>Delivery By </span>
+                )}
+                Today
+              </div>
+            ))}
+
+          {(this.props.code === EXPRESS || this.props.code === SHORT_EXPRESS) &&
+            (this.props.inCartPage ? (
+              <div
+                className={
+                  this.props.isHomeDelivery
+                    ? styles.spanBlock
+                    : styles.cartPageData
+                }
+              >
+                Tomorrow
+              </div>
+            ) : (
+              <div
+                className={
+                  this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
+                }
+              >
+                {this.props.deliveryInformationByCart && (
+                  <span className={styles.titleAboutTime}>Delivery By </span>
+                )}
+                Tomorrow
+              </div>
+            ))}
+
           {!this.props.isTop && (
-            <span>
+            <span className={this.props.inCartPage ? styles.classLight : ""}>
               {this.props.deliveryModes === "Express delivery"
                 ? "Express Delivery"
                 : this.props.header}
@@ -288,7 +313,8 @@ IconWithHeader.propTypes = {
   isTop: PropTypes.bool,
   isNotUnderLineButton: PropTypes.bool,
   notShowDay: PropTypes.bool,
-  splitIntoTwoLine: PropTypes.bool
+  splitIntoTwoLine: PropTypes.bool,
+  inCartPage: PropTypes.bool
 };
 IconWithHeader.defaultProps = {
   isHomeDelivery: false,
@@ -296,5 +322,6 @@ IconWithHeader.defaultProps = {
   isTop: true,
   isNotUnderLineButton: false,
   notShowDay: false,
-  splitIntoTwoLine: true
+  splitIntoTwoLine: true,
+  inCartPage: false
 };

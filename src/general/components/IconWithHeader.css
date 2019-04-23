@@ -77,4 +77,14 @@
     font-family: semibold;
     cursor: pointer;
   }
+  .cartPageData {
+    width: 100%;
+    height: auto;
+    font-size: 13px;
+    color: rgb(33, 33, 33);
+    font-family: regular;
+  }
+  .classLight {
+    font-family: light;
+  }
 }
