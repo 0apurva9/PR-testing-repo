@@ -120,6 +120,7 @@ export default class ProductGrid extends React.Component {
         plpAttrMap={data && data.plpAttrMap}
         shouldShowSimilarIcon={true}
         productListings={this.props.productListings}
+        ussid={data.ussid}
       />
     );
   };

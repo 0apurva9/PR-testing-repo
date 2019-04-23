@@ -41,7 +41,6 @@ export default class ProductDescription extends Component {
       headerText = styles.headerWhite;
       contentClass = styles.contentWhite;
     }
-
     return (
       <div className={styles.base}>
         <div className={headerClass}>
@@ -58,6 +57,7 @@ export default class ProductDescription extends Component {
                   productListings={this.props.productListings}
                   isWhite={this.props.isWhite}
                   size={17}
+                  ussid={this.props.ussid}
                 />
               </div>
             )}

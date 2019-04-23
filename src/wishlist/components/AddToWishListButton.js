@@ -40,6 +40,7 @@ export default class AddToWishListButton extends React.Component {
         winningUssID: winningUssID
       }
     );
+
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
@@ -51,6 +52,7 @@ export default class AddToWishListButton extends React.Component {
       //   winningUssID: winningUssID
       // });
       // this.props.history.push(LOGIN_PATH);
+
       localStorage.setItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)
@@ -70,18 +72,17 @@ export default class AddToWishListButton extends React.Component {
         }
 
         const url = href.replace(domainName, "");
-
         this.props.setUrlToRedirectToAfterAuth(url);
-
         if (UserAgent.checkUserAgentIsMobile()) {
           this.props.history.push(LOGIN_PATH);
         } else {
           if (this.props.showAuthPopUp) {
             this.props.showAuthPopUp();
-            return null;
           }
         }
       }
+
+      return null;
     } else {
       const indexOfProduct = wishlistItems.findIndex(item => {
         return (
@@ -115,10 +116,18 @@ export default class AddToWishListButton extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.checkInWishlist(nextProps);
   }
+  getDerivedStateFromProps(prevProps) {
+    if (this.props.wishlistItems !== prevProps.wishlistItems) {
+      this.checkInWishlist(this.props);
+    }
+  }
   checkInWishlist(props) {
     if (props.wishlistItems && props.wishlistItems.length) {
       let foundWishListItem = props.wishlistItems.find(item => {
-        return item.USSID == this.props.winningUssID;
+        return (
+          item.winningUssID === this.props.ussid ||
+          item.USSID === this.props.ussid
+        );
       });
       if (foundWishListItem) {
         this.setState({ foundInWishList: true });
@@ -141,6 +150,11 @@ export default class AddToWishListButton extends React.Component {
     }
   }
   render() {
+    //let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    // if (userCookie) {
+    //   userCookie = JSON.parse(userCookie);
+    //   this.checkInWishlist(this.props);
+    // }
     if (this.props.type === WISHLIST_FOOTER_BUTTON_TYPE) {
       return (
         <FooterButton
@@ -201,6 +215,7 @@ export default class AddToWishListButton extends React.Component {
         </div>
       );
     }
+
     return (
       <div onClick={e => this.onClick(e)}>
         <Icon
