@@ -27,12 +27,13 @@ export default class AddToWishListButton extends React.Component {
     if (e) {
       e.stopPropagation();
     }
-    const { productListingId, winningUssID, wishlistItems } = this.props;
+    const { productListingId, winningUssID, wishlistItems, index } = this.props;
     let addToWishListObj = Object.assign(
       {},
       {
         productListingId: productListingId,
-        winningUssID: winningUssID
+        winningUssID: winningUssID,
+        index: index
       }
     );
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
