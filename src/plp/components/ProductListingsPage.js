@@ -9,7 +9,8 @@ import {
   CATEGORY_PAGE_WITH_SLUG,
   BRAND_PRODUCT_LISTINGS_WITH_PAGE,
   BRAND_PAGE_WITH_SLUG,
-  CHANNEL
+  CHANNEL,
+  PRODUCT_LISTINGS
 } from "../../lib/constants.js";
 import delay from "lodash.delay";
 import {
@@ -150,8 +151,19 @@ class ProductListingsPage extends Component {
         searchText = `:relevance:brand:${this.props.match.params[0].toUpperCase()}`;
       }
     }
+    if (this.props.match.path === PRODUCT_LISTINGS) {
+      if (!searchText.includes("relevance")) {
+        searchText = `${searchText}:relevance`;
+      }
+    }
     if (searchText) {
-      searchText = searchText.replace("+", " ");
+      if (
+        !searchText.includes("capacityCC-classification") &&
+        !searchText.includes("internalStorage-classification") &&
+        !searchText.includes("type-classification")
+      ) {
+        searchText = searchText.replace("+", " ");
+      }
       if (!searchText.includes("screenSize-classification")) {
         searchText = searchText.replace(MAX_PRICE_FROM_API, MAX_PRICE_FROM_UI);
       }
