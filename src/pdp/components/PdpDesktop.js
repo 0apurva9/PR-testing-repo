@@ -186,8 +186,8 @@ export default class PdpApparel extends React.Component {
     if (
       this.props.productDetails &&
       this.props.productDetails.serviceableSellerMessage &&
-        (this.props.productDetails.serviceableSellerMessage !==
-          prevProps.productDetails.serviceableSellerMessage)
+      this.props.productDetails.serviceableSellerMessage !==
+        prevProps.productDetails.serviceableSellerMessage
     ) {
       this.props.displayToast(
         this.props.productDetails.serviceableSellerMessage
@@ -250,7 +250,7 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails.isServiceableToPincode.status
     ) {
       if (this.props.productDetails.isServiceableToPincode.status === "Y") {
-        this.props.displayToast("Product is servicable to pincode");
+        this.props.displayToast("Product is serviceable to pincode");
         setDataLayerForCartDirectCalls(
           ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
           pincode
@@ -258,7 +258,7 @@ export default class PdpApparel extends React.Component {
       } else if (
         this.props.productDetails.isServiceableToPincode.status === "N"
       ) {
-        this.props.displayToast("Product is not servicable to pincode");
+        this.props.displayToast("Product is not serviceable to pincode");
         setDataLayerForCartDirectCalls(
           ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
           pincode
