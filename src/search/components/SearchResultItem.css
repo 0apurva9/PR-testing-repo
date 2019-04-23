@@ -1,3 +1,4 @@
+
 .base {
   width: 100%;
   height: 40px;
@@ -15,11 +16,12 @@
 }
 
 .imageStoreOrBrand {
+
   float: right;
-  width: 30px;
-  height: 30px;
-  background: grey;
+  min-width: 71px;
+  height: 50px;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .bolder {
