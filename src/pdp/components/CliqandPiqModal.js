@@ -285,7 +285,7 @@ export default class ReturnToStore extends React.Component {
                         closingTime={this.state.selectedStore.mplClosingTime}
                         pincodeDetails={
                           this.props.isFromCheckOut
-                            ? this.props.pincodeResponseList
+                            ? this.props.pincodeResponse
                             : getDeliveryModesByWinningUssid
                         }
                         selectedSlaveId={this.state.selectedStore.slaveId}
