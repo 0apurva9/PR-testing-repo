@@ -10,6 +10,7 @@
   font-size: 14px;
   line-height: 20px;
   text-align: left;
+  margin-bottom: 10px;
 }
 
 .inputHolder {
@@ -36,6 +37,7 @@
   width: 100%;
   height: auto;
   font-size: 12px;
-  font-family: regular;
+  font-family: light;
+  line-height: 16px;
   color: #000;
 }
