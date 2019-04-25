@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0">
   <meta name="theme-color" content="#000000">
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
   <meta name="google-site-verification" content="EU8G54_LSqH0OTlvIXRhrV1fnjGDdh0uBoKYraVKE1I" />
@@ -39,9 +40,12 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 
-  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff" as="font" crossorigin="anonymous">
-  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2" as="font" crossorigin="anonymous">
-  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff" as="font"
+    crossorigin="anonymous">
+  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2" as="font"
+    crossorigin="anonymous">
+  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2" as="font"
+    crossorigin="anonymous">
 
 
 
@@ -58,53 +62,53 @@
 
   <style>
     body {
-          margin: 0;
-          padding: 0;
-          font-family: regular;
-        }
+      margin: 0;
+      padding: 0;
+      font-family: regular;
+    }
 
-        @font-face {
-          font-family: regular;
-          src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff');
-          font-display: swap;
-        }
+    @font-face {
+      font-family: regular;
+      src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff');
+      font-display: swap;
+    }
 
-        @font-face {
-          font-family: semibold;
-          src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2') format('woff2'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff') format('woff');
-          font-display: swap;
-        }
+    @font-face {
+      font-family: semibold;
+      src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2') format('woff2'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff') format('woff');
+      font-display: swap;
+    }
 
-        @font-face {
-          font-family: light;
-          src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff2'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff');
-          font-display: swap;
-        }
+    @font-face {
+      font-family: light;
+      src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff2'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff');
+      font-display: swap;
+    }
 
-        #root {
-          width: 100%;
-        }
+    #root {
+      width: 100%;
+    }
 
 
-        #modal-root {
-          width: 100vw;
-          position: absolute;
-          left: 0;
-          top: 0;
-        }
+    #modal-root {
+      width: 100vw;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 
-        #modal-root>div {
-          width: 100%;
-        }
+    #modal-root>div {
+      width: 100%;
+    }
 
-        h1,
-        h2,
-        h3 {
-          margin: 0px;
-          font-size: inherit;
-          font-weight: normal
-        }
-      </style>
+    h1,
+    h2,
+    h3 {
+      margin: 0px;
+      font-size: inherit;
+      font-weight: normal
+    }
+  </style>
   <script type="text/javascript">
     function loadJS(x) {
       var tag = document.createElement("script");
@@ -131,6 +135,31 @@
         }
       }
     };
+  </script>
+  <script>
+    window.onedirectSettings = {
+      apiKey: 'NjMyNF8xNTU0Mzg1ODM0MDYyXzQ=',
+      settings: {
+        widgetPosition: {
+          //left: (window.innerWidth) - 40,
+          //bottom: (window.innerHeight) - 70 - 40,
+          left: 95,
+          bottom: 5
+        }
+      }
+    }
+  </script>
+  <script>
+    window.initMessenger = function () {
+      if (!document.getElementById('onedirect-messaging-sdk')) {
+        ! function (e, s, n, t, a) {
+          el = s.createElement(n), p = s.getElementsByTagName(n)[0], el.async = 1, el.id = "onedirect-messaging-sdk",
+            el.src =
+            "https://s3-ap-southeast-1.amazonaws.com/onedirect/messaging/web-sdk/production/od-messaging.init.v1.0.min.js",
+            p.parentNode.insertBefore(el, p)
+        }(window, document, "script");
+      }
+    }
   </script>
 </head>
 
