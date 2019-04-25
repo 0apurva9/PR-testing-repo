@@ -741,6 +741,7 @@ class CheckOutPage extends React.Component {
               this.setState({ showCliqAndPiq: false })
             }
             pincodeResponse={firstSlaveData}
+            pincode={localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}
           />
         </ModalPanel>
       );
