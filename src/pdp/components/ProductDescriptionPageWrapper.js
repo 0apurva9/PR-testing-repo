@@ -395,6 +395,9 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.winningUssID;
+      cliqAndPiqDetails.pincode = localStorage.getItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE
+      );
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {

@@ -742,6 +742,7 @@ class CheckOutPage extends React.Component {
             }
             pincodeResponse={firstSlaveData}
             pincode={localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}
+            isFromCheckOut={true}
           />
         </ModalPanel>
       );
