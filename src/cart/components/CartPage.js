@@ -51,6 +51,8 @@ import {
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
 import styles from "./CartPage.css";
+import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
+import ModalPanel from "../../general/components/ModalPanel.js";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
@@ -65,7 +67,9 @@ class CartPage extends React.Component {
       isServiceable: false,
       changePinCode: false,
       appliedCouponCode: null,
-      showCheckoutSection: true
+      showCheckoutSection: true,
+      showCliqAndPiq: false,
+      selectedProductsUssIdForCliqAndPiq: null
     };
   }
   showHideDetails = () => {
@@ -510,6 +514,41 @@ class CartPage extends React.Component {
   onKeyPress() {
     this.setState({ showCheckoutSection: true });
   }
+  getAllStores = async selectedProductsUssId => {
+    const defalutPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    this.setState({
+      showCliqAndPiq: true,
+      selectedProductsUssIdForCliqAndPiq: selectedProductsUssId
+    });
+    let getAllStoresCNCResponse = await this.props.getAllStoresCNC(
+      defalutPinCode
+    );
+    if (getAllStoresCNCResponse.status === SUCCESS) {
+      this.renderCliqAndPiq(selectedProductsUssId);
+    }
+  };
+  renderCliqAndPiq(selectedProductsUssId) {
+    let currentSelectedProduct =
+      this.props.cart &&
+      this.props.cart.cartDetails &&
+      this.props.cart.cartDetails.products &&
+      this.props.cart.cartDetails.products.find(product => {
+        return product.USSID === selectedProductsUssId;
+      });
+    const firstSlaveData =
+      currentSelectedProduct &&
+      currentSelectedProduct.pinCodeResponse &&
+      currentSelectedProduct.pinCodeResponse.validDeliveryModes;
+    let cliqAndPiqDetails = {};
+    cliqAndPiqDetails.stores = this.props.cart.storeDetails;
+    cliqAndPiqDetails.productDetails = currentSelectedProduct;
+    cliqAndPiqDetails.pinCodeUpdateDisabled = true;
+    cliqAndPiqDetails.pincodeResponse = firstSlaveData;
+    cliqAndPiqDetails.pincode = localStorage.getItem(
+      DEFAULT_PIN_CODE_LOCAL_STORAGE
+    );
+    this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
+  }
   render() {
     const getPinCode =
       this.props &&
@@ -724,7 +763,7 @@ class CartPage extends React.Component {
                               product.pinCodeResponse &&
                               product.pinCodeResponse.validDeliveryModes
                             }
-                            allStores={this.props.stores}
+                            onPiq={() => this.getAllStores(product.USSID)}
                             deliveryType={
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].code

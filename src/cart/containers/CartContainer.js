@@ -31,7 +31,8 @@ import {
   PRODUCT_COUPONS,
   showModal,
   ADDRESS,
-  DESKTOP_AUTH
+  DESKTOP_AUTH,
+  CLIQ_PIQ_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -39,11 +40,6 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
-import {
-  getAllStoresForCliqAndPiq,
-  showPdpPiqPage,
-  hidePdpPiqPage
-} from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -170,17 +166,11 @@ const mapDispatchToProps = dispatch => {
     mergeTempCartWithOldCart: () => {
       dispatch(mergeTempCartWithOldCart());
     },
-    getAllStoresForCliqAndPiq: pinCode => {
-      dispatch(getAllStoresForCliqAndPiq(pinCode));
-    },
     getAllStoresCNC: pinCode => {
-      dispatch(getAllStoresCNC(pinCode));
+      return dispatch(getAllStoresCNC(pinCode));
     },
-    showPdpPiqPage: () => {
-      dispatch(showPdpPiqPage());
-    },
-    hidePdpPiqPage: () => {
-      dispatch(hidePdpPiqPage());
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
     }
   };
 };
@@ -192,10 +182,7 @@ const mapStateToProps = state => {
     loginFromMyBag: state.cart.loginFromMyBag,
     loadingForCartDetail: state.cart.loadingForCartDetail,
     wishListCount: state.wishlistItems.count,
-    loadingForCartDetail: state.cart.loadingForCartDetail,
-    stores: state.productDescription.storeDetails,
-    loading: state.productDescription.loading,
-    showPiqPage: state.productDescription.showPiqPage
+    loadingForCartDetail: state.cart.loadingForCartDetail
   };
 };
 const CartContainer = withRouter(

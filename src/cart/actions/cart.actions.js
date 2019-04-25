@@ -1539,9 +1539,9 @@ export function getAllStoresCNC(pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getAllStoresCNCSuccess(resultJson.stores));
+      return dispatch(getAllStoresCNCSuccess(resultJson.stores));
     } catch (e) {
-      dispatch(getAllStoresCNCFailure(e.message));
+      return dispatch(getAllStoresCNCFailure(e.message));
     }
   };
 }
