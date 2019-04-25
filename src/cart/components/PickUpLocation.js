@@ -204,7 +204,6 @@ export default class PickUpLocation extends React.Component {
                   {openingTime} - {closingTime}
                 </div>
               )}
-
               {this.dateConverter(this.props.workingDays) && (
                 <div className={styles.pickUpDay}>
                   <span className={styles.closedOnLabel}>Closed on</span>
