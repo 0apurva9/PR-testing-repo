@@ -100,7 +100,10 @@ import {
   PAYPAL,
   E_WALLET_PAYPAL,
   RETRY_FAILED_ORDER,
-  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
+  SHORT_SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY_SHIPPING
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -390,6 +393,11 @@ class CheckOutPage extends React.Component {
     let deliverModeInShortTerm;
     if (deliveryMode === HOME_DELIVERY) {
       deliverModeInShortTerm = SHORT_HOME_DELIVERY;
+    } else if (
+      deliveryMode === SAME_DAY_DELIVERY ||
+      deliveryMode === SAME_DAY_DELIVERY_SHIPPING
+    ) {
+      deliverModeInShortTerm = SHORT_SAME_DAY_DELIVERY;
     } else {
       deliverModeInShortTerm = SHORT_EXPRESS;
     }
@@ -559,6 +567,7 @@ class CheckOutPage extends React.Component {
             return (
               <div className={styles.row}>
                 <CartItem
+                  isTop={false}
                   key={i}
                   selected={this.state.ussIdAndDeliveryModesObj[val.USSID]}
                   productImage={val.imageURL}
@@ -585,6 +594,12 @@ class CheckOutPage extends React.Component {
                   onPiq={() => this.getAllStores(val.USSID)}
                   onClickImage={() => this.onClickImage(val.productcode)}
                   isClickable={true}
+                  deliveryInformationWithDate={
+                    val.pinCodeResponse &&
+                    val.pinCodeResponse.validDeliveryModes
+                  }
+                  selectedStoreDetails={val.storeDetails}
+                  inCartPage={true}
                 />
               </div>
             );
@@ -635,21 +650,16 @@ class CheckOutPage extends React.Component {
         return product.USSID === this.state.selectedProductsUssIdForCliqAndPiq;
       }
     );
-
+    const firstSlaveData =
+      currentSelectedProduct.pinCodeResponse.validDeliveryModes;
     if (checkUserAgentIsMobile()) {
-      const firstSlaveData =
-        currentSelectedProduct.pinCodeResponse.validDeliveryModes;
       const someData = firstSlaveData
         .map(slaves => {
           return (
             slaves.CNCServiceableSlavesData &&
             slaves.CNCServiceableSlavesData.map(slave => {
-              return (
-                slave &&
-                slave.serviceableSlaves.map(serviceableSlave => {
-                  return serviceableSlave;
-                })
-              );
+              return;
+              slave;
             })
           );
         })
@@ -665,13 +675,14 @@ class CheckOutPage extends React.Component {
       const allStoreIds = [].concat
         .apply([], [].concat.apply([], someData))
         .map(store => {
-          return store && store.slaveId;
+          return store && store.storeId;
         });
-      const availableStores = this.props.cart.storeDetails
-        ? this.props.cart.storeDetails.filter(val => {
-            return allStoreIds.includes(val.slaveId);
-          })
-        : [];
+      const availableStores =
+        this.props.cart && this.props.cart.storeDetails
+          ? this.props.cart.storeDetails.filter(val => {
+              return allStoreIds.includes(val.slaveId);
+            })
+          : [];
       return (
         <PiqPage
           availableStores={availableStores}
@@ -729,6 +740,7 @@ class CheckOutPage extends React.Component {
             CloseCliqAndPiqModal={() =>
               this.setState({ showCliqAndPiq: false })
             }
+            pincodeResponse={firstSlaveData}
           />
         </ModalPanel>
       );
@@ -971,7 +983,14 @@ class CheckOutPage extends React.Component {
 
       nextProps.cart.getUserAddressAndDeliveryModesByRetryPayment.products.forEach(
         product => {
-          if (product.selectedDeliveryModeCode === "ED") {
+          if (
+            product.selectedDeliveryModeCode === "SDD" ||
+            product.selectedDeliveryModeCode === SAME_DAY_DELIVERY
+          ) {
+            let newObjectAdd = {};
+            newObjectAdd[product.USSID] = SAME_DAY_DELIVERY;
+            Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
+          } else if (product.selectedDeliveryModeCode === "ED") {
             let newObjectAdd = {};
             newObjectAdd[product.USSID] = EXPRESS;
             Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
@@ -979,6 +998,39 @@ class CheckOutPage extends React.Component {
             let newObjectAdd = {};
             newObjectAdd[product.USSID] = HOME_DELIVERY;
             Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
+          } else if (product.selectedDeliveryModeCode === "CNC") {
+            this.setState(
+              {
+                selectedProductsUssIdForCliqAndPiq: product && product.USSID
+              },
+              () => {
+                const updatedDeliveryModeUssid = this.state
+                  .ussIdAndDeliveryModesObj;
+                let selectedSlaveIdObj = "";
+                updatedDeliveryModeUssid[product && product.USSID] = COLLECT;
+                selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
+                selectedSlaveIdObj[
+                  this.state.selectedProductsUssIdForCliqAndPiq
+                ] =
+                  product.selectedStoreCNC;
+                this.setState(
+                  {
+                    ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
+                    cliqPiqSelected: true,
+                    isDeliveryModeSelected: true,
+                    deliverMode: true,
+                    selectedSlaveIdObj,
+                    isCheckoutAddressSelected: true
+                  },
+                  () => {
+                    localStorage.setItem(
+                      SELECTED_DELIVERY_MODE,
+                      JSON.stringify(updatedDeliveryModeUssid)
+                    );
+                  }
+                );
+              }
+            );
           }
         }
       );
@@ -1006,8 +1058,23 @@ class CheckOutPage extends React.Component {
         nextProps.cart.cartDetailsCNC.products
       ) {
         nextProps.cart.cartDetailsCNC.products.forEach(product => {
-          if (product.isGiveAway === NO) {
+          if (product.pinCodeResponse.isServicable === NO) {
+            this.props.history.push(PRODUCT_CART_ROUTER);
+          }
+          if (
+            product.isGiveAway === NO &&
+            product.pinCodeResponse.isServicable !== NO
+          ) {
             if (
+              product.elligibleDeliveryMode &&
+              product.elligibleDeliveryMode.findIndex(mode => {
+                return mode.code === SAME_DAY_DELIVERY;
+              }) >= 0
+            ) {
+              let newObjectAdd = {};
+              newObjectAdd[product.USSID] = SAME_DAY_DELIVERY;
+              Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
+            } else if (
               product.elligibleDeliveryMode &&
               product.elligibleDeliveryMode.findIndex(mode => {
                 return mode.code === EXPRESS;

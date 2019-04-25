@@ -42,16 +42,11 @@ export default class DeliveryInfoSelect extends React.Component {
         firstSlaveData.CNCServiceableSlavesData.map(slaves => {
           return slaves;
         });
-      const allStoreIds = [].concat
+      availableStores = [].concat
         .apply([], [].concat.apply([], someData))
         .map(store => {
           return store && store.storeId;
         });
-      availableStores = this.props.allStores
-        ? this.props.allStores.filter(val => {
-            return allStoreIds.includes(val.slaveId);
-          })
-        : [];
     }
     return (
       <div>

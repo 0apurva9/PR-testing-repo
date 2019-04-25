@@ -55,7 +55,6 @@ export default class IconWithHeader extends React.Component {
     return this.getDateMonthFormate(date, month);
   }
   render() {
-    console.log(this.props.inCartPage);
     let placedTime = "";
     let getClickAndPiqSelectedDate = "";
     let productDayFormatOfClqAndPiq = "";
