@@ -67,7 +67,6 @@ export default class GetLocationDetails extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     let selectedPickUpDateObject = "";
     let validDeliveryModeByPinCodeResponse = "";
     if (this.props.isFromCheckOut) {
