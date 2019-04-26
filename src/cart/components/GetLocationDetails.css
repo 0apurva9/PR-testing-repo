@@ -76,6 +76,10 @@
 .openingTime {
   width: 100%;
   height: auto;
+  margin-bottom: 10px;
+}
+.openingTime:last-child {
+  margin-bottom: 0px;
 }
 .labelHolderForPopUp {
   width: auto;
