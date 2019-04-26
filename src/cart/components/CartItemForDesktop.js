@@ -11,7 +11,8 @@ import {
   COLLECT_TEXT,
   YES,
   NO,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  SHORT_COLLECT
 } from "../../lib/constants";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
@@ -19,6 +20,7 @@ import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddToWishListButton";
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
+import format from "date-fns/format";
 const NO_SIZE = "NO SIZE";
 const NOT_SERVICEABLE = "Not available at your PIN code";
 const OUT_OF_STOCK = "Product is out of stock";
@@ -74,11 +76,44 @@ export default class CartItemForDesktop extends React.Component {
       }
     });
   }
-
   handleQuantityChange(changedValue) {
     const updatedQuantity = parseInt(changedValue.value, 10);
     if (this.props.onQuantityChange) {
       this.props.onQuantityChange(this.props.entryNumber, updatedQuantity);
+    }
+  }
+  getDayNumberSuffix(d) {
+    let dateWithMonth = new Date(d);
+    let date = dateWithMonth.getUTCDate();
+    let month = dateWithMonth.getUTCMonth();
+    let year = dateWithMonth.getFullYear();
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        return "" + date + "st " + monthNames[month];
+      case 2:
+      case 22:
+        return "" + date + "nd " + monthNames[month];
+      case 3:
+      case 23:
+        return "" + date + "rd " + monthNames[month];
+      default:
+        return "" + date + "th " + monthNames[month];
     }
   }
   render() {
@@ -93,6 +128,48 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
+    let pickUpDateDetails = "";
+    if (this.props.storeDetails && this.props.storeDetails.slaveId) {
+      let productSlaveId = this.props.storeDetails.slaveId;
+      let cncDetails =
+        this.props.deliveryInformationWithDate &&
+        this.props.deliveryInformationWithDate.find(val => {
+          return val.type === SHORT_COLLECT;
+        });
+      pickUpDateDetails =
+        cncDetails &&
+        cncDetails.CNCServiceableSlavesData &&
+        cncDetails.CNCServiceableSlavesData.length > 0 &&
+        cncDetails.CNCServiceableSlavesData.find(val => {
+          return val.storeId === productSlaveId;
+        });
+    }
+    let strTime = "";
+    if (
+      this.props.isFromCnc &&
+      this.props.storeDetails &&
+      this.props.storeDetails.displayName
+    ) {
+      var dateForPiq = new Date(
+        pickUpDateDetails && pickUpDateDetails.pickupDate
+      );
+      var hours = dateForPiq.getHours();
+      var minutes = dateForPiq.getMinutes();
+      var salutationOfTime = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 0; // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      strTime = hours + ":" + minutes + " " + salutationOfTime;
+    }
+    let day = new Date();
+    let dayFormat = format(day, "DD-MMM-YYYY");
+    let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
+    let nextDay = new Date(nextWithOutFormatDay);
+    let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
+    let productDayFormatOfClqAndPiq = format(
+      pickUpDateDetails && pickUpDateDetails.pickupDate
+    );
+    console.log(this.props.storeDetails);
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -215,8 +292,51 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
         </div>
-
-        {this.props.isGiveAway === NO &&
+        {this.props.isFromCnc &&
+          this.props.storeDetails &&
+          this.props.storeDetails.address &&
+          this.props.storeDetails.address && (
+            <div className={styles.storeDataHolder}>
+              <div className={styles.pickUpIcon} />
+              <div className={styles.dataHolder}>
+                <div className={styles.pickUpStoreHeading}>Pick from store</div>
+                <div className={styles.pickUpData}>
+                  <div>
+                    {this.props.storeDetails.address.line1
+                      ? this.props.storeDetails.address.line1
+                      : ""},
+                    {this.props.storeDetails.address.line2
+                      ? this.props.storeDetails.address.line2
+                      : ""},
+                    {this.props.storeDetails.address.city
+                      ? this.props.storeDetails.address.city
+                      : ""},
+                    {this.props.storeDetails.address.postalCode
+                      ? this.props.storeDetails.address.postalCode
+                      : ""}
+                  </div>
+                  <div>
+                    {pickUpDateDetails && pickUpDateDetails.pickupDate
+                      ? dayFormat === productDayFormatOfClqAndPiq
+                        ? `Today, ${this.getDayNumberSuffix(
+                            pickUpDateDetails && pickUpDateDetails.pickupDate
+                          )}`
+                        : nextDayFormat === productDayFormatOfClqAndPiq
+                          ? `Tomorrow, ${this.getDayNumberSuffix(
+                              pickUpDateDetails && pickUpDateDetails.pickupDate
+                            )}`
+                          : `${this.getDayNumberSuffix(
+                              pickUpDateDetails && pickUpDateDetails.pickupDate
+                            )}`
+                      : ""}
+                    {hours !== 0 ? ` | After ${strTime}` : ""}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        {!this.props.isFromCnc &&
+          this.props.isGiveAway === NO &&
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>
               <DeliveryInfoSelect
@@ -268,5 +388,6 @@ CartItemForDesktop.defaultProps = {
   deliveryInfoToggle: true,
   hasFooter: true,
   dropdownLabel: "Quantity:",
-  removeText: "Remove"
+  removeText: "Remove",
+  isFromCnc: false
 };

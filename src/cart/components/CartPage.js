@@ -59,6 +59,8 @@ const PRODUCT_NOT_SERVICEABLE_MESSAGE =
   "Product is not Serviceable,Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
 const CHECKOUT__TEXT = "Checkout";
+export const CLIQ_AND_PIQ_CART_CODE = "cliqAndPiqCartCode";
+export const CLIQ_AND_PIQ_CART_ID = "cliqAndPiqCartId";
 class CartPage extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +69,8 @@ class CartPage extends React.Component {
       isServiceable: false,
       changePinCode: false,
       appliedCouponCode: null,
-      showCheckoutSection: true
+      showCheckoutSection: true,
+      isComingFromCliqAndPiq: false
     };
   }
   showHideDetails = () => {
@@ -104,16 +107,38 @@ class CartPage extends React.Component {
       if (JSON.parse(cartDetailsLoggedInUser).isBuyNowCart) {
         localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
       }
+      let cliqPiqCartCode, cliqPiqCartId;
+      if (
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.isFromCliqAndPiq
+      ) {
+        cliqPiqCartCode =
+          this.props.location &&
+          this.props.location.state &&
+          this.props.location.state.isCliqAndPiqCartCode
+            ? this.props.location.state.isCliqAndPiqCartCode
+            : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_CODE));
+        cliqPiqCartId =
+          this.props.location &&
+          this.props.location.state &&
+          this.props.location.state.isCliqAndPiqCartGuid
+            ? this.props.location.state.isCliqAndPiqCartGuid
+            : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_ID));
+        this.setState({ isComingFromCliqAndPiq: true });
+      }
       this.props.getCartDetails(
         JSON.parse(userDetails).userName,
         JSON.parse(customerCookie).access_token,
-        JSON.parse(cartDetailsLoggedInUser).code,
+        cliqPiqCartCode
+          ? cliqPiqCartCode
+          : JSON.parse(cartDetailsLoggedInUser).code,
         defaultPinCode
       );
       this.props.displayCouponsForLoggedInUser(
         JSON.parse(userDetails).userName,
         JSON.parse(customerCookie).access_token,
-        JSON.parse(cartDetailsLoggedInUser).guid
+        cliqPiqCartId ? cliqPiqCartId : JSON.parse(cartDetailsLoggedInUser).guid
       );
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
@@ -151,6 +176,13 @@ class CartPage extends React.Component {
     this.setState({
       appliedCouponCode: cartCouponCode
     });
+    if (
+      nextProps.location &&
+      nextProps.location.state &&
+      nextProps.location.state.isFromCliqAndPiq
+    ) {
+      this.setState({ isComingFromCliqAndPiq: true });
+    }
   }
   componentDidUpdate(prevProps, prevState) {
     this.props.setHeaderText(YOUR_BAG);
@@ -312,9 +344,22 @@ class CartPage extends React.Component {
     if (pinCode && this.state.isServiceable === true) {
       setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
       this.navigateToCheckout = true;
-      this.props.history.push({
-        pathname: CHECKOUT_ROUTER
-      });
+      if (
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.isFromCliqAndPiq
+      ) {
+        this.props.history.push({
+          pathname: CHECKOUT_ROUTER,
+          state: {
+            isFromCliqAndPiq: true
+          }
+        });
+      } else {
+        this.props.history.push({
+          pathname: CHECKOUT_ROUTER
+        });
+      }
     }
     if (!pinCode) {
       this.props.displayToast("Please enter Pin code / Zip code");
@@ -337,11 +382,26 @@ class CartPage extends React.Component {
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
     let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    let cliqPiqCartCode;
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.isFromCliqAndPiq
+    ) {
+      cliqPiqCartCode =
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.isCliqAndPiqCartCode
+          ? this.props.location.state.isCliqAndPiqCartCode
+          : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_CODE));
+    }
     if (userDetails) {
       this.props.getCartDetails(
         JSON.parse(userDetails).userName,
         JSON.parse(customerCookie).access_token,
-        JSON.parse(cartDetailsLoggedInUser).code,
+        cliqPiqCartCode
+          ? cliqPiqCartCode
+          : JSON.parse(cartDetailsLoggedInUser).code,
         val,
         true // this is for setting data layer for change pincode
       );
@@ -735,6 +795,14 @@ class CartPage extends React.Component {
                         </MobileOnly>
                         <DesktopOnly>
                           <CartItemForDesktop
+                            isFromCnc={
+                              (this.props.location &&
+                                this.props.location.state &&
+                                this.props.location.state.isFromCliqAndPiq) ||
+                              this.state.isComingFromCliqAndPiq
+                                ? true
+                                : false
+                            }
                             pinCode={defaultPinCode}
                             product={product}
                             productIsServiceable={serviceable}
@@ -778,6 +846,7 @@ class CartPage extends React.Component {
                             }
                             isTop={false}
                             inCartPage={true}
+                            storeDetails={product.storeDetails}
                           />
                         </DesktopOnly>
                       </div>
@@ -1003,6 +1072,10 @@ here we need to hit call for merging cart id if user
 
     if (this.props.clearCartDetails) {
       this.props.clearCartDetails();
+    }
+    if (localStorage.getItem(CLIQ_AND_PIQ_CART_CODE)) {
+      localStorage.removeItem(CLIQ_AND_PIQ_CART_CODE);
+      localStorage.removeItem(CLIQ_AND_PIQ_CART_ID);
     }
   }
 }
