@@ -67,9 +67,7 @@ class CartPage extends React.Component {
       isServiceable: false,
       changePinCode: false,
       appliedCouponCode: null,
-      showCheckoutSection: true,
-      showCliqAndPiq: false,
-      selectedProductsUssIdForCliqAndPiq: null
+      showCheckoutSection: true
     };
   }
   showHideDetails = () => {
@@ -516,10 +514,6 @@ class CartPage extends React.Component {
   }
   getAllStores = async selectedProductsUssId => {
     const defalutPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-    this.setState({
-      showCliqAndPiq: true,
-      selectedProductsUssIdForCliqAndPiq: selectedProductsUssId
-    });
     let getAllStoresCNCResponse = await this.props.getAllStoresCNC(
       defalutPinCode
     );
