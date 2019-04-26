@@ -304,7 +304,7 @@ export default class CartItemForDesktop extends React.Component {
               <div className={styles.dataHolder}>
                 <div className={styles.pickUpStoreHeading}>Pick from store</div>
                 <div className={styles.pickUpData}>
-                  <div>
+                  <div className={styles.addressOfSelect}>
                     {this.props.storeDetails.address.line1
                       ? this.props.storeDetails.address.line1
                       : ""},
@@ -318,7 +318,7 @@ export default class CartItemForDesktop extends React.Component {
                       ? this.props.storeDetails.address.postalCode
                       : ""}
                   </div>
-                  <div>
+                  <div className={styles.addressOfSelect}>
                     {pickUpDateDetails && pickUpDateDetails.pickupDate
                       ? dayFormat === productDayFormatOfClqAndPiq
                         ? `Today, ${this.getDayNumberSuffix(
