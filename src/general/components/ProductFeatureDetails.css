@@ -1,0 +1,75 @@
+.base {
+  width: 100%;
+  padding: 2px;
+}
+
+base :after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.offerContainer {
+}
+.offerList {
+  float: left;
+  width: 50%;
+  margin-top: 7%;
+}
+.featureContainer {
+  margin-top: -3%;
+}
+.featureList {
+  line-height: 25px;
+  float: left;
+  width: 50%;
+  font-family: light;
+  margin-top: 3%;
+}
+.featureHeader h3 {
+  width: 100%;
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
+}
+.priceHolder {
+  display: inline-block;
+  line-height: 24px;
+}
+.electronicDiscount {
+  composes: priceHolder;
+  margin-right: 10px;
+}
+
+.electronicDiscount h3 {
+  color: #212121;
+  font-size: 17px;
+  line-height: 20px;
+  font-family: light;
+  white-space: normal;
+  font-weight: 900;
+}
+.discount {
+  composes: priceHolder;
+  margin-right: 10px;
+}
+.priceCancelled {
+  composes: priceHolder;
+  text-decoration: line-through;
+  color: #9b9b9b;
+}
+.contentWhite .priceCancelled {
+  color: #fff;
+}
+.elctronicPrize {
+}
+.elctronicList {
+  width: 100%;
+  line-height: 24px;
+  font-size: 14px;
+  font-family: light;
+  margin-bottom: 0px;
+  position: relative;
+  font-weight: 500;
+  color: #4a4a4a;
+  white-space: nowrap;
+}

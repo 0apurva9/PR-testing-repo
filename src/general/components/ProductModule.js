@@ -57,18 +57,28 @@ export default class ProductModule extends React.Component {
     }
   };
   render() {
+    let electronicView =
+      this.props.productCategory &&
+      this.props.productCategory === "Electronics";
     let downloadImage = downloadIcon;
     if (this.props.isWhite) {
       downloadImage = downloadIconWhite;
     }
     return (
       <div
-        className={styles.base}
+        className={electronicView ? styles.electronicsBase : styles.base}
         onClick={this.onClick}
         id={`ProductModule-${this.props.productId}`}
       >
         {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
-        <div className={styles.imageAndDescriptionWrapper}>
+
+        <div
+          className={
+            electronicView
+              ? styles.electronicImageAndDescriptionWrapper
+              : styles.imageAndDescriptionWrapper
+          }
+        >
           <a
             href={`${window.location.origin}${this.getProductURL()}`}
             className={styles.aTag}
@@ -77,14 +87,17 @@ export default class ProductModule extends React.Component {
           >
             <div
               className={
-                this.props.view === "grid"
-                  ? styles.imageHolder
-                  : styles.ListimageHolder
+                electronicView
+                  ? styles.ElectronicListimageHolder
+                  : this.props.view === "grid"
+                    ? styles.imageHolder
+                    : styles.ListimageHolder
               }
             >
               <ProductImage
                 alt={this.props.alt}
                 image={this.props.productImage}
+                electronicView={electronicView}
               />
               {this.props.onConnect && (
                 <ConnectButton onClick={this.handleConnect} />
@@ -103,12 +116,21 @@ export default class ProductModule extends React.Component {
           </a>
           <div
             className={
-              this.props.view === "grid" ? styles.content : styles.Listcontent
+              electronicView
+                ? styles.electronicViewContent
+                : this.props.view === "grid"
+                  ? styles.content
+                  : styles.Listcontent
             }
           >
-            <ProductDescription {...this.props} />
+            <ProductDescription
+              {...this.props}
+              electronicView={electronicView}
+            />
+
             {this.props.view === "list" && (
               <ProductInfo
+                electronicView={electronicView}
                 averageRating={this.props.averageRating}
                 totalNoOfReviews={this.props.totalNoOfReviews}
                 offerText={this.props.offerText}

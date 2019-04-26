@@ -22,7 +22,16 @@
   composes: headerText;
   color: #fff;
 }
-
+.electronicHeaderText {
+  width: 100%;
+  font-family: regular;
+  font-size: 14px;
+  color: #212121;
+  white-space: normal;
+}
+.electronicHeaderText h3 {
+  font-weight: 700;
+}
 .hasDownload {
   composes: header;
   padding-right: 30px;
@@ -68,4 +77,59 @@
 }
 .contentWhite .priceCancelled {
   color: #fff;
+}
+.ratingReviewElectronicsContainer {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  margin-bottom: 5%;
+}
+.reviewElectronicsContainer {
+  display: block;
+  float: left;
+  background-color: #49a862;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+.lessReviewElectronicsContainer {
+  display: block;
+  float: left;
+  background-color: #f5a623;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+.reviewElectronics {
+  float: left;
+  font-size: 12px;
+}
+.ratingElectronics {
+  display: block;
+  float: left;
+  margin-left: 5px;
+  font-size: 10px;
+  color: #6c6c6c;
+  font-family: light;
+}
+.starPLPElectronics {
+  float: left;
+  margin: 4px 0px 4px 4px;
+}
+.baseClassPLPElectronics {
+  width: 100%;
+  height: auto;
+  padding: 2px 2px;
+}
+.descriptionElectronics {
+  white-space: normal;
+  -webkit-margin-before: inherit;
+  -webkit-margin-after: inherit;
+  line-height: 1.42;
+  margin-bottom: 5px;
+  font-size: 17px;
+  font-weight: 900;
+  color: #4a4a4a;
+  display: inline-block;
+  margin-bottom: 3%;
 }

@@ -1,6 +1,10 @@
 .base {
   width: 100%;
 }
+.electronicsBase {
+  width: 100%;
+  background-color: #fff;
+}
 .imageHolder {
   width: 100%;
   height: auto;
@@ -33,6 +37,13 @@
 .imageAndDescriptionWrapper {
   width: 100%;
   height: auto;
+}
+.electronicImageAndDescriptionWrapper {
+  width: 100%;
+  height: auto;
+  content: "";
+  display: table;
+  clear: both;
 }
 .productFeatureHolder {
   width: 100%;
@@ -80,9 +91,19 @@
   .ListimageHolder {
     width: 100%;
   }
+  .ElectronicListimageHolder {
+    width: 30%;
+    float: left;
+    position: relative;
+  }
   .Listcontent {
     width: 100%;
     padding: 20px 0px 0px 0px;
+  }
+  .electronicViewContent {
+    padding: 15px 0px 0px 18px;
+    float: left;
+    width: 70%;
   }
   .dummyDiv a {
     width: 100%;

@@ -236,7 +236,7 @@ export default class Plp extends React.Component {
     }
     /* Start - Gemini Script */
     //gemini JS object check.
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Listing Page
       window.GEM.setGeminiPageId("0002321000100200");
     } else {
@@ -482,6 +482,12 @@ export default class Plp extends React.Component {
     let selectedFilter = [];
     let filterSelected = false;
     let hasSorts = false;
+    let electronicView =
+      this.props.productListings &&
+      this.props.productListings.facetdatacategory &&
+      this.props.productListings.facetdatacategory.filters[0] &&
+      this.props.productListings.facetdatacategory.filters[0].categoryName !==
+        "Electronics";
     if (this.props.productListings && this.props.productListings.facetdata) {
       this.props.productListings.facetdata.forEach(filter => {
         selectedFilterCount += filter.selectedFilterCount;
@@ -568,7 +574,13 @@ export default class Plp extends React.Component {
             </MediaQuery>
             <MediaQuery query="(min-device-width:1025px)">
               <div className={styles.headerSortWithFilter}>
-                <div className={styles.selectedFilter}>
+                <div
+                  className={
+                    electronicView
+                      ? styles.selectedFilter
+                      : styles.selectedFilterElectronicView
+                  }
+                >
                   {selectedFilter &&
                     selectedFilter.map(selectedFilterData => {
                       return (
@@ -596,21 +608,24 @@ export default class Plp extends React.Component {
                 <div className={styles.sort}>
                   <SortDesktopContainer />
                 </div>
-                <div className={styles.gridIcon}>
-                  <DesktopOnly>
-                    <div
-                      className={styles.icon}
-                      onClick={() => this.switchView()}
-                    >
-                      {this.state.gridBreakup && (
-                        <Icon image={gridImage} size={20} />
-                      )}
-                      {!this.state.gridBreakup && (
-                        <Icon image={listImage} size={20} />
-                      )}
-                    </div>
-                  </DesktopOnly>
-                </div>
+
+                {electronicView && (
+                  <div className={styles.gridIcon}>
+                    <DesktopOnly>
+                      <div
+                        className={styles.icon}
+                        onClick={() => this.switchView()}
+                      >
+                        {this.state.gridBreakup && (
+                          <Icon image={gridImage} size={20} />
+                        )}
+                        {!this.state.gridBreakup && (
+                          <Icon image={listImage} size={20} />
+                        )}
+                      </div>
+                    </DesktopOnly>
+                  </div>
+                )}
               </div>
             </MediaQuery>
             <MobileOnly>

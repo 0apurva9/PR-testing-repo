@@ -119,6 +119,10 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
+    let electronicView =
+      this.props.data &&
+      this.props.data[0] &&
+      this.props.data[0].productCategoryType === "Electronics";
     return (
       <React.Fragment>
         <div
@@ -138,7 +142,9 @@ export default class ProductGrid extends React.Component {
               search={this.props.search}
               offset={0}
               elementWidthMobile={this.props.view === LIST ? 100 : 50}
-              elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
+              elementWidthDesktop={
+                electronicView ? 100 : this.props.gridBreakup ? 33.33 : 25
+              }
             >
               {this.props.data &&
                 this.props.data.map((datum, i) => {

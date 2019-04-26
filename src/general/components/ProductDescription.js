@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import ProductFeatureDetails from "./ProductFeatureDetails";
 import styles from "./ProductDescription.css";
+import FilledStarWhite from "./img/star-fill-white.svg";
+import Icon from "../../xelpmoc-core/Icon";
 import { RUPEE_SYMBOL } from "../../lib/constants";
 export default class ProductDescription extends Component {
   handleClick() {
@@ -10,10 +13,12 @@ export default class ProductDescription extends Component {
     }
   }
 
-  renderTitle = headerText => {
+  renderTitle = (headerText, electronicView) => {
     if (this.props.isPlp) {
       return (
-        <div className={headerText}>
+        <div
+          className={electronicView ? styles.electronicHeaderText : headerText}
+        >
           <h3>{this.props.title}</h3>
         </div>
       );
@@ -23,6 +28,9 @@ export default class ProductDescription extends Component {
   };
 
   render() {
+    console.log("props", this.props.plpAttrMap);
+    let { averageRating, totalNoOfReviews } = this.props;
+    let electronicView = this.props.electronicView;
     let headerClass = styles.header;
     let priceClass = styles.priceHolder;
     let headerText = styles.headerText;
@@ -42,9 +50,13 @@ export default class ProductDescription extends Component {
       contentClass = styles.contentWhite;
     }
     return (
-      <div className={styles.base}>
-        <div className={headerClass}>
-          {this.renderTitle(headerText)}
+      <div
+        className={
+          electronicView ? styles.baseClassPLPElectronics : styles.base
+        }
+      >
+        <div className={styles.headerClass}>
+          {this.renderTitle(headerText, electronicView)}
 
           {this.props.showWishListButton &&
             this.props.productListingId &&
@@ -59,47 +71,101 @@ export default class ProductDescription extends Component {
               </div>
             )}
         </div>
+
         <div className={contentClass}>
           {this.props.description && (
-            <h3 className={styles.description}>{this.props.description}</h3>
+            <h3
+              className={
+                electronicView
+                  ? styles.descriptionElectronics
+                  : styles.description
+              }
+            >
+              {this.props.description}
+            </h3>
           )}
 
-          {!this.props.isRange &&
-            this.props.discountPrice &&
-            this.props.discountPrice !== this.props.price && (
-              <div className={styles.discount}>
-                <h3>
-                  {" "}
-                  {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)
-                    ? this.props.discountPrice
-                    : `${RUPEE_SYMBOL}${Math.floor(this.props.discountPrice)}`}
-                </h3>
-              </div>
-            )}
+          {this.props.averageRating &&
+          this.props.productCategory === "Electronics"
+            ? this.props.averageRating &&
+              (this.props.totalNoOfReviews && (
+                <div className={styles.ratingReviewElectronicsContainer}>
+                  <div
+                    className={
+                      this.props.averageRating > 2.5
+                        ? styles.reviewElectronicsContainer
+                        : styles.lessReviewElectronicsContainer
+                    }
+                  >
+                    <div className={styles.reviewElectronics}>
+                      {Math.round(this.props.averageRating)}
+                    </div>
+                    <div className={styles.starPLPElectronics}>
+                      <Icon image={FilledStarWhite} size={10} />
+                    </div>
+                  </div>
+                  <div className={styles.ratingElectronics}>
+                    ({this.props.totalNoOfReviews})
+                  </div>
+                </div>
+              ))
+            : ""}
+          <React.Fragment>
+            {!this.props.isRange &&
+              !electronicView &&
+              this.props.discountPrice &&
+              this.props.discountPrice !== this.props.price && (
+                <div className={styles.discount}>
+                  <h3>
+                    {" "}
+                    {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.discountPrice
+                      : `${RUPEE_SYMBOL}${Math.floor(
+                          this.props.discountPrice
+                        )}`}
+                  </h3>
+                </div>
+              )}
 
-          {!this.props.isRange &&
-            this.props.price && (
-              <div className={priceClass}>
-                <h3>
-                  {" "}
-                  {this.props.price.toString().includes(RUPEE_SYMBOL)
-                    ? this.props.price
-                    : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
-                </h3>
+            {!this.props.isRange &&
+              !electronicView &&
+              this.props.price && (
+                <div className={priceClass}>
+                  <h3>
+                    {" "}
+                    {this.props.price.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.price
+                      : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
+                  </h3>
+                </div>
+              )}
+            {!this.props.isRange &&
+              !electronicView &&
+              this.props.mrpPrice &&
+              typeof this.props.mrpPrice !== "object" && (
+                <div className={priceClass}>
+                  <h3>
+                    {" "}
+                    {this.props.mrpPrice.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.mrpPrice
+                      : `${RUPEE_SYMBOL}${Math.floor(this.props.mrpPrice)}`}
+                  </h3>
+                </div>
+              )}
+          </React.Fragment>
+
+          <React.Fragment>
+            {electronicView && (
+              <div className={styles.electronicDesOfferContainer}>
+                <ProductFeatureDetails
+                  {...this.props}
+                  priceClass={priceClass}
+                  plpAttrMap={this.props.plpAttrMap && this.props.plpAttrMap}
+                />
               </div>
             )}
-          {!this.props.isRange &&
-            this.props.mrpPrice &&
-            typeof this.props.mrpPrice !== "object" && (
-              <div className={priceClass}>
-                <h3>
-                  {" "}
-                  {this.props.mrpPrice.toString().includes(RUPEE_SYMBOL)
-                    ? this.props.mrpPrice
-                    : `${RUPEE_SYMBOL}${Math.floor(this.props.mrpPrice)}`}
-                </h3>
-              </div>
-            )}
+          </React.Fragment>
+
           {this.props.isRange &&
             this.props.minPrice &&
             this.props.maxPrice && (
