@@ -350,14 +350,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.history.push({
         pathname: PRODUCT_CART_ROUTER,
         state: {
-          ProductCode:
-            this.props.productDetails &&
-            this.props.productDetails.productListingId,
           pinCode: defaultPinCode,
           isFromCliqAndPiq: true,
           isCliqAndPiqCartGuid: this.state.isCliqAndPiqCartGuid,
-          isCliqAndPiqCartCode: this.state.isCliqAndPiqCartCode,
-          isLoginFromCliqAndPiq: false
+          isCliqAndPiqCartCode: this.state.isCliqAndPiqCartCode
         }
       });
     }

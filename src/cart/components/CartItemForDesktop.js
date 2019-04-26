@@ -145,11 +145,23 @@ export default class CartItemForDesktop extends React.Component {
         });
     }
     let strTime = "";
+    let productDayFormatOfClqAndPiq = "";
+    let dayFormat = "";
+    let nextDayFormat = "";
     if (
       this.props.isFromCnc &&
       this.props.storeDetails &&
       this.props.storeDetails.displayName
     ) {
+      let day = new Date();
+      dayFormat = format(day, "DD-MMM-YYYY");
+      let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
+      let nextDay = new Date(nextWithOutFormatDay);
+      nextDayFormat = format(nextDay, "DD-MMM-YYYY");
+      productDayFormatOfClqAndPiq = format(
+        pickUpDateDetails && pickUpDateDetails.pickupDate,
+        "DD-MMM-YYYY"
+      );
       var dateForPiq = new Date(
         pickUpDateDetails && pickUpDateDetails.pickupDate
       );
@@ -161,15 +173,6 @@ export default class CartItemForDesktop extends React.Component {
       minutes = minutes < 10 ? "0" + minutes : minutes;
       strTime = hours + ":" + minutes + " " + salutationOfTime;
     }
-    let day = new Date();
-    let dayFormat = format(day, "DD-MMM-YYYY");
-    let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
-    let nextDay = new Date(nextWithOutFormatDay);
-    let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
-    let productDayFormatOfClqAndPiq = format(
-      pickUpDateDetails && pickUpDateDetails.pickupDate
-    );
-    console.log(this.props.storeDetails);
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
