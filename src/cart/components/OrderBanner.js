@@ -26,12 +26,28 @@ export default class OrderBanner extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.orderInnerBox}>
-          <div
-            className={styles.orderHeading}
-          >{`Thanks ${firstName} We've received your order`}</div>
-          <div className={styles.orderLabel}>{`Order Id: ${
-            this.props.label
-          }`}</div>
+          {this.props.pickUpPersonMobile ? (
+            <React.Fragment>
+              <div className={styles.orderHeading}>
+                Thank You! Your payment is confirmed.
+              </div>
+              <div className={styles.orderLabel}>{`OTP has been sent to +91- ${
+                this.props.pickUpPersonMobile
+              }`}</div>
+              <div className={styles.pickStoreHeading}>
+                Please show OTP while picking up the order from the Store.
+              </div>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <div
+                className={styles.orderHeading}
+              >{`Thanks ${firstName} We've received your order`}</div>
+              <div className={styles.orderLabel}>{`Order Id: ${
+                this.props.label
+              }`}</div>
+            </React.Fragment>
+          )}
           {this.props.isTrack && (
             <div className={styles.buttonHolder}>
               <Button
