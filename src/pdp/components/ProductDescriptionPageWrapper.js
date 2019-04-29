@@ -243,46 +243,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.productDetails && this.props.productDetails.winningUssID;
     productDetailsObject.isCNC = true;
     if (!(customerCookie || userDetails || cartDetailsLoggedInUser)) {
-      const firstSlaveData =
-        this.props.productDetails && this.props.productDetails.slaveData;
-      const someData =
-        firstSlaveData &&
-        firstSlaveData
-          .map(slaves => {
-            return (
-              slaves.CNCServiceableSlavesData &&
-              slaves.CNCServiceableSlavesData.map(slave => {
-                return slave;
-              })
-            );
-          })
-          .map(val => {
-            return (
-              val &&
-              val.map(v => {
-                return v;
-              })
-            );
-          });
-
-      const allStoreIds = [].concat
-        .apply([], [].concat.apply([], someData))
-        .map(store => {
-          return store && store.storeId;
-        });
-      const availableStores = this.props.stores
-        ? this.props.stores.filter(val => {
-            return allStoreIds.includes(val.slaveId);
-          })
-        : [];
-      selectedStore = availableStores.find(store => {
-        return store.slaveId === selectedSlaveId;
-      });
-      localStorage.setItem(
-        CLIQ_PIQ_PRODUCT_DETAIL,
-        JSON.stringify(productDetailsObject)
-      );
-      localStorage.setItem(STORE_DETAILS, JSON.stringify(selectedStore));
       this.navigateToLogin();
     } else {
       this.setState({

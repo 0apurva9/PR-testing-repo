@@ -516,23 +516,27 @@ export default class PdpApparel extends React.Component {
   };
   handleShowPiqPage = () => {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION);
-    if (
-      this.checkIfSizeSelected() ||
-      this.checkIfSizeDoesNotExist() ||
-      this.checkIfFreeSize() ||
-      this.checkIfNoSize()
-    ) {
-      const eligibleForCNC =
-        this.props.productDetails &&
-        this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
-          return deliveryMode.code === COLLECT;
-        });
-      if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
-        this.props.showPdpPiqPage();
-        this.props.getAllStoresForCliqAndPiq();
-      }
+    if (!checkUserLoggedIn()) {
+      this.navigateToLogin();
     } else {
-      this.isSizeNotSelectedForAddToWishlist();
+      if (
+        this.checkIfSizeSelected() ||
+        this.checkIfSizeDoesNotExist() ||
+        this.checkIfFreeSize() ||
+        this.checkIfNoSize()
+      ) {
+        const eligibleForCNC =
+          this.props.productDetails &&
+          this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
+            return deliveryMode.code === COLLECT;
+          });
+        if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
+          this.props.showPdpPiqPage();
+          this.props.getAllStoresForCliqAndPiq();
+        }
+      } else {
+        this.isSizeNotSelectedForAddToWishlist();
+      }
     }
   };
   onClickOfBuyNow = () => {

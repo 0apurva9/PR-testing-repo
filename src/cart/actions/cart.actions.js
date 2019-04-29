@@ -2990,7 +2990,6 @@ export function createJusPayOrderForCliqCash(
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartId = JSON.parse(cartDetails).guid;
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -3221,11 +3220,9 @@ export function jusPayPaymentMethodTypeForSavedCards(
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
     cardObject.append("card_token", cardDetails.cardToken);
     cardObject.append("order_id", juspayOrderId);
-
     try {
       const result = await api.postJusPay(`txns?`, cardObject);
       const resultJson = await result.json();
-
       if (
         resultJson.status === JUS_PAY_PENDING ||
         resultJson.status === SUCCESS ||

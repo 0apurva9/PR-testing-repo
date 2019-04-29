@@ -1026,9 +1026,13 @@ export function getAllStoresForCliqAndPiqFailure(error) {
 }
 
 // Action Creator for getting all stores CNC
-export function getAllStoresForCliqAndPiq(newPinCode = null) {
+export function getAllStoresForCliqAndPiq(
+  newPinCode = null,
+  isComingFromCliqAndPiq = false,
+  isComingFromCheckoutPage = false
+) {
   let pinCode;
-  if (newPinCode) {
+  if (newPinCode && !isComingFromCliqAndPiq) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, newPinCode);
     pinCode = newPinCode;
   } else {
