@@ -18,12 +18,12 @@ export default class PickUpDetails extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.header}>Who's picking up your order</div>
+        <div className={styles.header}>Please provide your contact number </div>
         <div className={styles.subHeader}>
-          (Changing pickup person details will overwrite the previous pick up
-          person details)
+          OTP will be sent to this number. Please show the OTP while picking up
+          the product from the store
         </div>
-        <div className={styles.inputHolder}>
+        {/* <div className={styles.inputHolder}>
           <Input2
             placeholder="Full name"
             boxy={true}
@@ -33,7 +33,7 @@ export default class PickUpDetails extends React.Component {
             value={this.props.name ? this.props.name : ""}
             onlyAlphabet={true}
           />
-        </div>
+        </div> */}
         <div className={styles.inputHolder}>
           <Input2
             placeholder="Phone number"

@@ -29,7 +29,6 @@ export default class ReturnToStore extends React.Component {
       name: this.props.userDetails && this.props.userDetails.firstName
     };
   }
-
   selectStoreForDesktop = val => {
     let element = this.refs.scrollToView;
     element.scrollTop = element.offsetHeight + 40;
@@ -41,11 +40,9 @@ export default class ReturnToStore extends React.Component {
           return store.slaveId === val[0];
         });
       this.setState({ selectedStore: selectedStore });
-
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
-
       this.setState({
         lat,
         lng,
@@ -53,7 +50,7 @@ export default class ReturnToStore extends React.Component {
       });
     }
 
-    if (this.props.from === "Checkout") {
+    if (this.props.from === "Checkout" || this.props.from === "Pdp") {
       if (this.props.addStoreCNC) {
         this.setState({ showPickupPerson: true });
         this.props.addStoreCNC(val[0]);
@@ -78,6 +75,9 @@ export default class ReturnToStore extends React.Component {
   }
   componentDidMount() {
     this.getAvailableStores();
+    if (this.props.getUserDetails) {
+      this.props.getUserDetails();
+    }
   }
 
   getAvailableStores() {
@@ -159,9 +159,27 @@ export default class ReturnToStore extends React.Component {
       lng: 77.2310456,
       storeId: null
     });
+    if (this.props.mergeTempCartWithOldCart) {
+      this.props.mergeTempCartWithOldCart();
+    }
   }
 
   render() {
+    let getDeliveryModesByWinningUssid = "";
+    if (!this.props.isFromCheckOut) {
+      if (
+        this.props &&
+        this.props.pincodeResponseList &&
+        this.props.pincodeResponseList.deliveryOptions &&
+        this.props.pincodeResponseList.deliveryOptions.pincodeListResponse
+      ) {
+        getDeliveryModesByWinningUssid = this.props.pincodeResponseList.deliveryOptions.pincodeListResponse.find(
+          val => {
+            return val.ussid === this.props.winningUssID;
+          }
+        );
+      }
+    }
     if (!this.state.availableStores) {
       return (
         <div className={styles.base}>
@@ -235,12 +253,19 @@ export default class ReturnToStore extends React.Component {
                           headingText={val.displayName}
                           value={val.slaveId}
                           canSelectStore={this.props.canSelectStore}
+                          slaveId={val.slaveId}
+                          deliveryInformationWithDate={
+                            this.props.pincodeResponse
+                              ? this.props.pincodeResponse
+                              : this.props.pincodeResponseList &&
+                                getDeliveryModesByWinningUssid &&
+                                getDeliveryModesByWinningUssid.validDeliveryModes
+                          }
                         />
                       );
                     })}
                   </GridSelect>
                 )}
-
               {this.state.showPickupPerson &&
                 this.state.selectedStore && (
                   <div className={styles.getLocationDetailsHolder}>
@@ -258,6 +283,13 @@ export default class ReturnToStore extends React.Component {
                         workingDays={this.state.selectedStore.mplWorkingDays}
                         openingTime={this.state.selectedStore.mplOpeningTime}
                         closingTime={this.state.selectedStore.mplClosingTime}
+                        pincodeDetails={
+                          this.props.isFromCheckOut
+                            ? this.props.pincodeResponse
+                            : getDeliveryModesByWinningUssid
+                        }
+                        selectedSlaveId={this.state.selectedStore.slaveId}
+                        isFromCheckOut={this.props.isFromCheckOut}
                       />
                     </div>
                     <div className={styles.pickUpDetails}>
@@ -277,3 +309,6 @@ export default class ReturnToStore extends React.Component {
     }
   }
 }
+ReturnToStore.defaultProps = {
+  isFromCheckOut: false
+};

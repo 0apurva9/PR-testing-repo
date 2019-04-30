@@ -95,6 +95,7 @@ import {
   SUCCESS,
   MY_ACCOUNT
 } from "../../lib/constants.js";
+import { getAllStoresForCliqAndPiq } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getCartDetailsCNC: (
@@ -155,8 +156,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         });
       }
     },
-    addAddressToCart: (addressId, pinCode) => {
-      dispatch(addAddressToCart(addressId, pinCode));
+    addAddressToCart: async (addressId, pinCode, isComingFromCliqAndPiq) => {
+      let addAddressToCartResponse = await dispatch(
+        addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq)
+      );
+      // if (addAddressToCartResponse.status === SUCCESS) {
+      //   dispatch(
+      //     getAllStoresForCliqAndPiq(pinCode, isComingFromCliqAndPiq, true)
+      //   );
+      // }
     },
     getOrderSummary: pinCode => {
       dispatch(getOrderSummary(pinCode));

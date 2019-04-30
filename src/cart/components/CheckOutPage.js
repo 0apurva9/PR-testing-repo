@@ -100,7 +100,10 @@ import {
   PAYPAL,
   E_WALLET_PAYPAL,
   RETRY_FAILED_ORDER,
-  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
+  RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
+  SHORT_SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY_SHIPPING
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -148,6 +151,8 @@ const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const CLIQ_AND_PIQ_CART_ID = "cliqAndPiqCartId";
+export const CLIQ_AND_PIQ_CART_CODE = "cliqAndPiqCartCode";
 class CheckOutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -207,7 +212,8 @@ class CheckOutPage extends React.Component {
       retryCartGuid: null,
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      isComingFromCliqAndPiq: false
     };
   }
 
@@ -340,7 +346,9 @@ class CheckOutPage extends React.Component {
   }
   updateLocalStoragePinCode(pincode) {
     const postalCode = parseInt(pincode);
-    localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, postalCode);
+    if (!this.state.isComingFromCliqAndPiq) {
+      localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, postalCode);
+    }
   }
   navigateToMyBag() {
     if (this.props.displayToast) {
@@ -390,6 +398,11 @@ class CheckOutPage extends React.Component {
     let deliverModeInShortTerm;
     if (deliveryMode === HOME_DELIVERY) {
       deliverModeInShortTerm = SHORT_HOME_DELIVERY;
+    } else if (
+      deliveryMode === SAME_DAY_DELIVERY ||
+      deliveryMode === SAME_DAY_DELIVERY_SHIPPING
+    ) {
+      deliverModeInShortTerm = SHORT_SAME_DAY_DELIVERY;
     } else {
       deliverModeInShortTerm = SHORT_EXPRESS;
     }
@@ -559,6 +572,7 @@ class CheckOutPage extends React.Component {
             return (
               <div className={styles.row}>
                 <CartItem
+                  isTop={false}
                   key={i}
                   selected={this.state.ussIdAndDeliveryModesObj[val.USSID]}
                   productImage={val.imageURL}
@@ -585,6 +599,12 @@ class CheckOutPage extends React.Component {
                   onPiq={() => this.getAllStores(val.USSID)}
                   onClickImage={() => this.onClickImage(val.productcode)}
                   isClickable={true}
+                  deliveryInformationWithDate={
+                    val.pinCodeResponse &&
+                    val.pinCodeResponse.validDeliveryModes
+                  }
+                  selectedStoreDetails={val.storeDetails}
+                  inCartPage={true}
                 />
               </div>
             );
@@ -635,21 +655,16 @@ class CheckOutPage extends React.Component {
         return product.USSID === this.state.selectedProductsUssIdForCliqAndPiq;
       }
     );
-
+    const firstSlaveData =
+      currentSelectedProduct.pinCodeResponse.validDeliveryModes;
     if (checkUserAgentIsMobile()) {
-      const firstSlaveData =
-        currentSelectedProduct.pinCodeResponse.validDeliveryModes;
       const someData = firstSlaveData
         .map(slaves => {
           return (
             slaves.CNCServiceableSlavesData &&
             slaves.CNCServiceableSlavesData.map(slave => {
-              return (
-                slave &&
-                slave.serviceableSlaves.map(serviceableSlave => {
-                  return serviceableSlave;
-                })
-              );
+              return;
+              slave;
             })
           );
         })
@@ -665,13 +680,14 @@ class CheckOutPage extends React.Component {
       const allStoreIds = [].concat
         .apply([], [].concat.apply([], someData))
         .map(store => {
-          return store && store.slaveId;
+          return store && store.storeId;
         });
-      const availableStores = this.props.cart.storeDetails
-        ? this.props.cart.storeDetails.filter(val => {
-            return allStoreIds.includes(val.slaveId);
-          })
-        : [];
+      const availableStores =
+        this.props.cart && this.props.cart.storeDetails
+          ? this.props.cart.storeDetails.filter(val => {
+              return allStoreIds.includes(val.slaveId);
+            })
+          : [];
       return (
         <PiqPage
           availableStores={availableStores}
@@ -729,6 +745,9 @@ class CheckOutPage extends React.Component {
             CloseCliqAndPiqModal={() =>
               this.setState({ showCliqAndPiq: false })
             }
+            pincodeResponse={firstSlaveData}
+            pincode={localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}
+            isFromCheckOut={true}
           />
         </ModalPanel>
       );
@@ -865,6 +884,15 @@ class CheckOutPage extends React.Component {
           confirmAddress: true
         });
       }
+      if (
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.isFromCliqAndPiq
+      ) {
+        this.setState({
+          isComingFromCliqAndPiq: true
+        });
+      }
     }
     //update cliqCash Amount
     if (
@@ -903,8 +931,13 @@ class CheckOutPage extends React.Component {
         this.setState({ isFirstAddress: false, confirmAddress: true });
         this.props.addAddressToCart(
           defaultAddress.id,
-          defaultAddress.postalCode
+          defaultAddress.postalCode,
+          this.state.isComingFromCliqAndPiq
         );
+        if (this.state.isComingFromCliqAndPiq) {
+          this.setState({ confirmAddress: true });
+          this.getPaymentModes();
+        }
       } else {
         defaultAddress = nextProps.cart.userAddress.addresses.find(address => {
           return address.defaultAddress;
@@ -971,7 +1004,14 @@ class CheckOutPage extends React.Component {
 
       nextProps.cart.getUserAddressAndDeliveryModesByRetryPayment.products.forEach(
         product => {
-          if (product.selectedDeliveryModeCode === "ED") {
+          if (
+            product.selectedDeliveryModeCode === "SDD" ||
+            product.selectedDeliveryModeCode === SAME_DAY_DELIVERY
+          ) {
+            let newObjectAdd = {};
+            newObjectAdd[product.USSID] = SAME_DAY_DELIVERY;
+            Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
+          } else if (product.selectedDeliveryModeCode === "ED") {
             let newObjectAdd = {};
             newObjectAdd[product.USSID] = EXPRESS;
             Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
@@ -979,6 +1019,39 @@ class CheckOutPage extends React.Component {
             let newObjectAdd = {};
             newObjectAdd[product.USSID] = HOME_DELIVERY;
             Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
+          } else if (product.selectedDeliveryModeCode === "CNC") {
+            this.setState(
+              {
+                selectedProductsUssIdForCliqAndPiq: product && product.USSID
+              },
+              () => {
+                const updatedDeliveryModeUssid = this.state
+                  .ussIdAndDeliveryModesObj;
+                let selectedSlaveIdObj = "";
+                updatedDeliveryModeUssid[product && product.USSID] = COLLECT;
+                selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
+                selectedSlaveIdObj[
+                  this.state.selectedProductsUssIdForCliqAndPiq
+                ] =
+                  product.selectedStoreCNC;
+                this.setState(
+                  {
+                    ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
+                    cliqPiqSelected: true,
+                    isDeliveryModeSelected: true,
+                    deliverMode: true,
+                    selectedSlaveIdObj,
+                    isCheckoutAddressSelected: true
+                  },
+                  () => {
+                    localStorage.setItem(
+                      SELECTED_DELIVERY_MODE,
+                      JSON.stringify(updatedDeliveryModeUssid)
+                    );
+                  }
+                );
+              }
+            );
           }
         }
       );
@@ -988,12 +1061,72 @@ class CheckOutPage extends React.Component {
       );
       this.setState({ ussIdAndDeliveryModesObj: defaultSelectedDeliveryModes });
     }
+
+    if (
+      nextProps.location &&
+      nextProps.location.state &&
+      nextProps.location.state.isFromCliqAndPiq &&
+      nextProps.cart.cartDetailsCNCStatus === SUCCESS &&
+      nextProps.cart &&
+      nextProps.cart.cartDetailsCNC &&
+      this.state.confirmAddress
+    ) {
+      if (
+        nextProps.cart.cartDetailsCNC &&
+        nextProps.cart.cartDetailsCNC.products
+      ) {
+        this.setState(
+          {
+            selectedProductsUssIdForCliqAndPiq:
+              nextProps.cart.cartDetailsCNC.products[0] &&
+              nextProps.cart.cartDetailsCNC.products[0].USSID
+          },
+          () => {
+            const updatedDeliveryModeUssid = this.state
+              .ussIdAndDeliveryModesObj;
+            let selectedSlaveIdObj;
+            updatedDeliveryModeUssid[
+              nextProps.cart.cartDetailsCNC.products[0] &&
+                nextProps.cart.cartDetailsCNC.products[0].USSID
+            ] = COLLECT;
+            if (
+              nextProps.cart.cartDetailsCNC.products[0] &&
+              nextProps.cart.cartDetailsCNC.products[0].storeDetails &&
+              nextProps.cart.cartDetailsCNC.products[0].storeDetails.slaveId
+            ) {
+              selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
+              selectedSlaveIdObj[
+                this.state.selectedProductsUssIdForCliqAndPiq
+              ] =
+                nextProps.cart.cartDetailsCNC.products[0].storeDetails.slaveId;
+            }
+            this.setState(
+              {
+                ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
+                cliqPiqSelected: true,
+                isDeliveryModeSelected: true,
+                isComingFromCliqAndPiq: true,
+                deliverMode: true,
+                selectedSlaveIdObj
+              },
+              () => {
+                localStorage.setItem(
+                  SELECTED_DELIVERY_MODE,
+                  JSON.stringify(updatedDeliveryModeUssid)
+                );
+              }
+            );
+          }
+        );
+      }
+    }
     if (!nextProps.cart.getUserAddressStatus && !this.state.isPaymentFailed) {
       this.props.getUserAddress(
         localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
       );
     }
     if (
+      !this.state.isComingFromCliqAndPiq &&
       !this.state.isDeliveryModeSelected &&
       !this.state.isSelectedDeliveryModes &&
       nextProps.cart.cartDetailsCNCStatus === SUCCESS &&
@@ -1006,8 +1139,23 @@ class CheckOutPage extends React.Component {
         nextProps.cart.cartDetailsCNC.products
       ) {
         nextProps.cart.cartDetailsCNC.products.forEach(product => {
-          if (product.isGiveAway === NO) {
+          if (product.pinCodeResponse.isServicable === NO) {
+            this.props.history.push(PRODUCT_CART_ROUTER);
+          }
+          if (
+            product.isGiveAway === NO &&
+            product.pinCodeResponse.isServicable !== NO
+          ) {
             if (
+              product.elligibleDeliveryMode &&
+              product.elligibleDeliveryMode.findIndex(mode => {
+                return mode.code === SAME_DAY_DELIVERY;
+              }) >= 0
+            ) {
+              let newObjectAdd = {};
+              newObjectAdd[product.USSID] = SAME_DAY_DELIVERY;
+              Object.assign(defaultSelectedDeliveryModes, newObjectAdd);
+            } else if (
               product.elligibleDeliveryMode &&
               product.elligibleDeliveryMode.findIndex(mode => {
                 return mode.code === EXPRESS;
@@ -1448,6 +1596,15 @@ if you have order id in local storage then you have to show order confirmation p
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             false
           );
+        }
+        if (
+          this.props.location &&
+          this.props.location.state &&
+          this.props.location.state.isFromCliqAndPiq
+        ) {
+          this.setState({
+            isComingFromCliqAndPiq: true
+          });
         }
         if (!this.props.cart.userAddress && !this.state.isPaymentFailed) {
           this.props.getUserAddress(
@@ -2100,9 +2257,13 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.props.addAddressToCart(
           this.state.addressId,
-          this.state.selectedAddress.postalCode
+          this.state.selectedAddress.postalCode,
+          this.state.isComingFromCliqAndPiq
         );
         this.setState({ confirmAddress: true });
+        if (this.state.isComingFromCliqAndPiq) {
+          this.getPaymentModes();
+        }
       }
       if (
         !this.state.deliverMode &&
@@ -2916,7 +3077,8 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.confirmAddress &&
       !this.state.deliverMode &&
       !this.state.isComingFromRetryUrl &&
-      !this.state.isGiftCard
+      !this.state.isGiftCard &&
+      !this.state.isComingFromCliqAndPiq
     ) {
       labelForButton = CONTINUE;
     } else if (
@@ -3088,7 +3250,8 @@ if you have order id in local storage then you have to show order confirmation p
         !this.state.orderConfirmation &&
         !this.props.cart.isPaymentProceeded) ||
       this.state.isGiftCard ||
-      (this.state.isComingFromRetryUrl && !this.state.orderConfirmation)
+      (this.state.isComingFromRetryUrl && !this.state.orderConfirmation) ||
+      (this.state.isComingFromCliqAndPiq && !this.state.orderConfirmation)
     ) {
       let retryPaymentDetailsObj = JSON.parse(
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -3203,6 +3366,7 @@ if you have order id in local storage then you have to show order confirmation p
                     this.props.cart.cartDetailsCNC &&
                     this.state.confirmAddress &&
                     !this.state.deliverMode &&
+                    !this.state.isComingFromCliqAndPiq &&
                     !this.state.isGiftCard &&
                     !this.state.isComingFromRetryUrl &&
                     this.renderDeliverModes(checkoutButtonStatus)}
@@ -3211,6 +3375,7 @@ if you have order id in local storage then you have to show order confirmation p
                 {!this.state.isPaymentFailed &&
                   this.state.deliverMode &&
                   !this.state.isComingFromRetryUrl &&
+                  !this.state.isComingFromCliqAndPiq &&
                   !this.state.isGiftCard && (
                     <div className={styles.deliveryAddress}>
                       <DeliveryModeSet
@@ -3384,6 +3549,7 @@ if you have order id in local storage then you have to show order confirmation p
                       emiBinValidationErrorMessage={
                         this.state.emiBinValidationErrorMessage
                       }
+                      isFromCliqAndPiq={this.state.isComingFromCliqAndPiq}
                     />
                   </div>
                 )}

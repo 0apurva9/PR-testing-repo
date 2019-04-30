@@ -57,6 +57,10 @@ export default class OrderConfirmation extends React.Component {
                     this.props.orderDetails &&
                     this.props.orderDetails.isEgvOrder
                   }
+                  pickUpPersonMobile={
+                    this.props.orderDetails &&
+                    this.props.orderDetails.pickupPersonMobile
+                  }
                 />
               </div>
               <MobileOnly>
