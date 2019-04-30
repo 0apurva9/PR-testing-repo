@@ -12,7 +12,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       postParams,
       backUpUrl,
       type,
-      feedType
+      feedType,
+      msdABPCBrandCount
     ) => {
       dispatch(
         getComponentData(
@@ -21,7 +22,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           postParams,
           backUpUrl,
           type,
-          feedType
+          feedType,
+          msdABPCBrandCount
         )
       );
     },

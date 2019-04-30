@@ -599,7 +599,8 @@ export function getComponentData(
   postParams: null,
   backUpUrl,
   type,
-  feedType
+  feedType,
+  msdABPCBrandCount
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(componentDataRequest(positionInFeed));
@@ -619,7 +620,7 @@ export function getComponentData(
         ]);
 
         if (type === AUTOMATED_BRAND_CAROUSEL) {
-          postData.append("num_brands", JSON.stringify(MSD_NUM_BRANDS));
+          postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
           postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
           postData.append("channel", "pwa");
         }
