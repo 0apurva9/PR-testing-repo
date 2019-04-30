@@ -51,7 +51,7 @@ export default class OrderBanner extends React.Component {
             <React.Fragment>
               <div
                 className={styles.orderHeading}
-              >{`Thanks ${firstName} We've received your order Order Id: ${
+              >{`Thank You! We received your order Order Id: ${
                 this.props.label
               }`}</div>
             </React.Fragment>
