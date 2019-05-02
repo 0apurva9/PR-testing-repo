@@ -52,6 +52,8 @@ export const SET_PLP_PATH = "SET_PLP_PATH";
 export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
 const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
 export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
+export const GET_PLP_BANNERS_SUCCESS = "GET_PLP_BANNERS_SUCCESS";
+export const GET_PLP_BANNERS_FAILURE = "GET_PLP_BANNERS_FAILURE";
 
 export function setProductModuleRef(ref) {
   return {
@@ -329,5 +331,45 @@ export function getProductListings(
       dispatch(getProductListingsFailure(e.message, paginated));
       dispatch(hideSecondaryLoader());
     }
+  };
+}
+
+export function getPlpBanners(catergoryId) {
+  try {
+    if (!catergoryId) {
+      throw new Error("CategoryId is required");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return async (dispatch, getState, { api }) => {
+    try {
+      const plpBannerApi = await api.getPlpBanners(catergoryId.toUpperCase());
+      const plpBannerApiApiJson = await plpBannerApi.json();
+      // if (pdpManufacturerApiJson.status == "Success") {
+      if (plpBannerApiApiJson.errorCode) {
+        dispatch(getPlpBannersFailure("error"));
+      } else {
+        dispatch(getPlpBannersSucess(plpBannerApiApiJson));
+      }
+      // } else {
+    } catch (e) {
+      dispatch(getPlpBannersFailure(e.message));
+    }
+  };
+}
+
+export function getPlpBannersSucess(banners = []) {
+  return {
+    type: GET_PLP_BANNERS_SUCCESS,
+    status: SUCCESS,
+    banners
+  };
+}
+export function getPlpBannersFailure() {
+  return {
+    type: GET_PLP_BANNERS_FAILURE,
+    status: SUCCESS,
+    banners: []
   };
 }

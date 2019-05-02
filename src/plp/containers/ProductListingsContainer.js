@@ -6,7 +6,8 @@ import { setSearchString } from "../../search/actions/search.actions.js";
 import {
   getProductListings,
   setPage,
-  clearProductModuleRef
+  clearProductModuleRef,
+  getPlpBanners
 } from "../actions/plp.actions.js";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setPage(page));
       dispatch(getProductListings(suffix, false, isFilter, componentName));
     },
+    getPlpBanners: categoryId => dispatch(getPlpBanners(categoryId)),
     paginate: (page, suffix) => {
       dispatch(setPage(page));
       dispatch(getProductListings(suffix, true, false, componentName));

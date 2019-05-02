@@ -19,7 +19,8 @@ const productListings = (
     clickedProductModuleRef: null,
     lastVisitedPlpUrl: null,
     deselectedOutOfStock: false,
-    urlString: null
+    urlString: null,
+    banners: []
   },
   action
 ) => {
@@ -192,6 +193,16 @@ const productListings = (
       return Object.assign({}, state, {
         viewSimilarProductOfId: action.productListingId
       });
+    case plpActions.GET_PLP_BANNERS_SUCCESS:
+      return {
+        ...state,
+        banners: action.banners
+      };
+    case plpActions.GET_PLP_BANNERS_FAILURE:
+      return {
+        ...state,
+        banners: []
+      };
     default:
       return state;
   }

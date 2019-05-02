@@ -90,6 +90,11 @@ export default class Plp extends React.Component {
       }
     } else {
       this.setState({ gridBreakup: !this.state.gridBreakup });
+      if (this.state.view === LIST) {
+        this.setState({ view: GRID });
+      } else {
+        this.setState({ view: LIST });
+      }
     }
   }
   onApply = () => {
@@ -617,6 +622,7 @@ export default class Plp extends React.Component {
               <div className={styles.productWithFilter}>
                 <div className={styles.main}>
                   <ProductGrid
+                    banners={this.props.banners}
                     history={this.props.history}
                     location={this.props.location}
                     data={this.props.productListings.searchresult}
@@ -682,6 +688,7 @@ export default class Plp extends React.Component {
                 >
                   <div id="grid-wrapper_desktop">
                     <ProductGrid
+                      banners={this.props.banners}
                       history={this.props.history}
                       location={this.props.location}
                       data={this.props.productListings.searchresult}

@@ -49,7 +49,6 @@ const mapStateToProps = (state, ownProps) => {
   if (ownProps.isFilter === true) {
     isFilterOpen = true;
   }
-
   return {
     onFilterClick: ownProps.onFilterClick,
     isFilterOpen,
@@ -61,7 +60,8 @@ const mapStateToProps = (state, ownProps) => {
     searchresult: state.productListings.searchresult,
     lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
     status: state.productListings.status,
-    headerText: state.header.text
+    headerText: state.header.text,
+    banners: state.productListings.banners
   };
 };
 
