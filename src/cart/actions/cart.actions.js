@@ -432,6 +432,13 @@ export const BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE =
 export const BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS =
   "BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS";
 
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS";
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST";
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -5099,6 +5106,61 @@ export function binValidationOfEmiEligible(binNo) {
       return dispatch(binValidationOfEmiEligibleSuccess(resultJson));
     } catch (e) {
       return dispatch(binValidationOfEmiEligibleFailure(e.message));
+    }
+  };
+}
+
+// Get Cart Count for Logged-In user
+
+export function getCartCountForLoggedInUserSuccess(cartCount) {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS,
+    status: SUCCESS,
+    cartCount
+  };
+}
+
+export function getCartCountForLoggedInUserRequest() {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCartCountForLoggedInUserFailure(error) {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function getCartCountForLoggedInUser() {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartGuId = cartDetails && JSON.parse(cartDetails).guid;
+
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCartCountForLoggedInUserRequest());
+
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts/getBagCount?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getCartCountForLoggedInUserSuccess(resultJson.count));
+    } catch (e) {
+      return dispatch(getCartCountForLoggedInUserFailure(e.message));
     }
   };
 }

@@ -8,7 +8,8 @@ import {
 } from "../../auth/actions/user.actions";
 import {
   generateCartIdForLoggedInUser,
-  generateCartIdForAnonymous
+  generateCartIdForAnonymous,
+  getCartCountForLoggedInUser
 } from "../../cart/actions/cart.actions.js";
 import { withRouter } from "react-router-dom";
 import App from "../../App.js";
@@ -46,6 +47,9 @@ const mapDispatchToProps = dispatch => {
     },
     generateCartIdForAnonymous: async () => {
       return dispatch(generateCartIdForAnonymous());
+    },
+    getCartCountForLoggedInUsers: async () => {
+      return dispatch(getCartCountForLoggedInUser());
     }
   };
 };

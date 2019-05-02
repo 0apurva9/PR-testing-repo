@@ -8,7 +8,8 @@ import {
   mergeCartId,
   generateCartIdForLoggedInUser,
   getCartId,
-  tempCartIdForLoggedInUser
+  tempCartIdForLoggedInUser,
+  getCartCountForLoggedInUser
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
 
@@ -175,6 +176,7 @@ const mapDispatchToProps = dispatch => {
             }
             // end of generating new cart if if wont get any existing cartId
           }
+          dispatch(getCartCountForLoggedInUser());
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
         }

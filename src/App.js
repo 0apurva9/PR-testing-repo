@@ -71,7 +71,8 @@ import {
   DEFAULT_PINCODE,
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
-  RETRY_FAILED_ORDER
+  RETRY_FAILED_ORDER,
+  CART_COUNT_FOR_LOGGED_IN_USER
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -314,6 +315,9 @@ class App extends Component {
     );
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    let cartCountForLoggedInUser = Cookie.getCookie(
+      CART_COUNT_FOR_LOGGED_IN_USER
+    );
 
     // Case 1. THe user is not logged in.
     if (!globalAccessToken && !this.props.cartLoading) {
@@ -329,6 +333,9 @@ class App extends Component {
     if (customerAccessToken) {
       if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
         this.props.generateCartIdForLoggedInUser();
+      }
+      if (!cartCountForLoggedInUser) {
+        this.props.getCartCountForLoggedInUsers();
       }
     }
     if (
