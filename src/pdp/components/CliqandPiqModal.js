@@ -190,7 +190,7 @@ export default class ReturnToStore extends React.Component {
       return (
         <div className={styles.base}>
           <div className={styles.mapButton}>
-            <div className={styles.cliqPiqText}>QUiQ PiQ</div>
+            <div className={styles.cliqPiqText}>CliQ n PiQ</div>
             <div
               className={styles.closeButton}
               onClick={() => this.CloseCliqAndPiqModal()}
