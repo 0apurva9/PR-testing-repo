@@ -40,7 +40,7 @@ export default class SellerCard extends React.Component {
     let priceClass = styles.priceHolder;
     if (
       this.props.discountPrice &&
-      this.props.Price !== this.props.discountPrice
+      this.props.price !== this.props.discountPrice
     ) {
       priceClass = styles.priceCancelled;
     }

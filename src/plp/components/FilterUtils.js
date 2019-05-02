@@ -113,7 +113,11 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
     }
   } else {
     if (CATEGORY_REGEX.test(pathName)) {
-      url = `/search/?q=:category:${val}`;
+      if (modifiedCode && CATEGORY_REGEX.test(modifiedCode)) {
+        url = `/${modifiedCode}/?q=:category:${val}`;
+      } else {
+        url = `/search/?q=:category:${val}`;
+      }
     } else if (BRAND_REGEX.test(pathName)) {
       let brandId = BRAND_CAPTURE_REGEX.exec(pathName)[0];
       brandId = brandId.replace(BRAND_CATEGORY_PREFIX, "");

@@ -1,8 +1,17 @@
 import * as pdpActions from "../actions/pdp.actions";
-import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS } from "../../account/actions/account.actions";
-import { YES, NO } from "../../lib/constants";
-import { transferPincodeToPdpPincode } from "./utils";
-import { CLEAR_ERROR } from "../../general/error.actions.js";
+import {
+  FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS
+} from "../../account/actions/account.actions";
+import {
+  YES,
+  NO
+} from "../../lib/constants";
+import {
+  transferPincodeToPdpPincode
+} from "./utils";
+import {
+  CLEAR_ERROR
+} from "../../general/error.actions.js";
 
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
@@ -34,6 +43,7 @@ const productDescription = (
     loadingForCliqAndPiq: false,
     visitedNewProduct: false,
     getProductDetailsLoading: false,
+    serviceableSellerMessage: null,
     manufacturerStatus: null,
     manufacturerError: null,
     manufacturerLoading: null,
@@ -154,8 +164,15 @@ const productDescription = (
         listOfAllServiceableUssid.length &&
         currentPdpDetail.otherSellers
       ) {
+        Object.assign(currentPdpDetail, {
+          serviceableSellerMessage: "Finding a serviceable seller on the selected pincode, the price of the product may be different"
+        });
         let otherSellersList = currentPdpDetail.otherSellers;
-        let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
+        let leastMrpSellerUssid = {
+          specialPriceSeller: {
+            value: 999999999
+          }
+        };
         let eligibleDeliveryModeForThisSeller;
         listOfAllServiceableUssid.forEach(seller => {
           let sellerObjInOtherSellers = currentPdpDetail.otherSellers.find(
@@ -167,7 +184,7 @@ const productDescription = (
             sellerObjInOtherSellers &&
             sellerObjInOtherSellers.specialPriceSeller &&
             sellerObjInOtherSellers.specialPriceSeller.value <
-              leastMrpSellerUssid.specialPriceSeller.value
+            leastMrpSellerUssid.specialPriceSeller.value
           ) {
             leastMrpSellerUssid = sellerObjInOtherSellers;
             eligibleDeliveryModeForThisSeller = seller;

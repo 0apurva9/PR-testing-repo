@@ -119,6 +119,36 @@ export default class FilterDesktop extends React.Component {
       url = createUrlFromQueryAndCategory(query, pathName, val, filterName);
     }
 
+    if (url.includes("capacityCC-classification")) {
+      let attributeCapacity = url.match(
+        new RegExp("capacityCC-classification:" + "(.*)" + ":")
+      );
+      if (attributeCapacity && attributeCapacity[1]) {
+        let attributeCapacityMatched = attributeCapacity[1].replace("+", "%2B");
+        url = url.replace(attributeCapacity[1], attributeCapacityMatched);
+      }
+    }
+
+    if (url.includes("internalStorage-classification")) {
+      let attributeStorage = url.match(
+        new RegExp("internalStorage-classification:" + "(.*)" + ":")
+      );
+      if (attributeStorage && attributeStorage[1]) {
+        let attributeStorageMatched = attributeStorage[1].replace("+", "%2B");
+        url = url.replace(attributeStorage[1], attributeStorageMatched);
+      }
+    }
+
+    if (url.includes("type-classification")) {
+      let attributeType = url.match(
+        new RegExp("type-classification:" + "(.*)" + ":")
+      );
+      if (attributeType && attributeType[1]) {
+        let attributeTypeMatched = attributeType[1].replace("+", "%2B");
+        url = url.replace(attributeType[1], attributeTypeMatched);
+      }
+    }
+
     if (url.endsWith(":relevance")) {
       url = url.replace(":relevance", "");
       url = url.replace("MSH", "c-msh");
@@ -159,6 +189,9 @@ export default class FilterDesktop extends React.Component {
       }
     } else {
       url = val.replace("{pageNo}", 1);
+      if (filterType === "Capacity" || filterType === "Type") {
+        url = url.replace(/[+]/g, "%20");
+      }
     }
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
