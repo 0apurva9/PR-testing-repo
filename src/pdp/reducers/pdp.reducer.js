@@ -1,6 +1,12 @@
 import * as pdpActions from "../actions/pdp.actions";
 import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS } from "../../account/actions/account.actions";
-import { YES, NO, CART_DETAILS_FOR_ANONYMOUS } from "../../lib/constants";
+import {
+  YES,
+  NO,
+  CART_DETAILS_FOR_ANONYMOUS,
+  LOGGED_IN_USER_DETAILS,
+  CART_DETAILS_FOR_LOGGED_IN_USER
+} from "../../lib/constants";
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -244,22 +250,34 @@ const productDescription = (
       let cartDetailsForAnonymous = Cookies.getCookie(
         CART_DETAILS_FOR_ANONYMOUS
       );
+      const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
+      const cartDetailsLoggedInUser = Cookies.getCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER
+      );
       let cartGuid =
         action.newProduct && action.newProduct.cartGuid
           ? action.newProduct.cartGuid
           : null;
-
-      if (
-        !cartDetailsForAnonymous ||
-        cartDetailsForAnonymous.cartGuid !== cartGuid
-      ) {
+      if (!userDetails && !cartDetailsForAnonymous) {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
           JSON.stringify({
             type: action.newProduct.type,
             status: action.newProduct.status,
             code: action.newProduct.code,
+            count: action.newProduct.count,
             guid: action.newProduct.cartGuid
+          })
+        );
+      } else if (userDetails && !cartDetailsLoggedInUser) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify({
+            type: action.newProduct.type,
+            status: action.newProduct.status,
+            code: action.newProduct.code,
+            count: action.newProduct.count,
+            guid: action.newProduct.guid
           })
         );
       }

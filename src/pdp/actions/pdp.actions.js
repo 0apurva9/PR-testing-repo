@@ -322,10 +322,12 @@ export function addProductToCart(productDetails) {
     : null;
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
 
-  if (userDetails && customerCookie && cartDetails) {
+  if (userDetails && customerCookie) {
     userId = JSON.parse(userDetails).userName;
-    cartId = JSON.parse(cartDetails).code;
     accessToken = JSON.parse(customerCookie).access_token;
+  }
+  if (cartDetails) {
+    cartId = JSON.parse(cartDetails).code;
   }
 
   return async (dispatch, getState, { api }) => {

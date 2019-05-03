@@ -332,7 +332,8 @@ class App extends Component {
 
     if (customerAccessToken) {
       if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
-        this.props.generateCartIdForLoggedInUser();
+        // Cart Optimisation
+        //this.props.generateCartIdForLoggedInUser();
       }
       if (!cartCountForLoggedInUser) {
         this.props.getCartCountForLoggedInUsers();

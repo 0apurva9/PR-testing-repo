@@ -5139,7 +5139,8 @@ export function getCartCountForLoggedInUser() {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartGuId = cartDetails && JSON.parse(cartDetails).guid;
+  let cartGuidForLoggedInUser = cartDetails && JSON.parse(cartDetails).guid;
+  let cartGuid = cartGuidForLoggedInUser ? cartGuidForLoggedInUser : null;
 
   return async (dispatch, getState, { api }) => {
     dispatch(getCartCountForLoggedInUserRequest());
@@ -5148,9 +5149,11 @@ export function getCartCountForLoggedInUser() {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/bagCount?access_token=${
+        }/carts/bagCount?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber==${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuId}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}${
+          cartGuid ? "&cartGuid=" + cartGuid : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
