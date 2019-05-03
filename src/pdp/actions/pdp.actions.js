@@ -336,7 +336,7 @@ export function addProductToCart(productDetails) {
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
-        }&addedToCartWl=false&isCartoptimised=true${
+        }&addedToCartWl=false&isCartOptimised=true${
           cartId ? "&cartGuid=" + cartId : ""
         }`
       );
