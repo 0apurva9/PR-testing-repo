@@ -1,0 +1,195 @@
+.base {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+.header {
+  width: 100%;
+  height: 40px;
+  background: #212121;
+  color: #fff;
+  font-family: semibold;
+  font-size: 14px;
+  line-height: 40px;
+  padding: 0 20px;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 1025px) {
+  .base {
+    display: inline-block;
+    border-radius: 4px;
+  }
+
+  .header {
+    height: 60px;
+    background: #f9f9f9;
+    color: #000;
+    font-size: 20px;
+    line-height: 60px;
+    padding: 0 40px 0px 20px;
+    top: 0px;
+    position: sticky;
+    z-index: 1;
+  }
+
+  .subHeader{
+    height: 50px;
+    background: #f5f5f5;
+    color:#000;
+    text-align: left;
+    padding: 0 40px 0px 20px;
+  margin-top: 90px;
+  }
+
+  .box1, .box2, .box3  {
+    width: 33%;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    font-size: 14px;
+    font-family:semibold;
+    padding-top: 15px;
+}
+
+.content1, .content2, .content3{
+  width:33%;
+  vertical-align: top;
+  display:inline-block;
+  *display: inline;
+  font-size:14px;
+  font-family: regular;
+  margin-top: 45px;
+  text-align:left;
+}
+
+  .manuImportPackerInfo{
+    background: #fff;
+    text-align: justify;
+    padding: 0 40px 0px 20px;
+  }
+
+  .genericCountryPart{
+    float: left;
+    width: 100%;
+    padding: 20px 40px 0px 20px;
+  }
+  .countryOfOrigin{
+    margin-bottom: 15px;
+  }
+
+  .genericName{
+    margin-bottom: 15px;
+  }
+  .genericLabel{
+    font-size: 14px;
+    color: #4a4a4a;
+    float: left;
+    padding-right: 65px;
+    width: 300px;
+  }
+
+  .manufacturerDetailsBoldText{
+     font-family: regular;
+  }
+  .manufacturer{
+    margin:10px 0px;
+    padding: 2px 25px 0px 0px;
+    line-height: 1.57;
+    color: rgba(33, 33, 33, 0.93);
+    font-family: light;
+  }
+  .manufacturedByText{
+    line-height: 1.57;
+  letter-spacing: normal;
+  color: rgba(33, 33, 33, 0.93);
+  font-family: regular;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .base {
+    max-height: 100%;
+  }
+  .subHeader{
+    height: 50px;
+    margin-top: 110px;
+    background: #f5f5f5;
+    color:#000;
+    text-align: left;
+    padding: 0 40px 0px 20px;
+
+  }
+
+  .box1, .box2, .box3  {
+    width: 33%;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    font-size: 14px;
+    font-family:semibold;
+
+}
+
+.content1, .content2, .content3{
+  width:33%;
+  vertical-align: top;
+  display:inline-block;
+  *display: inline;
+  font-size:14px;
+  font-family: regular;
+  margin-top: 45px;
+  text-align:left;
+}
+
+  .manuImportPackerInfo{
+    background: #fff;
+    text-align: justify;
+    padding: 0 40px 0px 20px;
+  }
+
+  .genericCountryPart{
+    float: left;
+    width: 100%;
+    padding: 20px 40px 0px 20px;
+  }
+  .countryOfOrigin{
+    margin-bottom: 15px;
+  }
+
+  .genericName{
+    margin-bottom: 15px;
+  }
+  .genericLabel{
+    font-size: 14px;
+    color: #4a4a4a;
+    float: left;
+    padding-right: 65px;
+    width: 300px;
+  }
+
+  .manufacturerDetailsBoldText{
+     font-family: regular;
+  }
+  .manufacturer{
+    margin:10px 0px;
+    padding: 2px 25px 0px 0px;
+    line-height: 1.57;
+    color: rgba(33, 33, 33, 0.93);
+    font-family: light;
+  }
+  .manufacturedByText{
+    line-height: 1.57;
+  letter-spacing: normal;
+  color: rgba(33, 33, 33, 0.93);
+  font-family: regular;
+  }
+
+
+}

@@ -51,6 +51,7 @@ export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
 export const SET_PLP_PATH = "SET_PLP_PATH";
 export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
 const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
+export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
 
 export function setProductModuleRef(ref) {
   return {
@@ -208,6 +209,13 @@ export function getProductListingsFailure(error, isPaginated) {
     status: ERROR,
     error,
     isPaginated
+  };
+}
+
+export function viewSimilarProducts(productListingId) {
+  return {
+    type: VIEW_SIMILAR_PRODUCTS,
+    productListingId: productListingId
   };
 }
 

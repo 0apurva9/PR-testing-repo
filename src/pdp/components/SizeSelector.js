@@ -23,6 +23,8 @@ import {
 } from "../../lib/adobeUtils";
 const SIZE_GUIDE = "Size guide";
 const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;
+const MODEL_FIT = "Model fit";
+const SIMILAR_SIZE_MODAL = "View Similar";
 export default class SizeSelector extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +46,21 @@ export default class SizeSelector extends React.Component {
       this.props.showSizeGuide();
     }
   }
+  handleSimilarOOSSizeSelector(data) {
+    if (data.length < 2) {
+      this.handleSimilarSizeOOSModal(data[0]);
+    }
+    if (this.props.showOOSSizeSelectorModal && data.length > 1) {
+      this.props.showOOSSizeSelectorModal({ sizes: data });
+    }
+  }
+
+  handleSimilarSizeOOSModal(data) {
+    if (this.props.showSimilarSizeOOSModal) {
+      this.props.showSimilarSizeOOSModal({ product: data });
+    }
+  }
+
   async updateSize(productUrl) {
     let productCode;
     const productCodeArray = productUrl.split("/");
@@ -128,37 +145,49 @@ export default class SizeSelector extends React.Component {
     }
   }
   renderSize(datum, i) {
+    let infoDetails = [];
+    if (this.props.infoDetails) {
+      infoDetails = this.props.infoDetails.filter(item => {
+        return item.key === MODEL_FIT;
+      });
+    }
+
     return (
-      <SizeSelect
-        key={i}
-        disabled={!datum.sizelink.isAvailable}
-        selected={
-          datum.colorlink.selected && this.props.history.location.state
-            ? this.props.history.location.state.isSizeSelected
-            : false
-        }
-        size={datum.sizelink.size}
-        value={datum.sizelink.size}
-        fontSize={this.props.textSize}
-        onSelect={() => this.updateSize(datum.sizelink.url)}
-      />
+      <React.Fragment>
+        <SizeSelect
+          key={i}
+          disabled={!datum.sizelink.isAvailable}
+          selected={
+            datum.colorlink.selected && this.props.history.location.state
+              ? this.props.history.location.state.isSizeSelected
+              : false
+          }
+          size={datum.sizelink.size}
+          value={datum.sizelink.size}
+          fontSize={this.props.textSize}
+          onSelect={() => this.updateSize(datum.sizelink.url)}
+        />
+      </React.Fragment>
     );
   }
   render() {
     const selectedColour = this.props.data.filter(val => {
       return val.colorlink.selected;
     })[0].colorlink.color;
-    const sizes = this.props.data
 
+    const sizes = this.props.data
       .filter(val => {
         return selectedColour ? val.colorlink.color === selectedColour : true;
       })
       .map(val => {
         return val;
       });
+    let OOSProducts = sizes.filter(size => {
+      return !size.sizelink.isAvailable;
+    });
     if (sizes.length !== 0) {
       return (
-        <div className={styles.base}>
+        <div className={styles.size}>
           <div className={styles.header}>
             Select {this.props.headerText}
             <div className={styles.button}>
@@ -171,17 +200,6 @@ export default class SizeSelector extends React.Component {
                   }}
                 />
               </MobileOnly>
-              <DesktopOnly>
-                <UnderLinedButton
-                  disabled={!this.props.hasSizeGuide}
-                  label={SIZE_GUIDE}
-                  color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
-                  fontFamily={"light"}
-                  onClick={() => {
-                    this.handleShowSize();
-                  }}
-                />
-              </DesktopOnly>
             </div>
           </div>
           <MobileOnly>
@@ -197,7 +215,31 @@ export default class SizeSelector extends React.Component {
                 return (
                   <div className={styles.size}>{this.renderSize(datum, i)}</div>
                 );
-              })}
+              })}{" "}
+              <DesktopOnly>
+                <UnderLinedButton
+                  disabled={!this.props.hasSizeGuide}
+                  label={SIZE_GUIDE}
+                  color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
+                  fontFamily={"light"}
+                  onClick={() => {
+                    this.handleShowSize();
+                  }}
+                />
+              </DesktopOnly>
+              {OOSProducts.length > 0 && (
+                <div className={styles.buttonView}>
+                  <span className={styles.oosButton}>Size out of stock?</span>{" "}
+                  <div
+                    className={styles.viewSimilarBtn}
+                    onClick={() => {
+                      this.handleSimilarOOSSizeSelector(OOSProducts);
+                    }}
+                  >
+                    {SIMILAR_SIZE_MODAL}
+                  </div>
+                </div>
+              )}
             </div>
           </DesktopOnly>
         </div>

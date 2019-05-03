@@ -11,7 +11,7 @@ import ProductReviewListContainer from "../containers/ProductReviewListContainer
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-import TrustBadgeImage from "../components/img/trustBadge.jpg";
+//import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -31,12 +31,12 @@ import {
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
-  CUSTOMER_ACCESS_TOKEN,
+  // CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS,
-  ANONYMOUS_USER,
+  //CART_DETAILS_FOR_LOGGED_IN_USER,
+  //CART_DETAILS_FOR_ANONYMOUS,
+  //ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -57,12 +57,17 @@ import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
 import FlixMediaContainer from "./FlixMediaContainer";
+
+const WASH = "Wash";
+const NECK_COLLAR = "Neck/Collar";
+const SLEEVE = "Sleeve";
+
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
   loading: () => <div />,
   delay: 400
 });
-const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
+//const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
@@ -75,7 +80,7 @@ const Overlay = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+/*
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
   loading: () => <div />,
@@ -99,7 +104,7 @@ const RatingAndTextLink = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-
+*/
 const PdpPaymentInfo = LoadableVisibility({
   loader: () => import("./PdpPaymentInfo"),
   loading: () => <div />,
@@ -143,6 +148,7 @@ const PDPRecommendedSectionsContainer = LoadableVisibility({
   },
   delay: 400
 });
+
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
@@ -171,6 +177,8 @@ export default class PdpApparel extends React.Component {
   componentDidMount() {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
+    this.props.getPdpOffers();
+    this.props.getManufacturerDetails();
     /* Start- Gemini Script */
     //gemini rum JS object check
     if (typeof window.GEM === "object") {
@@ -277,13 +285,14 @@ export default class PdpApparel extends React.Component {
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetailsLoggedInUser = Cookie.getCookie(
+    //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    //let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    //let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    /*let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
-    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    let cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);*/
+
     if (!this.props.productDetails.winningSellerPrice) {
       this.props.displayToast("Product is not saleable");
     } else {
@@ -406,6 +415,9 @@ export default class PdpApparel extends React.Component {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
   };
+  showManufacturerDetailsModal = () => {
+    this.props.showManufactureDetailsModal(this.props.manufacturerDetails);
+  };
   showProductDetails = () => {
     this.setState({ showProductDetails: true });
   };
@@ -464,6 +476,7 @@ export default class PdpApparel extends React.Component {
       this.props.getProductSizeGuide();
     }
   }
+
   checkIfSizeSelected = () => {
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
@@ -553,7 +566,69 @@ export default class PdpApparel extends React.Component {
       behavior: "smooth"
     });
   };
+  // method needed TPR-10076
+  displayPrdDetails = (prdDetails, key) => {
+    let details = prdDetails;
+
+    return details.map((detail, index) => {
+      if (detail["key"] !== key) {
+        return null;
+      } else {
+        let value = detail["value"];
+        let separateValue = value.split("|");
+        if (value && separateValue.length === 2) {
+          return (
+            <div className={styles.tableCellSingleComponent} key={index}>
+              {<img src={separateValue[1]} alt="" height={86} width={93} />}
+              <div className={styles.width95px}>
+                <div className={styles.textAlignCenter}>{separateValue[0]}</div>
+              </div>
+            </div>
+          );
+        } else {
+          return null;
+        }
+      }
+    });
+  };
+
+  tail = ([x, ...xs]) => xs;
+
+  getSeasonDetails(key) {
+    let seasonData = this.props.productDetails.seasonDetails;
+    let value = "";
+    let details = seasonData.find(val => {
+      return val.key === key;
+    });
+    if (details && details.key) {
+      if (details.value) {
+        value = details.value;
+      }
+    }
+    return value;
+  }
+
+  onClickBanner(key) {
+    let seasonData = this.props.productDetails.seasonDetails;
+    let value = "";
+    let details = seasonData.find(val => {
+      return val.key === key;
+    });
+    if (details && details.key) {
+      if (details.value) {
+        value = details.value;
+      }
+    }
+    window.location.href = value;
+  }
+
   render() {
+    let seasonData = {};
+    if (this.props.productDetails["seasonDetails"] != undefined) {
+      seasonData = this.props.productDetails["seasonDetails"].find(item => {
+        return item.key == "Season";
+      });
+    }
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -565,6 +640,14 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
+
+    const manufacturerDetails = this.props.manufacturerDetails;
+
+    const tailedKnowMoreV2 =
+      productData &&
+      productData.knowMoreV2 &&
+      this.tail(productData.knowMoreV2);
+
     const breadCrumbs = productData.seo.breadcrumbs;
     const reverseBreadCrumbs = reverse(breadCrumbs);
     const images = productData.galleryImagesList
@@ -664,6 +747,8 @@ export default class PdpApparel extends React.Component {
           goToCart={() => this.goToCart()}
           gotoPreviousPage={() => this.gotoPreviousPage()}
           ussId={productData.winningUssID}
+          productListingId={productData.productListingId}
+          showSimilarProducts={this.props.showSimilarProducts}
         >
           <div className={styles.base}>
             <div className={styles.pageCenter} ref="scrollToViewGallery">
@@ -676,6 +761,9 @@ export default class PdpApparel extends React.Component {
                   alt={`${productData.productName}-${productData.brandName}-${
                     productData.rootCategory
                   }-TATA CLIQ`}
+                  details={productData.details}
+                  showSimilarProducts={this.props.showSimilarProducts}
+                  category={productData.rootCategory}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags
@@ -683,10 +771,10 @@ export default class PdpApparel extends React.Component {
                     isOfferExisting={productData.isOfferExisting}
                     onlineExclusive={productData.isOnlineExclusive}
                     outOfStock={productData.allOOStock}
+                    seasonSale={seasonData}
                     newProduct={productData.isProductNew}
                   />
                 )}
-
                 {!productData.winningSellerPrice && (
                   <div className={styles.flag}>Not Saleable</div>
                 )}
@@ -731,6 +819,11 @@ export default class PdpApparel extends React.Component {
                           productData.showPriceBrkUpPDP === "Yes"
                         }
                         showPriceBreakUp={this.showPriceBreakup}
+                        offers={this.props.offers}
+                        impulseOfferCalloutList={
+                          this.props.impulseOfferCalloutList
+                        }
+                        potentialPromotions={productData.potentialPromotions}
                         isPdp={true}
                       />
                     </div>
@@ -783,23 +876,17 @@ export default class PdpApparel extends React.Component {
                     showEmiModal={() => this.showEmiModal()}
                   />
                   <OfferCard
-                    showDetails={this.props.showOfferDetails}
+                    productListings={this.props.productDetails}
+                    showDetails={this.props.showTermsNConditions}
+                    showVoucherOffersModal={this.props.showOfferDetails}
                     potentialPromotions={productData.potentialPromotions}
                     secondaryPromotions={productData.productOfferMsg}
+                    offers={this.props.offers}
                   />
                 </div>
                 {productData.variantOptions && (
                   <div>
                     <div className={styles.horizontalOffset}>
-                      <ColourSelector
-                        data={productData.variantOptions}
-                        productId={productData.productListingId}
-                        history={this.props.history}
-                        updateColour={val => {}}
-                        getProductSpecification={
-                          this.props.getProductSpecification
-                        }
-                      />
                       {!this.checkIfNoSize() &&
                         !this.checkIfSizeDoesNotExist() && (
                           <React.Fragment>
@@ -821,7 +908,15 @@ export default class PdpApparel extends React.Component {
                                     productId={productData.productListingId}
                                     hasSizeGuide={productData.showSizeGuide}
                                     showSizeGuide={this.props.showSizeGuide}
+                                    showOOSSizeSelectorModal={
+                                      this.props.showOOSSizeSelectorModal
+                                    }
+                                    showSimilarSizeOOSModal={
+                                      this.props.showSimilarSizeOOSModal
+                                    }
                                     data={productData.variantOptions}
+                                    infoDetails={productData.details}
+                                    showSizeSelectorIcon={false}
                                     textSize={12}
                                   />
                                 </div>
@@ -893,6 +988,15 @@ export default class PdpApparel extends React.Component {
                             )}
                           </React.Fragment>
                         )}
+                      <ColourSelector
+                        data={productData.variantOptions}
+                        productId={productData.productListingId}
+                        history={this.props.history}
+                        updateColour={val => {}}
+                        getProductSpecification={
+                          this.props.getProductSpecification
+                        }
+                      />
                     </div>
                   </div>
                 )}
@@ -1081,6 +1185,79 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
             <div className={styles.details}>
+              {productData.seasonDetails != null && (
+                <div className={styles.season}>
+                  <div className={styles.pageCenter}>
+                    <div className={styles.seasonDetails}>
+                      <div className={styles.detailsCard}>
+                        <div className={styles.seasonImage}>
+                          {this.getSeasonDetails("seasonIconURL").length ? (
+                            <div className={styles.seasonImg}>
+                              <img
+                                alt="season_icon"
+                                className={styles.seasonIconImage}
+                                src={this.getSeasonDetails("seasonIconURL")}
+                              />
+                            </div>
+                          ) : null}
+                          {this.getSeasonDetails("bannerUrl").length ? (
+                            <div
+                              className={styles.seasonBanner}
+                              onClick={() =>
+                                this.onClickBanner("bannerDestinationUrl")
+                              }
+                            >
+                              <img
+                                alt="bannerUrl"
+                                className={styles.seasonIconImage}
+                                src={this.getSeasonDetails("bannerUrl")}
+                              />
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className={styles.seasonTextDetails}>
+                          <div className={styles.seasonCollection}>
+                            <div className={styles.collectionNotesTile}>
+                              <h3>Collection Notes</h3>
+                            </div>
+                            <div className={styles.collectionNotesContent}>
+                              {this.getSeasonDetails("Collection Info").length
+                                ? this.getSeasonDetails("Collection Info")
+                                : null}
+                            </div>
+                          </div>
+                          <div className={styles.seasonStyleDescription}>
+                            <div className={styles.collectionNotesTile}>
+                              Style Note
+                            </div>
+                            <div className={styles.collectionNotesContent}>
+                              {productData.styleNote}
+                            </div>
+                          </div>
+                          <div className={styles.seasonLaunchDate}>
+                            Collection Launched in{" "}
+                            {this.getSeasonDetails("Collection Date").length
+                              ? this.getSeasonDetails("Collection Date")
+                              : null}
+                          </div>
+                          <div className={styles.seasonButton}>
+                            <Button
+                              type="hollow"
+                              height={45}
+                              width={195}
+                              label="VIEW ALL"
+                              onClick={() =>
+                                this.onClickBanner("bannerDestinationUrl")
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
@@ -1098,6 +1275,39 @@ export default class PdpApparel extends React.Component {
                           itemProp="description"
                         >
                           {productData.productDescription}
+                          <div className={styles.productDetails}>
+                            {productData.rootCategory !== "Electronics" &&
+                              productData.rootCategory !== "FashionJewellery" &&
+                              productData.rootCategory !== "FineJewellery" &&
+                              productData.details.map(val => {
+                                return (
+                                  <div className={styles.contentDetails}>
+                                    <div className={styles.headerDetails}>
+                                      {val.key}
+                                    </div>
+                                    <div className={styles.descriptionDetails}>
+                                      {val.value}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                          {productData.prdDetails && (
+                            <div className={styles.productDetailsImagesCard}>
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                WASH
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                NECK_COLLAR
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                SLEEVE
+                              )}
+                            </div>
+                          )}
                           {productData.rootCategory === "Electronics" && (
                             <div
                               style={{
@@ -1227,15 +1437,23 @@ export default class PdpApparel extends React.Component {
                         })}
                       </Accordion>
                     )}
-                    {productData.rootCategory !== "Electronics" &&
-                      productData.rootCategory !== "FashionJewellery" &&
-                      productData.rootCategory !== "FineJewellery" &&
-                      productData.details && (
-                        <ProductDetails
-                          headerFontSize={18}
-                          data={productData.details}
-                        />
-                      )}
+                    {productData.knowMoreV2 && (
+                      <Accordion text="Return & Exchange" headerFontSize={18}>
+                        <div className={styles.containerWithBottomBorder}>
+                          <div className={styles.accordionContentBold}>
+                            {productData.knowMoreV2[0].knowMoreItemV2}
+                          </div>
+                          {tailedKnowMoreV2.map(val => {
+                            return (
+                              <div className={styles.accordionLight}>
+                                {val.knowMoreItemV2}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </Accordion>
+                    )}
+
                     {productData.knowMore && (
                       <Accordion text="Know More" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
@@ -1281,6 +1499,51 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </Accordion>
                     )}
+
+                    {manufacturerDetails &&
+                      manufacturerDetails.countryOfOrigin && (
+                        <Accordion
+                          text="Manufacturing, Packaging and Import Info"
+                          headerFontSize={18}
+                        >
+                          <div className={styles.accordionContentWithoutBorder}>
+                            <div className={styles.genericCountryPart}>
+                              <div className={styles.genericName}>
+                                <div className={styles.genericLabel}>
+                                  Generic Name
+                                </div>
+                                <div
+                                  className={styles.manufacturerDetailsBoldText}
+                                >
+                                  {manufacturerDetails.productType}
+                                </div>
+                              </div>
+
+                              <div className={styles.countryOfOrigin}>
+                                <div className={styles.genericLabel}>
+                                  Country of Origin
+                                </div>
+                                <div
+                                  className={styles.manufacturerDetailsBoldText}
+                                >
+                                  {manufacturerDetails.countryOfOrigin}
+                                </div>
+                              </div>
+                            </div>
+                            <div className={styles.modalDisplayMore}>
+                              <div>
+                                For more details{" "}
+                                <span
+                                  onClick={this.showManufacturerDetailsModal}
+                                  className={styles.clickHere}
+                                >
+                                  click here
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Accordion>
+                      )}
                   </div>
                   {this.renderRatings}
                 </div>
