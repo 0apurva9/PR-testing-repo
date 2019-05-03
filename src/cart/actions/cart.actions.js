@@ -5148,9 +5148,9 @@ export function getCartCountForLoggedInUser() {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/getBagCount?access_token=${
+        }/carts/bagCount?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}`
+        }&isPwa=true&platformNumber==${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

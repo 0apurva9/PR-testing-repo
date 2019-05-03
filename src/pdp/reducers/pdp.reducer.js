@@ -1,8 +1,9 @@
 import * as pdpActions from "../actions/pdp.actions";
 import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS } from "../../account/actions/account.actions";
-import { YES, NO } from "../../lib/constants";
+import { YES, NO, CART_DETAILS_FOR_ANONYMOUS } from "../../lib/constants";
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
+import * as Cookies from "../../lib/Cookie";
 
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
@@ -240,6 +241,29 @@ const productDescription = (
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_SUCCESS:
+      let cartDetailsForAnonymous = Cookies.getCookie(
+        CART_DETAILS_FOR_ANONYMOUS
+      );
+      let cartGuid =
+        action.newProduct && action.newProduct.cartGuid
+          ? action.newProduct.cartGuid
+          : null;
+
+      if (
+        !cartDetailsForAnonymous ||
+        cartDetailsForAnonymous.cartGuid !== cartGuid
+      ) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify({
+            type: action.newProduct.type,
+            status: action.newProduct.status,
+            code: action.newProduct.code,
+            guid: action.newProduct.cartGuid
+          })
+        );
+      }
+
       return Object.assign({}, state, {
         status: action.status,
         loading: false

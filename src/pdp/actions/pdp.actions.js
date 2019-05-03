@@ -294,10 +294,11 @@ export function addProductToCartRequest() {
     status: REQUESTING
   };
 }
-export function addProductToCartSuccess() {
+export function addProductToCartSuccess(newProduct) {
   return {
     type: ADD_PRODUCT_TO_CART_SUCCESS,
-    status: SUCCESS
+    status: SUCCESS,
+    newProduct
   };
 }
 
@@ -331,13 +332,16 @@ export function addProductToCart(productDetails) {
     dispatch(addProductToCartRequest());
     try {
       const result = await api.post(
-        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${cartId}/addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+        `${PRODUCT_DETAILS_PATH}/${userId}/carts/addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
-        }&addedToCartWl=false`
+        }&addedToCartWl=false&isCartoptimised=true${
+          cartId ? "&cartGuid=" + cartId : ""
+        }`
       );
       const resultJson = await result.json();
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -361,7 +365,7 @@ export function addProductToCart(productDetails) {
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
-      return dispatch(addProductToCartSuccess());
+      return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
     } catch (e) {
       return dispatch(addProductToCartFailure(e.message));

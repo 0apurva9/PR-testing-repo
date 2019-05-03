@@ -355,26 +355,28 @@ class App extends Component {
         }
       }
     } else {
-      if (!cartDetailsForAnonymous && globalAccessToken) {
-        const parsedQueryString = queryString.parse(this.props.location.search);
-        if (!parsedQueryString || !parsedQueryString.cartGuid) {
-          this.props.generateCartIdForAnonymous();
-        }
-      }
+      // Cart Optimisation
+      // if (!cartDetailsForAnonymous && globalAccessToken) {
+      //   const parsedQueryString = queryString.parse(this.props.location.search);
+      //   if (!parsedQueryString || !parsedQueryString.cartGuid) {
+      //     this.props.generateCartIdForAnonymous();
+      //   }
+      // }
     }
     window.prerenderReady = true;
   }
-  componentWillMount() {
-    const parsedQueryString = queryString.parse(this.props.location.search);
-    if (parsedQueryString && parsedQueryString.cartGuid) {
-      Cookies.createCookie(
-        CART_DETAILS_FOR_ANONYMOUS,
-        JSON.stringify({
-          guid: parsedQueryString.cartGuid
-        })
-      );
-    }
-  }
+  // Cart Optimisation
+  // componentWillMount() {
+  //   const parsedQueryString = queryString.parse(this.props.location.search);
+  //   if (parsedQueryString && parsedQueryString.cartGuid) {
+  //     Cookies.createCookie(
+  //       CART_DETAILS_FOR_ANONYMOUS,
+  //       JSON.stringify({
+  //         guid: parsedQueryString.cartGuid
+  //       })
+  //     );
+  //   }
+  // }
 
   renderLoader() {
     return (
