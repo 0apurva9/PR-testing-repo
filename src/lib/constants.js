@@ -243,7 +243,7 @@ export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq";
 export const HELP_URL = "/help";
-export const CONTACT_URL = "/contact";
+export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
 
 // constants for payments method
@@ -378,4 +378,3 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
-

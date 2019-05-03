@@ -39,7 +39,8 @@ import {
   YOUR_BAG,
   MY_ACCOUNT_PAGE,
   SAVE_LIST_PAGE,
-  COUPON_COOKIE
+  COUPON_COOKIE,
+  CART_BAG_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -108,11 +109,14 @@ class CartPage extends React.Component {
         JSON.parse(cartDetailsLoggedInUser).code,
         defaultPinCode
       );
-      this.props.displayCouponsForLoggedInUser(
-        JSON.parse(userDetails).userName,
-        JSON.parse(customerCookie).access_token,
-        JSON.parse(cartDetailsLoggedInUser).guid
-      );
+
+      if (localStorage.getItem(CART_BAG_DETAILS)) {
+        this.props.displayCouponsForLoggedInUser(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token,
+          JSON.parse(cartDetailsLoggedInUser).guid
+        );
+      }
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
         this.props.getCartDetails(
@@ -462,7 +466,7 @@ class CartPage extends React.Component {
               </div>
             </div>
           </div>
-          <div clasName={styles.pageCenter}>
+          <div className={styles.pageCenter}>
             <div className={styles.emptyBagHolder}>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
@@ -487,7 +491,7 @@ class CartPage extends React.Component {
             />
           </div>
 
-          <div clasName={styles.pageCenter}>
+          <div className={styles.pageCenter}>
             <div className={styles.content}>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}

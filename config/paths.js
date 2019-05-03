@@ -39,7 +39,7 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
-//index_build.html is used for prod whereas index.html is used for local dev , index is used for all pages except cart and checkout 
+//index_build.html is used for prod whereas index.html is used for local dev , index is used for all pages except cart and checkout
 //other.html is used for cart and checkout only
 module.exports = {
   dotenv: resolveApp(".env"),

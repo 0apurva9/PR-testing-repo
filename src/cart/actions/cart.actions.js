@@ -562,6 +562,7 @@ export function getCartDetails(
       dispatch(setBagCount(cartProducts.length));
       return dispatch(cartDetailsSuccess(resultJson));
     } catch (e) {
+      dispatch(displayToast(e.message));
       return dispatch(cartDetailsFailure(e.message));
     }
   };
@@ -665,7 +666,7 @@ export function applyUserCouponForAnonymous(couponCode) {
 
     try {
       const result = await api.postFormData(
-        `${USER_CART_PATH}/anonymous/carts/${cartId}/applyCouponsAnonymous?isUpdatedPwa=true`,
+        `${USER_CART_PATH}/anonymous/carts/${cartId}/applyCouponsAnonymous?isUpdatedPwa=true&channel=${CHANNEL}`,
         couponObject
       );
 
@@ -709,7 +710,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
           JSON.parse(cartDetails).code
         }/applyCoupons?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`,
         couponObject
       );
 
