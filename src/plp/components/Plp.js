@@ -90,6 +90,11 @@ export default class Plp extends React.Component {
       }
     } else {
       this.setState({ gridBreakup: !this.state.gridBreakup });
+      if (this.state.view === LIST) {
+        this.setState({ view: GRID });
+      } else {
+        this.setState({ view: LIST });
+      }
     }
   }
   onApply = () => {

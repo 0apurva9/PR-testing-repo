@@ -65,14 +65,13 @@ export default class ProductModule extends React.Component {
     this.props.showSimilarProducts();
   }
   showSimilarIcons = () => {
+    let similarButton =
+      this.props.view === "grid" ? styles.display4by4 : styles.display3by3;
     if (this.props.productCategory === ELECTRONICS) {
       return null;
     } else {
       return (
-        <div
-          className={styles.similarIcon}
-          onClick={e => this.onClickSimilar()}
-        >
+        <div className={similarButton} onClick={e => this.onClickSimilar()}>
           <Icon image={similarIcon} size={17} backgroundSize="auto 16px" />
         </div>
       );

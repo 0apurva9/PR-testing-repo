@@ -116,7 +116,7 @@ export default class AddToWishListButton extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.checkInWishlist(nextProps);
   }
-  getDerivedStateFromProps(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.wishlistItems !== prevProps.wishlistItems) {
       this.checkInWishlist(this.props);
     }
