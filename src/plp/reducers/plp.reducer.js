@@ -19,7 +19,9 @@ const productListings = (
     clickedProductModuleRef: null,
     lastVisitedPlpUrl: null,
     deselectedOutOfStock: false,
-    urlString: null
+    urlString: null,
+    loadMsdSkeleton: null,
+    searchMsdData: []
   },
   action
 ) => {
@@ -34,7 +36,16 @@ const productListings = (
       return Object.assign({}, state, {
         clickedProductModuleRef: null
       });
-
+    case plpActions.NULL_SEARCH_MSD_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        searchMsdData: action.searchMsdData
+      });
+    case plpActions.NULL_SEARCH_MSD_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        loading: false
+      });
     case CLEAR_ERROR:
       return Object.assign({}, state, {
         error: null

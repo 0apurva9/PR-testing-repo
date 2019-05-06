@@ -61,7 +61,8 @@ const mapStateToProps = (state, ownProps) => {
     searchresult: state.productListings.searchresult,
     lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
     status: state.productListings.status,
-    headerText: state.header.text
+    headerText: state.header.text,
+    searchMsdData: state.productListings.searchMsdData
   };
 };
 

@@ -1,0 +1,90 @@
+.base {
+  width: 100%;
+  background: #ececec;
+  height: auto;
+}
+.headingHolder {
+  width: 100%;
+  height: auto;
+  padding: 25px 30px;
+  color: #000;
+  font-size: 21px;
+  font-family: regular;
+  text-align: center;
+  line-height: 20px;
+}
+.dataAndLabelHolder {
+  width: 100%;
+  height: auto;
+}
+.labelHeader {
+  font-size: 30px;
+  width: 100%;
+  float: left;
+  padding: 0 10px;
+  color: #212121;
+  font-family: semibold;
+  position: relative;
+}
+.labelHeaderForSearch {
+  composes: labelHeader;
+  background: #ececec;
+  font-size: 12px;
+  columns: #000000;
+  padding-left: 15px;
+}
+.categoryCarouselHolder {
+  width: 100%;
+  height: auto;
+  padding: 0px 0px 10px 5px;
+}
+.categoryCarouselHolderForTopPicks {
+  composes: categoryCarouselHolder;
+  padding: 0px 0px 0px 10px;
+}
+.productCarouselHolder {
+  width: 100%;
+  height: auto;
+  padding: 10px 0px;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  margin: 25px 0px;
+}
+.button {
+  width: auto;
+  height: auto;
+  display: inline-block;
+}
+.orText {
+  text-align: center;
+  font-size: 21px;
+  font-family: regular;
+  margin-top: 10px;
+}
+.dataHolderForSearchHomePage {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  background: #fff;
+}
+.browseCategory {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: left;
+}
+.browseCategoryCenter {
+  max-width: 1200px;
+  margin: 60px auto 0px;
+}
+.TopPicksCenter {
+  max-width: 1200px;
+  margin: 32px auto 14px 0px;
+}
+.nullPageData {
+  padding: 15px 0px 5px 0px;
+}

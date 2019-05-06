@@ -13,6 +13,7 @@ import { CATEGORY_REGEX } from "../components/PlpBrandCategoryWrapper";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
+import SearchresultNullpage from "./SearchresultNullpage";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -483,8 +484,9 @@ export default class Plp extends React.Component {
     let filterSelected = false;
     let hasSorts = false;
     let electronicView =
+      this.props &&
       this.props.productListings &&
-      this.props.productListings.facetdatacategory &&
+      this.props.productListings.facetdatacategory.filters &&
       this.props.productListings.facetdatacategory.filters[0] &&
       this.props.productListings.facetdatacategory.filters[0].categoryName !==
         "Electronics";
@@ -748,7 +750,16 @@ export default class Plp extends React.Component {
           </div>
         )}
         {!this.props.productListings &&
-          !this.props.productListings && <div className={styles.dummyHolder} />}
+          !this.props.productListings &&
+          this.props.searchMsdData && (
+            <div className={styles.dummyHolder}>
+              <SearchresultNullpage
+                history={this.props.history}
+                feeds={this.props.searchMsdData}
+                showTrendingProducts={true}
+              />
+            </div>
+          )}
       </React.Fragment>
     );
   }
