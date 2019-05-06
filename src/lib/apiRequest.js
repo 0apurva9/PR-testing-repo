@@ -54,6 +54,10 @@ if (
 } else if (process.env.REACT_APP_STAGE === "pt") {
   API_URL_ROOT = "https://pt.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://pt.tatacliq.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "uat5") {
+  API_URL_ROOT = "https://uat5.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://uat5.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -76,6 +80,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://uat6-tcs.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "pt") {
   URL_ROOT = "https://pt.tatacliq.com";
+} else if (process.env.REACT_APP_STAGE === "uat5") {
+  URL_ROOT = "https://uat5.tataunistore.com";
 }
 
 export const API_URL_ROOT_DUMMY =
@@ -586,4 +592,31 @@ export async function corePostByUrlEncoded(path, postData) {
     },
     body: postData
   });
+}
+
+export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
+  const globalAccessToken = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
+  return await fetch(
+    API_URL_ROOT +
+      "/v2/mpl/products/" +
+      code +
+      "/voucherSequence?access_token=" +
+      globalAccessToken.access_token +
+      "&sellerId=" +
+      sellerId +
+      "&categoryCode=" +
+      categoryCode +
+      "&brandCode=" +
+      brandCode +
+      "&channel=Web&updatedFlag=true"
+  );
+}
+export async function pdpManufacturersApi(categoryCode, brandCode) {
+  return await fetch(
+    API_URL_ROOT +
+      "/v2/mpl/products/manufacturingdetails?category=" +
+      categoryCode +
+      "&brand=" +
+      brandCode
+  );
 }

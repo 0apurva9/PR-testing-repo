@@ -1,0 +1,45 @@
+
+.header {
+    width: 100%;
+    text-align: center;
+    background-color: #212121;
+    color: white;
+    padding: 11px;
+    margin-bottom: 10px;
+  }
+  .baseBefore {
+    width: 100%;
+    background-color: white;
+    height: 29pc
+  }
+  .baseAfter{
+    width: 100%;
+    background-color: white;
+  }
+  .noProductsFound{
+    width: 100%;
+    background-color: white;
+    height: 18pc;
+    text-align: center;
+     padding-top: 210px; 
+    /* margin-top: 50px; */
+  }
+  .retryButton{
+    text-align: center;
+      width: 120px;
+      height: 40px;
+      background: rgb(255,23,68);
+      border-radius: 20px;
+      color: white;
+      margin: auto;
+      line-height: 40px;
+      cursor:pointer;
+      /* margin-top: 50px; */
+  }
+  .blankHeight{
+    height: 8pc;
+  }
+  .blankHeightForLoader{
+    height: 30pc;
+  }
+  

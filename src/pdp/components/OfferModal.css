@@ -1,88 +1,54 @@
+
 .base {
-  width: 100%;
-  height: auto;
-  min-height: 100vh;
-  background: #f8f8f8;
-}
-.base a {
-  color: #ff1744;
-}
-.content {
-  width: 100%;
-  height: auto;
-  padding: 20px;
-  position: relative;
+  border-radius: 4px;
 }
 
-.border {
-  width: 100%;
-  height: 1px;
-  background: #979797;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 .header {
-  width: 100%;
-  height: 40px;
-  background: #212121;
-  color: #fff;
+  height: 60px;
+  background: #f9f9f9;
+  color: #000;
+  font-size: 20px;
+  line-height: 60px;
+  padding: 0 40px 0px 20px;
+  top: 0px;
+  position: sticky;
+  z-index: 1;
   font-family: semibold;
-  font-size: 14px;
-  line-height: 40px;
-  padding: 0 20px;
 }
-.section {
+.container{
   width: 100%;
-  height: auto;
-  margin-top: 15px;
+  float: left;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px #e7e7e7;
 }
-.headingText {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: semibold;
-  color: #212121;
-}
-.subHeader {
-  width: 100%;
-  height: auto;
+.description{
+  width: 90%;
+  float: left;
   color: #212121;
   font-size: 14px;
-  font-family: bolder;
+  font-family: light;
+  padding-left: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.description {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
+.termsAndConditions{
+  width: 4%;
+  float: left;
   color: #212121;
-  line-height: 24px;
-  margin-top: 5px;
+  font-size: 13px;
+  padding-right: 15px;
+  border-bottom: 1px solid;
+  padding-bottom: 3px;
+  cursor: pointer;
 }
-.description a {
+.counter{
   color: #ff1744;
+  font-size: 12px;
+  margin-top: 10px;
+  font-family: light;
 }
-.timeSection {
-  width: 50%;
-  display: inline-block;
-  padding-right: 10px;
-  vertical-align: top;
-  font-size: 14px;
-  line-height: 22px;
-}
-
-@media  screen  and (min-width:1025px){
-  .header{
-    height:60px;
-    background:#f9f9f9;
-    font-size:20px;
-    line-height:60px;
-    color:#212121;
-    position:sticky;
-    z-index:5;
-    top:0;
-  }
-  .base {
-    min-height:initial;
-  }
+.offerEndsIn{
+  padding-right:5px;
+  padding-left: 20px;
 }

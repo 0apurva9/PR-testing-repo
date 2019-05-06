@@ -418,6 +418,8 @@ export default class PdpElectronics extends React.Component {
               showDetails={this.props.showOfferDetails}
               potentialPromotions={productData.potentialPromotions}
               secondaryPromotions={productData.productOfferMsg}
+              offers={this.props.offers}
+              showVoucherOffersModal={this.props.showVoucherOffersModal}
             />
             {productData.variantOptions && (
               <React.Fragment>

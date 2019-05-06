@@ -9,6 +9,17 @@ export default class PdpFlags extends React.Component {
         </div>
       );
     } else if (
+      (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
+      this.props.seasonTag
+    ) {
+      return (
+        <div className={styles.basePdp}>
+          {this.props.seasonSale
+            ? this.props.seasonSale.value
+            : this.props.seasonTag}
+        </div>
+      );
+    } else if (
       this.props.discountPercent &&
       this.props.discountPercent !== "0"
     ) {

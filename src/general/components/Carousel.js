@@ -83,13 +83,23 @@ export default class Carousel extends React.Component {
       transform: jukeTransform
     };
     let headerClass = styles.header;
+    let leftButtonClass = styles.back;
+    let rightButtonClass = styles.forward;
     let buttonClass = styles.button;
     let buttonColor = "#212121";
     let buttonSpace = 10;
+
     if (this.props.isWhite) {
       headerClass = styles.headerWhite;
       buttonClass = styles.buttonWhite;
       buttonColor = "#fff";
+    }
+    if (this.props.buttonColor) {
+      leftButtonClass = styles.leftButton;
+      rightButtonClass = styles.rightButton;
+    }
+    if (this.props.isPaddingTop) {
+      headerClass = styles.headerpaddingTop21;
     }
     if (this.props.seeAll && !this.props.withFooter) {
       buttonSpace = 110;
@@ -124,13 +134,13 @@ export default class Carousel extends React.Component {
               {childrenCount > visibleChildren && (
                 <React.Fragment>
                   <div
-                    className={styles.back}
+                    className={leftButtonClass}
                     onClick={() => {
                       this.slideBack();
                     }}
                   />
                   <div
-                    className={styles.forward}
+                    className={rightButtonClass}
                     onClick={() => {
                       this.slideForward();
                     }}
