@@ -11,10 +11,7 @@ export default class OrderDelivered extends React.Component {
       deliveredAddress = address.trim();
     }
     return (
-      <div
-        className={styles.base}
-        style={{ borderBottom: `1px solid ${this.props.borderBottom}` }}
-      >
+      <div className={styles.base}>
         <MobileOnly>
           {deliveredAddress && (
             <div className={styles.addressHolder}>

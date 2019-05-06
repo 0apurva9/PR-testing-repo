@@ -367,7 +367,7 @@ export default class OrderCard extends React.Component {
         {this.props.isOrderDetails &&
           this.props.selectedDeliveryMode && (
             <div className={styles.deliveryModeHolder}>
-              <b>Delivery Mode:</b>
+              <span className={styles.boldText}>Delivery Mode:</span>
               {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
             </div>
           )}
@@ -378,7 +378,9 @@ export default class OrderCard extends React.Component {
           this.props.paymentMethod &&
           this.props.paymentMethod !== undefined && (
             <div className={styles.estimatedDeliveryDate}>
-              <b>Estimated Delivery Date:</b>{" "}
+              <span className={styles.boldText}>
+                {"Estimated Delivery Date:"}
+              </span>{" "}
               {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
             </div>
           )}

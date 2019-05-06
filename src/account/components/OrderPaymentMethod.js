@@ -3,13 +3,19 @@ import styles from "./OrderPaymentMethod.css";
 import PropTypes from "prop-types";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import each from "lodash.foreach";
+import { HELP_URL } from "../../lib/constants";
+
 export default class OrderPaymentMethod extends React.Component {
   request() {
     if (this.props.request) {
       this.props.request();
     }
   }
-
+  redirectToHelp() {
+    if (this.props.redirectToHelp) {
+      this.props.redirectToHelp();
+    }
+  }
   render() {
     let isDelivered = false;
     each(this.props.statusDisplay, (status, i) => {
@@ -24,25 +30,25 @@ export default class OrderPaymentMethod extends React.Component {
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
           <div className={styles.paymentHolder}>
             {this.props.paymentMethod && (
-              <div className={styles.paymentMethod}>Payment Method</div>
+              <div className={styles.paymentMethod}>
+                Payment Mode:{this.props &&
+                  this.props.paymentMethod && (
+                    <span className={styles.cashText}>
+                      {" "}
+                      {this.props.paymentMethod}
+                    </span>
+                  )}
+              </div>
             )}
-            {this.props.isInvoiceAvailable &&
-              isDelivered && (
-                <div className={styles.requestHolder}>
-                  <div
-                    className={styles.requestWithUnderline}
-                    onClick={() => this.request()}
-                  >
-                    <UnderLinedButton
-                      label={this.props.underlineButtonLabel}
-                      color={this.props.underlineButtonColour}
-                    />
-                  </div>
-                </div>
-              )}
+            <div
+              className={styles.helpHolder}
+              onClick={() => this.redirectToHelp()}
+            >
+              Help & Support
+            </div>
           </div>
         )}
-        {(this.props.paymentMethod || this.props.phoneNumber) && (
+        {/* {(this.props.paymentMethod || this.props.phoneNumber) && (
           <div className={styles.cashAndMobileHolder}>
             {this.props.paymentMethod && (
               <div className={styles.cashText}>{this.props.paymentMethod}</div>
@@ -54,7 +60,7 @@ export default class OrderPaymentMethod extends React.Component {
               </div>
             )}
           </div>
-        )}
+        )} */}
       </div>
     );
   }

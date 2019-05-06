@@ -2,7 +2,7 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  padding: 25px 0px;
+  padding: 20px 0px;
   border-bottom: 1px solid #ececec;
   background: #fff;
 }
@@ -68,8 +68,10 @@
 @media screen and (min-width: 1025px) {
   .labelText {
     font-family: light;
+    color: #4a4a4a;
   }
   .infoText {
     font-family: light;
+    color: #4a4a4a;
   }
 }

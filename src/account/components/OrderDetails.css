@@ -25,8 +25,21 @@
   padding: 15px;
   border-radius: 4px;
 }
-.payment {
-  border-top: 1px solid #ececec;
+.paymentBase {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.paymentHeading {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
 }
 .orderStatusVertical {
   padding: 30px 0px;
@@ -83,6 +96,11 @@
     height: auto;
     padding-right: 150px;
     position: relative;
+    background: #fff;
+    padding: 20px 150px 20px 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    overflow: hidden;
   }
   .orderIdHolder {
     width: 100%;
@@ -96,16 +114,21 @@
     margin-bottom: 0px;
   }
   .highlightedText {
-    font-family: regular;
+    font-family: light;
   }
   .buttonGoToBack {
     width: 140px;
-    height: auto;
+    height: 30px;
     position: absolute;
-    right: 0;
+    right: 20px;
+    color: rgb(255, 23, 68);
+    font-family: regular;
     top: 0;
     bottom: 0;
     margin: auto;
+    font-size: 14px;
+    line-height: 30px;
+    cursor: pointer;
   }
   .order {
     padding: 30px;
@@ -124,6 +147,17 @@
   .cancelProduct {
     width: auto;
     height: auto;
+    float: left;
+    padding-right: 40px;
+    color: rgb(255, 23, 68);
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 35px;
+    cursor: pointer;
+  }
+  .requestHolder {
+    width: auto;
+    height: auto;
     float: right;
     padding-right: 40px;
     color: #8d8d8d;
@@ -132,6 +166,7 @@
     line-height: 35px;
     cursor: pointer;
   }
+
   .returnClosed {
     width: 50%;
     height: auto;
