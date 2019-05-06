@@ -1279,6 +1279,7 @@ export default class PdpApparel extends React.Component {
                             {productData.rootCategory !== "Electronics" &&
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
+                              productData.details &&
                               productData.details.map(val => {
                                 return (
                                   <div className={styles.contentDetails}>
