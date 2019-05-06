@@ -74,6 +74,7 @@ const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
 export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
+let isShowDeliveryAddress = false;
 const Loader = () => {
   return (
     <div>
@@ -498,19 +499,25 @@ export default class AllOrderDetails extends React.Component {
                             }`
                           : `${
                               orderDetails &&
+                              orderDetails.billingAddress &&
                               orderDetails.billingAddress.addressLine1
                                 ? orderDetails.billingAddress.addressLine1
                                 : ""
                             } ${
-                              orderDetails && orderDetails.billingAddress.town
+                              orderDetails &&
+                              orderDetails.billingAddress &&
+                              orderDetails.billingAddress.town
                                 ? orderDetails.billingAddress.town
                                 : ""
                             } ${
-                              orderDetails && orderDetails.billingAddress.state
+                              orderDetails &&
+                              orderDetails.billingAddress &&
+                              orderDetails.billingAddress.state
                                 ? orderDetails.billingAddress.state
                                 : ""
                             } ${
                               orderDetails &&
+                              orderDetails.billingAddress &&
                               orderDetails.billingAddress.postalcode
                                 ? orderDetails.billingAddress.postalcode
                                 : ""
@@ -785,6 +792,7 @@ export default class AllOrderDetails extends React.Component {
                                       }
                                       deliveredAddress2={
                                         orderDetails &&
+                                        orderDetails.billingAddress &&
                                         orderDetails.billingAddress.addressLine1
                                           ? orderDetails.billingAddress
                                               .addressLine1

@@ -43,6 +43,7 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
+let isShowDeliveryAddress = false;
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return Order";
 const PRODUCT_RETURN_WINDOW_CLOSED =
@@ -163,6 +164,52 @@ export default class OrderDetails extends React.Component {
     if (nextProps.sendInvoiceSatus === SUCCESS) {
       this.props.displayToast("Invoice has been sent");
     }
+    isShowDeliveryAddress =
+      nextProps.orderDetails &&
+      nextProps.orderDetails.products.find(products => {
+        if (
+          products.selectedDeliveryMode &&
+          products.selectedDeliveryMode.code !== CLICK_COLLECT
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+  }
+  getDayNumberSuffix(d) {
+    let dateWithMonth = new Date(d);
+    let date = dateWithMonth.getDate();
+    let month = dateWithMonth.getMonth();
+    let year = dateWithMonth.getFullYear();
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        return "" + date + "st " + monthNames[month] + " " + year;
+      case 2:
+      case 22:
+        return "" + date + "nd " + monthNames[month] + " " + year;
+      case 3:
+      case 23:
+        return "" + date + "rd " + monthNames[month] + " " + year;
+      default:
+        return "" + date + "th " + monthNames[month] + " " + year;
+    }
   }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
@@ -243,7 +290,9 @@ export default class OrderDetails extends React.Component {
                             Order Placed:{" "}
                           </span>
                           <span>
-                            {format(orderDetails.orderDate, dateFormat)}
+                            {this.getDayNumberSuffix(
+                              format(orderDetails.orderDate, dateFormat)
+                            )}
                           </span>
                         </div>
                         <div className={styles.orderIdHolder}>
@@ -266,7 +315,15 @@ export default class OrderDetails extends React.Component {
                       </div>
                     </DesktopOnly>
                     <OrderCard
-                      estimatedDeliveryDate={products.estimateddeliverydate}
+                      estimatedDeliveryDate={
+                        products.EDD ? format(products.EDD, dateFormat) : ""
+                      }
+                      estimatedDeliveryDateWithTime={products.EDD}
+                      selectedDeliveryMode={
+                        products &&
+                        products.selectedDeliveryMode &&
+                        products.selectedDeliveryMode.code
+                      }
                       statusDisplay={products.statusDisplay}
                       imageUrl={products.imageURL}
                       productBrand={products.productBrand}
@@ -276,6 +333,11 @@ export default class OrderDetails extends React.Component {
                       isGiveAway={products.isGiveAway}
                       onClick={() => this.onClickImage(products.productcode)}
                       quantity={true}
+                      breechMessage={products && products.eddBreechMessage}
+                      storeDetails={products && products.storeDetails}
+                      isOrderDetails={true}
+                      paymentMethod={orderDetails.paymentMethod}
+                      statusDisplayMsg={products.statusDisplayMsg}
                     />
                     <div className={styles.payment}>
                       <OrderViewPaymentDetails
@@ -340,7 +402,9 @@ export default class OrderDetails extends React.Component {
                         )
                       }
                     />
-                    {orderDetails.deliveryAddress &&
+                    {isShowDeliveryAddress &&
+                      orderDetails &&
+                      orderDetails.deliveryAddress &&
                       Object.keys(orderDetails.deliveryAddress).length !==
                         0 && (
                         <OrderDelivered
@@ -520,7 +584,7 @@ export default class OrderDetails extends React.Component {
                     {products.awbPopupLink === AWB_POPUP_FALSE && (
                       <div className={styles.buttonHolder}>
                         <div className={styles.buttonHolderForUpdate}>
-                          {/* showing write a review and cancel or return only for mobile */}
+                          {/* showing write a review and cancel or rseturn only for mobile */}
                           <MobileOnly>
                             <div className={styles.replaceHolder}>
                               {products.isReturned &&
