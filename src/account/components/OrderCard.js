@@ -157,39 +157,20 @@ export default class OrderCard extends React.Component {
     }
   };
   render() {
-    let strTime,
-      dayFormat,
-      nextDayFormat,
-      productDayFormat = "";
+    let strTime = "";
+    let openingTime = "";
+    let closingTime = "";
+
     if (this.props.selectedDeliveryMode === COLLECT) {
-      let day = new Date();
-      dayFormat = format(day, "DD-MMM-YYYY");
-      let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
-      let nextDay = new Date(nextWithOutFormatDay);
-      nextDayFormat = format(nextDay, "DD-MMM-YYYY");
-      productDayFormat = format(
-        this.props.estimatedDeliveryDateWithTime &&
-          this.props.estimatedDeliveryDateWithTime,
-        "DD-MMM-YYYY"
-      );
       var date = new Date(format(this.props.estimatedDeliveryDateWithTime));
-
       var hours = date.getHours();
-
       var minutes = date.getMinutes();
-
       var salutationOfTime = hours >= 12 ? "pm" : "am";
       hours = hours % 12;
       hours = hours ? hours : 0;
-
       minutes = minutes < 10 ? "0" + minutes : minutes;
-
-      // the hour '0' should be '12'
-
       strTime = hours + ":" + minutes + " " + salutationOfTime;
     }
-    let openingTime = "";
-    let closingTime = "";
     if (this.props.storeDetails && this.props.storeDetails.mplOpeningTime) {
       const openingHour = parseInt(
         this.props.storeDetails.mplOpeningTime.split(":")[0],
@@ -392,7 +373,124 @@ export default class OrderCard extends React.Component {
           this.props.isOrderDetails && (
             <div className={styles.message}>* {this.props.breechMessage}</div>
           )}
-
+        {this.props.soldBy &&
+          this.props.isOrderDetails && (
+            <div className={styles.message}>{`Sold by ${
+              this.props.soldBy
+            }`}</div>
+          )}
+        {this.props.isOrderDetails &&
+          this.props.selectedDeliveryMode === COLLECT && (
+            <div className={styles.qPicDetailsHolder}>
+              {this.props &&
+                this.props.statusDisplay && (
+                  <div className={styles.statusHolder}>
+                    <div className={styles.statusLabelHolder}>Status:</div>
+                    <div className={styles.statusData}>
+                      {this.props.statusDisplay}
+                    </div>
+                  </div>
+                )}
+              {this.props.storeDetails &&
+                this.props.storeDetails.address && (
+                  <div className={styles.qpicDataList}>
+                    <div className={styles.pickUpLabelHolder}>
+                      Store Details:
+                    </div>
+                    <div className={styles.qPicData}>
+                      {` ${
+                        this.props.storeDetails.displayName
+                          ? this.props.storeDetails.displayName
+                          : ""
+                      }, ${
+                        this.props.storeDetails.returnAddress1
+                          ? this.props.storeDetails.returnAddress1
+                          : ""
+                      }, ${
+                        this.props.storeDetails.returnAddress2
+                          ? this.props.storeDetails.returnAddress2
+                          : ""
+                      }, ${
+                        this.props.storeDetails.returnCity
+                          ? this.props.storeDetails.address.city
+                          : ""
+                      } ${
+                        this.props.storeDetails.returnPin
+                          ? this.props.storeDetails.returnPin
+                          : ""
+                      }`}
+                    </div>
+                  </div>
+                )}
+              {this.props &&
+                this.props.storeDetails &&
+                (this.props.storeDetails.mplClosingTime ||
+                  this.props.storeDetails.mplOpeningTime ||
+                  this.props.storeDetails.mplWorkingDays) && (
+                  <div className={styles.qpicDataList}>
+                    <div className={styles.pickUpLabelHolder}>Open from:</div>
+                    <div className={styles.qPicData}>
+                      {(openingTime || closingTime) && (
+                        <div className={styles.timeSection}>
+                          <span>{openingTime}</span>
+                          <span className={styles.timeSpan}>-</span>
+                          <span>{closingTime}</span>
+                        </div>
+                      )}
+                      {this.dateConverter(
+                        this.props.storeDetails.mplWorkingDays
+                      ) && (
+                        <div className={styles.dayForStore}>
+                          <span className={styles.closedOnLabel}>
+                            Closed on
+                          </span>
+                          {this.dateConverter(
+                            this.props.storeDetails.mplWorkingDays
+                          ).map((val, i) => {
+                            return `${val}${
+                              7 -
+                                this.props.storeDetails.mplWorkingDays.split(
+                                  ","
+                                ).length -
+                                1 !==
+                              i
+                                ? ","
+                                : ""
+                            } `;
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              {this.props &&
+                this.props.estimatedDeliveryDateWithTime && (
+                  <div className={styles.qpicDataList}>
+                    <div className={styles.pickUpLabelHolder}>Pickup :</div>
+                    <div className={styles.qPicData}>
+                      {this.getDayNumberSuffixWithOutYear(
+                        format(
+                          this.props.estimatedDeliveryDateWithTime,
+                          dateFormat
+                        )
+                      )}
+                      {strTime && <span>{` | After ${strTime}`}</span>}
+                    </div>
+                  </div>
+                )}
+              {this.props &&
+                this.props.phoneNumber && (
+                  <div className={styles.qpicDataList}>
+                    <div className={styles.pickUpLabelHolder}>
+                      Pickup details:
+                    </div>
+                    <div className={styles.qPicData}>
+                      {`+91 ${this.props.phoneNumber}`}
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
         <div>{this.props.additionalContent}</div>
       </div>
     );

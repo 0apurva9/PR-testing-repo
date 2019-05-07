@@ -349,126 +349,10 @@ export default class OrderDetails extends React.Component {
                         isOrderDetails={true}
                         paymentMethod={orderDetails.paymentMethod}
                         statusDisplayMsg={products.statusDisplayMsg}
+                        phoneNumber={orderDetails.pickupPersonMobile}
+                        soldBy={products.sellerName}
                       />
-                      {/* <div className={styles.payment}>
-                        <OrderViewPaymentDetails
-                          SubTotal={
-                            orderDetails.orderAmount &&
-                            orderDetails.orderAmount.bagTotal &&
-                            orderDetails.orderAmount.bagTotal.value
-                              ? Math.round(
-                                  orderDetails.orderAmount.bagTotal.value * 100
-                                ) / 100
-                              : "0.00"
-                          }
-                          DeliveryCharges={orderDetails.deliveryCharge}
-                          Discount={
-                            orderDetails.orderAmount &&
-                            orderDetails.orderAmount.totalDiscountAmount &&
-                            orderDetails.orderAmount.totalDiscountAmount.value
-                              ? Math.round(
-                                  orderDetails.orderAmount.totalDiscountAmount
-                                    .value * 100
-                                ) / 100
-                              : "0.00"
-                          }
-                          coupon={
-                            orderDetails.orderAmount &&
-                            orderDetails.orderAmount.couponDiscountAmount &&
-                            orderDetails.orderAmount.couponDiscountAmount.value
-                              ? Math.round(
-                                  orderDetails.orderAmount.couponDiscountAmount
-                                    .value * 100
-                                ) / 100
-                              : "0.00"
-                          }
-                          ConvenienceCharges={orderDetails.convenienceCharge}
-                          Total={
-                            orderDetails.orderAmount &&
-                            orderDetails.orderAmount.paybleAmount &&
-                            orderDetails.orderAmount.paybleAmount.value
-                              ? Math.round(
-                                  orderDetails.orderAmount.paybleAmount.value *
-                                    100
-                                ) / 100
-                              : "0.00"
-                          }
-                          cliqCashAmountDeducted={
-                            orderDetails && orderDetails.cliqCashAmountDeducted
-                          }
-                        />
-                      </div>
-                      <OrderPaymentMethod
-                        phoneNumber={
-                          orderDetails.deliveryAddress &&
-                          orderDetails.deliveryAddress.phone
-                        }
-                        paymentMethod={orderDetails.paymentMethod}
-                        isInvoiceAvailable={products.isInvoiceAvailable}
-                        statusDisplay={products.statusDisplayMsg}
-                        request={() =>
-                          this.requestInvoice(
-                            products.transactionId,
-                            products.sellerorderno
-                          )
-                        }
-                      />
-                      {isShowDeliveryAddress &&
-                        orderDetails &&
-                        orderDetails.deliveryAddress &&
-                        Object.keys(orderDetails.deliveryAddress).length !==
-                          0 && (
-                          <OrderDelivered
-                            deliveredAddress={`${
-                              orderDetails.deliveryAddress.addressLine1
-                                ? orderDetails.deliveryAddress.addressLine1
-                                : ""
-                            } ${
-                              orderDetails.deliveryAddress.town
-                                ? orderDetails.deliveryAddress.town
-                                : ""
-                            } ${
-                              orderDetails.deliveryAddress.state
-                                ? orderDetails.deliveryAddress.state
-                                : ""
-                            } ${
-                              orderDetails.deliveryAddress.postalcode
-                                ? orderDetails.deliveryAddress.postalcode
-                                : ""
-                            }`}
-                            deliveredAddress1={`${
-                              orderDetails.deliveryAddress.firstName
-                                ? orderDetails.deliveryAddress.firstName
-                                : ""
-                            } ${
-                              orderDetails.deliveryAddress.lastName
-                                ? orderDetails.deliveryAddress.lastName
-                                : ""
-                            }`}
-                            deliveredAddress2={`${
-                              orderDetails.deliveryAddress.addressLine1
-                                ? orderDetails.deliveryAddress.addressLine1
-                                : ""
-                            }`}
-                            deliveredAddress3={`
-                          ${
-                            orderDetails.deliveryAddress.town
-                              ? orderDetails.deliveryAddress.town
-                              : ""
-                          }, ${
-                              orderDetails.deliveryAddress.state
-                                ? orderDetails.deliveryAddress.state
-                                : ""
-                            } ${
-                              orderDetails.deliveryAddress.postalcode
-                                ? orderDetails.deliveryAddress.postalcode
-                                : ""
-                            }`}
-                            orderDeliveryHeaderText={"Delivered to"}
-                            deliveredDate={products.deliveryDate}
-                            soldBy={products.sellerName}
-                          />
-                        )} */}
+
                       {products.statusDisplayMsg &&
                         products.selectedDeliveryMode.code !==
                           CLICK_COLLECT && (
@@ -508,91 +392,44 @@ export default class OrderDetails extends React.Component {
                             {/* Block of code ends here */}
                           </div>
                         )}
-                      {products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                        products.storeDetails && (
-                          <div className={styles.orderStatusVertical}>
-                            <div className={styles.header}>Store details:</div>
-                            <div className={styles.row}>
-                              {products.storeDetails.displayName &&
-                                products.storeDetails.displayName !==
-                                  undefined &&
-                                products.storeDetails.displayName !==
-                                  "undefined" && (
-                                  <span>
-                                    {products.storeDetails.displayName} ,
-                                  </span>
-                                )}{" "}
-                              {products.storeDetails.returnAddress1 &&
-                                products.storeDetails.returnAddress1 !==
-                                  undefined &&
-                                products.storeDetails.returnAddress1 !==
-                                  "undefined" && (
-                                  <span>
-                                    {products.storeDetails.returnAddress1} ,
-                                  </span>
-                                )}{" "}
-                              {products.storeDetails.returnAddress2 &&
-                                products.storeDetails.returnAddress2 !==
-                                  undefined &&
-                                products.storeDetails.returnAddress2 !==
-                                  "undefined" && (
-                                  <span>
-                                    {products.storeDetails.returnAddress2}
-                                  </span>
-                                )}{" "}
-                            </div>
-                            <div className={styles.row}>
-                              {products.storeDetails.returnCity}{" "}
-                              {products.storeDetails.returnPin}
-                            </div>
-                          </div>
-                        )}
-                      {products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                        (orderDetails.pickupPersonName ||
-                          orderDetails.pickupPersonMobile) && (
-                          <div className={styles.orderStatusVertical}>
-                            <div className={styles.header}>Pickup details:</div>
-                            <div className={styles.row}>
-                              {orderDetails.pickupPersonName}
-                            </div>
-                            <div className={styles.row}>
-                              {orderDetails.pickupPersonMobile}
-                            </div>
-                            {/* This block of code needs to be duplicated above for non CNC as well */}
-                            {!products.statusDisplayMsg
-                              .map(val => {
-                                return val.key;
-                              })
-                              .includes(RETURN) && (
-                              <OrderStatusVertical
-                                isCNC={true}
-                                statusMessageList={products.statusDisplayMsg}
-                                logisticName={products.logisticName}
-                                trackingAWB={products.trackingAWB}
-                                showShippingDetails={
-                                  this.props.showShippingDetails
+
+                      {products.selectedDeliveryMode.code === CLICK_COLLECT && (
+                        <div className={styles.orderStatusVertical}>
+                          {/* This block of code needs to be duplicated above for non CNC as well */}
+                          {!products.statusDisplayMsg
+                            .map(val => {
+                              return val.key;
+                            })
+                            .includes(RETURN) && (
+                            <OrderStatusVertical
+                              isCNC={true}
+                              statusMessageList={products.statusDisplayMsg}
+                              logisticName={products.logisticName}
+                              trackingAWB={products.trackingAWB}
+                              showShippingDetails={
+                                this.props.showShippingDetails
+                              }
+                              orderCode={orderDetails.orderId}
+                            />
+                          )}
+                          {products.statusDisplayMsg
+                            .map(val => {
+                              return val.key;
+                            })
+                            .includes(RETURN) && (
+                            <OrderStatusHorizontal
+                              trackingAWB={products.trackingAWB}
+                              courier={products.reverseLogisticName}
+                              statusMessageList={products.statusDisplayMsg.filter(
+                                val => {
+                                  return val.key === RETURN;
                                 }
-                                orderCode={orderDetails.orderId}
-                              />
-                            )}
-                            {products.statusDisplayMsg
-                              .map(val => {
-                                return val.key;
-                              })
-                              .includes(RETURN) && (
-                              <OrderStatusHorizontal
-                                trackingAWB={products.trackingAWB}
-                                courier={products.reverseLogisticName}
-                                statusMessageList={products.statusDisplayMsg.filter(
-                                  val => {
-                                    return val.key === RETURN;
-                                  }
-                                )}
-                              />
-                            )}
-                            {/* Block of code ends here */}
-                          </div>
-                        )}
+                              )}
+                            />
+                          )}
+                          {/* Block of code ends here */}
+                        </div>
+                      )}
 
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div className={styles.buttonHolder}>
@@ -927,7 +764,6 @@ export default class OrderDetails extends React.Component {
                             }`}
                             orderDeliveryHeaderText={"Delivered to"}
                             deliveredDate={products.deliveryDate}
-                            soldBy={products.sellerName}
                           />
                         )}
                     </div>
