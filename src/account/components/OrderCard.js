@@ -384,20 +384,20 @@ export default class OrderCard extends React.Component {
             <div className={styles.qPicDetailsHolder}>
               {this.props &&
                 this.props.statusDisplay && (
-                  <div className={styles.statusHolder}>
-                    <div className={styles.statusLabelHolder}>Status:</div>
-                    <div className={styles.statusData}>
+                  <div className={styles.labelHolder}>
+                    <div className={styles.label}>Status</div>
+                    <div className={styles.semiColon}>:</div>
+                    <div className={styles.data}>
                       {this.props.statusDisplay}
                     </div>
                   </div>
                 )}
               {this.props.storeDetails &&
                 this.props.storeDetails.address && (
-                  <div className={styles.qpicDataList}>
-                    <div className={styles.pickUpLabelHolder}>
-                      Store Details:
-                    </div>
-                    <div className={styles.qPicData}>
+                  <div className={styles.labelHolder}>
+                    <div className={styles.label}>Store Details</div>
+                    <div className={styles.semiColon}>:</div>
+                    <div className={styles.data}>
                       {` ${
                         this.props.storeDetails.displayName
                           ? this.props.storeDetails.displayName
@@ -427,9 +427,10 @@ export default class OrderCard extends React.Component {
                 (this.props.storeDetails.mplClosingTime ||
                   this.props.storeDetails.mplOpeningTime ||
                   this.props.storeDetails.mplWorkingDays) && (
-                  <div className={styles.qpicDataList}>
-                    <div className={styles.pickUpLabelHolder}>Open from:</div>
-                    <div className={styles.qPicData}>
+                  <div className={styles.labelHolder}>
+                    <div className={styles.label}>Open from</div>
+                    <div className={styles.semiColon}>:</div>
+                    <div className={styles.data}>
                       {(openingTime || closingTime) && (
                         <div className={styles.timeSection}>
                           <span>{openingTime}</span>
@@ -465,9 +466,10 @@ export default class OrderCard extends React.Component {
                 )}
               {this.props &&
                 this.props.estimatedDeliveryDateWithTime && (
-                  <div className={styles.qpicDataList}>
-                    <div className={styles.pickUpLabelHolder}>Pickup :</div>
-                    <div className={styles.qPicData}>
+                  <div className={styles.labelHolder}>
+                    <div className={styles.label}>Pickup </div>
+                    <div className={styles.semiColon}>:</div>
+                    <div className={styles.data}>
                       {this.getDayNumberSuffixWithOutYear(
                         format(
                           this.props.estimatedDeliveryDateWithTime,
@@ -480,11 +482,10 @@ export default class OrderCard extends React.Component {
                 )}
               {this.props &&
                 this.props.phoneNumber && (
-                  <div className={styles.qpicDataList}>
-                    <div className={styles.pickUpLabelHolder}>
-                      Pickup details:
-                    </div>
-                    <div className={styles.qPicData}>
+                  <div className={styles.labelHolder}>
+                    <div className={styles.label}>Pickup details</div>
+                    <div className={styles.semiColon}>:</div>
+                    <div className={styles.data}>
                       {`+91 ${this.props.phoneNumber}`}
                     </div>
                   </div>

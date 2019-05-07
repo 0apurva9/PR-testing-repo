@@ -115,6 +115,46 @@
     width: 16%;
     cursor: pointer;
   }
+  .message {
+    font-size: 12px;
+    font-family: light;
+    color: #4a4a4a;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .qPicDetailsHolder {
+    padding: 24px 0px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .labelHolder {
+    width: 100%;
+    display: inline-block;
+    padding-bottom: 14px;
+  }
+  .label {
+    width: 20%;
+    display: inline-block;
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    vertical-align: top;
+  }
+  .semiColon {
+    width: 10%;
+    display: inline-block;
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    vertical-align: top;
+  }
+  .data {
+    width: 70%;
+    display: inline-block;
+    font-size: 14px;
+    columns: #212121;
+    font-family: light;
+    vertical-align: top;
+  }
   .productDetails {
     width: 84%;
     padding-left: 35px;
