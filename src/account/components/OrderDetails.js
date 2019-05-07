@@ -301,13 +301,6 @@ export default class OrderDetails extends React.Component {
                             className={styles.buttonGoToBack}
                             onClick={() => this.backToOrderHistory()}
                           >
-                            {/* <UnderLinedButton
-                              size="14px"
-                              fontFamily="light"
-                              color="#000000"
-                              label="Back to Order History"
-                              onClick={() => this.backToOrderHistory()}
-                            /> */}
                             Back to Order History
                           </div>
                         )}
@@ -325,6 +318,10 @@ export default class OrderDetails extends React.Component {
                           />
                         </div>
                       </MobileOnly>
+                      <DesktopOnly>
+                        <div className={styles.itemHeader}>Item Details</div>
+                      </DesktopOnly>
+
                       <OrderCard
                         estimatedDeliveryDate={
                           products.EDD ? format(products.EDD, dateFormat) : ""
