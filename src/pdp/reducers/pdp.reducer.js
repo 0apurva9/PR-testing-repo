@@ -261,24 +261,12 @@ const productDescription = (
       if (!userDetails && !cartDetailsForAnonymous) {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
-          JSON.stringify({
-            type: action.newProduct.type,
-            status: action.newProduct.status,
-            code: action.newProduct.code,
-            count: action.newProduct.count,
-            guid: action.newProduct.cartGuid
-          })
+          JSON.stringify(action.newProduct)
         );
       } else if (userDetails && !cartDetailsLoggedInUser) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
-          JSON.stringify({
-            type: action.newProduct.type,
-            status: action.newProduct.status,
-            code: action.newProduct.code,
-            count: action.newProduct.count,
-            guid: action.newProduct.guid
-          })
+          JSON.stringify(action.newProduct)
         );
       }
 

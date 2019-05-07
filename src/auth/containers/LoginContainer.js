@@ -79,6 +79,7 @@ const mapDispatchToProps = dispatch => {
         if (loginUserResponse.status === SUCCESS) {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS, lastUrl);
           const cartVal = await dispatch(getCartId());
+          let guid;
           if (
             cartVal.status === SUCCESS &&
             cartVal.cartDetails.guid &&
@@ -94,6 +95,7 @@ const mapDispatchToProps = dispatch => {
               const cartDetailsLoggedInUser = Cookies.getCookie(
                 CART_DETAILS_FOR_LOGGED_IN_USER
               );
+              guid = JSON.parse(cartDetailsLoggedInUser).guid;
               dispatch(
                 getCartDetails(
                   JSON.parse(userDetails).userName,
@@ -117,23 +119,36 @@ const mapDispatchToProps = dispatch => {
               dispatch(setIfAllAuthCallsHaveSucceeded());
             } else if (mergeCartIdWithOldOneResponse.status === ERROR) {
               Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-              Cookies.createCookie(
-                CART_DETAILS_FOR_LOGGED_IN_USER,
-                JSON.stringify(cartVal.cartDetails)
-              );
+              guid = cartVal;
+              // Cart Optimisation
+              // Cookies.createCookie(
+              //   CART_DETAILS_FOR_LOGGED_IN_USER,
+              //   JSON.stringify(cartVal.cartDetails)
+              // );
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
             //end of  merge old cart id with anonymous cart id
+
+            if (guid) {
+              dispatch(
+                getCartCountForLoggedInUser(
+                  typeof guid === "Object" ? guid : null
+                )
+              );
+            }
           } else {
             // generating new cart if if wont get any existing cartId
-            const newCartIdObj = await dispatch(
-              generateCartIdForLoggedInUser()
+            // const newCartIdObj = await dispatch(
+            //   generateCartIdForLoggedInUser()
+            // );
+
+            const newCartIdObj = Cookies.getCookie(
+              CART_DETAILS_FOR_LOGGED_IN_USER
             );
 
-            if (newCartIdObj.status === SUCCESS) {
-              const mergeCartIdResponse = await dispatch(
-                mergeCartId(newCartIdObj.cartDetails.guid)
-              );
+            if (newCartIdObj) {
+              const mergeCartIdResponse = await dispatch(mergeCartId());
+
               // merging cart id with new cart id
               if (mergeCartIdResponse.status === SUCCESS) {
                 const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -164,19 +179,22 @@ const mapDispatchToProps = dispatch => {
                 dispatch(setIfAllAuthCallsHaveSucceeded());
               } else if (mergeCartIdResponse.status === ERROR) {
                 Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-                Cookies.createCookie(
-                  CART_DETAILS_FOR_LOGGED_IN_USER,
-                  JSON.stringify(newCartIdObj.cartDetails)
-                );
+                dispatch(getCartCountForLoggedInUser(newCartIdObj));
+                // Cookies.createCookie(
+                //   CART_DETAILS_FOR_LOGGED_IN_USER,
+                //   JSON.stringify(newCartIdObj.cartDetails)
+                // );
                 dispatch(setIfAllAuthCallsHaveSucceeded());
               }
               // end of merging cart id with new cart id
-            } else if (newCartIdObj.status === ERROR) {
-              dispatch(singleAuthCallHasFailed(newCartIdObj.error));
+              dispatch(getCartCountForLoggedInUser(newCartIdObj));
+            } else if (JSON.stringify(newCartIdObj).status === ERROR) {
+              dispatch(
+                singleAuthCallHasFailed(JSON.stringify(newCartIdObj).error)
+              );
             }
             // end of generating new cart if if wont get any existing cartId
           }
-          dispatch(getCartCountForLoggedInUser());
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
         }

@@ -54,6 +54,7 @@ const mapDispatchToProps = dispatch => {
           customerAccessToken(userSignUpDetails)
         );
         if (customerAccessResponse.status === SUCCESS) {
+          // cart optimisation
           const createdCartVal = await dispatch(
             generateCartIdForLoggedInUser()
           );

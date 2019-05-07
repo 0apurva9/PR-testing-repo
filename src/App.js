@@ -313,11 +313,9 @@ class App extends Component {
     let cartDetailsForLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
+    let guid;
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-    let cartCountForLoggedInUser = Cookie.getCookie(
-      CART_COUNT_FOR_LOGGED_IN_USER
-    );
 
     // Case 1. THe user is not logged in.
     if (!globalAccessToken && !this.props.cartLoading) {
@@ -330,20 +328,18 @@ class App extends Component {
       customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     }
 
-    if (customerAccessToken) {
-      if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
-        // Cart Optimisation
-        //this.props.generateCartIdForLoggedInUser();
-      }
-      if (!cartCountForLoggedInUser) {
-        this.props.getCartCountForLoggedInUsers();
-      }
-    }
+    //if (customerAccessToken) {
+    //if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
+    // Cart Optimisation
+    //this.props.generateCartIdForLoggedInUser();
+    //}
+    //}
     if (
       customerAccessToken &&
       cartDetailsForLoggedInUser &&
       loggedInUserDetails
     ) {
+      guid = JSON.parse(cartDetailsForLoggedInUser).guid;
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -356,6 +352,9 @@ class App extends Component {
         }
       }
     } else {
+      if (cartDetailsForAnonymous) {
+        guid = JSON.parse(cartDetailsForAnonymous);
+      }
       // Cart Optimisation
       // if (!cartDetailsForAnonymous && globalAccessToken) {
       //   const parsedQueryString = queryString.parse(this.props.location.search);
@@ -363,6 +362,12 @@ class App extends Component {
       //     this.props.generateCartIdForAnonymous();
       //   }
       // }
+    }
+
+    if (guid) {
+      this.props.getCartCountForLoggedInUsers(
+        typeof guid === "Object" ? guid : null
+      );
     }
     window.prerenderReady = true;
   }

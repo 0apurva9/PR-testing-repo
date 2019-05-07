@@ -1414,9 +1414,9 @@ export function mergeCartId(cartGuId) {
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&userId=${
           JSON.parse(userDetails).userName
-        }&oldCartId=${
-          JSON.parse(cartDetailsAnonymous).guid
-        }&toMergeCartGuid=${cartGuId}&channel=${CHANNEL}`
+        }&oldCartId=${JSON.parse(cartDetailsAnonymous).guid}${
+          cartGuId ? "&toMergeCartGuid=" + cartGuId : ""
+        }&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
@@ -5112,11 +5112,12 @@ export function binValidationOfEmiEligible(binNo) {
 
 // Get Cart Count for Logged-In user
 
-export function getCartCountForLoggedInUserSuccess(cartCount) {
+export function getCartCountForLoggedInUserSuccess(cartDetails, userDetails) {
   return {
     type: GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS,
     status: SUCCESS,
-    cartCount
+    cartDetails,
+    userDetails
   };
 }
 
@@ -5135,23 +5136,34 @@ export function getCartCountForLoggedInUserFailure(error) {
   };
 }
 
-export function getCartCountForLoggedInUser() {
+export function getCartCountForLoggedInUser(cartVal) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartGuidForLoggedInUser = cartDetails && JSON.parse(cartDetails).guid;
   let cartGuid = cartGuidForLoggedInUser ? cartGuidForLoggedInUser : null;
+  let userId = ANONYMOUS_USER;
+
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+
+  if (userDetails && customerCookie) {
+    userId = JSON.parse(userDetails).userName;
+    accessToken = JSON.parse(customerCookie).access_token;
+  }
+
+  if (cartVal) {
+    cartGuid = cartVal.cartDetails.guid
+      ? cartVal.cartDetails.guid
+      : cartVal.guid;
+  }
 
   return async (dispatch, getState, { api }) => {
     dispatch(getCartCountForLoggedInUserRequest());
 
     try {
-      const result = await api.post(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/carts/bagCount?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}${
+      const result = await api.get(
+        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}${
           cartGuid ? "&cartGuid=" + cartGuid : ""
         }`
       );
@@ -5161,7 +5173,9 @@ export function getCartCountForLoggedInUser() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      return dispatch(getCartCountForLoggedInUserSuccess(resultJson.count));
+      return dispatch(
+        getCartCountForLoggedInUserSuccess(resultJson, userDetails)
+      );
     } catch (e) {
       return dispatch(getCartCountForLoggedInUserFailure(e.message));
     }

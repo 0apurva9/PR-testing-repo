@@ -317,7 +317,7 @@ export function addProductToCart(productDetails) {
   let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let userId = ANONYMOUS_USER;
-  let cartId = cartDetailsForAnonymous
+  let cartGuid = cartDetailsForAnonymous
     ? JSON.parse(cartDetailsForAnonymous).guid
     : null;
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
@@ -327,7 +327,7 @@ export function addProductToCart(productDetails) {
     accessToken = JSON.parse(customerCookie).access_token;
   }
   if (cartDetails) {
-    cartId = JSON.parse(cartDetails).code;
+    cartGuid = JSON.parse(cartDetails).guid;
   }
 
   return async (dispatch, getState, { api }) => {
@@ -339,7 +339,7 @@ export function addProductToCart(productDetails) {
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
         }&addedToCartWl=false&isCartOptimised=true${
-          cartId ? "&cartGuid=" + cartId : ""
+          cartGuid ? "&cartGuid=" + cartGuid : ""
         }`
       );
       const resultJson = await result.json();

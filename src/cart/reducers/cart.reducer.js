@@ -1834,12 +1834,19 @@ const cart = (
       });
 
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS:
-      Cookies.createCookie(
-        CART_COUNT_FOR_LOGGED_IN_USER,
-        JSON.stringify(action.cartCount)
-      );
+      if (action.userDetails) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.cartDetails)
+        );
+      } else {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify(action.cartDetails)
+        );
+      }
       return Object.assign({}, state, {
-        cartCount: action.cartCount,
+        cartCount: action.cartDetails && action.cartDetails.count,
         cartCountStatus: action.status
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
