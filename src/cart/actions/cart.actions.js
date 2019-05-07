@@ -709,7 +709,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
       const result = await api.postFormData(
         `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts/${
           JSON.parse(cartDetails).code
-        }/applyCoupons?access_token=${
+        }/applyVouchers?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`,
         couponObject
@@ -1813,7 +1813,7 @@ export function applyBankOffer(couponCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/applyCartCoupons?access_token=${
+        }/carts/applyBankCoupons?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
       );

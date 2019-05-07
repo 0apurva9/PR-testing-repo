@@ -45,7 +45,7 @@ export function getSearchResults(searchString) {
     dispatch(getSearchResultsRequest());
 
     try {
-      const result = await api.post(
+      const result = await api.get(
         `${SEARCH_PATH}${searchString}&category=all`
       );
       const resultJson = await result.json();
