@@ -1025,7 +1025,7 @@ export default class PdpApparel extends React.Component {
                         }
                         onClick={() => this.showPincodeModal()}
                         listOfAllPinCode={address}
-                        redirectToLoginPage={() => this.redirectToLoginPage()}
+                        redirectToLoginPage={() => this.navigateToLogin()}
                       />
                     ) : (
                       <PdpPincode
@@ -1040,7 +1040,7 @@ export default class PdpApparel extends React.Component {
                         }
                         listOfAllPinCode={address}
                         onClick={() => this.showPincodeModal()}
-                        redirectToLoginPage={() => this.redirectToLoginPage()}
+                        redirectToLoginPage={() => this.navigateToLogin()}
                       />
                     )}
                   </div>

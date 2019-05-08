@@ -93,6 +93,7 @@
   font-size: 14px;
   font-family: semibold;
   right: 0;
+  cursor: pointer;
 }
 .shipToLabel {
   width: 100%;
