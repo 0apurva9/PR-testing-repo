@@ -117,7 +117,7 @@ OrderDelivered.propTypes = {
   borderBottom: PropTypes.string
 };
 OrderDelivered.defaultProps = {
-  orderDeliveryHeaderText: "Delivery address",
+  orderDeliveryHeaderText: "Delivery Address",
   isShowDataHorizontal: false,
   borderBottom: "#ececec"
 };

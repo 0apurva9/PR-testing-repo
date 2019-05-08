@@ -759,7 +759,7 @@ export default class OrderDetails extends React.Component {
                                 ? orderDetails.deliveryAddress.postalcode
                                 : ""
                             }`}
-                            orderDeliveryHeaderText={"Delivered to"}
+                            orderDeliveryHeaderText={"Delivered Address"}
                             deliveredDate={products.deliveryDate}
                           />
                         )}
