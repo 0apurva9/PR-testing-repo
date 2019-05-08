@@ -292,6 +292,7 @@ export default class FilterDesktop extends React.Component {
                               value={val.categoryCode}
                               onL1Click={this.onL1Click}
                               isOpen={val.selected}
+                              key={i}
                             >
                               <FilterCategory
                                 onClick={this.onL2Click}
@@ -307,7 +308,7 @@ export default class FilterDesktop extends React.Component {
                   {autoShowFilters.map((facetDataValues, i) => {
                     return (
                       facetDataValues && (
-                        <div className={styles.facetData}>
+                        <div className={styles.facetData} key={i}>
                           <div className={styles.filterHeader}>
                             {facetDataValues.name}
                           </div>
@@ -336,6 +337,7 @@ export default class FilterDesktop extends React.Component {
                                         }
                                         selected={val.selected}
                                         value={val.url}
+                                        key={i}
                                       />
                                     );
                                   }
@@ -460,6 +462,7 @@ export default class FilterDesktop extends React.Component {
                                           categoryId={categoryId}
                                           history={this.props.history}
                                           typeOfFilter={facetDataValues.name}
+                                          key={i}
                                         />
                                       );
                                     })}
@@ -571,6 +574,7 @@ export default class FilterDesktop extends React.Component {
                                       categoryId={categoryId}
                                       history={this.props.history}
                                       typeOfFilter={facetDataValues.name}
+                                      key={i}
                                     />
                                   );
                                 })}

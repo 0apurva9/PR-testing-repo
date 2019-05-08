@@ -155,6 +155,7 @@ export default class PriceFilterTabDesktop extends React.Component {
                   value={val.value}
                   history={this.props.history}
                   typeOfFilter={this.props.typeOfFilter}
+                  key={i}
                 />
               );
             })}

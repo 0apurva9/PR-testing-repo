@@ -2,9 +2,82 @@ import React, { Component } from "react";
 import styles from "./ProductFeatureDetails.css";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import { RUPEE_SYMBOL } from "../../lib/constants";
+import EMITag from "./img/emi-tag.svg";
+import Icon from "../../xelpmoc-core/Icon";
 export default class ProductFeatureDetails extends Component {
+  voucherList() {
+    if (this.props.offerData && this.props.offerData.voucherList) {
+      return (
+        <div>
+          {this.props.offerData.voucherList &&
+            this.props.offerData.voucherList.map((val, i) => {
+              return (
+                <div key={i}>
+                  <div className={styles.offerIconHolder}>
+                    {" "}
+                    <Icon image={EMITag} size={20} />
+                  </div>{" "}
+                  <div className={styles.plpOfferTitle}>{val.name}</div>
+                </div>
+              );
+            })}
+        </div>
+      );
+    }
+  }
+  renderOfferData() {
+    if (this.props.offerData && this.props.productCategory === "Electronics") {
+      if (
+        this.props.offerData.ncEmi &&
+        this.props.offerData.ncEmi.isNoCostEmi
+      ) {
+        return (
+          <div className={styles.nceHolder}>
+            <div className={styles.offerIconHolder}>
+              {" "}
+              <Icon image={EMITag} size={20} />{" "}
+            </div>
+            <div className={styles.plpEMITitle}>
+              No Cost EMI{" "}
+              <span className={styles.plpEMItext}>starting from</span>{" "}
+              {RUPEE_SYMBOL}{" "}
+              {this.props.offerData.ncEmi.nceStartingPrice &&
+                this.props.offerData.ncEmi.nceStartingPrice}/month
+            </div>
+            <div>{this.voucherList()}</div>
+          </div>
+        );
+      }
+      if (
+        (this.props.offerData.ncEmi &&
+          !this.props.offerData.ncEmi.isNoCostEmi) ||
+        !this.props.offerData.ncEmi
+      ) {
+        if (this.props.offerData.sdEmi && this.props.offerData.sdEmi.isSdEmi) {
+          return (
+            <div className={styles.offerData}>
+              <div className={styles.offerIconHolder}>
+                <Icon image={EMITag} size={10} />
+                <div className={styles.plpEMITitle}>
+                  Standard EMI{" "}
+                  <span className={styles.plpEMItext}>starting from</span>{" "}
+                  {RUPEE_SYMBOL}{" "}
+                  {this.props.offerData.sdEmi.seStartingPrice &&
+                    this.props.offerData.sdEmi.seStartingPrice}/month
+                </div>
+              </div>
+              {this.voucherList()}
+            </div>
+          );
+        } else {
+          return <div className={styles.offerData}>{this.voucherList()}</div>;
+        }
+      }
+    }
+  }
+
   render() {
-    console.log("this.props", this.props);
+    console.log("props", this.props);
     return (
       <DesktopOnly>
         <div className={styles.base}>
@@ -30,7 +103,7 @@ export default class ProductFeatureDetails extends Component {
 
                 {!this.props.isRange &&
                   this.props.price && (
-                    <div className={this.props.priceClass}>
+                    <div className={styles.electronicPriceCancelled}>
                       <h3>
                         {" "}
                         {this.props.price.toString().includes(RUPEE_SYMBOL)
@@ -53,12 +126,7 @@ export default class ProductFeatureDetails extends Component {
                   )}
               </div>
             </React.Fragment>
-            <div className={styles.offerList}>
-              <li>No Cost EMI starting from ₹3,158/month</li>
-              <li>No Cost EMI starting from ₹3,158/month</li>
-              <li>No Cost EMI starting from ₹3,158/month</li>
-              <li>No Cost EMI starting from ₹3,158/month</li>
-            </div>
+            <div className={styles.offerList}>{this.renderOfferData()}</div>
           </div>
           <div className={styles.featureContainer}>
             <div className={styles.featureHeader}>

@@ -584,7 +584,7 @@ export default class Plp extends React.Component {
                   }
                 >
                   {selectedFilter &&
-                    selectedFilter.map(selectedFilterData => {
+                    selectedFilter.map((selectedFilterData, i) => {
                       return (
                         <div
                           className={styles.selectedFilterWithIcon}
@@ -594,6 +594,7 @@ export default class Plp extends React.Component {
                               selectedFilterData.name
                             )
                           }
+                          key={i}
                         >
                           {selectedFilterData.name}
                           <div className={styles.cancelIcon}>
