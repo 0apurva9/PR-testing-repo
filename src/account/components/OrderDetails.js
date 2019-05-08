@@ -761,6 +761,7 @@ export default class OrderDetails extends React.Component {
                             }`}
                             orderDeliveryHeaderText={"Delivered Address"}
                             deliveredDate={products.deliveryDate}
+                            borderTop={true}
                           />
                         )}
                     </div>
