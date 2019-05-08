@@ -111,18 +111,24 @@ class CartPage extends React.Component {
       );
 
       if (localStorage.getItem(CART_BAG_DETAILS)) {
+        let guid = JSON.parse(cartDetailsLoggedInUser).cartGuid
+          ? JSON.parse(cartDetailsLoggedInUser).cartGuid
+          : JSON.parse(cartDetailsLoggedInUser).guid;
         this.props.displayCouponsForLoggedInUser(
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
-          JSON.parse(cartDetailsLoggedInUser).guid
+          guid
         );
       }
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
+        let guid = JSON.parse(cartDetailsAnonymous).cartGuid
+          ? JSON.parse(cartDetailsAnonymous).cartGuid
+          : JSON.parse(cartDetailsAnonymous).guid;
         this.props.getCartDetails(
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token,
-          JSON.parse(cartDetailsAnonymous).guid,
+          guid,
           defaultPinCode
         );
         this.props.displayCouponsForAnonymous(
