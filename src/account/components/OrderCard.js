@@ -365,14 +365,18 @@ export default class OrderCard extends React.Component {
               {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
             </div>
           )}
-        {isShowEddMessage &&
+        {/* {isShowEddMessage &&
           this.props.breechMessage &&
           this.props.breechMessage !== "" &&
           this.props.breechMessage !== null &&
           this.props.breechMessage !== "null" &&
-          this.props.isOrderDetails && (
-            <div className={styles.message}>* {this.props.breechMessage}</div>
-          )}
+          this.props.isOrderDetails && ( */}
+        <div className={styles.eddMessage}>
+          * We're very sorry we couldn't deliver your order on time. We will do
+          our best to get your order to you.
+          {/* * {this.props.breechMessage} */}
+        </div>
+        {/* )} */}
         {this.props.soldBy &&
           this.props.isOrderDetails && (
             <div className={styles.message}>{`Sold by ${
