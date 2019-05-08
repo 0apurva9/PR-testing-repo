@@ -5138,21 +5138,23 @@ export function getCartCountForLoggedInUserFailure(error) {
 
 export function getCartCountForLoggedInUser(cartVal) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  let cartGuidForLoggedInUser = cartDetails && JSON.parse(cartDetails).guid;
-  let cartGuid = cartGuidForLoggedInUser
-    ? cartGuidForLoggedInUser
-    : JSON.parse(cartDetails).cartGuid;
-  let userId = ANONYMOUS_USER;
-
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
 
   if (userDetails && customerCookie) {
     userId = JSON.parse(userDetails).userName;
     accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
   }
+  let cartGuid =
+    cartDetails && JSON.parse(cartDetails).guid
+      ? JSON.parse(cartDetails).guid
+      : null;
 
   if (cartVal) {
     cartGuid =
@@ -5174,6 +5176,24 @@ export function getCartCountForLoggedInUser(cartVal) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
+      //set local storage
+      let bagItem = localStorage.getItem(CART_BAG_DETAILS);
+      let bagItemsInJsonFormat = bagItem ? JSON.parse(bagItem) : [];
+      if (resultJson && resultJson.productList) {
+        resultJson.productList.map(product => {
+          if (product.USSID && !bagItemsInJsonFormat.includes(product.USSID)) {
+            bagItemsInJsonFormat.push(product.USSID);
+          }
+        });
+      }
+      localStorage.setItem(
+        CART_BAG_DETAILS,
+        JSON.stringify(bagItemsInJsonFormat)
+      );
+      // here we dispatch a modal to show something was added to the bag
+      dispatch(setBagCount(bagItemsInJsonFormat.length));
+
       return dispatch(
         getCartCountForLoggedInUserSuccess(resultJson, userDetails)
       );

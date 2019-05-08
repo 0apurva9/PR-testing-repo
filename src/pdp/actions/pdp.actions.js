@@ -313,36 +313,32 @@ export function addProductToCartFailure(error) {
 export function addProductToCart(productDetails) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-  let userId = ANONYMOUS_USER;
-  let cartId = cartDetailsForAnonymous
-    ? JSON.parse(cartDetailsForAnonymous).code
-    : null;
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
-
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
   if (userDetails && customerCookie) {
     userId = JSON.parse(userDetails).userName;
     accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
   }
-  if (cartDetails) {
-    cartId = JSON.parse(cartDetails).code;
-  }
+  let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
   return async (dispatch, getState, { api }) => {
     dispatch(addProductToCartRequest());
     try {
       const result = await api.post(
-        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${cartId +
-          "/"}addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+          cartId ? cartId + "/" : ""
+        }addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
         }&addedToCartWl=false&isCartOptimised=true`
       );
       const resultJson = await result.json();
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -351,13 +347,10 @@ export function addProductToCart(productDetails) {
 
       //set local storage
       let bagItem = localStorage.getItem(CART_BAG_DETAILS);
-
       let bagItemsInJsonFormat = bagItem ? JSON.parse(bagItem) : [];
-
       if (!bagItemsInJsonFormat.includes(productDetails.ussId)) {
         bagItemsInJsonFormat.push(productDetails.ussId);
       }
-
       localStorage.setItem(
         CART_BAG_DETAILS,
         JSON.stringify(bagItemsInJsonFormat)
@@ -366,6 +359,7 @@ export function addProductToCart(productDetails) {
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
+
       return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
     } catch (e) {

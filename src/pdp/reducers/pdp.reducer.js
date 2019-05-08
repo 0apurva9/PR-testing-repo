@@ -256,10 +256,7 @@ const productDescription = (
       const cartDetailsLoggedInUser = Cookies.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
       );
-      let cartGuid =
-        action.newProduct && action.newProduct.cartGuid
-          ? action.newProduct.cartGuid
-          : null;
+
       if (!userDetails && !customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,

@@ -194,10 +194,6 @@ const mapDispatchToProps = dispatch => {
             } else {
               Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
               guid = cartVal;
-              // Cookies.createCookie(
-              //   CART_DETAILS_FOR_LOGGED_IN_USER,
-              //   JSON.stringify(cartVal.cartDetails)
-              // );
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
             if (guid) {
@@ -208,20 +204,6 @@ const mapDispatchToProps = dispatch => {
               );
             }
           } else {
-            // const createdCartVal = await dispatch(
-            //   generateCartIdForLoggedInUser()
-            // );
-
-            // if (
-            //   createdCartVal.status === ERROR ||
-            //   createdCartVal.status === FAILURE
-            // ) {
-            //   dispatch(singleAuthCallHasFailed(createdCartVal.error));
-            // } else {
-            // const mergeCartResponse = await dispatch(
-            //   mergeCartId(createdCartVal.cartDetails.guid)
-            // );
-            // if (mergeCartResponse.status === SUCCESS) {
             const existingWishList = await dispatch(getWishListItems());
 
             if (!existingWishList || !existingWishList.wishlist) {
@@ -229,8 +211,6 @@ const mapDispatchToProps = dispatch => {
             }
             dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
-            // }
-            // }
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
@@ -350,10 +330,6 @@ const mapDispatchToProps = dispatch => {
             } else {
               Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
               guid = cartVal;
-              // Cookies.createCookie(
-              //   CART_DETAILS_FOR_LOGGED_IN_USER,
-              //   JSON.stringify(cartVal.cartDetails)
-              // );
               dispatch(setIfAllAuthCallsHaveSucceeded());
 
               // merge cart has failed, so all I need to do is remove the cart details for anonymous
@@ -367,20 +343,6 @@ const mapDispatchToProps = dispatch => {
               );
             }
           } else {
-            // const createdCartVal = await dispatch(
-            //   generateCartIdForLoggedInUser()
-            // );
-
-            // if (
-            //   createdCartVal.status === ERROR ||
-            //   createdCartVal.status === FAILURE
-            // ) {
-            //   dispatch(singleAuthCallHasFailed(createdCartVal.error));
-            // } else {
-            //   const mergeCartResponse = await dispatch(
-            //     mergeCartId(createdCartVal.cartDetails.guid)
-            //   );
-            //   if (mergeCartResponse.status === SUCCESS) {
             const existingWishList = await dispatch(getWishListItems());
 
             if (!existingWishList || !existingWishList.wishlist) {
@@ -388,17 +350,6 @@ const mapDispatchToProps = dispatch => {
             }
             dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
-            // } else {
-            // ignore the anonymous cart
-            // use the generated cart
-            //   Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-            //   Cookies.createCookie(
-            //     CART_DETAILS_FOR_LOGGED_IN_USER,
-            //     JSON.stringify(createdCartVal.cartDetails)
-            //   );
-            //   dispatch(setIfAllAuthCallsHaveSucceeded());
-            // }
-            // }
           }
         } else {
           dispatch(singleAuthCallHasFailed(loginUserRequest.error));

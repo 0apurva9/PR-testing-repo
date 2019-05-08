@@ -328,18 +328,14 @@ class App extends Component {
       customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     }
 
-    //if (customerAccessToken) {
-    //if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
-    // Cart Optimisation
-    //this.props.generateCartIdForLoggedInUser();
-    //}
-    //}
     if (
       customerAccessToken &&
       cartDetailsForLoggedInUser &&
       loggedInUserDetails
     ) {
-      this.props.getCartCountForLoggedInUsers();
+      guid = JSON.parse(cartDetailsForLoggedInUser).guid
+        ? JSON.parse(cartDetailsForLoggedInUser).guid
+        : null;
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -353,31 +349,17 @@ class App extends Component {
       }
     } else {
       if (cartDetailsForAnonymous) {
-        this.props.getCartCountForLoggedInUsers();
+        guid = JSON.parse(cartDetailsForAnonymous);
       }
-      // Cart Optimisation
-      // if (!cartDetailsForAnonymous && globalAccessToken) {
-      //   const parsedQueryString = queryString.parse(this.props.location.search);
-      //   if (!parsedQueryString || !parsedQueryString.cartGuid) {
-      //     this.props.generateCartIdForAnonymous();
-      //   }
-      // }
     }
 
+    if (guid) {
+      this.props.getCartCountForLoggedInUsers(
+        typeof guid === "object" ? guid : null
+      );
+    }
     window.prerenderReady = true;
   }
-  // Cart Optimisation
-  // componentWillMount() {
-  //   const parsedQueryString = queryString.parse(this.props.location.search);
-  //   if (parsedQueryString && parsedQueryString.cartGuid) {
-  //     Cookies.createCookie(
-  //       CART_DETAILS_FOR_ANONYMOUS,
-  //       JSON.stringify({
-  //         guid: parsedQueryString.cartGuid
-  //       })
-  //     );
-  //   }
-  // }
 
   renderLoader() {
     return (

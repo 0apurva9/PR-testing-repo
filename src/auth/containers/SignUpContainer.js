@@ -55,11 +55,6 @@ const mapDispatchToProps = dispatch => {
           customerAccessToken(userSignUpDetails)
         );
         if (customerAccessResponse.status === SUCCESS) {
-          // cart optimisation
-          // const createdCartVal = await dispatch(
-          //   generateCartIdForLoggedInUser()
-          // );
-          // if (createdCartVal.status === SUCCESS) {
           setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
           await dispatch(createWishlist());
           const mergeCartIdResponse = await dispatch(mergeCartId());
@@ -87,17 +82,9 @@ const mapDispatchToProps = dispatch => {
             dispatch(setIfAllAuthCallsHaveSucceeded());
           } else {
             Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-            // Cart optimisation
-            // Cookies.createCookie(
-            //   CART_DETAILS_FOR_LOGGED_IN_USER,
-            //   JSON.stringify(createdCartVal.cartDetails)
-            // );
             dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
           }
-          // } else if (createdCartVal.status === FAILURE) {
-          //   dispatch(singleAuthCallHasFailed(signUpResult.error));
-          // }
         } else if (customerAccessResponse.status === FAILURE) {
           dispatch(singleAuthCallHasFailed(signUpResult.error));
         }
