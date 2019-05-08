@@ -927,7 +927,15 @@ export default class PdpApparel extends React.Component {
                         <div className={styles.loader} />
                       </div>
                     )}
-                    <div className={styles.buttonAddToBag}>
+                    <div
+                      className={
+                        this.props.productDetails.isServiceableToPincode &&
+                        this.props.productDetails.isServiceableToPincode
+                          .status === "N"
+                          ? styles.buttonDisabled
+                          : styles.buttonAddToBag
+                      }
+                    >
                       <Button
                         type="primary"
                         height={45}
@@ -944,7 +952,15 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                   <div className={styles.buttonHolder}>
-                    <div className={styles.buttonAddToBag}>
+                    <div
+                      className={
+                        this.props.productDetails.isServiceableToPincode &&
+                        this.props.productDetails.isServiceableToPincode
+                          .status === "N"
+                          ? styles.buttonDisabled
+                          : styles.buttonAddToBag
+                      }
+                    >
                       <Button
                         type="hollow"
                         height={45}
