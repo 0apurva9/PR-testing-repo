@@ -379,6 +379,10 @@ async function replaceOldCartCookieForLoggedInUser(url, newCustomerCookie) {
     Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER)
   );
   Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  Cookie.createCookie(
+    CART_DETAILS_FOR_LOGGED_IN_USER,
+    JSON.stringify(newCustomerCookie)
+  );
   return url.replace(oldCustomerCookie.code, newCustomerCookie.code);
 }
 
