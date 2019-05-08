@@ -387,7 +387,7 @@ export default class OrderCard extends React.Component {
                   <div className={styles.labelHolder}>
                     <div className={styles.label}>Status</div>
                     <div className={styles.semiColon}>:</div>
-                    <div className={styles.data}>
+                    <div className={styles.labelDetails}>
                       {this.props.statusDisplay}
                     </div>
                   </div>
@@ -397,7 +397,7 @@ export default class OrderCard extends React.Component {
                   <div className={styles.labelHolder}>
                     <div className={styles.label}>Store Details</div>
                     <div className={styles.semiColon}>:</div>
-                    <div className={styles.data}>
+                    <div className={styles.labelDetails}>
                       {` ${
                         this.props.storeDetails.displayName
                           ? this.props.storeDetails.displayName
@@ -430,7 +430,7 @@ export default class OrderCard extends React.Component {
                   <div className={styles.labelHolder}>
                     <div className={styles.label}>Open from</div>
                     <div className={styles.semiColon}>:</div>
-                    <div className={styles.data}>
+                    <div className={styles.labelDetails}>
                       {(openingTime || closingTime) && (
                         <div className={styles.timeSection}>
                           <span>{openingTime}</span>
@@ -469,7 +469,7 @@ export default class OrderCard extends React.Component {
                   <div className={styles.labelHolder}>
                     <div className={styles.label}>Pickup </div>
                     <div className={styles.semiColon}>:</div>
-                    <div className={styles.data}>
+                    <div className={styles.labelDetails}>
                       {this.getDayNumberSuffixWithOutYear(
                         format(
                           this.props.estimatedDeliveryDateWithTime,
@@ -485,7 +485,7 @@ export default class OrderCard extends React.Component {
                   <div className={styles.labelHolder}>
                     <div className={styles.label}>Pickup details</div>
                     <div className={styles.semiColon}>:</div>
-                    <div className={styles.data}>
+                    <div className={styles.labelDetails}>
                       {`+91 ${this.props.phoneNumber}`}
                     </div>
                   </div>
