@@ -461,7 +461,7 @@ export function displayCouponsForLoggedInUser(userId, accessToken, cartId) {
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/displayCouponOffers?access_token=${accessToken}&cartGuid=${cartId}`
+        `${USER_CART_PATH}/${userId}/displayCouponOffers?access_token=${accessToken}&cartGuid=${cartId}&channel=web`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
