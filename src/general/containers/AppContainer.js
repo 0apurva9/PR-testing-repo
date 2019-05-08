@@ -48,8 +48,8 @@ const mapDispatchToProps = dispatch => {
     generateCartIdForAnonymous: async () => {
       return dispatch(generateCartIdForAnonymous());
     },
-    getCartCountForLoggedInUsers: async () => {
-      return dispatch(getCartCountForLoggedInUser());
+    getCartCountForLoggedInUsers: async guid => {
+      return dispatch(getCartCountForLoggedInUser(guid));
     }
   };
 };

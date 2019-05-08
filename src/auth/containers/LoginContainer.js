@@ -95,7 +95,6 @@ const mapDispatchToProps = dispatch => {
               const cartDetailsLoggedInUser = Cookies.getCookie(
                 CART_DETAILS_FOR_LOGGED_IN_USER
               );
-              guid = JSON.parse(cartDetailsLoggedInUser).guid;
               dispatch(
                 getCartDetails(
                   JSON.parse(userDetails).userName,
@@ -111,6 +110,7 @@ const mapDispatchToProps = dispatch => {
                     : false
                 )
               );
+              guid = JSON.parse(cartDetailsLoggedInUser).guid;
               const existingWishList = await dispatch(getWishListItems());
 
               if (!existingWishList || !existingWishList.wishlist) {
@@ -132,7 +132,7 @@ const mapDispatchToProps = dispatch => {
             if (guid) {
               dispatch(
                 getCartCountForLoggedInUser(
-                  typeof guid === "Object" ? guid : null
+                  typeof guid === "object" ? guid : null
                 )
               );
             }
@@ -142,57 +142,53 @@ const mapDispatchToProps = dispatch => {
             //   generateCartIdForLoggedInUser()
             // );
 
-            const newCartIdObj = Cookies.getCookie(
-              CART_DETAILS_FOR_LOGGED_IN_USER
-            );
+            // const newCartIdObj = Cookies.getCookie(
+            //   CART_DETAILS_FOR_LOGGED_IN_USER
+            // );
 
-            if (newCartIdObj) {
-              const mergeCartIdResponse = await dispatch(mergeCartId());
+            // if (newCartIdObj) {
+            //   const mergeCartIdResponse = await dispatch(mergeCartId());
 
-              // merging cart id with new cart id
-              if (mergeCartIdResponse.status === SUCCESS) {
-                const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
+            // merging cart id with new cart id
+            // if (mergeCartIdResponse.status === SUCCESS) {
+            // const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
 
-                const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
-                const cartDetailsLoggedInUser = Cookies.getCookie(
-                  CART_DETAILS_FOR_LOGGED_IN_USER
-                );
-                dispatch(
-                  getCartDetails(
-                    JSON.parse(userDetails).userName,
-                    JSON.parse(customerCookie).access_token,
-                    JSON.parse(cartDetailsLoggedInUser).code,
-                    localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                    lastUrl === "/cart" &&
-                    parseInt(
-                      mergeCartIdResponse.cartDetails.count !== currentBagCount,
-                      10
-                    )
-                      ? true
-                      : false
-                  )
-                );
-                const existingWishList = await dispatch(getWishListItems());
-                if (!existingWishList || !existingWishList.wishlist) {
-                  dispatch(createWishlist());
-                }
-                dispatch(setIfAllAuthCallsHaveSucceeded());
-              } else if (mergeCartIdResponse.status === ERROR) {
-                Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-                dispatch(getCartCountForLoggedInUser(newCartIdObj));
-                // Cookies.createCookie(
-                //   CART_DETAILS_FOR_LOGGED_IN_USER,
-                //   JSON.stringify(newCartIdObj.cartDetails)
-                // );
-                dispatch(setIfAllAuthCallsHaveSucceeded());
-              }
-              // end of merging cart id with new cart id
-              dispatch(getCartCountForLoggedInUser(newCartIdObj));
-            } else if (JSON.stringify(newCartIdObj).status === ERROR) {
-              dispatch(
-                singleAuthCallHasFailed(JSON.stringify(newCartIdObj).error)
-              );
+            // const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
+            // const cartDetailsLoggedInUser = Cookies.getCookie(
+            //   CART_DETAILS_FOR_LOGGED_IN_USER
+            // );
+            // dispatch(
+            //   getCartDetails(
+            //     JSON.parse(userDetails).userName,
+            //     JSON.parse(customerCookie).access_token,
+            //     JSON.parse(cartDetailsLoggedInUser).code,
+            //     localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            //     lastUrl === "/cart" &&
+            //     parseInt(
+            //       mergeCartIdResponse.cartDetails.count !== currentBagCount,
+            //       10
+            //     )
+            //       ? true
+            //       : false
+            //   )
+            // );
+            const existingWishList = await dispatch(getWishListItems());
+            if (!existingWishList || !existingWishList.wishlist) {
+              dispatch(createWishlist());
             }
+            dispatch(setIfAllAuthCallsHaveSucceeded());
+            // } else if (mergeCartIdResponse.status === ERROR) {
+            //   Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+            // Cookies.createCookie(
+            //   CART_DETAILS_FOR_LOGGED_IN_USER,
+            //   JSON.stringify(newCartIdObj.cartDetails)
+            // );
+            dispatch(setIfAllAuthCallsHaveSucceeded());
+            // }
+            // end of merging cart id with new cart id
+            dispatch(getCartCountForLoggedInUser());
+
+            // }
             // end of generating new cart if if wont get any existing cartId
           }
         } else {

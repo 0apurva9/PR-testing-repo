@@ -339,7 +339,7 @@ class App extends Component {
       cartDetailsForLoggedInUser &&
       loggedInUserDetails
     ) {
-      guid = JSON.parse(cartDetailsForLoggedInUser).guid;
+      this.props.getCartCountForLoggedInUsers();
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -353,7 +353,7 @@ class App extends Component {
       }
     } else {
       if (cartDetailsForAnonymous) {
-        guid = JSON.parse(cartDetailsForAnonymous);
+        this.props.getCartCountForLoggedInUsers();
       }
       // Cart Optimisation
       // if (!cartDetailsForAnonymous && globalAccessToken) {
@@ -364,11 +364,6 @@ class App extends Component {
       // }
     }
 
-    if (guid) {
-      this.props.getCartCountForLoggedInUsers(
-        typeof guid === "Object" ? guid : null
-      );
-    }
     window.prerenderReady = true;
   }
   // Cart Optimisation

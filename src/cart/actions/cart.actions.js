@@ -5142,7 +5142,9 @@ export function getCartCountForLoggedInUser(cartVal) {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartGuidForLoggedInUser = cartDetails && JSON.parse(cartDetails).guid;
-  let cartGuid = cartGuidForLoggedInUser ? cartGuidForLoggedInUser : null;
+  let cartGuid = cartGuidForLoggedInUser
+    ? cartGuidForLoggedInUser
+    : JSON.parse(cartDetails).cartGuid;
   let userId = ANONYMOUS_USER;
 
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
@@ -5153,9 +5155,10 @@ export function getCartCountForLoggedInUser(cartVal) {
   }
 
   if (cartVal) {
-    cartGuid = cartVal.cartDetails.guid
-      ? cartVal.cartDetails.guid
-      : cartVal.guid;
+    cartGuid =
+      cartVal.cartDetails && cartVal.cartDetails.guid
+        ? cartVal.cartDetails.guid
+        : cartVal.guid;
   }
 
   return async (dispatch, getState, { api }) => {
@@ -5163,9 +5166,7 @@ export function getCartCountForLoggedInUser(cartVal) {
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}${
-          cartGuid ? "&cartGuid=" + cartGuid : ""
-        }`
+        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

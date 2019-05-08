@@ -1854,6 +1854,8 @@ const cart = (
         cartCountStatus: action.status
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE:
+      Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+      localStorage.removeItem(CART_BAG_DETAILS);
       return Object.assign({}, state, {
         cartCountError: action.error,
         cartCountStatus: action.status,

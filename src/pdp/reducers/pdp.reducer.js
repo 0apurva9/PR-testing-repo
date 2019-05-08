@@ -5,7 +5,8 @@ import {
   NO,
   CART_DETAILS_FOR_ANONYMOUS,
   LOGGED_IN_USER_DETAILS,
-  CART_DETAILS_FOR_LOGGED_IN_USER
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
@@ -247,10 +248,11 @@ const productDescription = (
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_SUCCESS:
-      let cartDetailsForAnonymous = Cookies.getCookie(
+      const cartDetailsForAnonymous = Cookies.getCookie(
         CART_DETAILS_FOR_ANONYMOUS
       );
       const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
       const cartDetailsLoggedInUser = Cookies.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
       );
@@ -258,12 +260,12 @@ const productDescription = (
         action.newProduct && action.newProduct.cartGuid
           ? action.newProduct.cartGuid
           : null;
-      if (!userDetails && !cartDetailsForAnonymous) {
+      if (!userDetails && !customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
           JSON.stringify(action.newProduct)
         );
-      } else if (userDetails && !cartDetailsLoggedInUser) {
+      } else if (userDetails && customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
           JSON.stringify(action.newProduct)
