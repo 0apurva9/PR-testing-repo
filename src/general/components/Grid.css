@@ -12,9 +12,13 @@
   vertical-align: top;
 }
 
-.displayFlex{
+.displayFlex {
   display: flex;
 }
-.displayInline{
+.displayInline {
+  display: inline;
+}
+
+.electronicViewElement {
   display: inline;
 }
