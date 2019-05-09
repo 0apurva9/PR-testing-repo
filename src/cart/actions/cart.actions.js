@@ -33,7 +33,8 @@ import {
   NET_BANKING_PAYMENT_MODE,
   WALLET,
   OFFER_ERROR_PAYMENT_MODE_TYPE,
-  EMI_TENURE
+  EMI_TENURE,
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -715,7 +716,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
       const result = await api.postFormData(
         `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts/${
           JSON.parse(cartDetails).code
-        }/applyCoupons?access_token=${
+        }/applyVouchers?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`,
         couponObject
@@ -1425,7 +1426,10 @@ export function mergeCartId(cartGuId) {
         : 0;
       const updatedBagCount = parseInt(resultJson.count, 10);
       if (getState().auth.redirectToAfterAuthUrl === PRODUCT_CART_ROUTER) {
-        if (updatedBagCount === currentBagCount) {
+        const isAddToWishlist = localStorage.getItem(
+          PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+        );
+        if (!isAddToWishlist && updatedBagCount === currentBagCount) {
           dispatch(setUrlToRedirectToAfterAuth(CHECKOUT_ROUTER));
         } else {
           dispatch(displayToast(TOAST_MESSAGE_AFTER_MERGE_CART));
@@ -1816,7 +1820,7 @@ export function applyBankOffer(couponCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/applyCartCoupons?access_token=${
+        }/carts/applyBankCoupons?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
       );

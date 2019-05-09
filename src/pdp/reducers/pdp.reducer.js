@@ -168,7 +168,11 @@ const productDescription = (
             "Finding a serviceable seller on the selected pincode, the price of the product may be different"
         });
         let otherSellersList = currentPdpDetail.otherSellers;
-        let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
+        let leastMrpSellerUssid = {
+          specialPriceSeller: {
+            value: 999999999
+          }
+        };
         let eligibleDeliveryModeForThisSeller;
         listOfAllServiceableUssid.forEach(seller => {
           let sellerObjInOtherSellers = currentPdpDetail.otherSellers.find(
