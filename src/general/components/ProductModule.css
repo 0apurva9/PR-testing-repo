@@ -115,14 +115,14 @@
 .display4by4 {
   cursor: pointer;
   position: absolute;
-  top: 275px;
+  top: 260px;
   right: 20px;
   z-index: 1;
 }
 .display3by3 {
   cursor: pointer;
   position: absolute;
-  top: 375px;
+  top: 358px;
   right: 20px;
   z-index: 1;
 }
