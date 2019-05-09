@@ -7,6 +7,7 @@ import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
 import BankOfferTNCModal from "../../cart/components/BankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
 import * as Cookie from "../../lib/Cookie.js";
+
 import {
   LOGGED_IN_USER_DETAILS,
   SUCCESS,
@@ -35,6 +36,7 @@ const PASSWORD_LENGTH_TEXT = "Password length should be minimum 8 character";
 const CONFIRM_PASSWORD_TEXT = "Please confirm your passowrd";
 const PASSWORD_MATCH_TEXT = "Password did not match";
 const OLD_NEW_PASSWORD_MATCH_TEXT = "Current and New password cannot be same";
+const OfferModal = "OfferDetailsModal";
 const Loader = () => {
   return (
     <div>
@@ -109,8 +111,15 @@ const EmiModal = Loadable({
   }
 });
 
-const OfferModal = Loadable({
-  loader: () => import("../../pdp/components/OfferModal"),
+const OfferDetailsModal = Loadable({
+  loader: () => import("../../pdp/components/OfferDetailsModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const TermsNConditionsWrapperModal = Loadable({
+  loader: () => import("../../pdp/components/TermsNConditionsWrapperModal"),
   loading() {
     return <Loader />;
   }
@@ -125,6 +134,13 @@ const ProductCouponDetails = Loadable({
 
 const SizeSelectModal = Loadable({
   loader: () => import("../../pdp/containers/SizeSelectModalContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const ManufacturerDetailsModal = Loadable({
+  loader: () => import("../../pdp/components/ManufacturerDetailsModal.js"),
   loading() {
     return <Loader />;
   }
@@ -204,6 +220,27 @@ const CliqAndPiq = Loadable({
     return <Loader />;
   }
 });
+
+const SimilarProductsModal = Loadable({
+  loader: () => import("../containers/SimilarProductsModalContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const SimilarProductsOOSModal = Loadable({
+  loader: () => import("../containers/SimilarProductsOOSModalContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const SizeSelectorOOSModal = Loadable({
+  loader: () => import("./SizeSelectorOOSModalWrapper.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -236,6 +273,15 @@ export default class ModalRoot extends React.Component {
       this.props.hidePdpPiqPage();
     }
     if (this.props.hideModal) {
+      this.props.hideModal();
+    }
+  }
+  handleOfferModalClose(data) {
+    if (data.showVoucherModal && this.props.hideModal) {
+      this.props.hideModal();
+      // ValidityState;
+      this.props.showModal(OfferModal, { ...data });
+    } else if (this.props.hideModal) {
       this.props.hideModal();
     }
   }
@@ -512,6 +558,7 @@ export default class ModalRoot extends React.Component {
       });
     }
   };
+
   render() {
     const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -636,6 +683,7 @@ export default class ModalRoot extends React.Component {
         />
       ),
       SizeGuide: <SizeGuideModal closeModal={() => this.handleClose()} />,
+
       StoryModal: (
         <StoryWidgetContainer
           closeModal={() => this.handleClose()}
@@ -696,9 +744,21 @@ export default class ModalRoot extends React.Component {
           loading={this.props.loading}
         />
       ),
-      OfferModal: (
-        <OfferModal
+      ManufacturerModal: (
+        <ManufacturerDetailsModal
           closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+      OfferDetailsModal: (
+        <OfferDetailsModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+      TermsNConditionsWrapperModal: (
+        <TermsNConditionsWrapperModal
+          closeModal={data => this.handleOfferModalClose(data)}
           {...this.props.ownProps}
         />
       ),
@@ -781,6 +841,30 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           changePaymentMethod={() => this.handleClose()}
+        />
+      ),
+
+      SimilarProductsModal: (
+        <SimilarProductsModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+
+      SimilarProductsOOSModal: (
+        <SimilarProductsOOSModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+
+      SizeSelectorOOSModal: (
+        <SizeSelectorOOSModal
+          {...this.props}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
         />
       )
     };

@@ -72,7 +72,8 @@ import {
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
   RETRY_FAILED_ORDER,
-  CART_COUNT_FOR_LOGGED_IN_USER
+  CART_COUNT_FOR_LOGGED_IN_USER,
+  PANCARD_PAGE
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -123,7 +124,12 @@ const BrandsLandingPageDefaultContainer = Loadable({
     return <Loader />;
   }
 });
-
+const PanCardFormContainer = Loadable({
+  loader: () => import("./general/containers/PanCardFormContainer"),
+  loading(error) {
+    return <Loader />;
+  }
+});
 const ProductListingsContainer = Loadable({
   loader: () => import("./plp/containers/ProductListingsContainer"),
   loading(error) {
@@ -410,6 +416,7 @@ class App extends Component {
           </MobileOnly>
           <Switch>
             <Route path={MY_ACCOUNT} component={MyAccountWrapper} />{" "}
+            <Route exact path={PANCARD_PAGE} component={PanCardFormContainer} />
             <Route
               exact
               path={CATEGORY_PRODUCT_LISTINGS_WITH_PAGE}

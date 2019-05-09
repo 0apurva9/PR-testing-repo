@@ -17,6 +17,11 @@
 .text {
   color: #9b9b9b;
 }
+.content {
+  width: 100%;
+  height: auto;
+  padding-bottom: 10px;
+}
 .breadcrumbsText {
   width: auto;
   max-width: 90px;
@@ -60,10 +65,11 @@
 .breadcrumbsText:last-child:after {
   background: url("");
 }
-.content {
+.contentDetails {
   width: 100%;
   height: auto;
   padding: 0 15px;
+  margin:15px 0px;
 }
 .whiteBackground {
   composes: base;
@@ -115,6 +121,62 @@
   padding: 0 15px;
   margin-top: 30px;
 }
+.season {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 0 15px;
+}
+.collectionNotesTile {
+  width: 100%;
+  height: 20px;
+  font-family: semibold;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: 0.4px;
+  color: var(--black-93);
+}
+.collectionNotesContent {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.collectionNotesContent:empty{
+margin:0;
+}
+.seasonLaunchDate {
+  width: 100%;
+  font-family: Baskerville;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: 1.25;
+  letter-spacing: 0.3px;
+  color: #ff1744;
+}
+.seasonTitle {
+  width: 100%;
+  font-family: Baskerville;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #af1566;
+}
 .separator {
   width: 100%;
   height: auto;
@@ -132,6 +194,16 @@
   left: 0;
   top: 0;
   z-index: 10;
+}
+
+.headerDetails {
+  font-family: semibold;
+}
+
+.descriptionDetails{
+  width:50%;
+  display:inline-block;
+  vertical-align:top;
 }
 
 .winningSellerText {
@@ -169,6 +241,7 @@
   margin-bottom: 5px;
   position: relative;
 }
+
 .list a {
   color: #ff1744 !important;
   text-decoration: underline !important;
@@ -201,6 +274,9 @@
   width: 100%;
 }
 .details:empty {
+  margin: 0;
+}
+.season :empty {
   margin: 0;
 }
 .blankSeparator {
@@ -249,6 +325,18 @@
   padding-bottom: 15px;
   position: relative;
 }
+
+.accordionLight {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 5px;
+  position: relative;
+}
 .accordionContent:after {
   content: "";
   width: 100%;
@@ -258,6 +346,18 @@
   left: 0;
   bottom: 0;
 }
+.accordionContentBold {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  font-family: regular;
+  color: #212121;
+
+  position: relative;
+}
+
 .trustLogo {
   width: 100%;
   height: 150px;
@@ -286,6 +386,12 @@
 @media screen and (min-width: 1025px) {
   .base {
     text-align: center;
+  }
+  .contentDetails{
+    width:33.33%;
+    display:inline-block;
+    min-width:250px;
+    vertical-align:top;
   }
   .pageCenter {
     width: 100%;
@@ -333,16 +439,74 @@
     cursor: pointer;
     font-family: light;
   }
+  .season {
+    background: #ececec;
+    padding: 0;
+    padding-bottom: 40px;
+  }
+  .seasonDetails {
+    margin-top: 60px;
+    display: flex;
+  }
+  .seasonBanner {
+    text-align: center;
+  }
+  .seasonBanner img {
+    width: 100%;
+    display: block;
+  }
+  .seasonImage {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 27px;
+    padding: 0px 25px 0px 0;
+  }
+  .seasonTextDetails {
+    width: 50%;
+    vertical-align: top;
+    display: inline-block;
+  }
+  .seasonButton {
+    margin-top: 21px;
+  }
   .details {
     background: #ececec;
     padding: 0;
     padding-bottom: 40px;
+  }
+  .seasonImg {
+    width: 100%;
+    text-align: center;
+    padding: 0 0 12px 0;
   }
   .detailsCard {
     width: 100%;
     background: #fff;
     padding: 20px 40px;
     border-radius: 4px;
+  }
+  .productDetailsImagesCard {
+    width: 100%;
+    background: #fafafa;
+    padding: 20px 40px;
+    border-radius: 4px;
+    margin: 20px 0px 5px 0px;
+  }
+
+  .tableCellSingleComponent {
+    display: table-cell;
+    padding: 0px 50px;
+  }
+
+  .width95px {
+    width: 98px;
+    height: 20px;
+    text-align: center;
+  }
+
+  .inline {
+    display: inline;
   }
   .detailsHolder {
     margin-top: 60px;
@@ -547,11 +711,38 @@
     height: auto;
     margin-top: 25px;
   }
-  .samsungChatImgHolder{
+  .samsungChatImgHolder {
     position: fixed;
     right: 0;
     top: 80%;
     z-index: 1;
+  }
+  .genericCountryPart {
+    float: left;
+    width: 100%;
+  }
+  .countryOfOrigin {
+    margin-bottom: 25px;
+  }
+
+  .genericName {
+    margin-bottom: 25px;
+  }
+  .genericLabel {
+    font-size: 14px;
+    color: #4a4a4a;
+    float: left;
+    padding-right: 65px;
+    width: 300px;
+  }
+  .manufacturerDetailsBoldText {
+    font-family: semibold;
+  }
+  .clickHere {
+    font-size: 14px;
+    font-family: light;
+    border-bottom: 1px solid;
+    cursor: pointer;
   }
 }
 

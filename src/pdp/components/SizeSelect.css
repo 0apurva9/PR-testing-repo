@@ -13,6 +13,8 @@
   transition: 200ms;
   cursor: pointer;
   user-select: none;
+  display: inline-block;
+  margin-right: 10px;
 }
 .disabled {
   composes: base;

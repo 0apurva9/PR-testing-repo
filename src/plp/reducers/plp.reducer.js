@@ -188,6 +188,10 @@ const productListings = (
       return Object.assign({}, state, {
         urlString: action.value
       });
+    case plpActions.VIEW_SIMILAR_PRODUCTS:
+      return Object.assign({}, state, {
+        viewSimilarProductOfId: action.productListingId
+      });
     default:
       return state;
   }

@@ -9,6 +9,8 @@ import styles from "./AddToWishListButton.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import downloadIconWhite from "../../general/components/img/downloadWhite.svg";
+import wishlistUnfilled from "./img/wishlist_unfilled.svg";
+import wishlistFilled from "./img/wishlist_filled.svg";
 import {
   LOGIN_PATH,
   LOGGED_IN_USER_DETAILS,
@@ -23,6 +25,9 @@ export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
 export const WISHLIST_BUTTON_TEXT_TYPE_SMALL = "wishlistTextSmall";
 export const ONLY_ICON = "wishlistIconForPdp";
 export default class AddToWishListButton extends React.Component {
+  state = {
+    foundInWishList: false
+  };
   onClick(e) {
     if (e) {
       e.stopPropagation();
@@ -35,9 +40,19 @@ export default class AddToWishListButton extends React.Component {
         winningUssID: winningUssID
       }
     );
+
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
+      // const url = this.props.location.pathname;
+      // const { productListingId, winningUssID } = this.props;
+      // this.props.setUrlToRedirectToAfterAuth(url);
+      // this.props.addProductToWishListAfterAuth({
+      //   productListingId: productListingId,
+      //   winningUssID: winningUssID
+      // });
+      // this.props.history.push(LOGIN_PATH);
+
       localStorage.setItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)
@@ -45,17 +60,29 @@ export default class AddToWishListButton extends React.Component {
       if (this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
-        const url = this.props.location.pathname;
+        const href = window.location.href;
+        const protocol = window.location.protocol;
+        const hostName = window.location.hostname;
+        const port = window.location.port;
+        let domainName;
+        if (window.location.port) {
+          domainName = protocol + "//" + hostName + ":" + port;
+        } else {
+          domainName = protocol + "//" + hostName;
+        }
+
+        const url = href.replace(domainName, "");
         this.props.setUrlToRedirectToAfterAuth(url);
         if (UserAgent.checkUserAgentIsMobile()) {
           this.props.history.push(LOGIN_PATH);
         } else {
           if (this.props.showAuthPopUp) {
             this.props.showAuthPopUp();
-            return null;
           }
         }
       }
+
+      return null;
     } else {
       const indexOfProduct = wishlistItems.findIndex(item => {
         return (
@@ -84,8 +111,50 @@ export default class AddToWishListButton extends React.Component {
     if (parsedQueryString.saveToListAmp === "true") {
       this.onClick();
     }
+    this.checkInWishlist(this.props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.checkInWishlist(nextProps);
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.wishlistItems !== prevProps.wishlistItems) {
+      this.checkInWishlist(this.props);
+    }
+  }
+  checkInWishlist(props) {
+    if (props.wishlistItems && props.wishlistItems.length) {
+      let foundWishListItem = props.wishlistItems.find(item => {
+        return (
+          item.winningUssID === this.props.ussid ||
+          item.USSID === this.props.ussid
+        );
+      });
+      if (foundWishListItem) {
+        this.setState({ foundInWishList: true });
+      } else {
+        this.setState({ foundInWishList: false });
+      }
+    } else {
+      this.setState({ foundInWishList: false });
+    }
+  }
+  removeProduct(e, ussid) {
+    if (e) {
+      e.stopPropagation();
+    }
+    const productDetails = {};
+    productDetails.ussId = ussid;
+
+    if (this.props.removeProductFromWishList) {
+      this.props.removeProductFromWishList(productDetails);
+    }
   }
   render() {
+    //let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    // if (userCookie) {
+    //   userCookie = JSON.parse(userCookie);
+    //   this.checkInWishlist(this.props);
+    // }
     if (this.props.type === WISHLIST_FOOTER_BUTTON_TYPE) {
       return (
         <FooterButton
@@ -127,6 +196,16 @@ export default class AddToWishListButton extends React.Component {
         </div>
       );
     }
+    if (this.state.foundInWishList) {
+      return (
+        <div onClick={e => this.removeProduct(e, this.props.winningUssID)}>
+          <Icon
+            image={this.props.isWhite ? wishlistUnfilled : wishlistFilled}
+            size={this.props.size}
+          />
+        </div>
+      );
+    }
     if (this.props.type === ONLY_ICON) {
       return (
         <div className={styles.saveButton} onClick={e => this.onClick(e)}>
@@ -136,10 +215,11 @@ export default class AddToWishListButton extends React.Component {
         </div>
       );
     }
+
     return (
-      <div className={styles.iconButton} onClick={e => this.onClick(e)}>
+      <div onClick={e => this.onClick(e)}>
         <Icon
-          image={this.props.isWhite ? downloadIconWhite : downloadIcon}
+          image={this.props.isWhite ? wishlistFilled : wishlistUnfilled}
           size={this.props.size}
         />
       </div>
