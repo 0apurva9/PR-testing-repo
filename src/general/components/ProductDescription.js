@@ -54,7 +54,7 @@ export default class ProductDescription extends Component {
           electronicView ? styles.baseClassPLPElectronics : styles.base
         }
       >
-        <div className={styles.headerClass}>
+        <div className={headerClass}>
           {this.renderTitle(headerText, electronicView)}
 
           {this.props.showWishListButton &&
