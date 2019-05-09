@@ -58,14 +58,17 @@ export default class ProductDescription extends Component {
           {this.renderTitle(headerText, electronicView)}
 
           {this.props.showWishListButton &&
-            this.props.productListingId &&
+            this.props.productId &&
             this.props.winningUssID &&
             this.props.isShowAddToWishlistIcon && (
               <div className={styles.button}>
                 <AddToWishListButtonContainer
-                  productListingId={this.props.productListingId}
+                  productListingId={this.props.productId}
                   winningUssID={this.props.winningUssID}
+                  productListings={this.props.productListings}
                   isWhite={this.props.isWhite}
+                  size={17}
+                  ussid={this.props.ussid}
                 />
               </div>
             )}

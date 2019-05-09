@@ -303,6 +303,8 @@ export const ADOBE_LOGIN_START = "ADOBE_LOGIN_START";
 export const ADOBE_MY_ACCOUNT_WISHLIST_REMOVE =
   "ADOBE_MY_ACCOUNT_WISHLIST_REMOVE";
 export const ADOBE_PLP = "ADOBE_PLP";
+export const QA2_MCV_ID = "sample_12345";
+export const ADOBE_SIMILAR_PRODUCTS_PDP = "Pdp_View_Similar_Products";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";

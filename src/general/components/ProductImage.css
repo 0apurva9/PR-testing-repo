@@ -32,3 +32,8 @@
   cursor: pointer;
   padding-bottom: 130%;
 }
+.similarIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

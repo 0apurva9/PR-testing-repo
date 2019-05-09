@@ -21,7 +21,8 @@ const productListings = (
     deselectedOutOfStock: false,
     urlString: null,
     loadMsdSkeleton: null,
-    searchMsdData: []
+    searchMsdData: [],
+    banners: []
   },
   action
 ) => {
@@ -199,6 +200,20 @@ const productListings = (
       return Object.assign({}, state, {
         urlString: action.value
       });
+    case plpActions.VIEW_SIMILAR_PRODUCTS:
+      return Object.assign({}, state, {
+        viewSimilarProductOfId: action.productListingId
+      });
+    case plpActions.GET_PLP_BANNERS_SUCCESS:
+      return {
+        ...state,
+        banners: action.banners
+      };
+    case plpActions.GET_PLP_BANNERS_FAILURE:
+      return {
+        ...state,
+        banners: []
+      };
     default:
       return state;
   }
