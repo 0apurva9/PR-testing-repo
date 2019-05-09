@@ -103,7 +103,6 @@ export default class ProductModule extends React.Component {
                 : styles.imageAndDescriptionWrapper
             }
           >
-            <br />
             <a
               href={`${window.location.origin}${this.getProductURL()}`}
               className={styles.aTag}
