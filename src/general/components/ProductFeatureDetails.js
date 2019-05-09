@@ -57,7 +57,7 @@ export default class ProductFeatureDetails extends Component {
           return (
             <div className={styles.offerData}>
               <div className={styles.offerIconHolder}>
-                <Icon image={EMITag} size={10} />
+                <Icon image={EMITag} size={20} />
                 <div className={styles.plpEMITitle}>
                   Standard EMI{" "}
                   <span className={styles.plpEMItext}>starting from</span>{" "}
