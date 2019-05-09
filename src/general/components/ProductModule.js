@@ -79,7 +79,6 @@ export default class ProductModule extends React.Component {
   };
 
   render() {
-    console.log("props", this.props);
     let electronicView =
       this.props.productCategory &&
       this.props.productCategory === "Electronics";

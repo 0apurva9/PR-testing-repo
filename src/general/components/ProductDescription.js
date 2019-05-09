@@ -61,7 +61,11 @@ export default class ProductDescription extends Component {
             this.props.productId &&
             this.props.winningUssID &&
             this.props.isShowAddToWishlistIcon && (
-              <div className={styles.button}>
+              <div
+                className={
+                  electronicView ? styles.electronicViewButton : styles.button
+                }
+              >
                 <AddToWishListButtonContainer
                   productListingId={this.props.productId}
                   winningUssID={this.props.winningUssID}

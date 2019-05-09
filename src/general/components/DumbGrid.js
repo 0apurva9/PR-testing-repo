@@ -39,7 +39,11 @@ export default class Grid extends React.Component {
                 <div className={displayClass}>
                   {banner && banner.plpBannerImage ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={
                         this.props.electronicView
                           ? { width: "100%" }
@@ -73,7 +77,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width: this.props.electronicView
                           ? { width: "100%" }
@@ -89,7 +97,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child1 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width: this.props.electronicView
                           ? { width: "100%" }
@@ -105,7 +117,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child2 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width: this.props.electronicView
                           ? { width: "100%" }
@@ -121,7 +137,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child3 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width: this.props.electronicView
                           ? { width: "100%" }
@@ -137,7 +157,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child4 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width: this.props.electronicView
                           ? { width: "100%" }
@@ -153,7 +177,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child5 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width: this.props.electronicView
                           ? { width: "100%" }
@@ -212,7 +240,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width:
                           child.props && child.props.gridWidthDesktop
@@ -227,7 +259,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child1 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width:
                           child1.props && child1.props.gridWidthDesktop
@@ -242,7 +278,11 @@ export default class Grid extends React.Component {
                   ) : null}
                   {child2 ? (
                     <div
-                      className={styles.element}
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
                       style={{
                         width:
                           child1.props && child1.props.gridWidthDesktop
@@ -257,7 +297,7 @@ export default class Grid extends React.Component {
                   ) : null}
                   {/* {child3 ? (
                   <div
-                    className={styles.element}
+                    className={                         this.props.electronicView                           ? styles.electronicViewElement                           : styles.element                       }
                     style={{
                       width:
                         child1.props && child1.props.gridWidthDesktop
@@ -272,7 +312,7 @@ export default class Grid extends React.Component {
                 ) : null} */}
                   {/* {child4 ? (
                   <div
-                    className={styles.element}
+                    className={                         this.props.electronicView                           ? styles.electronicViewElement                           : styles.element                       }
                     style={{
                       width:
                         child1.props && child1.props.gridWidthDesktop
@@ -287,7 +327,7 @@ export default class Grid extends React.Component {
                 ) : null} */}
                   {/* {child5 ? (
                   <div
-                    className={styles.element}
+                    className={                         this.props.electronicView                           ? styles.electronicViewElement                           : styles.element                       }
                     style={{
                       width:
                         child1.props && child1.props.gridWidthDesktop
