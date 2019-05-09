@@ -78,12 +78,12 @@ const mapDispatchToProps = dispatch => {
                   : false
               )
             );
-            dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
+            dispatch(getCartCountForLoggedInUser());
           } else {
             Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-            dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
+            dispatch(getCartCountForLoggedInUser());
           }
         } else if (customerAccessResponse.status === FAILURE) {
           dispatch(singleAuthCallHasFailed(signUpResult.error));

@@ -3973,6 +3973,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
             cartDetails.cartDetails
           );
           dispatch(removeItemFromCartLoggedInSuccess());
+          dispatch(getCartCountForLoggedInUser());
         }
       });
     } catch (e) {
@@ -5180,8 +5181,8 @@ export function getCartCountForLoggedInUser(cartVal) {
       //set local storage
       let bagItem = localStorage.getItem(CART_BAG_DETAILS);
       let bagItemsInJsonFormat = bagItem ? JSON.parse(bagItem) : [];
-      if (resultJson && resultJson.productList) {
-        resultJson.productList.map(product => {
+      if (resultJson && resultJson.products) {
+        resultJson.products.map(product => {
           if (product.USSID && !bagItemsInJsonFormat.includes(product.USSID)) {
             bagItemsInJsonFormat.push(product.USSID);
           }
