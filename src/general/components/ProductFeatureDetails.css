@@ -87,8 +87,7 @@ base :after {
   float: left;
   padding: 0px 5px;
 }
-.plpEMITitle,
-.plpOfferTitle {
+.plpEMITitle {
   color: #4a4a4a;
   width: 100%;
   font-size: 14px;
@@ -100,4 +99,10 @@ base :after {
   height: auto;
   display: inline-block;
   font-family: sans-serif;
+}
+.plpOfferTitle {
+  color: #4a4a4a;
+  width: 100%;
+  font-size: 14px;
+  font-family: semibold;
 }

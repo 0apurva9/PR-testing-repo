@@ -58,15 +58,15 @@ export default class ProductFeatureDetails extends Component {
             <div className={styles.offerData}>
               <div className={styles.offerIconHolder}>
                 <Icon image={EMITag} size={20} />
-                <div className={styles.plpEMITitle}>
-                  Standard EMI{" "}
-                  <span className={styles.plpEMItext}>starting from</span>{" "}
-                  {RUPEE_SYMBOL}{" "}
-                  {this.props.offerData.sdEmi.seStartingPrice &&
-                    this.props.offerData.sdEmi.seStartingPrice}/month
-                </div>
               </div>
-              {this.voucherList()}
+              <div className={styles.plpEMITitle}>
+                Standard EMI{" "}
+                <span className={styles.plpEMItext}>starting from</span>{" "}
+                {RUPEE_SYMBOL}{" "}
+                {this.props.offerData.sdEmi.seStartingPrice &&
+                  this.props.offerData.sdEmi.seStartingPrice}/month
+              </div>
+              <div>{this.voucherList()}</div>
             </div>
           );
         } else {

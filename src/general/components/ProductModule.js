@@ -64,7 +64,7 @@ export default class ProductModule extends React.Component {
     this.props.setviewSimilarProductsOfId(this.props.productId);
     this.props.showSimilarProducts();
   }
-  showSimilarIcons = () => {
+  showSimilarIcons = eview => {
     let similarButton =
       this.props.view === "grid" ? styles.display4by4 : styles.display3by3;
     if (this.props.productCategory === ELECTRONICS) {
@@ -89,7 +89,9 @@ export default class ProductModule extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.shouldShowSimilarIcon && this.showSimilarIcons()}
+        {!electronicView &&
+          this.props.shouldShowSimilarIcon &&
+          this.showSimilarIcons(electronicView)}
         <div
           className={electronicView ? styles.electronicsBase : styles.base}
           onClick={this.onClick}
