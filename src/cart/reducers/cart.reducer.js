@@ -11,7 +11,8 @@ import {
   OLD_CART_CART_ID,
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
-  EMI_TENURE
+  EMI_TENURE,
+  CART_COUNT_FOR_LOGGED_IN_USER
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -228,7 +229,11 @@ const cart = (
     binValidationOfEmiEligibleStatus: null,
     binValidationOfEmiEligible: null,
     loadingForBinValidationOfEmiEligible: false,
-    binValidationOfEmiEligibleError: null
+    binValidationOfEmiEligibleError: null,
+
+    cartCountStatus: null,
+    cartCountError: null,
+    cartCount: null
   },
   action
 ) => {
@@ -1827,6 +1832,37 @@ const cart = (
       return Object.assign({}, state, {
         resetAllPaymentModeFlag: false
       });
+
+    case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS:
+      if (action.userDetails) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.cartDetails)
+        );
+      } else {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify(action.cartDetails)
+        );
+      }
+      return Object.assign({}, state, {
+        cartCount: action.cartDetails && action.cartDetails.count,
+        cartCountStatus: action.status
+      });
+    case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
+      return Object.assign({}, state, {
+        cartCountStatus: action.status
+      });
+    case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE:
+      Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+      Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      localStorage.removeItem(CART_BAG_DETAILS);
+      return Object.assign({}, state, {
+        cartCountError: action.error,
+        cartCountStatus: action.status,
+        cartCount: null
+      });
+
     default:
       return state;
   }

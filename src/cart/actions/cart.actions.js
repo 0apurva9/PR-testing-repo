@@ -433,6 +433,13 @@ export const BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE =
 export const BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS =
   "BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS";
 
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS";
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST";
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -1408,9 +1415,9 @@ export function mergeCartId(cartGuId) {
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&userId=${
           JSON.parse(userDetails).userName
-        }&oldCartId=${
-          JSON.parse(cartDetailsAnonymous).guid
-        }&toMergeCartGuid=${cartGuId}&channel=${CHANNEL}`
+        }&oldCartId=${JSON.parse(cartDetailsAnonymous).guid}${
+          cartGuId ? "&toMergeCartGuid=" + cartGuId : ""
+        }&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
@@ -3970,6 +3977,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
             cartDetails.cartDetails
           );
           dispatch(removeItemFromCartLoggedInSuccess());
+          dispatch(getCartCountForLoggedInUser());
         }
       });
     } catch (e) {
@@ -5103,6 +5111,99 @@ export function binValidationOfEmiEligible(binNo) {
       return dispatch(binValidationOfEmiEligibleSuccess(resultJson));
     } catch (e) {
       return dispatch(binValidationOfEmiEligibleFailure(e.message));
+    }
+  };
+}
+
+// Get Cart Count for Logged-In user
+
+export function getCartCountForLoggedInUserSuccess(cartDetails, userDetails) {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS,
+    status: SUCCESS,
+    cartDetails,
+    userDetails
+  };
+}
+
+export function getCartCountForLoggedInUserRequest() {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCartCountForLoggedInUserFailure(error) {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function getCartCountForLoggedInUser(cartVal) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
+
+  if (userDetails && customerCookie) {
+    userId = JSON.parse(userDetails).userName;
+    accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+  }
+  let cartGuid =
+    cartDetails && JSON.parse(cartDetails).guid
+      ? JSON.parse(cartDetails).guid
+      : null;
+
+  if (cartVal) {
+    cartGuid =
+      cartVal.cartDetails && cartVal.cartDetails.guid
+        ? cartVal.cartDetails.guid
+        : cartVal.guid;
+  }
+
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCartCountForLoggedInUserRequest());
+
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      //set local storage
+      let bagItem = localStorage.getItem(CART_BAG_DETAILS);
+      let bagItemsInJsonFormat = bagItem ? JSON.parse(bagItem) : [];
+      if (resultJson && resultJson.products) {
+        resultJson.products.map(product => {
+          if (product.USSID && !bagItemsInJsonFormat.includes(product.USSID)) {
+            bagItemsInJsonFormat.push(product.USSID);
+          }
+        });
+      }
+      localStorage.setItem(
+        CART_BAG_DETAILS,
+        JSON.stringify(bagItemsInJsonFormat)
+      );
+      // here we dispatch a modal to show something was added to the bag
+      dispatch(setBagCount(bagItemsInJsonFormat.length));
+
+      return dispatch(
+        getCartCountForLoggedInUserSuccess(resultJson, userDetails)
+      );
+    } catch (e) {
+      return dispatch(getCartCountForLoggedInUserFailure(e.message));
     }
   };
 }
