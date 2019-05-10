@@ -85,13 +85,14 @@ base :after {
 }
 .offerIconHolder {
   float: left;
-  padding: 0px 5px;
+  padding: 4px 5px;
 }
 .plpEMITitle {
   color: #4a4a4a;
   width: 100%;
   font-size: 14px;
   font-family: semibold;
+  padding: 4px;
 }
 .plpEMItext {
   color: #000000c7;
