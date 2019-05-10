@@ -338,11 +338,11 @@ export function addProductToCart(productDetails) {
       const result = await api.post(
         `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
           cartId ? cartId + "/" : ""
-        }addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+        }addProduct?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
-        }&addedToCartWl=false&isCartOptimised=true`
+        }&addedToCartWl=false`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
