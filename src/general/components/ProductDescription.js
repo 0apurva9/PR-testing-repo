@@ -57,15 +57,12 @@ export default class ProductDescription extends Component {
         <div className={headerClass}>
           {this.renderTitle(headerText, electronicView)}
 
-          {this.props.showWishListButton &&
+          {!electronicView &&
+            this.props.showWishListButton &&
             this.props.productId &&
             this.props.winningUssID &&
             this.props.isShowAddToWishlistIcon && (
-              <div
-                className={
-                  electronicView ? styles.electronicViewButton : styles.button
-                }
-              >
+              <div className={styles.button}>
                 <AddToWishListButtonContainer
                   productListingId={this.props.productId}
                   winningUssID={this.props.winningUssID}

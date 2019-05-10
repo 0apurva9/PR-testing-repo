@@ -15,6 +15,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import { widgetsTracking } from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 const ELECTRONICS = "Electronics";
 
 export default class ProductModule extends React.Component {
@@ -92,12 +93,25 @@ export default class ProductModule extends React.Component {
         {!electronicView &&
           this.props.shouldShowSimilarIcon &&
           this.showSimilarIcons(electronicView)}
+
         <div
           className={electronicView ? styles.electronicsBase : styles.base}
           onClick={this.onClick}
           id={`ProductModule-${this.props.productId}`}
         >
           {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
+          {electronicView && (
+            <div className={styles.electronicViewButton}>
+              <AddToWishListButtonContainer
+                productListingId={this.props.productId}
+                winningUssID={this.props.winningUssID}
+                productListings={this.props.productListings}
+                isWhite={this.props.isWhite}
+                size={17}
+                ussid={this.props.ussid}
+              />
+            </div>
+          )}
           <div
             className={
               electronicView

@@ -77,7 +77,6 @@ export default class ProductFeatureDetails extends Component {
   }
 
   render() {
-    console.log("props", this.props);
     return (
       <DesktopOnly>
         <div className={styles.base}>
@@ -130,7 +129,7 @@ export default class ProductFeatureDetails extends Component {
           </div>
           <div className={styles.featureContainer}>
             <div className={styles.featureHeader}>
-              <h3>Features</h3>
+              {this.props && this.props.plpAttrMap && <h3>Features</h3>}
             </div>
             <div className={styles.featureList}>
               {this.props &&

@@ -491,9 +491,9 @@ export default class Plp extends React.Component {
     let electronicView =
       this.props &&
       this.props.productListings &&
+      this.props.productListings.facetdatacategory &&
       this.props.productListings.facetdatacategory.filters &&
-      this.props.productListings.facetdatacategory.filters[0] &&
-      this.props.productListings.facetdatacategory.filters[0].categoryName !==
+      this.props.productListings.facetdatacategory.filters[0].categoryName ===
         "Electronics";
     if (this.props.productListings && this.props.productListings.facetdata) {
       this.props.productListings.facetdata.forEach(filter => {

@@ -126,3 +126,10 @@
   right: 20px;
   z-index: 1;
 }
+.electronicViewButton {
+  cursor: pointer;
+  position: absolute;
+  top: 6%;
+  z-index: 1;
+  left: 28%;
+}
