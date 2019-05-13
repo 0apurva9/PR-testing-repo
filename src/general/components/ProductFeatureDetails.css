@@ -107,3 +107,12 @@ base :after {
   font-size: 14px;
   font-family: semibold;
 }
+
+.discountPLPElectronicsClass {
+  color: rgb(255, 23, 68);
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 17px;
+  font-family: inherit;
+  font-weight: 600;
+}

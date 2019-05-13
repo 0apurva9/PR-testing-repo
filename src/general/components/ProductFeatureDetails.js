@@ -123,6 +123,20 @@ export default class ProductFeatureDetails extends Component {
                       </h3>
                     </div>
                   )}
+                {this.props.discountPercent &&
+                this.props.discountPercent != "0" ? (
+                  <div
+                    className={
+                      this.props.productCategory === "Electronics"
+                        ? styles.discountPLPElectronicsClass
+                        : styles.discountClass
+                    }
+                  >
+                    {!this.props.noBrace && `${"("}`}
+                    {parseInt(this.props.discountPercent) + `${"% OFF"}`}
+                    {!this.props.noBrace && `${")"}`}
+                  </div>
+                ) : null}
               </div>
             </React.Fragment>
             <div className={styles.offerList}>{this.renderOfferData()}</div>
