@@ -7,10 +7,7 @@ const env = process.env;
 
 export default class PreAutomatedBrandProductCarousel extends React.Component {
   doSome(value) {
-    let apiUrl = "";
-    if (env.REACT_APP_STAGE === "production") {
-      apiUrl = "https://www.tataque.com";
-    }
+    let apiUrl = "https://www.tatacliq.com";
     let productCodes;
     each(value.itemIds, itemId => {
       productCodes = `${itemId},${productCodes}`;

@@ -105,7 +105,7 @@ let ADOBE_TARGET_HOME_FEED_MBOX_NAME, // for local/devxelp/uat2tmpprod
   WCMS_PLATFORM;
 
 if (!checkUserAgentIsMobile()) {
-  ADOBE_TARGET_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop"; // for local/devxelp/uat2tmpprod
+  ADOBE_TARGET_HOME_FEED_MBOX_NAME = "POC_Desktop_Tmpprod"; // for local/devxelp/uat2tmpprod
   ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop";
   ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop";
   WCMS_PLATFORM = "desktop";
