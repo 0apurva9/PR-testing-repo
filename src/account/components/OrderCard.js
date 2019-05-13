@@ -328,13 +328,68 @@ export default class OrderCard extends React.Component {
                 </div>
               )}
               {this.props.quantity && (
-                <div className={styles.quantityHolder}>
+                <div
+                  className={
+                    this.props.isComingFromAllOrderPage
+                      ? styles.quantityHolderRight
+                      : styles.quantityHolder
+                  }
+                >
                   <div className={styles.price}>Qty</div>
                   <div className={styles.quantity}>
                     {this.props.numberOfQuantity}
                   </div>
                 </div>
               )}
+              {this.props.isComingFromAllOrderPage && (
+                <React.Fragment>
+                  {this.props.isComingFromAllOrderPage &&
+                    this.props.selectedDeliveryMode && (
+                      <div
+                        className={
+                          styles.deliveryModeHolderByOrderHistoryForOutSide
+                        }
+                      >
+                        <span className={styles.boldText}>Delivery Mode:</span>
+                        {`${this.displayDeliveryText(
+                          this.props.selectedDeliveryMode
+                        )}`}
+                      </div>
+                    )}
+                  {this.props.estimatedDeliveryDate &&
+                    this.props.isComingFromAllOrderPage &&
+                    this.props.selectedDeliveryMode &&
+                    this.props.selectedDeliveryMode !== COLLECT && (
+                      <div
+                        className={styles.estimatedDeliveryDateByOrderHistory}
+                      >
+                        <span className={styles.boldText}>
+                          {"Estimated Delivery Date:"}
+                        </span>{" "}
+                        {this.getDayNumberSuffix(
+                          this.props.estimatedDeliveryDate
+                        )}
+                      </div>
+                    )}
+                </React.Fragment>
+              )}
+              {this.props.estimatedDeliveryDateWithTime &&
+                this.props.isComingFromAllOrderPage &&
+                this.props.selectedDeliveryMode &&
+                this.props.selectedDeliveryMode === COLLECT &&
+                this.props.isComingFromAllOrderPage && (
+                  <div className={styles.estimatedDeliveryDateForHistory}>
+                    <span className={styles.boldText}>Pick Up By: </span>{" "}
+                    {this.getDayNumberSuffixWithOutYear(
+                      format(
+                        this.props.estimatedDeliveryDateWithTime,
+                        dateFormat
+                      )
+                    )}
+                    {strTime &&
+                      hours !== 0 && <span>{` | After ${strTime}`}</span>}
+                  </div>
+                )}
             </div>
             {this.props.children &&
               this.props.showQuantity &&
@@ -366,28 +421,36 @@ export default class OrderCard extends React.Component {
               {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
             </div>
           )}
-        {this.props.isComingFromAllOrderPage &&
-          this.props.selectedDeliveryMode && (
-            <div className={styles.deliveryModeHolderByOrderHistory}>
-              <span className={styles.boldText}>Delivery Mode:</span>
-              {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
-            </div>
-          )}
-        {this.props.estimatedDeliveryDate &&
-          this.props.isComingFromAllOrderPage &&
-          this.props.selectedDeliveryMode &&
-          this.props.selectedDeliveryMode !== COLLECT && (
-            <div className={styles.estimatedDeliveryDateByOrderHistory}>
-              <span className={styles.boldText}>
-                {"Estimated Delivery Date:"}
-              </span>{" "}
-              {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
-            </div>
-          )}
+        {!this.props.isComingFromAllOrderPage && (
+          <React.Fragment>
+            {this.props.isComingFromAllOrderPage &&
+              this.props.selectedDeliveryMode && (
+                <div className={styles.deliveryModeHolderByOrderHistory}>
+                  <span className={styles.boldText}>Delivery Mode:</span>
+                  {`${this.displayDeliveryText(
+                    this.props.selectedDeliveryMode
+                  )}`}
+                </div>
+              )}
+            {this.props.estimatedDeliveryDate &&
+              this.props.isComingFromAllOrderPage &&
+              this.props.selectedDeliveryMode &&
+              this.props.selectedDeliveryMode !== COLLECT && (
+                <div className={styles.estimatedDeliveryDateByOrderHistory}>
+                  <span className={styles.boldText}>
+                    {"Estimated Delivery Date:"}
+                  </span>{" "}
+                  {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
+                </div>
+              )}
+          </React.Fragment>
+        )}
+
         {this.props.estimatedDeliveryDateWithTime &&
           this.props.isComingFromAllOrderPage &&
           this.props.selectedDeliveryMode &&
-          this.props.selectedDeliveryMode === COLLECT && (
+          this.props.selectedDeliveryMode === COLLECT &&
+          !this.props.isComingFromAllOrderPage && (
             <div className={styles.estimatedDeliveryDateForHistory}>
               <span className={styles.boldText}>Pick Up By: </span>{" "}
               {this.getDayNumberSuffixWithOutYear(

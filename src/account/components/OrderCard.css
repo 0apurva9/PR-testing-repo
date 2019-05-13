@@ -125,6 +125,11 @@
   font-family: light;
   margin-top: 15px;
 }
+.deliveryModeHolderByOrderHistoryForOutSide {
+  composes: deliveryModeHolderByOrderHistory;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 @media screen and (min-width: 1025px) {
   .productImageHolder {
     width: 16%;
@@ -232,6 +237,10 @@
   }
   .quantityHolder {
     width: auto;
+  }
+  .quantityHolderRight {
+    width: auto;
+    float: right;
   }
   .base {
     margin-bottom: 0px;

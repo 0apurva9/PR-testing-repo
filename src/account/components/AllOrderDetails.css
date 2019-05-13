@@ -81,7 +81,7 @@
     width: 100%;
     height: auto;
     float: left;
-    padding-top: 25px;
+    padding-top: 6px;
     border-top: 1px solid #ececec;
   }
   .deliverLeftHolder {
@@ -90,7 +90,7 @@
     float: left;
   }
   .priceRightHolder {
-    width: 50%;
+    width: 30%;
     height: auto;
     float: right;
   }
