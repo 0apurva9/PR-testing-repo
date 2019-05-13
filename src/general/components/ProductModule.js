@@ -81,8 +81,12 @@ export default class ProductModule extends React.Component {
 
   render() {
     let electronicView =
-      this.props.productCategory &&
-      this.props.productCategory === "Electronics";
+      this.props.productListings &&
+      this.props.productListings.facetdatacategory &&
+      this.props.productListings.facetdatacategory.filters &&
+      this.props.productListings.facetdatacategory.filters[0] &&
+      this.props.productListings.facetdatacategory.filters[0].categoryName ===
+        "Electronics";
     let downloadImage = downloadIcon;
     if (this.props.isWhite) {
       downloadImage = downloadIconWhite;
