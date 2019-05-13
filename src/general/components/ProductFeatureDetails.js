@@ -77,7 +77,6 @@ export default class ProductFeatureDetails extends Component {
   }
 
   render() {
-    console.log("price", this.props.price, this.props.discountPrice);
     let priceClass = styles.discount;
     if (
       this.props.discountPrice &&
