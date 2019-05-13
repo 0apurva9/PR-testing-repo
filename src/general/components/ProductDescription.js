@@ -88,8 +88,7 @@ export default class ProductDescription extends Component {
             </h3>
           )}
 
-          {this.props.averageRating &&
-          this.props.productCategory === "Electronics"
+          {this.props.averageRating && electronicView
             ? this.props.averageRating &&
               (this.props.totalNoOfReviews && (
                 <div className={styles.ratingReviewElectronicsContainer}>
@@ -107,8 +106,11 @@ export default class ProductDescription extends Component {
                       <Icon image={FilledStarWhite} size={10} />
                     </div>
                   </div>
-                  <div className={styles.ratingElectronics}>
+                  {/* <div className={styles.ratingElectronics}>
                     ({this.props.totalNoOfReviews})
+                  </div> */}
+                  <div className={styles.electronicRatingReviewDropDown}>
+                    {} Ratings & {this.props.totalNoOfReviews} Reviews
                   </div>
                 </div>
               ))
@@ -162,6 +164,7 @@ export default class ProductDescription extends Component {
               <div className={styles.electronicDesOfferContainer}>
                 <ProductFeatureDetails
                   {...this.props}
+                  electronicView={electronicView}
                   priceClass={priceClass}
                   plpAttrMap={this.props.plpAttrMap && this.props.plpAttrMap}
                 />

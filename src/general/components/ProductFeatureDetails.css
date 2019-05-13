@@ -15,12 +15,12 @@ base :after {
 }
 .featureContainer {
   margin-top: -3%;
-  float: left;
+  /* float: left; */
 }
 .featureList {
   line-height: 25px;
   float: left;
-  width: 50%;
+  width: 45%;
   font-family: light;
   margin-top: 3%;
 }
@@ -76,6 +76,8 @@ base :after {
   font-weight: 500;
   color: #4a4a4a;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .electronicPriceCancelled {
@@ -86,7 +88,7 @@ base :after {
 }
 .offerIconHolder {
   float: left;
-  padding: 4px 5px;
+  padding: 0 5px;
 }
 .plpEMITitle {
   color: #4a4a4a;
@@ -107,6 +109,7 @@ base :after {
   width: 100%;
   font-size: 14px;
   font-family: semibold;
+  padding: 4px;
 }
 
 .discountPLPElectronicsClass {

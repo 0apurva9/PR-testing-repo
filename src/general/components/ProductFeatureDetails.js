@@ -26,7 +26,7 @@ export default class ProductFeatureDetails extends Component {
     }
   }
   renderOfferData() {
-    if (this.props.offerData && this.props.productCategory === "Electronics") {
+    if (this.props.offerData && this.props.electronicView) {
       if (
         this.props.offerData.ncEmi &&
         this.props.offerData.ncEmi.isNoCostEmi
@@ -77,6 +77,15 @@ export default class ProductFeatureDetails extends Component {
   }
 
   render() {
+    console.log("price", this.props.price, this.props.discountPrice);
+    let priceClass = styles.discount;
+    if (
+      this.props.discountPrice &&
+      this.props.price !== this.props.discountPrice
+    ) {
+      priceClass = styles.electronicPriceCancelled;
+    }
+
     return (
       <DesktopOnly>
         <div className={styles.base}>
@@ -102,7 +111,7 @@ export default class ProductFeatureDetails extends Component {
 
                 {!this.props.isRange &&
                   this.props.price && (
-                    <div className={styles.electronicPriceCancelled}>
+                    <div className={priceClass}>
                       <h3>
                         {" "}
                         {this.props.price.toString().includes(RUPEE_SYMBOL)
@@ -124,10 +133,11 @@ export default class ProductFeatureDetails extends Component {
                     </div>
                   )}
                 {this.props.discountPercent &&
+                this.props.price !== this.props.discountPrice &&
                 this.props.discountPercent != "0" ? (
                   <div
                     className={
-                      this.props.productCategory === "Electronics"
+                      this.props.electronicView
                         ? styles.discountPLPElectronicsClass
                         : styles.discountClass
                     }

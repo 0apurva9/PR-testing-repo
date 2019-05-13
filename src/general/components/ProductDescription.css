@@ -141,3 +141,11 @@
   display: inline-block;
   margin-bottom: 3%;
 }
+.electronicRatingReviewDropDown {
+  font-size: 14px;
+  color: #6c6c6c;
+  font-family: sans-serif;
+  float: left;
+  display: block;
+  margin-left: 10px;
+}
