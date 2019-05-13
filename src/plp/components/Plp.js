@@ -584,8 +584,8 @@ export default class Plp extends React.Component {
                 <div
                   className={
                     electronicView
-                      ? styles.selectedFilter
-                      : styles.selectedFilterElectronicView
+                      ? styles.selectedFilterElectronicView
+                      : styles.selectedFilter
                   }
                 >
                   {selectedFilter &&
@@ -617,7 +617,7 @@ export default class Plp extends React.Component {
                   <SortDesktopContainer />
                 </div>
 
-                {electronicView && (
+                {!electronicView && (
                   <div className={styles.gridIcon}>
                     <DesktopOnly>
                       <div
