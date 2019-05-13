@@ -338,7 +338,7 @@ export function addProductToCart(productDetails) {
       const result = await api.post(
         `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
           cartId ? cartId + "/" : ""
-        }addProduct?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+        }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
