@@ -485,7 +485,19 @@ export default class AllOrderDetails extends React.Component {
                         orderDetails.deliveryAddress.firstName
                       } ${orderDetails.deliveryAddress.lastName}`;
 
-                      let deliveryAddress =
+                      let deliveryAddress = "";
+                      let isShowDeliveryAddress = false;
+                      isShowDeliveryAddress =
+                        orderDetails &&
+                        orderDetails.products &&
+                        orderDetails.products.find(products => {
+                          if (products.deliveryMode !== "click-and-collect") {
+                            return true;
+                          } else {
+                            return false;
+                          }
+                        });
+                      deliveryAddress =
                         orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile
                           ? `${
@@ -499,27 +511,27 @@ export default class AllOrderDetails extends React.Component {
                             }`
                           : `${
                               orderDetails &&
-                              orderDetails.billingAddress &&
-                              orderDetails.billingAddress.addressLine1
-                                ? orderDetails.billingAddress.addressLine1
+                              orderDetails.deliveryAddress &&
+                              orderDetails.deliveryAddress.addressLine1
+                                ? orderDetails.deliveryAddress.addressLine1
                                 : ""
                             } ${
                               orderDetails &&
-                              orderDetails.billingAddress &&
-                              orderDetails.billingAddress.town
-                                ? orderDetails.billingAddress.town
+                              orderDetails.deliveryAddress &&
+                              orderDetails.deliveryAddress.town
+                                ? orderDetails.deliveryAddress.town
                                 : ""
                             } ${
                               orderDetails &&
-                              orderDetails.billingAddress &&
-                              orderDetails.billingAddress.state
-                                ? orderDetails.billingAddress.state
+                              orderDetails.deliveryAddress &&
+                              orderDetails.deliveryAddress.state
+                                ? orderDetails.deliveryAddress.state
                                 : ""
                             } ${
                               orderDetails &&
-                              orderDetails.billingAddress &&
-                              orderDetails.billingAddress.postalcode
-                                ? orderDetails.billingAddress.postalcode
+                              orderDetails.deliveryAddress &&
+                              orderDetails.deliveryAddress.postalcode
+                                ? orderDetails.deliveryAddress.postalcode
                                 : ""
                             }`;
                       let placeHolder =
@@ -586,6 +598,13 @@ export default class AllOrderDetails extends React.Component {
                               return (
                                 <div className={styles.orderDetailsHolder}>
                                   <OrderCard
+                                    isComingFromAllOrderPage={true}
+                                    estimatedDeliveryDate={
+                                      product.EDD
+                                        ? format(product.EDD, dateFormat)
+                                        : ""
+                                    }
+                                    estimatedDeliveryDateWithTime={product.EDD}
                                     imageUrl={product.imageURL}
                                     hasProduct={product}
                                     isGiveAway={product.isGiveAway}
@@ -608,6 +627,9 @@ export default class AllOrderDetails extends React.Component {
                                         orderDetails.isEgvOrder,
                                         product.productcode
                                       )
+                                    }
+                                    selectedDeliveryMode={
+                                      product && product.deliveryMode
                                     }
                                   />
                                   <DesktopOnly>
@@ -709,7 +731,7 @@ export default class AllOrderDetails extends React.Component {
                                   status={orderDetails.giftCardStatus}
                                   price={
                                     orderDetails &&
-                                    orderDetails.totalOrderAmount
+                                    orderDetails.totalFinalPayableOrderAmount
                                   }
                                   borderColor={
                                     orderDetails && orderDetails.retryPaymentUrl
@@ -746,7 +768,7 @@ export default class AllOrderDetails extends React.Component {
                               </div>
                               {!orderDetails.isEgvOrder &&
                                 orderDetails &&
-                                orderDetails.billingAddress && (
+                                orderDetails.deliveryAddress && (
                                   <OrderDelivered
                                     deliveredAddress={deliveryAddress}
                                     orderDeliveryHeaderText={placeHolder}
@@ -775,15 +797,10 @@ export default class AllOrderDetails extends React.Component {
                                   orderDetails && (
                                     <OrderDelivered
                                       deliveredAddress1={
-                                        orderDetails.pickupPersonName ||
                                         orderDetails.pickupPersonMobile
                                           ? `${
-                                              orderDetails.pickupPersonName
-                                                ? orderDetails.pickupPersonName
-                                                : ""
-                                            }${
                                               orderDetails.pickupPersonMobile
-                                                ? `, ${
+                                                ? `${
                                                     orderDetails.pickupPersonMobile
                                                   }`
                                                 : ""
@@ -792,35 +809,38 @@ export default class AllOrderDetails extends React.Component {
                                       }
                                       deliveredAddress2={
                                         orderDetails &&
-                                        orderDetails.billingAddress &&
-                                        orderDetails.billingAddress.addressLine1
-                                          ? orderDetails.billingAddress
+                                        orderDetails.deliveryAddress &&
+                                        orderDetails.deliveryAddress
+                                          .addressLine1
+                                          ? orderDetails.deliveryAddress
                                               .addressLine1
                                           : ""
                                       }
                                       deliveredAddress3={
                                         orderDetails &&
-                                        orderDetails.billingAddress &&
+                                        orderDetails.deliveryAddress &&
                                         `${
                                           orderDetails &&
-                                          orderDetails.billingAddress &&
-                                          orderDetails.billingAddress.state
-                                            ? orderDetails.billingAddress.state
+                                          orderDetails.deliveryAddress &&
+                                          orderDetails.deliveryAddress.state
+                                            ? orderDetails.deliveryAddress.state
                                             : ""
                                         }${
                                           orderDetails &&
-                                          orderDetails.billingAddress &&
-                                          orderDetails.billingAddress.town
+                                          orderDetails.deliveryAddress &&
+                                          orderDetails.deliveryAddress.town
                                             ? `, ${
-                                                orderDetails.billingAddress.town
+                                                orderDetails.deliveryAddress
+                                                  .town
                                               }`
                                             : ""
                                         }${
                                           orderDetails &&
-                                          orderDetails.billingAddress &&
-                                          orderDetails.billingAddress.postalcode
+                                          orderDetails.deliveryAddress &&
+                                          orderDetails.deliveryAddress
+                                            .postalcode
                                             ? `, ${
-                                                orderDetails.billingAddress
+                                                orderDetails.deliveryAddress
                                                   .postalcode
                                               }`
                                             : ""
@@ -868,7 +888,7 @@ export default class AllOrderDetails extends React.Component {
                                           status={orderDetails.giftCardStatus}
                                           price={
                                             orderDetails &&
-                                            orderDetails.totalOrderAmount
+                                            orderDetails.totalFinalPayableOrderAmount
                                           }
                                           borderColor={"#fff"}
                                           retryPaymentUrl={
@@ -974,7 +994,7 @@ AllOrderDetails.propTypes = {
       orderDate: PropTypes.string,
       orderId: PropTypes.string,
       totalOrderAmount: PropTypes.string,
-      billingAddress: PropTypes.arrayOf(
+      deliveryAddress: PropTypes.arrayOf(
         PropTypes.shape({
           addressLine1: PropTypes.string,
           town: PropTypes.string,

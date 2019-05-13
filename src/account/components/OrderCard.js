@@ -234,12 +234,12 @@ export default class OrderCard extends React.Component {
           return false;
         }
       });
-    console.log(this.props);
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         <DesktopOnly>
           {(this.props.orderPlace || this.props.orderId) &&
-            !this.props.isOrderDetails && (
+            !this.props.isOrderDetails &&
+            !this.props.isComingFromAllOrderPage && (
               <div className={styles.orderPlaceAndId}>
                 {this.props.orderPlace && (
                   <div className={styles.orderPlace}>
@@ -352,6 +352,7 @@ export default class OrderCard extends React.Component {
               {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
             </div>
           )}
+
         {this.props.estimatedDeliveryDate &&
           !isShowDeliveryDateByTimeOut &&
           this.props.isOrderDetails &&
@@ -363,6 +364,36 @@ export default class OrderCard extends React.Component {
                 {"Estimated Delivery Date:"}
               </span>{" "}
               {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
+            </div>
+          )}
+        {this.props.isComingFromAllOrderPage &&
+          this.props.selectedDeliveryMode && (
+            <div className={styles.deliveryModeHolderByOrderHistory}>
+              <span className={styles.boldText}>Delivery Mode:</span>
+              {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
+            </div>
+          )}
+        {this.props.estimatedDeliveryDate &&
+          this.props.isComingFromAllOrderPage &&
+          this.props.selectedDeliveryMode &&
+          this.props.selectedDeliveryMode !== COLLECT && (
+            <div className={styles.estimatedDeliveryDateByOrderHistory}>
+              <span className={styles.boldText}>
+                {"Estimated Delivery Date:"}
+              </span>{" "}
+              {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
+            </div>
+          )}
+        {this.props.estimatedDeliveryDateWithTime &&
+          this.props.isComingFromAllOrderPage &&
+          this.props.selectedDeliveryMode &&
+          this.props.selectedDeliveryMode === COLLECT && (
+            <div className={styles.estimatedDeliveryDateForHistory}>
+              <span className={styles.boldText}>Pick Up By: </span>{" "}
+              {this.getDayNumberSuffixWithOutYear(
+                format(this.props.estimatedDeliveryDateWithTime, dateFormat)
+              )}
+              {strTime && hours !== 0 && <span>{` | After ${strTime}`}</span>}
             </div>
           )}
         {isShowEddMessage &&
@@ -512,5 +543,7 @@ OrderCard.defaultProps = {
   numberOfQuantity: 1,
   onHollow: false,
   showQuantity: true,
-  showIsGiveAway: true
+  showIsGiveAway: true,
+  isComingFromAllOrderPage: false,
+  isOrderDetails: false
 };

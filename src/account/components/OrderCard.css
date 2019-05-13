@@ -99,11 +99,27 @@
   margin-bottom: 10px;
   font-family: light;
 }
+.estimatedDeliveryDateByOrderHistory {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+}
+.estimatedDeliveryDateForHistory {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+}
 .boldText {
   font-family: semibold;
   padding-right: 5px;
 }
 .deliveryModeHolder {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+  margin-top: 15px;
+}
+.deliveryModeHolderByOrderHistory {
   font-size: 14px;
   margin-bottom: 10px;
   font-family: light;
