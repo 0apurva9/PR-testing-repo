@@ -10,5 +10,5 @@ export function checkUserLoggedIn() {
   const cartDetailsForLoggedInUser = Cookie.getCookie(
     CART_DETAILS_FOR_LOGGED_IN_USER
   );
-  return customerCookie && userDetails && cartDetailsForLoggedInUser;
+  return (customerCookie && userDetails) || cartDetailsForLoggedInUser;
 }

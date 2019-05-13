@@ -3622,9 +3622,10 @@ export function getCODEligibility(
       cartId = retryCartGuid;
     } else {
       const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-      cartId = JSON.parse(cartDetails).guid;
+      cartId = cartDetails && JSON.parse(cartDetails).guid;
     }
   }
+
   return async (dispatch, getState, { api }) => {
     dispatch(getCODEligibilityRequest());
     try {
