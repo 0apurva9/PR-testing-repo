@@ -620,3 +620,8 @@ export async function pdpManufacturersApi(categoryCode, brandCode) {
       brandCode
   );
 }
+export async function getPlpBanners(categoryCode) {
+  return await fetch(
+    API_URL_ROOT + "/v2/mpl/cms/plpBanners?categoryCode=" + categoryCode
+  );
+}

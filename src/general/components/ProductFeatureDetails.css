@@ -15,6 +15,7 @@ base :after {
 }
 .featureContainer {
   margin-top: -3%;
+  float: left;
 }
 .featureList {
   line-height: 25px;
