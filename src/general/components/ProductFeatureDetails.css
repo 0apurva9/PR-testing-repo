@@ -120,3 +120,15 @@ base :after {
   font-family: inherit;
   font-weight: 600;
 }
+.nceHolder:empty {
+  float: left;
+  margin: 2px 0px 1px 0px;
+}
+.offerData:empty {
+  float: left;
+  margin: 2px 0px 1px 0px;
+}
+.offerData:empty {
+  float: left;
+  margin: 2px 0px 1px 0px;
+}
