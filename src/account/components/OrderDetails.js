@@ -402,7 +402,9 @@ export default class OrderDetails extends React.Component {
                         />
                       )}
                     {products.statusDisplayMsg &&
-                      products.selectedDeliveryMode.code !== CLICK_COLLECT && (
+                      (products.selectedDeliveryMode &&
+                        products.selectedDeliveryMode.code !==
+                          CLICK_COLLECT) && (
                         <div className={styles.orderStatusVertical}>
                           {/* This block of code needs to be duplicated below for CNC as well */}
                           {!products.statusDisplayMsg
@@ -439,7 +441,8 @@ export default class OrderDetails extends React.Component {
                           {/* Block of code ends here */}
                         </div>
                       )}
-                    {products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                    {products.selectedDeliveryMode &&
+                      products.selectedDeliveryMode.code === CLICK_COLLECT &&
                       products.storeDetails && (
                         <div className={styles.orderStatusVertical}>
                           <div className={styles.header}>Store details:</div>
@@ -477,7 +480,8 @@ export default class OrderDetails extends React.Component {
                           </div>
                         </div>
                       )}
-                    {products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                    {products.selectedDeliveryMode &&
+                      products.selectedDeliveryMode.code === CLICK_COLLECT &&
                       (orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile) && (
                         <div className={styles.orderStatusVertical}>
