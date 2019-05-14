@@ -96,6 +96,8 @@ import {
   ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
+
+import { EGV_GIFT_CART_ID } from "../components/CheckOutPage";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const RESET_ALL_PAYMENT_MODES = "RESET_ALL_PAYMENT_MODES";
@@ -2063,7 +2065,15 @@ export function binValidation(paymentMode, binNo) {
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
   } else {
-    cartId = JSON.parse(cartDetails).guid;
+    cartId =
+      cartDetails && JSON.parse(cartDetails).guid
+        ? JSON.parse(cartDetails).guid
+        : null;
+  }
+
+  let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+  if (!cartId && giftCartObj) {
+    cartId = giftCartObj.egvCartGuid ? giftCartObj.egvCartGuid : null;
   }
 
   return async (dispatch, getState, { api }) => {
@@ -2116,7 +2126,15 @@ export function binValidationForNetBanking(paymentMode, bankName) {
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
   } else {
-    cartId = JSON.parse(cartDetails).guid;
+    cartId =
+      cartDetails && JSON.parse(cartDetails).guid
+        ? JSON.parse(cartDetails).guid
+        : null;
+  }
+
+  let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+  if (!cartId && giftCartObj) {
+    cartId = giftCartObj.egvCartGuid ? giftCartObj.egvCartGuid : null;
   }
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationRequest());
@@ -3622,7 +3640,10 @@ export function getCODEligibility(
       cartId = retryCartGuid;
     } else {
       const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-      cartId = cartDetails && JSON.parse(cartDetails).guid;
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : null;
     }
   }
 

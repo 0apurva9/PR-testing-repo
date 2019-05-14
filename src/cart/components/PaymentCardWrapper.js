@@ -54,22 +54,22 @@ const typeComponentMapping = {
 export default class PaymentCardWrapper extends React.Component {
   componentDidMount = () => {
     document.title = "Proceed with Payment";
-    if (
-      this.props.getCODEligibility &&
-      !this.props.cart.codEligibilityDetails
-    ) {
-      this.props.getCODEligibility();
-    }
+    // if (
+    //   this.props.getCODEligibility &&
+    //   !this.props.cart.codEligibilityDetails
+    // ) {
+    //   this.props.getCODEligibility();
+    // }
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.getCODEligibility &&
-      this.props.cart.paymentModes !== nextProps.cart.paymentModes
-    ) {
-      this.props.getCODEligibility();
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     this.props.getCODEligibility &&
+  //     this.props.cart.paymentModes !== nextProps.cart.paymentModes
+  //   ) {
+  //     this.props.getCODEligibility();
+  //   }
+  // }
 
   binValidationForPaytm(val) {
     if (this.props.binValidationForPaytm) {

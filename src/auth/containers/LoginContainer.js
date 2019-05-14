@@ -142,7 +142,7 @@ const mapDispatchToProps = dispatch => {
               dispatch(createWishlist());
             }
             dispatch(setIfAllAuthCallsHaveSucceeded());
-            dispatch(getCartCountForLoggedInUser());
+            //dispatch(getCartCountForLoggedInUser());
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
