@@ -355,14 +355,32 @@ export default class OrderCard extends React.Component {
                       }
                     >
                       <span className={styles.boldText}>Delivery Mode:</span>
-                      {`${this.displayDeliveryText(
-                        this.props.selectedDeliveryMode
-                      )}`}
+                      {this.props.isCNCToHDConverted
+                        ? STANDARD_SHIPPING
+                        : `${this.displayDeliveryText(
+                            this.props.selectedDeliveryMode
+                          )}`}
                     </div>
                   )}
-                  {this.props.estimatedDeliveryDate &&
+                  {!this.props.isCNCToHDConverted &&
+                    this.props.estimatedDeliveryDate &&
                     this.props.selectedDeliveryMode &&
                     this.props.selectedDeliveryMode !== COLLECT && (
+                      <div
+                        className={styles.estimatedDeliveryDateByOrderHistory}
+                      >
+                        <span className={styles.boldText}>
+                          {"Estimated Delivery Date:"}
+                        </span>{" "}
+                        {this.getDayNumberSuffix(
+                          this.props.estimatedDeliveryDate
+                        )}
+                      </div>
+                    )}
+                  {this.props.isCNCToHDConverted &&
+                    this.props.estimatedDeliveryDate &&
+                    this.props.selectedDeliveryMode &&
+                    this.props.selectedDeliveryMode === COLLECT && (
                       <div
                         className={styles.estimatedDeliveryDateByOrderHistory}
                       >
@@ -386,7 +404,8 @@ export default class OrderCard extends React.Component {
                     )}
                 </React.Fragment>
               )}
-              {this.props.estimatedDeliveryDateWithTime &&
+              {!this.props.isCNCToHDConverted &&
+                this.props.estimatedDeliveryDateWithTime &&
                 this.props.selectedDeliveryMode &&
                 this.props.selectedDeliveryMode === COLLECT &&
                 this.props.isComingFromAllOrderPage && (
@@ -417,7 +436,11 @@ export default class OrderCard extends React.Component {
             <div className={styles.deliveryModeHolder}>
               <div>
                 <span className={styles.boldText}>Delivery Mode:</span>
-                {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
+                {this.props.isCNCToHDConverted
+                  ? STANDARD_SHIPPING
+                  : `${this.displayDeliveryText(
+                      this.props.selectedDeliveryMode
+                    )}`}
               </div>
               {!this.props.isCNCToHDConverted &&
                 this.props.selectedDeliveryMode === COLLECT &&
@@ -431,10 +454,25 @@ export default class OrderCard extends React.Component {
                 )}
             </div>
           )}
-        {this.props.estimatedDeliveryDate &&
+        {!this.props.isCNCToHDConverted &&
+          this.props.estimatedDeliveryDate &&
           !isShowDeliveryDateByTimeOut &&
           this.props.isOrderDetails &&
           this.props.selectedDeliveryMode !== COLLECT &&
+          this.props.paymentMethod &&
+          this.props.paymentMethod !== undefined && (
+            <div className={styles.estimatedDeliveryDate}>
+              <span className={styles.boldText}>
+                {"Estimated Delivery Date:"}
+              </span>{" "}
+              {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
+            </div>
+          )}
+        {this.props.isCNCToHDConverted &&
+          this.props.estimatedDeliveryDate &&
+          !isShowDeliveryDateByTimeOut &&
+          this.props.isOrderDetails &&
+          this.props.selectedDeliveryMode === COLLECT &&
           this.props.paymentMethod &&
           this.props.paymentMethod !== undefined && (
             <div className={styles.estimatedDeliveryDate}>
@@ -460,7 +498,8 @@ export default class OrderCard extends React.Component {
               this.props.soldBy
             }`}</div>
           )}
-        {this.props.isOrderDetails &&
+        {!this.props.isCNCToHDConverted &&
+          this.props.isOrderDetails &&
           this.props.selectedDeliveryMode === COLLECT && (
             <div className={styles.qPicDetailsHolder}>
               {this.props &&
