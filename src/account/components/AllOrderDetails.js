@@ -637,11 +637,10 @@ export default class AllOrderDetails extends React.Component {
                                     //     product.transactionId
                                     //   )
                                     // }
-                                    // isCncToHd={true}
-                                    // isCNCToHDConverted={
-                                    //   product && product.isCNCToHDConverted
-                                    // }
-                                    // isCncToHd={product && product.isCncToHd}
+                                    isCNCToHDConverted={
+                                      product && product.isCNCToHDConverted
+                                    }
+                                    isCncToHd={product && product.isCncToHd}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
