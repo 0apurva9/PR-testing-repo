@@ -107,7 +107,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { HOME_ROUTER, SUCCESS, CHECKOUT } from "../../lib/constants";
+import { HOME_ROUTER, SUCCESS, CHECKOUT, ERROR } from "../../lib/constants";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   setDataLayerForCheckoutDirectCalls,
@@ -2440,6 +2440,10 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (applyCouponReq.status === SUCCESS) {
         this.setState({ selectedBankOfferCode: val[0] });
+      } else {
+        if (applyCouponReq.status === ERROR) {
+          this.props.displayToast(applyCouponReq.error);
+        }
       }
     } else {
       let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);

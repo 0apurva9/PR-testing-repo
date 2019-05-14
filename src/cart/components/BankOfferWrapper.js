@@ -24,6 +24,14 @@ export default class BankOfferWrapper extends React.Component {
     }
   }
   componentDidMount() {
+    if (
+      this.props.cart &&
+      this.props.cart.orderSummary &&
+      this.props.cart.orderSummary.cartAmount &&
+      !this.props.cart.orderSummary.cartAmount.cartDiscount
+    ) {
+      localStorage.removeItem(BANK_COUPON_COOKIE);
+    }
     const bankOfferRef = ReactDOM.findDOMNode(this.refs.bankOfferRef);
     setTimeout(() => {
       window.scrollTo(0, bankOfferRef.offsetTop);
