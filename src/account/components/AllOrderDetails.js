@@ -631,6 +631,17 @@ export default class AllOrderDetails extends React.Component {
                                     selectedDeliveryMode={
                                       product && product.deliveryMode
                                     }
+                                    // onClickCncToHd={() =>
+                                    //   this.onClickCncToHd(
+                                    //     orderDetails.orderId,
+                                    //     product.transactionId
+                                    //   )
+                                    // }
+                                    // isCncToHd={true}
+                                    // isCNCToHDConverted={
+                                    //   product && product.isCNCToHDConverted
+                                    // }
+                                    // isCncToHd={product && product.isCncToHd}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>

@@ -156,6 +156,11 @@ export default class OrderCard extends React.Component {
       this.props.reSendEmailForGiftCard();
     }
   };
+  onClickCncToHd() {
+    if (this.props.onClickCncToHd) {
+      this.props.onClickCncToHd();
+    }
+  }
   render() {
     let strTime = "";
     let openingTime = "";
@@ -343,21 +348,19 @@ export default class OrderCard extends React.Component {
               )}
               {this.props.isComingFromAllOrderPage && (
                 <React.Fragment>
-                  {this.props.isComingFromAllOrderPage &&
-                    this.props.selectedDeliveryMode && (
-                      <div
-                        className={
-                          styles.deliveryModeHolderByOrderHistoryForOutSide
-                        }
-                      >
-                        <span className={styles.boldText}>Delivery Mode:</span>
-                        {`${this.displayDeliveryText(
-                          this.props.selectedDeliveryMode
-                        )}`}
-                      </div>
-                    )}
+                  {this.props.selectedDeliveryMode && (
+                    <div
+                      className={
+                        styles.deliveryModeHolderByOrderHistoryForOutSide
+                      }
+                    >
+                      <span className={styles.boldText}>Delivery Mode:</span>
+                      {`${this.displayDeliveryText(
+                        this.props.selectedDeliveryMode
+                      )}`}
+                    </div>
+                  )}
                   {this.props.estimatedDeliveryDate &&
-                    this.props.isComingFromAllOrderPage &&
                     this.props.selectedDeliveryMode &&
                     this.props.selectedDeliveryMode !== COLLECT && (
                       <div
@@ -371,10 +374,19 @@ export default class OrderCard extends React.Component {
                         )}
                       </div>
                     )}
+                  {!this.props.isCNCToHDConverted &&
+                    this.props.selectedDeliveryMode === COLLECT &&
+                    this.props.isCncToHd && (
+                      <div
+                        className={styles.changeButtonForOrderHistory}
+                        onClick={() => this.onClickCncToHd()}
+                      >
+                        Change Delivery Mode
+                      </div>
+                    )}
                 </React.Fragment>
               )}
               {this.props.estimatedDeliveryDateWithTime &&
-                this.props.isComingFromAllOrderPage &&
                 this.props.selectedDeliveryMode &&
                 this.props.selectedDeliveryMode === COLLECT &&
                 this.props.isComingFromAllOrderPage && (
@@ -403,11 +415,22 @@ export default class OrderCard extends React.Component {
         {this.props.isOrderDetails &&
           this.props.selectedDeliveryMode && (
             <div className={styles.deliveryModeHolder}>
-              <span className={styles.boldText}>Delivery Mode:</span>
-              {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
+              <div>
+                <span className={styles.boldText}>Delivery Mode:</span>
+                {`${this.displayDeliveryText(this.props.selectedDeliveryMode)}`}
+              </div>
+              {!this.props.isCNCToHDConverted &&
+                this.props.selectedDeliveryMode === COLLECT &&
+                this.props.isCncToHd && (
+                  <div
+                    className={styles.changeButton}
+                    onClick={() => this.onClickCncToHd()}
+                  >
+                    Change
+                  </div>
+                )}
             </div>
           )}
-
         {this.props.estimatedDeliveryDate &&
           !isShowDeliveryDateByTimeOut &&
           this.props.isOrderDetails &&
@@ -419,44 +442,6 @@ export default class OrderCard extends React.Component {
                 {"Estimated Delivery Date:"}
               </span>{" "}
               {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
-            </div>
-          )}
-        {!this.props.isComingFromAllOrderPage && (
-          <React.Fragment>
-            {this.props.isComingFromAllOrderPage &&
-              this.props.selectedDeliveryMode && (
-                <div className={styles.deliveryModeHolderByOrderHistory}>
-                  <span className={styles.boldText}>Delivery Mode:</span>
-                  {`${this.displayDeliveryText(
-                    this.props.selectedDeliveryMode
-                  )}`}
-                </div>
-              )}
-            {this.props.estimatedDeliveryDate &&
-              this.props.isComingFromAllOrderPage &&
-              this.props.selectedDeliveryMode &&
-              this.props.selectedDeliveryMode !== COLLECT && (
-                <div className={styles.estimatedDeliveryDateByOrderHistory}>
-                  <span className={styles.boldText}>
-                    {"Estimated Delivery Date:"}
-                  </span>{" "}
-                  {this.getDayNumberSuffix(this.props.estimatedDeliveryDate)}
-                </div>
-              )}
-          </React.Fragment>
-        )}
-
-        {this.props.estimatedDeliveryDateWithTime &&
-          this.props.isComingFromAllOrderPage &&
-          this.props.selectedDeliveryMode &&
-          this.props.selectedDeliveryMode === COLLECT &&
-          !this.props.isComingFromAllOrderPage && (
-            <div className={styles.estimatedDeliveryDateForHistory}>
-              <span className={styles.boldText}>Pick Up By: </span>{" "}
-              {this.getDayNumberSuffixWithOutYear(
-                format(this.props.estimatedDeliveryDateWithTime, dateFormat)
-              )}
-              {strTime && hours !== 0 && <span>{` | After ${strTime}`}</span>}
             </div>
           )}
         {isShowEddMessage &&
@@ -599,7 +584,9 @@ OrderCard.propTypes = {
   additionalContent: PropTypes.element,
   price: PropTypes.number,
   discountPrice: PropTypes.string,
-  isSelect: PropTypes.bool
+  isSelect: PropTypes.bool,
+  isCNCToHDConverted: PropTypes.bool,
+  isCncToHd: PropTypes.bool
 };
 OrderCard.defaultProps = {
   quantity: false,
@@ -608,5 +595,7 @@ OrderCard.defaultProps = {
   showQuantity: true,
   showIsGiveAway: true,
   isComingFromAllOrderPage: false,
-  isOrderDetails: false
+  isOrderDetails: false,
+  isCNCToHDConverted: false,
+  isCncToHd: false
 };
