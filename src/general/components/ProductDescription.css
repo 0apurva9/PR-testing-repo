@@ -92,6 +92,9 @@
   display: inline-block;
   margin-bottom: 5%;
 }
+.ratingReviewElectronicsContainer:empty {
+  margin-bottom: 5%;
+}
 .reviewElectronicsContainer {
   display: block;
   float: left;
@@ -139,7 +142,7 @@
   font-weight: 900;
   color: #4a4a4a;
   display: inline-block;
-  margin-bottom: 3%;
+  margin-bottom: 2%;
 }
 .electronicRatingReviewDropDown {
   font-size: 14px;

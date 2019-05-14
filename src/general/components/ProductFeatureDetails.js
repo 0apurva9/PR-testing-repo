@@ -44,7 +44,7 @@ export default class ProductFeatureDetails extends Component {
               {this.props.offerData.ncEmi.nceStartingPrice &&
                 this.props.offerData.ncEmi.nceStartingPrice}/month
             </div>
-            <div>{this.voucherList()}</div>
+            <div className={styles.offerData}>{this.voucherList()}</div>
           </div>
         );
       }
@@ -66,7 +66,7 @@ export default class ProductFeatureDetails extends Component {
                 {this.props.offerData.sdEmi.seStartingPrice &&
                   this.props.offerData.sdEmi.seStartingPrice}/month
               </div>
-              <div>{this.voucherList()}</div>
+              <div className={styles.offerData}>{this.voucherList()}</div>
             </div>
           );
         } else {

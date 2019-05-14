@@ -34,6 +34,7 @@ export default class ProductDescription extends Component {
     let priceClass = styles.priceHolder;
     let headerText = styles.headerText;
     let contentClass = styles.content;
+    let reviews = this.props.totalNoOfReviews && this.props.totalNoOfReviews;
     if (this.props.onDownload) {
       headerClass = styles.hasDownload;
     }
@@ -110,7 +111,8 @@ export default class ProductDescription extends Component {
                     ({this.props.totalNoOfReviews})
                   </div> */}
                   <div className={styles.electronicRatingReviewDropDown}>
-                    {} Ratings & {this.props.totalNoOfReviews} Reviews
+                    {this.props.totalNoOfReviews}{" "}
+                    {reviews === 1 ? `Review` : `Reviews`}
                   </div>
                 </div>
               ))
