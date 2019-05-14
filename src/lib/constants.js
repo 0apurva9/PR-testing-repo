@@ -380,3 +380,5 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const IS_COMING_FROM_ORDER_CONFIRMATION =
   "isComingFromOrderConfirmation";
+export const CNC_TO_HD_ORDER = "/my-account/cncToHd/(.*)";
+export const CNCTOHD = "/cncToHd";

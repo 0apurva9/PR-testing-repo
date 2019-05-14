@@ -37,7 +37,10 @@ import {
   MY_ACCOUNT_PAGE,
   CANCEL,
   WRITE_REVIEW,
-  HELP_URL
+  HELP_URL,
+  MY_ACCOUNT,
+  CNCTOHD,
+  ORDER_CODE
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
@@ -217,6 +220,22 @@ export default class OrderDetails extends React.Component {
         return "" + date + "th " + monthNames[month] + " " + year;
     }
   }
+  onClickCncToHd(orderId, transactionId) {
+    let isCncToHdOrderDetails = "";
+    const orderDetails = this.props.orderDetails;
+    isCncToHdOrderDetails =
+      orderDetails &&
+      orderDetails.products.find(products => {
+        return products.transactionId === transactionId;
+      });
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT}${CNCTOHD}/?${ORDER_CODE}=${orderId}`,
+      state: {
+        orderDetails: isCncToHdOrderDetails,
+        orderId: orderId
+      }
+    });
+  }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -348,16 +367,17 @@ export default class OrderDetails extends React.Component {
                         statusDisplayMsg={products.statusDisplayMsg}
                         phoneNumber={orderDetails.pickupPersonMobile}
                         soldBy={products.sellerName}
+                        // isCncToHd={true}
                         isCncToHd={products && products.isCncToHd}
                         isCNCToHDConverted={
                           products && products.isCNCToHDConverted
                         }
-                        // onClickCncToHd={() =>
-                        //   this.onClickCncToHd(
-                        //     orderDetails.orderId,
-                        //     products.transactionId
-                        //   )
-                        // }
+                        onClickCncToHd={() =>
+                          this.onClickCncToHd(
+                            orderDetails.orderId,
+                            products.transactionId
+                          )
+                        }
                       />
 
                       {products.statusDisplayMsg &&

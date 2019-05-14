@@ -19,16 +19,14 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
-  REDMI_WALLET_FROM_EMAIL
+  REDMI_WALLET_FROM_EMAIL,
+  CNC_TO_HD_ORDER
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
-
 import MyAccountContainer from "../containers/MyAccountContainer";
 import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsContainer";
-
 import MyAccountBrandsContainer from "../containers/MyAccountBrandsContainer";
 import UpdateProfileContainer from "../containers/UpdateProfileContainer.js";
-
 import EditAddressBookContainer from "../containers/EditAddressBookContainer.js";
 import AddAddressContainer from "../containers/AddAddressContainer.js";
 import SaveListContainer from "../containers/SaveListContainer";
@@ -39,7 +37,7 @@ import AddressBookContainer from "../containers/AddressBookContainer.js";
 import OrderDetailsContainer from "../containers/OrderDetailsContainer.js";
 import * as Cookie from "../../lib/Cookie";
 import OrderRelatedIssueContainer from "../containers/OrderRelatedIssueContainer.js";
-
+import CncToHdFlowContainer from "../containers/CncToHdFlowContainer.js";
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
@@ -126,6 +124,7 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
           component={OrderRelatedIssueContainer}
         />
+        <Route path={`${CNC_TO_HD_ORDER}`} component={CncToHdFlowContainer} />
       </Switch>
     );
   }

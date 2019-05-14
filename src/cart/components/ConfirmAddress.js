@@ -9,6 +9,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
+import react_title from "react-meta-tags/lib/react_title";
 
 export default class ConfirmAddress extends React.Component {
   componentWillMount() {
@@ -63,92 +64,180 @@ export default class ConfirmAddress extends React.Component {
         {!this.props.isReturn && (
           <div className={styles.header}>
             <CheckOutHeader
-              confirmTitle="Confirm address"
+              confirmTitle={this.props.title}
               indexNumber={this.props.indexNumber}
             />
           </div>
         )}
-
-        <div className={styles.addressHolder}>
-          {this.props.isReturn && (
-            <div className={styles.addressHeader}>
-              <span>Select pickup address</span>
-              <div className={styles.underLineButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000"
-                  label="Add new address"
-                  onClick={() => this.onNewAddress()}
-                />
-              </div>
+        {this.props.showAllAddress && (
+          <React.Fragment>
+            <div className={styles.addressHolder}>
+              {this.props.isReturn && (
+                <div className={styles.addressHeader}>
+                  <span>Select pickup address</span>
+                  <div className={styles.underLineButtonHolder}>
+                    <UnderLinedButton
+                      size="14px"
+                      fontFamily="regular"
+                      color="#000"
+                      label="Add new address"
+                      onClick={() => this.onNewAddress()}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-
-          <div className={styles.gridHolder}>
-            <GridSelect
-              limit={1}
-              offset={0}
-              elementWidthMobile={100}
-              elementWidthDesktop={this.props.isReturn ? 100 : 50}
-              selected={this.props.selected}
-              onSelect={addressId => this.onSelectAddress(addressId)}
-            >
-              {this.props.address &&
-                this.props.address
-                  .filter((val, i) => {
-                    return !this.state.showAll ? i < 3 : true;
-                  })
-                  .map((val, i) => {
-                    return (
-                      <DeliveryAddressCart
-                        addressTitle={val.addressTitle}
-                        addressDescription={val.addressDescription}
-                        key={i}
-                        value={val.value}
-                        selected={val.selected}
-                        isReturn={this.props.isReturn}
-                      />
-                    );
-                  })}
-            </GridSelect>
-          </div>
-
-          <div className={buttonHolder}>
-            {!this.props.isReturn &&
-              this.props.address &&
-              this.props.address.length > 3 && (
-                <div className={styles.moreButtonHolder}>
+            <div className={styles.gridHolder}>
+              <GridSelect
+                limit={1}
+                offset={0}
+                elementWidthMobile={100}
+                elementWidthDesktop={this.props.isReturn ? 100 : 50}
+                selected={this.props.selected}
+                onSelect={addressId => this.onSelectAddress(addressId)}
+              >
+                {this.props.address &&
+                  this.props.address
+                    .filter((val, i) => {
+                      return !this.state.showAll ? i < 3 : true;
+                    })
+                    .map((val, i) => {
+                      return (
+                        <DeliveryAddressCart
+                          addressTitle={val.addressTitle}
+                          addressDescription={val.addressDescription}
+                          key={i}
+                          value={val.value}
+                          selected={val.selected}
+                          isReturn={this.props.isReturn}
+                        />
+                      );
+                    })}
+              </GridSelect>
+            </div>
+            <div className={buttonHolder}>
+              {!this.props.isReturn &&
+                this.props.address &&
+                this.props.address.length > 3 && (
+                  <div className={styles.moreButtonHolder}>
+                    <UnderLinedButton
+                      size="14px"
+                      fontFamily="regular"
+                      color="#000"
+                      label={this.state.label}
+                      onClick={() => this.showMore()}
+                    />
+                  </div>
+                )}
+              <DesktopOnly>
+                {this.props.onRedirectionToNextSection && (
+                  <div className={styles.continueButtonHolder}>
+                    <Button
+                      disabled={this.props.disabled}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label="Continue"
+                      width={135}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.onRedirectionToNextSection()}
+                    />
+                  </div>
+                )}
+              </DesktopOnly>
+              {!this.props.isReturn && (
+                <div className={styles.newAddress}>
                   <UnderLinedButton
                     size="14px"
                     fontFamily="regular"
-                    color="#000"
-                    label={this.state.label}
-                    onClick={() => this.showMore()}
+                    color="#ff1744"
+                    label="Add new address"
+                    onClick={() => this.onNewAddress()}
                   />
                 </div>
               )}
-            <DesktopOnly>
-              {this.props.onRedirectionToNextSection && (
-                <div className={styles.continueButtonHolder}>
-                  <Button
-                    disabled={this.props.disabled}
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label="Continue"
-                    width={135}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.onRedirectionToNextSection()}
-                  />
+            </div>
+          </React.Fragment>
+        )}
+        {this.props.showOneAddress && (
+          <React.Fragment>
+            <div className={styles.addressHolderByCnc}>
+              {this.props.isReturn && (
+                <div className={styles.addressHeaderByCnc}>
+                  <span>Select pickup address</span>
+                  <div className={styles.underLineButtonHolderByCnc}>
+                    <UnderLinedButton
+                      size="14px"
+                      fontFamily="regular"
+                      color="#000"
+                      label="Add new address"
+                      onClick={() => this.onNewAddress()}
+                    />
+                  </div>
                 </div>
               )}
-            </DesktopOnly>
-            {!this.props.isReturn && (
-              <div className={styles.newAddress}>
+            </div>
+            <div className={styles.gridHolderByCnc}>
+              <GridSelect
+                limit={1}
+                offset={0}
+                elementWidthMobile={100}
+                elementWidthDesktop={this.props.isReturn ? 100 : 50}
+                selected={this.props.selected}
+                onSelect={addressId => this.onSelectAddress(addressId)}
+              >
+                {this.props.address &&
+                  this.props.address
+                    .filter((val, i) => {
+                      return !this.state.showAll ? i < 3 : true;
+                    })
+                    .map((val, i) => {
+                      return (
+                        <DeliveryAddressCart
+                          addressTitle={val.addressTitle}
+                          addressDescription={val.addressDescription}
+                          key={i}
+                          value={val.value}
+                          selected={val.selected}
+                          isReturn={this.props.isReturn}
+                        />
+                      );
+                    })}
+              </GridSelect>
+            </div>
+            <div className={buttonHolder}>
+              {!this.props.isReturn &&
+                this.props.address &&
+                this.props.address.length > 3 && (
+                  <div className={styles.moreButtonHolderByCnc}>
+                    <UnderLinedButton
+                      size="14px"
+                      fontFamily="regular"
+                      color="#000"
+                      label={this.state.label}
+                      onClick={() => this.showMore()}
+                    />
+                  </div>
+                )}
+              <div className={styles.continueButtonHolderByCnc}>
+                <Button
+                  disabled={this.props.disabled}
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label="Continue"
+                  width={135}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={() => this.onRedirectionToNextSection()}
+                />
+              </div>
+              <div className={styles.newAddressByCnc}>
                 <UnderLinedButton
                   size="14px"
                   fontFamily="regular"
@@ -157,9 +246,9 @@ export default class ConfirmAddress extends React.Component {
                   onClick={() => this.onNewAddress()}
                 />
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          </React.Fragment>
+        )}
       </div>
     );
   }
@@ -177,5 +266,8 @@ ConfirmAddress.propTypes = {
 };
 ConfirmAddress.defaultProps = {
   indexNumber: "1",
-  isReturn: false
+  isReturn: false,
+  showAllAddress: true,
+  showOneAddress: false,
+  title: "Confirm address"
 };

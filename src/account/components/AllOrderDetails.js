@@ -53,7 +53,8 @@ import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
   HELP_URL,
   SUCCESS,
-  CHECKOUT_ROUTER
+  CHECKOUT_ROUTER,
+  CNCTOHD
 } from "../../lib/constants";
 import throttle from "lodash.throttle";
 import {
@@ -301,6 +302,27 @@ export default class AllOrderDetails extends React.Component {
       }
     }
   };
+  onClickCncToHd(orderId, transactionId) {
+    let isCncToHdOrderDetails = "";
+    const orderDetails = this.props.profile.orderDetails;
+    let isCncToHdOrderDetailsByOrderId =
+      orderDetails &&
+      orderDetails.orderData.find(orderDetailsByOrderId => {
+        return orderDetailsByOrderId.orderId === orderId;
+      });
+    isCncToHdOrderDetails =
+      isCncToHdOrderDetailsByOrderId &&
+      isCncToHdOrderDetailsByOrderId.products.find(products => {
+        return products.transactionId === transactionId;
+      });
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT}${CNCTOHD}/?${ORDER_CODE}=${orderId}`,
+      state: {
+        orderDetails: isCncToHdOrderDetails,
+        orderId: orderId
+      }
+    });
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -631,16 +653,17 @@ export default class AllOrderDetails extends React.Component {
                                     selectedDeliveryMode={
                                       product && product.deliveryMode
                                     }
-                                    // onClickCncToHd={() =>
-                                    //   this.onClickCncToHd(
-                                    //     orderDetails.orderId,
-                                    //     product.transactionId
-                                    //   )
-                                    // }
+                                    onClickCncToHd={() =>
+                                      this.onClickCncToHd(
+                                        orderDetails.orderId,
+                                        product.transactionId
+                                      )
+                                    }
+                                    //isCncToHd={true}
+                                    isCncToHd={product && product.isCncToHd}
                                     isCNCToHDConverted={
                                       product && product.isCNCToHDConverted
                                     }
-                                    isCncToHd={product && product.isCncToHd}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
