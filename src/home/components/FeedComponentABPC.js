@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "../../general/components/Carousel";
 import MediaQuery from "react-responsive";
 import ProductModule from "../../general/components/ProductModule";
+import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import styles from "./FeedComponent.css";
 import { withRouter } from "react-router";
@@ -38,7 +39,6 @@ class FeedComponentABPC extends React.Component {
   }
 
   render() {
-    console.log(this.state.eachPrductData);
     const {
       data,
       carouselOptions,
@@ -68,66 +68,68 @@ class FeedComponentABPC extends React.Component {
       productHolder = styles.productHolderSearchPage;
     }
     return (
-      <div
-        className={baseClass}
-        style={{
-          backgroundColor: backgroundColor,
-          backgroundImage: `url(${backgroundImage})`
-        }}
-      >
-        <MediaQuery query="(max-device-width: 1024px)">
-          {banner && <div className={styles.banner}>{banner}</div>}
-        </MediaQuery>
-        <div className={productHolder}>
-          <Carousel
-            {...carouselOptions}
-            banner={banner}
-            bannerWidth="42%"
-            elementWidthDesktop={33.333}
-          >
-            {this.state.eachPrductData &&
-              this.state.eachPrductData.map((datum, i) => {
-                return (
-                  <ProductModule
-                    key={i}
-                    isWhite={
-                      carouselOptions
-                        ? carouselOptions.isWhite
+      <CommonCenter>
+        <div
+          className={baseClass}
+          style={{
+            backgroundColor: backgroundColor,
+            backgroundImage: `url(${backgroundImage})`
+          }}
+        >
+          <MediaQuery query="(max-device-width: 1024px)">
+            {banner && <div className={styles.banner}>{banner}</div>}
+          </MediaQuery>
+          <div className={productHolder}>
+            <Carousel
+              {...carouselOptions}
+              banner={banner}
+              bannerWidth="42%"
+              elementWidthDesktop={33.333}
+            >
+              {this.state.eachPrductData &&
+                this.state.eachPrductData.map((datum, i) => {
+                  return (
+                    <ProductModule
+                      key={i}
+                      isWhite={
+                        carouselOptions
                           ? carouselOptions.isWhite
+                            ? carouselOptions.isWhite
+                            : false
                           : false
-                        : false
-                    }
-                    recentlyViewed={
-                      this.props.recentlyViewed
-                        ? this.props.recentlyViewed
-                        : null
-                    }
-                    productImage={datum.imageUrl}
-                    title={datum.productName}
-                    price={datum.mrp}
-                    discountPrice={datum.winningSellerMOP}
-                    description={datum.description}
-                    onDownload={datum.onDownload}
-                    webURL={datum.webURL}
-                    productId={datum.productListingId}
-                    showWishListButton={false}
-                    ussId={datum.winningUssID}
-                    onClick={this.onClick}
-                    {...rest}
-                    {...datum}
-                    widgetName={
-                      this.props.widgetName
-                        ? this.props.widgetName
-                        : this.props.carouselOptions &&
-                          this.props.carouselOptions.header
-                    }
-                    sourceOfWidget={this.props.sourceOfWidget}
-                  />
-                );
-              })}
-          </Carousel>
+                      }
+                      recentlyViewed={
+                        this.props.recentlyViewed
+                          ? this.props.recentlyViewed
+                          : null
+                      }
+                      productImage={datum.imageUrl}
+                      title={datum.productName}
+                      price={datum.mrp}
+                      discountPrice={datum.winningSellerMOP}
+                      description={datum.description}
+                      onDownload={datum.onDownload}
+                      webURL={datum.webURL}
+                      productId={datum.productListingId}
+                      showWishListButton={false}
+                      ussId={datum.winningUssID}
+                      onClick={this.onClick}
+                      {...rest}
+                      {...datum}
+                      widgetName={
+                        this.props.widgetName
+                          ? this.props.widgetName
+                          : this.props.carouselOptions &&
+                            this.props.carouselOptions.header
+                      }
+                      sourceOfWidget={this.props.sourceOfWidget}
+                    />
+                  );
+                })}
+            </Carousel>
+          </div>
         </div>
-      </div>
+      </CommonCenter>
     );
   }
 }
