@@ -12,7 +12,8 @@ import {
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
-  CART_COUNT_FOR_LOGGED_IN_USER
+  CART_COUNT_FOR_LOGGED_IN_USER,
+  BANK_COUPON_COOKIE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -791,6 +792,13 @@ const cart = (
         Object.assign(cloneCartDetailCNC, {
           cartAmount: action.paymentDetails.cartAmount
         });
+      }
+      if (
+        action.paymentDetails &&
+        action.paymentDetails.cartAmount &&
+        !action.paymentDetails.cartAmount.cartDiscount
+      ) {
+        localStorage.removeItem(BANK_COUPON_COOKIE);
       }
       return Object.assign({}, state, {
         cartDetailsCNC: cloneCartDetailCNC,
