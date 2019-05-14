@@ -253,4 +253,29 @@
     float: right;
     cursor: pointer;
   }
+  .deliveryModeText {
+    width: 70%;
+    height: auto;
+    display: inline-block;
+  }
+  .changeButton {
+    width: 30%;
+    height: auto;
+    display: inline-block;
+    text-align: right;
+    font-size: 14px;
+    font-family: semibold;
+    color: #ff1744;
+    cursor: pointer;
+  }
+  .changeButtonForOrderHistory {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    font-size: 14px;
+    font-family: semibold;
+    color: #ff1744;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
 }

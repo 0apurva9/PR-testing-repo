@@ -434,7 +434,7 @@ export default class OrderCard extends React.Component {
         {this.props.isOrderDetails &&
           this.props.selectedDeliveryMode && (
             <div className={styles.deliveryModeHolder}>
-              <div>
+              <div className={styles.deliveryModeText}>
                 <span className={styles.boldText}>Delivery Mode:</span>
                 {this.props.isCNCToHDConverted
                   ? STANDARD_SHIPPING
