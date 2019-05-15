@@ -51,9 +51,7 @@ export default class Grid extends React.Component {
                               width:
                                 child.props && child.props.gridWidthDesktop
                                   ? `${child.props.gridWidthDesktop * 2}%`
-                                  : `${this.props.elementWidthDesktop * 2}%`,
-
-                              padding: "20px 0px"
+                                  : `${this.props.elementWidthDesktop * 2}%`
                             }
                       }
                     >
@@ -68,7 +66,9 @@ export default class Grid extends React.Component {
                           style={{
                             width: "100%",
                             margin:
-                              banner && banner.plpBannerImage ? "10px 0" : ""
+                              banner && banner.plpBannerImage ? "10px 0" : "",
+                            height: "379px"
+
                             // marginLeft: this.props.view === LIST ? "0" : "-100%"
                           }}
                         />
@@ -232,8 +232,8 @@ export default class Grid extends React.Component {
                         style={{
                           width: "100%",
                           margin:
-                            banner && banner.plpBannerImage ? "10px 0" : ""
-                          // marginLeft: this.props.view === LIST ? "0" : "-100%"
+                            banner && banner.plpBannerImage ? "10px 0" : "",
+                          height: "275px"
                         }}
                       />
                     </a>
