@@ -128,10 +128,8 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
-    let electronicView =
-      this.props.data &&
-      this.props.data[0] &&
-      this.props.data[0].productCategoryType === "Electronics";
+    let electronicView = this.props.electronicView;
+
     return (
       <React.Fragment>
         <div

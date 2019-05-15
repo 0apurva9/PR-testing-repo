@@ -707,6 +707,7 @@ export default class Plp extends React.Component {
                   <div id="grid-wrapper_desktop">
                     <ProductGrid
                       banners={this.props.banners}
+                      electronicView={electronicView}
                       history={this.props.history}
                       location={this.props.location}
                       data={this.props.productListings.searchresult}

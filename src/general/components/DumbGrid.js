@@ -278,55 +278,66 @@ export default class Grid extends React.Component {
                       {child2}
                     </div>
                   ) : null}
+                  {/* comment............ */}
                   {/* {child3 ? (
-                  <div
-                  className={
-                    this.props.electronicView
-                      ? styles.electronicViewElement
-                      : styles.element
-                  }
-                    style={{
-                      width:
-                        child1.props && child1.props.gridWidthDesktop
-                          ? `${child1.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                    <div
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
+                      style={{
+                        width:
+                          child1.props && child1.props.gridWidthDesktop
+                            ? `${child1.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
-                      padding: `${this.props.offset / 2}px`
-                    }}
-                  >
-                    {child3}
-                  </div>
-                ) : null} */}
+                        padding: `${this.props.offset / 2}px`
+                      }}
+                    >
+                      {child3}
+                    </div>
+                  ) : null} */}
                   {/* {child4 ? (
-                  <div
-                    className={                         this.props.electronicView                           ? styles.electronicViewElement                           : styles.element                       }
-                    style={{
-                      width:
-                        child1.props && child1.props.gridWidthDesktop
-                          ? `${child1.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                    <div
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
+                      style={{
+                        width:
+                          child1.props && child1.props.gridWidthDesktop
+                            ? `${child1.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
-                      padding: `${this.props.offset / 2}px`
-                    }}
-                  >
-                    {child4}
-                  </div>
-                ) : null} */}
+                        padding: `${this.props.offset / 2}px`
+                      }}
+                    >
+                      {child4}
+                    </div>
+                  ) : null} */}
                   {/* {child5 ? (
-                  <div
-                    className={                         this.props.electronicView                           ? styles.electronicViewElement                           : styles.element                       }
-                    style={{
-                      width:
-                        child1.props && child1.props.gridWidthDesktop
-                          ? `${child1.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                    <div
+                      className={
+                        this.props.electronicView
+                          ? styles.electronicViewElement
+                          : styles.element
+                      }
+                      style={{
+                        width:
+                          child1.props && child1.props.gridWidthDesktop
+                            ? `${child1.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
-                      padding: `${this.props.offset / 2}px`
-                    }}
-                  >
-                    {child5}
-                  </div>
-                ) : null} */}
+                        padding: `${this.props.offset / 2}px`
+                      }}
+                    >
+                      {child5}
+                    </div>
+                  ) : null} */}
+
+                  {/* comment............ */}
                 </div>
               </MediaQuery>
             </React.Fragment>
