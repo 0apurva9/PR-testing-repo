@@ -235,7 +235,7 @@ export default class Plp extends React.Component {
     }
     /* Start - Gemini Script */
     //gemini JS object check.
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Listing Page
       window.GEM.setGeminiPageId("0002321000100200");
     } else {
@@ -273,13 +273,29 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
+    const searchresult =
+      this.props &&
+      this.props.productListings &&
+      this.props.productListings.searchresult;
+
+    const brandName = searchresult && searchresult[0].brandname;
+    const brandData =
+      searchresult &&
+      searchresult.filter(brand => {
+        return brand.brandname === brandName;
+      });
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
       this.props.productListings.seo.breadcrumbs[0] &&
       this.props.productListings.seo.breadcrumbs[0].name
     ) {
-      return this.props.productListings.seo.breadcrumbs[0].name;
+      const headerText =
+        (brandData && brandData.length) ===
+        (searchresult && searchresult.length)
+          ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
+          : this.props.productListings.seo.breadcrumbs[0].name;
+      return headerText;
     } else {
       return (
         <React.Fragment>
