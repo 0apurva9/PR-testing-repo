@@ -166,7 +166,20 @@ export default class ProductReviewPage extends Component {
     }
     if (productReview.comment) {
       let notCommentPossible = commentArray.words.find(words => {
-        if (productReview.comment.toLowerCase().includes(words.toLowerCase())) {
+        let regMatch = false;
+        const splCharCheck = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+        if (splCharCheck.test(words)) {
+          regMatch = productReview.comment
+            .toLowerCase()
+            .includes(words.toLowerCase());
+        } else {
+          let regexWord = "\\b" + words.toLowerCase() + "\\b";
+          regMatch = new RegExp(regexWord, "i").test(
+            productReview.comment.toLowerCase()
+          );
+        }
+        if (regMatch) {
           return true;
         }
       });

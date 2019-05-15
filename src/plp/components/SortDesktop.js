@@ -49,9 +49,9 @@ export default class SortDesktop extends React.Component {
         let attributeCapacity = url.match(
           new RegExp("capacityCC-classification:" + "(.*)" + ":")
         );
-        let attributeCapacityNew = url.match(
-          new RegExp("capacityCC-classification:" + "(.*)")
-        );
+        attributeCapacity = attributeCapacity
+          ? attributeCapacity
+          : url.match(new RegExp("capacityCC-classification:" + "(.*)"));
 
         if (attributeCapacity && attributeCapacity[1]) {
           let attributeCapacityMatched = attributeCapacity[1].replace(
@@ -59,12 +59,6 @@ export default class SortDesktop extends React.Component {
             "%2B"
           );
           url = url.replace(attributeCapacity[1], attributeCapacityMatched);
-        } else if (attributeCapacityNew && attributeCapacityNew[1]) {
-          let attributeCapacityMatched = attributeCapacityNew[1].replace(
-            "+",
-            "%2B"
-          );
-          url = url.replace(attributeCapacityNew[1], attributeCapacityMatched);
         }
       }
 
@@ -72,18 +66,12 @@ export default class SortDesktop extends React.Component {
         let attributeStorage = url.match(
           new RegExp("internalStorage-classification:" + "(.*)" + ":")
         );
-        let attributeStorageNew = url.match(
-          new RegExp("internalStorage-classification:" + "(.*)")
-        );
+        attributeStorage = attributeStorage
+          ? attributeStorage
+          : url.match(new RegExp("internalStorage-classification:" + "(.*)"));
         if (attributeStorage && attributeStorage[1]) {
           let attributeStorageMatched = attributeStorage[1].replace("+", "%2B");
           url = url.replace(attributeStorage[1], attributeStorageMatched);
-        } else if (attributeStorageNew && attributeStorageNew[1]) {
-          let attributeStorageMatched = attributeStorageNew[1].replace(
-            "+",
-            "%2B"
-          );
-          url = url.replace(attributeStorageNew[1], attributeStorageMatched);
         }
       }
 
@@ -91,15 +79,12 @@ export default class SortDesktop extends React.Component {
         let attributeType = url.match(
           new RegExp("type-classification:" + "(.*)" + ":")
         );
-        let attributeTypeNew = url.match(
-          new RegExp("type-classification:" + "(.*)")
-        );
+        attributeType = attributeType
+          ? attributeType
+          : url.match(new RegExp("type-classification:" + "(.*)"));
         if (attributeType && attributeType[1]) {
           let attributeTypeMatched = attributeType[1].replace("+", "%2B");
           url = url.replace(attributeType[1], attributeTypeMatched);
-        } else if (attributeTypeNew && attributeTypeNew[1]) {
-          let attributeTypeMatched = attributeTypeNew[1].replace("+", "%2B");
-          url = url.replace(attributeTypeNew[1], attributeTypeMatched);
         }
       }
       this.props.history.push(url, {

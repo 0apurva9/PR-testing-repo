@@ -210,7 +210,9 @@ class ProductSellerPage extends Component {
           });
         })
         .map(image => {
-          return image[0].value;
+          if (image && image[0]) {
+            return image[0].value;
+          }
         });
     return (
       mobileGalleryImages && (
