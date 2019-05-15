@@ -273,13 +273,13 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
-    let searchresult =
+    const searchresult =
       this.props &&
       this.props.productListings &&
       this.props.productListings.searchresult;
 
-    let brandName = searchresult && searchresult[0].brandname;
-    let branddata =
+    const brandName = searchresult && searchresult[0].brandname;
+    const brandData =
       searchresult &&
       searchresult.filter(brand => {
         return brand.brandname === brandName;
@@ -291,7 +291,7 @@ export default class Plp extends React.Component {
       this.props.productListings.seo.breadcrumbs[0].name
     ) {
       let headerText =
-        (branddata && branddata.length) ===
+        (brandData && brandData.length) ===
         (searchresult && searchresult.length)
           ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
           : this.props.productListings.seo.breadcrumbs[0].name;
