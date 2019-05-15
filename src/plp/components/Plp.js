@@ -70,8 +70,7 @@ export default class Plp extends React.Component {
       fixedScroll: false,
       view: GRID,
       gridBreakup: false,
-      isCurrentUrl: 0,
-      isSingleBrand: false
+      isCurrentUrl: 0
     };
   }
   toggleFilter = () => {
@@ -285,10 +284,6 @@ export default class Plp extends React.Component {
       searchresult.filter(brand => {
         return brand.brandname === brandName;
       });
-    console.log(
-      (branddata && branddata.length) === (searchresult && searchresult.length)
-    );
-
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
