@@ -35,10 +35,12 @@ const productDescription = (
     visitedNewProduct: false,
     getProductDetailsLoading: false,
     serviceableSellerMessage: null,
+
     manufacturerStatus: null,
     manufacturerError: null,
     manufacturerLoading: null,
-    manufacturerDetails: {}
+    manufacturerDetails: {},
+    serviceableSellerMessage: null
   },
   action
 ) => {
