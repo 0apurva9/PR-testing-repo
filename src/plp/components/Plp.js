@@ -290,7 +290,7 @@ export default class Plp extends React.Component {
       this.props.productListings.seo.breadcrumbs[0] &&
       this.props.productListings.seo.breadcrumbs[0].name
     ) {
-      let headerText =
+      const headerText =
         (brandData && brandData.length) ===
         (searchresult && searchresult.length)
           ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
