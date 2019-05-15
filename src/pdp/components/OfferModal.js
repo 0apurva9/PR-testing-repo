@@ -99,9 +99,8 @@ export default class VoucherOfferModal extends React.Component {
               <div
                 className={styles.description}
                 onClick={() => this.handleShowDetails(offer, this.props.offers)}
-              >
-                {offer.name}
-              </div>
+                dangerouslySetInnerHTML={{ __html: offer.name }}
+              />
               <div
                 className={styles.termsAndConditions}
                 onClick={() => this.handleTnCDetails(offer, this.props.offers)}
