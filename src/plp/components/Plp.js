@@ -70,7 +70,8 @@ export default class Plp extends React.Component {
       fixedScroll: false,
       view: GRID,
       gridBreakup: false,
-      isCurrentUrl: 0
+      isCurrentUrl: 0,
+      isSingleBrand: false
     };
   }
   toggleFilter = () => {
@@ -235,7 +236,7 @@ export default class Plp extends React.Component {
     }
     /* Start - Gemini Script */
     //gemini JS object check.
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Listing Page
       window.GEM.setGeminiPageId("0002321000100200");
     } else {
@@ -273,13 +274,33 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
+    let searchresult =
+      this.props &&
+      this.props.productListings &&
+      this.props.productListings.searchresult;
+
+    let brandName = searchresult && searchresult[0].brandname;
+    let branddata =
+      searchresult &&
+      searchresult.filter(brand => {
+        return brand.brandname === brandName;
+      });
+    console.log(
+      (branddata && branddata.length) === (searchresult && searchresult.length)
+    );
+
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
       this.props.productListings.seo.breadcrumbs[0] &&
       this.props.productListings.seo.breadcrumbs[0].name
     ) {
-      return this.props.productListings.seo.breadcrumbs[0].name;
+      let headerText =
+        (branddata && branddata.length) ===
+        (searchresult && searchresult.length)
+          ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
+          : this.props.productListings.seo.breadcrumbs[0].name;
+      return headerText;
     } else {
       return (
         <React.Fragment>
