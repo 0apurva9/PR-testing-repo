@@ -488,13 +488,14 @@ export default class Plp extends React.Component {
     let selectedFilter = [];
     let filterSelected = false;
     let hasSorts = false;
-    let electronicView =
-      this.props &&
-      this.props.productListings &&
-      this.props.productListings.facetdatacategory &&
-      this.props.productListings.facetdatacategory.filters &&
-      this.props.productListings.facetdatacategory.filters[0].categoryName ===
-        "Electronics";
+    // let electronicView =
+    //   this.props &&
+    //   this.props.productListings &&
+    //   this.props.productListings.facetdatacategory &&
+    //   this.props.productListings.facetdatacategory.filters &&
+    //   this.props.productListings.facetdatacategory.filters[0].categoryName ===
+    //     "Electronics";
+    let electronicView = false;
     if (this.props.productListings && this.props.productListings.facetdata) {
       this.props.productListings.facetdata.forEach(filter => {
         selectedFilterCount += filter.selectedFilterCount;
@@ -707,7 +708,7 @@ export default class Plp extends React.Component {
                   <div id="grid-wrapper_desktop">
                     <ProductGrid
                       banners={this.props.banners}
-                      electronicView={electronicView}
+                      electronicView={false}
                       history={this.props.history}
                       location={this.props.location}
                       data={this.props.productListings.searchresult}

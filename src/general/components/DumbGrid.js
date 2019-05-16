@@ -6,6 +6,11 @@ import styles from "./Grid.css";
 export default class Grid extends React.Component {
   renderEachPlpItem() {
     let str = [];
+    let displayClass =
+      this.props.elementWidthDesktop === 25
+        ? styles.displayInline
+        : styles.displayInline;
+
     let banner = null;
     if (this.props.children) {
       if (this.props.elementWidthDesktop === 25) {
@@ -31,7 +36,7 @@ export default class Grid extends React.Component {
           str.push(
             <React.Fragment>
               <MediaQuery query="(min-device-width: 1025px)">
-                <div className={styles.displayInline}>
+                <div className={displayClass}>
                   {banner && banner.plpBannerImage ? (
                     <a href={banner.redirectionURL}>
                       <img
@@ -42,8 +47,7 @@ export default class Grid extends React.Component {
                           width: "100%",
                           margin:
                             banner && banner.plpBannerImage ? "10px 0" : "",
-                          maxHeight: "250px",
-                          padding: "0px 10px"
+                          maxHeight: "250px"
 
                           // marginLeft: this.props.view === LIST ? "0" : "-100%"
                         }}
@@ -197,7 +201,7 @@ export default class Grid extends React.Component {
           str.push(
             <React.Fragment>
               <MediaQuery query="(min-device-width: 1025px)">
-                <div className={styles.displayInline}>
+                <div className={displayClass}>
                   {banner && banner.plpBannerImage ? (
                     <a href={banner.redirectionURL}>
                       <img
@@ -208,8 +212,7 @@ export default class Grid extends React.Component {
                           width: "100%",
                           margin:
                             banner && banner.plpBannerImage ? "10px 0" : "",
-                          maxHeight: "250px",
-                          padding: "0px 10px"
+                          maxHeight: "250px"
 
                           // marginLeft: this.props.view === LIST ? "0" : "-100%"
                         }}
