@@ -406,6 +406,7 @@ const CASH_ON_DELIVERY = "COD";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_1 = "B9078";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -1829,6 +1830,7 @@ export function applyBankOffer(couponCode) {
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
+      localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
       if (resultJsonStatus.status) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
@@ -1845,11 +1847,16 @@ export function applyBankOffer(couponCode) {
               redoCall
             })
           );
+        } else if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_4
+        ) {
+          dispatch(displayToast(resultJsonStatus.message));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
         } else {
+          localStorage.removeItem(BANK_COUPON_COOKIE);
           throw new Error(resultJsonStatus.message);
         }
       }
-      localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
         couponCode

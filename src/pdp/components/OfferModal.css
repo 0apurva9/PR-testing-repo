@@ -24,7 +24,7 @@
 }
 .description{
   width: 90%;
-  padding-right: 10px;
+  padding-right: 10px;
   float: left;
   color: #212121;
   font-size: 14px;
@@ -45,6 +45,7 @@
   cursor: pointer;
 }
 .counter{
+  float: left;
   color: #ff1744;
   font-size: 12px;
   margin-top: 10px;
