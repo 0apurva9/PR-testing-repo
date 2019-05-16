@@ -47,7 +47,7 @@ export default class Grid extends React.Component {
                           width: "100%",
                           margin:
                             banner && banner.plpBannerImage ? "10px 0" : "",
-                          maxHeight: "250px"
+                          maxHeight: "180px"
 
                           // marginLeft: this.props.view === LIST ? "0" : "-100%"
                         }}
@@ -212,7 +212,7 @@ export default class Grid extends React.Component {
                           width: "100%",
                           margin:
                             banner && banner.plpBannerImage ? "10px 0" : "",
-                          maxHeight: "250px"
+                          maxHeight: "180px"
 
                           // marginLeft: this.props.view === LIST ? "0" : "-100%"
                         }}
