@@ -39,8 +39,7 @@ const productDescription = (
     manufacturerStatus: null,
     manufacturerError: null,
     manufacturerLoading: null,
-    manufacturerDetails: {},
-    serviceableSellerMessage: null
+    manufacturerDetails: {}
   },
   action
 ) => {
