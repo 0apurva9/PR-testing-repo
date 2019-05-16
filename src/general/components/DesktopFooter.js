@@ -43,7 +43,7 @@ class DesktopFooter extends React.Component {
       value
     );
     const hostName = window.location.hostname.replace(/^www\./, "");
-    if (url.includes("sitemap.xml") || url.includes(hostName)) {
+    if (url.includes("sitemap.xml") || !url.includes(hostName)) {
       window.open(url, "_blank");
       window.focus();
     } else {
