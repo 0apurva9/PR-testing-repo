@@ -6,11 +6,6 @@ import styles from "./Grid.css";
 export default class Grid extends React.Component {
   renderEachPlpItem() {
     let str = [];
-    let displayClass =
-      this.props.elementWidthDesktop === 25
-        ? styles.displayInline
-        : styles.displayInline;
-
     let banner = null;
     if (this.props.children) {
       if (this.props.elementWidthDesktop === 25) {
@@ -36,7 +31,7 @@ export default class Grid extends React.Component {
           str.push(
             <React.Fragment>
               <MediaQuery query="(min-device-width: 1025px)">
-                <div className={displayClass}>
+                <div className={styles.displayInline}>
                   {banner && banner.plpBannerImage ? (
                     <a href={banner.redirectionURL}>
                       <img
@@ -201,7 +196,7 @@ export default class Grid extends React.Component {
           str.push(
             <React.Fragment>
               <MediaQuery query="(min-device-width: 1025px)">
-                <div className={displayClass}>
+                <div className={styles.displayInline}>
                   {banner && banner.plpBannerImage ? (
                     <a href={banner.redirectionURL}>
                       <img

@@ -151,10 +151,10 @@ export default class ProductFeatureDetails extends Component {
             <div className={styles.offerList}>{this.renderOfferData()}</div>
           </div>
           <div className={styles.featureContainer}>
-            <div className={styles.featureHeader}>
-              {this.props && this.props.plpAttrMap && <h3>Features</h3>}
-            </div>
             <div className={styles.featureList}>
+              <div className={styles.featureHeader}>
+                {this.props && this.props.plpAttrMap && <h3>Features</h3>}
+              </div>
               {this.props &&
                 this.props.plpAttrMap &&
                 this.props.plpAttrMap.map(key => {
