@@ -114,7 +114,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
   } else {
     if (CATEGORY_REGEX.test(pathName)) {
       if (modifiedCode && CATEGORY_REGEX.test(modifiedCode)) {
-        url = `/${modifiedCode}/?q=:category:${val}`;
+        url = `/${modifiedCode}`;
       } else {
         url = `/search/?q=:category:${val}`;
       }
