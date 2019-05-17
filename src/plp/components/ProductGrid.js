@@ -52,7 +52,6 @@ export default class ProductGrid extends React.Component {
     }
   }
   recordScreenScroll = () => {
-    console.log("window.pageYOffset", window.pageYOffset);
     localStorage.setItem("gridScroll", window.pageYOffset);
   };
   goToProductDescription = (url, productObj, productModuleId, index) => {
