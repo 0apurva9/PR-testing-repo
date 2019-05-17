@@ -4,6 +4,14 @@ import MediaQuery from "react-responsive";
 import styles from "./Grid.css";
 
 export default class Grid extends React.Component {
+  recordScreenScroll = () => {
+    if (this.props.recordScreenScroll) {
+      this.props.recordScreenScroll();
+    }
+  };
+  componentDidMount() {
+    window.scroll(this.props.gridScroll, 0);
+  }
   renderEachPlpItem() {
     let str = [];
     let displayClass =
@@ -203,7 +211,10 @@ export default class Grid extends React.Component {
               <MediaQuery query="(min-device-width: 1025px)">
                 <div className={displayClass}>
                   {banner && banner.plpBannerImage ? (
-                    <a href={banner.redirectionURL}>
+                    <a
+                      href={banner.redirectionURL}
+                      onClick={this.recordScreenScroll()}
+                    >
                       <img
                         alt="bannerimg"
                         src={banner && banner.plpBannerImage}
