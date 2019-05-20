@@ -348,7 +348,6 @@ const mapDispatchToProps = dispatch => {
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
-            dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
           }
         } else {

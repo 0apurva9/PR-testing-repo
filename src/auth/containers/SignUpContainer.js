@@ -83,7 +83,6 @@ const mapDispatchToProps = dispatch => {
           } else {
             Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
             dispatch(setIfAllAuthCallsHaveSucceeded());
-            dispatch(getCartCountForLoggedInUser());
           }
         } else if (customerAccessResponse.status === FAILURE) {
           dispatch(singleAuthCallHasFailed(signUpResult.error));
