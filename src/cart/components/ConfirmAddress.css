@@ -39,7 +39,41 @@
   right: 15px;
   top: 0;
 }
-
+.addressHolderByCnc {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+.gridHolderByCnc {
+  composes: addressHolderByCnc;
+}
+.newAddressByCnc {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 25px;
+  right: 30px;
+}
+.cncToHdButtonHolder {
+  composes: addressHolderByCnc;
+  text-align: right;
+}
+.moreButtonHolderByCnc {
+  width: auto;
+  display: inline-block;
+  height: auto;
+  vertical-align: top;
+  height: 40px;
+  line-height: 40px;
+  color: #ff1744;
+  font-size: 13px;
+  font-family: regular;
+  cursor: pointer;
+}
+.continueButtonHolderByCnc {
+  composes: moreButtonHolderByCnc;
+  margin-left: 15px;
+}
 @media only screen and (min-width: 1025px) {
   .newAddress {
     top: 30px;
@@ -48,6 +82,7 @@
   .base {
     padding: 15px;
     min-height: 240px;
+    position: relative;
   }
   .baseForReturn {
     composes: base;

@@ -208,18 +208,31 @@ export default class ConfirmAddress extends React.Component {
                     })}
               </GridSelect>
             </div>
-            <div className={buttonHolder}>
+            <div className={styles.newAddressByCnc}>
+              <UnderLinedButton
+                size="14px"
+                fontFamily="regular"
+                color="#ff1744"
+                label="Add new address"
+                onClick={() => this.onNewAddress()}
+              />
+            </div>
+            <div className={styles.cncToHdButtonHolder}>
               {!this.props.isReturn &&
                 this.props.address &&
                 this.props.address.length > 3 && (
-                  <div className={styles.moreButtonHolderByCnc}>
-                    <UnderLinedButton
+                  <div
+                    className={styles.moreButtonHolderByCnc}
+                    onClick={() => this.showMore()}
+                  >
+                    {this.state.label}
+                    {/* <UnderLinedButton
                       size="14px"
                       fontFamily="regular"
                       color="#000"
                       label={this.state.label}
                       onClick={() => this.showMore()}
-                    />
+                    /> */}
                   </div>
                 )}
               <div className={styles.continueButtonHolderByCnc}>
@@ -235,15 +248,6 @@ export default class ConfirmAddress extends React.Component {
                     fontSize: 14
                   }}
                   onClick={() => this.onRedirectionToNextSection()}
-                />
-              </div>
-              <div className={styles.newAddressByCnc}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#ff1744"
-                  label="Add new address"
-                  onClick={() => this.onNewAddress()}
                 />
               </div>
             </div>

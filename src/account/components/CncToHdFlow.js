@@ -185,6 +185,7 @@ export default class CncToHdFlow extends React.Component {
   render() {
     let isCncToHdOrderDetails = "";
     isCncToHdOrderDetails = this.props.orderDetails;
+    console.log(isCncToHdOrderDetails);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
@@ -201,54 +202,65 @@ export default class CncToHdFlow extends React.Component {
       return (
         <div className={styles.base}>
           <div className={styles.product}>
-            <BagPageItem
-              productImage={
-                isCncToHdOrderDetails && isCncToHdOrderDetails.imageURL
-              }
-              productName={
-                isCncToHdOrderDetails && isCncToHdOrderDetails.productName
-              }
-              price={isCncToHdOrderDetails && isCncToHdOrderDetails.price}
-              borderBottom={"none"}
-              isImageLeft={true}
-              isGiveAway={"N"}
-              isServiceAvailable={"Y"}
-            />
+            <div className={styles.itemClass}>
+              <BagPageItem
+                productImage={
+                  isCncToHdOrderDetails && isCncToHdOrderDetails.imageURL
+                }
+                width={"20%"}
+                dataWith={"80%"}
+                productName={
+                  isCncToHdOrderDetails && isCncToHdOrderDetails.productName
+                }
+                price={isCncToHdOrderDetails && isCncToHdOrderDetails.price}
+                borderBottom={"none"}
+                isImageLeft={true}
+                isGiveAway={"N"}
+                isServiceAvailable={"Y"}
+              />
+            </div>
             <div className={styles.standardDelivery}>
-              <div className={styles.iconHolder}>
-                <Icon image={HomeImage} size={22} />
-              </div>
-              <div className={styles.deliveryText}>Standard Delivery</div>
-              <div className={styles.checkBoxHolder}>
-                <CheckBox selected={true} />
+              <div className={styles.iconLabelCheckboxHolder}>
+                <div className={styles.iconHolder}>
+                  <Icon image={HomeImage} size={25} />
+                </div>
+                <div className={styles.deliveryText}>Standard Delivery</div>
+                <div className={styles.checkBoxHolder}>
+                  <CheckBox selected={true} />
+                </div>
               </div>
             </div>
           </div>
-          <ConfirmAddress
-            showOneAddress={true}
-            showAllAddress={false}
-            indexNumber={"0"}
-            address={
-              this.props.userAddress &&
-              this.props.userAddress.addresses.map(address => {
-                return {
-                  addressTitle: address.addressType,
-                  addressDescription: `${address.line1 ? address.line1 : ""} ${
-                    address.town ? address.town : ""
-                  } ${address.city ? address.city : ""}, ${
-                    address.state ? address.state : ""
-                  } ${address.postalCode ? address.postalCode : ""}`,
-                  value: address.id,
-                  selected: address.defaultAddress
-                };
-              })
-            }
-            selected={[
-              this.state.selectedAddressObj && this.state.selectedAddressObj.id
-            ]}
-            onNewAddress={() => this.addNewAddress()}
-            onSelectAddress={addressId => this.onSelectAddress(addressId)}
-          />
+          <div className={styles.addressHolder}>
+            <ConfirmAddress
+              showOneAddress={true}
+              showAllAddress={false}
+              indexNumber={"0"}
+              address={
+                this.props.userAddress &&
+                this.props.userAddress.addresses.map(address => {
+                  return {
+                    addressTitle: address.addressType,
+                    addressDescription: `${
+                      address.line1 ? address.line1 : ""
+                    } ${address.town ? address.town : ""} ${
+                      address.city ? address.city : ""
+                    }, ${address.state ? address.state : ""} ${
+                      address.postalCode ? address.postalCode : ""
+                    }`,
+                    value: address.id,
+                    selected: address.defaultAddress
+                  };
+                })
+              }
+              selected={[
+                this.state.selectedAddressObj &&
+                  this.state.selectedAddressObj.id
+              ]}
+              onNewAddress={() => this.addNewAddress()}
+              onSelectAddress={addressId => this.onSelectAddress(addressId)}
+            />
+          </div>
         </div>
       );
     }
