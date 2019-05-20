@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0">
-  <meta name="theme-color" content="#000000">
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0" />
+  <meta name="theme-color" content="#000000" />
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
   <meta name="google-site-verification" content="EU8G54_LSqH0OTlvIXRhrV1fnjGDdh0uBoKYraVKE1I" />
   <% } %>
@@ -16,34 +17,35 @@
   <meta property="al:android:package" content="com.tul.tatacliq" />
   <meta property="al:android:url" content="https://www.tatacliq.com/" />
   <meta property="al:android:app_name" content="Tata Cliq" />
-  <meta name="fragment" content="!">
-  <link rel="dns-prefetch" href="https://pwassets.tatacliq.com">
-  <link rel="dns-prefetch" href="https://assets.adobedtm.com">
-  <link rel="dns-prefetch" href="https://tataunistorelimited.sc.omtrdc.net">
-  <link rel="dns-prefetch" href="https://tataunistore.demdex.net">
-  <link rel="dns-prefetch" href="https://tataunistore.tt.omtrdc.net">
-  <link rel="dns-prefetch" href="https://assets.tatacliq.com">
-  <link href='https://pwassets.tatacliq.com' rel='preconnect'>
-  <link href='https://assets.adobedtm.com' rel='preconnect'>
-  <link href='https://dpm.demdex.net' rel='preconnect'>
-  <link href='https://tataunistorelimited.sc.omtrdc.net' rel='preconnect'>
-  <link href='https://tataunistore.demdex.net' rel='preconnect'>
-  <link href='https://tataunistore.tt.omtrdc.net' rel='preconnect'>
-  <link href='https://assets.tatacliq.com' rel='preconnect'>
-  <link href='https://mboxedge17.tt.omtrdc.net' rel='preconnect'>
+  <meta name="fragment" content="!" />
+  <link rel="dns-prefetch" href="https://pwassets.tatacliq.com" />
+  <link rel="dns-prefetch" href="https://assets.adobedtm.com" />
+  <link rel="dns-prefetch" href="https://tataunistorelimited.sc.omtrdc.net" />
+  <link rel="dns-prefetch" href="https://tataunistore.demdex.net" />
+  <link rel="dns-prefetch" href="https://tataunistore.tt.omtrdc.net" />
+  <link rel="dns-prefetch" href="https://assets.tatacliq.com" />
+  <link href="https://pwassets.tatacliq.com" rel="preconnect" />
+  <link href="https://assets.adobedtm.com" rel="preconnect" />
+  <link href="https://dpm.demdex.net" rel="preconnect" />
+  <link href="https://tataunistorelimited.sc.omtrdc.net" rel="preconnect" />
+  <link href="https://tataunistore.demdex.net" rel="preconnect" />
+  <link href="https://tataunistore.tt.omtrdc.net" rel="preconnect" />
+  <link href="https://assets.tatacliq.com" rel="preconnect" />
+  <link href="https://mboxedge17.tt.omtrdc.net" rel="preconnect" />
   <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
 
-  <link rel="manifest" href="/manifest.json">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
 
-  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff" as="font" crossorigin="anonymous">
-  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2" as="font" crossorigin="anonymous">
-  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2" as="font" crossorigin="anonymous">
-
-
+  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff" as="font"
+    crossorigin="anonymous" />
+  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2" as="font"
+    crossorigin="anonymous" />
+  <link rel="preload" href="https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2" as="font"
+    crossorigin="anonymous" />
 
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -55,80 +57,110 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 
-
   <style>
     body {
-          margin: 0;
-          padding: 0;
-          font-family: regular;
-        }
+      margin: 0;
+      padding: 0;
+      font-family: regular;
+    }
 
-        @font-face {
-          font-family: regular;
-          src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff');
-          font-display: swap;
-        }
+    @font-face {
+      font-family: regular;
+      src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff'),
+        url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-regular.woff') format('woff');
+      font-display: swap;
+    }
 
-        @font-face {
-          font-family: semibold;
-          src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2') format('woff2'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff') format('woff');
-          font-display: swap;
-        }
+    @font-face {
+      font-family: semibold;
+      src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff2') format('woff2'),
+        url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-500.woff') format('woff');
+      font-display: swap;
+    }
 
-        @font-face {
-          font-family: light;
-          src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff2'), url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff');
-          font-display: swap;
-        }
+    @font-face {
+      font-family: light;
+      src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff2'),
+        url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-300.woff2') format('woff');
+      font-display: swap;
+    }
 
-        #root {
-          width: 100%;
-        }
+    #root {
+      width: 100%;
+    }
 
+    #modal-root {
+      width: 100vw;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 
-        #modal-root {
-          width: 100vw;
-          position: absolute;
-          left: 0;
-          top: 0;
-        }
+    #modal-root>div {
+      width: 100%;
+    }
 
-        #modal-root>div {
-          width: 100%;
-        }
-
-        h1,
-        h2,
-        h3 {
-          margin: 0px;
-          font-size: inherit;
-          font-weight: normal
-        }
-      </style>
+    h1,
+    h2,
+    h3 {
+      margin: 0px;
+      font-size: inherit;
+      font-weight: normal;
+    }
+  </style>
   <script type="text/javascript">
     function loadJS(x) {
-      var tag = document.createElement("script");
+      var tag = document.createElement('script');
       tag.src = x;
-      document.getElementsByTagName("body")[0].appendChild(tag);
+      document.getElementsByTagName('body')[0].appendChild(tag);
     }
 
     function postDomContentLoadedFunction(a) {
-      if ("undefined" != typeof (window.attachEvent)) {
-        return window.attachEvent("DOMContentLoaded", a)
+      if ('undefined' != typeof window.attachEvent) {
+        return window.attachEvent('DOMContentLoaded', a);
       } else {
         if (window.addEventListener) {
-          return window.addEventListener("DOMContentLoaded", a, false)
+          return window.addEventListener('DOMContentLoaded', a, false);
+        }
+      }
+    }
+
+    function postLoadEventFunction(a) {
+      if ('undefined' != typeof window.attachEvent) {
+        return window.attachEvent('onload', a);
+      } else {
+        if (window.addEventListener) {
+          return window.addEventListener('load', a, false);
+        }
+      }
+    }
+  </script>
+  <script>
+    window.onedirectSettings = {
+      apiKey: 'NjMyNF8xNTU0Mzg1ODM0MDYyXzQ=',
+      settings: {
+        widgetPosition: {
+          //left: (window.innerWidth) - 40,
+          //bottom: (window.innerHeight) - 70 - 40,
+          left: 95,
+          bottom: 5
         }
       }
     };
-
-    function postLoadEventFunction(a) {
-      if ("undefined" != typeof (window.attachEvent)) {
-        return window.attachEvent("onload", a)
-      } else {
-        if (window.addEventListener) {
-          return window.addEventListener("load", a, false)
-        }
+  </script>
+  <script>
+    window.initMessenger = function () {
+      if (!document.getElementById('onedirect-messaging-sdk')) {
+        !(function (e, s, n, t, a) {
+          (el = s.createElement(n)),
+          (p = s.getElementsByTagName(n)[0]),
+          (el.async = 1),
+          (el.id = 'onedirect-messaging-sdk'),
+          (el.src =
+            'https://s3-ap-southeast-1.amazonaws.com/onedirect/messaging/web-sdk/production/od-messaging.init.v1.0.min.js'
+            ),
+          p.parentNode.insertBefore(el, p);
+        })(window, document, 'script');
       }
     };
   </script>
@@ -152,9 +184,7 @@
                 <div class="_2ikoc0GZCyz9e0ZH6L0VHM">Tata CLiQ Luxury</div>
               </a>
               <div class="_2XUvvedPB9U3otCiWqrjhe">
-                <div class="_34bdm57pGuXK3ePq-NFSZH">
-
-                </div>
+                <div class="_34bdm57pGuXK3ePq-NFSZH"></div>
                 <a href="" target="_blank">
                   <div class="_1kqv2p0bScjWTMozNVOVz5">Track Orders</div>
                 </a>
@@ -183,16 +213,19 @@
                         <div class="_3bjYJ7JDx3fShbxgMOV8Up">
                           <div class="afv4MIi5WXKZVND7ana-Y">
                             <div class="_3MS696tz4Ii3vM5b6MwBkL" style="width: 16px; height: 16px;">
-                              <div class="_2VmboXpEND_dvkTUvRwISU" style="background-image: url(&quot;/static/media/searchwhite.8af840bd.svg&quot;); background-size: contain;"></div>
+                              <div class="_2VmboXpEND_dvkTUvRwISU"
+                                style='background-image: url("/static/media/searchwhite.8af840bd.svg"); background-size: contain;'>
+                              </div>
                             </div>
                           </div>
                           <div class="_1LvhPBco7xVNOKdmJiumkP">
                             <div class="_3yuH_eOdVkdvMytHE7skUP">
                               <div class="_3u8YVuMWyxlvTfpUskxgWP _2eE3GFJFXoYzYDxLJSiQHk">
                                 <div class="_3mea28tfjUv_NmX170tAcH _2eE3GFJFXoYzYDxLJSiQHk">
-                                  <div class="_26te1Kp4kxwtlBGHe9K-j1 uRnUoWUuRtEeKI0UJ4fVl" style="height: 30px; border-top-color: rgb(33, 33, 33); border-right-color: rgb(33, 33, 33); border-bottom: none; border-left-color: rgb(33, 33, 33);">
+                                  <div class="_26te1Kp4kxwtlBGHe9K-j1 uRnUoWUuRtEeKI0UJ4fVl"
+                                    style="height: 30px; border-top-color: rgb(33, 33, 33); border-right-color: rgb(33, 33, 33); border-bottom: none; border-left-color: rgb(33, 33, 33);">
                                     <input type="search" placeholder="Search" class="_2wBdAJ6BFwpXejbzsJBPO0" value=""
-                                      style="font-size: 14px; color: rgb(255, 255, 255); font-family: Semibold;">
+                                      style="font-size: 14px; color: rgb(255, 255, 255); font-family: Semibold;" />
                                   </div>
                                 </div>
                               </div>
@@ -226,18 +259,18 @@
       -->
   <!-- Start -- Adding Script for Gemini Integration-->
   <script>
-    ci = "0002321";
+    ci = '0002321';
     gemErrList = [];
-    gemp = "index";
+    gemp = 'index';
     window.addEventListener('error', function (e) {
       if (e.error) {
         var obj = {};
         try {
-          obj['m'] = (e.message);
-          obj['f'] = (e.filename).replace(/(\r\n|\n|\r)/gm, "");
-          obj['l'] = (e.lineno);
-          obj['c'] = (e.colno);
-          obj['s'] = (e.error.stack);
+          obj['m'] = e.message;
+          obj['f'] = e.filename.replace(/(\r\n|\n|\r)/gm, '');
+          obj['l'] = e.lineno;
+          obj['c'] = e.colno;
+          obj['s'] = e.error.stack;
           gemErrList.push(obj);
         } catch (ex) {}
       }
@@ -312,39 +345,42 @@
     })();
   </script>
   <script type="text/javascript">
-    if (typeof (FontFace) !== "undefined") {
+    if (typeof FontFace !== 'undefined') {
       //onload rest font except regular for bandwidth utilization & improve waterfall , refer - http://usefulangle.com/post/74/javascript-dynamic-font-loading
       //support - https://caniuse.com/#search=FontFace
       function loadFonts() {
-
-        var rubik_bolder = new FontFace('bolder',
-          'url(https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2) format("woff2")');
-        rubik_bolder.load().then(function (loaded_face) {
-          document.fonts.add(loaded_face);
-          //document.body.style.fontFamily = '"bolder", Arial';
-        }).catch(function (error) {
-          console.log("error rubik_light font");
-        });
-
+        var rubik_bolder = new FontFace(
+          'bolder',
+          'url(https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2) format("woff2")'
+        );
+        rubik_bolder
+          .load()
+          .then(function (loaded_face) {
+            document.fonts.add(loaded_face);
+            //document.body.style.fontFamily = '"bolder", Arial';
+          })
+          .catch(function (error) {
+            console.log('error rubik_light font');
+          });
       }
 
       //fire font load on onLoad event
       postLoadEventFunction(loadFonts);
-    } else { //IE , Edge do not support FontFace so we need to add it directly
+    } else {
+      //IE , Edge do not support FontFace so we need to add it directly
 
       var bolderFont = document.createElement('style');
-      bolderFont.appendChild(document.createTextNode(
-        "@font-face {font-family:bolder ;src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2') format('woff2');}"
-      ));
+      bolderFont.appendChild(
+        document.createTextNode(
+          "@font-face {font-family:bolder ;src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2') format('woff2');}"
+        )
+      );
       document.head.appendChild(bolderFont);
-
     }
 
-
-    const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i
+    const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i;
 
     function loadScript(url) {
-
       document.write('<script src="' + url + '"><\/script>');
     }
   </script>
@@ -352,18 +388,15 @@
   <script type="text/javascript">
     let isMobile;
     if (navigator) {
-
-      isMobile = ReqExForCheckUserAgent.test(
-        navigator.userAgent
-      )
+      isMobile = ReqExForCheckUserAgent.test(navigator.userAgent);
       if (isMobile) {
         loadScript(
-          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js"
-        )
+          '//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js'
+        );
       } else {
         loadScript(
-          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js"
-        )
+          '//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js'
+        );
       }
     }
   </script>
@@ -371,18 +404,15 @@
   <script type="text/javascript">
     let isMobile;
     if (navigator) {
-
-      isMobile = ReqExForCheckUserAgent.test(
-        navigator.userAgent
-      )
+      isMobile = ReqExForCheckUserAgent.test(navigator.userAgent);
       if (isMobile) {
         loadScript(
-          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js"
-        )
+          '//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js'
+        );
       } else {
         loadScript(
-          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js"
-        )
+          '//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js'
+        );
       }
     }
   </script>
@@ -391,7 +421,7 @@
     window.digitalData = Object.assign({}, {
       page: {
         pageInfo: {
-          pageName: "basepage"
+          pageName: 'basepage'
         }
       }
     });
@@ -399,7 +429,6 @@
       _satellite.pageBottom();
     }
   </script>
-
 </body>
 
 </html>
