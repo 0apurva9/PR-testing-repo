@@ -8,7 +8,8 @@ import {
   mergeCartId,
   generateCartIdForLoggedInUser,
   getCartId,
-  tempCartIdForLoggedInUser
+  tempCartIdForLoggedInUser,
+  removeItemFromCartLoggedIn
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
 
@@ -44,6 +45,10 @@ import {
   createWishlist,
   addProductToWishList
 } from "../../wishlist/actions/wishlist.actions";
+import {
+  showSecondaryLoader,
+  hideSecondaryLoader
+} from "../../general/secondaryLoader.actions.js";
 import ProductDetails from "../../pdp/components/ProductDetails";
 import { retryPayment } from "../../account/actions/account.actions";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
@@ -189,6 +194,28 @@ const mapDispatchToProps = dispatch => {
     addProductToWishList: async productObj => {
       const wishlistResponse = await dispatch(addProductToWishList(productObj));
       if (wishlistResponse.status === SUCCESS) {
+        dispatch(showSecondaryLoader());
+        const cartDetailsLoggedInUser = Cookies.getCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER
+        );
+
+        //Get bag details before login
+        const cartDetails = localStorage.getItem(CART_BAG_DETAILS);
+        const cartDetailsCount = JSON.parse(cartDetails).length;
+        const cartDetailsLoggedInUserCount = parseInt(
+          JSON.parse(cartDetailsLoggedInUser).count
+        );
+        if (productObj.index >= 0) {
+          const removeCartResponse = await dispatch(
+            removeItemFromCartLoggedIn(
+              cartDetailsLoggedInUserCount -
+                cartDetailsCount +
+                productObj.index,
+              localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+            )
+          );
+        }
+        dispatch(hideSecondaryLoader());
         dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
     },

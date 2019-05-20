@@ -89,4 +89,20 @@
     height: 100%;
     z-index: 1;
   }
+
+}
+
+.display4by4{
+  cursor: pointer;
+  position: absolute;
+  top: 275px;
+  right: 20px;
+  z-index: 1;
+}
+.display3by3{
+  cursor: pointer;
+  position: absolute;
+  top: 375px;
+  right: 20px;
+  z-index: 1;
 }

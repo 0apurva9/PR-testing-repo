@@ -51,6 +51,7 @@ export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
 export const SET_PLP_PATH = "SET_PLP_PATH";
 export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
 const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
+export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
 
 export function setProductModuleRef(ref) {
   return {
@@ -211,6 +212,13 @@ export function getProductListingsFailure(error, isPaginated) {
   };
 }
 
+export function viewSimilarProducts(productListingId) {
+  return {
+    type: VIEW_SIMILAR_PRODUCTS,
+    productListingId: productListingId
+  };
+}
+
 export function getProductListings(
   suffix: null,
   paginated: false,
@@ -238,7 +246,7 @@ export function getProductListings(
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
       let keyWordRedirect = false;
-      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true`;
+      let queryString = `${PRODUCT_LISTINGS_PATH}?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
       }

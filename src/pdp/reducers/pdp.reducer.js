@@ -34,6 +34,10 @@ const productDescription = (
     loadingForCliqAndPiq: false,
     visitedNewProduct: false,
     getProductDetailsLoading: false,
+    manufacturerStatus: null,
+    manufacturerError: null,
+    manufacturerLoading: null,
+    manufacturerDetails: {},
     serviceableSellerMessage: null
   },
   action
@@ -156,7 +160,11 @@ const productDescription = (
             "Finding a serviceable seller on the selected pincode, the price of the product may be different"
         });
         let otherSellersList = currentPdpDetail.otherSellers;
-        let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
+        let leastMrpSellerUssid = {
+          specialPriceSeller: {
+            value: 999999999
+          }
+        };
         let eligibleDeliveryModeForThisSeller;
         listOfAllServiceableUssid.forEach(seller => {
           let sellerObjInOtherSellers = currentPdpDetail.otherSellers.find(
@@ -510,6 +518,48 @@ const productDescription = (
     case pdpActions.HIDE_PDP_PIQ_PAGE:
       return Object.assign({}, state, {
         showPiqPage: false
+      });
+
+    case pdpActions.PDP_OFFER_REQUEST:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerLoading: true,
+        offerDetails: [],
+        impulseOfferCalloutList: [],
+        productDescription: null
+      });
+    case pdpActions.PDP_OFFER_SUCCESS:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerDetails: action.offers,
+        impulseOfferCalloutList: action.impulseOfferCalloutList,
+        offerLoading: false
+      });
+    case pdpActions.PDP_OFFER_FAILURE:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerError: action.error,
+        offerLoading: false
+      });
+
+    case pdpActions.PDP_MANUFACTURER_REQUEST:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerLoading: true
+      });
+
+    case pdpActions.PDP_MANUFACTURER_SUCCESS:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerDetails: action.manufacturers,
+        manufacturerLoading: false
+      });
+
+    case pdpActions.PDP_MANUFACTURER_FAILURE:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerError: action.error,
+        manufacturerLoading: false
       });
     default:
       return state;

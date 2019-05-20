@@ -1,6 +1,6 @@
 import React from "react";
 import DumbGrid from "../../general/components/DumbGrid";
-import ProductModule from "../../general/components/ProductModule";
+import ProductModuleContainer from "../../general/containers/ProductModuleContainer";
 import PlpComponent from "./PlpComponent";
 import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
@@ -21,6 +21,7 @@ import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
+
 const LIST = "list";
 const GRID = "grid";
 const PRODUCT = "product";
@@ -70,7 +71,7 @@ export default class ProductGrid extends React.Component {
       data.productCategoryType
     }-TATA CLIQ`;
     return (
-      <ProductModule
+      <ProductModuleContainer
         key={index}
         isRange={data.price.isRange}
         maxPrice={
@@ -79,6 +80,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice.formattedValueNoDecimal
         }
         alt={altTag}
+        seasonTag={data.seasonTag}
         minPrice={
           data.price &&
           data.price.minPrice &&
@@ -107,14 +109,18 @@ export default class ProductGrid extends React.Component {
         newProduct={data.newProduct}
         averageRating={data.averageRating}
         totalNoOfReviews={data.totalNoOfReviews}
-        view={this.state.view}
+        view={this.props.view}
+        winningUssID={data.winningUssID ? data.winningUssID : data.ussid}
         onClick={(url, data, ref) =>
           this.goToProductDescription(url, data, ref, index)
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
-        showWishListButton={false}
+        showWishListButton={true}
         plpAttrMap={data && data.plpAttrMap}
+        shouldShowSimilarIcon={true}
+        productListings={this.props.productListings}
+        ussid={data.ussid}
       />
     );
   };
@@ -139,6 +145,7 @@ export default class ProductGrid extends React.Component {
               offset={0}
               elementWidthMobile={this.props.view === LIST ? 100 : 50}
               elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
+              view={this.props.view}
             >
               {this.props.data &&
                 this.props.data.map((datum, i) => {
@@ -147,7 +154,7 @@ export default class ProductGrid extends React.Component {
                     <PlpComponent
                       key={i}
                       gridWidthMobile={widthMobile}
-                      view={this.state.view}
+                      view={this.props.view}
                       type={datum && datum.type}
                     >
                       {this.renderComponent(datum, i)}
