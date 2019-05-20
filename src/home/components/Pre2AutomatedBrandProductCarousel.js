@@ -3,9 +3,15 @@ import FeedComponentABPC from "./FeedComponentABPC";
 import ProductImageHeader from "../../general/components/ProductImageHeader";
 import Logo from "../../general/components/Logo";
 import each from "lodash.foreach";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 const env = process.env;
 
 export default class PreAutomatedBrandProductCarousel extends React.Component {
+  handleClick(url) {
+    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    this.props.history.push(urlSuffix);
+    this.props.setClickedElementId();
+  }
   doSome(value) {
     let apiUrl = "https://www.tatacliq.com";
     let productCodes;
@@ -31,13 +37,14 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
               image={value.imageURL}
               description={value.description}
               logo={<Logo image={value.brandLogo} />}
+              onClick={() => this.handleClick(value.webURL)}
             />
           }
           backgroundColor="#e4e4e4"
           carouselOptions={{
             buttonText,
             seeAll: () => {
-              this.handleClick();
+              this.handleClick(value.webURL);
             }
           }}
           widgetName={"Automated Brand Product Carousal"}

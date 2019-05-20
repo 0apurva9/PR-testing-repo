@@ -5,13 +5,16 @@ import styles from "./Grid.css";
 
 export default class Grid extends React.Component {
   recordScreenScroll = () => {
-    if (this.props.recordScreenScroll) {
-      this.props.recordScreenScroll();
+    if (this.props.banners) {
+      localStorage.setItem("gridScroll", window.pageYOffset);
     }
   };
   componentDidMount() {
-    window.scroll(this.props.gridScroll, 0);
+    let banner = localStorage.getItem("gridScroll");
+    window.scroll(0, banner);
+    localStorage.removeItem("gridScroll");
   }
+
   renderEachPlpItem() {
     let str = [];
     let displayClass =
@@ -44,7 +47,12 @@ export default class Grid extends React.Component {
           str.push(
             <React.Fragment>
               <MediaQuery query="(min-device-width: 1025px)">
-                <div className={displayClass}>
+                <div
+                  className={displayClass}
+                  onClick={() => {
+                    this.recordScreenScroll();
+                  }}
+                >
                   {banner && banner.plpBannerImage ? (
                     <a href={banner.redirectionURL}>
                       <img
@@ -209,11 +217,16 @@ export default class Grid extends React.Component {
           str.push(
             <React.Fragment>
               <MediaQuery query="(min-device-width: 1025px)">
-                <div className={displayClass}>
+                <div
+                  className={displayClass}
+                  onClick={() => {
+                    this.recordScreenScroll();
+                  }}
+                >
                   {banner && banner.plpBannerImage ? (
                     <a
                       href={banner.redirectionURL}
-                      onClick={this.recordScreenScroll()}
+                      // onClick={this.recordScreenScroll()}
                     >
                       <img
                         alt="bannerimg"

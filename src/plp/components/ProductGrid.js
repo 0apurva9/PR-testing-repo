@@ -32,10 +32,10 @@ export default class ProductGrid extends React.Component {
     super(props);
     this.state = {
       view: GRID,
-      gridBreakup: false,
-      gridScroll: localStorage.getItem("gridScroll")
-        ? localStorage.getItem("gridScroll")
-        : 0
+      gridBreakup: false
+      // gridScroll: localStorage.getItem("gridScroll")
+      //   ? localStorage.getItem("gridScroll")
+      //   : 0
     };
   }
 
@@ -51,9 +51,9 @@ export default class ProductGrid extends React.Component {
       this.setState({ view: LIST });
     }
   }
-  recordScreenScroll = () => {
-    localStorage.setItem("gridScroll", window.pageYOffset);
-  };
+  // recordScreenScroll = () => {
+  //   localStorage.setItem("gridScroll", window.pageYOffset);
+  // };
   goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
     if (!checkUserAgentIsMobile()) {
@@ -152,10 +152,10 @@ export default class ProductGrid extends React.Component {
 
           <div className={styles.content}>
             <DumbGrid
-              gridScroll={this.state.gridScroll}
+              // gridScroll={this.state.gridScroll}
               search={this.props.search}
               electronicView={electronicView}
-              recordScreenScroll={this.recordScreenScroll()}
+              // recordScreenScroll={this.recordScreenScroll()}
               offset={0}
               elementWidthMobile={this.props.view === LIST ? 100 : 50}
               elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
