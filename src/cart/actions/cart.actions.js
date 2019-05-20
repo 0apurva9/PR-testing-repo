@@ -3974,8 +3974,8 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    const cartId = JSON.parse(cartDetails).code;
+    const cartDetailsCookie = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartId = cartDetailsCookie && JSON.parse(cartDetailsCookie).code;
     dispatch(removeItemFromCartLoggedInRequest());
     try {
       const result = await api.get(
@@ -4006,7 +4006,9 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
             cartDetails.cartDetails
           );
           dispatch(removeItemFromCartLoggedInSuccess());
-          dispatch(getCartCountForLoggedInUser());
+          if (!JSON.parse(cartDetailsCookie).isBuyNowCart) {
+            dispatch(getCartCountForLoggedInUser());
+          }
         }
       });
     } catch (e) {
