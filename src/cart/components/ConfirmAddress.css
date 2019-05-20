@@ -53,6 +53,10 @@
   position: absolute;
   top: 25px;
   right: 30px;
+  color: #ff1744;
+  font-size: 13px;
+  font-family: semibold;
+  cursor: pointer;
 }
 .cncToHdButtonHolder {
   composes: addressHolderByCnc;
@@ -67,7 +71,7 @@
   line-height: 40px;
   color: #ff1744;
   font-size: 13px;
-  font-family: regular;
+  font-family: semibold;
   cursor: pointer;
 }
 .continueButtonHolderByCnc {

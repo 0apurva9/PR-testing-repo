@@ -208,14 +208,11 @@ export default class ConfirmAddress extends React.Component {
                     })}
               </GridSelect>
             </div>
-            <div className={styles.newAddressByCnc}>
-              <UnderLinedButton
-                size="14px"
-                fontFamily="regular"
-                color="#ff1744"
-                label="Add new address"
-                onClick={() => this.onNewAddress()}
-              />
+            <div
+              className={styles.newAddressByCnc}
+              onClick={() => this.onNewAddress()}
+            >
+              Add new address
             </div>
             <div className={styles.cncToHdButtonHolder}>
               {!this.props.isReturn &&
@@ -226,13 +223,6 @@ export default class ConfirmAddress extends React.Component {
                     onClick={() => this.showMore()}
                   >
                     {this.state.label}
-                    {/* <UnderLinedButton
-                      size="14px"
-                      fontFamily="regular"
-                      color="#000"
-                      label={this.state.label}
-                      onClick={() => this.showMore()}
-                    /> */}
                   </div>
                 )}
               <div className={styles.continueButtonHolderByCnc}>

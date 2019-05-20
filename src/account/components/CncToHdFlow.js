@@ -28,18 +28,11 @@ export default class CncToHdFlow extends React.Component {
     super(props);
     this.state = {
       selectedAddressObj: null,
-      changeAddress: false,
       addNewAddress: false,
       addressId: null,
       addressSelected: false,
       thankYouPage: false
     };
-  }
-  onChangeAddress() {
-    this.setState({
-      changeAddress: true,
-      addNewAddress: false
-    });
   }
   onSelectAddress(selectedAddress) {
     let addressSelectedByUser = this.props.userAddress.addresses.find(
@@ -69,14 +62,12 @@ export default class CncToHdFlow extends React.Component {
   }
   addNewAddress() {
     this.setState({
-      addNewAddress: true,
-      changeAddress: false
+      addNewAddress: true
     });
   }
-  renderToCncPage() {
+  handleCancelAddress() {
     this.setState({
-      addNewAddress: false,
-      changeAddress: false
+      addNewAddress: false
     });
   }
   getPinCodeDetails = pinCode => {
@@ -90,8 +81,7 @@ export default class CncToHdFlow extends React.Component {
       if (addressResponse && addressResponse.status === SUCCESS) {
         this.props.getUserAddress();
         this.setState({
-          addNewAddress: false,
-          changeAddress: true
+          addNewAddress: false
         });
       }
     }
@@ -104,39 +94,16 @@ export default class CncToHdFlow extends React.Component {
         this.props.orderDetails.transactionId,
         orderCode
       );
-      if (submitCncToHdDetailsResponse.status === SUCCESS) {
-        // setDataLayerForMyAccountDirectCalls(
-        //   MYACCOUNT_CHANGE_DELIVERY_MODE_SUCCESS
-        // );
-        this.setState({
-          thankYouPage: true
-        });
-      } else if (submitCncToHdDetailsResponse.status === FAILURE_LOWERCASE) {
-        this.props.displayToast(submitCncToHdDetailsResponse.userErrorMsg);
-      }
-    }
-  }
-  componentDidMount() {
-    this.props.getUserAddress();
-    if (!this.state.changeAddress && !this.state.addNewAddress) {
-      this.props.setHeaderText("Change Delivery Mode");
-    }
-    if (this.state.changeAddress && !this.state.addNewAddress) {
-      this.props.setHeaderText("Choose Delivery Address");
-    }
-    if (!this.state.changeAddress && this.state.addNewAddress) {
-      this.props.setHeaderText("Add Address");
-    }
-  }
-  componentDidUpdate(prevProps) {
-    if (!this.state.changeAddress && !this.state.addNewAddress) {
-      this.props.setHeaderText("Change Delivery Mode");
-    }
-    if (this.state.changeAddress && !this.state.addNewAddress) {
-      this.props.setHeaderText("Choose Delivery Address");
-    }
-    if (!this.state.changeAddress && this.state.addNewAddress) {
-      this.props.setHeaderText("Add Address");
+      // if (submitCncToHdDetailsResponse.status === SUCCESS) {
+      // setDataLayerForMyAccountDirectCalls(
+      //   MYACCOUNT_CHANGE_DELIVERY_MODE_SUCCESS
+      // );
+      this.setState({
+        thankYouPage: true
+      });
+      // } else if (submitCncToHdDetailsResponse.status === FAILURE_LOWERCASE) {
+      //   this.props.displayToast(submitCncToHdDetailsResponse.userErrorMsg);
+      // }
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -194,11 +161,7 @@ export default class CncToHdFlow extends React.Component {
     if (!isCncToHdOrderDetails) {
       return this.navigateToOrderDetailPage();
     }
-    if (
-      !this.state.changeAddress &&
-      !this.state.addNewAddress &&
-      !this.state.thankYouPage
-    ) {
+    if (!this.state.addNewAddress && !this.state.thankYouPage) {
       return (
         <div className={styles.base}>
           <div className={styles.product}>
@@ -245,7 +208,7 @@ export default class CncToHdFlow extends React.Component {
                       address.line1 ? address.line1 : ""
                     } ${address.town ? address.town : ""} ${
                       address.city ? address.city : ""
-                    }, ${address.state ? address.state : ""} ${
+                    }, ${address.state ? address.state : ""} ,${
                       address.postalCode ? address.postalCode : ""
                     }`,
                     value: address.id,
@@ -259,61 +222,17 @@ export default class CncToHdFlow extends React.Component {
               ]}
               onNewAddress={() => this.addNewAddress()}
               onSelectAddress={addressId => this.onSelectAddress(addressId)}
+              onRedirectionToNextSection={() => this.submitCncToHdDetails()}
             />
           </div>
         </div>
       );
     }
-    if (
-      this.state.changeAddress &&
-      !this.state.addNewAddress &&
-      !this.state.thankYouPage
-    ) {
-      let defaultAddressId = null;
-      if (this.state.addressId) {
-        defaultAddressId = this.state.addressId;
-      }
-      return (
-        <div className={styles.baseWithAddress}>
-          <ConfirmAddress
-            address={
-              this.props.userAddress &&
-              this.props.userAddress.addresses.map(address => {
-                return {
-                  addressTitle: address.addressType,
-                  addressDescription: `${address.line1 ? address.line1 : ""} ${
-                    address.town ? address.town : ""
-                  } ${address.city ? address.city : ""}, ${
-                    address.state ? address.state : ""
-                  } ${address.postalCode ? address.postalCode : ""}`,
-                  value: address.id,
-                  selected: address.defaultAddress
-                };
-              })
-            }
-            selected={[defaultAddressId]}
-            onNewAddress={() => this.addNewAddress()}
-            onSelectAddress={addressId => this.onSelectAddress(addressId)}
-            title={"Your saved addresses"}
-            indexNumber={"0"}
-          />
-          <Checkout
-            disabled={false}
-            onCheckout={() => this.renderToCncPage()}
-            label={"continue"}
-            handleShowDetails={false}
-          />
-        </div>
-      );
-    }
-    if (
-      !this.state.changeAddress &&
-      this.state.addNewAddress &&
-      !this.state.thankYouPage
-    ) {
+    if (this.state.addNewAddress && !this.state.thankYouPage) {
       return (
         <div className={styles.base}>
           <AddDeliveryAddress
+            history={this.props.history}
             addUserAddress={address => this.addAddress(address)}
             saveText={"Continue"}
             displayToast={message => this.props.displayToast(message)}
@@ -322,6 +241,7 @@ export default class CncToHdFlow extends React.Component {
             getPincodeStatus={this.props.getPincodeStatus}
             getUserDetails={() => this.props.getUserDetails()}
             userDetails={this.props.userDetails}
+            handleCancelAddress={() => this.handleCancelAddress()}
           />
         </div>
       );
@@ -330,6 +250,7 @@ export default class CncToHdFlow extends React.Component {
       return (
         <div className={styles.base}>
           <OrderConfirmation
+            history={this.props.history}
             orderId={this.props.orderId}
             continueShopping={() => this.continueShopping()}
             trackOrder={() => this.onViewDetails()}

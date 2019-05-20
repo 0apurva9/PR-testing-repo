@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import {
   getPinCode,
-  getUserDetails
-  //s submitCncToHdDetails
+  getUserDetails,
+  submitCncToHdDetails
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import CncToHdFlow from "../components/CncToHdFlow";
@@ -43,11 +43,11 @@ const mapDispatchToProps = dispatch => {
     getUserDetails: () => {
       dispatch(getUserDetails());
     },
-    // submitCncToHdDetails: (addressDetails, transactionId, orderId) => {
-    //   return dispatch(
-    //     submitCncToHdDetails(addressDetails, transactionId, orderId)
-    //   );
-    // },
+    submitCncToHdDetails: (addressDetails, transactionId, orderId) => {
+      return dispatch(
+        submitCncToHdDetails(addressDetails, transactionId, orderId)
+      );
+    },
     captureOrderExperience: async (orderId, Rating) => {
       const response = await dispatch(captureOrderExperience(orderId, Rating));
       if (response.status === "success") {
