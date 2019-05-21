@@ -73,7 +73,8 @@ import {
   FEEDBACK_PAGE,
   RETRY_FAILED_ORDER,
   CART_COUNT_FOR_LOGGED_IN_USER,
-  PANCARD_PAGE
+  PANCARD_PAGE,
+  CART_BAG_DETAILS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -363,6 +364,8 @@ class App extends Component {
       this.props.getCartCountForLoggedInUsers(
         typeof guid === "object" ? guid : null
       );
+    } else {
+      localStorage.removeItem(CART_BAG_DETAILS);
     }
     window.prerenderReady = true;
   }
