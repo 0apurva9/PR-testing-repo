@@ -9,6 +9,10 @@ export default class Grid extends React.Component {
       localStorage.setItem("gridScroll", window.pageYOffset);
     }
   };
+
+  componentWillMount() {
+    window.scroll(0, 0);
+  }
   componentDidMount() {
     let banner = localStorage.getItem("gridScroll");
     if (this.props.banners) {
