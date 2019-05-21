@@ -171,7 +171,8 @@ export default class ProductDetailsMainCard extends React.Component {
                 />
               </div>
             )}
-            {this.props.impulseOfferCalloutList.length ? (
+            {this.props.impulseOfferCalloutList &&
+            this.props.impulseOfferCalloutList.length ? (
               <div className={styles.impulseOfferCalloutList}>
                 <span className={styles.impulseOfferCalloutListSpan}>
                   {this.props.impulseOfferCalloutList[0].promotionDisplayText}

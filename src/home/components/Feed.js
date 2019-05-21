@@ -225,6 +225,12 @@ const AutomatedBrandProductCarousel = Loadable({
     return <div />;
   }
 });
+const PreAutomatedBrandProductCarousel = Loadable({
+  loader: () => import("./PreAutomatedBrandProductCarousel.js"),
+  loading() {
+    return <div />;
+  }
+});
 const BannerProductCarousel = Loadable({
   loader: () => import("./BannerProductCarousel.js"),
   loading() {
@@ -267,7 +273,7 @@ export const typeComponentMapping = {
     <VideoProductCarousel {...props} />
   ),
   "Automated Banner Product Carousel Component": props => (
-    <AutomatedBrandProductCarousel {...props} />
+    <PreAutomatedBrandProductCarousel {...props} />
   ),
   "Auto Following Brands Component": props => <FollowingBrands {...props} />,
   multipleBannerComponent: props => <MultipleBanners {...props} />,
@@ -404,13 +410,19 @@ class Feed extends Component {
         this.props.setClickedElementId(`Feed-${id}`);
       };
     })(index);
+
+    let ABPCCount = 0;
+    if (feedDatum.type === "Automated Banner Product Carousel Component") {
+      ABPCCount = feedDatum.num_results;
+    }
     let props = {
       positionInFeed: index,
       key: index,
       id: `Feed-${index}`,
       type: typeKeyMapping[feedDatum.type],
       postData: feedDatum.postParams,
-      feedType: this.props.feedType
+      feedType: this.props.feedType,
+      msdABPCBrandCount: ABPCCount
     };
 
     if (this.props.setClickedElementId) {

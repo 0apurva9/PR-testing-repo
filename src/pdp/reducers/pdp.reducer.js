@@ -42,11 +42,12 @@ const productDescription = (
     loadingForCliqAndPiq: false,
     visitedNewProduct: false,
     getProductDetailsLoading: false,
+    serviceableSellerMessage: null,
+
     manufacturerStatus: null,
     manufacturerError: null,
     manufacturerLoading: null,
-    manufacturerDetails: {},
-    serviceableSellerMessage: null
+    manufacturerDetails: {}
   },
   action
 ) => {
