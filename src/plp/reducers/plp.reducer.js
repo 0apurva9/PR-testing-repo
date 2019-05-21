@@ -119,7 +119,8 @@ const productListings = (
     case plpActions.PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR:
       toUpdate = {
         status: action.status,
-        urlString: null
+        urlString: null,
+        banners: []
       };
 
       if (action.isPaginated) {
@@ -205,15 +206,13 @@ const productListings = (
         viewSimilarProductOfId: action.productListingId
       });
     case plpActions.GET_PLP_BANNERS_SUCCESS:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         banners: action.banners
-      };
+      });
     case plpActions.GET_PLP_BANNERS_FAILURE:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         banners: []
-      };
+      });
     default:
       return state;
   }
