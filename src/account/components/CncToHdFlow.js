@@ -94,16 +94,16 @@ export default class CncToHdFlow extends React.Component {
         this.props.orderDetails.transactionId,
         orderCode
       );
-      // if (submitCncToHdDetailsResponse.status === SUCCESS) {
-      // setDataLayerForMyAccountDirectCalls(
-      //   MYACCOUNT_CHANGE_DELIVERY_MODE_SUCCESS
-      // );
-      this.setState({
-        thankYouPage: true
-      });
-      // } else if (submitCncToHdDetailsResponse.status === FAILURE_LOWERCASE) {
-      //   this.props.displayToast(submitCncToHdDetailsResponse.userErrorMsg);
-      // }
+      if (submitCncToHdDetailsResponse.status === SUCCESS) {
+        // setDataLayerForMyAccountDirectCalls(
+        //   MYACCOUNT_CHANGE_DELIVERY_MODE_SUCCESS
+        // );
+        this.setState({
+          thankYouPage: true
+        });
+      } else if (submitCncToHdDetailsResponse.status === FAILURE_LOWERCASE) {
+        this.props.displayToast(submitCncToHdDetailsResponse.userErrorMsg);
+      }
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -180,6 +180,7 @@ export default class CncToHdFlow extends React.Component {
                 isImageLeft={true}
                 isGiveAway={"N"}
                 isServiceAvailable={"Y"}
+                quantity={1}
               />
             </div>
             <div className={styles.standardDelivery}>

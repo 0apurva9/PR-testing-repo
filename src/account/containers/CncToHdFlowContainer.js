@@ -57,6 +57,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps);
   return {
     orderDetails:
       ownProps &&
