@@ -13,6 +13,8 @@ export default class Grid extends React.Component {
     let banner = localStorage.getItem("gridScroll");
     if (this.props.banners) {
       window.scroll(0, banner);
+    } else {
+      window.scroll(0, 0);
     }
     localStorage.removeItem("gridScroll");
   }
