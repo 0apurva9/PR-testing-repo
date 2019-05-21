@@ -14,12 +14,15 @@ export default class Grid extends React.Component {
     let banner = localStorage.getItem("gridScroll");
     if (this.props.banners && this.props.banners.length !== 0) {
       window.scroll(0, banner);
+      localStorage.removeItem("gridScroll");
     } else {
       window.scroll(0, 0);
     }
-    localStorage.removeItem("gridScroll");
   }
-
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.banners) {
+  //   }
+  // }
   renderEachPlpItem() {
     let str = [];
     let displayClass =
@@ -375,6 +378,7 @@ export default class Grid extends React.Component {
     return str;
   }
   render() {
+    console.log("banners", this.props.banners);
     return (
       <div className={styles.base}>
         <div
