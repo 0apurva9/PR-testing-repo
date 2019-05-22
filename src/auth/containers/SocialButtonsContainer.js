@@ -196,21 +196,42 @@ const mapDispatchToProps = dispatch => {
               guid = cartVal;
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
-            if (guid) {
-              dispatch(
-                getCartCountForLoggedInUser(
-                  typeof guid === "object" ? guid : null
-                )
-              );
-            }
           } else {
+            let cartDetailsAnonymous = Cookies.getCookie(
+              CART_DETAILS_FOR_ANONYMOUS
+            );
+            if (cartDetailsAnonymous) {
+              let anonymousCart = JSON.parse(cartDetailsAnonymous);
+              if (anonymousCart.guid) {
+                const mergeCartIdWithAnonymousResponse = await dispatch(
+                  mergeCartId()
+                );
+                if (mergeCartIdWithAnonymousResponse.status === SUCCESS) {
+                  const newCartDetailsLoggedInUser = Cookies.getCookie(
+                    CART_DETAILS_FOR_LOGGED_IN_USER
+                  );
+                  guid = JSON.parse(newCartDetailsLoggedInUser).guid;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
+                  Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+                  guid = anonymousCart;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                }
+              }
+            }
             const existingWishList = await dispatch(getWishListItems());
-
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
-            dispatch(getCartCountForLoggedInUser());
             dispatch(setIfAllAuthCallsHaveSucceeded());
+            // dispatch(getCartCountForLoggedInUser());
+          }
+          if (guid) {
+            dispatch(
+              getCartCountForLoggedInUser(
+                typeof guid === "object" ? guid : null
+              )
+            );
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);

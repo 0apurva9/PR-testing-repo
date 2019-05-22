@@ -128,21 +128,59 @@ const mapDispatchToProps = dispatch => {
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
             //end of  merge old cart id with anonymous cart id
-
-            if (guid) {
-              dispatch(
-                getCartCountForLoggedInUser(
-                  typeof guid === "object" ? guid : null
-                )
-              );
-            }
           } else {
+            let cartDetailsAnonymous = Cookies.getCookie(
+              CART_DETAILS_FOR_ANONYMOUS
+            );
+            if (cartDetailsAnonymous) {
+              let anonymousCart = JSON.parse(cartDetailsAnonymous);
+              if (anonymousCart.guid) {
+                const mergeCartIdWithAnonymousResponse = await dispatch(
+                  mergeCartId()
+                );
+                if (mergeCartIdWithAnonymousResponse.status === SUCCESS) {
+                  const newCustomerCookie = Cookies.getCookie(
+                    CUSTOMER_ACCESS_TOKEN
+                  );
+
+                  const newUserDetails = Cookies.getCookie(
+                    LOGGED_IN_USER_DETAILS
+                  );
+                  const newCartDetailsLoggedInUser = Cookies.getCookie(
+                    CART_DETAILS_FOR_LOGGED_IN_USER
+                  );
+                  dispatch(
+                    getCartDetails(
+                      JSON.parse(newUserDetails).userName,
+                      newCustomerCookie &&
+                        JSON.parse(newCustomerCookie).access_token,
+                      newCartDetailsLoggedInUser &&
+                        JSON.parse(newCartDetailsLoggedInUser).code,
+                      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                    )
+                  );
+                  guid = JSON.parse(newCartDetailsLoggedInUser).guid;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
+                  Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+                  guid = anonymousCart;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                }
+              }
+            }
             const existingWishList = await dispatch(getWishListItems());
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
             dispatch(setIfAllAuthCallsHaveSucceeded());
-            //dispatch(getCartCountForLoggedInUser());
+            // dispatch(getCartCountForLoggedInUser());
+          }
+          if (guid) {
+            dispatch(
+              getCartCountForLoggedInUser(
+                typeof guid === "object" ? guid : null
+              )
+            );
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
