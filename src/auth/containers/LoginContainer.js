@@ -75,15 +75,26 @@ const mapDispatchToProps = dispatch => {
       const userDetailsResponse = await dispatch(
         customerAccessToken(userDetails)
       );
+      console.log(
+        "==========================userDetailsResponse ",
+        userDetailsResponse
+      );
       // checking condition for the failure customer access token api
       if (userDetailsResponse.status === ERROR) {
+        console.log("==========================userDetailsResponse Error ");
         setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
         dispatch(singleAuthCallHasFailed(userDetailsResponse.error));
       } else if (userDetailsResponse.status === SUCCESS) {
+        console.log("==========================userDetailsResponse Success ");
         const loginUserResponse = await dispatch(loginUser(userDetails));
+        console.log(
+          "==========================loginUserResponse ",
+          loginUserResponse
+        );
         if (loginUserResponse.status === SUCCESS) {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS, lastUrl);
           const cartVal = await dispatch(getCartId());
+          alert("cartVal");
           console.log("==========================cartVal ", cartVal);
           let guid;
           if (
