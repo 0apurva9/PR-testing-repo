@@ -5227,7 +5227,7 @@ export function getCartCountForLoggedInUser(cartVal) {
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}`
+        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}&isProductInfoRequired=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
