@@ -363,6 +363,7 @@ export function nullSearchMsdRequest() {
 export function nullSearchMsd() {
   return async (dispatch, getState, { api }) => {
     try {
+      dispatch(showSecondaryLoader());
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       dispatch(nullSearchMsdRequest());
       let discoverMoreData = new FormData();
@@ -391,7 +392,6 @@ export function nullSearchMsd() {
         `${MSD_ROOT_PATH}/widgets`,
         trendingProducts
       );
-
       const trendingproductresultJson = await trendingproductresult.json();
       var convertedTPArray =
         trendingproductresultJson &&
@@ -419,7 +419,11 @@ export function nullSearchMsd() {
       const data = [
         {
           discoverMore: {
-            data: discoverMoreresultJson && discoverMoreresultJson.data
+            data: discoverMoreresultJson && discoverMoreresultJson.data,
+            message: discoverMoreresultJson && discoverMoreresultJson.message,
+            status: discoverMoreresultJson && discoverMoreresultJson.status,
+            title: discoverMoreresultJson && discoverMoreresultJson.title,
+            type: discoverMoreresultJson && discoverMoreresultJson.type
           }
         },
         {
@@ -429,8 +433,10 @@ export function nullSearchMsd() {
         }
       ];
       dispatch(nullSearchMsdSuccess(data));
+      dispatch(hideSecondaryLoader());
     } catch (e) {
       throw new Error(`${e.message}`);
+      dispatch(hideSecondaryLoader());
     }
   };
 }
@@ -440,9 +446,7 @@ export function getPlpBanners(catergoryId) {
     if (!catergoryId) {
       throw new Error("CategoryId is required");
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
   return async (dispatch, getState, { api }) => {
     try {
       const plpBannerApi = await api.getPlpBanners(catergoryId.toUpperCase());

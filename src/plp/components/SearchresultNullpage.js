@@ -6,6 +6,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ProductModule from "../../general/components/ProductModule";
 import { RUPEE_SYMBOL, HOME_ROUTER } from "../../lib/constants.js";
 import DiscoverMoreComponentDesktop from "../../home/components/DiscoverMoreComponentDesktop.js";
+import DiscoverMoreL1ForNullSearchResultDesktop from "../../home/components/DiscoverMoreL1ForNullSearchResultDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import CommonCenter from "../../general/components/CommonCenter.js";
 import Button from "../../general/components/Button";
@@ -59,16 +60,20 @@ export default class SearchresultNullpage extends Component {
                   <div className={styles.nullPageData}>
                     <div className={styles.TopPicksCenter}>
                       {this.props &&
-                        this.props.feeds &&
-                        this.props.feeds[0] && (
-                          <Carousel
-                            header="Browse Category"
-                            elementWidthDesktop={33.33}
-                          >
-                            {this.props &&
-                              this.props.feeds &&
-                              this.props.feeds[0] &&
-                              this.props.feeds[0].discoverMore.data[0].map(
+                      this.props.feeds &&
+                      this.props.feeds[0] &&
+                      this.props.feeds[0].discoverMore.data[0] &&
+                      this.props.feeds[0].discoverMore.type === "L3" ? (
+                        <Carousel
+                          header="Browse Category"
+                          elementWidthDesktop={33.33}
+                        >
+                          {this.props &&
+                          this.props.feeds &&
+                          this.props.feeds[0] &&
+                          this.props.feeds[0].discoverMore.data[0] &&
+                          this.props.feeds[0].discoverMore.type === "L3"
+                            ? this.props.feeds[0].discoverMore.data[0].map(
                                 (datum, i) => {
                                   return (
                                     <DiscoverMoreComponentDesktop
@@ -91,9 +96,16 @@ export default class SearchresultNullpage extends Component {
                                     />
                                   );
                                 }
-                              )}
-                          </Carousel>
-                        )}
+                              )
+                            : null}
+                        </Carousel>
+                      ) : (
+                        <DiscoverMoreL1ForNullSearchResultDesktop
+                          history={this.props.history}
+                          feedComponentData={this.props.feeds[0].discoverMore}
+                          setClickedElementId={this.props.setClickedElementId}
+                        />
+                      )}
                     </div>
                     {this.props &&
                       this.props.feeds &&
