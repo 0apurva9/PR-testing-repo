@@ -4940,7 +4940,7 @@ export function generateCartIdAfterOrderPlace() {
   cartDetails = cartDetails ? JSON.parse(cartDetails) : {};
   return async (dispatch, getState, { api }) => {
     if (!cartDetails.isBuyNowCart) {
-      return dispatch(generateCartIdForLoggedInUser());
+      Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     } else {
       const getCartIdResponse = await dispatch(getCartId());
       if (getCartIdResponse.status === SUCCESS) {
@@ -4951,7 +4951,7 @@ export function generateCartIdAfterOrderPlace() {
         Cookie.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
         return getCartIdResponse;
       } else {
-        return dispatch(generateCartIdForLoggedInUser());
+        Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       }
     }
   };
