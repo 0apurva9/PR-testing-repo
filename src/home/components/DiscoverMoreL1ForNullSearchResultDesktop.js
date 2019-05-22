@@ -4,7 +4,7 @@ import CircleProductImage from "../../general/components/CircleProductImage";
 import CommonCenter from "../../general/components/CommonCenter";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
-import styles from "./DiscoverMoreL1ForDesktop.css";
+import styles from "./DiscoverMoreL1ForNullSearchResultDesktop.css";
 export default class DiscoverMoreL1ForNullSearchResultDesktop extends React.Component {
   onClick = webURL => {
     if (webURL) {
@@ -28,7 +28,7 @@ export default class DiscoverMoreL1ForNullSearchResultDesktop extends React.Comp
     return (
       feedComponentData &&
       feedComponentData.data && (
-        <CommonCenter>
+        <React.Fragment>
           <div className={styles.base}>
             <div className={styles.header}>
               <div className={styles.headingText}>
@@ -79,7 +79,7 @@ export default class DiscoverMoreL1ForNullSearchResultDesktop extends React.Comp
               </div>
             </div>
           </div>
-        </CommonCenter>
+        </React.Fragment>
       )
     );
   }
