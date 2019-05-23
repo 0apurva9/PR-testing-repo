@@ -2,7 +2,9 @@ import {
   SUCCESS,
   REQUESTING,
   ERROR,
-  USER_SEARCH_LOCAL_STORAGE
+  FAILURE,
+  USER_SEARCH_LOCAL_STORAGE,
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import {
   showSecondaryLoader,
@@ -12,14 +14,18 @@ import {
   setDataLayer,
   ADOBE_PLP_TYPE,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
-  ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL
+  ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
+  getMcvId
 } from "../../lib/adobeUtils";
+import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR =
   "PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR";
 export const PRODUCT_LISTINGS_SUCCESS = "PRODUCT_LISTINGS_SUCCESS";
 export const PRODUCT_LISTINGS_FAILURE = "PRODUCT_LISTINGS_FAILURE";
+export const NULL_SEARCH_MSD_REQUEST = "NULL_SEARCH_MSD_REQUEST";
+export const NULL_SEARCH_MSD_SUCCESS = "NULL_SEARCH_MSD_SUCCESS";
 export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
 export const PLP_HAS_NOT_BEEN_VISITED = "PLP_HAS_NOT_BEEN_VISITED";
 export const PRODUCT_LISTINGS_PATH = "v2/mpl/products/searchProducts";
@@ -50,8 +56,12 @@ export const SET_PRODUCT_MODULE_REF = "SET_PRODUCT_MODULE_REF";
 export const CLEAR_PRODUCT_MODULE_REF = "CLEAR_PRODUCT_MODULE_REF";
 export const SET_PLP_PATH = "SET_PLP_PATH";
 export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
+export const MSD_ROOT_PATH = "https://ap-southeast-1-api.madstreetden.com";
 const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
+const api_key = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
+export const GET_PLP_BANNERS_SUCCESS = "GET_PLP_BANNERS_SUCCESS";
+export const GET_PLP_BANNERS_FAILURE = "GET_PLP_BANNERS_FAILURE";
 
 export function setProductModuleRef(ref) {
   return {
@@ -246,7 +256,7 @@ export function getProductListings(
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
       let keyWordRedirect = false;
-      let queryString = `${PRODUCT_LISTINGS_PATH}?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true`;
+      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
       }
@@ -326,8 +336,141 @@ export function getProductListings(
         dispatch(hideSecondaryLoader());
       }
     } catch (e) {
-      dispatch(getProductListingsFailure(e.message, paginated));
+      let status = dispatch(getProductListingsFailure(e.message, paginated));
       dispatch(hideSecondaryLoader());
+      if (status.status === "error" || status.isPaginated) {
+        dispatch(nullSearchMsd());
+      }
     }
+  };
+}
+
+export function nullSearchMsdSuccess(searchMsdData) {
+  return {
+    type: NULL_SEARCH_MSD_SUCCESS,
+    status: SUCCESS,
+    searchMsdData
+  };
+}
+
+export function nullSearchMsdRequest() {
+  return {
+    type: NULL_SEARCH_MSD_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function nullSearchMsd() {
+  return async (dispatch, getState, { api }) => {
+    try {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      dispatch(nullSearchMsdRequest());
+      let discoverMoreData = new FormData();
+      discoverMoreData.append("api_key", api_key);
+      discoverMoreData.append("widget_list", [109]);
+      discoverMoreData.append("num_results", [10]);
+      discoverMoreData.append("mad_uuid", await getMcvId());
+      discoverMoreData.append("details", false);
+      const discoverMoreresult = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        discoverMoreData
+      );
+      const discoverMoreresultJson = await discoverMoreresult.json();
+      let trendingProducts = new FormData();
+      trendingProducts.append("api_key", api_key);
+      trendingProducts.append("mad_uuid", await getMcvId());
+      trendingProducts.append("details", true);
+      if (userDetails) {
+        trendingProducts.append("num_results", "[5, 5, 10]");
+        trendingProducts.append("widget_list", "[7, 1, 3]");
+      } else {
+        trendingProducts.append("num_results", "[10]");
+        trendingProducts.append("widget_list", "[3]");
+      }
+      const trendingproductresult = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        trendingProducts
+      );
+
+      const trendingproductresultJson = await trendingproductresult.json();
+      var convertedTPArray =
+        trendingproductresultJson &&
+        trendingproductresultJson.data &&
+        trendingproductresultJson.data.reduce((r, e) => (r.push(...e), r), []);
+
+      let finalProductDetails = null;
+      if (convertedTPArray && convertedTPArray.length > 0) {
+        let productCode =
+          convertedTPArray && convertedTPArray.map(value => value.product_id);
+        productCode = productCode && productCode.toString();
+        const getProductdetails = await api.getMiddlewareUrl(
+          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        );
+        finalProductDetails = await getProductdetails.json();
+      }
+      if (
+        discoverMoreresultJson.status === FAILURE &&
+        ((trendingproductresultJson &&
+          trendingproductresultJson.status === FAILURE) ||
+          (finalProductDetails && finalProductDetails.status === FAILURE))
+      ) {
+        throw new Error(`${discoverMoreresultJson.message}`);
+      }
+      const data = [
+        {
+          discoverMore: {
+            data: discoverMoreresultJson && discoverMoreresultJson.data
+          }
+        },
+        {
+          trendingProducts: {
+            data: finalProductDetails && finalProductDetails.results
+          }
+        }
+      ];
+      dispatch(nullSearchMsdSuccess(data));
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+
+export function getPlpBanners(catergoryId) {
+  try {
+    if (!catergoryId) {
+      throw new Error("CategoryId is required");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return async (dispatch, getState, { api }) => {
+    try {
+      const plpBannerApi = await api.getPlpBanners(catergoryId.toUpperCase());
+      const plpBannerApiApiJson = await plpBannerApi.json();
+      // if (pdpManufacturerApiJson.status == "Success") {
+      if (plpBannerApiApiJson.errorCode) {
+        dispatch(getPlpBannersFailure("error"));
+      } else {
+        dispatch(getPlpBannersSucess(plpBannerApiApiJson));
+      }
+      // } else {
+    } catch (e) {
+      dispatch(getPlpBannersFailure(e.message));
+    }
+  };
+}
+
+export function getPlpBannersSucess(banners = []) {
+  return {
+    type: GET_PLP_BANNERS_SUCCESS,
+    status: SUCCESS,
+    banners
+  };
+}
+export function getPlpBannersFailure() {
+  return {
+    type: GET_PLP_BANNERS_FAILURE,
+    status: SUCCESS,
+    banners: []
   };
 }

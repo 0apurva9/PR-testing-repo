@@ -175,6 +175,15 @@ class ProductListingsPage extends Component {
 
     return encodeURIComponent(searchText);
   }
+  getCategoryId(searchText = "") {
+    searchText = decodeURIComponent(searchText);
+    let searchParts = searchText.split(":");
+    let categoryIndex = searchParts.indexOf("category");
+    if (categoryIndex !== -1) {
+      return searchParts[categoryIndex + 1];
+    }
+    return "";
+  }
   componentDidMount() {
     if (
       this.props.location.state &&
@@ -204,6 +213,11 @@ class ProductListingsPage extends Component {
     if (this.props.searchText) {
       let searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, 0);
+      // get categoryid from search text and get banners for category listing
+      let categoryId = this.getCategoryId(searchText);
+      if (categoryId) {
+        this.props.getPlpBanners(categoryId);
+      }
       return;
     }
     let page = null;
@@ -213,6 +227,12 @@ class ProductListingsPage extends Component {
     ) {
       page = this.props.match.params[1];
       let searchText = this.getSearchTextFromUrl();
+      // get categoryid from search text and get banners for category listing
+      let categoryId = this.getCategoryId(searchText);
+
+      if (categoryId) {
+        this.props.getPlpBanners(categoryId);
+      }
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
     }
@@ -230,6 +250,12 @@ class ProductListingsPage extends Component {
       const brandId = this.props.match.params[1].toUpperCase();
       const searchText = `:relevance:category:${categoryId}:brand:${brandId}:${OUT_OF_STOCK_FLAG}:true`;
       this.props.getProductListings(searchText, SUFFIX, 0, false);
+
+      // get banners for category listing
+      console.log(categoryId, "categoryId");
+      if (categoryId) {
+        this.props.getPlpBanners(categoryId);
+      }
       return;
     }
     page = 0;

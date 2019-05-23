@@ -19,7 +19,10 @@ const productListings = (
     clickedProductModuleRef: null,
     lastVisitedPlpUrl: null,
     deselectedOutOfStock: false,
-    urlString: null
+    urlString: null,
+    loadMsdSkeleton: null,
+    searchMsdData: [],
+    banners: []
   },
   action
 ) => {
@@ -34,7 +37,16 @@ const productListings = (
       return Object.assign({}, state, {
         clickedProductModuleRef: null
       });
-
+    case plpActions.NULL_SEARCH_MSD_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        searchMsdData: action.searchMsdData
+      });
+    case plpActions.NULL_SEARCH_MSD_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        loading: false
+      });
     case CLEAR_ERROR:
       return Object.assign({}, state, {
         error: null
@@ -107,7 +119,8 @@ const productListings = (
     case plpActions.PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR:
       toUpdate = {
         status: action.status,
-        urlString: null
+        urlString: null,
+        banners: []
       };
 
       if (action.isPaginated) {
@@ -191,6 +204,14 @@ const productListings = (
     case plpActions.VIEW_SIMILAR_PRODUCTS:
       return Object.assign({}, state, {
         viewSimilarProductOfId: action.productListingId
+      });
+    case plpActions.GET_PLP_BANNERS_SUCCESS:
+      return Object.assign({}, state, {
+        banners: action.banners
+      });
+    case plpActions.GET_PLP_BANNERS_FAILURE:
+      return Object.assign({}, state, {
+        banners: []
       });
     default:
       return state;

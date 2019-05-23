@@ -858,6 +858,7 @@ export default class PdpApparel extends React.Component {
                         showSizeSelector={
                           this.isSizeNotSelectedForAddToWishlist
                         }
+                        ussid={productData.winningUssID}
                       />
                     </div>
                   </div>

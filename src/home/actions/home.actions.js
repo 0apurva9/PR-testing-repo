@@ -105,7 +105,7 @@ let ADOBE_TARGET_HOME_FEED_MBOX_NAME, // for local/devxelp/uat2tmpprod
   WCMS_PLATFORM;
 
 if (!checkUserAgentIsMobile()) {
-  ADOBE_TARGET_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop"; // for local/devxelp/uat2tmpprod
+  ADOBE_TARGET_HOME_FEED_MBOX_NAME = "POC_Desktop_Tmpprod"; // for local/devxelp/uat2tmpprod
   ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop";
   ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME = "dev_POC_New_UIUX_Desktop";
   WCMS_PLATFORM = "desktop";
@@ -599,7 +599,8 @@ export function getComponentData(
   postParams: null,
   backUpUrl,
   type,
-  feedType
+  feedType,
+  msdABPCBrandCount
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(componentDataRequest(positionInFeed));
@@ -619,7 +620,7 @@ export function getComponentData(
         ]);
 
         if (type === AUTOMATED_BRAND_CAROUSEL) {
-          postData.append("num_brands", JSON.stringify(MSD_NUM_BRANDS));
+          postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
           postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
           postData.append("channel", "pwa");
         }

@@ -33,6 +33,9 @@ export default class ProductGrid extends React.Component {
     this.state = {
       view: GRID,
       gridBreakup: false
+      // gridScroll: localStorage.getItem("gridScroll")
+      //   ? localStorage.getItem("gridScroll")
+      //   : 0
     };
   }
 
@@ -48,6 +51,9 @@ export default class ProductGrid extends React.Component {
       this.setState({ view: LIST });
     }
   }
+  // recordScreenScroll = () => {
+  //   localStorage.setItem("gridScroll", window.pageYOffset);
+  // };
   goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
     if (!checkUserAgentIsMobile()) {
@@ -73,6 +79,8 @@ export default class ProductGrid extends React.Component {
     return (
       <ProductModuleContainer
         key={index}
+        isRange={data.price.isRange}
+        productCategoryType={data.productCategoryType}
         isRange={data.price.isRange}
         maxPrice={
           data.price &&
@@ -116,6 +124,7 @@ export default class ProductGrid extends React.Component {
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
+        offerData={data.offerData}
         showWishListButton={true}
         plpAttrMap={data && data.plpAttrMap}
         shouldShowSimilarIcon={true}
@@ -125,6 +134,8 @@ export default class ProductGrid extends React.Component {
     );
   };
   render() {
+    let electronicView = this.props.electronicView;
+
     return (
       <React.Fragment>
         <div
@@ -141,10 +152,14 @@ export default class ProductGrid extends React.Component {
 
           <div className={styles.content}>
             <DumbGrid
+              // gridScroll={this.state.gridScroll}
               search={this.props.search}
+              electronicView={electronicView}
+              // recordScreenScroll={this.recordScreenScroll()}
               offset={0}
               elementWidthMobile={this.props.view === LIST ? 100 : 50}
               elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
+              banners={this.props.banners}
               view={this.props.view}
             >
               {this.props.data &&

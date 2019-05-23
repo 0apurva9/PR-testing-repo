@@ -72,6 +72,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
                   .map((val, i) => {
                     return (
                       <div
+                        key={i}
                         className={styles.listLink}
                         onClick={() => this.goToLink(val.webURL)}
                       >
