@@ -13,9 +13,26 @@ export default class ProductImage extends React.Component {
   }
 
   render() {
+    // let electronicView = this.props.electronicView === "Electronics";
     return (
-      <div className={this.props.flatImage ? styles.flatImage : styles.base}>
-        <div className={styles.imageHolder} onClick={() => this.onClickImage()}>
+      <div
+        className={
+          this.props.electronicView
+            ? styles.electronicImageBase
+            : this.props.flatImage
+              ? styles.flatImage
+              : styles.base
+        }
+      >
+        {/* <div className={styles.imageHolder} onClick={() => this.onClickImage()}> */}
+        <div
+          className={
+            this.props.electronicView
+              ? styles.electronicImageHolder
+              : styles.imageHolder
+          }
+          onClick={() => this.onClickImage()}
+        >
           <VisibilityChild>
             <Image image={this.props.image} alt={this.props.alt} />
           </VisibilityChild>

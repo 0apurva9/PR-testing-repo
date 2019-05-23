@@ -15,6 +15,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import { widgetsTracking } from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
+import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 const ELECTRONICS = "Electronics";
 
 export default class ProductModule extends React.Component {
@@ -64,7 +65,7 @@ export default class ProductModule extends React.Component {
     this.props.setviewSimilarProductsOfId(this.props.productId);
     this.props.showSimilarProducts();
   }
-  showSimilarIcons = () => {
+  showSimilarIcons = eview => {
     let similarButton =
       this.props.view === "grid" ? styles.display4by4 : styles.display3by3;
     if (this.props.productCategory === ELECTRONICS) {
@@ -79,6 +80,15 @@ export default class ProductModule extends React.Component {
   };
 
   render() {
+    // let electronicView =
+    //   this.props.productListings &&
+    //   this.props.productListings.facetdatacategory &&
+    //   this.props.productListings.facetdatacategory.filters &&
+    //   this.props.productListings.facetdatacategory.filters[0] &&
+    //   this.props.productListings.facetdatacategory.filters[0].categoryName ===
+    //     "Electronics";
+    let electronicView = false;
+
     let downloadImage = downloadIcon;
     if (this.props.isWhite) {
       downloadImage = downloadIconWhite;
@@ -86,15 +96,35 @@ export default class ProductModule extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.shouldShowSimilarIcon && this.showSimilarIcons()}
+        {!electronicView &&
+          this.props.shouldShowSimilarIcon &&
+          this.showSimilarIcons(electronicView)}
+
         <div
-          className={styles.base}
+          className={electronicView ? styles.electronicsBase : styles.base}
           onClick={this.onClick}
           id={`ProductModule-${this.props.productId}`}
         >
           {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
-          <div className={styles.imageAndDescriptionWrapper}>
-            <br />
+          {electronicView && (
+            <div className={styles.electronicViewButton}>
+              <AddToWishListButtonContainer
+                productListingId={this.props.productId}
+                winningUssID={this.props.winningUssID}
+                productListings={this.props.productListings}
+                isWhite={this.props.isWhite}
+                size={17}
+                ussid={this.props.ussid}
+              />
+            </div>
+          )}
+          <div
+            className={
+              electronicView
+                ? styles.electronicImageAndDescriptionWrapper
+                : styles.imageAndDescriptionWrapper
+            }
+          >
             <a
               href={`${window.location.origin}${this.getProductURL()}`}
               className={styles.aTag}
@@ -103,15 +133,19 @@ export default class ProductModule extends React.Component {
             >
               <div
                 className={
-                  this.props.view === "grid"
-                    ? styles.imageHolder
-                    : styles.ListimageHolder
+                  electronicView
+                    ? styles.ElectronicListimageHolder
+                    : this.props.view === "grid"
+                      ? styles.imageHolder
+                      : styles.ListimageHolder
                 }
               >
                 <ProductImage
                   alt={this.props.alt}
                   image={this.props.productImage}
+                  electronicView={electronicView}
                 />
+
                 {this.props.onConnect && (
                   <ConnectButton onClick={this.handleConnect} />
                 )}
@@ -128,14 +162,24 @@ export default class ProductModule extends React.Component {
                 </div>
               </div>
             </a>
+
             <div
               className={
-                this.props.view === "grid" ? styles.content : styles.Listcontent
+                electronicView
+                  ? styles.electronicViewContent
+                  : this.props.view === "grid"
+                    ? styles.content
+                    : styles.Listcontent
               }
             >
-              <ProductDescription {...this.props} />
+              <ProductDescription
+                {...this.props}
+                electronicView={electronicView}
+              />
+
               {this.props.view === "list" && (
                 <ProductInfo
+                  electronicView={electronicView}
                   averageRating={this.props.averageRating}
                   totalNoOfReviews={this.props.totalNoOfReviews}
                   offerText={this.props.offerText}

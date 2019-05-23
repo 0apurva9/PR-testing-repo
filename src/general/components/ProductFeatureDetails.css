@@ -1,0 +1,134 @@
+.base {
+  width: 100%;
+  padding: 2px;
+}
+
+base :after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.offerList {
+  float: left;
+  width: 55%;
+}
+.featureContainer {
+  margin-top: -3%;
+  /* float: left; */
+}
+.featureList {
+  line-height: 25px;
+  float: left;
+  width: 45%;
+  font-family: light;
+  margin-top: -7%;
+}
+.featureHeader h3 {
+  width: 100%;
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
+}
+.priceHolder {
+  display: inline-block;
+  line-height: 24px;
+}
+.electronicDiscount {
+  composes: priceHolder;
+  margin-right: 10px;
+}
+
+.electronicDiscount h3 {
+  color: #212121;
+  font-size: 17px;
+  line-height: 20px;
+  font-family: light;
+  white-space: normal;
+  font-weight: 900;
+}
+.discount {
+  composes: priceHolder;
+  margin-right: 10px;
+  margin-right: 10px;
+  height: auto;
+  color: #212121;
+  font-size: 20px;
+  font-family: semibold;
+  margin-bottom: 20px;
+}
+.priceCancelled {
+  composes: priceHolder;
+  text-decoration: line-through;
+  color: #9b9b9b;
+}
+.contentWhite .priceCancelled {
+  color: #fff;
+}
+
+.elctronicList {
+  width: 100%;
+  line-height: 24px;
+  font-size: 14px;
+  font-family: light;
+  margin-bottom: 0px;
+  position: relative;
+  font-weight: 500;
+  color: #4a4a4a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.electronicPriceCancelled {
+  composes: priceHolder;
+  text-decoration: line-through;
+  color: #9b9b9b;
+  font-size: 17px;
+}
+.offerIconHolder {
+  float: left;
+  padding: 0 5px;
+}
+.plpEMITitle {
+  color: #4a4a4a;
+  width: 100%;
+  font-size: 14px;
+  font-family: semibold;
+  padding: 4px;
+}
+.plpEMItext {
+  color: #000000c7;
+  font-size: 14px;
+  height: auto;
+  display: inline-block;
+  font-family: sans-serif;
+}
+.plpOfferTitle {
+  color: #4a4a4a;
+  width: 100%;
+  font-size: 14px;
+  font-family: semibold;
+  padding: 4px;
+}
+
+.discountPLPElectronicsClass {
+  color: rgb(255, 23, 68);
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 17px;
+  font-family: inherit;
+  font-weight: 600;
+}
+.nceHolder:empty {
+  float: left;
+  margin: 2px 0px 1px 0px;
+}
+.offerData:empty {
+  float: left;
+  margin: 2px 0px 1px 0px;
+}
+.offerData:empty {
+  float: left;
+  margin: 2px 0px 1px 0px;
+}

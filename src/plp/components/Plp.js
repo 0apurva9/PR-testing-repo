@@ -13,6 +13,7 @@ import { CATEGORY_REGEX } from "../components/PlpBrandCategoryWrapper";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
+import SearchresultNullpage from "./SearchresultNullpage";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -487,6 +488,14 @@ export default class Plp extends React.Component {
     let selectedFilter = [];
     let filterSelected = false;
     let hasSorts = false;
+    // let electronicView =
+    //   this.props &&
+    //   this.props.productListings &&
+    //   this.props.productListings.facetdatacategory &&
+    //   this.props.productListings.facetdatacategory.filters &&
+    //   this.props.productListings.facetdatacategory.filters[0].categoryName ===
+    //     "Electronics";
+    let electronicView = false;
     if (this.props.productListings && this.props.productListings.facetdata) {
       this.props.productListings.facetdata.forEach(filter => {
         selectedFilterCount += filter.selectedFilterCount;
@@ -573,9 +582,15 @@ export default class Plp extends React.Component {
             </MediaQuery>
             <MediaQuery query="(min-device-width:1025px)">
               <div className={styles.headerSortWithFilter}>
-                <div className={styles.selectedFilter}>
+                <div
+                  className={
+                    electronicView
+                      ? styles.selectedFilterElectronicView
+                      : styles.selectedFilter
+                  }
+                >
                   {selectedFilter &&
-                    selectedFilter.map(selectedFilterData => {
+                    selectedFilter.map((selectedFilterData, i) => {
                       return (
                         <div
                           className={styles.selectedFilterWithIcon}
@@ -585,6 +600,7 @@ export default class Plp extends React.Component {
                               selectedFilterData.name
                             )
                           }
+                          key={i}
                         >
                           {selectedFilterData.name}
                           <div className={styles.cancelIcon}>
@@ -601,27 +617,31 @@ export default class Plp extends React.Component {
                 <div className={styles.sort}>
                   <SortDesktopContainer />
                 </div>
-                <div className={styles.gridIcon}>
-                  <DesktopOnly>
-                    <div
-                      className={styles.icon}
-                      onClick={() => this.switchView()}
-                    >
-                      {this.state.gridBreakup && (
-                        <Icon image={gridImage} size={20} />
-                      )}
-                      {!this.state.gridBreakup && (
-                        <Icon image={listImage} size={20} />
-                      )}
-                    </div>
-                  </DesktopOnly>
-                </div>
+
+                {!electronicView && (
+                  <div className={styles.gridIcon}>
+                    <DesktopOnly>
+                      <div
+                        className={styles.icon}
+                        onClick={() => this.switchView()}
+                      >
+                        {this.state.gridBreakup && (
+                          <Icon image={gridImage} size={20} />
+                        )}
+                        {!this.state.gridBreakup && (
+                          <Icon image={listImage} size={20} />
+                        )}
+                      </div>
+                    </DesktopOnly>
+                  </div>
+                )}
               </div>
             </MediaQuery>
             <MobileOnly>
               <div className={styles.productWithFilter}>
                 <div className={styles.main}>
                   <ProductGrid
+                    banners={this.props.banners}
                     history={this.props.history}
                     location={this.props.location}
                     data={this.props.productListings.searchresult}
@@ -687,6 +707,8 @@ export default class Plp extends React.Component {
                 >
                   <div id="grid-wrapper_desktop">
                     <ProductGrid
+                      banners={this.props.banners}
+                      electronicView={false}
                       history={this.props.history}
                       location={this.props.location}
                       data={this.props.productListings.searchresult}
@@ -740,7 +762,16 @@ export default class Plp extends React.Component {
           </div>
         )}
         {!this.props.productListings &&
-          !this.props.productListings && <div className={styles.dummyHolder} />}
+          !this.props.productListings &&
+          this.props.searchMsdData && (
+            <div className={styles.dummyHolder}>
+              <SearchresultNullpage
+                history={this.props.history}
+                feeds={this.props.searchMsdData}
+                showTrendingProducts={true}
+              />
+            </div>
+          )}
       </React.Fragment>
     );
   }
