@@ -35,10 +35,7 @@ export default class LogoutButton extends React.Component {
           this.props.setBagCount(0);
         }
 
-        const generateCartIdForAnonymous = await this.props.generateCartIdForAnonymous();
-        if (generateCartIdForAnonymous.status === SUCCESS) {
-          this.props.setFalseForAllAuthCallHasSucceedFlag();
-        }
+        this.props.setFalseForAllAuthCallHasSucceedFlag();
       }
     }
   }

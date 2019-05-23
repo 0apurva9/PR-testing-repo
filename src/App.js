@@ -72,7 +72,9 @@ import {
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
   RETRY_FAILED_ORDER,
-  PANCARD_PAGE
+  CART_COUNT_FOR_LOGGED_IN_USER,
+  PANCARD_PAGE,
+  CART_BAG_DETAILS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -318,6 +320,7 @@ class App extends Component {
     let cartDetailsForLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
+    let guid;
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
 
@@ -332,16 +335,14 @@ class App extends Component {
       customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     }
 
-    if (customerAccessToken) {
-      if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
-        this.props.generateCartIdForLoggedInUser();
-      }
-    }
     if (
       customerAccessToken &&
       cartDetailsForLoggedInUser &&
       loggedInUserDetails
     ) {
+      guid = JSON.parse(cartDetailsForLoggedInUser).guid
+        ? JSON.parse(cartDetailsForLoggedInUser).guid
+        : null;
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -354,25 +355,19 @@ class App extends Component {
         }
       }
     } else {
-      if (!cartDetailsForAnonymous && globalAccessToken) {
-        const parsedQueryString = queryString.parse(this.props.location.search);
-        if (!parsedQueryString || !parsedQueryString.cartGuid) {
-          this.props.generateCartIdForAnonymous();
-        }
+      if (cartDetailsForAnonymous) {
+        guid = JSON.parse(cartDetailsForAnonymous);
       }
     }
-    window.prerenderReady = true;
-  }
-  componentWillMount() {
-    const parsedQueryString = queryString.parse(this.props.location.search);
-    if (parsedQueryString && parsedQueryString.cartGuid) {
-      Cookies.createCookie(
-        CART_DETAILS_FOR_ANONYMOUS,
-        JSON.stringify({
-          guid: parsedQueryString.cartGuid
-        })
+
+    if (guid) {
+      this.props.getCartCountForLoggedInUsers(
+        typeof guid === "object" ? guid : null
       );
+    } else {
+      localStorage.removeItem(CART_BAG_DETAILS);
     }
+    window.prerenderReady = true;
   }
 
   renderLoader() {

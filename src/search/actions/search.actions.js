@@ -4,7 +4,7 @@ export const SEARCH_RESULT_REQUEST = "SEARCH_RESULT_REQUEST";
 export const SEARCH_RESULT_SUCCESS = "SEARCH_RESULT_SUCCESS";
 export const SEARCH_RESULT_FAILURE = "SEARCH_RESULT_FAILURE";
 export const CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS";
-export const SEARCH_PATH = "/v2/mpl/searchAndSuggest?searchString=";
+export const SEARCH_PATH = "v2/mpl/searchAndSuggest?searchString=";
 
 export function clearSearchResults() {
   return {
@@ -45,7 +45,7 @@ export function getSearchResults(searchString) {
     dispatch(getSearchResultsRequest());
 
     try {
-      const result = await api.post(
+      const result = await api.get(
         `${SEARCH_PATH}${searchString}&category=all`
       );
       const resultJson = await result.json();

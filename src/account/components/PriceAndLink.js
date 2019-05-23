@@ -47,9 +47,7 @@ export default class PriceAndLink extends React.Component {
         <DesktopOnly>
           <div className={styles.priceTextHolder}>
             <div className={styles.priceHeader}>Total Price </div>
-            <div className={styles.priceAmount}>{`${RUPEE_SYMBOL} ${
-              this.props.price
-            }`}</div>
+            <div className={styles.priceAmount}>{`${this.props.price}`}</div>
           </div>
           <MobileOnly>
             {this.props.isEgvOrder &&
