@@ -161,6 +161,9 @@ export default class InvalidCouponPopUp extends React.Component {
     if (releaseStatus.status === SUCCESS) {
       this.props.closeModal();
     }
+    if (!bankCouponCode || !userCouponCode || !noCostEmiCoupon) {
+      this.props.closeModal();
+    }
   }
   render() {
     const parsedQueryString = queryString.parse(this.props.location.search);
