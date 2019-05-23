@@ -3419,7 +3419,7 @@ export function jusPayPaymentMethodTypeForPaypal(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
-        dispatch(generateCartIdForLoggedInUser());
+        // dispatch(generateCartIdForLoggedInUser());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -4674,6 +4674,10 @@ export function getPaymentFailureOrderDetails() {
               ? resultJson.cartAmount.paybleAmount.value
               : ""
         }
+      );
+      Cookie.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify({ guid: cartGuId })
       );
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
