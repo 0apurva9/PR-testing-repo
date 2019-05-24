@@ -604,11 +604,9 @@ export default class PdpApparel extends React.Component {
       );
     });
   }
-  filterDetails(productData) {
+  filterDetails(productData, moreData) {
     let filteredData = productData.filter(val => {
-      return (
-        val.key !== "Neck/Collar" && val.key !== "Sleeve" && val.key !== "Wash"
-      );
+      return val.value.includes("|") === false;
     });
     return this.renderDetails(filteredData);
   }
@@ -1205,79 +1203,82 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
             <div className={styles.details}>
-              {productData.seasonDetails != null && (
-                <div className={styles.season}>
-                  <div className={styles.pageCenter}>
-                    <div className={styles.seasonDetails}>
-                      <div className={styles.detailsCard}>
-                        <div className={styles.seasonImage}>
-                          {this.getSeasonDetails("seasonIconURL").length ? (
-                            <div className={styles.seasonImg}>
-                              <img
-                                alt="season_icon"
-                                className={styles.seasonIconImage}
-                                src={this.getSeasonDetails("seasonIconURL")}
-                              />
-                            </div>
-                          ) : null}
-                          {this.getSeasonDetails("bannerUrl").length ? (
-                            <div
-                              className={styles.seasonBanner}
-                              onClick={() =>
-                                this.onClickBanner("bannerDestinationUrl")
-                              }
-                            >
-                              <img
-                                alt="bannerUrl"
-                                className={styles.seasonIconImage}
-                                src={this.getSeasonDetails("bannerUrl")}
-                              />
-                            </div>
-                          ) : null}
-                        </div>
+              {productData.seasonDetails != null &&
+                this.getSeasonDetails("seasonIconURL").length &&
+                this.getSeasonDetails("bannerUrl").length &&
+                this.getSeasonDetails("bannerUrl").length(
+                  <div className={styles.season}>
+                    <div className={styles.pageCenter}>
+                      <div className={styles.seasonDetails}>
+                        <div className={styles.detailsCard}>
+                          <div className={styles.seasonImage}>
+                            {this.getSeasonDetails("seasonIconURL").length ? (
+                              <div className={styles.seasonImg}>
+                                <img
+                                  alt="season_icon"
+                                  className={styles.seasonIconImage}
+                                  src={this.getSeasonDetails("seasonIconURL")}
+                                />
+                              </div>
+                            ) : null}
+                            {this.getSeasonDetails("bannerUrl").length ? (
+                              <div
+                                className={styles.seasonBanner}
+                                onClick={() =>
+                                  this.onClickBanner("bannerDestinationUrl")
+                                }
+                              >
+                                <img
+                                  alt="bannerUrl"
+                                  className={styles.seasonIconImage}
+                                  src={this.getSeasonDetails("bannerUrl")}
+                                />
+                              </div>
+                            ) : null}
+                          </div>
 
-                        <div className={styles.seasonTextDetails}>
-                          <div className={styles.seasonCollection}>
-                            <div className={styles.collectionNotesTile}>
-                              <h3>Collection Notes</h3>
+                          <div className={styles.seasonTextDetails}>
+                            <div className={styles.seasonCollection}>
+                              <div className={styles.collectionNotesTile}>
+                                <h3>Collection Notes</h3>
+                              </div>
+                              <div className={styles.collectionNotesContent}>
+                                {this.getSeasonDetails("Collection Info").length
+                                  ? this.getSeasonDetails("Collection Info")
+                                  : null}
+                              </div>
                             </div>
-                            <div className={styles.collectionNotesContent}>
-                              {this.getSeasonDetails("Collection Info").length
-                                ? this.getSeasonDetails("Collection Info")
+                            <div className={styles.seasonStyleDescription}>
+                              <div className={styles.collectionNotesTile}>
+                                Style Note
+                              </div>
+                              <div className={styles.collectionNotesContent}>
+                                {productData.styleNote}
+                              </div>
+                            </div>
+                            <div className={styles.seasonLaunchDate}>
+                              Collection Launched in{" "}
+                              {this.getSeasonDetails("Collection Date").length
+                                ? this.getSeasonDetails("Collection Date")
                                 : null}
                             </div>
-                          </div>
-                          <div className={styles.seasonStyleDescription}>
-                            <div className={styles.collectionNotesTile}>
-                              Style Note
+                            <div className={styles.seasonButton}>
+                              <Button
+                                type="hollow"
+                                height={45}
+                                width={195}
+                                label="VIEW ALL"
+                                onClick={() =>
+                                  this.onClickBanner("bannerDestinationUrl")
+                                }
+                              />
                             </div>
-                            <div className={styles.collectionNotesContent}>
-                              {productData.styleNote}
-                            </div>
-                          </div>
-                          <div className={styles.seasonLaunchDate}>
-                            Collection Launched in{" "}
-                            {this.getSeasonDetails("Collection Date").length
-                              ? this.getSeasonDetails("Collection Date")
-                              : null}
-                          </div>
-                          <div className={styles.seasonButton}>
-                            <Button
-                              type="hollow"
-                              height={45}
-                              width={195}
-                              label="VIEW ALL"
-                              onClick={() =>
-                                this.onClickBanner("bannerDestinationUrl")
-                              }
-                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
@@ -1301,7 +1302,10 @@ export default class PdpApparel extends React.Component {
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
                               productData.details &&
-                              this.filterDetails(productData.details)}
+                              this.filterDetails(
+                                productData.details,
+                                productData.prdDetails
+                              )}
                           </div>
                           {productData.prdDetails && (
                             <div className={styles.productDetailsImagesCard}>

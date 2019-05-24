@@ -100,7 +100,8 @@ export default class ProductGalleryDesktop extends React.Component {
       if (detail["key"] !== key) {
         return null;
       } else {
-        return <span>{detail["value"]}</span>;
+        let detailedValue = detail["value"].split("|");
+        return <span>{detailedValue[0]}</span>;
       }
     });
   };
@@ -213,7 +214,8 @@ export default class ProductGalleryDesktop extends React.Component {
                 <div className={styles.marginTop10}>
                   <div className={styles.fabtype}>
                     {this.getKeyValue(FABRIC)}
-                    {<span>, </span>}
+                    {this.getKeyValue(WASH) !== undefined &&
+                      this.getKeyValue(WASH) !== null && <span>, </span>}
                     {this.getKeyValue(WASH)}
                   </div>
                 </div>
