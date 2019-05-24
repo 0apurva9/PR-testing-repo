@@ -765,6 +765,7 @@ class CheckOutPage extends React.Component {
       <div className={styles.addInitialAddAddress}>
         <AddDeliveryAddress
           history={this.props.history}
+          handleCancelAddress={() => this.handleCancelAddress()}
           addUserAddress={address => this.addAddress(address)}
           {...this.state}
           onChange={val => this.onChange(val)}
@@ -2406,6 +2407,9 @@ if you have order id in local storage then you have to show order confirmation p
   };
   handleCancelAddress() {
     this.setState({ addNewAddress: false });
+    if (this.state.isFirstAddress) {
+      this.props.history.push(PRODUCT_CART_ROUTER);
+    }
   }
   onCloseTransactionFailed() {
     this.setState({ isOpenTransactionFailedPopUp: false });
