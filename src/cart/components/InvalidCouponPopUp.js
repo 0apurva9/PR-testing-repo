@@ -160,7 +160,7 @@ export default class InvalidCouponPopUp extends React.Component {
     }
     if (!bankCouponCode || !userCouponCode || !noCostEmiCoupon) {
       if (
-        !releaseStatus &&
+        releaseStatus.status !== SUCCESS &&
         this.props.result &&
         this.props.result.bankOffer &&
         this.props.result.bankOffer.couponCode
@@ -170,7 +170,7 @@ export default class InvalidCouponPopUp extends React.Component {
         );
       }
       if (
-        !releaseStatus &&
+        releaseStatus.status !== SUCCESS &&
         this.props.result &&
         this.props.result.userCoupon &&
         this.props.result.userCoupon.couponCode
@@ -180,7 +180,7 @@ export default class InvalidCouponPopUp extends React.Component {
         );
       }
       if (
-        !releaseStatus &&
+        releaseStatus.status !== SUCCESS &&
         this.props.result &&
         this.props.result.noCostEmiCoupon &&
         this.props.result.noCostEmiCoupon.couponCode

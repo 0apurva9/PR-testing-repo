@@ -83,6 +83,7 @@ const mapDispatchToProps = dispatch => {
         const loginUserResponse = await dispatch(loginUser(userDetails));
         if (loginUserResponse.status === SUCCESS) {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS, lastUrl);
+          // Get cartDetails if user already has cart created
           const cartVal = await dispatch(getCartId());
           let guid;
           if (
@@ -115,6 +116,7 @@ const mapDispatchToProps = dispatch => {
                     : false
                 )
               );
+              // At the time of login Get Cart GUID for logged-in user
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
               const existingWishList = await dispatch(getWishListItems());
 
@@ -129,12 +131,14 @@ const mapDispatchToProps = dispatch => {
             }
             //end of  merge old cart id with anonymous cart id
           } else {
+            // If cart is not available check if cartDetailsForAnonymous is created
             let cartDetailsAnonymous = Cookies.getCookie(
               CART_DETAILS_FOR_ANONYMOUS
             );
             if (cartDetailsAnonymous) {
               let anonymousCart = JSON.parse(cartDetailsAnonymous);
               if (anonymousCart.guid) {
+                // Create a new cart using Anonymous cartGUID
                 const mergeCartIdWithAnonymousResponse = await dispatch(
                   mergeCartId()
                 );
@@ -160,6 +164,7 @@ const mapDispatchToProps = dispatch => {
             // dispatch(getCartCountForLoggedInUser());
           }
           if (guid) {
+            // Get the bagCount if Cart GUID exists for Logged-in user
             dispatch(
               getCartCountForLoggedInUser(
                 typeof guid === "object" ? guid : null
