@@ -604,11 +604,9 @@ export default class PdpApparel extends React.Component {
       );
     });
   }
-  filterDetails(productData) {
+  filterDetails(productData, moreData) {
     let filteredData = productData.filter(val => {
-      return (
-        val.key !== "Neck/Collar" && val.key !== "Sleeve" && val.key !== "Wash"
-      );
+      return val.value.includes("|") === false;
     });
     return this.renderDetails(filteredData);
   }
@@ -659,7 +657,6 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
-    console.log("productData.seasonDetails", productData.seasonDetails);
 
     const manufacturerDetails = this.props.manufacturerDetails;
 
@@ -1304,7 +1301,10 @@ export default class PdpApparel extends React.Component {
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
                               productData.details &&
-                              this.filterDetails(productData.details)}
+                              this.filterDetails(
+                                productData.details,
+                                productData.prdDetails
+                              )}
                           </div>
                           {productData.prdDetails && (
                             <div className={styles.productDetailsImagesCard}>
