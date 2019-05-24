@@ -340,6 +340,7 @@ class App extends Component {
       cartDetailsForLoggedInUser &&
       loggedInUserDetails
     ) {
+      // Get Cart GUID for logged-in user
       guid = JSON.parse(cartDetailsForLoggedInUser).guid
         ? JSON.parse(cartDetailsForLoggedInUser).guid
         : null;
@@ -356,15 +357,18 @@ class App extends Component {
       }
     } else {
       if (cartDetailsForAnonymous) {
+        // Get Cart GUID if user is Anonymous
         guid = JSON.parse(cartDetailsForAnonymous);
       }
     }
-
+    // Check if GUID exists
     if (guid) {
+      // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
       this.props.getCartCountForLoggedInUsers(
         typeof guid === "object" ? guid : null
       );
     } else {
+      // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
     window.prerenderReady = true;

@@ -158,6 +158,38 @@ export default class InvalidCouponPopUp extends React.Component {
         this.props.closeModal();
       }
     }
+    if (!bankCouponCode || !userCouponCode || !noCostEmiCoupon) {
+      if (
+        releaseStatus.status !== SUCCESS &&
+        this.props.result &&
+        this.props.result.bankOffer &&
+        this.props.result.bankOffer.couponCode
+      ) {
+        releaseStatus = await this.props.releaseBankOffer(
+          this.props.result.bankOffer.couponCode
+        );
+      }
+      if (
+        releaseStatus.status !== SUCCESS &&
+        this.props.result &&
+        this.props.result.userCoupon &&
+        this.props.result.userCoupon.couponCode
+      ) {
+        releaseStatus = await this.props.releaseUserCoupon(
+          this.props.result.userCoupon.couponCode
+        );
+      }
+      if (
+        releaseStatus.status !== SUCCESS &&
+        this.props.result &&
+        this.props.result.noCostEmiCoupon &&
+        this.props.result.noCostEmiCoupon.couponCode
+      ) {
+        releaseStatus = await this.props.releaseNoCostEmiCoupon(
+          this.props.result.userCoupon.couponCode
+        );
+      }
+    }
     if (releaseStatus.status === SUCCESS) {
       this.props.closeModal();
     }
