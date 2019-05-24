@@ -1205,6 +1205,7 @@ export default class PdpApparel extends React.Component {
             <div className={styles.details}>
               {productData.seasonDetails != null &&
                 this.getSeasonDetails("seasonIconURL").length &&
+                this.getSeasonDetails("bannerUrl").length &&
                 this.getSeasonDetails("bannerUrl").length(
                   <div className={styles.season}>
                     <div className={styles.pageCenter}>
