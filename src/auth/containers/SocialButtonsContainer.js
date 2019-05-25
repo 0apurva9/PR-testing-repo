@@ -401,20 +401,42 @@ const mapDispatchToProps = dispatch => {
               // merge cart has failed, so all I need to do is remove the cart details for anonymous
               // and use the cart as a logged in cart.
             }
-            if (guid) {
-              dispatch(
-                getCartCountForLoggedInUser(
-                  typeof guid === "object" ? guid : null
-                )
-              );
-            }
           } else {
+            let cartDetailsAnonymous = Cookies.getCookie(
+              CART_DETAILS_FOR_ANONYMOUS
+            );
+            if (cartDetailsAnonymous) {
+              let anonymousCart = JSON.parse(cartDetailsAnonymous);
+              if (anonymousCart.guid) {
+                const mergeCartIdWithAnonymousResponse = await dispatch(
+                  mergeCartId()
+                );
+                if (mergeCartIdWithAnonymousResponse.status === SUCCESS) {
+                  const newCartDetailsLoggedInUser = Cookies.getCookie(
+                    CART_DETAILS_FOR_LOGGED_IN_USER
+                  );
+                  guid = JSON.parse(newCartDetailsLoggedInUser).guid;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
+                  Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+                  guid = anonymousCart;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                }
+              }
+            }
             const existingWishList = await dispatch(getWishListItems());
 
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
             dispatch(setIfAllAuthCallsHaveSucceeded());
+          }
+          if (guid) {
+            dispatch(
+              getCartCountForLoggedInUser(
+                typeof guid === "object" ? guid : null
+              )
+            );
           }
         } else {
           dispatch(singleAuthCallHasFailed(loginUserRequest.error));
