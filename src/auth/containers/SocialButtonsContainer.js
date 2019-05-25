@@ -27,7 +27,8 @@ import {
   mergeCartId,
   generateCartIdForLoggedInUser,
   getCartId,
-  getCartCountForLoggedInUser
+  getCartCountForLoggedInUser,
+  getCartDetails
 } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
@@ -35,7 +36,11 @@ import {
   FAILURE,
   CART_DETAILS_FOR_ANONYMOUS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP
+  EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP,
+  CART_BAG_DETAILS,
+  LOGGED_IN_USER_DETAILS,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
 import {
   createWishlist,
@@ -53,6 +58,10 @@ import {
 const EMAIL_ID_DOSE_NOT_EXIST = "Email ID or phone number does not exist";
 
 const mapDispatchToProps = dispatch => {
+  const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
+  const currentBagCount = currentBagObject
+    ? JSON.parse(currentBagObject).length
+    : 0;
   return {
     clearUrlToRedirectToAfterAuth: () => {
       dispatch(clearUrlToRedirectToAfterAuth());
@@ -170,6 +179,7 @@ const mapDispatchToProps = dispatch => {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
           const cartVal = await dispatch(getCartId());
           let guid;
+          let lastUrl = window.location.pathname;
           if (
             cartVal.status === SUCCESS &&
             cartVal.cartDetails.guid &&
@@ -180,9 +190,27 @@ const mapDispatchToProps = dispatch => {
             );
 
             if (mergeCartResponse.status === SUCCESS) {
+              const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
+              const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
               const cartDetailsLoggedInUser = Cookies.getCookie(
                 CART_DETAILS_FOR_LOGGED_IN_USER
               );
+
+              dispatch(
+                getCartDetails(
+                  userDetails && JSON.parse(userDetails).userName,
+                  customerCookie && JSON.parse(customerCookie).access_token,
+                  cartDetailsLoggedInUser &&
+                    JSON.parse(cartDetailsLoggedInUser).code,
+                  localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+                  lastUrl === "/cart" &&
+                  parseInt(mergeCartResponse.cartDetails.count, 10) !==
+                    currentBagCount
+                    ? true
+                    : false
+                )
+              );
+
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
               const existingWishList = await dispatch(getWishListItems());
 
@@ -327,6 +355,7 @@ const mapDispatchToProps = dispatch => {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
           const cartVal = await dispatch(getCartId());
           let guid;
+          let lastUrl = window.location.pathname;
           if (
             cartVal.status === SUCCESS &&
             cartVal.cartDetails &&
@@ -338,8 +367,24 @@ const mapDispatchToProps = dispatch => {
             );
 
             if (mergeCartResponse.status === SUCCESS) {
+              const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
+              const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
               const cartDetailsLoggedInUser = Cookies.getCookie(
                 CART_DETAILS_FOR_LOGGED_IN_USER
+              );
+              dispatch(
+                getCartDetails(
+                  userDetails && JSON.parse(userDetails).userName,
+                  customerCookie && JSON.parse(customerCookie).access_token,
+                  cartDetailsLoggedInUser &&
+                    JSON.parse(cartDetailsLoggedInUser).code,
+                  localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+                  lastUrl === "/cart" &&
+                  parseInt(mergeCartResponse.cartDetails.count, 10) !==
+                    currentBagCount
+                    ? true
+                    : false
+                )
               );
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
               const existingWishList = await dispatch(getWishListItems());
