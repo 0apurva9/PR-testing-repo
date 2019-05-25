@@ -604,11 +604,9 @@ export default class PdpApparel extends React.Component {
       );
     });
   }
-  filterDetails(productData) {
+  filterDetails(productData, moreData) {
     let filteredData = productData.filter(val => {
-      return (
-        val.key !== "Neck/Collar" && val.key !== "Sleeve" && val.key !== "Wash"
-      );
+      return val.value.includes("|") === false;
     });
     return this.renderDetails(filteredData);
   }
@@ -1205,7 +1203,10 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
             <div className={styles.details}>
-              {productData.seasonDetails != null && (
+              {productData.seasonDetails != null &&
+              this.getSeasonDetails("seasonIconURL").length &&
+              this.getSeasonDetails("bannerUrl").length &&
+              this.getSeasonDetails("bannerUrl").length ? (
                 <div className={styles.season}>
                   <div className={styles.pageCenter}>
                     <div className={styles.seasonDetails}>
@@ -1277,7 +1278,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                 </div>
-              )}
+              ) : null}
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
@@ -1301,7 +1302,10 @@ export default class PdpApparel extends React.Component {
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
                               productData.details &&
-                              this.filterDetails(productData.details)}
+                              this.filterDetails(
+                                productData.details,
+                                productData.prdDetails
+                              )}
                           </div>
                           {productData.prdDetails && (
                             <div className={styles.productDetailsImagesCard}>
