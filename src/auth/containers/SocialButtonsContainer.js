@@ -303,7 +303,7 @@ const mapDispatchToProps = dispatch => {
         generateCustomerLevelAccessTokenForSocialMedia(
           googlePlusResponse.email,
           googlePlusResponse.id,
-          googlePlusResponse.accessToken,
+          googlePlusResponse.id_token,
           GOOGLE_PLUS_PLATFORM,
           SOCIAL_CHANNEL_GOOGLE_PLUS
         )
@@ -331,7 +331,7 @@ const mapDispatchToProps = dispatch => {
           generateCustomerLevelAccessTokenForSocialMedia(
             googlePlusResponse.email,
             googlePlusResponse.id,
-            googlePlusResponse.accessToken,
+            googlePlusResponse.id_token,
             GOOGLE_PLUS_PLATFORM,
             SOCIAL_CHANNEL_GOOGLE_PLUS
           )
