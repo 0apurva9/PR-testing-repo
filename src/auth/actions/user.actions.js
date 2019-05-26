@@ -710,9 +710,9 @@ export function googlePlusLogin(type) {
         firstName = name.split(" ")[0];
         lastName = name.split(" ")[1];
       }
-      const accessToken = googleResponse.getAuthResponse().access_token;
+      const id_token = googleResponse.getAuthResponse().id_token;
 
-      return { email, id, accessToken, profileImage, firstName, lastName };
+      return { email, id, id_token, profileImage, firstName, lastName };
     } catch (e) {
       return dispatch(googlePlusLoginFailure(e.message));
     }
