@@ -734,13 +734,19 @@ export function generateCustomerLevelAccessTokenForSocialMedia(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      console.log("=====================resultJson========>", resultJson);
+      console.log(
+        "=====================resultJsonStatus========>",
+        resultJsonStatus
+      );
       if (
         resultJsonStatus.status &&
         resultJsonStatus.status.errors &&
         resultJsonStatus.status.errors[0].type === "InvalidGrantError"
       ) {
-        return;
+        console.log("===========This should not come===================>");
       } else if (resultJsonStatus.status) {
+        console.log("===========Yoooo===================>");
         throw new Error(resultJsonStatus.message);
       }
 
