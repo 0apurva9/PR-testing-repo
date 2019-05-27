@@ -945,6 +945,14 @@ const cart = (
       });
 
     case cartActions.ORDER_CONFIRMATION_SUCCESS: {
+      let cartDetails = Cookies.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      if (!cartDetails) {
+        localStorage.removeItem(CART_BAG_DETAILS);
+      }
+      if (cartDetails && !JSON.parse(cartDetails).products) {
+        localStorage.removeItem(CART_BAG_DETAILS);
+      }
+
       return Object.assign({}, state, {
         orderConfirmationDetailsStatus: action.status,
         orderConfirmationDetails: action.confirmedOrderDetails,
