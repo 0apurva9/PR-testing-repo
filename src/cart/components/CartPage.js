@@ -961,8 +961,10 @@ here we need to hit call for merging cart id if user
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartDetails = cartDetails && JSON.parse(cartDetails);
 
-    if (!this.navigateToCheckout || (cartDetails && cartDetails.isBuyNowCart)) {
-      this.props.mergeTempCartWithOldCart();
+    if (!this.navigateToCheckout) {
+      if (cartDetails && cartDetails.isBuyNowCart) {
+        this.props.mergeTempCartWithOldCart();
+      }
     }
 
     if (this.props.clearCartDetails) {
