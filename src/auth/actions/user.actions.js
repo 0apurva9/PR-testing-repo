@@ -739,6 +739,8 @@ export function generateCustomerLevelAccessTokenForSocialMedia(
         resultJsonStatus.status.errors &&
         resultJsonStatus.status.errors[0].type === "InvalidGrantError"
       ) {
+        return;
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
 
