@@ -367,8 +367,8 @@ export default class OrderDetails extends React.Component {
                         statusDisplayMsg={products.statusDisplayMsg}
                         phoneNumber={orderDetails.pickupPersonMobile}
                         soldBy={products.sellerName}
-                        isCncToHd={true}
-                        // isCncToHd={products && products.isCncToHd}
+                        //isCncToHd={true}
+                        isCncToHd={products && products.isCncToHd}
                         isCNCToHDConverted={
                           products && products.isCNCToHDConverted
                         }
