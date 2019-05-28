@@ -96,6 +96,8 @@ import {
   ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
+
+import { EGV_GIFT_CART_ID } from "../components/CheckOutPage";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const RESET_ALL_PAYMENT_MODES = "RESET_ALL_PAYMENT_MODES";
@@ -404,6 +406,7 @@ const CASH_ON_DELIVERY = "COD";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_1 = "B9078";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -432,6 +435,13 @@ export const BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE =
   "BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE";
 export const BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS =
   "BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS";
+
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS";
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST";
+export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
+  "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -709,7 +719,7 @@ export function applyUserCouponForLoggedInUsers(couponCode) {
       const result = await api.postFormData(
         `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts/${
           JSON.parse(cartDetails).code
-        }/applyCoupons?access_token=${
+        }/applyVouchers?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`,
         couponObject
@@ -1408,9 +1418,9 @@ export function mergeCartId(cartGuId) {
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&userId=${
           JSON.parse(userDetails).userName
-        }&oldCartId=${
-          JSON.parse(cartDetailsAnonymous).guid
-        }&toMergeCartGuid=${cartGuId}&channel=${CHANNEL}`
+        }&oldCartId=${JSON.parse(cartDetailsAnonymous).guid}${
+          cartGuId ? "&toMergeCartGuid=" + cartGuId : ""
+        }&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
@@ -1813,13 +1823,14 @@ export function applyBankOffer(couponCode) {
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/applyCartCoupons?access_token=${
+        }/carts/applyBankCoupons?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${PAYMENT_MODE}&couponCode=${couponCode}&cartGuid=${cartId}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
+      localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
       if (resultJsonStatus.status) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
@@ -1836,11 +1847,16 @@ export function applyBankOffer(couponCode) {
               redoCall
             })
           );
+        } else if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_4
+        ) {
+          dispatch(displayToast(resultJsonStatus.message));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
         } else {
+          localStorage.removeItem(BANK_COUPON_COOKIE);
           throw new Error(resultJsonStatus.message);
         }
       }
-      localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
         couponCode
@@ -2056,7 +2072,15 @@ export function binValidation(paymentMode, binNo) {
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
   } else {
-    cartId = JSON.parse(cartDetails).guid;
+    cartId =
+      cartDetails && JSON.parse(cartDetails).guid
+        ? JSON.parse(cartDetails).guid
+        : null;
+  }
+
+  let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+  if (!cartId && giftCartObj) {
+    cartId = giftCartObj.egvCartGuid ? giftCartObj.egvCartGuid : null;
   }
 
   return async (dispatch, getState, { api }) => {
@@ -2109,7 +2133,15 @@ export function binValidationForNetBanking(paymentMode, bankName) {
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
   } else {
-    cartId = JSON.parse(cartDetails).guid;
+    cartId =
+      cartDetails && JSON.parse(cartDetails).guid
+        ? JSON.parse(cartDetails).guid
+        : null;
+  }
+
+  let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
+  if (!cartId && giftCartObj) {
+    cartId = giftCartObj.egvCartGuid ? giftCartObj.egvCartGuid : null;
   }
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationRequest());
@@ -3387,7 +3419,7 @@ export function jusPayPaymentMethodTypeForPaypal(
         dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
-        dispatch(generateCartIdForLoggedInUser());
+        // dispatch(generateCartIdForLoggedInUser());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -3638,9 +3670,13 @@ export function getCODEligibility(
       cartId = retryCartGuid;
     } else {
       const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-      cartId = JSON.parse(cartDetails).guid;
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : null;
     }
   }
+
   return async (dispatch, getState, { api }) => {
     dispatch(getCODEligibilityRequest());
     try {
@@ -3961,8 +3997,8 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    const cartId = JSON.parse(cartDetails).code;
+    const cartDetailsCookie = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartId = cartDetailsCookie && JSON.parse(cartDetailsCookie).code;
     dispatch(removeItemFromCartLoggedInRequest());
     try {
       const result = await api.get(
@@ -3993,6 +4029,9 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
             cartDetails.cartDetails
           );
           dispatch(removeItemFromCartLoggedInSuccess());
+          if (!JSON.parse(cartDetailsCookie).isBuyNowCart) {
+            dispatch(getCartCountForLoggedInUser());
+          }
         }
       });
     } catch (e) {
@@ -4636,6 +4675,10 @@ export function getPaymentFailureOrderDetails() {
               : ""
         }
       );
+      Cookie.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify({ guid: cartGuId })
+      );
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
     }
@@ -4901,7 +4944,7 @@ export function generateCartIdAfterOrderPlace() {
   cartDetails = cartDetails ? JSON.parse(cartDetails) : {};
   return async (dispatch, getState, { api }) => {
     if (!cartDetails.isBuyNowCart) {
-      return dispatch(generateCartIdForLoggedInUser());
+      Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     } else {
       const getCartIdResponse = await dispatch(getCartId());
       if (getCartIdResponse.status === SUCCESS) {
@@ -4912,7 +4955,7 @@ export function generateCartIdAfterOrderPlace() {
         Cookie.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
         return getCartIdResponse;
       } else {
-        return dispatch(generateCartIdForLoggedInUser());
+        Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       }
     }
   };
@@ -5126,6 +5169,99 @@ export function binValidationOfEmiEligible(binNo) {
       return dispatch(binValidationOfEmiEligibleSuccess(resultJson));
     } catch (e) {
       return dispatch(binValidationOfEmiEligibleFailure(e.message));
+    }
+  };
+}
+
+// Get Cart Count for Logged-In user
+
+export function getCartCountForLoggedInUserSuccess(cartDetails, userDetails) {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS,
+    status: SUCCESS,
+    cartDetails,
+    userDetails
+  };
+}
+
+export function getCartCountForLoggedInUserRequest() {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCartCountForLoggedInUserFailure(error) {
+  return {
+    type: GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function getCartCountForLoggedInUser(cartVal) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
+
+  if (userDetails && customerCookie) {
+    userId = JSON.parse(userDetails).userName;
+    accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+  }
+  let cartGuid =
+    cartDetails && JSON.parse(cartDetails).guid
+      ? JSON.parse(cartDetails).guid
+      : null;
+
+  if (cartVal) {
+    cartGuid =
+      cartVal.cartDetails && cartVal.cartDetails.guid
+        ? cartVal.cartDetails.guid
+        : cartVal.guid;
+  }
+
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCartCountForLoggedInUserRequest());
+
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}&isProductInfoRequired=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      //set local storage
+      let bagItem = localStorage.getItem(CART_BAG_DETAILS);
+      let bagItemsInJsonFormat = bagItem ? JSON.parse(bagItem) : [];
+      if (resultJson && resultJson.products) {
+        resultJson.products.map(product => {
+          if (product.USSID && !bagItemsInJsonFormat.includes(product.USSID)) {
+            bagItemsInJsonFormat.push(product.USSID);
+          }
+        });
+      }
+      localStorage.setItem(
+        CART_BAG_DETAILS,
+        JSON.stringify(bagItemsInJsonFormat)
+      );
+      // here we dispatch a modal to show something was added to the bag
+      dispatch(setBagCount(bagItemsInJsonFormat.length));
+
+      return dispatch(
+        getCartCountForLoggedInUserSuccess(resultJson, userDetails)
+      );
+    } catch (e) {
+      return dispatch(getCartCountForLoggedInUserFailure(e.message));
     }
   };
 }

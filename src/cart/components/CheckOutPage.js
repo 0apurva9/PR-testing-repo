@@ -107,7 +107,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { HOME_ROUTER, SUCCESS, CHECKOUT } from "../../lib/constants";
+import { HOME_ROUTER, SUCCESS, CHECKOUT, ERROR } from "../../lib/constants";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   setDataLayerForCheckoutDirectCalls,
@@ -765,6 +765,7 @@ class CheckOutPage extends React.Component {
       <div className={styles.addInitialAddAddress}>
         <AddDeliveryAddress
           history={this.props.history}
+          handleCancelAddress={() => this.handleCancelAddress()}
           addUserAddress={address => this.addAddress(address)}
           {...this.state}
           onChange={val => this.onChange(val)}
@@ -2406,6 +2407,9 @@ if you have order id in local storage then you have to show order confirmation p
   };
   handleCancelAddress() {
     this.setState({ addNewAddress: false });
+    if (this.state.isFirstAddress) {
+      this.props.history.push(PRODUCT_CART_ROUTER);
+    }
   }
   onCloseTransactionFailed() {
     this.setState({ isOpenTransactionFailedPopUp: false });
@@ -2440,6 +2444,10 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (applyCouponReq.status === SUCCESS) {
         this.setState({ selectedBankOfferCode: val[0] });
+      } else {
+        if (applyCouponReq.status === ERROR) {
+          this.props.displayToast(applyCouponReq.error);
+        }
       }
     } else {
       let bankOffer = localStorage.getItem(BANK_COUPON_COOKIE);

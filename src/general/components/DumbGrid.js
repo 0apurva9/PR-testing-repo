@@ -378,7 +378,6 @@ export default class Grid extends React.Component {
     return str;
   }
   render() {
-    console.log("banners", this.props.banners);
     return (
       <div className={styles.base}>
         <div

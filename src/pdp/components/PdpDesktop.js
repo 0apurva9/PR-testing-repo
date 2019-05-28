@@ -594,6 +594,23 @@ export default class PdpApparel extends React.Component {
 
   tail = ([x, ...xs]) => xs;
 
+  renderDetails(filteredData) {
+    return filteredData.map(val => {
+      return (
+        <div className={styles.contentDetails}>
+          <div className={styles.headerDetails}>{val.key}</div>
+          <div className={styles.descriptionDetails}>{val.value}</div>
+        </div>
+      );
+    });
+  }
+  filterDetails(productData, moreData) {
+    let filteredData = productData.filter(val => {
+      return val.value.includes("|") === false;
+    });
+    return this.renderDetails(filteredData);
+  }
+
   getSeasonDetails(key) {
     let seasonData = this.props.productDetails.seasonDetails;
     let value = "";
@@ -1186,7 +1203,10 @@ export default class PdpApparel extends React.Component {
               </div>
             </div>
             <div className={styles.details}>
-              {productData.seasonDetails != null && (
+              {productData.seasonDetails != null &&
+              this.getSeasonDetails("seasonIconURL").length &&
+              this.getSeasonDetails("bannerUrl").length &&
+              this.getSeasonDetails("bannerUrl").length ? (
                 <div className={styles.season}>
                   <div className={styles.pageCenter}>
                     <div className={styles.seasonDetails}>
@@ -1258,7 +1278,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   </div>
                 </div>
-              )}
+              ) : null}
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
@@ -1276,23 +1296,16 @@ export default class PdpApparel extends React.Component {
                           itemProp="description"
                         >
                           {productData.productDescription}
+
                           <div className={styles.productDetails}>
                             {productData.rootCategory !== "Electronics" &&
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
                               productData.details &&
-                              productData.details.map(val => {
-                                return (
-                                  <div className={styles.contentDetails}>
-                                    <div className={styles.headerDetails}>
-                                      {val.key}
-                                    </div>
-                                    <div className={styles.descriptionDetails}>
-                                      {val.value}
-                                    </div>
-                                  </div>
-                                );
-                              })}
+                              this.filterDetails(
+                                productData.details,
+                                productData.prdDetails
+                              )}
                           </div>
                           {productData.prdDetails && (
                             <div className={styles.productDetailsImagesCard}>

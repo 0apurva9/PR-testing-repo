@@ -710,9 +710,9 @@ export function googlePlusLogin(type) {
         firstName = name.split(" ")[0];
         lastName = name.split(" ")[1];
       }
-      const accessToken = googleResponse.getAuthResponse().access_token;
+      const id_token = googleResponse.getAuthResponse().id_token;
 
-      return { email, id, accessToken, profileImage, firstName, lastName };
+      return { email, id, id_token, profileImage, firstName, lastName };
     } catch (e) {
       return dispatch(googlePlusLoginFailure(e.message));
     }
@@ -722,7 +722,7 @@ export function googlePlusLogin(type) {
 export function generateCustomerLevelAccessTokenForSocialMedia(
   userName,
   id,
-  accessToken,
+  id_token,
   platForm,
   socialChannel
 ) {
@@ -730,10 +730,11 @@ export function generateCustomerLevelAccessTokenForSocialMedia(
     dispatch(customerAccessTokenRequest());
     try {
       const result = await api.post(
-        `${TOKEN_PATH}?grant_type=password&client_id=${CLIENT_ID}&client_secret=secret&username=${userName}&social_token=${accessToken}&isSocialMedia=Y&social_channel=${socialChannel}&userId_param=${id}&platformNumber=${PLAT_FORM_NUMBER}`
+        `${TOKEN_PATH}?grant_type=password&client_id=${CLIENT_ID}&client_secret=secret&username=${userName}&social_token=${id_token}&isSocialMedia=Y&social_channel=${socialChannel}&userId_param=${id}&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }

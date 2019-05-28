@@ -105,15 +105,15 @@ class ProductSellerPage extends Component {
       return this.props.addProductToCart(
         productDetails,
         JSON.parse(userDetails).userName,
-        JSON.parse(cartDetailsLoggedInUser).code,
-        JSON.parse(customerCookie).access_token
+        cartDetailsLoggedInUser && JSON.parse(cartDetailsLoggedInUser).code,
+        customerCookie && JSON.parse(customerCookie).access_token
       );
     } else {
       return this.props.addProductToCart(
         productDetails,
         ANONYMOUS_USER,
-        JSON.parse(cartDetailsAnonymous).guid,
-        JSON.parse(globalCookie).access_token
+        cartDetailsAnonymous && JSON.parse(cartDetailsAnonymous).guid,
+        globalCookie && JSON.parse(globalCookie).access_token
       );
     }
   }

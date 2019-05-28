@@ -252,7 +252,6 @@ class ProductListingsPage extends Component {
       this.props.getProductListings(searchText, SUFFIX, 0, false);
 
       // get banners for category listing
-      console.log(categoryId, "categoryId");
       if (categoryId) {
         this.props.getPlpBanners(categoryId);
       }

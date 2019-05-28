@@ -1185,13 +1185,13 @@ export function getAllOrdersDetails(
       if (showDataAccordingToUser) {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/orderhistorylist?access_token=${
+        }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
       } else {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/orderhistorylist?access_token=${
+        }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
       }
