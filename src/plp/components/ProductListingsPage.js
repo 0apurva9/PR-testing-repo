@@ -307,7 +307,10 @@ class ProductListingsPage extends Component {
   // }
 
   componentDidUpdate() {
-    if (this.props.urlString && window.location.href !== this.props.urlString) {
+    if (
+      this.props.urlString &&
+      this.props.lastVisitedPlpUrl !== this.props.urlString
+    ) {
       if (
         this.props.urlString.includes("https") ||
         this.props.urlString.includes("http")
