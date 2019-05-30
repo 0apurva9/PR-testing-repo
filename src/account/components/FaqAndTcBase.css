@@ -1,0 +1,74 @@
+.faqAndTcBase {
+  width: 100%;
+  height: auto;
+}
+.faqAndTcContainer {
+  width: 100%;
+  height: auto;
+  padding: 22px;
+}
+.faqOptionWrapper {
+  width: 100%;
+  height: auto;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ececec;
+}
+.faqOption {
+  font-family: light;
+  font-size: 16px;
+  color: #212121;
+  width: 90%;
+  display: inline-block;
+  height: auto;
+}
+.faqText {
+  font-family: light;
+  font-size: 12px;
+  color: #4a4a4a;
+  width: 90%;
+  display: inline-block;
+  height: auto;
+}
+.tcOptionWrapper {
+  width: 100%;
+  height: auto;
+  padding-top: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ececec;
+}
+.faqOptionArrow {
+  width: 10%;
+  display: inline-block;
+  text-align: right;
+}
+.tcOption {
+  font-family: light;
+  font-size: 16px;
+  color: #212121;
+  width: 90%;
+  display: inline-block;
+  height: auto;
+}
+.tcOptionArrow {
+  width: 10%;
+  display: inline-block;
+  text-align: right;
+}
+.arrowRight {
+  border: 59px solid #212121;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.wikCliverLogo {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  text-align: center;
+  color: #ff1744;
+  font-family: semibold;
+  margin-top: 28px;
+}

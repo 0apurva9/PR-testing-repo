@@ -26,9 +26,16 @@
     height: auto;
     background-color: #fff;
     border-radius: 4px;
-    padding: 30px 30px 60px 30px;
+    padding: 24px;
   }
-
+  .faqAndTcHolder {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 24px;
+    margin: 18px 0px;
+  }
   .cliqCashDetail {
     width: 60%;
     margin: auto;

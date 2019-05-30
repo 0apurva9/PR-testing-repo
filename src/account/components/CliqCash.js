@@ -26,6 +26,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import FaqAndTcBase from "./FaqAndTcBase";
 const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
 export default class CliqAndCash extends React.Component {
   constructor(props) {
@@ -114,6 +115,9 @@ export default class CliqAndCash extends React.Component {
                       .formattedValue
                   }`}</div>
                 )}
+              </div>
+              <div className={styles.faqAndTcHolder}>
+                <FaqAndTcBase history={this.props.history} />
               </div>
             </div>
             <DesktopOnly>
