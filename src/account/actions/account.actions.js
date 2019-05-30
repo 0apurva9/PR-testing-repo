@@ -239,6 +239,12 @@ export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
 export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE =
   "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
 
+export const GET_TRANSACTION_DETAILS_REQUEST = "TRANSACTION_DETAILS_REQUEST";
+export const GET_TRANSACTION_DETAILS_SUCCESS =
+  "GET_TRANSACTION_DETAILS_SUCCESS";
+export const GET_TRANSACTION_DETAILS_FAILURE =
+  "GET_TRANSACTION_DETAILS_FAILURE";
+
 export const UPLOAD_USER_FILE_REQUEST = "UPLOAD_USER_FILE_REQUEST";
 export const UPLOAD_USER_FILE_SUCCESS = "UPLOAD_USER_FILE_SUCCESS";
 export const UPLOAD_USER_FILE_FAILURE = "UPLOAD_USER_FILE_FAILURE";
@@ -1040,6 +1046,56 @@ export function getSavedCardDetails(userId, customerAccessToken) {
     }
   };
 }
+
+export function getTransactionDetailsRequest() {
+  return {
+    type: GET_TRANSACTION_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getTransactionDetailsSuccess(transactionDetails) {
+  return {
+    type: GET_TRANSACTION_DETAILS_SUCCESS,
+    transactionDetails,
+    status: SUCCESS
+  };
+}
+
+export function getTransactionDetailsFailure(error) {
+  return {
+    type: GET_TRANSACTION_DETAILS_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function getTransactionDetails(startDate, endDate) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getTransactionDetailsRequest());
+
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getWalletTransactions?startDate=${startDate}&endDate=${endDate}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&channel=${CHANNEL}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getTransactionDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getTransactionDetailsFailure(e.message));
+    }
+  };
+}
+
 export function getPinCodeRequest() {
   return {
     type: GET_PIN_CODE_REQUEST,

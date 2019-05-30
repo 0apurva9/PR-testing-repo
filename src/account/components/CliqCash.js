@@ -1,0 +1,159 @@
+import React from "react";
+import PropTypes from "prop-types";
+import Logo from "../../general/components/Logo";
+import ControlInput from "../../general/components/ControlInput";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import Button from "../../general/components/Button.js";
+import cliqCashIcon from "./img/cliqcash.png";
+import styles from "./CliqAndCash.css";
+import format from "date-fns/format";
+import {
+  MY_ACCOUNT_GIFT_CARD_PAGE,
+  MY_ACCOUNT_PAGE,
+  CLIQ_CASH,
+  SUCCESS,
+  SUCCESS_CAMEL_CASE,
+  SUCCESS_UPPERCASE,
+  FAILURE,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  LOGIN_PATH,
+  HOME_ROUTER
+} from "../../lib/constants.js";
+import * as UserAgent from "../../lib/UserAgent.js";
+import * as Cookie from "../../lib/Cookie";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import ProfileMenu from "./ProfileMenu";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import UserProfile from "./UserProfile";
+const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
+export default class CliqAndCash extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cardNumber: this.props.cardNumber ? this.props.cardNumber : "",
+      pinNumber: this.props.pinNumber ? this.props.cardNumber : "",
+      cliqCashUpdate: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.cliqCashVoucherDetailsStatus === SUCCESS ||
+      nextProps.cliqCashVoucherDetailsStatus === SUCCESS_CAMEL_CASE ||
+      nextProps.cliqCashVoucherDetailsStatus === SUCCESS_UPPERCASE
+    ) {
+      this.setState({ cardNumber: "", pinNumber: "", cliqCashUpdate: "" });
+    }
+  }
+  componentDidUpdate() {
+    this.props.setHeaderText(CLIQ_CASH);
+  }
+  componentDidMount() {
+    this.props.setHeaderText(CLIQ_CASH);
+    if (this.props.getCliqCashDetails) {
+      this.props.getCliqCashDetails();
+    }
+    if (this.props.getTransactionDetails) {
+      this.props.getTransactionDetails();
+    }
+  }
+  gitCard() {
+    if (this.props.gitCard) {
+      this.props.gitCard();
+    }
+  }
+  redeemCliqVoucher() {
+    if (this.state.cardNumber && this.state.pinNumber) {
+      this.setState({ cliqCashUpdate: true });
+      if (this.props.redeemCliqVoucher) {
+        this.props.redeemCliqVoucher(this.state);
+      }
+    }
+  }
+  onChangeCardNumber(cardNumber) {
+    if (cardNumber === "" || /^[0-9]+$/.test(cardNumber))
+      if (cardNumber.length <= 16) {
+        this.setState({ cardNumber: cardNumber });
+      }
+  }
+  onChangePinNumber(pinNumber) {
+    if (pinNumber === "" || /^[0-9]+$/.test(pinNumber))
+      if (pinNumber.length <= 6) {
+        this.setState({ pinNumber: pinNumber });
+      }
+  }
+  buyNewGiftCard = () => {
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
+  };
+  render() {
+    let userData;
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
+    if (this.props.loading) {
+      this.props.showSecondaryLoader();
+    } else {
+      this.props.hideSecondaryLoader();
+    }
+    if (this.props.cliqCashUserDetails) {
+      return (
+        <div className={styles.base}>
+          <div className={MyAccountStyles.holder}>
+            <DesktopOnly>
+              <div className={MyAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            </DesktopOnly>
+            <div className={styles.cliqCashDetail}>
+              {this.props.cliqCashUserDetails.totalCliqCashBalance && (
+                <div className={styles.balance}>{`Rs. ${
+                  this.props.cliqCashUserDetails.totalCliqCashBalance
+                    .formattedValue
+                }`}</div>
+              )}
+            </div>
+            <DesktopOnly>
+              <div className={MyAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData && userData.imageUrl}
+                  userLogin={userData && userData.userName}
+                  loginType={userData && userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                  userAddress={this.props.userAddress}
+                />
+              </div>
+            </DesktopOnly>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+}
+CliqAndCash.propTypes = {
+  balance: PropTypes.string,
+  date: PropTypes.string,
+  time: PropTypes.string,
+  cardNumber: PropTypes.number,
+  pinNumber: PropTypes.number,
+  isGiftCard: PropTypes.bool,
+  gitCard: PropTypes.func,
+  addBalance: PropTypes.func
+};
+CliqAndCash.defaultProps = {
+  isGiftCard: true
+};
