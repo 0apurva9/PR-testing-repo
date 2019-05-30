@@ -5,7 +5,7 @@ import ControlInput from "../../general/components/ControlInput";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button.js";
 import cliqCashIcon from "./img/cliqcash.png";
-import styles from "./CliqAndCash.css";
+import styles from "./CliqCash.css";
 import format from "date-fns/format";
 import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
@@ -107,12 +107,14 @@ export default class CliqAndCash extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.cliqCashDetail}>
-              {this.props.cliqCashUserDetails.totalCliqCashBalance && (
-                <div className={styles.balance}>{`Rs. ${
-                  this.props.cliqCashUserDetails.totalCliqCashBalance
-                    .formattedValue
-                }`}</div>
-              )}
+              <div className={styles.cliqCashDetailWithHolder}>
+                {this.props.cliqCashUserDetails.totalCliqCashBalance && (
+                  <div className={styles.balance}>{`Rs. ${
+                    this.props.cliqCashUserDetails.totalCliqCashBalance
+                      .formattedValue
+                  }`}</div>
+                )}
+              </div>
             </div>
             <DesktopOnly>
               <div className={MyAccountStyles.userProfile}>
