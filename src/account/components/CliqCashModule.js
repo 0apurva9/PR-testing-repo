@@ -22,6 +22,18 @@ export default class CliqCashModule extends Component {
       this.props.displayToast("Please enter all details");
     }
   }
+  onChangeCardNumber(cardNumber) {
+    if (cardNumber === "" || /^[0-9]+$/.test(cardNumber))
+      if (cardNumber.length <= 16) {
+        this.setState({ cardNumber: cardNumber });
+      }
+  }
+  onChangePinNumber(pinNumber) {
+    if (pinNumber === "" || /^[0-9]+$/.test(pinNumber))
+      if (pinNumber.length <= 6) {
+        this.setState({ pinNumber: pinNumber });
+      }
+  }
   onCancel() {
     if (this.props.closeModal) {
       this.props.closeModal();
@@ -30,11 +42,6 @@ export default class CliqCashModule extends Component {
   displayToast = message => {
     if (this.props.displayToast) {
       this.props.displayToast(message);
-    }
-  };
-  showCliqCashSucessModule = () => {
-    if (this.props.showCliqCashSucessModule) {
-      this.props.showCliqCashSucessModule(this.props);
     }
   };
   render() {
@@ -65,7 +72,7 @@ export default class CliqCashModule extends Component {
                     ? this.props.cardNumber
                     : this.state.cardNumber
                 }
-                onChange={cardNumber => this.setState({ cardNumber })}
+                onChange={cardNumber => this.onChangeCardNumber(cardNumber)}
                 onlyNumber={true}
               />
             </div>
@@ -81,7 +88,7 @@ export default class CliqCashModule extends Component {
                     ? this.props.pinNumber
                     : this.state.pinNumber
                 }
-                onChange={pinNumber => this.setState({ pinNumber })}
+                onChange={pinNumber => this.onChangePinNumber(pinNumber)}
                 textStyle={{ fontSize: 14 }}
                 height={33}
               />
@@ -91,7 +98,7 @@ export default class CliqCashModule extends Component {
           <div className={styles.buttonHolder}>
             <div
               className={styles.button}
-              onClick={() => this.showCliqCashSucessModule()}
+              onClick={() => this.redeemCliqVoucher()}
             >
               <div className={styles.buttonText}>Add Gift Card</div>
             </div>

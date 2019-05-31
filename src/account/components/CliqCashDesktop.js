@@ -72,18 +72,7 @@ export default class CliqCashDesktop extends React.Component {
       }
     }
   }
-  onChangeCardNumber(cardNumber) {
-    if (cardNumber === "" || /^[0-9]+$/.test(cardNumber))
-      if (cardNumber.length <= 16) {
-        this.setState({ cardNumber: cardNumber });
-      }
-  }
-  onChangePinNumber(pinNumber) {
-    if (pinNumber === "" || /^[0-9]+$/.test(pinNumber))
-      if (pinNumber.length <= 6) {
-        this.setState({ pinNumber: pinNumber });
-      }
-  }
+
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };

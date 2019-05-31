@@ -92,6 +92,7 @@ export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
 export const ORDER_PREFIX = "/my-account/order/(.*)";
 export const ORDER_CODE = "orderCode";
 export const ORDER = "/order";
+export const TRANSACTION_DETAIL_PAGE = "/transaction";
 export const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
 // MyAccount Routes
 export const MY_ACCOUNT_PAGE_ROOT = "/my-account/.*";

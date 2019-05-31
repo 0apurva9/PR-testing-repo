@@ -23,6 +23,7 @@ import {
   PRODUCT_LISTINGS,
   MAIN_ROUTER,
   LOGIN_PATH,
+  TRANSACTION_DETAIL_PAGE,
   SIGN_UP_PATH,
   PRODUCT_DELIVERY_ADDRESSES,
   PRODUCT_CART_ROUTER,
@@ -226,6 +227,13 @@ const CheckoutAddressContainer = Loadable({
 
 const DeliveryModesContainer = Loadable({
   loader: () => import("./cart/containers/DeliveryModesContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const TransactionDetailDesktop = Loadable({
+  loader: () => import("./account/components/TransactionDetailDesktop.js"),
   loading() {
     return <Loader />;
   }
@@ -557,6 +565,11 @@ class App extends Component {
               exact
               path={PRODUCT_CART_DELIVERY_MODES}
               component={DeliveryModesContainer}
+            />
+            <Route
+              exact
+              path={TRANSACTION_DETAIL_PAGE}
+              component={TransactionDetailDesktop}
             />
             <Route
               exact

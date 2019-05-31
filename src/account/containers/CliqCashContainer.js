@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => {
           result.status === SUCCESS_CAMEL_CASE ||
           result.status === SUCCESS_UPPERCASE
         ) {
-          dispatch(displayToast(CLIQ_CASH_REDEEM_SUCCESS));
+          dispatch(showModal(CLIQ_CASH_SUCESS_MODULE, result));
           dispatch(getCliqCashDetails());
         } else {
           dispatch(displayToast(result.error));
