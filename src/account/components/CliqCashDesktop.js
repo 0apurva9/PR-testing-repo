@@ -196,6 +196,55 @@ export default class CliqCashDesktop extends React.Component {
                     </div>
                   </div>
                 </div>
+                <div className={styles.giftCardBase}>
+                  <div className={styles.giftCardContainer}>
+                    <div className={styles.giftCardHeading}>Gift Cards</div>
+                    <div className={styles.addGiftCardContainer}>
+                      <div className={styles.addGiftCardIconHolder}>
+                        <div className={styles.addGiftCardIcon} />
+                      </div>
+                      <div className={styles.addGiftCard}>
+                        <div className={styles.addGiftCardHeaderAndSubHeading}>
+                          <div className={styles.addGiftCardHeading}>
+                            Add Gift Card Balance
+                          </div>
+                          <div className={styles.addGiftCardSubHeading}>
+                            Received Gift Card from someone
+                          </div>
+                        </div>
+                        <div className={styles.addGiftCardButtonHolder}>
+                          <div className={styles.addGiftCardButton}>
+                            <div className={styles.addGiftCardButtonText}>
+                              Add gift card
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.buyGiftCardContainer}>
+                      <div className={styles.buyGiftCardIconHolder}>
+                        <div className={styles.buyGiftCardIcon} />
+                      </div>
+                      <div className={styles.buyGiftCard}>
+                        <div className={styles.buyGiftCardHeaderAndSubHeading}>
+                          <div className={styles.buyGiftCardHeading}>
+                            Send Gift Card
+                          </div>
+                          <div className={styles.buyGiftCardSubHeading}>
+                            Received Gift Card from someone
+                          </div>
+                        </div>
+                        <div className={styles.buyGiftCardButtonHolder}>
+                          <div className={styles.buyGiftCardButton}>
+                            <div className={styles.buyGiftCardButtonText}>
+                              Buy gift card
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className={styles.faqAndTcHolder}>
                   <FaqAndTcBase history={this.props.history} />
                 </div>

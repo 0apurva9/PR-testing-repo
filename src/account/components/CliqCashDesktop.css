@@ -206,6 +206,163 @@
     line-height: 12px;
     color: #8d8d8d;
   }
+  .giftCardBase {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 18px;
+  }
+  .giftCardContainer {
+    width: 100%;
+    height: auto;
+  }
+  .giftCardHeading {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: semibold;
+    color: #000000;
+  }
+  .addGiftCardContainer {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding: 24px 0px;
+  }
+
+  .addGiftCardIconHolder {
+    width: 20%;
+    height: 34px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .addGiftCardIcon {
+    width: 70px;
+    height: 34px;
+    background: url(../../general/components/img/add_giftcard.svg) no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .addGiftCard {
+    display: inline-block;
+    position: relative;
+    width: 80%;
+    height: auto;
+    vertical-align: middle;
+  }
+  .addGiftCard::after {
+    content: "";
+    position: absolute;
+    border-bottom: 1px dotted #8d8d8d;
+    width: 100%;
+    top: 56px;
+    left: 0;
+  }
+  .addGiftCardHeaderAndSubHeading {
+    width: 74%;
+    height: auto;
+    display: inline-block;
+  }
+  .addGiftCardHeading {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: #212121;
+  }
+  .addGiftCardSubHeading {
+    width: 100%;
+    height: auto;
+    font-size: 12px;
+    color: #212121;
+    font-family: light;
+  }
+  .addGiftCardButtonHolder {
+    width: 26%;
+    height: auto;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .addGiftCardButton {
+    height: 32px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    background-color: transparent;
+    border: 2px solid #ff1744;
+  }
+  .addGiftCardButtonText {
+    font-size: 14px;
+    color: #4a4a4a;
+  }
+  .buyGiftCardContainer {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding-top: 24px;
+  }
+
+  .buyGiftCardIconHolder {
+    width: 20%;
+    height: 34px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .buyGiftCardIcon {
+    width: 70px;
+    height: 34px;
+    background: url(../../general/components/img/send_giftcard.svg) no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .buyGiftCard {
+    display: inline-block;
+    width: 80%;
+    height: auto;
+    vertical-align: middle;
+  }
+
+  .buyGiftCardHeaderAndSubHeading {
+    width: 74%;
+    height: auto;
+    display: inline-block;
+  }
+  .buyGiftCardHeading {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: #212121;
+  }
+  .buyGiftCardSubHeading {
+    width: 100%;
+    height: auto;
+    font-size: 12px;
+    color: #212121;
+    font-family: light;
+  }
+  .buyGiftCardButtonHolder {
+    width: 26%;
+    height: auto;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .buyGiftCardButton {
+    height: 32px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    background-color: transparent;
+    border: 2px solid #ff1744;
+  }
+  .buyGiftCardButtonText {
+    font-size: 14px;
+    color: #4a4a4a;
+  }
 }
 @media screen and (max-width: 1024px) {
   .cliqCashBalanceHolder {
