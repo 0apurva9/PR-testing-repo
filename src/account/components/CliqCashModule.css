@@ -1,0 +1,80 @@
+.base {
+  widows: 100%;
+  height: auto;
+  padding: 24px;
+  background: #ffffff;
+  width: 525px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.header {
+  font-family: semibold;
+  font-size: 20px;
+  color: #212121;
+  width: 100%;
+  height: auto;
+  padding-top: 40px;
+  text-align: center;
+}
+.subText {
+  font-family: light;
+  font-size: 14px;
+  color: #4a4a4a;
+  letter-spacing: 0.29;
+  margin-top: 15px;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  padding: 0px 60px;
+  line-height: 20px;
+}
+.cardNumber {
+  width: 100%;
+  height: auto;
+}
+.pinNumber {
+  composes: cardNumber;
+  margin-top: 25px;
+}
+.inputContainer {
+  padding: 25px 100px 25px 100px;
+}
+.termsAndConditionText {
+  font-size: 12px;
+  font-family: light;
+  letter-spacing: 0.02px;
+  color: #4a4a4a;
+  margin-top: 24px;
+}
+.termsAndCondition {
+  font-size: 12px;
+  font-family: semibold;
+  letter-spacing: 0.02px;
+  color: #ff1744;
+}
+.buttonHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.button {
+  height: 36px;
+  width: 178px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: linear-gradient(#ce5096, #da6060);
+  border-radius: 16px;
+  cursor: pointer;
+}
+.buttonText {
+  font-size: 14px;
+  color: #ffffff;
+  font-family: semibold;
+}

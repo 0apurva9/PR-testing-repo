@@ -87,6 +87,13 @@ export default class CliqCashDesktop extends React.Component {
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
+
+  showCliqCashModule = () => {
+    if (this.props.showCliqCashModule) {
+      this.props.showCliqCashModule(this.props);
+    }
+  };
+
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -108,7 +115,10 @@ export default class CliqCashDesktop extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.cliqCashDetail}>
-              <div className={styles.cliqCashDetailWithHolder}>
+              <div
+                className={styles.cliqCashDetailWithHolder}
+                onClick={() => this.showCliqCashModule()}
+              >
                 <div className={styles.cliqCashBalanceContainer}>
                   <div className={styles.cliqCashBalanceHeader}>
                     CLiQ Cash Wallet
@@ -188,6 +198,7 @@ CliqCashDesktop.propTypes = {
   pinNumber: PropTypes.number,
   isGiftCard: PropTypes.bool,
   gitCard: PropTypes.func,
+  showCliqCashModule: PropTypes.func,
   addBalance: PropTypes.func
 };
 CliqCashDesktop.defaultProps = {
