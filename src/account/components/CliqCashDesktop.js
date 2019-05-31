@@ -244,6 +244,33 @@ export default class CliqCashDesktop extends React.Component {
                     </div>
                   </div>
                 </div>
+                <div className={styles.cliqCashTransactionBase}>
+                  <div className={styles.cliqCashTransactionContainer}>
+                    <div className={styles.cliqCashTransactionHeading}>
+                      Your recent transactions
+                    </div>
+                    <div className={styles.cliqCashTransactionDetailsBase}>
+                      <div
+                        className={styles.cliqCashTransactionDetailsContainer}
+                      >
+                        <div className={styles.cliqCashTransactionDetails}>
+                          <div className={styles.cliqCashTransactionInfo}>
+                            Paid for Superdry White Sneakers
+                          </div>
+                          <div className={styles.cliqCashOrderNo}>
+                            Order No: 108537870616095941301
+                          </div>
+                        </div>
+                        <div className={styles.priceAndTime}>
+                          <div className={styles.price}> - ₹600.50</div>
+                          <div className={styles.dateAndTime}>
+                            Today, 4:55 PM
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className={styles.faqAndTcHolder}>
                   <FaqAndTcBase history={this.props.history} />
                 </div>

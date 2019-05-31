@@ -363,6 +363,72 @@
     font-size: 14px;
     color: #4a4a4a;
   }
+  .cliqCashTransactionBase {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 18px;
+  }
+  .cliqCashTransactionContainer {
+    width: 100%;
+    height: auto;
+  }
+  .cliqCashTransactionHeading {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: semibold;
+    color: #000000;
+  }
+  .cliqCashTransactionDetailsBase {
+    width: 100%;
+    height: auto;
+    padding: 20px 0px 0px 10px;
+  }
+  .cliqCashTransactionDetailsContainer {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .cliqCashTransactionDetails {
+    width: 70%;
+    height: auto;
+    display: inline-block;
+  }
+  .priceAndTime {
+    width: 30%;
+    height: auto;
+    display: inline-block;
+    text-align: right;
+  }
+  .cliqCashTransactionInfo {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: #212121;
+  }
+  .cliqCashOrderNo {
+    width: 100%;
+    height: auto;
+    font-size: 12px;
+    color: #8d8d8d;
+    font-family: light;
+  }
+  .price {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: #212121;
+  }
+  .dateAndTime {
+    width: 100%;
+    height: auto;
+    font-size: 10px;
+    color: #8d8d8d;
+    font-family: light;
+  }
 }
 @media screen and (max-width: 1024px) {
   .cliqCashBalanceHolder {
