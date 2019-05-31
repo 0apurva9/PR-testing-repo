@@ -1,12 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Logo from "../../general/components/Logo";
-import ControlInput from "../../general/components/ControlInput";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Button from "../../general/components/Button.js";
-import cliqCashIcon from "./img/cliqcash.png";
 import styles from "./CliqCashDesktop.css";
-import format from "date-fns/format";
 import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
@@ -14,11 +8,7 @@ import {
   SUCCESS,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  FAILURE,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
-  HOME_ROUTER
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
@@ -28,7 +18,6 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import TransactionHistoryDesktop from "./TransactionHistoryDesktop";
 import FaqAndTcBase from "./FaqAndTcBase";
-const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
 export default class CliqCashDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -145,12 +134,7 @@ export default class CliqCashDesktop extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={styles.aboutCliqCashBase}
-                      onClick={() =>
-                        this.setState({ viewTransactionHistory: true })
-                      }
-                    >
+                    <div className={styles.aboutCliqCashBase}>
                       <div className={styles.aboutCliqCashContainer}>
                         <div className={styles.aboutCliqCashHeaderText}>
                           Why use CLiQ Cash?
@@ -203,13 +187,111 @@ export default class CliqCashDesktop extends React.Component {
                         </div>
                       </div>
                     </div>
+                    <div className={styles.giftCardBase}>
+                      <div className={styles.giftCardContainer}>
+                        <div className={styles.giftCardHeading}>Gift Cards</div>
+                        <div className={styles.addGiftCardContainer}>
+                          <div className={styles.addGiftCardIconHolder}>
+                            <div className={styles.addGiftCardIcon} />
+                          </div>
+                          <div className={styles.addGiftCard}>
+                            <div
+                              className={styles.addGiftCardHeaderAndSubHeading}
+                            >
+                              <div className={styles.addGiftCardHeading}>
+                                Add Gift Card Balance
+                              </div>
+                              <div className={styles.addGiftCardSubHeading}>
+                                Received Gift Card from someone
+                              </div>
+                            </div>
+                            <div
+                              className={styles.addGiftCardButtonHolder}
+                              onClick={() => {
+                                this.showCliqCashModule();
+                              }}
+                            >
+                              <div className={styles.addGiftCardButton}>
+                                <div className={styles.addGiftCardButtonText}>
+                                  Add gift card
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className={styles.buyGiftCardContainer}>
+                          <div className={styles.buyGiftCardIconHolder}>
+                            <div className={styles.buyGiftCardIcon} />
+                          </div>
+                          <div className={styles.buyGiftCard}>
+                            <div
+                              className={styles.buyGiftCardHeaderAndSubHeading}
+                            >
+                              <div className={styles.buyGiftCardHeading}>
+                                Send Gift Card
+                              </div>
+                              <div className={styles.buyGiftCardSubHeading}>
+                                Received Gift Card from someone
+                              </div>
+                            </div>
+                            <div
+                              className={styles.buyGiftCardButtonHolder}
+                              onClick={() => {
+                                this.buyNewGiftCard();
+                              }}
+                            >
+                              <div className={styles.buyGiftCardButton}>
+                                <div className={styles.buyGiftCardButtonText}>
+                                  Buy gift card
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={styles.cliqCashTransactionBase}
+                      onClick={() =>
+                        this.setState({ viewTransactionHistory: true })
+                      }
+                    >
+                      <div className={styles.cliqCashTransactionContainer}>
+                        <div className={styles.cliqCashTransactionHeading}>
+                          Your recent transactions
+                        </div>
+                        <div className={styles.cliqCashTransactionDetailsBase}>
+                          <div
+                            className={
+                              styles.cliqCashTransactionDetailsContainer
+                            }
+                          >
+                            <div className={styles.cliqCashTransactionDetails}>
+                              <div className={styles.cliqCashTransactionInfo}>
+                                Paid for Superdry White Sneakers
+                              </div>
+                              <div className={styles.cliqCashOrderNo}>
+                                Order No: 108537870616095941301
+                              </div>
+                            </div>
+                            <div className={styles.priceAndTime}>
+                              <div className={styles.price}> - ₹600.50</div>
+                              <div className={styles.dateAndTime}>
+                                Today, 4:55 PM
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className={styles.cliqCashDetailWithHolder}>
                     <TransactionHistoryDesktop />
                   </div>
                 )}
-                <div />
+
                 <div className={styles.faqAndTcHolder}>
                   <FaqAndTcBase history={this.props.history} />
                 </div>

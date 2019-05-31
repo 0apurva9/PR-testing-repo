@@ -68,6 +68,59 @@ export default class TransactionDetailDesktop extends React.Component {
                 </div>
               </div>
             </div>
+            <div className={styles.aboutCliqCashBase}>
+              <div className={styles.aboutCliqCashContainer}>
+                <div className={styles.aboutCliqCashHeaderText}>
+                  Why use CLiQ Cash?
+                </div>
+                <div className={styles.aboutCliqCash}>
+                  <div className={styles.aboutCliqCashIconAndText}>
+                    <div className={styles.aboutCliqCashIconHolder}>
+                      <div className={styles.checkoutIcon} />
+                    </div>
+                    <div className={styles.aboutCliqCashInfoHeading}>
+                      FASTER CHECKOUT
+                    </div>
+                    <div className={styles.aboutCliqCashInfoSubHeading}>
+                      Instant Checkout
+                    </div>
+                  </div>
+                  <div className={styles.aboutCliqCashIconAndText}>
+                    <div className={styles.aboutCliqCashIconHolder}>
+                      <div className={styles.walletIcon} />
+                    </div>
+                    <div className={styles.aboutCliqCashInfoHeading}>
+                      CONSOLIDATED WALLET
+                    </div>
+                    <div className={styles.aboutCliqCashInfoSubHeading}>
+                      All balances at one place
+                    </div>
+                  </div>
+                  <div className={styles.aboutCliqCashIconAndText}>
+                    <div className={styles.aboutCliqCashIconHolder}>
+                      <div className={styles.refundIcon} />
+                    </div>
+                    <div className={styles.aboutCliqCashInfoHeading}>
+                      FASTER REFUNDS
+                    </div>
+                    <div className={styles.aboutCliqCashInfoSubHeading}>
+                      Get Refunds instantly post successful pick up
+                    </div>
+                  </div>
+                  <div className={styles.aboutCliqCashIconAndText}>
+                    <div className={styles.aboutCliqCashIconHolder}>
+                      <div className={styles.secureIcon} />
+                    </div>
+                    <div className={styles.aboutCliqCashInfoHeading}>
+                      Safe & Secure
+                    </div>
+                    <div className={styles.aboutCliqCashInfoSubHeading}>
+                      Your trusted place to keep money
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className={styles.faqAndTcHolder}>
               <FaqAndTcBase history={this.props.history} />
             </div>
