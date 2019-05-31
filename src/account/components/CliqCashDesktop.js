@@ -109,40 +109,38 @@ export default class CliqCashDesktop extends React.Component {
             </DesktopOnly>
             <div className={styles.cliqCashDetail}>
               <div className={styles.cliqCashDetailWithHolder}>
-                <div className={styles.cliqCashBalanceHolder}>
-                  <div className={styles.cliqCashBalanceContainer}>
-                    <div className={styles.cliqCashBalanceHeader}>
-                      CLiQ Cash Wallet
-                    </div>
-                    <div className={styles.totalBalanceHolder}>
-                      <div className={styles.totalBalance}>
-                        <div className={styles.balanceHeader}>
-                          Total Available Balance
-                        </div>
-                        <div className={styles.balance}>
-                          <span className={styles.rupee}>₹</span>
-                          {this.props &&
-                          this.props.cliqCashUserDetails &&
-                          this.props.cliqCashUserDetails.totalCliqCashBalance &&
-                          this.props.cliqCashUserDetails.totalCliqCashBalance
-                            .doubleValue
-                            ? this.props &&
-                              this.props.cliqCashUserDetails &&
-                              this.props.cliqCashUserDetails
-                                .totalCliqCashBalance &&
-                              this.props.cliqCashUserDetails
-                                .totalCliqCashBalance.doubleValue
-                            : "0"}
-                        </div>
+                <div className={styles.cliqCashBalanceContainer}>
+                  <div className={styles.cliqCashBalanceHeader}>
+                    CLiQ Cash Wallet
+                  </div>
+                  <div className={styles.totalBalanceHolder}>
+                    <div className={styles.totalBalance}>
+                      <div className={styles.balanceHeader}>
+                        Total Available Balance
                       </div>
+                      <div className={styles.balance}>
+                        <span className={styles.rupee}>₹</span>
+                        {this.props &&
+                        this.props.cliqCashUserDetails &&
+                        this.props.cliqCashUserDetails.totalCliqCashBalance &&
+                        this.props.cliqCashUserDetails.totalCliqCashBalance
+                          .doubleValue
+                          ? this.props &&
+                            this.props.cliqCashUserDetails &&
+                            this.props.cliqCashUserDetails
+                              .totalCliqCashBalance &&
+                            this.props.cliqCashUserDetails.totalCliqCashBalance
+                              .doubleValue
+                          : "0"}
+                      </div>
+                    </div>
 
-                      <div className={styles.infoBase}>
-                        <div className={styles.spacing} />
-                        <div className={styles.info}>
-                          A quick and convenient way to pay and refund. For
-                          faster checkout{" "}
-                          <div className={styles.knowMore}>KNOW MORE.</div>
-                        </div>
+                    <div className={styles.infoBase}>
+                      <div className={styles.spacing} />
+                      <div className={styles.info}>
+                        A quick and convenient way to pay and refund. For faster
+                        checkout
+                        <div className={styles.knowMore}>KNOW MORE.</div>
                       </div>
                     </div>
                   </div>
