@@ -11,7 +11,12 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import {
+  showModal,
+  DESKTOP_AUTH,
+  CLIQ_CASH_MODULE,
+  CLIQ_CASH_SUCESS_MODULE
+} from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import CliqCashDesktop from "../components/CliqCashDesktop";
@@ -50,6 +55,12 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    showCliqCashModule: data => {
+      dispatch(showModal(CLIQ_CASH_MODULE, data));
+    },
+    showCliqCashSucessModule: data => {
+      dispatch(showModal(CLIQ_CASH_SUCESS_MODULE, data));
     }
   };
 };

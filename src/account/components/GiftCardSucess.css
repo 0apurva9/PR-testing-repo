@@ -1,0 +1,124 @@
+.baseWrapper {
+  width: 100%;
+  height: auto;
+}
+
+.topHolderWrapper {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background-image: linear-gradient(
+    to right,
+    rgba(24, 208, 180, 1),
+    rgba(16, 227, 104, 1)
+  );
+}
+
+.topheader {
+  width: 100%;
+  height: auto;
+  color: aliceblue;
+  font-size: 18px;
+  text-align: center;
+  padding: 7% 20% 7% 20%;
+  font-family: semibold;
+}
+
+.topLabelHeader {
+  color: white;
+  font-size: 14px;
+  width: 100%;
+  height: auto;
+  font-family: regular;
+  text-align: center;
+  padding-bottom: 13px;
+  margin-left: 33px;
+}
+.amount {
+  color: white;
+  height: auto;
+  width: 100%;
+  font-size: 28px;
+  font-family: semibold;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-left: 31px;
+}
+
+.bottomHolderWrapper {
+  width: 100%;
+}
+.bottomWrapper {
+  background: white;
+  width: 100%;
+  height: 125px;
+}
+
+.bottomHolderHeading {
+  width: 100%;
+  height: auto;
+  font-size: 13px;
+  font-family: semibold;
+  text-align: center;
+  letter-spacing: 0.02px;
+  color: #ff1744;
+  padding-top: 24px;
+}
+.bottomHolderHeading:hover {
+  cursor: pointer;
+}
+
+.bottomHolderButtton {
+  margin-top: 19px;
+  display: flex;
+  justify-content: center;
+}
+
+.crossIcon {
+  width: 40px;
+  height: 41px;
+  float: right;
+  background: url("../../auth/components/img/cancel.svg") no-repeat;
+  background-position: center;
+  background-size: 13px;
+  z-index: 2;
+  position: relative;
+  bottom: 90px;
+  right: 9px;
+}
+.button {
+  height: 36px;
+  width: 178px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: linear-gradient(#ce5096, #da6060);
+  border-radius: 16px;
+  cursor: pointer;
+}
+.buttonText {
+  font-size: 14px;
+  color: #ffffff;
+  font-family: semibold;
+}
+
+@media screen and (min-width: 1025px) {
+  .baseWrapper {
+    position: relative;
+    bottom: 192px;
+    right: 50%;
+    width: 525px;
+    height: 348px;
+  }
+  .topHolderWrapper {
+    background-image: linear-gradient(
+      to right,
+      rgba(24, 208, 180, 1),
+      rgba(16, 227, 104, 1)
+    );
+    height: 212px;
+  }
+}
