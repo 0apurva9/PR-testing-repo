@@ -5,7 +5,7 @@ import ControlInput from "../../general/components/ControlInput";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button.js";
 import cliqCashIcon from "./img/cliqcash.png";
-import styles from "./CliqCash.css";
+import styles from "./CliqCashDesktop.css";
 import format from "date-fns/format";
 import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
@@ -28,7 +28,7 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
 const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
-export default class CliqAndCash extends React.Component {
+export default class CliqCashDesktop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -182,7 +182,7 @@ export default class CliqAndCash extends React.Component {
     }
   }
 }
-CliqAndCash.propTypes = {
+CliqCashDesktop.propTypes = {
   balance: PropTypes.string,
   date: PropTypes.string,
   time: PropTypes.string,
@@ -192,6 +192,6 @@ CliqAndCash.propTypes = {
   gitCard: PropTypes.func,
   addBalance: PropTypes.func
 };
-CliqAndCash.defaultProps = {
+CliqCashDesktop.defaultProps = {
   isGiftCard: true
 };

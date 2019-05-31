@@ -14,7 +14,7 @@ import {
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
-import CliqCash from "../components/CliqCash";
+import CliqCashDesktop from "../components/CliqCashDesktop";
 const CLIQ_CASH_REDEEM_SUCCESS =
   "Congrats!  Money has been added to your Cliq Cash balance";
 const mapDispatchToProps = dispatch => {
@@ -69,7 +69,7 @@ const mapStateToProps = state => {
 };
 
 const CliqCashContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CliqCash)
+  connect(mapStateToProps, mapDispatchToProps)(CliqCashDesktop)
 );
 
 export default CliqCashContainer;
