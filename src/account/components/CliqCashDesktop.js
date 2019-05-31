@@ -1,12 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Logo from "../../general/components/Logo";
-import ControlInput from "../../general/components/ControlInput";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Button from "../../general/components/Button.js";
-import cliqCashIcon from "./img/cliqcash.png";
 import styles from "./CliqCashDesktop.css";
-import format from "date-fns/format";
 import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
@@ -14,11 +8,7 @@ import {
   SUCCESS,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  FAILURE,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
-  HOME_ROUTER
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
@@ -27,7 +17,6 @@ import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
-const DATE_FORMAT = "DD/MM/YYYY, hh:mm";
 export default class CliqCashDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -212,7 +201,12 @@ export default class CliqCashDesktop extends React.Component {
                             Received Gift Card from someone
                           </div>
                         </div>
-                        <div className={styles.addGiftCardButtonHolder}>
+                        <div
+                          className={styles.addGiftCardButtonHolder}
+                          onClick={() => {
+                            this.showCliqCashModule();
+                          }}
+                        >
                           <div className={styles.addGiftCardButton}>
                             <div className={styles.addGiftCardButtonText}>
                               Add gift card
@@ -234,7 +228,12 @@ export default class CliqCashDesktop extends React.Component {
                             Received Gift Card from someone
                           </div>
                         </div>
-                        <div className={styles.buyGiftCardButtonHolder}>
+                        <div
+                          className={styles.buyGiftCardButtonHolder}
+                          onClick={() => {
+                            this.buyNewGiftCard();
+                          }}
+                        >
                           <div className={styles.buyGiftCardButton}>
                             <div className={styles.buyGiftCardButtonText}>
                               Buy gift card
