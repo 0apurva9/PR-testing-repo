@@ -115,10 +115,7 @@ export default class CliqCashDesktop extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.cliqCashDetail}>
-              <div
-                className={styles.cliqCashDetailWithHolder}
-                onClick={() => this.showCliqCashModule()}
-              >
+              <div className={styles.cliqCashDetailWithHolder}>
                 <div className={styles.cliqCashBalanceContainer}>
                   <div className={styles.cliqCashBalanceHeader}>
                     CLiQ Cash Wallet
