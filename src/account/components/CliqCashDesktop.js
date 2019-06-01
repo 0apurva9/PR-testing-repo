@@ -296,9 +296,18 @@ export default class CliqCashDesktop extends React.Component {
                                     </div>
                                   </div>
                                   <div className={styles.priceAndTime}>
-                                    <div className={styles.price}>
-                                      {" "}
-                                      -{" "}
+                                    <div
+                                      className={
+                                        value.transactionType === "Received" ||
+                                        value.transactionType === "Paid"
+                                          ? styles.amountAdded
+                                          : styles.price
+                                      }
+                                    >
+                                      {value.transactionType === "Received" ||
+                                      value.transactionType === "Paid"
+                                        ? "+ "
+                                        : "- "}
                                       {value &&
                                         value.amount &&
                                         value.amount.formattedValue}

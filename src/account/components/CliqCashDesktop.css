@@ -422,12 +422,24 @@
     font-size: 14px;
     color: #212121;
   }
+  .amountAdded {
+    composes: price;
+    color: #6b9e31;
+  }
   .dateAndTime {
     width: 100%;
     height: auto;
     font-size: 10px;
     color: #8d8d8d;
     font-family: light;
+  }
+  .viewMore {
+    width: 100%;
+    margin-top: 20px;
+    text-align: right;
+    font-family: semibold;
+    color: #ff1744;
+    font-size: 14px;
   }
 }
 @media screen and (max-width: 1024px) {
