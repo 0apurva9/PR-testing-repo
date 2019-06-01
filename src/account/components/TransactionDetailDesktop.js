@@ -23,109 +23,124 @@ export default class TransactionDetailDesktop extends React.Component {
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
+    let transactionDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.transactonDetails;
+    let userAddress =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.userAddress;
     return (
-      <div className={styles.base}>
-        <div className={MyAccountStyles.holder}>
-          <DesktopOnly>
+      <DesktopOnly>
+        <div className={styles.base}>
+          <div className={MyAccountStyles.holder}>
             <div className={MyAccountStyles.profileMenu}>
               <ProfileMenu {...this.props} />
             </div>
-          </DesktopOnly>
-          <div className={styles.transactionDetails}>
-            <div className={styles.amountHolder}>
-              <div className={styles.moneyPaidText}>Money paid</div>
-              <div className={styles.amount}>
-                {" "}
-                <span className={styles.rupee}>₹</span>
-                {this.props.amount}
-              </div>
-              <div className={styles.timeAndDate}>
-                {this.props.timeAndDate} | Closing Balance : ₹
-                <span className={styles.totalAmount}>
-                  {this.props.totalAmount}
-                </span>
-              </div>
-            </div>
-            <div className={styles.transationDetailsHolder}>
-              <div className={styles.transactionDetailsHeader}>
-                Transaction Detail
-              </div>
-              <div className={styles.transactionName}>
-                {this.props.transactionName}
-              </div>
-              <div className={styles.orderNo}>
-                Order No: {this.props.orderNo}
-              </div>
-            </div>
-            <div className={styles.tcHolder}>
-              <div
-                className={styles.tcOptionWrapper}
-                onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
-              >
-                <div className={styles.tcOption}>T&C’s</div>
-                <div className={styles.tcOptionArrow}>
-                  <div className={styles.arrowRight} />
+
+            <div className={styles.transactionDetails}>
+              <div className={styles.amountHolder}>
+                <div className={styles.moneyPaidText}>Money paid</div>
+                <div className={styles.amount}>
+                  <span className={styles.rupee}>₹</span>
+                  {transactionDetails &&
+                    transactionDetails.amount &&
+                    transactionDetails.amount.value}
+                </div>
+                <div className={styles.timeAndDate}>
+                  {transactionDetails && transactionDetails.transactionDate}{" "}
+                  {transactionDetails && transactionDetails.transactionTime} |
+                  Closing Balance : ₹
+                  <span className={styles.totalAmount}>
+                    {transactionDetails &&
+                      transactionDetails.closingBalance &&
+                      transactionDetails.closingBalance.value}
+                  </span>
                 </div>
               </div>
-            </div>
-            <div className={styles.aboutCliqCashBase}>
-              <div className={styles.aboutCliqCashContainer}>
-                <div className={styles.aboutCliqCashHeaderText}>
-                  Why use CLiQ Cash?
+              <div className={styles.transationDetailsHolder}>
+                <div className={styles.transactionDetailsHeader}>
+                  Transaction Detail
                 </div>
-                <div className={styles.aboutCliqCash}>
-                  <div className={styles.aboutCliqCashIconAndText}>
-                    <div className={styles.aboutCliqCashIconHolder}>
-                      <div className={styles.checkoutIcon} />
-                    </div>
-                    <div className={styles.aboutCliqCashInfoHeading}>
-                      FASTER CHECKOUT
-                    </div>
-                    <div className={styles.aboutCliqCashInfoSubHeading}>
-                      Instant Checkout
-                    </div>
-                  </div>
-                  <div className={styles.aboutCliqCashIconAndText}>
-                    <div className={styles.aboutCliqCashIconHolder}>
-                      <div className={styles.walletIcon} />
-                    </div>
-                    <div className={styles.aboutCliqCashInfoHeading}>
-                      CONSOLIDATED WALLET
-                    </div>
-                    <div className={styles.aboutCliqCashInfoSubHeading}>
-                      All balances at one place
-                    </div>
-                  </div>
-                  <div className={styles.aboutCliqCashIconAndText}>
-                    <div className={styles.aboutCliqCashIconHolder}>
-                      <div className={styles.refundIcon} />
-                    </div>
-                    <div className={styles.aboutCliqCashInfoHeading}>
-                      FASTER REFUNDS
-                    </div>
-                    <div className={styles.aboutCliqCashInfoSubHeading}>
-                      Get Refunds instantly post successful pick up
-                    </div>
-                  </div>
-                  <div className={styles.aboutCliqCashIconAndText}>
-                    <div className={styles.aboutCliqCashIconHolder}>
-                      <div className={styles.secureIcon} />
-                    </div>
-                    <div className={styles.aboutCliqCashInfoHeading}>
-                      Safe & Secure
-                    </div>
-                    <div className={styles.aboutCliqCashInfoSubHeading}>
-                      Your trusted place to keep money
-                    </div>
+                <div className={styles.transactionName}>
+                  {transactionDetails && transactionDetails.transactionName}
+                </div>
+                <div className={styles.orderNo}>
+                  Order No: {transactionDetails && transactionDetails.orderNo}
+                </div>
+              </div>
+              <div className={styles.tcHolder}>
+                <div
+                  className={styles.tcOptionWrapper}
+                  onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
+                >
+                  <div className={styles.tcOption}>T&C’s</div>
+                  <div className={styles.tcOptionArrow}>
+                    <div className={styles.arrowRight} />
                   </div>
                 </div>
               </div>
+              <div className={styles.aboutCliqCashBase}>
+                <div className={styles.aboutCliqCashContainer}>
+                  <div className={styles.aboutCliqCashHeaderText}>
+                    Why use CLiQ Cash?
+                  </div>
+                  <div className={styles.aboutCliqCash}>
+                    <div className={styles.aboutCliqCashIconAndText}>
+                      <div className={styles.aboutCliqCashIconHolder}>
+                        <div className={styles.checkoutIcon} />
+                      </div>
+                      <div className={styles.aboutCliqCashInfoHeading}>
+                        FASTER CHECKOUT
+                      </div>
+                      <div className={styles.aboutCliqCashInfoSubHeading}>
+                        Instant Checkout
+                      </div>
+                    </div>
+                    <div className={styles.aboutCliqCashIconAndText}>
+                      <div className={styles.aboutCliqCashIconHolder}>
+                        <div className={styles.walletIcon} />
+                      </div>
+                      <div className={styles.aboutCliqCashInfoHeading}>
+                        CONSOLIDATED WALLET
+                      </div>
+                      <div className={styles.aboutCliqCashInfoSubHeading}>
+                        All balances at one place
+                      </div>
+                    </div>
+                    <div className={styles.aboutCliqCashIconAndText}>
+                      <div className={styles.aboutCliqCashIconHolder}>
+                        <div className={styles.refundIcon} />
+                      </div>
+                      <div className={styles.aboutCliqCashInfoHeading}>
+                        FASTER REFUNDS
+                      </div>
+                      <div className={styles.aboutCliqCashInfoSubHeading}>
+                        Get Refunds instantly post successful pick up
+                      </div>
+                    </div>
+                    <div className={styles.aboutCliqCashIconAndText}>
+                      <div className={styles.aboutCliqCashIconHolder}>
+                        <div className={styles.secureIcon} />
+                      </div>
+                      <div className={styles.aboutCliqCashInfoHeading}>
+                        Safe & Secure
+                      </div>
+                      <div className={styles.aboutCliqCashInfoSubHeading}>
+                        Your trusted place to keep money
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.faqAndTcHolder}>
+                <FaqAndTcBase history={this.props.history} />
+              </div>
             </div>
-            <div className={styles.faqAndTcHolder}>
-              <FaqAndTcBase history={this.props.history} />
-            </div>
-          </div>
-          <DesktopOnly>
+
             <div className={MyAccountStyles.userProfile}>
               <UserProfile
                 image={userData && userData.imageUrl}
@@ -143,26 +158,12 @@ export default class TransactionDetailDesktop extends React.Component {
                 lastName={
                   userData && userData.lastName && `${userData.lastName}`
                 }
-                userAddress={this.props.userAddress}
+                userAddress={userAddress}
               />
             </div>
-          </DesktopOnly>
+          </div>
         </div>
-      </div>
+      </DesktopOnly>
     );
   }
 }
-TransactionDetailDesktop.propTypes = {
-  amount: PropTypes.number,
-  timeAndDate: PropTypes.string,
-  totalAmount: PropTypes.number,
-  transactionName: PropTypes.string,
-  orderNo: PropTypes.number
-};
-TransactionDetailDesktop.defaultProps = {
-  amount: 500,
-  timeAndDate: "16 April, 2019 4:55 PM",
-  totalAmount: 1500,
-  orderNo: 108537870616095941301,
-  transactionName: "Superdry White Men Fero Runner Running Sneakers"
-};
