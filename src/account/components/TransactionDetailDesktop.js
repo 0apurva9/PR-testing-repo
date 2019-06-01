@@ -45,7 +45,6 @@ export default class TransactionDetailDesktop extends React.Component {
               <div className={styles.amountHolder}>
                 <div className={styles.moneyPaidText}>Money paid</div>
                 <div className={styles.amount}>
-                  {" "}
                   <span className={styles.rupee}>₹</span>
                   {transactionDetails &&
                     transactionDetails.amount &&
