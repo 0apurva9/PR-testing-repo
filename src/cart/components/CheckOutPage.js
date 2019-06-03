@@ -2535,13 +2535,14 @@ if you have order id in local storage then you have to show order confirmation p
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
           this.state.cardDetails &&
-          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank !==
-            this.state.cardDetails.emi_bank
+          !this.state.cardDetails.emi_bank.includes(
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+          )
         ) {
           this.setState({
             emiBinValidationStatus: true,
             emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
-              binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+              this.state.cardDetails.selectedBankName
             } card only.`
           });
         } else if (
