@@ -122,7 +122,9 @@ export default class TransactionDetailDesktop extends React.Component {
                         Get Refunds instantly post successful pick up
                       </div>
                     </div>
-                    <div className={styles.aboutCliqCashIconAndText}>
+                    <div
+                      className={styles.aboutCliqCashIconAndTextWithoutBorder}
+                    >
                       <div className={styles.aboutCliqCashIconHolder}>
                         <div className={styles.secureIcon} />
                       </div>

@@ -158,6 +158,21 @@
     height: auto;
     display: inline-block;
     vertical-align: top;
+    position: relative;
+  }
+  .aboutCliqCashIconAndText::after {
+    content: "";
+    position: absolute;
+    border-left: 1px dashed #8d8d8d;
+    height: 49px;
+    top: 7px;
+    right: 0px;
+  }
+  .aboutCliqCashIconAndTextWithoutBorder {
+    composes: aboutCliqCashIconAndText;
+  }
+  .aboutCliqCashIconAndTextWithoutBorder::after {
+    border-left: none;
   }
   .aboutCliqCashIconHolder {
     width: 100%;
