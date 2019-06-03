@@ -44,7 +44,8 @@ export function getDesktopFooter(pathName) {
           footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch[1]}`;
         }
       } else {
-        footerApi = "v2/mpl/cms/desktopservice/footer";
+        footerApi =
+          "https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/footer";
       }
       const result = await api.get(footerApi);
       const resultJson = await result.json();
