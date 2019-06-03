@@ -283,6 +283,7 @@
     height: auto;
     display: inline-block;
     vertical-align: bottom;
+    cursor: pointer;
   }
   .addGiftCardButton {
     height: 32px;
@@ -348,6 +349,7 @@
     height: auto;
     display: inline-block;
     vertical-align: bottom;
+    cursor: pointer;
   }
   .buyGiftCardButton {
     height: 32px;
@@ -386,6 +388,7 @@
     width: 100%;
     height: auto;
     padding: 20px 0px 0px 10px;
+    cursor: pointer;
   }
   .cliqCashTransactionDetailsContainer {
     width: 100%;
@@ -422,12 +425,25 @@
     font-size: 14px;
     color: #212121;
   }
+  .amountAdded {
+    composes: price;
+    color: #6b9e31;
+  }
   .dateAndTime {
     width: 100%;
     height: auto;
     font-size: 10px;
     color: #8d8d8d;
     font-family: light;
+  }
+  .viewMore {
+    width: 100%;
+    margin-top: 20px;
+    text-align: right;
+    font-family: semibold;
+    color: #ff1744;
+    font-size: 14px;
+    cursor: pointer;
   }
 }
 @media screen and (max-width: 1024px) {

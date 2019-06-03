@@ -8,7 +8,8 @@ import {
   SUCCESS,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  TRANSACTION_DETAIL_PAGE
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
@@ -58,6 +59,18 @@ export default class CliqCashDesktop extends React.Component {
       }
     }
   }
+  transactiondetailPage(data) {
+    this.props.history.push({
+      pathname: `${TRANSACTION_DETAIL_PAGE}`,
+      state: {
+        transactonDetails: data,
+        userAddress: this.props.userAddress
+      }
+    });
+  }
+  showTransactioDetails = () => {
+    //add transaction url
+  };
 
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
@@ -248,38 +261,95 @@ export default class CliqCashDesktop extends React.Component {
                     </div>
                   </div>
 
-                  <div
-                    className={styles.cliqCashTransactionBase}
-                    onClick={() =>
-                      this.setState({ viewTransactionHistory: true })
-                    }
-                  >
-                    <div className={styles.cliqCashTransactionContainer}>
-                      <div className={styles.cliqCashTransactionHeading}>
-                        Your recent transactions
-                      </div>
-                      <div className={styles.cliqCashTransactionDetailsBase}>
-                        <div
-                          className={styles.cliqCashTransactionDetailsContainer}
-                        >
-                          <div className={styles.cliqCashTransactionDetails}>
-                            <div className={styles.cliqCashTransactionInfo}>
-                              Paid for Superdry White Sneakers
-                            </div>
-                            <div className={styles.cliqCashOrderNo}>
-                              Order No: 108537870616095941301
-                            </div>
+                  {this.props &&
+                    this.props.transactionDetails && (
+                      <div className={styles.cliqCashTransactionBase}>
+                        <div className={styles.cliqCashTransactionContainer}>
+                          <div className={styles.cliqCashTransactionHeading}>
+                            Your recent transactions
                           </div>
-                          <div className={styles.priceAndTime}>
-                            <div className={styles.price}> - ₹600.50</div>
-                            <div className={styles.dateAndTime}>
-                              Today, 4:55 PM
-                            </div>
-                          </div>
+                          {this.props &&
+                            this.props.transactionDetails &&
+                            this.props.transactionDetails.transactions &&
+                            this.props.transactionDetails.transactions.map(
+                              (value, i) => {
+                                return (
+                                  i < 5 && (
+                                    <div
+                                      className={
+                                        styles.cliqCashTransactionDetailsBase
+                                      }
+                                      onClick={() =>
+                                        this.transactiondetailPage(value)
+                                      }
+                                    >
+                                      <div
+                                        className={
+                                          styles.cliqCashTransactionDetailsContainer
+                                        }
+                                      >
+                                        <div
+                                          className={
+                                            styles.cliqCashTransactionDetails
+                                          }
+                                        >
+                                          <div
+                                            className={
+                                              styles.cliqCashTransactionInfo
+                                            }
+                                          >
+                                            {value.transactionName}
+                                          </div>
+                                          <div
+                                            className={styles.cliqCashOrderNo}
+                                          >
+                                            Order No: {value.orderNo}
+                                          </div>
+                                        </div>
+                                        <div className={styles.priceAndTime}>
+                                          <div
+                                            className={
+                                              value.transactionType ===
+                                                "Received" ||
+                                              value.transactionType === "Paid"
+                                                ? styles.amountAdded
+                                                : styles.price
+                                            }
+                                          >
+                                            {value.transactionType ===
+                                              "Received" ||
+                                            value.transactionType === "Paid"
+                                              ? "+ "
+                                              : "- "}
+                                            {value &&
+                                              value.amount &&
+                                              value.amount.formattedValue}
+                                          </div>
+                                          <div className={styles.dateAndTime}>
+                                            {value.transactionTime}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                );
+                              }
+                            )}
+                          {this.props &&
+                            this.props.transactionDetails &&
+                            this.props.transactionDetails.transactions &&
+                            this.props.transactionDetails.transactions.length >=
+                              5 && (
+                              <div
+                                className={styles.viewMore}
+                                onClick={() => this.showTransactioDetails()}
+                              >
+                                View More
+                              </div>
+                            )}
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    )}
                 </div>
 
                 <div className={styles.faqAndTcHolder}>
