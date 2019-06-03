@@ -68,6 +68,9 @@ export default class CliqCashDesktop extends React.Component {
       }
     });
   }
+  showTransactioDetails = () => {
+    //add transaction url
+  };
 
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
@@ -258,72 +261,95 @@ export default class CliqCashDesktop extends React.Component {
                     </div>
                   </div>
 
-                  <div className={styles.cliqCashTransactionBase}>
-                    <div className={styles.cliqCashTransactionContainer}>
-                      <div className={styles.cliqCashTransactionHeading}>
-                        Your recent transactions
-                      </div>
-                      {transactonDetails &&
-                        transactonDetails.transactions &&
-                        transactonDetails.transactions.map((value, i) => {
-                          return (
-                            i < 5 && (
-                              <div
-                                className={
-                                  styles.cliqCashTransactionDetailsBase
-                                }
-                                onClick={() =>
-                                  this.transactiondetailPage(value)
-                                }
-                              >
-                                <div
-                                  className={
-                                    styles.cliqCashTransactionDetailsContainer
-                                  }
-                                >
-                                  <div
-                                    className={
-                                      styles.cliqCashTransactionDetails
-                                    }
-                                  >
-                                    <div
-                                      className={styles.cliqCashTransactionInfo}
-                                    >
-                                      {value.transactionName}
-                                    </div>
-                                    <div className={styles.cliqCashOrderNo}>
-                                      Order No: {value.orderNo}
-                                    </div>
-                                  </div>
-                                  <div className={styles.priceAndTime}>
+                  {this.props &&
+                    this.props.transactionDetails && (
+                      <div className={styles.cliqCashTransactionBase}>
+                        <div className={styles.cliqCashTransactionContainer}>
+                          <div className={styles.cliqCashTransactionHeading}>
+                            Your recent transactions
+                          </div>
+                          {this.props &&
+                            this.props.transactionDetails &&
+                            this.props.transactionDetails.transactions &&
+                            this.props.transactionDetails.transactions.map(
+                              (value, i) => {
+                                return (
+                                  i < 5 && (
                                     <div
                                       className={
-                                        value.transactionType === "Received" ||
-                                        value.transactionType === "Paid"
-                                          ? styles.amountAdded
-                                          : styles.price
+                                        styles.cliqCashTransactionDetailsBase
+                                      }
+                                      onClick={() =>
+                                        this.transactiondetailPage(value)
                                       }
                                     >
-                                      {value.transactionType === "Received" ||
-                                      value.transactionType === "Paid"
-                                        ? "+ "
-                                        : "- "}
-                                      {value &&
-                                        value.amount &&
-                                        value.amount.formattedValue}
+                                      <div
+                                        className={
+                                          styles.cliqCashTransactionDetailsContainer
+                                        }
+                                      >
+                                        <div
+                                          className={
+                                            styles.cliqCashTransactionDetails
+                                          }
+                                        >
+                                          <div
+                                            className={
+                                              styles.cliqCashTransactionInfo
+                                            }
+                                          >
+                                            {value.transactionName}
+                                          </div>
+                                          <div
+                                            className={styles.cliqCashOrderNo}
+                                          >
+                                            Order No: {value.orderNo}
+                                          </div>
+                                        </div>
+                                        <div className={styles.priceAndTime}>
+                                          <div
+                                            className={
+                                              value.transactionType ===
+                                                "Received" ||
+                                              value.transactionType === "Paid"
+                                                ? styles.amountAdded
+                                                : styles.price
+                                            }
+                                          >
+                                            {value.transactionType ===
+                                              "Received" ||
+                                            value.transactionType === "Paid"
+                                              ? "+ "
+                                              : "- "}
+                                            {value &&
+                                              value.amount &&
+                                              value.amount.formattedValue}
+                                          </div>
+                                          <div className={styles.dateAndTime}>
+                                            {value.transactionTime}
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className={styles.dateAndTime}>
-                                      {value.transactionTime}
-                                    </div>
-                                  </div>
-                                </div>
+                                  )
+                                );
+                              }
+                            )}
+                          {this.props &&
+                            this.props.transactionDetails &&
+                            this.props.transactionDetails.transactions &&
+                            this.props.transactionDetails.transactions.length >=
+                              5 && (
+                              <div
+                                className={styles.viewMore}
+                                onClick={() => this.showTransactioDetails()}
+                              >
+                                View More
                               </div>
-                            )
-                          );
-                        })}
-                      <div className={styles.viewMore}>View More</div>
-                    </div>
-                  </div>
+                            )}
+                        </div>
+                      </div>
+                    )}
                 </div>
 
                 <div className={styles.faqAndTcHolder}>
@@ -374,376 +400,4 @@ CliqCashDesktop.propTypes = {
 };
 CliqCashDesktop.defaultProps = {
   isGiftCard: true
-};
-const transactonDetails = {
-  type: "cliqCashTransactionsDto",
-  status: "Success",
-  transactions: [
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053600148",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 750,
-        formattedValue: "₹750.00",
-        formattedValueNoDecimal: "₹750",
-        priceType: "BUY",
-        value: 750
-      },
-      expiryDate: "2019-05-29T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629117",
-      transactionName: "Received Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "20:03:16",
-      transactionType: "Received"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162059965529",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 735,
-        formattedValue: "₹735.00",
-        formattedValueNoDecimal: "₹735",
-        priceType: "BUY",
-        value: 735
-      },
-      expiryDate: "2019-05-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629102",
-      transactionName: "Paid Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "15:34:12",
-      transactionType: "Paid"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053016152",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 720,
-        formattedValue: "₹720.00",
-        formattedValueNoDecimal: "₹720",
-        priceType: "BUY",
-        value: 720
-      },
-      expiryDate: "2019-05-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629098",
-      transactionName: " Expired Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "15:10:29",
-      transactionType: "Expired"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053148976",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 705,
-        formattedValue: "₹705.00",
-        formattedValueNoDecimal: "₹705",
-        priceType: "BUY",
-        value: 705
-      },
-      expiryDate: "2019-05-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629094",
-      transactionName: "Received Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "14:10:10",
-      transactionType: "Received"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 200,
-        formattedValue: "₹200.00",
-        formattedValueNoDecimal: "₹200",
-        priceType: "BUY",
-        value: 200
-      },
-      cardNumber: "3000162086107343",
-      cardProgramGroup: "TUL CLP CS Goodwill eGift Cards",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 690,
-        formattedValue: "₹690.00",
-        formattedValueNoDecimal: "₹690",
-        priceType: "BUY",
-        value: 690
-      },
-      expiryDate: "2019-05-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629086",
-      transactionName: " Paid Goodwill Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "11:08:50",
-      transactionType: "Paid"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 200,
-        formattedValue: "₹200.00",
-        formattedValueNoDecimal: "₹200",
-        priceType: "BUY",
-        value: 200
-      },
-      cardNumber: "3000162072921333",
-      cardProgramGroup: "TUL CLP CS Consumer Research eGift Cards",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 490,
-        formattedValue: "₹490.00",
-        formattedValueNoDecimal: "₹490",
-        priceType: "BUY",
-        value: 490
-      },
-      expiryDate: "2019-05-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629085",
-      transactionName: "Received Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "11:08:28",
-      transactionType: "Received"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 200,
-        formattedValue: "₹200.00",
-        formattedValueNoDecimal: "₹200",
-        priceType: "BUY",
-        value: 200
-      },
-      cardNumber: "3000162052706089",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 290,
-        formattedValue: "₹290.00",
-        formattedValueNoDecimal: "₹290",
-        priceType: "BUY",
-        value: 290
-      },
-      expiryDate: "2019-05-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629084",
-      transactionName: " Expired Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "11:07:37",
-      transactionType: "Expired"
-    },
-
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053600148",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 750,
-        formattedValue: "₹750.00",
-        formattedValueNoDecimal: "₹750",
-        priceType: "BUY",
-        value: 750
-      },
-      expiryDate: "2019-04-29T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629117",
-      transactionName: "Received Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "20:03:16",
-      transactionType: "Received"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162059965529",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 735,
-        formattedValue: "₹735.00",
-        formattedValueNoDecimal: "₹735",
-        priceType: "BUY",
-        value: 735
-      },
-      expiryDate: "2019-04-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629102",
-      transactionName: "Paid Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "15:34:12",
-      transactionType: "Paid"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053016152",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 720,
-        formattedValue: "₹720.00",
-        formattedValueNoDecimal: "₹720",
-        priceType: "BUY",
-        value: 720
-      },
-      expiryDate: "2019-04-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629098",
-      transactionName: " Expired Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "15:10:29",
-      transactionType: "Expired"
-    },
-
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053600148",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 750,
-        formattedValue: "₹750.00",
-        formattedValueNoDecimal: "₹750",
-        priceType: "BUY",
-        value: 750
-      },
-      expiryDate: "2019-03-29T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629117",
-      transactionName: "Received Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "20:03:16",
-      transactionType: "Received"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162059965529",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 735,
-        formattedValue: "₹735.00",
-        formattedValueNoDecimal: "₹735",
-        priceType: "BUY",
-        value: 735
-      },
-      expiryDate: "2019-03-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629102",
-      transactionName: "Paid Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "15:34:12",
-      transactionType: "Paid"
-    },
-    {
-      amount: {
-        currencyIso: "INR",
-        doubleValue: 15,
-        formattedValue: "₹15.00",
-        formattedValueNoDecimal: "₹15",
-        priceType: "BUY",
-        value: 15
-      },
-      cardNumber: "3000162053016152",
-      cardProgramGroup: "TUL Wallet-PROMOTION",
-      closingBalance: {
-        currencyIso: "INR",
-        doubleValue: 720,
-        formattedValue: "₹720.00",
-        formattedValueNoDecimal: "₹720",
-        priceType: "BUY",
-        value: 720
-      },
-      expiryDate: "2019-03-30T00:00:00",
-      orderNo: "108537870616095941301",
-      transactionDate: "2019-05-28",
-      transactionId: "826629098",
-      transactionName: " Expired Promotional Credit",
-      transactionStatus: "SUCCESS",
-      transactionTime: "15:10:29",
-      transactionType: "Expired"
-    }
-  ]
 };

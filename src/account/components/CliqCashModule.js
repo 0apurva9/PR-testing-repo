@@ -45,6 +45,11 @@ export default class CliqCashModule extends Component {
     }
   };
   render() {
+    if (this.props.loading) {
+      this.props.showSecondaryLoader();
+    } else {
+      this.props.hideSecondaryLoader();
+    }
     return (
       <BottomSlideModal crossIconHide="true">
         <div className={styles.base}>
