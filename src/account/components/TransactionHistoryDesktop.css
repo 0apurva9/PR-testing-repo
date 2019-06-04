@@ -5,6 +5,10 @@
   background-color: #ececec;
   padding: 80px 0px 100px 0px;
 }
+.transactionBase {
+  width: 100%;
+  height: auto;
+}
 .transDetail {
   width: 60%;
   margin: auto;
@@ -85,11 +89,12 @@
 .dateTime {
   font-size: 14px;
   font-family: semibold;
-  width: auto;
+  width: 15%;
+  color: #212121;
 }
 .borderSection {
   position: absolute;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #efefef;
   width: 85%;
   top: 21px;
   right: 0px;
@@ -106,6 +111,8 @@
   width: 70%;
 }
 .orderDetails {
+  color: #212121;
+  font-family: regular;
   float: right;
   width: 30%;
 }
@@ -115,18 +122,25 @@
 }
 .orderNumber {
   font-size: 12px;
+  color: #8d8d8d;
+  font-family: light;
 }
 .orderAmount {
   font-size: 14px;
   text-align: right;
+  font-family: light;
+  color: #212121;
 }
 .orderAmountGreen {
-  composes: orderAmount;
+  font-size: 14px;
+  text-align: right;
   color: #6b9e31;
+  font-family: semibold;
 }
 .orderTime {
   font-size: 10px;
   text-align: right;
+  color: #8d8d8d;
 }
 .faqAndTcHolder {
   width: 100%;
