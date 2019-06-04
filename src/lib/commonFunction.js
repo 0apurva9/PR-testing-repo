@@ -1,3 +1,12 @@
+const WeekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
 const monthText = [
   "January",
   "February",
@@ -12,16 +21,38 @@ const monthText = [
   "November",
   "December"
 ];
-export const getDateMonthFormat = dateObj => {
-  let time = dateObj.time;
-  let date = dateObj.date;
-  let shortLength = dateObj.fullLength ? dateObj.fullLength : 0;
-  let showYear = dateObj.showYear ? dateObj.showYear : 0;
-  let convertedDateTime = "";
-  if (time && date) {
-    let currentDate = new Date();
 
-    let sentDate = new Date((date + " " + time).replace(/-/g, "/"));
+export function getCurrentDate() {
+  var currentDate = new Date();
+  return currentDate;
+}
+export function getWeek(day, shortLength) {
+  let weeekNumber = day.getDay();
+  if (shortLength > 0) {
+    return WeekDays[weeekNumber].slice(0, shortLength);
+  } else return WeekDays[weeekNumber];
+}
+export function getMonthsText(day, shortLength) {
+  let monthNumber = day.getMonth();
+  if (shortLength > 0) {
+    return monthText[monthNumber].slice(0, shortLength);
+  } else return monthText[monthNumber];
+}
+export function getNumberOfDaysInMonth(month, year) {
+  var date = new Date(year, month, 1);
+  var days = [];
+  while (date.getMonth() === month) {
+    days.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+  return days;
+}
+export const getDateMonthFormat = (date, showShortMonth, showYear) => {
+  let convertedDateTime = "";
+  let currentDate = new Date();
+  if (date) {
+    var dates = date.split("-");
+    let sentDate = new Date(dates[0], dates[1] - 1, dates[2]);
     let dayDifference = Math.floor(
       (Date.UTC(
         currentDate.getFullYear(),
@@ -35,46 +66,35 @@ export const getDateMonthFormat = dateObj => {
         )) /
         (1000 * 60 * 60 * 24)
     );
-
     if (dayDifference === 0) convertedDateTime = "Today";
     else if (dayDifference === 1) convertedDateTime = "Yesterday";
     else {
-      if (!shortLength) {
+      if (showShortMonth) {
         convertedDateTime =
-          sentDate.getDate() + " " + monthText[sentDate.getMonth()].slice(0, 3);
+          sentDate.getDate() + " " + getMonthsText(sentDate, 3);
       } else
-        convertedDateTime =
-          sentDate.getDate() + " " + monthText[sentDate.getMonth()];
+        convertedDateTime = sentDate.getDate() + " " + getMonthsText(sentDate);
 
       if (showYear) {
         convertedDateTime = convertedDateTime + " " + sentDate.getFullYear();
       }
     }
-    return convertedDateTime;
-  } else {
-    return "error";
   }
+  return convertedDateTime;
 };
 export const getTimeAmPm = time => {
+  let ts = time;
   if (time) {
-    let ts = time;
     let H = +ts.substr(0, 2);
     let h = H % 12 || 12;
     h = h < 10 ? "0" + h : h;
     let ampm = H < 12 ? " AM" : " PM";
     ts = h + ts.substr(2, 3) + ampm;
-    return ts;
-  } else {
-    return "error";
   }
+  return ts;
 };
-
-export const getWholeDayTimeFormat = dateObj => {
-  if (dateObj) {
-    let convertedDayTime = getDateMonthFormat(dateObj);
-    let time = getTimeAmPm(dateObj.time);
-    return convertedDayTime + " " + time;
-  } else {
-    return "error";
-  }
+export const getWholeDayTimeFormat = (date, timeDetail) => {
+  let convertedDayTime = getDateMonthFormat(date, true);
+  let time = getTimeAmPm(timeDetail);
+  return convertedDayTime + " " + time;
 };
