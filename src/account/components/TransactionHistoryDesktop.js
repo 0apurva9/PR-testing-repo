@@ -51,7 +51,7 @@ export default class TransactionHistoryDesktop extends React.Component {
       let originalData = JSON.parse(
         JSON.stringify(this.props.transactionDetails.transactions)
       );
-      var status = null;
+      let status = null;
       switch (type) {
         case 1:
           status = RECEIVED;
