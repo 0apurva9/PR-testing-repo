@@ -93,6 +93,7 @@ export const ORDER_PREFIX = "/my-account/order/(.*)";
 export const ORDER_CODE = "orderCode";
 export const ORDER = "/order";
 export const TRANSACTION_DETAIL_PAGE = "/transaction";
+export const TRANSACTION_HISTORY = "/transactionHistory";
 export const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
 // MyAccount Routes
 export const MY_ACCOUNT_PAGE_ROOT = "/my-account/.*";
@@ -380,3 +381,6 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
+export const RECEIVED = "Received";
+export const PAID = "Paid";
+export const EXPIRED = "Expired";

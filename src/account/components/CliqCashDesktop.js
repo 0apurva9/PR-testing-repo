@@ -9,7 +9,8 @@ import {
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
   LOGGED_IN_USER_DETAILS,
-  TRANSACTION_DETAIL_PAGE
+  TRANSACTION_DETAIL_PAGE,
+  TRANSACTION_HISTORY
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
@@ -69,7 +70,7 @@ export default class CliqCashDesktop extends React.Component {
     });
   }
   showTransactioDetails = () => {
-    //add transaction url
+    this.props.history.push(TRANSACTION_HISTORY);
   };
 
   buyNewGiftCard = () => {
