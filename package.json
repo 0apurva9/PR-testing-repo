@@ -105,6 +105,8 @@
     "p2": "REACT_APP_STAGE=p2 node scripts/build.js",
     "uat": "REACT_APP_STAGE=uat node scripts/build.js",
     "uat5": "REACT_APP_STAGE=uat5 node scripts/build.js",
+    "uat6": "REACT_APP_STAGE=uat6 node scripts/build.js",
+    "e2e": "REACT_APP_STAGE=e2e node scripts/build.js",
     "uat6tcs": "REACT_APP_STAGE=uat6tcs node scripts/build.js",
     "qa2": "REACT_APP_STAGE=qa2 node scripts/build.js",
     "pt": "REACT_APP_STAGE=pt node scripts/build.js",
