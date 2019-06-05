@@ -7,6 +7,7 @@ import UserProfile from "./UserProfile";
 import * as Cookie from "../../lib/Cookie";
 import FaqAndTcBase from "./FaqAndTcBase";
 import PropTypes from "prop-types";
+
 import {
   LOGGED_IN_USER_DETAILS,
   TERMS_AND_CONDITION_URL

@@ -24,6 +24,7 @@ import {
   MAIN_ROUTER,
   LOGIN_PATH,
   TRANSACTION_DETAIL_PAGE,
+  TRANSACTION_HISTORY,
   SIGN_UP_PATH,
   PRODUCT_DELIVERY_ADDRESSES,
   PRODUCT_CART_ROUTER,
@@ -320,6 +321,12 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
+const TransactionHistoryContainer = Loadable({
+  loader: () => import("./account/containers/TransactionHistoryContainer.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 class App extends Component {
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -610,6 +617,11 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
+            />
+            <Route
+              exact
+              path={TRANSACTION_HISTORY}
+              component={TransactionHistoryContainer}
             />
             } />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
