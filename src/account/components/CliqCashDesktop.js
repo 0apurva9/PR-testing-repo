@@ -12,7 +12,7 @@ import {
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY
 } from "../../lib/constants.js";
-import * as UserAgent from "../../lib/UserAgent.js";
+import { getWholeDayTimeFormat } from "../../lib/dateTimeFunction";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -25,7 +25,8 @@ export default class CliqCashDesktop extends React.Component {
     this.state = {
       cardNumber: this.props.cardNumber ? this.props.cardNumber : "",
       pinNumber: this.props.pinNumber ? this.props.cardNumber : "",
-      cliqCashUpdate: false
+      cliqCashUpdate: false,
+      transactionDetails: []
     };
   }
 
@@ -46,12 +47,14 @@ export default class CliqCashDesktop extends React.Component {
     if (this.props.getCliqCashDetails) {
       this.props.getCliqCashDetails();
     }
+    let transactions = [];
+    this.props.transactionDetails &&
+      this.props.transactionDetails.map(data => {
+        return transactions.push(...data.items);
+      });
+    this.setState({ transactionDetails: transactions });
   }
-  gitCard() {
-    if (this.props.gitCard) {
-      this.props.gitCard();
-    }
-  }
+
   redeemCliqVoucher() {
     if (this.state.cardNumber && this.state.pinNumber) {
       this.setState({ cliqCashUpdate: true });
@@ -102,8 +105,6 @@ export default class CliqCashDesktop extends React.Component {
               <div className={MyAccountStyles.profileMenu}>
                 <ProfileMenu {...this.props} />
               </div>
-            </DesktopOnly>
-            <DesktopOnly>
               <div className={styles.cliqCashDetail}>
                 <div>
                   <div className={styles.cliqCashDetailWithHolder}>
@@ -266,85 +267,79 @@ export default class CliqCashDesktop extends React.Component {
                     </div>
                   </div>
 
-                  {this.props &&
-                    this.props.transactionDetails && (
+                  {this.state.transactionDetails &&
+                    this.state.transactionDetails.length > 0 && (
                       <div className={styles.cliqCashTransactionBase}>
                         <div className={styles.cliqCashTransactionContainer}>
                           <div className={styles.cliqCashTransactionHeading}>
                             Your recent transactions
                           </div>
-                          {this.props &&
-                            this.props.transactionDetails &&
-                            this.props.transactionDetails.transactions &&
-                            this.props.transactionDetails.transactions.map(
-                              (value, i) => {
-                                return (
-                                  i < 5 && (
+                          {this.state.transactionDetails &&
+                            this.state.transactionDetails.map((value, i) => {
+                              return (
+                                i < 5 && (
+                                  <div
+                                    className={
+                                      styles.cliqCashTransactionDetailsBase
+                                    }
+                                    onClick={() =>
+                                      this.transactiondetailPage(value)
+                                    }
+                                  >
                                     <div
                                       className={
-                                        styles.cliqCashTransactionDetailsBase
-                                      }
-                                      onClick={() =>
-                                        this.transactiondetailPage(value)
+                                        styles.cliqCashTransactionDetailsContainer
                                       }
                                     >
                                       <div
                                         className={
-                                          styles.cliqCashTransactionDetailsContainer
+                                          styles.cliqCashTransactionDetails
                                         }
                                       >
                                         <div
                                           className={
-                                            styles.cliqCashTransactionDetails
+                                            styles.cliqCashTransactionInfo
                                           }
                                         >
-                                          <div
-                                            className={
-                                              styles.cliqCashTransactionInfo
-                                            }
-                                          >
-                                            {value.transactionName}
-                                          </div>
-                                          <div
-                                            className={styles.cliqCashOrderNo}
-                                          >
-                                            Order No: {value.orderNo}
-                                          </div>
+                                          {value.transactionName}
                                         </div>
-                                        <div className={styles.priceAndTime}>
-                                          <div
-                                            className={
-                                              value.transactionType ===
-                                                "Received" ||
-                                              value.transactionType === "Paid"
-                                                ? styles.amountAdded
-                                                : styles.price
-                                            }
-                                          >
-                                            {value.transactionType ===
+                                        <div className={styles.cliqCashOrderNo}>
+                                          Order No: {value.orderNo}
+                                        </div>
+                                      </div>
+                                      <div className={styles.priceAndTime}>
+                                        <div
+                                          className={
+                                            value.transactionType ===
                                               "Received" ||
                                             value.transactionType === "Paid"
-                                              ? "+ "
-                                              : "- "}
-                                            {value &&
-                                              value.amount &&
-                                              value.amount.formattedValue}
-                                          </div>
-                                          <div className={styles.dateAndTime}>
-                                            {value.transactionTime}
-                                          </div>
+                                              ? styles.amountAdded
+                                              : styles.price
+                                          }
+                                        >
+                                          {value.transactionType ===
+                                            "Received" ||
+                                          value.transactionType === "Paid"
+                                            ? "+ "
+                                            : "- "}
+                                          {value &&
+                                            value.amount &&
+                                            value.amount.formattedValue}
+                                        </div>
+                                        <div className={styles.dateAndTime}>
+                                          {getWholeDayTimeFormat(
+                                            value.transactionDate,
+                                            value.transactionTime
+                                          )}
                                         </div>
                                       </div>
                                     </div>
-                                  )
-                                );
-                              }
-                            )}
-                          {this.props &&
-                            this.props.transactionDetails &&
-                            this.props.transactionDetails.transactions &&
-                            this.props.transactionDetails.transactions.length >=
-                              5 && (
+                                  </div>
+                                )
+                              );
+                            })}
+                          {this.state.transactionDetails &&
+                            this.state.transactionDetails.length >= 5 && (
                               <div
                                 className={styles.viewMore}
                                 onClick={() => this.showTransactioDetails()}
@@ -361,8 +356,6 @@ export default class CliqCashDesktop extends React.Component {
                   <FaqAndTcBase history={this.props.history} />
                 </div>
               </div>
-            </DesktopOnly>
-            <DesktopOnly>
               <div className={MyAccountStyles.userProfile}>
                 <UserProfile
                   image={userData && userData.imageUrl}
@@ -394,15 +387,8 @@ export default class CliqCashDesktop extends React.Component {
 }
 CliqCashDesktop.propTypes = {
   balance: PropTypes.string,
-  date: PropTypes.string,
-  time: PropTypes.string,
   cardNumber: PropTypes.number,
   pinNumber: PropTypes.number,
-  isGiftCard: PropTypes.bool,
-  gitCard: PropTypes.func,
-  showCliqCashModule: PropTypes.func,
-  addBalance: PropTypes.func
-};
-CliqCashDesktop.defaultProps = {
-  isGiftCard: true
+
+  showCliqCashModule: PropTypes.func
 };

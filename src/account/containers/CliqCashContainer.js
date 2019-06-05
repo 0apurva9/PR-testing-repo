@@ -71,7 +71,9 @@ const mapStateToProps = state => {
     cliqCashVoucherDetailsStatus: state.profile.cliqCashVoucherDetailsStatus,
     cliqCashVoucherDetails: state.profile.cliqCashVoucherDetails,
     cliqCashVoucherDetailsError: state.profile.cliqCashVoucherDetailsError,
-    transactionDetails: state.profile.transactionDetails,
+    transactionDetails:
+      state.profile.transactionDetails &&
+      state.profile.transactionDetails.transactions,
     transactionDetailsStatus: state.profile.transactionDetailsStatus,
     transactionDetailsError: state.profile.transactionDetailsError,
     loading: state.profile.loading,

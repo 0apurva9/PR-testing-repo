@@ -28,7 +28,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    transactionDetails: state.profile.transactionDetails,
+    transactionDetails:
+      state.profile.transactionDetails &&
+      state.profile.transactionDetails.transactions,
     transactionDetailsStatus: state.profile.transactionDetailsStatus,
     transactionDetailsError: state.profile.transactionDetailsError,
     loading: state.profile.loading,

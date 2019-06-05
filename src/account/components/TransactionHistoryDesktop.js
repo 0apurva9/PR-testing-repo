@@ -9,7 +9,10 @@ import {
   TRANSACTION_DETAIL_PAGE
 } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
-import { getWholeDayTimeFormat } from "../../lib/commonFunction";
+import {
+  getWholeDayTimeFormat,
+  getMonthString
+} from "../../lib/dateTimeFunction";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
@@ -21,8 +24,7 @@ export default class TransactionHistoryDesktop extends React.Component {
     super(props);
     this.state = {
       checked: 0,
-      transactionDetails:
-        ((this.props || {}).transactionDetails || {}).transactions || []
+      transactionDetails: this.props && this.props.transactionDetails
     };
   }
 
@@ -32,6 +34,11 @@ export default class TransactionHistoryDesktop extends React.Component {
       this.props.getTransactionDetails();
     }
   }
+  getMonth = day => {
+    let date = day.split("-");
+    var monthString = getMonthString(date[0]);
+    return monthString;
+  };
   transactiondetailPage(data) {
     this.props.history.push({
       pathname: `${TRANSACTION_DETAIL_PAGE}`,
@@ -43,13 +50,9 @@ export default class TransactionHistoryDesktop extends React.Component {
   }
   filteredTransactionDetails = type => {
     this.setState({ checked: type });
-    if (
-      this.props &&
-      this.props.transactionDetails &&
-      this.props.transactionDetails.transactions
-    ) {
+    if (this.props && this.props.transactionDetails) {
       let originalData = JSON.parse(
-        JSON.stringify(this.props.transactionDetails.transactions)
+        JSON.stringify(this.props.transactionDetails)
       );
       let status = null;
       switch (type) {
@@ -139,7 +142,9 @@ export default class TransactionHistoryDesktop extends React.Component {
                       return (
                         <div className={styles.transactionBase}>
                           <div className={styles.dateSection}>
-                            <div className={styles.dateTime}>{val.date}</div>
+                            <div className={styles.dateTime}>
+                              {this.getMonth(val.date)}
+                            </div>
                             <div className={styles.borderSection} />
                           </div>
 
@@ -229,17 +234,5 @@ export default class TransactionHistoryDesktop extends React.Component {
 }
 
 TransactionHistoryDesktop.propTypes = {
-  transactionDetails: PropTypes.arrayOf(
-    PropTypes.shape({
-      month: PropTypes.string,
-      details: PropTypes.arrayOf(
-        PropTypes.shape({
-          orderName: PropTypes.string,
-          orderNumber: PropTypes.string,
-          status: PropTypes.string,
-          orderTime: PropTypes.string
-        })
-      )
-    })
-  )
+  transactionDetails: PropTypes.array
 };

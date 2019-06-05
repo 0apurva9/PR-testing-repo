@@ -5,9 +5,8 @@ import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import * as Cookie from "../../lib/Cookie";
+import { getDateMonthFormat, getTimeAmPm } from "../../lib/dateTimeFunction";
 import FaqAndTcBase from "./FaqAndTcBase";
-import PropTypes from "prop-types";
-
 import {
   LOGGED_IN_USER_DETAILS,
   TERMS_AND_CONDITION_URL
@@ -52,9 +51,13 @@ export default class TransactionDetailDesktop extends React.Component {
                     transactionDetails.amount.value}
                 </div>
                 <div className={styles.timeAndDate}>
-                  {transactionDetails && transactionDetails.transactionDate}{" "}
-                  {transactionDetails && transactionDetails.transactionTime} |
-                  Closing Balance : ₹
+                  {getDateMonthFormat(
+                    transactionDetails.transactionDate,
+                    true,
+                    true
+                  )}{" "}
+                  {getTimeAmPm(transactionDetails.transactionTime)} | Closing
+                  Balance : ₹
                   <span className={styles.totalAmount}>
                     {transactionDetails &&
                       transactionDetails.closingBalance &&
