@@ -135,7 +135,6 @@ export default class TransactionHistoryDesktop extends React.Component {
                   </div>
 
                   {transactionDetails &&
-                    transactionDetails.length &&
                     transactionDetails.map((val, i) => {
                       return (
                         <div className={styles.transactionBase}>
