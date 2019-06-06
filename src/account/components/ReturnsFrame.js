@@ -22,13 +22,15 @@ export default class ReturnsFrame extends React.Component {
         <MobileOnly>
           <div className={styles.header}>
             {this.props.headerText}
+            {this.props.onCancel && (
             <div className={styles.cancel}>
               <UnderLinedButton
                 label="Cancel"
                 color="#ff1744"
                 onClick={() => this.handleCancel()}
               />
-            </div>
+              </div>
+              )}
           </div>
         </MobileOnly>
         <div className={styles.content}>{this.props.children}</div>

@@ -60,6 +60,7 @@ import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY
 } from "../../lib/adobeUtils";
+import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
@@ -534,6 +535,14 @@ export default class AllOrderDetails extends React.Component {
                               placedTime={formattedDate}
                               orderId={orderDetails && orderDetails.orderId}
                             />
+                            <div
+                      className={styles.orderDetailsLink}
+                      onClick={() =>
+                        this.onViewDetails(orderDetails && orderDetails.orderId)
+                      }
+                    >
+                      Order Details
+                    </div>
                           </div>
                           {orderDetails &&
                             orderDetails.products &&
@@ -602,6 +611,16 @@ export default class AllOrderDetails extends React.Component {
                                         product.productcode
                                       )
                                     }
+                                    orderStatusCode={product.orderStatusCode}
+                                    displayStatusName={product.displayStatusName}
+                                    deliveryDate={product.deliveryDate}
+                                    calloutMessage={product.calloutMessage}
+                                    showRightArrow="Y"
+                                    orderId={orderDetails.orderId}
+                                    history={this.props.history}
+                                    transactionId={product.transactionId}
+                                    orderCancelDate={product.orderCancelDate}
+                                    idFromAllOrderDetails="Y"
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
@@ -692,7 +711,7 @@ export default class AllOrderDetails extends React.Component {
                                       : "none"
                                 }}
                               >
-                                <PriceAndLink
+                                {/* <PriceAndLink
                                   onViewDetails={() =>
                                     this.onViewDetails(
                                       orderDetails && orderDetails.orderId
@@ -709,7 +728,7 @@ export default class AllOrderDetails extends React.Component {
                                       ? "#fff"
                                       : "#ececec"
                                   }
-                                />
+                                /> */}
                                 {orderDetails &&
                                   orderDetails.retryPaymentUrl && (
                                     <div className={styles.retryPayment}>
@@ -847,7 +866,7 @@ export default class AllOrderDetails extends React.Component {
                                       borderBottom={"#fff"}
                                     >
                                       <div className={styles.priceRightHolder}>
-                                        <PriceAndLink
+                                        {/* <PriceAndLink
                                           onViewDetails={() =>
                                             this.onViewDetails(
                                               orderDetails &&
@@ -874,7 +893,7 @@ export default class AllOrderDetails extends React.Component {
                                             orderDetails &&
                                             orderDetails.products
                                           }
-                                        />
+                                        /> */}
                                       </div>
                                     </OrderDelivered>
                                   )}

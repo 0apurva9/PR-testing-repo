@@ -559,6 +559,26 @@ const account = (
         fetchOrderDetailsError: action.error,
         loadingForFetchOrderDetails: false
       });
+    
+    case accountActions.FETCH_ORDER_ITEM_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        fetchOrderItemDetailsStatus: action.status,
+        loadingForFetchOrderItemDetails: true
+      });
+
+    case accountActions.FETCH_ORDER_ITEM_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        fetchOrderItemDetailsStatus: action.status,
+        fetchOrderItemDetails: action.fetchOrderItemDetails,
+        loadingForFetchOrderItemDetails: false
+      });
+
+    case accountActions.FETCH_ORDER_ITEM_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        fetchOrderItemDetailsStatus: action.status,
+        fetchOrderItemDetailsError: action.error,
+        loadingForFetchOrderItemDetails: false
+      });
 
     case accountActions.SEND_INVOICE_REQUEST:
       return Object.assign({}, state, {

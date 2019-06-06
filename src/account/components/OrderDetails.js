@@ -5,7 +5,8 @@ import OrderCard from "./OrderCard.js";
 import OrderDelivered from "./OrderDelivered.js";
 import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
-import OrderStatusVertical from "./OrderStatusVertical";
+import OrderStatusVertical from "./OrderStatusVerticalV2";
+//import OrderStatusVertical from "./OrderStatusVertical";
 import OrderStatusHorizontal from "./OrderStatusHorizontal";
 import Button from "../../xelpmoc-core/Button";
 import OrderReturn from "./OrderReturn.js";
@@ -22,6 +23,8 @@ import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import { Redirect } from "react-router-dom";
+import { SUCCESS, HELP_URL } from "../../lib/constants";
+import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -45,16 +48,24 @@ import {
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
+const PRODUCT_RETURN = "Return/Replace";
+const RETURN = "RETURN";
+const PRODUCT_CANCEL = "Cancel Item";
 const PRODUCT_RETURN = "Return Order";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
-const RETURN = "RETURN";
 const PRODUCT_CANCEL = "Cancel Order";
 const AWB_POPUP_TRUE = "Y";
 const AWB_POPUP_FALSE = "N";
 const CLICK_COLLECT = "click-and-collect";
 const PAY_PAL = "PayPal";
 export default class OrderDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemDetails: false
+    };
+  }
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
@@ -110,6 +121,77 @@ export default class OrderDetails extends React.Component {
   writeReview(productCode) {
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
+  getDay(mplWorkingDays) {
+    let mplWorkingDaysInArray = mplWorkingDays.split(",");
+    let dayText = "";
+    let dayTextArr = [];
+    mplWorkingDaysInArray.map((day, index) => {
+      switch (day) {
+        case "1":
+          dayText = "Mon";
+          break;
+        case "2":
+          dayText = "Tue";
+          break;
+        case "3":
+          dayText = "Wed";
+          break;
+        case "4":
+          dayText = "Thu";
+          break;
+        case "5":
+          dayText = "Fri";
+          break;
+        case "6":
+          dayText = "Sat";
+          break;
+        case "0":
+          dayText = "Sun";
+          break;
+        default:
+          dayText = "";
+          break;
+      }
+      dayTextArr.push(dayText);
+    });
+    let dayTextArrToString = dayTextArr.toString();
+    return dayTextArrToString;
+  }
+  getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
+    let getDaysText = this.getDay(mplWorkingDays);
+    let mplOpeningTimeText = "";
+    let mplClosingTimeText = "";
+    // let displayDateNTime = "";
+    if (parseFloat(mplOpeningTime) < 12) {
+      mplOpeningTimeText = mplOpeningTime + " AM";
+    } else {
+      let mplOpeningTimeInMinutes = parseFloat(mplOpeningTime) * 60;
+      let mplOpeningTimeInTwelveHoursFormat = mplOpeningTimeInMinutes - 720; // 12 * 60
+      let mplOpeningTimeConverted = mplOpeningTimeInTwelveHoursFormat / 60;
+      mplOpeningTimeText = mplOpeningTimeConverted.toFixed(2) + " PM";
+    }
+    if (parseFloat(mplClosingTime) < 12) {
+      mplClosingTimeText = mplClosingTime + " AM";
+    } else {
+      let mplClosingTimeInMinutes = parseFloat(mplClosingTime) * 60;
+      let mplClosingTimeInTwelveHoursFormat = mplClosingTimeInMinutes - 720; // 12 * 60
+      let mplClosingTimeConverted = mplClosingTimeInTwelveHoursFormat / 60;
+      mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + " PM";
+    }
+    let displayDateNTime =
+      getDaysText + "<br />" + mplOpeningTimeText + " - " + mplClosingTimeText;
+    return { __html: displayDateNTime };
+  }
+  redirectToHelpPage() {
+    this.props.history.push(`${HELP_URL}`);
+  }
+  componentWillMount() {
+    const transactionId = queryString.parse(this.props.location.search)
+      .transactionId;
+    if (transactionId) {
+      this.setState({ itemDetails: true });
+    }
+  }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -119,8 +201,14 @@ export default class OrderDetails extends React.Component {
       this.props.match.path === `${ORDER_PREFIX}`
     ) {
       const orderCode = queryString.parse(this.props.location.search).orderCode;
+      const transactionId = queryString.parse(this.props.location.search).transactionId;
+    if (transactionId) {
+      this.props.fetchOrderItemDetails(orderCode, transactionId);
+      this.props.setHeaderText("Item Details");
+    } else {
       this.props.fetchOrderDetails(orderCode);
       this.props.setHeaderText(`#${orderCode}`);
+    }
     } else if (
       userDetails &&
       customerCookie &&
@@ -149,7 +237,13 @@ export default class OrderDetails extends React.Component {
       this.props.match.path === `${ORDER_PREFIX}`
     ) {
       const orderCode = queryString.parse(this.props.location.search).orderCode;
-      this.props.setHeaderText(`#${orderCode}`);
+      const transactionId = queryString.parse(this.props.location.search)
+        .transactionId;
+      if (transactionId) {
+        this.props.setHeaderText("Item Details");
+      } else {
+        this.props.setHeaderText(`#${orderCode}`);
+      }
     } else if (
       userDetails &&
       customerCookie &&
@@ -188,6 +282,10 @@ export default class OrderDetails extends React.Component {
       userData = JSON.parse(userDetails);
     }
     const orderDetails = this.props.orderDetails;
+    let orderPlacedDate = "";
+    if (orderDetails && orderDetails.orderDate) {
+      orderPlacedDate = format(orderDetails.orderDate, dateFormat);
+    }
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -198,6 +296,15 @@ export default class OrderDetails extends React.Component {
             </div>
           </DesktopOnly>
           <div className={MyAccountStyles.orderDetail}>
+          {!this.state.itemDetails &&
+          orderDetails && (
+            <div className={styles.orderIdHolder}>
+              <OrderPlacedAndId
+                placedTime={orderPlacedDate}
+                orderId={orderDetails.orderId}
+              />
+            </div>
+          )}
             {orderDetails &&
               orderDetails.products.map((products, i) => {
                 let isOrderReturnable = false;
@@ -235,19 +342,31 @@ export default class OrderDetails extends React.Component {
                   );
                 });
                 return (
+                  <React.Fragment key={i}>
                   <div className={styles.order} key={i}>
                     <MobileOnly>
-                      <div className={styles.orderIdHolder}>
-                        <OrderPlacedAndId
-                          placedTime={format(
-                            orderDetails.orderDate,
-                            dateFormat
-                          )}
-                          orderId={orderDetails.orderId}
-                        />
-                      </div>
+                    {!this.state.itemDetails && (
+                    <div className={styles.itemDetails}>Item Details</div>
+                      )}
+                       {this.state.itemDetails && (
+                    <div className={styles.orderItemDateID}>
+                      <div>Order placed on : {orderPlacedDate}</div>
+                      <div>Order ID : {orderDetails.orderId}</div>
+                      <div>Transaction ID : {products.transactionId}</div>
+                    </div>
+                  )}
                     </MobileOnly>
                     <DesktopOnly>
+                    {!this.state.itemDetails && (
+                    <div className={styles.itemDetails}>Item Details</div>
+                      )}
+                    {this.state.itemDetails && (
+                    <div className={styles.orderItemDateID}>
+                      <div>Order placed on : {orderPlacedDate}</div>
+                      <div>Order ID : {orderDetails.orderId}</div>
+                      <div>Transaction ID : {products.transactionId}</div>
+                    </div>
+                  )}
                       <div className={styles.orderIdAndPlacedHolder}>
                         <div className={styles.orderIdHolder}>
                           <span className={styles.highlightedText}>
@@ -277,6 +396,7 @@ export default class OrderDetails extends React.Component {
                       </div>
                     </DesktopOnly>
                     <OrderCard
+                      statusDisplayMsg={products.statusDisplayMsg}
                       estimatedDeliveryDate={products.estimateddeliverydate}
                       statusDisplay={products.statusDisplay}
                       imageUrl={products.imageURL}
@@ -287,65 +407,13 @@ export default class OrderDetails extends React.Component {
                       isGiveAway={products.isGiveAway}
                       onClick={() => this.onClickImage(products.productcode)}
                       quantity={true}
-                    />
-                    <div className={styles.payment}>
-                      <OrderViewPaymentDetails
-                        SubTotal={
-                          orderDetails.orderAmount &&
-                          orderDetails.orderAmount.bagTotal &&
-                          orderDetails.orderAmount.bagTotal.value
-                            ? Math.round(
-                                orderDetails.orderAmount.bagTotal.value * 100
-                              ) / 100
-                            : "0.00"
-                        }
-                        DeliveryCharges={orderDetails.deliveryCharge}
-                        Discount={
-                          orderDetails.orderAmount &&
-                          orderDetails.orderAmount.totalDiscountAmount &&
-                          orderDetails.orderAmount.totalDiscountAmount.value
-                            ? Math.round(
-                                orderDetails.orderAmount.totalDiscountAmount
-                                  .value * 100
-                              ) / 100
-                            : "0.00"
-                        }
-                        coupon={
-                          orderDetails.orderAmount &&
-                          orderDetails.orderAmount.couponDiscountAmount &&
-                          orderDetails.orderAmount.couponDiscountAmount.value
-                            ? Math.round(
-                                orderDetails.orderAmount.couponDiscountAmount
-                                  .value * 100
-                              ) / 100
-                            : "0.00"
-                        }
-                        ConvenienceCharges={orderDetails.convenienceCharge}
-                        Total={
-                          orderDetails.totalOrderAmount
-                            ? Math.round(orderDetails.totalOrderAmount * 100) /
-                              100
-                            : "0.00"
-                        }
-                        cliqCashAmountDeducted={
-                          orderDetails && orderDetails.cliqCashAmountDeducted
-                        }
-                      />
-                    </div>
-                    <OrderPaymentMethod
-                      phoneNumber={
-                        orderDetails.deliveryAddress &&
-                        orderDetails.deliveryAddress.phone
-                      }
-                      paymentMethod={orderDetails.paymentMethod}
-                      isInvoiceAvailable={products.isInvoiceAvailable}
-                      statusDisplay={products.statusDisplayMsg}
-                      request={() =>
-                        this.requestInvoice(
-                          products.transactionId,
-                          products.sellerorderno
-                        )
-                      }
+                      selectedDeliveryMode={products.selectedDeliveryMode}
+                      sellerName={products.sellerName}
+                      consignmentStatus={products.consignmentStatus}
+                      deliveryDate={products.deliveryDate}
+                      productSize={products.productSize}
+                      productColourName={products.productColourName}
+                      showEDD="Y"
                     />
                     {orderDetails.deliveryAddress &&
                       Object.keys(orderDetails.deliveryAddress).length !==
@@ -402,6 +470,7 @@ export default class OrderDetails extends React.Component {
                         />
                       )}
                     {products.statusDisplayMsg &&
+                      products.consignmentStatus !== "DELIVERED" &&
                       (products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code !==
                           CLICK_COLLECT) && (
@@ -444,9 +513,35 @@ export default class OrderDetails extends React.Component {
                     {products.selectedDeliveryMode &&
                       products.selectedDeliveryMode.code === CLICK_COLLECT &&
                       products.storeDetails && (
-                        <div className={styles.orderStatusVertical}>
+                      
+                      
+                        <React.Fragment>
+                        {this.props.orderDetails.statusDisplay && (
+                          <div className={styles.commonTitle}>
+                            <span className={styles.width30}>
+                              <span className={styles.ffsemibold}>
+                                Status:{" "}
+                              </span>
+                            </span>
+                            <span className={styles.width70}>
+                              {/* {this.props.orderDetails.statusDisplay} */}
+                              {products.statusDisplay}
+                            </span>
+                          </div>
+                        )}
+                        <div className={styles.commonTitle}>
+                          <span className={styles.width30}>
+                            <span className={styles.ffsemibold}>
+                              Store Details:{" "}
+                            </span>
+                          </span>
+                          <span className={styles.width70}>
+                            
+                        {/* <div className={styles.orderStatusVertical}>
                           <div className={styles.header}>Store details:</div>
-                          <div className={styles.row}>
+                        <div className={styles.row}>
+                           */}
+
                             {products.storeDetails.displayName &&
                               products.storeDetails.displayName !== undefined &&
                               products.storeDetails.displayName !==
@@ -473,25 +568,60 @@ export default class OrderDetails extends React.Component {
                                   {products.storeDetails.returnAddress2}
                                 </span>
                               )}{" "}
-                          </div>
-                          <div className={styles.row}>
+                          {/* </div>
+                          <div className={styles.row}> */}
+                          <span>
                             {products.storeDetails.returnCity}{" "}
                             {products.storeDetails.returnPin}
+                            </span>
+                          </span>
                           </div>
+                        {/* </div> */}
+                        <div className={styles.commonTitle}>
+                          <span className={styles.width30}>
+                            <span className={styles.ffsemibold}>
+                              Open From :
+                            </span>
+                          </span>
+                          <span className={styles.width70}>
+                            <div
+                              dangerouslySetInnerHTML={this.getStoreDateNTime(
+                                products.storeDetails.mplWorkingDays,
+                                products.storeDetails.mplOpeningTime,
+                                products.storeDetails.mplClosingTime
+                              )}
+                            />
+                          </span>
                         </div>
-                      )}
+                      </React.Fragment>
+                    )}
                     {products.selectedDeliveryMode &&
                       products.selectedDeliveryMode.code === CLICK_COLLECT &&
                       (orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile) && (
-                        <div className={styles.orderStatusVertical}>
-                          <div className={styles.header}>Pickup details:</div>
-                          <div className={styles.row}>
-                            {orderDetails.pickupPersonName}
-                          </div>
-                          <div className={styles.row}>
-                            {orderDetails.pickupPersonMobile}
-                          </div>
+                        // <div className={styles.orderStatusVertical}>
+                        //   <div className={styles.header}>Pickup details:</div>
+                        //   <div className={styles.row}>
+                        //     {orderDetails.pickupPersonName}
+                        //   </div>
+                        //   <div className={styles.row}>
+                        //     {orderDetails.pickupPersonMobile}
+                        //   </div>
+                        <React.Fragment>
+                        <div className={styles.commonTitle}>
+                          <span className={styles.width30}>
+                            <span className={styles.ffsemibold}>
+                              Pickup Details:{" "}
+                            </span>
+                          </span>
+                          <span className={styles.width70}>
+                            <span>Ph. {orderDetails.pickupPersonMobile}</span>
+                            <br />
+                            <span>{orderDetails.pickupPersonName}</span>
+                          </span>
+                        </div>
+                        <div className={styles.divider} />
+                        <div>
                           {/* This block of code needs to be duplicated above for non CNC as well */}
                           {!products.statusDisplayMsg
                             .map(val => {
@@ -526,6 +656,7 @@ export default class OrderDetails extends React.Component {
                           )}
                           {/* Block of code ends here */}
                         </div>
+                        </React.Fragment>
                       )}
 
                     {products.awbPopupLink === AWB_POPUP_FALSE && (
@@ -723,9 +854,90 @@ export default class OrderDetails extends React.Component {
                         </div>
                       </div>
                     )}
+                    {this.state.itemDetails && (
+                    <div
+                      onClick={() => this.redirectToHelpPage()}
+                      className={styles.helpSupport}
+                    >
+                      Help & Support
+                      <span className={styles.rightArrow} />
+                    </div>
+                  )}
+
                   </div>
+                    </React.Fragment>
                 );
               })}
+             {!this.state.itemDetails &&
+          orderDetails && (
+            <div className={styles.order}>
+              <div className={styles.payment}>
+                <OrderViewPaymentDetails
+                  SubTotal={
+                    orderDetails.orderAmount &&
+                    orderDetails.orderAmount.bagTotal &&
+                    orderDetails.orderAmount.bagTotal.value
+                      ? Math.round(
+                          orderDetails.orderAmount.bagTotal.value * 100
+                        ) / 100
+                      : "0.00"
+                  }
+                  DeliveryCharges={orderDetails.deliveryCharge}
+                  Discount={
+                    orderDetails.orderAmount &&
+                    orderDetails.orderAmount.totalDiscountAmount &&
+                    orderDetails.orderAmount.totalDiscountAmount.value
+                      ? Math.round(
+                          orderDetails.orderAmount.totalDiscountAmount.value *
+                            100
+                        ) / 100
+                      : "0.00"
+                  }
+                  coupon={
+                    orderDetails.orderAmount &&
+                    orderDetails.orderAmount.couponDiscountAmount &&
+                    orderDetails.orderAmount.couponDiscountAmount.value
+                      ? Math.round(
+                          orderDetails.orderAmount.couponDiscountAmount.value *
+                            100
+                        ) / 100
+                      : "0.00"
+                  }
+                  ConvenienceCharges={orderDetails.convenienceCharge}
+                  Total={
+                    orderDetails.orderAmount &&
+                    orderDetails.orderAmount.paybleAmount &&
+                    orderDetails.orderAmount.paybleAmount.value
+                      ? Math.round(
+                          orderDetails.orderAmount.paybleAmount.value * 100
+                        ) / 100
+                      : "0.00"
+                  }
+                  cliqCashAmountDeducted={
+                    orderDetails && orderDetails.cliqCashAmountDeducted
+                  }
+                />
+              </div>
+              <OrderPaymentMethod
+                history={this.props.history}
+                deliveryAddress={orderDetails.deliveryAddress}
+                phoneNumber={
+                  orderDetails.deliveryAddress &&
+                  orderDetails.deliveryAddress.phone
+                }
+                paymentMethod={orderDetails.paymentMethod}
+                //isInvoiceAvailable={products.isInvoiceAvailable}
+                //statusDisplay={products.statusDisplayMsg}
+                // request={() =>
+                //   this.requestInvoice(
+                //     products.transactionId,
+                //     products.sellerorderno
+                //   )
+                // }
+              />
+            </div>
+          )}
+
           </div>
           {/* showing user details only for desktop */}
           <DesktopOnly>
@@ -775,5 +987,11 @@ OrderDetails.propTypes = {
       )
     })
   ),
-  requestInvoice: PropTypes.func
+  requestInvoice: PropTypes.func,
+  underlineButtonLabel: PropTypes.string,
+  underlineButtonColour: PropTypes.string
+};
+OrderDetails.defaultProps = {
+  underlineButtonLabel: "Request Invoice",
+  underlineButtonColour: "#181818"
 };

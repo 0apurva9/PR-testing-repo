@@ -1,5 +1,9 @@
 import { connect } from "react-redux";
-import { fetchOrderDetails, sendInvoice } from "../actions/account.actions";
+import {
+  fetchOrderDetails,
+  sendInvoice,
+  fetchOrderItemDetails
+} from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
 import { displayToast } from "../../general/toast.actions";
@@ -23,6 +27,9 @@ const mapDispatchToProps = dispatch => {
     },
     displayToast: toastMessage => {
       dispatch(displayToast(toastMessage));
+    },
+    fetchOrderItemDetails: (orderId, transactionId) => {
+      dispatch(fetchOrderItemDetails(orderId, transactionId));
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));

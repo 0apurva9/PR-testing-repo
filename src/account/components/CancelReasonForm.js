@@ -1,6 +1,7 @@
 import React from "react";
 import OrderCard from "./OrderCard";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
+import SelectBoxMobile3 from "../../general/components/SelectBoxMobile3";
 import TextArea from "../../general/components/TextArea";
 import ReturnsFrame from "./ReturnsFrame";
 import styles from "./CancelReasonForm.css";
@@ -13,7 +14,8 @@ export default class CancelReasonForm extends React.Component {
       displaySecondary: false,
       secondaryReasons: null,
       comment: null,
-      reason: "Select a reason"
+      reason: "Select a reason",
+      placeholder: "Add comments (optional)"
     };
   }
   onClickImage(productCode) {
@@ -45,9 +47,9 @@ export default class CancelReasonForm extends React.Component {
     const data = this.props.cancelProductDetails;
     return (
       <ReturnsFrame
-        headerText="Select reason for your cancel"
+         headerText="Cancel Item"
         onContinue={() => this.handleContinue()}
-        onCancel={() => this.handleCancel()}
+       // onCancel={() => this.handleCancel()}
       >
         <div className={styles.content}>
           <OrderCard
@@ -57,9 +59,9 @@ export default class CancelReasonForm extends React.Component {
               data.orderProductWsDTO[0] &&
               data.orderProductWsDTO[0].imageURL
             }
-            productName={`${data.orderProductWsDTO[0].productBrand} ${
-              data.orderProductWsDTO[0].productName
-            }`}
+            imageHolderWidth="47px"
+            productName={`${data.orderProductWsDTO[0].productName}`}
+            
             onClick={() =>
               this.onClickImage(
                 data.orderProductWsDTO &&
@@ -67,18 +69,28 @@ export default class CancelReasonForm extends React.Component {
                   data.orderProductWsDTO[0].productcode
               )
             }
-            price={data.orderProductWsDTO[0].price}
-            quantity={true}
-            isSelect={true}
+            price={false}
+            quantity={false}
+            isSelect={false}
           >
-            {data.orderProductWsDTO[0].quantity && (
-              <div className={styles.quantity}>
-                Qty {data.orderProductWsDTO[0].quantity}
-              </div>
+            {data.orderProductWsDTO[0].productSize && (
+              <span className={styles.productSizeColor}>
+                {data.orderProductWsDTO[0].productSize} |&nbsp;
+              </span>
+            )}
+            {data.orderProductWsDTO[0].productColour && (
+              <span className={styles.productSizeColor}>
+                {data.orderProductWsDTO[0].productColour}
+              </span>
             )}
           </OrderCard>
+          <div className={styles.cancelReasonForm}>
+            <div className={styles.cancelTitle}>
+              Please select cancel reason
+            </div>
+         
           <div className={styles.select}>
-            <SelectBoxMobile2
+            <SelectBoxMobile3
               placeholder={"Select a reason"}
               options={data.returnReasonDetailsWsDTO.map((val, i) => {
                 return {
@@ -93,10 +105,12 @@ export default class CancelReasonForm extends React.Component {
           <div className={styles.textArea}>
             <TextArea
               onChange={val => this.handleChange(val)}
-              value={this.state.comment}
+                value={this.state.comment}
+                placeholder={this.state.placeholder}
             />
           </div>
-        </div>
+          </div>
+          </div>
       </ReturnsFrame>
     );
   }

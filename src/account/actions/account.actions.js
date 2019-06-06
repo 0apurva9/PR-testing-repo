@@ -95,6 +95,10 @@ export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
 
+export const FETCH_ORDER_ITEM_DETAILS_REQUEST = "FETCH_ORDER_ITEM_DETAILS_REQUEST";
+export const FETCH_ORDER_ITEM_DETAILS_SUCCESS = "FETCH_ORDER_ITEM_DETAILS_SUCCESS";
+export const FETCH_ORDER_ITEM_DETAILS_FAILURE = "FETCH_ORDER_ITEM_DETAILS_FAILURE";
+
 export const GET_USER_COUPON_REQUEST = "GET_USER_COUPON_REQUEST";
 export const GET_USER_COUPON_SUCCESS = "GET_USER_COUPON_SUCCESS";
 export const GET_USER_COUPON_FAILURE = "GET_USER_COUPON_FAILURE";
@@ -1218,6 +1222,28 @@ export function getAllOrdersDetails(
     }
   };
 }
+export function fetchOrderItemDetailsRequest() {
+  return {
+    type: FETCH_ORDER_ITEM_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function fetchOrderItemDetailsSuccess(fetchOrderItemDetails) {
+  return {
+    type: FETCH_ORDER_ITEM_DETAILS_SUCCESS,
+    status: SUCCESS,
+    fetchOrderItemDetails
+  };
+}
+
+export function fetchOrderItemDetailsFailure(error) {
+  return {
+    type: FETCH_ORDER_ITEM_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
 
 export function getUserDetailsRequest() {
   return {
@@ -1450,30 +1476,6 @@ export function editAddressFailure(error) {
     error
   };
 }
-
-export function fetchOrderDetailsRequest() {
-  return {
-    type: FETCH_ORDER_DETAILS_REQUEST,
-    status: REQUESTING
-  };
-}
-export function fetchOrderDetailsSuccess(fetchOrderDetails) {
-  return {
-    type: FETCH_ORDER_DETAILS_SUCCESS,
-    status: SUCCESS,
-    fetchOrderDetails
-  };
-}
-
-export function fetchOrderDetailsFailure(error) {
-  return {
-    type: FETCH_ORDER_DETAILS_FAILURE,
-
-    status: ERROR,
-    error
-  };
-}
-
 export function editAddress(addressDetails) {
   return async (dispatch, getState, { api }) => {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -1538,6 +1540,27 @@ export function editAddress(addressDetails) {
     }
   };
 }
+export function fetchOrderDetailsRequest() {
+  return {
+    type: FETCH_ORDER_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function fetchOrderDetailsSuccess(fetchOrderDetails) {
+  return {
+    type: FETCH_ORDER_DETAILS_SUCCESS,
+    status: SUCCESS,
+    fetchOrderDetails
+  };
+}
+
+export function fetchOrderDetailsFailure(error) {
+  return {
+    type: FETCH_ORDER_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
 
 export function fetchOrderDetails(orderId) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -1548,7 +1571,7 @@ export function fetchOrderDetails(orderId) {
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getSelectedOrder/${orderId}?access_token=${
+        }/getSelectedOrder_V1/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true`
       );
@@ -1559,6 +1582,32 @@ export function fetchOrderDetails(orderId) {
         throw new Error(resultJsonStatus.message);
       }
       setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
+      dispatch(fetchOrderDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(fetchOrderDetailsFailure(e.message));
+    }
+  };
+}
+export function fetchOrderItemDetails(orderId, transactionId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(fetchOrderDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getSelectedTransaction/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      // setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
       dispatch(fetchOrderDetailsSuccess(resultJson));
     } catch (e) {
       dispatch(fetchOrderDetailsFailure(e.message));
