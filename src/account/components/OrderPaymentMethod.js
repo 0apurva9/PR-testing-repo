@@ -29,14 +29,21 @@ export default class OrderPaymentMethod extends React.Component {
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
-          <div className={styles.paymentHolder}>
-            {this.props.paymentMethod && (
-              <div className={styles.paymentMethod}>
-                <span className={styles.ffsemibold}>Payment Mode: </span>
-                {this.props.paymentMethod && this.props.paymentMethod}
-              </div>
-            )}
-        
+          <div>
+            <div className={styles.paymentHolder}>
+              {this.props.paymentMethod && (
+                <div className={styles.paymentMethod}>
+                  <span className={styles.ffsemibold}>Payment Mode: </span>
+                  {this.props.paymentMethod && this.props.paymentMethod}
+                </div>
+              )}
+            </div>
+            <div
+              className={styles.helpSupport}
+              onClick={() => this.redirectToHelpPage()}
+            >
+              <span>Help & Support</span>
+            </div>
           </div>
         )}
         {this.props.deliveryAddress && (
@@ -55,13 +62,7 @@ export default class OrderPaymentMethod extends React.Component {
             </div>
           </React.Fragment>
         )}
-        <div
-          onClick={() => this.redirectToHelpPage()}
-          className={styles.helpSupport}
-        >
-          <span className={styles.ffsemibold}>Help & Support</span>{" "}
-          <span className={styles.helpSupportLink} />
-        </div>
+
         {/* {(this.props.paymentMethod || this.props.phoneNumber) && (
           <div className={styles.cashAndMobileHolder}>
             {this.props.paymentMethod && (

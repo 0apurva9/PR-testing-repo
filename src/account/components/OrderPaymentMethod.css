@@ -1,62 +1,75 @@
 .base {
-  width: 100%;
-  height: auto;
-  background: #fff;
+	width: 100%;
+	height: auto;
+	background: #fff;
 }
 .paymentHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-top: 15px;
+	width: 70%;
+	height: auto;
+	display: inline-block;
+	padding-top: 15px;
+}
+.ffsemibold {
+	line-height: 22px;
+	font-size: 14px;
+	font-family: semibold;
+	margin-bottom: 69px;
+}
+.helpSupport {
+	width: 30%;
+	font-family: semibold;
+	color: #ff1744;
+	font-size: 14px;
+	display: inline-block;
 }
 .paymentMethod {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  text-align: left;
-  font-family: semibold;
-  font-size: 14px;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	text-align: left;
+	font-family: semibold;
+	font-size: 14px;
 }
 .requestHolder {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  text-align: right;
-  font-family: regular;
-  font-size: 14px;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	text-align: right;
+	font-family: regular;
+	font-size: 14px;
 }
 .requestWithUnderline {
-  display: inline-block;
+	display: inline-block;
 }
 .cashAndMobileHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-top: 5px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ececec;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ececec;
 }
 
 .cashText {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  font-size: 14px;
-  font-family: regular;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	font-size: 14px;
+	font-family: regular;
 }
 .mobileNumber {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  font-size: 14px;
-  font-family: regular;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	font-size: 14px;
+	font-family: regular;
 }
 
 @media screen and (min-width: 1025px) {
-  .cashText {
-    font-family: light;
-  }
-  .mobileNumber {
-    font-family: light;
-  }
+	.cashText {
+		font-family: light;
+	}
+	.mobileNumber {
+		font-family: light;
+	}
 }

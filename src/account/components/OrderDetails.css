@@ -22,6 +22,10 @@
 	border-bottom: 1px solid #efefef;
 	margin-bottom: 15px;
 }
+.divider {
+	border-bottom: 1px solid #efefef;
+	padding-top: 10px;
+}
 .orderItemDateID {
 	font-size: 11px;
 	font-family: light;
@@ -34,6 +38,12 @@
 	float: left;
 	width: 100%;
 	margin-bottom: 5px;
+}
+.rateThisItem {
+	margin-top: 49px;
+	font-family: semibold;
+	padding: 10px 0 5px 0;
+	font-size: 12px;
 }
 .order {
 	width: 100%;
@@ -98,10 +108,10 @@
 		padding: 80px 0px;
 	}
 	.orderIdAndPlacedHolder {
-		width: 100%;
+		width: 75%;
 		height: auto;
-		padding-right: 150px;
 		position: relative;
+		display: inline-block;
 	}
 	.orderIdHolder {
 		width: 100%;
@@ -128,18 +138,13 @@
 		font-family: Medium;
 	}
 	.buttonGoToBack {
-		width: 140px;
+		width: 25%;
 		height: auto;
-		/* position: absolute; */
-		right: 0;
-		top: 0;
-		bottom: 0;
-		margin-top: -51px;
-		/* margin: auto; */
-		font-family: Medium;
+		font-family: semibold;
 		font-size: 14px;
 		color: #ff1744;
-		float: right;
+		display: inline-block;
+		vertical-align: top;
 	}
 	.order {
 		padding: 30px;
@@ -150,17 +155,19 @@
 	.writeReviedButton {
 		width: auto;
 		height: auto;
-		float: right;
+		float: left;
 		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
 		transition: 300ms;
 		border-radius: 20px;
+		margin-top: -34px;
+		margin-bottom: 69px;
 	}
 	.cancelProduct {
 		width: auto;
 		height: auto;
-		float: right;
+		float: left;
 		padding-right: 40px;
-		color: #8d8d8d;
+		color: #ff1744;
 		font-size: 14px;
 		font-family: semibold;
 		line-height: 35px;

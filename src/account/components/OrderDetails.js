@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./OrderDetails.css";
+import { withRouter } from "react-router-dom";
 import OrderPlacedAndId from "./OrderPlacedAndId.js";
 import OrderCard from "./OrderCard.js";
 import OrderDelivered from "./OrderDelivered.js";
@@ -79,6 +80,7 @@ export default class OrderDetails extends React.Component {
     }
   }
   backToOrderHistory() {
+    console.log("vgvhgvg");
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
@@ -378,23 +380,23 @@ export default class OrderDetails extends React.Component {
                             <span>{orderDetails.orderId}</span>
                           </div>
                         </div>
-                        <div>
-                          {this.props.history && (
-                            <div
-                              className={styles.buttonGoToBack}
-                              onClick={() => this.backToOrderHistory()}
-                            >
-                              Back to Order History
-                              {/* <UnderLinedButton
-                              size="14px"
-                              fontFamily="light"
-                              color="#000000"
-                              label="Back to Order History"
-                              onClick={() => this.backToOrderHistory()}
-                            /> */}
-                            </div>
-                          )}
-                        </div>
+
+                        {this.props.history && (
+                          <div
+                            className={styles.buttonGoToBack}
+                            onClick={() => this.backToOrderHistory()}
+                          >
+                            Back to Order History
+                            {/* <UnderLinedButton
+                            size="14px"
+                            fontFamily="light"
+                            color="#000000"
+                            label="Back to Order History"
+                            onClick={() => this.backToOrderHistory()}
+                          /> */}
+                          </div>
+                        )}
+
                         {!this.state.itemDetails && (
                           <div className={styles.itemDetails}>Item Details</div>
                         )}
@@ -473,6 +475,26 @@ export default class OrderDetails extends React.Component {
                           soldBy={products.sellerName}
                         />
                       )} */}
+
+                      {!isReturned &&
+                        products.consignmentStatus === "DELIVERED" && (
+                          <React.Fragment>
+                            <div className={styles.rateThisItem}>
+                              Rate this item
+                            </div>
+                            <div
+                              className={styles.ratingReviewHolder}
+                              onClick={val =>
+                                this.writeReview(products.productcode)
+                              }
+                            >
+                              <FillupRatingOrder rating={0} />
+                              {/* <div className={styles.writeReviewHolder}>
+                                    Write Review
+                                  </div> */}
+                            </div>
+                          </React.Fragment>
+                        )}
                       {products.statusDisplayMsg &&
                         products.consignmentStatus !== "DELIVERED" &&
                         (products.selectedDeliveryMode &&
@@ -664,6 +686,28 @@ export default class OrderDetails extends React.Component {
 
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div className={styles.buttonHolder}>
+                          <div>
+                            <DesktopOnly>
+                              <div className={styles.writeReviedButton}>
+                                <Button
+                                  label={"Write a review"}
+                                  width={147}
+                                  height={36}
+                                  borderColor={"#000000"}
+                                  borderRadius={20}
+                                  backgroundColor={"#ffffff"}
+                                  onClick={val =>
+                                    this.writeReview(products.productcode)
+                                  }
+                                  textStyle={{
+                                    color: "#000000",
+                                    fontSize: 14,
+                                    fontFamily: "regular"
+                                  }}
+                                />
+                              </div>
+                            </DesktopOnly>
+                          </div>
                           <div className={styles.buttonHolderForUpdate}>
                             {/* showing write a review and cancel or return only for mobile */}
                             <MobileOnly>
@@ -729,71 +773,72 @@ export default class OrderDetails extends React.Component {
                                   </div>
                                 </MobileOnly>
                                 {/* showing write a review only for desktop */}
-                                <DesktopOnly>
-                                  <div className={styles.writeReviedButton}>
-                                    <Button
-                                      label={"Write a review"}
-                                      width={147}
-                                      height={36}
-                                      borderColor={"#000000"}
-                                      borderRadius={20}
-                                      backgroundColor={"#ffffff"}
-                                      onClick={val =>
-                                        this.writeReview(products.productcode)
-                                      }
-                                      textStyle={{
-                                        color: "#000000",
-                                        fontSize: 14,
-                                        fontFamily: "regular"
-                                      }}
-                                    />
-                                  </div>
-                                </DesktopOnly>
                               </React.Fragment>
                             )}
                             {/* showing cancel or return only for desktop */}
                             <DesktopOnly>
-                              {products.cancel && (
-                                <div
-                                  className={styles.cancelProduct}
-                                  onClick={() =>
-                                    this.cancelItem(
-                                      products.transactionId,
-                                      products.USSID,
-                                      products.sellerorderno,
-                                      orderDetails.orderId,
-                                      format(orderDetails.orderDate, dateFormat)
-                                    )
-                                  }
-                                >
-                                  {PRODUCT_CANCEL}
-                                </div>
-                              )}
-                              {isOrderReturnable &&
-                                products.isReturned === false && (
-                                  <div className={styles.returnClosed}>
-                                    {PRODUCT_RETURN_WINDOW_CLOSED}
-                                  </div>
-                                )}
-                              {products.isReturned &&
-                                isOrderReturnable && (
+                              <div>
+                                {products.cancel && (
                                   <div
                                     className={styles.cancelProduct}
                                     onClick={() =>
-                                      this.replaceItem(
+                                      this.cancelItem(
+                                        products.transactionId,
+                                        products.USSID,
                                         products.sellerorderno,
-                                        orderDetails.paymentMethod,
-                                        products.transactionId
+                                        orderDetails.orderId,
+                                        format(
+                                          orderDetails.orderDate,
+                                          dateFormat
+                                        )
                                       )
                                     }
                                   >
-                                    {PRODUCT_RETURN}
+                                    {PRODUCT_CANCEL}
                                   </div>
                                 )}
+                                {isOrderReturnable &&
+                                  products.isReturned === false && (
+                                    <div className={styles.returnClosed}>
+                                      {PRODUCT_RETURN_WINDOW_CLOSED}
+                                    </div>
+                                  )}
+                                {products.isReturned &&
+                                  isOrderReturnable && (
+                                    <div
+                                      className={styles.cancelProduct}
+                                      onClick={() =>
+                                        this.replaceItem(
+                                          products.sellerorderno,
+                                          orderDetails.paymentMethod,
+                                          products.transactionId
+                                        )
+                                      }
+                                    >
+                                      {PRODUCT_RETURN}
+                                    </div>
+                                  )}
+                                {products.isInvoiceAvailable &&
+                                  products.consignmentStatus ===
+                                    "DELIVERED" && (
+                                    <div
+                                      className={styles.cancelProduct}
+                                      onClick={() =>
+                                        this.requestInvoice(
+                                          products.transactionId,
+                                          products.sellerorderno
+                                        )
+                                      }
+                                    >
+                                      {this.props.underlineButtonLabel}
+                                    </div>
+                                  )}
+                              </div>
                             </DesktopOnly>
                           </div>
                         </div>
                       )}
+
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
                         <div className={styles.buttonHolder}>
                           <div className={styles.buttonHolderForUpdate}>
