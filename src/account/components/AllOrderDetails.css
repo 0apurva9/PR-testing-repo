@@ -1,292 +1,319 @@
 .base {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  background-color: #ececec;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	background-color: #ececec;
 }
 .order {
-  padding: 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  background: #fff;
+	padding: 15px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	background: #fff;
 }
 .orderIdHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  margin-bottom: 25px;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	margin-bottom: 25px;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	display: inline-block;
 }
 .noOrder {
-  width: 100%;
-  text-align: center;
-  padding: 20px 0px;
+	width: 100%;
+	text-align: center;
+	padding: 20px 0px;
 }
 .orderDetailsHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	display: inline-block;
 }
 .noOderText {
-  font-family: semibold;
-  font-size: 14px;
-  color: #181818;
-  margin-bottom: 20px;
-  line-height: 24px;
+	font-family: semibold;
+	font-size: 14px;
+	color: #181818;
+	margin-bottom: 20px;
+	line-height: 24px;
 }
 .continueShoppingButton {
-  margin: auto;
-  display: inline-block;
+	margin: auto;
+	display: inline-block;
 }
 .tabHolder {
-  width: 100%;
-  height: 60px;
-  background: #fff;
+	width: 100%;
+	height: 60px;
+	background: #fff;
 }
 .reviewHolder {
-  width: auto;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 .orderCardIndividual {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 .retryPayment {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  text-align: center;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	text-align: center;
 }
 .buttonHolderForRetryPayment {
-  width: auto;
-  height: auto;
-  display: inline-block;
+	width: auto;
+	height: auto;
+	display: inline-block;
 }
 @media screen and (min-width: 1025px) {
-  .order {
-    padding: 30px;
-    float: left;
-    width: 100%;
-    height: auto;
-  }
-  .order:last-child {
-    margin-bottom: 0px;
-  }
-  .priceAndInfoHolder {
-    width: 100%;
-    height: auto;
-    float: left;
-    padding-top: 25px;
-    border-top: 1px solid #ececec;
-  }
-  .deliverLeftHolder {
-    width: 100%;
-    height: auto;
-    float: left;
-  }
-  .priceRightHolder {
-    width: 50%;
-    height: auto;
-    float: right;
-  }
-  .base {
-    background-color: #ececec;
-    padding: 80px 0px 0px 0px;
-    position: relative;
-    padding-bottom: 100px;
-    transition: 300ms;
-  }
-  .translateBase {
-    composes: base;
-    transform: translateY(-80px);
-  }
-  .orderDetailsWithHolder {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-  }
-  .orderDetail {
-    width: 60%;
-    margin: auto;
-    display: inline-block;
-    padding: 0px 22px 0px 22px;
-    max-width: 720px;
-  }
-  .tabHolder {
-    max-width: 676px;
-    position: sticky;
-    top: 100px;
-    z-index: 20;
-    border-radius: 4px;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  .stickyTabHolder {
-    composes: tabHolder;
-    top: 140px;
-  }
-  .dataHolder {
-    width: 100%;
-    height: auto;
-    background: #ececec;
-    display: inline-block;
-  }
-  .alertsHolder {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-  }
-  .couponHolder {
-    composes: alertsHolder;
-  }
-  .useFulLinkHolder {
-    width: 100%;
-    height: auto;
-  }
-  .linkTabHolder {
-    width: 100%;
-    height: auto;
-    padding: 10px 0px;
-    background: #fff;
-    margin-top: 20px;
-    border-radius: 4px;
-  }
-  .linkTabHolder:first-child {
-    margin-top: 0px;
-  }
-  .usefulLinkText {
-    width: 100%;
-    height: auto;
-    color: #212121;
-    font-size: 16px;
-    font-family: light;
-    cursor: pointer;
-  }
-  a {
-    text-decoration: none;
-    color: initial;
-  }
-  .statusHolder {
-    width: 50%;
-    height: auto;
-    display: inline-block;
-  }
-  .priceHeader {
-    width: 100%;
-    height: auto;
-    color: #181818;
-    font-size: 14px;
-    font-family: regular;
-    display: initial;
-    float: left;
-    margin-bottom: 6px;
-  }
-  .statusFailed {
-    width: 100%;
-    height: auto;
-    color: #181818;
-    font-size: 14px;
-    font-family: semibold;
-  }
-  .profileMenuHolder {
-    width: 20%;
-    position: sticky;
-    top: 100px;
-    display: inline-block;
-    vertical-align: top;
-    max-width: 240px;
-    border-radius: 4px;
-  }
-  .stickyprofileMenuHolder {
-    composes: profileMenuHolder;
-    top: 140px;
-  }
-  .userProfile {
-    width: 20%;
-    height: auto;
-    display: inline-block;
-    vertical-align: top;
-    border-radius: 4px;
-    max-width: 240px;
-    position: sticky;
-    top: 100px;
-  }
-  .stickyuserProfile {
-    composes: userProfile;
-    top: 140px;
-  }
+	.order {
+		padding: 30px;
+		float: left;
+		width: 100%;
+		height: auto;
+	}
+	.order:last-child {
+		margin-bottom: 0px;
+	}
+	.priceAndInfoHolder {
+		width: 100%;
+		height: auto;
+		float: left;
+		padding-top: 25px;
+		border-top: 1px solid #ececec;
+	}
+	.deliverLeftHolder {
+		width: 100%;
+		height: auto;
+		float: left;
+	}
+	.priceRightHolder {
+		width: 50%;
+		height: auto;
+		float: right;
+	}
+	.base {
+		background-color: #ececec;
+		padding: 80px 0px 0px 0px;
+		position: relative;
+		padding-bottom: 100px;
+		transition: 300ms;
+	}
+	.translateBase {
+		composes: base;
+		transform: translateY(-80px);
+	}
+	.orderDetailsWithHolder {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+	}
+	.orderDetail {
+		width: 60%;
+		margin: auto;
+		display: inline-block;
+		padding: 0px 22px 0px 22px;
+		max-width: 720px;
+	}
+	.tabHolder {
+		max-width: 676px;
+		position: sticky;
+		top: 100px;
+		z-index: 20;
+		border-radius: 4px;
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	.stickyTabHolder {
+		composes: tabHolder;
+		top: 140px;
+	}
+	.dataHolder {
+		width: 100%;
+		height: auto;
+		background: #ececec;
+		display: inline-block;
+	}
+	.alertsHolder {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+	}
+	.couponHolder {
+		composes: alertsHolder;
+	}
+	.useFulLinkHolder {
+		width: 100%;
+		height: auto;
+	}
+	.linkTabHolder {
+		width: 100%;
+		height: auto;
+		padding: 10px 0px;
+		background: #fff;
+		margin-top: 20px;
+		border-radius: 4px;
+	}
+	.linkTabHolder:first-child {
+		margin-top: 0px;
+	}
+	.usefulLinkText {
+		width: 100%;
+		height: auto;
+		color: #212121;
+		font-size: 16px;
+		font-family: light;
+		cursor: pointer;
+	}
+	a {
+		text-decoration: none;
+		color: initial;
+	}
+	.statusHolder {
+		width: 50%;
+		height: auto;
+		display: inline-block;
+	}
+	.priceHeader {
+		width: 100%;
+		height: auto;
+		color: #181818;
+		font-size: 14px;
+		font-family: regular;
+		display: initial;
+		float: left;
+		margin-bottom: 6px;
+	}
+	.statusFailed {
+		width: 100%;
+		height: auto;
+		color: #181818;
+		font-size: 14px;
+		font-family: semibold;
+	}
+	.profileMenuHolder {
+		width: 20%;
+		position: sticky;
+		top: 100px;
+		display: inline-block;
+		vertical-align: top;
+		max-width: 240px;
+		border-radius: 4px;
+	}
+	.stickyprofileMenuHolder {
+		composes: profileMenuHolder;
+		top: 140px;
+	}
+	.userProfile {
+		width: 20%;
+		height: auto;
+		display: inline-block;
+		vertical-align: top;
+		border-radius: 4px;
+		max-width: 240px;
+		position: sticky;
+		top: 100px;
+	}
+	.stickyuserProfile {
+		composes: userProfile;
+		top: 140px;
+	}
 }
 .cancelProduct {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  padding-right: 40px;
-  color: #8d8d8d;
-  font-size: 14px;
-  font-family: semibold;
-  line-height: 35px;
-  cursor: pointer;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	padding-right: 40px;
+	color: #8d8d8d;
+	font-size: 14px;
+	font-family: semibold;
+	line-height: 35px;
+	cursor: pointer;
 }
 .returnReview {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  float: right;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .writeReviedButton {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-  transition: 300ms;
-  border-radius: 20px;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+	transition: 300ms;
+	border-radius: 20px;
 }
 .writeReviedButton:hover {
-  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 .dropDownHolder {
-  width: 100%;
-  display: inline-block;
+	width: 100%;
+	display: inline-block;
 }
 .dropDown {
-  width: 100%;
-  padding: 10px 0px 20px 0px;
-  display: inline-block;
+	width: 100%;
+	padding: 10px 0px 20px 0px;
+	display: inline-block;
 }
 .orderText {
-  width: 50%;
-  text-align: left;
-  color: #181818;
-  font-family: semibold;
-  font-size: 14px;
-  vertical-align: top;
-  display: inline-block;
-  height: 35px;
-  line-height: 35px;
-  padding-left: 15px;
+	width: 50%;
+	text-align: left;
+	color: #181818;
+	font-family: semibold;
+	font-size: 14px;
+	vertical-align: top;
+	display: inline-block;
+	height: 35px;
+	line-height: 35px;
+	padding-left: 15px;
 }
 .dropDownBox {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  border: grey;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	border: grey;
+}
+
+.rateThisItem {
+	font-family: Medium;
+	padding: 10px 0 5px 0;
+	font-size: 14px;
+	letter-spacing: 0px;
+	color: black;
+	bottom: 18px;
+}
+.reviewText {
+	font-size: 14px;
+	color: black;
+	text-align: center;
+	font-family: Medium;
+	width: 149px;
+	height: 17px;
+	padding-top: 10px;
+	/* position: absolute; */
+	right: 0;
+	bottom: 20px;
+	display: inline-block;
+}
+.boxReview {
+	border-radius: 100px;
+	height: 36px;
+	width: 180px;
+	border: 2px solid black;
 }
 @media screen and (max-width: 1024px) {
-  .base {
-    padding: 15px 15px 70px 15px;
-  }
-  .reviewHolder {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-    padding: 25px 0px 25px 0px;
-    border-top: 1px solid #ececec;
-  }
-  .reviewText {
-    display: inline-block;
-  }
+	.base {
+		padding: 15px 15px 70px 15px;
+	}
+	.reviewHolder {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+		padding: 25px 0px 25px 0px;
+		border-top: 1px solid #ececec;
+	}
+	.reviewText {
+		display: inline-block;
+	}
 }

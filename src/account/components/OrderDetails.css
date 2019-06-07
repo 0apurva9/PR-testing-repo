@@ -1,148 +1,182 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 15px;
-  background: #ececec;
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	background: #ececec;
 }
 .orderIdHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  margin-bottom: 25px;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	margin-bottom: 25px;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	display: inline-block;
+}
+.ratingReviewHolder {
+	position: relative;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #efefef;
+	margin-bottom: 15px;
+}
+.orderItemDateID {
+	font-size: 11px;
+	font-family: light;
+	color: #4a4a4a;
+	margin-bottom: 10px;
+	float: left;
+	width: 100%;
+}
+.orderItemDateID > div {
+	float: left;
+	width: 100%;
+	margin-bottom: 5px;
 }
 .order {
-  width: 100%;
-  height: auto;
-  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
-  margin-bottom: 15px;
-  background: #fff;
-  padding: 15px;
-  border-radius: 4px;
+	width: 100%;
+	height: auto;
+	box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
+	margin-bottom: 15px;
+	background: #fff;
+	padding: 15px;
+	border-radius: 4px;
 }
 .payment {
-  border-top: 1px solid #ececec;
+	border-top: 1px solid #ececec;
 }
 .orderStatusVertical {
-  padding: 30px 0px;
-  border-bottom: 1px solid #ececec;
+	padding: 30px 0px;
+	border-bottom: 1px solid #ececec;
 }
 .buttonHolderForUpdate {
-  width: 100%;
-  height: auto;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	display: inline-block;
 }
 .replaceHolder {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  text-align: left;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	text-align: left;
 }
 .replace {
-  font-size: 14px;
-  display: inline-block;
+	font-size: 14px;
+	display: inline-block;
 }
 .reviewHolder {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  text-align: right;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	text-align: right;
 }
 .review {
-  font-size: 14px;
-  display: inline-block;
+	font-size: 14px;
+	display: inline-block;
 }
 
 .header {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: semibold;
-  color: #212121;
-  margin-bottom: 5px;
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	font-family: semibold;
+	color: #212121;
+	margin-bottom: 5px;
 }
 .row {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: light;
-  color: #212121;
-  line-height: 24px;
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	font-family: light;
+	color: #212121;
+	line-height: 24px;
 }
 @media screen and (min-width: 1025px) {
-  .base {
-    padding: 80px 0px;
-  }
-  .orderIdAndPlacedHolder {
-    width: 100%;
-    height: auto;
-    padding-right: 150px;
-    position: relative;
-  }
-  .orderIdHolder {
-    width: 100%;
-    height: auto;
-    color: #181818;
-    font-family: light;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  .orderIdHolder:last-child {
-    margin-bottom: 0px;
-  }
-  .highlightedText {
-    font-family: regular;
-  }
-  .buttonGoToBack {
-    width: 140px;
-    height: auto;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-  }
-  .order {
-    padding: 30px;
-  }
-  .order:last-child {
-    margin: 0px;
-  }
-  .writeReviedButton {
-    width: auto;
-    height: auto;
-    float: right;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    transition: 300ms;
-    border-radius: 20px;
-  }
-  .cancelProduct {
-    width: auto;
-    height: auto;
-    float: right;
-    padding-right: 40px;
-    color: #8d8d8d;
-    font-size: 14px;
-    font-family: semibold;
-    line-height: 35px;
-    cursor: pointer;
-  }
-  .returnClosed {
-    width: 50%;
-    height: auto;
-    padding-right: 40px;
-    color: #8d8d8d;
-    font-size: 14px;
-    font-family: light;
-    cursor: pointer;
-  }
+	.base {
+		padding: 80px 0px;
+	}
+	.orderIdAndPlacedHolder {
+		width: 100%;
+		height: auto;
+		padding-right: 150px;
+		position: relative;
+	}
+	.orderIdHolder {
+		width: 100%;
+		height: auto;
+		color: #181818;
+		font-family: light;
+		font-size: 14px;
+		margin-bottom: 10px;
+	}
+	.orderIdHolder:last-child {
+		margin-bottom: 0px;
+	}
+	.highlightedText {
+		font-family: Light;
+		font-size: 14px;
+		line-height: 22px;
+		color: black;
+		bottom: 10px;
+	}
+	.itemDetails {
+		font-size: 16px;
+		color: #000000;
+		margin-top: 90px;
+		font-family: Medium;
+	}
+	.buttonGoToBack {
+		width: 140px;
+		height: auto;
+		/* position: absolute; */
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin-top: -51px;
+		/* margin: auto; */
+		font-family: Medium;
+		font-size: 14px;
+		color: #ff1744;
+		float: right;
+	}
+	.order {
+		padding: 30px;
+	}
+	.order:last-child {
+		margin: 0px;
+	}
+	.writeReviedButton {
+		width: auto;
+		height: auto;
+		float: right;
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+		transition: 300ms;
+		border-radius: 20px;
+	}
+	.cancelProduct {
+		width: auto;
+		height: auto;
+		float: right;
+		padding-right: 40px;
+		color: #8d8d8d;
+		font-size: 14px;
+		font-family: semibold;
+		line-height: 35px;
+		cursor: pointer;
+	}
+	.returnClosed {
+		width: 50%;
+		height: auto;
+		padding-right: 40px;
+		color: #8d8d8d;
+		font-size: 14px;
+		font-family: light;
+		cursor: pointer;
+	}
 
-  .writeReviedButton:hover {
-    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
-  }
+	.writeReviedButton:hover {
+		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+	}
 }

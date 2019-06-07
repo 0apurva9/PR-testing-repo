@@ -1,178 +1,242 @@
 .base {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  margin-bottom: 20px;
-  position: relative;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	margin-bottom: 20px;
+	position: relative;
 }
 .productImageHolder {
-  width: 30%;
-  height: auto;
-  display: inline-block;
+	width: 30%;
+	height: auto;
+	display: inline-block;
 }
 .productDetails {
-  width: 70%;
-  height: auto;
-  display: inline-block;
-  padding: 10px 0px 10px 20px;
-  vertical-align: top;
+	width: 70%;
+	height: auto;
+	display: inline-block;
+	padding: 10px 0px 10px 20px;
+	vertical-align: top;
 }
 .productName {
-  width: 100%;
-  height: auto;
-  color: #000;
-  font-size: 14px;
-  font-family: regular;
-  line-height: 20px;
-  margin-bottom: 5px;
-  display: inline-block;
-  word-wrap: break-word;
+	width: 100%;
+	height: auto;
+	color: #000;
+	font-size: 14px;
+	font-family: regular;
+	line-height: 20px;
+	margin-bottom: 5px;
+	display: inline-block;
+	word-wrap: break-word;
 }
 .withCheckBox {
-  composes: productName;
-  position: relative;
-  padding-right: 25px;
+	composes: productName;
+	position: relative;
+	padding-right: 25px;
 }
 .checkBoxHolder {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  right: 0;
-  top: 0;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 .priceHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	display: inline-block;
 }
 .priceHolderForGiftCard {
-  width: auto;
-  height: auto;
-  display: inline-block;
+	width: auto;
+	height: auto;
+	display: inline-block;
 }
 .price {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  vertical-align: middle;
-  color: #181818;
-  font-size: 14px;
-  font-family: regular;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	vertical-align: middle;
+	color: #181818;
+	font-size: 14px;
+	font-family: Light;
+	margin-bottom: 8px;
 }
 .discountPrice {
-  composes: price;
-  color: #8d8d8d;
-  text-decoration: line-through;
-  padding-left: 10px;
+	composes: price;
+	color: #8d8d8d;
+	text-decoration: line-through;
+	padding-left: 10px;
 }
 .additionalContent {
-  width: 100%;
-  height: auto;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	display: inline-block;
 }
 .quantityHolder {
-  width: 100%;
-  height: auto;
-  color: #000;
-  font-size: 14px;
-  font-family: regular;
-  line-height: 20px;
-  margin-top: 5px;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	color: #000;
+	font-size: 14px;
+	font-family: regular;
+	line-height: 20px;
+	margin-top: 5px;
+	display: inline-block;
 }
 .quantity {
-  composes: price;
-  padding-left: 5px;
+	composes: price;
+	padding-left: 5px;
 }
 .reSendEmail {
-  font-size: 14px;
-  padding-top: 5px;
-  color: #ff1744;
-  text-align: right;
-  margin-top: 20px;
-  padding-right: 30px;
+	font-size: 14px;
+	padding-top: 5px;
+	color: #ff1744;
+	text-align: right;
+	margin-top: 20px;
+	padding-right: 30px;
 }
 .onHollow {
-  composes: base;
+	composes: base;
+}
+.sellerName {
+	font-family: light;
+	font-size: 12px;
+	color: greyishBrown;
+}
+.labelOrderDetailsHeader {
+	width: 100%;
+	height: auto;
+	color: #ff1744;
+	font-size: 14px;
+	font-family: Medium;
+	margin-bottom: 10px;
 }
 .estimatedDeliveryDate {
-  display: none;
-  font-size: 14px;
-  margin-bottom: 20px;
+	display: none;
+	font-size: 14px;
+	margin-bottom: 10px;
+	/* letter-spacing: 0.02px;
+	color: black;
+	font-family: Medium; */
+}
+.ffsemibold {
+	letter-spacing: 0.02px;
+	color: black;
+	font-family: Medium;
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+.estimatedDate {
+	font-size: 14px;
+	margin-bottom: 10px;
+	letter-spacing: 0.02px;
+	color: black;
+	font-family: Light;
+}
+.deliveryDate {
+	font-family: Medium;
+	font-size: 14px;
+	margin-bottom: 8px;
+	line-height: 14px;
+	color: black;
+}
+.calloutMessage {
+	font-family: Light;
+	font-size: 14px;
+	margin-bottom: 46px;
+	line-height: 22px;
+	color: greyishBrown;
+}
+.trackOrderText {
+	font-size: 12px;
+	color: #ff1744;
+	font-family: semibold;
+	position: absolute;
+	bottom: 30px;
+}
+.rightArrow {
+	border: solid #000000;
+	border-width: 0 2px 2px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	float: right;
+	position: absolute;
+	top: 96px;
+	right: 5px;
 }
 @media screen and (min-width: 1025px) {
-  .productImageHolder {
-    width: 16%;
-    cursor: pointer;
-  }
-  .productDetails {
-    width: 84%;
-    padding-left: 35px;
-  }
-  .productBrand {
-    width: 100%;
-    height: auto;
-    font-size: 14px;
-    color: #181818;
-    font-family: semibold;
-    margin-bottom: 10px;
-  }
-  .productName {
-    font-family: light;
-  }
-  .onHollow {
-    composes: base;
-    background: #fff;
-    padding: 30px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
-  .orderPlaceAndId {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-    margin-bottom: 15px;
-  }
-  .orderPlace {
-    width: auto;
-    height: auto;
-    display: inline-block;
-    font-size: 14px;
-  }
-  .orderId {
-    width: auto;
-    height: auto;
-    display: inline-block;
-    float: right;
-    font-size: 14px;
-  }
-  .orderHeader {
-    font-family: regular;
-  }
-  .orderText {
-    font-family: light;
-  }
-  .priceWithQuantity {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-  }
-  .priceHolder {
-    width: auto;
-  }
-  .quantityHolder {
-    width: auto;
-    float: right;
-  }
-  .base {
-    margin-bottom: 0px;
-  }
-  .reSendEmail {
-    font-size: 14px;
-    padding-top: 0px;
-    margin-top: 2px;
-    padding-left: 10px;
-    float: right;
-    cursor: pointer;
-  }
+	.productImageHolder {
+		width: 16%;
+		cursor: pointer;
+	}
+	.productDetails {
+		width: 84%;
+		padding-left: 35px;
+	}
+	.productBrand {
+		width: 100%;
+		height: auto;
+		font-size: 14px;
+		color: #181818;
+		font-family: semibold;
+		margin-bottom: 10px;
+	}
+	.productName {
+		font-family: light;
+	}
+	.onHollow {
+		composes: base;
+		background: #fff;
+		padding: 30px;
+		margin-bottom: 10px;
+		border-radius: 4px;
+	}
+	.orderPlaceAndId {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+		margin-bottom: 15px;
+	}
+	.orderPlace {
+		width: auto;
+		height: auto;
+		display: inline-block;
+		font-size: 14px;
+	}
+	.orderId {
+		width: auto;
+		height: auto;
+		display: inline-block;
+		float: right;
+		font-size: 14px;
+	}
+	.orderHeader {
+		font-family: regular;
+	}
+	.orderText {
+		font-family: light;
+	}
+	.priceWithQuantity {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+	}
+	.priceHolder {
+		width: auto;
+	}
+	.quantityHolder {
+		width: auto;
+		float: right;
+	}
+	.base {
+		margin-bottom: 0px;
+	}
+	.reSendEmail {
+		font-size: 14px;
+		padding-top: 0px;
+		margin-top: 2px;
+		padding-left: 10px;
+		float: right;
+		cursor: pointer;
+	}
 }

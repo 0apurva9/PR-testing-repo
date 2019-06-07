@@ -534,15 +534,16 @@ export default class AllOrderDetails extends React.Component {
                             <OrderPlacedAndId
                               placedTime={formattedDate}
                               orderId={orderDetails && orderDetails.orderId}
+                              pushDetails={this.props.history}
                             />
-                            <div
+                            {/* <div
                       className={styles.orderDetailsLink}
                       onClick={() =>
                         this.onViewDetails(orderDetails && orderDetails.orderId)
                       }
                     >
                       Order Details
-                    </div>
+                    </div> */}
                           </div>
                           {orderDetails &&
                             orderDetails.products &&
@@ -612,7 +613,9 @@ export default class AllOrderDetails extends React.Component {
                                       )
                                     }
                                     orderStatusCode={product.orderStatusCode}
-                                    displayStatusName={product.displayStatusName}
+                                    displayStatusName={
+                                      product.displayStatusName
+                                    }
                                     deliveryDate={product.deliveryDate}
                                     calloutMessage={product.calloutMessage}
                                     showRightArrow="Y"
@@ -621,6 +624,7 @@ export default class AllOrderDetails extends React.Component {
                                     transactionId={product.transactionId}
                                     orderCancelDate={product.orderCancelDate}
                                     idFromAllOrderDetails="Y"
+                                    orderDetails={orderDetails}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
@@ -666,7 +670,36 @@ export default class AllOrderDetails extends React.Component {
                                             </div>
                                           </div>
                                         )}
-                                      {orderDetails &&
+                                      {product.productName !== "Gift Card" &&
+                                        !orderDetails.retryPaymentUrl &&
+                                        product.orderStatusCode ===
+                                          "DELIVERED" && (
+                                          <div className={styles.reviewHolder}>
+                                            <div
+                                              className={styles.rateThisItem}
+                                            >
+                                              Rate this item
+                                            </div>
+                                            <div
+                                              onClick={val =>
+                                                this.writeReview(
+                                                  product.productcode,
+                                                  product.productName
+                                                )
+                                              }
+                                            >
+                                              <FillupRatingOrder rating={0} />
+                                              <div className={styles.boxReview}>
+                                                <div
+                                                  className={styles.reviewText}
+                                                >
+                                                  Write Review
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      {/* {orderDetails &&
                                         !orderDetails.retryPaymentUrl &&
                                         product.productName !== "Gift Card" && (
                                           <div
@@ -691,7 +724,7 @@ export default class AllOrderDetails extends React.Component {
                                               }}
                                             />
                                           </div>
-                                        )}
+                                        )} */}
                                     </div>
                                   </DesktopOnly>
                                 </div>
@@ -784,7 +817,8 @@ export default class AllOrderDetails extends React.Component {
                             <div className={styles.priceAndInfoHolder}>
                               <div className={styles.deliverLeftHolder}>
                                 {!orderDetails.isEgvOrder &&
-                                  orderDetails && (
+                                  orderDetails &&
+                                  orderDetails.billingAddress && (
                                     <OrderDelivered
                                       deliveredAddress1={
                                         orderDetails.pickupPersonName ||
@@ -909,7 +943,7 @@ export default class AllOrderDetails extends React.Component {
                                           {orderDetails.giftCardStatus}
                                         </div>
                                       </div>
-                                      <div className={styles.priceRightHolder}>
+                                      {/* <div className={styles.priceRightHolder}>
                                         <PriceAndLink
                                           onViewDetails={() =>
                                             this.onViewDetails(
@@ -924,7 +958,7 @@ export default class AllOrderDetails extends React.Component {
                                             orderDetails.totalFinalPayableOrderAmount
                                           }
                                         />
-                                      </div>
+                                      </div> */}
                                     </div>
                                   )}
                               </div>

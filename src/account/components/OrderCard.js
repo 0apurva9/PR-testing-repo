@@ -85,16 +85,26 @@ export default class OrderCard extends React.Component {
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         <DesktopOnly>
-          {(this.props.orderPlace || this.props.orderId) && (
+          <div>
             <div className={styles.orderPlaceAndId}>
               {this.props.orderPlace && (
-                <div className={styles.orderPlace}>
-                  <span className={styles.orderHeader}>Order Placed on: </span>
-                  <span className={styles.orderText}>
-                    {this.props.orderPlace}
-                  </span>
+                <div>
+                  <div className={styles.orderPlace}>
+                    <span className={styles.orderHeader}>Order Placed: </span>
+                    <span className={styles.orderText}>
+                      {this.props.orderPlace}
+                    </span>
+                  </div>
+                  <div className={styles.orderId}>
+                    <span className={styles.labelOrderDetailsHeader}>
+                      {" "}
+                      Order Details{" "}
+                    </span>
+                  </div>
                 </div>
               )}
+            </div>
+            <div className={styles.orderPlaceAndId}>
               {this.props.orderId && (
                 <div className={styles.orderId}>
                   <span className={styles.orderHeader}>Order ID: </span>
@@ -102,14 +112,14 @@ export default class OrderCard extends React.Component {
                 </div>
               )}
             </div>
-          )}
+          </div>
         </DesktopOnly>
 
         {this.props.estimatedDeliveryDate &&
           (this.props.statusDisplay !== "CANCEL" &&
             this.props.statusDisplay !== "RETURN") && (
             <div className={styles.estimatedDeliveryDate}>
-              <b>Estimated Delivery Date:</b> {this.props.estimatedDeliveryDate}
+              Estimated Delivery Date: {this.props.estimatedDeliveryDate}
             </div>
           )}
         <div className={styles.productImageHolder}>
@@ -120,13 +130,11 @@ export default class OrderCard extends React.Component {
           />
         </div>
         <div className={styles.productDetails}>
-          <DesktopOnly>
-            {this.props.productBrand && (
-              <div className={styles.productBrand}>
-                {this.props.productBrand}
-              </div>
-            )}
-          </DesktopOnly>
+          {/* <DesktopOnly>
+						{this.props.productBrand && (
+							<div className={styles.productBrand}>{this.props.productBrand}</div>
+						)}
+					</DesktopOnly> */}
           <div
             className={
               this.props.isSelect ? styles.withCheckBox : styles.productName
@@ -174,10 +182,10 @@ export default class OrderCard extends React.Component {
                         this.props.productName === "Gift Card"
                         ? "Gift card detail will be sent you on your specified email id shortly."
                         : this.props.price
-                        ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                          this.props.price
-                        )}`
-                      : null}
+                          ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                              this.props.price
+                            )}`
+                          : null}
                   </div>
                 )}
                 {this.props.isEgvOrder &&
@@ -203,15 +211,9 @@ export default class OrderCard extends React.Component {
                 <div className={styles.price}>Free</div>
               </div>
             )}
-            {this.props.quantity && (
-              <div className={styles.quantityHolder}>
-                <div className={styles.price}>Qty</div>
-                <div className={styles.quantity}>
-                  {this.props.numberOfQuantity}
-                </div>
-              </div>
-            )}
-            <div className={styles.priceHolder}>
+          </div>
+
+          <div className={styles.priceHolder}>
             {this.props.productSize && (
               <div className={styles.price}>{this.props.productSize} |</div>
             )}
@@ -221,8 +223,17 @@ export default class OrderCard extends React.Component {
               </div>
             )}
           </div>
-
+          <div>
+            {this.props.quantity && (
+              <div className={styles.priceHolder}>
+                <div className={styles.price}>Qty</div>
+                <div className={styles.quantity}>
+                  {this.props.numberOfQuantity}
+                </div>
+              </div>
+            )}
           </div>
+
           {this.props.children &&
             this.props.idFromAllOrderDetails !== "Y" &&
             this.props.showQuantity &&
@@ -231,7 +242,7 @@ export default class OrderCard extends React.Component {
                 {this.props.children}
               </div>
             )}
-           {this.props.showRightArrow && (
+          {this.props.showRightArrow && (
             <span
               className={styles.rightArrow}
               onClick={() =>
@@ -256,7 +267,6 @@ export default class OrderCard extends React.Component {
               {this.getTrackOrderText(this.props.orderStatusCode)}
             </div>
           )}
-        
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
@@ -271,16 +281,20 @@ export default class OrderCard extends React.Component {
           this.props.selectedDeliveryMode.name && (
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>Delivery Mode: </span>
-              {this.getSelectedDeliveryModeName(
-                this.props.selectedDeliveryMode.name
-              )}
+              <span className={styles.estimatedDate}>
+                {this.getSelectedDeliveryModeName(
+                  this.props.selectedDeliveryMode.name
+                )}
+              </span>
             </div>
           )}
         {this.props.consignmentStatus === "DELIVERED" && (
           <React.Fragment>
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>Delivered On: </span>
-              {this.props.deliveryDate}
+              <span className={styles.estimatedDate}>
+                {this.props.deliveryDate}
+              </span>
             </div>
             {/* <div className={styles.commonTitle}>
               {this.props.shipmentStatusText}
@@ -313,7 +327,6 @@ export default class OrderCard extends React.Component {
             Sold By : {this.props.sellerName}
           </div>
         )}
-     
       </div>
     );
   }
