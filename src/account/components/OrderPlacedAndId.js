@@ -19,7 +19,7 @@ export default class OrderPlacedAndId extends React.Component {
         <MobileOnly>
           {this.props.placedTime && (
             <div className={styles.orderPlacedHolder}>
-              <div className={styles.labelHeader}>{this.props.label} :</div>
+              <div className={styles.labelHeader}>{this.props.label}:</div>
               <div className={styles.dataInformationText}>
                 {this.props.placedTime}
               </div>
@@ -27,7 +27,7 @@ export default class OrderPlacedAndId extends React.Component {
           )}
 
           <div className={styles.orderIdHolder}>
-            <div className={styles.labelHeader}>Order ID :</div>
+            <div className={styles.labelHeader}>Order ID:</div>
             <div className={styles.dataInformationText}>
               {this.props.orderId}
             </div>
@@ -38,25 +38,25 @@ export default class OrderPlacedAndId extends React.Component {
             <div className={styles.dataHolder}>
               {this.props.placedTime && (
                 <div className={styles.orderPlacedHolder}>
-                  <div className={styles.labelHeader}>{this.props.label} :</div>
+                  <div className={styles.labelHeader}>{this.props.label}:</div>
                   <div className={styles.dataInformationText}>
                     {this.props.placedTime}
                   </div>
-                  <div className={styles.orderIdHolder}>
-                    <div
-                      className={styles.labelOrderDetailsHeader}
-                      onClick={() => this.onViewDetails(this.props.orderId)}
-                    >
-                      Order Details
-                    </div>
-                  </div>
                 </div>
               )}
+              <div className={styles.orderIdHolder}>
+                <div
+                  className={styles.labelOrderDetailsHeader}
+                  onClick={() => this.onViewDetails(this.props.orderId)}
+                >
+                  Order Details
+                </div>
+              </div>
             </div>
             <div className={styles.dataHolder}>
               {this.props.placedTime && (
                 <div>
-                  <div className={styles.labelHeader}> Order ID: </div>
+                  <div className={styles.labelHeader}>Order ID:</div>
                   <div className={styles.dataInformationText}>
                     {this.props.orderId}
                   </div>
@@ -75,5 +75,5 @@ OrderPlacedAndId.propTypes = {
   orderId: PropTypes.string
 };
 OrderPlacedAndId.defaultProps = {
-  label: "Order placed"
+  label: "Order placed on"
 };

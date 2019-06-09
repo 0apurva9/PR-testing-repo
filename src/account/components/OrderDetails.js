@@ -48,9 +48,9 @@ import {
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
-const PRODUCT_RETURN = "Return/Replace Order";
+const PRODUCT_RETURN = "Return/Replace";
 const RETURN = "RETURN";
-const PRODUCT_CANCEL = "Cancel Order";
+const PRODUCT_CANCEL = "Cancel Item";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
 const AWB_POPUP_TRUE = "Y";
@@ -80,7 +80,6 @@ export default class OrderDetails extends React.Component {
     }
   }
   backToOrderHistory() {
-    console.log("vgvhgvg");
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
@@ -490,7 +489,7 @@ export default class OrderDetails extends React.Component {
                             >
                               <FillupRatingOrder rating={0} />
                               {/* <div className={styles.writeReviewHolder}>
-                                    Write Review
+                                    WRITE A REVIEW
                                   </div> */}
                             </div>
                           </React.Fragment>

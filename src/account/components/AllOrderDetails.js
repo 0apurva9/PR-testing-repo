@@ -624,7 +624,7 @@ export default class AllOrderDetails extends React.Component {
                                     transactionId={product.transactionId}
                                     orderCancelDate={product.orderCancelDate}
                                     idFromAllOrderDetails="Y"
-                                    orderDetails={orderDetails}
+                                    //orderDetails={orderDetails}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
@@ -693,7 +693,7 @@ export default class AllOrderDetails extends React.Component {
                                                 <div
                                                   className={styles.reviewText}
                                                 >
-                                                  Write Review
+                                                  WRITE A REVIEW
                                                 </div>
                                               </div>
                                             </div>

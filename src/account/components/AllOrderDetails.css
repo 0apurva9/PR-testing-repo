@@ -14,7 +14,7 @@
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	margin-bottom: 25px;
+	/* margin-bottom: 25px; */
 }
 .buttonHolder {
 	width: 100%;
@@ -69,7 +69,7 @@
 }
 @media screen and (min-width: 1025px) {
 	.order {
-		padding: 30px;
+		padding: 34px;
 		float: left;
 		width: 100%;
 		height: auto;
@@ -276,25 +276,19 @@
 }
 
 .rateThisItem {
-	font-family: Medium;
-	padding: 10px 0 5px 0;
-	font-size: 14px;
-	letter-spacing: 0px;
-	color: black;
-	bottom: 18px;
+	font-family: semibold;
+    padding: 4px 0 18px 0;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: black;
+    bottom: 18px;
 }
 .reviewText {
 	font-size: 14px;
-	color: black;
-	text-align: center;
-	font-family: Medium;
-	width: 149px;
-	height: 17px;
-	padding-top: 10px;
-	/* position: absolute; */
-	right: 0;
-	bottom: 20px;
-	display: inline-block;
+    color: black;
+    text-align: center;
+    font-family: semibold;
+    padding: 9px 15px 9px 16px;
 }
 .boxReview {
 	border-radius: 100px;

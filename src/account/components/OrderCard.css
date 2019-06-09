@@ -14,7 +14,7 @@
 	width: 70%;
 	height: auto;
 	display: inline-block;
-	padding: 10px 0px 10px 20px;
+	padding: 0px 0px 10px 20px;
 	vertical-align: top;
 }
 .productName {
@@ -23,8 +23,8 @@
 	color: #000;
 	font-size: 14px;
 	font-family: regular;
-	line-height: 20px;
-	margin-bottom: 5px;
+	line-height: 22px;
+	margin-bottom: 12px;
 	display: inline-block;
 	word-wrap: break-word;
 }
@@ -132,25 +132,23 @@
 	font-family: Light;
 }
 .deliveryDate {
-	font-family: Medium;
+	font-family: semibold;
 	font-size: 14px;
 	margin-bottom: 8px;
 	line-height: 14px;
 	color: black;
 }
 .calloutMessage {
-	font-family: Light;
+	font-family: light;
 	font-size: 14px;
-	margin-bottom: 46px;
 	line-height: 22px;
-	color: greyishBrown;
+	color: #747474;
 }
 .trackOrderText {
-	font-size: 12px;
-	color: #ff1744;
-	font-family: semibold;
-	position: absolute;
-	bottom: 30px;
+	font-size: 14px;
+    color: #ff1744;
+    font-family: semibold;
+    padding-top: 46px;
 }
 .rightArrow {
 	border: solid #000000;
