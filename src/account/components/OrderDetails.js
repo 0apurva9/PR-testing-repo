@@ -40,7 +40,8 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_PAGE,
   CANCEL,
-  WRITE_REVIEW
+  WRITE_REVIEW,
+  PRODUCT_CANCEL
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
@@ -50,7 +51,6 @@ import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return/Replace";
 const RETURN = "RETURN";
-const PRODUCT_CANCEL = "Cancel Item";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
 const AWB_POPUP_TRUE = "Y";

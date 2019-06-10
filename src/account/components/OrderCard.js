@@ -8,7 +8,8 @@ import {
   NO,
   MY_ACCOUNT,
   ORDER,
-  ORDER_CODE
+  ORDER_CODE,
+  PRODUCT_CANCEL
 } from "../../lib/constants";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -59,6 +60,7 @@ export default class OrderCard extends React.Component {
     return trackOrderText;
   }
   render() {
+    debugger;
     let statusDisplayMsg =
       this.props.statusDisplayMsg && this.props.statusDisplayMsg;
     let estimatedDeliveryDate = "";
@@ -84,6 +86,10 @@ export default class OrderCard extends React.Component {
     }
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
+        {this.props.title &&
+          this.props.title === "Cancel Item" && (
+            <div className={styles.cancelTitle}>{PRODUCT_CANCEL}</div>
+          )}
         <DesktopOnly>
           {/* {(this.props.orderPlace || this.props.orderId) && ( */}
           {/* <div>
@@ -347,7 +353,8 @@ OrderCard.propTypes = {
   additionalContent: PropTypes.element,
   price: PropTypes.number,
   discountPrice: PropTypes.string,
-  isSelect: PropTypes.bool
+  isSelect: PropTypes.bool,
+  title: PropTypes.string
 };
 OrderCard.defaultProps = {
   quantity: false,

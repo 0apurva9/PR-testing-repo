@@ -30,11 +30,17 @@ export default class CancelAndContinueButton extends React.Component {
               />
             </div>
             <div className={styles.cancelButtonHolder}>
-              <UnderLinedButton
-                size="14px"
-                fontFamily="regular"
-                color="#000000"
+              <Button
+                // size="14px"
+                // fontFamily="semibold"
+                // color="#FF1744"
+                backgroundColor="#fff"
                 label={this.props.cancelText}
+                textStyle={{
+                  color: "#FF1744",
+                  fontSize: 14,
+                  fontFamily: "semibold"
+                }}
                 onClick={() => this.handleCancel()}
               />
             </div>
