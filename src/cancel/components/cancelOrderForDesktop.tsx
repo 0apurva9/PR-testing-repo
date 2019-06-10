@@ -31,7 +31,8 @@ export default class cancelOrderForDesktop extends React.Component<
     this.state = {
       cancelReasonCode: "",
       reason: "",
-      comment: ""
+      comment: "",
+      placeholder : "Add comments (optional)"
     };
   }
   componentDidMount() {
@@ -101,10 +102,7 @@ export default class cancelOrderForDesktop extends React.Component<
     return (
       <div className={styles.selectReasonHolder}>
         <div className={styles.header}>
-          <div className={styles.circleHolder}>
-            <div className={styles.circle}>1</div>
-          </div>
-          Select reason for your cancel
+          Please select reason for your cancel
         </div>
         <div className={styles.select}>
           <SelectBoxMobile2
@@ -130,6 +128,7 @@ export default class cancelOrderForDesktop extends React.Component<
           <TextArea
             onChange={(textValue: string) => this.handleChange(textValue)}
             value={this.state.comment}
+            placeholder={this.state.placeholder}
           />
         </div>
         <div className={styles.CancelAndContinueButton}>

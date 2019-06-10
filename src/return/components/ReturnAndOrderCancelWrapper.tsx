@@ -6,7 +6,7 @@ import UserProfile from "../../account/components/UserProfile.js";
 import * as styles from "./ReturnAndOrderCancelWrapper.css";
 import * as Cookie from "../../lib/Cookie";
 import OrderCard from "../../account/components/OrderCard";
-import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import { LOGGED_IN_USER_DETAILS, PRODUCT_CANCEL } from "../../lib/constants";
 import * as format from "date-fns/format";
 const dateFormat = "DD MMM YYYY";
 export default class ReturnAndOrderCancelWrapper extends React.Component<
@@ -79,6 +79,7 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<
                           returnProductDetails.orderProductWsDTO[0].productBrand
                     }
                     onHollow={true}
+                    title={PRODUCT_CANCEL}
                     onClick={() =>
                       this.onClickImage(
                         orderDetails &&
