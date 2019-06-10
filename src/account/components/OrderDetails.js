@@ -376,6 +376,14 @@ export default class OrderDetails extends React.Component {
                           </div>
                         </div>
                       )}
+                      {this.props.history && (
+                        <div
+                          className={styles.buttonGoToBack}
+                          onClick={() => this.backToOrderHistory()}
+                        >
+                          Back to Order History
+                        </div>
+                      )}
                       <MobileOnly>
                         {this.state.itemDetails && (
                           <div className={styles.orderItemDateID}>
