@@ -21,6 +21,10 @@
 	color: #ff1744;
 	font-size: 14px;
 	display: inline-block;
+	text-align: right;
+}
+.marginAddress {
+	margin-bottom: 69px;
 }
 .paymentMethod {
 	width: 50%;

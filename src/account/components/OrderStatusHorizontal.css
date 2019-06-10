@@ -1,77 +1,120 @@
 .base {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 .step {
-  width: 25%;
-  height: auto;
-  display: inline-block;
-  vertical-align: top;
-  padding-top: 30px;
-  position: relative;
-  font-size: 14px;
-  font-family: light;
-  text-align: center;
-  margin-top: 10px;
+	width: 25%;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+	padding-top: 30px;
+	position: relative;
+	font-size: 14px;
+	font-family: regular;
+	text-align: center;
+	margin-top: 10px;
 }
+
+.processNameHolderBold {
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 14px;
+	line-height: 21px;
+	vertical-align: top;
+	font-family: semibold;
+	position: absolute;
+	top: -42px;
+	left: 20px;
+}
+
+.processNameHolder {
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 14px;
+	letter-spacing: 0px;
+	text-align: center;
+	line-height: 21px;
+	vertical-align: top;
+	font-family: regular;
+	position: absolute;
+	top: -42px;
+	left: 20px;
+}
+
 .stepInactive {
-  composes: step;
+	composes: step;
 }
 .stepInactive:after {
-  display: none;
+	display: none;
 }
 .row {
-  width: 100%;
-  height: auto;
-  font-family: light;
-  font-size: 14px;
-  line-height: 24px;
-  color: #212121;
+	width: 100%;
+	height: auto;
+	font-family: light;
+	font-size: 14px;
+	line-height: 24px;
+	color: #212121;
 }
-.step:after {
-  content: "";
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  top: 8.5px;
-  left: 33%;
-  background: #12de7c;
+div .step:after {
+	content: '';
+	height: 2px;
+	width: 100%;
+	position: absolute;
+	top: 8.5px;
+	left: 33%;
+	background: #4a4a4a;
 }
-.step:before {
-  content: "";
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  top: 8.5px;
-  left: 33%;
-  background: #eeeeee;
+div .step:before {
+	content: '';
+	height: 2px;
+	width: 100%;
+	position: absolute;
+	top: 8.5px;
+	left: 33%;
+	background: #4a4a4a;
 }
 .step:last-child:after,
 .step:last-child:before {
-  display: none;
+	display: none;
 }
 .status {
-  width: 100%;
-  font-size: 14px;
-  color: #212121;
-  font-family: light;
-  margin-bottom: 15px;
+	width: 100%;
+	font-size: 14px;
+	color: #212121;
+	font-family: light;
+	margin-bottom: 15px;
+}
+.trackOrderTitle {
+	font-size: 18px;
+	color: #000000;
+	margin-bottom: 20px;
+	font-family: semibold;
 }
 .check {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 33%;
-  top: 0;
-  border-radius: 50%;
-  border: 2px solid #eeeeee;
-  z-index: 10;
-  background: #fff;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 33%;
+	top: 0;
+	border-radius: 50%;
+	border: 2px solid #67b70b;
+	z-index: 10;
+	background: #fff;
 }
 .checkActive {
-  composes: check;
-  background: url(../../general/components/img/check.svg) no-repeat;
-  background-size: auto 35px;
-  background-position: center;
-  border: none;
+	composes: check;
+	background: url(../../general/components/img/checkOrder.svg) no-repeat;
+	background-size: auto 40px;
+	background-position: center;
+	border: none;
+}
+.orderProcessHolder {
+	font-size: 14px;
+	width: 25%;
+	display: inline-block;
+	text-align: center;
 }

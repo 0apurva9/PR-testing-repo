@@ -29,7 +29,7 @@ export default class OrderPaymentMethod extends React.Component {
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
-          <div>
+          <div className={styles.marginAddress}>
             <div className={styles.paymentHolder}>
               {this.props.paymentMethod && (
                 <div className={styles.paymentMethod}>
@@ -42,7 +42,7 @@ export default class OrderPaymentMethod extends React.Component {
               className={styles.helpSupport}
               onClick={() => this.redirectToHelpPage()}
             >
-              <span>Help & Support</span>
+              Help & Support
             </div>
           </div>
         )}

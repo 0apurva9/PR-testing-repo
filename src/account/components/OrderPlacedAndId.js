@@ -5,6 +5,8 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import { MY_ACCOUNT, ORDER, ORDER_CODE } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { MY_ACCOUNT_ORDERS_PAGE, MY_ACCOUNT_PAGE } from "../../lib/constants";
 // import { push } from 'react-router-redux';
 export default class OrderPlacedAndId extends React.Component {
   onViewDetails(orderId) {
@@ -13,7 +15,13 @@ export default class OrderPlacedAndId extends React.Component {
       `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`
     );
   }
+  backToOrderHistory() {
+    this.props.backToOrderHistory.push(
+      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`
+    );
+  }
   render() {
+    console.log("props:", this.props.backToOrderHistory);
     return (
       <div className={styles.base}>
         <MobileOnly>
@@ -45,12 +53,21 @@ export default class OrderPlacedAndId extends React.Component {
                 </div>
               )}
               <div className={styles.orderIdHolder}>
-                <div
-                  className={styles.labelOrderDetailsHeader}
-                  onClick={() => this.onViewDetails(this.props.orderId)}
-                >
-                  Order Details
-                </div>
+                {this.props.backHistory == "true" ? (
+                  <div
+                    className={styles.labelOrderDetailsHeader}
+                    onClick={() => this.backToOrderHistory()}
+                  >
+                    Back to Order History
+                  </div>
+                ) : (
+                  <div
+                    className={styles.labelOrderDetailsHeader}
+                    onClick={() => this.onViewDetails(this.props.orderId)}
+                  >
+                    Order Details
+                  </div>
+                )}
               </div>
             </div>
             <div className={styles.dataHolder}>

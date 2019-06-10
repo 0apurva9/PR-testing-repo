@@ -295,15 +295,17 @@ export default class OrderDetails extends React.Component {
             </div>
           </DesktopOnly>
           <div className={MyAccountStyles.orderDetail}>
-            {/* {!this.state.itemDetails &&
-          orderDetails && (
-            <div className={styles.orderIdHolder}>
-              <OrderPlacedAndId
-                placedTime={orderPlacedDate}
-                orderId={orderDetails.orderId}
-              />
-            </div>
-          )} */}
+            {!this.state.itemDetails &&
+              orderDetails && (
+                <div className={styles.orderIdHolder}>
+                  <OrderPlacedAndId
+                    placedTime={orderPlacedDate}
+                    orderId={orderDetails.orderId}
+                    backHistory="true"
+                    backToOrderHistory={this.props.history}
+                  />
+                </div>
+              )}
             {orderDetails &&
               orderDetails.products.map((products, i) => {
                 let isOrderReturnable = false;
@@ -343,10 +345,32 @@ export default class OrderDetails extends React.Component {
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
+                      {!this.state.itemDetails && (
+                        <div className={styles.itemDetails}>Item Details</div>
+                      )}
+                      {this.state.itemDetails && (
+                        <div className={styles.orderIdAndPlacedHolder}>
+                          <div className={styles.orderIdHolder}>
+                            <span className={styles.highlightedText}>
+                              Order placed on :
+                            </span>
+                            <span>{orderPlacedDate}</span>
+                          </div>
+                          <div className={styles.orderIdHolder}>
+                            <span className={styles.highlightedText}>
+                              Order ID :
+                            </span>
+                            <span>{orderDetails.orderId}</span>
+                          </div>
+                          <div className={styles.orderIdHolder}>
+                            <span className={styles.highlightedText}>
+                              Transaction ID :{" "}
+                            </span>
+                            <span>{products.transactionId}</span>
+                          </div>
+                        </div>
+                      )}
                       <MobileOnly>
-                        {!this.state.itemDetails && (
-                          <div className={styles.itemDetails}>Item Details</div>
-                        )}
                         {this.state.itemDetails && (
                           <div className={styles.orderItemDateID}>
                             <div>Order placed on : {orderPlacedDate}</div>
@@ -355,7 +379,7 @@ export default class OrderDetails extends React.Component {
                           </div>
                         )}
                       </MobileOnly>
-                      <DesktopOnly>
+                      {/* <DesktopOnly>
                         {this.state.itemDetails && (
                           <div className={styles.orderItemDateID}>
                             <div>Order placed on : {orderPlacedDate}</div>
@@ -392,14 +416,13 @@ export default class OrderDetails extends React.Component {
                             color="#000000"
                             label="Back to Order History"
                             onClick={() => this.backToOrderHistory()}
-                          /> */}
+                          />
                           </div>
                         )}
 
-                        {!this.state.itemDetails && (
-                          <div className={styles.itemDetails}>Item Details</div>
-                        )}
-                      </DesktopOnly>
+
+                      </DesktopOnly> */}
+
                       <OrderCard
                         statusDisplayMsg={products.statusDisplayMsg}
                         estimatedDeliveryDate={products.estimateddeliverydate}
@@ -488,9 +511,14 @@ export default class OrderDetails extends React.Component {
                               }
                             >
                               <FillupRatingOrder rating={0} />
-                              {/* <div className={styles.writeReviewHolder}>
-                                    WRITE A REVIEW
-                                  </div> */}
+                              <div
+                                className={styles.writeReviewHolder}
+                                onClick={val =>
+                                  this.writeReview(products.productcode)
+                                }
+                              >
+                                WRITE A REVIEW
+                              </div>
                             </div>
                           </React.Fragment>
                         )}
@@ -687,7 +715,7 @@ export default class OrderDetails extends React.Component {
                         <div className={styles.buttonHolder}>
                           <div>
                             <DesktopOnly>
-                              <div className={styles.writeReviedButton}>
+                              {/* <div className={styles.writeReviedButton}>
                                 <Button
                                   label={"Write a review"}
                                   width={147}
@@ -704,7 +732,7 @@ export default class OrderDetails extends React.Component {
                                     fontFamily: "regular"
                                   }}
                                 />
-                              </div>
+                              </div> */}
                             </DesktopOnly>
                           </div>
                           <div className={styles.buttonHolderForUpdate}>
@@ -967,23 +995,35 @@ export default class OrderDetails extends React.Component {
                       }
                     />
                   </div>
-                  <OrderPaymentMethod
-                    history={this.props.history}
-                    deliveryAddress={orderDetails.deliveryAddress}
-                    phoneNumber={
-                      orderDetails.deliveryAddress &&
-                      orderDetails.deliveryAddress.phone
-                    }
-                    paymentMethod={orderDetails.paymentMethod}
-                    //isInvoiceAvailable={products.isInvoiceAvailable}
-                    //statusDisplay={products.statusDisplayMsg}
-                    // request={() =>
-                    //   this.requestInvoice(
-                    //     products.transactionId,
-                    //     products.sellerorderno
-                    //   )
-                    // }
-                  />
+                  <div>
+                    {this.state.itemDetails && (
+                      <div
+                        onClick={() => this.redirectToHelpPage()}
+                        className={styles.helpSupport}
+                      >
+                        Help & Support
+                      </div>
+                    )}
+                    <div>
+                      <OrderPaymentMethod
+                        history={this.props.history}
+                        deliveryAddress={orderDetails.deliveryAddress}
+                        phoneNumber={
+                          orderDetails.deliveryAddress &&
+                          orderDetails.deliveryAddress.phone
+                        }
+                        paymentMethod={orderDetails.paymentMethod}
+                        //isInvoiceAvailable={products.isInvoiceAvailable}
+                        //statusDisplay={products.statusDisplayMsg}
+                        // request={() =>
+                        //   this.requestInvoice(
+                        //     products.transactionId,
+                        //     products.sellerorderno
+                        //   )
+                        // }
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
           </div>
