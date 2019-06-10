@@ -8,7 +8,7 @@
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	margin-bottom: 25px;
+	margin-bottom: 10px;
 	position: relative;
 	background-color: #fff;
 }
@@ -38,7 +38,7 @@
 }
 .orderItemDateID {
 	font-size: 11px;
-	font-family: regular;
+	font-family: light;
 	color: #4a4a4a;
 	margin-bottom: 10px;
 	float: left;
@@ -72,10 +72,26 @@
 	padding: 0px 0px 30px;
 	/* border-bottom: 1px solid #ececec; */
 }
+.helpSupport {
+	width: 30%;
+	float: right;
+	font-size: 14px;
+	letter-spacing: 0.02px;
+	/* color: #212121;
+	padding-top: 15px;
+	margin-top: 15px;
+	border-top: 1px solid #efefef;
+	display: block;
+	position: relative; */
+	font-family: semibold;
+}
 .buttonHolderForUpdate {
-	width: 100%;
+	width: 75%;
 	height: auto;
 	display: inline-block;
+}
+.buttonSupport {
+	width: 25%;
 }
 .replaceHolder {
 	width: 50%;
@@ -110,7 +126,7 @@
 	width: 100%;
 	height: auto;
 	font-size: 14px;
-	font-family: regular;
+	font-family: light;
 	color: #212121;
 	line-height: 24px;
 }
@@ -129,7 +145,7 @@
 		width: 100%;
 		height: auto;
 		color: #181818;
-		font-family: regular;
+		font-family: light;
 		font-size: 14px;
 		/* padding: 34px 34px 24px 34px; */
 	}
@@ -137,7 +153,7 @@
 		width: 100%;
 		height: auto;
 		color: #181818;
-		font-family: regular;
+		font-family: light;
 		font-size: 14px;
 		padding: 34px 34px 24px 34px;
 	}
@@ -145,7 +161,7 @@
 		margin-bottom: 0px;
 	}
 	.highlightedText {
-		font-family: regular;
+		font-family: light;
 		font-size: 14px;
 		line-height: 22px;
 		color: black;
@@ -183,7 +199,7 @@
 		margin-bottom: 69px;
 	}
 	.cancelProduct {
-		width: auto;
+		width: 35%;
 		height: auto;
 		float: left;
 		padding-right: 40px;
@@ -199,7 +215,7 @@
 		padding-right: 40px;
 		color: #8d8d8d;
 		font-size: 14px;
-		font-family: regular;
+		font-family: light;
 		cursor: pointer;
 	}
 

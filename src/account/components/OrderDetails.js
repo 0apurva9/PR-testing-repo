@@ -376,14 +376,15 @@ export default class OrderDetails extends React.Component {
                           </div>
                         </div>
                       )}
-                      {this.props.history && (
-                        <div
-                          className={styles.buttonGoToBack}
-                          onClick={() => this.backToOrderHistory()}
-                        >
-                          Back to Order History
-                        </div>
-                      )}
+                      {this.props.history &&
+                        this.state.itemDetails && (
+                          <div
+                            className={styles.buttonGoToBack}
+                            onClick={() => this.backToOrderHistory()}
+                          >
+                            Back to Order History
+                          </div>
+                        )}
                       <MobileOnly>
                         {this.state.itemDetails && (
                           <div className={styles.orderItemDateID}>
@@ -874,6 +875,14 @@ export default class OrderDetails extends React.Component {
                                       {this.props.underlineButtonLabel}
                                     </div>
                                   )}
+                                {this.state.itemDetails && (
+                                  <div
+                                    onClick={() => this.redirectToHelpPage()}
+                                    className={styles.helpSupport}
+                                  >
+                                    Help & Support
+                                  </div>
+                                )}
                               </div>
                             </DesktopOnly>
                           </div>
@@ -944,15 +953,6 @@ export default class OrderDetails extends React.Component {
                               )}
                             </div>
                           </div>
-                        </div>
-                      )}
-                      {this.state.itemDetails && (
-                        <div
-                          onClick={() => this.redirectToHelpPage()}
-                          className={styles.helpSupport}
-                        >
-                          Help & Support
-                          <span className={styles.rightArrow} />
                         </div>
                       )}
                     </div>
