@@ -28,7 +28,7 @@
 }
 .orderItemDateID {
 	font-size: 11px;
-	font-family: light;
+	font-family: regular;
 	color: #4a4a4a;
 	margin-bottom: 10px;
 	float: left;
@@ -58,8 +58,9 @@
 	border-top: 1px solid #ececec;
 }
 .orderStatusVertical {
-	padding: 30px 0px;
-	border-bottom: 1px solid #ececec;
+	/* padding: 30px 0px; */
+	padding: 0px 0px 30px;
+	/* border-bottom: 1px solid #ececec; */
 }
 .buttonHolderForUpdate {
 	width: 100%;
@@ -99,7 +100,7 @@
 	width: 100%;
 	height: auto;
 	font-size: 14px;
-	font-family: light;
+	font-family: regular;
 	color: #212121;
 	line-height: 24px;
 }
@@ -117,7 +118,7 @@
 		width: 100%;
 		height: auto;
 		color: #181818;
-		font-family: light;
+		font-family: regular;
 		font-size: 14px;
 		margin-bottom: 10px;
 	}
@@ -125,7 +126,7 @@
 		margin-bottom: 0px;
 	}
 	.highlightedText {
-		font-family: Light;
+		font-family: regular;
 		font-size: 14px;
 		line-height: 22px;
 		color: black;
@@ -135,7 +136,7 @@
 		font-size: 16px;
 		color: #000000;
 		margin-top: 90px;
-		font-family: Medium;
+		font-family: semibold;
 	}
 	.buttonGoToBack {
 		width: 25%;
@@ -179,7 +180,7 @@
 		padding-right: 40px;
 		color: #8d8d8d;
 		font-size: 14px;
-		font-family: light;
+		font-family: regular;
 		cursor: pointer;
 	}
 

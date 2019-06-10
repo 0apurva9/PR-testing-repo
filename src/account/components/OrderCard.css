@@ -97,7 +97,7 @@
 	composes: base;
 }
 .sellerName {
-	font-family: light;
+	font-family: regular;
 	font-size: 12px;
 	color: greyishBrown;
 }
@@ -106,7 +106,7 @@
 	height: auto;
 	color: #ff1744;
 	font-size: 14px;
-	font-family: Medium;
+	font-family: semibold;
 	margin-bottom: 10px;
 }
 .estimatedDeliveryDate {
@@ -120,7 +120,7 @@
 .ffsemibold {
 	letter-spacing: 0.02px;
 	color: black;
-	font-family: Medium;
+	font-family: semibold;
 	font-size: 14px;
 	margin-bottom: 10px;
 }
@@ -129,7 +129,7 @@
 	margin-bottom: 10px;
 	letter-spacing: 0.02px;
 	color: black;
-	font-family: Light;
+	font-family: regular;
 }
 .deliveryDate {
 	font-family: semibold;
@@ -139,16 +139,16 @@
 	color: black;
 }
 .calloutMessage {
-	font-family: light;
+	font-family: regular;
 	font-size: 14px;
 	line-height: 22px;
 	color: #747474;
 }
 .trackOrderText {
 	font-size: 14px;
-    color: #ff1744;
-    font-family: semibold;
-    padding-top: 46px;
+	color: #ff1744;
+	font-family: semibold;
+	padding-top: 46px;
 }
 .rightArrow {
 	border: solid #000000;
@@ -180,7 +180,7 @@
 		margin-bottom: 10px;
 	}
 	.productName {
-		font-family: light;
+		font-family: regular;
 	}
 	.onHollow {
 		composes: base;
@@ -212,7 +212,13 @@
 		font-family: regular;
 	}
 	.orderText {
-		font-family: light;
+		font-family: regular;
+	}
+	.commonTitle {
+		font-size: 12px;
+		letter-spacing: 0.02px;
+		color: rgb(33, 33, 33);
+		margin-bottom: 8px;
 	}
 	.priceWithQuantity {
 		width: 100%;
