@@ -297,7 +297,13 @@ export default class OrderDetails extends React.Component {
           <div className={MyAccountStyles.orderDetail}>
             {!this.state.itemDetails &&
               orderDetails && (
-                <div className={styles.orderIdHolder}>
+                <div
+                  className={
+                    !this.state.itemDetails
+                      ? styles.orderIdHolderItemDetails
+                      : styles.orderIdHolder
+                  }
+                >
                   <OrderPlacedAndId
                     placedTime={orderPlacedDate}
                     orderId={orderDetails.orderId}

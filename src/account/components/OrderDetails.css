@@ -12,6 +12,14 @@
 	position: relative;
 	background-color: #fff;
 }
+.orderIdHolderItemDetails {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	margin-bottom: 25px;
+	position: relative;
+	background-color: #fff;
+}
 .buttonHolder {
 	width: 100%;
 	height: auto;
@@ -118,6 +126,14 @@
 		margin-bottom: 20px;
 	}
 	.orderIdHolder {
+		width: 100%;
+		height: auto;
+		color: #181818;
+		font-family: regular;
+		font-size: 14px;
+		/* padding: 34px 34px 24px 34px; */
+	}
+	.orderIdHolderItemDetails {
 		width: 100%;
 		height: auto;
 		color: #181818;
