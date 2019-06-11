@@ -27,7 +27,7 @@
 	margin-bottom: 14px;
 }
 .storeDetails {
-	margin-bottom: 49px;
+	margin-bottom: 35px;
 }
 .colon {
 	width: 5%;
@@ -55,7 +55,7 @@
 .buttonHolder {
 	width: 100%;
 	height: auto;
-	margin-top: 20px;
+	margin-top: 10px;
 	display: inline-block;
 }
 .ratingReviewHolder {
@@ -82,7 +82,7 @@
 	margin-bottom: 5px;
 }
 .rateThisItem {
-	/* margin-top: 49px; */
+	margin-top: 31px;
 	font-family: semibold;
 	padding: 0 0 18px 0;
 	font-size: 14px;
@@ -92,6 +92,8 @@
 	height: 36px;
 	width: 180px;
 	border: 2px solid black;
+	margin-top: -23px;
+	margin-bottom: 21px;
 }
 .reviewText {
 	font-size: 14px;
@@ -112,6 +114,7 @@
 }
 .payment {
 	border-top: 1px solid #ececec;
+	margin-bottom: 60px;
 }
 .greyishLine {
 	margin-top: 20px;

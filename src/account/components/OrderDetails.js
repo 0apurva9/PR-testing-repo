@@ -358,13 +358,13 @@ export default class OrderDetails extends React.Component {
                         <div className={styles.orderIdAndPlacedHolder}>
                           <div className={styles.orderIdHolder}>
                             <span className={styles.highlightedText}>
-                              Order placed on :
+                              Order placed on :{" "}
                             </span>
                             <span>{orderPlacedDate}</span>
                           </div>
                           <div className={styles.orderIdHolder}>
                             <span className={styles.highlightedText}>
-                              Order ID :
+                              Order ID :{" "}
                             </span>
                             <span>#{orderDetails.orderId}</span>
                           </div>
@@ -702,8 +702,8 @@ export default class OrderDetails extends React.Component {
                                 </span>
                               </div>
                             </div>
-                            <div className={styles.payments} />
-                            <div className={styles.divider} />
+                            <div className={styles.payment} />
+                            {/* <div className={styles.divider} /> */}
                             <div>
                               {/* This block of code needs to be duplicated above for non CNC as well */}
                               {!products.statusDisplayMsg
@@ -744,9 +744,10 @@ export default class OrderDetails extends React.Component {
 
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div className={styles.buttonHolder}>
-                          <div>
-                            <DesktopOnly>
-                              {/* <div className={styles.writeReviedButton}>
+                          <div className={styles.payment} />
+                          {/* <div>
+                            <DesktopOnly> */}
+                          {/* <div className={styles.writeReviedButton}>
                                 <Button
                                   label={"Write a review"}
                                   width={147}
@@ -764,8 +765,8 @@ export default class OrderDetails extends React.Component {
                                   }}
                                 />
                               </div> */}
-                            </DesktopOnly>
-                          </div>
+                          {/* </DesktopOnly> */}
+                          {/* </div> */}
                           <div className={styles.buttonHolderForUpdate}>
                             {/* showing write a review and cancel or return only for mobile */}
                             <MobileOnly>
