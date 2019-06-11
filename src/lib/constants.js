@@ -1,4 +1,3 @@
-import { PRODUCT_DESCRIPTION_REQUEST } from "../pdp/actions/pdp.actions";
 export const PANCARD_PAGE = "/panCard/panCardDetailsUpload/(.*)";
 export const SUCCESS = "success";
 export const SUCCESS_UPPERCASE = "SUCCESS";
@@ -121,7 +120,7 @@ export const RETURN_CLIQ_PIQ = "/cliqpiq";
 export const RETURN_CLIQ_PIQ_ADDRESS = "/address";
 export const RETURN_CLIQ_PIQ_DATE = "/dateTime";
 export const SUCCESS_MESSAGE_IN_CANCELING_ORDER =
-  "Your order cancelled successfully";
+  "Your order has been cancelled"; //"Your order cancelled successfully";
 export const RETURN_CLIQ_PIQ_RETURN_SUMMARY = "/returnSummary";
 
 export const RETURN_TO_STORE = "/store";

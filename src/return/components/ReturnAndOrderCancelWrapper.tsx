@@ -61,7 +61,7 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<
                       returnProductDetails.orderProductWsDTO[0] &&
                       returnProductDetails.orderProductWsDTO[0].price
                     }
-                    isSelect={true}
+                    isSelect={false}
                     quantity={true}
                     orderPlace={
                       orderDetails && orderDetails.orderDate
