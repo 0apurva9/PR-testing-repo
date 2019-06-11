@@ -14,6 +14,7 @@
 	font-size: 14px;
 	font-family: semibold;
 	margin-bottom: 69px;
+	color: blackTwo;
 }
 .helpSupport {
 	width: 30%;
@@ -25,6 +26,13 @@
 }
 .marginAddress {
 	margin-bottom: 69px;
+}
+.paymentMethodMode {
+	line-height: 22px;
+	font-size: 14px;
+	font-family: light;
+	color: blackTwo;
+	/* margin-bottom: 69px; */
 }
 .deliveryAddress {
 	font-size: 14px;

@@ -34,7 +34,9 @@ export default class OrderPaymentMethod extends React.Component {
               {this.props.paymentMethod && (
                 <div className={styles.paymentMethod}>
                   <span className={styles.ffsemibold}>Payment Mode: </span>
-                  {this.props.paymentMethod && this.props.paymentMethod}
+                  <span className={styles.paymentMethodMode}>
+                    {this.props.paymentMethod && this.props.paymentMethod}
+                  </span>
                 </div>
               )}
             </div>
