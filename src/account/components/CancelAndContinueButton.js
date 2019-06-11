@@ -75,7 +75,7 @@ export default class CancelAndContinueButton extends React.Component {
   }
 }
 CancelAndContinueButton.defaultProps = {
-  continueText: "Continue",
+  continueText: "CONTINUE",
   cancelText: "Cancel",
   isEditAddress: false
 };
