@@ -22,7 +22,7 @@
 	height: auto;
 	color: #000;
 	font-size: 14px;
-	font-family: regular;
+	font-family: light;
 	line-height: 22px;
 	margin-bottom: 12px;
 	display: inline-block;
@@ -76,7 +76,7 @@
 	height: auto;
 	color: #000;
 	font-size: 14px;
-	font-family: regular;
+	font-family: light;
 	line-height: 20px;
 	margin-top: 5px;
 	display: inline-block;
@@ -97,7 +97,7 @@
 	composes: base;
 }
 .sellerName {
-	font-family: regular;
+	font-family: light;
 	font-size: 12px;
 	color: greyishBrown;
 	margin-bottom: 84px;
@@ -130,7 +130,7 @@
 	margin-bottom: 10px;
 	letter-spacing: 0.02px;
 	color: black;
-	font-family: regular;
+	font-family: light;
 }
 .deliveryDate {
 	font-family: semibold;
@@ -140,7 +140,7 @@
 	color: black;
 }
 .calloutMessage {
-	font-family: regular;
+	font-family: light;
 	font-size: 14px;
 	line-height: 22px;
 	color: #747474;
@@ -163,11 +163,11 @@
 	top: 96px;
 	right: 5px;
 }
-.cancelTitle{ 
-    font-family: semibold;
-    font-size: 16px;
-    padding-bottom: 21px;
-  }   
+.cancelTitle {
+	font-family: semibold;
+	font-size: 16px;
+	padding-bottom: 21px;
+}
 @media screen and (min-width: 1025px) {
 	.productImageHolder {
 		width: 16%;
@@ -186,7 +186,7 @@
 		margin-bottom: 10px;
 	}
 	.productName {
-		font-family: regular;
+		font-family: light;
 	}
 	.onHollow {
 		composes: base;
@@ -215,10 +215,10 @@
 		font-size: 14px;
 	}
 	.orderHeader {
-		font-family: regular;
+		font-family: light;
 	}
 	.orderText {
-		font-family: regular;
+		font-family: light;
 	}
 	.commonTitle {
 		font-size: 12px;

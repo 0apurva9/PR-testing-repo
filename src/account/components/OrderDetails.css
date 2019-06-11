@@ -50,10 +50,24 @@
 	margin-bottom: 5px;
 }
 .rateThisItem {
-	margin-top: 49px;
+	/* margin-top: 49px; */
 	font-family: semibold;
-	padding: 10px 0 5px 0;
-	font-size: 12px;
+	padding: 0 0 18px 0;
+	font-size: 14px;
+}
+.boxReview {
+	border-radius: 100px;
+	height: 36px;
+	width: 180px;
+	border: 2px solid black;
+}
+.reviewText {
+	font-size: 14px;
+	color: black;
+	text-align: center;
+	font-family: semibold;
+	padding: 9px 15px 9px 16px;
+	margin-left: 16px;
 }
 .order {
 	width: 100%;
@@ -75,18 +89,22 @@
 .helpSupport {
 	width: 30%;
 	float: right;
+	color: #ff1744;
 	font-size: 14px;
+	font-family: semibold;
+	line-height: 35px;
+	cursor: pointer;
 	letter-spacing: 0.02px;
+	text-align: right;
 	/* color: #212121;
 	padding-top: 15px;
 	margin-top: 15px;
 	border-top: 1px solid #efefef;
 	display: block;
 	position: relative; */
-	font-family: semibold;
 }
 .buttonHolderForUpdate {
-	width: 75%;
+	width: 100%;
 	height: auto;
 	display: inline-block;
 }
@@ -133,6 +151,9 @@
 @media screen and (min-width: 1025px) {
 	.base {
 		padding: 80px 0px;
+	}
+	.reviewText {
+		display: inline-block;
 	}
 	.orderIdAndPlacedHolder {
 		width: 75%;

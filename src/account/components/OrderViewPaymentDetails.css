@@ -38,7 +38,7 @@
 	vertical-align: middle;
 	color: #181818;
 	font-size: 14px;
-	font-family: regular;
+	font-family: light;
 	text-align: left;
 }
 .infoText {
@@ -48,7 +48,7 @@
 	color: #181818;
 	font-size: 14px;
 	text-align: right;
-	font-family: regular;
+	font-family: light;
 }
 
 .labelTextTotal {

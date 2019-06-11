@@ -26,6 +26,18 @@
 .marginAddress {
 	margin-bottom: 69px;
 }
+.deliveryAddress {
+	font-size: 14px;
+	line-height: 22px;
+	color: blackTwo;
+	font-family: semibold;
+}
+.addressLine {
+	font-size: 14px;
+	line-height: 22px;
+	color: blackTwo;
+	font-family: light;
+}
 .paymentMethod {
 	width: 50%;
 	height: auto;

@@ -526,13 +526,15 @@ export default class OrderDetails extends React.Component {
                               }
                             >
                               <FillupRatingOrder rating={0} />
-                              <div
-                                className={styles.writeReviewHolder}
-                                onClick={val =>
-                                  this.writeReview(products.productcode)
-                                }
-                              >
-                                WRITE A REVIEW
+                              <div className={styles.boxReview}>
+                                <div
+                                  className={styles.reviewText}
+                                  onClick={val =>
+                                    this.writeReview(products.productcode)
+                                  }
+                                >
+                                  WRITE A REVIEW
+                                </div>
                               </div>
                             </div>
                           </React.Fragment>

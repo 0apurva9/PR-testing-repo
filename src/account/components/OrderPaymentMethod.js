@@ -53,11 +53,21 @@ export default class OrderPaymentMethod extends React.Component {
             </div>
             <div className={styles.deliveryAddress}>
               <React.Fragment>
-                <span>{this.props.deliveryAddress.addressLine1},</span>
-                <span>{this.props.deliveryAddress.landmark},</span>
-                <span>{this.props.deliveryAddress.town},</span>
-                <span>{this.props.deliveryAddress.state}</span>
-                <span>{this.props.deliveryAddress.postalcode}</span>
+                <span className={styles.addressLine}>
+                  {this.props.deliveryAddress.addressLine1},
+                </span>
+                <span className={styles.addressLine}>
+                  {this.props.deliveryAddress.landmark},
+                </span>
+                <span className={styles.addressLine}>
+                  {this.props.deliveryAddress.town},
+                </span>
+                <span className={styles.addressLine}>
+                  {this.props.deliveryAddress.state}
+                </span>
+                <span className={styles.addressLine}>
+                  {this.props.deliveryAddress.postalcode}
+                </span>
               </React.Fragment>
             </div>
           </React.Fragment>
