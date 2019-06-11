@@ -14,6 +14,8 @@ import {
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+const PRODUCT_RETURN_WINDOW_CLOSED =
+  "You cannot return this product as the window for returns has expired";
 export default class OrderCard extends React.Component {
   onClick() {
     if (this.props.onClick) {
@@ -119,7 +121,7 @@ export default class OrderCard extends React.Component {
                      <span className={styles.orderText}>{this.props.orderId}</span>
                    </div>
                  )}
-               </div>  
+               </div>
             </div>
             </div>
             {/* )} */}
@@ -337,12 +339,17 @@ export default class OrderCard extends React.Component {
               {estimatedDeliveryDate}
             </div>
           )}
-
+        {this.props.isOrderReturnable === false && (
+          <div className={styles.returnClosed}>
+            {PRODUCT_RETURN_WINDOW_CLOSED}
+          </div>
+        )}
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}
           </div>
         )}
+        <div className={styles.payments} />
       </div>
     );
   }

@@ -366,13 +366,13 @@ export default class OrderDetails extends React.Component {
                             <span className={styles.highlightedText}>
                               Order ID :
                             </span>
-                            <span>{orderDetails.orderId}</span>
+                            <span>#{orderDetails.orderId}</span>
                           </div>
                           <div className={styles.orderIdHolder}>
                             <span className={styles.highlightedText}>
                               Transaction ID :{" "}
                             </span>
-                            <span>{products.transactionId}</span>
+                            <span>#{products.transactionId}</span>
                           </div>
                         </div>
                       )}
@@ -389,8 +389,10 @@ export default class OrderDetails extends React.Component {
                         {this.state.itemDetails && (
                           <div className={styles.orderItemDateID}>
                             <div>Order placed on : {orderPlacedDate}</div>
-                            <div>Order ID : {orderDetails.orderId}</div>
-                            <div>Transaction ID : {products.transactionId}</div>
+                            <div>Order ID : #{orderDetails.orderId}</div>
+                            <div>
+                              Transaction ID : #{products.transactionId}
+                            </div>
                           </div>
                         )}
                       </MobileOnly>
@@ -457,7 +459,9 @@ export default class OrderDetails extends React.Component {
                         productSize={products.productSize}
                         productColourName={products.productColourName}
                         showEDD="Y"
+                        isOrderReturnable={products.isReturned}
                       />
+
                       {/* {orderDetails.deliveryAddress &&
                       Object.keys(orderDetails.deliveryAddress).length !==
                         0 && (
@@ -580,28 +584,33 @@ export default class OrderDetails extends React.Component {
                             {/* Block of code ends here */}
                           </div>
                         )}
+
                       {products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code === CLICK_COLLECT &&
                         products.storeDetails && (
                           <React.Fragment>
-                            {this.props.orderDetails.statusDisplay && (
-                              <div className={styles.commonTitle}>
-                                <span className={styles.width30}>
-                                  <span className={styles.ffsemibold}>
-                                    Status:{" "}
+                            <div className={styles.greyishLine}>
+                              {this.props.orderDetails.statusDisplay && (
+                                <div className={styles.commonTitle}>
+                                  <span className={styles.width30}>
+                                    <span className={styles.ffsemibold}>
+                                      Status
+                                    </span>
+                                    <span className={styles.colon}>:</span>
                                   </span>
-                                </span>
-                                <span className={styles.width70}>
-                                  {/* {this.props.orderDetails.statusDisplay} */}
-                                  {products.statusDisplay}
-                                </span>
-                              </div>
-                            )}
+                                  <span className={styles.width70}>
+                                    {/* {this.props.orderDetails.statusDisplay} */}
+                                    {products.statusDisplay}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
                             <div className={styles.commonTitle}>
                               <span className={styles.width30}>
                                 <span className={styles.ffsemibold}>
-                                  Store Details:{" "}
+                                  Store Details
                                 </span>
+                                <span className={styles.colon}>:</span>
                               </span>
                               <span className={styles.width70}>
                                 {/* <div className={styles.orderStatusVertical}>
@@ -647,8 +656,9 @@ export default class OrderDetails extends React.Component {
                             <div className={styles.commonTitle}>
                               <span className={styles.width30}>
                                 <span className={styles.ffsemibold}>
-                                  Open From :
+                                  Open From
                                 </span>
+                                <span className={styles.colon}>:</span>
                               </span>
                               <span className={styles.width70}>
                                 <div
@@ -675,20 +685,24 @@ export default class OrderDetails extends React.Component {
                           //     {orderDetails.pickupPersonMobile}
                           //   </div>
                           <React.Fragment>
-                            <div className={styles.commonTitle}>
-                              <span className={styles.width30}>
-                                <span className={styles.ffsemibold}>
-                                  Pickup Details:{" "}
+                            <div className={styles.storeDetails}>
+                              <div className={styles.commonTitle}>
+                                <span className={styles.width30}>
+                                  <span className={styles.ffsemibold}>
+                                    Pickup Details
+                                  </span>
+                                  <span className={styles.colon}>:</span>
                                 </span>
-                              </span>
-                              <span className={styles.width70}>
-                                <span>
-                                  Ph. {orderDetails.pickupPersonMobile}
+                                <span className={styles.width70}>
+                                  <span>
+                                    Ph. {orderDetails.pickupPersonMobile}
+                                  </span>
+                                  <br />
+                                  <span>{orderDetails.pickupPersonName}</span>
                                 </span>
-                                <br />
-                                <span>{orderDetails.pickupPersonName}</span>
-                              </span>
+                              </div>
                             </div>
+                            <div className={styles.payments} />
                             <div className={styles.divider} />
                             <div>
                               {/* This block of code needs to be duplicated above for non CNC as well */}
@@ -841,12 +855,12 @@ export default class OrderDetails extends React.Component {
                                     {PRODUCT_CANCEL}
                                   </div>
                                 )}
-                                {isOrderReturnable &&
+                                {/* {isOrderReturnable &&
                                   products.isReturned === false && (
                                     <div className={styles.returnClosed}>
                                       {PRODUCT_RETURN_WINDOW_CLOSED}
                                     </div>
-                                  )}
+                                  )} */}
                                 {products.isReturned &&
                                   isOrderReturnable && (
                                     <div

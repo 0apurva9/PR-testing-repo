@@ -16,6 +16,11 @@
 	margin-bottom: 69px;
 	color: blackTwo;
 }
+.payments {
+	border-top: 1px solid #ececec;
+	margin-top: -15px;
+	margin-bottom: 15px;
+}
 .helpSupport {
 	width: 30%;
 	font-family: semibold;

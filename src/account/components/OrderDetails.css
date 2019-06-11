@@ -20,6 +20,38 @@
 	position: relative;
 	background-color: #fff;
 }
+.commonTitle {
+	font-size: 14px;
+	letter-spacing: 0.02px;
+	color: rgb(33, 33, 33);
+	margin-bottom: 14px;
+}
+.storeDetails {
+	margin-bottom: 49px;
+}
+.colon {
+	width: 5%;
+	padding-left: 3px;
+	font-family: semibold;
+}
+.width30 {
+	width: 30%;
+	height: 16px;
+	display: inline-block;
+	color: blackTwo;
+	vertical-align: top;
+}
+.width70 {
+	width: 70%;
+	display: inline-block;
+	color: blackTwo;
+	text-transform: capitalize;
+	font-family: light;
+}
+.ffsemibold {
+	font-family: semibold;
+	width: 25%;
+}
 .buttonHolder {
 	width: 100%;
 	height: auto;
@@ -81,9 +113,13 @@
 .payment {
 	border-top: 1px solid #ececec;
 }
+.greyishLine {
+	margin-top: 20px;
+}
 .orderStatusVertical {
 	/* padding: 30px 0px; */
 	padding: 0px 0px 30px;
+	margin-top: 52px;
 	/* border-bottom: 1px solid #ececec; */
 }
 .helpSupport {
@@ -231,7 +267,7 @@
 		cursor: pointer;
 	}
 	.returnClosed {
-		width: 50%;
+		width: 100%;
 		height: auto;
 		padding-right: 40px;
 		color: #8d8d8d;

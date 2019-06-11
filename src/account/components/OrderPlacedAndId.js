@@ -37,7 +37,7 @@ export default class OrderPlacedAndId extends React.Component {
           <div className={styles.orderIdHolder}>
             <div className={styles.labelHeader}>Order ID:</div>
             <div className={styles.dataInformationText}>
-              {this.props.orderId}
+              #{this.props.orderId}
             </div>
           </div>
         </MobileOnly>
@@ -75,7 +75,7 @@ export default class OrderPlacedAndId extends React.Component {
                 <div>
                   <div className={styles.labelHeader}>Order ID:</div>
                   <div className={styles.dataInformationText}>
-                    {this.props.orderId}
+                    #{this.props.orderId}
                   </div>
                 </div>
               )}
