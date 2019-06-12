@@ -26,20 +26,22 @@ export default class GiftCardSucess extends Component {
     return (
       <div className={styles.baseWrapper}>
         <div className={styles.topHolderWrapper}>
-          <div className={styles.topheader}>Gift Card Added Successfully</div>
-          <div
-            className={styles.crossIcon}
-            onClick={() => this.handleClick()}
-          />
-          <div className={styles.topLabelHeader}>
-            Your updated CLiQ Cash Balance:
-          </div>
-          <div className={styles.amount}>
-            ₹
-            {this.props &&
-              this.props.cliqCashVoucherDetails &&
-              this.props.cliqCashVoucherDetails.totalCliqCashBalance &&
-              this.props.cliqCashVoucherDetails.totalCliqCashBalance.value}
+          <div className={styles.topHolder}>
+            <div className={styles.topheader}>Gift Card Added Successfully</div>
+            <div
+              className={styles.crossIcon}
+              onClick={() => this.handleClick()}
+            />
+            <div className={styles.topLabelHeader}>
+              Your updated CLiQ Cash Balance:
+            </div>
+            <div className={styles.amount}>
+              ₹
+              {this.props &&
+                this.props.cliqCashVoucherDetails &&
+                this.props.cliqCashVoucherDetails.totalCliqCashBalance &&
+                this.props.cliqCashVoucherDetails.totalCliqCashBalance.value}
+            </div>
           </div>
         </div>
 

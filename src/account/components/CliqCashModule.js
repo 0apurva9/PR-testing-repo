@@ -53,59 +53,61 @@ export default class CliqCashModule extends Component {
     return (
       <BottomSlideModal crossIconHide="true">
         <div className={styles.base}>
-          <div
-            className={styles.header}
-            onClick={() => this.props.closeModal()}
-          >
-            Gift Card Details
-          </div>
-          <div className={styles.subText}>
-            Your Gift Card Amount will be added to your CLiQ Cash. You can claim
-            it at the time of checkout.
-          </div>
-          <div className={styles.inputContainer}>
-            <div className={styles.cardNumber}>
-              <Input2
-                placeholder={"Gift Card Number"}
-                hollow={true}
-                border={"none"}
-                borderBottom="1px solid #4a4a4a"
-                textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
-                height={33}
-                value={
-                  this.props.cardNumber
-                    ? this.props.cardNumber
-                    : this.state.cardNumber
-                }
-                onChange={cardNumber => this.onChangeCardNumber(cardNumber)}
-                onlyNumber={true}
-              />
-            </div>
-            <div className={styles.pinNumber}>
-              <Input2
-                hollow={true}
-                border={"none"}
-                borderBottom="1px solid #4a4a4a"
-                onlyNumber={true}
-                placeholder="Gift Card Pin"
-                value={
-                  this.props.pinNumber
-                    ? this.props.pinNumber
-                    : this.state.pinNumber
-                }
-                onChange={pinNumber => this.onChangePinNumber(pinNumber)}
-                textStyle={{ fontSize: 14 }}
-                height={33}
-              />
-            </div>
-          </div>
-
-          <div className={styles.buttonHolder}>
+          <div className={styles.cliqCashHolder}>
             <div
-              className={styles.button}
-              onClick={() => this.redeemCliqVoucher()}
+              className={styles.header}
+              onClick={() => this.props.closeModal()}
             >
-              <div className={styles.buttonText}>Add Gift Card</div>
+              Gift Card Details
+            </div>
+            <div className={styles.subText}>
+              Your Gift Card Amount will be added to your CLiQ Cash. You can
+              claim it at the time of checkout.
+            </div>
+            <div className={styles.inputContainer}>
+              <div className={styles.cardNumber}>
+                <Input2
+                  placeholder={"Gift Card Number"}
+                  hollow={true}
+                  border={"none"}
+                  borderBottom="1px solid #4a4a4a"
+                  textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
+                  height={33}
+                  value={
+                    this.props.cardNumber
+                      ? this.props.cardNumber
+                      : this.state.cardNumber
+                  }
+                  onChange={cardNumber => this.onChangeCardNumber(cardNumber)}
+                  onlyNumber={true}
+                />
+              </div>
+              <div className={styles.pinNumber}>
+                <Input2
+                  hollow={true}
+                  border={"none"}
+                  borderBottom="1px solid #4a4a4a"
+                  onlyNumber={true}
+                  placeholder="Gift Card Pin"
+                  value={
+                    this.props.pinNumber
+                      ? this.props.pinNumber
+                      : this.state.pinNumber
+                  }
+                  onChange={pinNumber => this.onChangePinNumber(pinNumber)}
+                  textStyle={{ fontSize: 14 }}
+                  height={33}
+                />
+              </div>
+            </div>
+
+            <div className={styles.buttonHolder}>
+              <div
+                className={styles.button}
+                onClick={() => this.redeemCliqVoucher()}
+              >
+                <div className={styles.buttonText}>Add Gift Card</div>
+              </div>
             </div>
           </div>
         </div>
