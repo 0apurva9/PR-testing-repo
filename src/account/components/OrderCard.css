@@ -17,7 +17,10 @@
 	padding: 0px 0px 10px 20px;
 	vertical-align: top;
 }
-.productName {
+.productName,
+.deliveryDate,
+.calloutMessage,
+.orderStatusName {
 	width: 100%;
 	height: auto;
 	color: #000;
@@ -93,9 +96,6 @@
 	margin-top: 20px;
 	padding-right: 30px;
 }
-.onHollow {
-	composes: base;
-}
 .payments {
 	border-top: 1px solid #ececec;
 }
@@ -115,6 +115,15 @@
 	font-size: 12px;
 	color: greyishBrown;
 	margin-bottom: 37px;
+}
+.header {
+	width: 100%;
+	height: auto;
+	font-size: 16px;
+	font-family: semibold;
+	line-height: 25px;
+	position: relative;
+	padding-bottom: 36px;
 }
 .labelOrderDetailsHeader {
 	width: 100%;
@@ -199,9 +208,7 @@
 		font-family: semibold;
 		margin-bottom: 10px;
 	}
-	.productName {
-		font-family: light;
-	}
+
 	.onHollow {
 		composes: base;
 		background: #fff;

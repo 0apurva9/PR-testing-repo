@@ -62,6 +62,7 @@ export default class OrderCard extends React.Component {
     return trackOrderText;
   }
   render() {
+    console.log("props details:", this.props);
     let statusDisplayMsg =
       this.props.statusDisplayMsg && this.props.statusDisplayMsg;
     let estimatedDeliveryDate = "";
@@ -87,10 +88,17 @@ export default class OrderCard extends React.Component {
     }
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
+        {this.props.returnFlow && (
+          <div className={styles.cancelTitle}>Return Item</div>
+        )}
         {this.props.title &&
-          this.props.title === "Cancel Item" && (
+          this.props.title === "Cancel Item" &&
+          !this.props.returnFlow && (
             <div className={styles.cancelTitle}>{PRODUCT_CANCEL}</div>
           )}
+        {/* {this.props.title &&
+					this.props.title === 'Cancel Item' &&(<div className={styles.cancelTitle}>{PRODUCT_CANCEL}</div>)} */}
+
         <DesktopOnly>
           {/* {(this.props.orderPlace || this.props.orderId) && ( */}
           {/* <div>
@@ -348,7 +356,7 @@ export default class OrderCard extends React.Component {
             Sold By : {this.props.sellerName}
           </div>
         )}
-        <div className={styles.payments} />
+        <div className={this.props.title ? "" : styles.payments} />
       </div>
     );
   }

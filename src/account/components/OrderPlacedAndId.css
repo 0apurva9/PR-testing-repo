@@ -25,6 +25,7 @@
 	color: #ff1744;
 	font-size: 14px;
 	font-family: semibold;
+	cursor: pointer;
 }
 /* .labelOrderDetailsHeaderForHistoryBack {
 	width: auto;

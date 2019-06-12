@@ -168,7 +168,36 @@ const account = (
     userReviewStatus: null,
     userReviewError: null,
     loadingForUserReview: false,
-    userReview: null
+    userReview: null,
+    retryPaymentDetails: null,
+    retryPaymentDetailsStatus: null,
+    retryPaymentDetailsError: null,
+    retryPaymentDetailsLoading: false,
+
+    submitImageUploadDetailsStatus: null,
+    submitImageUploadDetails: null,
+    loadingForsubmitImageUploadDetails: false,
+    submitImageUploadDetailsError: null,
+
+    getRefundOptionsStatus: null,
+    loadingForGetRefundOptions: false,
+    getRefundOptionsDetails: null,
+    getRefundOptionsError: null,
+
+    getRefundModesStatus: null,
+    loadingForGetRefundModes: false,
+    getRefundModesDetails: null,
+    getRefundModesError: null,
+
+    updateRefundModeStatus: null,
+    loadingForUpdateRefundMode: false,
+    updateRefundModeDetails: null,
+    updateRefundModeError: null,
+
+    getCustomerBankDetailsStatus: null,
+    loadingForgetCustomerBankDetails: false,
+    getCustomerBankDetailsDetails: null,
+    getCustomerBankDetailsError: null
   },
   action
 ) => {
@@ -559,7 +588,7 @@ const account = (
         fetchOrderDetailsError: action.error,
         loadingForFetchOrderDetails: false
       });
-    
+
     case accountActions.FETCH_ORDER_ITEM_DETAILS_REQUEST:
       return Object.assign({}, state, {
         fetchOrderItemDetailsStatus: action.status,
@@ -1144,6 +1173,96 @@ const account = (
         retryPaymentDetailsError: action.error,
         retryPaymentDetailsLoading: false
       });
+    case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        submitImageUploadDetailsStatus: action.status,
+        loadingForsubmitImageUploadDetails: true
+      });
+    case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        submitImageUploadDetailsStatus: action.status,
+        submitImageUploadDetails: action.submitImageUploadDetails,
+        loadingForsubmitImageUploadDetails: false
+      });
+    case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        submitImageUploadDetailsStatus: action.status,
+        submitImageUploadDetailsError: action.error,
+        loadingForsubmitImageUploadDetails: false
+      });
+
+    case accountActions.GET_REFUND_OPTIONS_DATA_REQUEST:
+      return Object.assign({}, state, {
+        getRefundOptionsStatus: action.status,
+        loadingForGetRefundOptions: true
+      });
+    case accountActions.GET_REFUND_OPTIONS_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        getRefundOptionsStatus: action.status,
+        getRefundOptionsDetails: action.getRefundOptionsDetails,
+        loadingForGetRefundOptions: false
+      });
+    case accountActions.GET_REFUND_OPTIONS_DATA_FAILURE:
+      return Object.assign({}, state, {
+        getRefundOptionsStatus: action.status,
+        getRefundOptionsError: action.error,
+        loadingForGetRefundOptions: false
+      });
+
+    case accountActions.GET_REFUND_MODES_REQUEST:
+      return Object.assign({}, state, {
+        getRefundModesStatus: action.status,
+        loadingForGetRefundModes: true
+      });
+    case accountActions.GET_REFUND_MODES_SUCCESS:
+      return Object.assign({}, state, {
+        getRefundModesStatus: action.status,
+        getRefundModesDetails: action.getRefundModesDetails,
+        loadingForGetRefundModes: false
+      });
+    case accountActions.GET_REFUND_MODES_FAILURE:
+      return Object.assign({}, state, {
+        getRefundModesStatus: action.status,
+        getRefundModesError: action.error,
+        loadingForGetRefundModes: false
+      });
+
+    case accountActions.UPDATE_REFUND_MODE_REQUEST:
+      return Object.assign({}, state, {
+        updateRefundModeStatus: action.status,
+        loadingForUpdateRefundMode: true
+      });
+    case accountActions.UPDATE_REFUND_MODE_SUCCESS:
+      return Object.assign({}, state, {
+        updateRefundModeStatus: action.status,
+        updateRefundModeDetails: action.updateRefundModeDetails,
+        loadingForUpdateRefundMode: false
+      });
+    case accountActions.UPDATE_REFUND_MODE_FAILURE:
+      return Object.assign({}, state, {
+        updateRefundModeStatus: action.status,
+        updateRefundModeError: action.error,
+        loadingForUpdateRefundMode: false
+      });
+
+    case accountActions.GET_CUSTOMER_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        getCustomerBankDetailsStatus: action.status,
+        loadingForGetCustomerBankDetails: true
+      });
+    case accountActions.GET_CUSTOMER_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        getCustomerBankDetailsStatus: action.status,
+        getCustomerBankDetailsDetails: action.getCustomerBankDetailsDetails,
+        loadingForGetCustomerBankDetails: false
+      });
+    case accountActions.GET_CUSTOMER_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        getCustomerBankDetailsStatus: action.status,
+        getCustomerBankDetailsError: action.error,
+        loadingForGetCustomerBankDetails: false
+      });
+
     default:
       return state;
   }

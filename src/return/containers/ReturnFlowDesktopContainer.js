@@ -1,10 +1,17 @@
 import { withRouter } from "react-router-dom";
 import {
   getReturnRequest,
-  returnProductDetails
+  returnProductDetails,
+  getReturnReasonsWithProductDetails,
+  uploadProductImages,
+  getRefundOptionsData,
+  getRefundModes,
+  updateRefundMode,
+  getCliqCashDetails,
+  getCustomerBankDetails
 } from "../../account/actions/account.actions.js";
 import { connect } from "react-redux";
-
+import { setHeaderText } from "../../general/header.actions";
 import { getUserAddress } from "../../cart/actions/cart.actions";
 import ReturnFlowDesktop from "../components/ReturnFlowDesktop";
 import { displayToast } from "../../general/toast.actions.js";
@@ -21,13 +28,54 @@ const mapDispatchToProps = dispatch => {
       dispatch(displayToast(message));
     },
     returnProductDetailsFunc: productDetails => {
-      dispatch(returnProductDetails(productDetails));
+      dispatch(getReturnReasonsWithProductDetails(productDetails));
     },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    uploadProductImages: (orderId, transactionId, file) => {
+      dispatch(uploadProductImages(orderId, transactionId, file));
+    },
+    setHeaderText: text => {
+      dispatch(setHeaderText(text));
+    },
+    getRefundOptionsData: (
+      orderId,
+      transactionId,
+      returnReasonCode,
+      returnSubReasonCode,
+      comments,
+      uploadedImageURLs,
+      reverseSealAvailability
+    ) => {
+      dispatch(
+        getRefundOptionsData(
+          orderId,
+          transactionId,
+          returnReasonCode,
+          returnSubReasonCode,
+          comments,
+          uploadedImageURLs,
+          reverseSealAvailability
+        )
+      );
+    },
+    getRefundModes: (orderId, transactionId, returnId, typeOfReturn) => {
+      dispatch(getRefundModes(orderId, transactionId, returnId, typeOfReturn));
+    },
+    updateRefundMode: async (orderId, transactionId, returnId, refundMode) => {
+      return await dispatch(
+        updateRefundMode(orderId, transactionId, returnId, refundMode)
+      );
+    },
+    getCliqCashDetails: async () => {
+      return await dispatch(getCliqCashDetails());
+    },
+    getCustomerBankDetails: async () => {
+      return await dispatch(getCustomerBankDetails());
     },
     getUserAddress: () => {
       dispatch(getUserAddress(true));
@@ -42,7 +90,9 @@ const mapStateToProps = state => {
     loading: state.profile.loading,
     error: state.profile.error,
     orderDetails: state.profile.fetchOrderDetails,
-    userAddress: state.cart.userAddress
+    userAddress: state.cart.userAddress,
+    getRefundOptionsDetails: state.profile.getRefundOptionsDetails,
+    getRefundModesDetails: state.profile.getRefundModesDetails
   };
 };
 

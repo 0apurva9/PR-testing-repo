@@ -95,9 +95,12 @@ export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
 
-export const FETCH_ORDER_ITEM_DETAILS_REQUEST = "FETCH_ORDER_ITEM_DETAILS_REQUEST";
-export const FETCH_ORDER_ITEM_DETAILS_SUCCESS = "FETCH_ORDER_ITEM_DETAILS_SUCCESS";
-export const FETCH_ORDER_ITEM_DETAILS_FAILURE = "FETCH_ORDER_ITEM_DETAILS_FAILURE";
+export const FETCH_ORDER_ITEM_DETAILS_REQUEST =
+  "FETCH_ORDER_ITEM_DETAILS_REQUEST";
+export const FETCH_ORDER_ITEM_DETAILS_SUCCESS =
+  "FETCH_ORDER_ITEM_DETAILS_SUCCESS";
+export const FETCH_ORDER_ITEM_DETAILS_FAILURE =
+  "FETCH_ORDER_ITEM_DETAILS_FAILURE";
 
 export const GET_USER_COUPON_REQUEST = "GET_USER_COUPON_REQUEST";
 export const GET_USER_COUPON_SUCCESS = "GET_USER_COUPON_SUCCESS";
@@ -295,7 +298,31 @@ export const MSD_FEEDBACK = "feedback";
 
 const NEFT = "NEFT";
 const TITLE_NAME_ARRAY = ["Ms.", "Mr.", "Mr. & Mrs."];
-// cencel product
+// cancel product
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST =
+  "SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS =
+  "SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE =
+  "SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE";
+export const GET_REFUND_OPTIONS_DATA_REQUEST =
+  "GET_REFUND_OPTIONS_DATA_REQUEST";
+export const GET_REFUND_OPTIONS_DATA_SUCCESS =
+  "GET_REFUND_OPTIONS_DATA_SUCCESS";
+export const GET_REFUND_OPTIONS_DATA_FAILURE =
+  "GET_REFUND_OPTIONS_DATA_FAILURE";
+export const GET_REFUND_MODES_REQUEST = "GET_REFUND_MODES_REQUEST";
+export const GET_REFUND_MODES_SUCCESS = "GET_REFUND_MODES_SUCCESS";
+export const GET_REFUND_MODES_FAILURE = "GET_REFUND_MODES_FAILURE";
+export const UPDATE_REFUND_MODE_REQUEST = "UPDATE_REFUND_MODE_REQUEST";
+export const UPDATE_REFUND_MODE_SUCCESS = "UPDATE_REFUND_MODE_SUCCESS";
+export const UPDATE_REFUND_MODE_FAILURE = "UPDATE_REFUND_MODE_FAILURE";
+export const GET_CUSTOMER_BANK_DETAILS_REQUEST =
+  "GET_CUSTOMER_BANK_DETAILS_REQUEST";
+export const GET_CUSTOMER_BANK_DETAILS_SUCCESS =
+  "GET_CUSTOMER_BANK_DETAILS_SUCCESS";
+export const GET_CUSTOMER_BANK_DETAILS_FAILURE =
+  "GET_CUSTOMER_BANK_DETAILS_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -945,7 +972,320 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
   };
 }
 //  update refund details
+//update replace and return details
+export function getReturnReasonsWithProductDetails(productDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(returnProductDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnReasons/${
+          productDetails.orderCode
+        }/${productDetails.transactionId}/?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
 
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(returnProductDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(returnProductDetailsFailure(e.message));
+    }
+  };
+}
+export function uploadProductImagesRequest() {
+  return {
+    type: SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function uploadProductImagesSuccess(submitImageUploadDetails) {
+  return {
+    type: SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS,
+    status: SUCCESS,
+    submitImageUploadDetails
+  };
+}
+export function uploadProductImagesFailure(error) {
+  return {
+    type: SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function uploadProductImages(orderId, transactionId, file) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(uploadProductImagesRequest());
+    try {
+      let uploadFile = new FormData();
+      uploadFile.append("orderId", orderId);
+      uploadFile.append("transactionId", transactionId);
+      file.forEach(val => {
+        uploadFile.append("uploadfile", val);
+      });
+
+      const result = await api.postFormData(
+        `/v2/mpl/users/${
+          JSON.parse(userDetails).userName
+        }/uploadReturnImageFile?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        uploadFile
+      );
+
+      const resultJson = await result.json();
+      if (
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS
+      ) {
+        dispatch(displayToast("Images Uploaded Successfully"));
+      }
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(uploadProductImagesSuccess(resultJson));
+    } catch (e) {
+      return dispatch(uploadProductImagesFailure(e.message));
+    }
+  };
+}
+
+export function getRefundOptionsDataRequest() {
+  return {
+    type: GET_REFUND_OPTIONS_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRefundOptionsDataSuccess(getRefundOptionsDetails) {
+  return {
+    type: GET_REFUND_OPTIONS_DATA_SUCCESS,
+    status: SUCCESS,
+    getRefundOptionsDetails
+  };
+}
+export function getRefundOptionsDataFailure(error) {
+  return {
+    type: GET_REFUND_OPTIONS_DATA_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getRefundOptionsData(
+  orderId,
+  transactionId,
+  returnReasonCode,
+  returnSubReasonCode,
+  comments,
+  uploadedImageURLs,
+  reverseSealAvailability
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRefundOptionsDataRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        returnReasonCode: returnReasonCode,
+        returnSubReasonCode: returnSubReasonCode,
+        comments: comments,
+        uploadedImageURLs: uploadedImageURLs,
+        reverseSealAvailability: reverseSealAvailability
+      });
+
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnReasonGetReturnType/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getRefundOptionsDataSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getRefundOptionsDataFailure(e.message));
+    }
+  };
+}
+export function getRefundModesRequest() {
+  return {
+    type: GET_REFUND_MODES_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRefundModesSuccess(getRefundModesDetails) {
+  return {
+    type: GET_REFUND_MODES_SUCCESS,
+    status: SUCCESS,
+    getRefundModesDetails
+  };
+}
+export function getRefundModesFailure(error) {
+  return {
+    type: GET_REFUND_MODES_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getRefundModes(orderId, transactionId, returnId, typeOfReturn) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRefundModesRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        typeOfReturn: typeOfReturn,
+        returnId: returnId
+      });
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnTypeGetRefundMode/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getRefundModesSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getRefundModesFailure(e.message));
+    }
+  };
+}
+
+export function updateRefundModeRequest() {
+  return {
+    type: UPDATE_REFUND_MODE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function updateRefundModeSuccess(updateRefundModeDetails) {
+  return {
+    type: UPDATE_REFUND_MODE_SUCCESS,
+    status: SUCCESS,
+    updateRefundModeDetails
+  };
+}
+export function updateRefundModeFailure(error) {
+  return {
+    type: UPDATE_REFUND_MODE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateRefundModeRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        refundMode: refundMode,
+        returnId: returnId
+      });
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateRefundMode/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      // return resultJson;
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(updateRefundModeSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateRefundModeFailure(e.message));
+    }
+  };
+}
+
+export function getCustomerBankDetailsRequest() {
+  return {
+    type: GET_CUSTOMER_BANK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCustomerBankDetailsSuccess(getCustomerBankDetails) {
+  return {
+    type: GET_CUSTOMER_BANK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    getCustomerBankDetails
+  };
+}
+export function getCustomerBankDetailsFailure(error) {
+  return {
+    type: GET_CUSTOMER_BANK_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getCustomerBankDetails() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomerBankDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCustomerBankDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&customerId=${JSON.parse(userDetails).customerId}&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getCustomerBankDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getCustomerBankDetailsFailure(e.message));
+    }
+  };
+}
 export function submitSelfCourierReturnInfoRequest() {
   return {
     type: SUBMIT_SELF_COURIER_INFO_REQUEST,
@@ -1243,7 +1583,6 @@ export function fetchOrderItemDetailsFailure(error) {
     error
   };
 }
-
 
 export function getUserDetailsRequest() {
   return {
@@ -1657,6 +1996,9 @@ export function sendInvoice(lineID, orderNumber) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(sendInvoiceSuccess(resultJson));
+      if (resultJson && resultJson.status === "Success") {
+        dispatch(displayToast("Invoice has been sent"));
+      }
     } catch (e) {
       dispatch(sendInvoiceFailure(e.message));
     }
