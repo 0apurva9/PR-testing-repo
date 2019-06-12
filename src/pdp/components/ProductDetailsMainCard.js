@@ -155,10 +155,14 @@ export default class ProductDetailsMainCard extends React.Component {
                   Rating
                   <span className={styles.ratingOffset} itemProp="ratingValue">
                     {averageRating}
-                  </span>/5
+                  </span>
                   <meta
                     itemProp="reviewCount"
                     content={this.props.numberOfReviews}
+                  />
+                  <meta
+                    itemprop="itemReviewed"
+                    content={this.props.averageRating}
                   />
                 </div>
               )}
