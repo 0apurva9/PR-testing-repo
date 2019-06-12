@@ -37,16 +37,19 @@ export function getDesktopFooter(pathName) {
         var urlSearch = pathName && pathName.split("/c-");
         if (urlSearch[1].search("/") !== -1) {
           var urlSearch2 = urlSearch[1].split("/");
-          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${
+          footerApi = `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/footer?pageID=${
             urlSearch2[0]
           }`;
         } else {
-          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch[1]}`;
+          footerApi = `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/footer?pageID=${
+            urlSearch[1]
+          }`;
         }
       } else {
-        footerApi = "v2/mpl/cms/desktopservice/footer";
+        footerApi =
+          "https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/footer";
       }
-      const result = await api.get(footerApi);
+      const result = await fetch(footerApi);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
