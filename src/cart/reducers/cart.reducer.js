@@ -234,7 +234,11 @@ const cart = (
 
     cartCountStatus: null,
     cartCountError: null,
-    cartCount: null
+    cartCount: null,
+
+    minicartStatus: null,
+    minicartError: null,
+    minicart: null
   },
   action
 ) => {
@@ -278,7 +282,9 @@ const cart = (
         bankAndTenureError: null,
         emiTermsAndConditionError: null,
         noCostEmiError: null,
-        emiItemBreakUpError: null
+        emiItemBreakUpError: null,
+        cartCountError: null,
+        minicartError: null
       });
     case cartActions.CART_DETAILS_REQUEST:
       return Object.assign({}, state, {
@@ -1877,6 +1883,21 @@ const cart = (
         cartCountError: action.error,
         cartCountStatus: action.status,
         cartCount: null
+      });
+    case cartActions.GET_MINICART_REQUEST:
+      return Object.assign({}, state, {
+        minicartStatus: action.status
+      });
+    case cartActions.GET_MINICART_FAILURE:
+      return Object.assign({}, state, {
+        minicartStatus: action.status,
+        minicartError: action.error,
+        minicart: null
+      });
+    case cartActions.GET_MINICART_SUCCESS:
+      return Object.assign({}, state, {
+        minicartStatus: action.status,
+        minicart: action.minicartDetails
       });
 
     default:

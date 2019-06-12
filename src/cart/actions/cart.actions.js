@@ -443,6 +443,10 @@ export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
 export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
   "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
 
+export const GET_MINICART_SUCCESS = "GET_MINICART_SUCCESS";
+export const GET_MINICART_REQUEST = "GET_MINICART_REQUEST";
+export const GET_MINICART_FAILURE = "GET_MINICART_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -5262,6 +5266,84 @@ export function getCartCountForLoggedInUser(cartVal) {
       );
     } catch (e) {
       return dispatch(getCartCountForLoggedInUserFailure(e.message));
+    }
+  };
+}
+
+// Minicart functions block
+// getMinicartProductsSuccess - The function is calling in getMinicartProducts function
+export function getMinicartProductsSuccess(minicartDetails) {
+  return {
+    type: GET_MINICART_SUCCESS,
+    status: SUCCESS,
+    minicartDetails
+  };
+}
+
+// getMinicartProductsRequest - The function is calling in getMinicartProducts function
+export function getMinicartProductsRequest() {
+  return {
+    type: GET_MINICART_REQUEST,
+    status: REQUESTING
+  };
+}
+
+// getMinicartProductsRequest - The function is calling in getMinicartProductsFailure function
+export function getMinicartProductsFailure(error) {
+  return {
+    type: GET_MINICART_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+// getMinicartProducts - The function is calling on
+export function getMinicartProducts() {
+  // Get User Details from cookie
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
+  // Get Customer Access Token from cookie
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+
+  // Get Global Access Token from cookie
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
+
+  // Check if User Details and Customer Cookie exists
+  // If true then get Customer Access Token, User's Email and logged-In User's Cart Details
+  if (userDetails && customerCookie) {
+    userId = JSON.parse(userDetails).userName;
+    accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+  }
+  // Get Cart code for current user from cookie
+  let cartCode =
+    cartDetails && JSON.parse(cartDetails).guid
+      ? JSON.parse(cartDetails).guid
+      : null;
+
+  return async (dispatch, getState, { api }) => {
+    // Dispatching Requesting event before API CALL
+    dispatch(getMinicartProductsRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      // Check failure response status if found then throw an error
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getMinicartProductsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getMinicartProductsFailure(e.message));
     }
   };
 }

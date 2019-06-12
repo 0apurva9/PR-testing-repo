@@ -7,7 +7,8 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  HELP_URL
+  HELP_URL,
+  RUPEE_SYMBOL
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
@@ -20,8 +21,10 @@ import {
   ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
 } from "../../lib/adobeUtils";
+import ProductImage from "./ProductImage.js";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
+const NO_SIZE = "NO SIZE";
 
 export default class DesktopHeader extends React.Component {
   constructor(props) {
@@ -633,6 +636,70 @@ export default class DesktopHeader extends React.Component {
                           this.props.bagCount
                         }`}</span>
                       ))}
+                    {this.props.minicart &&
+                      this.props.minicart.products && (
+                        <div className={styles.mybag}>
+                          <div
+                            className={styles.mybagHeading}
+                            dangerouslySetInnerHTML={{
+                              __html: `My Bag (${
+                                this.props.minicart.products.length
+                              } items)`
+                            }}
+                          />
+                          <div className={styles.mybagProductsContainer}>
+                            {this.props.minicart.products.map((product, i) => {
+                              return (
+                                <div className={styles.mybagProductCard}>
+                                  <div className={styles.mybagImage}>
+                                    <img
+                                      alt={product.title}
+                                      src={product.imageURL}
+                                    />
+                                  </div>
+                                  <div
+                                    className={styles.mybagProductInformation}
+                                  >
+                                    <h4>{product.title}</h4>
+                                    <div
+                                      className={
+                                        styles.informationTextWithBolder
+                                      }
+                                    >
+                                      {product.price && (
+                                        <React.Fragment>
+                                          {` ${RUPEE_SYMBOL}${product.price}`}
+                                        </React.Fragment>
+                                      )}
+                                      {product.MRP && (
+                                        <React.Fragment>
+                                          {` ${RUPEE_SYMBOL}${product.MRP}`}
+                                        </React.Fragment>
+                                      )}
+                                    </div>
+                                    {(product.size || product.color) && (
+                                      <div className={styles.colourSizeHolder}>
+                                        {product.color && (
+                                          <div className={styles.sizeText}>
+                                            {`Color:  ${product.color}`}
+                                          </div>
+                                        )}
+                                        {product.size &&
+                                          product.size.toUpperCase() !==
+                                            NO_SIZE && (
+                                            <div className={styles.colourText}>
+                                              {`Size:  ${product.size}`}
+                                            </div>
+                                          )}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                   </div>
                   <div
                     className={styles.mywishList}
