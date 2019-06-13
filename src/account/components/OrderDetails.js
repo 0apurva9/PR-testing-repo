@@ -123,6 +123,7 @@ export default class OrderDetails extends React.Component {
     let mplWorkingDaysInArray = mplWorkingDays.split(",");
     let dayText = "";
     let dayTextArr = [];
+    // eslint-disable-next-line array-callback-return
     mplWorkingDaysInArray.map((day, index) => {
       switch (day) {
         case "1":
@@ -148,7 +149,7 @@ export default class OrderDetails extends React.Component {
           break;
         default:
           dayText = "";
-          break;
+        //break;
       }
       dayTextArr.push(dayText);
     });
@@ -161,23 +162,23 @@ export default class OrderDetails extends React.Component {
     let mplClosingTimeText = "";
     // let displayDateNTime = "";
     if (parseFloat(mplOpeningTime) < 12) {
-      mplOpeningTimeText = mplOpeningTime + " AM";
+      mplOpeningTimeText = mplOpeningTime + "am";
     } else {
       let mplOpeningTimeInMinutes = parseFloat(mplOpeningTime) * 60;
       let mplOpeningTimeInTwelveHoursFormat = mplOpeningTimeInMinutes - 720; // 12 * 60
       let mplOpeningTimeConverted = mplOpeningTimeInTwelveHoursFormat / 60;
-      mplOpeningTimeText = mplOpeningTimeConverted.toFixed(2) + " PM";
+      mplOpeningTimeText = mplOpeningTimeConverted.toFixed(2) + "pm";
     }
     if (parseFloat(mplClosingTime) < 12) {
-      mplClosingTimeText = mplClosingTime + " AM";
+      mplClosingTimeText = mplClosingTime + "am";
     } else {
       let mplClosingTimeInMinutes = parseFloat(mplClosingTime) * 60;
       let mplClosingTimeInTwelveHoursFormat = mplClosingTimeInMinutes - 720; // 12 * 60
       let mplClosingTimeConverted = mplClosingTimeInTwelveHoursFormat / 60;
-      mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + " PM";
+      mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "pm";
     }
     let displayDateNTime =
-      getDaysText + "<br />" + mplOpeningTimeText + " - " + mplClosingTimeText;
+      getDaysText + ", " + mplOpeningTimeText + " - " + mplClosingTimeText;
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
@@ -592,13 +593,9 @@ export default class OrderDetails extends React.Component {
                             <div className={styles.greyishLine}>
                               {this.props.orderDetails.statusDisplay && (
                                 <div className={styles.commonTitle}>
-                                  <span className={styles.width30}>
-                                    <span className={styles.ffsemibold}>
-                                      Status
-                                    </span>
-                                    <span className={styles.colon}>:</span>
-                                  </span>
-                                  <span className={styles.width70}>
+                                  <span className={styles.width20}>Status</span>
+                                  <span className={styles.colon}>:</span>
+                                  <span className={styles.width75}>
                                     {/* {this.props.orderDetails.statusDisplay} */}
                                     {products.statusDisplay}
                                   </span>
@@ -606,13 +603,11 @@ export default class OrderDetails extends React.Component {
                               )}
                             </div>
                             <div className={styles.commonTitle}>
-                              <span className={styles.width30}>
-                                <span className={styles.ffsemibold}>
-                                  Store Details
-                                </span>
-                                <span className={styles.colon}>:</span>
+                              <span className={styles.width20}>
+                                Store Details
                               </span>
-                              <span className={styles.width70}>
+                              <span className={styles.colon}>:</span>
+                              <span className={styles.width75}>
                                 {/* <div className={styles.orderStatusVertical}>
                           <div className={styles.header}>Store details:</div>
                         <div className={styles.row}>
@@ -654,13 +649,9 @@ export default class OrderDetails extends React.Component {
                             </div>
                             {/* </div> */}
                             <div className={styles.commonTitle}>
-                              <span className={styles.width30}>
-                                <span className={styles.ffsemibold}>
-                                  Open From
-                                </span>
-                                <span className={styles.colon}>:</span>
-                              </span>
-                              <span className={styles.width70}>
+                              <span className={styles.width20}>Open From</span>
+                              <span className={styles.colon}>:</span>
+                              <span className={styles.width75}>
                                 <div
                                   dangerouslySetInnerHTML={this.getStoreDateNTime(
                                     products.storeDetails.mplWorkingDays,
@@ -687,18 +678,13 @@ export default class OrderDetails extends React.Component {
                           <React.Fragment>
                             <div className={styles.storeDetails}>
                               <div className={styles.commonTitle}>
-                                <span className={styles.width30}>
-                                  <span className={styles.ffsemibold}>
-                                    Pickup Details
-                                  </span>
-                                  <span className={styles.colon}>:</span>
+                                <span className={styles.width20}>
+                                  Pickup Details
                                 </span>
-                                <span className={styles.width70}>
-                                  <span>
-                                    Ph. {orderDetails.pickupPersonMobile}
-                                  </span>
-                                  <br />
-                                  <span>{orderDetails.pickupPersonName}</span>
+                                <span className={styles.colon}>:</span>
+                                <span className={styles.width75}>
+                                  {/* <span>{orderDetails.pickupPersonName}</span> */}
+                                  <span>{orderDetails.pickupPersonMobile}</span>
                                 </span>
                               </div>
                             </div>

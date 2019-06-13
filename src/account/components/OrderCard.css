@@ -107,23 +107,14 @@
 	/* padding-right: 40px; */
 	font-family: light;
 	font-size: 12px;
-	color: greyishBrown;
+	color: #747474;
 	cursor: pointer;
 }
 .sellerName {
 	font-family: light;
-	font-size: 12px;
-	color: greyishBrown;
-	margin-bottom: 37px;
-}
-.header {
-	width: 100%;
-	height: auto;
-	font-size: 16px;
-	font-family: semibold;
-	line-height: 25px;
-	position: relative;
-	padding-bottom: 36px;
+    font-size: 12px;
+    color: #747474;
+    margin-bottom: 24px;
 }
 .labelOrderDetailsHeader {
 	width: 100%;

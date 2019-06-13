@@ -33,20 +33,26 @@
 	width: 5%;
 	padding-left: 3px;
 	font-family: semibold;
+	display: inline-block;
 }
-.width30 {
-	width: 30%;
+.width20{
+	width: 20%;
 	height: 16px;
 	display: inline-block;
-	color: blackTwo;
+	color: #000000;
 	vertical-align: top;
+	font-family: semibold; 
+	font-size: 14px;   
 }
-.width70 {
-	width: 70%;
-	display: inline-block;
-	color: blackTwo;
-	text-transform: capitalize;
-	font-family: light;
+.width75 {
+	width: 75%;
+    display: inline-block;
+    color: #000000;
+    text-transform: capitalize;
+    font-family: light;
+    font-size: 14px;
+    letter-spacing: 0.02px;
+    height: 16px;
 }
 .ffsemibold {
 	font-family: semibold;
