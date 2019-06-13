@@ -46,14 +46,13 @@ export default class GiftCardSucess extends Component {
         </div>
 
         <div className={styles.bottomWrapper}>
-          <div className={styles.bottomHolderHeading}>
-            <p
-              onClick={() => {
-                this.renderToCliqCash();
-              }}
-            >
-              Add another Gift Card ?
-            </p>
+          <div
+            className={styles.bottomHolderHeading}
+            onClick={() => {
+              this.renderToCliqCash();
+            }}
+          >
+            Add another Gift Card ?
           </div>
           <div className={styles.bottomHolderButtton}>
             <div
