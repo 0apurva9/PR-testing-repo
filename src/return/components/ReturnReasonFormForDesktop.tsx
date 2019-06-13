@@ -151,8 +151,8 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 					</div>
 				</div>
 
-				<DummyTab title={MODE_OF_RETURN} number={2} />
-				<DummyTab title={REFUND_DETAILS} number={3} />
+				{this.props.returnFlow ? '' : <DummyTab title={MODE_OF_RETURN} number={2} />}
+				{this.props.returnFlow ? '' : <DummyTab title={REFUND_DETAILS} number={3} />}
 			</div>
 		);
 	}
