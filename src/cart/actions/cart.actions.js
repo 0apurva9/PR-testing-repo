@@ -4275,7 +4275,7 @@ export function getEmiEligibility(cartGuId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
 
-    const cartId = JSON.parse(cartDetails).guid;
+    const cartId = cartDetails && JSON.parse(cartDetails).guid;
     dispatch(getEligibilityOfNoCostEmiRequest());
     try {
       const result = await api.post(
