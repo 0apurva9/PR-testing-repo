@@ -120,8 +120,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 				);
 			}
 			case ReturnStatus.SHOW_BANK_DETAIL_SECTION: {
+				let returnFlow = true;
+				console.log('propsSub Reason:', this.props, 'stateSub Reason:', this.state);
 				return (
 					<ReturnBankFormForDesktop
+						{...this.props}
+						{...this.state}
 						onContinue={(BankDetails: IStateForBank) => this.handleContinueForBankForm(BankDetails)}
 						onCancel={() => this.handleCancelForBankForm()}
 						displayToast={(val: string) => this.props.displayToast(val)}
@@ -129,10 +133,13 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 						orderCode={this.orderCode}
 						selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
 						changeReturnReason={() => this.changeReturnReason()}
+						returnFlow={returnFlow}
+						subReason={this.props.returnProductDetails}
 					/>
 				);
 			}
 			case ReturnStatus.SHOW_SELECT_MODE_SECTION: {
+				let returnFlow = true;
 				return (
 					<ReturnModesForDesktop
 						{...this.state}
@@ -144,6 +151,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 						returnRequest={this.props.returnRequest}
 						showSecondaryLoader={this.props.showSecondaryLoader}
 						hideSecondaryLoader={this.props.hideSecondaryLoader}
+						returnFlow={returnFlow}
 					/>
 				);
 			}

@@ -4,6 +4,7 @@ export interface IPReturnCommentsObj {
 	comment: string;
 	reason: string;
 	reverseSeal: string;
+	subReason: string;
 }
 
 export interface IState extends IPReturnCommentsObj {
@@ -35,4 +36,5 @@ export interface IProps {
 	productBrand: string;
 	onHollow: boolean;
 	returnFlow: boolean;
+	//subReason: string;
 }

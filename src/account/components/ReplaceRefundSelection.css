@@ -1,0 +1,163 @@
+.content {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	margin-bottom: 20px;
+}
+.card {
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border-bottom: 1px solid #ececec;
+	position: relative;
+}
+.customerCareCall {
+	font-size: 12px;
+	font-family: light;
+}
+.rightArrow {
+	border: solid #000000;
+	border-width: 0 2px 2px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+.replaceRefundHeading {
+	font-size: 18px;
+	font-family: semibold;
+	margin-bottom: 5px;
+}
+.replaceRefundText {
+	font-size: 12px;
+	font-family: regular;
+	width: 220px;
+}
+.infoIcon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(https://pwassets.tatacliq.com/static/media/infoIcon.67ee526e.svg) no-repeat;
+	background-size: contain;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.infoText {
+	display: inline-block;
+	vertical-align: middle;
+}
+.refundModeContainer {
+	width: 100%;
+	border: 1px solid #efefef;
+	border-radius: 4px;
+	margin-top: 10px;
+}
+.chooseMode {
+	width: 100%;
+	padding: 10px 20px;
+	font-size: 12px;
+	font-family: semibold;
+	border-bottom: 1px solid #efefef;
+}
+.modeContent {
+	padding: 10px 20px;
+}
+label {
+	display: block;
+	font-size: 14px;
+	font-family: semibold;
+	margin-bottom: 15px;
+}
+.radioBtn {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	vertical-align: text-top;
+	margin: 0 10px 0 0;
+}
+.radioBtnSubText {
+	font-size: 12px;
+	font-family: light;
+	display: block;
+	padding: 5px 0 0 25px;
+}
+.checkRefundTerms {
+	width: 15px;
+	height: 15px;
+}
+.buttonHolder {
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	position: absolute;
+	left: 0;
+	background: #fff;
+	padding: 15px 0;
+}
+.button {
+	float: right;
+	padding-right: 15px;
+}
+.checkRefundTermsContainer {
+	width: 10%;
+	display: inline-block;
+	vertical-align: top;
+}
+.checkRefundTermsText {
+	width: 90%;
+	display: inline-block;
+	font-size: 12px;
+	font-family: light;
+}
+.productSizeColor {
+	width: auto;
+	height: auto;
+	color: #000000;
+	font-size: 12px;
+	font-family: light;
+}
+.cliqCashInstant {
+	font-family: regular;
+	font-size: 10px;
+	margin-left: 10px;
+	vertical-align: middle;
+	color: #ff1744;
+}
+.addBankDetailsButton {
+	font-size: 14px;
+	padding: 10px;
+	border: 1px solid #212121;
+	border-radius: 20px;
+	width: 190px;
+	margin: 0 auto;
+	text-align: center;
+	font-family: semibold;
+	margin-top: 15px;
+}
+.bankDetailsHeading {
+	font-size: 12px;
+	font-family: semibold;
+	display: inline-block;
+	width: 60%;
+	margin-bottom: 15px;
+}
+.changeBankDetails {
+	font-size: 12px;
+	color: #ff1744;
+	font-family: semibold;
+	display: inline-block;
+	width: 40%;
+	text-align: right;
+	margin-bottom: 15px;
+}
+.bankDetailsText {
+	font-size: 12px;
+	font-family: light;
+	width: 50%;
+	color: #4a4a4a;
+	display: inline-block;
+}
