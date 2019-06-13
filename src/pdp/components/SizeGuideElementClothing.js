@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import SizeTable from "./SizeTable";
 import Image from "../../xelpmoc-core/Image";
 import styles from "./SizeGuideElementClothing.css";
+import MobileOnly from "../../general/components/MobileOnly";
+import DesktopOnly from "../../general/components/DesktopOnly";
 
 export default class SizeGuideElementClothing extends Component {
   render() {
@@ -25,56 +27,87 @@ export default class SizeGuideElementClothing extends Component {
       });
     return (
       <div className={styles.base}>
-        {image && image[0] && image[0].imagePosition === 0 ? (
-          <div className={styles.imageTop}>
-            <div className={styles.imageHolder}>
-              <div className={styles.image}>
-                <Image
-                  fit="contain"
-                  image={image && image[0] && image[0].imageURL}
-                />
+        <MobileOnly>
+          {image && image[0] && image[0].imagePosition === 0 ? (
+            <div className={styles.imageTop}>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image
+                    fit="contain"
+                    image={image && image[0] && image.imageURL}
+                  />
+                </div>
+              </div>
+              <div className={styles.tipContainer}>
+                <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
+                {tip1 && tip1} for this brand.{tip2 && tip2}
+              </div>
+              <SizeTable
+                data={
+                  this.props.showInch
+                    ? sizeGuidForInch && sizeGuidForInch[0]
+                    : sizeGuidForCms && sizeGuidForCms[0]
+                }
+              />
+            </div>
+          ) : (
+            <div className={styles.imageBottom}>
+              <SizeTable
+                data={
+                  this.props.showInch
+                    ? sizeGuidForInch && sizeGuidForInch[0]
+                    : sizeGuidForCms && sizeGuidForCms[0]
+                }
+              />
+              <div className={styles.tipContainer}>
+                <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
+                {tip1 && tip1} for this brand.{tip2 && tip2}
+              </div>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image fit="contain" image={image} />
+                </div>
               </div>
             </div>
-            <div className={styles.tipContainer}>
-              <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-              {tip1 && tip1} for this brand.{tip2 && tip2}
+          )}
+          <div className={styles.noteContainer}>
+            <div className={styles.noteHeader}>How to Measure</div>
+            <div className={styles.noteContent}>
+              Always keep the measuring tape parallel to the floor and ensure
+              that you are only wearing undergarments while measuring yourself.
+              Outerwear could affect the accuracy of the readings
             </div>
-            <SizeTable
-              data={
-                this.props.showInch
-                  ? sizeGuidForInch && sizeGuidForInch[0]
-                  : sizeGuidForCms && sizeGuidForCms[0]
-              }
-            />
           </div>
-        ) : (
-          <div className={styles.imageBottom}>
-            <SizeTable
-              data={
-                this.props.showInch
-                  ? sizeGuidForInch && sizeGuidForInch[0]
-                  : sizeGuidForCms && sizeGuidForCms[0]
-              }
-            />
+        </MobileOnly>
+        <DesktopOnly>
+          <div className={styles.imageAndTipsHolder}>
             <div className={styles.tipContainer}>
-              <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-              {tip1 && tip1} for this brand.{tip2 && tip2}
+              Tip:Buy a size {tip1 && tip1} for this brand.{tip2 && tip2}
             </div>
             <div className={styles.imageHolder}>
               <div className={styles.image}>
                 <Image fit="contain" image={image} />
               </div>
             </div>
+            <div className={styles.noteContainer}>
+              <div className={styles.noteHeader}>How to Measure</div>
+              <div className={styles.noteContent}>
+                Always keep the measuring tape parallel to the floor and ensure
+                that you are only wearing undergarments while measuring
+                yourself. Outerwear could affect the accuracy of the readings
+              </div>
+            </div>
           </div>
-        )}
-        <div className={styles.noteContainer}>
-          <div className={styles.noteHeader}>How to Measure</div>
-          <div className={styles.noteContent}>
-            Always keep the measuring tape parallel to the floor and ensure that
-            you are only wearing undergarments while measuring yourself.
-            Outerwear could affect the accuracy of the readings
+          <div className={styles.sizeGudeTableHolder}>
+            <SizeTable
+              data={
+                this.props.showInch
+                  ? sizeGuidForInch && sizeGuidForInch[0]
+                  : sizeGuidForCms && sizeGuidForCms[0]
+              }
+            />
           </div>
-        </div>
+        </DesktopOnly>
       </div>
     );
   }

@@ -52,23 +52,59 @@ export default class SizeGuideMain extends React.Component {
             {this.props.category !== "Footwear" &&
               this.props.category !== "Accessories" && (
                 <div className={styles.togglebase}>
-                  <div
-                    className={inch}
-                    onClick={() => {
-                      this.setState({ inchActive: true, cmsActive: false });
-                    }}
-                  >
-                    In
-                  </div>
+                  <DesktopOnly>
+                    <div className={styles.subHeading}>
+                      Select the size of the product and add product to bag
+                    </div>
+                    <div className={styles.toggleContainer}>
+                      <div className={styles.toggle}>
+                        <div
+                          className={inch}
+                          onClick={() => {
+                            this.setState({
+                              inchActive: true,
+                              cmsActive: false
+                            });
+                          }}
+                        >
+                          In
+                        </div>
 
-                  <div
-                    className={cm}
-                    onClick={() => {
-                      this.setState({ cmsActive: true, inchActive: false });
-                    }}
-                  >
-                    Cm
-                  </div>
+                        <div
+                          className={cm}
+                          onClick={() => {
+                            this.setState({
+                              cmsActive: true,
+                              inchActive: false
+                            });
+                          }}
+                        >
+                          Cm
+                        </div>
+                      </div>
+                    </div>
+                  </DesktopOnly>
+                  <MobileOnly>
+                    <div className={styles.toggle}>
+                      <div
+                        className={inch}
+                        onClick={() => {
+                          this.setState({ inchActive: true, cmsActive: false });
+                        }}
+                      >
+                        In
+                      </div>
+
+                      <div
+                        className={cm}
+                        onClick={() => {
+                          this.setState({ cmsActive: true, inchActive: false });
+                        }}
+                      >
+                        Cm
+                      </div>
+                    </div>
+                  </MobileOnly>
                 </div>
               )}
             <MobileOnly>
