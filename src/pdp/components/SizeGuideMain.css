@@ -93,6 +93,15 @@
     position: sticky;
     top: 60px;
   }
+  .sizeListColthing {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 15px;
+    position: sticky;
+    top: 60px;
+  }
   .sizeListFootwear {
     width: 60%;
     height: auto;
@@ -113,6 +122,50 @@
     position: sticky;
     z-index: 1;
   }
+}
+.togglebase {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.in {
+  width: 54px;
+  height: 28px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-family: light;
+  border: 0.5px solid #8d8d8d;
+}
+.inActive {
+  composes: in;
+  border: none;
+  color: #ffffff;
+  background-color: #6c6c6c;
+}
+.cm {
+  width: 54px;
+  height: 28px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  font-family: light;
+  font-size: 12px;
+  border: 0.5px solid #8d8d8d;
+}
+.cmActive {
+  composes: cm;
+  border: none;
+  color: #ffffff;
+  background-color: #6c6c6c;
 }
 @media screen and (max-width: 1024px) {
   .base {
