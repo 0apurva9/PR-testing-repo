@@ -22,6 +22,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
 } from "../../lib/adobeUtils";
 import ProductImage from "./ProductImage.js";
+import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
 const NO_SIZE = "NO SIZE";
@@ -31,7 +32,8 @@ export default class DesktopHeader extends React.Component {
     super(props);
     this.state = {
       hovered: null,
-      hoverInType: null
+      hoverInType: null,
+      bagHover: false
     };
   }
   redirectToHome() {
@@ -164,7 +166,8 @@ export default class DesktopHeader extends React.Component {
   hoverOut() {
     this.setState({
       hovered: null,
-      hoverInType: null
+      hoverInType: null,
+      bagHover: false
     });
   }
   renderToAnotherUrlForHelp(webURL, value, event) {
@@ -210,6 +213,11 @@ export default class DesktopHeader extends React.Component {
       default:
         return "https://luxury.tatacliq.com/";
     }
+  }
+  onHoverBag() {
+    this.setState({
+      bagHover: true
+    });
   }
 
   render() {
@@ -629,6 +637,8 @@ export default class DesktopHeader extends React.Component {
                   <div
                     className={styles.myBagShow}
                     onClick={() => this.handleSelect()}
+                    onMouseEnter={() => this.onHoverBag()}
+                    onMouseLeave={() => this.hoverOut()}
                   >
                     {this.props.bagCount !== null &&
                       (this.props.bagCount > 0 && (
@@ -637,68 +647,9 @@ export default class DesktopHeader extends React.Component {
                         }`}</span>
                       ))}
                     {this.props.minicart &&
-                      this.props.minicart.products && (
-                        <div className={styles.mybag}>
-                          <div
-                            className={styles.mybagHeading}
-                            dangerouslySetInnerHTML={{
-                              __html: `My Bag (${
-                                this.props.minicart.products.length
-                              } items)`
-                            }}
-                          />
-                          <div className={styles.mybagProductsContainer}>
-                            {this.props.minicart.products.map((product, i) => {
-                              return (
-                                <div className={styles.mybagProductCard}>
-                                  <div className={styles.mybagImage}>
-                                    <img
-                                      alt={product.title}
-                                      src={product.imageURL}
-                                    />
-                                  </div>
-                                  <div
-                                    className={styles.mybagProductInformation}
-                                  >
-                                    <h4>{product.title}</h4>
-                                    <div
-                                      className={
-                                        styles.informationTextWithBolder
-                                      }
-                                    >
-                                      {product.price && (
-                                        <React.Fragment>
-                                          {` ${RUPEE_SYMBOL}${product.price}`}
-                                        </React.Fragment>
-                                      )}
-                                      {product.MRP && (
-                                        <React.Fragment>
-                                          {` ${RUPEE_SYMBOL}${product.MRP}`}
-                                        </React.Fragment>
-                                      )}
-                                    </div>
-                                    {(product.size || product.color) && (
-                                      <div className={styles.colourSizeHolder}>
-                                        {product.color && (
-                                          <div className={styles.sizeText}>
-                                            {`Color:  ${product.color}`}
-                                          </div>
-                                        )}
-                                        {product.size &&
-                                          product.size.toUpperCase() !==
-                                            NO_SIZE && (
-                                            <div className={styles.colourText}>
-                                              {`Size:  ${product.size}`}
-                                            </div>
-                                          )}
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
+                      this.props.minicart.products &&
+                      this.state.bagHover && (
+                        <Minibag cart={this.props.minicart} />
                       )}
                   </div>
                   <div

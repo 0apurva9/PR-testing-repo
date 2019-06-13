@@ -102,6 +102,7 @@
 .myBagShow {
   width: auto;
   height: 30px;
+  position: relative;
   color: #fff;
   font-size: 14px;
   font-family: semibold;
@@ -116,9 +117,119 @@
   transition: 300ms;
   transform: scale(1);
 }
-.myBagShow:hover {
+/* .myBagShow:hover {
   transform: scale(1.2);
+} */
+.mybag {
+  width: 362px;
+  border: 1px solid #6c6c6c;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: #212121;
 }
+.mybag::after,
+.mybag::before {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.mybag::before {
+  border-color: rgba(194, 225, 245, 0);
+  border-bottom-color: #6c6c6c;
+  border-width: 15px;
+  right: 6px;
+}
+.mybag::after {
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #212121;
+  border-width: 13px;
+  right: 8px;
+}
+.bagArrow {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid #212121;
+}
+.mybagHeading {
+  padding: 10px 0;
+  border-bottom: 1px solid #6c6c6c;
+  font-family: semibold;
+  font-size: 14px;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #fff;
+  text-align: center;
+}
+.mybagImage,
+.mybagProductInformation,
+.informationTextWithBolder > div,
+.productVariantsHolder > div {
+  display: inline-block;
+  vertical-align: top;
+}
+.mybagImage {
+  width: 58px;
+  font-size: 10px;
+  line-height: 14px;
+}
+.mybagProductInformation {
+  width: 260px;
+  padding-left: 20px;
+}
+.mybagProductCard {
+  padding: 15px 20px;
+  border-bottom: 1px solid #6c6c6c;
+}
+.mybagProductCard:last-child {
+  height: 60px;
+  overflow: hidden;
+}
+.mybagProductInformation h4 {
+  margin: 0 0 5px;
+  font-family: light;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: normal;
+  color: #fff;
+}
+.informationTextWithBolder {
+  margin: 0 0 5px;
+  font-family: semibold;
+}
+.productVariantsHolder {
+  font-family: light;
+}
+.informationTextWithBolder,
+.productVariantsHolder {
+  font-size: 12px;
+  line-height: 17px;
+  letter-spacing: normal;
+  color: #fff;
+}
+.informationTextWithBolder > div {
+  margin: 0 7px 0 0;
+}
+.strikemrp { text-decoration-line: line-through; }
+.informationTextWithBolder .discount {
+  color: #ff1744;
+}
+.productVariantsHolder > div {
+  padding: 0 0 0 12px;
+  border-left: 1px solid #fff;
+}
+.productVariantsHolder > div:first-child {
+  padding: 0 12px 0 0;
+  border: none;
+}
+.totalAmount { padding: 15px 20px; }
+.totalAmount > span { float: right; }
 .mywishList {
   width: auto;
   height: 30px;
