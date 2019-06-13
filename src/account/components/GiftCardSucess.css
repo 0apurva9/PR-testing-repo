@@ -1,9 +1,6 @@
 .baseWrapper {
   width: 100%;
   height: auto;
-  position: relative;
-  bottom: 182px;
-  right: 241px;
 }
 
 .topHolderWrapper {
@@ -20,7 +17,7 @@
 .topHolder {
   width: 100%;
   height: auto;
-  padding: 59px 0px 46px 0px;
+  padding: 58px 0px 46px 0px;
   text-align: center;
 }
 .topheader {
@@ -85,8 +82,8 @@
   background-position: center;
   background-size: 14px;
   position: absolute;
-  top: 0;
-  right: 5px;
+  top: 5px;
+  right: 15px;
 }
 .button {
   height: 36px;

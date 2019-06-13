@@ -7,7 +7,7 @@
 .cliqCashHolder {
   width: 100%;
   height: auto;
-  padding: 48px 76px 49px 76px;
+  padding: 48px 76px;
   text-align: center;
 }
 .header {
@@ -30,13 +30,11 @@
 .cardNumber {
   width: 100%;
   height: auto;
-}
-.pinNumber {
-  composes: cardNumber;
   padding-top: 24px;
 }
+
 .inputContainer {
-  padding: 24px 42px;
+  padding: 0px 40px;
 }
 
 .buttonHolder {
@@ -44,6 +42,7 @@
   height: auto;
   display: flex;
   justify-content: center;
+  padding-top: 24px;
 }
 
 .button {

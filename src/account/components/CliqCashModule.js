@@ -82,7 +82,7 @@ export default class CliqCashModule extends Component {
                   onlyNumber={true}
                 />
               </div>
-              <div className={styles.pinNumber}>
+              <div className={styles.cardNumber}>
                 <Input2
                   hollow={true}
                   border={"none"}

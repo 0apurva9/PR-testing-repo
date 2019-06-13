@@ -6,11 +6,9 @@ import PropTypes from "prop-types";
 export default class GiftCardSucessBottomModel extends Component {
   render() {
     return (
-      <div>
-        <BottomSlideModal crossIconHide="true">
-          <GiftCardSucess {...this.props} closeModal={this.props.closeModal} />
-        </BottomSlideModal>
-      </div>
+      <BottomSlideModal crossIconHide="true">
+        <GiftCardSucess {...this.props} closeModal={this.props.closeModal} />
+      </BottomSlideModal>
     );
   }
 }
