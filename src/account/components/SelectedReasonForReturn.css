@@ -28,14 +28,14 @@
 	/* padding: 0px 80px 0px 40px; */
 }
 .cancelButtonHolder {
-	width: 10%;
+	width: 16%;
 	height: auto;
 	right: 25px;
 	position: absolute;
 	top: 25px;
 	size: 14px;
 	font-family: 'semibold';
-	color: 'pinkyRed';
+	color: #ff1744;
 }
 .checkIcon {
 	width: auto;

@@ -8,15 +8,35 @@
 .card {
 	width: 100%;
 	height: auto;
-	padding: 15px;
+	/* padding: 15px; */
 	border-bottom: 1px solid #ececec;
 	position: relative;
+}
+.cardCondition {
+	width: 100%;
+	height: auto;
+	padding-top: 34px;
+	padding-bottom: 34px;
+	border-bottom: 1px solid #ececec;
+	position: relative;
+}
+.payments {
+	border-top: 1px solid #ececec;
+}
+.returnMode {
+	padding-top: 34px;
+	margin-left: 34px;
+	font-family: semibold;
+	font-size: 16px;
+	margin-bottom: 20px;
+	color: black;
 }
 .customerCareCall {
 	font-size: 12px;
 	font-family: light;
 }
 .rightArrow {
+	/* width: 25%; */
 	border: solid #000000;
 	border-width: 0 2px 2px 0;
 	padding: 3px;
@@ -25,17 +45,33 @@
 	-webkit-transform: rotate(-45deg);
 	position: absolute;
 	top: 20px;
-	right: 20px;
+	right: 71px;
 }
 .replaceRefundHeading {
-	font-size: 18px;
+	width: 75%;
+	font-size: 14px;
 	font-family: semibold;
+	margin-left: 34px;
 	margin-bottom: 5px;
 }
+.replaceRefundModeSelctnHeading {
+	width: 75%;
+	font-size: 14px;
+	font-family: semibold;
+	margin-left: 34px;
+	margin-bottom: 5px;
+	padding-top: 34px;
+	/* margin-top: 34px; */
+}
 .replaceRefundText {
-	font-size: 12px;
-	font-family: regular;
+	font-size: 14px;
+	font-family: light;
+	color: greyishBrown;
+	letter-spacing: 0px;
 	width: 220px;
+	margin-left: 34px;
+	margin-top: 4px;
+	margin-bottom: 34px;
 }
 .infoIcon {
 	display: inline-block;
@@ -51,16 +87,20 @@
 	vertical-align: middle;
 }
 .refundModeContainer {
-	width: 100%;
+	width: 90%;
 	border: 1px solid #efefef;
 	border-radius: 4px;
 	margin-top: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 .chooseMode {
 	width: 100%;
-	padding: 10px 20px;
-	font-size: 12px;
+	padding: 12px 20px;
+	font-size: 14px;
 	font-family: semibold;
+	line-height: 22px;
+	color: black;
 	border-bottom: 1px solid #efefef;
 }
 .modeContent {
@@ -80,7 +120,7 @@ label {
 	margin: 0 10px 0 0;
 }
 .radioBtnSubText {
-	font-size: 12px;
+	font-size: 14px;
 	font-family: light;
 	display: block;
 	padding: 5px 0 0 25px;
@@ -93,22 +133,24 @@ label {
 	width: 100%;
 	height: auto;
 	margin-top: 20px;
-	position: absolute;
+	/* position: absolute; */
 	left: 0;
-	background: #fff;
+	/* background: #fff; */
 	padding: 15px 0;
 }
 .button {
-	float: right;
-	padding-right: 15px;
+	/* float: center; */
+	padding-right: 30%;
+	padding-left: 30%;
 }
 .checkRefundTermsContainer {
 	width: 10%;
 	display: inline-block;
 	vertical-align: top;
+	margin-left: 34px;
 }
 .checkRefundTermsText {
-	width: 90%;
+	width: 80%;
 	display: inline-block;
 	font-size: 12px;
 	font-family: light;
@@ -139,25 +181,28 @@ label {
 	margin-top: 15px;
 }
 .bankDetailsHeading {
-	font-size: 12px;
+	font-size: 14px;
 	font-family: semibold;
 	display: inline-block;
 	width: 60%;
 	margin-bottom: 15px;
+	margin-left: 23px;
+	color: black;
 }
 .changeBankDetails {
-	font-size: 12px;
+	font-size: 14px;
 	color: #ff1744;
 	font-family: semibold;
 	display: inline-block;
-	width: 40%;
+	width: 35%;
 	text-align: right;
 	margin-bottom: 15px;
 }
 .bankDetailsText {
-	font-size: 12px;
+	font-size: 14px;
 	font-family: light;
-	width: 50%;
+	width: 43%;
 	color: #4a4a4a;
 	display: inline-block;
+	margin-left: 31px;
 }

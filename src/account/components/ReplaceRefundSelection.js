@@ -127,6 +127,11 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   async onSubmit() {
+    console.log(
+      "selected One:",
+      this.state.selectedOption,
+      this.state.agreeToReturn
+    );
     if (!this.state.selectedOption) {
       return this.props.displayToast("Please select refund mode");
     }
@@ -143,12 +148,9 @@ export default class ReplaceRefundSelection extends React.Component {
     //   console.log(test);
     // }
     //bank account
-    // if (this.state.selectedOption === "BANK_ACCOUNT") {
-    //   let getCustomerBankDetailsResponse = await this.props.getCustomerBankDetails();
-    //   if(getCustomerBankDetailsResponse && getCustomerBankDetailsResponse.error === "Failure"){
-
-    //   }
-    // }
+    if (this.state.selectedOption === "BANK_ACCOUNT") {
+      this.goToRefundModesPage();
+    }
   }
 
   async goToRefundModesPage() {
@@ -225,108 +227,115 @@ export default class ReplaceRefundSelection extends React.Component {
 					</div>
 				</div> */}
         <div className={styles.content}>
-          <div className={styles.card}>
-            <div
-              className={styles.replaceRefundHeading}
-              onClick={() => this.showRefund()}
-            >
-              {data && data.typeOfReturn[0].typeOfReturn}
-            </div>
-            {!this.state.showRefundOptions && (
-              <span className={styles.rightArrow} />
-            )}
-            {!this.state.showRefundOptions && (
-              <div className={styles.replaceRefundText}>
-                {data && data.typeOfReturn[0].callout}
-              </div>
-            )}
-            {this.state.showRefundOptions && (
-              <React.Fragment>
-                <div className={styles.refundModeContainer}>
-                  <div className={styles.chooseMode}>Choose mode of refund</div>
-                  <div className={styles.modeContent}>
-                    <form>
-                      {refundModesDetail &&
-                        refundModesDetail.refundMode.map((value, index) => {
-                          return (
-                            <label>
-                              <input
-                                className={styles.radioBtn}
-                                type="radio"
-                                value={value.refundModeCode}
-                                checked={
-                                  this.state.selectedOption ===
-                                  value.refundModeCode
-                                }
-                                onChange={this.radioChange}
-                              />
-                              {value.refundMode}
-                              <span className={styles.cliqCashInstant}>
-                                {value.refundModeCode === "CLIQ_CASH"
-                                  ? "Instant"
-                                  : null}
-                              </span>
-                              <span className={styles.radioBtnSubText}>
-                                {value.callout}
-                              </span>
-                            </label>
-                          );
-                        })}
-                    </form>
-                    {this.state.showBankDetails &&
-                      this.state.selectedOption === "BANK_ACCOUNT" &&
-                      userBankDetails && (
-                        <React.Fragment>
-                          <div className={styles.bankDetailsHeading}>
-                            Your Account Details:
-                          </div>
-                          <div
-                            className={styles.changeBankDetails}
-                            onClick={() => this.addBankDetails(userBankDetails)}
-                          >
-                            Change
-                          </div>
-                          <div className={styles.bankDetailsText}>Name:</div>
-                          <div className={styles.bankDetailsText}>
-                            {userBankDetails.accountHolderName}
-                          </div>
-                          <div className={styles.bankDetailsText}>Bank:</div>
-                          <div className={styles.bankDetailsText}>
-                            {userBankDetails.bankName}
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            IFSC code:
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            {userBankDetails.IFSCCode}
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            Account number:
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            {userBankDetails.accountNumber}
-                          </div>
-                        </React.Fragment>
-                      )}
-                  </div>
-                </div>
-                {!this.state.showBankDetails &&
-                  this.state.selectedOption === "BANK_ACCOUNT" && (
-                    <div
-                      className={styles.addBankDetailsButton}
-                      onClick={() => this.addBankDetails()}
-                    >
-                      ADD BANK DETAILS
-                    </div>
-                  )}
-              </React.Fragment>
-            )}
-          </div>
-        </div>
-        {this.state.showRefundOptions && (
-          <React.Fragment>
-            <div className={styles.content}>
+          {!this.state.showRefundOptions && (
+            <React.Fragment>
+              <div className={styles.returnMode}>Select mode of return</div>
               <div className={styles.card}>
+                <div
+                  className={styles.replaceRefundHeading}
+                  onClick={() => this.showRefund()}
+                >
+                  {data && data.typeOfReturn[0].typeOfReturn}
+                  {!this.state.showRefundOptions && (
+                    <span className={styles.rightArrow} />
+                  )}
+                </div>
+                {!this.state.showRefundOptions && (
+                  <div className={styles.replaceRefundText}>
+                    {data && data.typeOfReturn[0].callout}
+                  </div>
+                )}
+              </div>
+            </React.Fragment>
+          )}
+          {this.state.showRefundOptions && (
+            <React.Fragment>
+              <div className={styles.replaceRefundModeSelctnHeading}>
+                {data && data.typeOfReturn[0].typeOfReturn}
+              </div>
+              <div className={styles.refundModeContainer}>
+                <div className={styles.chooseMode}>Choose mode of refund</div>
+                <div className={styles.modeContent}>
+                  <form>
+                    {refundModesDetail &&
+                      refundModesDetail.refundMode.map((value, index) => {
+                        return (
+                          <label>
+                            <input
+                              className={styles.radioBtn}
+                              type="radio"
+                              value={value.refundModeCode}
+                              checked={
+                                this.state.selectedOption ===
+                                value.refundModeCode
+                              }
+                              onChange={this.radioChange}
+                            />
+                            {value.refundMode}
+                            <span className={styles.cliqCashInstant}>
+                              {value.refundModeCode === "CLIQ_CASH"
+                                ? "Instant"
+                                : null}
+                            </span>
+                            <span className={styles.radioBtnSubText}>
+                              {value.callout}
+                            </span>
+                          </label>
+                        );
+                      })}
+                  </form>
+                  {this.state.showBankDetails &&
+                    this.state.selectedOption === "BANK_ACCOUNT" &&
+                    userBankDetails && (
+                      <React.Fragment>
+                        <div className={styles.bankDetailsHeading}>
+                          Your Account Details:
+                        </div>
+                        <div
+                          className={styles.changeBankDetails}
+                          onClick={() => this.addBankDetails(userBankDetails)}
+                        >
+                          Change
+                        </div>
+                        <div className={styles.bankDetailsText}>Name:</div>
+                        <div className={styles.bankDetailsText}>
+                          {userBankDetails.accountHolderName}
+                        </div>
+                        <div className={styles.bankDetailsText}>Bank:</div>
+                        <div className={styles.bankDetailsText}>
+                          {userBankDetails.bankName}
+                        </div>
+                        <div className={styles.bankDetailsText}>IFSC code:</div>
+                        <div className={styles.bankDetailsText}>
+                          {userBankDetails.IFSCCode}
+                        </div>
+                        <div className={styles.bankDetailsText}>
+                          Account number:
+                        </div>
+                        <div className={styles.bankDetailsText}>
+                          {userBankDetails.accountNumber}
+                        </div>
+                      </React.Fragment>
+                    )}
+                </div>
+              </div>
+              {!this.state.showBankDetails &&
+                this.state.selectedOption === "BANK_ACCOUNT" && (
+                  <div
+                    className={styles.addBankDetailsButton}
+                    onClick={() => this.addBankDetails()}
+                  >
+                    ADD BANK DETAILS
+                  </div>
+                )}
+            </React.Fragment>
+          )}
+        </div>
+        {/* {this.state.showRefundOptions && <div className={styles.payments} />} */}
+        <div className={styles.content}>
+          {this.state.showRefundOptions && (
+            <React.Fragment>
+              <div className={styles.cardCondition}>
                 <div className={styles.checkRefundTermsContainer}>
                   <input
                     className={styles.checkRefundTerms}
@@ -338,21 +347,29 @@ export default class ReplaceRefundSelection extends React.Component {
                   {refundModesDetail && refundModesDetail.disclaimer}
                 </div>
               </div>
+              {/* {this.state.selectedOption &&
+								this.state.agreeToReturn && ( */}
+
+              {/* )} */}
+            </React.Fragment>
+          )}
+        </div>
+        {this.state.showRefundOptions && (
+          <div className={styles.buttonHolder}>
+            <div className={styles.button}>
+              <Button
+                width={175}
+                type="primary"
+                label="Continue"
+                disabled={
+                  this.state.selectedOption && this.state.agreeToReturn
+                    ? false
+                    : true
+                }
+                onClick={() => this.onSubmit()}
+              />
             </div>
-            {this.state.selectedOption &&
-              this.state.agreeToReturn && (
-                <div className={styles.buttonHolder}>
-                  <div className={styles.button}>
-                    <Button
-                      width={175}
-                      type="primary"
-                      label="Continue"
-                      onClick={() => this.onSubmit()}
-                    />
-                  </div>
-                </div>
-              )}
-          </React.Fragment>
+          </div>
         )}
       </ReturnsFrame>
     );
