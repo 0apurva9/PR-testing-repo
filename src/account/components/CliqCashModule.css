@@ -1,11 +1,14 @@
 .base {
-  widows: 100%;
+  width: 100%;
   height: auto;
-  padding: 24px;
   background: #ffffff;
-  width: 525px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  border-radius: 6px 6px 0px 0px;
+}
+.cliqCashHolder {
+  width: 100%;
+  height: auto;
+  padding: 48px 76px;
+  text-align: center;
 }
 .header {
   font-family: semibold;
@@ -13,51 +16,33 @@
   color: #212121;
   width: 100%;
   height: auto;
-  padding-top: 40px;
-  text-align: center;
 }
 .subText {
   font-family: light;
   font-size: 14px;
   color: #4a4a4a;
-  letter-spacing: 0.29;
-  margin-top: 15px;
+  letter-spacing: 0.29px;
   width: 100%;
   height: auto;
-  text-align: center;
-  padding: 0px 60px;
+  padding-top: 24px;
   line-height: 20px;
 }
 .cardNumber {
   width: 100%;
   height: auto;
+  padding-top: 24px;
 }
-.pinNumber {
-  composes: cardNumber;
-  margin-top: 25px;
-}
+
 .inputContainer {
-  padding: 25px 100px 25px 100px;
+  padding: 0px 40px;
 }
-.termsAndConditionText {
-  font-size: 12px;
-  font-family: light;
-  letter-spacing: 0.02px;
-  color: #4a4a4a;
-  margin-top: 24px;
-}
-.termsAndCondition {
-  font-size: 12px;
-  font-family: semibold;
-  letter-spacing: 0.02px;
-  color: #ff1744;
-}
+
 .buttonHolder {
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
-  padding-bottom: 40px;
+  padding-top: 24px;
 }
 
 .button {
