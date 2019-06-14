@@ -8,6 +8,7 @@ export interface IProductDetailsObj {
 export interface IProps {
 	getReturnRequest: (orderCode: string, transactionId: string) => (dispatch: Dispatch<any>) => Promise<void>;
 	returnProductDetailsFunc: (productDetails: IProductDetailsObj) => (dispatch: Dispatch<any>) => Promise<void>;
+	updateCustomerBankDetails: (bankData: IUpdateCustomerBankDetails) => (dispatch: Dispatch<any>) => Promise<void>;
 	getUserAddress?: () => (dispatch: Dispatch<any>) => Promise<void>;
 	showSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
 	hideSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
@@ -47,4 +48,12 @@ export interface IReturnSelectedReason {
 	reverseSeal: string;
 	subReasonCode: string;
 	subReason: string;
+}
+
+export interface IUpdateCustomerBankDetails {
+	accountHolderName: string;
+	accountNumber: string;
+	bankName: string;
+	title: string;
+	ifscCode: string;
 }

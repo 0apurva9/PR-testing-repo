@@ -324,6 +324,12 @@ export const GET_CUSTOMER_BANK_DETAILS_SUCCESS =
 export const GET_CUSTOMER_BANK_DETAILS_FAILURE =
   "GET_CUSTOMER_BANK_DETAILS_FAILURE";
 
+export const UPDATE_CUSTOMER_BANK_DETAILS_REQUEST =
+  "UPDATE_CUSTOMER_BANK_DETAILS_REQUEST";
+export const UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS =
+  "UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS";
+export const UPDATE_CUSTOMER_BANK_DETAILS_FAILURE =
+  "UPDATE_CUSTOMER_BANK_DETAILS_FAILURE";
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -1283,6 +1289,52 @@ export function getCustomerBankDetails() {
       return dispatch(getCustomerBankDetailsSuccess(resultJson));
     } catch (e) {
       return dispatch(getCustomerBankDetailsFailure(e.message));
+    }
+  };
+}
+export function updateCustomerBankDetailsRequest() {
+  return {
+    type: UPDATE_CUSTOMER_BANK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function updateCustomerBankDetailsSuccess(updateCustomerBankDetails) {
+  return {
+    type: UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    updateCustomerBankDetails
+  };
+}
+export function updateCustomerBankDetailsFailure(error) {
+  return {
+    type: UPDATE_CUSTOMER_BANK_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateCustomerBankDetails(bankDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateCustomerBankDetailsRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateBankDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        bankDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(updateCustomerBankDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateCustomerBankDetailsFailure(e.message));
     }
   };
 }

@@ -8,7 +8,8 @@ import {
   getRefundModes,
   updateRefundMode,
   getCliqCashDetails,
-  getCustomerBankDetails
+  getCustomerBankDetails,
+  updateCustomerBankDetails
 } from "../../account/actions/account.actions.js";
 import { connect } from "react-redux";
 import { setHeaderText } from "../../general/header.actions";
@@ -79,6 +80,9 @@ const mapDispatchToProps = dispatch => {
     },
     getUserAddress: () => {
       dispatch(getUserAddress(true));
+    },
+    updateCustomerBankDetails: async bankDetails => {
+      return await dispatch(updateCustomerBankDetails(bankDetails));
     }
   };
 };

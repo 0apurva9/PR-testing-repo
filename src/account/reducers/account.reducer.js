@@ -197,7 +197,12 @@ const account = (
     getCustomerBankDetailsStatus: null,
     loadingForgetCustomerBankDetails: false,
     getCustomerBankDetailsDetails: null,
-    getCustomerBankDetailsError: null
+    getCustomerBankDetailsError: null,
+
+    updateCustomerBankDetailsStatus: null,
+    loadingForUpdateCustomerBankDetails: false,
+    updateCustomerBankDetails: null,
+    updateCustomerBankDetailsError: null
   },
   action
 ) => {
@@ -1262,7 +1267,23 @@ const account = (
         getCustomerBankDetailsError: action.error,
         loadingForGetCustomerBankDetails: false
       });
-
+    case accountActions.UPDATE_CUSTOMER_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        updateCustomerBankDetailsStatus: action.status,
+        loadingForUpdateCustomerBankDetails: true
+      });
+    case accountActions.UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        updateCustomerBankDetailsStatus: action.status,
+        updateCustomerBankDetails: action.updateCustomerBankDetails,
+        loadingForUpdateCustomerBankDetails: false
+      });
+    case accountActions.UPDATE_CUSTOMER_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        updateCustomerBankDetailsStatus: action.status,
+        updateCustomerBankDetailsError: action.error,
+        loadingForUpdateCustomerBankDetails: false
+      });
     default:
       return state;
   }

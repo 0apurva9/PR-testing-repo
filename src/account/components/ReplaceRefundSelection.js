@@ -6,6 +6,7 @@ import ReturnsFrame from "./ReturnsFrame";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import styles from "./ReplaceRefundSelection.css";
+import BankDetailsV2 from "../../account/components/BankDetailsV2";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -25,7 +26,8 @@ export default class ReplaceRefundSelection extends React.Component {
       selectedOption: "",
       agreeToReturn: false,
       showBankDetails: false,
-      customerBankDetails: ""
+      customerBankDetails: "",
+      addBankDetailsPage: false
     };
     this.radioChange = this.radioChange.bind(this);
     this.agreeToReturnDetails = this.agreeToReturnDetails.bind(this);
@@ -81,14 +83,16 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   addBankDetails(data) {
+    console.log("bankDetails:", this.props.getRefundOptionsDetails);
+    this.setState({ addBankDetailsPage: true });
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
-        this.props.data.sellerorderno
+        this.props.selectedReasonAndCommentObj.sellerorderno
       }${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
       state: {
         authorizedRequest: true,
-        bankData: data,
-        orderId: this.props.data.sellerorderno
+        bankData: this.props.selectedReasonAndCommentObj,
+        orderId: this.props.selectedReasonAndCommentObj.sellerorderno
       }
     });
   }
@@ -331,6 +335,17 @@ export default class ReplaceRefundSelection extends React.Component {
             </React.Fragment>
           )}
         </div>
+        {this.state.addBankDetailsPage ? (
+          <BankDetailsV2
+            onChange={this.props.onChangeBankingDetail}
+            clearForm={this.props.clearForm}
+            history={this.props.history}
+            updateStateForBankDetails={this.props.updateStateForBankDetails}
+            bankDetail={this.props.bankDetail}
+          />
+        ) : (
+          ""
+        )}
         {/* {this.state.showRefundOptions && <div className={styles.payments} />} */}
         <div className={styles.content}>
           {this.state.showRefundOptions && (

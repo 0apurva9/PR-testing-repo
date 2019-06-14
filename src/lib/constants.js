@@ -115,6 +115,7 @@ export const RETURNS = "/returns/(.*)";
 export const RETURN_LANDING = "/initiate";
 export const RETURNS_REASON = "/reason";
 export const RETURNS_MODES = "/modes";
+export const REPLACE_REFUND_SELECTION = "/replace-refund-selection";
 export const RETURNS_NEW_ADDRESS = "/addDeliveryLocation";
 export const RETURN_CLIQ_PIQ = "/cliqpiq";
 export const RETURN_CLIQ_PIQ_ADDRESS = "/address";

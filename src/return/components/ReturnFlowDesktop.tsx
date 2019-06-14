@@ -4,18 +4,30 @@ import { IStateForBank } from './interface/ReturnBankFormForDesktop';
 import * as Cookie from '../../lib/Cookie';
 import ReturnReasonFormForDesktop from './ReturnReasonFormForDesktop';
 import ReturnModesForDesktop from './ReturnModesForDesktop';
+import cloneDeep from 'lodash.clonedeep';
 import {
 	LOGGED_IN_USER_DETAILS,
 	CUSTOMER_ACCESS_TOKEN,
 	MY_ACCOUNT_PAGE,
 	MY_ACCOUNT_ORDERS_PAGE,
+	RETURNS_PREFIX,
+	REPLACE_REFUND_SELECTION,
+	RETURN_LANDING,
 } from '../../lib/constants';
 import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
 import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
 import * as format from 'date-fns/format';
 const RETURN_FLAG: string = 'R';
 const dateFormat = 'DD MMM YYYY';
-
+const IFSC_CODE_TEXT = 'Please enter IFSC code';
+const IFSC_CODE_VALID_TEXT = 'Please enter valid IFSC code';
+const IFSC_PATTERN = /^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/;
+const ACCOUNT_NUMBER = 'Please enter account number';
+const RE_ENTER_ACCOUNT_NUMBER = 'Please re-enter account number';
+const ACCOUNT_NUMBER_MATCH_TEXT = 'Account number did not match';
+const ACCOUNT_HOLDER_NAME = 'Please enter customer name';
+const BANK_NAME = 'Please enter bank name';
+const SELECT_TITLE_TEXT = 'Please select title';
 export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 	orderCode: string;
 	transactionId: string;
@@ -53,6 +65,20 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 	private navigateToLogin() {
 		return <div />;
 	}
+	onChangeBankingDetail = (val: string) => {
+		let bankDetail = cloneDeep(this.state.bankDetail);
+		Object.assign(bankDetail, val);
+		this.setState({ bankDetail });
+	};
+	updateStateForBankDetails = (data: IStateForBank) => {
+		this.setState({ bankDetail: data });
+	};
+	clearForm() {
+		this.setState({ bankDetail: {} });
+	}
+	// onChangeReasonAndMode = val => {
+	// 	this.setState(val);
+	// };
 	handleContinueForReason = (returnSelectedReason: IReturnSelectedReason) => {
 		if (!returnSelectedReason.reason) {
 			this.props.displayToast('Please select reason ');
@@ -83,11 +109,60 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 				bankDetail: BankDetails,
 			});
 		}
+		if (!this.state.bankDetail.ifscCode) {
+			this.props.displayToast(IFSC_CODE_TEXT);
+			return false;
+		}
+		if (this.state.bankDetail.ifscCode && !IFSC_PATTERN.test(this.state.bankDetail.ifscCode)) {
+			this.props.displayToast(IFSC_CODE_VALID_TEXT);
+			return false;
+		}
+		if (!this.state.bankDetail.accountNumber) {
+			this.props.displayToast(ACCOUNT_NUMBER);
+			return false;
+		}
+		if (!this.state.bankDetail.reEnterAccountNumber) {
+			this.props.displayToast(RE_ENTER_ACCOUNT_NUMBER);
+			return false;
+		}
+		if (this.state.bankDetail.accountNumber !== this.state.bankDetail.reEnterAccountNumber) {
+			this.props.displayToast(ACCOUNT_NUMBER_MATCH_TEXT);
+			return false;
+		}
+		if (!this.state.bankDetail.title) {
+			this.props.displayToast(SELECT_TITLE_TEXT);
+			return false;
+		}
+		if (!this.state.bankDetail.accountHolderName) {
+			this.props.displayToast(ACCOUNT_HOLDER_NAME);
+			return false;
+		}
+		if (!this.state.bankDetail.bankName) {
+			this.props.displayToast(BANK_NAME);
+			return false;
+		} else {
+			//api call to save bank details
+			//remove unnecessary field get from api success response which are required for above validation
+			let bankData = this.state.bankDetail;
+			delete bankData.type;
+			delete bankData.status;
+			delete bankData.customerName;
+			delete bankData.reEnterAccountNumber;
+			this.props.updateCustomerBankDetails(bankData);
+
+			this.props.history.push({
+				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
+				state: {
+					authorizedRequest: true,
+				},
+			});
+		}
 	};
 	handleCancelForBankForm = () => {
 		this.setState({
 			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
 		});
+		this.props.history.goBack();
 	};
 	changeReturnReason = () => {
 		this.setState({
@@ -96,6 +171,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		});
 	};
 	private renderReturnForms = () => {
+		console.log('ReturnStatus------->', ReturnStatus);
 		switch (this.state.returnProgressStatus) {
 			case ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION: {
 				let returnFlow = true;
@@ -135,6 +211,10 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 						changeReturnReason={() => this.changeReturnReason()}
 						returnFlow={returnFlow}
 						subReason={this.props.returnProductDetails}
+						clearForm={() => this.clearForm()}
+						updateStateForBankDetails={(data: IStateForBank) => this.updateStateForBankDetails(data)}
+						bankDetail={this.state.bankDetail}
+						onChange={(val: string) => this.onChangeBankingDetail(val)}
 					/>
 				);
 			}
