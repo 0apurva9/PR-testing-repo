@@ -345,6 +345,7 @@ export default class PdpApparel extends React.Component {
                 this.setState({
                   goToCartPageFlag: true
                 });
+                this.props.getMinicartProducts();
                 const defaultPinCode = localStorage.getItem(
                   DEFAULT_PIN_CODE_LOCAL_STORAGE
                 );

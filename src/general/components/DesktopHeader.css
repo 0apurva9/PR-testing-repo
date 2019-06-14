@@ -122,15 +122,20 @@
 } */
 .mybag {
   width: 362px;
-  border: 1px solid #6c6c6c;
+  /* border: 1px solid #6c6c6c; */
   position: absolute;
-  top: 45px;
+  top: 25px;
   right: 0;
   background-color: #212121;
+  box-shadow: 0 0 6px 0 rgba(33, 33, 33, 0.93);
+
+    -webkit-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
 }
 .mybag::after,
 .mybag::before {
-  bottom: 100%;
+  bottom: 95.5%;
   border: solid transparent;
   content: " ";
   height: 0;
@@ -158,14 +163,20 @@
   border-bottom: 100px solid #212121;
 }
 .mybagHeading {
-  padding: 10px 0;
-  border-bottom: 1px solid #6c6c6c;
+  padding: 10px 0 10px;
+  margin-top: 20px;
+  border: 1px solid #6c6c6c;
   font-family: semibold;
   font-size: 14px;
   line-height: normal;
   letter-spacing: normal;
   color: #fff;
   text-align: center;
+}
+.mybagProductsContainer,
+.totalAmount {
+  border-left: 1px solid #6c6c6c;
+  border-right: 1px solid #6c6c6c;
 }
 .mybagImage,
 .mybagProductInformation,
@@ -179,6 +190,9 @@
   font-size: 10px;
   line-height: 14px;
 }
+.mybagImage img {
+  width: 100%;
+}
 .mybagProductInformation {
   width: 260px;
   padding-left: 20px;
@@ -188,7 +202,8 @@
   border-bottom: 1px solid #6c6c6c;
 }
 .mybagProductCard:last-child {
-  height: 60px;
+  height: 30px;
+  border-bottom: none;
   overflow: hidden;
 }
 .mybagProductInformation h4 {
@@ -228,8 +243,24 @@
   padding: 0 12px 0 0;
   border: none;
 }
-.totalAmount { padding: 15px 20px; }
+.totalAmount {
+  padding: 15px 20px;
+  line-height: 20px;
+  }
 .totalAmount > span { float: right; }
+.viewBagButtonHolder {
+  width: 100%;
+  height: auto;
+  padding: 20px 0px;
+  border: 1px solid #6c6c6c;
+  display: inline-block;
+  text-align: center;
+}
+.buttonViewBag {
+  width: auto;
+  height: auto;
+  display: inline-block;
+}
 .mywishList {
   width: auto;
   height: 30px;

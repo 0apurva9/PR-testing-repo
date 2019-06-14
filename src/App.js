@@ -376,9 +376,9 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
-    //if(cartCode) {
-    this.props.getMinicartProducts();
-    //}
+    if (cartCode) {
+      this.props.getMinicartProducts();
+    }
     window.prerenderReady = true;
   }
 

@@ -4035,6 +4035,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           dispatch(removeItemFromCartLoggedInSuccess());
           if (!JSON.parse(cartDetailsCookie).isBuyNowCart) {
             dispatch(getCartCountForLoggedInUser());
+            dispatch(getMinicartProducts());
           }
         }
       });

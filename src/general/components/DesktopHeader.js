@@ -649,7 +649,10 @@ export default class DesktopHeader extends React.Component {
                     {this.props.minicart &&
                       this.props.minicart.products &&
                       this.state.bagHover && (
-                        <Minibag cart={this.props.minicart} />
+                        <Minibag
+                          cart={this.props.minicart}
+                          gotoCart={() => this.handleSelect()}
+                        />
                       )}
                   </div>
                   <div
