@@ -69,7 +69,7 @@ export default class SizeTable extends Component {
             <div className={styles.header}>
               {this.state.header.map(val => {
                 return (
-                  <div className={styles.haederLabelHolder}>
+                  <div className={styles.headerLabelHolder}>
                     {val.toUpperCase()}
                     {/* {val.charAt(0).toUpperCase() + val.slice(1).toLowerCase()} */}
                   </div>

@@ -17,10 +17,10 @@
   justify-content: space-evenly;
   background: #ececec;
 }
-.haederLabelHolder {
+.headerLabelHolder {
   width: auto;
   height: 30px;
-  min-width: 20%;
+  min-width: 10%;
   display: -ms-flexbox;
   display: flex;
   font-size: 11px;
@@ -43,7 +43,7 @@
 .tableData {
   width: auto;
   height: 30px;
-  min-width: 20%;
+  min-width: 10%;
   display: -ms-flexbox;
   display: flex;
   font-size: 11px;
