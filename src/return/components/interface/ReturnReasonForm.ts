@@ -5,6 +5,7 @@ export interface IPReturnCommentsObj {
 	reason: string;
 	reverseSeal: string;
 	subReason: string;
+	// sellerorderno: any;
 }
 
 export interface IState extends IPReturnCommentsObj {
