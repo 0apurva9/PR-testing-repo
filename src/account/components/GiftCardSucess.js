@@ -55,14 +55,19 @@ export default class GiftCardSucess extends Component {
             Add another Gift Card ?
           </div>
           <div className={styles.bottomHolderButtton}>
-            <div
-              className={styles.button}
+            <Button
+              label="Continue Shopping"
+              type="linearGradient"
+              width={178}
+              height={36}
+              linearColor={{
+                fromColor: "#ce5096",
+                toColor: "#da6060"
+              }}
               onClick={() => {
                 this.renderToContinueShopping();
               }}
-            >
-              <div className={styles.buttonText}>Continue Shopping</div>
-            </div>
+            />
           </div>
         </div>
       </div>

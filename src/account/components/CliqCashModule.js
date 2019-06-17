@@ -102,12 +102,17 @@ export default class CliqCashModule extends Component {
             </div>
 
             <div className={styles.buttonHolder}>
-              <div
-                className={styles.button}
+              <Button
+                label="Add Gift Card"
+                type="linearGradient"
+                width={178}
+                height={36}
+                linearColor={{
+                  fromColor: "#ce5096",
+                  toColor: "#da6060"
+                }}
                 onClick={() => this.redeemCliqVoucher()}
-              >
-                <div className={styles.buttonText}>Add Gift Card</div>
-              </div>
+              />
             </div>
           </div>
         </div>
