@@ -3568,7 +3568,7 @@ export function orderConfirmation(orderId) {
         ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
         resultJson.orderRefNo
       );
-
+      dispatch(getMinicartProducts());
       dispatch(orderConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
@@ -4680,6 +4680,7 @@ export function getPaymentFailureOrderDetails() {
               : ""
         }
       );
+      dispatch(getMinicartProducts());
       Cookie.createCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER,
         JSON.stringify({ guid: cartGuId })
