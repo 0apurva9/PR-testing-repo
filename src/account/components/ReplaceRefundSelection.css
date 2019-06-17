@@ -23,6 +23,9 @@
 .payments {
 	border-top: 1px solid #ececec;
 }
+.bankDetailsSection {
+	padding-bottom: 34px;
+}
 .returnMode {
 	padding-top: 34px;
 	margin-left: 34px;

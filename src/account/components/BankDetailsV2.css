@@ -7,7 +7,7 @@
 .header {
 	width: 100%;
 	height: auto;
-	font-size: 14px;
+	font-size: 16px;
 	font-family: semibold;
 	margin-bottom: 15px;
 }
@@ -29,7 +29,7 @@
 	margin-bottom: 15px;
 }
 .clearAll {
-	font-size: 12px;
+	font-size: 14px;
 	color: #ff1744;
 	font-family: semibold;
 	float: right;

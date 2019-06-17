@@ -145,6 +145,7 @@ export default class ReturnBankFormForDesktop extends React.Component<IProps, IS
 				<ReplaceRefundSelection
 					{...this.props}
 					onCancel={() => this.props.onCancel()}
+					onChangeBankingDetail={this.props.onChange}
 					displayToast={this.props.displayToast}
 					selectedReasonAndCommentObj={this.props.selectedReasonAndCommentObj}
 					//getRefundOptionsData={this.props.getRefundOptionsData}
