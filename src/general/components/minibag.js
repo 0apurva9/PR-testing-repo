@@ -20,6 +20,12 @@ export default class Minibag extends React.Component {
       (this.props.cart.products.length > 1
         ? `${this.props.cart.products.length} items`
         : `${this.props.cart.products.length} item`);
+
+    let productCardStyle =
+      this.props.cart.products.length &&
+      (this.props.cart.products.length > 2
+        ? styles.mybagProductCard
+        : styles.mybagProductCardShort);
     return (
       <div className={styles.mybag}>
         <div
@@ -31,7 +37,7 @@ export default class Minibag extends React.Component {
         <div className={styles.mybagProductsContainer}>
           {this.props.cart.products.slice(0, 3).map((product, i) => {
             return (
-              <div className={styles.mybagProductCard}>
+              <div className={productCardStyle}>
                 <div className={styles.mybagImage}>
                   <img alt={product.title} src={product.imageURL} />
                 </div>
