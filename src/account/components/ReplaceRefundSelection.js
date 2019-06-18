@@ -279,7 +279,9 @@ export default class ReplaceRefundSelection extends React.Component {
                                   }
                                   onChange={this.radioChange}
                                 />
-                                {value.refundMode}
+                                {value.refundModeCode === "CLIQ_CASH"
+                                  ? "CLiQ Cash"
+                                  : value.refundMode}
                                 <span className={styles.cliqCashInstant}>
                                   {value.refundModeCode === "CLIQ_CASH"
                                     ? "Instant"

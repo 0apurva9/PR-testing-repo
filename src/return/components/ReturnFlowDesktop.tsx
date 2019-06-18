@@ -171,7 +171,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		});
 	};
 	private renderReturnForms = () => {
-		console.log('ReturnStatus------->', ReturnStatus);
+		//console.log('ReturnStatus------->', ReturnStatus);
 		switch (this.state.returnProgressStatus) {
 			case ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION: {
 				let returnFlow = true;
@@ -197,7 +197,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			}
 			case ReturnStatus.SHOW_BANK_DETAIL_SECTION: {
 				let returnFlow = true;
-				console.log('propsSub Reason:', this.props, 'stateSub Reason:', this.state);
+				//console.log('propsSub Reason:', this.props, 'stateSub Reason:', this.state);
 				return (
 					<ReturnBankFormForDesktop
 						{...this.props}

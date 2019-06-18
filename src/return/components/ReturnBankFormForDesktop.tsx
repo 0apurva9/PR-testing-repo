@@ -127,7 +127,7 @@ export default class ReturnBankFormForDesktop extends React.Component<IProps, IS
 	// 	}
 	// }
 	public render() {
-		console.log('props in bank form selectReason:', this.props.selectedReasonAndCommentObj, this.props);
+		//console.log('props in bank form selectReason:', this.props.selectedReasonAndCommentObj, this.props);
 		let subReason = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.subReason;
 		let comments = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.comment;
 		return (
