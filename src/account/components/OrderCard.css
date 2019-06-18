@@ -189,7 +189,7 @@
 	}
 	.productDetails {
 		width: 84%;
-		padding-left: 35px;
+		padding-left: 21.6px;
 	}
 	.productBrand {
 		width: 100%;
@@ -203,7 +203,7 @@
 	.onHollow {
 		composes: base;
 		background: #fff;
-		padding: 30px;
+		padding: 34px;
 		margin-bottom: 10px;
 		border-radius: 4px;
 	}

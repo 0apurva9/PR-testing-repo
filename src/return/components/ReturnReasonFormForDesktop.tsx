@@ -14,9 +14,8 @@ import {
 	IReturnSubReasons,
 	IReturnSubReasonWithLabel,
 } from './interface/ReturnReasonForm';
-const MODE_OF_RETURN = 'Select mode of return';
-const REFUND_DETAILS = 'Refund Details';
-
+import { MODE_OF_RETURN, REFUND_DETAILS, COMMENTS_PLACEHOLDER }
+	from '../../lib/constants.js'; 
 export default class ReturnReasonForm extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
@@ -183,7 +182,8 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 								</div>
 							)}
 						<div className={styles.textArea}>
-							<TextArea value={this.state.comment} onChange={(val: string) => this.handleChange(val)} />
+							<TextArea  placeholder={COMMENTS_PLACEHOLDER} value={this.state.comment} onChange={(val: string) => this.handleChange(val)} />
+
 						</div>
 						{returnProductDetails &&
 							returnProductDetails.showReverseSealFrJwlry === 'yes' && (

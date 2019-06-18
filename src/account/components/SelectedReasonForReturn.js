@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./SelectedReasonForReturn.css";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 export default class SelectedReasonForReturn extends React.Component {
@@ -18,7 +17,7 @@ export default class SelectedReasonForReturn extends React.Component {
             <div className={styles.headerForDefectiveReason}>
               <div className={styles.headerForDefectiveReasonFirst}>
                 {this.props.returnFlow
-                  ? "Reason for return :"
+                  ? "Reason for return:"
                   : this.props.header}{" "}
                 {this.props.titleDescription && (
                   <span className={styles.titleDescription}>
@@ -37,7 +36,7 @@ export default class SelectedReasonForReturn extends React.Component {
         </div>
         {this.props.subDescription && (
           <div className={styles.subDescription}>
-            Issue Details:{" "}
+            Issue Detail:{" "}
             <span className={styles.subTitleDescription}>
               {this.props.subDescription}
             </span>

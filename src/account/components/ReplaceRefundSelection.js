@@ -83,7 +83,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   addBankDetails(data) {
-    console.log("bankDetails:", this.props.getRefundOptionsDetails);
+    // console.log("bankDetails:", this.props.getRefundOptionsDetails);
     this.setState({ addBankDetailsPage: true });
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
@@ -131,11 +131,11 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   async onSubmit() {
-    console.log(
-      "selected One:",
-      this.state.selectedOption,
-      this.state.agreeToReturn
-    );
+    // console.log(
+    //   "selected One:",
+    //   this.state.selectedOption,
+    //   this.state.agreeToReturn
+    // );
     if (!this.state.selectedOption) {
       return this.props.displayToast("Please select refund mode");
     }
@@ -169,7 +169,7 @@ export default class ReplaceRefundSelection extends React.Component {
         returnId,
         refundMode
       );
-      console.log(updateRefundModeResponse);
+      //console.log(updateRefundModeResponse);
       //move to next screen on success
       if (
         updateRefundModeResponse &&
@@ -188,7 +188,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   render() {
-    console.log("propsin RefundReplaceSelection:", this.props);
+    //console.log("propsin RefundReplaceSelection:", this.props);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||

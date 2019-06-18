@@ -4,13 +4,10 @@ import PropTypes from "prop-types";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import { MY_ACCOUNT, ORDER, ORDER_CODE } from "../../lib/constants";
-import { Redirect } from "react-router-dom";
-import { withRouter } from "react-router-dom";
 import { MY_ACCOUNT_ORDERS_PAGE, MY_ACCOUNT_PAGE } from "../../lib/constants";
 // import { push } from 'react-router-redux';
 export default class OrderPlacedAndId extends React.Component {
   onViewDetails(orderId) {
-    console.log("this.props:", this.props);
     this.props.pushDetails.push(
       `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`
     );
@@ -21,7 +18,6 @@ export default class OrderPlacedAndId extends React.Component {
     );
   }
   render() {
-    console.log("props:", this.props.backToOrderHistory);
     return (
       <div className={styles.base}>
         <MobileOnly>
@@ -53,7 +49,7 @@ export default class OrderPlacedAndId extends React.Component {
                 </div>
               )}
               <div className={styles.orderIdHolder}>
-                {this.props.backHistory == "true" ? (
+                {this.props.backHistory === "true" ? (
                   <div
                     className={styles.labelOrderDetailsHeader}
                     onClick={() => this.backToOrderHistory()}

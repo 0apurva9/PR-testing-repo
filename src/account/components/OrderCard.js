@@ -62,7 +62,6 @@ export default class OrderCard extends React.Component {
     return trackOrderText;
   }
   render() {
-    console.log("props details:", this.props);
     let statusDisplayMsg =
       this.props.statusDisplayMsg && this.props.statusDisplayMsg;
     let estimatedDeliveryDate = "";
