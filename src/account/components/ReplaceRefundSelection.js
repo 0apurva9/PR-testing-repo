@@ -229,10 +229,10 @@ export default class ReplaceRefundSelection extends React.Component {
 							<span className={styles.infoText}>{data && data.mediationCallout}</span>
 						</div>
 					</div>
-				</div> */}
-        <div className={styles.content}>
-          {!this.state.showRefundOptions &&
-            !this.state.addBankDetailsPage && (
+        </div> */}
+        {!this.state.addBankDetailsPage && (
+          <div className={styles.content}>
+            {!this.state.showRefundOptions && (
               <React.Fragment>
                 <div className={styles.returnMode}>Select mode of return</div>
                 <div className={styles.card}>
@@ -253,8 +253,7 @@ export default class ReplaceRefundSelection extends React.Component {
                 </div>
               </React.Fragment>
             )}
-          {this.state.showRefundOptions &&
-            !this.state.addBankDetailsPage && (
+            {this.state.showRefundOptions && (
               <React.Fragment>
                 <div className={styles.bankDetailsSection}>
                   <div className={styles.replaceRefundModeSelctnHeading}>
@@ -344,9 +343,9 @@ export default class ReplaceRefundSelection extends React.Component {
                 </div>
               </React.Fragment>
             )}
-        </div>
+          </div>
+        )}
         {this.state.addBankDetailsPage ? (
-          // <ReturnsFrame onContinue={this.props.onContinue}>
           <BankDetailsV2
             onChange={this.props.onChangeBankingDetail}
             clearForm={this.props.clearForm}
@@ -355,13 +354,12 @@ export default class ReplaceRefundSelection extends React.Component {
             bankDetail={this.props.bankDetail}
           />
         ) : (
-          // </ReturnsFrame>
           ""
         )}
-        {/* {this.state.showRefundOptions && <div className={styles.payments} />} */}
-        <div className={styles.content}>
-          {this.state.showRefundOptions &&
-            !this.state.addBankDetailsPage && (
+
+        {this.state.showRefundOptions &&
+          !this.state.addBankDetailsPage && (
+            <div className={styles.content}>
               <React.Fragment>
                 <div className={styles.cardCondition}>
                   <div className={styles.checkRefundTermsContainer}>
@@ -380,8 +378,9 @@ export default class ReplaceRefundSelection extends React.Component {
 
                 {/* )} */}
               </React.Fragment>
-            )}
-        </div>
+            </div>
+          )}
+
         {this.state.showRefundOptions && (
           <div className={styles.buttonHolder}>
             <div className={styles.button}>
