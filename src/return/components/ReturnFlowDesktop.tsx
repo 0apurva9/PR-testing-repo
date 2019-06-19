@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { IProps, IProductDetailsObj, ReturnStatus, IState, IReturnSelectedReason } from './interface/ReturnFlowDesktop';
+import {
+	IProps,
+	IProductDetailsObj,
+	ReturnStatus,
+	IState,
+	IReturnSelectedReason,
+	//IUpdateCustomerBankDetails,
+} from './interface/ReturnFlowDesktop';
 import { IStateForBank } from './interface/ReturnBankFormForDesktop';
 import * as Cookie from '../../lib/Cookie';
 import ReturnReasonFormForDesktop from './ReturnReasonFormForDesktop';
@@ -10,12 +17,21 @@ import {
 	CUSTOMER_ACCESS_TOKEN,
 	MY_ACCOUNT_PAGE,
 	MY_ACCOUNT_ORDERS_PAGE,
+	RETURN_TO_STORE,
+	RETURNS_STORE_MAP,
 	RETURNS_PREFIX,
+	SCHEDULED_PICKUP,
+	RETURN_CLIQ_PIQ,
+	RETURN_CLIQ_PIQ_ADDRESS,
+	QUICK_DROP,
+	SELF_COURIER,
+	RETURNS_SELF_COURIER,
 	REPLACE_REFUND_SELECTION,
 	RETURN_LANDING,
 } from '../../lib/constants';
 import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
 import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
+import { setDataLayerForMyAccountDirectCalls, ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL } from '../../lib/adobeUtils';
 import * as format from 'date-fns/format';
 const RETURN_FLAG: string = 'R';
 const dateFormat = 'DD MMM YYYY';
@@ -66,12 +82,14 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		return <div />;
 	}
 	onChangeBankingDetail = (val: string) => {
+		//console.log('val in change details', val);
 		let bankDetail = cloneDeep(this.state.bankDetail);
 		Object.assign(bankDetail, val);
 		this.setState({ bankDetail });
 	};
 	updateStateForBankDetails = (data: IStateForBank) => {
 		this.setState({ bankDetail: data });
+		//console.log('data:', data);
 	};
 	clearForm() {
 		this.setState({ bankDetail: {} });
@@ -103,11 +121,20 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		this.props.history.goBack();
 	};
 	handleContinueForBankForm = (BankDetails: IStateForBank) => {
+		this.props.getCustomerBankDetails();
+		// console.log(
+		// 	'bank details check on change details and not change:',
+		// 	BankDetails,
+		// 	'api call:',
+		// 	this.props.getCustomerBankDetails()
+		// );
 		if (BankDetails) {
+			//console.log('1');
 			this.setState({
 				returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION,
 				bankDetail: BankDetails,
 			});
+			//this.props.history.goBack();
 		}
 		if (!this.state.bankDetail.ifscCode) {
 			this.props.displayToast(IFSC_CODE_TEXT);
@@ -141,6 +168,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.displayToast(BANK_NAME);
 			return false;
 		} else {
+			//console.log('2 else');
 			//api call to save bank details
 			//remove unnecessary field get from api success response which are required for above validation
 			let bankData = this.state.bankDetail;
@@ -149,7 +177,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			delete bankData.customerName;
 			delete bankData.reEnterAccountNumber;
 			this.props.updateCustomerBankDetails(bankData);
-
+			//console.log('api data:', this.props.updateCustomerBankDetails(bankData));
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
 				state: {
@@ -158,6 +186,34 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			});
 		}
 	};
+	onSelectMode(mode: any) {
+		if (mode === QUICK_DROP) {
+			this.props.history.push({
+				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
+				state: {
+					authorizedRequest: true,
+				},
+			});
+		} else if (mode === SCHEDULED_PICKUP) {
+			this.props.history.push({
+				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
+				state: {
+					authorizedRequest: true,
+				},
+			});
+		} else if (mode === SELF_COURIER) {
+			this.props.history.push({
+				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURNS_SELF_COURIER}`,
+				state: {
+					authorizedRequest: true,
+				},
+			});
+		}
+	}
+	onCancel() {
+		setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
+		this.props.history.goBack();
+	}
 	handleCancelForBankForm = () => {
 		this.setState({
 			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
@@ -171,7 +227,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		});
 	};
 	private renderReturnForms = () => {
-		//console.log('ReturnStatus------->', ReturnStatus);
+		//console.log('ReturnStatus------->', this.state.returnProgressStatus);
 		switch (this.state.returnProgressStatus) {
 			case ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION: {
 				let returnFlow = true;
@@ -186,6 +242,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 							this.props.orderDetails.products[0] &&
 							this.props.orderDetails.products[0].productBrand
 						}
+						//displayToast={(val: string) => this.props.displayToast(val)}
 						onContinue={(returnSelectedReason: IReturnSelectedReason) =>
 							this.handleContinueForReason(returnSelectedReason)
 						}
@@ -215,6 +272,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 						updateStateForBankDetails={(data: IStateForBank) => this.updateStateForBankDetails(data)}
 						bankDetail={this.state.bankDetail}
 						onChange={(val: string) => this.onChangeBankingDetail(val)}
+						//getCliqCashDetailsRefund={this.props.getCliqCashDetailsRefund}
 					/>
 				);
 			}
@@ -232,6 +290,13 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 						showSecondaryLoader={this.props.showSecondaryLoader}
 						hideSecondaryLoader={this.props.hideSecondaryLoader}
 						returnFlow={returnFlow}
+						productInfo={
+							this.props.returnRequest &&
+							this.props.returnRequest.returnEntry &&
+							this.props.returnRequest.returnEntry.orderEntries[0]
+						}
+						selectMode={(mode: any) => this.onSelectMode(mode)}
+						onCancel={() => this.onCancel()}
 					/>
 				);
 			}
@@ -258,6 +323,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 				history={this.props.history}
 				orderPlace={''}
 				returnFlow={returnFlow}
+				//returnStatus={this.state.returnProgressStatus}
 			>
 				{this.renderReturnForms()}
 			</ReturnAndOrderCancelWrapper>

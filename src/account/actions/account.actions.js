@@ -1338,6 +1338,36 @@ export function updateCustomerBankDetails(bankDetails) {
     }
   };
 }
+export function getCliqCashDetailsRefund() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    dispatch(getCliqCashRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/cliqcash/getUserCliqCashDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
+        dispatch(showModal(GENERATE_OTP_FOR_CLIQ_CASH));
+      }
+      return resultJson;
+      // dispatch(getCliqCashSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashFailure(e.message));
+    }
+  };
+}
+
 export function submitSelfCourierReturnInfoRequest() {
   return {
     type: SUBMIT_SELF_COURIER_INFO_REQUEST,

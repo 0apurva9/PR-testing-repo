@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import styles from "./ReplaceRefundSelection.css";
 import BankDetailsV2 from "../../account/components/BankDetailsV2";
+//import SelectedReasonForReturn from '../../account/components/SelectedReasonForReturn';
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -28,6 +29,7 @@ export default class ReplaceRefundSelection extends React.Component {
       showBankDetails: false,
       customerBankDetails: "",
       addBankDetailsPage: false
+      //cliqCashCheckSuccess: false,
     };
     this.radioChange = this.radioChange.bind(this);
     this.agreeToReturnDetails = this.agreeToReturnDetails.bind(this);
@@ -57,15 +59,24 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   async radioChange(e) {
-    this.setState({ selectedOption: e.currentTarget.value });
+    const target = e.currentTarget;
+    this.setState({ selectedOption: target.value });
     //cliq cash
-    if (e.currentTarget.value === "CLIQ_CASH") {
-      const test = await this.props.getCliqCashDetails();
-      console.log(test);
+    if (target.value === "CLIQ_CASH") {
+      let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
+      if (
+        cliqCashCheck.status === "Success" &&
+        (cliqCashCheck.isWalletCreated && cliqCashCheck.isWalletOtpVerified)
+      ) {
+        this.setState({ cliqCashCheckSuccess: true });
+      } else {
+        this.setState({ selectedOption: "" });
+      }
     }
     //bank account
-    if (e.currentTarget.value === "BANK_ACCOUNT") {
+    if (target.value === "BANK_ACCOUNT") {
       let getCustomerBankDetailsResponse = await this.props.getCustomerBankDetails();
+      //console.log("bank Details on click:", getCustomerBankDetailsResponse)
       if (
         getCustomerBankDetailsResponse &&
         getCustomerBankDetailsResponse.error === "Failure"
@@ -73,25 +84,31 @@ export default class ReplaceRefundSelection extends React.Component {
         //add details
         this.setState({ showBankDetails: false });
       } else {
+        let currentBankDetails =
+          getCustomerBankDetailsResponse.getCustomerBankDetails;
+        currentBankDetails.ifscCode = currentBankDetails.IFSCCode;
+        //delete currentBankDetails.IFSCCode;
         //show details
         this.setState({
           showBankDetails: true,
-          customerBankDetails: getCustomerBankDetailsResponse
+          customerBankDetails: currentBankDetails
         });
       }
     }
+    //console.log("props in target:", this.state.showBankDetails, this.state.selectedOption)
   }
 
   addBankDetails(data) {
     // console.log("bankDetails:", this.props.getRefundOptionsDetails);
     this.setState({ addBankDetailsPage: true });
+    //go to add/update bank details screen with bank details
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
         this.props.selectedReasonAndCommentObj.sellerorderno
       }${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
       state: {
         authorizedRequest: true,
-        bankData: this.props.selectedReasonAndCommentObj,
+        bankData: data,
         orderId: this.props.selectedReasonAndCommentObj.sellerorderno
       }
     });
@@ -130,12 +147,7 @@ export default class ReplaceRefundSelection extends React.Component {
     }
   }
 
-  async onSubmit() {
-    // console.log(
-    //   "selected One:",
-    //   this.state.selectedOption,
-    //   this.state.agreeToReturn
-    // );
+  onSubmit() {
     if (!this.state.selectedOption) {
       return this.props.displayToast("Please select refund mode");
     }
@@ -147,10 +159,11 @@ export default class ReplaceRefundSelection extends React.Component {
       this.goToRefundModesPage();
     }
     //cliq cash
-    // if (this.state.selectedOption === "CLIQ_CASH") {
-    //   const test = await this.props.getCliqCashDetails();
-    //   console.log(test);
-    // }
+    if (this.state.selectedOption === "CLIQ_CASH") {
+      if (this.state.cliqCashCheckSuccess) {
+        this.goToRefundModesPage();
+      }
+    }
     //bank account
     if (this.state.selectedOption === "BANK_ACCOUNT") {
       this.goToRefundModesPage();
@@ -183,10 +196,14 @@ export default class ReplaceRefundSelection extends React.Component {
             authorizedRequest: true
           }
         });
+        // let userBankDetails="";
+        // if (this.state.customerBankDetails) {
+        //   userBankDetails = this.state.customerBankDetails;
+        // }
+        //this.props.onContinue(userBankDetails)
       }
     }
   }
-
   render() {
     //console.log("propsin RefundReplaceSelection:", this.props);
     // Preventing user to open this page direct by hitting URL
@@ -199,7 +216,10 @@ export default class ReplaceRefundSelection extends React.Component {
 
     let userBankDetails = "";
     if (this.state.customerBankDetails) {
-      userBankDetails = this.state.customerBankDetails.getCustomerBankDetails;
+      userBankDetails = this.state.customerBankDetails;
+    }
+    if (Object.keys(this.props.bankDetail).length !== 0) {
+      userBankDetails = this.props.bankDetail;
     }
     const data = this.props.getRefundOptionsDetails;
     const refundModesDetail = this.props.getRefundModesDetails;
@@ -222,6 +242,7 @@ export default class ReplaceRefundSelection extends React.Component {
 						</OrderCard>
 					</div>
 				</div> */}
+
         {/* <div className={styles.content}>
 					<div className={styles.card}>
 						<div className={styles.customerCareCall}>
@@ -268,7 +289,7 @@ export default class ReplaceRefundSelection extends React.Component {
                         {refundModesDetail &&
                           refundModesDetail.refundMode.map((value, index) => {
                             return (
-                              <label>
+                              <label key={index}>
                                 <input
                                   className={styles.radioBtn}
                                   type="radio"
@@ -353,7 +374,9 @@ export default class ReplaceRefundSelection extends React.Component {
             clearForm={this.props.clearForm}
             history={this.props.history}
             updateStateForBankDetails={this.props.updateStateForBankDetails}
-            bankDetail={this.props.bankDetail}
+            bankDetail={
+              userBankDetails ? userBankDetails : this.props.bankDetail
+            }
           />
         ) : (
           ""
@@ -391,7 +414,12 @@ export default class ReplaceRefundSelection extends React.Component {
                 type="primary"
                 label="Continue"
                 //disabled={this.state.selectedOption && this.state.agreeToReturn ? false : true}
-                onClick={() => this.onSubmit()}
+
+                onClick={
+                  this.state.selectedOption === "BANK_ACCOUNT"
+                    ? userBankDetails => this.props.onContinue(userBankDetails)
+                    : () => this.onSubmit()
+                }
               />
             </div>
           </div>

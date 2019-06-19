@@ -8,6 +8,7 @@ import {
   getRefundModes,
   updateRefundMode,
   getCliqCashDetails,
+  getCliqCashDetailsRefund,
   getCustomerBankDetails,
   updateCustomerBankDetails
 } from "../../account/actions/account.actions.js";
@@ -74,6 +75,9 @@ const mapDispatchToProps = dispatch => {
     },
     getCliqCashDetails: async () => {
       return await dispatch(getCliqCashDetails());
+    },
+    getCliqCashDetailsRefund: async () => {
+      return await dispatch(getCliqCashDetailsRefund());
     },
     getCustomerBankDetails: async () => {
       return await dispatch(getCustomerBankDetails());

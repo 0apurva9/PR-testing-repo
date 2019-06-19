@@ -125,11 +125,9 @@ export default class BankDetailsV2 extends React.Component {
               boxy={true}
               height={33}
               maxLength={"19"}
-              onChange={reEnterAccountNumber =>
-                this.onChange({ reEnterAccountNumber })
-              }
+              onChange={accountNumber => this.onChange({ accountNumber })}
               onlyNumber={true}
-              value={bankDetails.reEnterAccountNumber || ""}
+              value={bankDetails.accountNumber || ""}
             />
           </div>
           <div className={styles.container}>

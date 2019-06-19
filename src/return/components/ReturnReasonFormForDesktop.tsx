@@ -14,8 +14,7 @@ import {
 	IReturnSubReasons,
 	IReturnSubReasonWithLabel,
 } from './interface/ReturnReasonForm';
-import { MODE_OF_RETURN, REFUND_DETAILS, COMMENTS_PLACEHOLDER }
-	from '../../lib/constants.js'; 
+import { MODE_OF_RETURN, REFUND_DETAILS, COMMENTS_PLACEHOLDER } from '../../lib/constants.js';
 export default class ReturnReasonForm extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
@@ -56,7 +55,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 		const code = val.value;
 		const label = val.label;
 		const returnProductDetails = this.props.returnProductDetails;
-		console.log('data:', this.props.returnProductDetails);
+		//console.log('data:', this.props.returnProductDetails);
 		const selectedReason = returnProductDetails.returnReasonMap.find((val: IReturnReasonMapItem) => {
 			return val.parentReasonCode === code;
 		});
@@ -182,8 +181,11 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 								</div>
 							)}
 						<div className={styles.textArea}>
-							<TextArea  placeholder={COMMENTS_PLACEHOLDER} value={this.state.comment} onChange={(val: string) => this.handleChange(val)} />
-
+							<TextArea
+								placeholder={COMMENTS_PLACEHOLDER}
+								value={this.state.comment}
+								onChange={(val: string) => this.handleChange(val)}
+							/>
 						</div>
 						{returnProductDetails &&
 							returnProductDetails.showReverseSealFrJwlry === 'yes' && (

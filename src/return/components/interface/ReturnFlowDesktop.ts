@@ -13,6 +13,7 @@ export interface IProps {
 	showSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
 	hideSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
 	displayToast: (errorMessage: string) => (dispatch: Dispatch<any>) => Promise<void>;
+	getCustomerBankDetails: () => (dispatch: Dispatch<any>) => Promise<void>;
 	history: any;
 	location: any;
 	userAddress: any;

@@ -11,6 +11,9 @@ export interface IProps {
 	hideSecondaryLoader: () => (dispatch: Dispatch<any>) => Promise<void>;
 	bankDetail: IBankDetails;
 	returnFlow: any;
+	onCancel: () => void;
+	productInfo: any;
+	selectMode: (mode: any) => void;
 }
 export interface IState {
 	selectedMode: string;
