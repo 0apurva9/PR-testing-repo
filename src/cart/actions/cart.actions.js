@@ -5325,8 +5325,8 @@ export function getMinicartProducts() {
   }
   // Get Cart code for current user from cookie
   let cartCode =
-    cartDetails && JSON.parse(cartDetails).guid
-      ? JSON.parse(cartDetails).guid
+    cartDetails && JSON.parse(cartDetails).code
+      ? JSON.parse(cartDetails).code
       : null;
 
   return async (dispatch, getState, { api }) => {

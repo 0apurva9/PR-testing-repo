@@ -10,7 +10,8 @@ import {
   getCartId,
   tempCartIdForLoggedInUser,
   getCartCountForLoggedInUser,
-  removeItemFromCartLoggedIn
+  removeItemFromCartLoggedIn,
+  getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
 
@@ -86,6 +87,7 @@ const mapDispatchToProps = dispatch => {
           // Get cartDetails if user already has cart created
           const cartVal = await dispatch(getCartId());
           let guid;
+          let cartCode;
           if (
             cartVal.status === SUCCESS &&
             cartVal.cartDetails.guid &&
@@ -118,6 +120,7 @@ const mapDispatchToProps = dispatch => {
               );
               // At the time of login Get Cart GUID for logged-in user
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
+              cartCode = JSON.parse(cartDetailsLoggedInUser).code;
               const existingWishList = await dispatch(getWishListItems());
 
               if (!existingWishList || !existingWishList.wishlist) {
@@ -127,6 +130,7 @@ const mapDispatchToProps = dispatch => {
             } else if (mergeCartIdWithOldOneResponse.status === ERROR) {
               Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
               guid = cartVal;
+              cartCode = cartVal.cartDetails.code;
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
             //end of  merge old cart id with anonymous cart id
@@ -148,10 +152,14 @@ const mapDispatchToProps = dispatch => {
                   );
 
                   guid = JSON.parse(newCartDetailsLoggedInUser).guid;
+                  cartCode = JSON.parse(newCartDetailsLoggedInUser).code
+                    ? JSON.parse(newCartDetailsLoggedInUser).code
+                    : null;
                   dispatch(setIfAllAuthCallsHaveSucceeded());
                 } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
                   Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
                   guid = anonymousCart;
+                  cartCode = anonymousCart.code ? anonymousCart.code : null;
                   dispatch(setIfAllAuthCallsHaveSucceeded());
                 }
               }
@@ -170,6 +178,9 @@ const mapDispatchToProps = dispatch => {
                 typeof guid === "object" ? guid : null
               )
             );
+          }
+          if (cartCode) {
+            dispatch(getMinicartProducts());
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
