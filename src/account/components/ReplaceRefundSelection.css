@@ -147,7 +147,15 @@ label {
 .button {
 	/* float: center; */
 	padding-right: 30%;
-	padding-left: 30%;
+	padding-left: 40%;
+	
+}
+.button1{
+	height: 40px;
+    width: 165px;
+    border-radius: 20px;
+    background-color: rgb(255, 23, 68);
+    margin-left: 50px;
 }
 .checkRefundTermsContainer {
 	width: auto;

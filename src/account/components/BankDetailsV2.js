@@ -91,7 +91,7 @@ export default class BankDetailsV2 extends React.Component {
       <div className={styles.base}>
         <div className={styles.holder}>
           <div className={styles.header}>
-            Add Bank Account
+            Add Bank Details
             <span
               className={styles.clearAll}
               onClick={() => this.clearFormData(orderId)}

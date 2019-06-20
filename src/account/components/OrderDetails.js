@@ -162,23 +162,23 @@ export default class OrderDetails extends React.Component {
     let mplClosingTimeText = "";
     // let displayDateNTime = "";
     if (parseFloat(mplOpeningTime) < 12) {
-      mplOpeningTimeText = mplOpeningTime + "am";
+      mplOpeningTimeText = mplOpeningTime + "AM";
     } else {
       let mplOpeningTimeInMinutes = parseFloat(mplOpeningTime) * 60;
       let mplOpeningTimeInTwelveHoursFormat = mplOpeningTimeInMinutes - 720; // 12 * 60
       let mplOpeningTimeConverted = mplOpeningTimeInTwelveHoursFormat / 60;
-      mplOpeningTimeText = mplOpeningTimeConverted.toFixed(2) + "pm";
+      mplOpeningTimeText = mplOpeningTimeConverted.toFixed(2) + "PM";
     }
     if (parseFloat(mplClosingTime) < 12) {
-      mplClosingTimeText = mplClosingTime + "am";
+      mplClosingTimeText = mplClosingTime + "AM";
     } else {
       let mplClosingTimeInMinutes = parseFloat(mplClosingTime) * 60;
       let mplClosingTimeInTwelveHoursFormat = mplClosingTimeInMinutes - 720; // 12 * 60
       let mplClosingTimeConverted = mplClosingTimeInTwelveHoursFormat / 60;
-      mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "pm";
+      mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "PM";
     }
     let displayDateNTime =
-      getDaysText + ", " + mplOpeningTimeText + " - " + mplClosingTimeText;
+      mplOpeningTimeText + " - " + mplClosingTimeText + " | ";
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
@@ -649,7 +649,9 @@ export default class OrderDetails extends React.Component {
                             </div>
                             {/* </div> */}
                             <div className={styles.commonTitle}>
-                              <span className={styles.width20}>Open From</span>
+                              <span className={styles.width20}>
+                                Store Timings
+                              </span>
                               <span className={styles.colon}>:</span>
                               <span className={styles.width75}>
                                 <div

@@ -412,7 +412,7 @@ export default class ReplaceRefundSelection extends React.Component {
               <Button
                 width={175}
                 type="primary"
-                label="Continue"
+                label="CONTINUE"
                 //disabled={this.state.selectedOption && this.state.agreeToReturn ? false : true}
 
                 onClick={

@@ -55,7 +55,7 @@
   font-family: semibold;
   line-height: 25px;
   position: relative;
-  padding-bottom: 36px;
+  padding-bottom: 20px;
 }
 @media screen and (min-width: 1025px) {
   .base {
@@ -67,10 +67,8 @@
   }
   .selectReasonWithText {
     background: #fff;
-    padding: 30px;
-    margin-bottom: 10px;
+    padding: 34px;
     border-radius: 4px;
-    margin-top: 10px;
   }
   .buttonHolder {
     width: 100%;
