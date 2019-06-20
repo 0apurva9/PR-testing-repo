@@ -1,0 +1,55 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+}
+.tablebase {
+  width: auto;
+  height: auto;
+}
+.header {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background: #ececec;
+}
+.headerLabelHolder {
+  width: auto;
+  height: 30px;
+  min-width: 10%;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 11px;
+  color: rgb(74, 74, 74);
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  font-family: semibold;
+}
+.tableHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.tableRow {
+  composes: header;
+  background: #fff;
+}
+.tableData {
+  width: auto;
+  height: 30px;
+  min-width: 10%;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 11px;
+  color: rgba(33, 33, 33, 0.93);
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  font-family: regular;
+}

@@ -1,7 +1,10 @@
 import { connect } from "react-redux";
 import SizeGuideMain from "../components/SizeGuideMain";
 import { withRouter } from "react-router-dom";
-import { getProductSizeGuide } from "../actions/pdp.actions.js";
+import {
+  getProductSizeGuide,
+  getProductSizeChart
+} from "../actions/pdp.actions.js";
 
 const mapStateToProps = state => {
   return {
@@ -17,6 +20,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getSizeGuide: productCode => {
       dispatch(getProductSizeGuide(productCode));
+    },
+    getProductSizeChart: productCode => {
+      dispatch(getProductSizeChart(productCode));
     }
   };
 };

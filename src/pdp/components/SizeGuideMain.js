@@ -8,62 +8,127 @@ import SizeGuideElementFootwear from "./SizeGuideElementFootwear";
 import SizeGuideElementBelt from "./SizeGuideElementBelt";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import SizeGuideElementClothing from "./SizeGuideElementClothing";
 export default class SizeGuideMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: 0
+      isOpen: 0,
+      inchActive: true,
+      cmsActive: false
     };
   }
   componentDidMount() {
-    this.props.getSizeGuide(this.props.productCode);
+    if (
+      this.props.category === "Footwear" ||
+      this.props.category === "Accessories"
+    ) {
+      this.props.getSizeGuide(this.props.productCode);
+    } else {
+      this.props.getProductSizeChart(this.props.productCode);
+    }
   }
   toggleView(val) {
     this.setState({ isOpen: val });
   }
   render() {
+    const inch = this.state.inchActive ? styles.inActive : styles.in;
+    const cm = this.state.cmsActive ? styles.cmActive : styles.cm;
+
     if (this.props.loading) {
       return <Loader />;
     }
-    if (this.props.sizeData && this.props.sizeData.sizeGuideList) {
+    if (
+      this.props.sizeData &&
+      (this.props.sizeData.sizeGuideList ||
+        this.props.sizeData.sizeGuideTabularWsData)
+    ) {
       return (
         <div className={styles.base}>
           <div className={styles.header}>
             {this.props.productName} Size Guide
           </div>
           <div className={styles.imageWithSize}>
-            <MobileOnly>
-              <div className={styles.imageHolder}>
-                <div className={styles.image}>
-                  <Image fit="contain" image={this.props.sizeData.imageURL} />
-                </div>
-              </div>
-            </MobileOnly>
             {this.props.category !== "Footwear" &&
-              this.props.category !== "Accessories" &&
-              this.props.sizeData.sizeGuideList && (
-                <div className={styles.sizeList} id="currentOpenSize">
-                  {this.props.sizeData.sizeGuideList.map((list, i) => {
-                    return (
-                      <Accordion
-                        text={list.dimensionSize}
-                        key={i}
-                        offset={20}
-                        activeBackground="#f8f8f8"
-                        isOpen={this.state.isOpen === i}
-                        onOpen={() => {
-                          this.toggleView(i);
+              this.props.category !== "Accessories" && (
+                <div className={styles.togglebase}>
+                  <DesktopOnly>
+                    <div className={styles.subHeading}>
+                      Select the size of the product and add product to bag
+                    </div>
+                    <div className={styles.toggleContainer}>
+                      <div className={styles.toggle}>
+                        <div
+                          className={inch}
+                          onClick={() => {
+                            this.setState({
+                              inchActive: true,
+                              cmsActive: false
+                            });
+                          }}
+                        >
+                          In
+                        </div>
+
+                        <div
+                          className={cm}
+                          onClick={() => {
+                            this.setState({
+                              cmsActive: true,
+                              inchActive: false
+                            });
+                          }}
+                        >
+                          Cm
+                        </div>
+                      </div>
+                    </div>
+                  </DesktopOnly>
+                  <MobileOnly>
+                    <div className={styles.toggle}>
+                      <div
+                        className={inch}
+                        onClick={() => {
+                          this.setState({ inchActive: true, cmsActive: false });
                         }}
                       >
-                        {this.props.category !== "Footwear" && (
-                          <SizeGuideElement
-                            data={list.dimensionList}
-                            category={this.props.category}
-                          />
-                        )}
-                      </Accordion>
-                    );
-                  })}
+                        In
+                      </div>
+
+                      <div
+                        className={cm}
+                        onClick={() => {
+                          this.setState({ cmsActive: true, inchActive: false });
+                        }}
+                      >
+                        Cm
+                      </div>
+                    </div>
+                  </MobileOnly>
+                </div>
+              )}
+            <MobileOnly>
+              {this.props.category === "Footwear" &&
+                this.props.category === "Accessories" && (
+                  <div className={styles.imageHolder}>
+                    <div className={styles.image}>
+                      <Image
+                        fit="contain"
+                        image={this.props.sizeData.imageURL}
+                      />
+                    </div>
+                  </div>
+                )}
+            </MobileOnly>
+            {this.props.category !== "Footwear" &&
+              this.props.category !== "Accessories" && (
+                <div className={styles.sizeListColthing} id="currentOpenSize">
+                  <SizeGuideElementClothing
+                    data={this.props.sizeData}
+                    category={this.props.category}
+                    showInch={this.state.inchActive}
+                    showCms={this.state.cmsActive}
+                  />
                 </div>
               )}
             {this.props.category === "Footwear" &&
@@ -89,19 +154,25 @@ export default class SizeGuideMain extends React.Component {
                   })}
                 </div>
               )}
-            <DesktopOnly>
-              <div
-                className={
-                  this.props.category === "Footwear"
-                    ? styles.imageHolderFootwear
-                    : styles.imageHolder
-                }
-              >
-                <div className={styles.image}>
-                  <Image fit="contain" image={this.props.sizeData.imageURL} />
-                </div>
-              </div>
-            </DesktopOnly>
+            {this.props.category === "Footwear" &&
+              this.props.category === "Accessories" && (
+                <DesktopOnly>
+                  <div
+                    className={
+                      this.props.category === "Footwear"
+                        ? styles.imageHolderFootwear
+                        : styles.imageHolder
+                    }
+                  >
+                    <div className={styles.image}>
+                      <Image
+                        fit="contain"
+                        image={this.props.sizeData.imageURL}
+                      />
+                    </div>
+                  </div>
+                </DesktopOnly>
+              )}
           </div>
         </div>
       );

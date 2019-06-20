@@ -54,6 +54,68 @@
   height: auto;
   min-height: 100vh;
 }
+.togglebase {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+.subHeading {
+  width: 80%;
+  height: auto;
+  display: inline-block;
+  font-family: light;
+  font-size: 14px;
+  color: #212121;
+}
+.toggleContainer {
+  width: 20%;
+  height: auto;
+  display: inline-block;
+}
+.toggle {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.in {
+  width: 54px;
+  height: 28px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-family: light;
+  border: 0.5px solid #8d8d8d;
+}
+.inActive {
+  composes: in;
+  border: none;
+  color: #ffffff;
+  background-color: #6c6c6c;
+}
+.cm {
+  width: 54px;
+  height: 28px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  font-family: light;
+  font-size: 12px;
+  border: 0.5px solid #8d8d8d;
+}
+.cmActive {
+  composes: cm;
+  border: none;
+  color: #ffffff;
+  background-color: #6c6c6c;
+}
 @media screen and (min-width: 1025px) {
   .base {
     display: inline-block;
@@ -86,6 +148,15 @@
   }
   .sizeList {
     width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 15px;
+    position: sticky;
+    top: 60px;
+  }
+  .sizeListColthing {
+    width: 100%;
     height: auto;
     display: inline-block;
     vertical-align: top;

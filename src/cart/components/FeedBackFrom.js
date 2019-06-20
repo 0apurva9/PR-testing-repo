@@ -104,11 +104,9 @@ export default class FeedBackForm extends React.Component {
                   {getData &&
                     getData.items.map((val, i) => {
                       return (
-                        <div className={styles.feedBackDetailsHolder}>
+                        <div className={styles.feedBackDetailsHolder} key={i}>
                           <div className={styles.feedBackText}>
-                            <div className={styles.countOfText}>
-                              {val.questionCode}
-                            </div>
+                            <div className={styles.countOfText}>{i + 1}</div>
                             <span> {val.questionName}</span>
                           </div>
                           <div className={styles.feedBackRatingAndTextHolder}>
