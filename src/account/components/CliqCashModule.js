@@ -61,8 +61,10 @@ export default class CliqCashModule extends Component {
               Gift Card Details
             </div>
             <div className={styles.subText}>
-              Your Gift Card Amount will be added to your CLiQ Cash. You can
-              claim it at the time of checkout.
+              Your Gift Card Amount will be added to your CLiQ Cash.
+            </div>
+            <div className={styles.subTextSpan}>
+              You can claim it at the time of checkout
             </div>
             <div className={styles.inputContainer}>
               <div className={styles.cardNumber}>

@@ -69,9 +69,15 @@ export default class TransactionDetailDesktop extends React.Component {
                 <div className={styles.transactionDetailsHeader}>
                   Transaction Detail
                 </div>
-                <div className={styles.transactionName}>
-                  {transactionDetails && transactionDetails.transactionName}
-                </div>
+                {transactionDetails &&
+                  transactionDetails.orderInfo &&
+                  transactionDetails.orderInfo.map(data => {
+                    return (
+                      <div className={styles.transactionName}>
+                        {data && data.productName}
+                      </div>
+                    );
+                  })}
                 <div className={styles.orderNo}>
                   Order No: {transactionDetails && transactionDetails.orderNo}
                 </div>

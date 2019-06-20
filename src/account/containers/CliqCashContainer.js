@@ -27,8 +27,8 @@ const mapDispatchToProps = dispatch => {
     getCliqCashDetails: () => {
       dispatch(getCliqCashDetails());
     },
-    getTransactionDetails: (startDate, endDate) => {
-      dispatch(getTransactionDetails(startDate, endDate));
+    getTransactionDetails: () => {
+      dispatch(getTransactionDetails());
     },
     redeemCliqVoucher: cliqCashDetails => {
       dispatch(redeemCliqVoucher(cliqCashDetails)).then(result => {
