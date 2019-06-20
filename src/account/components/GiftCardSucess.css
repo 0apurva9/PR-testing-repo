@@ -7,11 +7,9 @@
   width: 100%;
   height: auto;
   border-radius: 6px 6px 0px 0px;
-  background-image: linear-gradient(
-    to right,
-    rgba(24, 208, 180, 1),
-    rgba(16, 227, 104, 1)
-  );
+  background: url("./img/giftCardSuccess.svg") no-repeat;
+  background-size: cover;
+  background-position: center;
   position: relative;
 }
 .topHolder {
