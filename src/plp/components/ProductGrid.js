@@ -1,5 +1,5 @@
 import React from "react";
-import DumbGrid from "../../general/components/DumbGrid";
+import DumbGrid from "../../general/components/DumbGridPLP";
 import ProductModuleContainer from "../../general/containers/ProductModuleContainer";
 import PlpComponent from "./PlpComponent";
 import PropTypes from "prop-types";
