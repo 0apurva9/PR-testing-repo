@@ -3568,8 +3568,9 @@ export function orderConfirmation(orderId) {
         ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
         resultJson.orderRefNo
       );
+
+      await dispatch(orderConfirmationSuccess(resultJson));
       dispatch(getMinicartProducts());
-      dispatch(orderConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
     }
@@ -4034,8 +4035,11 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           );
           dispatch(removeItemFromCartLoggedInSuccess());
           if (!JSON.parse(cartDetailsCookie).isBuyNowCart) {
-            dispatch(getCartCountForLoggedInUser());
-            dispatch(getMinicartProducts());
+            dispatch(getCartCountForLoggedInUser()).then(userCart => {
+              if (userCart.status === SUCCESS) {
+                dispatch(getMinicartProducts());
+              }
+            });
           }
         }
       });
@@ -4680,11 +4684,11 @@ export function getPaymentFailureOrderDetails() {
               : ""
         }
       );
-      dispatch(getMinicartProducts());
-      Cookie.createCookie(
+      await Cookie.createCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER,
         JSON.stringify({ guid: cartGuId })
       );
+      dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
     }
@@ -5313,6 +5317,7 @@ export function getMinicartProducts() {
 
   let userId = ANONYMOUS_USER;
   let cartDetails;
+  let cartCode;
 
   // Check if User Details and Customer Cookie exists
   // If true then get Customer Access Token, User's Email and logged-In User's Cart Details
@@ -5320,14 +5325,15 @@ export function getMinicartProducts() {
     userId = JSON.parse(userDetails).userName;
     accessToken = JSON.parse(customerCookie).access_token;
     cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartCode =
+      cartDetails &&
+      (JSON.parse(cartDetails).code
+        ? JSON.parse(cartDetails).code
+        : JSON.parse(cartDetails).guid);
   } else {
     cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    cartCode = cartDetails && JSON.parse(cartDetails).guid;
   }
-  // Get Cart code for current user from cookie
-  let cartCode =
-    cartDetails && JSON.parse(cartDetails).code
-      ? JSON.parse(cartDetails).code
-      : null;
 
   return async (dispatch, getState, { api }) => {
     // Dispatching Requesting event before API CALL

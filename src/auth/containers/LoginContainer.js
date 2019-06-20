@@ -159,7 +159,7 @@ const mapDispatchToProps = dispatch => {
                 } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
                   Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
                   guid = anonymousCart;
-                  cartCode = anonymousCart.code ? anonymousCart.code : null;
+                  cartCode = anonymousCart.guid ? anonymousCart.guid : null;
                   dispatch(setIfAllAuthCallsHaveSucceeded());
                 }
               }
@@ -171,9 +171,10 @@ const mapDispatchToProps = dispatch => {
             dispatch(setIfAllAuthCallsHaveSucceeded());
             // dispatch(getCartCountForLoggedInUser());
           }
+          let haveCart;
           if (guid) {
             // Get the bagCount if Cart GUID exists for Logged-in user
-            dispatch(
+            await dispatch(
               getCartCountForLoggedInUser(
                 typeof guid === "object" ? guid : null
               )

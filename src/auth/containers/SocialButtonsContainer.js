@@ -225,7 +225,7 @@ const mapDispatchToProps = dispatch => {
             } else {
               Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
               guid = cartVal;
-              cartCode = cartVal.cartDetails.code;
+              cartCode = cartVal.cartDetails.guid;
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
           } else {
@@ -248,7 +248,7 @@ const mapDispatchToProps = dispatch => {
                 } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
                   Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
                   guid = anonymousCart;
-                  cartCode = anonymousCart.code;
+                  cartCode = anonymousCart.guid;
                   dispatch(setIfAllAuthCallsHaveSucceeded());
                 }
               }
@@ -261,7 +261,7 @@ const mapDispatchToProps = dispatch => {
             // dispatch(getCartCountForLoggedInUser());
           }
           if (guid) {
-            dispatch(
+            await dispatch(
               getCartCountForLoggedInUser(
                 typeof guid === "object" ? guid : null
               )
@@ -433,7 +433,7 @@ const mapDispatchToProps = dispatch => {
                 } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
                   Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
                   guid = anonymousCart;
-                  cartCode = anonymousCart.code;
+                  cartCode = anonymousCart.guid;
                   dispatch(setIfAllAuthCallsHaveSucceeded());
                 }
               }
@@ -446,7 +446,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(setIfAllAuthCallsHaveSucceeded());
           }
           if (guid) {
-            dispatch(
+            await dispatch(
               getCartCountForLoggedInUser(
                 typeof guid === "object" ? guid : null
               )

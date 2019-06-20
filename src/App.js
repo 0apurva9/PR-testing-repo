@@ -369,7 +369,7 @@ class App extends Component {
     // Check if GUID exists
     if (guid) {
       // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
-      this.props.getCartCountForLoggedInUsers(
+      await this.props.getCartCountForLoggedInUsers(
         typeof guid === "object" ? guid : null
       );
     } else {

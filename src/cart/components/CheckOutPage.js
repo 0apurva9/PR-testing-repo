@@ -927,7 +927,9 @@ class CheckOutPage extends React.Component {
       if (defaultAddress) {
         defaultAddressId = defaultAddress.id;
       }
-      this.updateLocalStoragePinCode(defaultAddress.postalCode);
+      this.updateLocalStoragePinCode(
+        defaultAddress && defaultAddress.postalCode
+      );
       this.setState({
         addressId: defaultAddressId,
         selectedAddress: defaultAddress
