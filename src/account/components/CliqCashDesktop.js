@@ -309,16 +309,20 @@ export default class CliqCashDesktop extends React.Component {
                                         <div className={styles.cliqCashOrderNo}>
                                           Order No: {value.orderNo}
                                         </div>
-                                        {value.expiryDate && (
-                                          <div className={styles.expireDate}>
-                                            Expired on:{" "}
-                                            {getUTCDateMonthFormat(
-                                              value.expiryDate,
-                                              true,
-                                              true
-                                            )}
-                                          </div>
-                                        )}
+                                        {value.expiryDate &&
+                                          value.transactionType &&
+                                          !value.transactionType
+                                            .toUpperCase()
+                                            .match(/\bPAID/g) && (
+                                            <div className={styles.expireDate}>
+                                              Expired on:{" "}
+                                              {getUTCDateMonthFormat(
+                                                value.expiryDate,
+                                                true,
+                                                true
+                                              )}
+                                            </div>
+                                          )}
                                       </div>
                                       <div className={styles.priceAndTime}>
                                         <div
