@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import TransactionHistoryDesktop from "../components/TransactionHistoryDesktop.js";
 import { getTransactionDetails } from "../actions/account.actions";
 import { getUserAddress } from "../../cart/actions/cart.actions";
+import { DATE_PICKER_MODULES, showModal } from "../../general/modal.actions";
 
 import {
   showSecondaryLoader,
@@ -22,6 +23,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    showDatePickerModule: data => {
+      dispatch(showModal(DATE_PICKER_MODULES, data));
     }
   };
 };

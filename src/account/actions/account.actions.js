@@ -1070,17 +1070,17 @@ export function getTransactionDetailsFailure(error) {
   };
 }
 
-export function getTransactionDetails(startDate, endDate) {
+export function getTransactionDetails() {
   return async (dispatch, getState, { api }) => {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     dispatch(getTransactionDetailsRequest());
 
     try {
-      const result = await api.get(
+      const result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getWalletTransactions?startDate=${startDate}&endDate=${endDate}&access_token=${
+        }/getWalletTransactions?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=${CHANNEL}`
       );

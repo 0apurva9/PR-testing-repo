@@ -36,6 +36,7 @@ export const CLIQ_CASH_AND_NO_COST_EMI_POPUP = "CliqCashAndNoCostEmiPopup";
 export const CLIQ_CASH_MODULE = "cliqCashModule";
 export const CLIQ_CASH_SUCESS_MODULE = "cliqCashSucessModule";
 export const DESKTOP_AUTH = "DesktopAuth";
+export const DATE_PICKER_MODULES = "datePickerModule";
 export const CHANGE_PASSWORD_POP_UP = "ChangePasswordForDesktop";
 export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export const CUSTOMER_QUERY_POPUP = "CustomerQueryPopUp";

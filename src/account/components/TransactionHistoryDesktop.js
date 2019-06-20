@@ -11,7 +11,8 @@ import {
 import * as Cookie from "../../lib/Cookie";
 import {
   getWholeDayTimeFormat,
-  getMonthString
+  getMonthString,
+  getUTCDateMonthFormat
 } from "../../lib/dateTimeFunction";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -24,16 +25,18 @@ export default class TransactionHistoryDesktop extends React.Component {
     super(props);
     this.state = {
       checked: 0,
-      transactionDetails: this.props && this.props.transactionDetails
+      selectedDate: null,
+      transactionDetails: null
     };
   }
-
   componentDidMount() {
-    this.props.getUserAddress();
     if (this.props.getTransactionDetails) {
       this.props.getTransactionDetails();
     }
   }
+  setDate = date => {
+    this.filteredTransactionDetails(this.state.checked, date);
+  };
   getMonth = day => {
     let date = day.split("-");
     var monthString = getMonthString(date[0]);
@@ -43,48 +46,128 @@ export default class TransactionHistoryDesktop extends React.Component {
     this.props.history.push({
       pathname: `${TRANSACTION_DETAIL_PAGE}`,
       state: {
-        transactonDetails: data,
-        userAddress: this.props.userAddress
+        transactonDetails: data
       }
     });
   }
-  filteredTransactionDetails = type => {
+  showDatePickerModule = type => {
     this.setState({ checked: type });
-    if (this.props && this.props.transactionDetails) {
-      let originalData = JSON.parse(
-        JSON.stringify(this.props.transactionDetails)
-      );
-      let status = null;
-      switch (type) {
-        case 1:
-          status = RECEIVED;
-          break;
-        case 2:
-          status = PAID;
-          break;
-        case 3:
-          status = EXPIRED;
-          break;
-        default:
-          status = null;
-      }
+    let data = {
+      ...this.props,
+      setDate: date => this.setDate(date)
+    };
+    if (this.props.showDatePickerModule) {
+      this.props.showDatePickerModule(data);
+    }
+  };
+  filteredTransactionDetails = (type, filterDate) => {
+    this.setState({ checked: type });
+    let filteredData = "";
+    let originalData = JSON.parse(
+      JSON.stringify(this.props.transactionDetails)
+    );
+    var status = null;
+    switch (type) {
+      case 1:
+        status = "Received";
+        break;
+      case 2:
+        status = "Paid";
+        break;
+      case 3:
+        status = "Expired";
+        break;
+      case 4:
+        status = "ByDate";
+        break;
+      default:
+        status = null;
+    }
 
-      if (status) {
-        const filteredData =
+    if (status) {
+      var transactionStatus = "\\b" + status.toUpperCase();
+      var statusRegEx = new RegExp(transactionStatus, "g");
+      if (type !== 4) {
+        filteredData =
           originalData &&
-          originalData.reduce(function(result, val) {
-            val.items = val.items.filter(function(vl, j) {
-              if (vl.transactionType.toLowerCase() === status.toLowerCase()) {
-                return true;
-              } else return false;
-            });
-            if (val.items.length) result.push(val);
+          originalData.reduce((result, val) => {
+            val.items =
+              val.items &&
+              val.items.filter((transaction, j) => {
+                if (
+                  transaction &&
+                  transaction.transactionType &&
+                  transaction.transactionType.toUpperCase().match(statusRegEx)
+                ) {
+                  return true;
+                } else return false;
+              });
+            val.items && val.items.length && result.push(val);
             return result;
           }, []);
-        this.setState({ transactionDetails: filteredData });
       } else {
-        this.setState({ transactionDetails: originalData });
+        if (filterDate) {
+          let fromDate = filterDate.fromDate;
+          let fromYear = fromDate.getFullYear();
+          let fromMonth = fromDate.getMonth();
+          let fromDay = fromDate.getDate();
+          let toDate = filterDate.toDate;
+          let toYear = toDate.getFullYear();
+          let toMonth = toDate.getMonth();
+          let toDay = toDate.getDate();
+          let fromDateMilliSeconds = new Date(
+            fromYear,
+            fromMonth,
+            fromDay
+          ).getTime();
+          let toDateMilliSeconds = new Date(toYear, toMonth, toDay).getTime();
+          let fromDateMiliSecNoDay = new Date(fromYear, fromMonth, 1).getTime();
+          let toDateMiliSecNoDay = new Date(toYear, toMonth, 1).getTime();
+          filteredData =
+            originalData &&
+            originalData.reduce((result, val) => {
+              let indexedMonthYr =
+                val && val.date ? val && val.date && val.date.split("-") : 0;
+              indexedMonthYr[0] = parseInt(indexedMonthYr[0] - 1);
+              indexedMonthYr[1] = parseInt(indexedMonthYr[1]);
+              let actualIndexDate = new Date(
+                indexedMonthYr[1],
+                indexedMonthYr[0],
+                1
+              ).getTime();
+              if (
+                fromDateMiliSecNoDay <= actualIndexDate &&
+                actualIndexDate <= toDateMiliSecNoDay
+              ) {
+                val.items =
+                  val &&
+                  val.items &&
+                  val.items.filter((transaction, j) => {
+                    let dates =
+                      transaction &&
+                      transaction.transactionDate &&
+                      transaction.transactionDate.split("-");
+                    let sentDate = new Date(dates[0], dates[1] - 1, dates[2]);
+                    if (
+                      fromDateMilliSeconds <= sentDate.getTime() &&
+                      sentDate.getTime() <= toDateMilliSeconds
+                    ) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  });
+
+                if (val.items && val.items.length) result.push(val);
+              }
+              return result;
+            }, []);
+        }
       }
+
+      this.setState({ transactionDetails: filteredData });
+    } else {
+      this.setState({ transactionDetails: originalData });
     }
   };
 
@@ -96,7 +179,9 @@ export default class TransactionHistoryDesktop extends React.Component {
       { data: "Expired" },
       { data: "By date" }
     ];
-    const transactionDetails = this.state.transactionDetails;
+    const transactionDetails = this.state.transactionDetails
+      ? this.state.transactionDetails
+      : this.props.transactionDetails;
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userDetails) {
@@ -128,7 +213,12 @@ export default class TransactionHistoryDesktop extends React.Component {
                               ? styles.checkedTab
                               : styles.tabData
                           }
-                          onClick={() => this.filteredTransactionDetails(i)}
+                          onClick={
+                            val.data.toUpperCase() ===
+                            data[4].data.toUpperCase()
+                              ? () => this.showDatePickerModule(i)
+                              : () => this.filteredTransactionDetails(i)
+                          }
                           key={i}
                         >
                           {val.data}
@@ -164,21 +254,33 @@ export default class TransactionHistoryDesktop extends React.Component {
                                     </div>
 
                                     <div className={styles.orderNumber}>
-                                      Order No:{value.transactionId}
+                                      Order No:{value.orderNo}
                                     </div>
+                                    {value.expiryDate && (
+                                      <div className={styles.expireDate}>
+                                        Expired on:{" "}
+                                        {getUTCDateMonthFormat(
+                                          value.expiryDate,
+                                          true,
+                                          true
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
 
                                   <div className={styles.orderDetails}>
                                     <div
                                       className={
-                                        value.transactionType.toLowerCase() ===
-                                        data[1].data.toLowerCase()
+                                        value.transactionType
+                                          .toUpperCase()
+                                          .match(/\bRECEIVED|\bADDED/g)
                                           ? styles.orderAmountGreen
                                           : styles.orderAmount
                                       }
                                     >
-                                      {value.transactionType.toLowerCase() ===
-                                      data[1].data.toLowerCase()
+                                      {value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bRECEIVED|\bADDED/g)
                                         ? "+ "
                                         : "- "}
                                       {value &&
