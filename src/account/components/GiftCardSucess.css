@@ -9,6 +9,7 @@
   border-radius: 6px 6px 0px 0px;
   background: url("./img/giftCardSuccess.svg") no-repeat;
   background-size: cover;
+  background-position: center;
   position: relative;
 }
 .topHolder {
