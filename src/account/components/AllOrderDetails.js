@@ -33,13 +33,7 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   WRITE_REVIEW,
-  REQUESTING
-} from "../../lib/constants";
-import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
-import ProfileMenu from "./ProfileMenu";
-import UserProfile from "./UserProfile";
-import { default as MyAccountStyles } from "./MyAccountDesktop.css";
-import {
+  REQUESTING,
   HOME_ROUTER,
   RETURNS_PREFIX,
   RETURN_LANDING,
@@ -55,6 +49,10 @@ import {
   SUCCESS,
   CHECKOUT_ROUTER
 } from "../../lib/constants";
+import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
+import ProfileMenu from "./ProfileMenu";
+import UserProfile from "./UserProfile";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
@@ -814,11 +812,11 @@ export default class AllOrderDetails extends React.Component {
                             </React.Fragment>
                           </MobileOnly>
                           <DesktopOnly>
-                            <div className={styles.priceAndInfoHolder}>
-                              <div className={styles.deliverLeftHolder}>
-                                {!orderDetails.isEgvOrder &&
-                                  orderDetails &&
-                                  orderDetails.billingAddress && (
+                            {!orderDetails.isEgvOrder &&
+                              orderDetails &&
+                              orderDetails.billingAddress && (
+                                <div className={styles.priceAndInfoHolder}>
+                                  <div className={styles.deliverLeftHolder}>
                                     <OrderDelivered
                                       deliveredAddress1={
                                         orderDetails.pickupPersonName ||
@@ -930,10 +928,14 @@ export default class AllOrderDetails extends React.Component {
                                         /> */}
                                       </div>
                                     </OrderDelivered>
-                                  )}
+                                  </div>
+                                </div>
+                              )}
 
-                                {orderDetails.isEgvOrder &&
-                                  orderDetails.giftCardStatus && (
+                            {orderDetails.isEgvOrder &&
+                              orderDetails.giftCardStatus && (
+                                <div className={styles.priceAndInfoHolder}>
+                                  <div className={styles.deliverLeftHolder}>
                                     <div>
                                       <div className={styles.statusHolder}>
                                         <div className={styles.priceHeader}>
@@ -960,9 +962,9 @@ export default class AllOrderDetails extends React.Component {
                                         />
                                       </div> */}
                                     </div>
-                                  )}
-                              </div>
-                            </div>
+                                  </div>
+                                </div>
+                              )}
                           </DesktopOnly>
                         </div>
                       );

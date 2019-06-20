@@ -7,14 +7,14 @@
 .order {
 	padding: 15px;
 	border-radius: 4px;
-	margin-bottom: 20px;
+	margin-bottom: 24px;
 	background: #fff;
 }
 .orderIdHolder {
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	/* margin-bottom: 25px; */
+	margin-bottom: 10px;
 }
 .buttonHolder {
 	width: 100%;
@@ -82,7 +82,7 @@
 		height: auto;
 		float: left;
 		padding-top: 25px;
-		border-top: 1px solid #ececec;
+		/* border-top: 1px solid #ececec; */
 	}
 	.deliverLeftHolder {
 		width: 100%;
@@ -232,10 +232,10 @@
 	line-height: 35px;
 	cursor: pointer;
 }
-.returnReview {
+/* .returnReview {
 	margin-top: 20px;
 	margin-bottom: 20px;
-}
+} */
 .writeReviedButton {
 	width: auto;
 	height: auto;
