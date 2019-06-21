@@ -119,7 +119,9 @@ export default class ReturnReasonForm extends React.Component {
             )}
             <div className={styles.select}>
               <SelectBoxMobile2
-                placeholder={"Select a reason"}
+                placeholder={
+                  this.props.returnFlow ? "Select issue" : "Select a reason"
+                }
                 options={
                   data &&
                   data.returnReasonMap &&
