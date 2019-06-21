@@ -225,6 +225,7 @@
     font-size: 10px;
     font-family: light;
     line-height: 12px;
+    max-width: 150px;
     color: #8d8d8d;
   }
 }

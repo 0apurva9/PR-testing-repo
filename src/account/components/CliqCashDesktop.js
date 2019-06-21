@@ -12,7 +12,10 @@ import {
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY
 } from "../../lib/constants.js";
-import { getWholeDayTimeFormat } from "../../lib/dateTimeFunction";
+import {
+  getWholeDayTimeFormat,
+  getUTCDateMonthFormat
+} from "../../lib/dateTimeFunction";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
@@ -25,8 +28,7 @@ export default class CliqCashDesktop extends React.Component {
     this.state = {
       cardNumber: this.props.cardNumber ? this.props.cardNumber : "",
       pinNumber: this.props.pinNumber ? this.props.cardNumber : "",
-      cliqCashUpdate: false,
-      transactionDetails: []
+      cliqCashUpdate: false
     };
   }
 
@@ -47,12 +49,9 @@ export default class CliqCashDesktop extends React.Component {
     if (this.props.getCliqCashDetails) {
       this.props.getCliqCashDetails();
     }
-    let transactions = [];
-    this.props.transactionDetails &&
-      this.props.transactionDetails.map(data => {
-        return transactions.push(...data.items);
-      });
-    this.setState({ transactionDetails: transactions });
+    if (this.props.getTransactionDetails) {
+      this.props.getTransactionDetails();
+    }
   }
 
   redeemCliqVoucher() {
@@ -89,6 +88,11 @@ export default class CliqCashDesktop extends React.Component {
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let transactions = [];
+    this.props.transactionDetails &&
+      this.props.transactionDetails.map(data => {
+        return transactions.push(...data.items);
+      });
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
@@ -140,7 +144,7 @@ export default class CliqCashDesktop extends React.Component {
                           <div className={styles.info}>
                             A quick and convenient way to pay and refund. For
                             faster checkout
-                            <div className={styles.knowMore}>KNOW MORE.</div>
+                            <div className={styles.knowMore}>know more.</div>
                           </div>
                         </div>
                       </div>
@@ -266,16 +270,15 @@ export default class CliqCashDesktop extends React.Component {
                       </div>
                     </div>
                   </div>
-
-                  {this.state.transactionDetails &&
-                    this.state.transactionDetails.length > 0 && (
+                  {transactions &&
+                    transactions.length > 0 && (
                       <div className={styles.cliqCashTransactionBase}>
                         <div className={styles.cliqCashTransactionContainer}>
                           <div className={styles.cliqCashTransactionHeading}>
                             Your recent transactions
                           </div>
-                          {this.state.transactionDetails &&
-                            this.state.transactionDetails.map((value, i) => {
+                          {transactions &&
+                            transactions.map((value, i) => {
                               return (
                                 i < 5 && (
                                   <div
@@ -306,20 +309,34 @@ export default class CliqCashDesktop extends React.Component {
                                         <div className={styles.cliqCashOrderNo}>
                                           Order No: {value.orderNo}
                                         </div>
+                                        {value.expiryDate &&
+                                          value.transactionType &&
+                                          !value.transactionType
+                                            .toUpperCase()
+                                            .match(/\bPAID/g) && (
+                                            <div className={styles.expireDate}>
+                                              Expired on:{" "}
+                                              {getUTCDateMonthFormat(
+                                                value.expiryDate,
+                                                true,
+                                                true
+                                              )}
+                                            </div>
+                                          )}
                                       </div>
                                       <div className={styles.priceAndTime}>
                                         <div
                                           className={
-                                            value.transactionType ===
-                                              "Received" ||
-                                            value.transactionType === "Paid"
+                                            value.transactionType
+                                              .toUpperCase()
+                                              .match(/\bRECEIVED|\bADDED/g)
                                               ? styles.amountAdded
                                               : styles.price
                                           }
                                         >
-                                          {value.transactionType ===
-                                            "Received" ||
-                                          value.transactionType === "Paid"
+                                          {value.transactionType
+                                            .toUpperCase()
+                                            .match(/\bRECEIVED|\bADDED/g)
                                             ? "+ "
                                             : "- "}
                                           {value &&
@@ -338,8 +355,8 @@ export default class CliqCashDesktop extends React.Component {
                                 )
                               );
                             })}
-                          {this.state.transactionDetails &&
-                            this.state.transactionDetails.length >= 5 && (
+                          {transactions &&
+                            transactions.length >= 5 && (
                               <div
                                 className={styles.viewMore}
                                 onClick={() => this.showTransactioDetails()}

@@ -57,7 +57,7 @@ export const getUTCDateMonthFormat = (date, showShortMonth, showYear) => {
   let convertedDateTime = "";
   let currentDate = new Date();
   if (date) {
-    let sentDate = new date();
+    let sentDate = new Date(date);
     let dayDifference = Math.floor(
       (Date.UTC(
         currentDate.getFullYear(),
@@ -82,7 +82,7 @@ export const getUTCDateMonthFormat = (date, showShortMonth, showYear) => {
           sentDate.getDate() + " " + getUTCMonthsText(sentDate);
     }
     if (showYear) {
-      convertedDateTime = convertedDateTime + ", " + sentDate.getFullYear();
+      convertedDateTime = convertedDateTime + "  " + sentDate.getFullYear();
     }
   }
   return convertedDateTime;
