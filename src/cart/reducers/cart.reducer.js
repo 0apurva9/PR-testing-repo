@@ -1894,6 +1894,11 @@ const cart = (
         minicartError: action.error,
         minicart: null
       });
+    case cartActions.GET_MINICART_NOCART:
+      return Object.assign({}, state, {
+        minicartStatus: action.status,
+        minicart: null
+      });
     case cartActions.GET_MINICART_SUCCESS:
       return Object.assign({}, state, {
         minicartStatus: action.status,

@@ -10,6 +10,7 @@ export const ADD_TO_BAG_TEXT = "The item has been added to your bag";
 export const REQUESTING = "requesting";
 export const ERROR = "error";
 export const FAILURE = "Failure";
+export const NOCART = "no cart";
 export const FAILURE_UPPERCASE = "FAILURE";
 export const FAILURE_LOWERCASE = "failure";
 export const WRONG_FAILURE = "faliure";

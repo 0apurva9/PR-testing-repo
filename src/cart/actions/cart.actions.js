@@ -34,7 +34,8 @@ import {
   WALLET,
   OFFER_ERROR_PAYMENT_MODE_TYPE,
   EMI_TENURE,
-  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+  NOCART
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -446,6 +447,7 @@ export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
 export const GET_MINICART_SUCCESS = "GET_MINICART_SUCCESS";
 export const GET_MINICART_REQUEST = "GET_MINICART_REQUEST";
 export const GET_MINICART_FAILURE = "GET_MINICART_FAILURE";
+export const GET_MINICART_NOCART = "GET_MINICART_NOCART";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -5303,6 +5305,13 @@ export function getMinicartProductsFailure(error) {
   };
 }
 
+export function getMinicartProductsNoCart() {
+  return {
+    type: GET_MINICART_NOCART,
+    status: NOCART
+  };
+}
+
 // getMinicartProducts - The function is calling on
 export function getMinicartProducts() {
   // Get User Details from cookie
@@ -5325,17 +5334,16 @@ export function getMinicartProducts() {
     userId = JSON.parse(userDetails).userName;
     accessToken = JSON.parse(customerCookie).access_token;
     cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    cartCode =
-      cartDetails &&
-      (JSON.parse(cartDetails).code
-        ? JSON.parse(cartDetails).code
-        : JSON.parse(cartDetails).guid);
+    cartCode = cartDetails && JSON.parse(cartDetails).code;
   } else {
     cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     cartCode = cartDetails && JSON.parse(cartDetails).guid;
   }
 
   return async (dispatch, getState, { api }) => {
+    if (!cartCode) {
+      return dispatch(getMinicartProductsNoCart());
+    }
     // Dispatching Requesting event before API CALL
     dispatch(getMinicartProductsRequest());
     try {
