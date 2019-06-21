@@ -99,7 +99,7 @@ export default class ReturnModes extends React.Component {
     const data = this.props.returnProductDetails;
     return (
       <div className={styles.base}>
-        <MobileOnly>
+        {/* <MobileOnly>
           <div className={styles.header}>
             Select mode of return
             <div className={styles.cancel}>
@@ -122,9 +122,9 @@ export default class ReturnModes extends React.Component {
               </div>
             </div>
           )}
-        </MobileOnly>
+        </MobileOnly> */}
         <div className={styles.content}>
-          <div className={styles.card}>
+          {/* <div className={styles.card}>
             <OrderCard
               imageUrl={
                 data &&
@@ -155,14 +155,15 @@ export default class ReturnModes extends React.Component {
                   </div>
                 )}
             </OrderCard>
-          </div>
-          <DesktopOnly>
-            <SelectedReasonForReturn
-              header={"Select reason for your return"}
-              titleDescription={this.props.selectedReason}
-              handleCancel={() => this.handleCancel()}
-            />
-          </DesktopOnly>
+          </div> */}
+          {/* <DesktopOnly>
+						<SelectedReasonForReturn
+							header={'Select reason for your return'}
+							titleDescription={this.props.selectedReason}
+							handleCancel={() => this.handleCancel()}
+							onChange={this.props.onChange}
+						/>
+					</DesktopOnly> */}
           {this.isReturnModesEnabled() && (
             <div
               className={
@@ -175,7 +176,7 @@ export default class ReturnModes extends React.Component {
                 <DesktopOnly>
                   <div className={styles.header}>
                     <div className={styles.circleHolder}>
-                      <div className={styles.circle}>2</div>
+                      {/* <div className={styles.circle}>2</div> */}
                     </div>
                     Select mode of return
                   </div>
@@ -248,11 +249,11 @@ export default class ReturnModes extends React.Component {
               care 90291 08282
             </div>
           )}
-          <DesktopOnly>
+          {/* <DesktopOnly>
             {!this.state.isModeSelected && (
               <DummyTab title={REFUND_DETAILS} number={3} />
             )}
-          </DesktopOnly>
+          </DesktopOnly> */}
         </div>
       </div>
     );

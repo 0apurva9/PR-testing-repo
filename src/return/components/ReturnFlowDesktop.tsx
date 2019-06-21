@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Route } from 'react-router-dom';
 import {
 	IProps,
 	IProductDetailsObj,
@@ -9,8 +10,13 @@ import {
 } from './interface/ReturnFlowDesktop';
 import { IStateForBank } from './interface/ReturnBankFormForDesktop';
 import * as Cookie from '../../lib/Cookie';
-import ReturnReasonFormForDesktop from './ReturnReasonFormForDesktop';
-import ReturnModesForDesktop from './ReturnModesForDesktop';
+import ReturnReasonAndModes from '../../account/components/ReturnReasonAndModes';
+//import ReturnBankForm from '../../account/components/ReturnBankForm';
+import ReturnToStoreContainer from '../../account/containers/ReturnToStoreContainer.js';
+import ReturnCliqAndPiqContainer from '../../account/containers/ReturnCliqAndPiqContainer.js';
+import SelfCourierContainer from '../../account/containers/SelfCourierContainer.js';
+// import ReturnReasonFormForDesktop from './ReturnReasonFormForDesktop';
+// import ReturnModesForDesktop from './ReturnModesForDesktop';
 import cloneDeep from 'lodash.clonedeep';
 import {
 	LOGGED_IN_USER_DETAILS,
@@ -28,13 +34,15 @@ import {
 	RETURNS_SELF_COURIER,
 	REPLACE_REFUND_SELECTION,
 	RETURN_LANDING,
+	RETURNS,
+	//RETURNS_STORE_BANK_FORM,
 } from '../../lib/constants';
-import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
-import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
+//import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
+//import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
 import { setDataLayerForMyAccountDirectCalls, ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL } from '../../lib/adobeUtils';
-import * as format from 'date-fns/format';
+//import * as format from 'date-fns/format';
 const RETURN_FLAG: string = 'R';
-const dateFormat = 'DD MMM YYYY';
+//const dateFormat = 'DD MMM YYYY';
 const IFSC_CODE_TEXT = 'Please enter IFSC code';
 const IFSC_CODE_VALID_TEXT = 'Please enter valid IFSC code';
 const IFSC_PATTERN = /^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/;
@@ -94,9 +102,6 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 	clearForm() {
 		this.setState({ bankDetail: {} });
 	}
-	// onChangeReasonAndMode = val => {
-	// 	this.setState(val);
-	// };
 	handleContinueForReason = (returnSelectedReason: IReturnSelectedReason) => {
 		if (!returnSelectedReason.reason) {
 			this.props.displayToast('Please select reason ');
@@ -220,86 +225,10 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			selectedReasonAndCommentObj: null,
 		});
 	};
-	private renderReturnForms = () => {
-		//console.log('ReturnStatus------->', this.state.returnProgressStatus);
-		switch (this.state.returnProgressStatus) {
-			case ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION: {
-				let returnFlow = true;
-				return (
-					<ReturnReasonFormForDesktop
-						returnProductDetails={this.props.returnProductDetails}
-						orderDate={this.props.orderDetails && format(this.props.orderDetails.orderDate, dateFormat)}
-						orderId={this.props.orderDetails && this.props.orderDetails.orderId}
-						productBrand={
-							this.props.orderDetails &&
-							this.props.orderDetails.products &&
-							this.props.orderDetails.products[0] &&
-							this.props.orderDetails.products[0].productBrand
-						}
-						//displayToast={(val: string) => this.props.displayToast(val)}
-						onContinue={(returnSelectedReason: IReturnSelectedReason) =>
-							this.handleContinueForReason(returnSelectedReason)
-						}
-						onCancel={() => this.handleCancelForReason()}
-						onHollow={true}
-						returnFlow={returnFlow}
-					/>
-				);
-			}
-			case ReturnStatus.SHOW_BANK_DETAIL_SECTION: {
-				let returnFlow = true;
-				//console.log('propsSub Reason:', this.props, 'stateSub Reason:', this.state);
-				return (
-					<ReturnBankFormForDesktop
-						{...this.props}
-						{...this.state}
-						onContinue={(BankDetails: IStateForBank) => this.handleContinueForBankForm(BankDetails)}
-						onCancel={() => this.handleCancelForBankForm()}
-						displayToast={(val: string) => this.props.displayToast(val)}
-						history={this.props.history}
-						orderCode={this.orderCode}
-						selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
-						changeReturnReason={() => this.changeReturnReason()}
-						returnFlow={returnFlow}
-						subReason={this.props.returnProductDetails}
-						clearForm={() => this.clearForm()}
-						updateStateForBankDetails={(data: IStateForBank) => this.updateStateForBankDetails(data)}
-						bankDetail={this.state.bankDetail}
-						onChange={(val: string) => this.onChangeBankingDetail(val)}
-						//getCliqCashDetailsRefund={this.props.getCliqCashDetailsRefund}
-					/>
-				);
-			}
-			case ReturnStatus.SHOW_SELECT_MODE_SECTION: {
-				let returnFlow = true;
-				return (
-					<ReturnModesForDesktop
-						{...this.state}
-						{...this.props}
-						changeReturnReason={() => this.changeReturnReason()}
-						orderCode={this.orderCode}
-						selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
-						returnProductDetails={this.props.returnProductDetails}
-						returnRequest={this.props.returnRequest}
-						showSecondaryLoader={this.props.showSecondaryLoader}
-						hideSecondaryLoader={this.props.hideSecondaryLoader}
-						returnFlow={returnFlow}
-						productInfo={
-							this.props.returnRequest &&
-							this.props.returnRequest.returnEntry &&
-							this.props.returnRequest.returnEntry.orderEntries[0]
-						}
-						selectMode={(mode: any) => this.onSelectMode(mode)}
-						onCancel={() => this.onCancel()}
-					/>
-				);
-			}
-			default: {
-				//statements;
-				break;
-			}
-		}
+	onChangeReasonAndMode = (val: any) => {
+		this.setState(val);
 	};
+
 	public render() {
 		const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 		const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -308,19 +237,41 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		}
 		let returnFlow = true;
 		return (
-			<ReturnAndOrderCancelWrapper
-				userAddress={this.props.userAddress}
-				returnProductDetails={this.props.returnProductDetails}
-				orderDetails={this.props.orderDetails}
-				orderId={this.orderCode}
-				userDetails={userDetails}
-				history={this.props.history}
-				orderPlace={''}
-				returnFlow={returnFlow}
-				//returnStatus={this.state.returnProgressStatus}
-			>
-				{this.renderReturnForms()}
-			</ReturnAndOrderCancelWrapper>
+			<React.Fragment>
+				<Route
+					path={`${RETURNS}${RETURN_LANDING}`}
+					render={() => (
+						<ReturnReasonAndModes
+							{...this.state}
+							{...this.props}
+							onChange={(val: any) => this.onChangeReasonAndMode(val)}
+							returnProductDetails={this.props.returnProductDetails}
+							returnFlow={returnFlow}
+							onCancel={() => this.onCancel()}
+							clearForm={() => this.clearForm()}
+							history={this.props.history}
+							updateStateForBankDetails={(data: any) => this.updateStateForBankDetails(data)}
+							bankDetail={this.state.bankDetail}
+							onChangeBankingDetail={(val: any) => this.onChangeBankingDetail(val)}
+							onContinue={(BankDetails: any) => this.handleContinueForBankForm(BankDetails)}
+						/>
+					)}
+				/>
+				<Route
+					path={`${RETURNS}${RETURN_TO_STORE}`}
+					render={() => <ReturnToStoreContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
+				/>
+				<Route
+					path={`${RETURNS}${RETURN_CLIQ_PIQ}`}
+					render={() => <ReturnCliqAndPiqContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
+				/>
+				<Route
+					exact
+					path={`${RETURNS}${RETURNS_SELF_COURIER}`}
+					render={() => <SelfCourierContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
+				/>
+				{/* end of need to call return bia store pick up  routes */}
+			</React.Fragment>
 		);
 	}
 }

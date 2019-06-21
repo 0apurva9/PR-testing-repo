@@ -16,9 +16,7 @@ export default class SelectedReasonForReturn extends React.Component {
           {this.props.header && (
             <div className={styles.headerForDefectiveReason}>
               <div className={styles.headerForDefectiveReasonFirst}>
-                {this.props.returnFlow
-                  ? "Reason for return:"
-                  : this.props.header}{" "}
+                Reason for return:
                 {this.props.titleDescription && (
                   <span className={styles.titleDescription}>
                     {this.props.titleDescription}

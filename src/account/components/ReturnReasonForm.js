@@ -22,7 +22,10 @@ export default class ReturnReasonForm extends React.Component {
       reverseSeal: null,
       returnReasonCode: null,
       subReasonCode: null,
-      isEnable: false
+      isEnable: false,
+      uploadedImageFiles: "",
+      validImgFiles: "",
+      showImageUpload: false
     };
   }
   handleContinue() {
@@ -32,9 +35,16 @@ export default class ReturnReasonForm extends React.Component {
         {
           returnReasonCode: this.state.returnReasonCode,
           subReasonCode: this.state.subReasonCode,
+          subReason: this.state.subReason,
           comment: this.state.comment,
           reason: this.state.reason,
-          reverseSeal: this.state.reverseSeal
+          reverseSeal: this.state.reverseSeal,
+          sellerorderno: this.props.returnProductDetails.orderProductWsDTO[0]
+            .sellerorderno,
+          transactionId: this.props.returnProductDetails.orderProductWsDTO[0]
+            .transactionId,
+          validImgFiles: this.state.validImgFiles,
+          showImageUpload: this.state.showImageUpload
         }
       );
       this.props.onContinue(reasonAndCommentObj);
@@ -87,64 +97,26 @@ export default class ReturnReasonForm extends React.Component {
 
     return (
       <div className={styles.base}>
-        <MobileOnly>
-          <div className={styles.header}>
-            Select reason for your return
-            <div className={styles.cancelHolder}>
-              <UnderLinedButton
-                label="Cancel"
-                color="#ff1744"
-                onClick={() => this.handleCancel()}
-              />
-            </div>
-          </div>
-        </MobileOnly>
         <div className={styles.content}>
-          <OrderCard
-            imageUrl={
-              data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].imageURL
-            }
-            productName={`${data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].productBrand} ${data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].productName}`}
-            price={
-              data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].price
-            }
-            isSelect={true}
-            quantity={true}
-            onHollow={this.props.onHollow}
-            orderPlace={this.props.orderDate}
-            orderId={this.props.orderId}
-            productBrand={this.props.productBrand}
-          >
-            {data &&
-              data.orderProductWsDTO &&
-              data.orderProductWsDTO[0] &&
-              data.orderProductWsDTO[0].quantity && (
-                <div className={styles.quantity}>
-                  Qty {data.orderProductWsDTO[0].quantity}
-                </div>
-              )}
-          </OrderCard>
           <div className={styles.selectReasonWithText}>
-            <DeskTopOnly>
+            {/* <DeskTopOnly>
+							<div className={styles.header}>
+								{/* <div className={styles.circleHolder}>
+									<div className={styles.circle}>1</div>
+								</div>
+								Select reason for your return
+							</div>
+						</DeskTopOnly> */}
+            {this.props.returnFlow == false ? (
               <div className={styles.header}>
                 <div className={styles.circleHolder}>
                   <div className={styles.circle}>1</div>
                 </div>
                 Select reason for your return
               </div>
-            </DeskTopOnly>
+            ) : (
+              <div className={styles.header}>Please select return reason</div>
+            )}
             <div className={styles.select}>
               <SelectBoxMobile2
                 placeholder={"Select a reason"}
@@ -182,6 +154,7 @@ export default class ReturnReasonForm extends React.Component {
                 <CancelAndContinueButton
                   handleCancel={() => this.handleCancel()}
                   handleContinue={() => this.handleContinue()}
+                  disabled={this.state.reason ? false : true}
                 />
               </div>
             </DeskTopOnly>
@@ -195,24 +168,16 @@ export default class ReturnReasonForm extends React.Component {
               />
             </div>
           )}
-
-        <MobileOnly>
-          <div className={styles.buttonHolder}>
-            <div className={styles.button}>
-              <Button
-                width={175}
-                type="primary"
-                label="Continue"
-                onClick={() => this.handleContinue()}
-              />
-            </div>
-          </div>
-        </MobileOnly>
-
-        <DeskTopOnly>
+        {this.props.returnFlow ? (
+          ""
+        ) : (
           <DummyTab title={MODE_OF_RETURN} number={2} />
+        )}
+        {this.props.returnFlow ? (
+          ""
+        ) : (
           <DummyTab title={REFUND_DETAILS} number={3} />
-        </DeskTopOnly>
+        )}
       </div>
     );
   }
