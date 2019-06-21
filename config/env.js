@@ -125,10 +125,10 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
     "970557259016-tlp1vii8eoc4i3lq1i9a028lrtiieo5q.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "uat5") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
-    "970557259016-c6hhcmldr7sns7b8ehrpfomfsho3c7r7.apps.googleusercontent.com";
+    "970557259016-dn8cfjib6e40a1ejlisqitoakqpac2uj.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "uat6") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
-    "970557259016-c6hhcmldr7sns7b8ehrpfomfsho3c7r7.apps.googleusercontent.com";
+    "970557259016-dn8cfjib6e40a1ejlisqitoakqpac2uj.apps.googleusercontent.com";
 } else {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "367761167032-apbr4v0nndom1cafs9inrrnkk7iag5be.apps.googleusercontent.com";
