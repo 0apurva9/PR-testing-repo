@@ -109,10 +109,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.displayToast('Please Select Reverse Seal ');
 			return false;
 		} else {
+			//console.log('this.props:', this.state.isCOD);
 			this.setState({
 				returnProgressStatus: this.state.isCOD
 					? ReturnStatus.SHOW_BANK_DETAIL_SECTION
-					: ReturnStatus.SHOW_SELECT_MODE_SECTION,
+					: ReturnStatus.SHOW_BANK_DETAIL_SECTION,
+				//: ReturnStatus.SHOW_SELECT_MODE_SECTION,
 				selectedReasonAndCommentObj: returnSelectedReason,
 			});
 		}
@@ -121,20 +123,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		this.props.history.goBack();
 	};
 	handleContinueForBankForm = (BankDetails: IStateForBank) => {
-		this.props.getCustomerBankDetails();
-		// console.log(
-		// 	'bank details check on change details and not change:',
-		// 	BankDetails,
-		// 	'api call:',
-		// 	this.props.getCustomerBankDetails()
-		// );
 		if (BankDetails) {
 			//console.log('1');
 			this.setState({
 				returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION,
 				bankDetail: BankDetails,
 			});
-			//this.props.history.goBack();
 		}
 		if (!this.state.bankDetail.ifscCode) {
 			this.props.displayToast(IFSC_CODE_TEXT);

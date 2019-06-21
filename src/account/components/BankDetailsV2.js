@@ -51,6 +51,7 @@ export default class BankDetailsV2 extends React.Component {
   }
   //clear form data
   clearFormData(orderId) {
+    console.log("cleared form details:", this.props, this.state.selectedOption);
     if (this.props.clearForm) {
       this.props.clearForm();
     }

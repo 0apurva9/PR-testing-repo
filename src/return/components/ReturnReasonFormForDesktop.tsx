@@ -55,7 +55,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 		const code = val.value;
 		const label = val.label;
 		const returnProductDetails = this.props.returnProductDetails;
-		//console.log('data:', this.props.returnProductDetails);
+		//this.setState({ primaryReason: label });
 		const selectedReason = returnProductDetails.returnReasonMap.find((val: IReturnReasonMapItem) => {
 			return val.parentReasonCode === code;
 		});
@@ -137,7 +137,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 		const returnProductDetails = this.props.returnProductDetails;
 		//let imageCallOut = returnProductDetails && returnProductDetails.attachmentImageCallout;
 		//let imageCallOutArr = imageCallOut && imageCallOut.split('|');
-
+		//console.log('primary Reason:', this.state.reason, this.state.returnReasonCode);
 		return (
 			<div className={styles.base}>
 				<div className={styles.content}>
@@ -200,6 +200,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 							<CancelAndContinueButton
 								handleCancel={() => this.handleCancel()}
 								handleContinue={() => this.handleContinue()}
+								disabled={this.state.reason ? false : true}
 							/>
 						</div>
 					</div>

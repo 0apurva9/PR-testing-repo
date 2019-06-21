@@ -26,6 +26,7 @@ export default class CancelAndContinueButton extends React.Component {
                 label={this.props.continueText}
                 width={175}
                 textStyle={{ color: "#FFF", fontSize: 14 }}
+                disabled={this.props.disabled}
                 onClick={() => this.handleContinue()}
               />
             </div>

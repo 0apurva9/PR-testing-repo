@@ -126,6 +126,11 @@ export default class ReturnBankFormForDesktop extends React.Component<IProps, IS
 	// 		});
 	// 	}
 	// }
+	handleCancel() {
+		if (this.props.onCancel) {
+			this.props.onCancel();
+		}
+	}
 	public render() {
 		//console.log('props in bank form selectReason:', this.props.selectedReasonAndCommentObj, this.props);
 		let subReason = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.subReason;
@@ -144,7 +149,7 @@ export default class ReturnBankFormForDesktop extends React.Component<IProps, IS
 				/>
 				<ReplaceRefundSelection
 					{...this.props}
-					onCancel={() => this.props.onCancel()}
+					onCancel={() => this.handleCancel()}
 					onChangeBankingDetail={this.props.onChange}
 					displayToast={this.props.displayToast}
 					selectedReasonAndCommentObj={this.props.selectedReasonAndCommentObj}

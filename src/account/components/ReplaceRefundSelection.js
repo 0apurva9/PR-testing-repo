@@ -99,7 +99,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   addBankDetails(data) {
-    // console.log("bankDetails:", this.props.getRefundOptionsDetails);
+    //console.log("bankDetails on update:", data);
     this.setState({ addBankDetailsPage: true });
     //go to add/update bank details screen with bank details
     this.props.history.push({
@@ -170,6 +170,28 @@ export default class ReplaceRefundSelection extends React.Component {
     }
   }
 
+  onContinueButton() {
+    if (
+      this.state.selectedOption === "BANK_ACCOUNT" &&
+      this.state.agreeToReturn
+    ) {
+      let orderId = this.props.selectedReasonAndCommentObj.sellerorderno;
+      let transactionId = this.props.selectedReasonAndCommentObj.transactionId;
+      let returnId = this.props.getRefundOptionsDetails.returnId;
+      let refundMode = this.state.selectedOption;
+      const updateRefundModeResponse = this.props.updateRefundMode(
+        orderId,
+        transactionId,
+        returnId,
+        refundMode
+      );
+      this.props.onContinue(this.state.customerBankDetails);
+      console.log("bank Details:");
+    } else {
+      this.onSubmit();
+      console.log("Without bank Details:");
+    }
+  }
   async goToRefundModesPage() {
     if (this.state.selectedOption && this.state.agreeToReturn) {
       let orderId = this.props.selectedReasonAndCommentObj.sellerorderno;
@@ -182,7 +204,6 @@ export default class ReplaceRefundSelection extends React.Component {
         returnId,
         refundMode
       );
-      //console.log(updateRefundModeResponse);
       //move to next screen on success
       if (
         updateRefundModeResponse &&
@@ -196,14 +217,10 @@ export default class ReplaceRefundSelection extends React.Component {
             authorizedRequest: true
           }
         });
-        // let userBankDetails="";
-        // if (this.state.customerBankDetails) {
-        //   userBankDetails = this.state.customerBankDetails;
-        // }
-        //this.props.onContinue(userBankDetails)
       }
     }
   }
+
   render() {
     //console.log("propsin RefundReplaceSelection:", this.props);
     // Preventing user to open this page direct by hitting URL
@@ -406,24 +423,38 @@ export default class ReplaceRefundSelection extends React.Component {
             </div>
           )}
 
-        {this.state.showRefundOptions && (
-          <div className={styles.buttonHolder}>
-            <div className={styles.button}>
-              <Button
-                width={175}
-                type="primary"
-                label="CONTINUE"
-                //disabled={this.state.selectedOption && this.state.agreeToReturn ? false : true}
-
-                onClick={
-                  this.state.selectedOption === "BANK_ACCOUNT"
-                    ? userBankDetails => this.props.onContinue(userBankDetails)
-                    : () => this.onSubmit()
-                }
-              />
+        {this.state.showRefundOptions &&
+          !this.state.addBankDetailsPage && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label="CONTINUE"
+                  disabled={
+                    this.state.selectedOption && this.state.agreeToReturn
+                      ? false
+                      : true
+                  }
+                  onClick={() => this.onContinueButton()}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        {this.state.showRefundOptions &&
+          this.state.addBankDetailsPage && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label="CONTINUE"
+                  //disabled={this.state.selectedOption && this.state.agreeToReturn? false : true}
+                  onClick={() => this.onContinueButton()}
+                />
+              </div>
+            </div>
+          )}
       </ReturnsFrame>
     );
   }
