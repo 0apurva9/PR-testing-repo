@@ -56,7 +56,7 @@
 	width: auto;
 	height: auto;
 	display: inline-block;
-	color: warmGrey;
+	color: #8D8D8D;
 	font-size: 12px;
 	font-family: light;
 	line-height: 16px;
@@ -65,7 +65,7 @@
 .timeHolder:first-child {
 	padding-right: 5px;
 	margin-right: 5px;
-	border-right: 1px solid #ccc;
+	/* border-right: 1px solid #ccc; */
 }
 .dateHolder {
 	composes: timeHolder;
@@ -81,9 +81,11 @@
 	width: 100%;
 	height: auto;
 	font-family: light;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 24px;
-	color: #212121;
+	color: black;
+	vertical-align: top;
+	text-align: center;
 }
 div .step:after {
 	content: '';
