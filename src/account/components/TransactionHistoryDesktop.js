@@ -8,7 +8,8 @@ import {
   EXPIRED,
   TRANSACTION_DETAIL_PAGE,
   MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_CLIQ_CASH_PAGE
+  MY_ACCOUNT_CLIQ_CASH_PAGE,
+  EXPIRED_REJECTED_FORMAT
 } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -268,7 +269,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                     {value.transactionId &&
                                       value.transactionType
                                         .toUpperCase()
-                                        .match(/\bADDED/g) && (
+                                        .match(/\bADDED|EXPIRED/g) && (
                                         <div className={styles.orderNumber}>
                                           Transacttion ID: {value.transactionId}
                                         </div>
@@ -276,12 +277,14 @@ export default class TransactionHistoryDesktop extends React.Component {
                                     {value.orderNo &&
                                       !value.transactionType
                                         .toUpperCase()
-                                        .match(/\bADDED/g) && (
+                                        .match(/\bADDED|EXPIRED/g) && (
                                         <div className={styles.orderNumber}>
                                           Order No:{value.orderNo}
                                         </div>
                                       )}
                                     {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       value.transactionType
                                         .toUpperCase()
@@ -296,6 +299,8 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         </div>
                                       )}
                                     {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       !value.transactionType
                                         .toUpperCase()

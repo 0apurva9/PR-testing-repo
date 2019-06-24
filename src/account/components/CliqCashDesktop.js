@@ -11,7 +11,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY,
-  MY_ACCOUNT_CLIQ_CASH_PAGE
+  MY_ACCOUNT_CLIQ_CASH_PAGE,
+  EXPIRED_REJECTED_FORMAT
 } from "../../lib/constants.js";
 import {
   getWholeDayTimeFormat,
@@ -325,7 +326,7 @@ export default class CliqCashDesktop extends React.Component {
                                         {value.transactionId &&
                                           value.transactionType
                                             .toUpperCase()
-                                            .match(/\bADDED/g) && (
+                                            .match(/\bADDED|EXPIRED/g) && (
                                             <div
                                               className={styles.cliqCashOrderNo}
                                             >
@@ -337,7 +338,7 @@ export default class CliqCashDesktop extends React.Component {
                                         {value.orderNo &&
                                           !value.transactionType
                                             .toUpperCase()
-                                            .match(/\bADDED/g) && (
+                                            .match(/\bADDED|EXPIRED/g) && (
                                             <div
                                               className={styles.cliqCashOrderNo}
                                             >
@@ -345,6 +346,8 @@ export default class CliqCashDesktop extends React.Component {
                                             </div>
                                           )}
                                         {value.expiryDate &&
+                                          value.expiryDate !=
+                                            EXPIRED_REJECTED_FORMAT &&
                                           value.transactionType &&
                                           value.transactionType
                                             .toUpperCase()
@@ -359,6 +362,8 @@ export default class CliqCashDesktop extends React.Component {
                                             </div>
                                           )}
                                         {value.expiryDate &&
+                                          value.expiryDate !=
+                                            EXPIRED_REJECTED_FORMAT &&
                                           value.transactionType &&
                                           !value.transactionType
                                             .toUpperCase()
