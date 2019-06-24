@@ -322,21 +322,49 @@ export default class CliqCashDesktop extends React.Component {
                                               </span>
                                             )}
                                         </div>
+                                        {value.transactionId &&
+                                          value.transactionType
+                                            .toUpperCase()
+                                            .match(/\bADDED/g) && (
+                                            <div
+                                              className={styles.cliqCashOrderNo}
+                                            >
+                                              Transacttion ID:{" "}
+                                              {value.transactionId}
+                                            </div>
+                                          )}
 
-                                        {value.orderNo && (
-                                          <div
-                                            className={styles.cliqCashOrderNo}
-                                          >
-                                            Order No:{value.orderNo}
-                                          </div>
-                                        )}
+                                        {value.orderNo &&
+                                          !value.transactionType
+                                            .toUpperCase()
+                                            .match(/\bADDED/g) && (
+                                            <div
+                                              className={styles.cliqCashOrderNo}
+                                            >
+                                              Order No:{value.orderNo}
+                                            </div>
+                                          )}
+                                        {value.expiryDate &&
+                                          value.transactionType &&
+                                          value.transactionType
+                                            .toUpperCase()
+                                            .match(/\bEXPIRED/g) && (
+                                            <div className={styles.expireDate}>
+                                              Expired on:{" "}
+                                              {getUTCDateMonthFormat(
+                                                value.expiryDate,
+                                                true,
+                                                true
+                                              )}
+                                            </div>
+                                          )}
                                         {value.expiryDate &&
                                           value.transactionType &&
                                           !value.transactionType
                                             .toUpperCase()
-                                            .match(/\bPAID/g) && (
+                                            .match(/\bEXPIRED|PAID/g) && (
                                             <div className={styles.expireDate}>
-                                              Expired on:{" "}
+                                              Expiring on:{" "}
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,

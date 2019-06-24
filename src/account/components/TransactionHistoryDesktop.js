@@ -265,12 +265,22 @@ export default class TransactionHistoryDesktop extends React.Component {
                                           </span>
                                         )}
                                     </div>
-
-                                    {value.orderNo && (
-                                      <div className={styles.orderNumber}>
-                                        Order No:{value.orderNo}
-                                      </div>
-                                    )}
+                                    {value.transactionId &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bADDED/g) && (
+                                        <div className={styles.orderNumber}>
+                                          Transacttion ID: {value.transactionId}
+                                        </div>
+                                      )}
+                                    {value.orderNo &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bADDED/g) && (
+                                        <div className={styles.orderNumber}>
+                                          Order No:{value.orderNo}
+                                        </div>
+                                      )}
                                     {value.expiryDate &&
                                       value.transactionType &&
                                       value.transactionType
