@@ -10,7 +10,8 @@ import {
   SUCCESS_UPPERCASE,
   LOGGED_IN_USER_DETAILS,
   TRANSACTION_DETAIL_PAGE,
-  TRANSACTION_HISTORY
+  TRANSACTION_HISTORY,
+  MY_ACCOUNT_CLIQ_CASH_PAGE
 } from "../../lib/constants.js";
 import {
   getWholeDayTimeFormat,
@@ -64,7 +65,7 @@ export default class CliqCashDesktop extends React.Component {
   }
   transactiondetailPage(data) {
     this.props.history.push({
-      pathname: `${TRANSACTION_DETAIL_PAGE}`,
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
       state: {
         transactonDetails: data,
         userAddress: this.props.userAddress
@@ -72,7 +73,9 @@ export default class CliqCashDesktop extends React.Component {
     });
   }
   showTransactioDetails = () => {
-    this.props.history.push(TRANSACTION_HISTORY);
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`
+    );
   };
 
   buyNewGiftCard = () => {

@@ -23,8 +23,6 @@ import {
   PRODUCT_LISTINGS,
   MAIN_ROUTER,
   LOGIN_PATH,
-  TRANSACTION_DETAIL_PAGE,
-  TRANSACTION_HISTORY,
   SIGN_UP_PATH,
   PRODUCT_DELIVERY_ADDRESSES,
   PRODUCT_CART_ROUTER,
@@ -233,13 +231,6 @@ const DeliveryModesContainer = Loadable({
   }
 });
 
-const TransactionDetailDesktop = Loadable({
-  loader: () => import("./account/components/TransactionDetailDesktop.js"),
-  loading() {
-    return <Loader />;
-  }
-});
-
 const DesktopFooterContainer = Loadable({
   loader: () => import("./general/containers/DesktopFooterContainer"),
   loading() {
@@ -317,12 +308,6 @@ const ProductSellerContainer = Loadable({
 
 const NoResultPage = Loadable({
   loader: () => import("./errorsPage/components/NoResultPage"),
-  loading() {
-    return <Loader />;
-  }
-});
-const TransactionHistoryContainer = Loadable({
-  loader: () => import("./account/containers/TransactionHistoryContainer.js"),
   loading() {
     return <Loader />;
   }
@@ -575,11 +560,6 @@ class App extends Component {
             />
             <Route
               exact
-              path={TRANSACTION_DETAIL_PAGE}
-              component={TransactionDetailDesktop}
-            />
-            <Route
-              exact
               path={ORDER_SUMMARY_ROUTER}
               component={DisplayOrderSummaryContainer}
             />
@@ -617,11 +597,6 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
-            />
-            <Route
-              exact
-              path={TRANSACTION_HISTORY}
-              component={TransactionHistoryContainer}
             />
             } />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
