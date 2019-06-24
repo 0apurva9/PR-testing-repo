@@ -256,11 +256,21 @@ export default class TransactionHistoryDesktop extends React.Component {
                                   <div className={styles.orderSummary}>
                                     <div className={styles.orderText}>
                                       {value.transactionName}
+                                      {value &&
+                                        value.orderInfo &&
+                                        value.orderInfo[0] && (
+                                          <span className={styles.orderText}>
+                                            {" "}
+                                            for {value.orderInfo[0].productName}
+                                          </span>
+                                        )}
                                     </div>
 
-                                    <div className={styles.orderNumber}>
-                                      Order No:{value.orderNo}
-                                    </div>
+                                    {value.orderNo && (
+                                      <div className={styles.orderNumber}>
+                                        Order No:{value.orderNo}
+                                      </div>
+                                    )}
                                     {value.expiryDate &&
                                       value.transactionType &&
                                       value.transactionType
