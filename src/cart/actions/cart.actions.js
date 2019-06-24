@@ -2657,7 +2657,7 @@ export function createJusPayOrderForGiftCard(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartId = JSON.parse(cartDetails).guid;
+  let cartId = cartDetails && JSON.parse(cartDetails).guid;
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
   return async (dispatch, getState, { api }) => {
@@ -4275,7 +4275,7 @@ export function getEmiEligibility(cartGuId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
 
-    const cartId = JSON.parse(cartDetails).guid;
+    const cartId = cartDetails && JSON.parse(cartDetails).guid;
     dispatch(getEligibilityOfNoCostEmiRequest());
     try {
       const result = await api.post(

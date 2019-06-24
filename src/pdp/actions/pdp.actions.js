@@ -716,7 +716,7 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
     accessToken = JSON.parse(customerCookie).access_token;
   } else {
     userName = ANONYMOUS_USER;
-    accessToken = JSON.parse(globalCookie).access_token;
+    accessToken = globalCookie && JSON.parse(globalCookie).access_token;
   }
   return async (dispatch, getState, { api }) => {
     dispatch(getProductReviewsRequest());
