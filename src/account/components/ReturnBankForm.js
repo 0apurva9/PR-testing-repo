@@ -9,6 +9,7 @@ export default class ReturnBankForm extends React.Component {
     }
   }
   render() {
+    //console.log('bank form:', this.props.bankDetail);
     return (
       // <ReturnsFrame
       //   headerText="Refund Details"
@@ -18,7 +19,11 @@ export default class ReturnBankForm extends React.Component {
       // >
       //   <BankDetails onChange={this.props.onChange} />
       // </ReturnsFrame>
-      <ReturnsFrameV2 onContinue={this.props.onContinue} isFooterNeeded={true}>
+      <ReturnsFrameV2
+        onContinue={this.props.onContinue}
+        isFooterNeeded={true}
+        bankData={this.props.bankDetail ? true : false}
+      >
         <BankDetailsV2
           onChange={this.props.onChange}
           clearForm={this.props.clearForm}

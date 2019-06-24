@@ -1,10 +1,10 @@
 .content {
 	width: 100%;
-    height: auto;
-    background: #fff;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    padding: 34px;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	padding: 34px;
 }
 .card {
 	width: 100%;
@@ -15,11 +15,11 @@
 }
 .cardCondition {
 	width: 100%;
-    height: auto;
-    /* padding-top: 34px; */
-    /* padding-bottom: 34px; */
-    /* border-bottom: 1px solid #ececec; */
-    position: relative;
+	height: auto;
+	/* padding-top: 34px; */
+	/* padding-bottom: 34px; */
+	/* border-bottom: 1px solid #ececec; */
+	position: relative;
 }
 .payments {
 	border-top: 1px solid #ececec;
@@ -29,27 +29,27 @@
 
 .returnMode {
 	/*padding-top: 34px; */
-    /* padding-left: 34px; */
-    font-family: semibold;
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: black;
+	/* padding-left: 34px; */
+	font-family: semibold;
+	font-size: 16px;
+	margin-bottom: 20px;
+	color: black;
 }
 .customerCareCall {
 	font-size: 12px;
 	font-family: light;
 }
 .rightArrow {
-    /* width: 25%; */
-    border: solid #000000;
-    border-width: 0 2px 2px 0;
-    padding: 3px;
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    position: absolute;
-    top: 20px;
-    right: 0;
+	/* width: 25%; */
+	border: solid #000000;
+	border-width: 0 2px 2px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	position: absolute;
+	top: 20px;
+	right: 0;
 }
 .replaceRefundHeading {
 	width: 75%;
@@ -60,22 +60,22 @@
 }
 .replaceRefundModeSelctnHeading {
 	width: 75%;
-    font-size: 14px;
-    font-family: semibold;
-    /* margin-left: 34px; */
-    margin-bottom: 14px;
-    /* padding-top: 34px; */
-    /* margin-top: 34px;*/
+	font-size: 14px;
+	font-family: semibold;
+	/* margin-left: 34px; */
+	margin-bottom: 14px;
+	/* padding-top: 34px; */
+	/* margin-top: 34px;*/
 }
 .replaceRefundText {
 	font-size: 14px;
-    font-family: light;
-    color: #747474;
-    letter-spacing: 0px;
-    width: 220px;
-    /* margin-left: 34px; */
-    margin-top: 4px;
-    margin-bottom: 34px;
+	font-family: light;
+	color: #747474;
+	letter-spacing: 0px;
+	width: 220px;
+	/* margin-left: 34px; */
+	margin-top: 4px;
+	margin-bottom: 34px;
 }
 .infoIcon {
 	display: inline-block;
@@ -92,11 +92,11 @@
 }
 .refundModeContainer {
 	width: 90%;
-    border: 1px solid #efefef;
-    border-radius: 4px;
-    /* margin-top: 10px; */
-    /* margin-left: 5%; */
-    /* margin-right: 5%;*/
+	border: 1px solid #efefef;
+	border-radius: 4px;
+	/* margin-top: 10px; */
+	/* margin-left: 5%; */
+	/* margin-right: 5%;*/
 }
 .chooseMode {
 	width: 100%;
@@ -125,11 +125,11 @@ label {
 }
 .radioBtnSubText {
 	font-size: 14px;
-    font-family: light;
-    display: block;
-    padding: 5px 0 0 25px;
-    letter-spacing: 0;
-    color: #747474;
+	font-family: light;
+	display: block;
+	padding: 5px 0 0 25px;
+	letter-spacing: 0;
+	color: #747474;
 }
 .checkRefundTerms {
 	width: 15px;
@@ -148,25 +148,24 @@ label {
 	/* float: center; */
 	padding-right: 30%;
 	padding-left: 40%;
-	
 }
-.button1{
+.button1 {
 	height: 40px;
-    width: 165px;
-    border-radius: 20px;
-    background-color: rgb(255, 23, 68);
-    margin-left: 50px;
+	width: 165px;
+	border-radius: 20px;
+	background-color: rgb(255, 23, 68);
+	margin-left: 50px;
 }
 .checkRefundTermsContainer {
 	width: auto;
-    display: inline-block;
-    vertical-align: top;
-    padding-right: 20px;
+	display: inline-block;
+	vertical-align: top;
+	padding-right: 20px;
 }
 .checkRefundTermsText {
 	width: 85%;
-    display: inline-block;
-    font-size: 12px;
+	display: inline-block;
+	font-size: 12px;
 	font-family: light;
 	letter-spacing: 0;
 }
@@ -180,9 +179,15 @@ label {
 .cliqCashInstant {
 	font-family: regular;
 	font-size: 10px;
-	margin-left: 10px;
+	margin-left: 18px;
 	vertical-align: middle;
 	color: #ff1744;
+	display: inline-block;
+}
+.InstantImage {
+	display: inline-block;
+	margin-left: 10px;
+	/* background-image: url(../../general/components/img/pathCopy7.png); */
 }
 .addBankDetailsButton {
 	font-size: 14px;
@@ -215,11 +220,11 @@ label {
 }
 .bankDetailsText {
 	font-size: 14px;
-    font-family: light;
-    width: 43%;
-    color: #747474;
-    display: inline-block;
-    margin-left: 31px;
-    height: 17px;
-    margin-bottom: 10px;
+	font-family: light;
+	width: 43%;
+	color: #747474;
+	display: inline-block;
+	margin-left: 31px;
+	height: 17px;
+	margin-bottom: 10px;
 }

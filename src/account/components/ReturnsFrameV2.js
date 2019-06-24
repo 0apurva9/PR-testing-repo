@@ -16,6 +16,15 @@ export default class ReturnsFrameV2 extends React.Component {
     }
   }
   render() {
+    //console.log('this.props in Return Frame to disable button:', this.props.children);
+    let disabled;
+    let bankDetails = this.props.children.props.bankDetail;
+    var BankDetailsSize = Object.keys(bankDetails).length;
+    if (BankDetailsSize > 0) {
+      disabled = false;
+    } else {
+      disabled = true;
+    }
     return (
       <div className={styles.base}>
         <div className={styles.content}>{this.props.children}</div>
@@ -27,6 +36,7 @@ export default class ReturnsFrameV2 extends React.Component {
                   width={175}
                   type="primary"
                   label={this.props.buttonText}
+                  disabled={disabled}
                   onClick={() => this.handleContinue()}
                 />
               </div>

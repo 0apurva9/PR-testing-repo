@@ -90,7 +90,7 @@ export default class ReplaceRefundSelection extends React.Component {
         let currentBankDetails =
           getCustomerBankDetailsResponse.getCustomerBankDetails;
         currentBankDetails.ifscCode = currentBankDetails.IFSCCode;
-        delete currentBankDetails.IFSCCode;
+        //delete currentBankDetails.IFSCCode;
         //show details
         this.setState({
           showBankDetails: true,
@@ -293,13 +293,21 @@ export default class ReplaceRefundSelection extends React.Component {
                               {value.refundModeCode === "CLIQ_CASH"
                                 ? "CLiQ Cash"
                                 : value.refundMode}
-
-                              <span className={styles.cliqCashInstant}>
-                                <Icon image={Instant} size={5} />
+                              {value.refundModeCode === "CLIQ_CASH" ? (
+                                <div className={styles.InstantImage}>
+                                  <Icon image={Instant} size={15} />
+                                  <span className={styles.cliqCashInstant}>
+                                    {" "}
+                                    "Instant"
+                                  </span>
+                                </div>
+                              ) : null}
+                              {/* <span className={styles.cliqCashInstant}>
                                 {value.refundModeCode === "CLIQ_CASH"
                                   ? "Instant"
                                   : null}
-                              </span>
+                                  </span>*/}
+
                               <span className={styles.radioBtnSubText}>
                                 {value.callout}
                               </span>
