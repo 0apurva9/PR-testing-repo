@@ -52,12 +52,14 @@ export default class TransactionDetailDesktop extends React.Component {
                 </div>
                 <div className={styles.timeAndDate}>
                   {getDateMonthFormat(
-                    transactionDetails.transactionDate,
+                    transactionDetails && transactionDetails.transactionDate,
                     true,
                     true
                   )}{" "}
-                  {getTimeAmPm(transactionDetails.transactionTime)} | Closing
-                  Balance : ₹
+                  {getTimeAmPm(
+                    transactionDetails && transactionDetails.transactionTime
+                  )}{" "}
+                  | Closing Balance : ₹
                   <span className={styles.totalAmount}>
                     {transactionDetails &&
                       transactionDetails.closingBalance &&

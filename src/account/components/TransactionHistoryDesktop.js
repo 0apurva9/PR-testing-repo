@@ -6,7 +6,9 @@ import {
   RECEIVED,
   PAID,
   EXPIRED,
-  TRANSACTION_DETAIL_PAGE
+  TRANSACTION_DETAIL_PAGE,
+  MY_ACCOUNT_PAGE,
+  MY_ACCOUNT_CLIQ_CASH_PAGE
 } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -44,14 +46,14 @@ export default class TransactionHistoryDesktop extends React.Component {
   };
   transactiondetailPage(data) {
     this.props.history.push({
-      pathname: `${TRANSACTION_DETAIL_PAGE}`,
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
       state: {
         transactonDetails: data
       }
     });
   }
   showDatePickerModule = type => {
-    this.setState({ checked: type });
+    this.setState({ checked: type, transactionDetails: null });
     let data = {
       ...this.props,
       setDate: date => this.setDate(date)
@@ -179,9 +181,12 @@ export default class TransactionHistoryDesktop extends React.Component {
       { data: "Expired" },
       { data: "By date" }
     ];
-    const transactionDetails = this.state.transactionDetails
-      ? this.state.transactionDetails
-      : this.props.transactionDetails;
+    const transactionDetails =
+      this.state.checked === 4
+        ? this.state.transactionDetails
+        : this.state.transactionDetails
+          ? this.state.transactionDetails
+          : this.props.transactionDetails;
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userDetails) {
