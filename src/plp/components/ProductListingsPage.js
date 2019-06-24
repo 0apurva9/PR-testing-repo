@@ -280,7 +280,7 @@ class ProductListingsPage extends Component {
     if (this.props.match.path === BRAND_AND_CATEGORY_PAGE) {
       const searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, 0, false);
-
+      let categoryId = this.getCategoryId(searchText);
       // get banners for category listing
       if (categoryId) {
         this.props.getPlpBanners(categoryId);
