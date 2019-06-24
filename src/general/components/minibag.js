@@ -37,7 +37,7 @@ export default class Minibag extends React.Component {
         <div className={styles.mybagProductsContainer}>
           {this.props.cart.products.slice(0, 3).map((product, i) => {
             return (
-              <div className={productCardStyle}>
+              <div key={i} className={productCardStyle}>
                 <div className={styles.mybagImage}>
                   <img alt={product.title} src={product.imageURL} />
                 </div>
@@ -60,9 +60,8 @@ export default class Minibag extends React.Component {
                             {`${RUPEE_SYMBOL}${product.MRP}`}
                           </div>
                         )}
-                      {product.discount &&
-                        product.discount !== 0.0 &&
-                        product.discount !== 0 && (
+                      {!!product.discount &&
+                        product.discount > 0 && (
                           <div className={styles.discount}>
                             {`(${product.discount}%)`}
                           </div>
