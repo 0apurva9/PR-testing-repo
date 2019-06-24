@@ -258,11 +258,25 @@ export default class TransactionHistoryDesktop extends React.Component {
                                     </div>
                                     {value.expiryDate &&
                                       value.transactionType &&
-                                      !value.transactionType
+                                      value.transactionType
                                         .toUpperCase()
-                                        .match(/\bPAID/g) && (
+                                        .match(/\bEXPIRED/g) && (
                                         <div className={styles.expireDate}>
                                           Expired on:{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true
+                                          )}
+                                        </div>
+                                      )}
+                                    {value.expiryDate &&
+                                      value.transactionType &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bEXPIRED|PAID/g) && (
+                                        <div className={styles.expireDate}>
+                                          Expiring on:{" "}
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,
