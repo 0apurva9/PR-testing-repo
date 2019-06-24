@@ -605,7 +605,17 @@ class App extends Component {
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
             />
-            } />
+            <Route
+              path="/que"
+              component={() => {
+                window.location.replace("https://www.tatacliq.com/que/");
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
