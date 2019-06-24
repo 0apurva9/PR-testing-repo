@@ -2305,7 +2305,7 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   addAddress = address => {
-    if (!address) {
+    if (!address && !this.state.isGiftCard) {
       this.props.displayToast("Please enter the valid details");
       return false;
     }
