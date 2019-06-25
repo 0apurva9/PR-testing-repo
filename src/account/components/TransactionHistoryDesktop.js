@@ -269,7 +269,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                     {value.transactionId &&
                                       value.transactionType
                                         .toUpperCase()
-                                        .match(/\bADDED|EXPIRED/g) && (
+                                        .match(/\bADDED|EXPIRED|RECEIVED/g) && (
                                         <div className={styles.orderNumber}>
                                           Transacttion ID: {value.transactionId}
                                         </div>

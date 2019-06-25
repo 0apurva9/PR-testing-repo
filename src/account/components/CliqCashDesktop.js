@@ -326,7 +326,9 @@ export default class CliqCashDesktop extends React.Component {
                                         {value.transactionId &&
                                           value.transactionType
                                             .toUpperCase()
-                                            .match(/\bADDED|EXPIRED/g) && (
+                                            .match(
+                                              /\bADDED|EXPIRED|RECEIVED/g
+                                            ) && (
                                             <div
                                               className={styles.cliqCashOrderNo}
                                             >
