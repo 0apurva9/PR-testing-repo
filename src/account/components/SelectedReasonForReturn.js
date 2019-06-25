@@ -4,12 +4,13 @@ import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 export default class SelectedReasonForReturn extends React.Component {
   handleCancel() {
-    if (this.props.handleCancel) {
-      this.props.handleCancel();
-    }
+    this.props.history.goBack();
+    // if (this.props.handleCancel) {
+    // 	this.props.handleCancel();
+    // }
   }
   render() {
-    //console.log("products props:", this.props);
+    console.log("products props:", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.headerRefundReason}>
@@ -17,9 +18,9 @@ export default class SelectedReasonForReturn extends React.Component {
             <div className={styles.headerForDefectiveReason}>
               <div className={styles.headerForDefectiveReasonFirst}>
                 Reason for return:
-                {this.props.titleDescription && (
+                {this.props.data.reason && (
                   <span className={styles.titleDescription}>
-                    {this.props.titleDescription}
+                    {this.props.data.reason}
                   </span>
                 )}
               </div>
@@ -32,20 +33,18 @@ export default class SelectedReasonForReturn extends React.Component {
             Change
           </div>
         </div>
-        {this.props.subDescription && (
+        {this.props.data.subReason && (
           <div className={styles.subDescription}>
             Issue Detail:{" "}
             <span className={styles.subTitleDescription}>
-              {this.props.subDescription}
+              {this.props.data.subReason}
             </span>
           </div>
         )}
-        {this.props.commentsInReturn && (
+        {this.props.data.comment && (
           <div className={styles.commentTitle}>
             Comments:{" "}
-            <span className={styles.comment}>
-              {this.props.commentsInReturn}
-            </span>
+            <span className={styles.comment}>{this.props.data.comment}</span>
           </div>
         )}
         {this.props.returnFlow ? (

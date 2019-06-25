@@ -260,6 +260,7 @@ export default class ReturnReasonAndModes extends React.Component {
         updateRefundMode={this.props.updateRefundMode} //function
         getCliqCashDetailsRefund={this.props.getCliqCashDetailsRefund} //function
         getCustomerBankDetails={this.props.getCustomerBankDetails}
+        //changeReturnReason={this.props.changeReturnReason()}
       />
     );
 

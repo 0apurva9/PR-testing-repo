@@ -245,6 +245,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 							{...this.state}
 							{...this.props}
 							onChange={(val: any) => this.onChangeReasonAndMode(val)}
+							// changeReturnReason={(val: any) => this.changeReturnReason()}
 							returnProductDetails={this.props.returnProductDetails}
 							returnFlow={returnFlow}
 							onCancel={() => this.onCancel()}
@@ -254,6 +255,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 							bankDetail={this.state.bankDetail}
 							onChangeBankingDetail={(val: any) => this.onChangeBankingDetail(val)}
 							onContinue={(BankDetails: any) => this.handleContinueForBankForm(BankDetails)}
+							selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
 						/>
 					)}
 				/>
