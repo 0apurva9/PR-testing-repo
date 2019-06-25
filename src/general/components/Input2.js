@@ -126,7 +126,7 @@ export default class Input2 extends React.Component {
                   ? this.props.value
                   : this.state.value
                     ? this.state.value
-                    : null
+                    : ""
               }
               maxLength={this.props.maxLength}
               disabled={this.props.disabled}
