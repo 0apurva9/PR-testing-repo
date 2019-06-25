@@ -10,6 +10,7 @@ import BankDetailsV2 from "../../account/components/BankDetailsV2";
 import Instant from "../../general/components/img/pathCopy7.png";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "../../account/components/SelectedReasonForReturn";
+import cancel from "../../general/components/img/canceltransperent.png";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -31,7 +32,9 @@ export default class ReplaceRefundSelection extends React.Component {
       showBankDetails: false,
       customerBankDetails: "",
       //addBankDetailsPage: false
-      cliqCashCheckSuccess: false
+      cliqCashCheckSuccess: false,
+      uploadedImageFiles: "",
+      showAttachment: false
     };
     this.radioChange = this.radioChange.bind(this);
     this.agreeToReturnDetails = this.agreeToReturnDetails.bind(this);
@@ -59,6 +62,9 @@ export default class ReplaceRefundSelection extends React.Component {
       this.setState({ showRefundOptions: true });
       this.setState({ selectedOption: "BANK_ACCOUNT" });
       this.setState({ showBankDetails: true });
+    }
+    if (this.props.data.showImageUpload == true) {
+      this.setState({ showAttachment: true });
     }
   }
 
@@ -227,6 +233,66 @@ export default class ReplaceRefundSelection extends React.Component {
       this.props.changeReturnReason();
     }
   }
+  handleFileUpload(e) {
+    let uploadedFilesArr = Array.from(e.target.files);
+    console.log("uploadedArrayFiles:", uploadedFilesArr);
+    if (uploadedFilesArr.length > 8) {
+      return this.props.displayToast("Upload maximum 8 images");
+    }
+    let imgArray = [];
+    let validImageFiles = [];
+    uploadedFilesArr.map((value, index) => {
+      if (!value.type.includes("image")) {
+        return this.props.displayToast("Upload file in image file format only");
+      }
+      if (!value.type.includes("jpeg")) {
+        if (!value.type.includes("png")) {
+          return this.props.displayToast(
+            "Upload image in JPEG/PNG format only"
+          );
+        }
+      }
+      if (value.size > 2500000) {
+        return this.props.displayToast(
+          "The Image size should be lesser than 2.5MB"
+        );
+      }
+      let eachImgSrc = URL.createObjectURL(value);
+      imgArray.push(eachImgSrc);
+      validImageFiles.push(value);
+    });
+    this.setState({ uploadedImageFiles: imgArray });
+    this.setState({ validImgFiles: validImageFiles });
+    console.log(
+      "uploadedImageFiles arrays:",
+      this.state.uploadedImageFiles,
+      this.state.validImgFiles
+    );
+  }
+  removeFile(filename, indexOfRemovedFile) {
+    let fileNames = this.state.uploadedImageFiles;
+    let index = fileNames.indexOf(filename);
+    if (index > -1) {
+      fileNames.splice(index, 1);
+      this.setState({ uploadedImageFiles: fileNames });
+    }
+    let updatedValidImgFiles = this.state.validImgFiles;
+    if (indexOfRemovedFile > -1) {
+      updatedValidImgFiles.splice(indexOfRemovedFile, 1);
+      this.setState({ validImgFiles: updatedValidImgFiles });
+    }
+  }
+  onContinueImageUpload() {
+    if (this.state.validImgFiles.length > 0) {
+      //this.props.onChangeValidImage({validImgFiles: this.state.validImgFiles});
+      this.props.uploadProductImages(
+        this.props.data.sellerorderno,
+        this.props.data.transactionId,
+        this.state.validImgFiles
+      );
+    }
+    this.setState({ showAttachment: false, uploadedImageFiles: [] });
+  }
   render() {
     console.log("propsin RefundReplaceSelection:", this.props);
     // Preventing user to open this page direct by hitting URL
@@ -244,8 +310,14 @@ export default class ReplaceRefundSelection extends React.Component {
     if (Object.keys(this.props.bankDetail).length !== 0) {
       userBankDetails = this.props.bankDetail;
     }
+    let showImageUpload = this.props.data.showImageUpload;
     const data = this.props.getRefundOptionsDetails;
     const refundModesDetail = this.props.getRefundModesDetails;
+    const productData = this.props.returnProductDetails;
+    let imageCallOut = productData && productData.attachmentImageCallout;
+    let imageCallOutArr = imageCallOut && imageCallOut.split("|");
+    let uploadImage = this.state.uploadedImageFiles;
+
     return (
       <React.Fragment>
         <div>
@@ -267,27 +339,28 @@ export default class ReplaceRefundSelection extends React.Component {
         </div>
         <ReturnsFrame>
           <div className={styles.content}>
-            {!this.state.showRefundOptions && (
-              <React.Fragment>
-                <div className={styles.returnMode}>Select mode of return</div>
-                <div className={styles.card}>
-                  <div
-                    className={styles.replaceRefundHeading}
-                    onClick={() => this.showRefund()}
-                  >
-                    {data && data.typeOfReturn[0].typeOfReturn}
+            {!this.state.showRefundOptions &&
+              this.state.showAttachment == false && (
+                <React.Fragment>
+                  <div className={styles.returnMode}>Select mode of return</div>
+                  <div className={styles.card}>
+                    <div
+                      className={styles.replaceRefundHeading}
+                      onClick={() => this.showRefund()}
+                    >
+                      {data && data.typeOfReturn[0].typeOfReturn}
+                      {!this.state.showRefundOptions && (
+                        <span className={styles.rightArrow} />
+                      )}
+                    </div>
                     {!this.state.showRefundOptions && (
-                      <span className={styles.rightArrow} />
+                      <div className={styles.replaceRefundText}>
+                        {data && data.typeOfReturn[0].callout}
+                      </div>
                     )}
                   </div>
-                  {!this.state.showRefundOptions && (
-                    <div className={styles.replaceRefundText}>
-                      {data && data.typeOfReturn[0].callout}
-                    </div>
-                  )}
-                </div>
-              </React.Fragment>
-            )}
+                </React.Fragment>
+              )}
             {this.state.showRefundOptions && (
               <React.Fragment>
                 <div className={styles.bankDetailsSection}>
@@ -390,21 +463,68 @@ export default class ReplaceRefundSelection extends React.Component {
                 </div>
               </React.Fragment>
             )}
-          </div>
+            {/* -----------------------Image Upload------------------------ */}
+            {this.state.showAttachment && (
+              <div>
+                <div className={styles.returnTitle}>Add attachments*</div>
+                {imageCallOutArr && (
+                  <ol className={styles.imgAttachmentText}>
+                    {imageCallOutArr.map((value, index) => {
+                      return <li key={index}>{value}</li>;
+                    })}
+                  </ol>
+                )}
 
-          {/* {this.state.addBankDetailsPage ? (
-          <BankDetailsV2
-            onChange={this.props.onChangeBankingDetail}
-            clearForm={this.props.clearForm}
-            history={this.props.history}
-            updateStateForBankDetails={this.props.updateStateForBankDetails}
-            bankDetail={
-              userBankDetails ? userBankDetails : this.props.bankDetail
-            }
-          />
-        ) : (
-          ""
-        )} */}
+                {this.state.uploadedImageFiles.length > 0 && (
+                  <div className={styles.imagePreviewContainer}>
+                    {this.state.uploadedImageFiles.length > 0 &&
+                      this.state.uploadedImageFiles.map((val, index) => {
+                        return (
+                          <div
+                            className={styles.imagePreviewContains}
+                            key={index}
+                          >
+                            <div className={styles.imagePreview}>
+                              <img
+                                id="panImage"
+                                src={val}
+                                alt="Upload"
+                                width="76%"
+                                height="auto"
+                              />
+                              <div className={styles.cancel}>
+                                <img
+                                  src={cancel}
+                                  onClick={() => this.removeFile(val, index)}
+                                  alt="cancel"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+                <div className={styles.uploadimageButton}>
+                  <button className={styles.fileuploadButtonForUpload}>
+                    Upload Images
+                  </button>
+                  <input
+                    type="file"
+                    name="myfile"
+                    ref="file"
+                    onChange={event => this.handleFileUpload(event)}
+                    name="textFile"
+                    multiple="multiple"
+                  />
+                </div>
+
+                <div className={styles.imgAttachmentSubText}>
+                  Upload JPEG, PNG (Maximum size per image 2.5 MB)
+                </div>
+              </div>
+            )}
+          </div>
 
           {this.state.showRefundOptions && (
             <div className={styles.content}>
@@ -442,6 +562,18 @@ export default class ReplaceRefundSelection extends React.Component {
                       : true
                   }
                   onClick={() => this.onSubmit()}
+                />
+              </div>
+            </div>
+          )}
+          {uploadImage.length > 0 && (
+            <div className={styles.buttonHolder}>
+              <div className={styles.button}>
+                <Button
+                  width={175}
+                  type="primary"
+                  label="CONTINUE"
+                  onClick={() => this.onContinueImageUpload()}
                 />
               </div>
             </div>

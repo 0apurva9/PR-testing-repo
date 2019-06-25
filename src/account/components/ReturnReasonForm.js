@@ -232,7 +232,7 @@ export default class ReturnReasonForm extends React.Component {
               />
             </div>
           )}
-        {this.state.showImageUpload && (
+        {/* {this.state.showImageUpload && (
           <div className={styles.returnReasonForm}>
             <div className={styles.returnTitle}>Add attachments*</div>
             {imageCallOutArr && (
@@ -284,7 +284,7 @@ export default class ReturnReasonForm extends React.Component {
               Upload JPEG, PNG (Maximum size per image 2.5 MB)
             </div>
           </div>
-        )}
+        )} */}
         {this.props.returnFlow ? (
           ""
         ) : (

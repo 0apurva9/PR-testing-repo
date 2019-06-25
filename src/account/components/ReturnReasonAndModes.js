@@ -99,35 +99,36 @@ export default class ReturnReasonAndModes extends React.Component {
     } else {
       this.setState({ isReasonSelected: true, selectedReason: data.reason });
       this.props.onChange({ data });
-      if (data.showImageUpload) {
-        if (data.validImgFiles.length > 0) {
-          this.props.uploadProductImages(
-            data.sellerorderno,
-            data.transactionId,
-            data.validImgFiles
-          );
+      //   if (data.showImageUpload) {
+      //     if (data.validImgFiles.length > 0) {
+      //       this.props.uploadProductImages(
+      //         data.sellerorderno,
+      //         data.transactionId,
+      //         data.validImgFiles
+      //       );
 
-          this.props.history.push({
-            pathname: `${RETURNS_PREFIX}/${
-              this.orderCode
-            }${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
-            state: {
-              authorizedRequest: true
-            }
-          });
-        } else {
-          return this.props.displayToast("Please upload image");
+      //       this.props.history.push({
+      //         pathname: `${RETURNS_PREFIX}/${
+      //           this.orderCode
+      //         }${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
+      //         state: {
+      //           authorizedRequest: true
+      //         }
+      //       });
+      //     }
+      //      else {
+      //       return this.props.displayToast("Please upload image");
+      //     }
+      //   } else {
+      this.props.history.push({
+        pathname: `${RETURNS_PREFIX}/${
+          this.orderCode
+        }${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
+        state: {
+          authorizedRequest: true
         }
-      } else {
-        this.props.history.push({
-          pathname: `${RETURNS_PREFIX}/${
-            this.orderCode
-          }${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
-          state: {
-            authorizedRequest: true
-          }
-        });
-      }
+      });
+      // --------------Image upload end---------------
       // if (this.props.isCOD && checkUserAgentIsMobile()) {
       //   this.props.history.push({
       //     pathname: `${RETURNS_PREFIX}/${
@@ -212,6 +213,7 @@ export default class ReturnReasonAndModes extends React.Component {
         displayToast={this.props.displayToast}
         uploadProductImages={this.props.uploadProductImages}
         setHeaderText={this.props.setHeaderText}
+        onChangeValidImage={this.props.onChange}
       />
     );
     const renderReturnMode = (
@@ -251,6 +253,8 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.returnRequest.returnEntry.orderEntries[0]
         }
         selectMode={mode => this.onSelectMode(mode)}
+        returnProductDetails={this.props.returnProductDetails}
+        uploadProductImages={this.props.uploadProductImages}
         onCancel={() => this.onCancel()}
         getRefundOptionsData={this.props.getRefundOptionsData} //function
         getRefundOptionsDetails={this.props.getRefundOptionsDetails} //data
