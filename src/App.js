@@ -313,6 +313,13 @@ const NoResultPage = Loadable({
   }
 });
 class App extends Component {
+  componentWillMount() {
+    let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    if (!globalAccessToken && !this.props.cartLoading) {
+      this.props.getGlobalAccessToken();
+      globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    }
+  }
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -325,10 +332,10 @@ class App extends Component {
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
 
     // Case 1. THe user is not logged in.
-    if (!globalAccessToken && !this.props.cartLoading) {
-      await this.props.getGlobalAccessToken();
-      globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    }
+    // if (!globalAccessToken && !this.props.cartLoading) {
+    //   await this.props.getGlobalAccessToken();
+    //   globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    // }
 
     if (!customerAccessToken && localStorage.getItem(REFRESH_TOKEN)) {
       await this.props.refreshToken(localStorage.getItem(REFRESH_TOKEN));
