@@ -181,6 +181,14 @@ export function getProductDescription(
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
+        let urlLength = window.location.pathname.split("/");
+        if (
+          resultJson.seo &&
+          resultJson.seo.alternateURL &&
+          urlLength.length === 2
+        ) {
+          window.location.pathname = resultJson.seo.alternateURL;
+        }
         if (
           !window.digitalData ||
           !window.digitalData.cpj ||
