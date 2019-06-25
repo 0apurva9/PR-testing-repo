@@ -93,7 +93,7 @@ export default class TransactionDetailDesktop extends React.Component {
                     .toUpperCase()
                     .match(/\bADDED|EXPIRED|RECEIVED/g) && (
                     <div className={styles.orderNo}>
-                      Transacttion ID: {transactionDetails.transactionId}
+                      Transaction ID: {transactionDetails.transactionId}
                     </div>
                   )}
                 {transactionDetails &&
