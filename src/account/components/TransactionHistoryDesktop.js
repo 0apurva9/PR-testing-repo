@@ -6,7 +6,10 @@ import {
   RECEIVED,
   PAID,
   EXPIRED,
-  TRANSACTION_DETAIL_PAGE
+  TRANSACTION_DETAIL_PAGE,
+  MY_ACCOUNT_PAGE,
+  MY_ACCOUNT_CLIQ_CASH_PAGE,
+  EXPIRED_REJECTED_FORMAT
 } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -44,14 +47,14 @@ export default class TransactionHistoryDesktop extends React.Component {
   };
   transactiondetailPage(data) {
     this.props.history.push({
-      pathname: `${TRANSACTION_DETAIL_PAGE}`,
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
       state: {
         transactonDetails: data
       }
     });
   }
   showDatePickerModule = type => {
-    this.setState({ checked: type });
+    this.setState({ checked: type, transactionDetails: null });
     let data = {
       ...this.props,
       setDate: date => this.setDate(date)
@@ -179,9 +182,12 @@ export default class TransactionHistoryDesktop extends React.Component {
       { data: "Expired" },
       { data: "By date" }
     ];
-    const transactionDetails = this.state.transactionDetails
-      ? this.state.transactionDetails
-      : this.props.transactionDetails;
+    const transactionDetails =
+      this.state.checked === 4
+        ? this.state.transactionDetails
+        : this.state.transactionDetails
+          ? this.state.transactionDetails
+          : this.props.transactionDetails;
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userDetails) {
@@ -251,18 +257,56 @@ export default class TransactionHistoryDesktop extends React.Component {
                                   <div className={styles.orderSummary}>
                                     <div className={styles.orderText}>
                                       {value.transactionName}
+                                      {value &&
+                                        value.orderInfo &&
+                                        value.orderInfo[0] && (
+                                          <span className={styles.orderText}>
+                                            {" "}
+                                            for {value.orderInfo[0].productName}
+                                          </span>
+                                        )}
                                     </div>
-
-                                    <div className={styles.orderNumber}>
-                                      Order No:{value.orderNo}
-                                    </div>
+                                    {value.transactionId &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bADDED|EXPIRED|RECEIVED/g) && (
+                                        <div className={styles.orderNumber}>
+                                          Transacttion ID: {value.transactionId}
+                                        </div>
+                                      )}
+                                    {value.orderNo &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bADDED/g) && (
+                                        <div className={styles.orderNumber}>
+                                          Order No:{value.orderNo}
+                                        </div>
+                                      )}
                                     {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
+                                      value.transactionType &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bEXPIRED/g) && (
+                                        <div className={styles.expireDate}>
+                                          Expired on:{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true
+                                          )}
+                                        </div>
+                                      )}
+                                    {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       !value.transactionType
                                         .toUpperCase()
-                                        .match(/\bPAID/g) && (
+                                        .match(/\bEXPIRED|PAID/g) && (
                                         <div className={styles.expireDate}>
-                                          Expired on:{" "}
+                                          Expiring on:{" "}
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,

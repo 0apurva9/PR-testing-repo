@@ -23,8 +23,6 @@ import {
   PRODUCT_LISTINGS,
   MAIN_ROUTER,
   LOGIN_PATH,
-  TRANSACTION_DETAIL_PAGE,
-  TRANSACTION_HISTORY,
   SIGN_UP_PATH,
   PRODUCT_DELIVERY_ADDRESSES,
   PRODUCT_CART_ROUTER,
@@ -233,13 +231,6 @@ const DeliveryModesContainer = Loadable({
   }
 });
 
-const TransactionDetailDesktop = Loadable({
-  loader: () => import("./account/components/TransactionDetailDesktop.js"),
-  loading() {
-    return <Loader />;
-  }
-});
-
 const DesktopFooterContainer = Loadable({
   loader: () => import("./general/containers/DesktopFooterContainer"),
   loading() {
@@ -321,13 +312,14 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
-const TransactionHistoryContainer = Loadable({
-  loader: () => import("./account/containers/TransactionHistoryContainer.js"),
-  loading() {
-    return <Loader />;
-  }
-});
 class App extends Component {
+  componentWillMount() {
+    let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    if (!globalAccessToken && !this.props.cartLoading) {
+      this.props.getGlobalAccessToken();
+      globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    }
+  }
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -340,10 +332,10 @@ class App extends Component {
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
 
     // Case 1. THe user is not logged in.
-    if (!globalAccessToken && !this.props.cartLoading) {
-      await this.props.getGlobalAccessToken();
-      globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    }
+    // if (!globalAccessToken && !this.props.cartLoading) {
+    //   await this.props.getGlobalAccessToken();
+    //   globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    // }
 
     if (!customerAccessToken && localStorage.getItem(REFRESH_TOKEN)) {
       await this.props.refreshToken(localStorage.getItem(REFRESH_TOKEN));
@@ -575,11 +567,6 @@ class App extends Component {
             />
             <Route
               exact
-              path={TRANSACTION_DETAIL_PAGE}
-              component={TransactionDetailDesktop}
-            />
-            <Route
-              exact
               path={ORDER_SUMMARY_ROUTER}
               component={DisplayOrderSummaryContainer}
             />
@@ -617,11 +604,6 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
-            />
-            <Route
-              exact
-              path={TRANSACTION_HISTORY}
-              component={TransactionHistoryContainer}
             />
             } />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />

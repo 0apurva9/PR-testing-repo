@@ -429,6 +429,10 @@
     height: auto;
     font-size: 14px;
     color: #212121;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .cliqCashOrderNo {
     width: 100%;
@@ -443,6 +447,7 @@
     font-size: 12px;
     font-family: light;
     color: #212121;
+    margin-top: 5px;
   }
   .price {
     width: 100%;
