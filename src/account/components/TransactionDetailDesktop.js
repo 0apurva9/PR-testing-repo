@@ -100,7 +100,7 @@ export default class TransactionDetailDesktop extends React.Component {
                   transactionDetails.orderNo &&
                   !transactionDetails.transactionType
                     .toUpperCase()
-                    .match(/\bADDED/g) && (
+                    .match(/\bADDED|RECEIVED REFUND/g) && (
                     <div className={styles.orderNo}>
                       Order No: {transactionDetails.orderNo}
                     </div>

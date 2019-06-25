@@ -277,7 +277,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                     {value.orderNo &&
                                       !value.transactionType
                                         .toUpperCase()
-                                        .match(/\bADDED/g) && (
+                                        .match(/\bADDED|RECEIVED REFUND/g) && (
                                         <div className={styles.orderNumber}>
                                           Order No:{value.orderNo}
                                         </div>
