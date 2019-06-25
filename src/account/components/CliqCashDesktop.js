@@ -332,7 +332,7 @@ export default class CliqCashDesktop extends React.Component {
                                             <div
                                               className={styles.cliqCashOrderNo}
                                             >
-                                              Transacttion ID:{" "}
+                                              Transaction ID:{" "}
                                               {value.transactionId}
                                             </div>
                                           )}

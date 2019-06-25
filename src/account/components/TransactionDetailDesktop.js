@@ -48,7 +48,9 @@ export default class TransactionDetailDesktop extends React.Component {
 
             <div className={styles.transactionDetails}>
               <div className={styles.amountHolder}>
-                <div className={styles.moneyPaidText}>Money paid</div>
+                <div className={styles.moneyPaidText}>
+                  {transactionDetails && transactionDetails.transactionName}
+                </div>
                 <div className={styles.amount}>
                   <span className={styles.rupee}>₹</span>
                   {transactionDetails &&
@@ -91,7 +93,7 @@ export default class TransactionDetailDesktop extends React.Component {
                     .toUpperCase()
                     .match(/\bADDED|EXPIRED|RECEIVED/g) && (
                     <div className={styles.orderNo}>
-                      Transacttion ID: {transactionDetails.transactionId}
+                      Transaction ID: {transactionDetails.transactionId}
                     </div>
                   )}
                 {transactionDetails &&
