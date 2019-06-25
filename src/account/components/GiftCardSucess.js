@@ -14,7 +14,7 @@ export default class GiftCardSucess extends Component {
     this.props.history.push(`${HOME_ROUTER}`);
   };
   renderToCliqCash = () => {
-    this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
+    this.props.showCliqCashModule();
   };
 
   handleClick() {

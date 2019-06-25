@@ -7,7 +7,7 @@ import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
 import BankOfferTNCModal from "../../cart/components/BankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
 import * as Cookie from "../../lib/Cookie.js";
-import CliqCashModule from "../../account/components/CliqCashModule";
+import CliqCashModuleContainer from "../../account/containers/CliqCashModuleContainer";
 import DatePickerModule from "../../account/components/DatePickerModule";
 import GiftCardSucessBottomModel from "../../account/components/GiftCardSucessBottomModel";
 
@@ -716,7 +716,7 @@ export default class ModalRoot extends React.Component {
         />
       ),
       cliqCashModule: (
-        <CliqCashModule
+        <CliqCashModuleContainer
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           displayToast={message => this.props.displayToast(message)}
