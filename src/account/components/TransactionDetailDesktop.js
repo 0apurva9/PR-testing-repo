@@ -9,7 +9,9 @@ import { getDateMonthFormat, getTimeAmPm } from "../../lib/dateTimeFunction";
 import FaqAndTcBase from "./FaqAndTcBase";
 import {
   LOGGED_IN_USER_DETAILS,
-  TERMS_AND_CONDITION_URL
+  TERMS_AND_CONDITION_URL,
+  MY_ACCOUNT,
+  MY_ACCOUNT_CLIQ_CASH_PAGE
 } from "../../lib/constants.js";
 export default class TransactionDetailDesktop extends React.Component {
   redirectPage = url => {
@@ -22,6 +24,9 @@ export default class TransactionDetailDesktop extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userDetails) {
       userData = JSON.parse(userDetails);
+    }
+    if (this.props && this.props.location && !this.props.location.state) {
+      this.redirectPage(`${MY_ACCOUNT}${MY_ACCOUNT_CLIQ_CASH_PAGE}`);
     }
     let transactionDetails =
       this.props &&
@@ -80,9 +85,24 @@ export default class TransactionDetailDesktop extends React.Component {
                       </div>
                     );
                   })}
-                <div className={styles.orderNo}>
-                  Order No: {transactionDetails && transactionDetails.orderNo}
-                </div>
+                {transactionDetails &&
+                  transactionDetails.transactionId &&
+                  transactionDetails.transactionType
+                    .toUpperCase()
+                    .match(/\bADDED|EXPIRED|RECEIVED/g) && (
+                    <div className={styles.orderNo}>
+                      Transacttion ID: {transactionDetails.transactionId}
+                    </div>
+                  )}
+                {transactionDetails &&
+                  transactionDetails.orderNo &&
+                  !transactionDetails.transactionType
+                    .toUpperCase()
+                    .match(/\bADDED/g) && (
+                    <div className={styles.orderNo}>
+                      Order No: {transactionDetails.orderNo}
+                    </div>
+                  )}
               </div>
               <div className={styles.tcHolder}>
                 <div
