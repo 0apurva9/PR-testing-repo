@@ -1,11 +1,11 @@
 .base {
 	background: #fff;
-    margin-bottom: 24px;
-    position: relative;
-    padding: 34px;
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
+	margin-bottom: 24px;
+	position: relative;
+	padding: 34px;
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
 }
 .headerRefundReason {
 	width: 100%;
@@ -13,31 +13,32 @@
 }
 .headerForDefectiveReason {
 	width: auto;
-    height: auto;
-    /* font-size: 16px; */
-    font-family: semibold;
-    /* line-height: 25px; */
-    /* padding: 0px 80px 0px 40px; */
-    padding-bottom: 11px;
+	height: auto;
+	/* font-size: 16px; */
+	font-family: semibold;
+	/* line-height: 25px; */
+	/* padding: 0px 80px 0px 40px; */
+	padding-bottom: 11px;
 }
 .headerForDefectiveReasonFirst {
 	width: auto;
-    height: 19px;
-    font-size: 16px;
-    font-family: semibold;
-    line-height: 25px;
-    /* padding: 0px 80px 0px 40px; */
-    /* padding-bottom: 11px;*/
+	height: 19px;
+	font-size: 16px;
+	font-family: semibold;
+	line-height: 25px;
+	/* padding: 0px 80px 0px 40px; */
+	/* padding-bottom: 11px;*/
 }
 .cancelButtonHolder {
 	width: 52px;
-    height: 16px;
-    right: 34px;
-    position: absolute;
-    top: 34px;
-    font-size: 14px;
-    font-family: semibold;
-    color: #ff1744;
+	height: 16px;
+	right: 34px;
+	position: absolute;
+	top: 34px;
+	font-size: 14px;
+	font-family: semibold;
+	color: #ff1744;
+	cursor: pointer;
 }
 .checkIcon {
 	width: auto;
@@ -67,37 +68,37 @@
 }
 .titleDescription {
 	font-size: 16px;
-    font-family: light;
-    /* line-height: 20px; */
-    letter-spacing: 0.03px;
-    margin-left: 5px;
-    height: 19px;
+	font-family: light;
+	/* line-height: 20px; */
+	letter-spacing: 0.03px;
+	margin-left: 5px;
+	height: 19px;
 }
 .subDescription {
 	font-size: 14px;
-    font-family: regular;
-    letter-spacing: 0.03px;
-    /* margin-top: 11px; */
-    color: black;
-    padding-bottom: 10px;
+	font-family: regular;
+	letter-spacing: 0.03px;
+	/* margin-top: 11px; */
+	color: black;
+	padding-bottom: 10px;
 }
 .subTitleDescription {
 	color: #747474;
-    font-family: light;
-    margin-left: 5px;
+	font-family: light;
+	margin-left: 5px;
 }
 .commentTitle {
 	font-family: regular;
-    font-size: 14px;
-    letter-spacing: 0.03px;
-    color: #747474;
+	font-size: 14px;
+	letter-spacing: 0.03px;
+	color: #747474;
 }
 .comment {
 	font-family: light;
-    font-size: 14px;
-    letter-spacing: 0.03px;
-    color: #747474;
-    margin-left: 5px;
+	font-size: 14px;
+	letter-spacing: 0.03px;
+	color: #747474;
+	margin-left: 5px;
 }
 .dateAndTimeHolder {
 	width: 100%;

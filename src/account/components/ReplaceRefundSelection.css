@@ -148,6 +148,7 @@ label {
 	/* float: center; */
 	padding-right: 30%;
 	padding-left: 40%;
+	cursor: pointer;
 }
 .button1 {
 	height: 40px;
@@ -217,6 +218,7 @@ label {
 	width: 35%;
 	text-align: right;
 	margin-bottom: 15px;
+	cursor: pointer;
 }
 .bankDetailsText {
 	font-size: 14px;

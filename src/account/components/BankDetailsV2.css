@@ -33,6 +33,7 @@
 	color: #ff1744;
 	font-family: semibold;
 	float: right;
+	cursor: pointer;
 }
 .radioBtn {
 	width: 15px;

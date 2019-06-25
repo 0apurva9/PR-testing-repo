@@ -35,24 +35,24 @@
 	font-family: semibold;
 	display: inline-block;
 }
-.width20{
+.width20 {
 	width: 20%;
 	height: 16px;
 	display: inline-block;
 	color: #000000;
 	vertical-align: top;
-	font-family: semibold; 
-	font-size: 14px;   
+	font-family: semibold;
+	font-size: 14px;
 }
 .width75 {
 	width: 75%;
-    display: inline-block;
-    color: #000000;
-    text-transform: capitalize;
-    font-family: light;
-    font-size: 14px;
-    letter-spacing: 0.02px;
-    height: 16px;
+	display: inline-block;
+	color: #000000;
+	text-transform: capitalize;
+	font-family: light;
+	font-size: 14px;
+	letter-spacing: 0.02px;
+	height: 16px;
 }
 .ffsemibold {
 	font-family: semibold;
@@ -247,6 +247,7 @@
 		color: #ff1744;
 		display: inline-block;
 		vertical-align: top;
+		cursor: pointer;
 	}
 	.order {
 		padding: 34px;
