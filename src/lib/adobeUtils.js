@@ -36,6 +36,7 @@ const ADOBE_RATE_THIS_PRODUCT = "cpj_review_write_review";
 const PINCODE_SUCCESS = "pin_successful";
 const PINCODE_FAILURE = "pin_failed";
 const ADOBE_DIRECT_CALL_FOR_LANDING_USER = "cpj_cart_page";
+const ADOBE_DIRECT_CALL_FOR_SIZE_GUIDE = "cpj_size_guide";
 const ADOBE_DIRECT_CALL_ON_CART_FOR_REMOVE_TRIGGER = "cpj_cart_removal";
 const ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT = "cpj_cart_checkout";
 const ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART =
@@ -132,7 +133,7 @@ export const ICID2 = "ICID2";
 export const CID = "CID";
 export const SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT =
   "SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT";
-
+export const SET_DATA_LAYER_FOR_SIZE_GUIDE = "SET_DATA_LAYER_FOR_SIZE_GUIDE";
 export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
   "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
 
@@ -1128,6 +1129,11 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_ADD_TO_CART);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_SIZE_GUIDE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_SIZE_GUIDE);
     }
   }
   if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {

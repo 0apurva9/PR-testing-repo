@@ -5,6 +5,10 @@ import {
   getProductSizeGuide,
   getProductSizeChart
 } from "../actions/pdp.actions.js";
+import {
+  setDataLayerForPdpDirectCalls,
+  SET_DATA_LAYER_FOR_SIZE_GUIDE
+} from "../../lib/adobeUtils";
 
 const mapStateToProps = state => {
   return {
@@ -20,9 +24,11 @@ const mapDispatchToProps = dispatch => {
   return {
     getSizeGuide: productCode => {
       dispatch(getProductSizeGuide(productCode));
+      setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SIZE_GUIDE);
     },
     getProductSizeChart: productCode => {
       dispatch(getProductSizeChart(productCode));
+      setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SIZE_GUIDE);
     }
   };
 };
