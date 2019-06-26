@@ -32,6 +32,7 @@
   .span {
     color: #ff1744;
     margin-left: 2px;
+    cursor: pointer;
   }
   .submit {
     width: auto;
