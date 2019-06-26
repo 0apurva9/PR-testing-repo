@@ -1,118 +1,194 @@
 .content {
-  width: 100%;
-  height: auto;
-  background: #fff;
-  border-radius: 4px;
+	width: 100%;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	margin-bottom: 20px;
 }
 .card {
-  width: 100%;
-  height: auto;
-  padding: 15px;
-  border-bottom: 1px solid #ececec;
+	width: 100%;
+	height: auto;
+	padding: 34px;
+	border-bottom: 1px solid #ececec;
+	position: relative;
+}
+.replaceRefundHeading,
+.returnModesHeading {
+	font-size: 14px;
+	font-family: semibold;
+	margin-bottom: 5px;
+	line-height: 22px;
+	color: #181818;
+	width: 90%;
+	padding-right: 34px;
+}
+.addressText {
+	color: #181818;
+	font-size: 14px;
+	font-family: light;
+	width: 80%;
+	display: inline-block;
+	letter-spacing: 0.03px;
 }
 .text {
-  width: 100%;
-  height: auto;
-  padding: 15px;
-
+	width: 100%;
+	height: auto;
+	padding: 15px;
 }
-.quantity{
-  color: #181818;
-  font-size: 14px;
-  font-family: regular;
-  margin-top:5px;
+.quantity {
+	color: #181818;
+	font-size: 14px;
+	font-family: regular;
+	margin-top: 5px;
 }
-.textSmall{
-  width: 100%;
-  height: auto;
-  font-size:12px;
-  padding-top:10px;
-  font-family:light;
+.textSmall {
+	width: 100%;
+	height: auto;
+	font-size: 12px;
+	padding-top: 10px;
+	font-family: light;
 }
 .base {
-  width: 100%;
-  height: auto;
-  padding: 25px 15px 85px 15px;
-  background: #ececec;
-  min-height: calc(100vh - 80px);
+	width: 100%;
+	height: auto;
+	padding: 25px 15px 85px 15px;
+	background: #ececec;
+	min-height: calc(100vh - 80px);
 }
 .header {
-  width: 100%;
-  font-size: 18px;
-  color: #000000;
-  font-family: semibold;
-  position: relative;
-  padding-right: 60px;
-  margin-bottom: 25px;
+	width: 100%;
+	font-size: 18px;
+	color: #000000;
+	font-family: semibold;
+	position: relative;
+	padding-right: 60px;
+	margin-bottom: 25px;
 }
 .cancel {
-  position: absolute;
-  right: 0;
-  top: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-  text-align: center;
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	text-align: center;
 }
 .button {
-  display: inline-block;
+	display: inline-block;
+}
+.divideHeaderAddress {
+	width: 100%;
+	display: flex;
+}
+.changeAddress {
+	width: 15%;
+	font-size: 14px;
+	color: #ff1744;
+	text-align: right;
+	font-family: semibold;
+}
+.labelForRadioBtn {
+	display: inline-block;
+	width: 100%;
+	font-size: 14px;
+	font-family: regular;
+	padding: 15px 0;
+	border-bottom: 1px solid #ececec;
+	margin: 0;
+}
+.labelForRadioBtn:last-child {
+	border-bottom: none;
+}
+.radioBtn {
+	float: right;
+	width: 15px;
+	height: 15px;
+	vertical-align: text-top;
+	margin: 0 10px 0 0;
+}
+.radioBtnSubText,
+.subText {
+	font-size: 12px;
+	font-family: light;
+	display: block;
+	padding: 5px 0 0 0;
+}
+.subText {
+	text-align: center;
+}
+.button {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+.storeName {
+	font-family: semibold;
+}
+.storeAddress {
+	float: left;
+	width: 90%;
+	font-size: 12px;
+	border-bottom: 1px solid #ececec;
+}
+.storeAddress:last-child {
+	border-bottom: none;
 }
 @media screen and (min-width: 1025px) {
-  .base {
-    padding: 0px;
-  }
-  .content {
-    background: #ececec;
-  }
-  .card {
-    background: #fff;
-    padding: 0px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
-  .returnModesWithHeader {
-    background: #fff;
-    padding: 20px;
-  }
-  .returnModesWithBorder {
-    border-bottom: 1px solid #ececec;
-    border-top: 1px solid #ececec;
-    padding: 0px 20px;
-  }
-  .refundableModes {
-    width: 100%;
-    height: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 4px;
-  }
-  .circleHolder {
-    width: auto;
-    height: auto;
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .circle {
-    width: 23px;
-    height: 23px;
-    background-color: #fff;
-    border: 2px solid black;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 14px;
-    color: #000000;
-    font-size: 14px;
-    font-family: semibold;
-    line-height: 19px;
-  }
-  .header {
-    width: 100%;
-    height: auto;
-    font-size: 16px;
-    font-family: semibold;
-    line-height: 25px;
-    position: relative;
-  }
+	.base {
+		padding: 0px;
+	}
+	.content {
+		background: #ececec;
+	}
+	.card {
+		background: #fff;
+		padding: 34px;
+		margin-bottom: 10px;
+		border-radius: 4px;
+	}
+	.returnModesWithHeader {
+		background: #fff;
+		padding: 20px;
+	}
+	.returnModesWithBorder {
+		border-bottom: 1px solid #ececec;
+		border-top: 1px solid #ececec;
+		padding: 0px 20px;
+	}
+	.refundableModes {
+		width: 100%;
+		height: auto;
+		background: #fff;
+		padding: 20px;
+		border-radius: 4px;
+	}
+	.circleHolder {
+		width: auto;
+		height: auto;
+		display: inline-block;
+		margin-right: 10px;
+	}
+	.circle {
+		width: 23px;
+		height: 23px;
+		background-color: #fff;
+		border: 2px solid black;
+		border-radius: 50%;
+		text-align: center;
+		font-size: 14px;
+		color: #000000;
+		font-size: 14px;
+		font-family: semibold;
+		line-height: 19px;
+	}
+	.header {
+		width: 100%;
+		height: auto;
+		font-size: 16px;
+		font-family: semibold;
+		line-height: 25px;
+		position: relative;
+	}
 }

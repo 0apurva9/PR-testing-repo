@@ -18,6 +18,7 @@ import Button from "../../general/components/Button";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
+import Loader from "../../general/components/Loader";
 
 import {
   QUICK_DROP,
@@ -38,6 +39,8 @@ export default class ReturnModes extends React.Component {
       selectedOption: "",
       selectedOptionStores: ""
     };
+    this.radioChange = this.radioChange.bind(this);
+    this.radioChangeStores = this.radioChangeStores.bind(this);
   }
   async componentDidMount() {
     console.log(this.props);
@@ -97,8 +100,9 @@ export default class ReturnModes extends React.Component {
       (data && data.returnModes && data.returnModes.selfCourier)
     ) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   };
 
   selectReturnMode = () => {
@@ -108,6 +112,15 @@ export default class ReturnModes extends React.Component {
   cancelReturnMode = () => {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
+  radioChange(e) {
+    const target = e.currentTarget;
+    this.setState({ selectedOption: target.value });
+  }
+  radioChangeStores(e) {
+    const target = e.currentTarget;
+    console.log(target.value);
+    this.setState({ selectedOptionStores: target.value });
+  }
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -117,8 +130,9 @@ export default class ReturnModes extends React.Component {
       return this.navigateToReturnLanding();
     }
     const { productInfo } = this.props;
-    //const data = this.state.returnModesDetails;
-    // const returnStoreDetailsList = data && Object.keys(data.returnStoreDetailsList);
+    const data = this.state.returnModesDetails;
+    const returnStoreDetailsList =
+      data && Object.keys(data.returnStoreDetailsList);
     // const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
     return (
       <div className={styles.base}>
@@ -146,61 +160,59 @@ export default class ReturnModes extends React.Component {
             </div>
           )}
         </MobileOnly> */}
-        {/* <div className={styles.content}>
-					{data && (
-						<div className={styles.card}>
-							<div className={styles.returnModesHeading}>Pickup Address:</div>
-							<div className={styles.addressText}>
-								{data.deliveryAddress.line1} ,&nbsp;
-								{data.deliveryAddress.landmark} ,&nbsp;
-								{data.deliveryAddress.town} ,&nbsp;
-								{data.deliveryAddress.state}&nbsp;
-								{data.deliveryAddress.postalCode}
-							</div>
-						</div>
-					)}
-				</div> */}
+        <div className={styles.content}>
+          {data && (
+            <div className={styles.card}>
+              <div className={styles.divideHeaderAddress}>
+                <div className={styles.returnModesHeading}>Pickup Address:</div>
+                <div className={styles.changeAddress}>Change</div>
+              </div>
+              <div className={styles.addressText}>
+                {data.deliveryAddress.line1} ,{data.deliveryAddress.landmark} ,{
+                  data.deliveryAddress.town
+                }{" "}
+                ,&nbsp;
+                {data.deliveryAddress.state}, {data.deliveryAddress.postalCode}
+              </div>
+            </div>
+          )}
+        </div>
         <div className={styles.content}>
           {this.isReturnModesEnabled() && (
-            <div
-              className={
-                !this.state.isModeSelected
-                  ? styles.refundableModes
-                  : styles.returnModes
-              }
-            >
+            <div className={styles.card}>
+              {/* <div className={!this.state.isModeSelected ? styles.refundableModes : styles.returnModes}> */}
               {!this.state.isModeSelected && (
                 <DesktopOnly>
                   <div className={styles.header}>Select mode of return</div>
                 </DesktopOnly>
               )}
-              {/* {data.returnModes.quickDrop &&
-								returnStoreDetailsList &&
-								returnStoreDetailsList.length > 0 && (
-									<label className={styles.labelForRadioBtn}>
-										<input
-											className={styles.radioBtn}
-											type="radio"
-											value="Return To Store"
-											checked={this.state.selectedOption === 'Return To Store'}
-											onChange={this.radioChange}
-										/>
-										Return To Store
-									</label>
-								)}
-							{data.returnModes.schedulePickup && (
-								<label className={styles.labelForRadioBtn}>
-									<input
-										className={styles.radioBtn}
-										type="radio"
-										value="Pick Up"
-										checked={this.state.selectedOption === 'Pick Up'}
-										onChange={this.radioChange}
-									/>
-									Pick Up
-								</label>
-							)}
-							{data.returnModes.selfCourier && (
+              {data.returnModes.quickDrop &&
+                returnStoreDetailsList &&
+                returnStoreDetailsList.length > 0 && (
+                  <label className={styles.labelForRadioBtn}>
+                    <input
+                      className={styles.radioBtn}
+                      type="radio"
+                      value="Return To Store"
+                      checked={this.state.selectedOption === "Return To Store"}
+                      onChange={this.radioChange}
+                    />
+                    Return To Store
+                  </label>
+                )}
+              {data.returnModes.schedulePickup && (
+                <label className={styles.labelForRadioBtn}>
+                  <input
+                    className={styles.radioBtn}
+                    type="radio"
+                    value="Pick Up"
+                    checked={this.state.selectedOption === "Pick Up"}
+                    onChange={this.radioChange}
+                  />
+                  Pick Up
+                </label>
+              )}
+              {/* {data.returnModes.selfCourier && (
 								<label className={styles.labelForRadioBtn}>
 									<input
 										className={styles.radioBtn}
@@ -250,43 +262,96 @@ export default class ReturnModes extends React.Component {
 								</div>
 							)} */}
 
-              <DesktopOnly>
-                {this.state.selectedMode === QUICK_DROP && (
-                  <ReturnToStoreContainer
-                    {...this.state}
-                    {...this.props}
-                    selectReturnMode={() => this.selectReturnMode()}
-                    cancelReturnMode={() => this.cancelReturnMode()}
-                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
-                  />
-                )}
-                {this.state.selectedMode === SCHEDULED_PICKUP && (
-                  <ReturnCliqAndPiqContainer
-                    {...this.state}
-                    {...this.props}
-                    selectReturnMode={() => this.selectReturnMode()}
-                    cancelReturnMode={() => this.cancelReturnMode()}
-                    onChangeBankDetails={val => this.onChangeBankDetails(val)}
-                  />
-                )}
-                {this.state.selectedMode === SELF_COURIER && (
-                  <SelfCourierContainer {...this.state} {...this.props} />
-                )}
-              </DesktopOnly>
+              {/* <DesktopOnly>
+								{this.state.selectedMode === QUICK_DROP && (
+									<ReturnToStoreContainer
+										{...this.state}
+										{...this.props}
+										selectReturnMode={() => this.selectReturnMode()}
+										cancelReturnMode={() => this.cancelReturnMode()}
+										onChangeBankDetails={val => this.onChangeBankDetails(val)}
+									/>
+								)}
+								{this.state.selectedMode === SCHEDULED_PICKUP && (
+									<ReturnCliqAndPiqContainer
+										{...this.state}
+										{...this.props}
+										selectReturnMode={() => this.selectReturnMode()}
+										cancelReturnMode={() => this.cancelReturnMode()}
+										onChangeBankDetails={val => this.onChangeBankDetails(val)}
+									/>
+								)}
+								{this.state.selectedMode === SELF_COURIER && (
+									<SelfCourierContainer {...this.state} {...this.props} />
+								)}
+							</DesktopOnly> */}
             </div>
           )}
-          {!this.isReturnModesEnabled() && (
-            <div className={styles.text}>
-              sorry we are not able to process your request, contact customer
-              care 90291 08282
-            </div>
-          )}
-          {/* <DesktopOnly>
-            {!this.state.isModeSelected && (
-              <DummyTab title={REFUND_DETAILS} number={3} />
-            )}
-          </DesktopOnly> */}
+          {!this.isReturnModesEnabled() && <Loader />}
         </div>
+        {/* {this.isReturnModesEnabled() &&
+					this.state.selectedOption === 'Self Courier' && (
+						<div className={styles.content}>
+							<div className={styles.card}>
+								<div className={styles.subText}>{returnLogisticsResponseDTO[0].responseMessage}</div>
+								<div className={styles.button}>
+									<Button
+										width={175}
+										type="primary"
+										label="Download Form"
+										onClick={() => this.downloadFile(data.selfCourierDocumentLink)}
+									/>
+								</div>
+							</div>
+						</div>
+					)} */}
+
+        {this.isReturnModesEnabled() &&
+          this.state.selectedOption === "Return To Store" &&
+          returnStoreDetailsList &&
+          returnStoreDetailsList.length > 0 && (
+            <div className={styles.content}>
+              <div className={styles.card}>
+                <div className={styles.returnModesHeading}>Select store</div>
+                {data &&
+                  data.returnStoreDetailsList.map((value, index) => {
+                    return (
+                      <label className={styles.labelForRadioBtn} key={index}>
+                        <input
+                          className={styles.radioBtn}
+                          type="radio"
+                          value={value.address.id}
+                          checked={
+                            this.state.selectedOptionStores === value.address.id
+                          }
+                          onChange={this.radioChangeStores}
+                        />
+                        <div key={index} className={styles.storeAddress}>
+                          <div className={styles.storeName}>
+                            {value.displayName}
+                          </div>
+                          <div>{value.address.formattedAddress}</div>
+                          <div className={styles.storeDateNTime}>
+                            {value.mplOpeningTime} - {value.mplClosingTime}
+                          </div>
+                        </div>
+                      </label>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+
+        {this.state.selectedOption && (
+          <div className={styles.button}>
+            <Button
+              width={175}
+              type="primary"
+              label="Submit"
+              onClick={() => this.submit()}
+            />
+          </div>
+        )}
       </div>
     );
   }
