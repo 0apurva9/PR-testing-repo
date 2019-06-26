@@ -252,12 +252,12 @@ class ProductListingsPage extends Component {
       }
       return;
     }
-    let page = null;
+    let page = 0;
     if (
       this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG
     ) {
-      page = this.props.match.params[1];
+      page = this.props.match.params[1] ? this.props.match.params[1] : 1;
       let searchText = this.getSearchTextFromUrl();
       // get categoryid from search text and get banners for category listing
       let categoryId = this.getCategoryId(searchText);
@@ -272,7 +272,7 @@ class ProductListingsPage extends Component {
       this.props.match.path === BRAND_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === BRAND_PAGE_WITH_SLUG
     ) {
-      page = this.props.match.params[1];
+      page = this.props.match.params[1] ? this.props.match.params[1] : 1;
       let searchText = this.getSearchTextFromUrl();
       this.props.getProductListings(searchText, SUFFIX, page - 1);
       return;
@@ -373,7 +373,7 @@ class ProductListingsPage extends Component {
     }
 
     if (this.props.location.search !== prevProps.location.search) {
-      let page = null;
+      let page = 0;
       if (this.props.match.path === SKU_PAGE) {
         const skuId = this.props.match.params.slug;
         const searchText = this.getSearchTextFromUrl();
@@ -384,7 +384,7 @@ class ProductListingsPage extends Component {
         this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE ||
         this.props.match.path === CATEGORY_PAGE_WITH_SLUG
       ) {
-        page = this.props.match.params[1];
+        page = this.props.match.params[1] ? this.props.match.params[1] : 1;
         page = page - 1;
         const searchText = this.getSearchTextFromUrl();
         this.props.getProductListings(searchText, SUFFIX, page);
@@ -401,7 +401,7 @@ class ProductListingsPage extends Component {
         this.props.match.path === BRAND_PRODUCT_LISTINGS_WITH_PAGE ||
         this.props.match.path === BRAND_PAGE_WITH_SLUG
       ) {
-        page = this.props.match.params[1];
+        page = this.props.match.params[1] ? this.props.match.params[1] : 1;
         let searchText = this.getSearchTextFromUrl();
         this.props.getProductListings(searchText, SUFFIX, page - 1);
         return;
