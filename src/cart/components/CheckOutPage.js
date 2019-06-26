@@ -1505,6 +1505,15 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.history.push(HOME_ROUTER);
       }
     }
+    let orderRetryCartId = JSON.parse(
+      localStorage.getItem(RETRY_PAYMENT_CART_ID)
+    );
+    if (!cartDetailsLoggedInUser && orderRetryCartId) {
+      Cookie.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify({ guid: orderRetryCartId })
+      );
+    }
   }
 
   getEmiBankDetails = () => {
@@ -1558,10 +1567,11 @@ if you have order id in local storage then you have to show order confirmation p
       let cartDetailsLoggedInUser = Cookie.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
       );
-      localStorage.setItem(
-        OLD_CART_CART_ID,
-        JSON.parse(cartDetailsLoggedInUser).code
-      );
+      cartDetailsLoggedInUser &&
+        localStorage.setItem(
+          OLD_CART_CART_ID,
+          JSON.parse(cartDetailsLoggedInUser).code
+        );
 
       if (cartDetailsLoggedInUser) {
         carGuId = JSON.parse(cartDetailsLoggedInUser).guid;
