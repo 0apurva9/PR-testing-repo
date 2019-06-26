@@ -46,31 +46,43 @@
 }
 
 .dateAndTimeHolder {
+	width: 186px;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    /* text-align: center; */ 
+}
+/* .dateAndTimeHolder > .dateHolder, .dateAndTimeHolder > .timeHolder:first-child {
+	padding-left: 15px;
+}  */
+.timeHolder {
 	width: 50%;
 	height: auto;
-	display: inline-block;
-	vertical-align: top;
-	text-align: left;
-}
-.timeHolder {
-	width: auto;
-	height: auto;
-	display: inline-block;
+	/* display: inline-block; */
 	color: #8D8D8D;
 	font-size: 12px;
 	font-family: light;
 	line-height: 16px;
 	letter-spacing: 0px;
+	margin-left: 25px;
 }
-.timeHolder:first-child {
-	padding-right: 5px;
-	margin-right: 5px;
-	/* border-right: 1px solid #ccc; */
-}
+/* .timeHolder:first-child {
+	padding-left: 15px;
+}  */
 .dateHolder {
-	composes: timeHolder;
-	padding-left: 0px;
+	width: 50%;
+	height: auto;
+	/* display: inline-block; */
+	color: #8D8D8D;
+	font-size: 12px;
+	font-family: light;
+	line-height: 16px;
+	letter-spacing: 0px;
+	margin-left: 25px;
 }
+/* .dateHolder:first-child {
+	padding-left: 15px;
+}  */
 .stepInactive {
 	composes: step;
 }
@@ -145,4 +157,16 @@ div .step:before {
 	width: 25%;
 	display: inline-block;
 	text-align: center;
+}
+.itemPackedDetails{
+	/* width: 186px; */
+    height: 14px;
+    display: inline-block; 
+    color: black;
+    font-size: 12px;
+    font-family: light;
+    line-height: 14px;
+    letter-spacing: 0px;
+	text-align: center;
+	margin-right: 25px;
 }
