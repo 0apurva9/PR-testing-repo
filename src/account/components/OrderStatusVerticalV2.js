@@ -405,18 +405,18 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         {itemPackedCustomerFacingName}
                       </div>
                       <div className={styles.dateAndTimeHolder}>
-                        <div className={styles.timeHolder}>
+                        {/* <div className={styles.timeHolder}>
                           {itemPackedTime}
                         </div>
                         <div className={styles.dateHolder}>
                           {itemPackedDate}
-                        </div>
-                        <span className={styles.itemPackedDetails}>
+                        </div> */}
+                        <div className={styles.itemPackedDetails}>
                           Courier: {this.props.logisticName}
-                        </span>
-                        <span className={styles.itemPackedDetails}>
+                        </div>
+                        <div className={styles.itemPackedDetails}>
                           AWB No: {this.props.trackingAWB}
-                        </span>
+                        </div>
                       </div>
                     </div>
                   </React.Fragment>
@@ -585,18 +585,18 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         />
 
                         <div className={styles.dateAndTimeHolder}>
-                          <div className={styles.timeHolder}>
+                          {/* <div className={styles.timeHolder}>
                             {itemPackedTime}
                           </div>
                           <div className={styles.dateHolder}>
                             {itemPackedDate}
-                          </div>
-                          <span className={styles.itemPackedDetails}>
+                          </div> */}
+                          <div className={styles.itemPackedDetails}>
                             Courier: {this.props.logisticName}
-                          </span>
-                          <span className={styles.itemPackedDetails}>
+                          </div>
+                          <div className={styles.itemPackedDetails}>
                             AWB No: {this.props.trackingAWB}
-                          </span>
+                          </div>
                         </div>
                       </div>
                     ) : (
