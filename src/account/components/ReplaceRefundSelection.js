@@ -63,8 +63,13 @@ export default class ReplaceRefundSelection extends React.Component {
       this.setState({ selectedOption: "BANK_ACCOUNT" });
       this.setState({ showBankDetails: true });
     }
-    if (this.props.data.showImageUpload == true) {
+    if (
+      this.props.data.showImageUpload == true &&
+      this.props.data.validImgFiles == ""
+    ) {
       this.setState({ showAttachment: true });
+    } else {
+      this.setState({ showAttachment: false });
     }
   }
 
@@ -108,6 +113,7 @@ export default class ReplaceRefundSelection extends React.Component {
 
   addBankDetails(data) {
     //console.log("bankDetails on update:", data);
+    this.setState({ showAttachment: false });
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
         this.props.data.sellerorderno
@@ -284,6 +290,21 @@ export default class ReplaceRefundSelection extends React.Component {
   }
   onContinueImageUpload() {
     if (this.state.validImgFiles.length > 0) {
+      let reasonAndCommentObj: data = Object.assign({
+        returnReasonCode: this.props.data.returnReasonCode,
+        subReasonCode: this.props.data.subReasonCode,
+        subReason: this.props.data.subReason,
+        comment: this.props.data.comment,
+        reason: this.props.data.reason,
+        reverseSeal: this.props.data.reverseSeal,
+        sellerorderno: this.props.returnProductDetails.orderProductWsDTO[0]
+          .sellerorderno,
+        transactionId: this.props.returnProductDetails.orderProductWsDTO[0]
+          .transactionId,
+        validImgFiles: this.state.validImgFiles
+        // isElectronicsProduct: this.state.isElectronicsProduct,
+      });
+      this.props.onChange(reasonAndCommentObj);
       //this.props.onChangeValidImage({validImgFiles: this.state.validImgFiles});
       this.props.uploadProductImages(
         this.props.data.sellerorderno,
@@ -464,7 +485,7 @@ export default class ReplaceRefundSelection extends React.Component {
               </React.Fragment>
             )}
             {/* -----------------------Image Upload------------------------ */}
-            {this.state.showAttachment && (
+            {this.state.showAttachment == true && (
               <div>
                 <div className={styles.returnTitle}>Add attachments*</div>
                 {imageCallOutArr && (

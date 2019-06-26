@@ -65,10 +65,14 @@
 	display: inline-block;
 }
 .ratingReviewHolder {
+	display: flex;
 	position: relative;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #efefef;
-	margin-bottom: 15px;
+	margin-bottom: 34px;
+}
+.marginIcon {
+	margin-right: 24px;
 }
 .divider {
 	border-bottom: 1px solid #efefef;
@@ -98,7 +102,7 @@
 	height: 36px;
 	width: 180px;
 	border: 2px solid black;
-	margin-top: -23px;
+	/* margin-top: -23px; */
 	margin-bottom: 21px;
 }
 .reviewText {

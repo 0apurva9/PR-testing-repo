@@ -213,7 +213,6 @@ export default class ReturnReasonAndModes extends React.Component {
         displayToast={this.props.displayToast}
         uploadProductImages={this.props.uploadProductImages}
         setHeaderText={this.props.setHeaderText}
-        onChangeValidImage={this.props.onChange}
       />
     );
     const renderReturnMode = (
@@ -264,6 +263,7 @@ export default class ReturnReasonAndModes extends React.Component {
         updateRefundMode={this.props.updateRefundMode} //function
         getCliqCashDetailsRefund={this.props.getCliqCashDetailsRefund} //function
         getCustomerBankDetails={this.props.getCustomerBankDetails}
+        onChange={data => this.onChange({ data })}
         //changeReturnReason={this.props.changeReturnReason()}
       />
     );

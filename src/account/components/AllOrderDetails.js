@@ -58,7 +58,9 @@ import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY
 } from "../../lib/adobeUtils";
-import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
+//import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
+import Icon from "../../xelpmoc-core/Icon";
+import rating from "./img/rating.svg";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
@@ -679,6 +681,9 @@ export default class AllOrderDetails extends React.Component {
                                               Rate this item
                                             </div>
                                             <div
+                                              className={
+                                                styles.ratingReviewHolder
+                                              }
                                               onClick={val =>
                                                 this.writeReview(
                                                   product.productcode,
@@ -686,13 +691,29 @@ export default class AllOrderDetails extends React.Component {
                                                 )
                                               }
                                             >
-                                              <FillupRatingOrder rating={0} />
-                                              <div className={styles.boxReview}>
-                                                <div
-                                                  className={styles.reviewText}
-                                                >
-                                                  WRITE A REVIEW
-                                                </div>
+                                              <Icon image={rating} size={25} />
+                                              <div
+                                                className={styles.marginIcon}
+                                              />
+                                              <Icon image={rating} size={25} />
+                                              <div
+                                                className={styles.marginIcon}
+                                              />
+                                              <Icon image={rating} size={25} />
+                                              <div
+                                                className={styles.marginIcon}
+                                              />
+                                              <Icon image={rating} size={25} />
+                                              <div
+                                                className={styles.marginIcon}
+                                              />
+                                              <Icon image={rating} size={25} />
+                                            </div>
+                                            <div className={styles.boxReview}>
+                                              <div
+                                                className={styles.reviewText}
+                                              >
+                                                WRITE A REVIEW
                                               </div>
                                             </div>
                                           </div>

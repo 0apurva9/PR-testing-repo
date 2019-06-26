@@ -330,6 +330,11 @@ export const UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS =
   "UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS";
 export const UPDATE_CUSTOMER_BANK_DETAILS_FAILURE =
   "UPDATE_CUSTOMER_BANK_DETAILS_FAILURE";
+
+export const GET_RETURN_MODES_REQUEST = "GET_RETURN_MODES_REQUEST";
+export const GET_RETURN_MODES_SUCCESS = "GET_RETURN_MODES_SUCCESS";
+export const GET_RETURN_MODES_FAILURE = "GET_RETURN_MODES_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -513,6 +518,69 @@ export function returnProductDetails(productDetails) {
       dispatch(returnProductDetailsSuccess(resultJson));
     } catch (e) {
       dispatch(returnProductDetailsFailure(e.message));
+    }
+  };
+}
+export function getReturnModesRequest() {
+  return {
+    type: GET_RETURN_MODES_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getReturnModesSuccess(returnModesDetails) {
+  return {
+    type: GET_RETURN_MODES_SUCCESS,
+    status: SUCCESS,
+    returnModesDetails
+  };
+}
+export function getReturnModesFailure(error) {
+  return {
+    type: GET_RETURN_MODES_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getReturnModes(
+  returnId,
+  orderId,
+  pickUpAddressId,
+  transactionId
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getReturnModesRequest());
+    try {
+      let data = new FormData();
+      data.append("returnId", returnId);
+      data.append("orderId", orderId);
+      data.append("pickUpAddress", pickUpAddressId);
+      data.append("transactionId", transactionId);
+
+      const result = await api.postFormData(
+        `v2/mpl/users/${
+          JSON.parse(userDetails).userName
+        }/getPickupAddrReturnPincodeServcblty?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+
+      const resultJson = await result.json();
+
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getReturnModesSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getReturnModesFailure(e.message));
     }
   };
 }
@@ -2356,7 +2424,10 @@ export function followAndUnFollowBrand(
           let brandName = clonedComponent.data[indexOfBrand].brandName;
           setDataLayerForFollowAndUnFollowBrand(
             ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            { followStatus: updatedFollowedStatus, brandName }
+            {
+              followStatus: updatedFollowedStatus,
+              brandName
+            }
           );
           return dispatch(
             followAndUnFollowBrandSuccessForHomeFeed(
@@ -2370,7 +2441,10 @@ export function followAndUnFollowBrand(
           const brandName = brandObj.brandName;
           setDataLayerForFollowAndUnFollowBrand(
             ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            { followStatus: updatedFollowedStatus, brandName }
+            {
+              followStatus: updatedFollowedStatus,
+              brandName
+            }
           );
           return dispatch(
             followAndUnFollowBrandSuccessForPdp(brandId, updatedFollowedStatus)
@@ -2381,7 +2455,10 @@ export function followAndUnFollowBrand(
           let brandName = brandObj.brandName;
           setDataLayerForFollowAndUnFollowBrand(
             ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            { followStatus: updatedFollowedStatus, brandName }
+            {
+              followStatus: updatedFollowedStatus,
+              brandName
+            }
           );
 
           return dispatch(

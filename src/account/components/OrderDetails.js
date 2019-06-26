@@ -25,6 +25,8 @@ import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import { Redirect } from "react-router-dom";
 import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
+import Icon from "../../xelpmoc-core/Icon";
+import rating from "./img/rating.svg";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -530,16 +532,24 @@ export default class OrderDetails extends React.Component {
                                 this.writeReview(products.productcode)
                               }
                             >
-                              <FillupRatingOrder rating={0} />
-                              <div className={styles.boxReview}>
-                                <div
-                                  className={styles.reviewText}
-                                  onClick={val =>
-                                    this.writeReview(products.productcode)
-                                  }
-                                >
-                                  WRITE A REVIEW
-                                </div>
+                              <Icon image={rating} size={25} />
+                              <div className={styles.marginIcon} />
+                              <Icon image={rating} size={25} />
+                              <div className={styles.marginIcon} />
+                              <Icon image={rating} size={25} />
+                              <div className={styles.marginIcon} />
+                              <Icon image={rating} size={25} />
+                              <div className={styles.marginIcon} />
+                              <Icon image={rating} size={25} />
+                            </div>
+                            <div className={styles.boxReview}>
+                              <div
+                                className={styles.reviewText}
+                                onClick={val =>
+                                  this.writeReview(products.productcode)
+                                }
+                              >
+                                WRITE A REVIEW
                               </div>
                             </div>
                           </React.Fragment>

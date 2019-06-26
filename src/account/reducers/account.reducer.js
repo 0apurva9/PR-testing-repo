@@ -202,7 +202,12 @@ const account = (
     updateCustomerBankDetailsStatus: null,
     loadingForUpdateCustomerBankDetails: false,
     updateCustomerBankDetails: null,
-    updateCustomerBankDetailsError: null
+    updateCustomerBankDetailsError: null,
+
+    getReturnModesDetailsStatus: null,
+    loadingForGetReturnModesDetails: false,
+    getReturnModesDetails: null,
+    getReturnModesDetailsError: null
   },
   action
 ) => {
@@ -1284,6 +1289,24 @@ const account = (
         updateCustomerBankDetailsError: action.error,
         loadingForUpdateCustomerBankDetails: false
       });
+    case accountActions.GET_RETURN_MODES_REQUEST:
+      return Object.assign({}, state, {
+        getReturnModesDetailsStatus: action.status,
+        loadingForGetReturnModesDetails: true
+      });
+    case accountActions.GET_RETURN_MODES_SUCCESS:
+      return Object.assign({}, state, {
+        getReturnModesDetailsStatus: action.status,
+        loadingForGetReturnModesDetails: false,
+        getReturnModesDetails: action.getReturnModesDetails
+      });
+    case accountActions.GET_RETURN_MODES_FAILURE:
+      return Object.assign({}, state, {
+        getReturnModesDetailsError: action.error,
+        getReturnModesDetailsStatus: action.status,
+        loadingForGetReturnModesDetails: false
+      });
+
     default:
       return state;
   }

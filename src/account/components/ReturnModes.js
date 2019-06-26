@@ -33,8 +33,29 @@ export default class ReturnModes extends React.Component {
     super(props);
     this.state = {
       selectedMode: null,
-      isModeSelected: false
+      isModeSelected: false,
+      returnModesDetails: "",
+      selectedOption: "",
+      selectedOptionStores: ""
     };
+  }
+  async componentDidMount() {
+    console.log(this.props);
+    //use delivery address id - required for getPickupAddrReturnPincodeServcblty api call
+    let pickUpAddressId = this.props.getRefundOptionsDetails.deliveryAddress.id;
+    let returnId = this.props.getRefundModesDetails.returnId;
+    let orderId = this.props.data.sellerorderno;
+    let transactionId = this.props.data.transactionId;
+    let data = await this.props.getReturnModes(
+      returnId,
+      orderId,
+      pickUpAddressId,
+      transactionId
+    );
+    console.log(data);
+    if (data.status === "success") {
+      this.setState({ returnModesDetails: data.returnModesDetails });
+    }
   }
   handleSelect(val) {
     if (checkUserAgentIsMobile()) {
@@ -69,7 +90,7 @@ export default class ReturnModes extends React.Component {
   };
 
   isReturnModesEnabled = () => {
-    const data = this.props.returnProductDetails;
+    const data = this.state.returnModesDetails;
     if (
       (data && data.returnModes && data.returnModes.quickDrop) ||
       (data && data.returnModes && data.returnModes.schedulePickup) ||
@@ -96,7 +117,9 @@ export default class ReturnModes extends React.Component {
       return this.navigateToReturnLanding();
     }
     const { productInfo } = this.props;
-    const data = this.props.returnProductDetails;
+    //const data = this.state.returnModesDetails;
+    // const returnStoreDetailsList = data && Object.keys(data.returnStoreDetailsList);
+    // const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
     return (
       <div className={styles.base}>
         {/* <MobileOnly>
@@ -123,47 +146,21 @@ export default class ReturnModes extends React.Component {
             </div>
           )}
         </MobileOnly> */}
+        {/* <div className={styles.content}>
+					{data && (
+						<div className={styles.card}>
+							<div className={styles.returnModesHeading}>Pickup Address:</div>
+							<div className={styles.addressText}>
+								{data.deliveryAddress.line1} ,&nbsp;
+								{data.deliveryAddress.landmark} ,&nbsp;
+								{data.deliveryAddress.town} ,&nbsp;
+								{data.deliveryAddress.state}&nbsp;
+								{data.deliveryAddress.postalCode}
+							</div>
+						</div>
+					)}
+				</div> */}
         <div className={styles.content}>
-          {/* <div className={styles.card}>
-            <OrderCard
-              imageUrl={
-                data &&
-                data.orderProductWsDTO &&
-                data.orderProductWsDTO[0] &&
-                data.orderProductWsDTO[0].imageURL
-              }
-              productName={
-                productInfo && productInfo.product && productInfo.product.name
-              }
-              price={
-                productInfo &&
-                productInfo.totalPrice &&
-                productInfo.totalPrice.value
-              }
-              isSelect={true}
-              quantity={true}
-              onHollow={this.props.onHollow}
-              orderPlace={this.props.orderDate}
-              orderId={this.props.orderId}
-              productBrand={this.props.productBrand}
-              showQuantity={false}
-            >
-              {productInfo &&
-                productInfo.quantity && (
-                  <div className={styles.quantity}>
-                    Qty {productInfo.quantity}
-                  </div>
-                )}
-            </OrderCard>
-          </div> */}
-          {/* <DesktopOnly>
-						<SelectedReasonForReturn
-							header={'Select reason for your return'}
-							titleDescription={this.props.selectedReason}
-							handleCancel={() => this.handleCancel()}
-							onChange={this.props.onChange}
-						/>
-					</DesktopOnly> */}
           {this.isReturnModesEnabled() && (
             <div
               className={
@@ -174,49 +171,84 @@ export default class ReturnModes extends React.Component {
             >
               {!this.state.isModeSelected && (
                 <DesktopOnly>
-                  <div className={styles.header}>
-                    <div className={styles.circleHolder}>
-                      {/* <div className={styles.circle}>2</div> */}
-                    </div>
-                    Select mode of return
-                  </div>
+                  <div className={styles.header}>Select mode of return</div>
                 </DesktopOnly>
               )}
-
-              {!this.state.isModeSelected && (
-                <div className={styles.returnModesWithBorder}>
-                  {data.returnModes.quickDrop &&
-                    !this.state.isModeSelected && (
-                      <SelectReturnDate
-                        label="Return to store"
-                        selected={this.state.selectedMode === QUICK_DROP}
-                        selectItem={() => {
-                          this.handleSelect(QUICK_DROP);
-                        }}
-                      />
-                    )}
-                  {data.returnModes.schedulePickup &&
-                    !this.state.isModeSelected && (
-                      <SelectReturnDate
-                        label="Tata CliQ Pick Up"
-                        selectItem={() => {
-                          this.handleSelect(SCHEDULED_PICKUP);
-                        }}
-                        selected={this.state.selectedMode === SCHEDULED_PICKUP}
-                      />
-                    )}
-                  {data.returnModes.selfCourier &&
-                    !this.state.isModeSelected && (
-                      <SelectReturnDate
-                        selectItem={() => {
-                          this.handleSelect(SELF_COURIER);
-                        }}
-                        label="Self Courier"
-                        selected={this.state.selectedMode === SELF_COURIER}
-                      />
-                    )}
-                </div>
-              )}
+              {/* {data.returnModes.quickDrop &&
+								returnStoreDetailsList &&
+								returnStoreDetailsList.length > 0 && (
+									<label className={styles.labelForRadioBtn}>
+										<input
+											className={styles.radioBtn}
+											type="radio"
+											value="Return To Store"
+											checked={this.state.selectedOption === 'Return To Store'}
+											onChange={this.radioChange}
+										/>
+										Return To Store
+									</label>
+								)}
+							{data.returnModes.schedulePickup && (
+								<label className={styles.labelForRadioBtn}>
+									<input
+										className={styles.radioBtn}
+										type="radio"
+										value="Pick Up"
+										checked={this.state.selectedOption === 'Pick Up'}
+										onChange={this.radioChange}
+									/>
+									Pick Up
+								</label>
+							)}
+							{data.returnModes.selfCourier && (
+								<label className={styles.labelForRadioBtn}>
+									<input
+										className={styles.radioBtn}
+										type="radio"
+										value="Self Courier"
+										checked={this.state.selectedOption === 'Self Courier'}
+										onChange={this.radioChange}
+									/>
+									Self Courier
+									<span className={styles.radioBtnSubText}>
+										{returnLogisticsResponseDTO[0].responseDescription}
+									</span>
+								</label>
+							)} */}
+              {/* {!this.state.isModeSelected && (
+								<div className={styles.returnModesWithBorder}>
+									{data.returnModes.quickDrop &&
+										!this.state.isModeSelected && (
+											<SelectReturnDate
+												label="Return to store"
+												selected={this.state.selectedMode === QUICK_DROP}
+												selectItem={() => {
+													this.handleSelect(QUICK_DROP);
+												}}
+											/>
+										)}
+									{data.returnModes.schedulePickup &&
+										!this.state.isModeSelected && (
+											<SelectReturnDate
+												label="Tata CliQ Pick Up"
+												selectItem={() => {
+													this.handleSelect(SCHEDULED_PICKUP);
+												}}
+												selected={this.state.selectedMode === SCHEDULED_PICKUP}
+											/>
+										)}
+									{data.returnModes.selfCourier &&
+										!this.state.isModeSelected && (
+											<SelectReturnDate
+												selectItem={() => {
+													this.handleSelect(SELF_COURIER);
+												}}
+												label="Self Courier"
+												selected={this.state.selectedMode === SELF_COURIER}
+											/>
+										)}
+								</div>
+							)} */}
 
               <DesktopOnly>
                 {this.state.selectedMode === QUICK_DROP && (
