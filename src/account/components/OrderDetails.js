@@ -399,49 +399,6 @@ export default class OrderDetails extends React.Component {
                           </div>
                         )}
                       </MobileOnly>
-                      {/* <DesktopOnly>
-                        {this.state.itemDetails && (
-                          <div className={styles.orderItemDateID}>
-                            <div>Order placed on : {orderPlacedDate}</div>
-                            <div>Order ID : {orderDetails.orderId}</div>
-                            <div>Transaction ID : {products.transactionId}</div>
-                          </div>
-                        )}
-                        <div className={styles.orderIdAndPlacedHolder}>
-                          <div className={styles.orderIdHolder}>
-                            <span className={styles.highlightedText}>
-                              Order placed on:{" "}
-                            </span>
-                            <span>
-                              {format(orderDetails.orderDate, dateFormat)}
-                            </span>
-                          </div>
-                          <div className={styles.orderIdHolder}>
-                            <span className={styles.highlightedText}>
-                              Order ID:{" "}
-                            </span>
-                            <span>{orderDetails.orderId}</span>
-                          </div>
-                        </div>
-
-                        {this.props.history && (
-                          <div
-                            className={styles.buttonGoToBack}
-                            onClick={() => this.backToOrderHistory()}
-                          >
-                            Back to Order History
-                            {/* <UnderLinedButton
-                            size="14px"
-                            fontFamily="light"
-                            color="#000000"
-                            label="Back to Order History"
-                            onClick={() => this.backToOrderHistory()}
-                          />
-                          </div>
-                        )}
-
-
-                      </DesktopOnly> */}
 
                       <OrderCard
                         statusDisplayMsg={products.statusDisplayMsg}
@@ -464,61 +421,6 @@ export default class OrderDetails extends React.Component {
                         showEDD="Y"
                         isOrderReturnable={products.isReturned}
                       />
-
-                      {/* {orderDetails.deliveryAddress &&
-                      Object.keys(orderDetails.deliveryAddress).length !==
-                        0 && (
-                        <OrderDelivered
-                          deliveredAddress={`${
-                            orderDetails.deliveryAddress.addressLine1
-                              ? orderDetails.deliveryAddress.addressLine1
-                              : ""
-                          } ${
-                            orderDetails.deliveryAddress.town
-                              ? orderDetails.deliveryAddress.town
-                              : ""
-                          } ${
-                            orderDetails.deliveryAddress.state
-                              ? orderDetails.deliveryAddress.state
-                              : ""
-                          } ${
-                            orderDetails.deliveryAddress.postalcode
-                              ? orderDetails.deliveryAddress.postalcode
-                              : ""
-                          }`}
-                          deliveredAddress1={`${
-                            orderDetails.deliveryAddress.firstName
-                              ? orderDetails.deliveryAddress.firstName
-                              : ""
-                          } ${
-                            orderDetails.deliveryAddress.lastName
-                              ? orderDetails.deliveryAddress.lastName
-                              : ""
-                          }`}
-                          deliveredAddress2={`${
-                            orderDetails.deliveryAddress.addressLine1
-                              ? orderDetails.deliveryAddress.addressLine1
-                              : ""
-                          }`}
-                          deliveredAddress3={`
-                          ${
-                            orderDetails.deliveryAddress.town
-                              ? orderDetails.deliveryAddress.town
-                              : ""
-                          }, ${
-                            orderDetails.deliveryAddress.state
-                              ? orderDetails.deliveryAddress.state
-                              : ""
-                          } ${
-                            orderDetails.deliveryAddress.postalcode
-                              ? orderDetails.deliveryAddress.postalcode
-                              : ""
-                          }`}
-                          orderDeliveryHeaderText={"Delivered to"}
-                          deliveredDate={products.deliveryDate}
-                          soldBy={products.sellerName}
-                        />
-                      )} */}
 
                       {!isReturned &&
                         products.consignmentStatus === "DELIVERED" && (
@@ -554,14 +456,14 @@ export default class OrderDetails extends React.Component {
                             </div>
                           </React.Fragment>
                         )}
-                      {products.statusDisplayMsg &&
+                      {/* {products.statusDisplayMsg &&
                         products.consignmentStatus !== "DELIVERED" &&
                         (products.selectedDeliveryMode &&
                           products.selectedDeliveryMode.code !==
                             CLICK_COLLECT) && (
                           <div className={styles.orderStatusVertical}>
                             {/* This block of code needs to be duplicated below for CNC as well */}
-                            {!products.statusDisplayMsg
+                      {/* {!products.statusDisplayMsg
                               .map(val => {
                                 return val.key;
                               })
@@ -593,9 +495,29 @@ export default class OrderDetails extends React.Component {
                               />
                             )}
                             {/* Block of code ends here */}
+                      {/* </div>
+                        )}  */}
+                      {products.consignmentStatus !== "DELIVERED" &&
+                        products.selectedDeliveryMode.code !==
+                          CLICK_COLLECT && (
+                          <div className={styles.orderStatusVertical}>
+                            {/* This block of code needs to be duplicated below for CNC as well */}
+
+                            <OrderStatusVertical
+                              isCNC={false}
+                              statusMessageList={products.statusDisplayMsg}
+                              logisticName={products.logisticName}
+                              trackingAWB={products.trackingAWB}
+                              showShippingDetails={
+                                this.props.showShippingDetails
+                              }
+                              orderCode={orderDetails.orderId}
+                              returnMode={products.returnMode}
+                              returnType={products.returnType}
+                            />
+                            {/* Block of code ends here */}
                           </div>
                         )}
-
                       {products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code === CLICK_COLLECT &&
                         products.storeDetails && (
@@ -725,14 +647,20 @@ export default class OrderDetails extends React.Component {
                                   return val.key;
                                 })
                                 .includes(RETURN) && (
-                                <OrderStatusHorizontal
+                                <OrderStatusVertical
                                   trackingAWB={products.trackingAWB}
                                   courier={products.reverseLogisticName}
-                                  statusMessageList={products.statusDisplayMsg.filter(
-                                    val => {
-                                      return val.key === RETURN;
-                                    }
-                                  )}
+                                  logisticName={products.logisticName}
+                                  isCNC={true}
+                                  showShippingDetails={
+                                    this.props.showShippingDetails
+                                  }
+                                  orderCode={orderDetails.orderId}
+                                  returnMode={products.returnMode}
+                                  returnType={products.returnType}
+                                  statusMessageList={products.statusDisplayMsg}
+                                  logisticName={products.logisticName}
+                                  statusMessageList={products.statusDisplayMsg}
                                 />
                               )}
                               {/* Block of code ends here */}
@@ -742,29 +670,6 @@ export default class OrderDetails extends React.Component {
 
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div className={styles.buttonHolder}>
-                          <div className={styles.payment} />
-                          {/* <div>
-                            <DesktopOnly> */}
-                          {/* <div className={styles.writeReviedButton}>
-                                <Button
-                                  label={"Write a review"}
-                                  width={147}
-                                  height={36}
-                                  borderColor={"#000000"}
-                                  borderRadius={20}
-                                  backgroundColor={"#ffffff"}
-                                  onClick={val =>
-                                    this.writeReview(products.productcode)
-                                  }
-                                  textStyle={{
-                                    color: "#000000",
-                                    fontSize: 14,
-                                    fontFamily: "regular"
-                                  }}
-                                />
-                              </div> */}
-                          {/* </DesktopOnly> */}
-                          {/* </div> */}
                           <div className={styles.buttonHolderForUpdate}>
                             {/* showing write a review and cancel or return only for mobile */}
                             <MobileOnly>
@@ -875,6 +780,23 @@ export default class OrderDetails extends React.Component {
                                       {PRODUCT_RETURN}
                                     </div>
                                   )}
+                                {products.isReturnCancelable && (
+                                  <div
+                                    className={styles.review}
+                                    onClick={() =>
+                                      this.cancelItem(
+                                        products.transactionId,
+                                        products.USSID,
+                                        products.sellerorderno
+                                      )
+                                    }
+                                  >
+                                    <div className={styles.CancelReturn}>
+                                      Cancel Return Request
+                                    </div>
+                                    <span className={styles.rightArrow} />
+                                  </div>
+                                )}
                                 {products.isInvoiceAvailable &&
                                   products.consignmentStatus ===
                                     "DELIVERED" && (
