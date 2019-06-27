@@ -181,6 +181,7 @@
   align-items: center;
   background: linear-gradient(#ce5096, #da6060);
   border-radius: 16px;
+  cursor: pointer;
 }
 .buttonText {
   font-size: 14px;
