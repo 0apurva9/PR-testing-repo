@@ -46,12 +46,17 @@ export default class TransactionHistoryDesktop extends React.Component {
     return monthString;
   };
   transactiondetailPage(data) {
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
-      state: {
-        transactonDetails: data
-      }
-    });
+    if (
+      data.transactionType &&
+      !data.transactionType.toUpperCase().match(/\bEXPIRED/g)
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
+        state: {
+          transactonDetails: data
+        }
+      });
+    }
   }
   showDatePickerModule = type => {
     this.setState({ checked: type, transactionDetails: null });
@@ -267,17 +272,17 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         )}
                                     </div>
                                     {value.transactionId &&
-                                      value.transactionType
+                                      !value.transactionType
                                         .toUpperCase()
-                                        .match(/\bADDED|EXPIRED|RECEIVED/g) && (
+                                        .match(/\bPAID/g) && (
                                         <div className={styles.orderNumber}>
                                           Transaction ID: {value.transactionId}
                                         </div>
                                       )}
                                     {value.orderNo &&
-                                      !value.transactionType
+                                      value.transactionType
                                         .toUpperCase()
-                                        .match(/\bADDED|RECEIVED REFUND/g) && (
+                                        .match(/\bPAID/g) && (
                                         <div className={styles.orderNumber}>
                                           Order No:{value.orderNo}
                                         </div>
@@ -319,16 +324,18 @@ export default class TransactionHistoryDesktop extends React.Component {
                                   <div className={styles.orderDetails}>
                                     <div
                                       className={
-                                        value.transactionType
+                                        value.transactionType &&
+                                        !value.transactionType
                                           .toUpperCase()
-                                          .match(/\bRECEIVED|\bADDED/g)
+                                          .match(/EXPIRED|PAID/g)
                                           ? styles.orderAmountGreen
                                           : styles.orderAmount
                                       }
                                     >
-                                      {value.transactionType
+                                      {value.transactionType &&
+                                      !value.transactionType
                                         .toUpperCase()
-                                        .match(/\bRECEIVED|\bADDED/g)
+                                        .match(/EXPIRED|PAID/g)
                                         ? "+ "
                                         : "- "}
                                       {value &&

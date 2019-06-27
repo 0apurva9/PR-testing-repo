@@ -72,13 +72,18 @@ export default class CliqCashDesktop extends React.Component {
     }
   }
   transactiondetailPage(data) {
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
-      state: {
-        transactonDetails: data,
-        userAddress: this.props.userAddress
-      }
-    });
+    if (
+      data.transactionType &&
+      !data.transactionType.toUpperCase().match(/\bEXPIRED/g)
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
+        state: {
+          transactonDetails: data,
+          userAddress: this.props.userAddress
+        }
+      });
+    }
   }
   showTransactioDetails = () => {
     this.props.history.push(
@@ -333,11 +338,9 @@ export default class CliqCashDesktop extends React.Component {
                                             )}
                                         </div>
                                         {value.transactionId &&
-                                          value.transactionType
+                                          !value.transactionType
                                             .toUpperCase()
-                                            .match(
-                                              /\bADDED|EXPIRED|RECEIVED/g
-                                            ) && (
+                                            .match(/\bPAID/g) && (
                                             <div
                                               className={styles.cliqCashOrderNo}
                                             >
@@ -347,11 +350,9 @@ export default class CliqCashDesktop extends React.Component {
                                           )}
 
                                         {value.orderNo &&
-                                          !value.transactionType
+                                          value.transactionType
                                             .toUpperCase()
-                                            .match(
-                                              /\bADDED|RECEIVED REFUND/g
-                                            ) && (
+                                            .match(/\bPAID/g) && (
                                             <div
                                               className={styles.cliqCashOrderNo}
                                             >
@@ -394,16 +395,18 @@ export default class CliqCashDesktop extends React.Component {
                                       <div className={styles.priceAndTime}>
                                         <div
                                           className={
-                                            value.transactionType
+                                            value.transactionType &&
+                                            !value.transactionType
                                               .toUpperCase()
-                                              .match(/\bRECEIVED|\bADDED/g)
+                                              .match(/EXPIRED|PAID/g)
                                               ? styles.amountAdded
                                               : styles.price
                                           }
                                         >
-                                          {value.transactionType
+                                          {value.transactionType &&
+                                          !value.transactionType
                                             .toUpperCase()
-                                            .match(/\bRECEIVED|\bADDED/g)
+                                            .match(/EXPIRED|PAID/g)
                                             ? "+ "
                                             : "- "}
                                           {value &&
