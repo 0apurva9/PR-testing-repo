@@ -14,6 +14,13 @@ import {
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   EXPIRED_REJECTED_FORMAT
 } from "../../lib/constants.js";
+
+import {
+  setDataLayerForGiftCard,
+  SET_DATA_LAYER_ADD_GIFT_CARD,
+  SET_DATA_LAYER_BUY_GIFT_CARD
+} from "../../lib/adobeUtils";
+
 import {
   getWholeDayTimeFormat,
   getUTCDateMonthFormat
@@ -80,10 +87,12 @@ export default class CliqCashDesktop extends React.Component {
   };
 
   buyNewGiftCard = () => {
+    setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD);
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
 
   showCliqCashModule = () => {
+    setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
     if (this.props.showCliqCashModule) {
       this.props.showCliqCashModule(this.props);
     }
