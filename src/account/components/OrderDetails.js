@@ -122,45 +122,46 @@ export default class OrderDetails extends React.Component {
   writeReview(productCode) {
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
-  getDay(mplWorkingDays) {
-    let mplWorkingDaysInArray = mplWorkingDays.split(",");
+  getNonWorkingDays(mplWorkingDays) {
+    const arr1 = [1, 2, 3, 4, 5, 6, 0];
     let dayText = "";
     let dayTextArr = [];
-    // eslint-disable-next-line array-callback-return
-    mplWorkingDaysInArray.map((day, index) => {
-      switch (day) {
-        case "1":
-          dayText = "Mon";
-          break;
-        case "2":
-          dayText = "Tue";
-          break;
-        case "3":
-          dayText = "Wed";
-          break;
-        case "4":
-          dayText = "Thu";
-          break;
-        case "5":
-          dayText = "Fri";
-          break;
-        case "6":
-          dayText = "Sat";
-          break;
-        case "0":
-          dayText = "Sun";
-          break;
-        default:
-          dayText = "";
-        //break;
-      }
-      dayTextArr.push(dayText);
+    var arr2 = mplWorkingDays.split(",").map(function(item) {
+      return parseInt(item, 10);
     });
-    let dayTextArrToString = dayTextArr.toString();
-    return dayTextArrToString;
+    const finalarr = [];
+    for (var i = 0; i < arr1.length; i++) {
+      if (arr2.indexOf(arr1[i]) === -1) {
+        finalarr.push(arr1[i]);
+      }
+    }
+    if (finalarr.length === 0) {
+      return "";
+    } else if (finalarr.length > 0) {
+      finalarr.forEach(function(curr_val) {
+        if (curr_val === 1) {
+          dayText = "Mondays";
+        } else if (curr_val === 2) {
+          dayText = "Tuesdays";
+        } else if (curr_val === 3) {
+          dayText = "Wednesdays";
+        } else if (curr_val === 4) {
+          dayText = "Thursdays";
+        } else if (curr_val === 5) {
+          dayText = "Fridays";
+        } else if (curr_val === 6) {
+          dayText = "Saturdays";
+        } else if (curr_val === 0) {
+          dayText = "Sundays";
+        }
+        dayTextArr.push(dayText);
+      });
+      let dayTextArrToString = " | Closed on " + dayTextArr.toString();
+      return dayTextArrToString;
+    }
   }
   getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
-    let getDaysText = this.getDay(mplWorkingDays);
+    let getDaysText = this.getNonWorkingDays(mplWorkingDays);
     let mplOpeningTimeText = "";
     let mplClosingTimeText = "";
     // let displayDateNTime = "";
@@ -181,7 +182,7 @@ export default class OrderDetails extends React.Component {
       mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "PM";
     }
     let displayDateNTime =
-      mplOpeningTimeText + " - " + mplClosingTimeText + " | ";
+      mplOpeningTimeText + " - " + mplClosingTimeText + getDaysText;
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
@@ -275,7 +276,6 @@ export default class OrderDetails extends React.Component {
     pickupDate = moment(new_date)
       .add(returnPolicy, "days")
       .format(dateFormat);
-    console.log("pickupDate>>>" + pickupDate);
     return pickupDate;
   }
   render() {
@@ -679,8 +679,6 @@ export default class OrderDetails extends React.Component {
                                   orderCode={orderDetails.orderId}
                                   returnMode={products.returnMode}
                                   returnType={products.returnType}
-                                  statusMessageList={products.statusDisplayMsg}
-                                  logisticName={products.logisticName}
                                   statusMessageList={products.statusDisplayMsg}
                                 />
                               )}
