@@ -55,7 +55,8 @@ export default class TransactionDetailDesktop extends React.Component {
                   <span className={styles.rupee}>₹</span>
                   {transactionDetails &&
                     transactionDetails.amount &&
-                    transactionDetails.amount.value}
+                    transactionDetails.amount.value &&
+                    Math.round(transactionDetails.amount.value)}
                 </div>
                 <div className={styles.timeAndDate}>
                   {getDateMonthFormat(
@@ -70,7 +71,8 @@ export default class TransactionDetailDesktop extends React.Component {
                   <span className={styles.totalAmount}>
                     {transactionDetails &&
                       transactionDetails.closingBalance &&
-                      transactionDetails.closingBalance.value}
+                      transactionDetails.closingBalance.value &&
+                      Math.round(transactionDetails.closingBalance.value)}
                   </span>
                 </div>
               </div>
