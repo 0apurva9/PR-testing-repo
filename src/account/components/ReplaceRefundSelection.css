@@ -179,16 +179,18 @@ label {
 }
 .cliqCashInstant {
 	font-family: regular;
-	font-size: 10px;
-	margin-left: 18px;
-	vertical-align: middle;
-	color: #ff1744;
-	display: inline-block;
+    font-size: 10px;
+    /* margin-left: 18px; */
+    vertical-align: text—top;
+    color: #ff1744;
+    display: inline-block;
 }
 .InstantImage {
-	display: inline-block;
-	margin-left: 10px;
-	/* background-image: url(../../general/components/img/pathCopy7.png); */
+	width: 15px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: text-top;
+    margin: 0 10px 0 10px;
 }
 .addBankDetailsButton {
 	font-size: 14px;

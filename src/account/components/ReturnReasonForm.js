@@ -11,6 +11,7 @@ import DeskTopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
 import cancel from "../../general/components/img/canceltransperent.png";
+import { COMMENTS_PLACEHOLDER } from "../../lib/constants";
 const MODE_OF_RETURN = "Select mode of return";
 const REFUND_DETAILS = "Refund Details";
 export default class ReturnReasonForm extends React.Component {
@@ -211,6 +212,7 @@ export default class ReturnReasonForm extends React.Component {
               <TextArea
                 value={this.state.comment}
                 onChange={val => this.handleChange(val)}
+                placeholder={COMMENTS_PLACEHOLDER}
               />
             </div>
             <DeskTopOnly>

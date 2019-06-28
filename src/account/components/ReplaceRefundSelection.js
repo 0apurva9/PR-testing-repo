@@ -396,20 +396,15 @@ export default class ReplaceRefundSelection extends React.Component {
                                   ? "CLiQ Cash"
                                   : value.refundMode}
                                 {value.refundModeCode === "CLIQ_CASH" ? (
-                                  <div className={styles.InstantImage}>
-                                    <Icon image={Instant} size={15} />
-                                    <span className={styles.cliqCashInstant}>
-                                      {" "}
-                                      "Instant"
-                                    </span>
-                                  </div>
+                                  <React.Fragment>
+                                    <div className={styles.InstantImage}>
+                                      <Icon image={Instant} size={20} />
+                                    </div>
+                                    <div className={styles.cliqCashInstant}>
+                                      Instant
+                                    </div>
+                                  </React.Fragment>
                                 ) : null}
-                                {/* <span className={styles.cliqCashInstant}>
-                                {value.refundModeCode === "CLIQ_CASH"
-                                  ? "Instant"
-                                  : null}
-                                  </span>*/}
-
                                 <span className={styles.radioBtnSubText}>
                                   {value.callout}
                                 </span>
