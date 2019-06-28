@@ -84,7 +84,7 @@
     font-family: regular;
     font-size: 16px;
     color: #212121;
-    padding: 16px 0px 8px 0px;
+    padding: 16px 0px 0px 0px;
   }
   .quantity {
     width: 100%;
@@ -100,6 +100,7 @@
     font-family: light;
     font-size: 16px;
     color: #8d8d8d;
+    padding-top: 16px;
   }
   .tcHolder {
     width: 100%;
