@@ -712,6 +712,11 @@ export default class AllOrderDetails extends React.Component {
                                             <div className={styles.boxReview}>
                                               <div
                                                 className={styles.reviewText}
+                                                onClick={val =>
+                                                  this.writeReview(
+                                                    product.productcode
+                                                  )
+                                                }
                                               >
                                                 WRITE A REVIEW
                                               </div>
