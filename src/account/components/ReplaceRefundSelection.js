@@ -91,7 +91,8 @@ export default class ReplaceRefundSelection extends React.Component {
       } else {
         this.setState({ selectedOption: "" });
       }
-    } else {
+    }
+    if (target.value === "BANK_ACCOUNT") {
       //bank account
       // if (target.value === "BANK_TO_SOURCE") {
       let getCustomerBankDetailsResponse = await this.props.getCustomerBankDetails();
@@ -417,7 +418,7 @@ export default class ReplaceRefundSelection extends React.Component {
                           })}
                       </form>
                       {this.state.showBankDetails &&
-                        this.state.selectedOption === "BACK_TO_SOURCE" && (
+                        this.state.selectedOption === "BANK_ACCOUNT" && (
                           <React.Fragment>
                             <div className={styles.bankDetailsHeading}>
                               Your Account Details:
@@ -455,7 +456,7 @@ export default class ReplaceRefundSelection extends React.Component {
                     </div>
                   </div>
                   {!this.state.showBankDetails &&
-                    this.state.selectedOption === "BACK_TO_SOURCE" && (
+                    this.state.selectedOption === "BANK_ACCOUNT" && (
                       <div
                         className={styles.addBankDetailsButton}
                         onClick={() => this.addBankDetails()}

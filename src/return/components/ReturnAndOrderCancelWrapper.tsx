@@ -25,7 +25,7 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
 	public render() {
 		const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 		const userAccountDetails = JSON.parse(userDetails);
-		const returnProductDetails = this.props.returnProductDetails;
+		let returnProductDetails = this.props.returnProductDetails;
 		const orderDetails = this.props.orderDetails;
 		let returnFlow = this.props.returnFlow;
 
@@ -37,70 +37,71 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
 					</div>
 					<div className={styles.returnReasonDetail}>
 						<div className={styles.returnReasonDetailHolder}>
-							{returnProductDetails && (
-								<div className={styles.orderCardWrapper}>
-									<OrderCard
-										imageUrl={
-											returnProductDetails &&
-											returnProductDetails.orderProductWsDTO &&
-											returnProductDetails.orderProductWsDTO[0] &&
-											returnProductDetails.orderProductWsDTO[0].imageURL
-										}
-										productName={`${returnProductDetails &&
-											returnProductDetails.orderProductWsDTO &&
-											returnProductDetails.orderProductWsDTO[0] &&
-											returnProductDetails.orderProductWsDTO[0]
-												.productBrand} ${returnProductDetails &&
-											returnProductDetails.orderProductWsDTO &&
-											returnProductDetails.orderProductWsDTO[0] &&
-											returnProductDetails.orderProductWsDTO[0].productName}`}
-										price={
-											returnProductDetails &&
-											returnProductDetails.orderProductWsDTO &&
-											returnProductDetails.orderProductWsDTO[0] &&
-											returnProductDetails.orderProductWsDTO[0].price
-										}
-										isSelect={false}
-										quantity={true}
-										orderPlace={
-											orderDetails && orderDetails.orderDate
-												? orderDetails && format(orderDetails.orderDate, dateFormat)
-												: this.props.orderPlace
-										}
-										orderId={this.props.orderId}
-										productSize={this.props.orderDetails.products[0].productSize}
-										productColourName={this.props.orderDetails.products[0].productColourName}
-										productBrand={
-											orderDetails && orderDetails.productBrand
-												? orderDetails.productBrand
-												: returnProductDetails &&
-												  returnProductDetails.orderProductWsDTO &&
-												  returnProductDetails.orderProductWsDTO[0] &&
-												  returnProductDetails.orderProductWsDTO[0].productBrand
-										}
-										onHollow={true}
-										returnFlow={returnFlow}
-										title={PRODUCT_CANCEL}
-										onClick={() =>
-											this.onClickImage(
-												orderDetails &&
-													orderDetails.orderProductWsDTO &&
-													orderDetails.orderProductWsDTO[0] &&
-													orderDetails.orderProductWsDTO[0].productcode
-											)
-										}
-									>
-										{returnProductDetails &&
-											returnProductDetails.orderProductWsDTO &&
-											returnProductDetails.orderProductWsDTO[0] &&
-											returnProductDetails.orderProductWsDTO[0].quantity && (
-												<div className={styles.quantity}>
-													Qty {returnProductDetails.orderProductWsDTO[0].quantity}
-												</div>
-											)}
-									</OrderCard>
-								</div>
-							)}
+							{returnProductDetails &&
+								returnProductDetails.orderProductWsDTO && (
+									<div className={styles.orderCardWrapper}>
+										<OrderCard
+											imageUrl={
+												returnProductDetails &&
+												returnProductDetails.orderProductWsDTO &&
+												returnProductDetails.orderProductWsDTO[0] &&
+												returnProductDetails.orderProductWsDTO[0].imageURL
+											}
+											productName={`${returnProductDetails &&
+												returnProductDetails.orderProductWsDTO &&
+												returnProductDetails.orderProductWsDTO[0] &&
+												returnProductDetails.orderProductWsDTO[0]
+													.productBrand} ${returnProductDetails &&
+												returnProductDetails.orderProductWsDTO &&
+												returnProductDetails.orderProductWsDTO[0] &&
+												returnProductDetails.orderProductWsDTO[0].productName}`}
+											price={
+												returnProductDetails &&
+												returnProductDetails.orderProductWsDTO &&
+												returnProductDetails.orderProductWsDTO[0] &&
+												returnProductDetails.orderProductWsDTO[0].price
+											}
+											isSelect={false}
+											quantity={true}
+											orderPlace={
+												orderDetails && orderDetails.orderDate
+													? orderDetails && format(orderDetails.orderDate, dateFormat)
+													: this.props.orderPlace
+											}
+											orderId={this.props.orderId}
+											productSize={returnProductDetails.orderProductWsDTO[0].productSize}
+											productColourName={returnProductDetails.orderProductWsDTO[0].productColour}
+											productBrand={
+												orderDetails && orderDetails.productBrand
+													? orderDetails.productBrand
+													: returnProductDetails &&
+													  returnProductDetails.orderProductWsDTO &&
+													  returnProductDetails.orderProductWsDTO[0] &&
+													  returnProductDetails.orderProductWsDTO[0].productBrand
+											}
+											onHollow={true}
+											returnFlow={returnFlow}
+											title={PRODUCT_CANCEL}
+											onClick={() =>
+												this.onClickImage(
+													orderDetails &&
+														orderDetails.orderProductWsDTO &&
+														orderDetails.orderProductWsDTO[0] &&
+														orderDetails.orderProductWsDTO[0].productcode
+												)
+											}
+										>
+											{returnProductDetails &&
+												returnProductDetails.orderProductWsDTO &&
+												returnProductDetails.orderProductWsDTO[0] &&
+												returnProductDetails.orderProductWsDTO[0].quantity && (
+													<div className={styles.quantity}>
+														Qty {returnProductDetails.orderProductWsDTO[0].quantity}
+													</div>
+												)}
+										</OrderCard>
+									</div>
+								)}
 							{this.props.children}
 						</div>
 					</div>
