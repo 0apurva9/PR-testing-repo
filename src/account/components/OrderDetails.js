@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import styles from "./OrderDetails.css";
 import { withRouter } from "react-router-dom";
 import OrderPlacedAndId from "./OrderPlacedAndId.js";
@@ -50,7 +51,7 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
-const dateFormat = "DD MMM YYYY";
+const dateFormat = "Do MMM YYYY";
 const PRODUCT_RETURN = "Return/Replace";
 const RETURN = "RETURN";
 const PRODUCT_RETURN_WINDOW_CLOSED =
@@ -268,6 +269,15 @@ export default class OrderDetails extends React.Component {
       this.props.displayToast("Invoice has been sent");
     }
   }
+  getPickUpDate(orderdate, returnPolicy) {
+    let pickupDate = "";
+    let new_date = new Date(orderdate);
+    pickupDate = moment(new_date)
+      .add(returnPolicy, "days")
+      .format(dateFormat);
+    console.log("pickupDate>>>" + pickupDate);
+    return pickupDate;
+  }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -285,6 +295,7 @@ export default class OrderDetails extends React.Component {
     }
     const orderDetails = this.props.orderDetails;
     let orderPlacedDate = "";
+
     if (orderDetails && orderDetails.orderDate) {
       orderPlacedDate = format(orderDetails.orderDate, dateFormat);
     }
@@ -599,21 +610,31 @@ export default class OrderDetails extends React.Component {
                         )}
                       {products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                        (orderDetails.orderDate && products.returnPolicy) && (
+                          <React.Fragment>
+                            <div className={styles.commonTitle}>
+                              <span className={styles.width20}>Pickup</span>
+                              <span className={styles.colon}>:</span>
+                              <span className={styles.width75}>
+                                <span>
+                                  {this.getPickUpDate(
+                                    orderDetails.orderDate,
+                                    products.returnPolicy
+                                  )}
+                                </span>
+                              </span>
+                            </div>
+                          </React.Fragment>
+                        )}
+                      {products.selectedDeliveryMode &&
+                        products.selectedDeliveryMode.code === CLICK_COLLECT &&
                         (orderDetails.pickupPersonName ||
                           orderDetails.pickupPersonMobile) && (
-                          // <div className={styles.orderStatusVertical}>
-                          //   <div className={styles.header}>Pickup details:</div>
-                          //   <div className={styles.row}>
-                          //     {orderDetails.pickupPersonName}
-                          //   </div>
-                          //   <div className={styles.row}>
-                          //     {orderDetails.pickupPersonMobile}
-                          //   </div>
                           <React.Fragment>
                             <div className={styles.storeDetails}>
                               <div className={styles.commonTitle}>
                                 <span className={styles.width20}>
-                                  Pickup Details
+                                  Contact Details
                                 </span>
                                 <span className={styles.colon}>:</span>
                                 <span className={styles.width75}>

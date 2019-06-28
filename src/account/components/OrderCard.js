@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage.js";
 import CheckBox from "../../general/components/CheckBox.js";
 import styles from "./OrderCard.css";
+import format from "date-fns/format";
 import {
   RUPEE_SYMBOL,
   NO,
@@ -14,6 +15,7 @@ import {
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+const dateFormat = "Do MMM YYYY";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
 export default class OrderCard extends React.Component {
@@ -65,6 +67,7 @@ export default class OrderCard extends React.Component {
     let statusDisplayMsg =
       this.props.statusDisplayMsg && this.props.statusDisplayMsg;
     let estimatedDeliveryDate = "";
+    let estimatedDeliveryDateFormatted = "";
     if (
       statusDisplayMsg &&
       statusDisplayMsg.length > 0 &&
@@ -83,6 +86,8 @@ export default class OrderCard extends React.Component {
       ) {
         estimatedDeliveryDate =
           statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date;
+        let edd = new Date(estimatedDeliveryDate);
+        estimatedDeliveryDateFormatted = format(edd, dateFormat);
       }
     }
     return (
@@ -342,7 +347,7 @@ export default class OrderCard extends React.Component {
                   Estimated Delivery Date:{" "}
                 </span>
               )}
-              {estimatedDeliveryDate}
+              {estimatedDeliveryDateFormatted}
             </div>
           )}
         {this.props.isOrderReturnable === false && (
