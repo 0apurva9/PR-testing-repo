@@ -86,6 +86,13 @@
     color: #212121;
     padding: 16px 0px 8px 0px;
   }
+  .quantity {
+    width: 100%;
+    height: auto;
+    font-family: light;
+    font-size: 16px;
+    color: #212121;
+  }
 
   .orderNo {
     width: 100%;
