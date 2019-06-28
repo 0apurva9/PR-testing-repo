@@ -24,6 +24,7 @@
   height: auto;
   display: inline-block;
   position: relative;
+  cursor: pointer;
 }
 .fromDateConatiner::before {
   content: "";
@@ -41,6 +42,7 @@
   height: auto;
   display: inline-block;
   position: relative;
+  cursor: pointer;
 }
 .fromDateConatinerSelected::before {
   content: "";
@@ -60,6 +62,7 @@
   display: inline-block;
   text-align: right;
   position: relative;
+  cursor: pointer;
 }
 .toDateConatiner::before {
   content: "";
@@ -77,6 +80,7 @@
   display: inline-block;
   text-align: right;
   position: relative;
+  cursor: pointer;
 }
 .toDateConatinerSelected::before {
   content: "";
@@ -195,8 +199,5 @@
     height: auto;
     overflow: auto;
     margin-top: 10px;
-  }
-  .calenderHolder::-webkit-scrollbar {
-    display: none;
   }
 }
