@@ -19,6 +19,7 @@ import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import Loader from "../../general/components/Loader";
+import { PRODUCT_DELIVERY_ADDRESSES, MY_ACCOUNT } from "../../lib/constants";
 
 import {
   QUICK_DROP,
@@ -26,7 +27,8 @@ import {
   SELF_COURIER,
   RETURNS_PREFIX,
   RETURN_LANDING,
-  RETURNS_REASON
+  RETURNS_REASON,
+  CHANGE_RETURN_ADDRESS
 } from "../../lib/constants";
 const REFUND_DETAILS = "Refund Details";
 export default class ReturnModes extends React.Component {
@@ -43,7 +45,7 @@ export default class ReturnModes extends React.Component {
     this.radioChangeStores = this.radioChangeStores.bind(this);
   }
   async componentDidMount() {
-    console.log(this.props);
+    //console.log(this.props);
     //use delivery address id - required for getPickupAddrReturnPincodeServcblty api call
     let pickUpAddressId = this.props.getRefundOptionsDetails.deliveryAddress.id;
     let returnId = this.props.getRefundModesDetails.returnId;
@@ -55,7 +57,7 @@ export default class ReturnModes extends React.Component {
       pickUpAddressId,
       transactionId
     );
-    console.log(data);
+    //console.log(data);
     if (data.status === "success") {
       this.setState({ returnModesDetails: data.returnModesDetails });
     }
@@ -83,7 +85,7 @@ export default class ReturnModes extends React.Component {
     return (
       <Redirect
         to={`${RETURNS_PREFIX}/${
-          this.orderCode
+          this.props.data.sellerorderno
         }${RETURN_LANDING}${RETURNS_REASON}`}
       />
     );
@@ -118,9 +120,19 @@ export default class ReturnModes extends React.Component {
   }
   radioChangeStores(e) {
     const target = e.currentTarget;
-    console.log(target.value);
+    //console.log(target.value);
     this.setState({ selectedOptionStores: target.value });
   }
+  submit() {
+    return false;
+  }
+  onChangeAddress = () => {
+    this.props.history.push(
+      `${RETURNS_PREFIX}/${
+        this.props.data.sellerorderno
+      }${RETURN_LANDING}${CHANGE_RETURN_ADDRESS}`
+    );
+  };
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -132,8 +144,10 @@ export default class ReturnModes extends React.Component {
     const { productInfo } = this.props;
     const data = this.state.returnModesDetails;
     const returnStoreDetailsList =
-      data && Object.keys(data.returnStoreDetailsList);
-    // const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
+      data &&
+      data.returnStoreDetailsList &&
+      Object.keys(data.returnStoreDetailsList);
+    const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
     return (
       <div className={styles.base}>
         {/* <MobileOnly>
@@ -165,7 +179,12 @@ export default class ReturnModes extends React.Component {
             <div className={styles.card}>
               <div className={styles.divideHeaderAddress}>
                 <div className={styles.returnModesHeading}>Pickup Address:</div>
-                <div className={styles.changeAddress}>Change</div>
+                <div
+                  className={styles.changeAddress}
+                  onClick={() => this.onChangeAddress()}
+                >
+                  Change
+                </div>
               </div>
               <div className={styles.addressText}>
                 {data.deliveryAddress.line1} ,{data.deliveryAddress.landmark} ,{
@@ -212,21 +231,22 @@ export default class ReturnModes extends React.Component {
                   Pick Up
                 </label>
               )}
-              {/* {data.returnModes.selfCourier && (
-								<label className={styles.labelForRadioBtn}>
-									<input
-										className={styles.radioBtn}
-										type="radio"
-										value="Self Courier"
-										checked={this.state.selectedOption === 'Self Courier'}
-										onChange={this.radioChange}
-									/>
-									Self Courier
-									<span className={styles.radioBtnSubText}>
-										{returnLogisticsResponseDTO[0].responseDescription}
-									</span>
-								</label>
-							)} */}
+              {data.returnModes.selfCourier &&
+                returnLogisticsResponseDTO.length > 0 && (
+                  <label className={styles.labelForRadioBtn}>
+                    <input
+                      className={styles.radioBtn}
+                      type="radio"
+                      value="Self Courier"
+                      checked={this.state.selectedOption === "Self Courier"}
+                      onChange={this.radioChange}
+                    />
+                    Self Courier
+                    <span className={styles.radioBtnSubText}>
+                      {returnLogisticsResponseDTO[0].responseDescription}
+                    </span>
+                  </label>
+                )}
               {/* {!this.state.isModeSelected && (
 								<div className={styles.returnModesWithBorder}>
 									{data.returnModes.quickDrop &&
@@ -330,9 +350,14 @@ export default class ReturnModes extends React.Component {
                           <div className={styles.storeName}>
                             {value.displayName}
                           </div>
-                          <div>{value.address.formattedAddress}</div>
+                          <div className={styles.addressFormat}>
+                            {value.address.formattedAddress}
+                          </div>
                           <div className={styles.storeDateNTime}>
-                            {value.mplOpeningTime} - {value.mplClosingTime}
+                            Open:{" "}
+                            <span className={styles.OpeningDateTime}>
+                              {value.mplOpeningTime} - {value.mplClosingTime}
+                            </span>
                           </div>
                         </div>
                       </label>

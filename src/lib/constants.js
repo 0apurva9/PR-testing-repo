@@ -130,6 +130,7 @@ export const RETURNS_STORE_BANK_FORM = "/bankDetail";
 export const RETURNS_STORE_FINAL = "/submit";
 
 export const RETURNS_SELF_COURIER = "/selfCourier";
+export const CHANGE_RETURN_ADDRESS = "/changeReturnAddress";
 export const MY_ACCOUNT_ADDRESS_EDIT_PAGE = "/address-book/edit";
 export const MY_ACCOUNT_ADDRESS_ADD_PAGE = "/address-book/add";
 export const FEEDBACK_PAGE = "/feedback/NPSFeedbackForm(.*)";
