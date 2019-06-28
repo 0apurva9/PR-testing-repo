@@ -83,7 +83,10 @@ export default class TransactionDetailDesktop extends React.Component {
                   transactionDetails.orderInfo.map(data => {
                     return (
                       <div className={styles.transactionName}>
-                        {data && data.productName}
+                        {data && data.productName} |{" "}
+                        <span className={styles.quantity}>
+                          Qty {data && data.quantity}
+                        </span>
                       </div>
                     );
                   })}
