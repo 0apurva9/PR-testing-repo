@@ -57,11 +57,14 @@ export default class ReplaceRefundSelection extends React.Component {
       uploadedImageURLs,
       reverseSealAvailability
     );
+    //console.log("PROPS DETAILS:", this.props);
     //if bank data already present show it - coming from update bank details screen
     if (Object.keys(this.props.bankDetail).length !== 0) {
       this.setState({ showRefundOptions: true });
       this.setState({ selectedOption: "BANK_ACCOUNT" });
       this.setState({ showBankDetails: true });
+    } else {
+      this.setState({ showBankDetails: false });
     }
     if (
       this.props.data.showImageUpload == true &&
@@ -76,6 +79,7 @@ export default class ReplaceRefundSelection extends React.Component {
   async radioChange(e) {
     const target = e.currentTarget;
     this.setState({ selectedOption: target.value });
+    //console.log("e in radio:", target.value);
     //cliq cash
     if (target.value === "CLIQ_CASH") {
       let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
@@ -87,10 +91,11 @@ export default class ReplaceRefundSelection extends React.Component {
       } else {
         this.setState({ selectedOption: "" });
       }
-    }
-    //bank account
-    if (target.value === "BANK_ACCOUNT") {
+    } else {
+      //bank account
+      // if (target.value === "BANK_TO_SOURCE") {
       let getCustomerBankDetailsResponse = await this.props.getCustomerBankDetails();
+      //console.log("get Bank Details:", getCustomerBankDetailsResponse, this.state.showBankDetails)
       if (
         getCustomerBankDetailsResponse &&
         getCustomerBankDetailsResponse.error === "Failure"
@@ -198,10 +203,8 @@ export default class ReplaceRefundSelection extends React.Component {
         refundMode
       );
       this.props.onContinue();
-      console.log("bank Details:");
     } else {
       this.onSubmit();
-      console.log("Without bank Details:");
     }
   }
   async goToRefundModesPage() {
@@ -241,7 +244,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
   handleFileUpload(e) {
     let uploadedFilesArr = Array.from(e.target.files);
-    console.log("uploadedArrayFiles:", uploadedFilesArr);
+    //console.log("uploadedArrayFiles:", uploadedFilesArr);
     if (uploadedFilesArr.length > 8) {
       return this.props.displayToast("Upload maximum 8 images");
     }
@@ -315,7 +318,7 @@ export default class ReplaceRefundSelection extends React.Component {
     this.setState({ showAttachment: false, uploadedImageFiles: [] });
   }
   render() {
-    console.log("propsin RefundReplaceSelection:", this.props);
+    //console.log("propsin RefundReplaceSelection:", this.props);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -434,8 +437,7 @@ export default class ReplaceRefundSelection extends React.Component {
                           })}
                       </form>
                       {this.state.showBankDetails &&
-                        this.state.selectedOption === "BANK_ACCOUNT" &&
-                        userBankDetails && (
+                        this.state.selectedOption === "BACK_TO_SOURCE" && (
                           <React.Fragment>
                             <div className={styles.bankDetailsHeading}>
                               Your Account Details:
@@ -473,7 +475,7 @@ export default class ReplaceRefundSelection extends React.Component {
                     </div>
                   </div>
                   {!this.state.showBankDetails &&
-                    this.state.selectedOption === "BANK_ACCOUNT" && (
+                    this.state.selectedOption === "BACK_TO_SOURCE" && (
                       <div
                         className={styles.addBankDetailsButton}
                         onClick={() => this.addBankDetails()}

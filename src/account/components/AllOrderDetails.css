@@ -295,6 +295,7 @@
 	height: 36px;
 	width: 180px;
 	border: 2px solid black;
+	margin-bottom: 10px;
 }
 @media screen and (max-width: 1024px) {
 	.base {

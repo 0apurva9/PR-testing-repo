@@ -49,11 +49,16 @@ import UserProfile from "../../account/components/UserProfile.js";
 import OrderCard from "./OrderCard";
 import format from "date-fns/format";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+//import CheckoutAddressContainer from "../../cart/containers/CheckoutAddressContainer";
+import ConfirmAddress from "../../cart/components/ConfirmAddress";
+import ReturnChangeAddress from "./ReturnChangeAddress";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
 const dateFormat = "DD MMM YYYY";
 const REG_X_FOR_RNRSELECTION = /replace-refund-selection/i;
 const REG_X_FOR_BANKDETAILS = /bankDetail/i;
+const REG_X_CHANGE_ADDRESS = /changeReturnAddress/i;
+//const REG_X_CHANGE_ADDRESS = /deliveryAddress/i;
 
 export default class ReturnReasonAndModes extends React.Component {
   constructor(props) {
@@ -285,6 +290,37 @@ export default class ReturnReasonAndModes extends React.Component {
         returnFlow={this.props.returnFlow}
       />
     );
+
+    const renderAddressChange = (
+      <ReturnChangeAddress
+        {...this.props}
+        data={this.props.userAddress.addresses}
+        // address={
+        //   this.props.returnRequest.deliveryAddressesList &&
+        //   this.props.returnRequest.deliveryAddressesList.map(
+        //     addressSelected => {
+        //       return {
+        //         addressTitle: addressSelected.addressType,
+        //         addressDescription: `${
+        //           addressSelected.line1 ? addressSelected.line1 : ""
+        //         } ${addressSelected.town ? addressSelected.town : ""}, ${
+        //           addressSelected.state ? addressSelected.state : ""
+        //         } ${
+        //           addressSelected.postalCode
+        //             ? addressSelected.postalCode
+        //             : ""
+        //         }`,
+        //         value: addressSelected.id,
+        //         selected: addressSelected.defaultAddress
+        //       };
+        //     }
+        //   )
+        // }
+        // onNewAddress={() => this.addNewAddress()}
+        // onSelectAddress={address => this.onSelectAddress(address)}
+        isReturn={checkUserAgentIsMobile() ? false : true}
+      />
+    );
     let data = this.props.returnProductDetails;
     let disableHeader = pathname.match(REG_X_FOR_BANKDETAILS) ? true : false;
     return (
@@ -384,6 +420,7 @@ export default class ReturnReasonAndModes extends React.Component {
                     replaceRefundSelection}
                   {pathname.match(REG_X_FOR_MODES) && renderReturnMode}
                   {pathname.match(REG_X_FOR_BANKDETAILS) && renderBankDetails}
+                  {pathname.match(REG_X_CHANGE_ADDRESS) && renderAddressChange}
                 </div>
                 {/* {this.props.children} */}
               </div>

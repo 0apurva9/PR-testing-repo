@@ -10,7 +10,7 @@ export default class SelectedReasonForReturn extends React.Component {
     // }
   }
   render() {
-    console.log("products props:", this.props);
+    //console.log("products props:", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.headerRefundReason}>
