@@ -146,13 +146,13 @@ export default class CliqCashDesktop extends React.Component {
                             this.props.cliqCashUserDetails
                               .totalCliqCashBalance &&
                             this.props.cliqCashUserDetails.totalCliqCashBalance
-                              .doubleValue
+                              .value
                               ? this.props &&
                                 this.props.cliqCashUserDetails &&
                                 this.props.cliqCashUserDetails
                                   .totalCliqCashBalance &&
                                 this.props.cliqCashUserDetails
-                                  .totalCliqCashBalance.doubleValue
+                                  .totalCliqCashBalance.value
                               : "0"}
                           </div>
                         </div>
