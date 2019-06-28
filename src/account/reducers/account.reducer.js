@@ -207,7 +207,12 @@ const account = (
     getReturnModesDetailsStatus: null,
     loadingForGetReturnModesDetails: false,
     getReturnModesDetails: null,
-    getReturnModesDetailsError: null
+    getReturnModesDetailsError: null,
+
+    updateReturnConfirmationStatus: null,
+    loadingForUpdateReturnConfirmation: false,
+    updateReturnConfirmation: null,
+    updateReturnConfirmationError: null
   },
   action
 ) => {
@@ -1306,7 +1311,23 @@ const account = (
         getReturnModesDetailsStatus: action.status,
         loadingForGetReturnModesDetails: false
       });
-
+    case accountActions.UPDATE_RETURN_CONFIRMATION_REQUEST:
+      return Object.assign({}, state, {
+        updateReturnConfirmationStatus: action.status,
+        loadingForUpdateReturnConfirmation: true
+      });
+    case accountActions.UPDATE_RETURN_CONFIRMATION_SUCCESS:
+      return Object.assign({}, state, {
+        updateReturnConfirmationStatus: action.status,
+        updateReturnConfirmation: action.updateReturnConfirmation,
+        loadingForUpdateReturnConfirmation: false
+      });
+    case accountActions.UPDATE_RETURN_CONFIRMATION_FAILURE:
+      return Object.assign({}, state, {
+        updateReturnConfirmationStatus: action.status,
+        updateReturnConfirmationError: action.error,
+        loadingForUpdateReturnConfirmation: false
+      });
     default:
       return state;
   }

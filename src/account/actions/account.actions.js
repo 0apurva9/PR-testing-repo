@@ -335,6 +335,13 @@ export const GET_RETURN_MODES_REQUEST = "GET_RETURN_MODES_REQUEST";
 export const GET_RETURN_MODES_SUCCESS = "GET_RETURN_MODES_SUCCESS";
 export const GET_RETURN_MODES_FAILURE = "GET_RETURN_MODES_FAILURE";
 
+export const UPDATE_RETURN_CONFIRMATION_REQUEST =
+  "UPDATE_RETURN_CONFIRMATION_REQUEST";
+export const UPDATE_RETURN_CONFIRMATION_SUCCESS =
+  "UPDATE_RETURN_CONFIRMATION_SUCCESS";
+export const UPDATE_RETURN_CONFIRMATION_FAILURE =
+  "UPDATE_RETURN_CONFIRMATION_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -584,7 +591,93 @@ export function getReturnModes(
     }
   };
 }
+export function updateReturnConfirmationRequest() {
+  return {
+    type: UPDATE_RETURN_CONFIRMATION_REQUEST,
+    status: REQUESTING
+  };
+}
 
+export function updateReturnConfirmationSuccess(
+  updateReturnConfirmationDetails
+) {
+  return {
+    type: UPDATE_RETURN_CONFIRMATION_SUCCESS,
+    status: SUCCESS,
+    updateReturnConfirmationDetails
+  };
+}
+
+export function updateReturnConfirmationFailure(error) {
+  return {
+    type: UPDATE_RETURN_CONFIRMATION_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateReturnConfirmation(
+  orderId,
+  transactionId,
+  returnId,
+  returnFullfillmentType,
+  returnStore,
+  returnAddress,
+  modeOfReturn
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateReturnConfirmationRequest());
+    try {
+      let data = {};
+      if (modeOfReturn === "Return To Store") {
+        Object.assign(data, {
+          returnId: returnId,
+          returnStore: JSON.parse(returnStore),
+          returnFullfillmentType: returnFullfillmentType
+        });
+      }
+
+      if (modeOfReturn === "Pick Up") {
+        Object.assign(data, {
+          returnId: returnId,
+          pickupDate: "",
+          pickupTimeSlot: "",
+          returnAddressData: returnAddress
+        });
+      }
+
+      if (modeOfReturn === "Self Courier") {
+        Object.assign(data, {
+          returnId: returnId,
+          selfCourier: true,
+          returnFullfillmentType: returnFullfillmentType
+        });
+      }
+
+      // const result = await api.post(
+      //   `${USER_PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
+      //     JSON.parse(customerCookie).access_token
+      //   }&isPwa=true`,
+      //   data
+      // );
+      // const resultJson = await result.json();
+      // if (resultJson.status === FAILURE) {
+      //   dispatch(displayToast(resultJson.message));
+      // }
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
+      // return dispatch(updateReturnConfirmationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateReturnConfirmationFailure(e.message));
+    }
+  };
+}
 // This is a crappy name, but the api is called getReturnRequest and that conflicts with our pattern
 // Let's keep the name, because it fits our convention and deal with the awkwardness.
 export function getReturnRequestRequest() {

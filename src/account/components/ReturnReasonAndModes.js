@@ -52,12 +52,14 @@ import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 //import CheckoutAddressContainer from "../../cart/containers/CheckoutAddressContainer";
 import ConfirmAddress from "../../cart/components/ConfirmAddress";
 import ReturnChangeAddress from "./ReturnChangeAddress";
+import RefundTransactionSummary from "../../account/components/RefundTransactionSummary.js";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
 const dateFormat = "DD MMM YYYY";
 const REG_X_FOR_RNRSELECTION = /replace-refund-selection/i;
 const REG_X_FOR_BANKDETAILS = /bankDetail/i;
 const REG_X_CHANGE_ADDRESS = /changeReturnAddress/i;
+const REG_X_FOR_REFUNDSUMMARY = /refund-summary/i;
 //const REG_X_CHANGE_ADDRESS = /deliveryAddress/i;
 
 export default class ReturnReasonAndModes extends React.Component {
@@ -290,34 +292,13 @@ export default class ReturnReasonAndModes extends React.Component {
         returnFlow={this.props.returnFlow}
       />
     );
-
+    const refundTransactionSummary = (
+      <RefundTransactionSummary {...this.props} />
+    );
     const renderAddressChange = (
       <ReturnChangeAddress
         {...this.props}
         data={this.props.userAddress.addresses}
-        // address={
-        //   this.props.returnRequest.deliveryAddressesList &&
-        //   this.props.returnRequest.deliveryAddressesList.map(
-        //     addressSelected => {
-        //       return {
-        //         addressTitle: addressSelected.addressType,
-        //         addressDescription: `${
-        //           addressSelected.line1 ? addressSelected.line1 : ""
-        //         } ${addressSelected.town ? addressSelected.town : ""}, ${
-        //           addressSelected.state ? addressSelected.state : ""
-        //         } ${
-        //           addressSelected.postalCode
-        //             ? addressSelected.postalCode
-        //             : ""
-        //         }`,
-        //         value: addressSelected.id,
-        //         selected: addressSelected.defaultAddress
-        //       };
-        //     }
-        //   )
-        // }
-        // onNewAddress={() => this.addNewAddress()}
-        // onSelectAddress={address => this.onSelectAddress(address)}
         isReturn={checkUserAgentIsMobile() ? false : true}
       />
     );
@@ -421,6 +402,8 @@ export default class ReturnReasonAndModes extends React.Component {
                   {pathname.match(REG_X_FOR_MODES) && renderReturnMode}
                   {pathname.match(REG_X_FOR_BANKDETAILS) && renderBankDetails}
                   {pathname.match(REG_X_CHANGE_ADDRESS) && renderAddressChange}
+                  {pathname.match(REG_X_FOR_REFUNDSUMMARY) &&
+                    refundTransactionSummary}
                 </div>
                 {/* {this.props.children} */}
               </div>

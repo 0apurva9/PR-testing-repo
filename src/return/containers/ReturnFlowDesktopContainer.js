@@ -11,7 +11,8 @@ import {
   getCliqCashDetailsRefund,
   getCustomerBankDetails,
   updateCustomerBankDetails,
-  getReturnModes
+  getReturnModes,
+  updateReturnConfirmation
 } from "../../account/actions/account.actions.js";
 import { connect } from "react-redux";
 import { setHeaderText } from "../../general/header.actions";
@@ -92,6 +93,27 @@ const mapDispatchToProps = dispatch => {
     getReturnModes: async (orderId, transactionId, returnId, typeOfReturn) => {
       return await dispatch(
         getReturnModes(orderId, transactionId, returnId, typeOfReturn)
+      );
+    },
+    updateReturnConfirmation: async (
+      orderId,
+      transactionId,
+      returnId,
+      returnFullfillmentType,
+      returnStore,
+      returnAddress,
+      modeOfReturn
+    ) => {
+      return await dispatch(
+        updateReturnConfirmation(
+          orderId,
+          transactionId,
+          returnId,
+          returnFullfillmentType,
+          returnStore,
+          returnAddress,
+          modeOfReturn
+        )
       );
     }
   };

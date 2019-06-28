@@ -20,7 +20,6 @@ import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import Loader from "../../general/components/Loader";
 import { PRODUCT_DELIVERY_ADDRESSES, MY_ACCOUNT } from "../../lib/constants";
-
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -28,9 +27,12 @@ import {
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_REASON,
-  CHANGE_RETURN_ADDRESS
+  CHANGE_RETURN_ADDRESS,
+  REFUND_SUMMARY
 } from "../../lib/constants";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 const REFUND_DETAILS = "Refund Details";
+
 export default class ReturnModes extends React.Component {
   constructor(props) {
     super(props);
@@ -123,8 +125,50 @@ export default class ReturnModes extends React.Component {
     //console.log(target.value);
     this.setState({ selectedOptionStores: target.value });
   }
-  submit() {
-    return false;
+  async submit() {
+    let orderId = this.props.data.sellerorderno;
+    let transactionId = this.props.data.transactionId;
+    let returnId = this.props.getRefundModesDetails.returnId;
+    let returnAddress = this.state.pickupAddress;
+    const data = this.state.returnModesDetails;
+    let returnFullfillmentType =
+      data.returnLogisticsResponseDTO[0].returnFullfillmentType;
+    let returnStore = this.state.selectedReturnStore;
+    //get selected mode of return
+    let modeOfReturn = this.state.selectedOption;
+
+    await this.props.updateReturnConfirmation(
+      orderId,
+      transactionId,
+      returnId,
+      returnFullfillmentType,
+      returnStore,
+      returnAddress,
+      modeOfReturn
+    );
+
+    //for testing - change with actual api data
+    let updateReturnConfirmation = {};
+    updateReturnConfirmation.status = "success";
+    updateReturnConfirmation.error = "failure to return";
+    // console.log(updateReturnConfirmation)
+
+    if (updateReturnConfirmation.status === "success") {
+      //go to success page
+      this.props.history.push({
+        pathname: `${RETURNS_PREFIX}/${
+          this.props.data.sellerorderno
+        }${RETURN_LANDING}${REFUND_SUMMARY}`,
+        state: {
+          authorizedRequest: true
+        }
+      });
+    } else {
+      //show toast with error
+      if (updateReturnConfirmation.error) {
+        this.props.displayToast(updateReturnConfirmation.error);
+      }
+    }
   }
   onChangeAddress = () => {
     this.props.history.push(
@@ -133,6 +177,34 @@ export default class ReturnModes extends React.Component {
       }${RETURN_LANDING}${CHANGE_RETURN_ADDRESS}`
     );
   };
+  downloadFile(filePath) {
+    const urlSuffix = filePath.replace(TATA_CLIQ_ROOT, "$1");
+    this.props.history.push(urlSuffix);
+  }
+  showButton(modesAvail, storesAvail) {
+    if (modesAvail === "Return To Store" && storesAvail) {
+      return (
+        <Button
+          width={175}
+          style={styles.modesAvail}
+          type="primary"
+          label="SUBMIT"
+          onClick={() => this.submit()}
+        />
+      );
+    }
+    if (modesAvail === "Pick Up" || modesAvail === "Self Courier") {
+      return (
+        <Button
+          width={175}
+          style={styles.modesAvail}
+          type="primary"
+          label="SUBMIT"
+          onClick={() => this.submit()}
+        />
+      );
+    }
+  }
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -309,22 +381,27 @@ export default class ReturnModes extends React.Component {
           )}
           {!this.isReturnModesEnabled() && <Loader />}
         </div>
-        {/* {this.isReturnModesEnabled() &&
-					this.state.selectedOption === 'Self Courier' && (
-						<div className={styles.content}>
-							<div className={styles.card}>
-								<div className={styles.subText}>{returnLogisticsResponseDTO[0].responseMessage}</div>
-								<div className={styles.button}>
-									<Button
-										width={175}
-										type="primary"
-										label="Download Form"
-										onClick={() => this.downloadFile(data.selfCourierDocumentLink)}
-									/>
-								</div>
-							</div>
-						</div>
-					)} */}
+        {this.isReturnModesEnabled() &&
+          this.state.selectedOption === "Self Courier" &&
+          returnLogisticsResponseDTO.length > 0 && (
+            <div className={styles.content}>
+              <div className={styles.card}>
+                <div className={styles.subText}>
+                  {returnLogisticsResponseDTO[0].responseMessage}
+                </div>
+                <div className={styles.button}>
+                  <Button
+                    width={175}
+                    type="primary"
+                    label="Download Form"
+                    onClick={() =>
+                      this.downloadFile(data.selfCourierDocumentLink)
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
         {this.isReturnModesEnabled() &&
           this.state.selectedOption === "Return To Store" &&
@@ -368,14 +445,17 @@ export default class ReturnModes extends React.Component {
           )}
 
         {this.state.selectedOption && (
-          <div className={styles.button}>
-            <Button
-              width={175}
-              type="primary"
-              label="Submit"
-              onClick={() => this.submit()}
-            />
+          <div className={styles.buttonHolder}>
+            <div className={styles.submitButton}>
+              {this.showButton(
+                this.state.selectedOption,
+                this.state.selectedOptionStores
+              )}
+            </div>
           </div>
+          // <div className={styles.button}>
+          // 	{/* <Button width={175} type="primary" label="Submit" onClick={() => this.submit()} /> */}
+          // </div>
         )}
       </div>
     );

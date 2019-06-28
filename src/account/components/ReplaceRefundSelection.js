@@ -187,26 +187,6 @@ export default class ReplaceRefundSelection extends React.Component {
     }
   }
 
-  onContinueButton() {
-    if (
-      this.state.selectedOption === "BANK_ACCOUNT" &&
-      this.state.agreeToReturn
-    ) {
-      let orderId = this.props.data.sellerorderno;
-      let transactionId = this.props.data.transactionId;
-      let returnId = this.props.getRefundOptionsDetails.returnId;
-      let refundMode = this.state.selectedOption;
-      const updateRefundModeResponse = this.props.updateRefundMode(
-        orderId,
-        transactionId,
-        returnId,
-        refundMode
-      );
-      this.props.onContinue();
-    } else {
-      this.onSubmit();
-    }
-  }
   async goToRefundModesPage() {
     if (this.state.selectedOption && this.state.agreeToReturn) {
       let orderId = this.props.data.sellerorderno;
