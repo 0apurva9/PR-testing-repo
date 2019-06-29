@@ -102,6 +102,11 @@ export default class CliqCashDesktop extends React.Component {
       this.props.showCliqCashModule(this.props);
     }
   };
+  showKycVerification = () => {
+    if (this.props.showKycVerification) {
+      this.props.showKycVerification(this.props);
+    }
+  };
 
   render() {
     let userData;
@@ -245,9 +250,14 @@ export default class CliqCashDesktop extends React.Component {
                           </div>
                           <div
                             className={styles.addGiftCardButtonHolder}
-                            onClick={() => {
-                              this.showCliqCashModule();
-                            }}
+                            onClick={() =>
+                              this.props &&
+                              this.props.cliqCashUserDetails &&
+                              !this.props.cliqCashUserDetails
+                                .isWalletOtpVerified
+                                ? this.showKycVerification()
+                                : this.showCliqCashModule()
+                            }
                           >
                             <div className={styles.addGiftCardButton}>
                               <div className={styles.addGiftCardButtonText}>

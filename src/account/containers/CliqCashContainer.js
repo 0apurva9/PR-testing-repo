@@ -15,7 +15,8 @@ import {
   showModal,
   DESKTOP_AUTH,
   CLIQ_CASH_MODULE,
-  CLIQ_CASH_SUCESS_MODULE
+  CLIQ_CASH_SUCESS_MODULE,
+  GENERATE_OTP_FOR_CLIQ_CASH
 } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
@@ -46,6 +47,9 @@ const mapDispatchToProps = dispatch => {
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
+    },
+    showKycVerification: data => {
+      dispatch(showModal(GENERATE_OTP_FOR_CLIQ_CASH, data));
     },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
