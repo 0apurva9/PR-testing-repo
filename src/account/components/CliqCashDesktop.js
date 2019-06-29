@@ -109,6 +109,13 @@ export default class CliqCashDesktop extends React.Component {
   };
 
   render() {
+    let totalBalance =
+      this.props &&
+      this.props.cliqCashUserDetails &&
+      this.props.cliqCashUserDetails.totalCliqCashBalance &&
+      this.props.cliqCashUserDetails.totalCliqCashBalance.value.toLocaleString(
+        "hi-IN"
+      );
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
@@ -146,19 +153,7 @@ export default class CliqCashDesktop extends React.Component {
                           </div>
                           <div className={styles.balance}>
                             <span className={styles.rupee}>₹</span>
-                            {this.props &&
-                            this.props.cliqCashUserDetails &&
-                            this.props.cliqCashUserDetails
-                              .totalCliqCashBalance &&
-                            this.props.cliqCashUserDetails.totalCliqCashBalance
-                              .value
-                              ? this.props &&
-                                this.props.cliqCashUserDetails &&
-                                this.props.cliqCashUserDetails
-                                  .totalCliqCashBalance &&
-                                this.props.cliqCashUserDetails
-                                  .totalCliqCashBalance.value
-                              : "0"}
+                            {totalBalance ? totalBalance : "0"}
                           </div>
                         </div>
 

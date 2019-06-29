@@ -56,7 +56,9 @@ export default class TransactionDetailDesktop extends React.Component {
                   {transactionDetails &&
                     transactionDetails.amount &&
                     transactionDetails.amount.value &&
-                    Math.round(transactionDetails.amount.value)}
+                    Math.round(transactionDetails.amount.value).toLocaleString(
+                      "hi-IN"
+                    )}
                 </div>
                 <div className={styles.timeAndDate}>
                   {getDateMonthFormat(
@@ -72,7 +74,9 @@ export default class TransactionDetailDesktop extends React.Component {
                     {transactionDetails &&
                       transactionDetails.closingBalance &&
                       transactionDetails.closingBalance.value &&
-                      Math.round(transactionDetails.closingBalance.value)}
+                      Math.round(
+                        transactionDetails.closingBalance.value
+                      ).toLocaleString("hi-IN")}
                   </span>
                 </div>
               </div>
