@@ -124,6 +124,7 @@ export default class cancelOrderForDesktop extends React.Component<IProps, IStat
 					<CancelAndContinueButton
 						handleCancel={() => this.onCancel()}
 						handleContinue={() => this.onContinue()}
+						disabled={this.state.reason ? false : true}
 					/>
 				</div>
 			</div>
