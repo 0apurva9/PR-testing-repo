@@ -24,13 +24,18 @@ export const TC = "tc_click";
 
 export const BUY_GIFT_CARD = "buy_gift_card";
 export const ADD_GIFT_CARD = "add_gift_card";
+export const CLIQ_CASH_LAST_FIVE_TRANSACTION = "transaction_click";
+export const CLIQ_CASH_VIEW_ALL_TRANSACTION = "transtn_menu_click";
 //const for setting data layer for the FAQ and TC track
 export const SET_DATA_LAYER_FAQ = "SET_DATA_LAYER_FAQ";
 export const SET_DATA_LAYER_TC = "SET_DATA_LAYER_TC";
 //const for setting data layer for the Buy and Add gift card track
 export const SET_DATA_LAYER_ADD_GIFT_CARD = "SET_DATA_LAYER_ADD_GIFT_CARD";
 export const SET_DATA_LAYER_BUY_GIFT_CARD = "SET_DATA_LAYER_BUY_GIFT_CARD";
-
+export const SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION =
+  "SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION";
+export const SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION =
+  "SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION";
 const ADOBE_SATELLITE_CODE = "virtual_page_load";
 const INTERNAL_CAMPAIGN_TRACK = "internal_campaign";
 const ADOBE_PDP_CPJ = "cpj_pdp";
@@ -2572,6 +2577,16 @@ export function setDataLayerForGiftCard(type) {
   if (type === SET_DATA_LAYER_BUY_GIFT_CARD) {
     if (window._satellite) {
       window._satellite.track(BUY_GIFT_CARD);
+    }
+  }
+  if (type === SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION) {
+    if (window._satellite) {
+      window._satellite.track(CLIQ_CASH_LAST_FIVE_TRANSACTION);
+    }
+  }
+  if (type === SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION) {
+    if (window._satellite) {
+      window._satellite.track(CLIQ_CASH_VIEW_ALL_TRANSACTION);
     }
   }
 }

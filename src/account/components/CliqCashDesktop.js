@@ -18,7 +18,9 @@ import {
 import {
   setDataLayerForGiftCard,
   SET_DATA_LAYER_ADD_GIFT_CARD,
-  SET_DATA_LAYER_BUY_GIFT_CARD
+  SET_DATA_LAYER_BUY_GIFT_CARD,
+  SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION,
+  SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION
 } from "../../lib/adobeUtils";
 
 import {
@@ -72,6 +74,7 @@ export default class CliqCashDesktop extends React.Component {
     }
   }
   transactiondetailPage(data) {
+    setDataLayerForGiftCard(SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION);
     if (
       data.transactionType &&
       !data.transactionType.toUpperCase().match(/\bEXPIRED/g)
@@ -86,6 +89,7 @@ export default class CliqCashDesktop extends React.Component {
     }
   }
   showTransactioDetails = () => {
+    setDataLayerForGiftCard(SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION);
     this.props.history.push(
       `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`
     );
