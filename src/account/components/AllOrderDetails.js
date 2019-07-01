@@ -848,6 +848,7 @@ export default class AllOrderDetails extends React.Component {
                                     >
                                       <div className={styles.priceRightHolder}>
                                         <PriceAndLink
+                                          placeHolderText="View status and details"
                                           onViewDetails={() =>
                                             this.onViewDetails(
                                               orderDetails &&
@@ -892,6 +893,7 @@ export default class AllOrderDetails extends React.Component {
                                       </div>
                                       <div className={styles.priceRightHolder}>
                                         <PriceAndLink
+                                          placeHolderText="View status and details"
                                           onViewDetails={() =>
                                             this.onViewDetails(
                                               orderDetails &&

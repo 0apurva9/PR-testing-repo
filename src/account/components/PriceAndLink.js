@@ -25,7 +25,11 @@ export default class PriceAndLink extends React.Component {
                 size="14px"
                 fontFamily="regular"
                 color="#000000"
-                label="View details"
+                label={
+                  this.props.placeHolderText
+                    ? this.props.placeHolderText
+                    : "View details"
+                }
                 onClick={() => this.handleClick()}
               />
             </div>
@@ -64,7 +68,11 @@ export default class PriceAndLink extends React.Component {
                 size="14px"
                 fontFamily="regular"
                 color="#000000"
-                label="View details"
+                label={
+                  this.props.placeHolderText
+                    ? this.props.placeHolderText
+                    : "View details"
+                }
                 onClick={() => this.handleClick()}
               />
             </div>
