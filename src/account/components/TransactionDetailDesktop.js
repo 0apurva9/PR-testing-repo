@@ -9,7 +9,7 @@ import { getDateMonthFormat, getTimeAmPm } from "../../lib/dateTimeFunction";
 import FaqAndTcBase from "./FaqAndTcBase";
 import {
   LOGGED_IN_USER_DETAILS,
-  TERMS_AND_CONDITION_URL,
+  CONTACT_URL,
   MY_ACCOUNT,
   MY_ACCOUNT_CLIQ_CASH_PAGE
 } from "../../lib/constants.js";
@@ -118,9 +118,9 @@ export default class TransactionDetailDesktop extends React.Component {
               <div className={styles.tcHolder}>
                 <div
                   className={styles.tcOptionWrapper}
-                  onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
+                  onClick={() => this.redirectPage(CONTACT_URL)}
                 >
-                  <div className={styles.tcOption}>T&C’s</div>
+                  <div className={styles.tcOption}>Contact Us</div>
                   <div className={styles.tcOptionArrow}>
                     <div className={styles.arrowRight} />
                   </div>
