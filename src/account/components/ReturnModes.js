@@ -28,7 +28,11 @@ import {
   RETURN_LANDING,
   RETURNS_REASON,
   CHANGE_RETURN_ADDRESS,
-  REFUND_SUMMARY
+  REFUND_SUMMARY,
+  RETURN_CLIQ_PIQ_ADDRESS
+  //MY_ACCOUNT_ADDRESS_EDIT_PAGE,
+  //MY_ACCOUNT_ADDRESS_PAGE,
+  //CHANGE_RETURN_ADDRESS,
 } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 const REFUND_DETAILS = "Refund Details";
@@ -62,7 +66,34 @@ export default class ReturnModes extends React.Component {
     //console.log(data);
     if (data.status === "success") {
       this.setState({ returnModesDetails: data.returnModesDetails });
+      let pickupAddress = {};
+      Object.assign(pickupAddress, {
+        line1: data.returnModesDetails.deliveryAddress.line1,
+        line2: "",
+        line3: "",
+        landmark: data.returnModesDetails.deliveryAddress.landmark,
+        city: data.returnModesDetails.deliveryAddress.town,
+        state: data.returnModesDetails.deliveryAddress.state,
+        postalCode: data.returnModesDetails.deliveryAddress.postalCode
+      });
+      this.setState({ pickupAddress: pickupAddress });
     }
+    // this.props.selectedAddressId
+    let deliveryAddress = data.returnModesDetails.deliveryAddress;
+
+    console.log("deliveryAddress", deliveryAddress);
+    let selectedAddress =
+      this.props.returnRequest &&
+      this.props.returnRequest.deliveryAddressesList.map((value, index) => {
+        console.log("props in address list:", value, index);
+        Object.keys(value).map((val, i) => {
+          if (val[i] === this.props.selectedAddressId) {
+            return value[index];
+          }
+        });
+        console.log(value);
+      });
+    console.log("selectedAddress", selectedAddress);
   }
   handleSelect(val) {
     if (checkUserAgentIsMobile()) {
@@ -174,7 +205,7 @@ export default class ReturnModes extends React.Component {
     this.props.history.push(
       `${RETURNS_PREFIX}/${
         this.props.data.sellerorderno
-      }${RETURN_LANDING}${CHANGE_RETURN_ADDRESS}`
+      }${RETURN_LANDING}${RETURN_CLIQ_PIQ_ADDRESS}`
     );
   };
   downloadFile(filePath) {
@@ -214,12 +245,14 @@ export default class ReturnModes extends React.Component {
       return this.navigateToReturnLanding();
     }
     const { productInfo } = this.props;
+    console.log("props address selected:", this.props);
     const data = this.state.returnModesDetails;
     const returnStoreDetailsList =
       data &&
       data.returnStoreDetailsList &&
       Object.keys(data.returnStoreDetailsList);
     const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
+
     return (
       <div className={styles.base}>
         {/* <MobileOnly>

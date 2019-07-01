@@ -1,0 +1,172 @@
+import React from "react";
+import GridSelect from "../../general/components/GridSelect";
+//import CheckOutHeader from './CheckOutHeader.js';
+import styles from "./ReturnAddressBook.css";
+import UnderLinedButton from "../../general/components/UnderLinedButton.js";
+import DeliveryAddressCart from "../../cart/components/DeliveryAddressCart.js";
+import Button from "../../general/components/Button.js";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import PropTypes from "prop-types";
+import * as UserAgent from "../../lib/UserAgent.js";
+import {
+  RETURN_LANDING,
+  RETURNS_NEW_ADDRESS
+  //MY_ACCOUNT_ADDRESS_EDIT_PAGE,
+  //MY_ACCOUNT_ADDRESS_ADD_PAGE,
+  // ADDRESS_BOOK,
+  // LOGGED_IN_USER_DETAILS,
+  // LOGIN_PATH,
+  // CUSTOMER_ACCESS_TOKEN,
+  // HOME_ROUTER
+} from "../../lib/constants.js";
+
+export default class ReturnAddressBook extends React.Component {
+  componentWillMount() {
+    document.title = "Select Delivery Address";
+  }
+  constructor(props) {
+    super(props);
+    // this.orderCode = props.location.pathname.split('/')[2];
+    this.state = {
+      showAll: this.props.isReturn ? true : false,
+      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
+    };
+  }
+  showMore() {
+    this.setState({ showAll: !this.state.showAll }, () => {
+      if (this.state.label === "More" || this.state.label === "See all") {
+        this.setState({ label: "Hide" });
+      } else {
+        this.setState({
+          label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
+        });
+      }
+    });
+  }
+  onNewAddress() {
+    if (this.props.onNewAddress) {
+      this.props.onNewAddress();
+    }
+  }
+  addAddress = () => {
+    this.props.history.push(`${RETURN_LANDING}${RETURNS_NEW_ADDRESS}`);
+    // this.props.history.push({
+    // 	pathname: `${RETURN_LANDING}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`,
+    // });
+  };
+  onSelectAddress(addressId) {
+    if (this.props.onSelectAddress) {
+      this.props.onSelectAddress(addressId);
+    }
+  }
+  onRedirectionToNextSection() {
+    this.props.history.goBack();
+  }
+  render() {
+    console.log("props in return address:", this.props);
+    let buttonHolder = styles.buttonHolder;
+    if (
+      this.props.address &&
+      this.props.address.length % 2 === 0 &&
+      this.state.showAll &&
+      this.props.address.length > 2 &&
+      !this.props.isReturn
+    ) {
+      buttonHolder = styles.buttonHolderwithPadding;
+    }
+    return (
+      <div className={styles.base}>
+        <div className={styles.header}>Confirm address</div>
+
+        <div className={styles.gridHolder}>
+          <GridSelect
+            limit={1}
+            offset={0}
+            elementWidthMobile={100}
+            elementWidthDesktop={this.props.isReturn ? 100 : 50}
+            selected={this.props.selected}
+            onSelect={addressId => this.onSelectAddress(addressId)}
+          >
+            {this.props.address &&
+              this.props.address
+                .filter((val, i) => {
+                  return !this.state.showAll ? i < 3 : true;
+                })
+                .map((val, i) => {
+                  return (
+                    <DeliveryAddressCart
+                      addressTitle={val.addressTitle}
+                      addressDescription={val.addressDescription}
+                      contact={val.phone}
+                      key={i}
+                      phone={val.phone}
+                      value={val.value}
+                      selected={val.selected}
+                      isReturn={this.props.isReturn}
+                    />
+                  );
+                })}
+          </GridSelect>
+        </div>
+
+        <div className={buttonHolder}>
+          {this.props.address &&
+            this.props.address.length > 3 && (
+              <div className={styles.moreButtonHolder}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000"
+                  label={this.state.label}
+                  onClick={() => this.showMore()}
+                />
+              </div>
+            )}
+          <DesktopOnly>
+            <div className={styles.continueButtonHolder}>
+              <Button
+                disabled={this.props.disabled}
+                type="primary"
+                backgroundColor="#ff1744"
+                height={40}
+                label="Continue"
+                width={135}
+                textStyle={{
+                  color: "#FFF",
+                  fontSize: 14
+                }}
+                onClick={() => this.onRedirectionToNextSection()}
+              />
+            </div>
+          </DesktopOnly>
+
+          <div className={styles.newAddress}>
+            <UnderLinedButton
+              size="14px"
+              fontFamily="regular"
+              color="#ff1744"
+              label="Add new address"
+              onClick={() => this.addAddress()}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+ReturnAddressBook.propTypes = {
+  onNewAddress: PropTypes.func,
+  indexNumber: PropTypes.string,
+  isReturn: PropTypes.bool,
+  address: PropTypes.arrayOf(
+    PropTypes.shape({
+      addressTitle: PropTypes.string,
+      addressDescription: PropTypes.string
+    })
+  )
+};
+ReturnAddressBook.defaultProps = {
+  indexNumber: "1",
+  isReturn: false
+};

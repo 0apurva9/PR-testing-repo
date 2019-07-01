@@ -342,6 +342,13 @@ export const UPDATE_RETURN_CONFIRMATION_SUCCESS =
 export const UPDATE_RETURN_CONFIRMATION_FAILURE =
   "UPDATE_RETURN_CONFIRMATION_FAILURE";
 
+export const GET_REFUND_TRANSACTION_SUMMARY_REQUEST =
+  "GET_REFUND_TRANSACTION_SUMMARY_REQUEST";
+export const GET_REFUND_TRANSACTION_SUMMARY_SUCCESS =
+  "GET_REFUND_TRANSACTION_SUMMARY_SUCCESS";
+export const GET_REFUND_TRANSACTION_SUMMARY_FAILURE =
+  "GET_REFUND_TRANSACTION_SUMMARY_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -656,25 +663,74 @@ export function updateReturnConfirmation(
         });
       }
 
-      // const result = await api.post(
-      //   `${USER_PATH}/${
-      //     JSON.parse(userDetails).userName
-      //   }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
-      //     JSON.parse(customerCookie).access_token
-      //   }&isPwa=true`,
-      //   data
-      // );
-      // const resultJson = await result.json();
-      // if (resultJson.status === FAILURE) {
-      //   dispatch(displayToast(resultJson.message));
-      // }
-      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      // if (resultJsonStatus.status) {
-      //   throw new Error(resultJsonStatus.message);
-      // }
-      // return dispatch(updateReturnConfirmationSuccess(resultJson));
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(updateReturnConfirmationSuccess(resultJson));
     } catch (e) {
       return dispatch(updateReturnConfirmationFailure(e.message));
+    }
+  };
+}
+export function getRefundTransactionSummaryRequest() {
+  return {
+    type: GET_REFUND_TRANSACTION_SUMMARY_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRefundTransactionSummarySuccess(
+  getRefundTransactionDetails
+) {
+  return {
+    type: GET_REFUND_TRANSACTION_SUMMARY_SUCCESS,
+    status: SUCCESS,
+    getRefundTransactionDetails
+  };
+}
+
+export function getRefundTransactionSummaryFailure(error) {
+  return {
+    type: GET_REFUND_TRANSACTION_SUMMARY_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getRefundTransactionSummary(orderId, transactionId, returnId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRefundTransactionSummaryRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getReturnTransactionSummary/${orderId}/${transactionId}/${returnId}/?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getRefundTransactionSummarySuccess(resultJson));
+    } catch (e) {
+      return dispatch(getRefundTransactionSummaryFailure(e.message));
     }
   };
 }

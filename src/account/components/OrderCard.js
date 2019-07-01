@@ -296,6 +296,18 @@ export default class OrderCard extends React.Component {
               {this.getTrackOrderText(this.props.orderStatusCode)}
             </div>
           )}
+          {this.props.pickupAddress && (
+            <div className={styles.pickupAddressHolder}>
+              <div className={styles.pickupAddressTitle}>Pick up from:</div>
+              <div className={styles.pickupAddressText}>
+                {this.props.pickupAddress.line1} ,&nbsp;
+                {this.props.pickupAddress.landmark} ,&nbsp;
+                {this.props.pickupAddress.city} ,&nbsp;
+                {this.props.pickupAddress.state}&nbsp;
+                {this.props.pickupAddress.postalCode}
+              </div>
+            </div>
+          )}
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
@@ -304,6 +316,24 @@ export default class OrderCard extends React.Component {
               {this.props.children}
             </div>
           )}
+        {this.props.returnReason && (
+          <div className={styles.returnReasonText}>
+            <span className={styles.returnReasonTitle}>Reason for return:</span>{" "}
+            {this.props.returnReason}
+          </div>
+        )}
+        {this.props.returnSubReason && (
+          <div className={styles.returnCommentText}>
+            <span className={styles.returnCommentTitle}>Issue Detail:</span>{" "}
+            {this.props.returnSubReason}
+          </div>
+        )}
+        {this.props.returnComments && (
+          <div className={styles.returnCommentText}>
+            <span className={styles.returnCommentTitle}>Comments:</span>{" "}
+            {this.props.returnComments}
+          </div>
+        )}
 
         <div>{this.props.additionalContent}</div>
         {this.props.selectedDeliveryMode &&

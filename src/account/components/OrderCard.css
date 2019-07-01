@@ -17,6 +17,21 @@
 	padding: 0px 0px 10px 20px;
 	vertical-align: top;
 }
+.pickupAddressHolder {
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 10px 0 15px 0;
+}
+.pickupAddressTitle {
+	font-size: 12px;
+	font-family: semibold;
+	margin-bottom: 5px;
+}
+.pickupAddressText {
+	font-size: 12px;
+	font-family: light;
+}
 .productName,
 .deliveryDate,
 .calloutMessage,
@@ -112,9 +127,9 @@
 }
 .sellerName {
 	font-family: light;
-    font-size: 12px;
-    color: #747474;
-    margin-bottom: 24px;
+	font-size: 12px;
+	color: #747474;
+	margin-bottom: 24px;
 }
 .labelOrderDetailsHeader {
 	width: 100%;

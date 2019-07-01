@@ -212,7 +212,12 @@ const account = (
     updateReturnConfirmationStatus: null,
     loadingForUpdateReturnConfirmation: false,
     updateReturnConfirmation: null,
-    updateReturnConfirmationError: null
+    updateReturnConfirmationError: null,
+
+    getRefundTransactionSummaryStatus: null,
+    loadingForGetRefundTransactionSummary: false,
+    getRefundTransactionSummary: null,
+    getRefundTransactionSummaryError: null
   },
   action
 ) => {
@@ -1328,6 +1333,25 @@ const account = (
         updateReturnConfirmationError: action.error,
         loadingForUpdateReturnConfirmation: false
       });
+
+    case accountActions.GET_REFUND_TRANSACTION_SUMMARY_REQUEST:
+      return Object.assign({}, state, {
+        getRefundTransactionSummaryStatus: action.status,
+        loadingForGetRefundTransactionSummary: true
+      });
+    case accountActions.GET_REFUND_TRANSACTION_SUMMARY_SUCCESS:
+      return Object.assign({}, state, {
+        getRefundTransactionSummaryStatus: action.status,
+        getRefundTransactionSummary: action.getRefundTransactionSummary,
+        loadingForGetRefundTransactionSummary: false
+      });
+    case accountActions.GET_REFUND_TRANSACTION_SUMMARY_FAILURE:
+      return Object.assign({}, state, {
+        getRefundTransactionSummaryStatus: action.status,
+        getRefundTransactionSummaryError: action.error,
+        loadingForGetRefundTransactionSummary: false
+      });
+
     default:
       return state;
   }

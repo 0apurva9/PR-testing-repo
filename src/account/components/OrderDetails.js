@@ -203,24 +203,34 @@ export default class OrderDetails extends React.Component {
       customerCookie &&
       this.props.match.path === `${ORDER_PREFIX}`
     ) {
-      const orderCode = queryString.parse(this.props.location.search).orderCode;
+      let orderCode = queryString.parse(this.props.location.search).orderCode;
+      if (!orderCode) {
+        orderCode = sessionStorage.getItem("returnOrderId");
+      }
       const transactionId = queryString.parse(this.props.location.search)
         .transactionId;
+      //added to use order id in refund success page
+      sessionStorage.setItem("returnOrderId", orderCode);
       if (transactionId) {
         this.props.fetchOrderItemDetails(orderCode, transactionId);
         this.props.setHeaderText("Item Details");
       } else {
         this.props.fetchOrderDetails(orderCode);
-        this.props.setHeaderText(`#${orderCode}`);
+        this.props.setHeaderText("Order Details");
       }
     } else if (
       userDetails &&
       customerCookie &&
       this.props.match.path === `${SHORT_URL_ORDER_DETAIL}`
     ) {
-      const orderCode = this.props.match.params.orderCode;
+      let orderCode = this.props.match.params.orderCode;
+      if (!orderCode) {
+        orderCode = sessionStorage.getItem("returnOrderId");
+      }
+      //added to use order id in refund success page
+      sessionStorage.setItem("returnOrderId", orderCode);
       this.props.fetchOrderDetails(orderCode);
-      this.props.setHeaderText(`#${orderCode}`);
+      this.props.setHeaderText("Order Details");
     }
   }
   updateRefundDetailsPopUp(orderId, transactionId) {

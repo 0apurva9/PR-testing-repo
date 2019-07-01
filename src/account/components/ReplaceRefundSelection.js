@@ -231,7 +231,9 @@ export default class ReplaceRefundSelection extends React.Component {
     }
     let imgArray = [];
     let validImageFiles = [];
+    let allImagesSize = [];
     uploadedFilesArr.map((value, index) => {
+      allImagesSize.push(value.size);
       if (!value.type.includes("image")) {
         return this.props.displayToast("Upload file in image file format only");
       }
@@ -242,14 +244,20 @@ export default class ReplaceRefundSelection extends React.Component {
           );
         }
       }
-      if (value.size > 2500000) {
-        return this.props.displayToast(
-          "The Image size should be lesser than 2.5MB"
-        );
-      }
+      // if (value.size > 2500000) {
+      //   return this.props.displayToast(
+      //     "The Image size should be lesser than 2.5MB"
+      //   );
+      // }
       let eachImgSrc = URL.createObjectURL(value);
       imgArray.push(eachImgSrc);
       validImageFiles.push(value);
+      let currentImagesSize = allImagesSize.reduce((a, b) => a + b, 0);
+      if (currentImagesSize > 25000000) {
+        return this.props.displayToast(
+          "The all images size should be lesser than 25MB"
+        );
+      }
     });
     this.setState({ uploadedImageFiles: imgArray });
     this.setState({ validImgFiles: validImageFiles });
@@ -519,7 +527,7 @@ export default class ReplaceRefundSelection extends React.Component {
                 </div>
 
                 <div className={styles.imgAttachmentSubText}>
-                  Upload JPEG, PNG (Maximum size per image 2.5 MB)
+                  Upload JPEG, PNG (Maximum size of all images is 25 MB)
                 </div>
               </div>
             )}

@@ -12,11 +12,18 @@ import {
   getCustomerBankDetails,
   updateCustomerBankDetails,
   getReturnModes,
-  updateReturnConfirmation
+  updateReturnConfirmation,
+  getRefundTransactionSummary,
+  removeAddress,
+  resetAddAddressDetails
 } from "../../account/actions/account.actions.js";
 import { connect } from "react-redux";
 import { setHeaderText } from "../../general/header.actions";
-import { getUserAddress } from "../../cart/actions/cart.actions";
+import {
+  getUserAddress,
+  addUserAddress,
+  addAddressToCart
+} from "../../cart/actions/cart.actions";
 import ReturnFlowDesktop from "../components/ReturnFlowDesktop";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -87,6 +94,12 @@ const mapDispatchToProps = dispatch => {
     getUserAddress: () => {
       dispatch(getUserAddress(true));
     },
+    removeAddress: addressId => {
+      dispatch(removeAddress(addressId));
+    },
+    resetAddAddressDetails: () => {
+      dispatch(resetAddAddressDetails());
+    },
     updateCustomerBankDetails: async bankDetails => {
       return await dispatch(updateCustomerBankDetails(bankDetails));
     },
@@ -94,6 +107,15 @@ const mapDispatchToProps = dispatch => {
       return await dispatch(
         getReturnModes(orderId, transactionId, returnId, typeOfReturn)
       );
+    },
+    getUserAddress: () => {
+      dispatch(getUserAddress());
+    },
+    addUserAddress: userAddress => {
+      dispatch(addUserAddress(userAddress));
+    },
+    addAddressToCart: addressId => {
+      dispatch(addAddressToCart(addressId));
     },
     updateReturnConfirmation: async (
       orderId,
@@ -115,6 +137,11 @@ const mapDispatchToProps = dispatch => {
           modeOfReturn
         )
       );
+    },
+    getRefundTransactionSummary: async (orderId, transactionId, returnId) => {
+      return await dispatch(
+        getRefundTransactionSummary(orderId, transactionId, returnId)
+      );
     }
   };
 };
@@ -128,7 +155,8 @@ const mapStateToProps = state => {
     orderDetails: state.profile.fetchOrderDetails,
     userAddress: state.cart.userAddress,
     getRefundOptionsDetails: state.profile.getRefundOptionsDetails,
-    getRefundModesDetails: state.profile.getRefundModesDetails
+    getRefundModesDetails: state.profile.getRefundModesDetails,
+    removeAddressStatus: state.profile.removeAddressStatus
   };
 };
 
