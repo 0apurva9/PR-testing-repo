@@ -6,7 +6,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
 import styles from "./SearchLocationByPincode.css";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
-const defaultPincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+
 export default class SearchLocationByPincode extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +35,7 @@ export default class SearchLocationByPincode extends React.Component {
     }
   }
   render() {
+    const defaultPincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     return (
       <div className={styles.base}>
         {this.props.header && (

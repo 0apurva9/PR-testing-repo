@@ -130,7 +130,7 @@ const CONTINUE = "Continue";
 const PROCEED = "Proceed";
 const COUPON_AVAILABILITY_ERROR_MESSAGE = "Your applied coupon has expired";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
-  "Product is not Serviceable,Please try with another pin code";
+  "Product is not Serviceable, Please try with another pin code";
 const SELECT_DELIVERY_MODE_MESSAGE =
   "Please Select the delivery mode for all the products";
 const ERROR_MESSAGE_FOR_PICK_UP_PERSON_NAME =
@@ -2545,13 +2545,14 @@ if you have order id in local storage then you have to show order confirmation p
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
           this.state.cardDetails &&
-          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank !==
-            this.state.cardDetails.emi_bank
+          !this.state.cardDetails.emi_bank.includes(
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+          )
         ) {
           this.setState({
             emiBinValidationStatus: true,
             emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
-              binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+              this.state.cardDetails.selectedBankName
             } card only.`
           });
         } else if (
