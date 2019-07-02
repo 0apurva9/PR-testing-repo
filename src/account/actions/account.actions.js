@@ -757,7 +757,7 @@ export function getGiftCardDetails() {
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
-        if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
+        if (!resultJson.isWalletCreated || !resultJson.isWalletOtpVerified) {
           dispatch(showModal(GENERATE_OTP_FOR_EGV));
         } else if (
           resultJson.isWalletCreated &&
@@ -2075,7 +2075,7 @@ export function getCliqCashDetails() {
         throw new Error(resultJsonStatus.message);
       }
       setDataLayer(ADOBE_MY_ACCOUNT_CLIQ_CASH);
-      if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
+      if (!resultJson.isWalletCreated || !resultJson.isWalletOtpVerified) {
         dispatch(showModal(GENERATE_OTP_FOR_CLIQ_CASH));
       }
 
