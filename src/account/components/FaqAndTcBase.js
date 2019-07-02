@@ -44,7 +44,7 @@ export default class FaqAndTcBase extends Component {
               <div className={styles.arrowRight} />
             </div>
           </div>
-          <div className={styles.wikCliverLogo}>QwikCilver</div>
+          <div className={styles.wikCliverLogo} />
         </div>
       </div>
     );
