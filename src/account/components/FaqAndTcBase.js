@@ -8,8 +8,6 @@ import {
   FAQ,
   TC
 } from "../../lib/adobeUtils";
-import Quicksilver from "./img/Quicksilver.svg";
-import Image from "../../xelpmoc-core/Image";
 export default class FaqAndTcBase extends Component {
   redirectPage = (url, type) => {
     if (type == FAQ) {
