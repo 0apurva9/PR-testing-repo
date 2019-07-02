@@ -121,9 +121,9 @@ export default class CliqCashDesktop extends React.Component {
         ? this.props &&
           this.props.cliqCashUserDetails &&
           this.props.cliqCashUserDetails.totalCliqCashBalance &&
-          this.props.cliqCashUserDetails.totalCliqCashBalance.value.toLocaleString(
-            "hi-IN"
-          )
+          Math.round(
+            this.props.cliqCashUserDetails.totalCliqCashBalance.value
+          ).toLocaleString("hi-IN")
         : 0;
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
