@@ -67,10 +67,9 @@
 }
 .wikCliverLogo {
   width: 100%;
-  height: auto;
+  height: 28px;
   display: inline-block;
-  text-align: center;
-  color: #ff1744;
-  font-family: semibold;
+  background: url("./img/Quicksilver.svg") no-repeat;
+  background-position: center;
   margin: 64px 0px 14px 0px;
 }

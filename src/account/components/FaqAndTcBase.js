@@ -8,6 +8,8 @@ import {
   FAQ,
   TC
 } from "../../lib/adobeUtils";
+import Quicksilver from "./img/Quicksilver.svg";
+import Image from "../../xelpmoc-core/Image";
 export default class FaqAndTcBase extends Component {
   redirectPage = (url, type) => {
     if (type == FAQ) {
@@ -44,7 +46,7 @@ export default class FaqAndTcBase extends Component {
               <div className={styles.arrowRight} />
             </div>
           </div>
-          <div className={styles.wikCliverLogo}>QwikCilver</div>
+          <div className={styles.wikCliverLogo} />
         </div>
       </div>
     );
