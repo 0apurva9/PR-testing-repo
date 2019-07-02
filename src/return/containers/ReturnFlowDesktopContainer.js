@@ -15,8 +15,18 @@ import {
   updateReturnConfirmation,
   getRefundTransactionSummary,
   removeAddress,
-  resetAddAddressDetails
+  resetAddAddressDetails,
+  getPinCode,
+  getPinCodeSuccess,
+  getUserDetails,
+  updateProfile,
+  clearPinCodeStatus
 } from "../../account/actions/account.actions.js";
+import {
+  SUCCESS_CAMEL_CASE,
+  SUCCESS,
+  SUCCESS_UPPERCASE
+} from "../../lib/constants";
 import { connect } from "react-redux";
 import { setHeaderText } from "../../general/header.actions";
 import {
@@ -111,11 +121,31 @@ const mapDispatchToProps = dispatch => {
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
-    addUserAddress: userAddress => {
-      dispatch(addUserAddress(userAddress));
+    addUserAddress: addressDetails => {
+      if (addressDetails.emailId && addressDetails.emailId !== "") {
+        let userDetails = {};
+        userDetails.emailId = addressDetails.emailId;
+        dispatch(updateProfile(userDetails)).then(res => {
+          if (
+            res.status === SUCCESS ||
+            res.status === SUCCESS_CAMEL_CASE ||
+            res.status === SUCCESS_UPPERCASE
+          ) {
+            dispatch(addUserAddress(addressDetails));
+          }
+        });
+      } else {
+        dispatch(addUserAddress(addressDetails));
+      }
+    },
+    getUserDetails: () => {
+      dispatch(getUserDetails());
     },
     addAddressToCart: addressId => {
       dispatch(addAddressToCart(addressId));
+    },
+    clearPinCodeStatus: () => {
+      dispatch(clearPinCodeStatus());
     },
     updateReturnConfirmation: async (
       orderId,

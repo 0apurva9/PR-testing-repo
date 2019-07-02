@@ -21,7 +21,7 @@ import {
 } from "../../auth/components/Login";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
-//import AddEmailAddress from "../components/AddEmailAddress";
+import AddEmailAddress from "../../cart/components/AddEmailAddress";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import CheckOutHeader from "../../cart/components/CheckOutHeader.js";
@@ -357,14 +357,14 @@ export default class ReturnNewAddress extends React.Component {
       this.props.displayToast(SELECT_ADDRESS_TYPE);
       return false;
     }
-    if (
-      !this.state.userEmailId &&
-      !this.state.emailId &&
-      this.state.emailId === ""
-    ) {
-      this.props.displayToast("Please enter the EmailId");
-      return false;
-    }
+    // if (
+    //   !this.state.userEmailId &&
+    //   !this.state.emailId &&
+    //   this.state.emailId === ""
+    // ) {
+    //   this.props.displayToast("Please enter the EmailId");
+    //   return false;
+    // }
     if (
       this.state.emailId &&
       this.state.emailId !== "" &&
@@ -441,7 +441,704 @@ export default class ReturnNewAddress extends React.Component {
 
     return (
       <React.Fragment>
-        <div>Newwwwwwwwwwwwwww Addresssssssssssssssss</div>
+        {!this.state.flag && (
+          <div
+            className={
+              !this.props.label
+                ? styles.onlyLeft
+                : this.props.isReturn
+                  ? styles.forReturn
+                  : styles.base
+            }
+          >
+            <div className={styles.pageCenter}>
+              <div
+                className={
+                  this.props.isReturn
+                    ? styles.leftSectionForReturn
+                    : styles.leftSection
+                }
+              >
+                <div className={styles.formHolder}>
+                  <div className={styles.addressInnerBox}>
+                    <DesktopOnly>
+                      <div className={styles.header}>
+                        <CheckOutHeader
+                          confirmTitle="Add Address"
+                          indexNumber={"1"}
+                        />
+                      </div>
+                    </DesktopOnly>
+                    <MobileOnly>
+                      <div className={styles.headingText}>
+                        {this.props.heading}
+                      </div>
+                    </MobileOnly>
+                    <div className={styles.button} onClick={this.clearAllValue}>
+                      <UnderLinedButton label="Clear all" />
+                    </div>
+                  </div>
+                  <div className={styles.content}>
+                    <ControlInput
+                      placeholder="Enter your PIN code*"
+                      onChange={postalCode =>
+                        this.getPinCodeDetails(postalCode)
+                      }
+                      textStyle={{ fontSize: 14 }}
+                      value={
+                        this.props.postalCode
+                          ? this.props.postalCode
+                          : this.state.postalCode
+                      }
+                      maxLength={"6"}
+                      onlyNumber={true}
+                      height={33}
+                      rightChildSize={33}
+                      onFocus={() => {
+                        this.handleOnFocusInput();
+                      }}
+                    />
+                  </div>
+                  <DesktopOnly>
+                    <div className={styles.content}>
+                      <div className={styles.FirstNameWrapper}>
+                        <div className={styles.firstNameHolder}>
+                          <ControlInput
+                            option={this.state.options}
+                            placeholder="First Name*"
+                            value={
+                              this.props.firstName
+                                ? this.props.firstName
+                                : this.state.firstName
+                            }
+                            onChange={firstName => this.onChange({ firstName })}
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            maxLength={30}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.lastNameWrapper}>
+                        <div className={styles.lastNameHolder}>
+                          <ControlInput
+                            boxy={true}
+                            placeholder="Last Name*"
+                            value={
+                              this.props.lastName
+                                ? this.props.lastName
+                                : this.state.lastName
+                            }
+                            onChange={lastName =>
+                              this.onChange({
+                                lastName
+                              })
+                            }
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            maxLength={30}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </DesktopOnly>
+                  <MobileOnly>
+                    <div className={styles.content}>
+                      <Input2
+                        option={this.state.options}
+                        placeholder="First Name*"
+                        value={
+                          this.props.firstName
+                            ? this.props.firstName
+                            : this.state.firstName
+                        }
+                        onChange={firstName => this.onChange({ firstName })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                        onlyAlphabet={true}
+                      />
+                    </div>
+                  </MobileOnly>
+                  <div className={styles.threeSection}>
+                    <div className={styles.content}>
+                      <DesktopOnly>
+                        <div className={styles.leftFirst}>
+                          <ControlInput
+                            boxy={true}
+                            placeholder="City/district*"
+                            value={
+                              this.props.town && this.props.town !== ""
+                                ? this.props.town
+                                : this.state.town
+                            }
+                            onChange={town => this.onChange({ town })}
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
+                        <div className={styles.leftSecond}>
+                          <ControlInput
+                            placeholder="State*"
+                            value={
+                              this.props.state && this.props.state !== ""
+                                ? this.props.state
+                                : this.state.state
+                            }
+                            boxy={true}
+                            onChange={state => this.onChange({ state })}
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
+                      </DesktopOnly>
+                      <MobileOnly>
+                        <div className={styles.leftFirst}>
+                          <Input2
+                            boxy={true}
+                            placeholder="Last Name*"
+                            value={
+                              this.props.lastName
+                                ? this.props.lastName
+                                : this.state.lastName
+                            }
+                            onChange={lastName =>
+                              this.onChange({
+                                lastName
+                              })
+                            }
+                            textStyle={{ fontSize: 14 }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                            onlyAlphabet={true}
+                          />
+                        </div>
+                      </MobileOnly>
+                    </div>
+                    <div className={styles.content}>
+                      <TextArea
+                        placeholder="Address*"
+                        height={70}
+                        value={
+                          this.props.line1 ? this.props.line1 : this.state.line1
+                        }
+                        onChange={line1 => this.onChange({ line1 })}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                      <DesktopOnly>
+                        <div className={styles.validAddress}>
+                          Character Limit : 120
+                        </div>
+                        <div className={styles.validAddress}>
+                          Special characters allowed are - # & ( ) ' ' . , \ / +
+                          _
+                        </div>
+                      </DesktopOnly>
+                    </div>
+                    <MobileOnly>
+                      <div className={styles.validAddress}>
+                        Character Limit : 120
+                      </div>
+                      <div className={styles.validAddress}>
+                        Special characters allowed are - # & ( ) ' ' . , \ / + _
+                      </div>
+                    </MobileOnly>
+                  </div>
+                  <MobileOnly>
+                    <div className={styles.content}>
+                      <SelectBoxMobile2
+                        height={33}
+                        placeholder={"Landmark"}
+                        options={
+                          this.state.landmarkList.length > 0 &&
+                          this.state.landmarkList.map((val, i) => {
+                            return {
+                              value: val && val.landmark,
+                              label: val && val.landmark
+                            };
+                          })
+                        }
+                        isEnable={this.state.isEnable}
+                        onChange={landmark => this.onSelectLandmark(landmark)}
+                      />
+                    </div>
+                    {this.state.isOtherLandMarkSelected && (
+                      <div className={styles.content}>
+                        <Input2
+                          boxy={true}
+                          placeholder="Landmark*"
+                          value={
+                            this.props.line2
+                              ? this.props.line2
+                              : this.state.line2
+                          }
+                          onChange={line2 => this.onChange({ line2 })}
+                          textStyle={{ fontSize: 14 }}
+                          height={33}
+                          onFocus={() => {
+                            this.handleOnFocusInput();
+                          }}
+                        />
+                      </div>
+                    )}
+                  </MobileOnly>
+                  <DesktopOnly>
+                    <div className={styles.content}>
+                      <SelectBoxMobile2
+                        height={33}
+                        placeholder={"Landmark"}
+                        options={
+                          this.state.landmarkList.length > 0 &&
+                          this.state.landmarkList.map((val, i) => {
+                            return {
+                              value: val && val.landmark,
+                              label: val && val.landmark
+                            };
+                          })
+                        }
+                        isEnable={this.state.isEnable}
+                        onChange={landmark => this.onSelectLandmark(landmark)}
+                      />
+                    </div>
+                    {this.state.isOtherLandMarkSelected && (
+                      <div className={styles.content}>
+                        <Input2
+                          boxy={true}
+                          placeholder="Landmark*"
+                          value={
+                            this.props.line2
+                              ? this.props.line2
+                              : this.state.line2
+                          }
+                          onChange={line2 =>
+                            this.onChange({
+                              line2
+                            })
+                          }
+                          textStyle={{
+                            fontSize: 14
+                          }}
+                          height={33}
+                          onFocus={() => {
+                            this.handleOnFocusInput();
+                          }}
+                        />
+                      </div>
+                    )}
+                  </DesktopOnly>
+                  <MobileOnly>
+                    <div className={styles.content}>
+                      <Input2
+                        boxy={true}
+                        placeholder="City/district*"
+                        value={
+                          this.props.town && this.props.town !== ""
+                            ? this.props.town
+                            : this.state.town
+                        }
+                        onChange={town => this.onChange({ town })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                    <div className={styles.content}>
+                      <Input2
+                        placeholder="State*"
+                        value={
+                          this.props.state && this.props.state !== ""
+                            ? this.props.state
+                            : this.state.state
+                        }
+                        boxy={true}
+                        onChange={state => this.onChange({ state })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                  </MobileOnly>
+                  <MobileOnly>
+                    <div className={styles.content}>
+                      <Input2
+                        onlyNumber={true}
+                        placeholder="Phone number*"
+                        value={
+                          this.props.phone ? this.props.phone : this.state.phone
+                        }
+                        boxy={true}
+                        onChange={phone => this.handlePhoneInput(phone)}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                  </MobileOnly>
+                  <DesktopOnly>
+                    <div className={styles.content}>
+                      <ControlInput
+                        placeholder="Phone number*"
+                        value={
+                          this.props.phone ? this.props.phone : this.state.phone
+                        }
+                        boxy={true}
+                        onChange={phone => this.handlePhoneInput(phone)}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                      />
+                    </div>
+                  </DesktopOnly>
+                  <div className={styles.content}>
+                    <GridSelect
+                      limit={1}
+                      offset={0}
+                      elementWidthMobile={50}
+                      elementWidthDesktop={50}
+                      onSelect={val =>
+                        this.onChange({
+                          addressType: val[0]
+                        })
+                      }
+                      selected={[this.state.addressType]}
+                    >
+                      {dataLabel.map((val, i) => {
+                        return (
+                          <CheckboxAndText
+                            key={i}
+                            label={val.label}
+                            value={val.label}
+                          />
+                        );
+                      })}
+                    </GridSelect>
+                  </div>
+
+                  <div className={styles.defaultText}>
+                    <div className={styles.defaultTextWithButton}>
+                      <CheckboxAndText
+                        label="Make this default address"
+                        selected={this.state.defaultFlag}
+                        selectItem={() => this.onChangeDefaultFlag()}
+                      />
+                    </div>
+                    <DesktopOnly>
+                      <div className={styles.buttonHolder}>
+                        <CancelAndContinueButton
+                          continueText={"Save & Continue"}
+                          handleCancel={() => this.handleCancel()}
+                          handleContinue={() => this.addNewAddress()}
+                        />
+                      </div>
+                    </DesktopOnly>
+                  </div>
+                </div>
+
+                {/* Unsure about how to implement this commenting out till then ...
+                                {!this.state.userEmailId &&
+
+                                    this.state.userEmailId === "" && (
+                                        <div className={styles.emailHolder}>
+                                            <AddEmailAddress
+                                                value={
+                                                    this.props.emailId
+                                                        ? this.props.emailId
+                                                        : this.state.emailId
+                                                }
+                                                onChange={emailId =>
+                                                    this.onChangeEmailId(
+                                                        emailId
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    )} */}
+                <MobileOnly>
+                  <div className={styles.buttonHolder}>
+                    <div className={styles.saveAndContinueButton}>
+                      {!this.props.isFirstAddress && (
+                        <Button
+                          type="primary"
+                          label={SAVE_TEXT}
+                          width={176}
+                          height={38}
+                          onClick={() => this.addNewAddress()}
+                          textStyle={{
+                            color: "#FFF",
+                            fontSize: 14
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </MobileOnly>
+              </div>
+            </div>
+          </div>
+        )}
+        {this.state.flag && (
+          <div className={styles.formHolder1}>
+            <ReturnAndOrderCancelWrapper
+              userDetails={userDetails}
+              history={this.props.history}
+              userAddress={this.props.userAddress}
+            >
+              <div className={styles.addAddressHolder}>
+                <div className={styles.addressInnerBox1}>
+                  <DesktopOnly>
+                    <div className={styles.header}>
+                      <CheckOutHeader
+                        confirmTitle="Add Address "
+                        indexNumber={"0"}
+                      />
+                    </div>
+                  </DesktopOnly>
+
+                  <div className={styles.button} onClick={this.clearAllValue}>
+                    <UnderLinedButton label="Clear all" />
+                  </div>
+                </div>
+                <div className={styles.contentAddAddress}>
+                  <ControlInput
+                    placeholder="Enter your PIN code*"
+                    onChange={postalCode => this.getPinCodeDetails(postalCode)}
+                    textStyle={{ fontSize: 14 }}
+                    value={
+                      this.props.postalCode
+                        ? this.props.postalCode
+                        : this.state.postalCode
+                    }
+                    maxLength={"6"}
+                    height={33}
+                    rightChildSize={33}
+                    onFocus={() => {
+                      this.handleOnFocusInput();
+                    }}
+                  />
+                </div>
+                <div className={styles.contentAddAddress}>
+                  <ControlInput
+                    option={this.state.options}
+                    placeholder="First Name*"
+                    value={
+                      this.props.firstName
+                        ? this.props.firstName
+                        : this.state.firstName
+                    }
+                    onChange={firstName => this.onChange({ firstName })}
+                    textStyle={{ fontSize: 14 }}
+                    height={33}
+                    onFocus={() => {
+                      this.handleOnFocusInput();
+                    }}
+                    maxLength={20}
+                  />
+                </div>
+                <div className={styles.threeSection}>
+                  <div className={styles.contentAddAddress}>
+                    <div className={styles.leftFirst}>
+                      <ControlInput
+                        boxy={true}
+                        placeholder="Last Name*"
+                        value={
+                          this.props.lastName
+                            ? this.props.lastName
+                            : this.state.lastName
+                        }
+                        onChange={lastName => this.onChange({ lastName })}
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                        maxLength={20}
+                      />
+                    </div>
+                    <div className={styles.contentAddAddress}>
+                      <TextArea
+                        placeholder="Address*"
+                        value={
+                          this.props.line1 ? this.props.line1 : this.state.line1
+                        }
+                        onChange={line1 => this.onChange({ line1 })}
+                        onFocus={() => {
+                          this.handleOnFocusInput();
+                        }}
+                        maxLength={149}
+                      />
+                    </div>
+                    <DesktopOnly>
+                      <div className={styles.leftSecond}>
+                        <SelectBoxMobile2
+                          height={33}
+                          placeholder={"Landmark"}
+                          options={
+                            this.state.landmarkList.length > 0 &&
+                            this.state.landmarkList.map((val, i) => {
+                              return {
+                                value: val && val.landmark,
+                                label: val && val.landmark
+                              };
+                            })
+                          }
+                          isEnable={this.state.isEnable}
+                          onChange={landmark => this.onSelectLandmark(landmark)}
+                        />
+                      </div>
+                      {this.state.isOtherLandMarkSelected && (
+                        <div className={styles.leftSecond}>
+                          <Input2
+                            boxy={true}
+                            placeholder="Landmark*"
+                            value={
+                              this.props.line2
+                                ? this.props.line2
+                                : this.state.line2
+                            }
+                            onChange={line2 =>
+                              this.onChange({
+                                line2
+                              })
+                            }
+                            textStyle={{
+                              fontSize: 14
+                            }}
+                            height={33}
+                            onFocus={() => {
+                              this.handleOnFocusInput();
+                            }}
+                          />
+                        </div>
+                      )}
+                    </DesktopOnly>
+                  </div>
+                </div>
+
+                <div className={styles.contentAddAddress}>
+                  <ControlInput
+                    boxy={true}
+                    placeholder="City/district*"
+                    value={
+                      this.props.town && this.props.town !== ""
+                        ? this.props.town
+                        : this.state.town
+                    }
+                    onChange={town => this.onChange({ town })}
+                    textStyle={{ fontSize: 14 }}
+                    height={33}
+                    onFocus={() => {
+                      this.handleOnFocusInput();
+                    }}
+                  />
+                </div>
+                <div className={styles.contentAddAddress}>
+                  <ControlInput
+                    placeholder="State*"
+                    value={
+                      this.props.state && this.props.state !== ""
+                        ? this.props.state
+                        : this.state.state
+                    }
+                    boxy={true}
+                    onChange={state => this.onChange({ state })}
+                    textStyle={{ fontSize: 14 }}
+                    height={33}
+                    onFocus={() => {
+                      this.handleOnFocusInput();
+                    }}
+                  />
+                </div>
+                <DesktopOnly>
+                  <div className={styles.contentAddAddress}>
+                    <ControlInput
+                      onlyNumber={true}
+                      placeholder="Phone number*"
+                      value={
+                        this.props.phone ? this.props.phone : this.state.phone
+                      }
+                      boxy={true}
+                      onChange={phone => this.handlePhoneInput(phone)}
+                      textStyle={{ fontSize: 14 }}
+                      height={33}
+                      onFocus={() => {
+                        this.handleOnFocusInput();
+                      }}
+                    />
+                  </div>
+                </DesktopOnly>
+                <div className={styles.contentAddAddress}>
+                  <GridSelect
+                    limit={1}
+                    offset={0}
+                    elementWidthMobile={50}
+                    elementWidthDesktop={50}
+                    onSelect={val =>
+                      this.onChange({
+                        addressType: val[0]
+                      })
+                    }
+                    selected={[this.state.addressType]}
+                  >
+                    {dataLabel.map((val, i) => {
+                      return (
+                        <CheckboxAndText
+                          key={i}
+                          label={val.label}
+                          value={val.label}
+                        />
+                      );
+                    })}
+                  </GridSelect>
+                </div>
+
+                <div className={styles.defaultTextSpecial}>
+                  <div className={styles.defaultTextWithButton1}>
+                    <CheckboxAndText
+                      label="Make this default address"
+                      selected={this.state.defaultFlag}
+                      selectItem={() => this.onChangeDefaultFlag()}
+                    />
+                  </div>
+                  <DesktopOnly>
+                    <div className={styles.defaultTextWithButton1}>
+                      <CancelAndContinueButton
+                        isEditAddress={true}
+                        continueText={"Save & Continue"}
+                        handleCancel={() => this.onAddressPage()}
+                        handleContinue={() => this.addNewAddress()}
+                      />
+                    </div>
+                  </DesktopOnly>
+                </div>
+              </div>
+            </ReturnAndOrderCancelWrapper>
+          </div>
+        )}
       </React.Fragment>
     );
   }

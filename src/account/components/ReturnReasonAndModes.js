@@ -20,9 +20,29 @@ import {
   SELF_COURIER,
   RETURNS_SELF_COURIER,
   REPLACE_REFUND_SELECTION,
-  MY_ACCOUNT_ADDRESS_EDIT_PAGE
+  MY_ACCOUNT_ADDRESS_EDIT_PAGE,
+  ADDRESS_TEXT,
+  ADDRESS_MINLENGTH_VALID_TEXT,
+  ADDRESS_MAXLENGTH_VALID_TEXT,
+  ADDRESS_VALIDATION_TEXT,
+  CITY_TEXT,
+  STATE_TEXT,
+  PHONE_TEXT,
+  PHONE_VALID_TEXT,
+  SELECT_ADDRESS_TYPE,
+  PINCODE_TEXT,
+  PINCODE_VALID_TEXT,
+  NAME_VALIDATION,
+  NAME_TEXT,
+  LAST_NAME_TEXT,
+  ADDRESS_VALIDATION,
+  EMAIL_VALID_TEXT
   //CHANGE_RETURN_ADDRESS
 } from "../../lib/constants";
+import {
+  EMAIL_REGULAR_EXPRESSION,
+  MOBILE_PATTERN
+} from "../../auth/components/Login";
 import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
@@ -205,6 +225,115 @@ export default class ReturnReasonAndModes extends React.Component {
     this.props.addAddressToCart(addressId[0]);
   }
 
+  handleCancelAddress() {
+    this.setState({ addNewAddress: false });
+    if (this.state.isFirstAddress) {
+      this.props.history.push(MY_ACCOUNT_ADDRESS_EDIT_PAGE);
+    }
+  }
+
+  addAddress = address => {
+    if (!address) {
+      this.props.displayToast("Please enter the valid details");
+      return false;
+    }
+    if (address && !address.postalCode) {
+      this.props.displayToast(PINCODE_TEXT);
+      return false;
+    }
+    if (address && address.postalCode && address.postalCode.length < 6) {
+      this.props.displayToast(PINCODE_VALID_TEXT);
+      return false;
+    }
+    if (
+      !address ||
+      !address.firstName ||
+      !address.firstName.trim() ||
+      !NAME_VALIDATION.test(address.firstName.trim())
+    ) {
+      this.props.displayToast(NAME_TEXT);
+      return false;
+    }
+    if (
+      !address ||
+      !address.lastName ||
+      !address.lastName.trim() ||
+      !NAME_VALIDATION.test(address.lastName.trim())
+    ) {
+      this.props.displayToast(LAST_NAME_TEXT);
+      return false;
+    }
+
+    if (!address.line1 || !address.line1.trim()) {
+      this.props.displayToast(ADDRESS_TEXT);
+      return false;
+    }
+
+    if (address.line1.length < 15) {
+      this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
+      return false;
+    }
+    if (address.line1.length > 120) {
+      this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
+      return false;
+    }
+
+    if (!ADDRESS_VALIDATION.test(address.line1.trim())) {
+      this.props.displayToast(ADDRESS_VALIDATION_TEXT);
+      return false;
+    }
+
+    if (address && !address.town) {
+      this.props.displayToast(CITY_TEXT);
+      return false;
+    }
+    if (address && !address.state) {
+      this.props.displayToast(STATE_TEXT);
+      return false;
+    }
+    if (address && !address.phone) {
+      this.props.displayToast(PHONE_TEXT);
+      return false;
+    }
+    if (address && !MOBILE_PATTERN.test(address.phone)) {
+      this.props.displayToast(PHONE_VALID_TEXT);
+      return false;
+    }
+    if (address && !address.addressType) {
+      this.props.displayToast(SELECT_ADDRESS_TYPE);
+      return false;
+    }
+    // if (!address.userEmailId && !address.emailId && address.emailId === "") {
+    //   this.props.displayToast("Please enter the EmailId");
+    //   return false;
+    // }
+    if (
+      address.emailId &&
+      address.emailId !== "" &&
+      !EMAIL_REGULAR_EXPRESSION.test(address.emailId)
+    ) {
+      this.props.displayToast(EMAIL_VALID_TEXT);
+      return false;
+    } else {
+      if (this.props.addUserAddress) {
+        let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        let cartDetailsLoggedInUser = Cookie.getCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER
+        );
+        let getCartDetailCNCObj = {
+          userId: JSON.parse(userDetails).userName,
+          accessToken: JSON.parse(customerCookie).access_token,
+          cartId: JSON.parse(cartDetailsLoggedInUser).code,
+          pinCode: address && address.postalCode,
+          isSoftReservation: false
+        };
+        this.props.addUserAddress(address, getCartDetailCNCObj);
+        this.setState({ addNewAddress: false });
+      }
+    }
+  };
+
   renderDateTime = () => {
     if (this.props.returnRequest) {
       return (
@@ -222,7 +351,13 @@ export default class ReturnReasonAndModes extends React.Component {
     }
   };
 
+  getPinCodeDetails = pinCode => {
+    if (this.props.getPinCode) {
+      this.props.getPinCode(pinCode);
+    }
+  };
   render() {
+    console.log("props in render New Address", this.props);
     const { pathname } = this.props.location;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -381,9 +516,9 @@ export default class ReturnReasonAndModes extends React.Component {
         getPincodeStatus={this.props.getPincodeStatus}
         getPinCode={val => this.getPinCodeDetails(val)}
         getPinCodeDetails={this.props.getPinCodeDetails}
-        resetAutoPopulateDataForPinCode={() =>
-          this.props.resetAutoPopulateDataForPinCode()
-        }
+        // resetAutoPopulateDataForPinCode={() =>
+        //   this.props.resetAutoPopulateDataForPinCode()
+        // }
         getUserDetails={() => this.props.getUserDetails()}
         userDetails={this.props.userDetails}
         resetAddAddressDetails={() => this.props.resetAddAddressDetails()}

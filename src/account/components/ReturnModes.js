@@ -19,7 +19,11 @@ import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import Loader from "../../general/components/Loader";
-import { PRODUCT_DELIVERY_ADDRESSES, MY_ACCOUNT } from "../../lib/constants";
+import {
+  PRODUCT_DELIVERY_ADDRESSES,
+  MY_ACCOUNT,
+  IFSC_CODE_TEXT
+} from "../../lib/constants";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -45,7 +49,8 @@ export default class ReturnModes extends React.Component {
       isModeSelected: false,
       returnModesDetails: "",
       selectedOption: "",
-      selectedOptionStores: ""
+      selectedOptionStores: "",
+      selectedAddress: ""
     };
     this.radioChange = this.radioChange.bind(this);
     this.radioChangeStores = this.radioChangeStores.bind(this);
@@ -82,18 +87,21 @@ export default class ReturnModes extends React.Component {
     let deliveryAddress = data.returnModesDetails.deliveryAddress;
 
     console.log("deliveryAddress", deliveryAddress);
-    let selectedAddress =
+    let selectedAddress = "";
+    let selectedOne =
       this.props.returnRequest &&
-      this.props.returnRequest.deliveryAddressesList.map((value, index) => {
-        console.log("props in address list:", value, index);
-        Object.keys(value).map((val, i) => {
-          if (val[i] === this.props.selectedAddressId) {
-            return value[index];
+      this.props.returnRequest.deliveryAddressesList.find((value, index) => {
+        console.log("value in props:1", value);
+        for (let key in value) {
+          console.log("value in props2:", value);
+          if (value[key] == this.props.selectedAddressId[0]) {
+            console.log("value in props:", value);
+            return value;
           }
-        });
-        console.log(value);
+        }
       });
-    console.log("selectedAddress", selectedAddress);
+    console.log("selectedAddress", selectedOne);
+    selectedOne ? this.setState({ selectedAddress: selectedOne }) : "";
   }
   handleSelect(val) {
     if (checkUserAgentIsMobile()) {
@@ -252,6 +260,9 @@ export default class ReturnModes extends React.Component {
       data.returnStoreDetailsList &&
       Object.keys(data.returnStoreDetailsList);
     const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
+    let changedAddress = this.state.selectedAddress
+      ? this.state.selectedAddress
+      : data.deliveryAddress;
 
     return (
       <div className={styles.base}>
@@ -280,7 +291,7 @@ export default class ReturnModes extends React.Component {
           )}
         </MobileOnly> */}
         <div className={styles.content}>
-          {data && (
+          {changedAddress && (
             <div className={styles.card}>
               <div className={styles.divideHeaderAddress}>
                 <div className={styles.returnModesHeading}>Pickup Address:</div>
@@ -292,11 +303,11 @@ export default class ReturnModes extends React.Component {
                 </div>
               </div>
               <div className={styles.addressText}>
-                {data.deliveryAddress.line1} ,{data.deliveryAddress.landmark} ,{
-                  data.deliveryAddress.town
+                {changedAddress.line1} ,{changedAddress.landmark} ,{
+                  changedAddress.town
                 }{" "}
                 ,&nbsp;
-                {data.deliveryAddress.state}, {data.deliveryAddress.postalCode}
+                {changedAddress.state}, {changedAddress.postalCode}
               </div>
             </div>
           )}

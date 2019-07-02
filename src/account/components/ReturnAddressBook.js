@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
 import {
   RETURN_LANDING,
+  RETURNS_PREFIX,
   RETURNS_NEW_ADDRESS
   //MY_ACCOUNT_ADDRESS_EDIT_PAGE,
   //MY_ACCOUNT_ADDRESS_ADD_PAGE,
@@ -50,12 +51,17 @@ export default class ReturnAddressBook extends React.Component {
     }
   }
   addAddress = () => {
-    this.props.history.push(`${RETURN_LANDING}${RETURNS_NEW_ADDRESS}`);
+    this.props.history.push(
+      `${RETURNS_PREFIX}/${
+        this.props.data.sellerorderno
+      }${RETURN_LANDING}${RETURNS_NEW_ADDRESS}`
+    );
     // this.props.history.push({
     // 	pathname: `${RETURN_LANDING}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`,
     // });
   };
   onSelectAddress(addressId) {
+    console.log("props selected:", this.props.selected);
     if (this.props.onSelectAddress) {
       this.props.onSelectAddress(addressId);
     }
