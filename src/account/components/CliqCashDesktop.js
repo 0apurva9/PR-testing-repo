@@ -118,10 +118,7 @@ export default class CliqCashDesktop extends React.Component {
       this.props.cliqCashUserDetails &&
       this.props.cliqCashUserDetails.totalCliqCashBalance &&
       this.props.cliqCashUserDetails.totalCliqCashBalance.value
-        ? this.props &&
-          this.props.cliqCashUserDetails &&
-          this.props.cliqCashUserDetails.totalCliqCashBalance &&
-          Math.round(
+        ? Math.round(
             this.props.cliqCashUserDetails.totalCliqCashBalance.value
           ).toLocaleString("hi-IN")
         : 0;
