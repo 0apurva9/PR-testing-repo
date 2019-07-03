@@ -53,9 +53,7 @@ export default class SizeGuideMain extends React.Component {
               this.props.category !== "Accessories" && (
                 <div className={styles.togglebase}>
                   <DesktopOnly>
-                    <div className={styles.subHeading}>
-                      Select the size of the product and add product to bag
-                    </div>
+                    <div className={styles.subHeading} />
                     <div className={styles.toggleContainer}>
                       <div className={styles.toggle}>
                         <div

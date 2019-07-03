@@ -82,7 +82,8 @@ export default class SizeGuideElementClothing extends Component {
         <DesktopOnly>
           <div className={styles.imageAndTipsHolder}>
             <div className={styles.tipContainer}>
-              Tip:Buy a size {tip1 && tip1} for this brand.{tip2 && tip2}
+              Tip: Buy a size {tip1 && tip1} for this brand.
+              <div>{tip2 && tip2}</div>
             </div>
             <div className={styles.imageHolder}>
               <div className={styles.image}>
