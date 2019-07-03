@@ -220,7 +220,6 @@ export default class ReturnReasonAndModes extends React.Component {
     }
   }
   onSelectAddress(addressId) {
-    console.log("adrresss selected:", addressId);
     this.setState({ selectedAddressId: addressId });
     this.props.addAddressToCart(addressId[0]);
   }
@@ -357,7 +356,6 @@ export default class ReturnReasonAndModes extends React.Component {
     }
   };
   render() {
-    console.log("props in render New Address", this.props);
     const { pathname } = this.props.location;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -474,6 +472,7 @@ export default class ReturnReasonAndModes extends React.Component {
       <RefundTransactionSummary
         {...this.props}
         displayToast={this.props.displayToast}
+        getRefundTransactionSummary={this.props.getRefundTransactionSummary}
       />
     );
     const renderAddress = (
@@ -576,96 +575,108 @@ export default class ReturnReasonAndModes extends React.Component {
     );
     let data = this.props.returnProductDetails;
     let disableHeader = pathname.match(REG_X_FOR_BANKDETAILS) ? true : false;
+    let disableforRefundPage =
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.isRefundTransactionPage &&
+      this.props.location.state.isRefundTransactionPage;
     return (
       <React.Fragment>
         <div className={styles.base}>
           <div className={styles.holder}>
-            {/* {disableHeader && ( */}
-            <div className={styles.profileMenu}>
-              <ProfileMenu {...this.props} />
-            </div>
+            {!disableforRefundPage && (
+              <div className={styles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+            )}
             <div className={styles.returnReasonDetail}>
               <div className={styles.returnReasonDetailHolder}>
-                {!disableHeader && (
-                  <div>
-                    {returnProductDetails && (
-                      <div className={styles.orderCardWrapper}>
-                        <OrderCard
-                          imageUrl={
-                            returnProductDetails &&
-                            returnProductDetails.orderProductWsDTO &&
-                            returnProductDetails.orderProductWsDTO[0] &&
-                            returnProductDetails.orderProductWsDTO[0].imageURL
-                          }
-                          productName={`${returnProductDetails &&
-                            returnProductDetails.orderProductWsDTO &&
-                            returnProductDetails.orderProductWsDTO[0] &&
-                            returnProductDetails.orderProductWsDTO[0]
-                              .productBrand} ${returnProductDetails &&
-                            returnProductDetails.orderProductWsDTO &&
-                            returnProductDetails.orderProductWsDTO[0] &&
-                            returnProductDetails.orderProductWsDTO[0]
-                              .productName}`}
-                          price={
-                            returnProductDetails &&
-                            returnProductDetails.orderProductWsDTO &&
-                            returnProductDetails.orderProductWsDTO[0] &&
-                            returnProductDetails.orderProductWsDTO[0].price
-                          }
-                          isSelect={false}
-                          quantity={true}
-                          orderPlace={
-                            orderDetails && orderDetails.orderDate
-                              ? orderDetails &&
-                                format(orderDetails.orderDate, dateFormat)
-                              : this.props.orderPlace
-                          }
-                          orderId={this.props.orderId}
-                          productSize={
-                            this.props.orderDetails.products[0].productSize
-                          }
-                          productColourName={
-                            this.props.orderDetails.products[0]
-                              .productColourName
-                          }
-                          productBrand={
-                            orderDetails && orderDetails.productBrand
-                              ? orderDetails.productBrand
-                              : returnProductDetails &&
+                {!disableforRefundPage && (
+                  <React.Fragment>
+                    {!disableHeader && (
+                      <div>
+                        {returnProductDetails && (
+                          <div className={styles.orderCardWrapper}>
+                            <OrderCard
+                              imageUrl={
+                                returnProductDetails &&
                                 returnProductDetails.orderProductWsDTO &&
                                 returnProductDetails.orderProductWsDTO[0] &&
                                 returnProductDetails.orderProductWsDTO[0]
-                                  .productBrand
-                          }
-                          onHollow={true}
-                          returnFlow={returnFlow}
-                          title={PRODUCT_CANCEL}
-                          onClick={() =>
-                            this.onClickImage(
-                              orderDetails &&
-                                orderDetails.orderProductWsDTO &&
-                                orderDetails.orderProductWsDTO[0] &&
-                                orderDetails.orderProductWsDTO[0].productcode
-                            )
-                          }
-                        >
-                          {returnProductDetails &&
-                            returnProductDetails.orderProductWsDTO &&
-                            returnProductDetails.orderProductWsDTO[0] &&
-                            returnProductDetails.orderProductWsDTO[0]
-                              .quantity && (
-                              <div className={styles.quantity}>
-                                Qty{" "}
-                                {
-                                  returnProductDetails.orderProductWsDTO[0]
-                                    .quantity
-                                }
-                              </div>
-                            )}
-                        </OrderCard>
+                                  .imageURL
+                              }
+                              productName={`${returnProductDetails &&
+                                returnProductDetails.orderProductWsDTO &&
+                                returnProductDetails.orderProductWsDTO[0] &&
+                                returnProductDetails.orderProductWsDTO[0]
+                                  .productBrand} ${returnProductDetails &&
+                                returnProductDetails.orderProductWsDTO &&
+                                returnProductDetails.orderProductWsDTO[0] &&
+                                returnProductDetails.orderProductWsDTO[0]
+                                  .productName}`}
+                              price={
+                                returnProductDetails &&
+                                returnProductDetails.orderProductWsDTO &&
+                                returnProductDetails.orderProductWsDTO[0] &&
+                                returnProductDetails.orderProductWsDTO[0].price
+                              }
+                              isSelect={false}
+                              quantity={true}
+                              orderPlace={
+                                orderDetails && orderDetails.orderDate
+                                  ? orderDetails &&
+                                    format(orderDetails.orderDate, dateFormat)
+                                  : this.props.orderPlace
+                              }
+                              orderId={this.props.orderId}
+                              productSize={
+                                this.props.orderDetails.products[0].productSize
+                              }
+                              productColourName={
+                                this.props.orderDetails.products[0]
+                                  .productColourName
+                              }
+                              productBrand={
+                                orderDetails && orderDetails.productBrand
+                                  ? orderDetails.productBrand
+                                  : returnProductDetails &&
+                                    returnProductDetails.orderProductWsDTO &&
+                                    returnProductDetails.orderProductWsDTO[0] &&
+                                    returnProductDetails.orderProductWsDTO[0]
+                                      .productBrand
+                              }
+                              onHollow={true}
+                              returnFlow={returnFlow}
+                              title={PRODUCT_CANCEL}
+                              onClick={() =>
+                                this.onClickImage(
+                                  orderDetails &&
+                                    orderDetails.orderProductWsDTO &&
+                                    orderDetails.orderProductWsDTO[0] &&
+                                    orderDetails.orderProductWsDTO[0]
+                                      .productcode
+                                )
+                              }
+                            >
+                              {returnProductDetails &&
+                                returnProductDetails.orderProductWsDTO &&
+                                returnProductDetails.orderProductWsDTO[0] &&
+                                returnProductDetails.orderProductWsDTO[0]
+                                  .quantity && (
+                                  <div className={styles.quantity}>
+                                    Qty{" "}
+                                    {
+                                      returnProductDetails.orderProductWsDTO[0]
+                                        .quantity
+                                    }
+                                  </div>
+                                )}
+                            </OrderCard>
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
+                  </React.Fragment>
                 )}
                 <div>
                   {pathname.match(REG_X_FOR_REASON) && renderReasonForm}
@@ -686,29 +697,31 @@ export default class ReturnReasonAndModes extends React.Component {
                 {/* {this.props.children} */}
               </div>
             </div>
-            <div className={styles.userProfile}>
-              <UserProfile
-                image={userAccountDetails.imageUrl}
-                userLogin={userAccountDetails.userName}
-                loginType={userAccountDetails.loginType}
-                firstName={
-                  userAccountDetails &&
-                  userAccountDetails.firstName &&
-                  userAccountDetails.firstName.trim().charAt(0)
-                }
-                heading={
-                  userAccountDetails &&
-                  userAccountDetails.firstName &&
-                  `${userAccountDetails.firstName} `
-                }
-                lastName={
-                  userAccountDetails &&
-                  userAccountDetails.lastName &&
-                  `${userAccountDetails.lastName}`
-                }
-                userAddress={this.props.userAddress}
-              />
-            </div>
+            {!disableforRefundPage && (
+              <div className={styles.userProfile}>
+                <UserProfile
+                  image={userAccountDetails.imageUrl}
+                  userLogin={userAccountDetails.userName}
+                  loginType={userAccountDetails.loginType}
+                  firstName={
+                    userAccountDetails &&
+                    userAccountDetails.firstName &&
+                    userAccountDetails.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userAccountDetails &&
+                    userAccountDetails.firstName &&
+                    `${userAccountDetails.firstName} `
+                  }
+                  lastName={
+                    userAccountDetails &&
+                    userAccountDetails.lastName &&
+                    `${userAccountDetails.lastName}`
+                  }
+                  userAddress={this.props.userAddress}
+                />
+              </div>
+            )}
           </div>
         </div>
       </React.Fragment>

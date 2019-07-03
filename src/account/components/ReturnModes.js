@@ -50,13 +50,13 @@ export default class ReturnModes extends React.Component {
       returnModesDetails: "",
       selectedOption: "",
       selectedOptionStores: "",
-      selectedAddress: ""
+      selectedAddress: "",
+      selectedReturnStore: ""
     };
     this.radioChange = this.radioChange.bind(this);
     this.radioChangeStores = this.radioChangeStores.bind(this);
   }
   async componentDidMount() {
-    //console.log(this.props);
     //use delivery address id - required for getPickupAddrReturnPincodeServcblty api call
     let pickUpAddressId = this.props.getRefundOptionsDetails.deliveryAddress.id;
     let returnId = this.props.getRefundModesDetails.returnId;
@@ -68,7 +68,6 @@ export default class ReturnModes extends React.Component {
       pickUpAddressId,
       transactionId
     );
-    //console.log(data);
     if (data.status === "success") {
       this.setState({ returnModesDetails: data.returnModesDetails });
       let pickupAddress = {};
@@ -85,23 +84,19 @@ export default class ReturnModes extends React.Component {
     }
     // this.props.selectedAddressId
     let deliveryAddress = data.returnModesDetails.deliveryAddress;
-
-    console.log("deliveryAddress", deliveryAddress);
     let selectedAddress = "";
     let selectedOne =
       this.props.returnRequest &&
       this.props.returnRequest.deliveryAddressesList.find((value, index) => {
-        console.log("value in props:1", value);
         for (let key in value) {
-          console.log("value in props2:", value);
-          if (value[key] == this.props.selectedAddressId[0]) {
-            console.log("value in props:", value);
+          if (value[key] === this.props.selectedAddressId[0]) {
             return value;
           }
         }
       });
-    console.log("selectedAddress", selectedOne);
-    selectedOne ? this.setState({ selectedAddress: selectedOne }) : "";
+    if (selectedOne) {
+      this.setState({ selectedAddress: selectedOne });
+    }
   }
   handleSelect(val) {
     if (checkUserAgentIsMobile()) {
@@ -163,6 +158,7 @@ export default class ReturnModes extends React.Component {
     const target = e.currentTarget;
     //console.log(target.value);
     this.setState({ selectedOptionStores: target.value });
+    this.setState({ selectedReturnStore: target.dataset.address });
   }
   async submit() {
     let orderId = this.props.data.sellerorderno;
@@ -199,7 +195,8 @@ export default class ReturnModes extends React.Component {
           this.props.data.sellerorderno
         }${RETURN_LANDING}${REFUND_SUMMARY}`,
         state: {
-          authorizedRequest: true
+          authorizedRequest: true,
+          isRefundTransactionPage: true
         }
       });
     } else {
@@ -221,18 +218,11 @@ export default class ReturnModes extends React.Component {
     this.props.history.push(urlSuffix);
   }
   showButton(modesAvail, storesAvail) {
-    if (modesAvail === "Return To Store" && storesAvail) {
-      return (
-        <Button
-          width={175}
-          style={styles.modesAvail}
-          type="primary"
-          label="SUBMIT"
-          onClick={() => this.submit()}
-        />
-      );
-    }
-    if (modesAvail === "Pick Up" || modesAvail === "Self Courier") {
+    if (
+      modesAvail === "Pick Up" ||
+      modesAvail === "Self Courier" ||
+      (modesAvail === "Return To Store" && storesAvail)
+    ) {
       return (
         <Button
           width={175}
@@ -253,7 +243,6 @@ export default class ReturnModes extends React.Component {
       return this.navigateToReturnLanding();
     }
     const { productInfo } = this.props;
-    console.log("props address selected:", this.props);
     const data = this.state.returnModesDetails;
     const returnStoreDetailsList =
       data &&
@@ -462,6 +451,7 @@ export default class ReturnModes extends React.Component {
                           className={styles.radioBtn}
                           type="radio"
                           value={value.address.id}
+                          data-address={JSON.stringify(value)}
                           checked={
                             this.state.selectedOptionStores === value.address.id
                           }

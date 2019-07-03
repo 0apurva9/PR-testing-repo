@@ -22,7 +22,6 @@ export default class RefundTransactionSummary extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(this.props);
     //to get refund details initially
     if (this.props.data) {
       let orderId = this.props.data.sellerorderno;
@@ -33,7 +32,6 @@ export default class RefundTransactionSummary extends React.Component {
         transactionId,
         returnId
       );
-      console.log(data);
       if (data && data.status === "success") {
         this.setState({ summary: data });
       }
@@ -74,7 +72,6 @@ export default class RefundTransactionSummary extends React.Component {
       return this.navigateToReturnLanding();
     }
     let summaryDetails = this.state.summary;
-    console.log(summaryDetails);
     return (
       <ReturnsFrame>
         <div className={styles.content}>
