@@ -24,6 +24,7 @@ import {
   GLOBAL_ACCESS_TOKEN,
   PLAT_FORM_NUMBER,
   SUCCESS_MESSAGE_IN_CANCELING_ORDER,
+  SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER,
   FEMALE,
   MALE
 } from "../../lib/constants";
@@ -348,6 +349,17 @@ export const GET_REFUND_TRANSACTION_SUMMARY_SUCCESS =
   "GET_REFUND_TRANSACTION_SUMMARY_SUCCESS";
 export const GET_REFUND_TRANSACTION_SUMMARY_FAILURE =
   "GET_REFUND_TRANSACTION_SUMMARY_FAILURE";
+
+export const GET_RETURN_REASONS_REQUEST = "GET_RETURN_REASONS_REQUEST";
+export const GET_RETURN_REASONS_SUCCESS = "GET_RETURN_REASONS_SUCCESS";
+export const GET_RETURN_REASONS_FAILURE = "GET_RETURN_REASONS_FAILURE";
+
+export const UPDATE_RETURN_CANCELLATION_REQUEST =
+  "UPDATE_RETURN_CANCELLATION_REQUEST";
+export const UPDATE_RETURN_CANCELLATION_SUCCESS =
+  "UPDATE_RETURN_CANCELLATION_SUCCESS";
+export const UPDATE_RETURN_CANCELLATION_FAILURE =
+  "UPDATE_RETURN_CANCELLATION_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -731,6 +743,114 @@ export function getRefundTransactionSummary(orderId, transactionId, returnId) {
       return dispatch(getRefundTransactionSummarySuccess(resultJson));
     } catch (e) {
       return dispatch(getRefundTransactionSummaryFailure(e.message));
+    }
+  };
+}
+
+export function getReturnReasonsRequest() {
+  return {
+    type: GET_RETURN_REASONS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getReturnReasonsSuccess(getReturnReasonsDetails) {
+  return {
+    type: GET_RETURN_REASONS_SUCCESS,
+    status: SUCCESS,
+    getReturnReasonsDetails
+  };
+}
+
+export function getReturnReasonsFailure(error) {
+  return {
+    type: GET_RETURN_REASONS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getReturnReasons(orderId, transactionId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getReturnReasonsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getReturnCancelReasons?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&orderCode=${orderId}&transactionId=${transactionId}&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getReturnReasonsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getReturnReasonsFailure(e.message));
+    }
+  };
+}
+
+export function updateReturnCancellationRequest() {
+  return {
+    type: UPDATE_RETURN_CANCELLATION_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function updateReturnCancellationSuccess(
+  updateReturnCancellationDetails
+) {
+  return {
+    type: UPDATE_RETURN_CANCELLATION_SUCCESS,
+    status: SUCCESS,
+    updateReturnCancellationDetails
+  };
+}
+
+export function updateReturnCancellationFailure(error) {
+  return {
+    type: UPDATE_RETURN_CANCELLATION_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateReturnCancellation(data) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateReturnCancellationRequest());
+    try {
+      let apiData = {};
+      apiData.returnCancelReasonCode = data.returnCancelReasonCode;
+      if (data.returnCancelComments) {
+        apiData.returnCancelComments = data.returnCancelComments;
+      }
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnCancellation/${data.orderId}/${
+          data.transactionId
+        }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true`,
+        apiData
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.error));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(displayToast(SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER));
+      return dispatch(updateReturnCancellationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateReturnCancellationFailure(e.message));
     }
   };
 }

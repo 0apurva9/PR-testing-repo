@@ -15,7 +15,8 @@ import {
 import {
   redeemCliqVoucher,
   removeAddress,
-  cancelProduct
+  cancelProduct,
+  updateReturnCancellation
 } from "../../account/actions/account.actions";
 import {
   getTncForBankOffer,
@@ -93,7 +94,10 @@ const mapStateToProps = (state, ownProps) => {
     loadingForCancelProduct: state.profile.loadingForCancelProduct,
     loading: state.profile.loading,
     stores: state.productDescription.storeDetails,
-    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl
+    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
+    loading: state.profile.loading,
+    loadingForUpdateReturnCancellation:
+      state.profile.loadingForUpdateReturnCancellation
   };
 };
 
@@ -382,6 +386,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addProductToCart: productDetails => {
       dispatch(addProductToCart(productDetails));
+    },
+    updateReturnCancellation: async data => {
+      const updateReturnCancellationDetails = await dispatch(
+        updateReturnCancellation(data)
+      );
+      if (updateReturnCancellationDetails.status === SUCCESS) {
+        ownProps.history.goBack();
+      }
     }
   };
 };

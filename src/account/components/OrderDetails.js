@@ -44,7 +44,8 @@ import {
   MY_ACCOUNT_PAGE,
   CANCEL,
   WRITE_REVIEW,
-  PRODUCT_CANCEL
+  PRODUCT_CANCEL,
+  CANCEL_RETURN_REQUEST
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
@@ -119,6 +120,7 @@ export default class OrderDetails extends React.Component {
       }
     });
   }
+
   writeReview(productCode) {
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
@@ -287,6 +289,11 @@ export default class OrderDetails extends React.Component {
       .add(returnPolicy, "days")
       .format(dateFormat);
     return pickupDate;
+  }
+  cancelReturnRequest(transactionId, orderCode) {
+    this.props.history.push({
+      pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
+    });
   }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
@@ -813,9 +820,8 @@ export default class OrderDetails extends React.Component {
                                   <div
                                     className={styles.review}
                                     onClick={() =>
-                                      this.cancelItem(
+                                      this.cancelReturnRequest(
                                         products.transactionId,
-                                        products.USSID,
                                         products.sellerorderno
                                       )
                                     }
@@ -915,6 +921,22 @@ export default class OrderDetails extends React.Component {
                                     label={PRODUCT_CANCEL}
                                     color="#ff1744"
                                   />
+                                </div>
+                              )}
+                              {products.isReturnCancelable && (
+                                <div
+                                  className={styles.review}
+                                  onClick={() =>
+                                    this.cancelReturnRequest(
+                                      products.transactionId,
+                                      products.sellerorderno
+                                    )
+                                  }
+                                >
+                                  <div className={styles.CancelReturn}>
+                                    Cancel Return Request
+                                  </div>
+                                  <span className={styles.rightArrow} />
                                 </div>
                               )}
                             </div>

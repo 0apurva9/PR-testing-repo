@@ -86,6 +86,7 @@ export default class CancelOrder extends React.Component {
       <div>
         {cancelProductDetails && (
           <CancelReasonForm
+            {...this.props}
             cancelProductDetails={cancelProductDetails}
             onContinue={reason => this.finalSubmit(reason)}
             onCancel={() => this.onCancel()}

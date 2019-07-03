@@ -217,7 +217,17 @@ const account = (
     getRefundTransactionSummaryStatus: null,
     loadingForGetRefundTransactionSummary: false,
     getRefundTransactionSummary: null,
-    getRefundTransactionSummaryError: null
+    getRefundTransactionSummaryError: null,
+
+    getReturnReasonsStatus: null,
+    loadingForGetReturnReasons: false,
+    getReturnReasonsDetails: null,
+    getReturnReasonsError: null,
+
+    updateReturnCancellationStatus: null,
+    loadingForUpdateReturnCancellation: false,
+    updateReturnCancellationDetails: null,
+    updateReturnCancellationError: null
   },
   action
 ) => {
@@ -1350,6 +1360,42 @@ const account = (
         getRefundTransactionSummaryStatus: action.status,
         getRefundTransactionSummaryError: action.error,
         loadingForGetRefundTransactionSummary: false
+      });
+
+    case accountActions.GET_RETURN_REASONS_REQUEST:
+      return Object.assign({}, state, {
+        getReturnReasonsStatus: action.status,
+        loadingForGetReturnReasons: true
+      });
+    case accountActions.GET_RETURN_REASONS_SUCCESS:
+      return Object.assign({}, state, {
+        getReturnReasonsStatus: action.status,
+        getReturnReasonsDetails: action.getReturnReasonsDetails,
+        loadingForGetReturnReasons: false
+      });
+    case accountActions.GET_RETURN_REASONS_FAILURE:
+      return Object.assign({}, state, {
+        getReturnReasonsStatus: action.status,
+        getReturnReasonsError: action.error,
+        loadingForGetReturnReasons: false
+      });
+
+    case accountActions.UPDATE_RETURN_CANCELLATION_REQUEST:
+      return Object.assign({}, state, {
+        updateReturnCancellationStatus: action.status,
+        loadingForUpdateReturnCancellation: true
+      });
+    case accountActions.UPDATE_RETURN_CANCELLATION_SUCCESS:
+      return Object.assign({}, state, {
+        updateReturnCancellationStatus: action.status,
+        updateReturnCancellationDetails: action.updateReturnCancellationDetails,
+        loadingForUpdateReturnCancellation: false
+      });
+    case accountActions.UPDATE_RETURN_CANCELLATION_FAILURE:
+      return Object.assign({}, state, {
+        updateReturnCancellationStatus: action.status,
+        updateReturnCancellationError: action.error,
+        loadingForUpdateReturnCancellation: false
       });
 
     default:

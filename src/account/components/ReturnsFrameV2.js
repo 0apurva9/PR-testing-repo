@@ -53,5 +53,5 @@ ReturnsFrameV2.propTypes = {
   onCancel: PropTypes.func
 };
 ReturnsFrameV2.defaultProps = {
-  buttonText: "Continue"
+  buttonText: "CONTINUE"
 };

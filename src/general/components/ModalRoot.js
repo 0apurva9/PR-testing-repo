@@ -241,6 +241,13 @@ const SizeSelectorOOSModal = Loadable({
     return <Loader />;
   }
 });
+
+const CancelReturnRequestPopUp = Loadable({
+  loader: () => import("../../account/components/CancelReturnRequestPopUp.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -487,6 +494,9 @@ export default class ModalRoot extends React.Component {
   cancelOrderProduct = (cancelProductDetails, productDetails) => {
     this.props.cancelProduct(cancelProductDetails, productDetails);
   };
+  updateReturnCancellation = data => {
+    this.props.updateReturnCancellation(data);
+  };
   goToCartPage(productCode) {
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
@@ -497,6 +507,7 @@ export default class ModalRoot extends React.Component {
       }
     });
   }
+
   goToHomePage() {
     this.handleClose();
   }
@@ -865,6 +876,17 @@ export default class ModalRoot extends React.Component {
           {...this.props}
           history={this.props.history}
           closeModal={() => this.handleClose()}
+        />
+      ),
+
+      CancelReturnRequestPopUp: (
+        <CancelReturnRequestPopUp
+          data={this.props.ownProps}
+          loadingForUpdateReturnCancellation={
+            this.props.loadingForUpdateReturnCancellation
+          }
+          cancelModal={() => this.handleClose()}
+          updateReturnCancellation={data => this.updateReturnCancellation(data)}
         />
       )
     };

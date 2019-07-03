@@ -124,6 +124,8 @@ export const RETURN_CLIQ_PIQ_DATE = "/dateTime";
 export const SUCCESS_MESSAGE_IN_CANCELING_ORDER =
   "Your order has been cancelled"; //"Your order cancelled successfully";
 export const RETURN_CLIQ_PIQ_RETURN_SUMMARY = "/returnSummary";
+export const SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER =
+  "Your return request cancelled successfully";
 
 export const RETURN_TO_STORE = "/store";
 export const RETURNS_STORE_MAP = "/storePick";
@@ -208,6 +210,8 @@ export const MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW = "myAccountFollow";
 export const PAYTM = "PAYTM";
 export const CANCEL = "/cancel";
 export const CANCEL_PREFIX = "/cancel/(.*)";
+export const CANCEL_RETURN_REQUEST = "/cancel-return";
+export const CANCEL_RETURN_PREFIX = "/cancel-return/(.*)/(.*)";
 
 export const WALLET = "WALLET";
 

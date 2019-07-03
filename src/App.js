@@ -74,7 +74,8 @@ import {
   RETRY_FAILED_ORDER,
   CART_COUNT_FOR_LOGGED_IN_USER,
   PANCARD_PAGE,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  CANCEL_RETURN_PREFIX
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -186,6 +187,12 @@ if (checkUserAgentIsMobile()) {
     }
   });
 }
+const CancelReturnRequestContainer = Loadable({
+  loader: () => import("./account/containers/CancelReturnRequestContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 let ReturnFlowContainer;
 if (checkUserAgentIsMobile()) {
@@ -449,6 +456,10 @@ class App extends Component {
               )}
             />
             <Route path={CANCEL_PREFIX} component={CancelOrderContainer} />
+            <Route
+              path={CANCEL_RETURN_PREFIX}
+              component={CancelReturnRequestContainer}
+            />
             <Route path={RETURNS} component={ReturnFlowContainer} />
             <Route
               path={SHORT_URL_ORDER_DETAIL}
