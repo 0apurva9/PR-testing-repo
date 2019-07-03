@@ -98,18 +98,18 @@ export default class TransactionDetailDesktop extends React.Component {
                   })}
                 {transactionDetails &&
                   transactionDetails.transactionId &&
-                  transactionDetails.transactionType
+                  !transactionDetails.transactionType
                     .toUpperCase()
-                    .match(/\bADDED|EXPIRED|RECEIVED/g) && (
+                    .match(/\bPAID|RECEIVED REFUND/g) && (
                     <div className={styles.orderNo}>
                       Transaction ID: {transactionDetails.transactionId}
                     </div>
                   )}
                 {transactionDetails &&
                   transactionDetails.orderNo &&
-                  !transactionDetails.transactionType
+                  transactionDetails.transactionType
                     .toUpperCase()
-                    .match(/\bADDED|RECEIVED REFUND/g) && (
+                    .match(/\bPAID|RECEIVED REFUND/g) && (
                     <div className={styles.orderNo}>
                       Order No: {transactionDetails.orderNo}
                     </div>
