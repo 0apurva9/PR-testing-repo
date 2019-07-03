@@ -202,6 +202,7 @@ export default class OrderDetails extends React.Component {
               orderDetails.products.map((products, i) => {
                 let isOrderReturnable = false;
                 let isReturned = false;
+                let isNotRefund = false;
 
                 if (
                   products &&
@@ -230,6 +231,12 @@ export default class OrderDetails extends React.Component {
                         status.responseCode === "ORDER_COLLECTED"
                       ) {
                         isOrderReturnable = true;
+                      }
+                      if (
+                        !status.responseCode.includes("REFUND") &&
+                        !isNotRefund
+                      ) {
+                        isNotRefund = true;
                       }
                     }
                   );
@@ -633,7 +640,8 @@ export default class OrderDetails extends React.Component {
                               </div>
                             )}
                             {isOrderReturnable &&
-                              products.isReturned === false && (
+                              products.isReturned === false &&
+                              isNotRefund && (
                                 <div className={styles.returnClosed}>
                                   {PRODUCT_RETURN_WINDOW_CLOSED}
                                 </div>
