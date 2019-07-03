@@ -136,7 +136,7 @@ export default class OfferCard extends React.Component {
               mainDivClass = styles.mainDivWithoutBorder;
             }
             return (
-              <div className={mainDivClass}>
+              <div key={key} className={mainDivClass}>
                 <div className={styles.container}>
                   <ul className={styles.liHeader}>
                     <li

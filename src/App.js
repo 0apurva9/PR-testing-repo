@@ -319,6 +319,11 @@ class App extends Component {
       this.props.getGlobalAccessToken();
       globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     }
+    let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (customerAccessToken && !loggedInUserDetails) {
+      Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+    }
   }
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -613,7 +618,17 @@ class App extends Component {
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
             />
-            } />
+            <Route
+              path="/que"
+              component={() => {
+                window.location.replace("https://www.tatacliq.com/que/");
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
