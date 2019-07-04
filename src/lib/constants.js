@@ -126,6 +126,8 @@ export const SUCCESS_MESSAGE_IN_CANCELING_ORDER =
 export const RETURN_CLIQ_PIQ_RETURN_SUMMARY = "/returnSummary";
 export const SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER =
   "Your return request cancelled successfully";
+export const SUCCESS_MESSAGE_IN_RETURN_TO_HOTC =
+  "Your order is marked as delivered";
 
 export const RETURN_TO_STORE = "/store";
 export const RETURNS_STORE_MAP = "/storePick";
@@ -366,6 +368,20 @@ export const PINCODE_NOT_SERVICEABLE_TEXT =
   "We are sorry, this pincode is not serviceable. Please enter another pincode.";
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
 export const DEFAULT_PINCODE = 110001;
+
+export const ORDER_CONFIRMED = "ORDER_CONFIRMED";
+export const ORDER_IN_PROCESS = "ORDER_IN_PROCESS";
+export const CANCEL_STATUS = "CANCEL";
+export const SHIPPING = "SHIPPING";
+export const DELIVERED = "DELIVERED";
+export const REFUND_INITIATED = "REFUND_INITIATED";
+export const READY_FOR_COLLECTION = "READY_FOR_COLLECTION";
+export const ORDER_COLLECTED = "ORDER_COLLECTED";
+export const ORDER_CANCELLED = "ORDER_CANCELLED";
+export const ITEM_PACKED = "ITEM_PACKED";
+export const RETURN_INITIATED = "RETURN_INITIATED";
+export const PICKUP_SCHEDULED = "PICKUP_SCHEDULED";
+export const RETURN_CANCELLED = "RETURN_CANCELLED";
 export const BANK_OFFER_TYPE = "bankOffer";
 export const NCE_OFFER_TYPE = "nceOfferType";
 export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
@@ -387,17 +403,3 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
 export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
-
-export const ORDER_CONFIRMED = "ORDER_CONFIRMED";
-export const ORDER_IN_PROCESS = "ORDER_IN_PROCESS";
-export const CANCEL_STATUS = "CANCEL";
-export const SHIPPING = "SHIPPING";
-export const DELIVERED = "DELIVERED";
-export const REFUND_INITIATED = "REFUND_INITIATED";
-export const READY_FOR_COLLECTION = "READY_FOR_COLLECTION";
-export const ORDER_COLLECTED = "ORDER_COLLECTED";
-export const ORDER_CANCELLED = "ORDER_CANCELLED";
-export const ITEM_PACKED = "ITEM_PACKED";
-export const RETURN_INITIATED = "RETURN_INITIATED";
-export const PICKUP_SCHEDULED = "PICKUP_SCHEDULED";
-export const RETURN_CANCELLED = "RETURN_CANCELLED";

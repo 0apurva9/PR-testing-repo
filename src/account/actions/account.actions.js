@@ -25,6 +25,7 @@ import {
   PLAT_FORM_NUMBER,
   SUCCESS_MESSAGE_IN_CANCELING_ORDER,
   SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER,
+  SUCCESS_MESSAGE_IN_RETURN_TO_HOTC,
   FEMALE,
   MALE
 } from "../../lib/constants";
@@ -36,7 +37,8 @@ import {
   hideModal,
   VERIFY_OTP,
   GIFT_CARD_MODAL,
-  UPDATE_REFUND_DETAILS_POPUP
+  UPDATE_REFUND_DETAILS_POPUP,
+  SHOW_RETURN_CONFIRM_POP_UP
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -361,6 +363,10 @@ export const UPDATE_RETURN_CANCELLATION_SUCCESS =
 export const UPDATE_RETURN_CANCELLATION_FAILURE =
   "UPDATE_RETURN_CANCELLATION_FAILURE";
 
+export const UPDATE_RETURN_HOTC_REQUEST = "UPDATE_RETURN_HOTC_REQUEST";
+export const UPDATE_RETURN_HOTC_SUCCESS = "UPDATE_RETURN_HOTC_SUCCESS";
+export const UPDATE_RETURN_HOTC_FAILURE = "UPDATE_RETURN_HOTC_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -420,7 +426,59 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
     }
   };
 }
+//HOTC Request
+export function updateReturnForHOTCRequest() {
+  return {
+    type: UPDATE_RETURN_HOTC_REQUEST,
+    status: REQUESTING
+  };
+}
 
+export function updateReturnForHOTCSuccess(updateReturnForHOTCDetails) {
+  return {
+    type: UPDATE_RETURN_HOTC_SUCCESS,
+    status: SUCCESS,
+    updateReturnForHOTCDetails
+  };
+}
+
+export function updateReturnForHOTCFailure(error) {
+  return {
+    type: UPDATE_RETURN_HOTC_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateReturnForHOTC(data) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateReturnForHOTCRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnForHOTC/${
+          data.orderId
+        }/${data.transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.error));
+        dispatch(hideModal(SHOW_RETURN_CONFIRM_POP_UP));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(displayToast(SUCCESS_MESSAGE_IN_RETURN_TO_HOTC));
+      return dispatch(updateReturnForHOTCSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateReturnForHOTCFailure(e.message));
+    }
+  };
+}
 //cancel final order
 
 export function cancelProductRequest() {

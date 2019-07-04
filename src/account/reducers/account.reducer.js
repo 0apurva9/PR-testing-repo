@@ -227,7 +227,12 @@ const account = (
     updateReturnCancellationStatus: null,
     loadingForUpdateReturnCancellation: false,
     updateReturnCancellationDetails: null,
-    updateReturnCancellationError: null
+    updateReturnCancellationError: null,
+
+    updateReturnHOTCStatus: null,
+    loadingForUpdateReturnHOTC: false,
+    updateReturnHOTCDetails: null,
+    updateReturnHOTCError: null
   },
   action
 ) => {
@@ -1396,6 +1401,24 @@ const account = (
         updateReturnCancellationStatus: action.status,
         updateReturnCancellationError: action.error,
         loadingForUpdateReturnCancellation: false
+      });
+
+    case accountActions.UPDATE_RETURN_HOTC_REQUEST:
+      return Object.assign({}, state, {
+        updateReturnHOTCStatus: action.status,
+        loadingForUpdateReturnHOTC: true
+      });
+    case accountActions.UPDATE_RETURN_HOTC_SUCCESS:
+      return Object.assign({}, state, {
+        updateReturnHOTCStatus: action.status,
+        updateReturnHOTCDetails: action.updateReturnHOTCDetails,
+        loadingForUpdateReturnHOTC: false
+      });
+    case accountActions.UPDATE_RETURN_HOTC_FAILURE:
+      return Object.assign({}, state, {
+        updateReturnHOTCStatus: action.status,
+        updateReturnHOTCError: action.error,
+        loadingForUpdateReturnHOTC: false
       });
 
     default:

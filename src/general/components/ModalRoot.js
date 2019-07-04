@@ -167,6 +167,13 @@ const UpdateRefundDetailsPopup = Loadable({
   }
 });
 
+const ShowReturnConfirmPopup = Loadable({
+  loader: () => import("../../account/components/ShowReturnConfirmPopup.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const KycApplicationFormWithBottomSlideModal = Loadable({
   loader: () =>
     import("../../account/components/KycApplicationFormWithBottomSlideModal"),
@@ -303,6 +310,9 @@ export default class ModalRoot extends React.Component {
       returnDetails.file = val.file;
       this.props.submitSelfCourierReturnInfo(returnDetails);
     }
+  }
+  onConfirmReturn(val) {
+    this.props.updateReturnForHOTC(val);
   }
   submitOtp(otpDetails) {
     this.props.otpVerification(otpDetails, this.props.ownProps);
@@ -606,6 +616,13 @@ export default class ModalRoot extends React.Component {
             this.resendOtpForUpdateProfile(this.props.ownProps)
           }
           onClickWrongNumber={() => this.handleClose()}
+        />
+      ),
+      ShowReturnConfirmPopup: (
+        <ShowReturnConfirmPopup
+          closeModal={() => this.handleClose()}
+          onConfirmReturn={val => this.onConfirmReturn(val)}
+          {...this.props.ownProps}
         />
       ),
       ForgotPasswordOtpVerification: (

@@ -16,7 +16,8 @@ import {
   redeemCliqVoucher,
   removeAddress,
   cancelProduct,
-  updateReturnCancellation
+  updateReturnCancellation,
+  updateReturnForHOTC
 } from "../../account/actions/account.actions";
 import {
   getTncForBankOffer,
@@ -393,6 +394,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       );
       if (updateReturnCancellationDetails.status === SUCCESS) {
         ownProps.history.goBack();
+      }
+    },
+    updateReturnForHOTC: async data => {
+      const updateReturnForHOTCDetails = await dispatch(
+        updateReturnForHOTC(data)
+      );
+      if (updateReturnForHOTCDetails.status === SUCCESS) {
+        ownProps.history.go();
       }
     }
   };

@@ -12,6 +12,7 @@ import {
   UPDATE_REFUND_DETAILS_POPUP,
   ORDER_DETAILS_MODAL,
   showModal,
+  SHOW_RETURN_CONFIRM_POP_UP,
   DESKTOP_AUTH
 } from "../../general/modal.actions";
 import {
@@ -55,6 +56,9 @@ const mapDispatchToProps = dispatch => {
 
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    showReturnModal: data => {
+      dispatch(showModal(SHOW_RETURN_CONFIRM_POP_UP, data));
     }
   };
 };

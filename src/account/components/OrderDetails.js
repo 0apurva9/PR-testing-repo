@@ -99,6 +99,12 @@ export default class OrderDetails extends React.Component {
       });
     }
   }
+  confirmReturn(sellerorderno, transactionId) {
+    let data = {};
+    data.orderId = sellerorderno;
+    data.transactionId = transactionId;
+    this.props.showReturnModal(data);
+  }
   cancelItem(transactionId, ussid, orderCode, orderId, orderDate) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     this.props.history.push({
@@ -475,47 +481,7 @@ export default class OrderDetails extends React.Component {
                             </div>
                           </React.Fragment>
                         )}
-                      {/* {products.statusDisplayMsg &&
-                        products.consignmentStatus !== "DELIVERED" &&
-                        (products.selectedDeliveryMode &&
-                          products.selectedDeliveryMode.code !==
-                            CLICK_COLLECT) && (
-                          <div className={styles.orderStatusVertical}>
-                            {/* This block of code needs to be duplicated below for CNC as well */}
-                      {/* {!products.statusDisplayMsg
-                              .map(val => {
-                                return val.key;
-                              })
-                              .includes(RETURN) && (
-                              <OrderStatusVertical
-                                isCNC={false}
-                                statusMessageList={products.statusDisplayMsg}
-                                logisticName={products.logisticName}
-                                trackingAWB={products.trackingAWB}
-                                showShippingDetails={
-                                  this.props.showShippingDetails
-                                }
-                                orderCode={orderDetails.orderId}
-                              />
-                            )}
-                            {products.statusDisplayMsg
-                              .map(val => {
-                                return val.key;
-                              })
-                              .includes(RETURN) && (
-                              <OrderStatusHorizontal
-                                trackingAWB={products.trackingAWB}
-                                courier={products.reverseLogisticName}
-                                statusMessageList={products.statusDisplayMsg.filter(
-                                  val => {
-                                    return val.key === RETURN;
-                                  }
-                                )}
-                              />
-                            )}
-                            {/* Block of code ends here */}
-                      {/* </div>
-                        )}  */}
+
                       {products.consignmentStatus !== "DELIVERED" &&
                         products.selectedDeliveryMode.code !==
                           CLICK_COLLECT && (
@@ -699,7 +665,7 @@ export default class OrderDetails extends React.Component {
                         <div className={styles.buttonHolder}>
                           <div className={styles.buttonHolderForUpdate}>
                             {/* showing write a review and cancel or return only for mobile */}
-                            <MobileOnly>
+                            {/* <MobileOnly>
                               <div className={styles.replaceHolder}>
                                 {products.isReturned &&
                                   isOrderReturnable && (
@@ -743,7 +709,7 @@ export default class OrderDetails extends React.Component {
                                   </div>
                                 )}
                               </div>
-                            </MobileOnly>
+                            </MobileOnly> */}
                             {!isReturned && (
                               <React.Fragment>
                                 <MobileOnly>
@@ -766,87 +732,99 @@ export default class OrderDetails extends React.Component {
                             )}
                             {/* showing cancel or return only for desktop */}
                             <DesktopOnly>
-                              <div>
-                                {products.cancel && (
-                                  <div
-                                    className={styles.cancelProduct}
-                                    onClick={() =>
-                                      this.cancelItem(
-                                        products.transactionId,
-                                        products.USSID,
-                                        products.sellerorderno,
-                                        orderDetails.orderId,
-                                        format(
-                                          orderDetails.orderDate,
-                                          dateFormat
-                                        )
-                                      )
-                                    }
-                                  >
-                                    {PRODUCT_CANCEL}
-                                  </div>
-                                )}
-                                {/* {isOrderReturnable &&
+                              {products.cancel && (
+                                <div
+                                  className={styles.cancelProduct}
+                                  onClick={() =>
+                                    this.cancelItem(
+                                      products.transactionId,
+                                      products.USSID,
+                                      products.sellerorderno,
+                                      orderDetails.orderId,
+                                      format(orderDetails.orderDate, dateFormat)
+                                    )
+                                  }
+                                >
+                                  {PRODUCT_CANCEL}
+                                </div>
+                              )}
+                              {/* {isOrderReturnable &&
                                   products.isReturned === false && (
                                     <div className={styles.returnClosed}>
                                       {PRODUCT_RETURN_WINDOW_CLOSED}
                                     </div>
                                   )} */}
-                                {products.isReturned &&
-                                  isOrderReturnable && (
-                                    <div
-                                      className={styles.cancelProduct}
-                                      onClick={() =>
-                                        this.replaceItem(
-                                          products.sellerorderno,
-                                          orderDetails.paymentMethod,
-                                          products.transactionId
-                                        )
-                                      }
-                                    >
-                                      {PRODUCT_RETURN}
-                                    </div>
-                                  )}
-                                {products.isReturnCancelable && (
+                              {products.isReturned &&
+                                isOrderReturnable && (
                                   <div
-                                    className={styles.review}
+                                    className={styles.cancelProduct}
                                     onClick={() =>
-                                      this.cancelReturnRequest(
+                                      this.replaceItem(
+                                        products.sellerorderno,
+                                        orderDetails.paymentMethod,
+                                        products.transactionId
+                                      )
+                                    }
+                                  >
+                                    {PRODUCT_RETURN}
+                                  </div>
+                                )}
+                              {products.isReturnCancelable && (
+                                <div
+                                  className={styles.review}
+                                  onClick={() =>
+                                    this.cancelReturnRequest(
+                                      products.transactionId,
+                                      products.sellerorderno
+                                    )
+                                  }
+                                >
+                                  <div className={styles.CancelReturn}>
+                                    Cancel Return Request
+                                  </div>
+                                  <span className={styles.rightArrow} />
+                                </div>
+                              )}
+                              {/* in case of hotc show return option */}
+                              {products.isReturned &&
+                                products.isHOTCReturnable && (
+                                  <div
+                                    className={styles.productReturn}
+                                    onClick={() =>
+                                      this.confirmReturn(
+                                        products.sellerorderno,
+                                        products.transactionId
+                                      )
+                                    }
+                                  >
+                                    {PRODUCT_RETURN}
+                                    <span className={styles.rightArrow} />
+                                  </div>
+                                )}
+                              {products.isInvoiceAvailable &&
+                                (products.consignmentStatus === "DELIVERED" ||
+                                  products.consignmentStatus === "HOTC") && (
+                                  <div
+                                    className={styles.cancelProduct}
+                                    onClick={() =>
+                                      this.requestInvoice(
                                         products.transactionId,
                                         products.sellerorderno
                                       )
                                     }
                                   >
-                                    <div className={styles.CancelReturn}>
-                                      Cancel Return Request
-                                    </div>
+                                    {this.props.underlineButtonLabel}
                                     <span className={styles.rightArrow} />
                                   </div>
                                 )}
-                                {products.isInvoiceAvailable &&
-                                  products.consignmentStatus ===
-                                    "DELIVERED" && (
-                                    <div
-                                      className={styles.cancelProduct}
-                                      onClick={() =>
-                                        this.requestInvoice(
-                                          products.transactionId,
-                                          products.sellerorderno
-                                        )
-                                      }
-                                    >
-                                      {this.props.underlineButtonLabel}
-                                    </div>
-                                  )}
-                                {this.state.itemDetails && (
-                                  <div
-                                    onClick={() => this.redirectToHelpPage()}
-                                    className={styles.helpSupport}
-                                  >
-                                    Help & Support
-                                  </div>
-                                )}
-                              </div>
+                              {this.state.itemDetails && (
+                                <div
+                                  onClick={() => this.redirectToHelpPage()}
+                                  className={styles.helpSupport}
+                                >
+                                  Help & Support
+                                </div>
+                              )}
                             </DesktopOnly>
                           </div>
                         </div>
