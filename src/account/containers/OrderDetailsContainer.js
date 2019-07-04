@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import {
   fetchOrderDetails,
   sendInvoice,
-  fetchOrderItemDetails
+  fetchOrderItemDetails,
+  retryPayment
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
@@ -59,6 +60,9 @@ const mapDispatchToProps = dispatch => {
     },
     showReturnModal: data => {
       dispatch(showModal(SHOW_RETURN_CONFIRM_POP_UP, data));
+    },
+    retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
+      return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
     }
   };
 };

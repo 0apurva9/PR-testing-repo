@@ -212,6 +212,27 @@
 	line-height: 35px;
 	cursor: pointer;
 }
+.retryPayment {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	text-align: center;
+	background: #ffffff;
+	border-radius: 4px;
+	margin-bottom: 15px;
+	padding: 20px;
+}
+.retryPaymentTitle {
+	text-align: left;
+	margin: 0 0 15px 0;
+	font-size: 12px;
+	font-family: light;
+}
+.buttonHolderForRetryPayment {
+	width: auto;
+	height: auto;
+	display: inline-block;
+}
 @media screen and (min-width: 1025px) {
 	.base {
 		padding: 80px 0px;

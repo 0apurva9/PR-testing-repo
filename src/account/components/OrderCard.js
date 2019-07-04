@@ -295,6 +295,7 @@ export default class OrderCard extends React.Component {
               </div>
             )}
           {!this.props.isEgvOrder &&
+            !this.props.retryPaymentUrl &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}

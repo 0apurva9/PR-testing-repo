@@ -60,12 +60,23 @@
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	text-align: center;
+	margin-top: 55px;
+	/* text-align: center; */
 }
 .buttonHolderForRetryPayment {
 	width: auto;
 	height: auto;
 	display: inline-block;
+	margin-left: 212px;
+}
+.retryPaymentTitle {
+	/* text-align: left; */
+	margin: 0 0 10px 0;
+	font-size: 14px;
+	font-family: light;
+}
+.retryCallOutMessage {
+	display: inline;
 }
 @media screen and (min-width: 1025px) {
 	.order {

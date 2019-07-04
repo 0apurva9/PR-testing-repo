@@ -20,6 +20,8 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import { Redirect } from "react-router-dom";
 import Icon from "../../xelpmoc-core/Icon";
 import rating from "./img/rating.svg";
+import Button from "../../general/components/Button";
+import RetryPaymentIcon from "./img/payment_retry.svg";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -33,6 +35,9 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_PAGE,
   CANCEL,
+  RETRY_PAYMENT_CART_ID,
+  RETRY_PAYMENT_DETAILS,
+  CHECKOUT_ROUTER,
   WRITE_REVIEW,
   PRODUCT_CANCEL,
   CANCEL_RETURN_REQUEST,
@@ -292,6 +297,31 @@ export default class OrderDetails extends React.Component {
       pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
     });
   }
+  onClickRetryPayment = async retryUrl => {
+    let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
+    let guId = retryPaymentSplitUrl[0].split("value=")[1];
+    let userId = retryPaymentSplitUrl[1].split("userId=")[1];
+    if (this.props.retryPayment) {
+      let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+      if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+        let retryPaymentDetailsObject = {};
+        retryPaymentDetailsObject.retryPaymentDetails =
+          retryPaymentResponse.retryPaymentDetails;
+        localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+        this.props.history.push({
+          pathname: CHECKOUT_ROUTER,
+          state: {
+            isFromRetryUrl: true,
+            retryPaymentGuid: guId
+          }
+        });
+      }
+    }
+  };
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -338,6 +368,27 @@ export default class OrderDetails extends React.Component {
                     backHistory="true"
                     backToOrderHistory={this.props.history}
                   />
+                </div>
+              )}
+            {orderDetails &&
+              orderDetails.paymentRetryLink && (
+                <div className={styles.retryPayment}>
+                  <div className={styles.retryPaymentTitle}>
+                    <Icon image={RetryPaymentIcon} size={25} />
+                    {orderDetails.calloutMessage}
+                  </div>
+                  <div className={styles.buttonHolderForRetryPayment}>
+                    <Button
+                      type="hollow"
+                      height={36}
+                      label="RETRY PAYMENT"
+                      color="#ff1744"
+                      textStyle={{ color: "#212121", fontSize: 14 }}
+                      onClick={() =>
+                        this.onClickRetryPayment(orderDetails.paymentRetryLink)
+                      }
+                    />
+                  </div>
                 </div>
               )}
             {orderDetails &&

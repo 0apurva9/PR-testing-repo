@@ -22,6 +22,7 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
+import RetryPaymentIcon from "./img/payment_retry.svg";
 import {
   MY_ACCOUNT,
   ORDER,
@@ -47,7 +48,9 @@ import {
   PRODUCT_REVIEWS_PATH_SUFFIX,
   HELP_URL,
   SUCCESS,
-  CHECKOUT_ROUTER
+  CHECKOUT_ROUTER,
+  RETRY_PAYMENT_CART_ID,
+  RETRY_PAYMENT_DETAILS
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -73,8 +76,6 @@ const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
-export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
-export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 const Loader = () => {
   return (
     <div>
@@ -537,14 +538,63 @@ export default class AllOrderDetails extends React.Component {
                               pushDetails={this.props.history}
                               isEgvOrder={orderDetails.isEgvOrder}
                             />
-                            {/* <div
-                      className={styles.orderDetailsLink}
-                      onClick={() =>
-                        this.onViewDetails(orderDetails && orderDetails.orderId)
-                      }
-                    >
-                      Order Details
-                    </div> */}
+                            {orderDetails &&
+                              orderDetails.retryPaymentUrl && (
+                                <div
+                                  style={{
+                                    paddingBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "20px"
+                                        : "0px",
+                                    borderBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "1px solid #ececec"
+                                        : "none",
+                                    marginBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "15px"
+                                        : "0px"
+                                  }}
+                                >
+                                  <div className={styles.retryPayment}>
+                                    <div className={styles.retryPaymentTitle}>
+                                      <Icon
+                                        image={RetryPaymentIcon}
+                                        size={42}
+                                      />
+                                      <span
+                                        className={styles.retryCallOutMessage}
+                                      >
+                                        {orderDetails.calloutMessage}
+                                      </span>
+                                    </div>
+                                    <div
+                                      className={
+                                        styles.buttonHolderForRetryPayment
+                                      }
+                                    >
+                                      <Button
+                                        type="hollow"
+                                        height={36}
+                                        label="RETRY PAYMENT"
+                                        color="#ff1744"
+                                        textStyle={{
+                                          color: "#212121",
+                                          fontSize: 14
+                                        }}
+                                        onClick={() =>
+                                          this.onClickRetryPayment(
+                                            orderDetails.retryPaymentUrl
+                                          )
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                           </div>
                           {orderDetails &&
                             orderDetails.products &&
@@ -630,6 +680,9 @@ export default class AllOrderDetails extends React.Component {
                                     transactionId={product.transactionId}
                                     orderCancelDate={product.orderCancelDate}
                                     idFromAllOrderDetails="Y"
+                                    retryPaymentUrl={
+                                      orderDetails.retryPaymentUrl
+                                    }
                                     //orderDetails={orderDetails}
                                   />
                                   <DesktopOnly>
@@ -648,7 +701,7 @@ export default class AllOrderDetails extends React.Component {
                                           {PRODUCT_RETURN}
                                         </div>
                                       )}
-                                      {orderDetails &&
+                                      {/* {orderDetails &&
                                         orderDetails.retryPaymentUrl && (
                                           <div className={styles.retryPayment}>
                                             <div
@@ -675,7 +728,7 @@ export default class AllOrderDetails extends React.Component {
                                               />
                                             </div>
                                           </div>
-                                        )}
+                                        )} */}
                                       {product.productName !== "Gift Card" &&
                                         !orderDetails.retryPaymentUrl &&
                                         product.orderStatusCode ===
@@ -760,7 +813,7 @@ export default class AllOrderDetails extends React.Component {
                                 </div>
                               );
                             })}
-                          <MobileOnly>
+                          {/* <MobileOnly>
                             <React.Fragment>
                               <div
                                 style={{
@@ -791,7 +844,7 @@ export default class AllOrderDetails extends React.Component {
                                       ? "#fff"
                                       : "#ececec"
                                   }
-                                /> */}
+                                />
                                 {orderDetails &&
                                   orderDetails.retryPaymentUrl && (
                                     <div className={styles.retryPayment}>
@@ -842,7 +895,7 @@ export default class AllOrderDetails extends React.Component {
                                   />
                                 )}
                             </React.Fragment>
-                          </MobileOnly>
+                          </MobileOnly> */}
                           <DesktopOnly>
                             {!orderDetails.isEgvOrder &&
                               orderDetails &&

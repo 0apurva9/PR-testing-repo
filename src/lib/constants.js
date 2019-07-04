@@ -134,6 +134,9 @@ export const RETURNS_STORE_MAP = "/storePick";
 export const RETURNS_STORE_BANK_FORM = "/bankDetail";
 export const RETURNS_STORE_FINAL = "/submit";
 
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
+
 export const RETURNS_SELF_COURIER = "/selfCourier";
 export const CHANGE_RETURN_ADDRESS = "/changeReturnAddress";
 export const MY_ACCOUNT_ADDRESS_EDIT_PAGE = "/address-book/edit";
