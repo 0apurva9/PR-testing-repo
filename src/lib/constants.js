@@ -262,6 +262,7 @@ export const PAYPAL = "PayPal";
 export const E_WALLET_PAYPAL = "PayPal";
 export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
+export const STRIPE_DETAILS = "stripeDetails";
 
 // META TAGS CONSTANTS
 

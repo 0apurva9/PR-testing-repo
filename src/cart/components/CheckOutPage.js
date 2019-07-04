@@ -101,7 +101,9 @@ import {
   E_WALLET_PAYPAL,
   RETRY_FAILED_ORDER,
   RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
-  EMI_TENURE
+  EMI_TENURE,
+  STRIPE_DETAILS,
+  MY_ACCOUNT_ORDERS_PAGE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -165,6 +167,7 @@ class CheckOutPage extends React.Component {
       appliedCoupons: false,
       paymentModeSelected: null,
       orderConfirmation: false,
+      paymentConfirmation: false,
       showCliqAndPiq: false,
       showPickupPerson: false,
       selectedSlaveIdObj: {},
@@ -375,6 +378,7 @@ class CheckOutPage extends React.Component {
     }
     if (
       this.props.cart.orderConfirmationDetails ||
+      this.props.cart.getPrepaidOrderPaymentConfirmation ||
       this.props.cart.cliqCashJusPayDetails
     ) {
       this.props.setHeaderText(THANK_YOU);
@@ -831,7 +835,14 @@ class CheckOutPage extends React.Component {
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
     }
-    if (nextProps.cart.jusPayError && this.state.isPaymentFailed === false) {
+    if (
+      (nextProps.cart &&
+        nextProps.cart.jusPayError &&
+        this.state.isPaymentFailed === false) ||
+      (nextProps.cart &&
+        nextProps.cart.isGetPrepaidOrderPaymentConfirmationFailed &&
+        this.state.isPaymentFailed === false)
+    ) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
@@ -1210,8 +1221,19 @@ class CheckOutPage extends React.Component {
     }
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
       window.scroll(0, 0);
-      this.setState({ orderConfirmation: true });
+      this.setState({ orderConfirmation: true, paymentConfirmation: false });
     }
+
+    if (
+      (nextProps.cart &&
+        nextProps.cart.getPrepaidOrderPaymentConfirmationStatus &&
+        nextProps.cart.getPrepaidOrderPaymentConfirmationStatus.toUpperCase()) ===
+      SUCCESS.toUpperCase()
+    ) {
+      window.scroll(0, 0);
+      this.setState({ paymentConfirmation: true, orderConfirmation: false });
+    }
+
     if (
       nextProps.cart.cliqCashJusPayDetails &&
       nextProps.cart.orderConfirmationDetailsStatus !== "requesting"
@@ -1275,10 +1297,13 @@ if you have order id in local storage then you have to show order confirmation p
     }
     this.setState({ orderId: orderId });
     if (
-      value &&
-      value !== JUS_PAY_CHARGED &&
-      value !== JUS_PAY_SUCCESS &&
-      !this.props.cart.isPaymentProceeded
+      (value &&
+        value !== JUS_PAY_CHARGED &&
+        value !== JUS_PAY_SUCCESS &&
+        !this.props.cart.isPaymentProceeded) ||
+      (parsedQueryString.payment_intent &&
+        this.props.cart.isGetPrepaidOrderPaymentConfirmationFailed &&
+        !this.props.cart.isPaymentProceeded)
     ) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
@@ -1364,6 +1389,11 @@ if you have order id in local storage then you have to show order confirmation p
             cartId
           );
         }
+      }
+    } else if (parsedQueryString.payment_intent) {
+      const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
+      if (this.props.getPrepaidOrderPaymentConfirmation) {
+        this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
       }
     } else if (
       this.props.location &&
@@ -1893,16 +1923,18 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   checkAvailabilityOfService = () => {
-    let productServiceAvailability = this.props.cart.cartDetailsCNC.products.find(
-      product => {
+    let productServiceAvailability =
+      this.props &&
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products.find(product => {
         return (
           product.isGiveAway === NO &&
           (product.pinCodeResponse === undefined ||
             (product.pinCodeResponse &&
               product.pinCodeResponse.isServicable === "N"))
         );
-      }
-    );
+      });
 
     return productServiceAvailability;
   };
@@ -1944,7 +1976,7 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.currentPaymentMode === DEBIT_CARD
     ) {
       if (this.state.isGiftCard) {
-        this.props.jusPayTokenizeForGiftCard(
+        this.props.stripe_juspay_TokenizeGiftCard(
           this.state.cardDetails,
           this.state.paymentModeSelected,
           this.state.egvCartGuid
@@ -1960,7 +1992,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.retryCartGuid
         );
       } else {
-        this.props.jusPayTokenize(
+        this.props.stripe_juspay_Tokenize(
           this.state.cardDetails,
           JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -1985,11 +2017,10 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.retryCartGuid
         );
       } else {
-        this.props.createJusPayOrder(
-          "",
-          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+        this.props.stripe_juspay_Tokenize(
           this.state.cardDetails,
+          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           this.state.paymentModeSelected,
           true
         );
@@ -2139,11 +2170,14 @@ if you have order id in local storage then you have to show order confirmation p
           !this.checkAvailabilityOfService()
         ) {
           let sizeNew = size(this.state.ussIdAndDeliveryModesObj);
-          let actualProductSize = this.props.cart.cartDetailsCNC.products.filter(
-            product => {
+          let actualProductSize =
+            this.props &&
+            this.props.cart &&
+            this.props.cart.cartDetailsCNC &&
+            this.props.cart.cartDetailsCNC.products &&
+            this.props.cart.cartDetailsCNC.products.filter(product => {
               return product.isGiveAway === NO;
-            }
-          ).length;
+            }).length;
           if (sizeNew === actualProductSize) {
             this.setState(
               {
@@ -2195,7 +2229,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.isNoCostEmiProceeded)
       ) {
         if (this.state.isGiftCard) {
-          this.props.jusPayTokenizeForGiftCard(
+          this.props.stripe_juspay_TokenizeGiftCard(
             this.state.cardDetails,
             this.state.paymentModeSelected,
             this.props.location.state.egvCartGuid
@@ -2706,6 +2740,7 @@ if you have order id in local storage then you have to show order confirmation p
       );
     }
   };
+
   renderDesktopCheckout = checkoutButtonStatus => {
     let retryPaymentDetailsObj = JSON.parse(
       localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -2783,6 +2818,15 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.captureOrderExperience(orderId, rating);
     }
   };
+  captureOrderExperienceForStripe = rating => {
+    let orderId;
+    if (this.props.cart.collectPaymentOrder) {
+      orderId = this.props.cart.collectPaymentOrder.orderId;
+    }
+    if (this.props.captureOrderExperience) {
+      this.props.captureOrderExperience(orderId, rating);
+    }
+  };
 
   continueShopping = () => {
     this.props.history.index = 0;
@@ -2812,7 +2856,9 @@ if you have order id in local storage then you have to show order confirmation p
   navigateToOrderDetailPage(orderId) {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
-
+  navigateToOrderHistoryPage() {
+    this.props.history.push(`${MY_ACCOUNT}${MY_ACCOUNT_ORDERS_PAGE}`);
+  }
   validateCard() {
     if (
       !this.state.cardDetails.cardNumber ||
@@ -3061,6 +3107,9 @@ if you have order id in local storage then you have to show order confirmation p
       } else {
         this.props.hideSecondaryLoader();
       }
+    }
+    if (this.props.cart.getPrepaidOrderPaymentConfirmation) {
+      this.props.hideSecondaryLoader();
     }
     if (this.props.cart.transactionStatus === REQUESTING) {
       return false;
@@ -3526,6 +3575,20 @@ if you have order id in local storage then you have to show order confirmation p
             </div>
           )}
         </div>
+      );
+    } else if (this.state.paymentConfirmation) {
+      return (
+        <div>payment success</div>
+        // <PaymentConfirmationPage
+        //   orderStatusMessage={this.props.orderConfirmationText}
+        //   orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
+        //   orderDetails={this.props.cart.cliqCashJusPayDetails}
+        //   continueShopping={() => this.continueShopping()}
+        //   trackOrder={() => this.navigateToOrderHistoryPage()}
+        //   captureOrderExperience={rating =>
+        //     this.captureOrderExperienceForStripe(rating)
+        //   }
+        // />
       );
     } else {
       return null;
