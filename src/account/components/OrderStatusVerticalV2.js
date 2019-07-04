@@ -23,6 +23,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
     }
   }
   render() {
+    if (!this.props.statusMessageList) {
+      return null;
+    }
     const completedSteps = this.props.statusMessageList.map(val => {
       return val.key;
     });

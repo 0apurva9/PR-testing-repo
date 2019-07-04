@@ -671,43 +671,19 @@ export default class OrderDetails extends React.Component {
                             <div className={styles.payment} />
                             {/* <div className={styles.divider} /> */}
                             <div>
-                              {/* This block of code needs to be duplicated above for non CNC as well */}
-                              {!products.statusDisplayMsg
-                                .map(val => {
-                                  return val.key;
-                                })
-                                .includes(RETURN) && (
-                                <OrderStatusVertical
-                                  isCNC={true}
-                                  statusMessageList={products.statusDisplayMsg}
-                                  logisticName={products.logisticName}
-                                  trackingAWB={products.trackingAWB}
-                                  showShippingDetails={
-                                    this.props.showShippingDetails
-                                  }
-                                  orderCode={orderDetails.orderId}
-                                />
-                              )}
-                              {products.statusDisplayMsg
-                                .map(val => {
-                                  return val.key;
-                                })
-                                .includes(RETURN) && (
-                                <OrderStatusVertical
-                                  trackingAWB={products.trackingAWB}
-                                  courier={products.reverseLogisticName}
-                                  logisticName={products.logisticName}
-                                  isCNC={true}
-                                  showShippingDetails={
-                                    this.props.showShippingDetails
-                                  }
-                                  orderCode={orderDetails.orderId}
-                                  returnMode={products.returnMode}
-                                  returnType={products.returnType}
-                                  statusMessageList={products.statusDisplayMsg}
-                                />
-                              )}
-                              {/* Block of code ends here */}
+                              <OrderStatusVertical
+                                trackingAWB={products.trackingAWB}
+                                courier={products.reverseLogisticName}
+                                logisticName={products.logisticName}
+                                isCNC={true}
+                                showShippingDetails={
+                                  this.props.showShippingDetails
+                                }
+                                orderCode={orderDetails.orderId}
+                                returnMode={products.returnMode}
+                                returnType={products.returnType}
+                                statusMessageList={products.statusDisplayMsg}
+                              />
                             </div>
                           </React.Fragment>
                         )}

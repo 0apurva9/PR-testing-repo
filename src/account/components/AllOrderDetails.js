@@ -555,7 +555,7 @@ export default class AllOrderDetails extends React.Component {
                                     marginBottom:
                                       orderDetails &&
                                       orderDetails.retryPaymentUrl
-                                        ? "15px"
+                                        ? "35px"
                                         : "0px"
                                   }}
                                 >
