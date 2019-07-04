@@ -24,7 +24,7 @@ export default class ShowReturnConfirmPopup extends React.Component {
         <div className={styles.base}>
           <div className={styles.cancelOrderTextHolder}>
             <div className={styles.cancelOrderText}>
-              Are you sure you want to cancel your order ?
+              Has this order been delivered to you?
             </div>
           </div>
           <div className={styles.buttonHolderForCloseModal}>
