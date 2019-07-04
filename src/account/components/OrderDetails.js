@@ -1,17 +1,11 @@
 import React from "react";
 import moment from "moment";
 import styles from "./OrderDetails.css";
-import { withRouter } from "react-router-dom";
 import OrderPlacedAndId from "./OrderPlacedAndId.js";
 import OrderCard from "./OrderCard.js";
-import OrderDelivered from "./OrderDelivered.js";
 import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
-//import OrderStatusVertical from "./OrderStatusVertical";
-import OrderStatusHorizontal from "./OrderStatusHorizontal";
-import Button from "../../xelpmoc-core/Button";
-import OrderReturn from "./OrderReturn.js";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -20,12 +14,10 @@ import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import { SUCCESS, HELP_URL, HOME_ROUTER } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import { Redirect } from "react-router-dom";
-import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
 import rating from "./img/rating.svg";
 import {
@@ -38,20 +30,19 @@ import {
   RETURN_LANDING,
   RETURNS_REASON,
   SHORT_URL_ORDER_DETAIL,
-  SEARCH_RESULTS_PAGE,
-  PRODUCT_REVIEWS_PATH_SUFFIX,
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_PAGE,
   CANCEL,
   WRITE_REVIEW,
   PRODUCT_CANCEL,
-  CANCEL_RETURN_REQUEST
+  CANCEL_RETURN_REQUEST,
+  SUCCESS,
+  HELP_URL
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
-import * as UserAgent from "../../lib/UserAgent.js";
 const dateFormat = "Do MMM YYYY";
 const PRODUCT_RETURN = "Return/Replace";
 const RETURN = "RETURN";

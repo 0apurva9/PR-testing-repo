@@ -15,11 +15,12 @@
 	margin-top: 10px;
 }
 .shipmentStatus {
-	font-size: 10px;
-	position: absolute;
 	left: 25px;
-	top: 20px;
-	font-family: regular;
+    margin-top: 24px;
+    font-family: light;
+    font-size: 12px;
+    color: #747474;
+    height: 14px;
 }
 
 .processNameHolderBold {
