@@ -48,23 +48,25 @@ export default class OrderPlacedAndId extends React.Component {
                   </div>
                 </div>
               )}
-              <div className={styles.orderIdHolder}>
-                {this.props.backHistory === "true" ? (
-                  <div
-                    className={styles.labelOrderDetailsHeader}
-                    onClick={() => this.backToOrderHistory()}
-                  >
-                    Back to Order History
-                  </div>
-                ) : (
-                  <div
-                    className={styles.labelOrderDetailsHeader}
-                    onClick={() => this.onViewDetails(this.props.orderId)}
-                  >
-                    Order Details
-                  </div>
-                )}
-              </div>
+              {!this.props.isEgvOrder && (
+                <div className={styles.orderIdHolder}>
+                  {this.props.backHistory === "true" ? (
+                    <div
+                      className={styles.labelOrderDetailsHeader}
+                      onClick={() => this.backToOrderHistory()}
+                    >
+                      Back to Order History
+                    </div>
+                  ) : (
+                    <div
+                      className={styles.labelOrderDetailsHeader}
+                      onClick={() => this.onViewDetails(this.props.orderId)}
+                    >
+                      Order Details
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <div className={styles.dataHolder}>
               {this.props.placedTime && (

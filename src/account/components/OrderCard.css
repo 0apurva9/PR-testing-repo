@@ -276,4 +276,10 @@
 		float: right;
 		cursor: pointer;
 	}
+	.egvText {
+		color: #000000;
+		font-size: 12px;
+		font-family: semibold;
+		margin: 10px 0;
+	  } 
 }

@@ -535,6 +535,7 @@ export default class AllOrderDetails extends React.Component {
                               placedTime={formattedDate}
                               orderId={orderDetails && orderDetails.orderId}
                               pushDetails={this.props.history}
+                              isEgvOrder={orderDetails.isEgvOrder}
                             />
                             {/* <div
                       className={styles.orderDetailsLink}
@@ -606,6 +607,11 @@ export default class AllOrderDetails extends React.Component {
                                       )
                                     }
                                     egvCardNumber={orderDetails.egvCardNumber}
+                                    giftCardStatus={orderDetails.giftCardStatus}
+                                    cartExpiryDate={orderDetails.cartExpiryDate}
+                                    totalFinalPayableOrderAmount={
+                                      orderDetails.totalFinalPayableOrderAmount
+                                    }
                                     onClick={() =>
                                       this.onClickImage(
                                         orderDetails.isEgvOrder,
@@ -954,40 +960,6 @@ export default class AllOrderDetails extends React.Component {
                                         /> */}
                                       </div>
                                     </OrderDelivered>
-                                  </div>
-                                </div>
-                              )}
-
-                            {orderDetails.isEgvOrder &&
-                              orderDetails.giftCardStatus && (
-                                <div className={styles.priceAndInfoHolder}>
-                                  <div className={styles.deliverLeftHolder}>
-                                    <div>
-                                      <div className={styles.statusHolder}>
-                                        <div className={styles.priceHeader}>
-                                          Status
-                                        </div>
-                                        <div className={styles.statusFailed}>
-                                          {orderDetails.giftCardStatus}
-                                        </div>
-                                      </div>
-                                      {/* <div className={styles.priceRightHolder}>
-                                        <PriceAndLink
-                                          onViewDetails={() =>
-                                            this.onViewDetails(
-                                              orderDetails &&
-                                                orderDetails.orderId
-                                            )
-                                          }
-                                          isEgvOrder={orderDetails.isEgvOrder}
-                                          status={orderDetails.giftCardStatus}
-                                          price={
-                                            orderDetails &&
-                                            orderDetails.totalFinalPayableOrderAmount
-                                          }
-                                        />
-                                      </div> */}
-                                    </div>
                                   </div>
                                 </div>
                               )}

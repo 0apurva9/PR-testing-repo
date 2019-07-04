@@ -18,6 +18,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 const dateFormat = "Do MMM YYYY";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
+const dateTimeFormat = "DD MMM YYYY | HH:mm:ss";
 export default class OrderCard extends React.Component {
   onClick() {
     if (this.props.onClick) {
@@ -54,11 +55,13 @@ export default class OrderCard extends React.Component {
         break;
     }
   }
-  getTrackOrderText(orderStatusCode) {
+  getTrackOrderText(orderStatusCode, isEgvOrder) {
     let trackOrderText = "";
-    if (orderStatusCode !== "DELIVERED") {
-      if (orderStatusCode && !orderStatusCode.includes("CANCEL")) {
-        trackOrderText = "Track Order";
+    if (!isEgvOrder) {
+      if (orderStatusCode && orderStatusCode !== "DELIVERED") {
+        if (!orderStatusCode.includes("CANCEL")) {
+          trackOrderText = "Track Order";
+        }
       }
     }
     return trackOrderText;
@@ -170,8 +173,30 @@ export default class OrderCard extends React.Component {
               </div>
             )}
             {this.props.productName}
+            {this.props.isEgvOrder && (
+              <React.Fragment>
+                <div className={styles.price}>
+                  &nbsp; {this.props.egvCardNumber}
+                </div>
+                <div className={styles.priceHolder}>
+                  <div className={styles.egvText}>
+                    {this.props.giftCardStatus}
+                  </div>
+                </div>
+                <div className={styles.priceHolder}>
+                  <div className={styles.price}>
+                    Expiry Date:&nbsp;
+                    {format(this.props.cartExpiryDate, dateTimeFormat)}
+                  </div>
+                </div>
+                <div className={styles.egvText}>
+                  {this.props.totalFinalPayableOrderAmount}
+                </div>
+              </React.Fragment>
+            )}
           </div>
-          {this.props.orderStatusCode &&
+          {!this.props.isEgvOrder &&
+            this.props.orderStatusCode &&
             this.props.orderStatusCode !== "DELIVERED" && (
               <div className={styles.deliveryDate}>
                 {this.props.displayStatusName}
@@ -200,17 +225,15 @@ export default class OrderCard extends React.Component {
                 <div className={styles.priceHolderForGiftCard}>
                   {this.props.showIsGiveAway && (
                     <div className={styles.price}>
-                      {this.props.isEgvOrder && this.props.egvCardNumber
-                        ? this.props.egvCardNumber
-                        : this.props.isGiveAway === NO &&
-                          !this.props.isEgvOrder &&
-                          this.props.productName === "Gift Card"
-                          ? "Gift card detail will be sent you on your specified email id shortly."
-                          : this.props.price
-                            ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                                this.props.price
-                              )}`
-                            : null}
+                      {this.props.isGiveAway === NO &&
+                      !this.props.isEgvOrder &&
+                      this.props.productName === "Gift Card"
+                        ? "Gift card detail will be sent you on your specified email id shortly."
+                        : this.props.price
+                          ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                              this.props.price
+                            )}`
+                          : null}
                     </div>
                   )}
                   {this.props.isEgvOrder &&
@@ -271,17 +294,18 @@ export default class OrderCard extends React.Component {
                 {this.props.children}
               </div>
             )}
-          {this.props.showRightArrow && (
-            <span
-              className={styles.rightArrow}
-              onClick={() =>
-                this.onViewItemDetails(
-                  this.props.orderId,
-                  this.props.transactionId
-                )
-              }
-            />
-          )}
+          {!this.props.isEgvOrder &&
+            this.props.showRightArrow && (
+              <span
+                className={styles.rightArrow}
+                onClick={() =>
+                  this.onViewItemDetails(
+                    this.props.orderId,
+                    this.props.transactionId
+                  )
+                }
+              />
+            )}
 
           {this.props.isGiveAway === NO && (
             <div
@@ -293,7 +317,10 @@ export default class OrderCard extends React.Component {
                 )
               }
             >
-              {this.getTrackOrderText(this.props.orderStatusCode)}
+              {this.getTrackOrderText(
+                this.props.orderStatusCode,
+                this.props.isEgvOrder
+              )}
             </div>
           )}
           {this.props.pickupAddress && (
