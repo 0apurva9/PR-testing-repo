@@ -175,21 +175,21 @@ export default class OrderCard extends React.Component {
             {this.props.productName}
             {this.props.isEgvOrder && (
               <React.Fragment>
-                <div className={styles.price}>
-                  &nbsp; {this.props.egvCardNumber}
+                <div className={styles.egvCardNumber}>
+                  {this.props.egvCardNumber}
                 </div>
-                <div className={styles.priceHolder}>
+                <div className={styles.deliveryDate}>
                   <div className={styles.egvText}>
                     {this.props.giftCardStatus}
                   </div>
                 </div>
                 <div className={styles.priceHolder}>
-                  <div className={styles.price}>
-                    Expiry Date:&nbsp;
+                  <div className={styles.egvPrice}>
+                    Expiry Date: <span className={styles.five} />
                     {format(this.props.cartExpiryDate, dateTimeFormat)}
                   </div>
                 </div>
-                <div className={styles.egvText}>
+                <div className={styles.egvAmount}>
                   {this.props.totalFinalPayableOrderAmount}
                 </div>
               </React.Fragment>
