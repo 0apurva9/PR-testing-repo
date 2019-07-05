@@ -108,7 +108,7 @@ export default class Checkout extends React.Component {
                 </div>
               )}
               {!this.props.isRetryUrl && (
-               <div className={styles.amount}>{this.props.amount}</div>
+                <div className={styles.amount}>{this.props.amount}</div>
               )}
             </div>
             <div
