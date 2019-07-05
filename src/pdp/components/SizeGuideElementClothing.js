@@ -38,10 +38,13 @@ export default class SizeGuideElementClothing extends Component {
                   />
                 </div>
               </div>
-              <div className={styles.tipContainer}>
-                <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-                {tip1 && tip1} for this brand.{tip2 && tip2}
-              </div>
+              {(tip1 || tip2) && (
+                <div className={styles.tipContainer}>
+                  <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
+                  {tip1 && tip1} for this brand.{tip2 && tip2}
+                </div>
+              )}
+
               <SizeTable
                 data={
                   this.props.showInch
@@ -59,10 +62,13 @@ export default class SizeGuideElementClothing extends Component {
                     : sizeGuidForCms && sizeGuidForCms[0]
                 }
               />
-              <div className={styles.tipContainer}>
-                <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-                {tip1 && tip1} for this brand.{tip2 && tip2}
-              </div>
+              {(tip1 || tip2) && (
+                <div className={styles.tipContainer}>
+                  <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
+                  {tip1 && tip1} for this brand.{tip2 && tip2}
+                </div>
+              )}
+
               <div className={styles.imageHolder}>
                 <div className={styles.image}>
                   <Image fit="contain" image={image} />
@@ -81,10 +87,12 @@ export default class SizeGuideElementClothing extends Component {
         </MobileOnly>
         <DesktopOnly>
           <div className={styles.imageAndTipsHolder}>
-            <div className={styles.tipContainer}>
-              Tip: Buy a size {tip1 && tip1} for this brand.
-              <div>{tip2 && tip2}</div>
-            </div>
+            {(tip1 || tip2) && (
+              <div className={styles.tipContainer}>
+                Tip: Buy a size {tip1 && tip1} for this brand.
+                <div>{tip2 && tip2}</div>
+              </div>
+            )}
             <div className={styles.imageHolder}>
               <div className={styles.image}>
                 <Image fit="contain" image={image} />
