@@ -34,7 +34,6 @@
 }
 .productName,
 .deliveryDate,
-.calloutMessage,
 .orderStatusName {
 	width: 100%;
 	height: auto;
@@ -88,7 +87,7 @@
 	font-family: light;
 	margin-bottom: 8px;
 }
-.egvCardNumber{
+.egvCardNumber {
 	width: auto;
 	height: auto;
 	display: inline-block;
@@ -193,6 +192,9 @@
 	font-size: 14px;
 	line-height: 22px;
 	color: #747474;
+	width: 100%;
+	height: auto;
+	word-wrap: break-word;
 }
 .trackOrderText {
 	font-size: 14px;
@@ -301,14 +303,14 @@
 		font-size: 12px;
 		font-family: semibold;
 		margin-top: 12px;
-	  } 
+	}
 	.egvAmount {
 		color: #000000;
 		font-size: 12px;
 		font-family: semibold;
 		margin-top: 2px;
-	  }
-	  .five{
-		  width: 5px;
-	  }
+	}
+	.five {
+		width: 5px;
+	}
 }

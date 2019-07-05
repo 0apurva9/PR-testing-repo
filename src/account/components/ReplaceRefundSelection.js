@@ -306,6 +306,52 @@ export default class ReplaceRefundSelection extends React.Component {
     }
     this.setState({ showAttachment: false, uploadedImageFiles: [] });
   }
+
+  getContinueButton(selectedOption, agreeToReturn, userBankDetails) {
+    // if (selectedOption && agreeToReturn) {
+    if (selectedOption === "BANK_ACCOUNT") {
+      return (
+        <div className={styles.buttonHolder}>
+          <div className={styles.button}>
+            <Button
+              width={175}
+              type="primary"
+              label="CONTINUE"
+              disabled={
+                this.state.selectedOption &&
+                this.state.agreeToReturn &&
+                userBankDetails
+                  ? false
+                  : true
+              }
+              onClick={() => this.onSubmit()}
+            />
+          </div>
+        </div>
+      );
+    }
+    if (selectedOption !== "BANK_ACCOUNT") {
+      return (
+        <div className={styles.buttonHolder}>
+          <div className={styles.button}>
+            <Button
+              width={175}
+              type="primary"
+              label="CONTINUE"
+              disabled={
+                this.state.selectedOption && this.state.agreeToReturn
+                  ? false
+                  : true
+              }
+              onClick={() => this.onSubmit()}
+            />
+          </div>
+        </div>
+      );
+    }
+    // }
+  }
+
   render() {
     //console.log("propsin RefundReplaceSelection:", this.props);
     // Preventing user to open this page direct by hitting URL
@@ -556,7 +602,7 @@ export default class ReplaceRefundSelection extends React.Component {
             </div>
           )}
 
-          {this.state.showRefundOptions && (
+          {/* {this.state.showRefundOptions && (
             <div className={styles.buttonHolder}>
               <div className={styles.button}>
                 <Button
@@ -564,7 +610,7 @@ export default class ReplaceRefundSelection extends React.Component {
                   type="primary"
                   label="CONTINUE"
                   disabled={
-                    this.state.selectedOption && this.state.agreeToReturn
+                    this.state.selectedOption && this.state.agreeToReturn && userBankDetails
                       ? false
                       : true
                   }
@@ -572,7 +618,13 @@ export default class ReplaceRefundSelection extends React.Component {
                 />
               </div>
             </div>
-          )}
+          )} */}
+          {this.state.showRefundOptions &&
+            this.getContinueButton(
+              this.state.selectedOption,
+              this.state.agreeToReturn,
+              userBankDetails
+            )}
           {uploadImage.length > 0 && (
             <div className={styles.buttonHolder}>
               <div className={styles.button}>

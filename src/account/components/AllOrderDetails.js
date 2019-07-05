@@ -684,7 +684,9 @@ export default class AllOrderDetails extends React.Component {
                                     retryPaymentUrl={
                                       orderDetails.retryPaymentUrl
                                     }
-                                    //orderDetails={orderDetails}
+                                    retryPayment={
+                                      orderDetails.displayStatusName
+                                    }
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
