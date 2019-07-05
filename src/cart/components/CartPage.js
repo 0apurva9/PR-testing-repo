@@ -55,7 +55,7 @@ import styles from "./CartPage.css";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
-  "Product is not Serviceable,Please try with another pin code";
+  "Product is not Serviceable, Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
 const CHECKOUT__TEXT = "Checkout";
 class CartPage extends React.Component {

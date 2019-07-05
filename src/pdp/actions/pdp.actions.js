@@ -15,7 +15,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
-  LOW_INTERNET_CONNECTION_MESSAGE
+  LOW_INTERNET_CONNECTION_MESSAGE,
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -342,7 +343,7 @@ export function addProductToCart(productDetails) {
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
-        }&addedToCartWl=false`
+        }&addedToCartWl=false&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

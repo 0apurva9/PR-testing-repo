@@ -96,14 +96,17 @@ export default class ProductGalleryDesktop extends React.Component {
   getKeyValue = key => {
     let details = this.props.details;
 
-    return details.map(detail => {
-      if (detail["key"] !== key) {
-        return null;
-      } else {
-        let detailedValue = detail["value"].split("|");
-        return <span>{detailedValue[0]}</span>;
-      }
-    });
+    return (
+      details &&
+      details.map(detail => {
+        if (detail["key"] !== key) {
+          return null;
+        } else {
+          let detailedValue = detail["value"].split("|");
+          return <span>{detailedValue[0]}</span>;
+        }
+      })
+    );
   };
   render() {
     return (

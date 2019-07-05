@@ -607,13 +607,17 @@ export async function corePostByUrlEncoded(path, postData) {
 }
 
 export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
-  const globalAccessToken = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
+  let accessToken = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
+  const customerToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  if (customerToken) {
+    accessToken = JSON.parse(customerToken);
+  }
   return await fetch(
     API_URL_ROOT +
       "/v2/mpl/products/" +
       code +
       "/voucherSequence?access_token=" +
-      globalAccessToken.access_token +
+      accessToken.access_token +
       "&sellerId=" +
       sellerId +
       "&categoryCode=" +

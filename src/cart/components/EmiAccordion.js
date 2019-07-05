@@ -28,7 +28,8 @@ export default class EmiAccordion extends React.Component {
         : "",
       selectedPrice: this.props.cardDetails.selectedPrice
         ? this.props.cardDetails.selectedPrice
-        : ""
+        : "",
+      selectedBankName: ""
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -38,7 +39,8 @@ export default class EmiAccordion extends React.Component {
         selectedEmi: "",
         selectedBank: "",
         selectedEmiRate: "",
-        selectedPrice: ""
+        selectedPrice: "",
+        selectedBankName: ""
       });
     }
   }
@@ -59,7 +61,8 @@ export default class EmiAccordion extends React.Component {
         emi_tenure: val.term,
         is_emi: true,
         selectedEmiRate: val.interestRate,
-        selectedPrice: val.monthlyInstallment
+        selectedPrice: val.monthlyInstallment,
+        selectedBankName: this.state.selectedBankName
       });
     }
   }
@@ -73,12 +76,14 @@ export default class EmiAccordion extends React.Component {
         selectedBank: "",
         selectedEmiRate: "",
         selectedEmi: "",
-        selectedPrice: ""
+        selectedPrice: "",
+        selectedBankName: ""
       });
       this.onChangeCardDetail({
         emi_bank: null,
         emi_tenure: null,
-        is_emi: null
+        is_emi: null,
+        selectedBankName: null
       });
     } else {
       option.emitermsrate = sortBy(option.emitermsrate, bank => {
@@ -88,14 +93,16 @@ export default class EmiAccordion extends React.Component {
         selectedBank: option.code,
         selectedEmiRate: option.emitermsrate[0].interestRate,
         selectedEmi: option.emitermsrate[0].term,
-        selectedPrice: option.emitermsrate[0].monthlyInstallment
+        selectedPrice: option.emitermsrate[0].monthlyInstallment,
+        selectedBankName: option.emiBank
       });
       this.onChangeCardDetail({
         emi_bank: option.code,
         emi_tenure: option.emitermsrate[0].term,
         is_emi: true,
         selectedEmiRate: option.emitermsrate[0].interestRate,
-        selectedPrice: option.emitermsrate[0].monthlyInstallment
+        selectedPrice: option.emitermsrate[0].monthlyInstallment,
+        selectedBankName: option.emiBank
       });
     }
   }
@@ -173,7 +180,7 @@ export default class EmiAccordion extends React.Component {
         {this.state.planSelected && (
           <React.Fragment>
             <EmiDisplay
-              bankName={this.state.selectedBank}
+              bankName={this.state.selectedBankName}
               term={this.state.selectedEmi}
               emiRate={this.state.selectedEmiRate}
               price={this.state.selectedPrice}
