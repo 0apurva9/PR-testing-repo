@@ -44,5 +44,5 @@ Icon.propTypes = {
 Icon.defaultProps = {
   size: 30,
   backgroundSize: "contain",
-  display: "inline"
+  display: "inline-block"
 };
