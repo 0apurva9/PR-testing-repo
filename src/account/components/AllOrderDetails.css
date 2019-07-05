@@ -58,25 +58,28 @@
 }
 .retryPayment {
 	width: 100%;
-	height: auto;
-	display: inline-block;
-	margin-top: 55px;
-	/* text-align: center; */
+    height: auto;
+    display: inline-block;
+    margin-top: 55px;
 }
 .buttonHolderForRetryPayment {
 	width: auto;
-	height: auto;
-	display: inline-block;
-	margin-left: 212px;
+    height: auto;
+    display: inline-block;
+    margin-left: 212px;
+    text-align: center;
+    margin-bottom: 24px;
 }
 .retryPaymentTitle {
-	/* text-align: left; */
-	margin: 0 0 10px 0;
-	font-size: 14px;
-	font-family: light;
+	vertical-align: middle;
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    font-family: light;
+	text-align: left;
 }
 .retryCallOutMessage {
-	display: inline;
+	display: inline-block;
+	margin-left: 22px;
 }
 @media screen and (min-width: 1025px) {
 	.order {

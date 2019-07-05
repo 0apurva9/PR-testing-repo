@@ -374,16 +374,37 @@ export default class OrderDetails extends React.Component {
               orderDetails.paymentRetryLink && (
                 <div className={styles.retryPayment}>
                   <div className={styles.retryPaymentTitle}>
-                    <Icon image={RetryPaymentIcon} size={25} />
-                    {orderDetails.calloutMessage}
+                    <Icon
+                      image={RetryPaymentIcon}
+                      size={42}
+                      display={"inline-block"}
+                    />
+                    <div className={styles.retryCallOutMessage}>
+                      {orderDetails.calloutMessage}
+                    </div>
                   </div>
-                  <div className={styles.buttonHolderForRetryPayment}>
+                  {/* <div className={styles.buttonHolderForRetryPayment}>
                     <Button
                       type="hollow"
                       height={36}
                       label="RETRY PAYMENT"
                       color="#ff1744"
                       textStyle={{ color: "#212121", fontSize: 14 }}
+                      onClick={() =>
+                        this.onClickRetryPayment(orderDetails.paymentRetryLink)
+                      }
+                    />
+                  </div> */}
+                  <div className={styles.buttonHolderForRetryPayment}>
+                    <Button
+                      type="hollow"
+                      height={36}
+                      label="RETRY PAYMENT"
+                      color="#ff1744"
+                      textStyle={{
+                        color: "#212121",
+                        fontSize: 14
+                      }}
                       onClick={() =>
                         this.onClickRetryPayment(orderDetails.paymentRetryLink)
                       }

@@ -13,7 +13,11 @@ export default class Icon extends React.Component {
     return (
       <div
         className={styles.base}
-        style={{ width: this.props.size, height: this.props.size }}
+        style={{
+          width: this.props.size,
+          height: this.props.size,
+          display: `${this.props.display}`
+        }}
         onClick={() => {
           this.handleClick();
         }}
@@ -33,10 +37,12 @@ export default class Icon extends React.Component {
 Icon.propTypes = {
   size: PropTypes.number.isRequired,
   backgroundSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  image: PropTypes.string.isRequired
+  image: PropTypes.string.isRequired,
+  display: PropTypes.string
 };
 
 Icon.defaultProps = {
   size: 30,
-  backgroundSize: "contain"
+  backgroundSize: "contain",
+  display: "inline"
 };

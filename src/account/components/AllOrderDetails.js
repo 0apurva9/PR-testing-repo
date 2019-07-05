@@ -564,12 +564,13 @@ export default class AllOrderDetails extends React.Component {
                                       <Icon
                                         image={RetryPaymentIcon}
                                         size={42}
+                                        display={"inline-block"}
                                       />
-                                      <span
+                                      <div
                                         className={styles.retryCallOutMessage}
                                       >
                                         {orderDetails.calloutMessage}
-                                      </span>
+                                      </div>
                                     </div>
                                     <div
                                       className={
