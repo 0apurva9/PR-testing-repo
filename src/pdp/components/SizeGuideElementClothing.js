@@ -76,14 +76,6 @@ export default class SizeGuideElementClothing extends Component {
               </div>
             </div>
           )}
-          <div className={styles.noteContainer}>
-            <div className={styles.noteHeader}>How to Measure</div>
-            <div className={styles.noteContent}>
-              Always keep the measuring tape parallel to the floor and ensure
-              that you are only wearing undergarments while measuring yourself.
-              Outerwear could affect the accuracy of the readings
-            </div>
-          </div>
         </MobileOnly>
         <DesktopOnly>
           <div className={styles.imageAndTipsHolder}>
@@ -96,14 +88,6 @@ export default class SizeGuideElementClothing extends Component {
             <div className={styles.imageHolder}>
               <div className={styles.image}>
                 <Image fit="contain" image={image} />
-              </div>
-            </div>
-            <div className={styles.noteContainer}>
-              <div className={styles.noteHeader}>How to Measure</div>
-              <div className={styles.noteContent}>
-                Always keep the measuring tape parallel to the floor and ensure
-                that you are only wearing undergarments while measuring
-                yourself. Outerwear could affect the accuracy of the readings
               </div>
             </div>
           </div>
