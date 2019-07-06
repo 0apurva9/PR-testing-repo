@@ -123,6 +123,7 @@ import {
   CART_PATH
 } from "../actions/cart.actions";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import PaymentConfirmationPage from "./PaymentConfirmationPage";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -3578,17 +3579,16 @@ if you have order id in local storage then you have to show order confirmation p
       );
     } else if (this.state.paymentConfirmation) {
       return (
-        <div>payment success</div>
-        // <PaymentConfirmationPage
-        //   orderStatusMessage={this.props.orderConfirmationText}
-        //   orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
-        //   orderDetails={this.props.cart.cliqCashJusPayDetails}
-        //   continueShopping={() => this.continueShopping()}
-        //   trackOrder={() => this.navigateToOrderHistoryPage()}
-        //   captureOrderExperience={rating =>
-        //     this.captureOrderExperienceForStripe(rating)
-        //   }
-        // />
+        <PaymentConfirmationPage
+          orderStatusMessage={this.props.orderConfirmationText}
+          orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
+          orderDetails={this.props.cart.cliqCashJusPayDetails}
+          continueShopping={() => this.continueShopping()}
+          trackOrder={() => this.navigateToOrderHistoryPage()}
+          captureOrderExperience={rating =>
+            this.captureOrderExperienceForStripe(rating)
+          }
+        />
       );
     } else {
       return null;
