@@ -891,6 +891,7 @@ class CheckOutPage extends React.Component {
           confirmAddress: true
         });
       }
+      this.getPaymentModes(oldCartId);
     }
     //update cliqCash Amount
     if (
@@ -1817,6 +1818,9 @@ if you have order id in local storage then you have to show order confirmation p
       const parsedQueryString = queryString.parse(this.props.location.search);
       if (parsedQueryString.value) {
         cartGuId = parsedQueryString.value;
+      }
+      if (parsedQueryString.payment_intent) {
+        cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
       } else {
         let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
         cartGuId = JSON.parse(cartDetails).guid;
@@ -1914,6 +1918,7 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (
         couponCookie &&
+        !this.state.isCliqCashApplied &&
         !cartDetailsCouponDiscount &&
         this.props.cart.cartDetailsCNCStatus === SUCCESS
       ) {
@@ -3588,6 +3593,7 @@ if you have order id in local storage then you have to show order confirmation p
           captureOrderExperience={rating =>
             this.captureOrderExperienceForStripe(rating)
           }
+          history={this.props.history}
         />
       );
     } else {

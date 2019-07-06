@@ -842,6 +842,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartGuId = JSON.parse(cartDetails).guid;
   let cartId = JSON.parse(cartDetails).code;
+  let cliqCashapplied = localStorage.getItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     dispatch(releaseUserCouponRequest());
     try {
@@ -857,6 +858,11 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+
+      if (cliqCashapplied) {
+        await dispatch(removeCliqCash());
+        await dispatch(applyCliqCash());
       }
 
       if (newCouponCode) {
@@ -5754,7 +5760,10 @@ export function getPrepaidOrderPaymentConfirmation(orderDetails) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (
+        resultJsonStatus.status ||
+        resultJson.paymentStatus.toLowerCase() === FAILURE_LOWERCASE
+      ) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(getPrepaidOrderPaymentConfirmationSuccess(resultJson));

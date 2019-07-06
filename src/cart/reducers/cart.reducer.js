@@ -1153,8 +1153,7 @@ const cart = (
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,
-        justPayPaymentDetails: action.justPayPaymentDetails,
-        jusPaymentLoader: false
+        justPayPaymentDetails: action.justPayPaymentDetails
       });
 
     case cartActions.JUS_PAY_PAYMENT_METHOD_TYPE_FOR_GIFT_CARD_SUCCESS: {
@@ -1165,8 +1164,7 @@ const cart = (
       );
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,
-        justPayPaymentDetails: action.justPayPaymentDetails,
-        jusPaymentLoader: false
+        justPayPaymentDetails: action.justPayPaymentDetails
       });
     }
 
@@ -2010,7 +2008,7 @@ const cart = (
         paymentFailureOrderDetailsStatus: null,
         paymentFailureOrderDetailsError: null,
         paymentFailureOrderDetails: null,
-
+        isGetPrepaidOrderPaymentConfirmationFailed: false,
         isSoftReservationFailed: false
       });
     case cartActions.RESET_ALL_PAYMENT_MODES:
