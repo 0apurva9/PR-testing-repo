@@ -32,7 +32,7 @@ export default class CancelReturnRequestPopUp extends React.Component {
         <div className={styles.base}>
           <div className={styles.cancelOrderTextHolder}>
             <div className={styles.cancelOrderText}>
-              Are you sure you want to cancel your order ?
+              Are you sure you want to cancel your return request ?
             </div>
           </div>
           <div className={styles.buttonHolderForCloseModal}>
