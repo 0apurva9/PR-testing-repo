@@ -1881,6 +1881,7 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (
         couponCookie &&
+        !this.state.isCliqCashApplied &&
         !cartDetailsCouponDiscount &&
         this.props.cart.cartDetailsCNCStatus === SUCCESS
       ) {

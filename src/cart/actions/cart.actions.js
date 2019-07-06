@@ -808,6 +808,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartGuId = JSON.parse(cartDetails).guid;
   let cartId = JSON.parse(cartDetails).code;
+  let cliqCashapplied = localStorage.getItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     dispatch(releaseUserCouponRequest());
     try {
@@ -823,6 +824,11 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+
+      if (cliqCashapplied) {
+        await dispatch(removeCliqCash());
+        await dispatch(applyCliqCash());
       }
 
       if (newCouponCode) {
