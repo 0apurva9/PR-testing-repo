@@ -374,6 +374,7 @@ export default class ReturnReasonAndModes extends React.Component {
     const renderReasonForm = (
       <ReturnReasonForm
         {...this.props}
+        {...this.state}
         returnProductDetails={this.props.returnProductDetails}
         orderDate={
           this.props.orderDetails &&
@@ -400,6 +401,7 @@ export default class ReturnReasonAndModes extends React.Component {
     const renderReturnMode = (
       <ReturnModes
         {...this.props}
+        {...this.state}
         returnProductDetails={this.props.returnProductDetails}
         onHollow={true}
         productInfo={
@@ -431,6 +433,7 @@ export default class ReturnReasonAndModes extends React.Component {
     const replaceRefundSelection = (
       <ReplaceRefundSelection
         {...this.props}
+        {...this.state}
         productInfo={
           this.props.returnRequest &&
           this.props.returnRequest.returnEntry &&
@@ -474,6 +477,7 @@ export default class ReturnReasonAndModes extends React.Component {
     const refundTransactionSummary = (
       <RefundTransactionSummary
         {...this.props}
+        {...this.state}
         displayToast={this.props.displayToast}
         getRefundTransactionSummary={this.props.getRefundTransactionSummary}
       />
@@ -696,8 +700,8 @@ export default class ReturnReasonAndModes extends React.Component {
                     this.renderReturnSummary()} */}
                   {/* {pathname.match(REG_X_CHANGE_ADDRESS) && renderAddressChange}
                   {pathname.match(REG_ADD_NEW_ADDRESS) && renderAddNewAddress}*/}
-                  {pathname.match(REG_X_FOR_REFUNDSUMMARY) &&
-                    refundTransactionSummary}
+                  {/* {pathname.match(REG_X_FOR_REFUNDSUMMARY) &&
+                    refundTransactionSummary} */}
                 </div>
                 {/* {this.props.children} */}
               </div>

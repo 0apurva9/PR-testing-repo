@@ -12,9 +12,9 @@ import { IStateForBank } from './interface/ReturnBankFormForDesktop';
 import * as Cookie from '../../lib/Cookie';
 import ReturnReasonAndModes from '../../account/components/ReturnReasonAndModes';
 //import ReturnBankForm from '../../account/components/ReturnBankForm';
-import ReturnToStoreContainer from '../../account/containers/ReturnToStoreContainer.js';
-import ReturnCliqAndPiqContainer from '../../account/containers/ReturnCliqAndPiqContainer.js';
-import SelfCourierContainer from '../../account/containers/SelfCourierContainer.js';
+//import ReturnToStoreContainer from '../../account/containers/ReturnToStoreContainer.js';
+// import ReturnCliqAndPiqContainer from '../../account/containers/ReturnCliqAndPiqContainer.js';
+// import SelfCourierContainer from '../../account/containers/SelfCourierContainer.js';
 // import ReturnReasonFormForDesktop from './ReturnReasonFormForDesktop';
 // import ReturnModesForDesktop from './ReturnModesForDesktop';
 import cloneDeep from 'lodash.clonedeep';
@@ -35,8 +35,10 @@ import {
 	REPLACE_REFUND_SELECTION,
 	RETURN_LANDING,
 	RETURNS,
+	REFUND_SUMMARY,
 	//RETURNS_STORE_BANK_FORM,
 } from '../../lib/constants';
+import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
 //import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
 //import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
 import { setDataLayerForMyAccountDirectCalls, ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL } from '../../lib/adobeUtils';
@@ -236,41 +238,47 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			return this.navigateToLogin();
 		}
 		let returnFlow = true;
+		let disableForTransactionSummary =
+			this.props.location &&
+			this.props.location.state &&
+			this.props.location.state.isRefundTransactionPage == true
+				? true
+				: false;
 		return (
 			<React.Fragment>
+				{!disableForTransactionSummary && (
+					<Route
+						path={`${RETURNS}${RETURN_LANDING}`}
+						render={() => (
+							<ReturnReasonAndModes
+								{...this.state}
+								{...this.props}
+								onChange={(val: any) => this.onChangeReasonAndMode(val)}
+								// changeReturnReason={(val: any) => this.changeReturnReason()}
+								returnProductDetails={this.props.returnProductDetails}
+								returnFlow={returnFlow}
+								onCancel={() => this.onCancel()}
+								clearForm={() => this.clearForm()}
+								history={this.props.history}
+								updateStateForBankDetails={(data: any) => this.updateStateForBankDetails(data)}
+								bankDetail={this.state.bankDetail}
+								onChangeBankingDetail={(val: any) => this.onChangeBankingDetail(val)}
+								onContinue={(BankDetails: any) => this.handleContinueForBankForm(BankDetails)}
+								selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
+							/>
+						)}
+					/>
+				)}
 				<Route
-					path={`${RETURNS}${RETURN_LANDING}`}
+					path={`${RETURNS}${REFUND_SUMMARY}`}
 					render={() => (
-						<ReturnReasonAndModes
-							{...this.state}
+						<RefundTransactionSummary
 							{...this.props}
-							onChange={(val: any) => this.onChangeReasonAndMode(val)}
-							// changeReturnReason={(val: any) => this.changeReturnReason()}
-							returnProductDetails={this.props.returnProductDetails}
-							returnFlow={returnFlow}
-							onCancel={() => this.onCancel()}
-							clearForm={() => this.clearForm()}
+							{...this.state}
+							displayToast={this.props.displayToast}
 							history={this.props.history}
-							updateStateForBankDetails={(data: any) => this.updateStateForBankDetails(data)}
-							bankDetail={this.state.bankDetail}
-							onChangeBankingDetail={(val: any) => this.onChangeBankingDetail(val)}
-							onContinue={(BankDetails: any) => this.handleContinueForBankForm(BankDetails)}
-							selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
 						/>
 					)}
-				/>
-				<Route
-					path={`${RETURNS}${RETURN_TO_STORE}`}
-					render={() => <ReturnToStoreContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
-				/>
-				<Route
-					path={`${RETURNS}${RETURN_CLIQ_PIQ}`}
-					render={() => <ReturnCliqAndPiqContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
-				/>
-				<Route
-					exact
-					path={`${RETURNS}${RETURNS_SELF_COURIER}`}
-					render={() => <SelfCourierContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
 				/>
 				{/* end of need to call return bia store pick up  routes */}
 			</React.Fragment>

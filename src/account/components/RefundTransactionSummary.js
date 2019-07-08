@@ -23,9 +23,10 @@ export default class RefundTransactionSummary extends React.Component {
 
   async componentDidMount() {
     //to get refund details initially
-    if (this.props.data) {
-      let orderId = this.props.data.sellerorderno;
-      let transactionId = this.props.data.transactionId;
+    if (this.props.orderDetails && this.props.orderDetails.products[0]) {
+      let productData = this.props.orderDetails.products[0];
+      let orderId = productData.sellerorderno;
+      let transactionId = productData.transactionId;
       let returnId = this.props.getRefundModesDetails.returnId;
       let data = await this.props.getRefundTransactionSummary(
         orderId,
