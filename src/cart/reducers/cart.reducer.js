@@ -12,6 +12,7 @@ import {
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
+  STRIPE_DETAILS,
   CART_COUNT_FOR_LOGGED_IN_USER,
   BANK_COUPON_COOKIE
 } from "../../lib/constants";
@@ -79,6 +80,18 @@ const cart = (
     softReserve: null,
     softReserveStatus: null,
     softReserveError: null,
+
+    createPaymentOrder: null,
+    createPaymentOrderStatus: null,
+    createPaymentOrderError: null,
+
+    collectPaymentOrder: null,
+    collectPaymentOrderStatus: null,
+    collectPaymentOrderError: null,
+
+    getPrepaidOrderPaymentConfirmation: null,
+    getPrepaidOrderPaymentConfirmationStatus: null,
+    getPrepaidOrderPaymentConfirmationError: null,
 
     paymentModes: null,
     paymentModesStatus: null,
@@ -162,10 +175,15 @@ const cart = (
     jusPayTokenizeError: null,
     jusPayTokenizeDetails: null,
 
+    stripeTokenizeStatus: null,
+    stripeTokenizeError: null,
+    stripeTokenizeDetails: null,
+
     createJusPayOrderStatus: null,
     createJusPayOrderError: null,
     createJusPayOrderDetails: null,
     jusPaymentLoader: false,
+    stripePaymentLoader: false,
     selectDeliveryModeLoader: false,
     transactionStatus: null,
     loginFromMyBag: false,
@@ -194,6 +212,9 @@ const cart = (
     paymentFailureOrderDetailsError: null,
     paymentFailureOrderDetails: null,
 
+    isCreatePaymentOrderFailed: false,
+    isCollectPaymentOrderFailed: false,
+    isGetPrepaidOrderPaymentConfirmationFailed: false,
     isSoftReservationFailed: false,
     isPaymentProceeded: false,
     bankOfferTncDetails: null,
@@ -252,6 +273,9 @@ const cart = (
         couponError: null,
         emiBankError: null,
         softReserveError: null,
+        createPaymentOrderError: null,
+        collectPaymentOrderError: null,
+        getPrepaidOrderPaymentConfirmationError: null,
         paymentsModeError: null,
         bankOfferError: null,
         cliqCashPaymentStatusError: null,
@@ -267,6 +291,7 @@ const cart = (
         AddUserAddressError: null,
         softReservationForPaymentError: null,
         jusPayTokenizeError: null,
+        stripeTokenizeError: null,
         createJusPayOrderError: null,
         transactionCODError: null,
         orderSummaryError: null,
@@ -854,6 +879,132 @@ const cart = (
         cliqCashPaymentStatusError: action.error,
         loading: false
       });
+    case cartActions.CREATE_PAYMENT_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        createPaymentOrderStatus: action.status,
+        selectDeliveryModeLoader: true
+      });
+
+    case cartActions.CREATE_PAYMENT_ORDER_SUCCESS:
+      return Object.assign({}, state, {
+        createPaymentOrderStatus: action.status,
+        createPaymentOrder: action.createPaymentOrder
+      });
+
+    case cartActions.CREATE_PAYMENT_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        createPaymentOrderStatus: action.status,
+        createPaymentOrderError: action.error,
+        isCreatePaymentOrderFailed: true
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPaymentLoader: true
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_SUCCESS:
+      cartDetails = Cookies.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      const cartGuid = JSON.parse(cartDetails).guid;
+      Cookies.createCookieInMinutes(
+        OLD_CART_GU_ID,
+        cartGuid,
+        VALIDITY_OF_OLD_CART_ID
+      );
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrder: action.collectPaymentOrder
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrderError: action.error,
+        isPaymentProceeded: false,
+        isCollectPaymentOrderFailed: true,
+        jusPaymentLoader: false
+      });
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_REQUEST:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPaymentLoader: true
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_SUCCESS:
+      Cookies.createCookieInMinutes(
+        OLD_CART_GU_ID,
+        action.guid,
+        VALIDITY_OF_OLD_CART_ID
+      );
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrder: action.collectPaymentOrder
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_FAILURE:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrderError: action.error,
+        isPaymentProceeded: false,
+        isCollectPaymentOrderFailed: true,
+        jusPaymentLoader: false
+      });
+
+    case cartActions.GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_REQUEST:
+      return Object.assign({}, state, {
+        getPrepaidOrderPaymentConfirmationStatus: action.status,
+        jusPaymentLoader: true,
+        isPaymentProceeded: true
+      });
+
+    case cartActions.GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_SUCCESS:
+      Cookies.deleteCookie(OLD_CART_GU_ID);
+      localStorage.removeItem(cartActions.CART_ITEM_COOKIE);
+      localStorage.removeItem(cartActions.ADDRESS_FOR_PLACE_ORDER);
+      localStorage.removeItem(EGV_GIFT_CART_ID);
+      localStorage.removeItem(NO_COST_EMI_COUPON);
+      localStorage.removeItem(OLD_CART_CART_ID);
+      localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
+      localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+      localStorage.removeItem(RETRY_PAYMENT_CART_ID);
+      localStorage.removeItem(EMI_TENURE);
+      localStorage.removeItem(STRIPE_DETAILS);
+      return Object.assign({}, state, {
+        getPrepaidOrderPaymentConfirmationStatus: action.status,
+        getPrepaidOrderPaymentConfirmation: action.paymentDetails,
+        jusPaymentLoader: false,
+        isPaymentProceeded: true
+      });
+
+    case cartActions.GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_FAILURE:
+      return Object.assign({}, state, {
+        getPrepaidOrderPaymentConfirmationStatus: action.status,
+        getPrepaidOrderPaymentConfirmationError: action.error,
+        isGetPrepaidOrderPaymentConfirmationFailed: true,
+        jusPaymentLoader: false,
+        isPaymentProceeded: false
+      });
+
+    case cartActions.STRIPE_TOKENIZE_REQUEST:
+      return Object.assign({}, state, {
+        stripeTokenizeStatus: action.status,
+        jusPaymentLoader: true
+      });
+
+    case cartActions.STRIPE_TOKENIZE_SUCCESS:
+      return Object.assign({}, state, {
+        stripeTokenizeStatus: action.status,
+        stripeTokenizeDetails: action.stripeToken
+      });
+
+    case cartActions.STRIPE_TOKENIZE_FAILURE:
+      return Object.assign({}, state, {
+        stripeTokenizeStatus: action.status,
+        stripeTokenizeError: action.error,
+        jusPaymentLoader: false,
+        isPaymentProceeded: false
+      });
 
     case cartActions.CREATE_JUS_PAY_ORDER_REQUEST:
       return Object.assign({}, state, {
@@ -1002,8 +1153,7 @@ const cart = (
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,
-        justPayPaymentDetails: action.justPayPaymentDetails,
-        jusPaymentLoader: false
+        justPayPaymentDetails: action.justPayPaymentDetails
       });
 
     case cartActions.JUS_PAY_PAYMENT_METHOD_TYPE_FOR_GIFT_CARD_SUCCESS: {
@@ -1014,8 +1164,7 @@ const cart = (
       );
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,
-        justPayPaymentDetails: action.justPayPaymentDetails,
-        jusPaymentLoader: false
+        justPayPaymentDetails: action.justPayPaymentDetails
       });
     }
 
@@ -1692,6 +1841,22 @@ const cart = (
         userCartStatus: null,
         userCartError: null,
 
+        createPaymentOrder: null,
+        createPaymentOrderStatus: null,
+        createPaymentOrderError: null,
+
+        collectPaymentOrder: null,
+        collectPaymentOrderStatus: null,
+        collectPaymentOrderError: null,
+
+        getPrepaidOrderPaymentConfirmation: null,
+        getPrepaidOrderPaymentConfirmationStatus: null,
+        getPrepaidOrderPaymentConfirmationError: null,
+
+        stripeTokenizeStatus: null,
+        stripeTokenizeError: null,
+        stripeTokenizeDetails: null,
+
         cartDetails: null,
         cartDetailsStatus: null,
         cartDetailsError: null,
@@ -1843,7 +2008,7 @@ const cart = (
         paymentFailureOrderDetailsStatus: null,
         paymentFailureOrderDetailsError: null,
         paymentFailureOrderDetails: null,
-
+        isGetPrepaidOrderPaymentConfirmationFailed: false,
         isSoftReservationFailed: false
       });
     case cartActions.RESET_ALL_PAYMENT_MODES:

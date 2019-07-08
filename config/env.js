@@ -177,6 +177,16 @@ if (
 } else {
   process.env.REACT_APP_JUS_PAY_API_URL_ROOT = "https://sandbox.juspay.in";
 }
+//stripe urls
+
+if (
+  process.env.REACT_APP_STAGE === "production" ||
+  process.env.REACT_APP_STAGE === "p2"
+) {
+  process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
+} else {
+  process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
+}
 
 // for samsung chat on pdp
 if (process.env.REACT_APP_STAGE === "production") {

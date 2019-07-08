@@ -55,7 +55,13 @@ import {
   resetIsSoftReservationFailed,
   preventRestingAllPaymentMode,
   getUserAddressAndDeliveryModesByRetryPayment,
-  binValidationOfEmiEligible
+  binValidationOfEmiEligible,
+  getPrepaidOrderPaymentConfirmation,
+  createPaymentOrder,
+  collectPaymentOrder,
+  stripeTokenize,
+  stripe_juspay_Tokenize,
+  stripe_juspay_TokenizeGiftCard
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -559,6 +565,82 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     binValidationOfEmiEligible: binNo => {
       return dispatch(binValidationOfEmiEligible(binNo));
+    },
+    getPrepaidOrderPaymentConfirmation: stripeDetails => {
+      dispatch(getPrepaidOrderPaymentConfirmation(stripeDetails));
+    },
+    stripe_juspay_Tokenize: (
+      cardDetails,
+      address,
+      cartItems,
+      paymentMode,
+      isSaveCard,
+      orderDetails,
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        stripe_juspay_Tokenize(
+          cardDetails,
+          address,
+          cartItems,
+          paymentMode,
+          isSaveCard,
+          orderDetails,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    stripe_juspay_TokenizeGiftCard: (cardDetails, paymentMode, egvCartGuid) => {
+      dispatch(
+        stripe_juspay_TokenizeGiftCard(cardDetails, paymentMode, egvCartGuid)
+      );
+    },
+    createPaymentOrder: () => {
+      dispatch(getPinCodeSuccess(createPaymentOrder));
+    },
+    collectPaymentOrder: (
+      cardDetails,
+      address,
+      cartItems,
+      isPaymentFailed,
+      isSaveCard,
+      cartdetails,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        collectPaymentOrder(
+          cardDetails,
+          address,
+          cartItems,
+          isPaymentFailed,
+          isSaveCard,
+          cartdetails,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    stripeTokenize: (
+      cardDetails,
+      address,
+      cartItem,
+      paymentMode,
+      isPaymentFailed
+    ) => {
+      dispatch(
+        stripeTokenize(
+          cardDetails,
+          address,
+          cartItem,
+          paymentMode,
+          isPaymentFailed
+        )
+      );
     }
   };
 };
