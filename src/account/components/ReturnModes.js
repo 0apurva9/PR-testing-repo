@@ -34,9 +34,6 @@ import {
   CHANGE_RETURN_ADDRESS,
   REFUND_SUMMARY,
   RETURN_CLIQ_PIQ_ADDRESS
-  //MY_ACCOUNT_ADDRESS_EDIT_PAGE,
-  //MY_ACCOUNT_ADDRESS_PAGE,
-  //CHANGE_RETURN_ADDRESS,
 } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 const REFUND_DETAILS = "Refund Details";
@@ -83,7 +80,6 @@ export default class ReturnModes extends React.Component {
       });
       this.setState({ pickupAddress: pickupAddress });
     }
-    // this.props.selectedAddressId
     let deliveryAddress = data.returnModesDetails.deliveryAddress;
     let selectedAddress = "";
     let selectedOne =
@@ -157,7 +153,6 @@ export default class ReturnModes extends React.Component {
   }
   radioChangeStores(e) {
     const target = e.currentTarget;
-    //console.log(target.value);
     this.setState({ selectedOptionStores: target.value });
     this.setState({ selectedReturnStore: target.dataset.address });
   }
@@ -173,7 +168,7 @@ export default class ReturnModes extends React.Component {
     //get selected mode of return
     let modeOfReturn = this.state.selectedOption;
 
-    await this.props.updateReturnConfirmation(
+    let updateReturnConfirmation = await this.props.updateReturnConfirmation(
       orderId,
       transactionId,
       returnId,
@@ -182,12 +177,6 @@ export default class ReturnModes extends React.Component {
       returnAddress,
       modeOfReturn
     );
-
-    //for testing - change with actual api data
-    let updateReturnConfirmation = {};
-    updateReturnConfirmation.status = "success";
-    updateReturnConfirmation.error = "failure to return";
-    // console.log(updateReturnConfirmation)
 
     if (updateReturnConfirmation.status === "success") {
       //go to success page
@@ -305,7 +294,6 @@ export default class ReturnModes extends React.Component {
         <div className={styles.content}>
           {this.isReturnModesEnabled() && (
             <div className={styles.card}>
-              {/* <div className={!this.state.isModeSelected ? styles.refundableModes : styles.returnModes}> */}
               {!this.state.isModeSelected && (
                 <DesktopOnly>
                   <div className={styles.header}>Select mode of return</div>
@@ -488,9 +476,6 @@ export default class ReturnModes extends React.Component {
               )}
             </div>
           </div>
-          // <div className={styles.button}>
-          // 	{/* <Button width={175} type="primary" label="Submit" onClick={() => this.submit()} /> */}
-          // </div>
         )}
       </div>
     );
