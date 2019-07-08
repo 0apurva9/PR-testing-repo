@@ -5847,8 +5847,8 @@ export function stripe_juspay_Tokenize(
       if (juspayToken && stripeToken && orderDetails) {
         let juspay_token_details = {
           pspName: "Juspay",
-          token: juspayToken && juspayToken.token,
-          cardToken: "",
+          token: "",
+          cardToken: juspayToken && juspayToken.token,
           cardFingerprint: "",
           cardRefNo: "",
           returnUrl: returnUrl
@@ -5919,8 +5919,8 @@ export function stripe_juspay_TokenizeGiftCard(
       if (juspayToken && stripeToken) {
         let juspay_token_details = {
           pspName: "Juspay",
-          token: juspayToken && juspayToken.token,
-          cardToken: "",
+          token: "",
+          cardToken: juspayToken && juspayToken.token,
           cardFingerprint: "",
           cardRefNo: "",
           returnUrl: returnUrl
