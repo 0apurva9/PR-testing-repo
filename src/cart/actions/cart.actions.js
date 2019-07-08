@@ -5850,7 +5850,7 @@ export function stripe_juspay_Tokenize(
           token: juspayToken && juspayToken.token,
           cardToken: "",
           cardFingerprint: "",
-          cardRefernceNumber: "",
+          cardRefNo: "",
           returnUrl: returnUrl
         };
         let stripe_token_details = {
@@ -5859,7 +5859,7 @@ export function stripe_juspay_Tokenize(
           cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
           cardFingerprint:
             stripeToken && stripeToken.card && stripeToken.card.fingerprint,
-          cardRefernceNumber: "",
+          cardRefNo: "",
           returnUrl: returnUrl
         };
         let cardBrandName =
@@ -5922,7 +5922,7 @@ export function stripe_juspay_TokenizeGiftCard(
           token: juspayToken && juspayToken.token,
           cardToken: "",
           cardFingerprint: "",
-          cardRefernceNumber: "",
+          cardRefNo: "",
           returnUrl: returnUrl
         };
         let stripe_token_details = {
@@ -5931,7 +5931,7 @@ export function stripe_juspay_TokenizeGiftCard(
           cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
           cardFingerprint:
             stripeToken && stripeToken.card && stripeToken.card.fingerprint,
-          cardRefernceNumber: "",
+          cardRefNo: "",
           returnUrl: returnUrl
         };
         let cardBrandName =
