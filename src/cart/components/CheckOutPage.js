@@ -1825,7 +1825,7 @@ if you have order id in local storage then you have to show order confirmation p
         cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
       } else {
         let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-        cartGuId = JSON.parse(cartDetails).guid;
+        cartGuId = cartDetails && JSON.parse(cartDetails).guid;
       }
       this.props.getPaymentModes(cartGuId);
     }
