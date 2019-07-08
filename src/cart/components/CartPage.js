@@ -951,7 +951,7 @@ class CartPage extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     /*
 here we need to hit call for merging cart id if user
  has temp cart .
@@ -963,13 +963,14 @@ here we need to hit call for merging cart id if user
 
     if (!this.navigateToCheckout) {
       if (cartDetails && cartDetails.isBuyNowCart) {
-        this.props.mergeTempCartWithOldCart();
+        await this.props.mergeTempCartWithOldCart();
       }
     }
 
     if (this.props.clearCartDetails) {
       this.props.clearCartDetails();
     }
+    this.props.getMinicartProducts();
   }
 }
 
