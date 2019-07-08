@@ -97,6 +97,9 @@
 .stepInactive:after {
 	display: none;
 }
+.stepInactive:before {
+	display: none;
+}
 .row {
 	width: 100%;
 	height: auto;
