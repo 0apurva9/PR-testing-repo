@@ -25,6 +25,7 @@ import {
 export default class ReplaceRefundSelection extends React.Component {
   constructor(props) {
     super(props);
+    this.orderCode = props.location.pathname.split("/")[2];
     this.state = {
       showRefundOptions: false,
       selectedOption: "",

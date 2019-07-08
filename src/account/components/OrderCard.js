@@ -377,11 +377,12 @@ export default class OrderCard extends React.Component {
               {estimatedDeliveryDateFormatted}
             </div>
           )}
-        {this.props.isOrderReturnable === false && (
-          <div className={styles.returnClosed}>
-            {PRODUCT_RETURN_WINDOW_CLOSED}
-          </div>
-        )}
+        {this.props.isOrderReturnable === false &&
+          this.props.statusDisplay == "Delivered" && (
+            <div className={styles.returnClosed}>
+              {PRODUCT_RETURN_WINDOW_CLOSED}
+            </div>
+          )}
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}

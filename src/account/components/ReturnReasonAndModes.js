@@ -386,6 +386,7 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.orderDetails.products[0] &&
           this.props.orderDetails.products[0].productBrand
         }
+        history={this.props.history}
         onChange={comment => this.onChange({ comment })}
         onChangePrimary={reason => this.onChange({ reason })}
         onContinue={data => this.renderToModes(data)}
@@ -417,6 +418,7 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.orderDetails.products[0] &&
           this.props.orderDetails.products[0].productBrand
         }
+        history={this.props.history}
         selectMode={mode => this.onSelectMode(mode)}
         onCancel={() => this.onCancel()}
         onChange={this.props.onChange()}
@@ -434,6 +436,7 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.returnRequest.returnEntry &&
           this.props.returnRequest.returnEntry.orderEntries[0]
         }
+        history={this.props.history}
         selectMode={mode => this.onSelectMode(mode)}
         returnProductDetails={this.props.returnProductDetails}
         uploadProductImages={this.props.uploadProductImages}
@@ -496,6 +499,7 @@ export default class ReturnReasonAndModes extends React.Component {
             };
           })
         }
+        history={this.props.history}
         onNewAddress={() => this.addNewAddress()}
         onSelectAddress={address => this.onSelectAddress(address)}
         // isReturn={checkUserAgentIsMobile() ? false : true}
@@ -543,6 +547,7 @@ export default class ReturnReasonAndModes extends React.Component {
             };
           })
         }
+        history={this.props.history}
         onSelectAddress={addressId => this.onSelectAddress(addressId)}
       />
       // <ReturnChangeAddress

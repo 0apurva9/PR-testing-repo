@@ -44,6 +44,7 @@ const REFUND_DETAILS = "Refund Details";
 export default class ReturnModes extends React.Component {
   constructor(props) {
     super(props);
+    this.orderCode = props.location.pathname.split("/")[2];
     this.state = {
       selectedMode: null,
       isModeSelected: false,
@@ -209,7 +210,7 @@ export default class ReturnModes extends React.Component {
   onChangeAddress = () => {
     this.props.history.push(
       `${RETURNS_PREFIX}/${
-        this.props.data.sellerorderno
+        this.orderCode
       }${RETURN_LANDING}${RETURN_CLIQ_PIQ_ADDRESS}`
     );
   };
