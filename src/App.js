@@ -389,6 +389,7 @@ class App extends Component {
       localStorage.removeItem(CART_BAG_DETAILS);
     }
     if (cartCode) {
+      // Call minicart after landing on the site or reloading page
       this.props.getMinicartProducts();
     }
     window.prerenderReady = true;

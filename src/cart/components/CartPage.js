@@ -964,13 +964,15 @@ here we need to hit call for merging cart id if user
     if (!this.navigateToCheckout) {
       if (cartDetails && cartDetails.isBuyNowCart) {
         await this.props.mergeTempCartWithOldCart();
+      } else {
+        // Before leaving cart page call minicart
+        this.props.getMinicartProducts();
       }
     }
 
     if (this.props.clearCartDetails) {
       this.props.clearCartDetails();
     }
-    this.props.getMinicartProducts();
   }
 }
 

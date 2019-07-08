@@ -3601,6 +3601,7 @@ export function orderConfirmation(orderId) {
       );
 
       await dispatch(orderConfirmationSuccess(resultJson));
+      // calling minicart after placing an order
       dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
@@ -4068,6 +4069,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           if (!JSON.parse(cartDetailsCookie).isBuyNowCart) {
             dispatch(getCartCountForLoggedInUser()).then(userCart => {
               if (userCart.status === SUCCESS) {
+                // calling minicart after remove product from cart
                 dispatch(getMinicartProducts());
               }
             });
@@ -4976,6 +4978,7 @@ export function mergeTempCartWithOldCart() {
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         )
       );
+      dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(mergeTempCartWithOldCartFailure(e.message));
     }

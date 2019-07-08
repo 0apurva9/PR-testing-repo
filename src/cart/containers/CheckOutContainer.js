@@ -61,7 +61,8 @@ import {
   collectPaymentOrder,
   stripeTokenize,
   stripe_juspay_Tokenize,
-  stripe_juspay_TokenizeGiftCard
+  stripe_juspay_TokenizeGiftCard,
+  getMinicartProducts
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -641,6 +642,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           isPaymentFailed
         )
       );
+    },
+    getMinicartProducts: () => {
+      dispatch(getMinicartProducts());
     }
   };
 };

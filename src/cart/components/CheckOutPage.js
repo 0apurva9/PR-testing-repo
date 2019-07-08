@@ -1250,6 +1250,8 @@ class CheckOutPage extends React.Component {
   }
 
   componentWillUnmount() {
+    // Navigating from checkout page call minicart
+    this.props.getMinicartProducts();
     // if user go back from checkout page then
     // we have relsease coupon if user applied any coupon
     if (this.props.history.action === "POP") {
