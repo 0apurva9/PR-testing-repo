@@ -969,7 +969,6 @@ const cart = (
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
       localStorage.removeItem(EMI_TENURE);
-      localStorage.removeItem(STRIPE_DETAILS);
       return Object.assign({}, state, {
         getPrepaidOrderPaymentConfirmationStatus: action.status,
         getPrepaidOrderPaymentConfirmation: action.paymentDetails,
@@ -1825,6 +1824,7 @@ const cart = (
       });
 
     case cartActions.CLEAR_CART_DETAILS:
+      localStorage.removeItem(STRIPE_DETAILS);
       return Object.assign({}, state, {
         status: null,
         error: null,

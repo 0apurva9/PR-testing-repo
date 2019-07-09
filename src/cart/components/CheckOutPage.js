@@ -1383,7 +1383,12 @@ if you have order id in local storage then you have to show order confirmation p
       }
       this.getPaymentModes();
     } else if (value === JUS_PAY_CHARGED) {
-      if (this.props.updateTransactionDetails) {
+      const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
+      if (stripeDetails) {
+        if (this.props.getPrepaidOrderPaymentConfirmation) {
+          this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+        }
+      } else if (this.props.updateTransactionDetails) {
         const cartId = parsedQueryString.value;
 
         if (cartId) {
@@ -1990,10 +1995,10 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.egvCartGuid
         );
       } else if (this.state.isComingFromRetryUrl) {
-        this.props.jusPayTokenize(
+        this.props.stripe_juspay_Tokenize(
           this.state.cardDetails,
-          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
           this.state.paymentModeSelected,
           true,
           true,
@@ -2014,11 +2019,10 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.isNoCostEmiProceeded
     ) {
       if (this.state.isComingFromRetryUrl) {
-        this.props.createJusPayOrder(
-          "",
-          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+        this.props.stripe_juspay_Tokenize(
           this.state.cardDetails,
+          JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           this.state.paymentModeSelected,
           true,
           true,
@@ -2243,11 +2247,10 @@ if you have order id in local storage then you have to show order confirmation p
             this.props.location.state.egvCartGuid
           );
         } else if (this.state.isComingFromRetryUrl) {
-          this.props.createJusPayOrder(
-            "",
-            JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-            JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          this.props.stripe_juspay_Tokenize(
             this.state.cardDetails,
+            JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+            JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             this.state.paymentModeSelected,
             false,
             true,
@@ -2827,10 +2830,8 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
   captureOrderExperienceForStripe = rating => {
-    let orderId;
-    if (this.props.cart.collectPaymentOrder) {
-      orderId = this.props.cart.collectPaymentOrder.orderId;
-    }
+    let stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
+    let orderId = stripeDetails.pspOrderId;
     if (this.props.captureOrderExperience) {
       this.props.captureOrderExperience(orderId, rating);
     }

@@ -5580,7 +5580,7 @@ export function collectPaymentOrderForGiftCard(
   egvCartGuid,
   cartdetails,
   cardBrandName,
-  isSaveCard
+  isFromRetryUrl
 ) {
   return async (dispatch, getState, { api }) => {
     let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
@@ -5610,31 +5610,26 @@ export function collectPaymentOrderForGiftCard(
         throw new Error(resultJsonStatus.message);
       }
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       if (
         (resultJson.pspName && resultJson.pspName.toLowerCase()) === "juspay"
       ) {
-        if (isSaveCard) {
-          dispatch(
-            jusPayPaymentMethodTypeForGiftCardFromSavedCards(
-              resultJson.pspOrderId,
-              cardDetails,
-              egvCartGuid
-            )
-          );
-        } else {
-          dispatch(
-            jusPayPaymentMethodTypeForGiftCard(
-              resultJson.pspOrderId,
-              cardDetails,
-              paymentMode,
-              egvCartGuid
-            )
-          );
-        }
+        dispatch(
+          jusPayPaymentMethodTypeForGiftCard(
+            resultJson.pspOrderId,
+            cardDetails,
+            paymentMode,
+            egvCartGuid
+          )
+        );
       } else if (
         (resultJson.pspName && resultJson.pspName.toLowerCase()) === "stripe"
       ) {
-        dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
+        if (resultJson.pspRedirectUrl) {
+          window.location.href = resultJson.pspRedirectUrl;
+        } else {
+          dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
+        }
       }
     } catch (e) {
       dispatch(
@@ -5650,9 +5645,8 @@ export function collectPaymentOrder(
   address,
   cartItems,
   isPaymentFailed,
-  isSaveCard,
-  cartdetails,
   isFromRetryUrl,
+  cartdetails,
   retryCartGuid,
   cardBrandName
 ) {
@@ -5705,26 +5699,17 @@ export function collectPaymentOrder(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       if (resultJson.pspName === "Juspay") {
-        if (isSaveCard) {
-          dispatch(
-            jusPayPaymentMethodTypeForSavedCards(
-              resultJson.pspOrderId,
-              cardDetails
-            )
-          );
-        } else {
-          dispatch(
-            jusPayPaymentMethodType(
-              resultJson.pspOrderId,
-              cardDetails,
-              paymentMode
-            )
-          );
-        }
+        dispatch(
+          jusPayPaymentMethodType(
+            resultJson.pspOrderId,
+            cardDetails,
+            paymentMode
+          )
+        );
       } else if (resultJson.pspName === "Stripe") {
         if (resultJson.pspRedirectUrl) {
-          localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
           window.location.href = resultJson.pspRedirectUrl;
         } else {
           dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
@@ -5782,7 +5767,6 @@ export function stripe_juspay_Tokenize(
   cartItems,
   paymentMode,
   isPaymentFailed,
-  isSaveCard,
   isFromRetryUrl,
   retryCartGuid
 ) {
@@ -5806,7 +5790,7 @@ export function stripe_juspay_Tokenize(
       );
 
       let inventoryItems = isFromRetryUrl
-        ? getValidDeliveryModeDetails(
+        ? await getValidDeliveryModeDetails(
             getState().cart.getUserAddressAndDeliveryModesByRetryPayment
               .products,
             true,
@@ -5876,9 +5860,8 @@ export function stripe_juspay_Tokenize(
             address,
             cartItems,
             isPaymentFailed,
-            isSaveCard,
-            orderDetails,
             isFromRetryUrl,
+            orderDetails,
             retryCartGuid,
             cardBrandName
           )
@@ -5892,7 +5875,7 @@ export function stripe_juspay_TokenizeGiftCard(
   cardDetails,
   paymentMode,
   egvCartGuid,
-  isSaveCard
+  isFromRetryUrl
 ) {
   return async (dispatch, getState, { api }) => {
     const returnUrl = `${
@@ -5948,7 +5931,7 @@ export function stripe_juspay_TokenizeGiftCard(
             egvCartGuid,
             orderDetails,
             cardBrandName,
-            isSaveCard
+            isFromRetryUrl
           )
         );
       }
