@@ -398,9 +398,11 @@ export default class CliqCashDesktop extends React.Component {
                                           value.transactionType &&
                                           !value.transactionType
                                             .toUpperCase()
-                                            .match(/\bEXPIRED|PAID/g) && (
+                                            .match(
+                                              /\bEXPIRED|PAID|RECEIVED REFUND/g
+                                            ) && (
                                             <div className={styles.expireDate}>
-                                              Expiring on:{" "}
+                                              expir Expiring on:{" "}
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,
