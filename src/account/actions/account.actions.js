@@ -970,13 +970,19 @@ export function submitSelfCourierReturnInfoFailure(error) {
   };
 }
 export function submitSelfCourierReturnInfo(returnDetails) {
-  let returnDetailsObject = new FormData(returnDetails.file);
-  returnDetailsObject.append("awbNumber", returnDetails.awbNumber);
-  returnDetailsObject.append("lpname", returnDetails.lpname);
-  returnDetailsObject.append("amount", returnDetails.amount);
-  returnDetailsObject.append("orderId", returnDetails.orderId);
-  returnDetailsObject.append("transactionId", returnDetails.transactionId);
-  returnDetailsObject.append("file", returnDetails.file);
+  let returnDetailsObject = new FormData();
+  returnDetailsObject.append(
+    "awbNumber",
+    returnDetails && returnDetails.awbNumber
+  );
+  returnDetailsObject.append("lpname", returnDetails && returnDetails.lpname);
+  returnDetailsObject.append("amount", returnDetails && returnDetails.amount);
+  returnDetailsObject.append("orderId", returnDetails && returnDetails.orderId);
+  returnDetailsObject.append(
+    "transactionId",
+    returnDetails && returnDetails.transactionId
+  );
+  returnDetailsObject.append("file", returnDetails && returnDetails.file);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
