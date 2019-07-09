@@ -402,7 +402,7 @@ export default class CliqCashDesktop extends React.Component {
                                               /\bEXPIRED|PAID|RECEIVED REFUND/g
                                             ) && (
                                             <div className={styles.expireDate}>
-                                              expir Expiring on:{" "}
+                                              Expiring on:{" "}
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,
