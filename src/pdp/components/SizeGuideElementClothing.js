@@ -38,10 +38,11 @@ export default class SizeGuideElementClothing extends Component {
                   />
                 </div>
               </div>
-              {(tip1 || tip2) && (
+              {tip1 && (
                 <div className={styles.tipContainer}>
                   <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-                  {tip1 && tip1} for this brand.{tip2 && tip2}
+                  {tip1} for this brand.
+                  {tip2 && <div>{tip2}</div>}
                 </div>
               )}
 
