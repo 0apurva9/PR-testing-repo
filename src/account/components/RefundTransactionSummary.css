@@ -1,11 +1,36 @@
+.base 
+{
+    width: 100%;
+    height: auto;
+    padding: 34px;
+    background: #f2f2f2;
+}
 .content {
 	width: 100%;
-	height: auto;
-	background: #fff;
-	border-radius: 4px;
-	margin-bottom: 20px;
+    height: auto;
+    background: #fff;
+    border-radius: 4px;
+    margin: 45px auto 24px auto;
+    max-width: 1190px;
+    max-height: 381px;
+}
+.contentSummary{
+	width: 100%;
+    height: auto;
+    background: #fff;
+    border-radius: 4px;
+    max-width: 1190px;
+	max-height: 323px;
+	margin: 0px auto 24px auto;
 }
 .card {
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border-bottom: 1px solid #ececec;
+	position: relative;
+}
+.cardSummary {
 	width: 100%;
 	height: auto;
 	padding: 15px;
@@ -16,30 +41,30 @@
 	display: flex;
 	justify-content: center;
 	text-align: center;
-	margin: 20px 0;
+	margin: 34px auto 34px auto;
 }
-.buttonHolder:last-child {
+/* .buttonHolder:last-child {
 	margin: 20px 0 0 0;
-}
+	/* display: inline-block; 
+} */
 .summaryTitle {
 	font-size: 14px;
 	text-align: center;
 	font-family: semibold;
 }
 .summaryHeading {
-	font-size: 18px;
-	font-family: semibold;
+	font-size: 16px;
+    font-family: semibold;
 }
 .summaryText {
 	font-size: 14px;
 	font-family: light;
-	padding: 15px 0;
-	border-bottom: 1px solid #f8f8f8;
+    margin-top: 10px;
 }
 .summarySmallHeading {
-	font-size: 14px;
-	font-family: semibold;
-	padding: 15px 0;
+	margin: 34px 0 20px 0;
+    font-family: semibold;
+    font-size: 16px;
 }
 .iconHolder {
 	display: flex;
@@ -50,5 +75,8 @@
 	font-size: 12px;
 	font-family: semibold;
 	color: #ff1744;
-	padding-left: 65px;
+	padding-left: 10%;
+}
+.marginRightSpan{
+	margin-right: 34px;
 }

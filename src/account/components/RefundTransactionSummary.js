@@ -74,7 +74,7 @@ export default class RefundTransactionSummary extends React.Component {
     }
     let summaryDetails = this.state.summary;
     return (
-      <ReturnsFrame>
+      <div className={styles.base}>
         <div className={styles.content}>
           <div className={styles.card}>
             <div className={styles.iconHolder}>
@@ -90,8 +90,7 @@ export default class RefundTransactionSummary extends React.Component {
                 label="CONTINUE SHOPPING"
                 onClick={() => this.goToHomepage()}
               />
-            </div>
-            <div className={styles.buttonHolder}>
+              <span className={styles.marginRightSpan} />
               <Button
                 width={190}
                 type="secondary"
@@ -102,8 +101,8 @@ export default class RefundTransactionSummary extends React.Component {
           </div>
         </div>
 
-        <div className={styles.content}>
-          <div className={styles.card}>
+        <div className={styles.contentSummary}>
+          <div className={styles.cardSummary}>
             <div className={styles.summaryHeading}>
               Your Transaction Summary:
             </div>
@@ -126,7 +125,8 @@ export default class RefundTransactionSummary extends React.Component {
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .imageURL
                   }
-                  imageHolderWidth="50px"
+                  imageHolderWidth="98px"
+                  imageHolderHeight="130px"
                   productName={
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .productName
@@ -134,7 +134,28 @@ export default class RefundTransactionSummary extends React.Component {
                   pickupAddress={
                     summaryDetails.getRefundTransactionDetails.deliveryAddress
                   }
-                />
+                  quantity={true}
+                >
+                  {summaryDetails.getRefundTransactionDetails.products[0]
+                    .productSize && (
+                    <span className={styles.productSizeColor}>
+                      {
+                        summaryDetails.getRefundTransactionDetails.products[0]
+                          .productSize
+                      }{" "}
+                      |&nbsp;
+                    </span>
+                  )}
+                  {summaryDetails.getRefundTransactionDetails.products[0]
+                    .productColour && (
+                    <span className={styles.productSizeColor}>
+                      {
+                        summaryDetails.getRefundTransactionDetails.products[0]
+                          .productColour
+                      }
+                    </span>
+                  )}
+                </OrderCard>
               )}
             <div
               className={styles.trackOrderButton}
@@ -144,7 +165,7 @@ export default class RefundTransactionSummary extends React.Component {
             </div>
           </div>
         </div>
-      </ReturnsFrame>
+      </div>
     );
   }
 }

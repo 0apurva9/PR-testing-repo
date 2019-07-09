@@ -114,7 +114,17 @@ export default class OrderCard extends React.Component {
               Estimated Delivery Date: {this.props.estimatedDeliveryDate}
             </div>
           )}
-        <div className={styles.productImageHolder}>
+        <div
+          className={styles.productImageHolder}
+          style={{
+            width: this.props.imageHolderWidth
+              ? this.props.imageHolderWidth
+              : null,
+            height: this.props.imageHolderHeight
+              ? this.props.imageHolderHeight
+              : null
+          }}
+        >
           <ProductImage
             image={this.props.imageUrl}
             onClickImage={() => this.onClick()}
