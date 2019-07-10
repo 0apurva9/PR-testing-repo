@@ -188,7 +188,7 @@ class ProductCouponDetails extends Component {
             elementWidthMobile={100}
             elementWidthDesktop={100}
             offset={0}
-            offsetDesktop="0px 35px 0px 35px"
+            offsetDesktop="0px 35px 20px 35px"
             limit={1}
             onSelect={val => this.onSelectCouponCode(val)}
             selected={[this.state.selectedCouponCode]}
