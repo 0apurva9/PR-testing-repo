@@ -117,7 +117,7 @@ export default class TransactionDetailDesktop extends React.Component {
                     </div>
                   )}
               </div>
-              <div className={styles.tcHolder}>
+              {/* <div className={styles.tcHolder}>
                 <div
                   className={styles.tcOptionWrapper}
                   onClick={() => this.redirectPage(CONTACT_URL)}
@@ -127,7 +127,7 @@ export default class TransactionDetailDesktop extends React.Component {
                     <div className={styles.arrowRight} />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className={styles.aboutCliqCashBase}>
                 <div className={styles.aboutCliqCashContainer}>
                   <div className={styles.aboutCliqCashHeaderText}>
