@@ -13,8 +13,6 @@ import {
   PRODUCT_CANCEL
 } from "../../lib/constants";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
-import DesktopOnly from "../../general/components/DesktopOnly";
-import MobileOnly from "../../general/components/MobileOnly";
 const dateFormat = "Do MMM YYYY";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
@@ -25,7 +23,6 @@ export default class OrderCard extends React.Component {
       this.props.onClick();
     }
   }
-
   reSendEmailForGiftCard = () => {
     if (this.props.reSendEmailForGiftCard) {
       this.props.reSendEmailForGiftCard();
@@ -41,15 +38,12 @@ export default class OrderCard extends React.Component {
     switch (deliveryModeNameLowerCase) {
       case "click and collect":
         return "QUiQ PiQ";
-      // break;
 
       case "home delivery":
         return "Standard Delivery";
-      //break;
 
       case "express delivery":
         return "Express Delivery";
-      // break;
 
       default:
         break;
@@ -388,7 +382,7 @@ export default class OrderCard extends React.Component {
             </div>
           )}
         {this.props.isOrderReturnable === false &&
-          this.props.statusDisplay == "Delivered" && (
+          this.props.statusDisplay === "Delivered" && (
             <div className={styles.returnClosed}>
               {PRODUCT_RETURN_WINDOW_CLOSED}
             </div>

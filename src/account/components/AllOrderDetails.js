@@ -564,7 +564,6 @@ export default class AllOrderDetails extends React.Component {
                                       <Icon
                                         image={RetryPaymentIcon}
                                         size={42}
-                                        display={"inline-block"}
                                       />
                                       <div
                                         className={styles.retryCallOutMessage}

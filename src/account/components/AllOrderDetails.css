@@ -71,15 +71,18 @@
     margin-bottom: 24px;
 }
 .retryPaymentTitle {
-	vertical-align: middle;
+	/* vertical-align: middle; */
     margin: 0 0 20px 0;
     font-size: 14px;
     font-family: light;
 	text-align: left;
+	display: flex;
+	width: 100%;
 }
 .retryCallOutMessage {
-	display: inline-block;
+	/* display: inline-block; */
 	margin-left: 22px;
+	width: 88%;
 }
 @media screen and (min-width: 1025px) {
 	.order {

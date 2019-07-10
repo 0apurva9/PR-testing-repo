@@ -1,7 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import OrderCard from "./OrderCard";
-import ReturnsFrame from "./ReturnsFrame";
 import Button from "../../general/components/Button";
 import styles from "./RefundTransactionSummary.css";
 import success from "./img/success.svg";
@@ -12,7 +11,6 @@ import {
   RETURNS_REASON,
   HOME_ROUTER
 } from "../../lib/constants";
-
 export default class RefundTransactionSummary extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +18,6 @@ export default class RefundTransactionSummary extends React.Component {
       summary: ""
     };
   }
-
   async componentDidMount() {
     //to get refund details initially
     if (this.props.orderDetails && this.props.orderDetails.products[0]) {
@@ -41,7 +38,6 @@ export default class RefundTransactionSummary extends React.Component {
       }
     }
   }
-
   gotoOrderDetailsPage() {
     //get order id
     let orderRefId = sessionStorage.getItem("returnOrderId");
@@ -49,11 +45,9 @@ export default class RefundTransactionSummary extends React.Component {
       pathname: `/my-account/order/?orderCode=${orderRefId}`
     });
   }
-
   goToHomepage() {
     this.props.history.push(HOME_ROUTER);
   }
-
   navigateToReturnLanding() {
     return (
       <Redirect
@@ -63,7 +57,6 @@ export default class RefundTransactionSummary extends React.Component {
       />
     );
   }
-
   render() {
     // Preventing user to open this page direct by hitting URL
     if (
@@ -134,9 +127,16 @@ export default class RefundTransactionSummary extends React.Component {
                   pickupAddress={
                     summaryDetails.getRefundTransactionDetails.deliveryAddress
                   }
-                  quantity={true}
+                  productSize={
+                    summaryDetails.getRefundTransactionDetails.products[0]
+                      .productSize
+                  }
+                  productColourName={
+                    summaryDetails.getRefundTransactionDetails.products[0]
+                      .productColour
+                  }
                 >
-                  {summaryDetails.getRefundTransactionDetails.products[0]
+                  {/* {summaryDetails.getRefundTransactionDetails.products[0]
                     .productSize && (
                     <span className={styles.productSizeColor}>
                       {
@@ -154,7 +154,7 @@ export default class RefundTransactionSummary extends React.Component {
                           .productColour
                       }
                     </span>
-                  )}
+                  )} */}
                 </OrderCard>
               )}
             <div

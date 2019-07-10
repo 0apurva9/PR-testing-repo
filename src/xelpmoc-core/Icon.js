@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Icon.css";
-import VisibilityChild from "../home/components/VisibilityChild.js";
 
 export default class Icon extends React.Component {
   handleClick() {
@@ -15,8 +14,7 @@ export default class Icon extends React.Component {
         className={styles.base}
         style={{
           width: this.props.size,
-          height: this.props.size,
-          display: `${this.props.display}`
+          height: this.props.size
         }}
         onClick={() => {
           this.handleClick();
@@ -37,12 +35,10 @@ export default class Icon extends React.Component {
 Icon.propTypes = {
   size: PropTypes.number.isRequired,
   backgroundSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  image: PropTypes.string.isRequired,
-  display: PropTypes.string
+  image: PropTypes.string.isRequired
 };
 
 Icon.defaultProps = {
   size: 30,
-  backgroundSize: "contain",
-  display: "inline-block"
+  backgroundSize: "contain"
 };
