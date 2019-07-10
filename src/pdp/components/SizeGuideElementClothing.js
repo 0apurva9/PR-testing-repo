@@ -40,7 +40,8 @@ export default class SizeGuideElementClothing extends Component {
                 <div className={styles.tipContainer}>
                   <span className={styles.tipHeader}>Tip:</span>
                   {tip1 && <span>Buy a size {tip1} for this brand.</span>}
-                  {tip2 && <div>{tip2}</div>}
+                  {tip2 && !tip1 && <span>{tip2}</span>}
+                  {tip2 && tip1 && <div>{tip2}</div>}
                 </div>
               )}
 
@@ -65,7 +66,8 @@ export default class SizeGuideElementClothing extends Component {
                 <div className={styles.tipContainer}>
                   <span className={styles.tipHeader}>Tip:</span>
                   {tip1 && <span>Buy a size {tip1} for this brand.</span>}
-                  {tip2 && <div>{tip2}</div>}
+                  {tip2 && !tip1 && <span>{tip2}</span>}
+                  {tip2 && tip1 && <div>{tip2}</div>}
                 </div>
               )}
 
@@ -82,7 +84,8 @@ export default class SizeGuideElementClothing extends Component {
             {(tip1 || tip2) && (
               <div className={styles.tipContainer}>
                 Tip: {tip1 && <span>Buy a size {tip1} for this brand.</span>}
-                {tip2 && <div>{tip2}</div>}
+                {tip2 && !tip1 && <span>{tip2}</span>}
+                {tip2 && tip1 && <div>{tip2}</div>}
               </div>
             )}
             <div className={styles.imageHolder}>
