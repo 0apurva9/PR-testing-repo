@@ -11,6 +11,7 @@ export default class SizeGuideElementClothing extends Component {
       this.props.data && this.props.data.sizeGuideTabularWsData;
 
     const image = this.props.data && this.props.data.imageURL;
+    const imagePosition = this.props.data && this.props.data.imagePosition;
     const tip1 = sizeGudeList && sizeGudeList.tip1;
     const tip2 = sizeGudeList && sizeGudeList.tip2;
     const sizeGuidForCms =
@@ -28,20 +29,17 @@ export default class SizeGuideElementClothing extends Component {
     return (
       <div className={styles.base}>
         <MobileOnly>
-          {image && image[0] && image[0].imagePosition === 0 ? (
+          {imagePosition === 1 ? (
             <div className={styles.imageTop}>
               <div className={styles.imageHolder}>
                 <div className={styles.image}>
-                  <Image
-                    fit="contain"
-                    image={image && image[0] && image.imageURL}
-                  />
+                  <Image fit="contain" image={image} />
                 </div>
               </div>
-              {tip1 && (
+              {(tip1 || tip2) && (
                 <div className={styles.tipContainer}>
-                  <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-                  {tip1} for this brand.
+                  <span className={styles.tipHeader}>Tip:</span>
+                  {tip1 && <span>Buy a size {tip1} for this brand.</span>}
                   {tip2 && <div>{tip2}</div>}
                 </div>
               )}
@@ -65,8 +63,9 @@ export default class SizeGuideElementClothing extends Component {
               />
               {(tip1 || tip2) && (
                 <div className={styles.tipContainer}>
-                  <span className={styles.tipHeader}>Tip:</span> Buy a size{" "}
-                  {tip1 && tip1} for this brand.{tip2 && tip2}
+                  <span className={styles.tipHeader}>Tip:</span>
+                  {tip1 && <span>Buy a size {tip1} for this brand.</span>}
+                  {tip2 && <div>{tip2}</div>}
                 </div>
               )}
 
@@ -82,8 +81,8 @@ export default class SizeGuideElementClothing extends Component {
           <div className={styles.imageAndTipsHolder}>
             {(tip1 || tip2) && (
               <div className={styles.tipContainer}>
-                Tip: Buy a size {tip1 && tip1} for this brand.
-                <div>{tip2 && tip2}</div>
+                Tip: {tip1 && <span>Buy a size {tip1} for this brand.</span>}
+                {tip2 && <div>{tip2}</div>}
               </div>
             )}
             <div className={styles.imageHolder}>

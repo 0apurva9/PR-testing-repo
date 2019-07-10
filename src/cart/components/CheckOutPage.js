@@ -2831,7 +2831,7 @@ if you have order id in local storage then you have to show order confirmation p
   };
   captureOrderExperienceForStripe = rating => {
     let stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
-    let orderId = stripeDetails.pspOrderId;
+    let orderId = stripeDetails.orderId;
     if (this.props.captureOrderExperience) {
       this.props.captureOrderExperience(orderId, rating);
     }
