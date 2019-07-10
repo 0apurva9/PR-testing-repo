@@ -56,9 +56,9 @@ export default class TransactionDetailDesktop extends React.Component {
                   {transactionDetails &&
                     transactionDetails.amount &&
                     transactionDetails.amount.value &&
-                    Math.round(transactionDetails.amount.value).toLocaleString(
-                      "hi-IN"
-                    )}
+                    (
+                      Math.round(transactionDetails.amount.value * 100) / 100
+                    ).toLocaleString("hi-IN")}
                 </div>
                 <div className={styles.timeAndDate}>
                   {getDateMonthFormat(
@@ -74,8 +74,10 @@ export default class TransactionDetailDesktop extends React.Component {
                     {transactionDetails &&
                       transactionDetails.closingBalance &&
                       transactionDetails.closingBalance.value &&
-                      Math.round(
-                        transactionDetails.closingBalance.value
+                      (
+                        Math.round(
+                          transactionDetails.closingBalance.value * 100
+                        ) / 100
                       ).toLocaleString("hi-IN")}
                   </span>
                 </div>
@@ -115,7 +117,7 @@ export default class TransactionDetailDesktop extends React.Component {
                     </div>
                   )}
               </div>
-              <div className={styles.tcHolder}>
+              {/* <div className={styles.tcHolder}>
                 <div
                   className={styles.tcOptionWrapper}
                   onClick={() => this.redirectPage(CONTACT_URL)}
@@ -125,7 +127,7 @@ export default class TransactionDetailDesktop extends React.Component {
                     <div className={styles.arrowRight} />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className={styles.aboutCliqCashBase}>
                 <div className={styles.aboutCliqCashContainer}>
                   <div className={styles.aboutCliqCashHeaderText}>

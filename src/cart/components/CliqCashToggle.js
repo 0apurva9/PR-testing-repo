@@ -42,7 +42,7 @@ export default class CliqCashToggle extends React.Component {
           <div className={styles.casBalanceText}>{this.props.cashText}</div>
           <div className={styles.cashRupyText}>{`${RUPEE_SYMBOL}${this.props
             .price &&
-            Math.round(this.props.price).toLocaleString(
+            (Math.round(this.props.price * 100) / 100).toLocaleString(
               "hi-IN"
             )} available`}</div>
         </div>
