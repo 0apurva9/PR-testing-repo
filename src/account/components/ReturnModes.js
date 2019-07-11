@@ -255,9 +255,8 @@ export default class ReturnModes extends React.Component {
       data.returnStoreDetailsList &&
       Object.keys(data.returnStoreDetailsList);
     const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
-    let changedAddress = this.state.selectedAddress
-      ? this.state.selectedAddress
-      : data.deliveryAddress;
+    const deliveryAddress =
+      this.props.location.state.address || data.deliveryAddress;
 
     return (
       <React.Fragment>
@@ -366,7 +365,7 @@ export default class ReturnModes extends React.Component {
           )}
         </MobileOnly> */}
                   <div className={styles.content}>
-                    {changedAddress && (
+                    {deliveryAddress && (
                       <div className={styles.card}>
                         <div className={styles.divideHeaderAddress}>
                           <div className={styles.returnModesHeading}>
@@ -380,11 +379,11 @@ export default class ReturnModes extends React.Component {
                           </div>
                         </div>
                         <div className={styles.addressText}>
-                          {changedAddress.line1} ,{changedAddress.landmark} ,{
-                            changedAddress.town
+                          {deliveryAddress.line1} ,{deliveryAddress.landmark} ,{
+                            deliveryAddress.town
                           }{" "}
                           ,&nbsp;
-                          {changedAddress.state}, {changedAddress.postalCode}
+                          {deliveryAddress.state}, {deliveryAddress.postalCode}
                         </div>
                       </div>
                     )}

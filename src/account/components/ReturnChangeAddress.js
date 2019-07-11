@@ -110,6 +110,7 @@ export default class ReturnChangeAddress extends React.Component {
                   .map((val, i) => {
                     return (
                       <DeliveryAddressReturn
+                        {...this.props}
                         addressTitle={val.addressTitle}
                         addressDescription={val.addressDescription}
                         contact={val.phone}

@@ -141,7 +141,11 @@ export default class ReturnAddressBook extends React.Component {
   render() {
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;
-    let defaultAddressId;
+    console.log("this.props in return Address:", this.props);
+    let addressSelectedId =
+      this.props.returnRequest && this.props.returnRequest.deliveryAddress;
+    let fetchId = addressSelectedId && addressSelectedId.id;
+    let defaultAddressId = fetchId;
     if (this.state.defaultAddress) {
       defaultAddressId = this.state.defaultAddress.id;
     }
@@ -165,9 +169,9 @@ export default class ReturnAddressBook extends React.Component {
             })}
             // onSelectAddress={addressId => this.onSelectAddress(addressId)}
             onSelectAddress={address => this.handleClick(address)}
-            selected={defaultAddressId}
+            selected={[defaultAddressId]}
             onRedirectionToNextSection={() => this.handleSubmit}
-            disabled={this.state.defaultAddress.id ? false : true}
+            disabled={[defaultAddressId] ? false : true}
             onNewAddress={() => this.addAddress(orderId)}
             onEditAddress={() =>
               this.editAddress(this.state.defaultAddress, orderId)

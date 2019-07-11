@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../cart/components/DeliveryAddressCart.css";
+import styles from "./DeliveryAddressReturn.css";
 import CheckBox from "../../general/components/CheckBox.js";
 import PropTypes from "prop-types";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -14,21 +14,39 @@ export default class DeliveryAddressReturn extends React.Component {
       this.props.selectItem();
     }
   }
+  editAddress(address) {
+    if (this.props.onEditAddress) {
+      this.props.onEditAddress(address);
+    }
+  }
   render() {
-    console.log("this.props", this.props.address);
     return (
       <div
         className={this.props.isReturn ? styles.baseForReturn : styles.base}
         onClick={() => this.handleClick(this.props.address)}
       >
-        <div
-          className={
-            this.props.isReturn
-              ? styles.titleAddressForReturn
-              : styles.titleAddress
-          }
-        >
-          {this.props.addressTitle}
+        <div className={styles.header}>
+          <div
+            className={
+              this.props.isReturn
+                ? styles.titleAddressForReturn
+                : styles.titleAddress
+            }
+          >
+            {this.props.addressTitle}
+          </div>
+          {this.props.selected == true ? (
+            <div
+              className={styles.buttonEdit}
+              onClick={() => {
+                this.editAddress(this.props.address);
+              }}
+            >
+              Edit
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div
           className={
