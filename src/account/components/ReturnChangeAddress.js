@@ -156,10 +156,11 @@ export default class ReturnChangeAddress extends React.Component {
                       fontSize: 14
                     }}
                     onClick={() =>
+                      // debugger();
                       this.props.history.push({
                         pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_MODES}`,
                         state: {
-                          address: this.state.defaultAddress,
+                          address: this.props.defaultAddress,
                           authorizedRequest: true
                         }
                       })

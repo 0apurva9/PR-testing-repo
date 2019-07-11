@@ -146,8 +146,10 @@ export default class ReturnAddressBook extends React.Component {
       this.props.returnRequest && this.props.returnRequest.deliveryAddress;
     let fetchId = addressSelectedId && addressSelectedId.id;
     let defaultAddressId = fetchId;
+    let defaultAddress = addressSelectedId;
     if (this.state.defaultAddress) {
       defaultAddressId = this.state.defaultAddress.id;
+      defaultAddress = this.state.defaultAddress;
     }
     return (
       <React.Fragment>
@@ -176,6 +178,7 @@ export default class ReturnAddressBook extends React.Component {
             onEditAddress={() =>
               this.editAddress(this.state.defaultAddress, orderId)
             }
+            defaultAddress={defaultAddress}
           />
         )}
         {!this.props.userAddress && (
