@@ -142,7 +142,7 @@ export default class TransactionDetailDesktop extends React.Component {
                         FASTER CHECKOUT
                       </div>
                       <div className={styles.aboutCliqCashInfoSubHeading}>
-                        Instant Checkout
+                        Quick & Instant Checkout
                       </div>
                     </div>
                     <div className={styles.aboutCliqCashIconAndText}>
@@ -153,7 +153,7 @@ export default class TransactionDetailDesktop extends React.Component {
                         CONSOLIDATED WALLET
                       </div>
                       <div className={styles.aboutCliqCashInfoSubHeading}>
-                        All balances at one place
+                        Get Cashbacks, Refunds, Promos at one place
                       </div>
                     </div>
                     <div className={styles.aboutCliqCashIconAndText}>
@@ -164,7 +164,7 @@ export default class TransactionDetailDesktop extends React.Component {
                         FASTER REFUNDS
                       </div>
                       <div className={styles.aboutCliqCashInfoSubHeading}>
-                        Get Refunds instantly post successful pick up
+                        Get Refunds instantly
                       </div>
                     </div>
                     <div
