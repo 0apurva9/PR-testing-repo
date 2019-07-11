@@ -14,7 +14,7 @@ export default class Logo extends React.Component {
           maxWidth: this.props.maxWidth
         }}
       >
-        <VisibilityChild>
+        <VisibilityChild visible={true}>
           <img
             className={styles.image}
             src={this.props.image}

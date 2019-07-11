@@ -71,7 +71,12 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedFromDropDown: false
       });
     }
-    if (nextProps.isNoCostEmiApplied && !this.state.selectedCouponCode) {
+
+    if (
+      nextProps.isNoCostEmiApplied &&
+      !this.state.selectedCouponCode &&
+      this.props.noCostEmiProductCount !== nextProps.noCostEmiProductCount
+    ) {
       let bankObject =
         this.props.bankList &&
         this.props.bankList.find(
