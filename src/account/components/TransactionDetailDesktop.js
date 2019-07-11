@@ -49,7 +49,12 @@ export default class TransactionDetailDesktop extends React.Component {
             <div className={styles.transactionDetails}>
               <div className={styles.amountHolder}>
                 <div className={styles.moneyPaidText}>
-                  {transactionDetails && transactionDetails.transactionName}
+                  {transactionDetails &&
+                    !transactionDetails.transactionType
+                      .toUpperCase()
+                      .match(/\bRECEIVED REFUND/g) &&
+                    "Amount "}
+                  {transactionDetails && transactionDetails.transactionType}
                 </div>
                 <div className={styles.amount}>
                   <span className={styles.rupee}>₹</span>
