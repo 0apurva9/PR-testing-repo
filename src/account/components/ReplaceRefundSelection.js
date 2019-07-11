@@ -11,6 +11,11 @@ import Instant from "../../general/components/img/pathCopy7.png";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "../../account/components/SelectedReasonForReturn";
 import cancel from "../../general/components/img/canceltransperent.png";
+import ProfileMenu from "../../account/components/ProfileMenu.js";
+import UserProfile from "../../account/components/UserProfile.js";
+import format from "date-fns/format";
+import * as Cookie from "../../lib/Cookie";
+import stylesCommon from "./ReturnReasonAndModes.css";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -19,8 +24,12 @@ import {
   RETURN_LANDING,
   RETURNS_REASON,
   RETURNS_MODES,
-  RETURNS_STORE_BANK_FORM
+  RETURNS_STORE_BANK_FORM,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  PRODUCT_CANCEL
 } from "../../lib/constants";
+const dateFormat = "DD MMM YYYY";
 
 export default class ReplaceRefundSelection extends React.Component {
   constructor(props) {
@@ -354,7 +363,13 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   render() {
-    //console.log("propsin RefundReplaceSelection:", this.props);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userData = JSON.parse(userDetails);
+    const userAccountDetails = JSON.parse(userDetails);
+    const orderDetails = this.props.orderDetails;
+    let returnFlow = this.props.returnFlow;
+    const returnProductDetails = this.props.returnProductDetails;
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -380,230 +395,339 @@ export default class ReplaceRefundSelection extends React.Component {
 
     return (
       <React.Fragment>
-        <div>
-          <SelectedReasonForReturn
-            {...this.props}
-            {...this.state}
-            header={"Select mode of return "}
-            // title={this.state.selectedAddress.addressType}
-            // titleDescription={`${this.state.selectedAddress.line1} ,${
-            //   this.state.selectedAddress.landmark
-            // }`}
-            // subTitleDescription={`${this.state.selectedAddress.city} ,${
-            //   this.state.selectedAddress.state
-            // } ,${this.state.selectedAddress.postalCode}`}
-            // date={this.state.selectedDate}
-            // time={this.state.selectedTime}
-            // changeReturnReason={() => this.changeReturnReason()}
-          />
-        </div>
-        <ReturnsFrame>
-          <div className={styles.content}>
-            {!this.state.showRefundOptions &&
-              this.state.showAttachment == false && (
+        <div className={stylesCommon.base}>
+          <div className={stylesCommon.holder}>
+            <div className={stylesCommon.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+
+            <div className={stylesCommon.returnReasonDetail}>
+              <div className={stylesCommon.returnReasonDetailHolder}>
                 <React.Fragment>
-                  <div className={styles.returnMode}>Select mode of return</div>
-                  <div className={styles.card}>
-                    <div
-                      className={styles.replaceRefundHeading}
-                      onClick={() => this.showRefund()}
+                  <div className={stylesCommon.orderCardWrapper}>
+                    <OrderCard
+                      imageUrl={
+                        returnProductDetails &&
+                        returnProductDetails.orderProductWsDTO &&
+                        returnProductDetails.orderProductWsDTO[0] &&
+                        returnProductDetails.orderProductWsDTO[0].imageURL
+                      }
+                      productName={`${returnProductDetails &&
+                        returnProductDetails.orderProductWsDTO &&
+                        returnProductDetails.orderProductWsDTO[0] &&
+                        returnProductDetails.orderProductWsDTO[0]
+                          .productBrand} ${returnProductDetails &&
+                        returnProductDetails.orderProductWsDTO &&
+                        returnProductDetails.orderProductWsDTO[0] &&
+                        returnProductDetails.orderProductWsDTO[0].productName}`}
+                      price={
+                        returnProductDetails &&
+                        returnProductDetails.orderProductWsDTO &&
+                        returnProductDetails.orderProductWsDTO[0] &&
+                        returnProductDetails.orderProductWsDTO[0].price
+                      }
+                      isSelect={false}
+                      quantity={true}
+                      orderPlace={
+                        orderDetails && orderDetails.orderDate
+                          ? orderDetails &&
+                            format(orderDetails.orderDate, dateFormat)
+                          : this.props.orderPlace
+                      }
+                      orderId={this.props.orderId}
+                      productSize={
+                        this.props.orderDetails.products[0].productSize
+                      }
+                      productColourName={
+                        this.props.orderDetails.products[0].productColourName
+                      }
+                      productBrand={
+                        orderDetails && orderDetails.productBrand
+                          ? orderDetails.productBrand
+                          : returnProductDetails &&
+                            returnProductDetails.orderProductWsDTO &&
+                            returnProductDetails.orderProductWsDTO[0] &&
+                            returnProductDetails.orderProductWsDTO[0]
+                              .productBrand
+                      }
+                      onHollow={true}
+                      returnFlow={returnFlow}
+                      title={PRODUCT_CANCEL}
+                      onClick={() =>
+                        this.onClickImage(
+                          orderDetails &&
+                            orderDetails.orderProductWsDTO &&
+                            orderDetails.orderProductWsDTO[0] &&
+                            orderDetails.orderProductWsDTO[0].productcode
+                        )
+                      }
                     >
-                      {data && data.typeOfReturn[0].typeOfReturn}
-                      {!this.state.showRefundOptions && (
-                        <span className={styles.rightArrow} />
-                      )}
-                    </div>
-                    {!this.state.showRefundOptions && (
-                      <div className={styles.replaceRefundText}>
-                        {data && data.typeOfReturn[0].callout}
-                      </div>
-                    )}
+                      {returnProductDetails &&
+                        returnProductDetails.orderProductWsDTO &&
+                        returnProductDetails.orderProductWsDTO[0] &&
+                        returnProductDetails.orderProductWsDTO[0].quantity && (
+                          <div className={styles.quantity}>
+                            Qty{" "}
+                            {returnProductDetails.orderProductWsDTO[0].quantity}
+                          </div>
+                        )}
+                    </OrderCard>
                   </div>
                 </React.Fragment>
-              )}
-            {this.state.showRefundOptions && (
-              <React.Fragment>
-                <div className={styles.bankDetailsSection}>
-                  <div className={styles.replaceRefundModeSelctnHeading}>
-                    {data && data.typeOfReturn[0].typeOfReturn}
-                  </div>
-                  <div className={styles.refundModeContainer}>
-                    <div className={styles.chooseMode}>
-                      Choose mode of refund
-                    </div>
-                    <div className={styles.modeContent}>
-                      <form>
-                        {refundModesDetail &&
-                          refundModesDetail.refundMode.map((value, index) => {
-                            return (
-                              <label key={index}>
-                                <input
-                                  className={styles.radioBtn}
-                                  type="radio"
-                                  value={value.refundModeCode}
-                                  checked={
-                                    this.state.selectedOption ===
-                                    value.refundModeCode
-                                  }
-                                  onChange={this.radioChange}
-                                />
-                                {value.refundModeCode === "CLIQ_CASH"
-                                  ? "CLiQ Cash"
-                                  : value.refundMode}
-                                {value.refundModeCode === "CLIQ_CASH" ? (
-                                  <React.Fragment>
-                                    <div className={styles.InstantImage}>
-                                      <Icon image={Instant} size={20} />
-                                    </div>
-                                    <div className={styles.cliqCashInstant}>
-                                      Instant
-                                    </div>
-                                  </React.Fragment>
-                                ) : null}
-                                <span className={styles.radioBtnSubText}>
-                                  {value.callout}
-                                </span>
-                              </label>
-                            );
-                          })}
-                      </form>
-                      {this.state.showBankDetails &&
-                        this.state.selectedOption === "BANK_ACCOUNT" && (
-                          <React.Fragment>
-                            <div className={styles.bankDetailsHeading}>
-                              Your Account Details:
-                            </div>
-                            <div
-                              className={styles.changeBankDetails}
-                              onClick={() =>
-                                this.addBankDetails(userBankDetails)
-                              }
-                            >
-                              Change
-                            </div>
-                            <div className={styles.bankDetailsText}>Name:</div>
-                            <div className={styles.bankDetailsText}>
-                              {userBankDetails.accountHolderName}
-                            </div>
-                            <div className={styles.bankDetailsText}>Bank:</div>
-                            <div className={styles.bankDetailsText}>
-                              {userBankDetails.bankName}
-                            </div>
-                            <div className={styles.bankDetailsText}>
-                              IFSC code:
-                            </div>
-                            <div className={styles.bankDetailsText}>
-                              {userBankDetails.IFSCCode}
-                            </div>
-                            <div className={styles.bankDetailsText}>
-                              Account number:
-                            </div>
-                            <div className={styles.bankDetailsText}>
-                              {userBankDetails.accountNumber}
-                            </div>
-                          </React.Fragment>
-                        )}
-                    </div>
-                  </div>
-                  {!this.state.showBankDetails &&
-                    this.state.selectedOption === "BANK_ACCOUNT" && (
-                      <div
-                        className={styles.addBankDetailsButton}
-                        onClick={() => this.addBankDetails()}
-                      >
-                        ADD BANK DETAILS
-                      </div>
-                    )}
-                </div>
-              </React.Fragment>
-            )}
-            {/* -----------------------Image Upload------------------------ */}
-            {this.state.showAttachment == true && (
-              <div>
-                <div className={styles.returnTitle}>Add attachments*</div>
-                {imageCallOutArr && (
-                  <ol className={styles.imgAttachmentText}>
-                    {imageCallOutArr.map((value, index) => {
-                      return <li key={index}>{value}</li>;
-                    })}
-                  </ol>
-                )}
 
-                {this.state.uploadedImageFiles.length > 0 && (
-                  <div className={styles.imagePreviewContainer}>
-                    {this.state.uploadedImageFiles.length > 0 &&
-                      this.state.uploadedImageFiles.map((val, index) => {
-                        return (
-                          <div
-                            className={styles.imagePreviewContains}
-                            key={index}
-                          >
-                            <div className={styles.imagePreview}>
-                              <img
-                                id="panImage"
-                                src={val}
-                                alt="Upload"
-                                width="76%"
-                                height="auto"
-                              />
-                              <div className={styles.cancel}>
-                                <img
-                                  src={cancel}
-                                  onClick={() => this.removeFile(val, index)}
-                                  alt="cancel"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                )}
-                <div className={styles.uploadimageButton}>
-                  <button className={styles.fileuploadButtonForUpload}>
-                    Upload Images
-                  </button>
-                  <input
-                    type="file"
-                    name="myfile"
-                    ref="file"
-                    onChange={event => this.handleFileUpload(event)}
-                    name="textFile"
-                    multiple="multiple"
+                <div>
+                  <SelectedReasonForReturn
+                    {...this.props}
+                    {...this.state}
+                    header={"Select mode of return "}
+                    // title={this.state.selectedAddress.addressType}
+                    // titleDescription={`${this.state.selectedAddress.line1} ,${
+                    //   this.state.selectedAddress.landmark
+                    // }`}
+                    // subTitleDescription={`${this.state.selectedAddress.city} ,${
+                    //   this.state.selectedAddress.state
+                    // } ,${this.state.selectedAddress.postalCode}`}
+                    // date={this.state.selectedDate}
+                    // time={this.state.selectedTime}
+                    // changeReturnReason={() => this.changeReturnReason()}
                   />
                 </div>
+                <ReturnsFrame>
+                  <div className={styles.content}>
+                    {!this.state.showRefundOptions &&
+                      this.state.showAttachment == false && (
+                        <React.Fragment>
+                          <div className={styles.returnMode}>
+                            Select mode of return
+                          </div>
+                          <div className={styles.card}>
+                            <div
+                              className={styles.replaceRefundHeading}
+                              onClick={() => this.showRefund()}
+                            >
+                              {data && data.typeOfReturn[0].typeOfReturn}
+                              {!this.state.showRefundOptions && (
+                                <span className={styles.rightArrow} />
+                              )}
+                            </div>
+                            {!this.state.showRefundOptions && (
+                              <div className={styles.replaceRefundText}>
+                                {data && data.typeOfReturn[0].callout}
+                              </div>
+                            )}
+                          </div>
+                        </React.Fragment>
+                      )}
+                    {this.state.showRefundOptions && (
+                      <React.Fragment>
+                        <div className={styles.bankDetailsSection}>
+                          <div
+                            className={styles.replaceRefundModeSelctnHeading}
+                          >
+                            {data && data.typeOfReturn[0].typeOfReturn}
+                          </div>
+                          <div className={styles.refundModeContainer}>
+                            <div className={styles.chooseMode}>
+                              Choose mode of refund
+                            </div>
+                            <div className={styles.modeContent}>
+                              <form>
+                                {refundModesDetail &&
+                                  refundModesDetail.refundMode.map(
+                                    (value, index) => {
+                                      return (
+                                        <label key={index}>
+                                          <input
+                                            className={styles.radioBtn}
+                                            type="radio"
+                                            value={value.refundModeCode}
+                                            checked={
+                                              this.state.selectedOption ===
+                                              value.refundModeCode
+                                            }
+                                            onChange={this.radioChange}
+                                          />
+                                          {value.refundModeCode === "CLIQ_CASH"
+                                            ? "CLiQ Cash"
+                                            : value.refundMode}
+                                          {value.refundModeCode ===
+                                          "CLIQ_CASH" ? (
+                                            <React.Fragment>
+                                              <div
+                                                className={styles.InstantImage}
+                                              >
+                                                <Icon
+                                                  image={Instant}
+                                                  size={20}
+                                                />
+                                              </div>
+                                              <div
+                                                className={
+                                                  styles.cliqCashInstant
+                                                }
+                                              >
+                                                Instant
+                                              </div>
+                                            </React.Fragment>
+                                          ) : null}
+                                          <span
+                                            className={styles.radioBtnSubText}
+                                          >
+                                            {value.callout}
+                                          </span>
+                                        </label>
+                                      );
+                                    }
+                                  )}
+                              </form>
+                              {this.state.showBankDetails &&
+                                this.state.selectedOption ===
+                                  "BANK_ACCOUNT" && (
+                                  <React.Fragment>
+                                    <div className={styles.bankDetailsHeading}>
+                                      Your Account Details:
+                                    </div>
+                                    <div
+                                      className={styles.changeBankDetails}
+                                      onClick={() =>
+                                        this.addBankDetails(userBankDetails)
+                                      }
+                                    >
+                                      Change
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      Name:
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      {userBankDetails.accountHolderName}
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      Bank:
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      {userBankDetails.bankName}
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      IFSC code:
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      {userBankDetails.IFSCCode}
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      Account number:
+                                    </div>
+                                    <div className={styles.bankDetailsText}>
+                                      {userBankDetails.accountNumber}
+                                    </div>
+                                  </React.Fragment>
+                                )}
+                            </div>
+                          </div>
+                          {!this.state.showBankDetails &&
+                            this.state.selectedOption === "BANK_ACCOUNT" && (
+                              <div
+                                className={styles.addBankDetailsButton}
+                                onClick={() => this.addBankDetails()}
+                              >
+                                ADD BANK DETAILS
+                              </div>
+                            )}
+                        </div>
+                      </React.Fragment>
+                    )}
+                    {/* -----------------------Image Upload------------------------ */}
+                    {this.state.showAttachment == true && (
+                      <div>
+                        <div className={styles.returnTitle}>
+                          Add attachments*
+                        </div>
+                        {imageCallOutArr && (
+                          <ol className={styles.imgAttachmentText}>
+                            {imageCallOutArr.map((value, index) => {
+                              return <li key={index}>{value}</li>;
+                            })}
+                          </ol>
+                        )}
 
-                <div className={styles.imgAttachmentSubText}>
-                  Upload JPEG, PNG (Maximum size of all images is 25 MB)
-                </div>
-              </div>
-            )}
-          </div>
+                        {this.state.uploadedImageFiles.length > 0 && (
+                          <div className={styles.imagePreviewContainer}>
+                            {this.state.uploadedImageFiles.length > 0 &&
+                              this.state.uploadedImageFiles.map(
+                                (val, index) => {
+                                  return (
+                                    <div
+                                      className={styles.imagePreviewContains}
+                                      key={index}
+                                    >
+                                      <div className={styles.imagePreview}>
+                                        <img
+                                          id="panImage"
+                                          src={val}
+                                          alt="Upload"
+                                          width="76%"
+                                          height="auto"
+                                        />
+                                        <div className={styles.cancel}>
+                                          <img
+                                            src={cancel}
+                                            onClick={() =>
+                                              this.removeFile(val, index)
+                                            }
+                                            alt="cancel"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              )}
+                          </div>
+                        )}
+                        <div className={styles.uploadimageButton}>
+                          <button className={styles.fileuploadButtonForUpload}>
+                            Upload Images
+                          </button>
+                          <input
+                            type="file"
+                            name="myfile"
+                            ref="file"
+                            onChange={event => this.handleFileUpload(event)}
+                            name="textFile"
+                            multiple="multiple"
+                          />
+                        </div>
 
-          {this.state.showRefundOptions && (
-            <div className={styles.content}>
-              <React.Fragment>
-                <div className={styles.cardCondition}>
-                  <div className={styles.checkRefundTermsContainer}>
-                    <input
-                      className={styles.checkRefundTerms}
-                      type="checkbox"
-                      onChange={this.agreeToReturnDetails}
-                    />
+                        <div className={styles.imgAttachmentSubText}>
+                          Upload JPEG, PNG (Maximum size of all images is 25 MB)
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className={styles.checkRefundTermsText}>
-                    {refundModesDetail && refundModesDetail.disclaimer}
-                  </div>
-                </div>
-                {/* {this.state.selectedOption &&
+
+                  {this.state.showRefundOptions && (
+                    <div className={styles.content}>
+                      <React.Fragment>
+                        <div className={styles.cardCondition}>
+                          <div className={styles.checkRefundTermsContainer}>
+                            <input
+                              className={styles.checkRefundTerms}
+                              type="checkbox"
+                              onChange={this.agreeToReturnDetails}
+                            />
+                          </div>
+                          <div className={styles.checkRefundTermsText}>
+                            {refundModesDetail && refundModesDetail.disclaimer}
+                          </div>
+                        </div>
+                        {/* {this.state.selectedOption &&
 								this.state.agreeToReturn && ( */}
 
-                {/* )} */}
-              </React.Fragment>
-            </div>
-          )}
+                        {/* )} */}
+                      </React.Fragment>
+                    </div>
+                  )}
 
-          {/* {this.state.showRefundOptions && (
+                  {/* {this.state.showRefundOptions && (
             <div className={styles.buttonHolder}>
               <div className={styles.button}>
                 <Button
@@ -620,25 +744,53 @@ export default class ReplaceRefundSelection extends React.Component {
               </div>
             </div>
           )} */}
-          {this.state.showRefundOptions &&
-            this.getContinueButton(
-              this.state.selectedOption,
-              this.state.agreeToReturn,
-              userBankDetails
-            )}
-          {uploadImage.length > 0 && (
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  width={175}
-                  type="primary"
-                  label="CONTINUE"
-                  onClick={() => this.onContinueImageUpload()}
-                />
+                  {this.state.showRefundOptions &&
+                    this.getContinueButton(
+                      this.state.selectedOption,
+                      this.state.agreeToReturn,
+                      userBankDetails
+                    )}
+                  {uploadImage.length > 0 && (
+                    <div className={styles.buttonHolder}>
+                      <div className={styles.button}>
+                        <Button
+                          width={175}
+                          type="primary"
+                          label="CONTINUE"
+                          onClick={() => this.onContinueImageUpload()}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </ReturnsFrame>
               </div>
             </div>
-          )}
-        </ReturnsFrame>
+
+            <div className={stylesCommon.userProfile}>
+              <UserProfile
+                image={userAccountDetails.imageUrl}
+                userLogin={userAccountDetails.userName}
+                loginType={userAccountDetails.loginType}
+                firstName={
+                  userAccountDetails &&
+                  userAccountDetails.firstName &&
+                  userAccountDetails.firstName.trim().charAt(0)
+                }
+                heading={
+                  userAccountDetails &&
+                  userAccountDetails.firstName &&
+                  `${userAccountDetails.firstName} `
+                }
+                lastName={
+                  userAccountDetails &&
+                  userAccountDetails.lastName &&
+                  `${userAccountDetails.lastName}`
+                }
+                userAddress={this.props.userAddress}
+              />
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

@@ -20,6 +20,7 @@ export interface IProps {
 	returnProductDetails: any;
 	orderDetails: any;
 	returnRequest: any;
+	error: any;
 }
 export interface IState {
 	orderCode?: string;

@@ -1,178 +1,190 @@
 import React from "react";
-import GridSelect from "../../general/components/GridSelect";
-//import CheckOutHeader from './CheckOutHeader.js';
-import styles from "./ReturnAddressBook.css";
-import UnderLinedButton from "../../general/components/UnderLinedButton.js";
-import DeliveryAddressCart from "../../cart/components/DeliveryAddressCart.js";
-import Button from "../../general/components/Button.js";
-import DesktopOnly from "../../general/components/DesktopOnly";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-import PropTypes from "prop-types";
-import * as UserAgent from "../../lib/UserAgent.js";
+import { PRODUCT_CART_DELIVERY_MODES } from "../../lib/constants";
+import CheckoutFrame from "../../cart/components/CheckoutFrame";
+import ReturnChangeAddress from "./ReturnChangeAddress";
+import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress";
+import Loader from "../../general/components/Loader";
 import {
-  RETURN_LANDING,
+  MY_ACCOUNT_PAGE,
+  MY_ACCOUNT_ADDRESS_EDIT_PAGE,
+  MY_ACCOUNT_ADDRESS_ADD_PAGE,
+  PICKUP_ADDRESS,
   RETURNS_PREFIX,
-  RETURNS_NEW_ADDRESS
-  //MY_ACCOUNT_ADDRESS_EDIT_PAGE,
-  //MY_ACCOUNT_ADDRESS_ADD_PAGE,
-  // ADDRESS_BOOK,
-  // LOGGED_IN_USER_DETAILS,
-  // LOGIN_PATH,
-  // CUSTOMER_ACCESS_TOKEN,
-  // HOME_ROUTER
+  RETURN_LANDING,
+  RETURNS_MODES
 } from "../../lib/constants.js";
+const EDIT = "/edit";
+const ADD = "/add";
 
 export default class ReturnAddressBook extends React.Component {
-  componentWillMount() {
-    document.title = "Select Delivery Address";
-  }
   constructor(props) {
     super(props);
-    // this.orderCode = props.location.pathname.split('/')[2];
-    this.state = {
-      showAll: this.props.isReturn ? true : false,
-      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
-    };
+    this.state = { defaultAddress: "" };
   }
-  showMore() {
-    this.setState({ showAll: !this.state.showAll }, () => {
-      if (this.state.label === "More" || this.state.label === "See all") {
-        this.setState({ label: "Hide" });
-      } else {
-        this.setState({
-          label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
-        });
+  componentDidMount() {
+    this.props.getUserAddress();
+    let defaultAddress =
+      this.props.userAddress &&
+      this.props.userAddress.addresses &&
+      this.props.userAddress.addresses.find(value => {
+        if (value.defaultAddress === true) {
+          return value;
+        }
+      });
+    console.log(this.props, "this.props");
+    this.setState({ defaultAddress: defaultAddress });
+    console.log("defaultAddress", defaultAddress);
+  }
+  componentWillReceiveProps(nextProps) {
+    let defaultAddress =
+      nextProps.userAddress &&
+      nextProps.userAddress.addresses &&
+      nextProps.userAddress.addresses.find(value => {
+        if (value.defaultAddress === true) {
+          return value;
+        }
+      });
+
+    if (
+      this.state.defaultAddress &&
+      this.state.defaultAddress.id !== defaultAddress.id
+    ) {
+      this.setState({
+        defaultAddress: defaultAddress
+      });
+    }
+    console.log("updated Default Address:", defaultAddress);
+  }
+  removeAddress = addressId => {
+    if (this.props.removeAddress) {
+      this.props.removeAddress(addressId);
+    }
+  };
+
+  renderLoader = () => {
+    return <Loader />;
+  };
+
+  editAddress = (address, orderId) => {
+    this.props.history.push({
+      pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${EDIT}`,
+      state: {
+        addressDetails: address,
+        path: this.props.location.pathname,
+        authorizedRequest: true
       }
     });
-  }
-  onNewAddress() {
-    if (this.props.onNewAddress) {
-      this.props.onNewAddress();
-    }
-  }
-  addAddress = () => {
-    this.props.history.push(
-      `${RETURNS_PREFIX}/${
-        this.props.data.sellerorderno
-      }${RETURN_LANDING}${RETURNS_NEW_ADDRESS}`
-    );
-    // this.props.history.push({
-    // 	pathname: `${RETURN_LANDING}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`,
-    // });
   };
-  onSelectAddress(addressId) {
-    console.log("props selected:", this.props.selected);
-    if (this.props.onSelectAddress) {
-      this.props.onSelectAddress(addressId);
+
+  addAddress = orderId => {
+    this.props.history.push({
+      pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${ADD}`,
+      state: {
+        path: this.props.location.pathname,
+        addAddress: true
+      }
+    });
+  };
+
+  handleClick(address) {
+    debugger;
+    this.setState({ defaultAddress: address });
+  }
+
+  onChange(val) {
+    this.setState(val);
+  }
+
+  // onSelectAddress(addressId) {
+  // 	this.props.addAddressToCart(addressId[0]);
+  // }
+  onSelectAddress(selectedAddress) {
+    let addressSelected =
+      this.props.returnRequest &&
+      this.props.returnRequest.deliveryAddressesList &&
+      this.props.returnRequest.addressDetailsList.addresses.find(address => {
+        return address.id === selectedAddress[0];
+      });
+    this.updateLocalStoragePinCode(
+      addressSelected && addressSelected.postalCode
+    );
+    // here we are checking the if user selected any address then setting our state
+    // and in else condition if user deselect then this function will again call and
+    //  then we are resetting the previous selected address
+    if (selectedAddress[0]) {
+      this.setState({
+        confirmAddress: false,
+        selectedAddress: addressSelected,
+        isCheckoutAddressSelected: true,
+        addressId: addressSelected.id,
+        isDeliveryModeSelected: false
+      });
+    } else {
+      this.setState({
+        addressId: null,
+        selectedAddress: null,
+        isDeliveryModeSelected: false
+      });
     }
   }
-  onRedirectionToNextSection() {
-    this.props.history.goBack();
-  }
+  handleSubmit = () => {
+    this.props.history.push({
+      pathname: `${RETURNS_PREFIX}/${
+        this.props.data.sellerorderno
+      }${RETURN_LANDING}${RETURNS_MODES}`,
+      state: {
+        address: this.state.defaultAddress,
+        authorizedRequest: true
+      }
+    });
+  };
   render() {
-    console.log("props in return address:", this.props);
-    let buttonHolder = styles.buttonHolder;
-    if (
-      this.props.address &&
-      this.props.address.length % 2 === 0 &&
-      this.state.showAll &&
-      this.props.address.length > 2 &&
-      !this.props.isReturn
-    ) {
-      buttonHolder = styles.buttonHolderwithPadding;
+    let orderId =
+      this.props && this.props.data && this.props.data.sellerorderno;
+    let defaultAddressId;
+    if (this.state.defaultAddress) {
+      defaultAddressId = this.state.defaultAddress.id;
     }
     return (
-      <div className={styles.base}>
-        <div className={styles.header}>Confirm address</div>
-
-        <div className={styles.gridHolder}>
-          <GridSelect
-            limit={1}
-            offset={0}
-            elementWidthMobile={100}
-            elementWidthDesktop={this.props.isReturn ? 100 : 50}
-            selected={this.props.selected}
-            onSelect={addressId => this.onSelectAddress(addressId)}
-          >
-            {this.props.address &&
-              this.props.address
-                .filter((val, i) => {
-                  return !this.state.showAll ? i < 3 : true;
-                })
-                .map((val, i) => {
-                  return (
-                    <DeliveryAddressCart
-                      addressTitle={val.addressTitle}
-                      addressDescription={val.addressDescription}
-                      contact={val.phone}
-                      key={i}
-                      phone={val.phone}
-                      value={val.value}
-                      selected={val.selected}
-                      isReturn={this.props.isReturn}
-                    />
-                  );
-                })}
-          </GridSelect>
-        </div>
-
-        <div className={buttonHolder}>
-          {this.props.address &&
-            this.props.address.length > 3 && (
-              <div className={styles.moreButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000"
-                  label={this.state.label}
-                  onClick={() => this.showMore()}
-                />
-              </div>
-            )}
-          <DesktopOnly>
-            <div className={styles.continueButtonHolder}>
-              <Button
-                disabled={this.props.disabled}
-                type="primary"
-                backgroundColor="#ff1744"
-                height={40}
-                label="Continue"
-                width={135}
-                textStyle={{
-                  color: "#FFF",
-                  fontSize: 14
-                }}
-                onClick={() => this.onRedirectionToNextSection()}
-              />
-            </div>
-          </DesktopOnly>
-
-          <div className={styles.newAddress}>
-            <UnderLinedButton
-              size="14px"
-              fontFamily="regular"
-              color="#ff1744"
-              label="Add new address"
-              onClick={() => this.addAddress()}
-            />
-          </div>
-        </div>
-      </div>
+      <React.Fragment>
+        {this.props.userAddress && (
+          <ReturnChangeAddress
+            {...this.props}
+            address={this.props.userAddress.addresses.map(address => {
+              return {
+                addressTitle: address.addressType,
+                addressDescription: `${address.line1 ? address.line1 : ""} ${
+                  address.line2 ? address.line2 : ""
+                }  ${address.state ? address.state : ""} ${
+                  address.postalCode ? address.postalCode : ""
+                }`,
+                value: address.id,
+                phone: address.phone,
+                selected: address.defaultAddress
+              };
+            })}
+            // onSelectAddress={addressId => this.onSelectAddress(addressId)}
+            onSelectAddress={address => this.handleClick(address)}
+            selected={defaultAddressId}
+            onRedirectionToNextSection={() => this.handleSubmit}
+            disabled={this.state.defaultAddress.id ? false : true}
+            onNewAddress={() => this.addAddress(orderId)}
+            onEditAddress={() =>
+              this.editAddress(this.state.defaultAddress, orderId)
+            }
+          />
+        )}
+        {!this.props.userAddress && (
+          <AddDeliveryAddress
+            {...this.state}
+            onChange={val => this.onChange(val)}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
-ReturnAddressBook.propTypes = {
-  onNewAddress: PropTypes.func,
-  indexNumber: PropTypes.string,
-  isReturn: PropTypes.bool,
-  address: PropTypes.arrayOf(
-    PropTypes.shape({
-      addressTitle: PropTypes.string,
-      addressDescription: PropTypes.string
-    })
-  )
-};
 ReturnAddressBook.defaultProps = {
-  indexNumber: "1",
-  isReturn: false
+  addressSet: false,
+  deliveryModeSet: false
 };

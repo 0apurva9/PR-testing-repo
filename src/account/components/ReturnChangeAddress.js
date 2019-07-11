@@ -1,52 +1,29 @@
 import React from "react";
 import GridSelect from "../../general/components/GridSelect";
-//import CheckOutHeader from './CheckOutHeader.js';
-import styles from "./ReturnChangeAddress.css";
+import CheckOutHeader from "../../cart/components/CheckOutHeader.js";
+import styles from "./ReturnAddressBook.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
-import DeliveryAddressCart from "../../cart/components/DeliveryAddressCart";
+import DeliveryAddressReturn from "./DeliveryAddressReturn.js";
 import Button from "../../general/components/Button.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
-
-import PropTypes from "prop-types";
-import * as UserAgent from "../../lib/UserAgent.js";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   RETURNS_PREFIX,
-  CHANGE_RETURN_ADDRESS,
-  RETURN_CLIQ_PIQ,
-  RETURNS_NEW_ADDRESS
-} from "../../lib/constants";
+  RETURN_LANDING,
+  RETURNS_MODES
+} from "../../lib/constants.js";
+import PropTypes from "prop-types";
+import * as UserAgent from "../../lib/UserAgent.js";
 
-export default class ConfirmAddress extends React.Component {
+export default class ReturnChangeAddress extends React.Component {
   componentWillMount() {
     document.title = "Select Delivery Address";
   }
   constructor(props) {
     super(props);
-    this.orderCode = props.location.pathname.split("/")[2];
     this.state = {
       showAll: this.props.isReturn ? true : false,
-      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all",
-      selectedAddress: "",
-      addressSelectedByUser: false,
-      selectedDate: this.props.returnRequest
-        ? this.props.returnRequest &&
-          this.props.returnRequest.returnDates &&
-          this.props.returnRequest.returnDates[0]
-        : "",
-      selectedTime: this.props.returnRequest
-        ? this.props.returnRequest &&
-          this.props.returnRequest.returnTimeSlots &&
-          this.props.returnRequest.returnTimeSlots[0]
-        : "",
-      addNewAddress: false,
-      errorMessage: "",
-      error: false,
-      userEmailId: "",
-      isReturnAddressSelected: false,
-      isReturnModeProcessCompleted: false
+      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
     };
-    //console.log('props in address change:', this.props);
   }
   showMore() {
     this.setState({ showAll: !this.state.showAll }, () => {
@@ -59,46 +36,17 @@ export default class ConfirmAddress extends React.Component {
       }
     });
   }
-  onNewAddress = () => {
-    this.setState({ addNewAddress: true });
-    if (checkUserAgentIsMobile()) {
-      this.props.history.push(
-        `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_CLIQ_PIQ}${RETURNS_NEW_ADDRESS}`
-      );
+  onNewAddress() {
+    if (this.props.onNewAddress) {
+      this.props.onNewAddress();
     }
-  };
-
-  onSelectAddress = async selectedAddress => {
-    this.setState({
-      selectedAddress: ""
-    });
-    this.setState({ addressSelectedByUser: false });
-    // let addressSelected = filter(this.props.returnRequest.deliveryAddressesList, address => {
-    // 	return address.id === selectedAddress[0];
-    // });
-    let productObject = {};
-    productObject.orderCode =
-      this.props.returnProducts &&
-      this.props.returnProducts.orderProductWsDTO &&
-      this.props.returnProducts.orderProductWsDTO[0] &&
-      this.props.returnProducts.orderProductWsDTO[0].sellerorderno;
-    //productObject.pinCode = addressSelected && addressSelected[0].postalCode;
-    productObject.transactionId =
-      this.props.returnProducts &&
-      this.props.returnProducts.orderProductWsDTO &&
-      this.props.returnProducts.orderProductWsDTO[0] &&
-      this.props.returnProducts.orderProductWsDTO[0].transactionId;
-    if (this.props.returnPinCode) {
-      let returnPinCodeResponse = await this.props.returnPinCode(productObject);
-      // if (returnPinCodeResponse.status === SUCCESS) {
-      // this.setState({
-      // 	selectedAddress: addressSelected[0],
-      // });
-      // }
+  }
+  onSelectAddress(address) {
+    debugger;
+    if (this.props.onSelectAddress) {
+      this.props.onSelectAddress(address);
     }
-  };
+  }
 
   onRedirectionToNextSection() {
     if (this.props.onRedirectionToNextSection) {
@@ -106,48 +54,62 @@ export default class ConfirmAddress extends React.Component {
     }
   }
   render() {
-    //console.log('props in address change:', this.props);
+    console.log("this.props", this.props);
     let buttonHolder = styles.buttonHolder;
     if (
-      this.props.userAddress.addresses &&
-      this.props.userAddress.addresses.length % 2 === 0 &&
+      this.props.address &&
+      this.props.address.length % 2 === 0 &&
       this.state.showAll &&
-      this.props.userAddress.addresses.length > 2 &&
+      this.props.address.length > 2 &&
       !this.props.isReturn
     ) {
       buttonHolder = styles.buttonHolderwithPadding;
     }
+    let orderId =
+      this.props && this.props.data && this.props.data.sellerorderno;
     return (
       <div className={this.props.isReturn ? styles.baseForReturn : styles.base}>
-        <div className={styles.header}>
-          Confirm address
-          {/* <CheckOutHeader confirmTitle="Confirm address" indexNumber={this.props.indexNumber} /> */}
-        </div>
-        <div className={styles.addressHolder}>
-          {/* {this.props.isReturn && ( */}
-          <div className={styles.addressHeader}>
-            <span>Select pickup address</span>
+        {!this.props.isReturn && (
+          <div className={styles.header}>
+            <CheckOutHeader
+              confirmTitle="Confirm address"
+              indexNumber={this.props.indexNumber}
+            />
           </div>
-          {/* )} */}
+        )}
+
+        <div className={styles.addressHolder}>
+          {this.props.isReturn && (
+            <div className={styles.addressHeader}>
+              <span>Select pickup address</span>
+              <div className={styles.underLineButtonHolder}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000"
+                  label="Add new address"
+                  onClick={() => this.onNewAddress()}
+                />
+              </div>
+            </div>
+          )}
 
           <div className={styles.gridHolder}>
             <GridSelect
               limit={1}
               offset={0}
               elementWidthMobile={100}
-              // this.props.isReturn ? 100 : 50
-              elementWidthDesktop={100}
+              elementWidthDesktop={this.props.isReturn ? 100 : 50}
               selected={this.props.selected}
-              onSelect={addressId => this.onSelectAddress(addressId)}
             >
-              {this.props.userAddress.addresses &&
-                this.props.userAddress.addresses
+              {this.props.address &&
+                this.props.address
                   .filter((val, i) => {
                     return !this.state.showAll ? i < 3 : true;
                   })
                   .map((val, i) => {
                     return (
-                      <DeliveryAddressCart
+                      <DeliveryAddressReturn
                         addressTitle={val.addressTitle}
                         addressDescription={val.addressDescription}
                         contact={val.phone}
@@ -156,6 +118,8 @@ export default class ConfirmAddress extends React.Component {
                         value={val.value}
                         selected={val.selected}
                         isReturn={this.props.isReturn}
+                        address={val}
+                        onSelectAddress={val => this.onSelectAddress(val)}
                       />
                     );
                   })}
@@ -164,8 +128,8 @@ export default class ConfirmAddress extends React.Component {
 
           <div className={buttonHolder}>
             {!this.props.isReturn &&
-              this.props.userAddress.addresses &&
-              this.props.userAddress.addresses.length > 3 && (
+              this.props.address &&
+              this.props.address.length > 3 && (
                 <div className={styles.moreButtonHolder}>
                   <UnderLinedButton
                     size="14px"
@@ -177,42 +141,51 @@ export default class ConfirmAddress extends React.Component {
                 </div>
               )}
             <DesktopOnly>
-              {/* {this.props.onRedirectionToNextSection && (
-								<div className={styles.continueButtonHolder}>
-									<Button
-										disabled={this.props.disabled}
-										type="primary"
-										backgroundColor="#ff1744"
-										height={40}
-										label="Continue"
-										width={135}
-										textStyle={{
-											color: '#FFF',
-											fontSize: 14,
-										}}
-										onClick={() => this.onRedirectionToNextSection()}
-									/>
-								</div>
-							)} */}
+              {this.props.onRedirectionToNextSection && (
+                <div className={styles.continueButtonHolder}>
+                  <Button
+                    disabled={this.props.disabled}
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Continue"
+                    width={135}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() =>
+                      this.props.history.push({
+                        pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_MODES}`,
+                        state: {
+                          address: this.state.defaultAddress,
+                          authorizedRequest: true
+                        }
+                      })
+                    }
+                  />
+                </div>
+              )}
             </DesktopOnly>
-            {/* {!this.props.isReturn && ( */}
-            <div className={styles.newAddress}>
-              <UnderLinedButton
-                size="14px"
-                fontFamily="regular"
-                color="#ff1744"
-                label="Add new address"
-                onClick={() => this.onNewAddress()}
-              />
-            </div>
-            {/* )} */}
+            {!this.props.isReturn && (
+              <div className={styles.newAddress}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#ff1744"
+                  label="Add new address"
+                  onClick={() => this.onNewAddress()}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
     );
   }
 }
-ConfirmAddress.propTypes = {
+
+ReturnChangeAddress.propTypes = {
   onNewAddress: PropTypes.func,
   indexNumber: PropTypes.string,
   isReturn: PropTypes.bool,
@@ -223,7 +196,7 @@ ConfirmAddress.propTypes = {
     })
   )
 };
-ConfirmAddress.defaultProps = {
+ReturnChangeAddress.defaultProps = {
   indexNumber: "1",
   isReturn: false
 };

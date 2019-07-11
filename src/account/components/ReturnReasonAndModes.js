@@ -75,25 +75,21 @@ import format from "date-fns/format";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 //import CheckoutAddressContainer from "../../cart/containers/CheckoutAddressContainer";
 import ConfirmAddress from "../../cart/components/ConfirmAddress";
-import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress";
-import ReturnChangeAddress from "./ReturnChangeAddress";
+//import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress";
+//import ReturnChangeAddress from "./ReturnChangeAddress";
 import RefundTransactionSummary from "../../account/components/RefundTransactionSummary.js";
-import ReturnAddressBook from "../components/ReturnAddressBook.js";
-import ReturnNewAddress from "./ReturnNewAddress";
+//import ReturnAddressBook from "../components/ReturnAddressBook.js";
+//import ReturnNewAddress from "./ReturnNewAddress";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
 const dateFormat = "DD MMM YYYY";
 const REG_X_FOR_RNRSELECTION = /replace-refund-selection/i;
 const REG_X_FOR_BANKDETAILS = /bankDetail/i;
-const REG_X_FOR_ADDRESS = /address/i;
-const REG_X_FOR_DATE_TIME = /dateTime/i;
-const REG_X_FOR_NEW_ADDRESS = /addDeliveryLocation/i;
+// const REG_X_FOR_ADDRESS = /address/i;
+// const REG_X_FOR_DATE_TIME = /dateTime/i;
+// const REG_X_FOR_NEW_ADDRESS = /addDeliveryLocation/i;
 const REG_X_FOR_RETURN_SUMMARY = /returnSummary/i;
-//const REG_X_CHANGE_ADDRESS = /changeReturnAddress/i;
-// const REG_X_CHANGE_ADDRESS = MY_ACCOUNT_ADDRESS_EDIT_PAGE;
 const REG_X_FOR_REFUNDSUMMARY = /refund-summary/i;
-// const REG_ADD_NEW_ADDRESS = /addDeliveryLocation/i;
-//const REG_X_CHANGE_ADDRESS = /deliveryAddress/i;
 
 export default class ReturnReasonAndModes extends React.Component {
   constructor(props) {
@@ -367,10 +363,10 @@ export default class ReturnReasonAndModes extends React.Component {
     const returnProductDetails = this.props.returnProductDetails;
     const orderDetails = this.props.orderDetails;
     let returnFlow = this.props.returnFlow;
-    let returnAddress =
-      this.props.returnRequest && this.props.returnRequest.deliveryAddressesList
-        ? this.props.returnRequest.deliveryAddressesList
-        : this.props.userAddress.addresses;
+    // let returnAddress =
+    //   this.props.returnRequest && this.props.returnRequest.deliveryAddressesList
+    //     ? this.props.returnRequest.deliveryAddressesList
+    //     : this.props.userAddress.addresses;
     const renderReasonForm = (
       <ReturnReasonForm
         {...this.props}
@@ -380,6 +376,7 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.orderDetails &&
           format(this.props.orderDetails.orderDate, dateFormat)
         }
+        history={this.props.history}
         orderId={this.props.orderDetails && this.props.orderDetails.orderId}
         productBrand={
           this.props.orderDetails &&
@@ -470,6 +467,7 @@ export default class ReturnReasonAndModes extends React.Component {
         updateStateForBankDetails={(data: any) =>
           this.props.updateStateForBankDetails(data)
         }
+        history={this.props.history}
         bankDetail={this.props.bankDetail}
         returnFlow={this.props.returnFlow}
       />
@@ -482,106 +480,105 @@ export default class ReturnReasonAndModes extends React.Component {
         getRefundTransactionSummary={this.props.getRefundTransactionSummary}
       />
     );
-    const renderAddress = (
-      <ReturnAddressBook
-        {...this.state}
-        {...this.props}
-        address={
-          returnAddress &&
-          returnAddress.map(addressSelected => {
-            return {
-              addressTitle: addressSelected.addressType,
-              addressDescription: `${
-                addressSelected.line1 ? addressSelected.line1 : ""
-              } ${addressSelected.town ? addressSelected.town : ""}, ${
-                addressSelected.state ? addressSelected.state : ""
-              } ${
-                addressSelected.postalCode ? addressSelected.postalCode : ""
-              }`,
-              value: addressSelected.id,
-              selected: addressSelected.defaultAddress
-            };
-          })
-        }
-        history={this.props.history}
-        onNewAddress={() => this.addNewAddress()}
-        onSelectAddress={address => this.onSelectAddress(address)}
-        // isReturn={checkUserAgentIsMobile() ? false : true}
-      />
-    );
-    const renderNewAddress = (
-      <ReturnNewAddress
-        {...this.props}
-        isReturn={checkUserAgentIsMobile() ? false : true}
-        label={checkUserAgentIsMobile() ? false : true}
-        history={this.props.history}
-        addUserAddress={address => this.addAddress(address)}
-        handleCancelAddress={() => this.handleCancelAddress()}
-        {...this.state}
-        onChange={val => this.onChange(val)}
-        displayToast={message => this.props.displayToast(message)}
-        getPincodeStatus={this.props.getPincodeStatus}
-        getPinCode={val => this.getPinCodeDetails(val)}
-        getPinCodeDetails={this.props.getPinCodeDetails}
-        // resetAutoPopulateDataForPinCode={() =>
-        //   this.props.resetAutoPopulateDataForPinCode()
-        // }
-        getUserDetails={() => this.props.getUserDetails()}
-        userDetails={this.props.userDetails}
-        resetAddAddressDetails={() => this.props.resetAddAddressDetails()}
-        clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
-      />
-    );
-    const renderAddressChange = (
-      <ReturnAddressBook
-        {...this.props}
-        address={
-          this.props.userAddress.addresses &&
-          this.props.userAddress.addresses.map(address => {
-            return {
-              addressTitle: address.addressType,
-              addressDescription: `${address.line1 ? address.line1 : ""} ${
-                address.line2 ? address.line2 : ""
-              }  ${address.state ? address.state : ""} ${
-                address.postalCode ? address.postalCode : ""
-              }`,
-              value: address.id,
-              phone: address.phone,
-              selected: address.defaultAddress
-            };
-          })
-        }
-        history={this.props.history}
-        onSelectAddress={addressId => this.onSelectAddress(addressId)}
-      />
-      // <ReturnChangeAddress
-      //   {...this.props}
-      //   data={this.props.userAddress.addresses}
-      //   isReturn={checkUserAgentIsMobile() ? false : true}
-      // />
-    );
-    const renderAddNewAddress = (
-      <AddDeliveryAddress
-        isReturn={checkUserAgentIsMobile() ? false : true}
-        label={checkUserAgentIsMobile() ? false : true}
-        history={this.props.history}
-        addUserAddress={address => this.addAddress(address)}
-        handleCancelAddress={() => this.handleCancelAddress()}
-        {...this.state}
-        onChange={val => this.onChange(val)}
-        displayToast={message => this.props.displayToast(message)}
-        getPincodeStatus={this.props.getPincodeStatus}
-        getPinCode={val => this.getPinCodeDetails(val)}
-        getPinCodeDetails={this.props.getPinCodeDetails}
-        resetAutoPopulateDataForPinCode={() =>
-          this.props.resetAutoPopulateDataForPinCode()
-        }
-        getUserDetails={() => this.props.getUserDetails()}
-        userDetails={this.props.userDetails}
-        resetAddAddressDetails={() => this.props.resetAddAddressDetails()}
-        clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
-      />
-    );
+
+    // const renderAddress = (
+    //   <ReturnAddressBook
+    //     {...this.state}
+    //     {...this.props}
+    //     address={
+    //       returnAddress &&
+    //       returnAddress.map(addressSelected => {
+    //         return {
+    //           addressTitle: addressSelected.addressType,
+    //           addressDescription: `${
+    //             addressSelected.line1 ? addressSelected.line1 : ""
+    //           } ${addressSelected.town ? addressSelected.town : ""}, ${
+    //             addressSelected.state ? addressSelected.state : ""
+    //           } ${
+    //             addressSelected.postalCode ? addressSelected.postalCode : ""
+    //           }`,
+    //           value: addressSelected.id,
+    //           selected: addressSelected.defaultAddress
+    //         };
+    //       })
+    //     }
+    //     onNewAddress={() => this.addNewAddress()}
+    //     onSelectAddress={address => this.onSelectAddress(address)}
+    //     // isReturn={checkUserAgentIsMobile() ? false : true}
+    //   />
+    // );
+    // const renderNewAddress = (
+    //   <ReturnNewAddress
+    //     {...this.props}
+    //     isReturn={checkUserAgentIsMobile() ? false : true}
+    //     label={checkUserAgentIsMobile() ? false : true}
+    //     history={this.props.history}
+    //     addUserAddress={address => this.addAddress(address)}
+    //     handleCancelAddress={() => this.handleCancelAddress()}
+    //     {...this.state}
+    //     onChange={val => this.onChange(val)}
+    //     displayToast={message => this.props.displayToast(message)}
+    //     getPincodeStatus={this.props.getPincodeStatus}
+    //     getPinCode={val => this.getPinCodeDetails(val)}
+    //     getPinCodeDetails={this.props.getPinCodeDetails}
+    //     // resetAutoPopulateDataForPinCode={() =>
+    //     //   this.props.resetAutoPopulateDataForPinCode()
+    //     // }
+    //     getUserDetails={() => this.props.getUserDetails()}
+    //     userDetails={this.props.userDetails}
+    //     resetAddAddressDetails={() => this.props.resetAddAddressDetails()}
+    //     clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
+    //   />
+    // );
+    // const renderAddressChange = (
+    //   <ReturnAddressBook
+    //     {...this.props}
+    //     address={
+    //       this.props.userAddress.addresses &&
+    //       this.props.userAddress.addresses.map(address => {
+    //         return {
+    //           addressTitle: address.addressType,
+    //           addressDescription: `${address.line1 ? address.line1 : ""} ${
+    //             address.line2 ? address.line2 : ""
+    //           }  ${address.state ? address.state : ""} ${
+    //             address.postalCode ? address.postalCode : ""
+    //           }`,
+    //           value: address.id,
+    //           phone: address.phone,
+    //           selected: address.defaultAddress
+    //         };
+    //       })
+    //     }
+    //     onSelectAddress={addressId => this.onSelectAddress(addressId)}
+    //   />
+    // <ReturnChangeAddress
+    //   {...this.props}
+    //   data={this.props.userAddress.addresses}
+    //   isReturn={checkUserAgentIsMobile() ? false : true}
+    // />
+    //);
+    // const renderAddNewAddress = (
+    //   <AddDeliveryAddress
+    //     isReturn={checkUserAgentIsMobile() ? false : true}
+    //     label={checkUserAgentIsMobile() ? false : true}
+    //     history={this.props.history}
+    //     addUserAddress={address => this.addAddress(address)}
+    //     handleCancelAddress={() => this.handleCancelAddress()}
+    //     {...this.state}
+    //     onChange={val => this.onChange(val)}
+    //     displayToast={message => this.props.displayToast(message)}
+    //     getPincodeStatus={this.props.getPincodeStatus}
+    //     getPinCode={val => this.getPinCodeDetails(val)}
+    //     getPinCodeDetails={this.props.getPinCodeDetails}
+    //     resetAutoPopulateDataForPinCode={() =>
+    //       this.props.resetAutoPopulateDataForPinCode()
+    //     }
+    //     getUserDetails={() => this.props.getUserDetails()}
+    //     userDetails={this.props.userDetails}
+    //     resetAddAddressDetails={() => this.props.resetAddAddressDetails()}
+    //     clearPinCodeStatus={() => this.props.clearPinCodeStatus()}
+    //   />
+    // );
     let data = this.props.returnProductDetails;
     let disableHeader = pathname.match(REG_X_FOR_BANKDETAILS) ? true : false;
     let disableforRefundPage =
@@ -591,7 +588,7 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.location.state.isRefundTransactionPage;
     return (
       <React.Fragment>
-        <div className={styles.base}>
+        {/* <div className={styles.base}>
           <div className={styles.holder}>
             {!disableforRefundPage && (
               <div className={styles.profileMenu}>
@@ -687,24 +684,23 @@ export default class ReturnReasonAndModes extends React.Component {
                     )}
                   </React.Fragment>
                 )}
-                <div>
-                  {pathname.match(REG_X_FOR_REASON) && renderReasonForm}
-                  {pathname.match(REG_X_FOR_RNRSELECTION) &&
-                    replaceRefundSelection}
-                  {pathname.match(REG_X_FOR_MODES) && renderReturnMode}
-                  {pathname.match(REG_X_FOR_BANKDETAILS) && renderBankDetails}
-                  {pathname.match(REG_X_FOR_ADDRESS) && renderAddress}
+                <div> */}
+        {pathname.match(REG_X_FOR_REASON) && renderReasonForm}
+        {pathname.match(REG_X_FOR_RNRSELECTION) && replaceRefundSelection}
+        {pathname.match(REG_X_FOR_MODES) && renderReturnMode}
+        {pathname.match(REG_X_FOR_BANKDETAILS) && renderBankDetails}
+        {/* {pathname.match(REG_X_FOR_ADDRESS) && renderAddress}
                   {pathname.match(REG_X_FOR_DATE_TIME) && this.renderDateTime()}
-                  {pathname.match(REG_X_FOR_NEW_ADDRESS) && renderNewAddress}
-                  {/* {pathname.match(REG_X_FOR_RETURN_SUMMARY) &&
+                  {pathname.match(REG_X_FOR_NEW_ADDRESS) && renderNewAddress} */}
+        {/* {pathname.match(REG_X_FOR_RETURN_SUMMARY) &&
                     this.renderReturnSummary()} */}
-                  {/* {pathname.match(REG_X_CHANGE_ADDRESS) && renderAddressChange}
+        {/* {pathname.match(REG_X_CHANGE_ADDRESS) && renderAddressChange}
                   {pathname.match(REG_ADD_NEW_ADDRESS) && renderAddNewAddress}*/}
-                  {/* {pathname.match(REG_X_FOR_REFUNDSUMMARY) &&
+        {/* {pathname.match(REG_X_FOR_REFUNDSUMMARY) &&
                     refundTransactionSummary} */}
-                </div>
-                {/* {this.props.children} */}
-              </div>
+        {/* </div> */}
+        {/* {this.props.children} */}
+        {/* </div>
             </div>
             {!disableforRefundPage && (
               <div className={styles.userProfile}>
@@ -732,7 +728,7 @@ export default class ReturnReasonAndModes extends React.Component {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }

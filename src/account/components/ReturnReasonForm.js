@@ -6,14 +6,25 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import styles from "./ReturnReasonForm.css";
+import stylesCommon from "./ReturnReasonAndModes.css";
 import ReverseSealYesNo from "./ReverseSealYesNo.js";
 import DeskTopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
 import cancel from "../../general/components/img/canceltransperent.png";
 import { COMMENTS_PLACEHOLDER } from "../../lib/constants";
+import ProfileMenu from "../../account/components/ProfileMenu.js";
+import UserProfile from "../../account/components/UserProfile.js";
+import format from "date-fns/format";
+import * as Cookie from "../../lib/Cookie";
+import {
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  PRODUCT_CANCEL
+} from "../../lib/constants";
 const MODE_OF_RETURN = "Select mode of return";
 const REFUND_DETAILS = "Refund Details";
+const dateFormat = "DD MMM YYYY";
 export default class ReturnReasonForm extends React.Component {
   constructor(props) {
     super(props);
@@ -110,202 +121,222 @@ export default class ReturnReasonForm extends React.Component {
       this.props.onCancel();
     }
   }
-  handleFileUpload(e) {
-    let uploadedFilesArr = Array.from(e.target.files);
-    if (uploadedFilesArr.length > 8) {
-      return this.props.displayToast("Upload maximum 8 images");
-    }
-    let imgArray = [];
-    let validImageFiles = [];
-    let allImagesSize = [];
-    uploadedFilesArr.map((value, index) => {
-      allImagesSize.push(value.size);
-      if (!value.type.includes("image")) {
-        return this.props.displayToast("Upload file in image file format only");
-      }
-      if (!value.type.includes("jpeg")) {
-        if (!value.type.includes("png")) {
-          return this.props.displayToast(
-            "Upload image in JPEG/PNG format only"
-          );
-        }
-      }
-      // if (value.size > 2500000) {
-      //   return this.props.displayToast(
-      //     "The Image size should be lesser than 2.5MB"
-      //   );
-      // }
-      let eachImgSrc = URL.createObjectURL(value);
-      imgArray.push(eachImgSrc);
-      validImageFiles.push(value);
-    });
-    let currentImagesSize = allImagesSize.reduce((a, b) => a + b, 0);
-    if (currentImagesSize > 25000000) {
-      return this.props.displayToast(
-        "Total size of all the images size should be lesser than 25MB"
-      );
-    }
-    this.setState({ uploadedImageFiles: imgArray });
-    this.setState({ validImgFiles: validImageFiles });
-  }
-  removeFile(filename, indexOfRemovedFile) {
-    let fileNames = this.state.uploadedImageFiles;
-    let index = fileNames.indexOf(filename);
-    if (index > -1) {
-      fileNames.splice(index, 1);
-      this.setState({ uploadedImageFiles: fileNames });
-    }
-    let updatedValidImgFiles = this.state.validImgFiles;
-    if (indexOfRemovedFile > -1) {
-      updatedValidImgFiles.splice(indexOfRemovedFile, 1);
-      this.setState({ validImgFiles: updatedValidImgFiles });
-    }
-  }
   render() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    const userData = JSON.parse(userDetails);
+    const userAccountDetails = JSON.parse(userDetails);
+    const orderDetails = this.props.orderDetails;
+    let returnFlow = this.props.returnFlow;
+    const returnProductDetails = this.props.returnProductDetails;
     const data = this.props.returnProductDetails;
     let imageCallOut = data && data.attachmentImageCallout;
     let imageCallOutArr = imageCallOut && imageCallOut.split("|");
     return (
-      <div className={styles.base}>
-        <div className={styles.content}>
-          <div className={styles.selectReasonWithText}>
-            {/* <DeskTopOnly>
-							<div className={styles.header}>
-								{/* <div className={styles.circleHolder}>
-									<div className={styles.circle}>1</div>
-								</div>
-								Select reason for your return
-							</div>
-						</DeskTopOnly> */}
-            {this.props.returnFlow == false ? (
-              <div className={styles.header}>
-                <div className={styles.circleHolder}>
-                  <div className={styles.circle}>1</div>
-                </div>
-                Select reason for your return
-              </div>
-            ) : (
-              <div className={styles.header}>Please select return reason</div>
-            )}
-            <div className={styles.select}>
-              <SelectBoxMobile2
-                placeholder={
-                  this.props.returnFlow ? "Select issue" : "Select a reason"
-                }
-                options={
-                  data &&
-                  data.returnReasonMap &&
-                  data.returnReasonMap.map((val, i) => {
-                    return {
-                      value: val.parentReasonCode,
-                      label: val.parentReturnReason,
-                      isImageApplicable: val.isImageApplicable
-                    };
-                  })
-                }
-                onChange={val => this.onChangePrimary(val)}
-              />
+      <React.Fragment>
+        <div className={stylesCommon.base}>
+          <div className={stylesCommon.holder}>
+            <div className={stylesCommon.profileMenu}>
+              <ProfileMenu {...this.props} />
             </div>
-            {this.state.secondaryReasons && (
-              <div className={styles.select}>
-                <SelectBoxMobile2
-                  placeholder={"Select a reason"}
-                  options={this.state.secondaryReasons}
-                  onChange={val => this.onChangeSecondary(val)}
-                  isEnable={this.state.isEnable}
-                />
-              </div>
-            )}
-            <div className={styles.textArea}>
-              <TextArea
-                value={this.state.comment}
-                onChange={val => this.handleChange(val)}
-                placeholder={COMMENTS_PLACEHOLDER}
-              />
-            </div>
-            <DeskTopOnly>
-              <div className={styles.buttonHolder}>
-                <CancelAndContinueButton
-                  handleCancel={() => this.handleCancel()}
-                  handleContinue={() => this.handleContinue()}
-                  disabled={this.state.reason ? false : true}
-                />
-              </div>
-            </DeskTopOnly>
-          </div>
-        </div>
-        {data &&
-          data.showReverseSealFrJwlry === "yes" && (
-            <div className={styles.reverseSealHolder}>
-              <ReverseSealYesNo
-                selectReverseSeal={val => this.selectReverseSeal(val)}
-              />
-            </div>
-          )}
-        {/* {this.state.showImageUpload && (
-          <div className={styles.returnReasonForm}>
-            <div className={styles.returnTitle}>Add attachments*</div>
-            {imageCallOutArr && (
-              <ol className={styles.imgAttachmentText}>
-                {imageCallOutArr.map((value, index) => {
-                  return <li key={index}>{value}</li>;
-                })}
-              </ol>
-            )}
 
-            <div className={styles.imagePreviewContainer}>
-              {this.state.uploadedImageFiles.length > 0 &&
-                this.state.uploadedImageFiles.map((val, index) => {
-                  return (
-                    <div className={styles.imagePreview} key={index}>
-                      <img
-                        id="panImage"
-                        src={val}
-                        alt="Upload"
-                        width="60%"
-                        height="auto"
-                      />
-                      <div className={styles.cancel}>
-                        <img
-                          src={cancel}
-                          onClick={() => this.removeFile(val, index)}
-                          alt="cancel"
+            <div className={stylesCommon.returnReasonDetail}>
+              <div className={stylesCommon.returnReasonDetailHolder}>
+                <React.Fragment>
+                  <div>
+                    <div className={stylesCommon.orderCardWrapper}>
+                      <OrderCard
+                        imageUrl={
+                          returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0].imageURL
+                        }
+                        productName={`${returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0]
+                            .productBrand} ${returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0]
+                            .productName}`}
+                        price={
+                          returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0].price
+                        }
+                        isSelect={false}
+                        quantity={true}
+                        orderPlace={
+                          orderDetails && orderDetails.orderDate
+                            ? orderDetails &&
+                              format(orderDetails.orderDate, dateFormat)
+                            : this.props.orderPlace
+                        }
+                        orderId={this.props.orderId}
+                        productSize={
+                          this.props.orderDetails.products[0].productSize
+                        }
+                        productColourName={
+                          this.props.orderDetails.products[0].productColourName
+                        }
+                        productBrand={
+                          orderDetails && orderDetails.productBrand
+                            ? orderDetails.productBrand
+                            : returnProductDetails &&
+                              returnProductDetails.orderProductWsDTO &&
+                              returnProductDetails.orderProductWsDTO[0] &&
+                              returnProductDetails.orderProductWsDTO[0]
+                                .productBrand
+                        }
+                        onHollow={true}
+                        returnFlow={returnFlow}
+                        title={PRODUCT_CANCEL}
+                        onClick={() =>
+                          this.onClickImage(
+                            orderDetails &&
+                              orderDetails.orderProductWsDTO &&
+                              orderDetails.orderProductWsDTO[0] &&
+                              orderDetails.orderProductWsDTO[0].productcode
+                          )
+                        }
+                      >
+                        {returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0]
+                            .quantity && (
+                            <div className={styles.quantity}>
+                              Qty{" "}
+                              {
+                                returnProductDetails.orderProductWsDTO[0]
+                                  .quantity
+                              }
+                            </div>
+                          )}
+                      </OrderCard>
+                    </div>
+                  </div>
+                </React.Fragment>
+
+                <div className={styles.base}>
+                  <div className={styles.content}>
+                    <div className={styles.selectReasonWithText}>
+                      {this.props.returnFlow == false ? (
+                        <div className={styles.header}>
+                          <div className={styles.circleHolder}>
+                            <div className={styles.circle}>1</div>
+                          </div>
+                          Select reason for your return
+                        </div>
+                      ) : (
+                        <div className={styles.header}>
+                          Please select return reason
+                        </div>
+                      )}
+                      <div className={styles.select}>
+                        <SelectBoxMobile2
+                          placeholder={
+                            this.props.returnFlow
+                              ? "Select issue"
+                              : "Select a reason"
+                          }
+                          options={
+                            data &&
+                            data.returnReasonMap &&
+                            data.returnReasonMap.map((val, i) => {
+                              return {
+                                value: val.parentReasonCode,
+                                label: val.parentReturnReason,
+                                isImageApplicable: val.isImageApplicable
+                              };
+                            })
+                          }
+                          onChange={val => this.onChangePrimary(val)}
                         />
                       </div>
+                      {this.state.secondaryReasons && (
+                        <div className={styles.select}>
+                          <SelectBoxMobile2
+                            placeholder={"Select a reason"}
+                            options={this.state.secondaryReasons}
+                            onChange={val => this.onChangeSecondary(val)}
+                            isEnable={this.state.isEnable}
+                          />
+                        </div>
+                      )}
+                      <div className={styles.textArea}>
+                        <TextArea
+                          value={this.state.comment}
+                          onChange={val => this.handleChange(val)}
+                          placeholder={COMMENTS_PLACEHOLDER}
+                        />
+                      </div>
+                      <DeskTopOnly>
+                        <div className={styles.buttonHolder}>
+                          <CancelAndContinueButton
+                            handleCancel={() => this.handleCancel()}
+                            handleContinue={() => this.handleContinue()}
+                            disabled={this.state.reason ? false : true}
+                          />
+                        </div>
+                      </DeskTopOnly>
                     </div>
-                  );
-                })}
+                  </div>
+                  {data &&
+                    data.showReverseSealFrJwlry === "yes" && (
+                      <div className={styles.reverseSealHolder}>
+                        <ReverseSealYesNo
+                          selectReverseSeal={val => this.selectReverseSeal(val)}
+                        />
+                      </div>
+                    )}
+
+                  {this.props.returnFlow ? (
+                    ""
+                  ) : (
+                    <DummyTab title={MODE_OF_RETURN} number={2} />
+                  )}
+                  {this.props.returnFlow ? (
+                    ""
+                  ) : (
+                    <DummyTab title={REFUND_DETAILS} number={3} />
+                  )}
+                </div>
+              </div>
             </div>
 
-            <div className={styles.uploadimageButton}>
-              <div className={styles.fileuploadButton}>
-                <span className={styles.addImageSign} />
-              </div>
-              <input
-                type="file"
-                ref="file"
-                className={styles.fileUpload}
-                onChange={event => this.handleFileUpload(event)}
-                name="textFile"
-                multiple
+            <div className={stylesCommon.userProfile}>
+              <UserProfile
+                image={userAccountDetails.imageUrl}
+                userLogin={userAccountDetails.userName}
+                loginType={userAccountDetails.loginType}
+                firstName={
+                  userAccountDetails &&
+                  userAccountDetails.firstName &&
+                  userAccountDetails.firstName.trim().charAt(0)
+                }
+                heading={
+                  userAccountDetails &&
+                  userAccountDetails.firstName &&
+                  `${userAccountDetails.firstName} `
+                }
+                lastName={
+                  userAccountDetails &&
+                  userAccountDetails.lastName &&
+                  `${userAccountDetails.lastName}`
+                }
+                userAddress={this.props.userAddress}
               />
             </div>
-            <div className={styles.imgAttachmentSubText}>
-              Upload JPEG, PNG (Maximum size per image 2.5 MB)
-            </div>
           </div>
-        )} */}
-        {this.props.returnFlow ? (
-          ""
-        ) : (
-          <DummyTab title={MODE_OF_RETURN} number={2} />
-        )}
-        {this.props.returnFlow ? (
-          ""
-        ) : (
-          <DummyTab title={REFUND_DETAILS} number={3} />
-        )}
-      </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

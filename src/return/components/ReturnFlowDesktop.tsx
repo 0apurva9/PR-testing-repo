@@ -1,22 +1,16 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import {
-	IProps,
-	IProductDetailsObj,
-	ReturnStatus,
-	IState,
-	IReturnSelectedReason,
-	//IUpdateCustomerBankDetails,
-} from './interface/ReturnFlowDesktop';
+import { IProps, IProductDetailsObj, ReturnStatus, IState, IReturnSelectedReason } from './interface/ReturnFlowDesktop';
 import { IStateForBank } from './interface/ReturnBankFormForDesktop';
 import * as Cookie from '../../lib/Cookie';
 import ReturnReasonAndModes from '../../account/components/ReturnReasonAndModes';
-//import ReturnBankForm from '../../account/components/ReturnBankForm';
 //import ReturnToStoreContainer from '../../account/containers/ReturnToStoreContainer.js';
 // import ReturnCliqAndPiqContainer from '../../account/containers/ReturnCliqAndPiqContainer.js';
 // import SelfCourierContainer from '../../account/containers/SelfCourierContainer.js';
-// import ReturnReasonFormForDesktop from './ReturnReasonFormForDesktop';
-// import ReturnModesForDesktop from './ReturnModesForDesktop';
+import ReturnAddressContainer from '../containers/ReturnAddressContainer.js';
+import ReturnEditAddressContainer from '../containers/ReturnEditAddressContainer.js';
+import ReturnAddAddressContainer from '../containers/ReturnAddAddressContainer.js';
+import Loader from '../../general/components/Loader';
 import cloneDeep from 'lodash.clonedeep';
 import {
 	LOGGED_IN_USER_DETAILS,
@@ -36,6 +30,10 @@ import {
 	RETURN_LANDING,
 	RETURNS,
 	REFUND_SUMMARY,
+	RETURN_TO_ADDRESS,
+	EDIT,
+	ADD,
+	BACK_END_ISSUE_ERROR_MESSAGE,
 	//RETURNS_STORE_BANK_FORM,
 } from '../../lib/constants';
 import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
@@ -231,45 +229,76 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		this.setState(val);
 	};
 
+	renderLoader() {
+		return <Loader />;
+	}
 	public render() {
 		const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 		const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-		if (!userDetails || !customerCookie) {
+		if (!userDetails || !customerCookie || !this.transactionId) {
 			return this.navigateToLogin();
 		}
+		if (this.props.error === BACK_END_ISSUE_ERROR_MESSAGE) {
+			this.props.displayToast(this.props.error);
+			this.props.history.goBack();
+		}
+		if (!this.props.returnRequest && !this.props.returnProductDetails) {
+			return this.renderLoader();
+		}
+		console.log('this.props:', this.props);
+		// let disableReturnReason =
+		// 	this.props.history.location &&
+		// 	this.props.history.location.state &&
+		// 	this.props.history.location.state.changeAddress
+		// 		? true
+		// 		: false;
+		// let disableforAddAddress =
+		// 	this.props.location && this.props.location.state && this.props.location.state.addAddress == true
+		// 		? true
+		// 		: false;
 		let returnFlow = true;
-		let disableForTransactionSummary =
-			this.props.location &&
-			this.props.location.state &&
-			this.props.location.state.isRefundTransactionPage == true
-				? true
-				: false;
+		// let disableForTransactionSummary =
+		// 	this.props.location &&
+		// 	this.props.location.state &&
+		// 	this.props.location.state.isRefundTransactionPage == true
+		// 		? true
+		// 		: false;
+		// let addressChanged =
+		// 	this.props.history.location &&
+		// 	this.props.history.location.state &&
+		// 	this.props.history.location.state.address != null
+		// 		? true
+		// 		: false;
+		console.log('this.props in return Flow', this.props);
 		return (
 			<React.Fragment>
-				{!disableForTransactionSummary && (
-					<Route
-						path={`${RETURNS}${RETURN_LANDING}`}
-						render={() => (
-							<ReturnReasonAndModes
-								{...this.state}
-								{...this.props}
-								onChange={(val: any) => this.onChangeReasonAndMode(val)}
-								// changeReturnReason={(val: any) => this.changeReturnReason()}
-								returnProductDetails={this.props.returnProductDetails}
-								returnFlow={returnFlow}
-								onCancel={() => this.onCancel()}
-								clearForm={() => this.clearForm()}
-								history={this.props.history}
-								updateStateForBankDetails={(data: any) => this.updateStateForBankDetails(data)}
-								bankDetail={this.state.bankDetail}
-								onChangeBankingDetail={(val: any) => this.onChangeBankingDetail(val)}
-								onContinue={(BankDetails: any) => this.handleContinueForBankForm(BankDetails)}
-								selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
-							/>
-						)}
-					/>
-				)}
+				{/* {!disableForTransactionSummary &&
+					!disableReturnReason &&
+					!disableforAddAddress && ( */}
 				<Route
+					path={`${RETURNS}${RETURN_LANDING}`}
+					render={() => (
+						<ReturnReasonAndModes
+							{...this.state}
+							{...this.props}
+							onChange={(val: any) => this.onChangeReasonAndMode(val)}
+							// changeReturnReason={(val: any) => this.changeReturnReason()}
+							returnProductDetails={this.props.returnProductDetails}
+							returnFlow={returnFlow}
+							onCancel={() => this.onCancel()}
+							clearForm={() => this.clearForm()}
+							history={this.props.history}
+							updateStateForBankDetails={(data: any) => this.updateStateForBankDetails(data)}
+							bankDetail={this.state.bankDetail}
+							onChangeBankingDetail={(val: any) => this.onChangeBankingDetail(val)}
+							onContinue={(BankDetails: any) => this.handleContinueForBankForm(BankDetails)}
+							selectedReasonAndCommentObj={this.state.selectedReasonAndCommentObj}
+						/>
+					)}
+				/>
+				{/* )} */}
+				<Route
+					exact
 					path={`${RETURNS}${REFUND_SUMMARY}`}
 					render={() => (
 						<RefundTransactionSummary
@@ -280,7 +309,21 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 						/>
 					)}
 				/>
-				{/* end of need to call return bia store pick up  routes */}
+				<Route
+					exact
+					path={`${RETURNS}${RETURN_TO_ADDRESS}`}
+					render={() => <ReturnAddressContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
+				/>
+				<Route
+					exact
+					path={`${RETURNS}${EDIT}`}
+					render={() => <ReturnEditAddressContainer {...this.state} {...this.props} />}
+				/>
+				<Route
+					exact
+					path={`${RETURNS}${ADD}`}
+					render={() => <ReturnAddAddressContainer {...this.state} {...this.props} />}
+				/>
 			</React.Fragment>
 		);
 	}
