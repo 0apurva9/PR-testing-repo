@@ -50,7 +50,16 @@ export default class MyAccountWrapper extends React.Component {
   }
   navigateToLogin() {
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(`${MY_ACCOUNT_PAGE}`);
+    if (
+      url ===
+      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`
+    ) {
+      this.props.setUrlToRedirectToAfterAuth(
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
+      );
+    } else {
+      this.props.setUrlToRedirectToAfterAuth(`${url}`);
+    }
     this.props.history.push(LOGIN_PATH);
     return null;
   }
