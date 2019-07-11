@@ -177,15 +177,13 @@ export default class ProductModule extends React.Component {
                 electronicView={electronicView}
               />
 
-              {this.props.view === "list" && (
-                <ProductInfo
-                  electronicView={electronicView}
-                  averageRating={this.props.averageRating}
-                  totalNoOfReviews={this.props.totalNoOfReviews}
-                  offerText={this.props.offerText}
-                  bestDeliveryInfo={this.props.bestDeliveryInfo}
-                />
-              )}
+              <ProductInfo
+                electronicView={electronicView}
+                averageRating={this.props.averageRating}
+                totalNoOfReviews={this.props.totalNoOfReviews}
+                offerText={this.props.offerText}
+                bestDeliveryInfo={this.props.bestDeliveryInfo}
+              />
             </div>
           </div>
           <React.Fragment>

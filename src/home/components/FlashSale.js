@@ -51,12 +51,7 @@ export default class FlashSale extends React.Component {
     if (this.props.location.pathname === "/") {
       window.open(urlSuffix, "_blank");
     } else {
-      this.props.history.push({
-        pathname: urlSuffix,
-        state: {
-          componentName: "Flash Sale Component"
-        }
-      });
+      this.props.history.push(urlSuffix);
     }
 
     if (this.props.setClickedElementId) {
