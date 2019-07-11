@@ -933,13 +933,14 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(hideModal());
+
       if (isFromCliqCash) {
         dispatch(getCliqCashDetails());
       } else {
         dispatch(getGiftCardDetails());
       }
-
+      dispatch(hideModal());
+      dispatch(displayToast(resultJson.message));
       return dispatch(verifyWalletSuccess(resultJson));
     } catch (e) {
       return dispatch(verifyWalletFailure(e.message));
@@ -2141,6 +2142,8 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
 
         dispatch(getPaymentModes(JSON.parse(cartDetails).guid));
       }
+      dispatch(getCliqCashDetails());
+      dispatch(getTransactionDetails());
       return dispatch(redeemCliqVoucherSuccess(resultJson));
     } catch (e) {
       return dispatch(redeemCliqVoucherFailure(e.message));
