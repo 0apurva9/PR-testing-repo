@@ -122,6 +122,7 @@
     font-family: semibold;
     font-size: 14px;
     color: #ff1744;
+    cursor: pointer;
   }
   .aboutCliqCashBase {
     width: 100%;

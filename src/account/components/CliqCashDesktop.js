@@ -106,9 +106,15 @@ export default class CliqCashDesktop extends React.Component {
       this.props.showCliqCashModule(this.props);
     }
   };
+
   showKycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
+    }
+  };
+  cliqCashKnowMore = () => {
+    if (this.props.cliqCashKnowMore) {
+      this.props.cliqCashKnowMore(this.props);
     }
   };
 
@@ -170,7 +176,12 @@ export default class CliqCashDesktop extends React.Component {
                           <div className={styles.info}>
                             A quick and convenient way for faster checkout and
                             refund.
-                            <div className={styles.knowMore}>Know More.</div>
+                            <div
+                              className={styles.knowMore}
+                              onClick={this.cliqCashKnowMore}
+                            >
+                              Know More.
+                            </div>
                           </div>
                         </div>
                       </div>
