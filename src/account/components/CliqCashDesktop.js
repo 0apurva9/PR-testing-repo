@@ -168,9 +168,9 @@ export default class CliqCashDesktop extends React.Component {
                         <div className={styles.infoBase}>
                           <div className={styles.spacing} />
                           <div className={styles.info}>
-                            A quick and convenient way to pay and refund. For
-                            faster checkout
-                            <div className={styles.knowMore}>know more.</div>
+                            A quick and convenient way for faster checkout and
+                            refund.
+                            <div className={styles.knowMore}>Know More.</div>
                           </div>
                         </div>
                       </div>
@@ -190,7 +190,7 @@ export default class CliqCashDesktop extends React.Component {
                             FASTER CHECKOUT
                           </div>
                           <div className={styles.aboutCliqCashInfoSubHeading}>
-                            Instant Checkout
+                            Quick & Instant Checkout
                           </div>
                         </div>
                         <div className={styles.aboutCliqCashIconAndText}>
@@ -201,7 +201,7 @@ export default class CliqCashDesktop extends React.Component {
                             CONSOLIDATED WALLET
                           </div>
                           <div className={styles.aboutCliqCashInfoSubHeading}>
-                            All balances at one place
+                            Get Cashbacks, Refunds, Promos at one place
                           </div>
                         </div>
                         <div className={styles.aboutCliqCashIconAndText}>
@@ -212,7 +212,7 @@ export default class CliqCashDesktop extends React.Component {
                             FASTER REFUNDS
                           </div>
                           <div className={styles.aboutCliqCashInfoSubHeading}>
-                            Get Refunds instantly post successful pick up
+                            Get Refunds instantly
                           </div>
                         </div>
                         <div
@@ -284,7 +284,7 @@ export default class CliqCashDesktop extends React.Component {
                               Send Gift Card
                             </div>
                             <div className={styles.buyGiftCardSubHeading}>
-                              Received Gift Card from someone
+                              Send Gift Card to someone.
                             </div>
                           </div>
                           <div
@@ -308,7 +308,7 @@ export default class CliqCashDesktop extends React.Component {
                       <div className={styles.cliqCashTransactionBase}>
                         <div className={styles.cliqCashTransactionContainer}>
                           <div className={styles.cliqCashTransactionHeading}>
-                            Your recent transactions
+                            Your Recent Transactions
                           </div>
                           {transactions &&
                             transactions.map((value, i) => {

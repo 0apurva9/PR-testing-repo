@@ -185,7 +185,7 @@ export default class TransactionHistoryDesktop extends React.Component {
       { data: "Received" },
       { data: "Paid" },
       { data: "Expired" },
-      { data: "By date" }
+      { data: "By Date" }
     ];
     const transactionDetails =
       this.state.checked === 4
@@ -213,7 +213,7 @@ export default class TransactionHistoryDesktop extends React.Component {
               <div className={styles.transDetailHolder}>
                 <div className={styles.dataHolder}>
                   <div className={styles.labelHeader}>
-                    View all your transactions
+                    View all your Transactions
                   </div>
                   <div className={styles.scrollDetaHolder}>
                     {data.map((val, i) => {
