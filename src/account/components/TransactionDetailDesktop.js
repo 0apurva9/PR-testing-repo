@@ -56,9 +56,11 @@ export default class TransactionDetailDesktop extends React.Component {
                   {transactionDetails &&
                     transactionDetails.amount &&
                     transactionDetails.amount.value &&
-                    (
+                    parseFloat(
                       Math.round(transactionDetails.amount.value * 100) / 100
-                    ).toLocaleString("hi-IN")}
+                    )
+                      .toFixed(2)
+                      .toLocaleString("hi-IN")}
                 </div>
                 <div className={styles.timeAndDate}>
                   {getDateMonthFormat(
@@ -72,13 +74,17 @@ export default class TransactionDetailDesktop extends React.Component {
                   | Closing Balance : ₹
                   <span className={styles.totalAmount}>
                     {transactionDetails &&
-                      transactionDetails.closingBalance &&
-                      transactionDetails.closingBalance.value &&
-                      (
-                        Math.round(
-                          transactionDetails.closingBalance.value * 100
-                        ) / 100
-                      ).toLocaleString("hi-IN")}
+                    transactionDetails.closingBalance &&
+                    transactionDetails.closingBalance.value &&
+                    transactionDetails.closingBalance.value > 0
+                      ? parseFloat(
+                          Math.round(
+                            transactionDetails.closingBalance.value * 100
+                          ) / 100
+                        )
+                          .toFixed(2)
+                          .toLocaleString("hi-IN")
+                      : "0.00"}
                   </span>
                 </div>
               </div>

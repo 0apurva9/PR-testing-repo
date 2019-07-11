@@ -70,6 +70,7 @@ export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
 export const GET_SAVED_CARD_REQUEST = "GET_SAVED_CARD_REQUEST";
 export const GET_SAVED_CARD_SUCCESS = "GET_SAVED_CARD_SUCCESS";
 export const GET_SAVED_CARD_FAILURE = "GET_SAVED_CARD_FAILURE";
+export const CLEAR_TRANSACTION_DATA = "CLEAR_TRANSACTION_DATA";
 
 export const REMOVE_SAVED_CARD_REQUEST = "REMOVE_SAVED_CARD_REQUEST";
 export const REMOVE_SAVED_CARD_SUCCESS = "REMOVE_SAVED_CARD_SUCCESS";
@@ -1032,7 +1033,11 @@ export function getSavedCardFailure(error) {
     error
   };
 }
-
+export function clearTransaction() {
+  return {
+    type: CLEAR_TRANSACTION_DATA
+  };
+}
 export function getSavedCardDetails(userId, customerAccessToken) {
   return async (dispatch, getState, { api }) => {
     dispatch(getSavedCardRequest());
