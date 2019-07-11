@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import styles from "./FaqAndTcBase.css";
-import { FAQ_URL, TERMS_AND_CONDITION_URL } from "../../lib/constants.js";
+import {
+  FAQ_URL,
+  TERMS_AND_CONDITION_URL,
+  DUMMY_FAQ,
+  DUMMY_TC
+} from "../../lib/constants.js";
 import {
   setDataLayerForFaqAndTc,
   SET_DATA_LAYER_FAQ,
@@ -25,7 +30,7 @@ export default class FaqAndTcBase extends Component {
         <div className={styles.faqAndTcContainer}>
           <div
             className={styles.faqOptionWrapper}
-            onClick={() => this.redirectPage(FAQ_URL, FAQ)}
+            onClick={() => this.redirectPage(DUMMY_FAQ, FAQ)}
           >
             <div className={styles.faqOption}>FAQ’s</div>
             <div className={styles.faqText}>
@@ -37,7 +42,7 @@ export default class FaqAndTcBase extends Component {
           </div>
           <div
             className={styles.tcOptionWrapper}
-            onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL, TC)}
+            onClick={() => this.redirectPage(DUMMY_TC, TC)}
           >
             <div className={styles.tcOption}>T&C’s</div>
             <div className={styles.tcOptionArrow}>
