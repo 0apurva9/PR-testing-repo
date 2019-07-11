@@ -31,6 +31,13 @@ export default class SizeGuideElementClothing extends Component {
         <MobileOnly>
           {imagePosition === 1 ? (
             <div className={styles.imageTop}>
+              <SizeTable
+                data={
+                  this.props.showInch
+                    ? sizeGuidForInch && sizeGuidForInch[0]
+                    : sizeGuidForCms && sizeGuidForCms[0]
+                }
+              />
               <div className={styles.imageHolder}>
                 <div className={styles.image}>
                   <Image fit="contain" image={image} />
@@ -44,14 +51,6 @@ export default class SizeGuideElementClothing extends Component {
                   {tip2 && tip1 && <div>{tip2}</div>}
                 </div>
               )}
-
-              <SizeTable
-                data={
-                  this.props.showInch
-                    ? sizeGuidForInch && sizeGuidForInch[0]
-                    : sizeGuidForCms && sizeGuidForCms[0]
-                }
-              />
             </div>
           ) : (
             <div className={styles.imageBottom}>
