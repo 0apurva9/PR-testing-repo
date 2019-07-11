@@ -48,9 +48,6 @@ export default class KycApplicationForm extends React.Component {
       if (generateOtp.status === SUCCESS) {
         this.setState({ isLoader: false });
       }
-      if (this.props.generateOtp) {
-        this.props.generateOtp(this.state);
-      }
     }
   };
   onCancel() {
