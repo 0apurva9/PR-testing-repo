@@ -5186,11 +5186,12 @@ export function binValidationOfEmiEligibleSuccess(binValidationOfEmiEligible) {
 export function binValidationOfEmiEligible(binNo) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let access_token = JSON.parse(customerCookie).access_token;
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationOfEmiEligibleRequest());
     try {
       const params = {
-        access_token: JSON.parse(customerCookie).access_token,
+        access_token: access_token,
         bin: binNo
       };
       let cardObject = Object.keys(params)
@@ -5203,8 +5204,7 @@ export function binValidationOfEmiEligible(binNo) {
       const result = await api.corePostByUrlEncoded(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/emiEligibleBin`,
-        cardObject
+        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
