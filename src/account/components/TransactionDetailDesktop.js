@@ -11,7 +11,9 @@ import {
   LOGGED_IN_USER_DETAILS,
   CONTACT_URL,
   MY_ACCOUNT,
-  MY_ACCOUNT_CLIQ_CASH_PAGE
+  MY_ACCOUNT_CLIQ_CASH_PAGE,
+  MY_ACCOUNT_PAGE,
+  TRANSACTION_HISTORY
 } from "../../lib/constants.js";
 export default class TransactionDetailDesktop extends React.Component {
   redirectPage = url => {
@@ -19,6 +21,11 @@ export default class TransactionDetailDesktop extends React.Component {
       this.props.history.push(url);
     }
   };
+  navigateToAllTransactions() {
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`
+    });
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -48,13 +55,21 @@ export default class TransactionDetailDesktop extends React.Component {
 
             <div className={styles.transactionDetails}>
               <div className={styles.amountHolder}>
-                <div className={styles.moneyPaidText}>
-                  {transactionDetails &&
-                    !transactionDetails.transactionType
-                      .toUpperCase()
-                      .match(/\bRECEIVED REFUND/g) &&
-                    "Amount "}
-                  {transactionDetails && transactionDetails.transactionType}
+                <div className={styles.headerContainer}>
+                  <div className={styles.moneyPaidText}>
+                    {transactionDetails &&
+                      !transactionDetails.transactionType
+                        .toUpperCase()
+                        .match(/\bRECEIVED REFUND/g) &&
+                      "Amount "}
+                    {transactionDetails && transactionDetails.transactionType}
+                  </div>
+                  <div
+                    className={styles.backToAllTransaction}
+                    onClick={() => this.navigateToAllTransactions()}
+                  >
+                    Back to All Transactions
+                  </div>
                 </div>
                 <div className={styles.amount}>
                   <span className={styles.rupee}>₹</span>
