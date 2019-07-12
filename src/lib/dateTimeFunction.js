@@ -87,7 +87,11 @@ export const getUTCDateMonthFormat = (
         convertedDateTime =
           sentDate.getDate() + " " + getUTCMonthsText(sentDate);
     }
-    if (showYear) {
+    if (
+      showYear &&
+      convertedDateTime !== "Today" &&
+      convertedDateTime !== "Yesterday"
+    ) {
       convertedDateTime = convertedDateTime + "  " + sentDate.getFullYear();
     }
   }
