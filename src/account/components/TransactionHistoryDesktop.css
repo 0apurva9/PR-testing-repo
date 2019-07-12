@@ -8,6 +8,7 @@
 .transactionBase {
   width: 100%;
   height: auto;
+  padding-top: 10px;
 }
 .transDetail {
   width: 60%;
@@ -106,15 +107,25 @@
 .dateTime {
   font-size: 14px;
   font-family: semibold;
-  width: 15%;
+  width: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #fff;
+  height: 20px;
+  line-height: 20px;
   color: #212121;
+  padding-right: 20px;
 }
 .borderSection {
   position: absolute;
   border-top: 1px solid #efefef;
-  width: 85%;
-  top: 21px;
+  width: 100%;
+  top: 0;
+  height: 0px;
   right: 0px;
+  bottom: 0;
+  margin: auto;
 }
 .orderSection {
   margin-top: 16px;

@@ -273,10 +273,8 @@ export default class CliqCashDesktop extends React.Component {
                             onClick={() =>
                               this.props &&
                               this.props.cliqCashUserDetails &&
-                              (!this.props.cliqCashUserDetails
-                                .isWalletCreated ||
-                                !this.props.cliqCashUserDetails
-                                  .isWalletOtpVerified)
+                              !this.props.cliqCashUserDetails
+                                .isWalletOtpVerified
                                 ? this.showKycVerification()
                                 : this.showCliqCashModule()
                             }

@@ -22,6 +22,8 @@ import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
+const currentDate = new Date();
+const year = currentDate.getFullYear();
 
 export default class TransactionHistoryDesktop extends React.Component {
   constructor(props) {
@@ -43,7 +45,12 @@ export default class TransactionHistoryDesktop extends React.Component {
   };
   getMonth = day => {
     let date = day.split("-");
-    var monthString = getMonthString(date[0]);
+    var monthString = "";
+    if (date[1] == year) {
+      monthString = getMonthString(date[0]);
+    } else {
+      monthString = getMonthString(date[0]) + " " + date[1];
+    }
     return monthString;
   };
   transactiondetailPage(data) {
@@ -75,7 +82,11 @@ export default class TransactionHistoryDesktop extends React.Component {
     }
   };
   filteredTransactionDetails = (type, filterDate) => {
-    this.setState({ checked: type, showNull: true });
+    this.setState({
+      checked: type,
+      selectedDate: { ...filterDate },
+      showNull: true
+    });
     let filteredData = "";
     let originalData = JSON.parse(
       JSON.stringify(this.props.transactionDetails)
@@ -251,17 +262,43 @@ export default class TransactionHistoryDesktop extends React.Component {
                       );
                     })}
                   </div>
+                  {this.state.checked === 4 && (
+                    <div className={styles.transactionBase}>
+                      {this.state.selectedDate && (
+                        <div className={styles.dateSection}>
+                          <div className={styles.borderSection} />
+                          <div className={styles.dateTime}>
+                            {getUTCDateMonthFormat(
+                              this.state.selectedDate &&
+                                this.state.selectedDate.fromDate,
+                              true,
+                              false,
+                              false
+                            )}-{getUTCDateMonthFormat(
+                              this.state.selectedDate &&
+                                this.state.selectedDate.toDate,
+                              true,
+                              false,
+                              false
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {transactionDetails && transactionDetails.length > 0 ? (
                     transactionDetails.map((val, i) => {
                       return (
                         <div className={styles.transactionBase}>
-                          <div className={styles.dateSection}>
-                            <div className={styles.dateTime}>
-                              {this.getMonth(val.date)}
+                          {this.state.checked !== 4 && (
+                            <div className={styles.dateSection}>
+                              <div className={styles.borderSection} />
+                              <div className={styles.dateTime}>
+                                {this.getMonth(val.date)}
+                              </div>
                             </div>
-                            <div className={styles.borderSection} />
-                          </div>
+                          )}
 
                           {val &&
                             val.items &&
