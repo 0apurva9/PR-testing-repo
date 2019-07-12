@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import styles from "./CliqCashKnowMore.css";
 
-// import { CDN_URL_ROOT } from "../../../src/lib/constants";
-import img1 from "./img/cliqcash1.png";
-import img2 from "./img/cliqcash2.png";
-import img3 from "./img/cliqcash3.png";
-import img4 from "./img/cliqcash4.png";
-import img5 from "./img/cliqcash5.png";
-import img6 from "./img/cliqcash6.png";
-import img7 from "./img/cliqcash7.png";
-import img8 from "./img/cliqcash8.png";
+import { CDN_URL_ROOT } from "../../../src/lib/constants";
 import Image from "../../xelpmoc-core/Image";
 import CliqCashKnowMoreSlider from "./CliqCashKnowMoreSlider";
 
@@ -47,7 +39,7 @@ const stepsInfo = [
     stepHeader: "LOG IN",
     stepDescription:
       "Log in or sign up using your  email ID or Facebook, Google to your TATA CLiQ account.",
-    img: img1
+    img: `${CDN_URL_ROOT}cliqcash_desktop_8.png`
   },
   {
     id: 2,
@@ -55,7 +47,7 @@ const stepsInfo = [
     stepHeader: "GO TO CLiQ CASH",
     stepDescription:
       "Go to your CLiQ Cash wallet from your TATA CLiQ homepage top navigation",
-    img: img2
+    img: `${CDN_URL_ROOT}cliqcash_desktop_1.png`
   },
 
   {
@@ -63,21 +55,21 @@ const stepsInfo = [
     stepNumber: 3,
     stepHeader: "COMPLETE KYC",
     stepDescription: "Verify your Mobile number to complete your KYC",
-    img: img3
+    img: `${CDN_URL_ROOT}cliqcash_desktop_5.png`
   },
   {
     id: 4,
     stepNumber: 3,
     stepHeader: "COMPLETE KYC",
     stepDescription: "Verify your Mobile number to complete your KYC",
-    img: img4
+    img: `${CDN_URL_ROOT}cliqcash_desktop_3.png`
   },
   {
     id: 5,
     stepNumber: 3,
     stepHeader: "COMPLETE KYC",
     stepDescription: "Verify your Mobile number to complete your KYC",
-    img: img5
+    img: `${CDN_URL_ROOT}cliqcash_desktop_7.png`
   },
   {
     id: 6,
@@ -85,7 +77,7 @@ const stepsInfo = [
     stepHeader: "ADD GIFT CARD",
     stepDescription:
       "Add balance to your CLiQ Cash account from the Gift Card received",
-    img: img6
+    img: `${CDN_URL_ROOT}cliqcash_desktop_4.png`
   },
   {
     id: 7,
@@ -93,13 +85,13 @@ const stepsInfo = [
     stepHeader: "ADD GIFT CARD",
     stepDescription:
       "Add balance to your CLiQ Cash account from the Gift Card received",
-    img: img7
+    img: `${CDN_URL_ROOT}cliqcash_desktop_6.png`
   },
   {
     id: 8,
     stepNumber: 5,
     stepHeader: "PAY WITH CLiQ CASH",
     stepDescription: "Complete your purchase by paying through CLiQ Cash",
-    img: img8
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2.png`
   }
 ];

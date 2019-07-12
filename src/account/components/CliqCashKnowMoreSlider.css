@@ -40,15 +40,8 @@
   composes: navButton;
   background: #2d2d2d;
   border: 1px solid #2d2d2d;
-  width: 17.6px;
-  height: 6.4px;
-  border-radius: 6.7px;
 }
-.active {
-  composes: navButton;
-  background: #fff;
-  border: 1px solid #fff;
-}
+
 .rightArrow {
   width: 40px;
   height: 40px;
