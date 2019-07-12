@@ -251,7 +251,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                     })}
                   </div>
 
-                  {transactionDetails &&
+                  {transactionDetails && transactionDetails.length > 0 ? (
                     transactionDetails.map((val, i) => {
                       return (
                         <div className={styles.transactionBase}>
@@ -371,7 +371,15 @@ export default class TransactionHistoryDesktop extends React.Component {
                             })}
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className={styles.emptyDataContainer}>
+                      <div className={styles.emptyDataText}>
+                        You do not have any received details in your transaction
+                        history
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className={styles.faqAndTcHolder}>
