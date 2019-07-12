@@ -14,7 +14,7 @@ export default class CliqCashKnowMoreSlider extends React.Component {
   }
 
   autoRun = () => {
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.goForward();
       this.autoRun();
     }, this.props.interval * 1000);
@@ -49,6 +49,7 @@ export default class CliqCashKnowMoreSlider extends React.Component {
       } else {
         this.setState({ position: this.state.position + 1 });
       }
+      clearInterval(this.timer);
     }
   };
   goBack = () => {
@@ -67,6 +68,7 @@ export default class CliqCashKnowMoreSlider extends React.Component {
         this.setState({ position: this.state.position - 1 });
       }
     }
+    clearInterval(this.timer);
   };
   render() {
     const translationAmount = -(100 * this.state.position);
@@ -180,5 +182,5 @@ CliqCashKnowMoreSlider.propTypes = {
   interval: PropTypes.number
 };
 CliqCashKnowMoreSlider.defaultProps = {
-  interval: 9
+  interval: 2
 };
