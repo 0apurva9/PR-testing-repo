@@ -364,12 +364,17 @@ export default class TransactionHistoryDesktop extends React.Component {
                                           /\bEXPIRED|PAID|RECEIVED REFUND/g
                                         ) && (
                                         <div className={styles.expireDate}>
-                                          Expiring on:{" "}
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,
+                                            true
+                                          ).match(/\bToday|Yesterday/g)
+                                            ? "Expired on:"
+                                            : "Expiring on:"}{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
                                             true,
-                                            false
+                                            true
                                           )}
                                         </div>
                                       )}
