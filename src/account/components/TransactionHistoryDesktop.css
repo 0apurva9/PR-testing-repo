@@ -58,11 +58,11 @@
 
 .tabData {
   width: auto;
-  min-width: 20%;
+  min-width: 15%;
   height: 32px;
   line-height: 32px;
   color: #4a4a4a;
-  font-family: semibold;
+  font-family: regular;
   font-size: 14px;
   padding: 0px 10px;
   display: inline-block;
@@ -72,6 +72,7 @@
 .checkedTab {
   composes: tabData;
   color: #fff;
+  font-family: semibold;
   background: linear-gradient(#ee48a3, #da6060);
   border-radius: 25px;
 }
