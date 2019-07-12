@@ -330,7 +330,8 @@ export default class TransactionHistoryDesktop extends React.Component {
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,
-                                            true
+                                            true,
+                                            false
                                           )}
                                         </div>
                                       )}
