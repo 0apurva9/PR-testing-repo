@@ -58,6 +58,11 @@ export default class TransactionHistoryDesktop extends React.Component {
       });
     }
   }
+  navigateToCliqCash() {
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
+    });
+  }
   showDatePickerModule = type => {
     this.setState({ checked: type, transactionDetails: null });
     let data = {
@@ -212,8 +217,16 @@ export default class TransactionHistoryDesktop extends React.Component {
             <div className={styles.transDetail}>
               <div className={styles.transDetailHolder}>
                 <div className={styles.dataHolder}>
-                  <div className={styles.labelHeader}>
-                    View all your Transactions
+                  <div className={styles.headerContainer}>
+                    <div className={styles.labelHeader}>
+                      View all your Transactions
+                    </div>
+                    <div
+                      className={styles.backToCliqCash}
+                      onClick={() => this.navigateToCliqCash()}
+                    >
+                      Back to CLiQ Cash
+                    </div>
                   </div>
                   <div className={styles.scrollDetaHolder}>
                     {data.map((val, i) => {
