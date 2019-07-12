@@ -29,7 +29,8 @@ export default class TransactionHistoryDesktop extends React.Component {
     this.state = {
       checked: 0,
       selectedDate: null,
-      transactionDetails: null
+      transactionDetails: null,
+      showNull: false
     };
   }
   componentDidMount() {
@@ -74,7 +75,7 @@ export default class TransactionHistoryDesktop extends React.Component {
     }
   };
   filteredTransactionDetails = (type, filterDate) => {
-    this.setState({ checked: type });
+    this.setState({ checked: type, showNull: true });
     let filteredData = "";
     let originalData = JSON.parse(
       JSON.stringify(this.props.transactionDetails)
@@ -373,12 +374,16 @@ export default class TransactionHistoryDesktop extends React.Component {
                       );
                     })
                   ) : (
-                    <div className={styles.emptyDataContainer}>
-                      <div className={styles.emptyDataText}>
-                        You do not have any received details in your transaction
-                        history
-                      </div>
-                    </div>
+                    <React.Fragment>
+                      {this.state.showNull && (
+                        <div className={styles.emptyDataContainer}>
+                          <div className={styles.emptyDataText}>
+                            You do not have any {data[this.state.checked].data}{" "}
+                            details in your transaction history
+                          </div>
+                        </div>
+                      )}
+                    </React.Fragment>
                   )}
                 </div>
               </div>
