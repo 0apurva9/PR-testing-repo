@@ -2,6 +2,7 @@ import React from "react";
 import { PRODUCT_CART_DELIVERY_MODES } from "../../lib/constants";
 import CheckoutFrame from "../../cart/components/CheckoutFrame";
 import ReturnChangeAddress from "./ReturnChangeAddress";
+import styles from "./ReturnAddressBook.css";
 import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress";
 import Loader from "../../general/components/Loader";
 import {
@@ -110,14 +111,16 @@ export default class ReturnAddressBook extends React.Component {
     let addressSelectedId =
       this.props.returnRequest && this.props.returnRequest.deliveryAddress;
     let fetchId = addressSelectedId && addressSelectedId.id;
-    let defaultAddressId = fetchId;
-    let defaultAddress = addressSelectedId;
+    let defaultAddressId, defaultAddress;
     if (this.state.defaultAddress) {
       defaultAddressId = this.state.defaultAddress.id;
       defaultAddress = this.state.defaultAddress;
+    } else {
+      defaultAddressId = fetchId;
+      defaultAddress = addressSelectedId;
     }
     return (
-      <React.Fragment>
+      <div className={styles.addressBase}>
         {this.props.userAddress && (
           <ReturnChangeAddress
             {...this.props}
@@ -157,7 +160,7 @@ export default class ReturnAddressBook extends React.Component {
             onChange={val => this.onChange(val)}
           />
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }

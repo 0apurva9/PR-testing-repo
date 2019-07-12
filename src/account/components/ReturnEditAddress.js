@@ -24,6 +24,7 @@ import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
+import stylesAddress from "./ReturnAddressBook.css";
 
 const SAVE_TEXT = "Save Address";
 const PINCODE_TEXT = "Please enter pincode";
@@ -296,74 +297,94 @@ export default class EditAddressPopUp extends React.Component {
     ];
 
     return (
-      <div className={styles.base}>
-        <div className={styles.addressInnerBox}>
-          <div className={styles.headingText}>{this.props.heading}</div>
-          <div className={styles.button} onClick={this.clearAllValue}>
-            <UnderLinedButton label="Clear all" />
+      <div className={stylesAddress.addressBase}>
+        <div className={styles.base}>
+          <div className={styles.addressInnerBox}>
+            <div className={styles.headingText}>{this.props.heading}</div>
+            <div className={styles.button} onClick={this.clearAllValue}>
+              <UnderLinedButton label="Clear all" />
+            </div>
           </div>
-        </div>
-        <div className={styles.content}>
-          <Input2
-            placeholder="Enter a pincode/zipcode*"
-            onChange={postalCode => this.getPinCodeDetails(postalCode)}
-            textStyle={{ fontSize: 14 }}
-            value={
-              this.props.postalCode
-                ? this.props.postalCode
-                : this.state.postalCode
-            }
-            maxLength={"6"}
-            onlyNumber={true}
-            rightChildSize={33}
-          />
-        </div>
-        <div className={styles.content}>
-          <Input2
-            option={this.state.options}
-            placeholder="First Name*"
-            value={
-              this.props.firstName ? this.props.firstName : this.state.firstName
-            }
-            onChange={firstName => this.onChange({ firstName })}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-            onlyAlphabet={true}
-          />
-        </div>
+          <div className={styles.content}>
+            <Input2
+              placeholder="Enter a pincode/zipcode*"
+              onChange={postalCode => this.getPinCodeDetails(postalCode)}
+              textStyle={{ fontSize: 14 }}
+              value={
+                this.props.postalCode
+                  ? this.props.postalCode
+                  : this.state.postalCode
+              }
+              maxLength={"6"}
+              onlyNumber={true}
+              rightChildSize={33}
+            />
+          </div>
+          <div className={styles.content}>
+            <Input2
+              option={this.state.options}
+              placeholder="First Name*"
+              value={
+                this.props.firstName
+                  ? this.props.firstName
+                  : this.state.firstName
+              }
+              onChange={firstName => this.onChange({ firstName })}
+              textStyle={{ fontSize: 14 }}
+              height={33}
+              onlyAlphabet={true}
+            />
+          </div>
 
-        <div className={styles.content}>
-          <Input2
-            boxy={true}
-            placeholder="Last Name*"
-            value={
-              this.props.lastName ? this.props.lastName : this.state.lastName
-            }
-            onChange={lastName => this.onChange({ lastName })}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-            onlyAlphabet={true}
-          />
-        </div>
-        <div className={styles.content}>
-          <TextArea
-            placeholder="Address*"
-            value={this.props.line1 ? this.props.line1 : this.state.line1}
-            onChange={line1 => this.onChange({ line1 })}
-          />
-        </div>
-        <div className={styles.addressValidMsg}>Character Limit : 120</div>
-        <div className={styles.addressValidMsg}>
-          Special characters allowed are - # & ( ) ' ' . , \ / + _
-        </div>
-        <div className={styles.content}>
-          {this.state.postalCode.length === 6 &&
-            this.props.location.state.addressDetails.postalCode ===
+          <div className={styles.content}>
+            <Input2
+              boxy={true}
+              placeholder="Last Name*"
+              value={
+                this.props.lastName ? this.props.lastName : this.state.lastName
+              }
+              onChange={lastName => this.onChange({ lastName })}
+              textStyle={{ fontSize: 14 }}
+              height={33}
+              onlyAlphabet={true}
+            />
+          </div>
+          <div className={styles.content}>
+            <TextArea
+              placeholder="Address*"
+              value={this.props.line1 ? this.props.line1 : this.state.line1}
+              onChange={line1 => this.onChange({ line1 })}
+            />
+          </div>
+          <div className={styles.addressValidMsg}>Character Limit : 120</div>
+          <div className={styles.addressValidMsg}>
+            Special characters allowed are - # & ( ) ' ' . , \ / + _
+          </div>
+          <div className={styles.content}>
+            {this.state.postalCode.length === 6 &&
+              this.props.location.state.addressDetails.postalCode ===
+                this.state.postalCode && (
+                <SelectBoxMobile2
+                  height={33}
+                  label={this.state.landmark}
+                  value={this.state.landmark}
+                  options={
+                    this.state.landmarkList.length > 0 &&
+                    this.state.landmarkList.map((val, i) => {
+                      return {
+                        value: val && val.landmark,
+                        label: val && val.landmark
+                      };
+                    })
+                  }
+                  onChange={landmark => this.onSelectLandmark(landmark)}
+                />
+              )}
+            {this.props.location.state.addressDetails.postalCode !==
               this.state.postalCode && (
               <SelectBoxMobile2
                 height={33}
-                label={this.state.landmark}
-                value={this.state.landmark}
+                placeholder={"Landmark"}
                 options={
                   this.state.landmarkList.length > 0 &&
                   this.state.landmarkList.map((val, i) => {
@@ -376,101 +397,89 @@ export default class EditAddressPopUp extends React.Component {
                 onChange={landmark => this.onSelectLandmark(landmark)}
               />
             )}
-          {this.props.location.state.addressDetails.postalCode !==
-            this.state.postalCode && (
-            <SelectBoxMobile2
-              height={33}
-              placeholder={"Landmark"}
-              options={
-                this.state.landmarkList.length > 0 &&
-                this.state.landmarkList.map((val, i) => {
-                  return {
-                    value: val && val.landmark,
-                    label: val && val.landmark
-                  };
-                })
-              }
-              onChange={landmark => this.onSelectLandmark(landmark)}
-            />
+          </div>
+          {this.state.isOtherLandMarkSelected && (
+            <div className={styles.content}>
+              <Input2
+                boxy={true}
+                placeholder="Landmark"
+                value={this.props.line2 ? this.props.line2 : this.state.line2}
+                onChange={line2 => this.onChange({ line2 })}
+                textStyle={{ fontSize: 14 }}
+                height={33}
+              />
+            </div>
           )}
-        </div>
-        {this.state.isOtherLandMarkSelected && (
+
           <div className={styles.content}>
             <Input2
               boxy={true}
-              placeholder="Landmark"
-              value={this.props.line2 ? this.props.line2 : this.state.line2}
-              onChange={line2 => this.onChange({ line2 })}
+              placeholder="City/district*"
+              value={this.props.town ? this.props.town : this.state.town}
+              onChange={town => this.onChange({ town })}
               textStyle={{ fontSize: 14 }}
               height={33}
             />
           </div>
-        )}
-
-        <div className={styles.content}>
-          <Input2
-            boxy={true}
-            placeholder="City/district*"
-            value={this.props.town ? this.props.town : this.state.town}
-            onChange={town => this.onChange({ town })}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-          />
-        </div>
-        <div className={styles.content}>
-          <Input2
-            placeholder="State*"
-            value={this.props.state ? this.props.state : this.state.state}
-            boxy={true}
-            onChange={state => this.onChange({ state })}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-          />
-        </div>
-        <div className={styles.content}>
-          <Input2
-            onlyNumber={true}
-            placeholder="Phone number*"
-            value={this.props.phone ? this.props.phone : this.state.phone}
-            boxy={true}
-            onChange={phone => this.handlePhoneInput(phone)}
-            textStyle={{ fontSize: 14 }}
-            height={33}
-          />
-        </div>
-
-        <div className={styles.content}>
-          <GridSelect
-            limit={1}
-            offset={0}
-            elementWidthMobile={50}
-            onSelect={val => this.onChange({ addressType: val[0] })}
-            selected={[this.state.addressType]}
-          >
-            {dataLabel.map((val, i) => {
-              return (
-                <CheckboxAndText key={i} label={val.label} value={val.label} />
-              );
-            })}
-          </GridSelect>
-        </div>
-        <div className={styles.defaultText}>
-          <CheckboxAndText
-            label="Make this default address"
-            selected={this.state.defaultFlag}
-            selectItem={() => this.onChangeDefaultFlag()}
-          />
-        </div>
-        <div className={styles.buttonHolder}>
-          <div className={styles.saveAndContinueButton}>
-            <Button
-              type="primary"
-              label={SAVE_TEXT}
-              width={176}
-              height={38}
-              onClick={() => this.editAddress()}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
+          <div className={styles.content}>
+            <Input2
+              placeholder="State*"
+              value={this.props.state ? this.props.state : this.state.state}
+              boxy={true}
+              onChange={state => this.onChange({ state })}
+              textStyle={{ fontSize: 14 }}
+              height={33}
             />
+          </div>
+          <div className={styles.content}>
+            <Input2
+              onlyNumber={true}
+              placeholder="Phone number*"
+              value={this.props.phone ? this.props.phone : this.state.phone}
+              boxy={true}
+              onChange={phone => this.handlePhoneInput(phone)}
+              textStyle={{ fontSize: 14 }}
+              height={33}
+            />
+          </div>
+
+          <div className={styles.content}>
+            <GridSelect
+              limit={1}
+              offset={0}
+              elementWidthMobile={50}
+              onSelect={val => this.onChange({ addressType: val[0] })}
+              selected={[this.state.addressType]}
+            >
+              {dataLabel.map((val, i) => {
+                return (
+                  <CheckboxAndText
+                    key={i}
+                    label={val.label}
+                    value={val.label}
+                  />
+                );
+              })}
+            </GridSelect>
+          </div>
+          <div className={styles.defaultText}>
+            <CheckboxAndText
+              label="Make this default address"
+              selected={this.state.defaultFlag}
+              selectItem={() => this.onChangeDefaultFlag()}
+            />
+          </div>
+          <div className={styles.buttonHolder}>
+            <div className={styles.saveAndContinueButton}>
+              <Button
+                type="primary"
+                label={SAVE_TEXT}
+                width={176}
+                height={38}
+                onClick={() => this.editAddress()}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+              />
+            </div>
           </div>
         </div>
       </div>
