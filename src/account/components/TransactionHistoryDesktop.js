@@ -29,7 +29,8 @@ export default class TransactionHistoryDesktop extends React.Component {
     this.state = {
       checked: 0,
       selectedDate: null,
-      transactionDetails: null
+      transactionDetails: null,
+      showNull: false
     };
   }
   componentDidMount() {
@@ -58,6 +59,11 @@ export default class TransactionHistoryDesktop extends React.Component {
       });
     }
   }
+  navigateToCliqCash() {
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
+    });
+  }
   showDatePickerModule = type => {
     this.setState({ checked: type, transactionDetails: null });
     let data = {
@@ -69,7 +75,7 @@ export default class TransactionHistoryDesktop extends React.Component {
     }
   };
   filteredTransactionDetails = (type, filterDate) => {
-    this.setState({ checked: type });
+    this.setState({ checked: type, showNull: true });
     let filteredData = "";
     let originalData = JSON.parse(
       JSON.stringify(this.props.transactionDetails)
@@ -212,8 +218,16 @@ export default class TransactionHistoryDesktop extends React.Component {
             <div className={styles.transDetail}>
               <div className={styles.transDetailHolder}>
                 <div className={styles.dataHolder}>
-                  <div className={styles.labelHeader}>
-                    View all your Transactions
+                  <div className={styles.headerContainer}>
+                    <div className={styles.labelHeader}>
+                      View all your Transactions
+                    </div>
+                    <div
+                      className={styles.backToCliqCash}
+                      onClick={() => this.navigateToCliqCash()}
+                    >
+                      Back to CLiQ Cash
+                    </div>
                   </div>
                   <div className={styles.scrollDetaHolder}>
                     {data.map((val, i) => {
@@ -238,7 +252,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                     })}
                   </div>
 
-                  {transactionDetails &&
+                  {transactionDetails && transactionDetails.length > 0 ? (
                     transactionDetails.map((val, i) => {
                       return (
                         <div className={styles.transactionBase}>
@@ -317,7 +331,8 @@ export default class TransactionHistoryDesktop extends React.Component {
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,
-                                            true
+                                            true,
+                                            false
                                           )}
                                         </div>
                                       )}
@@ -357,7 +372,19 @@ export default class TransactionHistoryDesktop extends React.Component {
                             })}
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <React.Fragment>
+                      {this.state.showNull && (
+                        <div className={styles.emptyDataContainer}>
+                          <div className={styles.emptyDataText}>
+                            You do not have any {data[this.state.checked].data}{" "}
+                            details in your transaction history
+                          </div>
+                        </div>
+                      )}
+                    </React.Fragment>
+                  )}
                 </div>
               </div>
               <div className={styles.faqAndTcHolder}>

@@ -1148,6 +1148,10 @@ const account = (
         retryPaymentDetailsError: action.error,
         retryPaymentDetailsLoading: false
       });
+    case accountActions.CLEAR_TRANSACTION_DATA:
+      return Object.assign({}, state, {
+        transactionDetails: " "
+      });
     default:
       return state;
   }

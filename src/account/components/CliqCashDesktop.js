@@ -55,6 +55,9 @@ export default class CliqCashDesktop extends React.Component {
   componentDidUpdate() {
     this.props.setHeaderText(CLIQ_CASH);
   }
+  componentWillUnmount() {
+    this.props.clearTransaction();
+  }
   componentDidMount() {
     this.props.setHeaderText(CLIQ_CASH);
     if (this.props.getCliqCashDetails) {
@@ -123,13 +126,16 @@ export default class CliqCashDesktop extends React.Component {
       this.props &&
       this.props.cliqCashUserDetails &&
       this.props.cliqCashUserDetails.totalCliqCashBalance &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance.value
-        ? (
+      this.props.cliqCashUserDetails.totalCliqCashBalance.value &&
+      this.props.cliqCashUserDetails.totalCliqCashBalance.value > 0
+        ? parseFloat(
             Math.round(
               this.props.cliqCashUserDetails.totalCliqCashBalance.value * 100
             ) / 100
-          ).toLocaleString("hi-IN")
-        : 0;
+          )
+            .toFixed(2)
+            .toLocaleString("hi-IN")
+        : "0.00";
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
@@ -419,7 +425,8 @@ export default class CliqCashDesktop extends React.Component {
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,
-                                                true
+                                                true,
+                                                false
                                               )}
                                             </div>
                                           )}
