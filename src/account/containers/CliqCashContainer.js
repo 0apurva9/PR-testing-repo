@@ -17,7 +17,8 @@ import {
   DESKTOP_AUTH,
   CLIQ_CASH_MODULE,
   CLIQ_CASH_SUCESS_MODULE,
-  GENERATE_OTP_FOR_CLIQ_CASH
+  GENERATE_OTP_FOR_CLIQ_CASH,
+  CLIQ_CASH_KNOW_MORE
 } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
@@ -69,6 +70,9 @@ const mapDispatchToProps = dispatch => {
     },
     showCliqCashSucessModule: data => {
       dispatch(showModal(CLIQ_CASH_SUCESS_MODULE, data));
+    },
+    cliqCashKnowMore: data => {
+      dispatch(showModal(CLIQ_CASH_KNOW_MORE, data));
     }
   };
 };

@@ -10,6 +10,7 @@ import * as Cookie from "../../lib/Cookie.js";
 import CliqCashModuleContainer from "../../account/containers/CliqCashModuleContainer";
 import DatePickerModule from "../../account/components/DatePickerModule";
 import GiftCardSucessBottomModel from "../../account/components/GiftCardSucessBottomModel";
+import CliqCashKnowMore from "../../account/components/CliqCashKnowMore";
 
 import {
   LOGGED_IN_USER_DETAILS,
@@ -720,6 +721,12 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           displayToast={message => this.props.displayToast(message)}
+        />
+      ),
+      cliqcashknowmore: (
+        <CliqCashKnowMore
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
         />
       ),
       datePickerModule: (
