@@ -31,13 +31,29 @@
   margin-bottom: 18px;
   border-radius: 4px;
 }
-.labelHeader {
+.headerContainer {
   width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.labelHeader {
+  width: 50%;
   height: auto;
   color: #212121;
   font-size: 16px;
   font-family: semibold;
-  margin-bottom: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.backToCliqCash {
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+  color: #da1c5c;
+  font-size: 14px;
+  font-family: regular;
+  vertical-align: middle;
 }
 
 .tabData {

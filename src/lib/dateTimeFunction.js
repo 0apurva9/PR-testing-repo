@@ -53,7 +53,12 @@ export function getUTCMonthsText(day, shortLength) {
     return monthText[monthNumber].slice(0, shortLength);
   } else return monthText[monthNumber];
 }
-export const getUTCDateMonthFormat = (date, showShortMonth, showYear) => {
+export const getUTCDateMonthFormat = (
+  date,
+  showShortMonth,
+  showYear,
+  showYesterToday = true
+) => {
   let convertedDateTime = "";
   let currentDate = new Date();
   if (date) {
@@ -71,8 +76,9 @@ export const getUTCDateMonthFormat = (date, showShortMonth, showYear) => {
         )) /
         (1000 * 60 * 60 * 24)
     );
-    if (dayDifference === 0) convertedDateTime = "Today";
-    else if (dayDifference === 1) convertedDateTime = "Yesterday";
+    if (dayDifference === 0 && showYesterToday) convertedDateTime = "Today";
+    else if (dayDifference === 1 && showYesterToday)
+      convertedDateTime = "Yesterday";
     else {
       if (showShortMonth) {
         convertedDateTime =
