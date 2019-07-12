@@ -22,7 +22,8 @@ export default class ReturnChangeAddress extends React.Component {
     super(props);
     this.state = {
       showAll: this.props.isReturn ? true : false,
-      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
+      label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all",
+      selectedAddress: ""
     };
   }
   showMore() {
@@ -42,6 +43,7 @@ export default class ReturnChangeAddress extends React.Component {
     }
   }
   onSelectAddress(address) {
+    this.setState({ selectedAddress: address });
     debugger;
     if (this.props.onSelectAddress) {
       this.props.onSelectAddress(address);
@@ -54,7 +56,6 @@ export default class ReturnChangeAddress extends React.Component {
     }
   }
   render() {
-    console.log("this.props", this.props);
     let buttonHolder = styles.buttonHolder;
     if (
       this.props.address &&
@@ -101,6 +102,7 @@ export default class ReturnChangeAddress extends React.Component {
               elementWidthMobile={100}
               elementWidthDesktop={this.props.isReturn ? 100 : 50}
               selected={this.props.selected}
+              //onSelect={addressId => this.onSelectAddress(addressId)}
             >
               {this.props.address &&
                 this.props.address
@@ -121,6 +123,7 @@ export default class ReturnChangeAddress extends React.Component {
                         isReturn={this.props.isReturn}
                         address={val}
                         onSelectAddress={val => this.onSelectAddress(val)}
+                        //onSelectAddress={val = > this.onSelectAddress(val)}
                       />
                     );
                   })}
@@ -156,11 +159,12 @@ export default class ReturnChangeAddress extends React.Component {
                       fontSize: 14
                     }}
                     onClick={() =>
-                      // debugger();
                       this.props.history.push({
                         pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_MODES}`,
                         state: {
-                          address: this.props.defaultAddress,
+                          address: this.state.selectedAddress
+                            ? this.state.selectedAddress
+                            : this.props.defaultAddress,
                           authorizedRequest: true
                         }
                       })

@@ -31,9 +31,7 @@ export default class ReturnAddressBook extends React.Component {
           return value;
         }
       });
-    console.log(this.props, "this.props");
     this.setState({ defaultAddress: defaultAddress });
-    console.log("defaultAddress", defaultAddress);
   }
   componentWillReceiveProps(nextProps) {
     let defaultAddress =
@@ -53,7 +51,6 @@ export default class ReturnAddressBook extends React.Component {
         defaultAddress: defaultAddress
       });
     }
-    console.log("updated Default Address:", defaultAddress);
   }
   removeAddress = addressId => {
     if (this.props.removeAddress) {
@@ -89,44 +86,13 @@ export default class ReturnAddressBook extends React.Component {
   handleClick(address) {
     debugger;
     this.setState({ defaultAddress: address });
+    this.props.addAddressToCart(address[0]);
   }
 
   onChange(val) {
     this.setState(val);
   }
 
-  // onSelectAddress(addressId) {
-  // 	this.props.addAddressToCart(addressId[0]);
-  // }
-  onSelectAddress(selectedAddress) {
-    let addressSelected =
-      this.props.returnRequest &&
-      this.props.returnRequest.deliveryAddressesList &&
-      this.props.returnRequest.addressDetailsList.addresses.find(address => {
-        return address.id === selectedAddress[0];
-      });
-    this.updateLocalStoragePinCode(
-      addressSelected && addressSelected.postalCode
-    );
-    // here we are checking the if user selected any address then setting our state
-    // and in else condition if user deselect then this function will again call and
-    //  then we are resetting the previous selected address
-    if (selectedAddress[0]) {
-      this.setState({
-        confirmAddress: false,
-        selectedAddress: addressSelected,
-        isCheckoutAddressSelected: true,
-        addressId: addressSelected.id,
-        isDeliveryModeSelected: false
-      });
-    } else {
-      this.setState({
-        addressId: null,
-        selectedAddress: null,
-        isDeliveryModeSelected: false
-      });
-    }
-  }
   handleSubmit = () => {
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
@@ -141,7 +107,6 @@ export default class ReturnAddressBook extends React.Component {
   render() {
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;
-    console.log("this.props in return Address:", this.props);
     let addressSelectedId =
       this.props.returnRequest && this.props.returnRequest.deliveryAddress;
     let fetchId = addressSelectedId && addressSelectedId.id;
@@ -166,10 +131,15 @@ export default class ReturnAddressBook extends React.Component {
                 }`,
                 value: address.id,
                 phone: address.phone,
-                selected: address.defaultAddress
+                selected: address.defaultAddress,
+                line1: address.line1,
+                line2: address.line2,
+                landmark: address.landmark,
+                town: address.town,
+                state: address.state,
+                postalCode: address.postalCode
               };
             })}
-            // onSelectAddress={addressId => this.onSelectAddress(addressId)}
             onSelectAddress={address => this.handleClick(address)}
             selected={[defaultAddressId]}
             onRedirectionToNextSection={() => this.handleSubmit}

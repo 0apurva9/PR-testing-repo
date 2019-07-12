@@ -67,7 +67,6 @@ export default class ReplaceRefundSelection extends React.Component {
       uploadedImageURLs,
       reverseSealAvailability
     );
-    //console.log("PROPS DETAILS:", this.props);
     //if bank data already present show it - coming from update bank details screen
     if (Object.keys(this.props.bankDetail).length !== 0) {
       this.setState({ showRefundOptions: true });
@@ -89,7 +88,6 @@ export default class ReplaceRefundSelection extends React.Component {
   async radioChange(e) {
     const target = e.currentTarget;
     this.setState({ selectedOption: target.value });
-    //console.log("e in radio:", target.value);
     //cliq cash
     if (target.value === "CLIQ_CASH") {
       let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
@@ -106,7 +104,6 @@ export default class ReplaceRefundSelection extends React.Component {
       //bank account
       // if (target.value === "BANK_TO_SOURCE") {
       let getCustomerBankDetailsResponse = await this.props.getCustomerBankDetails();
-      //console.log("get Bank Details:", getCustomerBankDetailsResponse, this.state.showBankDetails)
       if (
         getCustomerBankDetailsResponse &&
         getCustomerBankDetailsResponse.error === "Failure"
@@ -128,7 +125,6 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   addBankDetails(data) {
-    //console.log("bankDetails on update:", data);
     this.setState({ showAttachment: false });
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
@@ -204,14 +200,12 @@ export default class ReplaceRefundSelection extends React.Component {
       let transactionId = this.props.data.transactionId;
       let returnId = this.props.getRefundOptionsDetails.returnId;
       let refundMode = this.state.selectedOption;
-      console.log(refundMode);
       const updateRefundModeResponse = await this.props.updateRefundMode(
         orderId,
         transactionId,
         returnId,
         refundMode
       );
-      console.log(updateRefundModeResponse);
       //move to next screen on success
       if (
         updateRefundModeResponse &&
@@ -235,7 +229,6 @@ export default class ReplaceRefundSelection extends React.Component {
   }
   handleFileUpload(e) {
     let uploadedFilesArr = Array.from(e.target.files);
-    //console.log("uploadedArrayFiles:", uploadedFilesArr);
     if (uploadedFilesArr.length > 8) {
       return this.props.displayToast("Upload maximum 8 images");
     }
@@ -271,11 +264,6 @@ export default class ReplaceRefundSelection extends React.Component {
     });
     this.setState({ uploadedImageFiles: imgArray });
     this.setState({ validImgFiles: validImageFiles });
-    console.log(
-      "uploadedImageFiles arrays:",
-      this.state.uploadedImageFiles,
-      this.state.validImgFiles
-    );
   }
   removeFile(filename, indexOfRemovedFile) {
     let fileNames = this.state.uploadedImageFiles;

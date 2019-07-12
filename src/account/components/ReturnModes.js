@@ -172,6 +172,9 @@ export default class ReturnModes extends React.Component {
     let transactionId = this.props.data.transactionId;
     let returnId = this.props.getRefundModesDetails.returnId;
     let returnAddress = this.state.pickupAddress;
+    if (this.props.location.state.address) {
+      returnAddress = this.props.location.state.address;
+    }
     const data = this.state.returnModesDetails;
     let returnFullfillmentType =
       data.returnLogisticsResponseDTO[0].returnFullfillmentType;
@@ -255,8 +258,14 @@ export default class ReturnModes extends React.Component {
       data.returnStoreDetailsList &&
       Object.keys(data.returnStoreDetailsList);
     const returnLogisticsResponseDTO = data && data.returnLogisticsResponseDTO;
-    const deliveryAddress =
-      this.props.location.state.address || data.deliveryAddress;
+    let deliveryAddress;
+    if (this.props.location.state.address) {
+      deliveryAddress = this.props.location.state.address;
+    } else {
+      deliveryAddress = data.deliveryAddress;
+    }
+    // this.props.location.state.address || data.deliveryAddress;
+    console.log("return modes ---->>>>>>>>>>>:", this.props);
 
     return (
       <React.Fragment>

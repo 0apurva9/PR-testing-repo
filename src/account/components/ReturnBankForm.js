@@ -1,6 +1,17 @@
 import React from "react";
 import ReturnsFrameV2 from "./ReturnsFrameV2";
 import BankDetailsV2 from "./BankDetailsV2";
+import ProfileMenu from "../../account/components/ProfileMenu.js";
+import UserProfile from "../../account/components/UserProfile.js";
+import format from "date-fns/format";
+import * as Cookie from "../../lib/Cookie";
+import stylesCommon from "./ReturnReasonAndModes.css";
+import {
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  PRODUCT_CANCEL
+} from "../../lib/constants";
+const dateFormat = "DD MMM YYYY";
 
 export default class ReturnBankForm extends React.Component {
   handleCancel() {
@@ -9,29 +20,63 @@ export default class ReturnBankForm extends React.Component {
     }
   }
   render() {
-    //console.log('bank form:', this.props.bankDetail);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userData = JSON.parse(userDetails);
+    const userAccountDetails = JSON.parse(userDetails);
+
     return (
-      // <ReturnsFrame
-      //   headerText="Refund Details"
-      //   onContinue={this.props.onContinue}
-      //   onCancel={() => this.handleCancel()}
-      //   isFooterNeeded={true}
-      // >
-      //   <BankDetails onChange={this.props.onChange} />
-      // </ReturnsFrame>
-      <ReturnsFrameV2
-        onContinue={this.props.onContinue}
-        isFooterNeeded={true}
-        bankData={this.props.bankDetail ? true : false}
-      >
-        <BankDetailsV2
-          onChange={this.props.onChange}
-          clearForm={this.props.clearForm}
-          history={this.props.history}
-          updateStateForBankDetails={this.props.updateStateForBankDetails}
-          bankDetail={this.props.bankDetail}
-        />
-      </ReturnsFrameV2>
+      <React.Fragment>
+        <div className={stylesCommon.base}>
+          <div className={stylesCommon.holder}>
+            <div className={stylesCommon.profileMenu}>
+              <ProfileMenu {...this.props} />
+            </div>
+            <div className={stylesCommon.returnReasonDetail}>
+              <div className={stylesCommon.returnReasonDetailHolder}>
+                <ReturnsFrameV2
+                  onContinue={this.props.onContinue}
+                  isFooterNeeded={true}
+                  bankData={this.props.bankDetail ? true : false}
+                >
+                  <BankDetailsV2
+                    onChange={this.props.onChange}
+                    clearForm={this.props.clearForm}
+                    history={this.props.history}
+                    updateStateForBankDetails={
+                      this.props.updateStateForBankDetails
+                    }
+                    bankDetail={this.props.bankDetail}
+                  />
+                </ReturnsFrameV2>
+              </div>
+            </div>
+            <div className={stylesCommon.userProfile}>
+              <UserProfile
+                image={userAccountDetails.imageUrl}
+                userLogin={userAccountDetails.userName}
+                loginType={userAccountDetails.loginType}
+                firstName={
+                  userAccountDetails &&
+                  userAccountDetails.firstName &&
+                  userAccountDetails.firstName.trim().charAt(0)
+                }
+                heading={
+                  userAccountDetails &&
+                  userAccountDetails.firstName &&
+                  `${userAccountDetails.firstName} `
+                }
+                lastName={
+                  userAccountDetails &&
+                  userAccountDetails.lastName &&
+                  `${userAccountDetails.lastName}`
+                }
+                userAddress={this.props.userAddress}
+              />
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }
