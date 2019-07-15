@@ -61,7 +61,7 @@
   justify-content: center;
   -ms-flex-align: center;
   align-items: center;
-  background: linear-gradient(#da1c5c, #da1c5c);
+  background: #da1c5c;
   border-radius: 16px;
   cursor: pointer;
 }
