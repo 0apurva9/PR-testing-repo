@@ -68,7 +68,7 @@ export default class TransactionHistoryDesktop extends React.Component {
         )) /
         (1000 * 60 * 60 * 24)
     );
-    if (dayDifference <= 0) {
+    if (dayDifference < 0) {
       return false;
     } else {
       return true;
@@ -383,15 +383,24 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         .toUpperCase()
                                         .match(
                                           /\bEXPIRED|PAID|RECEIVED REFUND/g
-                                        ) && (
+                                        ) &&
+                                      !this.checkDateExpired(
+                                        value.expiryDate
+                                      ) && (
                                         <div className={styles.expireDate}>
-                                          {this.checkDateExpired(
-                                            value.expiryDate
-                                          )
-                                            ? "Expired on:"
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true,
+                                            true,
+                                            true
+                                          ).match(/\bToday|Tomorrow/g)
+                                            ? "Expiring"
                                             : "Expiring on:"}{" "}
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
+                                            true,
+                                            true,
                                             true,
                                             true
                                           )}

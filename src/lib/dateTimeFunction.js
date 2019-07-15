@@ -57,7 +57,8 @@ export const getUTCDateMonthFormat = (
   date,
   showShortMonth,
   showYear,
-  showYesterToday = true
+  showYesterToday = true,
+  showTomorrow = false
 ) => {
   let convertedDateTime = "";
   let currentDate = new Date();
@@ -79,6 +80,8 @@ export const getUTCDateMonthFormat = (
     if (dayDifference === 0 && showYesterToday) convertedDateTime = "Today";
     else if (dayDifference === 1 && showYesterToday)
       convertedDateTime = "Yesterday";
+    else if (dayDifference === -1 && showTomorrow)
+      convertedDateTime = "Tomorrow";
     else {
       if (showShortMonth) {
         convertedDateTime =

@@ -33,6 +33,8 @@ import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
+const currentDate = new Date();
+const year = currentDate.getFullYear();
 export default class CliqCashDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -113,6 +115,27 @@ export default class CliqCashDesktop extends React.Component {
   showKycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
+    }
+  };
+  checkDateExpired = date => {
+    let expiredDate = new Date(date);
+    let dayDifference = Math.floor(
+      (Date.UTC(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate()
+      ) -
+        Date.UTC(
+          expiredDate.getFullYear(),
+          expiredDate.getMonth(),
+          expiredDate.getDate()
+        )) /
+        (1000 * 60 * 60 * 24)
+    );
+    if (dayDifference < 0) {
+      return false;
+    } else {
+      return true;
     }
   };
   cliqCashKnowMore = () => {
@@ -417,17 +440,24 @@ export default class CliqCashDesktop extends React.Component {
                                             .toUpperCase()
                                             .match(
                                               /\bEXPIRED|PAID|RECEIVED REFUND/g
-                                            ) && (
+                                            ) &&
+                                          !this.checkDateExpired(
+                                            value.expiryDate
+                                          ) && (
                                             <div className={styles.expireDate}>
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,
+                                                true,
+                                                true,
                                                 true
-                                              ).match(/\bToday|Yesterday/g)
+                                              ).match(/\bToday|Tomorrow/g)
                                                 ? "Expired on:"
                                                 : "Expiring on:"}{" "}
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
+                                                true,
+                                                true,
                                                 true,
                                                 true
                                               )}
