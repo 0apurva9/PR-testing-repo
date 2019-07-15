@@ -50,6 +50,7 @@
     font-size: 14px;
     font-family: regular;
     vertical-align: middle;
+    cursor: pointer;
   }
   .amount {
     width: 100%;
