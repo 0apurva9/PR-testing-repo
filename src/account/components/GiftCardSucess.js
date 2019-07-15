@@ -61,8 +61,8 @@ export default class GiftCardSucess extends Component {
               width={178}
               height={36}
               linearColor={{
-                fromColor: "#ce5096",
-                toColor: "#da6060"
+                fromColor: "#da1c5c",
+                toColor: "#da1c5c"
               }}
               onClick={() => {
                 this.renderToContinueShopping();
