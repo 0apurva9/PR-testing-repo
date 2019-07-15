@@ -457,6 +457,8 @@ export default class CliqCashDesktop extends React.Component {
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,
+                                                true,
+                                                true,
                                                 true
                                               )}
                                             </div>
