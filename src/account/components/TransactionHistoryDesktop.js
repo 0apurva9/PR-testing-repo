@@ -53,6 +53,27 @@ export default class TransactionHistoryDesktop extends React.Component {
     }
     return monthString;
   };
+  checkDateExpired = date => {
+    let expiredDate = new Date(date);
+    let dayDifference = Math.floor(
+      (Date.UTC(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate()
+      ) -
+        Date.UTC(
+          expiredDate.getFullYear(),
+          expiredDate.getMonth(),
+          expiredDate.getDate()
+        )) /
+        (1000 * 60 * 60 * 24)
+    );
+    if (dayDifference <= 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   transactiondetailPage(data) {
     if (
       data.transactionType &&
@@ -271,13 +292,13 @@ export default class TransactionHistoryDesktop extends React.Component {
                             {getUTCDateMonthFormat(
                               this.state.selectedDate &&
                                 this.state.selectedDate.fromDate,
-                              true,
+                              false,
                               false,
                               false
                             )}-{getUTCDateMonthFormat(
                               this.state.selectedDate &&
                                 this.state.selectedDate.toDate,
-                              true,
+                              false,
                               false,
                               false
                             )}
@@ -364,11 +385,9 @@ export default class TransactionHistoryDesktop extends React.Component {
                                           /\bEXPIRED|PAID|RECEIVED REFUND/g
                                         ) && (
                                         <div className={styles.expireDate}>
-                                          {getUTCDateMonthFormat(
-                                            value.expiryDate,
-                                            true,
-                                            true
-                                          ).match(/\bToday|Yesterday/g)
+                                          {this.checkDateExpired(
+                                            value.expiryDate
+                                          )
                                             ? "Expired on:"
                                             : "Expiring on:"}{" "}
                                           {getUTCDateMonthFormat(
