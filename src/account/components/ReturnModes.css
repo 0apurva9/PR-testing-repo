@@ -102,6 +102,7 @@
 	color: #ff1744;
 	text-align: right;
 	font-family: semibold;
+	cursor: pointer;
 }
 .labelForRadioBtn {
 	display: inline-block;

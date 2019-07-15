@@ -6,10 +6,25 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 
 export default class DeliveryAddressReturn extends React.Component {
-  handleClick(address) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedAddress: ""
+    };
+    // this.radioChange = this.radioChange.bind(this);
+  }
+  // radioChange(e) {
+  // 	const target = e.currentTarget;
+  // 	console.log(target);
+  // 	console.log(this.state.selectedAddress);
+  // 	this.setState({ selectedAddress: target.value });
+  // }
+
+  handleClick(address, value) {
     if (this.props.onSelectAddress) {
       this.props.onSelectAddress(address);
     }
+    this.setState({ selectedAddress: value });
     if (this.props.selectItem) {
       this.props.selectItem();
     }
@@ -20,10 +35,11 @@ export default class DeliveryAddressReturn extends React.Component {
     }
   }
   render() {
+    //console.log(this.props.selected);
     return (
       <div
         className={this.props.isReturn ? styles.baseForReturn : styles.base}
-        onClick={() => this.handleClick(this.props.address)}
+        onClick={() => this.handleClick(this.props.address, this.props.value)}
       >
         <div className={styles.header}>
           <div
@@ -35,7 +51,7 @@ export default class DeliveryAddressReturn extends React.Component {
           >
             {this.props.addressTitle}
           </div>
-          {this.props.selected == true ? (
+          {this.props.selected ? (
             <div
               className={styles.buttonEdit}
               onClick={() => {
@@ -56,18 +72,6 @@ export default class DeliveryAddressReturn extends React.Component {
           }
         >
           {this.props.addressDescription}
-          <MobileOnly>
-            {!this.props.isReturn && (
-              <div className={styles.checkCircle}>
-                <CheckBox selected={this.props.selected} />
-              </div>
-            )}
-          </MobileOnly>
-          {this.props.isReturn && (
-            <div className={styles.checkCircleForReturn}>
-              <CheckBox selected={this.props.selected} />
-            </div>
-          )}
         </div>
         {this.props.contact && (
           <div
@@ -81,11 +85,16 @@ export default class DeliveryAddressReturn extends React.Component {
           </div>
         )}
         <DesktopOnly>
-          {!this.props.isReturn && (
-            <div className={styles.checkCircle}>
-              <CheckBox selected={this.props.selected} />
-            </div>
-          )}
+          <div className={styles.checkCircle}>
+            {/* <input
+							className={styles.radioBtn}
+							type="radio"
+							checked={this.state.selectedAddress === this.props.value}
+							onChange={this.radioChange}
+							value={this.props.value}
+						/> */}
+            <CheckBox selected={this.props.selected} />
+          </div>
         </DesktopOnly>
       </div>
     );

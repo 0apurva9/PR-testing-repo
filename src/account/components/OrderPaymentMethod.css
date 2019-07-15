@@ -28,6 +28,7 @@
 	font-size: 14px;
 	display: inline-block;
 	text-align: right;
+	cursor: pointer;
 }
 .marginAddress {
 	margin-bottom: 49px;

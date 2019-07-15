@@ -378,7 +378,9 @@ export default class OrderCard extends React.Component {
                   Estimated Delivery Date:{" "}
                 </span>
               )}
-              {estimatedDeliveryDateFormatted}
+              <span className={styles.styleDate}>
+                {estimatedDeliveryDateFormatted}
+              </span>
             </div>
           )}
         {this.props.isOrderReturnable === false &&
