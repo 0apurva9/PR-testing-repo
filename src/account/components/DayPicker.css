@@ -147,7 +147,7 @@
   background-color: #f7f8f8;
 }
 .selected:not(.disabled) {
-  background: linear-gradient(#ee48a3, #da6060);
+  background: linear-gradient(#da1c5c, #da1c5c);
   color: #ffffff;
   font-weight: 400;
   border-radius: 16px;

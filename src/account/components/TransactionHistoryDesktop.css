@@ -75,7 +75,7 @@
   composes: tabData;
   color: #fff;
   font-family: semibold;
-  background: linear-gradient(#ee48a3, #da6060);
+  background: linear-gradient(#da1c5c, #da1c5c);
   border-radius: 25px;
 }
 .divider {
