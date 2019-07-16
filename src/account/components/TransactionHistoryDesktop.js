@@ -372,8 +372,8 @@ export default class TransactionHistoryDesktop extends React.Component {
                                             true,
                                             true
                                           ).match(/\bToday|Yesterday/g)
-                                            ? "Expired :"
-                                            : "Expired on:"}{" "}
+                                            ? "Expired"
+                                            : "Expired on"}{" "}
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,
@@ -402,7 +402,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                             true
                                           ).match(/\bToday|Tomorrow/g)
                                             ? "Expiring"
-                                            : "Expiring on:"}{" "}
+                                            : "Expiring on"}{" "}
                                           {getUTCDateMonthFormat(
                                             value.expiryDate,
                                             true,
