@@ -914,7 +914,8 @@ export function verifyWalletFailure(error) {
 
 export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
   return async (dispatch, getState, { api }) => {
     dispatch(verifyWalletRequest());
     try {
@@ -942,6 +943,9 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
       }
       dispatch(hideModal());
       dispatch(displayToast(resultJson.message));
+      userDetails.firstName = resultJson.firstName;
+      userDetails.lastName = resultJson.lastName;
+      localStorage.setItem(LOGGED_IN_USER_DETAILS, userDetails);
       return dispatch(verifyWalletSuccess(resultJson));
     } catch (e) {
       return dispatch(verifyWalletFailure(e.message));
