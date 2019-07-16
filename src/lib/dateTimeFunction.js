@@ -93,7 +93,8 @@ export const getUTCDateMonthFormat = (
     if (
       showYear &&
       convertedDateTime !== "Today" &&
-      convertedDateTime !== "Yesterday"
+      convertedDateTime !== "Yesterday" &&
+      convertedDateTime !== "Tomorrow"
     ) {
       convertedDateTime = convertedDateTime + "  " + sentDate.getFullYear();
     }
