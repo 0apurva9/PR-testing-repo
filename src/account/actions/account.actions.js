@@ -945,7 +945,7 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
       dispatch(displayToast(resultJson.message));
       userDetails.firstName = resultJson.firstName;
       userDetails.lastName = resultJson.lastName;
-      localStorage.setItem(LOGGED_IN_USER_DETAILS, JSON.parse(userDetails));
+      localStorage.setItem(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
       return dispatch(verifyWalletSuccess(resultJson));
     } catch (e) {
       return dispatch(verifyWalletFailure(e.message));
