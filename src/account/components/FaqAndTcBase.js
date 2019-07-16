@@ -33,9 +33,6 @@ export default class FaqAndTcBase extends Component {
             onClick={() => this.redirectPage(DUMMY_FAQ, FAQ)}
           >
             <div className={styles.faqOption}>FAQ’s</div>
-            <div className={styles.faqText}>
-              How can I transfer my CLiQ Cash to my other digital wallets?
-            </div>
             <div className={styles.faqOptionArrow}>
               <div className={styles.arrowRight} />
             </div>
