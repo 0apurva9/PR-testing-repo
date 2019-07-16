@@ -424,7 +424,13 @@ export default class CliqCashDesktop extends React.Component {
                                             .toUpperCase()
                                             .match(/\bEXPIRED/g) && (
                                             <div className={styles.expireDate}>
-                                              Expired on:{" "}
+                                              {getUTCDateMonthFormat(
+                                                value.expiryDate,
+                                                true,
+                                                true
+                                              ).match(/\bToday|Yesterday/g)
+                                                ? "Expired :"
+                                                : "Expired on:"}{" "}
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
                                                 true,
@@ -452,7 +458,7 @@ export default class CliqCashDesktop extends React.Component {
                                                 true,
                                                 true
                                               ).match(/\bToday|Tomorrow/g)
-                                                ? "Expired on:"
+                                                ? "Expiring"
                                                 : "Expiring on:"}{" "}
                                               {getUTCDateMonthFormat(
                                                 value.expiryDate,
