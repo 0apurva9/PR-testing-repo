@@ -10,7 +10,7 @@
 .faqOptionWrapper {
   width: 100%;
   height: auto;
-  padding-bottom: 8px;
+  padding-bottom: 24px;
   border-bottom: 1px solid #ececec;
   cursor: pointer;
 }
@@ -33,8 +33,8 @@
 .tcOptionWrapper {
   width: 100%;
   height: auto;
-  padding-top: 14px;
-  padding-bottom: 8px;
+  padding-top: 16px;
+  padding-bottom: 24px;
   border-bottom: 1px solid #ececec;
   cursor: pointer;
 }
