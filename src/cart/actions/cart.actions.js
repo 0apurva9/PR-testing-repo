@@ -5103,6 +5103,7 @@ export function postFeedBackForm(commemt, questionRatingArray, transactionId) {
       }
       dispatch(postFeedBackFormSuccess(resultJson));
     } catch (e) {
+      dispatch(displayToast(e.message));
       dispatch(postFeedBackFormFailure(e.message));
     }
   };
