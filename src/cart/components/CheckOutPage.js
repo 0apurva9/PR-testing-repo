@@ -1226,12 +1226,7 @@ class CheckOutPage extends React.Component {
       this.setState({ orderConfirmation: true, paymentConfirmation: false });
     }
 
-    if (
-      (nextProps.cart &&
-        nextProps.cart.getPrepaidOrderPaymentConfirmationStatus &&
-        nextProps.cart.getPrepaidOrderPaymentConfirmationStatus.toUpperCase()) ===
-      SUCCESS.toUpperCase()
-    ) {
+    if (nextProps.cart.getPrepaidOrderPaymentConfirmationStatus === SUCCESS) {
       window.scroll(0, 0);
       this.setState({ paymentConfirmation: true, orderConfirmation: false });
     }
@@ -1962,12 +1957,12 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.savedCardDetails !== "") {
       if (this.state.isGiftCard) {
-        this.props.createJusPayOrderForGiftCardFromSavedCards(
+        this.props.collectPaymentOrderForGiftCardFromSavedCards(
           this.state.savedCardDetails,
           this.state.egvCartGuid
         );
       } else if (this.state.isComingFromRetryUrl) {
-        this.props.createJusPayOrderForSavedCards(
+        this.props.collectPaymentOrderForSavedCards(
           this.state.savedCardDetails,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           true,
@@ -1975,7 +1970,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.retryCartGuid
         );
       } else {
-        this.props.createJusPayOrderForSavedCards(
+        this.props.collectPaymentOrderForSavedCards(
           this.state.savedCardDetails,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           true // for payment failure we need to use old cart id);
@@ -2040,15 +2035,15 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
       if (this.state.isGiftCard) {
-        if (this.props.createJusPayOrderForGiftCardNetBanking) {
-          this.props.createJusPayOrderForGiftCardNetBanking(
+        if (this.props.collectPaymentOrderForGiftCardNetBanking) {
+          this.props.collectPaymentOrderForGiftCardNetBanking(
             this.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
-        this.props.createJusPayOrderForNetBanking(
+        this.props.collectPaymentOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           this.state.bankCodeForNetBanking,
@@ -2058,7 +2053,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.bankNameForNetBanking
         );
       } else {
-        this.props.createJusPayOrderForNetBanking(
+        this.props.collectPaymentOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           this.state.bankCodeForNetBanking,
@@ -2071,13 +2066,13 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.paymentModeSelected === PAYTM) {
       if (this.state.isGiftCard) {
-        if (this.props.createJusPayOrderForGiftCardNetBanking) {
-          this.props.createJusPayOrderForGiftCardNetBanking(
+        if (this.props.collectPaymentOrderForGiftCardNetBanking) {
+          this.props.collectPaymentOrderForGiftCardNetBanking(
             this.state.egvCartGuid
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
-        this.props.createJusPayOrderForNetBanking(
+        this.props.collectPaymentOrderForNetBanking(
           WALLET,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           "",
@@ -2087,7 +2082,7 @@ if you have order id in local storage then you have to show order confirmation p
           ""
         );
       } else {
-        this.props.createJusPayOrderForNetBanking(
+        this.props.collectPaymentOrderForNetBanking(
           WALLET,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           "",
@@ -2100,13 +2095,13 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.paymentModeSelected === PAYPAL) {
       if (this.state.isGiftCard) {
-        if (this.props.createJusPayOrderForGiftCardNetBanking) {
-          this.props.createJusPayOrderForGiftCardNetBanking(
+        if (this.props.collectPaymentOrderForGiftCardNetBanking) {
+          this.props.collectPaymentOrderForGiftCardNetBanking(
             this.state.egvCartGuid
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
-        this.props.createJusPayOrderForNetBanking(
+        this.props.collectPaymentOrderForNetBanking(
           PAYPAL,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           "",
@@ -2115,7 +2110,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.retryCartGuid
         );
       } else {
-        this.props.createJusPayOrderForNetBanking(
+        this.props.collectPaymentOrderForNetBanking(
           PAYPAL,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           "",
@@ -2212,12 +2207,12 @@ if you have order id in local storage then you have to show order confirmation p
       }
       if (this.state.savedCardDetails && this.state.savedCardDetails !== "") {
         if (this.state.isGiftCard) {
-          this.props.createJusPayOrderForGiftCardFromSavedCards(
+          this.props.collectPaymentOrderForGiftCardFromSavedCards(
             this.state.savedCardDetails,
             this.props.location.state.egvCartGuid
           );
         } else if (this.state.isComingFromRetryUrl) {
-          this.props.createJusPayOrderForSavedCards(
+          this.props.collectPaymentOrderForSavedCards(
             this.state.savedCardDetails,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             false,
@@ -2263,13 +2258,13 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
-          this.props.createJusPayOrderForGiftCardNetBanking(
+          this.props.collectPaymentOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
-          this.props.createJusPayOrderForNetBanking(
+          this.props.collectPaymentOrderForNetBanking(
             NET_BANKING_PAYMENT_MODE,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             this.state.bankCodeForNetBanking,
@@ -2309,13 +2304,13 @@ if you have order id in local storage then you have to show order confirmation p
       }
       if (this.state.paymentModeSelected === PAYTM) {
         if (this.state.isGiftCard) {
-          this.props.createJusPayOrderForGiftCardNetBanking(
+          this.props.collectPaymentOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
-          this.props.createJusPayOrderForNetBanking(
+          this.props.collectPaymentOrderForNetBanking(
             PAYTM,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             this.state.bankCodeForNetBanking,
@@ -2330,13 +2325,13 @@ if you have order id in local storage then you have to show order confirmation p
       }
       if (this.state.paymentModeSelected === PAYPAL) {
         if (this.state.isGiftCard) {
-          this.props.createJusPayOrderForGiftCardNetBanking(
+          this.props.collectPaymentOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
-          this.props.createJusPayOrderForNetBanking(
+          this.props.collectPaymentOrderForNetBanking(
             PAYPAL,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             this.state.bankCodeForNetBanking,
@@ -2742,9 +2737,9 @@ if you have order id in local storage then you have to show order confirmation p
     );
   };
 
-  createJusPayOrderForGiftCardNetBanking = () => {
-    if (this.props.createJusPayOrderForGiftCardNetBanking) {
-      this.props.createJusPayOrderForGiftCardNetBanking(
+  collectPaymentOrderForGiftCardNetBanking = () => {
+    if (this.props.collectPaymentOrderForGiftCardNetBanking) {
+      this.props.collectPaymentOrderForGiftCardNetBanking(
         this.props.location.state.egvCartGuid,
         this.state.bankCodeForNetBanking,
         this.state.bankNameForNetBanking
@@ -3126,6 +3121,7 @@ if you have order id in local storage then you have to show order confirmation p
     if (
       this.state.addNewAddress &&
       !this.state.orderConfirmation &&
+      !this.state.paymentConfirmation &&
       !this.state.isGiftCard &&
       !this.state.isComingFromRetryUrl &&
       !this.props.cart.isPaymentProceeded
@@ -3194,9 +3190,12 @@ if you have order id in local storage then you have to show order confirmation p
       (!this.state.addNewAddress &&
         this.props.cart &&
         !this.state.orderConfirmation &&
+        !this.state.paymentConfirmation &&
         !this.props.cart.isPaymentProceeded) ||
       this.state.isGiftCard ||
-      (this.state.isComingFromRetryUrl && !this.state.orderConfirmation)
+      (!this.state.paymentConfirmation &&
+        this.state.isComingFromRetryUrl &&
+        !this.state.orderConfirmation)
     ) {
       let retryPaymentDetailsObj = JSON.parse(
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -3435,7 +3434,7 @@ if you have order id in local storage then you have to show order confirmation p
                         this.binValidationForSavedCard(cardDetails)
                       }
                       createJusPayOrderForGiftCardNetBanking={() =>
-                        this.createJusPayOrderForGiftCardNetBanking()
+                        this.collectPaymentOrderForGiftCardNetBanking()
                       }
                       onFocusInput={() => this.onFocusInput()}
                       onBlur={() => this.onBlue()}

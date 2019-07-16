@@ -2325,7 +2325,7 @@ export function softReservationPaymentForNetBanking(
       }
 
       dispatch(
-        createJusPayOrderForNetBanking(
+        collectPaymentOrderForNetBanking(
           paymentMethodType,
           productItems,
           bankCode,
@@ -2373,7 +2373,7 @@ export function softReservationPaymentForSavedCard(
         throw new Error(resultJsonStatus.message);
       }
       setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
-      dispatch(createJusPayOrderForSavedCards(cardDetails, productItems));
+      dispatch(collectPaymentOrderForSavedCards(cardDetails, productItems));
     } catch (e) {
       dispatch(softReservationForPaymentFailure(e.message));
     }
@@ -5528,18 +5528,14 @@ export function stripeTokenize(cardDetails, address, cartItem, paymentMode) {
         `v1/tokens?card[number]=${card_number}&card[exp_month]=${card_exp_month}&card[exp_year]=${card_exp_year}&card[cvc]=${card_security_code}`
       );
       const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      if (resultJson.error) {
+        dispatch(displayToast(resultJson.error.message));
+        throw new Error(resultJson.error.message);
       }
       dispatch(stripeTokenizeSuccess(resultJson));
       return resultJson;
     } catch (e) {
-      let message = e.message;
-      if (message && message.indexOf("Unexpected token") > -1) {
-        message = "Something went wrong. Please retry!";
-      }
-      dispatch(stripeTokenizeFailure(message));
+      dispatch(stripeTokenizeFailure(e));
     }
   };
 }
@@ -5935,6 +5931,416 @@ export function stripe_juspay_TokenizeGiftCard(
           )
         );
       }
+    }
+  };
+}
+export function collectPaymentOrderForSavedCards(
+  cardDetails,
+  cartItem,
+  isPaymentFailed,
+  isFromRetryUrl,
+  retryCartGuid
+) {
+  return async (dispatch, getState, { api }) => {
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    let cartGuId = JSON.parse(productDetails).guid;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let orderDetails = "";
+    let inventoryItems = isFromRetryUrl
+      ? await getValidDeliveryModeDetails(
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
+          true,
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        )
+      : cartItem;
+    if (isFromRetryUrl) {
+      cartGuId = retryCartGuid;
+    }
+    if (inventoryItems && address) {
+      orderDetails = {
+        wrapperItems: [
+          {
+            wrapperInventoryItems: [
+              {
+                ...inventoryItems
+              }
+            ],
+            wrapperAddressItems: [
+              {
+                addressItems: [
+                  {
+                    addressType: "Shipping",
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    addressLine1: address.line1,
+                    addressLine2: address.line2 ? address.line2 : "",
+                    addressLine3: address.line3 ? address.line3 : "",
+                    country: address.country && address.country.isocode,
+                    city: address.city,
+                    postalCode: address.postalCode,
+                    state: address.state,
+                    phone: address.phone
+                  }
+                ]
+              }
+            ],
+            wrapperPspItems: [
+              {
+                pspItems: [
+                  {
+                    pspName: "Juspay",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: cardDetails && cardDetails.cardFingerprint,
+                    cardRefNo: cardDetails && cardDetails.cardRefNo,
+                    returnUrl: returnUrl
+                  },
+                  {
+                    pspName: "Stripe",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: cardDetails && cardDetails.cardFingerprint,
+                    cardRefNo: cardDetails && cardDetails.cardRefNo,
+                    returnUrl: returnUrl
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+    }
+
+    dispatch(collectPaymentOrderRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        dispatch(displayToast("Please Retry."));
+        throw new Error(resultJson.message);
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderSuccess(resultJson));
+      dispatch(
+        createJusPayOrderForSavedCards(
+          cardDetails,
+          cartItem,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    } catch (e) {
+      dispatch(
+        displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
+      );
+      dispatch(collectPaymentOrderFailure(e));
+    }
+  };
+}
+
+export function collectPaymentOrderForGiftCardFromSavedCards(
+  cardDetails,
+  guId
+) {
+  return async (dispatch, getState, { api }) => {
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let orderDetails = "";
+    orderDetails = {
+      wrapperItems: [
+        {
+          wrapperInventoryItems: [],
+          wrapperAddressItems: [
+            {
+              addressItems: []
+            }
+          ],
+          wrapperPspItems: [
+            {
+              pspItems: [
+                {
+                  pspName: "Juspay",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: cardDetails && cardDetails.cardFingerprint,
+                  cardRefNo: cardDetails && cardDetails.cardRefNo,
+                  returnUrl: returnUrl
+                },
+                {
+                  pspName: "Stripe",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: cardDetails && cardDetails.cardFingerprint,
+                  cardRefNo: cardDetails && cardDetails.cardRefNo,
+                  returnUrl: returnUrl
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    dispatch(collectPaymentOrderForGiftCardRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        dispatch(displayToast("Please Retry."));
+        throw new Error(resultJson.message);
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderForGiftCardSuccess(resultJson));
+      dispatch(createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId));
+    } catch (e) {
+      dispatch(
+        displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
+      );
+      dispatch(collectPaymentOrderForGiftCardFailure(e));
+    }
+  };
+}
+
+export function collectPaymentOrderForNetBanking(
+  paymentMethodType,
+  cartItem,
+  bankCode,
+  pinCode,
+  isFromRetryUrl,
+  retryCartGuid,
+  bankName
+) {
+  return async (dispatch, getState, { api }) => {
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    let cartGuId = JSON.parse(productDetails).guid;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let orderDetails = "";
+    let inventoryItems = isFromRetryUrl
+      ? await getValidDeliveryModeDetails(
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
+          true,
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        )
+      : cartItem;
+    if (isFromRetryUrl) {
+      cartGuId = retryCartGuid;
+    }
+    if (inventoryItems && address) {
+      orderDetails = {
+        wrapperItems: [
+          {
+            wrapperInventoryItems: [
+              {
+                ...inventoryItems
+              }
+            ],
+            wrapperAddressItems: [
+              {
+                addressItems: [
+                  {
+                    addressType: "Shipping",
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    addressLine1: address.line1,
+                    addressLine2: address.line2 ? address.line2 : "",
+                    addressLine3: address.line3 ? address.line3 : "",
+                    country: address.country && address.country.isocode,
+                    city: address.city,
+                    postalCode: address.postalCode,
+                    state: address.state,
+                    phone: address.phone
+                  }
+                ]
+              }
+            ],
+            wrapperPspItems: [
+              {
+                pspItems: [
+                  {
+                    pspName: "Juspay",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: "",
+                    cardRefNo: "",
+                    returnUrl: returnUrl
+                  },
+                  {
+                    pspName: "Stripe",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: "",
+                    cardRefNo: "",
+                    returnUrl: returnUrl
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+    }
+
+    dispatch(collectPaymentOrderRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMethodType}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        dispatch(displayToast("Please Retry."));
+        throw new Error(resultJson.message);
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderSuccess(resultJson));
+      dispatch(
+        createJusPayOrderForNetBanking(
+          paymentMethodType,
+          cartItem,
+          bankCode,
+          pinCode,
+          isFromRetryUrl,
+          retryCartGuid,
+          bankName
+        )
+      );
+    } catch (e) {
+      dispatch(
+        displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
+      );
+      dispatch(collectPaymentOrderFailure(e));
+    }
+  };
+}
+export function collectPaymentOrderForGiftCardNetBanking(
+  egvCartGuid,
+  bankCode,
+  bankName
+) {
+  return async (dispatch, getState, { api }) => {
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let orderDetails = {
+      wrapperItems: [
+        {
+          wrapperInventoryItems: [
+            {
+              item: []
+            }
+          ],
+          wrapperAddressItems: [
+            {
+              addressItems: []
+            }
+          ],
+          wrapperPspItems: [
+            {
+              pspItems: [
+                {
+                  pspName: "Juspay",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: "",
+                  cardRefNo: "",
+                  returnUrl: returnUrl
+                },
+                {
+                  pspName: "Stripe",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: "",
+                  cardRefNo: "",
+                  returnUrl: returnUrl
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    dispatch(collectPaymentOrderForGiftCardRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      dispatch(
+        createJusPayOrderForGiftCardNetBanking(egvCartGuid, bankCode, bankName)
+      );
+    } catch (e) {
+      dispatch(createJusPayOrderFailure(e.message));
     }
   };
 }
