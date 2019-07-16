@@ -39,7 +39,7 @@ const stepsInfo = [
     stepHeader: "LOG IN",
     stepDescription:
       "Log in or sign up using your  email ID or Facebook, Google to your TATA CLiQ account.",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_8.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x8.png`
   },
   {
     id: 2,
@@ -47,7 +47,7 @@ const stepsInfo = [
     stepHeader: "GO TO CLiQ CASH",
     stepDescription:
       "Go to your CLiQ Cash wallet from your TATA CLiQ homepage top navigation",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_1.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x1.png`
   },
 
   {
@@ -55,21 +55,21 @@ const stepsInfo = [
     stepNumber: 3,
     stepHeader: "COMPLETE KYC",
     stepDescription: "Verify your Mobile number to complete your KYC",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_5.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x5.png`
   },
   {
     id: 4,
     stepNumber: 3,
     stepHeader: "COMPLETE KYC",
     stepDescription: "Verify your Mobile number to complete your KYC",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_3.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x3.png`
   },
   {
     id: 5,
     stepNumber: 3,
     stepHeader: "COMPLETE KYC",
     stepDescription: "Verify your Mobile number to complete your KYC",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_7.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x2.png`
   },
   {
     id: 6,
@@ -77,7 +77,7 @@ const stepsInfo = [
     stepHeader: "ADD GIFT CARD",
     stepDescription:
       "Add balance to your CLiQ Cash account from the Gift Card received",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_4.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x4.png`
   },
   {
     id: 7,
@@ -85,13 +85,13 @@ const stepsInfo = [
     stepHeader: "ADD GIFT CARD",
     stepDescription:
       "Add balance to your CLiQ Cash account from the Gift Card received",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_6.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x6.png`
   },
   {
     id: 8,
     stepNumber: 5,
     stepHeader: "PAY WITH CLiQ CASH",
     stepDescription: "Complete your purchase by paying through CLiQ Cash",
-    img: `${CDN_URL_ROOT}cliqcash_desktop_2.png`
+    img: `${CDN_URL_ROOT}cliqcash_desktop_2x7.png`
   }
 ];
