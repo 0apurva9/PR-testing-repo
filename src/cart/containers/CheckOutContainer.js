@@ -62,7 +62,11 @@ import {
   stripeTokenize,
   stripe_juspay_Tokenize,
   stripe_juspay_TokenizeGiftCard,
-  getMinicartProducts
+  getMinicartProducts,
+  collectPaymentOrderForGiftCardNetBanking,
+  collectPaymentOrderForNetBanking,
+  collectPaymentOrderForSavedCards,
+  collectPaymentOrderForGiftCardFromSavedCards
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -645,6 +649,52 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getMinicartProducts: () => {
       dispatch(getMinicartProducts());
+    },
+    collectPaymentOrderForGiftCardNetBanking: (guId, bankCode, bankName) => {
+      dispatch(
+        collectPaymentOrderForGiftCardNetBanking(guId, bankCode, bankName)
+      );
+    },
+    collectPaymentOrderForGiftCardFromSavedCards: (cardDetails, guId) => {
+      dispatch(collectPaymentOrderForGiftCardFromSavedCards(cardDetails, guId));
+    },
+    collectPaymentOrderForSavedCards: (
+      cardDetails,
+      cartItem,
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        collectPaymentOrderForSavedCards(
+          cardDetails,
+          cartItem,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    collectPaymentOrderForNetBanking: (
+      paymentMethodType,
+      cartItem,
+      bankCode,
+      pinCode,
+      isFromRetryUrl,
+      retryCartGuid,
+      bankName
+    ) => {
+      dispatch(
+        collectPaymentOrderForNetBanking(
+          paymentMethodType,
+          cartItem,
+          bankCode,
+          pinCode,
+          isFromRetryUrl,
+          retryCartGuid,
+          bankName
+        )
+      );
     }
   };
 };
