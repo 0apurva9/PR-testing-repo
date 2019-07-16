@@ -1,25 +1,24 @@
-.base 
-{
-    width: 100%;
-    height: auto;
-    padding: 34px;
-    background: #f2f2f2;
+.base {
+	width: 100%;
+	height: auto;
+	padding: 34px;
+	background: #f2f2f2;
 }
 .content {
 	width: 100%;
-    height: auto;
-    background: #fff;
-    border-radius: 4px;
-    margin: 45px auto 24px auto;
-    max-width: 1190px;
-    max-height: 381px;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	margin: 45px auto 24px auto;
+	max-width: 1190px;
+	max-height: 381px;
 }
-.contentSummary{
+.contentSummary {
 	width: 100%;
-    height: auto;
-    background: #fff;
-    border-radius: 4px;
-    max-width: 1190px;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	max-width: 1190px;
 	max-height: 323px;
 	margin: 0px auto 24px auto;
 }
@@ -45,7 +44,7 @@
 }
 /* .buttonHolder:last-child {
 	margin: 20px 0 0 0;
-	/* display: inline-block; 
+	/* display: inline-block;
 } */
 .summaryTitle {
 	font-size: 14px;
@@ -54,17 +53,17 @@
 }
 .summaryHeading {
 	font-size: 16px;
-    font-family: semibold;
+	font-family: semibold;
 }
 .summaryText {
 	font-size: 14px;
 	font-family: light;
-    margin-top: 10px;
+	margin-top: 10px;
 }
 .summarySmallHeading {
 	margin: 34px 0 20px 0;
-    font-family: semibold;
-    font-size: 16px;
+	font-family: semibold;
+	font-size: 16px;
 }
 .iconHolder {
 	display: flex;
@@ -76,7 +75,8 @@
 	font-family: semibold;
 	color: #ff1744;
 	padding-left: 10%;
+	cursor: pointer;
 }
-.marginRightSpan{
+.marginRightSpan {
 	margin-right: 34px;
 }

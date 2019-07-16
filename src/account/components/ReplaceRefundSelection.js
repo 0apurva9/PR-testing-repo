@@ -488,11 +488,11 @@ export default class ReplaceRefundSelection extends React.Component {
                           <div className={styles.returnMode}>
                             Select mode of return
                           </div>
-                          <div className={styles.card}>
-                            <div
-                              className={styles.replaceRefundHeading}
-                              onClick={() => this.showRefund()}
-                            >
+                          <div
+                            className={styles.card}
+                            onClick={() => this.showRefund()}
+                          >
+                            <div className={styles.replaceRefundHeading}>
                               {data && data.typeOfReturn[0].typeOfReturn}
                               {!this.state.showRefundOptions && (
                                 <span className={styles.rightArrow} />

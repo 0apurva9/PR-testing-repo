@@ -152,6 +152,7 @@ export default class ReturnAddressBook extends React.Component {
               this.editAddress(this.state.defaultAddress, orderId)
             }
             defaultAddress={defaultAddress}
+            stateDefaultAddress={this.state.defaultAddress}
           />
         )}
         {!this.props.userAddress && (

@@ -49,7 +49,7 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 const dateFormat = "Do MMM YYYY";
-const PRODUCT_RETURN = "Return/Replace";
+const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
 const PRODUCT_RETURN_WINDOW_CLOSED =
   "You cannot return this product as the window for returns has expired";
@@ -343,6 +343,7 @@ export default class OrderDetails extends React.Component {
     if (orderDetails && orderDetails.orderDate) {
       orderPlacedDate = format(orderDetails.orderDate, dateFormat);
     }
+    //console.log("props in order details:", this.props)
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -515,6 +516,7 @@ export default class OrderDetails extends React.Component {
                         deliveryDate={products.deliveryDate}
                         productSize={products.productSize}
                         productColourName={products.productColourName}
+                        calloutMessage={products.calloutMessage}
                         showEDD="Y"
                         isOrderReturnable={products.isReturned}
                       />

@@ -105,7 +105,6 @@ export default class ReturnChangeAddress extends React.Component {
                     return !this.state.showAll ? i < 3 : true;
                   })
                   .map((val, i) => {
-                    //console.log('changed value on click:', val);
                     return (
                       <DeliveryAddressReturn
                         {...this.props}
@@ -115,16 +114,16 @@ export default class ReturnChangeAddress extends React.Component {
                         key={i}
                         phone={val.phone}
                         value={val.value}
-                        selected={
-                          this.state.selectedAddress &&
-                          this.state.selectedAddress.value == val.value
-                            ? true
-                            : val.selected
-                        }
+                        selected={val.selected}
                         isReturn={this.props.isReturn}
                         address={val}
                         onSelectAddress={val => this.onSelectAddress(val)}
                         //onSelectAddress={val = > this.onSelectAddress(val)}
+                        addressId={
+                          this.props.stateDefaultAddress.id
+                            ? this.props.stateDefaultAddress.id
+                            : this.props.stateDefaultAddress.value
+                        }
                       />
                     );
                   })}

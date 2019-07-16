@@ -645,6 +645,7 @@ export default class AllOrderDetails extends React.Component {
                                     isGiveAway={product.isGiveAway}
                                     price={product.price}
                                     quantity={true}
+                                    //statusDisplay={product.statusDisplay}
                                     productName={product.productName}
                                     productBrand={product.productBrand}
                                     isEgvOrder={orderDetails.isEgvOrder}

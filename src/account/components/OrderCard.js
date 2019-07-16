@@ -348,6 +348,12 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
+        {/* {this.props.statusDisplay && (
+          <div className={styles.commonTitle}>
+            <span className={styles.ffsemibold}>Status: </span>
+            <span className={styles.estimatedDate}>{this.props.statusDisplay}</span>
+          </div>
+        )} */}
         {this.props.consignmentStatus === "DELIVERED" && (
           <React.Fragment>
             <div className={styles.commonTitle}>

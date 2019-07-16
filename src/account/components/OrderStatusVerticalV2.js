@@ -14,8 +14,11 @@ import {
   ITEM_PACKED,
   RETURN_INITIATED,
   PICKUP_SCHEDULED,
-  RETURN_CANCELLED
+  RETURN_CANCELLED,
+  UNDELIVERED,
+  NOT_DELIVERED
 } from "../../lib/constants";
+
 export default class OrderStatusVerticalV2 extends React.Component {
   handleMoreDetails(val) {
     if (this.props.showShippingDetails && val) {
@@ -62,6 +65,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
     const refundInitiatedData = this.props.statusMessageList.find(val => {
       return val.key === REFUND_INITIATED;
     });
+    const unDeliveredData = this.props.statusMessageList.find(val => {
+      return val.key === UNDELIVERED;
+    });
+    const notDeliveredData = this.props.statusMessageList.find(val => {
+      return val.key === NOT_DELIVERED;
+    });
     //to get the active order status
     //sequence should be maintained
     let activeOrderStatus = "";
@@ -93,6 +102,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (refundInitiatedData && refundInitiatedData.key) {
         orderEDHD.push(refundInitiatedData.key);
+      }
+      if (unDeliveredData && unDeliveredData.key) {
+        orderEDHD.push(unDeliveredData.key);
+      }
+      if (notDeliveredData && notDeliveredData.key) {
+        orderEDHD.push(notDeliveredData.key);
       }
       activeOrderStatus = orderEDHD[orderEDHD.length - 1];
     }
@@ -127,6 +142,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (refundInitiatedData && refundInitiatedData.key) {
         orderCNC.push(refundInitiatedData.key);
+      }
+      if (unDeliveredData && unDeliveredData.key) {
+        orderCNC.push(unDeliveredData.key);
+      }
+      if (notDeliveredData && notDeliveredData.key) {
+        orderCNC.push(notDeliveredData.key);
       }
       activeOrderStatus = orderCNC[orderCNC.length - 1];
     }
@@ -223,6 +244,48 @@ export default class OrderStatusVerticalV2 extends React.Component {
       deliveredTime =
         deliveredData.value.statusList[0].statusMessageList[0].time;
     }
+
+    //not delivered
+    let notDeliveredDate = "";
+    let notDeliveredTime = "";
+    let notDeliveredCustomerFacingName = "Not Delivered";
+    if (notDeliveredData && notDeliveredData.value.customerFacingName) {
+      notDeliveredCustomerFacingName =
+        notDeliveredData.value.customerFacingName;
+    }
+    if (
+      notDeliveredData &&
+      notDeliveredData.value.statusList &&
+      notDeliveredData.value.statusList[0] &&
+      notDeliveredData.value.statusList[0].statusMessageList &&
+      notDeliveredData.value.statusList[0].statusMessageList[0]
+    ) {
+      notDeliveredDate =
+        notDeliveredData.value.statusList[0].statusMessageList[0].date;
+      notDeliveredTime =
+        notDeliveredData.value.statusList[0].statusMessageList[0].time;
+    }
+
+    //un delivered
+    let unDeliveredDate = "";
+    let unDeliveredTime = "";
+    let unDeliveredCustomerFacingName = "Attempted not delivered";
+    if (unDeliveredData && unDeliveredData.value.customerFacingName) {
+      unDeliveredCustomerFacingName = unDeliveredData.value.customerFacingName;
+    }
+    if (
+      unDeliveredData &&
+      unDeliveredData.value.statusList &&
+      unDeliveredData.value.statusList[0] &&
+      unDeliveredData.value.statusList[0].statusMessageList &&
+      unDeliveredData.value.statusList[0].statusMessageList[0]
+    ) {
+      unDeliveredDate =
+        unDeliveredData.value.statusList[0].statusMessageList[0].date;
+      unDeliveredTime =
+        unDeliveredData.value.statusList[0].statusMessageList[0].time;
+    }
+
     //cancelled
     let cancelledDate = "";
     let cancelledTime = "";
@@ -347,7 +410,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnCancelledShipmentStatus =
         returnCancelledData.value.statusList[0].shipmentStatus;
     }
-
+    //console.log("cancelled return: ", returnCancelledShipmentStatus);
     //pickup scheduled
     let pickupScheduledDate = "";
     let pickupScheduledTime = "";
@@ -538,144 +601,208 @@ export default class OrderStatusVerticalV2 extends React.Component {
               <React.Fragment>
                 {/* {check if order is cancelled then show cancelled status} */}
                 {completedSteps.includes(ORDER_CANCELLED) ? (
-                  <div
-                    className={
-                      completedSteps.includes(ORDER_CANCELLED)
-                        ? styles.step
-                        : styles.stepInactive
-                    }
-                  >
-                    <div
-                      className={
-                        activeOrderStatus === ORDER_CANCELLED
-                          ? styles.processNameHolderBold
-                          : styles.processNameHolder
-                      }
-                    >
-                      {cancelledCustomerFacingName}
+                  <React.Fragment>
+                    <div className={styles.step}>
+                      <div className={styles.checkActive} />
+                      <div
+                        className={
+                          activeOrderStatus === ORDER_IN_PROCESS
+                            ? styles.processNameHolderBold
+                            : styles.processNameHolder
+                        }
+                      >
+                        {orderInProcessCustomerFacingName}
+                      </div>
                     </div>
                     <div
                       className={
                         completedSteps.includes(ORDER_CANCELLED)
-                          ? styles.checkActive
-                          : styles.check
-                      }
-                    />
-
-                    <div className={styles.dateAndTimeHolder}>
-                      <div className={styles.timeHolder}>{cancelledTime}</div>
-                      <div className={styles.dateHolder}>{cancelledDate}</div>
-                    </div>
-                  </div>
-                ) : (
-                  <React.Fragment>
-                    {completedSteps.includes(ITEM_PACKED) ? (
-                      <React.Fragment>
-                        {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
-                        <div
-                          className={
-                            completedSteps.includes(ITEM_PACKED)
-                              ? styles.step
-                              : styles.stepInactive
-                          }
-                        >
-                          <div
-                            className={
-                              completedSteps.includes(ITEM_PACKED)
-                                ? styles.checkActive
-                                : styles.check
-                            }
-                          />
-                          <div
-                            className={
-                              activeOrderStatus === ITEM_PACKED
-                                ? styles.processNameHolderBold
-                                : styles.processNameHolder
-                            }
-                          >
-                            {itemPackedCustomerFacingName}
-                          </div>
-                          <div className={styles.dateAndTimeHolder}>
-                            {/* <div className={styles.timeHolder}>
-                          {itemPackedTime}
-                        </div>
-                        <div className={styles.dateHolder}>
-                          {itemPackedDate}
-                        </div> */}
-                            <div className={styles.itemPackedDetails}>
-                              Courier: {this.props.logisticName}
-                            </div>
-                            <div className={styles.itemPackedDetails}>
-                              AWB No: {this.props.trackingAWB}
-                            </div>
-                          </div>
-                        </div>
-                      </React.Fragment>
-                    ) : (
-                      <div
-                        className={
-                          completedSteps.includes(ORDER_IN_PROCESS)
-                            ? styles.step
-                            : styles.stepInactive
-                        }
-                      >
-                        <div
-                          className={
-                            activeOrderStatus === ORDER_IN_PROCESS
-                              ? styles.processNameHolderBold
-                              : styles.processNameHolder
-                          }
-                        >
-                          {orderInProcessCustomerFacingName}
-                        </div>
-                        <div
-                          className={
-                            completedSteps.includes(ORDER_IN_PROCESS)
-                              ? styles.checkActive
-                              : styles.check
-                          }
-                        />
-
-                        <div className={styles.dateAndTimeHolder}>
-                          <div className={styles.timeHolder}>
-                            {orderInProcessTime}
-                          </div>
-                          <div className={styles.dateHolder}>
-                            {orderInProcessDate}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <div
-                      className={
-                        completedSteps.includes(DELIVERED)
                           ? styles.step
                           : styles.stepInactive
                       }
                     >
                       <div
                         className={
-                          activeOrderStatus === DELIVERED
-                            ? styles.processNameHolderBold
-                            : styles.processNameHolder
-                        }
-                      >
-                        {deliveredCustomerFacingName}
-                      </div>
-                      <div
-                        className={
-                          completedSteps.includes(DELIVERED)
+                          completedSteps.includes(ORDER_CANCELLED)
                             ? styles.checkActive
                             : styles.check
                         }
                       />
+                      <div
+                        className={
+                          activeOrderStatus === ORDER_CANCELLED
+                            ? styles.processNameHolderBold
+                            : styles.processNameHolder
+                        }
+                      >
+                        {cancelledCustomerFacingName}
+                      </div>
 
                       <div className={styles.dateAndTimeHolder}>
-                        <div className={styles.timeHolder}>{deliveredTime}</div>
-                        <div className={styles.dateHolder}>{deliveredDate}</div>
+                        <div className={styles.timeHolder}>{cancelledTime}</div>
+                        <div className={styles.dateHolder}>{cancelledDate}</div>
                       </div>
                     </div>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    {completedSteps.includes(NOT_DELIVERED) ? (
+                      <React.Fragment>
+                        <div className={styles.step}>
+                          <div className={styles.checkActive} />
+                          <div className={styles.processNameHolder}>
+                            {unDeliveredCustomerFacingName}
+                          </div>
+                        </div>
+                        <div className={styles.step}>
+                          <div className={styles.checkActive} />
+                          <div className={styles.processNameHolderBold}>
+                            {notDeliveredCustomerFacingName}
+                          </div>
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {notDeliveredTime}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {notDeliveredDate}
+                            </div>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        {completedSteps.includes(UNDELIVERED) ? (
+                          <div className={styles.stepInactive}>
+                            <div className={styles.checkActive} />
+                            <div className={styles.processNameHolderBold}>
+                              {unDeliveredCustomerFacingName}
+                            </div>
+                            <div className={styles.dateAndTimeHolder}>
+                              <div className={styles.timeHolder}>
+                                {unDeliveredTime}
+                              </div>
+                              <div className={styles.dateHolder}>
+                                {unDeliveredDate}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <React.Fragment>
+                            {completedSteps.includes(ITEM_PACKED) ? (
+                              <React.Fragment>
+                                {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
+                                <div
+                                  className={
+                                    completedSteps.includes(ITEM_PACKED)
+                                      ? styles.step
+                                      : styles.stepInactive
+                                  }
+                                >
+                                  <div
+                                    className={
+                                      completedSteps.includes(ITEM_PACKED)
+                                        ? styles.checkActive
+                                        : styles.check
+                                    }
+                                  />
+                                  <div
+                                    className={
+                                      activeOrderStatus === ITEM_PACKED
+                                        ? styles.processNameHolderBold
+                                        : styles.processNameHolder
+                                    }
+                                  >
+                                    {itemPackedCustomerFacingName}
+                                  </div>
+                                  <div className={styles.dateAndTimeHolder}>
+                                    {/* <div className={styles.timeHolder}>
+                          {itemPackedTime}
+                        </div>
+                        <div className={styles.dateHolder}>
+                          {itemPackedDate}
+                        </div> */}
+                                    <div className={styles.itemPackedDetails}>
+                                      Courier: {this.props.logisticName}
+                                    </div>
+                                    <div className={styles.itemPackedDetails}>
+                                      AWB No: {this.props.trackingAWB}
+                                    </div>
+                                  </div>
+                                </div>
+                              </React.Fragment>
+                            ) : (
+                              <div
+                                className={
+                                  completedSteps.includes(ORDER_IN_PROCESS)
+                                    ? styles.step
+                                    : styles.stepInactive
+                                }
+                              >
+                                <div
+                                  className={
+                                    activeOrderStatus === ORDER_IN_PROCESS
+                                      ? styles.processNameHolderBold
+                                      : styles.processNameHolder
+                                  }
+                                >
+                                  {orderInProcessCustomerFacingName}
+                                </div>
+                                <div
+                                  className={
+                                    completedSteps.includes(ORDER_IN_PROCESS)
+                                      ? styles.checkActive
+                                      : styles.check
+                                  }
+                                />
+
+                                <div className={styles.dateAndTimeHolder}>
+                                  <div className={styles.timeHolder}>
+                                    {orderInProcessTime}
+                                  </div>
+                                  <div className={styles.dateHolder}>
+                                    {orderInProcessDate}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </React.Fragment>
+                        )}
+
+                        <div
+                          className={
+                            completedSteps.includes(DELIVERED)
+                              ? styles.step
+                              : styles.stepInactive
+                          }
+                        >
+                          <div
+                            className={
+                              activeOrderStatus === DELIVERED
+                                ? styles.processNameHolderBold
+                                : styles.processNameHolder
+                            }
+                          >
+                            {deliveredCustomerFacingName}
+                          </div>
+                          <div
+                            className={
+                              completedSteps.includes(DELIVERED)
+                                ? styles.checkActive
+                                : styles.check
+                            }
+                          />
+
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {deliveredTime}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {deliveredDate}
+                            </div>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    )}
                   </React.Fragment>
                 )}
               </React.Fragment>
@@ -685,34 +812,48 @@ export default class OrderStatusVerticalV2 extends React.Component {
               <React.Fragment>
                 {/* {check if order is cancelled then show cancelled status} */}
                 {completedSteps.includes(ORDER_CANCELLED) ? (
-                  <div
-                    className={
-                      completedSteps.includes(ORDER_CANCELLED)
-                        ? styles.step
-                        : styles.stepInactive
-                    }
-                  >
+                  <React.Fragment>
+                    <div className={styles.step}>
+                      <div className={styles.checkActive} />
+                      <div
+                        className={
+                          activeOrderStatus === ORDER_IN_PROCESS
+                            ? styles.processNameHolderBold
+                            : styles.processNameHolder
+                        }
+                      >
+                        {orderInProcessCustomerFacingName}
+                      </div>
+                    </div>
                     <div
                       className={
                         completedSteps.includes(ORDER_CANCELLED)
-                          ? styles.checkActive
-                          : styles.check
-                      }
-                    />
-                    <div
-                      className={
-                        activeOrderStatus === ORDER_CANCELLED
-                          ? styles.processNameHolderBold
-                          : styles.processNameHolder
+                          ? styles.step
+                          : styles.stepInactive
                       }
                     >
-                      {cancelledCustomerFacingName}
+                      <div
+                        className={
+                          completedSteps.includes(ORDER_CANCELLED)
+                            ? styles.checkActive
+                            : styles.check
+                        }
+                      />
+                      <div
+                        className={
+                          activeOrderStatus === ORDER_CANCELLED
+                            ? styles.processNameHolderBold
+                            : styles.processNameHolder
+                        }
+                      >
+                        {cancelledCustomerFacingName}
+                      </div>
+                      <div className={styles.dateAndTimeHolder}>
+                        <div className={styles.timeHolder}>{cancelledTime}</div>
+                        <div className={styles.dateHolder}>{cancelledDate}</div>
+                      </div>
                     </div>
-                    <div className={styles.dateAndTimeHolder}>
-                      <div className={styles.timeHolder}>{cancelledTime}</div>
-                      <div className={styles.dateHolder}>{cancelledDate}</div>
-                    </div>
-                  </div>
+                  </React.Fragment>
                 ) : (
                   <React.Fragment>
                     {completedSteps.includes(READY_FOR_COLLECTION) ? (

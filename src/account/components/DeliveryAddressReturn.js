@@ -9,7 +9,7 @@ export default class DeliveryAddressReturn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedAddress: ""
+      selectedAddressId: ""
     };
     // this.radioChange = this.radioChange.bind(this);
   }
@@ -21,10 +21,11 @@ export default class DeliveryAddressReturn extends React.Component {
   // }
 
   handleClick(address, value) {
+    //console.log(value);
     if (this.props.onSelectAddress) {
       this.props.onSelectAddress(address);
     }
-    this.setState({ selectedAddress: value });
+    this.setState({ selectedAddressId: value });
     if (this.props.selectItem) {
       this.props.selectItem();
     }
@@ -93,7 +94,9 @@ export default class DeliveryAddressReturn extends React.Component {
 							onChange={this.radioChange}
 							value={this.props.value}
 						/> */}
-            <CheckBox selected={this.props.selected} />
+            <CheckBox
+              selected={this.state.selectedAddressId === this.props.addressId}
+            />
           </div>
         </DesktopOnly>
       </div>
