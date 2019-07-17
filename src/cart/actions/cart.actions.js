@@ -2116,7 +2116,7 @@ export function binValidation(paymentMode, binNo) {
     cartId =
       cartDetails && JSON.parse(cartDetails).guid
         ? JSON.parse(cartDetails).guid
-        : null;
+        : Cookie.getCookie(OLD_CART_GU_ID);
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -2177,7 +2177,7 @@ export function binValidationForNetBanking(paymentMode, bankName) {
     cartId =
       cartDetails && JSON.parse(cartDetails).guid
         ? JSON.parse(cartDetails).guid
-        : null;
+        : Cookie.getCookie(OLD_CART_GU_ID);
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -2910,7 +2910,7 @@ export function createJusPayOrderForSavedCards(
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
-    cartId = url && url.value;
+    cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
   } else {
     if (isFromRetryUrl) {
       cartId = retryCartGuid;
@@ -3078,7 +3078,7 @@ export function createJusPayOrderForCliqCash(
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
-    cartId = url && url.value;
+    cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
   } else {
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartId = JSON.parse(cartDetails).guid;
@@ -3701,7 +3701,7 @@ export function getCODEligibility(
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
-    cartId = url && url.value;
+    cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
   } else {
     if (isFromRetryUrl) {
       cartId = retryCartGuid;
@@ -4700,6 +4700,9 @@ export function getPaymentFailureOrderDetails() {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      let loggedInUserCookie = Cookie.getCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER
+      );
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
@@ -4718,9 +4721,10 @@ export function getPaymentFailureOrderDetails() {
               : ""
         }
       );
+      loggedInUserCookie.guid = cartGuId;
       await Cookie.createCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER,
-        JSON.stringify({ guid: cartGuId })
+        JSON.stringify(loggedInUserCookie)
       );
       dispatch(getMinicartProducts());
     } catch (e) {
@@ -5660,13 +5664,16 @@ export function collectPaymentOrder(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    let cartGuId = JSON.parse(productDetails).guid;
+    let cartGuId = productDetails && JSON.parse(productDetails).guid;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
     if (!isPaymentFailed) {
       localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItems));
+    }
+    if (isPaymentFailed) {
+      cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
     }
     if (isFromRetryUrl) {
       cartGuId = retryCartGuid;
@@ -5955,7 +5962,7 @@ export function collectPaymentOrderForSavedCards(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    let cartGuId = JSON.parse(productDetails).guid;
+    let cartGuId = productDetails && JSON.parse(productDetails).guid;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -5971,6 +5978,12 @@ export function collectPaymentOrderForSavedCards(
           getState().cart.getUserAddressAndDeliveryModesByRetryPayment
         )
       : cartItem;
+    if (!isPaymentFailed) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
+    }
+    if (isPaymentFailed) {
+      cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
+    }
     if (isFromRetryUrl) {
       cartGuId = retryCartGuid;
     }
@@ -6161,7 +6174,7 @@ export function collectPaymentOrderForNetBanking(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    let cartGuId = JSON.parse(productDetails).guid;
+    let cartGuId = productDetails && JSON.parse(productDetails).guid;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
 

@@ -953,7 +953,9 @@ class CheckOutPage extends React.Component {
       nextProps.retryPaymentDetailsStatus === "success"
     ) {
       const parsedQueryString = queryString.parse(this.props.location.search);
-      let guId = parsedQueryString.value;
+      let guId = parsedQueryString.value
+        ? parsedQueryString.value
+        : Cookie.getCookie(OLD_CART_GU_ID);
       let retryPaymentDetailsObject = {};
       retryPaymentDetailsObject.retryCartGuid = guId;
       retryPaymentDetailsObject.retryPaymentDetails =
@@ -1384,7 +1386,9 @@ if you have order id in local storage then you have to show order confirmation p
           this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
         }
       } else if (this.props.updateTransactionDetails) {
-        const cartId = parsedQueryString.value;
+        const cartId = parsedQueryString.value
+          ? parsedQueryString.value
+          : Cookie.getCookie(OLD_CART_GU_ID);
 
         if (cartId) {
           this.props.updateTransactionDetails(
@@ -1543,9 +1547,14 @@ if you have order id in local storage then you have to show order confirmation p
       localStorage.getItem(RETRY_PAYMENT_CART_ID)
     );
     if (!cartDetailsLoggedInUser && orderRetryCartId) {
+      let loggedInUserCookie = Cookie.getCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER
+      );
+
+      loggedInUserCookie.guId = orderRetryCartId;
       Cookie.createCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER,
-        JSON.stringify({ guid: orderRetryCartId })
+        JSON.stringify(loggedInUserCookie)
       );
     }
   }
@@ -1609,6 +1618,8 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (cartDetailsLoggedInUser) {
         carGuId = JSON.parse(cartDetailsLoggedInUser).guid;
+      } else {
+        carGuId = Cookie.getCookie(OLD_CART_GU_ID);
       }
     }
     if (this.props.getEmiEligibility) {
@@ -1657,7 +1668,9 @@ if you have order id in local storage then you have to show order confirmation p
   applyNoCostEmi = async (couponCode, bankName) => {
     if (this.state.isPaymentFailed) {
       const parsedQueryString = queryString.parse(this.props.location.search);
-      const cartGuId = parsedQueryString.value;
+      const cartGuId = parsedQueryString.value
+        ? parsedQueryString.value
+        : Cookie.getCookie(OLD_CART_GU_ID);
       const cartId = localStorage.getItem(OLD_CART_CART_ID);
       if (this.props.applyNoCostEmi) {
         const applyNoCostEmiResponse = await this.props.applyNoCostEmi(
@@ -1706,7 +1719,9 @@ if you have order id in local storage then you have to show order confirmation p
   removeNoCostEmi = async couponCode => {
     if (this.state.isPaymentFailed) {
       const parsedQueryString = queryString.parse(this.props.location.search);
-      const cartGuId = parsedQueryString.value;
+      const cartGuId = parsedQueryString.value
+        ? parsedQueryString.value
+        : Cookie.getCookie(OLD_CART_GU_ID);
       const cartId = localStorage.getItem(OLD_CART_CART_ID);
       if (this.props.removeNoCostEmi) {
         const removeNoCostEmiResponse = this.props.removeNoCostEmi(
@@ -1753,7 +1768,9 @@ if you have order id in local storage then you have to show order confirmation p
   getItemBreakUpDetails = (couponCode, noCostEmiText, noCostProductCount) => {
     if (this.state.isPaymentFailed) {
       const parsedQueryString = queryString.parse(this.props.location.search);
-      const cartGuId = parsedQueryString.value;
+      const cartGuId = parsedQueryString.value
+        ? parsedQueryString.value
+        : Cookie.getCookie(OLD_CART_GU_ID);
       this.props.getItemBreakUpDetails(
         couponCode,
         cartGuId,
@@ -1819,9 +1836,14 @@ if you have order id in local storage then you have to show order confirmation p
       let cartGuId;
       const parsedQueryString = queryString.parse(this.props.location.search);
       if (parsedQueryString.value) {
-        cartGuId = parsedQueryString.value;
+        cartGuId = parsedQueryString.value
+          ? parsedQueryString.value
+          : Cookie.getCookie(OLD_CART_GU_ID);
       }
       if (parsedQueryString.payment_intent) {
+        cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
+      }
+      if (this.state.isPaymentFailed) {
         cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
       } else {
         let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -2632,7 +2654,9 @@ if you have order id in local storage then you have to show order confirmation p
             const parsedQueryString = queryString.parse(
               this.props.location.search
             );
-            const cartGuId = parsedQueryString.value;
+            const cartGuId = parsedQueryString.value
+              ? parsedQueryString.value
+              : Cookie.getCookie(OLD_CART_GU_ID);
             this.props.binValidation(paymentMode, binNo, cartGuId);
           } else {
             localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
@@ -2650,7 +2674,9 @@ if you have order id in local storage then you have to show order confirmation p
           const parsedQueryString = queryString.parse(
             this.props.location.search
           );
-          const cartGuId = parsedQueryString.value;
+          const cartGuId = parsedQueryString.value
+            ? parsedQueryString.value
+            : Cookie.getCookie(OLD_CART_GU_ID);
           this.props.binValidation(paymentMode, binNo, cartGuId);
         } else {
           localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
@@ -2662,7 +2688,9 @@ if you have order id in local storage then you have to show order confirmation p
       if (this.state.isPaymentFailed) {
         localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
         const parsedQueryString = queryString.parse(this.props.location.search);
-        const cartGuId = parsedQueryString.value;
+        const cartGuId = parsedQueryString.value
+          ? parsedQueryString.value
+          : Cookie.getCookie(OLD_CART_GU_ID);
         this.props.binValidation(paymentMode, binNo, cartGuId);
       } else {
         localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
