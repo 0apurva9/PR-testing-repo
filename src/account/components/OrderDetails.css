@@ -65,16 +65,16 @@
 .buttonHolder {
 	width: 100%;
 	height: auto;
-	margin-top: 10px;
+	margin-top: 20px;
+	padding-top: 20px;
 	display: inline-block;
+	border-top: 1px solid #ececec;
 }
 .ratingReviewHolder {
 	display: flex;
 	position: relative;
 	padding-bottom: 5px;
-	border-bottom: 1px solid #efefef;
-	margin-bottom: 20px;
-	padding-bottom: 20px;
+	margin-bottom: 34px;
 }
 .marginIcon {
 	margin-right: 24px;
