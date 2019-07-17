@@ -73,7 +73,8 @@
 	position: relative;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #efefef;
-	margin-bottom: 34px;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
 }
 .marginIcon {
 	margin-right: 24px;
@@ -137,7 +138,7 @@
 	/* padding: 30px 0px; */
 	padding: 0px 0px 30px;
 	margin-top: 52px;
-	/* border-bottom: 1px solid #ececec; */
+	border-bottom: 1px solid #ececec;
 }
 .helpSupport {
 	width: 30%;
@@ -214,11 +215,11 @@
 }
 .buttonHolderForRetryPayment {
 	width: auto;
-    height: auto;
-    display: inline-block;
-    /* margin-left: 212px; */
-    text-align: center;
-    margin-bottom: 24px;
+	height: auto;
+	display: inline-block;
+	/* margin-left: 212px; */
+	text-align: center;
+	margin-bottom: 24px;
 }
 .retryPayment {
 	width: 100%;
@@ -232,9 +233,9 @@
 }
 .retryPaymentTitle {
 	vertical-align: middle;
-    margin: 0 0 20px 0;
-    font-size: 14px;
-    font-family: light;
+	margin: 0 0 20px 0;
+	font-size: 14px;
+	font-family: light;
 	text-align: left;
 }
 .retryCallOutMessage {

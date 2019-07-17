@@ -130,9 +130,12 @@
 	margin-top: 20px;
 	padding-right: 30px;
 }
-/* .payments {
+.payments {
 	border-top: 1px solid #ececec;
-} */
+}
+.noPayments {
+	border-top: 1px solid #ececec;
+}
 .returnClosed {
 	width: 100%;
 	height: auto;
