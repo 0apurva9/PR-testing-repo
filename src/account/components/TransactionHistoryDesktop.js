@@ -68,7 +68,7 @@ export default class TransactionHistoryDesktop extends React.Component {
         )) /
         (1000 * 60 * 60 * 24)
     );
-    if (dayDifference < 0) {
+    if (dayDifference < 1) {
       return false;
     } else {
       return true;
