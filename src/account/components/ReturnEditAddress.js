@@ -53,7 +53,7 @@ export default class EditAddressPopUp extends React.Component {
     super(props);
     const addressDetails = this.props.location.state.addressDetails;
     this.state = {
-      countryIso: addressDetails.country.isocode,
+      countryIso: ISO_CODE,
       addressType: addressDetails.addressType,
       phone: addressDetails.phone,
       firstName: addressDetails.firstName,

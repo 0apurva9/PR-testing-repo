@@ -1,8 +1,8 @@
 import React from "react";
 import { PRODUCT_CART_DELIVERY_MODES } from "../../lib/constants";
+import styles from "./ReturnAddressBook.css";
 import CheckoutFrame from "../../cart/components/CheckoutFrame";
 import ReturnChangeAddress from "./ReturnChangeAddress";
-import styles from "./ReturnAddressBook.css";
 import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress";
 import Loader from "../../general/components/Loader";
 import {
@@ -43,7 +43,6 @@ export default class ReturnAddressBook extends React.Component {
           return value;
         }
       });
-
     if (
       this.state.defaultAddress &&
       this.state.defaultAddress.id !== defaultAddress.id
@@ -85,9 +84,7 @@ export default class ReturnAddressBook extends React.Component {
   };
 
   handleClick(address) {
-    debugger;
     this.setState({ defaultAddress: address });
-    this.props.addAddressToCart(address[0]);
   }
 
   onChange(val) {
@@ -106,18 +103,18 @@ export default class ReturnAddressBook extends React.Component {
     });
   };
   render() {
+    console.log("this.state.defaultAddress", this.state.defaultAddress);
+    console.log("orderId", orderId);
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;
     let addressSelectedId =
       this.props.returnRequest && this.props.returnRequest.deliveryAddress;
     let fetchId = addressSelectedId && addressSelectedId.id;
-    let defaultAddressId, defaultAddress;
+    let defaultAddressId = fetchId;
+    let defaultAddress = addressSelectedId;
     if (this.state.defaultAddress) {
       defaultAddressId = this.state.defaultAddress.id;
       defaultAddress = this.state.defaultAddress;
-    } else {
-      defaultAddressId = fetchId;
-      defaultAddress = addressSelectedId;
     }
     return (
       <div className={styles.addressBase}>
@@ -126,21 +123,24 @@ export default class ReturnAddressBook extends React.Component {
             {...this.props}
             address={this.props.userAddress.addresses.map(address => {
               return {
-                addressTitle: address.addressType,
+                addressType: address.addressType,
                 addressDescription: `${address.line1 ? address.line1 : ""} ${
                   address.line2 ? address.line2 : ""
                 }  ${address.state ? address.state : ""} ${
                   address.postalCode ? address.postalCode : ""
                 }`,
-                value: address.id,
+                id: address.id,
                 phone: address.phone,
-                selected: address.defaultAddress,
+                defaultAddress: address.defaultAddress,
                 line1: address.line1,
                 line2: address.line2,
                 landmark: address.landmark,
                 town: address.town,
                 state: address.state,
-                postalCode: address.postalCode
+                postalCode: address.postalCode,
+                firstName: address.firstName,
+                lastName: address.lastName,
+                city: address.city
               };
             })}
             onSelectAddress={address => this.handleClick(address)}
@@ -151,8 +151,7 @@ export default class ReturnAddressBook extends React.Component {
             onEditAddress={() =>
               this.editAddress(this.state.defaultAddress, orderId)
             }
-            defaultAddress={defaultAddress}
-            stateDefaultAddress={this.state.defaultAddress}
+            defaultAddress={this.state.defaultAddress}
           />
         )}
         {!this.props.userAddress && (

@@ -33,7 +33,7 @@ import {
 	RETURN_TO_ADDRESS,
 	EDIT,
 	ADD,
-	BACK_END_ISSUE_ERROR_MESSAGE,
+	BACK_END_ISSUE_ERROR_MESSAGE
 	//RETURNS_STORE_BANK_FORM,
 } from '../../lib/constants';
 import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
@@ -65,7 +65,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			bankDetail: {},
 			isCOD: this.isCOD,
 			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
-			selectedReasonAndCommentObj: null,
+			selectedReasonAndCommentObj: null
 		};
 	}
 	componentDidMount() {
@@ -75,7 +75,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		let productDetails: IProductDetailsObj = {
 			transactionId: transactionId,
 			returnCancelFlag: RETURN_FLAG,
-			orderCode: orderCode,
+			orderCode: orderCode
 		};
 		this.props.returnProductDetailsFunc(productDetails);
 		this.props.getReturnRequest(orderCode, transactionId);
@@ -120,7 +120,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 					? ReturnStatus.SHOW_BANK_DETAIL_SECTION
 					: ReturnStatus.SHOW_BANK_DETAIL_SECTION,
 				//: ReturnStatus.SHOW_SELECT_MODE_SECTION,
-				selectedReasonAndCommentObj: returnSelectedReason,
+				selectedReasonAndCommentObj: returnSelectedReason
 			});
 		}
 	};
@@ -132,7 +132,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			//console.log('1');
 			this.setState({
 				returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION,
-				bankDetail: BankDetails,
+				bankDetail: BankDetails
 			});
 		}
 		if (!this.state.bankDetail.ifscCode) {
@@ -180,8 +180,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
 				state: {
-					authorizedRequest: true,
-				},
+					authorizedRequest: true
+				}
 			});
 		}
 	};
@@ -190,22 +190,22 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
 				state: {
-					authorizedRequest: true,
-				},
+					authorizedRequest: true
+				}
 			});
 		} else if (mode === SCHEDULED_PICKUP) {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
 				state: {
-					authorizedRequest: true,
-				},
+					authorizedRequest: true
+				}
 			});
 		} else if (mode === SELF_COURIER) {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURNS_SELF_COURIER}`,
 				state: {
-					authorizedRequest: true,
-				},
+					authorizedRequest: true
+				}
 			});
 		}
 	}
@@ -215,14 +215,14 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 	}
 	handleCancelForBankForm = () => {
 		this.setState({
-			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
+			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION
 		});
 		this.props.history.goBack();
 	};
 	changeReturnReason = () => {
 		this.setState({
 			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
-			selectedReasonAndCommentObj: null,
+			selectedReasonAndCommentObj: null
 		});
 	};
 	onChangeReasonAndMode = (val: any) => {
@@ -245,7 +245,6 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		if (!this.props.returnRequest && !this.props.returnProductDetails) {
 			return this.renderLoader();
 		}
-		console.log('this.props:', this.props);
 		// let disableReturnReason =
 		// 	this.props.history.location &&
 		// 	this.props.history.location.state &&
@@ -269,7 +268,6 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		// 	this.props.history.location.state.address != null
 		// 		? true
 		// 		: false;
-		console.log('this.props in return Flow', this.props);
 		return (
 			<React.Fragment>
 				{/* {!disableForTransactionSummary &&

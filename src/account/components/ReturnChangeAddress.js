@@ -44,7 +44,6 @@ export default class ReturnChangeAddress extends React.Component {
   }
   onSelectAddress(address) {
     this.setState({ selectedAddress: address });
-    debugger;
     if (this.props.onSelectAddress) {
       this.props.onSelectAddress(address);
     }
@@ -68,21 +67,26 @@ export default class ReturnChangeAddress extends React.Component {
     }
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;
-    let addressSelected =
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.address;
     return (
       <div className={styles.base}>
+        {!this.props.isReturn && (
+          <div className={styles.header}>
+            <CheckOutHeader
+              confirmTitle="Confirm address"
+              indexNumber={this.props.indexNumber}
+            />
+          </div>
+        )}
+
         <div className={styles.addressHolder}>
-          {!this.props.isReturn && (
+          {this.props.isReturn && (
             <div className={styles.addressHeader}>
               <span>Select pickup address</span>
               <div className={styles.underLineButtonHolder}>
                 <UnderLinedButton
                   size="14px"
                   fontFamily="regular"
-                  color="#ff1744"
+                  color="#000"
                   label="Add new address"
                   onClick={() => this.onNewAddress()}
                 />
@@ -97,7 +101,6 @@ export default class ReturnChangeAddress extends React.Component {
               elementWidthMobile={100}
               elementWidthDesktop={this.props.isReturn ? 100 : 50}
               selected={this.props.selected}
-              //onSelect={addressId => this.onSelectAddress(addressId)}
             >
               {this.props.address &&
                 this.props.address
@@ -108,22 +111,17 @@ export default class ReturnChangeAddress extends React.Component {
                     return (
                       <DeliveryAddressReturn
                         {...this.props}
-                        addressTitle={val.addressTitle}
+                        addressType={val.addressType}
                         addressDescription={val.addressDescription}
                         contact={val.phone}
                         key={i}
                         phone={val.phone}
-                        value={val.value}
-                        selected={val.selected}
+                        value={val.id}
+                        selected={val.defaultAddress}
                         isReturn={this.props.isReturn}
                         address={val}
                         onSelectAddress={val => this.onSelectAddress(val)}
                         //onSelectAddress={val = > this.onSelectAddress(val)}
-                        addressId={
-                          this.props.stateDefaultAddress.id
-                            ? this.props.stateDefaultAddress.id
-                            : this.props.stateDefaultAddress.value
-                        }
                       />
                     );
                   })}
@@ -162,11 +160,9 @@ export default class ReturnChangeAddress extends React.Component {
                       this.props.history.push({
                         pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_MODES}`,
                         state: {
-                          address: addressSelected
-                            ? addressSelected
-                            : this.state.selectedAddress
-                              ? this.state.selectedAddress
-                              : this.props.defaultAddress,
+                          address: this.state.selectedAddress
+                            ? this.state.selectedAddress
+                            : this.props.defaultAddress,
                           authorizedRequest: true
                         }
                       })
@@ -175,6 +171,17 @@ export default class ReturnChangeAddress extends React.Component {
                 </div>
               )}
             </DesktopOnly>
+            {!this.props.isReturn && (
+              <div className={styles.newAddress}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#ff1744"
+                  label="Add new address"
+                  onClick={() => this.onNewAddress()}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

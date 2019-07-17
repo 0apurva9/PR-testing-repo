@@ -93,7 +93,7 @@
     "style-ext-html-webpack-plugin": "^4.0.1"
   },
   "scripts": {
-    "start": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
+    "start": " node -r dotenv/config scripts/start.js",
     "start:desktop": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
     "tmpprod": " REACT_APP_STAGE=tmpprod node scripts/build.js",
