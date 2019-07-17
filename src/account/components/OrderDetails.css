@@ -129,7 +129,7 @@
 }
 .payment {
 	border-top: 1px solid #ececec;
-	margin-bottom: 60px;
+	/* margin-bottom: 60px; */
 }
 .greyishLine {
 	margin-top: 20px;

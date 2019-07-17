@@ -48,7 +48,7 @@ export default class OrderPaymentMethod extends React.Component {
             </div>
           </div>
         )}
-        <div className={styles.payments} />
+        {/* <div className={styles.payments} /> */}
         {this.props.deliveryAddress && (
           <React.Fragment>
             <div className={styles.deliveryAddressTitle}>

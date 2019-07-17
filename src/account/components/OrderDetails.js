@@ -968,54 +968,53 @@ export default class OrderDetails extends React.Component {
             {!this.state.itemDetails &&
               orderDetails && (
                 <div className={styles.order}>
-                  <div className={styles.payment}>
-                    <OrderViewPaymentDetails
-                      SubTotal={
-                        orderDetails.orderAmount &&
-                        orderDetails.orderAmount.bagTotal &&
-                        orderDetails.orderAmount.bagTotal.value
-                          ? Math.round(
-                              orderDetails.orderAmount.bagTotal.value * 100
-                            ) / 100
-                          : "0.00"
-                      }
-                      DeliveryCharges={orderDetails.deliveryCharge}
-                      Discount={
-                        orderDetails.orderAmount &&
-                        orderDetails.orderAmount.totalDiscountAmount &&
-                        orderDetails.orderAmount.totalDiscountAmount.value
-                          ? Math.round(
-                              orderDetails.orderAmount.totalDiscountAmount
-                                .value * 100
-                            ) / 100
-                          : "0.00"
-                      }
-                      coupon={
-                        orderDetails.orderAmount &&
-                        orderDetails.orderAmount.couponDiscountAmount &&
-                        orderDetails.orderAmount.couponDiscountAmount.value
-                          ? Math.round(
-                              orderDetails.orderAmount.couponDiscountAmount
-                                .value * 100
-                            ) / 100
-                          : "0.00"
-                      }
-                      ConvenienceCharges={orderDetails.convenienceCharge}
-                      Total={
-                        orderDetails.orderAmount &&
-                        orderDetails.orderAmount.paybleAmount &&
-                        orderDetails.orderAmount.paybleAmount.value
-                          ? Math.round(
-                              orderDetails.orderAmount.paybleAmount.value * 100
-                            ) / 100
-                          : "0.00"
-                      }
-                      cliqCashAmountDeducted={
-                        orderDetails && orderDetails.cliqCashAmountDeducted
-                      }
-                    />
-                  </div>
-                  <div>
+                  <OrderViewPaymentDetails
+                    SubTotal={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.bagTotal &&
+                      orderDetails.orderAmount.bagTotal.value
+                        ? Math.round(
+                            orderDetails.orderAmount.bagTotal.value * 100
+                          ) / 100
+                        : "0.00"
+                    }
+                    DeliveryCharges={orderDetails.deliveryCharge}
+                    Discount={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.totalDiscountAmount &&
+                      orderDetails.orderAmount.totalDiscountAmount.value
+                        ? Math.round(
+                            orderDetails.orderAmount.totalDiscountAmount.value *
+                              100
+                          ) / 100
+                        : "0.00"
+                    }
+                    coupon={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.couponDiscountAmount &&
+                      orderDetails.orderAmount.couponDiscountAmount.value
+                        ? Math.round(
+                            orderDetails.orderAmount.couponDiscountAmount
+                              .value * 100
+                          ) / 100
+                        : "0.00"
+                    }
+                    ConvenienceCharges={orderDetails.convenienceCharge}
+                    Total={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.paybleAmount &&
+                      orderDetails.orderAmount.paybleAmount.value
+                        ? Math.round(
+                            orderDetails.orderAmount.paybleAmount.value * 100
+                          ) / 100
+                        : "0.00"
+                    }
+                    cliqCashAmountDeducted={
+                      orderDetails && orderDetails.cliqCashAmountDeducted
+                    }
+                  />
+
+                  <React.Fragment>
                     {this.state.itemDetails && (
                       <div
                         onClick={() => this.redirectToHelpPage()}
@@ -1024,26 +1023,25 @@ export default class OrderDetails extends React.Component {
                         Help & Support
                       </div>
                     )}
-                    <div>
-                      <OrderPaymentMethod
-                        history={this.props.history}
-                        deliveryAddress={orderDetails.deliveryAddress}
-                        phoneNumber={
-                          orderDetails.deliveryAddress &&
-                          orderDetails.deliveryAddress.phone
-                        }
-                        paymentMethod={orderDetails.paymentMethod}
-                        //isInvoiceAvailable={products.isInvoiceAvailable}
-                        //statusDisplay={products.statusDisplayMsg}
-                        // request={() =>
-                        //   this.requestInvoice(
-                        //     products.transactionId,
-                        //     products.sellerorderno
-                        //   )
-                        // }
-                      />
-                    </div>
-                  </div>
+
+                    <OrderPaymentMethod
+                      history={this.props.history}
+                      deliveryAddress={orderDetails.deliveryAddress}
+                      phoneNumber={
+                        orderDetails.deliveryAddress &&
+                        orderDetails.deliveryAddress.phone
+                      }
+                      paymentMethod={orderDetails.paymentMethod}
+                      //isInvoiceAvailable={products.isInvoiceAvailable}
+                      //statusDisplay={products.statusDisplayMsg}
+                      // request={() =>
+                      //   this.requestInvoice(
+                      //     products.transactionId,
+                      //     products.sellerorderno
+                      //   )
+                      // }
+                    />
+                  </React.Fragment>
                 </div>
               )}
           </div>

@@ -7,7 +7,7 @@
 	width: 70%;
 	height: auto;
 	display: inline-block;
-	padding-top: 15px;
+	padding-top: 34px;
 }
 .ffsemibold {
 	line-height: 22px;
@@ -31,7 +31,11 @@
 	cursor: pointer;
 }
 .marginAddress {
-	margin-bottom: 49px;
+	padding-bottom: 34px;
+	border-bottom: 1px solid #ececec;
+}
+.deliveryAddressTitle {
+	padding-top: 34px;
 }
 .paymentMethodMode {
 	line-height: 22px;
