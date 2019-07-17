@@ -343,7 +343,6 @@ export default class OrderDetails extends React.Component {
     if (orderDetails && orderDetails.orderDate) {
       orderPlacedDate = format(orderDetails.orderDate, dateFormat);
     }
-    //console.log("props in order details:", this.props)
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>

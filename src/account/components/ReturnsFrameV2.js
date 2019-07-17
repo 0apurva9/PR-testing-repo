@@ -16,7 +16,6 @@ export default class ReturnsFrameV2 extends React.Component {
     }
   }
   render() {
-    //console.log('this.props in Return Frame to disable button:', this.props.children);
     let disabled;
     let bankDetails = this.props.children.props.bankDetail;
     var BankDetailsSize = Object.keys(bankDetails).length;

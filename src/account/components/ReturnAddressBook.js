@@ -103,8 +103,6 @@ export default class ReturnAddressBook extends React.Component {
     });
   };
   render() {
-    console.log("this.state.defaultAddress", this.state.defaultAddress);
-    console.log("orderId", orderId);
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;
     let addressSelectedId =
