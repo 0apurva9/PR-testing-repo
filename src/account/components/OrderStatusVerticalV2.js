@@ -410,7 +410,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnCancelledShipmentStatus =
         returnCancelledData.value.statusList[0].shipmentStatus;
     }
-    //console.log("cancelled return: ", returnCancelledShipmentStatus);
     //pickup scheduled
     let pickupScheduledDate = "";
     let pickupScheduledTime = "";

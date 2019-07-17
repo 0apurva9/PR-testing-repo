@@ -31,7 +31,7 @@ export default class BankDetailsV2 extends React.Component {
       let userBankDetails = this.props.history.location.state.bankData;
       userBankDetails.reEnterAccountNumber = userBankDetails.accountNumber;
       this.props.updateStateForBankDetails(userBankDetails);
-      //console.log("this.props", this.props);
+
       let accountNumber = this.props.history.location.state.bankData.accountNumber.replace(
         /\d(?=\d{4})/g,
         "*"
@@ -61,9 +61,7 @@ export default class BankDetailsV2 extends React.Component {
       });
     }
   }
-  componentWillReceiveProps(nextProps) {
-    //console.log("willReceiveProps:");
-  }
+  componentWillReceiveProps(nextProps) {}
   radioChange(e) {
     this.setState({ selectedOption: e.currentTarget.value });
     this.props.onChange({ title: e.currentTarget.value });
@@ -75,7 +73,6 @@ export default class BankDetailsV2 extends React.Component {
   }
   //clear form data
   clearFormData(orderId) {
-    //console.log("cleared form details:", this.props, this.state.selectedOption);
     if (this.props.clearForm) {
       this.props.clearForm();
     }

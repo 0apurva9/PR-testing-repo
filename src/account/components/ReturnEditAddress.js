@@ -245,12 +245,11 @@ export default class EditAddressPopUp extends React.Component {
       }
 
       const editAddressRes = await this.props.editAddress(addressObj);
-      //console.log("address Object:", addressObj)
+
       if (editAddressRes.status === SUCCESS) {
         let path = this.props.location.state.path;
         // if(this.props.location.path)
         if (path.includes("initiate")) {
-          //console.log("-------------->init");
           this.props.history.push({
             pathname: path,
             state: {
@@ -259,7 +258,6 @@ export default class EditAddressPopUp extends React.Component {
           });
         } else {
           this.props.history.goBack();
-          //console.log("else-------------------------------->");
         }
       }
     }

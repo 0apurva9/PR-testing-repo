@@ -127,6 +127,23 @@ export default class ReturnReasonForm extends React.Component {
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
+    let disabledContinueButton = true;
+    if (this.state.reason) {
+      let secondaryReasons = this.state.secondaryReasons;
+      if (secondaryReasons && secondaryReasons !== undefined) {
+        if (this.state.subReason) {
+          disabledContinueButton = false;
+        } else {
+          disabledContinueButton = true;
+        }
+      } else {
+        disabledContinueButton = false;
+      }
+    } else {
+      disabledContinueButton = true;
+    }
+
+    //let disabledContinue = this.state.reason ? this.state.secondaryReasons & this.state.subReason ? false: true;
     const userData = JSON.parse(userDetails);
     const userAccountDetails = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
@@ -282,7 +299,7 @@ export default class ReturnReasonForm extends React.Component {
                           <CancelAndContinueButton
                             handleCancel={() => this.handleCancel()}
                             handleContinue={() => this.handleContinue()}
-                            disabled={this.state.reason ? false : true}
+                            disabled={disabledContinueButton}
                           />
                         </div>
                       </DeskTopOnly>

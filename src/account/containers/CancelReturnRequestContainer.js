@@ -22,7 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 const mapStateToProps = state => {
-  console.log(state);
   return {
     getReturnReasonsDetails: state.profile.getReturnReasonsDetails,
     loadingForGetReturnReasons: state.profile.loadingForGetReturnReasons,

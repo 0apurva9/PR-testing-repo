@@ -33,7 +33,7 @@ import {
 	RETURN_TO_ADDRESS,
 	EDIT,
 	ADD,
-	BACK_END_ISSUE_ERROR_MESSAGE
+	BACK_END_ISSUE_ERROR_MESSAGE,
 	//RETURNS_STORE_BANK_FORM,
 } from '../../lib/constants';
 import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
@@ -65,7 +65,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			bankDetail: {},
 			isCOD: this.isCOD,
 			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
-			selectedReasonAndCommentObj: null
+			selectedReasonAndCommentObj: null,
 		};
 	}
 	componentDidMount() {
@@ -75,7 +75,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		let productDetails: IProductDetailsObj = {
 			transactionId: transactionId,
 			returnCancelFlag: RETURN_FLAG,
-			orderCode: orderCode
+			orderCode: orderCode,
 		};
 		this.props.returnProductDetailsFunc(productDetails);
 		this.props.getReturnRequest(orderCode, transactionId);
@@ -90,14 +90,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		return <div />;
 	}
 	onChangeBankingDetail = (val: string) => {
-		//console.log('val in change details', val);
 		let bankDetail = cloneDeep(this.state.bankDetail);
 		Object.assign(bankDetail, val);
 		this.setState({ bankDetail });
 	};
 	updateStateForBankDetails = (data: IStateForBank) => {
 		this.setState({ bankDetail: data });
-		//console.log('data:', data);
 	};
 	clearForm() {
 		this.setState({ bankDetail: {} });
@@ -114,13 +112,12 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.displayToast('Please Select Reverse Seal ');
 			return false;
 		} else {
-			//console.log('this.props:', this.state.isCOD);
 			this.setState({
 				returnProgressStatus: this.state.isCOD
 					? ReturnStatus.SHOW_BANK_DETAIL_SECTION
 					: ReturnStatus.SHOW_BANK_DETAIL_SECTION,
 				//: ReturnStatus.SHOW_SELECT_MODE_SECTION,
-				selectedReasonAndCommentObj: returnSelectedReason
+				selectedReasonAndCommentObj: returnSelectedReason,
 			});
 		}
 	};
@@ -129,10 +126,9 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 	};
 	handleContinueForBankForm = (BankDetails: IStateForBank) => {
 		if (BankDetails) {
-			//console.log('1');
 			this.setState({
 				returnProgressStatus: ReturnStatus.SHOW_SELECT_MODE_SECTION,
-				bankDetail: BankDetails
+				bankDetail: BankDetails,
 			});
 		}
 		if (!this.state.bankDetail.ifscCode) {
@@ -167,7 +163,6 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.displayToast(BANK_NAME);
 			return false;
 		} else {
-			//console.log('2 else');
 			//api call to save bank details
 			//remove unnecessary field get from api success response which are required for above validation
 			let bankData = this.state.bankDetail;
@@ -176,12 +171,11 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			delete bankData.customerName;
 			delete bankData.reEnterAccountNumber;
 			this.props.updateCustomerBankDetails(bankData);
-			//console.log('api data:', this.props.updateCustomerBankDetails(bankData));
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
 				state: {
-					authorizedRequest: true
-				}
+					authorizedRequest: true,
+				},
 			});
 		}
 	};
@@ -190,22 +184,22 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
 				state: {
-					authorizedRequest: true
-				}
+					authorizedRequest: true,
+				},
 			});
 		} else if (mode === SCHEDULED_PICKUP) {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
 				state: {
-					authorizedRequest: true
-				}
+					authorizedRequest: true,
+				},
 			});
 		} else if (mode === SELF_COURIER) {
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURNS_SELF_COURIER}`,
 				state: {
-					authorizedRequest: true
-				}
+					authorizedRequest: true,
+				},
 			});
 		}
 	}
@@ -215,14 +209,14 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 	}
 	handleCancelForBankForm = () => {
 		this.setState({
-			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION
+			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
 		});
 		this.props.history.goBack();
 	};
 	changeReturnReason = () => {
 		this.setState({
 			returnProgressStatus: ReturnStatus.SHOW_SELECT_REASON_AND_COMMENT_SECTION,
-			selectedReasonAndCommentObj: null
+			selectedReasonAndCommentObj: null,
 		});
 	};
 	onChangeReasonAndMode = (val: any) => {

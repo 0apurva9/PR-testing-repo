@@ -137,7 +137,6 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 		const returnProductDetails = this.props.returnProductDetails;
 		//let imageCallOut = returnProductDetails && returnProductDetails.attachmentImageCallout;
 		//let imageCallOutArr = imageCallOut && imageCallOut.split('|');
-		//console.log('primary Reason:', this.state.reason, this.state.returnReasonCode);
 		return (
 			<div className={styles.base}>
 				<div className={styles.content}>

@@ -65,28 +65,40 @@ export default class OrderCard extends React.Component {
       this.props.statusDisplayMsg && this.props.statusDisplayMsg;
     let estimatedDeliveryDate = "";
     let estimatedDeliveryDateFormatted = "";
-    if (
-      statusDisplayMsg &&
-      statusDisplayMsg.length > 0 &&
-      this.props.showEDD === "Y"
-    ) {
-      let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
-      //written to avoid for loop
-      if (
-        statusDisplayMsgL1 &&
-        statusDisplayMsgL1.value &&
-        statusDisplayMsgL1.value.statusList &&
-        statusDisplayMsgL1.value.statusList[0] &&
-        statusDisplayMsgL1.value.statusList[0].statusMessageList &&
-        statusDisplayMsgL1.value.statusList[0].statusMessageList[0] &&
-        statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date
-      ) {
-        estimatedDeliveryDate =
-          statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date;
-        let edd = new Date(estimatedDeliveryDate);
-        estimatedDeliveryDateFormatted = format(edd, dateFormat);
-      }
+    let deliveryDate = "",
+      deliveryDateFormatted = "";
+    if (this.props && this.props.estimatedDeliveryDate) {
+      estimatedDeliveryDate = this.props.estimatedDeliveryDate;
+      let edd = new Date(estimatedDeliveryDate);
+      estimatedDeliveryDateFormatted = format(edd, dateFormat);
     }
+    if (this.props && this.props.deliveryDate) {
+      deliveryDate = this.props.deliveryDate;
+      let deliveryD = new Date(deliveryDate);
+      deliveryDateFormatted = format(deliveryD, dateFormat);
+    }
+    // if (
+    //   statusDisplayMsg &&
+    //   statusDisplayMsg.length > 0 &&
+    //   this.props.showEDD === "Y"
+    // ) {
+    //   let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
+    //written to avoid for loop
+    // if (
+    //   statusDisplayMsgL1 &&
+    //   statusDisplayMsgL1.value &&
+    //   statusDisplayMsgL1.value.statusList &&
+    //   statusDisplayMsgL1.value.statusList[0] &&
+    //   statusDisplayMsgL1.value.statusList[0].statusMessageList &&
+    //   statusDisplayMsgL1.value.statusList[0].statusMessageList[0] &&
+    //   statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date
+    // ) {
+    //   estimatedDeliveryDate =
+    //     statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date;
+    //   let edd = new Date(estimatedDeliveryDate);
+    //   estimatedDeliveryDateFormatted = format(edd, dateFormat);
+    // }
+    //}
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -105,7 +117,7 @@ export default class OrderCard extends React.Component {
           (this.props.statusDisplay !== "CANCEL" &&
             this.props.statusDisplay !== "RETURN") && (
             <div className={styles.estimatedDeliveryDate}>
-              Estimated Delivery Date: {this.props.estimatedDeliveryDate}
+              Estimated Delivery Date: {estimatedDeliveryDateFormatted}
             </div>
           )}
         <div
@@ -182,7 +194,10 @@ export default class OrderCard extends React.Component {
               this.props.orderStatusCode === "DELIVERED" &&
               this.props.deliveryDate && (
                 <div className={styles.deliveryDate}>
-                  Delivered on {this.props.deliveryDate}
+                  Delivered on:{" "}
+                  <span className={styles.estimatedDate}>
+                    {deliveryDateFormatted}
+                  </span>
                 </div>
               )}
             {this.props.orderStatusCode && (
@@ -359,7 +374,7 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>Delivered On: </span>
               <span className={styles.estimatedDate}>
-                {this.props.deliveryDate}
+                {deliveryDateFormatted}
               </span>
             </div>
             {/* <div className={styles.commonTitle}>

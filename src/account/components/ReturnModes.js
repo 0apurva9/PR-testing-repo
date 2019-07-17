@@ -265,7 +265,6 @@ export default class ReturnModes extends React.Component {
       deliveryAddress = data.deliveryAddress;
     }
     // this.props.location.state.address || data.deliveryAddress;
-    console.log("return modes ---->>>>>>>>>>>:", this.props);
 
     return (
       <React.Fragment>
