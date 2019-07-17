@@ -1547,14 +1547,9 @@ if you have order id in local storage then you have to show order confirmation p
       localStorage.getItem(RETRY_PAYMENT_CART_ID)
     );
     if (!cartDetailsLoggedInUser && orderRetryCartId) {
-      let loggedInUserCookie = Cookie.getCookie(
-        CART_DETAILS_FOR_LOGGED_IN_USER
-      );
-
-      loggedInUserCookie.guId = orderRetryCartId;
       Cookie.createCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER,
-        JSON.stringify(loggedInUserCookie)
+        JSON.stringify({ guid: orderRetryCartId })
       );
     }
   }

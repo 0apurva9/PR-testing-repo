@@ -4704,9 +4704,6 @@ export function getPaymentFailureOrderDetails() {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      let loggedInUserCookie = Cookie.getCookie(
-        CART_DETAILS_FOR_LOGGED_IN_USER
-      );
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
@@ -4725,10 +4722,9 @@ export function getPaymentFailureOrderDetails() {
               : ""
         }
       );
-      loggedInUserCookie.guid = cartGuId;
       await Cookie.createCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER,
-        JSON.stringify(loggedInUserCookie)
+        JSON.stringify({ guid: cartGuId })
       );
       dispatch(getMinicartProducts());
     } catch (e) {
