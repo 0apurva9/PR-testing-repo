@@ -454,8 +454,8 @@ export default class TransactionHistoryDesktop extends React.Component {
                       {this.state.showNull && (
                         <div className={styles.emptyDataContainer}>
                           <div className={styles.emptyDataText}>
-                            You do not have any {data[this.state.checked].data}{" "}
-                            details in your transaction history
+                            You do not have any transactions in the selected
+                            filter
                           </div>
                         </div>
                       )}
