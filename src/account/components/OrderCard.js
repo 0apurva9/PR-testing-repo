@@ -415,7 +415,9 @@ export default class OrderCard extends React.Component {
             Sold By : {this.props.sellerName}
           </div>
         )}
-        <div className={this.props.title ? "" : styles.payments} />
+        <div
+          className={this.props.title ? styles.noPayments : styles.payments}
+        />
       </div>
     );
   }
