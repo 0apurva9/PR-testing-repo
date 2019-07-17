@@ -58,7 +58,8 @@ export default class FeedBackForm extends React.Component {
     this.props.postFeedBackForm(
       this.state.textDetails,
       this.questionRatingArray,
-      getUserDetails.transactionId
+      getUserDetails.transactionId,
+      getUserDetails.originalUid
     );
   }
   render() {
