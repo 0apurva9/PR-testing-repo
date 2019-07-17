@@ -2758,7 +2758,9 @@ export function createJusPayOrderForNetBanking(
       cartId = retryCartGuid;
     } else {
       localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
-      cartId = JSON.parse(cartDetails).guid;
+      cartId = cartDetails
+        ? JSON.parse(cartDetails).guid
+        : Cookie.getCookie(OLD_CART_GU_ID);
     }
   }
   let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -2916,7 +2918,9 @@ export function createJusPayOrderForSavedCards(
       cartId = retryCartGuid;
     } else {
       let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-      cartId = JSON.parse(cartDetails).guid;
+      cartId = cartDetails
+        ? JSON.parse(cartDetails).guid
+        : Cookie.getCookie(OLD_CART_GU_ID);
     }
   }
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -5962,7 +5966,9 @@ export function collectPaymentOrderForSavedCards(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    let cartGuId = productDetails && JSON.parse(productDetails).guid;
+    let cartGuId = productDetails
+      ? JSON.parse(productDetails).guid
+      : Cookie.getCookie(OLD_CART_GU_ID);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -6174,7 +6180,9 @@ export function collectPaymentOrderForNetBanking(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    let cartGuId = productDetails && JSON.parse(productDetails).guid;
+    let cartGuId = productDetails
+      ? JSON.parse(productDetails).guid
+      : Cookie.getCookie(OLD_CART_GU_ID);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
 
