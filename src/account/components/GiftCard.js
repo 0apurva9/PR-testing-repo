@@ -109,7 +109,9 @@ export default class GiftCard extends React.Component {
         }
 
         if (!this.state.email) {
-          this.props.displayToast("Please fill recipient e-mail address");
+          this.props.displayToast(
+            "Please enter valid Receiver's email address"
+          );
           return false;
         }
         if (!EMAIL_REGULAR_EXPRESSION.test(this.state.email)) {
