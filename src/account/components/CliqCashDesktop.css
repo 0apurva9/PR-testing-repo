@@ -460,6 +460,7 @@
   .amountAdded {
     composes: price;
     color: #6b9e31;
+    font-family: semibold;
   }
   .dateAndTime {
     width: 100%;
