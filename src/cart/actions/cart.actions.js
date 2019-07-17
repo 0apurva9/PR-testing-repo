@@ -5082,12 +5082,18 @@ export function postFeedBackFormFailure(error) {
     error
   };
 }
-export function postFeedBackForm(commemt, questionRatingArray, transactionId) {
+export function postFeedBackForm(
+  commemt,
+  questionRatingArray,
+  transactionId,
+  originalUid
+) {
   return async (dispatch, getState, { api }) => {
     dispatch(postFeedBackFormRequest());
     try {
       let productDetails = {};
       productDetails.transactionId = transactionId;
+      productDetails.originalUid = originalUid;
       productDetails.anyotherfeedback = commemt;
       productDetails.items = questionRatingArray;
 
