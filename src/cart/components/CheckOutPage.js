@@ -2065,7 +2065,8 @@ if you have order id in local storage then you have to show order confirmation p
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           true,
           this.state.retryCartGuid,
-          this.state.bankNameForNetBanking
+          this.state.bankNameForNetBanking,
+          true
         );
       } else {
         this.props.collectPaymentOrderForNetBanking(
@@ -2075,7 +2076,8 @@ if you have order id in local storage then you have to show order confirmation p
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           false,
           "",
-          this.state.bankNameForNetBanking
+          this.state.bankNameForNetBanking,
+          true
         );
       }
     }
@@ -2094,7 +2096,8 @@ if you have order id in local storage then you have to show order confirmation p
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           true,
           this.state.retryCartGuid,
-          ""
+          "",
+          true
         );
       } else {
         this.props.collectPaymentOrderForNetBanking(
@@ -2104,7 +2107,8 @@ if you have order id in local storage then you have to show order confirmation p
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           false,
           "",
-          ""
+          "",
+          true
         );
       }
     }
@@ -2122,7 +2126,9 @@ if you have order id in local storage then you have to show order confirmation p
           "",
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           true,
-          this.state.retryCartGuid
+          this.state.retryCartGuid,
+          "",
+          true
         );
       } else {
         this.props.collectPaymentOrderForNetBanking(
@@ -2132,7 +2138,8 @@ if you have order id in local storage then you have to show order confirmation p
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           false,
           "",
-          ""
+          "",
+          true
         );
       }
     }
@@ -2488,7 +2495,12 @@ if you have order id in local storage then you have to show order confirmation p
     if (val) {
       localStorage.setItem(PAYMENT_MODE_TYPE, PAYTM);
       this.setState({ paymentModeSelected: PAYTM });
-      this.props.binValidation(PAYTM, "");
+      this.props.binValidation(
+        PAYTM,
+        "",
+        this.state.isComingFromRetryUrl,
+        this.state.retryCartGuid
+      );
     } else {
       this.setState({ paymentModeSelected: null });
     }
@@ -2497,7 +2509,12 @@ if you have order id in local storage then you have to show order confirmation p
     if (val) {
       localStorage.setItem(PAYMENT_MODE_TYPE, PAYPAL);
       this.setState({ paymentModeSelected: PAYPAL });
-      this.props.binValidationForNetBanking(NET_BANKING_PAYMENT_MODE, "PAYPAL");
+      this.props.binValidationForNetBanking(
+        NET_BANKING_PAYMENT_MODE,
+        "PAYPAL",
+        this.state.isComingFromRetryUrl,
+        this.state.retryCartGuid
+      );
     } else {
       if (localStorage.getItem(PAYMENT_MODE_TYPE)) {
         localStorage.removeItem(PAYMENT_MODE_TYPE);
@@ -2647,14 +2664,27 @@ if you have order id in local storage then you have to show order confirmation p
             const parsedQueryString = queryString.parse(
               this.props.location.search
             );
-            const cartGuId = parsedQueryString.value
+            let cartGuId = parsedQueryString.value
               ? parsedQueryString.value
               : Cookie.getCookie(OLD_CART_GU_ID);
-            this.props.binValidation(paymentMode, binNo, cartGuId);
+            if (this.state.isComingFromRetryUrl) {
+              cartGuId = this.state.retryCartGuid;
+            }
+            this.props.binValidation(
+              paymentMode,
+              binNo,
+              this.state.isComingFromRetryUrl,
+              cartGuId
+            );
           } else {
             localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
             this.setState({ paymentModeSelected: paymentMode });
-            this.props.binValidation(paymentMode, binNo);
+            this.props.binValidation(
+              paymentMode,
+              binNo,
+              this.state.isComingFromRetryUrl,
+              this.state.retryCartGuid
+            );
           }
         }
       } else {
@@ -2667,28 +2697,54 @@ if you have order id in local storage then you have to show order confirmation p
           const parsedQueryString = queryString.parse(
             this.props.location.search
           );
-          const cartGuId = parsedQueryString.value
+          let cartGuId = parsedQueryString.value
             ? parsedQueryString.value
             : Cookie.getCookie(OLD_CART_GU_ID);
-          this.props.binValidation(paymentMode, binNo, cartGuId);
+          if (this.state.isComingFromRetryUrl) {
+            cartGuId = this.state.retryCartGuid;
+          }
+          this.props.binValidation(
+            paymentMode,
+            binNo,
+            this.state.isComingFromRetryUrl,
+            cartGuId
+          );
         } else {
           localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
           this.setState({ paymentModeSelected: paymentMode });
-          this.props.binValidation(paymentMode, binNo);
+          this.props.binValidation(
+            paymentMode,
+            binNo,
+            this.state.isComingFromRetryUrl,
+            this.state.retryCartGuid
+          );
         }
       }
     } else {
       if (this.state.isPaymentFailed) {
         localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
         const parsedQueryString = queryString.parse(this.props.location.search);
-        const cartGuId = parsedQueryString.value
+        let cartGuId = parsedQueryString.value
           ? parsedQueryString.value
           : Cookie.getCookie(OLD_CART_GU_ID);
-        this.props.binValidation(paymentMode, binNo, cartGuId);
+        if (this.state.isComingFromRetryUrl) {
+          cartGuId = this.state.retryCartGuid;
+        }
+        this.props.binValidation(
+          paymentMode,
+          binNo,
+          this.state.isComingFromRetryUrl,
+          cartGuId
+        );
       } else {
         localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
         this.setState({ paymentModeSelected: paymentMode });
-        this.props.binValidation(paymentMode, binNo);
+        this.props.binValidation(
+          paymentMode,
+          binNo,
+          this.state.isComingFromRetryUrl,
+          this.state.retryCartGuid
+        );
       }
     }
   };
@@ -2707,13 +2763,22 @@ if you have order id in local storage then you have to show order confirmation p
       paymentModeSelected: paymentMode,
       binValidationCOD: true
     });
-    this.props.binValidationForCOD(paymentMode);
+    this.props.binValidationForCOD(
+      paymentMode,
+      this.state.isComingFromRetryUrl,
+      this.state.retryCartGuid
+    );
   };
 
   binValidationForNetBank = (paymentMode, bankName) => {
     localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
     this.setState({ paymentModeSelected: paymentMode });
-    this.props.binValidationForNetBanking(paymentMode, bankName);
+    this.props.binValidationForNetBanking(
+      paymentMode,
+      bankName,
+      this.state.isComingFromRetryUrl,
+      this.state.retryCartGuid
+    );
   };
 
   binValidationForSavedCard = cardDetails => {
@@ -2731,7 +2796,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.props.binValidation(
           `${cardDetails.cardType} Card`,
-          cardDetails.cardISIN
+          cardDetails.cardISIN,
+          this.state.isComingFromRetryUrl,
+          this.state.retryCartGuid
         );
       }
     } else {

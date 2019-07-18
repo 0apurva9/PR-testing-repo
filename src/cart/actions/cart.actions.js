@@ -2103,7 +2103,12 @@ export function binValidationFailure(error) {
 }
 
 // Action Creator to bin Validation
-export function binValidation(paymentMode, binNo) {
+export function binValidation(
+  paymentMode,
+  binNo,
+  isFromRetryUrl,
+  retryCartGuid
+) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
@@ -2112,6 +2117,9 @@ export function binValidation(paymentMode, binNo) {
   let cartId;
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
+  }
+  if (isFromRetryUrl) {
+    cartId = retryCartGuid;
   } else {
     cartId =
       cartDetails && JSON.parse(cartDetails).guid
@@ -2165,7 +2173,12 @@ export function binValidation(paymentMode, binNo) {
   };
 }
 
-export function binValidationForNetBanking(paymentMode, bankName) {
+export function binValidationForNetBanking(
+  paymentMode,
+  bankName,
+  isFromRetryUrl,
+  retryCartGuid
+) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -2173,6 +2186,9 @@ export function binValidationForNetBanking(paymentMode, bankName) {
   let cartId;
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
+  }
+  if (isFromRetryUrl) {
+    cartId = retryCartGuid;
   } else {
     cartId =
       cartDetails && JSON.parse(cartDetails).guid
@@ -2447,9 +2463,6 @@ export function jusPayTokenize(
   isFromRetryUrl,
   retryCartGuid
 ) {
-  if (!isPaymentFailed) {
-    localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
-  }
   return async (dispatch, getState, { api }) => {
     dispatch(jusPayTokenizeRequest());
     let cardObject = new FormData();
@@ -2571,7 +2584,6 @@ export function createJusPayOrder(
     if (isFromRetryUrl) {
       cartId = retryCartGuid;
     } else {
-      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
       let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       cartId = JSON.parse(cartDetails).guid;
     }
@@ -2737,7 +2749,8 @@ export function createJusPayOrderForNetBanking(
   pinCode,
   isFromRetryUrl,
   retryCartGuid,
-  bankName
+  bankName,
+  isPaymentFailed
 ) {
   let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
@@ -2757,7 +2770,6 @@ export function createJusPayOrderForNetBanking(
     if (isFromRetryUrl) {
       cartId = retryCartGuid;
     } else {
-      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
       cartId = cartDetails
         ? JSON.parse(cartDetails).guid
         : Cookie.getCookie(OLD_CART_GU_ID);
@@ -2772,7 +2784,7 @@ export function createJusPayOrderForNetBanking(
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
     let productItems = "";
-    if (isFromRetryUrl) {
+    if (isFromRetryUrl && !isPaymentFailed) {
       productItems = getValidDeliveryModeDetails(
         getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
         true,
@@ -2781,7 +2793,7 @@ export function createJusPayOrderForNetBanking(
     }
     try {
       let result = "";
-      if (isFromRetryUrl) {
+      if (isFromRetryUrl && !isPaymentFailed) {
         result = await api.post(
           `${USER_CART_PATH}/${
             JSON.parse(userDetails).userName
@@ -2901,9 +2913,6 @@ export function createJusPayOrderForSavedCards(
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let cartItem = cartItemObj;
-  if (!isPaymentFailed) {
-    localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
-  }
   const jusPayUrl = `${
     window.location.origin
   }/checkout/multi/payment-method/cardPayment`;
@@ -2928,7 +2937,7 @@ export function createJusPayOrderForSavedCards(
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
     let productItems = "";
-    if (isFromRetryUrl) {
+    if (isFromRetryUrl && !isPaymentFailed) {
       productItems = getValidDeliveryModeDetails(
         getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
         true,
@@ -2937,7 +2946,7 @@ export function createJusPayOrderForSavedCards(
     }
     try {
       let result = "";
-      if (isFromRetryUrl) {
+      if (isFromRetryUrl && !isPaymentFailed) {
         result = await api.post(
           `${USER_CART_PATH}/${
             JSON.parse(userDetails).userName
@@ -3703,22 +3712,22 @@ export function getCODEligibility(
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartId;
-  if (isPaymentFailed) {
-    let url = queryString.parse(window.location.search);
-    cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
-  } else {
-    if (isFromRetryUrl) {
-      cartId = retryCartGuid;
-    } else {
-      const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-      cartId =
-        cartDetails && JSON.parse(cartDetails).guid
-          ? JSON.parse(cartDetails).guid
-          : null;
-    }
-  }
 
   return async (dispatch, getState, { api }) => {
+    if (isPaymentFailed) {
+      let url = queryString.parse(window.location.search);
+      cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+    } else {
+      if (isFromRetryUrl) {
+        cartId = retryCartGuid;
+      } else {
+        const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        cartId =
+          cartDetails && JSON.parse(cartDetails).guid
+            ? JSON.parse(cartDetails).guid
+            : null;
+      }
+    }
     dispatch(getCODEligibilityRequest());
     try {
       const result = await api.post(
@@ -3766,7 +3775,11 @@ export function binValidationForCODFailure(error) {
 }
 
 // Action Creator to bin Validation For COD
-export function binValidationForCOD(paymentMode) {
+export function binValidationForCOD(
+  paymentMode,
+  isFromRetryUrl,
+  retryCartGuid
+) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
@@ -3775,6 +3788,9 @@ export function binValidationForCOD(paymentMode) {
   let cartId;
   if (parsedQueryString.value) {
     cartId = parsedQueryString.value;
+  }
+  if (isFromRetryUrl) {
+    cartId = retryCartGuid;
   } else {
     cartId = JSON.parse(cartDetails).guid;
   }
@@ -5668,16 +5684,25 @@ export function collectPaymentOrder(
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let url = queryString.parse(window.location.search);
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
-    if (!isPaymentFailed) {
-      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItems));
+    let cartDetails;
+    if (url && url.value) {
+      cartGuId =
+        url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+    } else {
+      if (isFromRetryUrl) {
+        cartGuId = retryCartGuid;
+      } else {
+        localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItems));
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        cartGuId = JSON.parse(cartDetails).guid;
+      }
     }
     if (isPaymentFailed) {
       cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
     }
-    if (isFromRetryUrl) {
-      cartGuId = retryCartGuid;
-    }
+
     dispatch(collectPaymentOrderRequest());
     try {
       const result = await api.post(
@@ -5798,15 +5823,17 @@ export function stripe_juspay_Tokenize(
       let stripeToken = await dispatch(
         stripeTokenize(cardDetails, address, cartItems, paymentMode)
       );
-
-      let inventoryItems = isFromRetryUrl
-        ? await getValidDeliveryModeDetails(
-            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-              .products,
-            true,
-            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-          )
-        : cartItems;
+      let inventoryItems = cartItems;
+      if (isFromRetryUrl && !isPaymentFailed) {
+        inventoryItems = getValidDeliveryModeDetails(
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
+          true,
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        );
+      }
+      if (isFromRetryUrl) {
+        localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(inventoryItems));
+      }
 
       if (inventoryItems && address) {
         orderDetails = {
@@ -5841,7 +5868,7 @@ export function stripe_juspay_Tokenize(
         };
       }
 
-      if (juspayToken && stripeToken && orderDetails) {
+      if ((juspayToken || stripeToken) && orderDetails) {
         let juspay_token_details = {
           pspName: "Juspay",
           token: "",
@@ -5912,7 +5939,7 @@ export function stripe_juspay_TokenizeGiftCard(
           }
         ]
       };
-      if (juspayToken && stripeToken) {
+      if (juspayToken || stripeToken) {
         let juspay_token_details = {
           pspName: "Juspay",
           token: "",
@@ -5965,6 +5992,7 @@ export function collectPaymentOrderForSavedCards(
     let cartGuId = productDetails
       ? JSON.parse(productDetails).guid
       : Cookie.getCookie(OLD_CART_GU_ID);
+    let cartDetails;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -5973,21 +6001,32 @@ export function collectPaymentOrderForSavedCards(
       window.location.origin
     }/checkout/payment-method/cardPayment`;
     let orderDetails = "";
-    let inventoryItems = isFromRetryUrl
-      ? await getValidDeliveryModeDetails(
-          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
-          true,
-          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-        )
-      : cartItem;
-    if (!isPaymentFailed) {
-      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
-    }
+    let inventoryItems = cartItem;
+
     if (isPaymentFailed) {
-      cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
+      let url = queryString.parse(window.location.search);
+      cartGuId =
+        url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+    } else {
+      if (isFromRetryUrl) {
+        cartGuId = retryCartGuid;
+        if (!isPaymentFailed) {
+          inventoryItems = getValidDeliveryModeDetails(
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+              .products,
+            true,
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+          );
+        }
+      } else {
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        cartGuId = cartDetails
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+      }
     }
-    if (isFromRetryUrl) {
-      cartGuId = retryCartGuid;
+    if (!isPaymentFailed) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(inventoryItems));
     }
     if (inventoryItems && address) {
       orderDetails = {
@@ -6023,7 +6062,7 @@ export function collectPaymentOrderForSavedCards(
                   {
                     pspName: "Juspay",
                     token: "",
-                    cardToken: "",
+                    cardToken: cardDetails && cardDetails.cardToken,
                     cardFingerprint: cardDetails && cardDetails.cardFingerprint,
                     cardRefNo: cardDetails && cardDetails.cardRefNo,
                     returnUrl: returnUrl
@@ -6167,7 +6206,8 @@ export function collectPaymentOrderForNetBanking(
   pinCode,
   isFromRetryUrl,
   retryCartGuid,
-  bankName
+  bankName,
+  isPaymentFailed
 ) {
   return async (dispatch, getState, { api }) => {
     let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
@@ -6185,17 +6225,35 @@ export function collectPaymentOrderForNetBanking(
     const returnUrl = `${
       window.location.origin
     }/checkout/payment-method/cardPayment`;
-    let orderDetails = "";
-    let inventoryItems = isFromRetryUrl
-      ? await getValidDeliveryModeDetails(
-          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
-          true,
-          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-        )
-      : cartItem;
-    if (isFromRetryUrl) {
-      cartGuId = retryCartGuid;
+    let orderDetails,
+      cartDetails = "";
+    let inventoryItems = cartItem;
+    if (isPaymentFailed) {
+      let url = queryString.parse(window.location.search);
+      cartGuId =
+        url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+    } else {
+      if (isFromRetryUrl) {
+        cartGuId = retryCartGuid;
+        if (!isPaymentFailed) {
+          inventoryItems = getValidDeliveryModeDetails(
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+              .products,
+            true,
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+          );
+        }
+      } else {
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        cartGuId = cartDetails
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+      }
     }
+    if (!isPaymentFailed) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(inventoryItems));
+    }
+
     if (inventoryItems && address) {
       orderDetails = {
         wrapperItems: [
@@ -6272,12 +6330,13 @@ export function collectPaymentOrderForNetBanking(
       dispatch(
         createJusPayOrderForNetBanking(
           paymentMethodType,
-          cartItem,
+          inventoryItems,
           bankCode,
           pinCode,
           isFromRetryUrl,
           retryCartGuid,
-          bankName
+          bankName,
+          isPaymentFailed
         )
       );
     } catch (e) {

@@ -225,8 +225,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeCliqCash: pinCode => {
       dispatch(removeCliqCash(pinCode));
     },
-    binValidation: (paymentMode, binNo, cartGuId) => {
-      dispatch(binValidation(paymentMode, binNo, cartGuId));
+    binValidation: (paymentMode, binNo, isFromRetryUrl, retryCartGuid) => {
+      dispatch(
+        binValidation(paymentMode, binNo, isFromRetryUrl, retryCartGuid)
+      );
     },
     softReservationForPayment: (cardDetails, address, paymentMode) => {
       dispatch(softReservationForPayment(cardDetails, address, paymentMode));
@@ -239,8 +241,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getCODEligibility(isPaymentFailed, isFromRetryUrl, retryCartGuid)
       );
     },
-    binValidationForCOD: paymentMode => {
-      dispatch(binValidationForCOD(paymentMode));
+    binValidationForCOD: (paymentMode, isFromRetryUrl, retryCartGuid) => {
+      dispatch(binValidationForCOD(paymentMode, isFromRetryUrl, retryCartGuid));
     },
     updateTransactionDetailsForCOD: (
       paymentMode,
@@ -269,8 +271,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     redeemCliqVoucher: cliqCashDetails => {
       dispatch(redeemCliqVoucher(cliqCashDetails, true));
     },
-    binValidationForNetBanking: (paymentMode, binNo) => {
-      dispatch(binValidationForNetBanking(paymentMode, binNo));
+    binValidationForNetBanking: (
+      paymentMode,
+      binNo,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        binValidationForNetBanking(
+          paymentMode,
+          binNo,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
     },
     softReservationPaymentForNetBanking: (
       paymentMethodType,
@@ -682,7 +696,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       pinCode,
       isFromRetryUrl,
       retryCartGuid,
-      bankName
+      bankName,
+      isPaymentFailed
     ) => {
       dispatch(
         collectPaymentOrderForNetBanking(
@@ -692,7 +707,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           pinCode,
           isFromRetryUrl,
           retryCartGuid,
-          bankName
+          bankName,
+          isPaymentFailed
         )
       );
     }
