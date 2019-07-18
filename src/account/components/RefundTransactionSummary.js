@@ -9,7 +9,10 @@ import {
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_REASON,
-  HOME_ROUTER
+  HOME_ROUTER,
+  MY_ACCOUNT,
+  ORDER,
+  ORDER_CODE
 } from "../../lib/constants";
 export default class RefundTransactionSummary extends React.Component {
   constructor(props) {
@@ -41,9 +44,13 @@ export default class RefundTransactionSummary extends React.Component {
   gotoOrderDetailsPage() {
     //get order id
     let orderRefId = sessionStorage.getItem("returnOrderId");
-    this.props.history.push({
-      pathname: `/my-account/order/?orderCode=${orderRefId}`
-    });
+    let transactionId = sessionStorage.getItem("returnTransactionId");
+    this.props.history.push(
+      `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderRefId}&transactionId=${transactionId}`
+    );
+    // this.props.history.push({
+    // 	pathname: `/my-account/order/?orderCode=${orderRefId}&transactionId=${transactionId}`,
+    // });
   }
   goToHomepage() {
     this.props.history.push(HOME_ROUTER);

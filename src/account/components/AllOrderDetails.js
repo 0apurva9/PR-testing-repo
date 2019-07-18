@@ -71,7 +71,7 @@ import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
-const dateFormat = "DD MMM YYYY";
+const dateFormat = "Do MMM YYYY";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -327,7 +327,7 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
-
+    let productsDetails = orderDetails && orderDetails.products;
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
@@ -538,6 +538,7 @@ export default class AllOrderDetails extends React.Component {
                           dateFormat
                         );
                       }
+
                       return (
                         <div className={styles.order} key={i}>
                           <div className={styles.orderIdHolder}>
@@ -556,11 +557,6 @@ export default class AllOrderDetails extends React.Component {
                                       orderDetails.retryPaymentUrl
                                         ? "20px"
                                         : "0px",
-                                    borderBottom:
-                                      orderDetails &&
-                                      orderDetails.retryPaymentUrl
-                                        ? "1px solid #ececec"
-                                        : "none",
                                     marginBottom:
                                       orderDetails &&
                                       orderDetails.retryPaymentUrl
@@ -646,8 +642,21 @@ export default class AllOrderDetails extends React.Component {
                                   );
                                 }
                               );
+                              let productsDetails =
+                                orderDetails && orderDetails.products;
+                              let productLength = productsDetails.length;
+                              console.log(
+                                "key in AllOrderDetails Page:",
+                                productLength
+                              );
                               return (
-                                <div className={styles.orderDetailsHolder}>
+                                <div
+                                  className={
+                                    productLength === key + 1
+                                      ? styles.orderDetailsHolder
+                                      : styles.orderCardIndividualWithBorder
+                                  }
+                                >
                                   <OrderCard
                                     imageUrl={product.imageURL}
                                     hasProduct={product}

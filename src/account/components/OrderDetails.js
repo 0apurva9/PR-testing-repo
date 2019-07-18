@@ -83,6 +83,7 @@ export default class OrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
+    sessionStorage.setItem("returnTransactionId", transactionId);
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     if (sellerorderno) {
       let isCOD = false;
@@ -215,7 +216,9 @@ export default class OrderDetails extends React.Component {
         .transactionId;
       //added to use order id in refund success page
       sessionStorage.setItem("returnOrderId", orderCode);
+
       if (transactionId) {
+        sessionStorage.setItem("returnTransactionId", transactionId);
         this.props.fetchOrderItemDetails(orderCode, transactionId);
         this.props.setHeaderText("Item Details");
       } else {
