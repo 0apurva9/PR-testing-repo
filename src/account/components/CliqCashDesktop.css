@@ -43,6 +43,7 @@
     padding: 0px 22px 0px 22px;
     max-width: 720px;
     border-radius: 4px;
+    user-select: none;
   }
   .cliqCashBalanceHolder {
     width: 100%;

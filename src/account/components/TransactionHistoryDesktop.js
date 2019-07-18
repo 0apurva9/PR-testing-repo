@@ -93,7 +93,12 @@ export default class TransactionHistoryDesktop extends React.Component {
     });
   }
   showDatePickerModule = type => {
-    this.setState({ checked: type, transactionDetails: null });
+    this.setState({
+      checked: type,
+      transactionDetails: null,
+      showNull: true,
+      selectedDate: null
+    });
     let data = {
       ...this.props,
       setDate: date => this.setDate(date)
@@ -283,30 +288,31 @@ export default class TransactionHistoryDesktop extends React.Component {
                       );
                     })}
                   </div>
-                  {this.state.checked === 4 && (
-                    <div className={styles.transactionBase}>
-                      {this.state.selectedDate && (
-                        <div className={styles.dateSection}>
-                          <div className={styles.borderSection} />
-                          <div className={styles.dateTime}>
-                            {getUTCDateMonthFormat(
-                              this.state.selectedDate &&
-                                this.state.selectedDate.fromDate,
-                              false,
-                              false,
-                              false
-                            )}-{getUTCDateMonthFormat(
-                              this.state.selectedDate &&
-                                this.state.selectedDate.toDate,
-                              false,
-                              false,
-                              false
-                            )}
+                  {this.state.checked === 4 &&
+                    this.state.selectedDate && (
+                      <div className={styles.transactionBase}>
+                        {this.state.selectedDate && (
+                          <div className={styles.dateSection}>
+                            <div className={styles.borderSection} />
+                            <div className={styles.dateTime}>
+                              {getUTCDateMonthFormat(
+                                this.state.selectedDate &&
+                                  this.state.selectedDate.fromDate,
+                                false,
+                                false,
+                                false
+                              )}-{getUTCDateMonthFormat(
+                                this.state.selectedDate &&
+                                  this.state.selectedDate.toDate,
+                                false,
+                                false,
+                                false
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        )}
+                      </div>
+                    )}
 
                   {transactionDetails && transactionDetails.length > 0 ? (
                     transactionDetails.map((val, i) => {
