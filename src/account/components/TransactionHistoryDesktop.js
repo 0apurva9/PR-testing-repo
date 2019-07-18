@@ -75,17 +75,12 @@ export default class TransactionHistoryDesktop extends React.Component {
     }
   };
   transactiondetailPage(data) {
-    if (
-      data.transactionType &&
-      !data.transactionType.toUpperCase().match(/\bEXPIRED/g)
-    ) {
-      this.props.history.push({
-        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
-        state: {
-          transactonDetails: data
-        }
-      });
-    }
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
+      state: {
+        transactonDetails: data
+      }
+    });
   }
   navigateToCliqCash() {
     this.props.history.push({

@@ -108,41 +108,46 @@ export default class TransactionDetailDesktop extends React.Component {
                   </span>
                 </div>
               </div>
-              <div className={styles.transationDetailsHolder}>
-                <div className={styles.transactionDetailsHeader}>
-                  Transaction Detail
-                </div>
-                {transactionDetails &&
-                  transactionDetails.orderInfo &&
-                  transactionDetails.orderInfo.map(data => {
-                    return (
-                      <div className={styles.transactionName}>
-                        {data && data.productName} |{" "}
-                        <span className={styles.quantity}>
-                          Qty {data && data.quantity}
-                        </span>
-                      </div>
-                    );
-                  })}
-                {transactionDetails &&
-                  transactionDetails.transactionId &&
-                  !transactionDetails.transactionType
-                    .toUpperCase()
-                    .match(/\bPAID|RECEIVED REFUND/g) && (
-                    <div className={styles.orderNo}>
-                      Transaction ID: {transactionDetails.transactionId}
+              {transactionDetails &&
+                !transactionDetails.transactionType
+                  .toUpperCase()
+                  .match(/\bEXPIRED/g) && (
+                  <div className={styles.transationDetailsHolder}>
+                    <div className={styles.transactionDetailsHeader}>
+                      Transaction Detail
                     </div>
-                  )}
-                {transactionDetails &&
-                  transactionDetails.orderNo &&
-                  transactionDetails.transactionType
-                    .toUpperCase()
-                    .match(/\bPAID|RECEIVED REFUND/g) && (
-                    <div className={styles.orderNo}>
-                      Order No: {transactionDetails.orderNo}
-                    </div>
-                  )}
-              </div>
+                    {transactionDetails &&
+                      transactionDetails.orderInfo &&
+                      transactionDetails.orderInfo.map(data => {
+                        return (
+                          <div className={styles.transactionName}>
+                            {data && data.productName} |{" "}
+                            <span className={styles.quantity}>
+                              Qty {data && data.quantity}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    {transactionDetails &&
+                      transactionDetails.transactionId &&
+                      !transactionDetails.transactionType
+                        .toUpperCase()
+                        .match(/\bPAID|RECEIVED REFUND/g) && (
+                        <div className={styles.orderNo}>
+                          Transaction ID: {transactionDetails.transactionId}
+                        </div>
+                      )}
+                    {transactionDetails &&
+                      transactionDetails.orderNo &&
+                      transactionDetails.transactionType
+                        .toUpperCase()
+                        .match(/\bPAID|RECEIVED REFUND/g) && (
+                        <div className={styles.orderNo}>
+                          Order No: {transactionDetails.orderNo}
+                        </div>
+                      )}
+                  </div>
+                )}
               {/* <div className={styles.tcHolder}>
                 <div
                   className={styles.tcOptionWrapper}

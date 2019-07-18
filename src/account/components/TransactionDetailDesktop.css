@@ -86,7 +86,7 @@
     background-color: #fff;
     border-radius: 4px;
     padding: 24px;
-    margin: 18px 0px;
+    margin-top: 18px;
   }
   .transactionDetailsHeader {
     width: 100%;
@@ -161,6 +161,7 @@
     border-radius: 4px;
     padding: 24px;
     margin-bottom: 18px;
+    margin-top: 18px;
   }
   .aboutCliqCashContainer {
     width: 100%;

@@ -80,18 +80,14 @@ export default class CliqCashDesktop extends React.Component {
   }
   transactiondetailPage(data) {
     setDataLayerForGiftCard(SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION);
-    if (
-      data.transactionType &&
-      !data.transactionType.toUpperCase().match(/\bEXPIRED/g)
-    ) {
-      this.props.history.push({
-        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
-        state: {
-          transactonDetails: data,
-          userAddress: this.props.userAddress
-        }
-      });
-    }
+
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
+      state: {
+        transactonDetails: data,
+        userAddress: this.props.userAddress
+      }
+    });
   }
   showTransactioDetails = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION);
