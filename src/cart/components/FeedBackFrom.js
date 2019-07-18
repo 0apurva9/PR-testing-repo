@@ -54,13 +54,18 @@ export default class FeedBackForm extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   onSumbmit() {
-    let getUserDetails = queryString.parse(this.props.location.search);
-    this.props.postFeedBackForm(
-      this.state.textDetails,
-      this.questionRatingArray,
-      getUserDetails.transactionId,
-      getUserDetails.originalUid
-    );
+    if (this.questionRatingArray.length < 1) {
+      this.props.displayToast("Plaese Select one Rating");
+    } else {
+      let getUserDetails = queryString.parse(this.props.location.search);
+      this.props.postFeedBackForm(
+        this.state.textDetails,
+        this.questionRatingArray,
+        getUserDetails.transactionId,
+        getUserDetails.originalUid
+      );
+      document.location.reload();
+    }
   }
   render() {
     let getData = this.props && this.props.feedBackDetails;
