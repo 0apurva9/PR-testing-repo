@@ -69,30 +69,30 @@ export default class ReturnChangeAddress extends React.Component {
       this.props && this.props.data && this.props.data.sellerorderno;
     return (
       <div className={styles.base}>
-        {!this.props.isReturn && (
+        {/* {!this.props.isReturn && (
           <div className={styles.header}>
             <CheckOutHeader
               confirmTitle="Confirm address"
               indexNumber={this.props.indexNumber}
             />
           </div>
-        )}
+        )} */}
 
         <div className={styles.addressHolder}>
-          {this.props.isReturn && (
-            <div className={styles.addressHeader}>
-              <span>Select pickup address</span>
-              <div className={styles.underLineButtonHolder}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000"
-                  label="Add new address"
-                  onClick={() => this.onNewAddress()}
-                />
-              </div>
-            </div>
-          )}
+          {/* {this.props.isReturn && ( */}
+          <div className={styles.addressHeader}>
+            <span>Select pickup address</span>
+            {/* <div className={styles.underLineButtonHolder}>
+							<UnderLinedButton
+								size="14px"
+								fontFamily="regular"
+								color="#000"
+								label="Add new address"
+								onClick={() => this.onNewAddress()}
+							/>
+						</div> */}
+          </div>
+          {/* )} */}
 
           <div className={styles.gridHolder}>
             <GridSelect

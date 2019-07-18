@@ -690,23 +690,22 @@ export default class OrderDetails extends React.Component {
                                 </span>
                               </div>
                             </div>
-                            <div className={styles.payment} />
+
                             {/* <div className={styles.divider} /> */}
-                            <div>
-                              <OrderStatusVertical
-                                trackingAWB={products.trackingAWB}
-                                courier={products.reverseLogisticName}
-                                logisticName={products.logisticName}
-                                isCNC={true}
-                                showShippingDetails={
-                                  this.props.showShippingDetails
-                                }
-                                orderCode={orderDetails.orderId}
-                                returnMode={products.returnMode}
-                                returnType={products.returnType}
-                                statusMessageList={products.statusDisplayMsg}
-                              />
-                            </div>
+
+                            <OrderStatusVertical
+                              trackingAWB={products.trackingAWB}
+                              courier={products.reverseLogisticName}
+                              logisticName={products.logisticName}
+                              isCNC={true}
+                              showShippingDetails={
+                                this.props.showShippingDetails
+                              }
+                              orderCode={orderDetails.orderId}
+                              returnMode={products.returnMode}
+                              returnType={products.returnType}
+                              statusMessageList={products.statusDisplayMsg}
+                            />
                           </React.Fragment>
                         )}
 

@@ -23,6 +23,24 @@
 	height: auto;
 	margin: 10px 0 15px 0;
 }
+.calloutMessage {
+	width: 100%;
+	height: auto;
+	color: #000000;
+	font-size: 11px;
+	font-family: light;
+	margin-bottom: 5px;
+	word-wrap: break-word;
+}
+.calloutMessagePayment {
+	width: 75%;
+	height: auto;
+	color: #000000;
+	font-size: 11px;
+	font-family: light;
+	margin-bottom: 5px;
+	word-wrap: break-word;
+}
 .pickupAddressTitle {
 	font-size: 14px;
 	font-family: semibold;

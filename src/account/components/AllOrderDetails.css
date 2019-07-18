@@ -31,6 +31,18 @@
 	width: 100%;
 	height: auto;
 	display: inline-block;
+	/* border-bottom: 1px solid #ececec;
+	margin-bottom: 15px; */
+}
+.orderCardIndividual {
+	width: 100%;
+	height: auto;
+	/* display: inline-block; */
+}
+.orderCardIndividualWithBorder {
+	border-bottom: 1px solid #efefef;
+	margin-bottom: 15px;
+	/* display: inline-block; */
 }
 .noOderText {
 	font-family: semibold;
@@ -58,23 +70,23 @@
 }
 .retryPayment {
 	width: 100%;
-    height: auto;
-    display: inline-block;
-    margin-top: 55px;
+	height: auto;
+	display: inline-block;
+	margin-top: 55px;
 }
 .buttonHolderForRetryPayment {
 	width: auto;
-    height: auto;
-    display: inline-block;
-    margin-left: 212px;
-    text-align: center;
-    margin-bottom: 24px;
+	height: auto;
+	display: inline-block;
+	margin-left: 212px;
+	text-align: center;
+	margin-bottom: 24px;
 }
 .retryPaymentTitle {
 	/* vertical-align: middle; */
-    margin: 0 0 20px 0;
-    font-size: 14px;
-    font-family: light;
+	margin: 0 0 20px 0;
+	font-size: 14px;
+	font-family: light;
 	text-align: left;
 	display: flex;
 	width: 100%;
@@ -84,6 +96,7 @@
 	margin-left: 22px;
 	width: 88%;
 }
+
 @media screen and (min-width: 1025px) {
 	.order {
 		padding: 34px;

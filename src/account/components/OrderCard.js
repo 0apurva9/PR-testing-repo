@@ -201,7 +201,14 @@ export default class OrderCard extends React.Component {
                 </div>
               )}
             {this.props.orderStatusCode && (
-              <div className={styles.calloutMessage}>
+              <div
+                className={
+                  this.props.orderStatusCode === "PAYMENT_PENDING" ||
+                  this.props.orderStatusCode === "PAYMENT_TIMEOUT"
+                    ? styles.calloutMessagePayment
+                    : styles.calloutMessage
+                }
+              >
                 {this.props.calloutMessage}
               </div>
             )}
@@ -252,7 +259,10 @@ export default class OrderCard extends React.Component {
           {this.props.idFromAllOrderDetails !== "Y" && (
             <div className={styles.priceHolder}>
               {this.props.productSize && (
-                <div className={styles.price}>{this.props.productSize} |</div>
+                <div className={styles.price}>
+                  {this.props.productSize}{" "}
+                  {this.props.productColourName ? "|" : ""}
+                </div>
               )}
               {this.props.productColourName && (
                 <div className={styles.price}>
@@ -415,9 +425,9 @@ export default class OrderCard extends React.Component {
             Sold By : {this.props.sellerName}
           </div>
         )}
-        <div
+        {/* <div
           className={this.props.title ? styles.noPayments : styles.payments}
-        />
+        /> */}
       </div>
     );
   }

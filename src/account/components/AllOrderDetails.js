@@ -302,6 +302,14 @@ export default class AllOrderDetails extends React.Component {
       }
     }
   };
+  getDivWithWithoutBorder(productsLength, key) {
+    console.log("---->key", key, productsLength);
+    if (productsLength === key + 1) {
+      return styles.orderCardIndividual;
+    } else {
+      return styles.orderCardIndividualWithBorder;
+    }
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -319,6 +327,7 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
+
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
