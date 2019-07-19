@@ -523,8 +523,13 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable={products.isReturned}
                       />
 
-                      {!isReturned &&
-                        products.consignmentStatus === "DELIVERED" && (
+                      {products.consignmentStatus &&
+                        products.consignmentStatus != "ORDER_ALLOCATED" &&
+                        products.consignmentStatus !=
+                          "CANCELLATION_INITIATED" &&
+                        products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                        products.consignmentStatus != "PICK_CONFIRMED" &&
+                        products.consignmentStatus != "ORDER_UNCOLLECTED" && (
                           <React.Fragment>
                             <div className={styles.rateThisItem}>
                               Rate this item
@@ -545,7 +550,13 @@ export default class OrderDetails extends React.Component {
                               <div className={styles.marginIcon} />
                               <Icon image={rating} size={25} />
                             </div>
-                            <div className={styles.boxReview}>
+                            <div
+                              className={
+                                products.consignmentStatus == "DELIVERED"
+                                  ? styles.boxReview
+                                  : styles.boxReviewMargin
+                              }
+                            >
                               <div
                                 className={styles.reviewText}
                                 onClick={val =>

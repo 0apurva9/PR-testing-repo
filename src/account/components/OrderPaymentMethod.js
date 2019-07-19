@@ -2,7 +2,11 @@ import React from "react";
 import styles from "./OrderPaymentMethod.css";
 import PropTypes from "prop-types";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import { HELP_URL } from "../../lib/constants";
+import {
+  HELP_URL,
+  MY_ACCOUNT_PAGE,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+} from "../../lib/constants";
 import each from "lodash.foreach";
 export default class OrderPaymentMethod extends React.Component {
   // request() {
@@ -11,7 +15,10 @@ export default class OrderPaymentMethod extends React.Component {
   //   }
   // }
   redirectToHelpPage() {
-    this.props.history.push(`${HELP_URL}`);
+    // this.props.history.push(`${HELP_URL}`);
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
   }
 
   render() {

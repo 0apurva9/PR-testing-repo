@@ -113,6 +113,14 @@
 	/* margin-top: -23px; */
 	/* margin-bottom: 21px; */
 }
+.boxReviewMargin {
+	border-radius: 100px;
+	height: 36px;
+	width: 180px;
+	border: 2px solid black;
+	/* margin-top: -23px; */
+	margin-bottom: 21px;
+}
 .reviewText {
 	font-size: 14px;
 	color: black;
