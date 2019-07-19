@@ -66,7 +66,8 @@ import {
   collectPaymentOrderForGiftCardNetBanking,
   collectPaymentOrderForNetBanking,
   collectPaymentOrderForSavedCards,
-  collectPaymentOrderForGiftCardFromSavedCards
+  collectPaymentOrderForGiftCardFromSavedCards,
+  collectPaymentOrderForCliqCash
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -710,6 +711,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           bankName,
           isPaymentFailed
         )
+      );
+    },
+    collectPaymentOrderForCliqCash: (pinCode, cartItem, isPaymentFailed) => {
+      dispatch(
+        collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFailed)
       );
     }
   };

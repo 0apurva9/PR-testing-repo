@@ -109,6 +109,7 @@ const cart = (
     jusPayError: null,
     jusPayDetails: null,
     cliqCashJusPayDetails: null,
+    cliqCashStripeDetails: null,
     createJusPayStatus: null,
     createJusPayError: null,
 
@@ -1035,7 +1036,36 @@ const cart = (
         jusPaymentLoader: false
       });
     }
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_REQUEST:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPaymentLoader: true,
+        isPaymentProceeded: true
+      });
 
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_FAILURE: {
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPayDetails: action.jusPayDetails
+      });
+    }
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_SUCCESS: {
+      const cartDetails = Cookies.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      const cartDetailsGuid = JSON.parse(cartDetails).guid;
+      Cookies.createCookieInMinutes(
+        OLD_CART_GU_ID,
+        cartDetailsGuid,
+        VALIDITY_OF_OLD_CART_ID
+      );
+      // here is where I need to destroy the cart details
+      Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      Cookies.deleteCookie(COUPON_COOKIE);
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        cliqCashStripeDetails: action.cliqCashJusPayDetails,
+        jusPaymentLoader: false
+      });
+    }
     case cartActions.CREATE_JUS_PAY_ORDER_FAILURE:
       return Object.assign({}, state, {
         createJusPayStatus: action.status,
@@ -1825,6 +1855,8 @@ const cart = (
 
     case cartActions.CLEAR_CART_DETAILS:
       localStorage.removeItem(STRIPE_DETAILS);
+      localStorage.removeItem(RETRY_PAYMENT_CART_ID);
+      localStorage.removeItem(RETRY_PAYMENT_DETAILS);
       return Object.assign({}, state, {
         status: null,
         error: null,

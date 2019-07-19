@@ -103,7 +103,8 @@ import {
   RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
   EMI_TENURE,
   STRIPE_DETAILS,
-  MY_ACCOUNT_ORDERS_PAGE
+  MY_ACCOUNT_ORDERS_PAGE,
+  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1176,18 +1177,21 @@ class CheckOutPage extends React.Component {
             isCliqCashApplied:
               nextProps.cart.paymentFailureOrderDetails.cliqCashApplied,
             cliqCashPaidAmount:
+              nextProps.cart.paymentFailureOrderDetails.cliqCashPaidAmount &&
               nextProps.cart.paymentFailureOrderDetails.cliqCashPaidAmount.value
           });
         }
 
         this.setState({
-          couponDiscount: nextProps.cart.cartDetailsCNC.cartAmount
-            .couponDiscountAmount
-            ? Math.round(
-                nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
-                  .value * 100
-              ) / 100
-            : "0.00"
+          couponDiscount:
+            nextProps.cart.cartDetailsCNC &&
+            nextProps.cart.cartDetailsCNC.cartAmount &&
+            nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
+              ? Math.round(
+                  nextProps.cart.cartDetailsCNC.cartAmount.couponDiscountAmount
+                    .value * 100
+                ) / 100
+              : "0.00"
         });
       }
     }
@@ -1244,6 +1248,18 @@ class CheckOutPage extends React.Component {
         nextProps.cart.cliqCashJusPayDetails.orderId
       );
     }
+    if (
+      nextProps.cart.cliqCashStripeDetails &&
+      nextProps.cart.getPrepaidOrderPaymentConfirmationStatus !== "requesting"
+    ) {
+      this.setState({
+        orderId: nextProps.cart.cliqCashStripeDetails.pspOrderId
+      });
+      const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
+      if (stripeDetails) {
+        this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -1287,7 +1303,13 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.orderConfirmation(OrderIdForOrderUsingNonJusPayPayments);
       return;
     }
-
+    const orderIdForPaymentConfirmationPage = localStorage.getItem(
+      ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE
+    );
+    const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
+    if (orderIdForPaymentConfirmationPage && stripeDetails) {
+      this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+    }
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
@@ -1970,7 +1992,10 @@ if you have order id in local storage then you have to show order confirmation p
     if (!oldCartId) {
       return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
     }
-    if (this.state.savedCardDetails !== "") {
+    if (
+      this.state.savedCardDetails !== "" &&
+      this.state.savedCardDetails !== null
+    ) {
       if (this.state.isGiftCard) {
         this.props.collectPaymentOrderForGiftCardFromSavedCards(
           this.state.savedCardDetails,
@@ -2007,8 +2032,8 @@ if you have order id in local storage then you have to show order confirmation p
       } else if (this.state.isComingFromRetryUrl) {
         this.props.stripe_juspay_Tokenize(
           this.state.cardDetails,
-          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER)),
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
           this.state.paymentModeSelected,
           true,
           true,
@@ -2144,8 +2169,9 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
-      this.props.createJusPayOrderForCliqCash(
+      this.props.collectPaymentOrderForCliqCash(
         localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+        JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
         true // for payment failure we need to use old cart id
       );
     }
@@ -2227,7 +2253,11 @@ if you have order id in local storage then you have to show order confirmation p
           }
         }
       }
-      if (this.state.savedCardDetails && this.state.savedCardDetails !== "") {
+      if (
+        this.state.savedCardDetails &&
+        this.state.savedCardDetails !== "" &&
+        this.state.savedCardDetails !== null
+      ) {
         if (this.state.isGiftCard) {
           this.props.collectPaymentOrderForGiftCardFromSavedCards(
             this.state.savedCardDetails,
