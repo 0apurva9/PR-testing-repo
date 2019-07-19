@@ -58,9 +58,17 @@ export default class OrderPaymentMethod extends React.Component {
         {/* <div className={styles.payments} /> */}
         {this.props.deliveryAddress && (
           <React.Fragment>
-            <div className={styles.deliveryAddressTitle}>
-              <span className={styles.ffsemibold}>Delivery Address:</span>
-            </div>
+            <React.Fragment>
+              <div className={styles.deliveryAddressTitle}>
+                <span className={styles.ffsemibold}>Delivery Address:</span>
+              </div>
+              {this.props.changeAddress ? (
+                <div className={styles.helpSupport}>Change</div>
+              ) : (
+                ""
+              )}
+            </React.Fragment>
+
             <div className={styles.deliveryAddress}>
               <React.Fragment>
                 <span className={styles.addressLine}>

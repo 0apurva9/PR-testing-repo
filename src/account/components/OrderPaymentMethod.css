@@ -36,6 +36,8 @@
 }
 .deliveryAddressTitle {
 	padding-top: 34px;
+	width: 70%;
+	display: inline-block;
 }
 .paymentMethodMode {
 	line-height: 22px;
@@ -49,6 +51,7 @@
 	line-height: 22px;
 	color: blackTwo;
 	font-family: semibold;
+	width: 75%;
 }
 .addressLine {
 	font-size: 14px;

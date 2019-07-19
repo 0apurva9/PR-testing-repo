@@ -525,6 +525,7 @@ export default class OrderDetails extends React.Component {
 
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
+                        products.consignmentStatus != "HOTC" &&
                         products.consignmentStatus !=
                           "CANCELLATION_INITIATED" &&
                         products.consignmentStatus != "PAYMENT_TIMEOUT" &&
@@ -1045,6 +1046,7 @@ export default class OrderDetails extends React.Component {
                         orderDetails.deliveryAddress.phone
                       }
                       paymentMethod={orderDetails.paymentMethod}
+                      changeAddress={orderDetails.isCDA}
                       //isInvoiceAvailable={products.isInvoiceAvailable}
                       //statusDisplay={products.statusDisplayMsg}
                       // request={() =>
