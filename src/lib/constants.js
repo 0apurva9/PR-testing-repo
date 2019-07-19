@@ -160,6 +160,8 @@ export const BANK_COUPON_COOKIE = "bankCoupon";
 export const CART_BAG_DETAILS = "cartBagDetails";
 export const APP_VIEW = "isAppView";
 export const ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE = "orderConfirmationPageId";
+export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
+  "paymentConfirmationPageId";
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
