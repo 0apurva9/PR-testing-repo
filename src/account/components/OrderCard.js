@@ -61,6 +61,9 @@ export default class OrderCard extends React.Component {
     return trackOrderText;
   }
   render() {
+    let calloutMessage = this.props.calloutMessage;
+    let updatedCalloutMessage =
+      calloutMessage && calloutMessage.replace("Date", "Date: ");
     let statusDisplayMsg =
       this.props.statusDisplayMsg && this.props.statusDisplayMsg;
     let estimatedDeliveryDate = "";
@@ -209,7 +212,7 @@ export default class OrderCard extends React.Component {
                     : styles.calloutMessage
                 }
               >
-                {this.props.calloutMessage}
+                {updatedCalloutMessage}
               </div>
             )}
           </div>
