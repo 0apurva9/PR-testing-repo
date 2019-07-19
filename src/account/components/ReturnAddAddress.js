@@ -2,10 +2,7 @@ import React from "react";
 import styles from "../../cart/components/AddDeliveryAddress.css";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
-import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
-import CircleButton from "../../xelpmoc-core/CircleButton";
-import informationIcon from "../../general/components/img/GPS.svg";
 import GridSelect from "../../general/components/GridSelect";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import TextArea from "../../general/components/TextArea.js";
@@ -13,7 +10,6 @@ import cloneDeep from "lodash.clonedeep";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import { SUCCESS, ERROR } from "../../lib/constants.js";
-import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
@@ -21,7 +17,6 @@ import {
 import AddEmailAddress from "../../cart/components/AddEmailAddress";
 import stylesAddress from "./ReturnAddressBook.css";
 import {
-  SAVE_TEXT,
   PINCODE_TEXT,
   NAME_TEXT,
   LAST_NAME_TEXT,
@@ -29,10 +24,6 @@ import {
   ADDRESS_VALIDATION_TEXT,
   ADDRESS_MINLENGTH_VALID_TEXT,
   ADDRESS_MAXLENGTH_VALID_TEXT,
-  EMAIL_TEXT,
-  LANDMARK_TEXT,
-  LANDMARK_ENTER_TEXT,
-  MOBILE_TEXT,
   PINCODE_VALID_TEXT,
   EMAIL_VALID_TEXT,
   PHONE_VALID_TEXT,
@@ -46,7 +37,6 @@ import {
   NAME_VALIDATION,
   PINCODE_NOT_SERVICEABLE_TEXT
 } from "../../lib/constants";
-
 export default class ReturnAddAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -77,13 +67,11 @@ export default class ReturnAddAddress extends React.Component {
       this.props.onFocusInput();
     }
   }
-
   componentDidMount() {
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
   }
-
   getPinCodeDetails = val => {
     let landmarkList = [];
     if (val.length <= 6) {
@@ -111,7 +99,6 @@ export default class ReturnAddAddress extends React.Component {
       }
     }
   }
-
   onChangeEmailId(val) {
     const cloneAddress = cloneDeep(this.state);
     Object.assign(cloneAddress, { emailId: val });
@@ -315,7 +302,9 @@ export default class ReturnAddAddress extends React.Component {
       this.props.addUserAddress(addressObj);
     }
   };
-
+  goBack = () => {
+    this.props.history.goBack();
+  };
   clearAllValue = () => {
     this.setState({
       postalCode: "",
@@ -356,7 +345,6 @@ export default class ReturnAddAddress extends React.Component {
         label: "Office"
       }
     ];
-
     return (
       <div className={stylesAddress.addressBase}>
         <div className={styles.base}>
@@ -571,11 +559,14 @@ export default class ReturnAddAddress extends React.Component {
               </div>
             )}
           <div className={styles.buttonHolder}>
+            <div className={styles.buttonCancel} onClick={() => this.goBack()}>
+              <UnderLinedButton label="Cancel" />
+            </div>
             <div className={styles.saveAndContinueButton}>
               {!this.props.isFirstAddress && (
                 <Button
                   type="primary"
-                  label={SAVE_TEXT}
+                  label={"Save & Continue"}
                   width={176}
                   height={38}
                   onClick={() => this.addNewAddress()}
@@ -605,6 +596,6 @@ ReturnAddAddress.propTypes = {
   titleValue: PropTypes.string
 };
 ReturnAddAddress.defaultProps = {
-  heading: "Add address",
+  heading: "Add Pickup Address",
   defaultAddress: false
 };

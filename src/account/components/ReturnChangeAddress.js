@@ -1,6 +1,5 @@
 import React from "react";
 import GridSelect from "../../general/components/GridSelect";
-import CheckOutHeader from "../../cart/components/CheckOutHeader.js";
 import styles from "./ReturnAddressBook.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DeliveryAddressReturn from "./DeliveryAddressReturn.js";
@@ -13,7 +12,6 @@ import {
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
-
 export default class ReturnChangeAddress extends React.Component {
   componentWillMount() {
     document.title = "Select Delivery Address";
@@ -81,7 +79,7 @@ export default class ReturnChangeAddress extends React.Component {
         <div className={styles.addressHolder}>
           {/* {this.props.isReturn && ( */}
           <div className={styles.addressHeader}>
-            <span>Select pickup address</span>
+            <span>Select Pickup Address</span>
             {/* <div className={styles.underLineButtonHolder}>
 							<UnderLinedButton
 								size="14px"

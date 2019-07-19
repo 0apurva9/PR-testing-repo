@@ -6,10 +6,6 @@ import ReturnChangeAddress from "./ReturnChangeAddress";
 import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress";
 import Loader from "../../general/components/Loader";
 import {
-  MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_ADDRESS_EDIT_PAGE,
-  MY_ACCOUNT_ADDRESS_ADD_PAGE,
-  PICKUP_ADDRESS,
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_MODES
