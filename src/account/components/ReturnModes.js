@@ -80,15 +80,36 @@ export default class ReturnModes extends React.Component {
     if (data.status === "success") {
       this.setState({ returnModesDetails: data.returnModesDetails });
       let pickupAddress = {};
-      Object.assign(pickupAddress, {
-        line1: data.returnModesDetails.deliveryAddress.line1,
-        line2: "",
-        line3: "",
-        landmark: data.returnModesDetails.deliveryAddress.landmark,
-        city: data.returnModesDetails.deliveryAddress.town,
-        state: data.returnModesDetails.deliveryAddress.state,
-        postalCode: data.returnModesDetails.deliveryAddress.postalCode
-      });
+      //if address changed
+      if (
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.address
+      ) {
+        let changedAddress = this.props.location.state.address;
+        Object.assign(pickupAddress, {
+          line1: changedAddress.line1,
+          line2: changedAddress.line2 ? changedAddress.line2 : "",
+          line3: "",
+          landmark: changedAddress.landmark ? changedAddress.landmark : "",
+          city: changedAddress.city,
+          state: changedAddress.state,
+          postalCode: changedAddress.postalCode
+        });
+      } else {
+        //take directly from API if not changed
+        Object.assign(pickupAddress, {
+          line1: data.returnModesDetails.deliveryAddress.line1,
+          line2: "",
+          line3: "",
+          landmark: data.returnModesDetails.deliveryAddress.landmark
+            ? data.returnModesDetails.deliveryAddress.landmark
+            : "",
+          city: data.returnModesDetails.deliveryAddress.town,
+          state: data.returnModesDetails.deliveryAddress.state,
+          postalCode: data.returnModesDetails.deliveryAddress.postalCode
+        });
+      }
       this.setState({ pickupAddress: pickupAddress });
     }
     let deliveryAddress = data.returnModesDetails.deliveryAddress;

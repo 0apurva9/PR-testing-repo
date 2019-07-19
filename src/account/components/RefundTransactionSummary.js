@@ -86,16 +86,16 @@ export default class RefundTransactionSummary extends React.Component {
             <div className={styles.buttonHolder}>
               <Button
                 width={190}
-                type="primary"
-                label="CONTINUE SHOPPING"
-                onClick={() => this.goToHomepage()}
+                type="secondary"
+                label="VIEW ORDER DETAILS"
+                onClick={() => this.gotoOrderDetailsPage()}
               />
               <span className={styles.marginRightSpan} />
               <Button
                 width={190}
-                type="secondary"
-                label="VIEW ORDER DETAILS"
-                onClick={() => this.gotoOrderDetailsPage()}
+                type="primary"
+                label="CONTINUE SHOPPING"
+                onClick={() => this.goToHomepage()}
               />
             </div>
           </div>

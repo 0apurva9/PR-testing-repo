@@ -47,9 +47,12 @@
 	/* display: inline-block;
 } */
 .summaryTitle {
-	font-size: 14px;
 	text-align: center;
 	font-family: semibold;
+	font-size: 28px;
+	width: 555px;
+	height: 67px;
+	margin: auto;
 }
 .summaryHeading {
 	font-size: 16px;
