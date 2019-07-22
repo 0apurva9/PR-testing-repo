@@ -22,7 +22,7 @@ export default class FeedBackForm extends React.Component {
       this.props.getFeedBackForm(getUserDetails);
     }
   }
-  onclickQuestion = (rating, questionNumber) => {
+  onclickQuestion = (rating, questionNumber, questionName) => {
     if (this.questionRatingArray.length !== 0) {
       const indexOfQuestionRatingArray = this.questionRatingArray.findIndex(
         questionRatingArrayDetails => {
@@ -34,12 +34,14 @@ export default class FeedBackForm extends React.Component {
       }
       this.questionRatingArray.push({
         questionCode: questionNumber,
-        rating: rating[0]
+        rating: rating[0],
+        questionName: questionName
       });
     } else {
       this.questionRatingArray.push({
         questionCode: questionNumber,
-        rating: rating[0]
+        rating: rating[0],
+        questionName: questionName
       });
     }
   };
@@ -121,7 +123,11 @@ export default class FeedBackForm extends React.Component {
                               <FeedBackRateGrid
                                 selected={this.state.selected}
                                 onSelect={rating =>
-                                  this.onclickQuestion(rating, val.questionCode)
+                                  this.onclickQuestion(
+                                    rating,
+                                    val.questionCode,
+                                    val.questionName
+                                  )
                                 }
                                 isReset={this.state.isReset}
                               />
