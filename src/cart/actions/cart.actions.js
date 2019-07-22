@@ -1743,11 +1743,14 @@ export function softReservation() {
   let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     //get the body parameters
-    let productItems = getValidDeliveryModeDetails(
+    let productItems = await getValidDeliveryModeDetails(
       getState().cart &&
         getState().cart.cartDetailsCNC &&
         getState().cart.cartDetailsCNC.products
     );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -2275,9 +2278,12 @@ export function softReservationForPayment(cardDetails, address) {
   const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
-    let productItems = getValidDeliveryModeDetails(
+    let productItems = await getValidDeliveryModeDetails(
       getState().cart.cartDetailsCNC.products
     );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2325,9 +2331,12 @@ export function softReservationPaymentForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = getValidDeliveryModeDetails(
+    let productItems = await getValidDeliveryModeDetails(
       getState().cart.cartDetailsCNC.products
     );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
 
@@ -2374,9 +2383,12 @@ export function softReservationPaymentForSavedCard(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = getValidDeliveryModeDetails(
+    let productItems = await getValidDeliveryModeDetails(
       getState().cart.cartDetailsCNC.products
     );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -2408,9 +2420,12 @@ export function softReservationForCliqCash(pinCode) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = getValidDeliveryModeDetails(
+    let productItems = await getValidDeliveryModeDetails(
       getState().cart.cartDetailsCNC.products
     );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let cartId = JSON.parse(cartDetails).guid;
     dispatch(softReservationForPaymentRequest());
@@ -3952,9 +3967,12 @@ export function softReservationForCODPayment(pinCode) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    let productItems = getValidDeliveryModeDetails(
+    let productItems = await getValidDeliveryModeDetails(
       getState().cart.cartDetailsCNC.products
     );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     const cartId = JSON.parse(cartDetails).guid;
 
@@ -5593,7 +5611,7 @@ export function createPaymentOrder() {
           JSON.parse(userDetails).userName
         }/payments/createPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&channel=${CHANNEL}&deviceInfo=${deviceInfo}&networkInfo=${networkType}&browserInfo=${browserName}|${fullVersion}&platformNumber=${PLAT_FORM_NUMBER}&appversion=`
+        }&cartGuid=${cartGuId}&channel=${CHANNEL}&deviceInfo=${deviceInfo}&networkInfo=${networkType}&browserInfo=${browserName}|${fullVersion}&platform=22&platformNumber=${PLAT_FORM_NUMBER}&appversion=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5630,7 +5648,7 @@ export function collectPaymentOrderForGiftCard(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
           cardDetails.emi_tenure
         }&cardBrandName=${cardBrandName}`,
         cartdetails
@@ -5717,7 +5735,7 @@ export function collectPaymentOrder(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
           cardDetails.emi_tenure
         }&cardBrandName=${cardBrandName}`,
         cartdetails
@@ -6095,7 +6113,7 @@ export function collectPaymentOrderForSavedCards(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6188,7 +6206,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6332,7 +6350,7 @@ export function collectPaymentOrderForNetBanking(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMethodType}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMethodType}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6441,7 +6459,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6586,7 +6604,7 @@ export function collectPaymentOrderForCliqCash(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6612,10 +6630,11 @@ export function collectPaymentOrderForCliqCash(
       dispatch(setBagCount(0));
       localStorage.setItem(
         ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
-        resultJson.pspAuditId
+        resultJson.orderId
       );
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(collectPaymentOrderForCliqCashSuccess(resultJson));
+      dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
       dispatch(generateCartIdAfterOrderPlace());
     } catch (e) {
       dispatch(

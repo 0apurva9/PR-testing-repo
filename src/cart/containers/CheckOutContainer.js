@@ -620,7 +620,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       );
     },
     createPaymentOrder: () => {
-      dispatch(getPinCodeSuccess(createPaymentOrder));
+      dispatch(createPaymentOrder());
     },
     collectPaymentOrder: (
       cardDetails,
