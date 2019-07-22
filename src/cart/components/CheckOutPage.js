@@ -1997,11 +1997,17 @@ if you have order id in local storage then you have to show order confirmation p
       this.state.savedCardDetails !== null
     ) {
       if (this.state.isGiftCard) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForGiftCardFromSavedCards(
           this.state.savedCardDetails,
           this.state.egvCartGuid
         );
       } else if (this.state.isComingFromRetryUrl) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForSavedCards(
           this.state.savedCardDetails,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2010,6 +2016,9 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.retryCartGuid
         );
       } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForSavedCards(
           this.state.savedCardDetails,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2075,6 +2084,9 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
       if (this.state.isGiftCard) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         if (this.props.collectPaymentOrderForGiftCardNetBanking) {
           this.props.collectPaymentOrderForGiftCardNetBanking(
             this.state.egvCartGuid,
@@ -2083,6 +2095,9 @@ if you have order id in local storage then you have to show order confirmation p
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2094,6 +2109,9 @@ if you have order id in local storage then you have to show order confirmation p
           true
         );
       } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForNetBanking(
           NET_BANKING,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2108,12 +2126,18 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.paymentModeSelected === PAYTM) {
       if (this.state.isGiftCard) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         if (this.props.collectPaymentOrderForGiftCardNetBanking) {
           this.props.collectPaymentOrderForGiftCardNetBanking(
             this.state.egvCartGuid
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForNetBanking(
           WALLET,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2125,6 +2149,9 @@ if you have order id in local storage then you have to show order confirmation p
           true
         );
       } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForNetBanking(
           WALLET,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2139,12 +2166,18 @@ if you have order id in local storage then you have to show order confirmation p
     }
     if (this.state.paymentModeSelected === PAYPAL) {
       if (this.state.isGiftCard) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         if (this.props.collectPaymentOrderForGiftCardNetBanking) {
           this.props.collectPaymentOrderForGiftCardNetBanking(
             this.state.egvCartGuid
           );
         }
       } else if (this.state.isComingFromRetryUrl) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForNetBanking(
           PAYPAL,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2156,6 +2189,9 @@ if you have order id in local storage then you have to show order confirmation p
           true
         );
       } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.collectPaymentOrderForNetBanking(
           PAYPAL,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2169,6 +2205,9 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
+      if (this.props.cart.isCreatePaymentOrderFailed) {
+        this.props.createPaymentOrder();
+      }
       this.props.collectPaymentOrderForCliqCash(
         localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
         JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2259,11 +2298,17 @@ if you have order id in local storage then you have to show order confirmation p
         this.state.savedCardDetails !== null
       ) {
         if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForGiftCardFromSavedCards(
             this.state.savedCardDetails,
             this.props.location.state.egvCartGuid
           );
         } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForSavedCards(
             this.state.savedCardDetails,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2272,6 +2317,9 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.retryCartGuid
           );
         } else {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.softReservationPaymentForSavedCard(
             this.state.savedCardDetails,
             this.state.addressId,
@@ -2310,12 +2358,18 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForNetBanking(
             NET_BANKING_PAYMENT_MODE,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2334,6 +2388,9 @@ if you have order id in local storage then you have to show order confirmation p
       }
 
       if (!this.state.isRemainingAmount) {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          this.props.createPaymentOrder();
+        }
         this.props.softReservationForCliqCash(
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         );
@@ -2356,12 +2413,18 @@ if you have order id in local storage then you have to show order confirmation p
       }
       if (this.state.paymentModeSelected === PAYTM) {
         if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForNetBanking(
             PAYTM,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2377,12 +2440,18 @@ if you have order id in local storage then you have to show order confirmation p
       }
       if (this.state.paymentModeSelected === PAYPAL) {
         if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForGiftCardNetBanking(
             this.props.location.state.egvCartGuid,
             this.state.bankCodeForNetBanking,
             this.state.bankNameForNetBanking
           );
         } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.collectPaymentOrderForNetBanking(
             PAYPAL,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
@@ -2393,6 +2462,9 @@ if you have order id in local storage then you have to show order confirmation p
             this.state.bankNameForNetBanking
           );
         } else {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            this.props.createPaymentOrder();
+          }
           this.props.softReservationPaymentForNetBanking(
             WALLET,
             PAYPAL,
@@ -2779,6 +2851,9 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
   softReservationPaymentForWallet = (bankName, bankCode) => {
+    if (this.props.cart.isCreatePaymentOrderFailed) {
+      this.props.createPaymentOrder();
+    }
     this.props.softReservationPaymentForNetBanking(
       WALLET,
       PAYTM,
@@ -2837,6 +2912,9 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   softReservationForPayment = cardDetails => {
+    if (this.props.cart.isCreatePaymentOrderFailed) {
+      this.props.createPaymentOrder();
+    }
     cardDetails.pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.softReservationForPayment(
       cardDetails,
@@ -2846,6 +2924,9 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   softReservationPaymentForNetBanking = (bankCode, bankName) => {
+    if (this.props.cart.isCreatePaymentOrderFailed) {
+      this.props.createPaymentOrder();
+    }
     this.props.softReservationPaymentForNetBanking(
       NET_BANKING,
       this.state.paymentModeSelected,
@@ -2856,6 +2937,9 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   collectPaymentOrderForGiftCardNetBanking = () => {
+    if (this.props.cart.isCreatePaymentOrderFailed) {
+      this.props.createPaymentOrder();
+    }
     if (this.props.collectPaymentOrderForGiftCardNetBanking) {
       this.props.collectPaymentOrderForGiftCardNetBanking(
         this.props.location.state.egvCartGuid,
@@ -2956,6 +3040,9 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   softReservationForCODPayment = () => {
+    if (this.props.cart.isCreatePaymentOrderFailed) {
+      this.props.createPaymentOrder();
+    }
     this.props.softReservationForCODPayment(
       localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
     );
