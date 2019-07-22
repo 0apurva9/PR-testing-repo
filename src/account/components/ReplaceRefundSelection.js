@@ -684,7 +684,7 @@ export default class ReplaceRefundSelection extends React.Component {
                         </div>
 
                         <div className={styles.imgAttachmentSubText}>
-                          Upload JPEG, PNG (Maximum size of all images is 25 MB)
+                          Upload JPEG, PNG (Maximum upload limit is 25 MB)
                         </div>
                       </div>
                     )}
