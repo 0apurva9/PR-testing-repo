@@ -3,10 +3,7 @@ import styles from "./AddDeliveryAddress.css";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import ControlInput from "../../general/components/ControlInput";
-import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
-import CircleButton from "../../xelpmoc-core/CircleButton";
-import informationIcon from "../../general/components/img/GPS.svg";
 import GridSelect from "../../general/components/GridSelect";
 import CheckboxAndText from "./CheckboxAndText";
 import TextArea from "../../general/components/TextArea.js";
@@ -14,19 +11,16 @@ import cloneDeep from "lodash.clonedeep";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import { SUCCESS, ERROR } from "../../lib/constants.js";
-import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
-import AddEmailAddress from "../components/AddEmailAddress";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import CheckOutHeader from "./CheckOutHeader.js";
 import CancelAndContinueButton from "../../account/components/CancelAndContinueButton";
-import DesktopCheckout from "./DesktopCheckout";
 import ReturnAndOrderCancelWrapper from "../../return/components/ReturnAndOrderCancelWrapper";
 import {
   SAVE_TEXT,

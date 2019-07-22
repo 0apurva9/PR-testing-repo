@@ -8,8 +8,6 @@ import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import { createUrlFromQueryAndCategory } from "../components/FilterUtils";
-import { CATEGORY_REGEX } from "../components/PlpBrandCategoryWrapper";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
@@ -308,15 +306,6 @@ export default class Plp extends React.Component {
     url = val.replace("page-{pageNo}", "page-1");
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
-
-    let parsingurl = url;
-
-    parsingurl = url.replace(/\+/g, " ");
-    // if (parsingurl.match(filterName)) {
-    //   parsingurl = url.split("?");
-    //   url = parsingurl[0];
-    // }
-
     if (url.match("/search")) {
       url = url.replace("/search", "");
       let pathname = this.props.location.pathname.replace(PAGE_REGEX, "");

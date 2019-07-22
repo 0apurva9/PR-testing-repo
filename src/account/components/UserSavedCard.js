@@ -5,13 +5,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   SAVED_PAYMENTS
 } from "../../lib/constants";
-
 import SavedPaymentCard from "./SavedPaymentCard.js";
 import styles from "./UserSavedCard.css";
-import {
-  setDataLayer,
-  ADOBE_MY_ACCOUNT_SAVED_PAYMENTS
-} from "../../lib/adobeUtils";
 import visaLogo from "../../cart/components/img/Visa.svg";
 import masterLogo from "../../cart/components/img/Master.svg";
 import amexLogo from "../../cart/components/img/amex.svg";
@@ -28,12 +23,8 @@ import {
   DINERS_CARD,
   DISCOVER_CARD,
   JCB_CARD,
-  MASTER,
-  LOGIN_PATH,
-  HOME_ROUTER
+  MASTER
 } from "../../lib/constants";
-import * as UserAgent from "../../lib/UserAgent.js";
-import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";

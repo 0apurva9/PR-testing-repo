@@ -5,7 +5,7 @@ import Input2 from "./Input2.js";
 import Button from "./Button.js";
 import cancel from "./img/canceltransperent.png";
 import upload from "./img/upload.svg";
-import { SUCCESS, REQUESTING, ERROR, HOME_ROUTER } from "../../lib/constants";
+import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 const panRegEx = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 export default class PanCardForm extends Component {
   constructor(props) {

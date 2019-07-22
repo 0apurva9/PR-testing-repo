@@ -1,7 +1,6 @@
 import { withRouter } from "react-router-dom";
 import {
   getReturnRequest,
-  returnProductDetails,
   getReturnReasonsWithProductDetails,
   uploadProductImages,
   getRefundOptionsData,
@@ -16,8 +15,6 @@ import {
   getRefundTransactionSummary,
   removeAddress,
   resetAddAddressDetails,
-  getPinCode,
-  getPinCodeSuccess,
   getUserDetails,
   updateProfile,
   clearPinCodeStatus
@@ -100,9 +97,6 @@ const mapDispatchToProps = dispatch => {
     },
     getCustomerBankDetails: async () => {
       return await dispatch(getCustomerBankDetails());
-    },
-    getUserAddress: () => {
-      dispatch(getUserAddress(true));
     },
     removeAddress: addressId => {
       dispatch(removeAddress(addressId));

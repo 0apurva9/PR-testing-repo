@@ -151,10 +151,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       activeOrderStatus = orderCNC[orderCNC.length - 1];
     }
-
-    const shippingData = this.props.statusMessageList.find(val => {
-      return val.key === SHIPPING;
-    });
     //order confirmed
     let orderConfirmedDate = "";
     let orderConfirmedTime = "";

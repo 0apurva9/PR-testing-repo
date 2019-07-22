@@ -7,7 +7,6 @@ import ReturnsFrame from "./ReturnsFrame.js";
 import filter from "lodash.filter";
 import ReturnDateTime from "./ReturnDateTime.js";
 import AddDeliveryAddress from "../../cart/components/AddDeliveryAddress.js";
-import * as Cookie from "../../lib/Cookie.js";
 import ReturnSummary from "./ReturnSummary.js";
 import Error from "../../general/components/Error.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
@@ -20,15 +19,9 @@ import {
   RETURN_CLIQ_PIQ_DATE,
   RETURNS_PREFIX,
   RETURNS_NEW_ADDRESS,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
   RETURN_CLIQ_PIQ_RETURN_SUMMARY,
   SUCCESS,
   FAILURE,
-  MY_ACCOUNT,
-  ORDER,
-  ORDER_CODE,
   YES,
   NO,
   REQUESTING
@@ -37,7 +30,6 @@ import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
-import { CREATE_JUS_PAY_ORDER_FAILURE } from "../../cart/actions/cart.actions";
 const REG_X_FOR_ADDRESS = /address/i;
 const REG_X_FOR_DATE_TIME = /dateTime/i;
 const REG_X_FOR_NEW_ADDRESS = /addDeliveryLocation/i;

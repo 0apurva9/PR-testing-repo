@@ -5,7 +5,6 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
-import MediaQuery from "react-responsive";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,

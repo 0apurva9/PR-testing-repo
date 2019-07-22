@@ -7,17 +7,9 @@ import TextArea from "../../general/components/TextArea";
 import FooterButton from "../../general/components/FooterButton.js";
 import MediaQuery from "react-responsive";
 import Button from "../../xelpmoc-core/Button";
-import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
-  CHECKOUT_ROUTER,
-  GIFT_CARD,
-  HOME_ROUTER
-} from "../../lib/constants";
+import { CHECKOUT_ROUTER, GIFT_CARD } from "../../lib/constants";
 
 import { SUCCESS } from "../../lib/constants.js";
-import * as Cookie from "../../lib/Cookie";
 const PRODUCT_ID = "MP000000000127263";
 const QUANTITY = "1";
 const MOBILE_NUMBER = "999999999";

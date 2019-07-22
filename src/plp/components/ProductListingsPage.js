@@ -5,7 +5,6 @@ import {
   CATEGORY_PRODUCT_LISTINGS_WITH_PAGE,
   BRAND_AND_CATEGORY_PAGE,
   SKU_PAGE,
-  CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS,
   CATEGORY_PAGE_WITH_SLUG,
   BRAND_PRODUCT_LISTINGS_WITH_PAGE,
   BRAND_PAGE_WITH_SLUG,
@@ -13,13 +12,6 @@ import {
   PRODUCT_LISTINGS
 } from "../../lib/constants.js";
 import delay from "lodash.delay";
-import {
-  CATEGORY_CAPTURE_REGEX,
-  BRAND_REGEX,
-  BRAND_CAPTURE_REGEX,
-  CATEGORY_REGEX,
-  BRAND_CATEGORY_PREFIX
-} from "./PlpBrandCategoryWrapper.js";
 const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
@@ -290,22 +282,6 @@ class ProductListingsPage extends Component {
       return;
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.urlString !== this.props.urlString && nextProps.urlString) {
-  //     if (
-  //       nextProps.urlString.includes("https") ||
-  //       nextProps.urlString.includes("http")
-  //     ) {
-  //       window.location.href = nextProps.urlString;
-  //     } else {
-  //       this.props.history.push(nextProps.urlString, {
-  //         isFilter: false
-  //       });
-  //     }
-  //   }
-  // }
-
   componentDidUpdate() {
     if (this.props.urlString && window.location.href !== this.props.urlString) {
       if (

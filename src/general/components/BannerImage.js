@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./BannerImage.css";
 import Button from "./Button";
-import Logo from "./Logo";
 import ImageFlexible from "../../general/components/ImageFlexible";
 import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";

@@ -10,13 +10,9 @@ import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import SearchLocationByPincode from "../../cart/components/SearchLocationByPincode";
 import PickUpLocation from "../../cart/components/PickUpLocation";
-import GridSelect from "../../general/components/GridSelect.js";
 import DumbGrid from "../../general/components/DumbGrid";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Button from "../../general/components/Button";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
-import BankDetails from "./BankDetails.js";
 
 import {
   RETURNS_PREFIX,
@@ -25,7 +21,6 @@ import {
   RETURN_LANDING,
   RETURNS_REASON,
   QUICK_DROP,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
   YES,
   NO,
   IFSC_PATTERN,

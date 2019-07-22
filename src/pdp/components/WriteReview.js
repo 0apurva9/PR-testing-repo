@@ -9,13 +9,10 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
-  WRITE_REVIEWS,
-  SUCCESS,
-  ERROR
+  WRITE_REVIEWS
 } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
-import * as UserAgent from "../../lib/UserAgent.js";
 import {
   setDataLayerForPdpDirectCalls,
   ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
@@ -23,7 +20,6 @@ import {
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 let buttonColor = "#212121";
-const atleastOneAlpanum = new RegExp(/[\s a-zA-Z0-9]*[a-zA-z0-9]+/i);
 class WriteReview extends React.Component {
   constructor(props) {
     super(props);

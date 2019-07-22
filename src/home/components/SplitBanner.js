@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./SplitBanner.css";
 import ImageFlexible from "../../general/components/ImageFlexible";
-import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
 export default class SplitBanner extends React.Component {

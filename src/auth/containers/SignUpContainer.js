@@ -20,8 +20,6 @@ import {
 } from "../../auth/actions/user.actions";
 import {
   mergeCartId,
-  generateCartIdForLoggedInUser,
-  getCartId,
   getCartDetails,
   getCartCountForLoggedInUser
 } from "../../cart/actions/cart.actions";

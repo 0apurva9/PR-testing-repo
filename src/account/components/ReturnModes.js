@@ -1,30 +1,13 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import OrderCard from "./OrderCard";
-import SelectReturnDate from "./SelectReturnDate";
-import ReturnsFrame from "./ReturnsFrame";
 import PropTypes from "prop-types";
 import styles from "./ReturnModes.css";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
-import MobileOnly from "../../general/components/MobileOnly.js";
-import DummyTab from "../../cart/components/DummyTab.js";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import ReturnToStoreContainer from "../containers/ReturnToStoreContainer.js";
-import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
-import SelfCourierContainer from "../containers/SelfCourierContainer.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-import ReturnStoreConfirmation from "./ReturnStoreConfirmation.js";
 import Button from "../../general/components/Button";
-import checkIcon from "../../general/components/img/check.svg";
-import Icon from "../../xelpmoc-core/Icon";
-import SelectedReasonForReturn from "./SelectedReasonForReturn";
 import Loader from "../../general/components/Loader";
 import stylesCommon from "./ReturnReasonAndModes.css";
-import {
-  PRODUCT_DELIVERY_ADDRESSES,
-  MY_ACCOUNT,
-  IFSC_CODE_TEXT
-} from "../../lib/constants";
 import {
   QUICK_DROP,
   SCHEDULED_PICKUP,
@@ -32,9 +15,7 @@ import {
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_REASON,
-  CHANGE_RETURN_ADDRESS,
   REFUND_SUMMARY,
-  RETURN_CLIQ_PIQ_ADDRESS,
   RETURN_TO_ADDRESS
 } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";

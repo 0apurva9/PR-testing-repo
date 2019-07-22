@@ -1,12 +1,10 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import OrderCard from "./OrderCard";
-import SelectReturnDate from "./SelectReturnDate";
 import ReturnsFrame from "./ReturnsFrame";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import styles from "./ReplaceRefundSelection.css";
-import BankDetailsV2 from "../../account/components/BankDetailsV2";
 import Instant from "../../general/components/img/pathCopy7.png";
 import Icon from "../../xelpmoc-core/Icon";
 import SelectedReasonForReturn from "../../account/components/SelectedReasonForReturn";
@@ -280,7 +278,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
   onContinueImageUpload() {
     if (this.state.validImgFiles.length > 0) {
-      let reasonAndCommentObj: data = Object.assign({
+      let reasonAndCommentObj = Object.assign({
         returnReasonCode: this.props.data.returnReasonCode,
         subReasonCode: this.props.data.subReasonCode,
         subReason: this.props.data.subReason,

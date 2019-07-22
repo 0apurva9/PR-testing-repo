@@ -8,7 +8,6 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MenuDetails from "../../general/components/MenuDetails.js";
 import { buttonHolder, contentHolder } from "./NetBanking.css";
 import { CASH_ON_DELIVERY_PAYMENT_MODE } from "../../lib/constants";
-const CASH_ON_DELIVERY = "COD";
 
 export default class CheckoutCOD extends React.Component {
   binValidationForCOD = paymentMode => {
