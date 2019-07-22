@@ -41,7 +41,7 @@ export default class FeedBackForm extends React.Component {
       this.questionRatingArray.push({
         questionCode: questionNumber,
         rating: rating[0],
-        questionName: questionName
+        questionDesc: questionName
       });
     }
   };
