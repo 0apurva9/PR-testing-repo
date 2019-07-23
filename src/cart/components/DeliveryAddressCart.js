@@ -13,9 +13,13 @@ export default class DeliveryAddressCopy extends React.Component {
       whatsAppActive: false
     };
   }
+  componentDidMount() {
+    this.setState({ whatsAppActive: this.props.selected });
+  }
   handleClick() {
     if (this.props.selectItem) {
       this.props.selectItem();
+      this.setState({ whatsAppActive: !this.props.selected });
     }
   }
   handleWhatsAppClick() {
@@ -23,7 +27,7 @@ export default class DeliveryAddressCopy extends React.Component {
   }
   render() {
     return (
-      <React.Fragment>
+      <div className={styles.addressBlock}>
         <div
           className={this.props.isReturn ? styles.baseForReturn : styles.base}
           onClick={() => this.handleClick()}
@@ -76,28 +80,27 @@ export default class DeliveryAddressCopy extends React.Component {
               </div>
             )}
           </DesktopOnly>
-
-          {this.props.selected && (
-            <div
-              className={styles.baseWhatsapp}
-              onClick={() => this.handleWhatsAppClick()}
-            >
-              <div className={styles.whatsAppTick}>
-                <CheckBoxSquare
-                  selected={this.state.whatsAppActive}
-                  size="16px"
-                />
-              </div>
-              <div className={styles.orderUpdateText}>
-                Get order updates on Whatsapp
-                <div className={styles.whatsappImage}>
-                  <img src={Whatsapp} alt="" width="18px" height="18px" />
-                </div>
+        </div>
+        {this.props.selected && (
+          <div
+            className={styles.baseWhatsapp}
+            onClick={() => this.handleWhatsAppClick()}
+          >
+            <div className={styles.whatsAppTick}>
+              <CheckBoxSquare
+                selected={this.state.whatsAppActive}
+                size="16px"
+              />
+            </div>
+            <div className={styles.orderUpdateText}>
+              Get order updates on Whatsapp
+              <div className={styles.whatsappImage}>
+                <img src={Whatsapp} alt="" width="18px" height="18px" />
               </div>
             </div>
-          )}
-        </div>
-      </React.Fragment>
+          </div>
+        )}
+      </div>
     );
   }
 }

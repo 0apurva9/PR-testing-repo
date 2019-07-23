@@ -5,24 +5,29 @@
 	border-bottom: 1px solid #ececec;
 	cursor: pointer;
 }
+
+.addressBlock {
+	margin-bottom: 40px;
+}
 .baseWhatsapp {
 	width: 100%;
 	height: auto;
-	padding-top: 10px;
+	margin-left: 15px;
 }
 
 .whatsAppTick {
 	width: 8%;
 	float: left;
-	padding-top: 3px;
+	padding: 3px 0 0 3px;
+	cursor: pointer;
 }
 
 .whatsappImage {
-	position: absolute;
-	width: 90px;
-	height: 25px;
-	right: 50px;
-	top: 0px;
+	width: 20px;
+	height: 19px;
+	margin-left: 10px;
+	display: inline-block;
+  vertical-align: bottom;
 }
 
 .orderUpdateText {
@@ -33,9 +38,9 @@
 	font-family: semibold;
 	font-size: 12px;
 	position: relative;
-	padding-right: 60px;
 	word-wrap: break-word;
 	float: right;
+	cursor: pointer;
 }
 
 .titleAddress {
