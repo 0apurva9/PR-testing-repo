@@ -42,6 +42,7 @@ export const MANUFACTURER_MODAL = "ManufacturerModal";
 export const SIMILAR_PRODUCTS_MODAL = "SimilarProductsModal";
 export const SIMILAR_PRODUCTS_OOS_MODAL = "SimilarProductsOOSModal";
 export const SIZE_SELECTOR_OOS_MODAL = "SizeSelectorOOSModal";
+export const CONFIRMATION_NOTIFICATION = "NotificationConfirmation";
 
 export function showModal(type, ownProps) {
   const scrollPosition =

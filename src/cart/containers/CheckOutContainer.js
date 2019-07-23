@@ -67,7 +67,8 @@ import {
   GIFT_CARD_MODAL,
   CLIQ_CASH_AND_NO_COST_EMI_POPUP,
   TNC_FOR_BANK_OFFER_POPUP,
-  DESKTOP_AUTH
+  DESKTOP_AUTH,
+  CONFIRMATION_NOTIFICATION
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -559,6 +560,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     binValidationOfEmiEligible: binNo => {
       return dispatch(binValidationOfEmiEligible(binNo));
+    },
+    whatsappNotification: () => {
+      dispatch(showModal(CONFIRMATION_NOTIFICATION));
     }
   };
 };

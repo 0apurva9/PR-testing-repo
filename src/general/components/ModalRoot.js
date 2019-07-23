@@ -241,6 +241,12 @@ const SizeSelectorOOSModal = Loadable({
     return <Loader />;
   }
 });
+const NotificationConfirmation = Loadable({
+  loader: () => import("../../general/components/NotificationConfirmation.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -866,6 +872,10 @@ export default class ModalRoot extends React.Component {
           history={this.props.history}
           closeModal={() => this.handleClose()}
         />
+      ),
+
+      NotificationConfirmation: (
+        <NotificationConfirmation closeModal={() => this.handleClose()} />
       )
     };
 

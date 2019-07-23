@@ -1363,6 +1363,7 @@ if you have order id in local storage then you have to show order confirmation p
           );
         }
       }
+      this.whatsappNotification();
     } else if (
       this.props.location &&
       this.props.location.state &&
@@ -2895,6 +2896,10 @@ if you have order id in local storage then you have to show order confirmation p
         return false;
       }
     } else return false;
+  };
+
+  whatsappNotification = () => {
+    this.props.whatsappNotification();
   };
 
   validateSubmitButton() {
