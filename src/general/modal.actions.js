@@ -39,6 +39,7 @@ export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export const CUSTOMER_QUERY_POPUP = "CustomerQueryPopUp";
 export const VALIDATE_OFFERS_POPUP = "ValidateOffersPopUp";
 export const MANUFACTURER_MODAL = "ManufacturerModal";
+export const REVIEW_GUIDLINE_MODAL = "ReviewGuidelineModal";
 export const SIMILAR_PRODUCTS_MODAL = "SimilarProductsModal";
 export const SIMILAR_PRODUCTS_OOS_MODAL = "SimilarProductsOOSModal";
 export const SIZE_SELECTOR_OOS_MODAL = "SizeSelectorOOSModal";
