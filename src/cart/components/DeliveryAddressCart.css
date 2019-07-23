@@ -1,98 +1,131 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 15px;
-  border-bottom: 1px solid #ececec;
-  cursor: pointer;
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border-bottom: 1px solid #ececec;
+	cursor: pointer;
 }
+.baseWhatsapp {
+	width: 100%;
+	height: auto;
+	padding-top: 10px;
+}
+
+.whatsAppTick {
+	width: 8%;
+	float: left;
+	padding-top: 3px;
+}
+
+.whatsappImage {
+	position: absolute;
+	width: 90px;
+	height: 25px;
+	right: 50px;
+	top: 0px;
+}
+
+.orderUpdateText {
+	width: 92%;
+	height: auto;
+	line-height: 22px;
+	text-align: left;
+	font-family: semibold;
+	font-size: 12px;
+	position: relative;
+	padding-right: 60px;
+	word-wrap: break-word;
+	float: right;
+}
+
 .titleAddress {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: semibold;
-  line-height: 22px;
-  text-align: left;
-  text-transform: capitalize;
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	font-family: semibold;
+	line-height: 22px;
+	text-align: left;
+	text-transform: capitalize;
 }
 .titleDescription,
 .titleContact {
-  width: 100%;
-  height: auto;
-  line-height: 22px;
-  text-align: left;
-  font-family: regular;
-  font-size: 14px;
-  position: relative;
-  padding-right: 60px;
-  word-wrap: break-word;
+	width: 100%;
+	height: auto;
+	line-height: 22px;
+	text-align: left;
+	font-family: regular;
+	font-size: 14px;
+	position: relative;
+	padding-right: 60px;
+	word-wrap: break-word;
 }
 .checkCircle {
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  right: 0px;
-  top: 0px;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	right: 0px;
+	top: 0px;
 }
 .gridHolder {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 .titleDescriptionForReturn,
 .titleContactForReturn {
-  width: 100%;
-  height: auto;
-  line-height: 22px;
-  text-align: left;
-  font-family: regular;
-  font-size: 14px;
-  position: relative;
-  padding-right: 60px;
+	width: 100%;
+	height: auto;
+	line-height: 22px;
+	text-align: left;
+	font-family: regular;
+	font-size: 14px;
+	position: relative;
+	padding-right: 60px;
 }
 .titleAddressForReturn {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: semibold;
-  line-height: 22px;
-  text-align: left;
-  text-transform: capitalize;
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	font-family: semibold;
+	line-height: 22px;
+	text-align: left;
+	text-transform: capitalize;
 }
 .checkCircleForReturn {
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  right: 0px;
-  top: 0px;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	right: 0px;
+	top: 0px;
 }
 @media only screen and (min-width: 1025px) {
-  .base {
-    border: none;
-    position: relative;
-  }
-  .titleAddress {
-    padding-left: 30px;
-    position: relative;
-  }
-  .titleDescription,
-  .titleContact {
-    padding-left: 30px;
-    word-wrap: break-word;
-    padding-right: initial;
-  }
-  .baseForReturn {
-    composes: base;
-    padding: 20px 0px;
-    border-bottom: 1px solid #ececec;
-  }
+	.base {
+		border: none;
+		position: relative;
+	}
+	.titleAddress {
+		padding-left: 30px;
+		position: relative;
+	}
+	.titleDescription,
+	.titleContact {
+		padding-left: 30px;
+		word-wrap: break-word;
+		padding-right: initial;
+	}
+	.baseForReturn {
+		composes: base;
+		padding: 20px 0px;
+		border-bottom: 1px solid #ececec;
+	}
 
-  .titleDescriptionForReturn,
-  .titleContactForReturn {
-    word-wrap: break-word;
-    padding-right: initial;
-    padding-right: 35%;
-  }
-  .checkCircle {
-    right: initial;
-    top: 15px;
-  }
+	.titleDescriptionForReturn,
+	.titleContactForReturn {
+		word-wrap: break-word;
+		padding-right: initial;
+		padding-right: 35%;
+	}
+	.checkCircle {
+		right: initial;
+		top: 15px;
+	}
 }
