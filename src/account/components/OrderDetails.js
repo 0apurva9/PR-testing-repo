@@ -848,7 +848,6 @@ export default class OrderDetails extends React.Component {
                                   <div className={styles.CancelReturn}>
                                     Cancel Return Request
                                   </div>
-                                  <span className={styles.rightArrow} />
                                 </div>
                               )}
                               {/* in case of hotc show return option */}
@@ -864,7 +863,6 @@ export default class OrderDetails extends React.Component {
                                     }
                                   >
                                     {PRODUCT_RETURN}
-                                    <span className={styles.rightArrow} />
                                   </div>
                                 )}
                               {products.isInvoiceAvailable &&
@@ -986,7 +984,6 @@ export default class OrderDetails extends React.Component {
                                   <div className={styles.CancelReturn}>
                                     Cancel Return Request
                                   </div>
-                                  <span className={styles.rightArrow} />
                                 </div>
                               )}
                             </div>

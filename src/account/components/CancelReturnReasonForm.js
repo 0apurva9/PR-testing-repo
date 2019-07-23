@@ -52,7 +52,7 @@ export default class CancelReturnReasonForm extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.selectReasonHolder}>
-          <div className={styles.header}>Please select return reason</div>
+          <div className={styles.header}>Please select cancel reason</div>
           <div className={styles.select}>
             <SelectBoxMobile2
               placeholder={"Select a reason"}
