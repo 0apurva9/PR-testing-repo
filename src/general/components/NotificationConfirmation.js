@@ -21,7 +21,7 @@ export default class NotificationConfirmation extends React.Component {
               type="secondary"
               width={165}
               height={40}
-              onClick={() => this.closeModal()}
+              onClick={() => this.handleClose()}
             />
           </div>
           <div className={styles.buttonHolder}>
@@ -30,7 +30,7 @@ export default class NotificationConfirmation extends React.Component {
               type="primary"
               width={165}
               height={40}
-              onClick={() => this.closeModal()}
+              onClick={() => this.handleClose()}
             />
           </div>
         </div>
