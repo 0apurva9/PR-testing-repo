@@ -7,6 +7,7 @@ import Button from "../../general/components/Button";
 import styles from "./ReplaceRefundSelection.css";
 import Instant from "../../general/components/img/pathCopy7.png";
 import Icon from "../../xelpmoc-core/Icon";
+import Upload from "./img/Upload.svg";
 import SelectedReasonForReturn from "../../account/components/SelectedReasonForReturn";
 import cancel from "../../general/components/img/canceltransperent.png";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
@@ -625,7 +626,7 @@ export default class ReplaceRefundSelection extends React.Component {
                     {this.state.showAttachment == true && (
                       <div>
                         <div className={styles.returnTitle}>
-                          Add attachments*
+                          Add attachments
                         </div>
                         {imageCallOutArr && (
                           <ol className={styles.imgAttachmentText}>
@@ -642,28 +643,49 @@ export default class ReplaceRefundSelection extends React.Component {
                                 (val, index) => {
                                   return (
                                     <div
-                                      className={styles.imagePreviewContains}
+                                      className={styles.imagePreview}
                                       key={index}
                                     >
-                                      <div className={styles.imagePreview}>
+                                      <img
+                                        id="panImage"
+                                        src={val}
+                                        alt="Upload"
+                                        width="60%"
+                                        height="auto"
+                                      />
+                                      <div className={styles.cancel}>
                                         <img
-                                          id="panImage"
-                                          src={val}
-                                          alt="Upload"
-                                          width="76%"
-                                          height="auto"
+                                          src={cancel}
+                                          onClick={() =>
+                                            this.removeFile(val, index)
+                                          }
+                                          alt="cancel"
                                         />
-                                        <div className={styles.cancel}>
-                                          <img
-                                            src={cancel}
-                                            onClick={() =>
-                                              this.removeFile(val, index)
-                                            }
-                                            alt="cancel"
-                                          />
-                                        </div>
                                       </div>
                                     </div>
+                                    // <div
+                                    //   className={styles.imagePreviewContains}
+                                    //   key={index}
+                                    // >
+                                    //   <div className={styles.imagePreview}>
+                                    //     <img
+                                    //       id="panImage"
+                                    //       src={val}
+                                    //       alt="Upload"
+                                    //       width="76%"
+                                    //       height="auto"
+                                    //     />
+                                    //     <div className={styles.cancel}>
+                                    //       <img
+                                    //         src={cancel}
+                                    //         onClick={() =>
+                                    //           this.removeFile(val, index)
+                                    //         }
+                                    //         alt="cancel"
+                                    //       />
+                                    //     </div>
+                                    //   </div>
+                                    // </div>
                                   );
                                 }
                               )}
@@ -671,7 +693,10 @@ export default class ReplaceRefundSelection extends React.Component {
                         )}
                         <div className={styles.uploadimageButton}>
                           <button className={styles.fileuploadButtonForUpload}>
-                            Upload Images
+                            <Icon image={Upload} size={14} />
+                            <span className={styles.marginImage}>
+                              Upload Images
+                            </span>
                           </button>
                           <input
                             type="file"

@@ -233,16 +233,6 @@ export default class OrderCard extends React.Component {
               </div>
             )}
           <div>
-            {this.props.orderStatusCode &&
-              this.props.orderStatusCode === "DELIVERED" &&
-              this.props.deliveryDate && (
-                <div className={styles.deliveryDate}>
-                  Delivered on:{" "}
-                  <span className={styles.estimatedDate}>
-                    {deliveryDateFormatted}
-                  </span>
-                </div>
-              )}
             {this.props.orderStatusCode && (
               <div
                 className={
@@ -422,20 +412,20 @@ export default class OrderCard extends React.Component {
             <span className={styles.estimatedDate}>{this.props.statusDisplay}</span>
           </div>
         )} */}
-        {this.props.consignmentStatus === "DELIVERED" && (
+        {/* {this.props.consignmentStatus === "DELIVERED" && (
           <React.Fragment>
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>Delivered On: </span>
               <span className={styles.estimatedDate}>
                 {deliveryDateFormatted}
               </span>
-            </div>
-            {/* <div className={styles.commonTitle}>
+            </div> */}
+        {/* <div className={styles.commonTitle}>
               {this.props.shipmentStatusText}
               {this.props.statusMessageListDate}
             </div> */}
-          </React.Fragment>
-        )}
+        {/* </React.Fragment>
+        )} */}
         {/* {this.props.isGiveAway === "N" && this.props.consignmentStatus &&
           this.props.consignmentStatus !== "DELIVERED" &&
           !this.props.consignmentStatus.includes("CANCEL") &&
@@ -477,12 +467,22 @@ export default class OrderCard extends React.Component {
             </div>
           )}
         {this.props.isGiveAway === "N" &&
+          this.props.consignmentStatus === "DELIVERED" &&
+          this.props.deliveryDate && (
+            <div className={styles.deliveryDate}>
+              Delivered on:{" "}
+              <span className={styles.estimatedDate}>
+                {deliveryDateFormatted}
+              </span>
+            </div>
+          )}
+        {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
           !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
             <div className={styles.commonTitle}>
               {shipmentStatus && (
-                <span className={styles.ffsemibold}>{shipmentStatus} : </span>
+                <span className={styles.ffsemibold}>{shipmentStatus}: </span>
               )}
               {!this.props.returnMode &&
                 this.props.consignmentStatus !== "DELIVERED" && (
@@ -492,14 +492,18 @@ export default class OrderCard extends React.Component {
                       : date}
                   </span>
                 )}
-              {this.props.consignmentStatus === "DELIVERED" && (
+              {/* {this.props.consignmentStatus === "DELIVERED" && (
                 <span className={styles.styleDate}>
-                  {" "}
                   {EstDeliveryFormatted}
                 </span>
-              )}
+              )} */}
+              <span className={styles.styleDate}>
+                {this.props.consignmentStatus === "DELIVERED" &&
+                  format(returnEligibleDate.toString(), dateFormat)}
+              </span>
             </div>
           )}
+
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}

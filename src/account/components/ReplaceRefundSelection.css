@@ -273,7 +273,13 @@ label {
 	color: #ff1744;
 	font-size: 14px;
 	font-weight: bold;
-	align-content: right;
+	/* align-content: right; */
+	display: inline-flex;
+	align-items: center;
+	padding-left: 33px;
+}
+.marginImage {
+	padding-left: 25px;
 }
 .uploadimageButton input[type='file'] {
 	/* font-size: 100px; */
@@ -335,8 +341,9 @@ label {
 }
 .imagePreview {
 	float: left;
-	width: 70px;
-	margin: 5px 64px 5px 12px;
+	width: 84px;
+	height: 100px;
+	margin: 0px 57px 0px 0px;
 	position: relative;
 	min-height: 50px;
 }
