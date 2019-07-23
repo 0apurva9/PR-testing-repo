@@ -209,7 +209,8 @@ class CheckOutPage extends React.Component {
       retryCartGuid: null,
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      whatsappSelected: true
     };
   }
 
@@ -506,6 +507,9 @@ class CheckOutPage extends React.Component {
   removeCliqAndPiq() {
     this.setState({ showCliqAndPiq: false });
   }
+  handleWhatsAppClick(isSelected) {
+    this.setState({ whatsappSelected: isSelected });
+  }
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
     let addressSelectedId =
@@ -545,6 +549,9 @@ class CheckOutPage extends React.Component {
           selected={[defaultAddressId]}
           onNewAddress={() => this.addNewAddress()}
           onSelectAddress={address => this.onSelectAddress(address)}
+          handleWhatsAppClick={isSelected =>
+            this.handleWhatsAppClick(isSelected)
+          }
         />
       </div>
     );

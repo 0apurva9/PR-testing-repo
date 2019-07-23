@@ -47,6 +47,11 @@ export default class ConfirmAddress extends React.Component {
       this.props.onRedirectionToNextSection();
     }
   }
+  handleWhatsappNotification(isSelected) {
+    if (this.props.handleWhatsAppClick) {
+      this.props.handleWhatsAppClick(isSelected);
+    }
+  }
   render() {
     let buttonHolder = styles.buttonHolder;
     if (
@@ -110,6 +115,9 @@ export default class ConfirmAddress extends React.Component {
                         value={val.value}
                         selected={val.selected}
                         isReturn={this.props.isReturn}
+                        handleWhatsAppClick={isSelected =>
+                          this.handleWhatsappNotification(isSelected)
+                        }
                       />
                     );
                   })}
