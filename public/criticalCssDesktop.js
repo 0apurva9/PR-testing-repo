@@ -62,7 +62,11 @@ if (args[0] == "index") {
           "utf8"
         );
         inlinecss = "  <style>" + contents + "</style>";
-        addTextToFile(resolveApp("public/index.html"), inlinecss, "</head>");
+        addTextToFile(
+          resolveApp("public/index_build.html"),
+          inlinecss,
+          "</head>"
+        );
       } else {
         console.log(err);
         console.log("Failed index");
