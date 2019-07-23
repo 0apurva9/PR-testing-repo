@@ -46,9 +46,9 @@ class DesktopFooterProductList extends Component {
                 })}
             </div>
           </div>
-          <div className={styles.lastUpdated}>
+          {/* <div className={styles.lastUpdated}>
             This data was last updated on 2019/06/28
-          </div>
+          </div> */}
         </div>
       </div>
     );

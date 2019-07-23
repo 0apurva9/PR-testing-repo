@@ -16,8 +16,9 @@
 }
 
 .productListWrapper {
+  width: 100%;
+  height: auto;
 }
-
 .productListHeader {
   color: #4a4a4a;
   font-size: 11px;
@@ -35,13 +36,15 @@
 
 .productListRow {
   margin-bottom: 20px;
+  width: 100%;
+  height: auto;
 }
 .productListDetailWrapper {
   display: inline-block;
-  width: 76%;
+  width: 70%;
   cursor: pointer;
   white-space: nowrap;
-  overflow: hidden !important;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 .productListDetail {
@@ -52,7 +55,8 @@
 
 .productListPrice {
   display: inline-block;
-  margin-left: 21px;
+  width: 30%;
+  text-align: center;
 }
 
 .lastUpdated {

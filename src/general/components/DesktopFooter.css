@@ -168,7 +168,7 @@
   font-family: regular !important;
   line-height: 20px;
   margin-bottom: 20px;
-  float: left;
+  display: inline-block;
 }
 .footerDataWrapper {
   width: 100%;
@@ -185,7 +185,7 @@
 .desktopFooterProductListWrapper {
   width: 30%;
   height: auto;
-  float: left;
+  display: inline-block;
   margin-left: 55px;
   margin-bottom: 60px;
 }
