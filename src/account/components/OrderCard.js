@@ -80,28 +80,56 @@ export default class OrderCard extends React.Component {
       let deliveryD = new Date(deliveryDate);
       deliveryDateFormatted = format(deliveryD, dateFormat);
     }
-    // if (
-    //   statusDisplayMsg &&
-    //   statusDisplayMsg.length > 0 &&
-    //   this.props.showEDD === "Y"
-    // ) {
-    //   let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
-    //written to avoid for loop
-    // if (
-    //   statusDisplayMsgL1 &&
-    //   statusDisplayMsgL1.value &&
-    //   statusDisplayMsgL1.value.statusList &&
-    //   statusDisplayMsgL1.value.statusList[0] &&
-    //   statusDisplayMsgL1.value.statusList[0].statusMessageList &&
-    //   statusDisplayMsgL1.value.statusList[0].statusMessageList[0] &&
-    //   statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date
-    // ) {
-    //   estimatedDeliveryDate =
-    //     statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date;
-    //   let edd = new Date(estimatedDeliveryDate);
-    //   estimatedDeliveryDateFormatted = format(edd, dateFormat);
-    // }
-    //}
+    let date = "",
+      shipmentStatus = "";
+    if (statusDisplayMsg && statusDisplayMsg.length > 0) {
+      let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
+      //written to avoid for loop
+      if (
+        statusDisplayMsgL1 &&
+        statusDisplayMsgL1.value &&
+        statusDisplayMsgL1.value.statusList &&
+        statusDisplayMsgL1.value.statusList[0] &&
+        statusDisplayMsgL1.value.statusList[0].statusMessageList &&
+        statusDisplayMsgL1.value.statusList[0].statusMessageList[0] &&
+        statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date
+      ) {
+        date = statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date;
+      }
+      if (
+        statusDisplayMsgL1 &&
+        statusDisplayMsgL1.value &&
+        statusDisplayMsgL1.value.statusList &&
+        statusDisplayMsgL1.value.statusList[0]
+      ) {
+        shipmentStatus = statusDisplayMsgL1.value.statusList[0].shipmentStatus;
+      }
+    }
+    let returnEligibleDate = "";
+    if (date && this.props.returnPolicy) {
+      returnEligibleDate = new Date(this.props.deliveryDate);
+      returnEligibleDate.setDate(
+        returnEligibleDate.getDate() + parseInt(this.props.returnPolicy)
+      );
+    }
+    let EstDeliveryFormatted = "";
+    if (this.props.consignmentStatus === "DELIVERED") {
+      let EstDelivery = new Date(this.props.deliveryDate);
+      EstDeliveryFormatted = format(EstDelivery, dateFormat);
+    }
+    console.log(
+      "Status:",
+      this.props.consignmentStatus,
+      this.props.returnMode,
+      "this.props.deliveryDate",
+      this.props.deliveryDate,
+      "date",
+      date,
+      "this.props.returnPolicy",
+      this.props.returnPolicy,
+      "shipmentStatus",
+      shipmentStatus
+    );
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -116,13 +144,13 @@ export default class OrderCard extends React.Component {
         {/* {this.props.title &&
 					this.props.title === 'Cancel Item' &&(<div className={styles.cancelTitle}>{PRODUCT_CANCEL}</div>)} */}
 
-        {this.props.estimatedDeliveryDate &&
+        {/* {this.props.estimatedDeliveryDate &&
           (this.props.statusDisplay !== "CANCEL" &&
             this.props.statusDisplay !== "RETURN") && (
             <div className={styles.estimatedDeliveryDate}>
               Estimated Delivery Date: {estimatedDeliveryDateFormatted}
             </div>
-          )}
+          )} */}
         <div
           className={styles.productImageHolder}
           style={{
@@ -182,11 +210,23 @@ export default class OrderCard extends React.Component {
               </div>
             </React.Fragment>
           )}
-          {!this.props.isEgvOrder &&
+          {/* {!this.props.isEgvOrder &&
             this.props.orderStatusCode &&
             this.props.orderStatusCode !== "DELIVERED" && (
               <div className={styles.deliveryDate}>
                 {this.props.displayStatusName}
+                {this.props.orderCancelDate && (
+                  <span> on {this.props.orderCancelDate}</span>
+                )}
+              </div>
+            )} */}
+          {!this.props.isEgvOrder &&
+            this.props.orderStatusCode &&
+            this.props.orderStatusCode !== "DELIVERED" && (
+              <div className={styles.deliveryDate}>
+                {this.props.displayStatusName === "Your payment is in process"
+                  ? "Payment Pending"
+                  : this.props.displayStatusName}
                 {this.props.orderCancelDate && (
                   <span> on {this.props.orderCancelDate}</span>
                 )}
@@ -396,31 +436,68 @@ export default class OrderCard extends React.Component {
             </div> */}
           </React.Fragment>
         )}
-        {this.props.consignmentStatus &&
+        {/* {this.props.isGiveAway === "N" && this.props.consignmentStatus &&
           this.props.consignmentStatus !== "DELIVERED" &&
           !this.props.consignmentStatus.includes("CANCEL") &&
           this.props.showEDD === "Y" &&
           estimatedDeliveryDate && (
             <div className={styles.commonTitle}>
-              {this.props.selectedDeliveryMode.code === "click-and-collect" && (
+               <span className={styles.ffsemibold}>{shipmentStatus}</span>
+
+               {this.props.selectedDeliveryMode.code === "click-and-collect" && (
                 <span className={styles.ffsemibold}>
                   Order could be collected by:{" "}
                 </span>
-              )}
-              {this.props.selectedDeliveryMode.code !== "click-and-collect" && (
+              )} */}
+
+        {/* {this.props.selectedDeliveryMode.code !== "click-and-collect" && (
                 <span className={styles.ffsemibold}>
                   Estimated Delivery Date:{" "}
                 </span>
-              )}
-              <span className={styles.styleDate}>
+              )} */}
+        {/* {!this.props.returnMode &&
+                this.props.consignmentStatus !== "DELIVERED" && date && (
+                  <span className={styles.styleDate}>
+                    {this.props.estimateddeliverydate
+                      ? estimatedDeliveryDateFormatted
+                      : date} :{" "}
+                  </span>
+                )}
+              {this.props.consignmentStatus === "DELIVERED" &&
+                format(returnEligibleDate.toString(), dateFormat)} */}
+        {/* <span className={styles.styleDate}>
                 {estimatedDeliveryDateFormatted}
-              </span>
-            </div>
-          )}
+              </span> */}
+        {/* </div>
+          )} */}
         {this.props.isOrderReturnable === false &&
           this.props.statusDisplay === "Delivered" && (
             <div className={styles.returnClosed}>
               {PRODUCT_RETURN_WINDOW_CLOSED}
+            </div>
+          )}
+        {this.props.isGiveAway === "N" &&
+          this.props.consignmentStatus &&
+          !this.props.consignmentStatus.includes("CANCEL") &&
+          date && (
+            <div className={styles.commonTitle}>
+              {shipmentStatus && (
+                <span className={styles.ffsemibold}>{shipmentStatus} : </span>
+              )}
+              {!this.props.returnMode &&
+                this.props.consignmentStatus !== "DELIVERED" && (
+                  <span className={styles.styleDate}>
+                    {this.props.estimatedDeliveryDate
+                      ? estimatedDeliveryDateFormatted
+                      : date}
+                  </span>
+                )}
+              {this.props.consignmentStatus === "DELIVERED" && (
+                <span className={styles.styleDate}>
+                  {" "}
+                  {EstDeliveryFormatted}
+                </span>
+              )}
             </div>
           )}
         {this.props.sellerName && (

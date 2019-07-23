@@ -78,7 +78,7 @@ export default class RefundTransactionSummary extends React.Component {
         <div className={styles.content}>
           <div className={styles.card}>
             <div className={styles.iconHolder}>
-              <Icon image={success} size={88} />
+              <Icon image={success} size={150} />
             </div>
             <div className={styles.summaryTitle}>
               Your request for a refund has been placed successfully.

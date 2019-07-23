@@ -1782,7 +1782,8 @@ export function submitSelfCourierReturnInfoFailure(error) {
   };
 }
 export function submitSelfCourierReturnInfo(returnDetails) {
-  let returnDetailsObject = new FormData(returnDetails.file);
+  let returnDetailsObject = new FormData();
+  //let returnDetailsObject = new FormData(returnDetails.file);
   returnDetailsObject.append("awbNumber", returnDetails.awbNumber);
   returnDetailsObject.append("lpname", returnDetails.lpname);
   returnDetailsObject.append("amount", returnDetails.amount);
@@ -1805,6 +1806,9 @@ export function submitSelfCourierReturnInfo(returnDetails) {
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       dispatch(hideModal(UPDATE_REFUND_DETAILS_POPUP));
+      if (resultJson.status === "success") {
+        dispatch(displayToast("Updated return details successfully"));
+      }
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }

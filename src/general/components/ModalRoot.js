@@ -639,6 +639,7 @@ export default class ModalRoot extends React.Component {
           closeModal={() => this.handleClose()}
           onUpdate={val => this.onUpdate(val)}
           {...this.props.ownProps}
+          displayToast={this.props.displayToast}
         />
       ),
       Sort: <Sort />,

@@ -658,6 +658,9 @@ export default class AllOrderDetails extends React.Component {
                                   }
                                 >
                                   <OrderCard
+                                    estimatedDeliveryDate={
+                                      product.estimateddeliverydate
+                                    }
                                     imageUrl={product.imageURL}
                                     hasProduct={product}
                                     isGiveAway={product.isGiveAway}
@@ -755,7 +758,7 @@ export default class AllOrderDetails extends React.Component {
                                         product.orderStatusCode ===
                                           "DELIVERED" && (
                                           <div className={styles.reviewHolder}>
-                                            <div
+                                            {/* <div
                                               className={styles.rateThisItem}
                                             >
                                               Rate this item
@@ -788,7 +791,7 @@ export default class AllOrderDetails extends React.Component {
                                                 className={styles.marginIcon}
                                               />
                                               <Icon image={rating} size={25} />
-                                            </div>
+                                            </div> */}
                                             <div className={styles.boxReview}>
                                               <div
                                                 className={styles.reviewText}

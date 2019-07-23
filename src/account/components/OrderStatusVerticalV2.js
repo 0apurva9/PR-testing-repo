@@ -16,7 +16,9 @@ import {
   PICKUP_SCHEDULED,
   RETURN_CANCELLED,
   UNDELIVERED,
-  NOT_DELIVERED
+  NOT_DELIVERED,
+  OUT_FOR_DELIVERY,
+  RETURN_REQUESTED
 } from "../../lib/constants";
 
 export default class OrderStatusVerticalV2 extends React.Component {
@@ -71,6 +73,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
     const notDeliveredData = this.props.statusMessageList.find(val => {
       return val.key === NOT_DELIVERED;
     });
+    const outForDeliveryData = this.props.statusMessageList.find(val => {
+      return val.key === OUT_FOR_DELIVERY;
+    });
+    const returnRequestedData = this.props.statusMessageList.find(val => {
+      return val.key === RETURN_REQUESTED;
+    });
     //to get the active order status
     //sequence should be maintained
     let activeOrderStatus = "";
@@ -87,6 +95,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (deliveredData && deliveredData.key) {
         orderEDHD.push(deliveredData.key);
+      }
+      if (outForDeliveryData && outForDeliveryData.key) {
+        orderEDHD.push(outForDeliveryData.key);
+      }
+      if (returnRequestedData && returnRequestedData.key) {
+        orderEDHD.push(returnRequestedData.key);
       }
       if (cancelledData && cancelledData.key) {
         orderEDHD.push(cancelledData.key);
@@ -121,6 +135,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (itemPackedData && itemPackedData.key) {
         orderCNC.push(itemPackedData.key);
+      }
+      if (outForDeliveryData && outForDeliveryData.key) {
+        orderCNC.push(outForDeliveryData.key);
+      }
+      if (returnRequestedData && returnRequestedData.key) {
+        orderCNC.push(returnRequestedData.key);
       }
       if (readyForCollectionData && readyForCollectionData.key) {
         orderCNC.push(readyForCollectionData.key);
@@ -221,6 +241,35 @@ export default class OrderStatusVerticalV2 extends React.Component {
           : itemPackedData.value.statusList[0].statusMessageList[0].time;
     }
 
+    //out for delivery
+    let outForDeliveryDate = "";
+    let outForDeliveryTime = "";
+    let outForDeliveryCustomerFacingName = "Out For Delivery";
+    if (outForDeliveryData && outForDeliveryData.value.customerFacingName) {
+      outForDeliveryCustomerFacingName =
+        outForDeliveryData.value.customerFacingName;
+    }
+    if (
+      outForDeliveryData &&
+      outForDeliveryData.value.statusList &&
+      outForDeliveryData.value.statusList[0] &&
+      outForDeliveryData.value.statusList[0].statusMessageList &&
+      outForDeliveryData.value.statusList[0].statusMessageList[0]
+    ) {
+      //show date time from HOTC or Packed
+      outForDeliveryDate =
+        outForDeliveryData.value.statusList[1] &&
+        outForDeliveryData.value.statusList[1].statusMessageList[0].date
+          ? outForDeliveryData.value.statusList[1].statusMessageList[0].date
+          : outForDeliveryData.value.statusList[0].statusMessageList[0].date;
+
+      outForDeliveryTime =
+        outForDeliveryData.value.statusList[1] &&
+        outForDeliveryData.value.statusList[1].statusMessageList[0].time
+          ? outForDeliveryData.value.statusList[1].statusMessageList[0].time
+          : outForDeliveryData.value.statusList[0].statusMessageList[0].time;
+    }
+
     //delivered
     let deliveredDate = "";
     let deliveredTime = "";
@@ -240,7 +289,35 @@ export default class OrderStatusVerticalV2 extends React.Component {
       deliveredTime =
         deliveredData.value.statusList[0].statusMessageList[0].time;
     }
-
+    //return requested
+    let returnRequestedDate = "";
+    let returnRequestedTime = "";
+    let returnRequestedShipmentStatus = "";
+    let returnRequestedCustomerFacingName = "Return Requested";
+    if (returnRequestedData && returnRequestedData.value.customerFacingName) {
+      returnRequestedCustomerFacingName =
+        returnRequestedData.value.customerFacingName;
+    }
+    if (
+      returnRequestedData &&
+      returnRequestedData.value.statusList &&
+      returnRequestedData.value.statusList[0] &&
+      returnRequestedData.value.statusList[0].statusMessageList &&
+      returnRequestedData.value.statusList[0].statusMessageList[0]
+    ) {
+      returnRequestedDate =
+        returnRequestedData.value.statusList[0].statusMessageList[0].date;
+      returnRequestedTime =
+        returnRequestedData.value.statusList[0].statusMessageList[0].time;
+    }
+    if (
+      returnRequestedData &&
+      returnRequestedData.value.statusList &&
+      returnRequestedData.value.statusList[0]
+    ) {
+      returnRequestedShipmentStatus =
+        returnRequestedData.value.statusList[0].shipmentStatus;
+    }
     //not delivered
     let notDeliveredDate = "";
     let notDeliveredTime = "";
@@ -380,7 +457,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //return cancelled
     let returnCancelledDate = "";
     let returnCancelledTime = "";
-    let returnCancelledShipmentStatus = "";
+    // let returnCancelledShipmentStatus = "";
     let returnCancelledCustomerFacingName = "Return Cancelled";
     if (returnCancelledData && returnCancelledData.value.customerFacingName) {
       returnCancelledCustomerFacingName =
@@ -398,14 +475,14 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnCancelledTime =
         returnCancelledData.value.statusList[0].statusMessageList[0].time;
     }
-    if (
-      returnCancelledData &&
-      returnCancelledData.value.statusList &&
-      returnCancelledData.value.statusList[0]
-    ) {
-      returnCancelledShipmentStatus =
-        returnCancelledData.value.statusList[0].shipmentStatus;
-    }
+    // if (
+    //   returnCancelledData &&
+    //   returnCancelledData.value.statusList &&
+    //   returnCancelledData.value.statusList[0]
+    // ) {
+    //   returnCancelledShipmentStatus =
+    //     returnCancelledData.value.statusList[0].shipmentStatus;
+    // }
     //pickup scheduled
     let pickupScheduledDate = "";
     let pickupScheduledTime = "";
@@ -463,6 +540,27 @@ export default class OrderStatusVerticalV2 extends React.Component {
         {/* <div className={styles.trackOrderTitle}>Track Order</div> */}
         {this.props.returnMode && this.props.returnType ? (
           <React.Fragment>
+            {completedSteps.includes(RETURN_REQUESTED) && (
+              <div className={styles.step}>
+                <div className={styles.checkActive} />
+                <div
+                  className={
+                    activeOrderStatus === RETURN_REQUESTED
+                      ? styles.processNameHolderBold
+                      : styles.processNameHolder
+                  }
+                >
+                  {returnRequestedCustomerFacingName}
+                  <span className={styles.shipmentStatus}>
+                    {returnRequestedShipmentStatus}
+                  </span>
+                </div>
+                <div className={styles.dateAndTimeHolder}>
+                  <div className={styles.timeHolder}>{returnRequestedDate}</div>
+                  <div className={styles.dateHolder}>{returnRequestedTime}</div>
+                </div>
+              </div>
+            )}
             {completedSteps.includes(RETURN_INITIATED) && (
               <div className={styles.step}>
                 <div className={styles.checkActive} />
@@ -511,9 +609,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {completedSteps.includes(PICKUP_SCHEDULED) && (
-                  <div className={styles.step}>
-                    <div className={styles.checkActive} />
+                {!completedSteps.includes(RETURN_CANCELLED) ? (
+                  <div
+                    className={
+                      completedSteps.includes(PICKUP_SCHEDULED)
+                        ? styles.step
+                        : styles.stepInactive
+                    }
+                  >
+                    <div
+                      className={
+                        completedSteps.includes(PICKUP_SCHEDULED)
+                          ? styles.checkActive
+                          : styles.check
+                      }
+                    />
                     <div
                       className={
                         activeOrderStatus === PICKUP_SCHEDULED
@@ -523,8 +633,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     >
                       {pickupScheduledCustomerFacingName}
                       {/* <span className={styles.shipmentStatus}>
-                        {pickupScheduledShipmentStatus}
-                      </span> */}
+                      {pickupScheduledShipmentStatus}
+                    </span> */}
                     </div>
                     <div className={styles.dateAndTimeHolder}>
                       <div className={styles.timeHolder}>
@@ -535,27 +645,66 @@ export default class OrderStatusVerticalV2 extends React.Component {
                       </div>
                     </div>
                   </div>
-                )}
+                ) : null}
               </React.Fragment>
+              // <React.Fragment>
+              //   {completedSteps.includes(PICKUP_SCHEDULED) && (
+              //     <div className={styles.step}>
+              //       <div className={styles.checkActive} />
+              //       <div
+              //         className={
+              //           activeOrderStatus === PICKUP_SCHEDULED
+              //             ? styles.processNameHolderBold
+              //             : styles.processNameHolder
+              //         }
+              //       >
+              //         {pickupScheduledCustomerFacingName}
+              //         {/* <span className={styles.shipmentStatus}>
+              //           {pickupScheduledShipmentStatus}
+              //         </span> */}
+              //       </div>
+              //       <div className={styles.dateAndTimeHolder}>
+              //         <div className={styles.timeHolder}>
+              //           {pickupScheduledDate}
+              //         </div>
+              //         <div className={styles.dateHolder}>
+              //           {pickupScheduledTime}
+              //         </div>
+              //       </div>
+              //     </div>
+              //   )}
+              // </React.Fragment>
             )}
 
             {completedSteps.includes(RETURN_CANCELLED) ? (
-              <div className={styles.step}>
-                <div className={styles.checkActive} />
-                <div
-                  className={
-                    activeOrderStatus === RETURN_CANCELLED
-                      ? styles.processNameHolderBold
-                      : styles.processNameHolder
-                  }
-                >
-                  {returnCancelledCustomerFacingName}
+              <React.Fragment>
+                <div className={styles.step}>
+                  <div className={styles.checkActive} />
+                  <div className={styles.processNameHolder}>
+                    {pickupScheduledCustomerFacingName}
+                  </div>
                 </div>
-                <div className={styles.dateAndTimeHolder}>
-                  <div className={styles.timeHolder}>{returnCancelledDate}</div>
-                  <div className={styles.dateHolder}>{returnCancelledTime}</div>
+                <div className={styles.step}>
+                  <div className={styles.checkActive} />
+                  <div
+                    className={
+                      activeOrderStatus === RETURN_CANCELLED
+                        ? styles.processNameHolderBold
+                        : styles.processNameHolder
+                    }
+                  >
+                    {returnCancelledCustomerFacingName}
+                  </div>
+                  <div className={styles.dateAndTimeHolder}>
+                    <div className={styles.timeHolder}>
+                      {returnCancelledDate}
+                    </div>
+                    <div className={styles.dateHolder}>
+                      {returnCancelledTime}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </React.Fragment>
             ) : (
               <div className={styles.stepInactive}>
                 <div className={styles.check} />
@@ -683,7 +832,40 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           </div>
                         ) : (
                           <React.Fragment>
-                            {completedSteps.includes(ITEM_PACKED) ? (
+                            {completedSteps.includes(OUT_FOR_DELIVERY) ? (
+                              <div
+                                className={
+                                  completedSteps.includes(OUT_FOR_DELIVERY)
+                                    ? styles.step
+                                    : styles.stepInactive
+                                }
+                              >
+                                <div
+                                  className={
+                                    completedSteps.includes(OUT_FOR_DELIVERY)
+                                      ? styles.checkActive
+                                      : styles.check
+                                  }
+                                />
+                                <div
+                                  className={
+                                    activeOrderStatus === OUT_FOR_DELIVERY
+                                      ? styles.processNameHolderBold
+                                      : styles.processNameHolder
+                                  }
+                                >
+                                  {outForDeliveryCustomerFacingName}
+                                </div>
+                                <div className={styles.dateAndTimeHolder}>
+                                  <div className={styles.timeHolder}>
+                                    {outForDeliveryTime}
+                                  </div>
+                                  <div className={styles.dateHolder}>
+                                    {outForDeliveryDate}
+                                  </div>
+                                </div>
+                              </div>
+                            ) : completedSteps.includes(ITEM_PACKED) ? (
                               <React.Fragment>
                                 {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                 <div

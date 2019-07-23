@@ -521,21 +521,24 @@ export default class OrderDetails extends React.Component {
                         calloutMessage={products.calloutMessage}
                         showEDD="Y"
                         isOrderReturnable={products.isReturned}
+                        returnMode={products.returnMode}
+                        returnPolicy={products.returnPolicy}
                       />
 
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
                         products.consignmentStatus != "HOTC" &&
+                        products.consignmentStatus != "UNDELIVERED" &&
                         products.consignmentStatus !=
                           "CANCELLATION_INITIATED" &&
                         products.consignmentStatus != "PAYMENT_TIMEOUT" &&
                         products.consignmentStatus != "PICK_CONFIRMED" &&
                         products.consignmentStatus != "ORDER_UNCOLLECTED" && (
                           <React.Fragment>
-                            <div className={styles.rateThisItem}>
+                            {/* <div className={styles.rateThisItem}>
                               Rate this item
-                            </div>
-                            <div
+                            </div> */}
+                            {/* <div
                               className={styles.ratingReviewHolder}
                               onClick={val =>
                                 this.writeReview(products.productcode)
@@ -550,7 +553,7 @@ export default class OrderDetails extends React.Component {
                               <Icon image={rating} size={25} />
                               <div className={styles.marginIcon} />
                               <Icon image={rating} size={25} />
-                            </div>
+                            </div> */}
                             <div
                               className={
                                 products.consignmentStatus == "DELIVERED"
@@ -936,6 +939,21 @@ export default class OrderDetails extends React.Component {
                                   Return window is Closed
                                 </div>
                               )}
+                              {/* in case of hotc show return option */}
+                              {products.isReturned &&
+                                products.isHOTCReturnable && (
+                                  <div
+                                    className={styles.productReturn}
+                                    onClick={() =>
+                                      this.confirmReturn(
+                                        products.sellerorderno,
+                                        products.transactionId
+                                      )
+                                    }
+                                  >
+                                    {PRODUCT_RETURN}
+                                  </div>
+                                )}
                               {products.cancel && (
                                 <div
                                   className={styles.review}

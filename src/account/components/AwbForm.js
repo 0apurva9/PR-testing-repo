@@ -23,6 +23,29 @@ export default class AwbForm extends React.Component {
     }
   }
   onUpdate() {
+    if (!this.state.awbNumber) {
+      this.props.displayToast("Enter AWB number");
+      return false;
+    }
+    if (!this.state.logisticsPartner) {
+      this.props.displayToast("Enter logistics partner name");
+      return false;
+    }
+    if (!this.state.courierCharge) {
+      this.props.displayToast("Enter courier charges in rupees");
+      return false;
+    }
+    if (!this.state.file) {
+      this.props.displayToast("Please upload picture of receipt");
+      return false;
+    }
+    let uploadedFile = this.state.file;
+    if (!uploadedFile.type.includes("jpeg")) {
+      if (!uploadedFile.type.includes("png")) {
+        this.props.displayToast("Upload image in JPEG/PNG format only");
+        return false;
+      }
+    }
     if (this.props.onUpdate) {
       this.props.onUpdate(this.state);
     }
@@ -118,7 +141,7 @@ export default class AwbForm extends React.Component {
             <Button
               width={176}
               type="primary"
-              label="Submit"
+              label="SUBMIT"
               onClick={() => this.onUpdate()}
             />
           </div>
