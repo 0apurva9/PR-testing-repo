@@ -6287,7 +6287,12 @@ export function collectPaymentOrderForNetBanking(
           : Cookie.getCookie(OLD_CART_GU_ID);
       }
     }
-
+    let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let firstName = bankCode;
+    if (currentSelectedPaymentMode === PAYPAL) {
+      currentSelectedPaymentMode = "Netbanking";
+      firstName = "NB_PAYPAL";
+    }
     if (inventoryItems && address) {
       orderDetails = {
         wrapperItems: [
@@ -6302,7 +6307,7 @@ export function collectPaymentOrderForNetBanking(
                 addressItems: [
                   {
                     addressType: "Shipping",
-                    firstName: address.firstName,
+                    firstName: firstName,
                     lastName: address.lastName,
                     addressLine1: address.line1,
                     addressLine2: address.line2 ? address.line2 : "",
@@ -6350,7 +6355,7 @@ export function collectPaymentOrderForNetBanking(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMethodType}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
+        }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMethodType}&firstName=${firstName}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${bankCode}&emiTenure=&cardBrandName=`,
         orderDetails
       );
       const resultJson = await result.json();
