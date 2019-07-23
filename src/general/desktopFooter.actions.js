@@ -50,9 +50,7 @@ export function getDesktopFooter(pathName) {
           }`;
         }
       } else {
-        footerApi =
-          requestSource +
-          "marketplacewebservices/v2/mpl/cms/desktopservice/footer";
+        footerApi = `${requestSource}marketplacewebservices/v2/mpl/cms/desktopservice/footer`;
       }
 
       const result = await fetch(footerApi);

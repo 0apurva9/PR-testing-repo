@@ -86,8 +86,7 @@ export function getHeader() {
     dispatch(getHeaderRequest());
     try {
       const result = await fetch(
-        requestSource +
-          "marketplacewebservices/v2/mpl/cms/desktopservice/header"
+        `${requestSource}marketplacewebservices/v2/mpl/cms/desktopservice/header`
       );
 
       //const result = await mockGetFooter();
