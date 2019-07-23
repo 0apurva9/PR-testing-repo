@@ -67,7 +67,7 @@ export default class PaymentBanner extends React.Component {
                 <Button
                   type="hollow"
                   color="#212121"
-                  label="View order details"
+                  label="View Orders"
                   height={37}
                   width={175}
                   onClick={() => this.handleClick()}
