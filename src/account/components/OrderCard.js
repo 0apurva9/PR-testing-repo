@@ -62,6 +62,7 @@ export default class OrderCard extends React.Component {
   }
   render() {
     let calloutMessage = this.props.calloutMessage;
+
     let updatedCalloutMessage =
       calloutMessage && calloutMessage.replace("Date", "Date: ");
     let statusDisplayMsg =
@@ -117,19 +118,7 @@ export default class OrderCard extends React.Component {
       let EstDelivery = new Date(this.props.deliveryDate);
       EstDeliveryFormatted = format(EstDelivery, dateFormat);
     }
-    console.log(
-      "Status:",
-      this.props.consignmentStatus,
-      this.props.returnMode,
-      "this.props.deliveryDate",
-      this.props.deliveryDate,
-      "date",
-      date,
-      "this.props.returnPolicy",
-      this.props.returnPolicy,
-      "shipmentStatus",
-      shipmentStatus
-    );
+
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -232,6 +221,13 @@ export default class OrderCard extends React.Component {
                 )}
               </div>
             )}
+          {this.props.orderStatusCode &&
+            this.props.orderStatusCode === "DELIVERED" &&
+            this.props.deliveryDate && (
+              <div className={styles.deliveryDate}>
+                Delivered on {this.props.deliveryDate}
+              </div>
+            )}
           <div>
             {this.props.orderStatusCode && (
               <div
@@ -242,7 +238,9 @@ export default class OrderCard extends React.Component {
                     : styles.calloutMessage
                 }
               >
-                {updatedCalloutMessage}
+                <div className={styles.calloutMessage}>
+                  {updatedCalloutMessage}
+                </div>
               </div>
             )}
           </div>

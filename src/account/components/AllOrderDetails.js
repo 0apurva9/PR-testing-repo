@@ -303,7 +303,6 @@ export default class AllOrderDetails extends React.Component {
     }
   };
   getDivWithWithoutBorder(productsLength, key) {
-    console.log("---->key", key, productsLength);
     if (productsLength === key + 1) {
       return styles.orderCardIndividual;
     } else {
@@ -645,10 +644,7 @@ export default class AllOrderDetails extends React.Component {
                               let productsDetails =
                                 orderDetails && orderDetails.products;
                               let productLength = productsDetails.length;
-                              console.log(
-                                "key in AllOrderDetails Page:",
-                                productLength
-                              );
+
                               return (
                                 <div
                                   className={
