@@ -889,14 +889,16 @@ const cart = (
     case cartActions.CREATE_PAYMENT_ORDER_SUCCESS:
       return Object.assign({}, state, {
         createPaymentOrderStatus: action.status,
-        createPaymentOrder: action.createPaymentOrder
+        createPaymentOrder: action.createPaymentOrder,
+        selectDeliveryModeLoader: false
       });
 
     case cartActions.CREATE_PAYMENT_ORDER_FAILURE:
       return Object.assign({}, state, {
         createPaymentOrderStatus: action.status,
         createPaymentOrderError: action.error,
-        isCreatePaymentOrderFailed: true
+        isCreatePaymentOrderFailed: true,
+        selectDeliveryModeLoader: false
       });
 
     case cartActions.COLLECT_PAYMENT_ORDER_REQUEST:

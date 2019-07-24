@@ -1072,7 +1072,6 @@ export function selectDeliveryMode(deliveryUssId, pinCode) {
       }
 
       dispatch(softReservation());
-      dispatch(createPaymentOrder());
       dispatch(selectDeliveryModeSuccess(resultJson));
       // setting data layer after selecting delivery mode success
       setDataLayerForCheckoutDirectCalls(
@@ -1824,6 +1823,7 @@ export function getPaymentModes(guId) {
       // page
 
       dispatch(paymentModesSuccess(resultJson));
+      dispatch(createPaymentOrder(guId));
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
       );
@@ -5593,11 +5593,9 @@ export function stripeTokenize(cardDetails, address, cartItem, paymentMode) {
   };
 }
 
-export function createPaymentOrder() {
+export function createPaymentOrder(guId) {
   return async (dispatch, getState, { api }) => {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    let cartGuId = JSON.parse(cartDetails).guid;
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
     let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
@@ -5611,7 +5609,7 @@ export function createPaymentOrder() {
           JSON.parse(userDetails).userName
         }/payments/createPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&channel=${CHANNEL}&deviceInfo=${deviceInfo}&networkInfo=${networkType}&browserInfo=${browserName}|${fullVersion}&platform=11&platformNumber=${PLAT_FORM_NUMBER}&appversion=`
+        }&cartGuid=${guId}&channel=${CHANNEL}&deviceInfo=${deviceInfo}&networkInfo=${networkType}&browserInfo=${browserName}|${fullVersion}&platform=11&platformNumber=${PLAT_FORM_NUMBER}&appversion=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5890,42 +5888,40 @@ export function stripe_juspay_Tokenize(
         };
       }
 
-      if (juspayToken && stripeToken && orderDetails) {
-        let juspay_token_details = {
-          pspName: "Juspay",
-          token: "",
-          cardToken: juspayToken && juspayToken.token,
-          cardFingerprint: "",
-          cardRefNo: "",
-          returnUrl: returnUrl
-        };
-        let stripe_token_details = {
-          pspName: "Stripe",
-          token: stripeToken && stripeToken.id,
-          cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
-          cardFingerprint:
-            stripeToken && stripeToken.card && stripeToken.card.fingerprint,
-          cardRefNo: "",
-          returnUrl: returnUrl
-        };
-        let cardBrandName =
-          stripeToken && stripeToken.card && stripeToken.card.brand;
-        orderDetails.wrapperItems[0].wrapperPspItems = [
-          { pspItems: [juspay_token_details, stripe_token_details] }
-        ];
-        dispatch(
-          collectPaymentOrder(
-            cardDetails,
-            address,
-            inventoryItems,
-            isPaymentFailed,
-            isFromRetryUrl,
-            orderDetails,
-            retryCartGuid,
-            cardBrandName
-          )
-        );
-      }
+      let juspay_token_details = {
+        pspName: "Juspay",
+        token: "",
+        cardToken: juspayToken && juspayToken.token,
+        cardFingerprint: "",
+        cardRefNo: "",
+        returnUrl: returnUrl
+      };
+      let stripe_token_details = {
+        pspName: "Stripe",
+        token: stripeToken && stripeToken.id,
+        cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
+        cardFingerprint:
+          stripeToken && stripeToken.card && stripeToken.card.fingerprint,
+        cardRefNo: "",
+        returnUrl: returnUrl
+      };
+      let cardBrandName =
+        stripeToken && stripeToken.card && stripeToken.card.brand;
+      orderDetails.wrapperItems[0].wrapperPspItems = [
+        { pspItems: [juspay_token_details, stripe_token_details] }
+      ];
+      dispatch(
+        collectPaymentOrder(
+          cardDetails,
+          address,
+          inventoryItems,
+          isPaymentFailed,
+          isFromRetryUrl,
+          orderDetails,
+          retryCartGuid,
+          cardBrandName
+        )
+      );
     }
   };
 }
@@ -5961,39 +5957,37 @@ export function stripe_juspay_TokenizeGiftCard(
           }
         ]
       };
-      if (juspayToken && stripeToken) {
-        let juspay_token_details = {
-          pspName: "Juspay",
-          token: "",
-          cardToken: juspayToken && juspayToken.token,
-          cardFingerprint: "",
-          cardRefNo: "",
-          returnUrl: returnUrl
-        };
-        let stripe_token_details = {
-          pspName: "Stripe",
-          token: stripeToken && stripeToken.id,
-          cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
-          cardFingerprint:
-            stripeToken && stripeToken.card && stripeToken.card.fingerprint,
-          cardRefNo: "",
-          returnUrl: returnUrl
-        };
-        let cardBrandName =
-          stripeToken && stripeToken.card && stripeToken.card.brand;
-        orderDetails.wrapperItems[0].wrapperPspItems = [
-          { pspItems: [juspay_token_details, stripe_token_details] }
-        ];
-        dispatch(
-          collectPaymentOrderForGiftCard(
-            cardDetails,
-            egvCartGuid,
-            orderDetails,
-            cardBrandName,
-            isFromRetryUrl
-          )
-        );
-      }
+      let juspay_token_details = {
+        pspName: "Juspay",
+        token: "",
+        cardToken: juspayToken && juspayToken.token,
+        cardFingerprint: "",
+        cardRefNo: "",
+        returnUrl: returnUrl
+      };
+      let stripe_token_details = {
+        pspName: "Stripe",
+        token: stripeToken && stripeToken.id,
+        cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
+        cardFingerprint:
+          stripeToken && stripeToken.card && stripeToken.card.fingerprint,
+        cardRefNo: "",
+        returnUrl: returnUrl
+      };
+      let cardBrandName =
+        stripeToken && stripeToken.card && stripeToken.card.brand;
+      orderDetails.wrapperItems[0].wrapperPspItems = [
+        { pspItems: [juspay_token_details, stripe_token_details] }
+      ];
+      dispatch(
+        collectPaymentOrderForGiftCard(
+          cardDetails,
+          egvCartGuid,
+          orderDetails,
+          cardBrandName,
+          isFromRetryUrl
+        )
+      );
     }
   };
 }
