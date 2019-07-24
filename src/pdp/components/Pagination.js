@@ -10,68 +10,79 @@ export default class Pagination extends Component {
     };
   }
   handleClick(number) {
+    let total = Math.ceil(this.props.totalPost / this.props.postPerPage);
     let pageNumbers = [];
-    if (this.state.totalpagenumbers > 10) {
-      pageNumbers = this.pushdata(number - 4, number + 4);
+    let sum = number + 4 - total;
+    let last = number + 4 >= 10 ? number + 4 : 10;
+    let first =
+      number + 4 > 10
+        ? number + 4 > total
+          ? number - 4 - sum
+          : number - 4
+        : 2;
+    if (number + 4 > 10 && number !== "...") {
+      pageNumbers = this.pushdata(first, last);
       pageNumbers.unshift("...");
       pageNumbers.unshift(1);
-
       this.setState({
         pageNumbers: pageNumbers
       });
-    } else if (number < 10) {
-      this.setState({ pageNumbers: this.pushdata(1, 10) });
     } else {
-      let endNumbers =
-        number + 4 > this.state.totalpagenumbers
-          ? this.state.totalpagenumbers
-          : this.state.totalpagenumbers - 4;
-      let startnumbers =
-        number + 4 > this.state.totalpagenumbers
-          ? 4 + (number + 4 - this.state.totalpagenumbers)
-          : number;
-      pageNumbers = this.pushdata(startnumbers, endNumbers);
-      pageNumbers.unshift("...");
-      pageNumbers.unshift(1);
+      pageNumbers = this.pushdata(1, last);
       this.setState({
         pageNumbers: pageNumbers
       });
     }
-
-    this.props.handleClick(number);
+    number === "..."
+      ? this.props.handleClick(2)
+      : this.props.handleClick(number);
   }
 
   prevClick(event) {
+    let total = Math.ceil(this.props.totalPost / this.props.postPerPage);
     let self = this;
     let state = this;
     let pageNumbers = [];
     this.props.prevClick(event, function(data) {
-      if (data < 10) {
+      let sum = data + 4 - total;
+      let last = data + 4 >= 10 ? data + 4 : 10;
+      let first =
+        data + 4 > 10 ? (data + 4 > total ? data - 4 - sum : data - 4) : 2;
+      if (data + 4 > 10) {
+        pageNumbers = self.pushdata(first, last);
+        pageNumbers.unshift("...");
+        pageNumbers.unshift(1);
         state.setState({
-          pageNumbers: self.pushdata(1, 10)
+          pageNumbers: pageNumbers
         });
       } else {
-        if (data > 10) {
-          pageNumbers = self.pushdata(data - 4, data + 4);
-          pageNumbers.unshift("...");
-          pageNumbers.unshift(1);
-          state.setState({
-            pageNumbers: pageNumbers
-          });
-        }
+        pageNumbers = self.pushdata(1, last);
+        state.setState({
+          pageNumbers: pageNumbers
+        });
       }
     });
   }
 
   nextClick(event) {
+    let total = Math.ceil(this.props.totalPost / this.props.postPerPage);
     let pageNumbers = [];
     let self = this;
     let state = this;
     this.props.prevClick(event, function(data) {
-      if (data >= 10) {
-        pageNumbers = self.pushdata(data - 4, data + 4);
+      let sum = data + 4 - total;
+      let last = data + 4 >= 10 ? data + 4 : 10;
+      let first =
+        data + 4 > 10 ? (data + 4 > total ? data - 4 - sum : data - 4) : 2;
+      if (data + 4 > 10) {
+        pageNumbers = self.pushdata(first, last);
         pageNumbers.unshift("...");
         pageNumbers.unshift(1);
+        state.setState({
+          pageNumbers: pageNumbers
+        });
+      } else {
+        pageNumbers = self.pushdata(1, last);
         state.setState({
           pageNumbers: pageNumbers
         });

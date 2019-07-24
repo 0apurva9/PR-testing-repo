@@ -206,7 +206,12 @@
     padding: 0px 9px 0px 10px;
     width: auto;
   }
-
+  .paginationHolder {
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    right: 0;
+  }
   .pageNumberInfoHolder {
     width: 30%;
     padding: 12px 52px;

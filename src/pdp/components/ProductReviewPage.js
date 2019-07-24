@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useRef, Component } from "react";
 import ReviewList from "./ReviewList";
 import styles from "./ProductReviewPage.css";
 import ProductDetailsCard from "./ProductDetailsCard";
@@ -40,6 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 import commentArray from "../../mock/lang_profanity.json";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import { userAddressFailure } from "../../cart/actions/cart.actions";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 export default class ProductReviewPage extends Component {
@@ -82,8 +83,13 @@ export default class ProductReviewPage extends Component {
     return pageNumbers;
   };
 
+  smoothScroll() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   handleClick = event => {
     this.setState({ currentPage: event });
+    this.smoothScroll();
   };
 
   prevClick = (event, callback) => {
@@ -104,6 +110,7 @@ export default class ProductReviewPage extends Component {
       });
       callback(this.state.currentPage + 1);
     }
+    this.smoothScroll();
   };
 
   handleScroll = () => {
