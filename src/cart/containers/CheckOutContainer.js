@@ -619,8 +619,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         stripe_juspay_TokenizeGiftCard(cardDetails, paymentMode, egvCartGuid)
       );
     },
-    createPaymentOrder: () => {
-      dispatch(createPaymentOrder());
+    createPaymentOrder: guId => {
+      dispatch(createPaymentOrder(guId));
     },
     collectPaymentOrder: (
       cardDetails,

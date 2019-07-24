@@ -5601,7 +5601,13 @@ export function createPaymentOrder(guId) {
     let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
     let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-
+    let cartGuId;
+    if (guId) {
+      cartGuId = guId;
+    } else {
+      let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      cartGuId = JSON.parse(cartDetails).guid;
+    }
     dispatch(createPaymentOrderRequest());
     try {
       const result = await api.post(
@@ -5609,7 +5615,7 @@ export function createPaymentOrder(guId) {
           JSON.parse(userDetails).userName
         }/payments/createPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${guId}&channel=${CHANNEL}&deviceInfo=${deviceInfo}&networkInfo=${networkType}&browserInfo=${browserName}|${fullVersion}&platform=11&platformNumber=${PLAT_FORM_NUMBER}&appversion=`
+        }&cartGuid=${cartGuId}&channel=${CHANNEL}&deviceInfo=${deviceInfo}&networkInfo=${networkType}&browserInfo=${browserName}|${fullVersion}&platform=11&platformNumber=${PLAT_FORM_NUMBER}&appversion=`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
