@@ -54,7 +54,10 @@ import {
   setDataLayerForFollowAndUnFollowBrand,
   ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
   ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
-  setDataLayerForLogoutSuccess
+  setDataLayerForLogoutSuccess,
+  setDataLayerForGiftCard,
+  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT,
+  SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -826,7 +829,9 @@ export function createGiftCardDetails(giftCardDetails) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
       return dispatch(createGiftCardSuccess(resultJson));
+
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
     }
@@ -2161,6 +2166,7 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
       }
       dispatch(getCliqCashDetails());
       dispatch(getTransactionDetails());
+      setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT);
       return dispatch(redeemCliqVoucherSuccess(resultJson));
     } catch (e) {
       return dispatch(redeemCliqVoucherFailure(e.message));
