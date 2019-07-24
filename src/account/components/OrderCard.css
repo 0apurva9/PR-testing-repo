@@ -17,6 +17,13 @@
 	padding: 0px 0px 10px 20px;
 	vertical-align: top;
 }
+.callOutTitle {
+	font-family: light;
+	font-size: 12px;
+	margin-bottom: 8px;
+	color: #181818;
+	line-height: 22px;
+}
 .pickupAddressHolder {
 	display: block;
 	width: 100%;

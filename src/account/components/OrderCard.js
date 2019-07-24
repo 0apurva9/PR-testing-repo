@@ -458,12 +458,7 @@ export default class OrderCard extends React.Component {
               </span> */}
         {/* </div>
           )} */}
-        {this.props.isOrderReturnable === false &&
-          this.props.statusDisplay === "Delivered" && (
-            <div className={styles.returnClosed}>
-              {PRODUCT_RETURN_WINDOW_CLOSED}
-            </div>
-          )}
+
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus === "DELIVERED" &&
           this.props.deliveryDate && (
@@ -478,13 +473,39 @@ export default class OrderCard extends React.Component {
           this.props.consignmentStatus &&
           !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
-            <div className={styles.commonTitle}>
+            <div
+              className={
+                shipmentStatus == "Eligible for Return till" ||
+                shipmentStatus ==
+                  "Any paid amount will be refunded in 4 business days."
+                  ? styles.callOutTitle
+                  : styles.commonTitle
+              }
+            >
               {shipmentStatus && (
-                <span className={styles.ffsemibold}>{shipmentStatus}: </span>
+                <span
+                  className={
+                    shipmentStatus == "Eligible for Return till" ||
+                    shipmentStatus ==
+                      "Any paid amount will be refunded in 4 business days."
+                      ? ""
+                      : styles.ffsemibold
+                  }
+                >
+                  {shipmentStatus}:{" "}
+                </span>
               )}
               {!this.props.returnMode &&
                 this.props.consignmentStatus !== "DELIVERED" && (
-                  <span className={styles.styleDate}>
+                  <span
+                    className={
+                      shipmentStatus == "Eligible for Return till" ||
+                      shipmentStatus ==
+                        "Any paid amount will be refunded in 4 business days."
+                        ? ""
+                        : styles.styleDate
+                    }
+                  >
                     {this.props.estimatedDeliveryDate
                       ? estimatedDeliveryDateFormatted
                       : date}
@@ -495,13 +516,27 @@ export default class OrderCard extends React.Component {
                   {EstDeliveryFormatted}
                 </span>
               )} */}
-              <span className={styles.styleDate}>
+              <span
+                className={
+                  shipmentStatus == "Eligible for Return till" ||
+                  shipmentStatus ==
+                    "Any paid amount will be refunded in 4 business days."
+                    ? ""
+                    : styles.styleDate
+                }
+              >
                 {this.props.consignmentStatus === "DELIVERED" &&
                   format(returnEligibleDate.toString(), dateFormat)}
               </span>
             </div>
           )}
 
+        {this.props.isOrderReturnable === false &&
+          this.props.statusDisplay === "Delivered" && (
+            <div className={styles.returnClosed}>
+              {PRODUCT_RETURN_WINDOW_CLOSED}
+            </div>
+          )}
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}
