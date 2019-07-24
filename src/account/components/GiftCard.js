@@ -15,10 +15,6 @@ import {
   GIFT_CARD,
   HOME_ROUTER
 } from "../../lib/constants";
-import {
-  setDataLayerForGiftCard,
-  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT
-} from "../../lib/adobeUtils";
 import { SUCCESS } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 const PRODUCT_ID = "MP000000000127263";
@@ -120,7 +116,6 @@ export default class GiftCard extends React.Component {
           this.props.displayToast("Please enter sender name");
           return false;
         } else {
-          setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
           this.props.createGiftCardDetails(giftCardDetails);
         }
       }

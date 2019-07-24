@@ -5,10 +5,6 @@ import Input2 from "../../general/components/Input2";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
 
-import {
-  setDataLayerForGiftCard,
-  SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT
-} from "../../lib/adobeUtils";
 export default class CliqCashModule extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +15,6 @@ export default class CliqCashModule extends Component {
   }
   redeemCliqVoucher() {
     if (this.state.cardNumber && this.state.pinNumber) {
-      setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT);
       this.setState({ cliqCashUpdate: true });
       if (this.props.redeemCliqVoucher) {
         this.props.redeemCliqVoucher(this.state);
