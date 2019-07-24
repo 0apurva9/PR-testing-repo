@@ -56,7 +56,6 @@ import {
   ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
   setDataLayerForLogoutSuccess,
   setDataLayerForGiftCard,
-  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT,
   SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT
 } from "../../lib/adobeUtils";
 import {
@@ -829,7 +828,6 @@ export function createGiftCardDetails(giftCardDetails) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
       return dispatch(createGiftCardSuccess(resultJson));
 
     } catch (e) {
