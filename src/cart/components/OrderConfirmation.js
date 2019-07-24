@@ -20,7 +20,17 @@ import addressIcon from "../../general/components/img/addressbook.svg";
 import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import {
+  setDataLayerForGiftCard,
+  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT
+} from "../../lib/adobeUtils";
+
 export default class OrderConfirmation extends React.Component {
+  componentDidMount() {
+    if (this.props.orderDetails.isEgvOrder) {
+      setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
+    }
+  }
   captureOrderExperience = rating => {
     this.props.captureOrderExperience(rating);
   };
