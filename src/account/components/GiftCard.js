@@ -15,7 +15,6 @@ import {
   GIFT_CARD,
   HOME_ROUTER
 } from "../../lib/constants";
-
 import { SUCCESS } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 const PRODUCT_ID = "MP000000000127263";
@@ -99,9 +98,7 @@ export default class GiftCard extends React.Component {
             this.state.amountText >= MINIMUM_PRICE
           )
         ) {
-          this.props.displayToast(
-            `Amount Should be less then ${MAXIMUM_PRICE} and greater than ${MINIMUM_PRICE} `
-          );
+          this.props.displayToast("Please enter a valid amount.");
           return false;
         }
 
@@ -110,7 +107,9 @@ export default class GiftCard extends React.Component {
           return false;
         }
         if (!EMAIL_REGULAR_EXPRESSION.test(this.state.email)) {
-          this.props.displayToast("Please fill valid  e-mail address");
+          this.props.displayToast(
+            "Please enter valid Receiver's email address"
+          );
           return false;
         }
         if (!this.state.senderName) {
