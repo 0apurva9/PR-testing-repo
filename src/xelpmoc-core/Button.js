@@ -60,6 +60,7 @@ export default class Button extends React.Component {
           height: this.props.height,
           width: this.props.width,
           borderRadius: this.props.borderRadius,
+          background: this.props.background ? this.props.background : "none",
           backgroundColor: this.state.backgroundColor,
           border: `2px solid ${this.state.borderColor}`
         }}
