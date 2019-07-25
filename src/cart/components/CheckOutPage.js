@@ -101,7 +101,8 @@ import {
   E_WALLET_PAYPAL,
   RETRY_FAILED_ORDER,
   RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
-  EMI_TENURE
+  EMI_TENURE,
+  WHATSAPP_NOTIFICATION
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -509,6 +510,12 @@ class CheckOutPage extends React.Component {
   }
   handleWhatsAppClick(isSelected) {
     this.setState({ whatsappSelected: isSelected });
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    if (isSelected && !whatsappNotification) {
+      Cookie.createCookie(WHATSAPP_NOTIFICATION, isSelected);
+    } else {
+      Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
+    }
   }
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
