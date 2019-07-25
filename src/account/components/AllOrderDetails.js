@@ -327,6 +327,7 @@ export default class AllOrderDetails extends React.Component {
       baseClassName = styles.base;
     }
     let productsDetails = orderDetails && orderDetails.products;
+    // console.log("props in account order:", this.props);
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
@@ -704,6 +705,7 @@ export default class AllOrderDetails extends React.Component {
                                     retryPayment={
                                       orderDetails.displayStatusName
                                     }
+                                    displayToast={this.props.displayToast}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>
