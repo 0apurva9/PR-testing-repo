@@ -621,6 +621,19 @@ class App extends Component {
                 );
               }}
             />
+            <Route
+              path="/care"
+              component={() => {
+                window.location.replace(
+                  "http://localhost:3000/my-account/order-related"
+                );
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
