@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import styles from "./DesktopFooterProductList.css";
 class DesktopFooterProductList extends Component {
   render() {
+    let current_datetime = new Date();
+    let formatted_date =
+      current_datetime.getFullYear() +
+      "/" +
+      (current_datetime.getMonth() + 1) +
+      "/" +
+      current_datetime.getDate();
+
     return (
       <div className={styles.baseWrapper}>
         <div className={styles.base}>
@@ -46,9 +54,9 @@ class DesktopFooterProductList extends Component {
                 })}
             </div>
           </div>
-          {/* <div className={styles.lastUpdated}>
-            This data was last updated on 2019/06/28
-          </div> */}
+          <div className={styles.lastUpdated}>
+            This data was last updated on {formatted_date}
+          </div>
         </div>
       </div>
     );
