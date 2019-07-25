@@ -625,7 +625,7 @@ class App extends Component {
               path="/care"
               component={() => {
                 window.location.replace(
-                  "http://localhost:3000/my-account/order-related"
+                  "https://www.tatacliq.com/my-account/order-related"
                 );
                 return (
                   <div className={AppStyles.loadingIndicator}>
