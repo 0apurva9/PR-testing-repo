@@ -376,8 +376,7 @@ export default class OrderCard extends React.Component {
               </div>
             )}
           {this.props &&
-            this.props.getRefundModesDetails &&
-            this.props.getRefundModesDetails.typeofRefund != "REFNOPCK" && (
+            this.props.returnMode != "REFNOPCK" && (
               <React.Fragment>
                 {this.props.pickupAddress && (
                   <div className={styles.pickupAddressHolder}>
