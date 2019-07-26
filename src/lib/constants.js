@@ -93,6 +93,8 @@ export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
 export const ORDER_PREFIX = "/my-account/order/(.*)";
 export const ORDER_CODE = "orderCode";
 export const ORDER = "/order";
+export const TRANSACTION_DETAIL_PAGE = "/transaction";
+export const TRANSACTION_HISTORY = "/transactionHistory";
 export const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
 // MyAccount Routes
 export const MY_ACCOUNT_PAGE_ROOT = "/my-account/.*";
@@ -246,6 +248,10 @@ export const PRIVACY_POLICY_URL = "/privacy-policy";
 export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq";
+export const DUMMY_FAQ = "/cliq-cash-tnc";
+export const DUMMY_TC = "/sample-cliq-cash";
+export const CLIQ_CASH_FAQ = "/cliq-cash-faq";
+export const CLIQ_CASH_TC = "/cliq-cash-tnc";
 export const HELP_URL = "/help";
 export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
@@ -383,3 +389,7 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
+export const RECEIVED = "Received";
+export const PAID = "Paid";
+export const EXPIRED = "Expired";
+export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
