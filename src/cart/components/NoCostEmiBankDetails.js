@@ -71,7 +71,12 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedFromDropDown: false
       });
     }
-    if (nextProps.isNoCostEmiApplied && !this.state.selectedCouponCode) {
+
+    if (
+      nextProps.isNoCostEmiApplied &&
+      !this.state.selectedCouponCode &&
+      this.props.noCostEmiProductCount !== nextProps.noCostEmiProductCount
+    ) {
       let bankObject =
         this.props.bankList &&
         this.props.bankList.find(
@@ -99,7 +104,8 @@ export default class NoCostEmiBankDetails extends React.Component {
         emi_bank: this.state.selectedBankCode,
         emi_tenure: emiTenureObj.tenure,
         selectedMonth,
-        selectedCouponCode: emiTenureObj.emicouponCode
+        selectedCouponCode: emiTenureObj.emicouponCode,
+        selectedBankName: this.state.selectedBankName
       });
     }
   }
@@ -227,7 +233,8 @@ export default class NoCostEmiBankDetails extends React.Component {
           emi_bank: this.state.selectedBankCode,
           emi_tenure: val.tenure,
           selectedMonth: index,
-          selectedCouponCode: val.emicouponCode
+          selectedCouponCode: val.emicouponCode,
+          selectedBankName: this.state.selectedBankName
         });
       } else {
         this.setState({

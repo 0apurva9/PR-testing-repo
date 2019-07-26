@@ -1,0 +1,206 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  background-color: #ececec;
+  padding: 80px 0px 100px 0px;
+}
+.transactionBase {
+  width: 100%;
+  height: auto;
+  padding-top: 10px;
+}
+.transDetail {
+  width: 60%;
+  margin: auto;
+  display: inline-block;
+  padding: 0px 22px 0px 22px;
+  max-width: 720px;
+  border-radius: 4px;
+  user-select: none;
+}
+.transDetailHolder {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+}
+.dataHolder {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  margin-bottom: 18px;
+  border-radius: 4px;
+}
+.headerContainer {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.labelHeader {
+  width: 50%;
+  height: auto;
+  color: #212121;
+  font-size: 16px;
+  font-family: semibold;
+  display: inline-block;
+  vertical-align: middle;
+}
+.backToCliqCash {
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+  color: #da1c5c;
+  font-size: 14px;
+  font-family: regular;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.tabData {
+  width: auto;
+  min-width: 15%;
+  height: 32px;
+  line-height: 32px;
+  color: #4a4a4a;
+  font-family: regular;
+  font-size: 14px;
+  padding: 0px 10px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+.checkedTab {
+  composes: tabData;
+  color: #fff;
+  font-family: semibold;
+  background: linear-gradient(#da1c5c, #da1c5c);
+  border-radius: 25px;
+}
+.divider {
+  width: 100%;
+  height: 25px;
+  position: relative;
+  color: #212121;
+  font-size: 10px;
+  font-family: semibold;
+  line-height: 25px;
+  text-align: left;
+  margin-top: 10px;
+}
+.divider::after {
+  content: "";
+  height: 1px;
+  width: 85%;
+  border-top: 1px solid #ccc;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.dateSection {
+  width: 100%;
+  position: relative;
+  padding-top: 16px;
+}
+.dateTime {
+  font-size: 14px;
+  font-family: semibold;
+  width: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #fff;
+  height: 20px;
+  line-height: 20px;
+  color: #212121;
+  padding-right: 20px;
+}
+.borderSection {
+  position: absolute;
+  border-top: 1px solid #efefef;
+  width: 100%;
+  top: 0;
+  height: 0px;
+  right: 0px;
+  bottom: 0;
+  margin: auto;
+}
+.orderSection {
+  margin-top: 16px;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  cursor: pointer;
+}
+.orderSummary {
+  float: left;
+  width: 70%;
+}
+.orderDetails {
+  color: #212121;
+  font-family: regular;
+  float: right;
+  width: 30%;
+}
+.orderText {
+  font-size: 14px;
+  font-family: regular;
+  color: #212121;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 70%;
+}
+.orderNumber {
+  font-size: 12px;
+  color: #8d8d8d;
+  font-family: light;
+}
+.expireDate {
+  width: 100%;
+  height: auto;
+  font-size: 12px;
+  font-family: light;
+  color: #212121;
+  margin-top: 5px;
+}
+.orderAmount {
+  font-size: 14px;
+  text-align: right;
+  font-family: light;
+  color: #212121;
+}
+.orderAmountGreen {
+  font-size: 14px;
+  text-align: right;
+  color: #6b9e31;
+  font-family: semibold;
+}
+.orderTime {
+  font-size: 10px;
+  text-align: right;
+  color: #8d8d8d;
+}
+.faqAndTcHolder {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-top: 18px;
+}
+.emptyDataContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+.emptyDataText {
+  font-size: 16px;
+  text-align: center;
+  color: #8d8d8d;
+}

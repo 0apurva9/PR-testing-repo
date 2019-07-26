@@ -55,6 +55,7 @@ export default class KycDetailsPopup extends React.Component {
             onChange={otp => this.setState({ otp })}
             onlyNumber={true}
             maxLength={6}
+            value={this.state.otp}
           />
         </div>
         <div className={Styles.buttonHolder}>

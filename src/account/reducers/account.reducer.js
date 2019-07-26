@@ -58,6 +58,10 @@ const account = (
     userAddressStatus: null,
     userAddressError: null,
 
+    transactionDetails: null,
+    transactionDetailsStatus: null,
+    transactionDetailsError: null,
+
     removeAddressStatus: null,
     removeAddressError: null,
 
@@ -251,6 +255,7 @@ const account = (
         removeAddressError: null,
         editAddressError: null,
         addUserAddressError: null,
+        transactionDetailsError: null,
         followedBrandsError: null,
         cliqCashUserDetailsError: null,
         cliqCashVoucherDetailsError: null,
@@ -401,6 +406,25 @@ const account = (
         verifyWalletStatus: action.status,
         verifyWalletError: action.error,
         loadingForverifyWallet: false
+      });
+    case accountActions.GET_TRANSACTION_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        transactionDetailsStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_TRANSACTION_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        transactionDetailsStatus: action.status,
+        transactionDetails: action.transactionDetails,
+        loading: false
+      });
+
+    case accountActions.GET_TRANSACTION_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        transactionDetailsStatus: action.status,
+        transactionDetailsError: action.error,
+        loading: false
       });
 
     case accountActions.SUBMIT_SELF_COURIER_INFO_REQUEST:
@@ -1421,6 +1445,10 @@ const account = (
         loadingForUpdateReturnHOTC: false
       });
 
+    case accountActions.CLEAR_TRANSACTION_DATA:
+      return Object.assign({}, state, {
+        transactionDetails: " "
+      });
     default:
       return state;
   }

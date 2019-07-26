@@ -8,7 +8,6 @@ import FooterButton from "../../general/components/FooterButton.js";
 import MediaQuery from "react-responsive";
 import Button from "../../xelpmoc-core/Button";
 import { CHECKOUT_ROUTER, GIFT_CARD } from "../../lib/constants";
-
 import { SUCCESS } from "../../lib/constants.js";
 const PRODUCT_ID = "MP000000000127263";
 const QUANTITY = "1";
@@ -91,9 +90,7 @@ export default class GiftCard extends React.Component {
             this.state.amountText >= MINIMUM_PRICE
           )
         ) {
-          this.props.displayToast(
-            `Amount Should be less then ${MAXIMUM_PRICE} and greater than ${MINIMUM_PRICE} `
-          );
+          this.props.displayToast("Please enter a valid amount.");
           return false;
         }
 
@@ -102,7 +99,9 @@ export default class GiftCard extends React.Component {
           return false;
         }
         if (!EMAIL_REGULAR_EXPRESSION.test(this.state.email)) {
-          this.props.displayToast("Please fill valid  e-mail address");
+          this.props.displayToast(
+            "Please enter valid Receiver's email address"
+          );
           return false;
         }
         if (!this.state.senderName) {

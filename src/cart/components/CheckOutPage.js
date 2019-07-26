@@ -130,7 +130,7 @@ const CONTINUE = "Continue";
 const PROCEED = "Proceed";
 const COUPON_AVAILABILITY_ERROR_MESSAGE = "Your applied coupon has expired";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
-  "Product is not Serviceable,Please try with another pin code";
+  "Product is not Serviceable, Please try with another pin code";
 const SELECT_DELIVERY_MODE_MESSAGE =
   "Please Select the delivery mode for all the products";
 const ERROR_MESSAGE_FOR_PICK_UP_PERSON_NAME =
@@ -1503,6 +1503,15 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.history.push(HOME_ROUTER);
       }
     }
+    let orderRetryCartId = JSON.parse(
+      localStorage.getItem(RETRY_PAYMENT_CART_ID)
+    );
+    if (!cartDetailsLoggedInUser && orderRetryCartId) {
+      Cookie.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify({ guid: orderRetryCartId })
+      );
+    }
   }
 
   getEmiBankDetails = () => {
@@ -1556,10 +1565,11 @@ if you have order id in local storage then you have to show order confirmation p
       let cartDetailsLoggedInUser = Cookie.getCookie(
         CART_DETAILS_FOR_LOGGED_IN_USER
       );
-      localStorage.setItem(
-        OLD_CART_CART_ID,
-        JSON.parse(cartDetailsLoggedInUser).code
-      );
+      cartDetailsLoggedInUser &&
+        localStorage.setItem(
+          OLD_CART_CART_ID,
+          JSON.parse(cartDetailsLoggedInUser).code
+        );
 
       if (cartDetailsLoggedInUser) {
         carGuId = JSON.parse(cartDetailsLoggedInUser).guid;
@@ -1871,6 +1881,7 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (
         couponCookie &&
+        !this.state.isCliqCashApplied &&
         !cartDetailsCouponDiscount &&
         this.props.cart.cartDetailsCNCStatus === SUCCESS
       ) {
@@ -2305,103 +2316,105 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   addAddress = address => {
-    if (!address) {
-      this.props.displayToast("Please enter the valid details");
-      return false;
-    }
-    if (address && !address.postalCode) {
-      this.props.displayToast(PINCODE_TEXT);
-      return false;
-    }
-    if (address && address.postalCode && address.postalCode.length < 6) {
-      this.props.displayToast(PINCODE_VALID_TEXT);
-      return false;
-    }
-    if (
-      !address ||
-      !address.firstName ||
-      !address.firstName.trim() ||
-      !NAME_VALIDATION.test(address.firstName.trim())
-    ) {
-      this.props.displayToast(NAME_TEXT);
-      return false;
-    }
-    if (
-      !address ||
-      !address.lastName ||
-      !address.lastName.trim() ||
-      !NAME_VALIDATION.test(address.lastName.trim())
-    ) {
-      this.props.displayToast(LAST_NAME_TEXT);
-      return false;
-    }
+    if (!this.state.isGiftCard) {
+      if (!address) {
+        this.props.displayToast("Please enter the valid details");
+        return false;
+      }
+      if (address && !address.postalCode) {
+        this.props.displayToast(PINCODE_TEXT);
+        return false;
+      }
+      if (address && address.postalCode && address.postalCode.length < 6) {
+        this.props.displayToast(PINCODE_VALID_TEXT);
+        return false;
+      }
+      if (
+        !address ||
+        !address.firstName ||
+        !address.firstName.trim() ||
+        !NAME_VALIDATION.test(address.firstName.trim())
+      ) {
+        this.props.displayToast(NAME_TEXT);
+        return false;
+      }
+      if (
+        !address ||
+        !address.lastName ||
+        !address.lastName.trim() ||
+        !NAME_VALIDATION.test(address.lastName.trim())
+      ) {
+        this.props.displayToast(LAST_NAME_TEXT);
+        return false;
+      }
 
-    if (!address.line1 || !address.line1.trim()) {
-      this.props.displayToast(ADDRESS_TEXT);
-      return false;
-    }
+      if (!address.line1 || !address.line1.trim()) {
+        this.props.displayToast(ADDRESS_TEXT);
+        return false;
+      }
 
-    if (address.line1.length < 15) {
-      this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
-      return false;
-    }
-    if (address.line1.length > 120) {
-      this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
-      return false;
-    }
+      if (address.line1.length < 15) {
+        this.props.displayToast(ADDRESS_MINLENGTH_VALID_TEXT);
+        return false;
+      }
+      if (address.line1.length > 120) {
+        this.props.displayToast(ADDRESS_MAXLENGTH_VALID_TEXT);
+        return false;
+      }
 
-    if (!ADDRESS_VALIDATION.test(address.line1.trim())) {
-      this.props.displayToast(ADDRESS_VALIDATION_TEXT);
-      return false;
-    }
+      if (!ADDRESS_VALIDATION.test(address.line1.trim())) {
+        this.props.displayToast(ADDRESS_VALIDATION_TEXT);
+        return false;
+      }
 
-    if (address && !address.town) {
-      this.props.displayToast(CITY_TEXT);
-      return false;
-    }
-    if (address && !address.state) {
-      this.props.displayToast(STATE_TEXT);
-      return false;
-    }
-    if (address && !address.phone) {
-      this.props.displayToast(PHONE_TEXT);
-      return false;
-    }
-    if (address && !MOBILE_PATTERN.test(address.phone)) {
-      this.props.displayToast(PHONE_VALID_TEXT);
-      return false;
-    }
-    if (address && !address.addressType) {
-      this.props.displayToast(SELECT_ADDRESS_TYPE);
-      return false;
-    }
-    if (!address.userEmailId && !address.emailId && address.emailId === "") {
-      this.props.displayToast("Please enter the EmailId");
-      return false;
-    }
-    if (
-      address.emailId &&
-      address.emailId !== "" &&
-      !EMAIL_REGULAR_EXPRESSION.test(address.emailId)
-    ) {
-      this.props.displayToast(EMAIL_VALID_TEXT);
-      return false;
-    } else {
-      if (this.props.addUserAddress) {
-        let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-        let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-        let cartDetailsLoggedInUser = Cookie.getCookie(
-          CART_DETAILS_FOR_LOGGED_IN_USER
-        );
-        let getCartDetailCNCObj = {
-          userId: JSON.parse(userDetails).userName,
-          accessToken: JSON.parse(customerCookie).access_token,
-          cartId: JSON.parse(cartDetailsLoggedInUser).code,
-          pinCode: address && address.postalCode,
-          isSoftReservation: false
-        };
-        this.props.addUserAddress(address, getCartDetailCNCObj);
-        this.setState({ addNewAddress: false });
+      if (address && !address.town) {
+        this.props.displayToast(CITY_TEXT);
+        return false;
+      }
+      if (address && !address.state) {
+        this.props.displayToast(STATE_TEXT);
+        return false;
+      }
+      if (address && !address.phone) {
+        this.props.displayToast(PHONE_TEXT);
+        return false;
+      }
+      if (address && !MOBILE_PATTERN.test(address.phone)) {
+        this.props.displayToast(PHONE_VALID_TEXT);
+        return false;
+      }
+      if (address && !address.addressType) {
+        this.props.displayToast(SELECT_ADDRESS_TYPE);
+        return false;
+      }
+      if (!address.userEmailId && !address.emailId && address.emailId === "") {
+        this.props.displayToast("Please enter the EmailId");
+        return false;
+      }
+      if (
+        address.emailId &&
+        address.emailId !== "" &&
+        !EMAIL_REGULAR_EXPRESSION.test(address.emailId)
+      ) {
+        this.props.displayToast(EMAIL_VALID_TEXT);
+        return false;
+      } else {
+        if (this.props.addUserAddress) {
+          let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+          let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+          let cartDetailsLoggedInUser = Cookie.getCookie(
+            CART_DETAILS_FOR_LOGGED_IN_USER
+          );
+          let getCartDetailCNCObj = {
+            userId: JSON.parse(userDetails).userName,
+            accessToken: JSON.parse(customerCookie).access_token,
+            cartId: JSON.parse(cartDetailsLoggedInUser).code,
+            pinCode: address && address.postalCode,
+            isSoftReservation: false
+          };
+          this.props.addUserAddress(address, getCartDetailCNCObj);
+          this.setState({ addNewAddress: false });
+        }
       }
     }
   };
@@ -2535,13 +2548,14 @@ if you have order id in local storage then you have to show order confirmation p
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
           this.state.cardDetails &&
-          binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank !==
-            this.state.cardDetails.emi_bank
+          !this.state.cardDetails.emi_bank.includes(
+            binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+          )
         ) {
           this.setState({
             emiBinValidationStatus: true,
             emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
-              binValidationOfEmiEligibleResponse.binValidationOfEmiEligible.bank
+              this.state.cardDetails.selectedBankName
             } card only.`
           });
         } else if (

@@ -118,6 +118,7 @@ export default class ProductReviewPage extends Component {
       if (!userDetails || !customerCookie) {
         const url = this.props.location.pathname;
         this.props.setUrlToRedirectToAfterAuth(url);
+        this.props.hideSecondaryLoader();
         this.props.history.push(LOGIN_PATH);
       } else {
         this.setState({ visible: true });
