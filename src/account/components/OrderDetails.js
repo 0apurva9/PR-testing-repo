@@ -239,6 +239,10 @@ export default class OrderDetails extends React.Component {
       this.props.fetchOrderDetails(orderCode);
       this.props.setHeaderText("Order Details");
     }
+    localStorage.removeItem("secondaryLabel");
+    localStorage.removeItem("secondaryCode");
+    localStorage.removeItem("primaryLabel");
+    localStorage.removeItem("primaryCode");
   }
   updateRefundDetailsPopUp(orderId, transactionId) {
     const orderDetails = {};
