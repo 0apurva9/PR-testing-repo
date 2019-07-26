@@ -97,6 +97,8 @@ export default class ReturnReasonForm extends React.Component {
     } else {
       this.setState({ showImageUpload: false });
     }
+    localStorage.setItem("primaryLabel", label);
+    localStorage.setItem("primaryCode", code);
   }
   handleChange(val) {
     this.setState({ comment: val });
@@ -108,6 +110,8 @@ export default class ReturnReasonForm extends React.Component {
     const code = val.value;
     const label = val.label;
     this.setState({ subReasonCode: code, subReason: label, isEnable: true });
+    localStorage.setItem("secondaryLabel", label);
+    localStorage.setItem("secondaryCode", code);
     //getting value from html converts its to string so checking in below way,
     //not using === as it is not working
     if (val.isImageApplicable == "true") {
@@ -121,6 +125,7 @@ export default class ReturnReasonForm extends React.Component {
       this.props.onCancel();
     }
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -128,10 +133,17 @@ export default class ReturnReasonForm extends React.Component {
       return this.navigateToLogin();
     }
     let disabledContinueButton = true;
-    if (this.state.reason) {
+    if (
+      this.state.reason ||
+      localStorage.getItem("primaryLabel") !== null ||
+      localStorage.getItem("secondaryLabel") !== null
+    ) {
       let secondaryReasons = this.state.secondaryReasons;
       if (secondaryReasons && secondaryReasons !== undefined) {
-        if (this.state.subReason) {
+        if (
+          this.state.subReason ||
+          localStorage.getItem("secondaryLabel") !== null
+        ) {
           disabledContinueButton = false;
         } else {
           disabledContinueButton = true;
@@ -152,6 +164,22 @@ export default class ReturnReasonForm extends React.Component {
     const data = this.props.returnProductDetails;
     let imageCallOut = data && data.attachmentImageCallout;
     let imageCallOutArr = imageCallOut && imageCallOut.split("|");
+
+    let primaryLabel = localStorage.getItem("primaryLabel");
+    let secondaryLabel = localStorage.getItem("secondaryLabel");
+    let c = null;
+    let d = null;
+
+    if (primaryLabel !== null) {
+      c = primaryLabel;
+    } else {
+      c = this.props.returnFlow ? "Select issue" : "Select a reason";
+    }
+    if (secondaryLabel !== null) {
+      d = secondaryLabel;
+    } else {
+      d = "Select a reason";
+    }
     return (
       <React.Fragment>
         <div className={stylesCommon.base}>
@@ -258,11 +286,7 @@ export default class ReturnReasonForm extends React.Component {
                       )}
                       <div className={styles.select}>
                         <SelectBoxMobile2
-                          placeholder={
-                            this.props.returnFlow
-                              ? "Select issue"
-                              : "Select a reason"
-                          }
+                          placeholder={c}
                           options={
                             data &&
                             data.returnReasonMap &&
@@ -277,10 +301,12 @@ export default class ReturnReasonForm extends React.Component {
                           onChange={val => this.onChangePrimary(val)}
                         />
                       </div>
-                      {this.state.secondaryReasons && (
+
+                      {(secondaryLabel !== null ||
+                        this.state.secondaryReasons) && (
                         <div className={styles.select}>
                           <SelectBoxMobile2
-                            placeholder={"Select a reason"}
+                            placeholder={d}
                             options={this.state.secondaryReasons}
                             onChange={val => this.onChangeSecondary(val)}
                             isEnable={this.state.isEnable}
