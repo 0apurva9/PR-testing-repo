@@ -13,13 +13,18 @@ export default class DeliveryAddressCopy extends React.Component {
       whatsAppActive: false
     };
   }
-  componentDidMount() {
-    this.setState({ whatsAppActive: this.props.selected });
+  async componentDidMount() {
+    await this.setState({ whatsAppActive: this.props.selected });
+    if (this.props.selected && this.props.handleWhatsAppClick) {
+      this.props.handleWhatsAppClick(this.state.whatsAppActive);
+    }
   }
   async handleClick() {
     await this.setState({ whatsAppActive: !this.props.selected });
     if (this.props.selectItem) {
       this.props.selectItem();
+    }
+    if (this.props.handleWhatsAppClick) {
       this.props.handleWhatsAppClick(this.state.whatsAppActive);
     }
   }
