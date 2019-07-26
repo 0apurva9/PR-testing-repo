@@ -103,20 +103,6 @@ export default class CreditCardForm extends React.Component {
     }
   }
 
-  getNumber() {
-    return this.props.cardNumber && this.props.cardNumber.length > 0
-      ? this.props.cardNumber
-          .replace(REGX_FOR_WHITE_SPACE, "")
-          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-          .trim()
-      : this.state.cardNumber
-        ? this.state.cardNumber
-            .replace(REGX_FOR_WHITE_SPACE, "")
-            .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-            .trim()
-        : "";
-  }
-
   onChange(val) {
     this.setState(val);
     if (this.props.onChangeCardDetail) {
@@ -190,7 +176,19 @@ export default class CreditCardForm extends React.Component {
             <div className={styles.content}>
               <Input2
                 placeholder="Card Number *"
-                value={this.getNumber()}
+                value={
+                  this.props.cardNumber && this.props.cardNumber.length > 0
+                    ? this.props.cardNumber
+                        .replace(REGX_FOR_WHITE_SPACE, "")
+                        .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                        .trim()
+                    : this.state.cardNumber
+                      ? this.state.cardNumber
+                          .replace(REGX_FOR_WHITE_SPACE, "")
+                          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                          .trim()
+                      : ""
+                }
                 onFocus={() => {
                   this.handleOnFocusInput();
                 }}

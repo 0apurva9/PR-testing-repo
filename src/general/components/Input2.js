@@ -6,8 +6,7 @@ export default class Input2 extends React.Component {
     super(props);
     this.state = {
       focused: false,
-      value: props.value ? props.value : "",
-      oldPosition: 0
+      value: props.value ? props.value : ""
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -31,16 +30,6 @@ export default class Input2 extends React.Component {
     const NUMBER_REGEX = /^[0-9]+$/;
     const CARD_REGEX = /^[0-9\s]+$/;
     const ALPHABET_REGEX = /^[a-zA-Z ]+$/;
-    const element = event.target;
-    const cursorPosition = event.target.selectionStart;
-    let oldCursorPosition = this.state.oldPosition;
-    if (oldCursorPosition > cursorPosition) {
-      window.requestAnimationFrame(() => {
-        element.selectionStart = cursorPosition;
-        element.selectionEnd = cursorPosition;
-      });
-    }
-    this.setState({ oldPosition: cursorPosition });
     if (this.props.isCard) {
       if (event.target.value === "" || CARD_REGEX.test(event.target.value)) {
         this.setState({ value: event.target.value }, () => {

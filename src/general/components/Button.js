@@ -61,22 +61,6 @@ export default class Button extends React.Component {
             }}
           />
         );
-
-      case "linearGradient":
-        return (
-          <CoreButton
-            {...other}
-            borderRadius={this.props.height / 2}
-            textStyle={{
-              color: "#ffffff",
-              fontSize: 14,
-              fontFamily: "semibold"
-            }}
-            background={`linear-gradient(${this.props.linearColor.fromColor},${
-              this.props.linearColor.toColor
-            })`}
-          />
-        );
       default:
         return <CoreButton {...this.props} />;
     }
@@ -87,20 +71,10 @@ export default class Button extends React.Component {
 }
 
 Button.propTypes = {
-  type: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "tertiary",
-    "hollow",
-    "linearGradient"
-  ])
+  type: PropTypes.oneOf(["primary", "secondary", "tertiary", "hollow"])
 };
 
 Button.defaultProps = {
   height: 36,
-  color: "#212121",
-  linearColor: {
-    fromColor: "#ce5096",
-    toColor: "#da6060"
-  }
+  color: "#212121"
 };
