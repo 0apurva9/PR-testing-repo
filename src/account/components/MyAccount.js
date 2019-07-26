@@ -32,12 +32,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayer,
-  ADOBE_MY_ACCOUNT_LANDING_PAGE,
-  setDataLayerForFaqAndTc,
-  SET_DATA_LAYER_FAQ,
-  SET_DATA_LAYER_TC,
-  FAQ,
-  TC
+  ADOBE_MY_ACCOUNT_LANDING_PAGE
 } from "../../lib/adobeUtils";
 export default class MyAccount extends React.Component {
   constructor(props) {
@@ -55,12 +50,7 @@ export default class MyAccount extends React.Component {
       `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`
     );
   }
-  redirectPage = (url, type) => {
-    if (type == FAQ) {
-      setDataLayerForFaqAndTc(SET_DATA_LAYER_FAQ);
-    } else if (type == TC) {
-      setDataLayerForFaqAndTc(SET_DATA_LAYER_TC);
-    }
+  redirectPage = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
@@ -208,7 +198,7 @@ export default class MyAccount extends React.Component {
                   <div className={styles.usefulLinkText}>Buyer Policies</div>
                 </AccountUsefulLink>
                 <AccountUsefulLink
-                  onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL, TC)}
+                  onClick={() => this.redirectPage(TERMS_AND_CONDITION_URL)}
                 >
                   <div className={styles.usefulLinkText}>
                     Terms & Conditions
@@ -219,9 +209,7 @@ export default class MyAccount extends React.Component {
                 >
                   <div className={styles.usefulLinkText}>About us</div>
                 </AccountUsefulLink>
-                <AccountUsefulLink
-                  onClick={() => this.redirectPage(FAQ_URL, FAQ)}
-                >
+                <AccountUsefulLink onClick={() => this.redirectPage(FAQ_URL)}>
                   <div className={styles.usefulLinkText}>FAQ</div>
                 </AccountUsefulLink>
               </div>

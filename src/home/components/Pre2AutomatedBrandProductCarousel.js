@@ -13,10 +13,7 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
     this.props.setClickedElementId();
   }
   doSome(value) {
-    let apiUrl = "";
-    if (env.REACT_APP_STAGE === "production") {
-      apiUrl = "https://www.tatacliq.com";
-    }
+    let apiUrl = "https://www.tatacliq.com";
     let productCodes;
     each(value.itemIds, itemId => {
       productCodes = `${itemId},${productCodes}`;
