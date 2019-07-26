@@ -120,6 +120,7 @@
 	border: 2px solid black;
 	/* margin-top: -23px; */
 	margin-bottom: 21px;
+	cursor: pointer;
 }
 .reviewText {
 	font-size: 14px;

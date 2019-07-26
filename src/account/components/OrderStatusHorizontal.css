@@ -95,10 +95,21 @@
 .stepInactive {
 	composes: step;
 }
-.stepInactive:after {
+div .stepInactive:after {
+	/* display: none; */
+	content: '';
+	height: 1px;
+	width: 100%;
+	position: absolute;
+	top: 8.5px;
+	left: 33%;
+	border-top: 1px dashed #000;
+}
+div .stepInactive:before {
 	display: none;
 }
-.stepInactive:before {
+div .stepInactive:last-child:after,
+div .stepInactive:last-child:before {
 	display: none;
 }
 .row {
@@ -118,7 +129,7 @@ div .step:after {
 	position: absolute;
 	top: 8.5px;
 	left: 33%;
-	background: #4a4a4a;
+	/* background: #4a4a4a; */
 }
 div .step:before {
 	content: '';
