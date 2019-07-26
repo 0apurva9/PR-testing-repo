@@ -1,0 +1,103 @@
+.baseWrapper {
+  width: 100%;
+  height: auto;
+}
+
+.topHolderWrapper {
+  width: 100%;
+  height: auto;
+  border-radius: 6px 6px 0px 0px;
+  background: url("./img/giftCardSuccess.svg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.topHolder {
+  width: 100%;
+  height: auto;
+  padding: 58px 0px 46px 0px;
+  text-align: center;
+}
+.topheader {
+  width: 100%;
+  height: auto;
+  color: #ffffff;
+  font-size: 18px;
+  font-family: semibold;
+}
+
+.topLabelHeader {
+  color: #ffffff;
+  font-size: 14px;
+  width: 100%;
+  height: auto;
+  font-family: regular;
+
+  padding: 22px 0px 12px 0px;
+}
+.amount {
+  color: #ffffff;
+  height: auto;
+  width: 100%;
+  font-size: 28px;
+  font-family: semibold;
+  letter-spacing: 0.05px;
+}
+
+.bottomHolderWrapper {
+  width: 100%;
+}
+.bottomWrapper {
+  background: #ffffff;
+  width: 100%;
+  height: auto;
+  padding: 24px 0px 48px 0px;
+}
+
+.bottomHolderHeading {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: semibold;
+  text-align: center;
+  letter-spacing: 0.02px;
+  color: #da1c5c;
+}
+.bottomHolderHeading:hover {
+  cursor: pointer;
+}
+
+.bottomHolderButtton {
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+.crossIcon {
+  width: 40px;
+  height: 40px;
+  background: url("../../auth/components/img/cancel.svg") no-repeat;
+  background-position: center;
+  background-size: 14px;
+  position: absolute;
+  top: 5px;
+  right: 15px;
+}
+.button {
+  height: 36px;
+  width: 178px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: linear-gradient(#da1c5c, #da1c5c);
+  border-radius: 16px;
+  cursor: pointer;
+}
+.buttonText {
+  font-size: 14px;
+  color: #ffffff;
+  font-family: semibold;
+}
