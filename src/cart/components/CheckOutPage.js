@@ -1333,6 +1333,11 @@ if you have order id in local storage then you have to show order confirmation p
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
       }
       this.setState({ isPaymentFailed: true });
+      if (stripeDetails) {
+        if (this.props.getPrepaidOrderPaymentConfirmation) {
+          this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+        }
+      }
       this.props.getPaymentFailureOrderDetails();
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -1406,18 +1411,6 @@ if you have order id in local storage then you have to show order confirmation p
       if (stripeDetails) {
         if (this.props.getPrepaidOrderPaymentConfirmation) {
           this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
-        }
-      } else if (this.props.updateTransactionDetails) {
-        const cartId = parsedQueryString.value
-          ? parsedQueryString.value
-          : Cookie.getCookie(OLD_CART_GU_ID);
-
-        if (cartId) {
-          this.props.updateTransactionDetails(
-            localStorage.getItem(PAYMENT_MODE_TYPE),
-            orderId,
-            cartId
-          );
         }
       }
     } else if (parsedQueryString.payment_intent) {
