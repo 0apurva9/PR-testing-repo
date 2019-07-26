@@ -60,7 +60,15 @@ export default class OrderCard extends React.Component {
     }
     return trackOrderText;
   }
+
+  showToastMessage() {
+    this.props.displayToast(
+      "Your order is not confirmed yet. Please see order details."
+    );
+  }
+
   render() {
+    console.log("Order card @@---->", this.props);
     let calloutMessage = this.props.calloutMessage;
 
     let updatedCalloutMessage =
@@ -323,7 +331,10 @@ export default class OrderCard extends React.Component {
                 {this.props.children}
               </div>
             )}
+
           {!this.props.isEgvOrder &&
+            !this.props.retryPaymentUrl &&
+            this.props.orderStatusCode !== "PAYMENT_PENDING" &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}
@@ -336,8 +347,19 @@ export default class OrderCard extends React.Component {
               />
             )}
 
+          {!this.props.isEgvOrder &&
+            (this.props.retryPaymentUrl ||
+              this.props.orderStatusCode === "PAYMENT_PENDING") &&
+            this.props.showRightArrow && (
+              <span
+                className={styles.rightArrow}
+                onClick={() => this.showToastMessage()}
+              />
+            )}
+
           {this.props.isGiveAway === NO &&
-            this.props.orderStatusCode !== "PAYMENT_PENDING" && (
+            this.props.orderStatusCode != "PAYMENT_PENDING" &&
+            !this.props.retryPaymentUrl && (
               <div
                 className={styles.trackOrderText}
                 onClick={() =>
@@ -353,18 +375,25 @@ export default class OrderCard extends React.Component {
                 )}
               </div>
             )}
-          {this.props.pickupAddress && (
-            <div className={styles.pickupAddressHolder}>
-              <div className={styles.pickupAddressTitle}>Pick up from:</div>
-              <div className={styles.pickupAddressText}>
-                {this.props.pickupAddress.line1} ,&nbsp;
-                {this.props.pickupAddress.landmark} ,&nbsp;
-                {this.props.pickupAddress.city} ,&nbsp;
-                {this.props.pickupAddress.state}&nbsp;
-                {this.props.pickupAddress.postalCode}
-              </div>
-            </div>
-          )}
+          {this.props &&
+            this.props.returnMode != "REFNOPCK" && (
+              <React.Fragment>
+                {this.props.pickupAddress && (
+                  <div className={styles.pickupAddressHolder}>
+                    <div className={styles.pickupAddressTitle}>
+                      Pick up from:
+                    </div>
+                    <div className={styles.pickupAddressText}>
+                      {this.props.pickupAddress.line1} ,&nbsp;
+                      {this.props.pickupAddress.landmark} ,&nbsp;
+                      {this.props.pickupAddress.city} ,&nbsp;
+                      {this.props.pickupAddress.state}&nbsp;
+                      {this.props.pickupAddress.postalCode}
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
+            )}
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
@@ -473,39 +502,13 @@ export default class OrderCard extends React.Component {
           this.props.consignmentStatus &&
           !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
-            <div
-              className={
-                shipmentStatus == "Eligible for Return till" ||
-                shipmentStatus ==
-                  "Any paid amount will be refunded in 4 business days."
-                  ? styles.callOutTitle
-                  : styles.commonTitle
-              }
-            >
+            <div className={styles.commonTitle}>
               {shipmentStatus && (
-                <span
-                  className={
-                    shipmentStatus == "Eligible for Return till" ||
-                    shipmentStatus ==
-                      "Any paid amount will be refunded in 4 business days."
-                      ? ""
-                      : styles.ffsemibold
-                  }
-                >
-                  {shipmentStatus}:{" "}
-                </span>
+                <span className={styles.ffsemibold}>{shipmentStatus}: </span>
               )}
               {!this.props.returnMode &&
                 this.props.consignmentStatus !== "DELIVERED" && (
-                  <span
-                    className={
-                      shipmentStatus == "Eligible for Return till" ||
-                      shipmentStatus ==
-                        "Any paid amount will be refunded in 4 business days."
-                        ? ""
-                        : styles.styleDate
-                    }
-                  >
+                  <span className={styles.styleDate}>
                     {this.props.estimatedDeliveryDate
                       ? estimatedDeliveryDateFormatted
                       : date}
@@ -516,15 +519,7 @@ export default class OrderCard extends React.Component {
                   {EstDeliveryFormatted}
                 </span>
               )} */}
-              <span
-                className={
-                  shipmentStatus == "Eligible for Return till" ||
-                  shipmentStatus ==
-                    "Any paid amount will be refunded in 4 business days."
-                    ? ""
-                    : styles.styleDate
-                }
-              >
+              <span className={styles.styleDate}>
                 {this.props.consignmentStatus === "DELIVERED" &&
                   format(returnEligibleDate.toString(), dateFormat)}
               </span>

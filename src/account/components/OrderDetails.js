@@ -471,12 +471,14 @@ export default class OrderDetails extends React.Component {
                             </span>
                             <span>#{orderDetails.orderId}</span>
                           </div>
-                          <div className={styles.orderIdHolder}>
-                            <span className={styles.highlightedText}>
-                              Transaction ID :{" "}
-                            </span>
-                            <span>#{products.transactionId}</span>
-                          </div>
+                          {products.transactionId && (
+                            <div className={styles.orderIdHolder}>
+                              <span className={styles.highlightedText}>
+                                Transaction ID :{" "}
+                              </span>
+                              <span>#{products.transactionId}</span>
+                            </div>
+                          )}
                         </div>
                       )}
                       {this.props.history &&
@@ -577,8 +579,8 @@ export default class OrderDetails extends React.Component {
                         )}
 
                       {products.consignmentStatus !== "DELIVERED" &&
-                        products.selectedDeliveryMode.code !==
-                          CLICK_COLLECT && (
+                        products.selectedDeliveryMode.code !== CLICK_COLLECT &&
+                        products.consignmentStatus !== "PAYMENT_TIMEOUT" && (
                           <div className={styles.orderStatusVertical}>
                             {/* This block of code needs to be duplicated below for CNC as well */}
 
@@ -1064,7 +1066,7 @@ export default class OrderDetails extends React.Component {
                         orderDetails.deliveryAddress.phone
                       }
                       paymentMethod={orderDetails.paymentMethod}
-                      changeAddress={orderDetails.isCDA}
+                      isCDA={orderDetails.isCDA}
                       //isInvoiceAvailable={products.isInvoiceAvailable}
                       //statusDisplay={products.statusDisplayMsg}
                       // request={() =>

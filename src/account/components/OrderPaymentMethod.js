@@ -62,7 +62,7 @@ export default class OrderPaymentMethod extends React.Component {
               <div className={styles.deliveryAddressTitle}>
                 <span className={styles.ffsemibold}>Delivery Address:</span>
               </div>
-              {this.props.changeAddress ? (
+              {this.props.isCDA ? (
                 <div className={styles.helpSupport}>Change</div>
               ) : (
                 ""

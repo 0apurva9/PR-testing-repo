@@ -26,7 +26,8 @@ import {
   RETURNS_STORE_BANK_FORM,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  PRODUCT_CANCEL
+  PRODUCT_CANCEL,
+  REFUND_SUMMARY
 } from "../../lib/constants";
 const dateFormat = "DD MMM YYYY";
 
@@ -57,7 +58,7 @@ export default class ReplaceRefundSelection extends React.Component {
     let comments = this.props.data.comment;
     let uploadedImageURLs = this.props.data.validImgFiles;
     let reverseSealAvailability = this.props.data.reverseSeal;
-    this.props.getRefundOptionsData(
+    let refundType = this.props.getRefundOptionsData(
       orderId,
       transactionId,
       returnReasonCode,
@@ -199,6 +200,19 @@ export default class ReplaceRefundSelection extends React.Component {
       let transactionId = this.props.data.transactionId;
       let returnId = this.props.getRefundOptionsDetails.returnId;
       let refundMode = this.state.selectedOption;
+      let returnAddress = {};
+      Object.assign(returnAddress, {
+        line1: this.props.getRefundModesDetails.deliveryAddress.line1,
+        line2: "",
+        line3: "",
+        landmark: this.props.getRefundModesDetails.deliveryAddress.landmark
+          ? this.props.getRefundModesDetails.deliveryAddress.landmark
+          : "",
+        city: this.props.getRefundModesDetails.deliveryAddress.town,
+        state: this.props.getRefundModesDetails.deliveryAddress.state,
+        postalCode: this.props.getRefundModesDetails.deliveryAddress.postalCode
+      });
+
       const updateRefundModeResponse = await this.props.updateRefundMode(
         orderId,
         transactionId,
@@ -206,18 +220,47 @@ export default class ReplaceRefundSelection extends React.Component {
         refundMode
       );
       //move to next screen on success
+      console.log(
+        "updateRefundMode Page data:----->3",
+        updateRefundModeResponse,
+        this.props.getRefundModesDetails.typeofRefund
+      );
       if (
         updateRefundModeResponse &&
         updateRefundModeResponse.status === "success"
       ) {
-        this.props.history.push({
-          pathname: `${RETURNS_PREFIX}/${
-            this.orderCode
-          }${RETURN_LANDING}${RETURNS_MODES}`,
-          state: {
-            authorizedRequest: true
+        if (this.props.getRefundModesDetails.typeofRefund == "REFNOPCK") {
+          let updateReturnConfirmation = await this.props.updateReturnConfirmation(
+            orderId,
+            transactionId,
+            returnId,
+            returnAddress
+          );
+          if (updateReturnConfirmation.status === "success") {
+            this.props.history.push({
+              pathname: `${RETURNS_PREFIX}/${
+                this.orderCode
+              }${RETURN_LANDING}${REFUND_SUMMARY}`,
+              state: {
+                authorizedRequest: true
+              }
+            });
+          } else {
+            //show toast with error
+            if (updateReturnConfirmation.error) {
+              this.props.displayToast(updateReturnConfirmation.error);
+            }
           }
-        });
+        } else {
+          this.props.history.push({
+            pathname: `${RETURNS_PREFIX}/${
+              this.orderCode
+            }${RETURN_LANDING}${RETURNS_MODES}`,
+            state: {
+              authorizedRequest: true
+            }
+          });
+        }
       }
     }
   }
