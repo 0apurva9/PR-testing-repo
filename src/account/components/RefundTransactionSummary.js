@@ -40,6 +40,10 @@ export default class RefundTransactionSummary extends React.Component {
         this.props.displayToast(data.error);
       }
     }
+    localStorage.removeItem("secondaryLabel");
+    localStorage.removeItem("secondaryCode");
+    localStorage.removeItem("primaryLabel");
+    localStorage.removeItem("primaryCode");
   }
   gotoOrderDetailsPage() {
     //get order id
