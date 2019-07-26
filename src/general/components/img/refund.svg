@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" viewBox="0 0 25 30">
+    <g fill="none" fill-rule="evenodd">
+        <g stroke="#4A4A4A" stroke-linecap="round">
+            <path d="M23.492 23.696H12.014c-6.267 0-11.347-5.08-11.347-11.348C.667 6.08 5.747 1 12.014 1h11.552"/>
+            <path stroke-linejoin="round" d="M18.58 18.652l5.476 5.165-5.476 5.165"/>
+        </g>
+        <text fill="#FF1744" font-family="PingFangSC-Medium, PingFang SC" font-size="16" font-weight="400" letter-spacing="2.667" transform="translate(.667 1)">
+            <tspan x="7" y="17">₹</tspan>
+        </text>
+    </g>
+</svg>

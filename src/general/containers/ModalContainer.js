@@ -347,9 +347,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const createdCartVal = await dispatch(
         verifyWallet(customerDetailsWithOtp, isFromCliqCash)
       );
-      if (createdCartVal.error !== ERROR_MESSAGE_FOR_VERIFY_OTP) {
-        dispatch(modalActions.hideModal());
-      }
+      // if (createdCartVal.error !== ERROR_MESSAGE_FOR_VERIFY_OTP) {
+      //   dispatch(modalActions.hideModal());
+      // }
     },
 
     submitSelfCourierReturnInfo: returnDetails => {

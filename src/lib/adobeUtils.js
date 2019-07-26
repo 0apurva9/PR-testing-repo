@@ -19,6 +19,29 @@ export const ADOBE_TARGET_COOKIE_NAME =
 export const ADOBE_TARGET_SPLIT_VALUE = "%7C";
 export const ADOBE_TARGET_MCMID = "MCMID";
 export const ADOBE_TARGET_WAIT_TIME = 2000;
+export const FAQ = "faq";
+export const TC = "tc_click";
+
+export const BUY_GIFT_CARD = "buy_gift_card";
+export const ADD_GIFT_CARD = "add_gift_card";
+export const ADD_GIFT_CARD_SUBMIT = "add_gift_card_submit";
+export const BUY_GIFT_CARD_SUBMIT = "buy_gift_card_submit";
+export const CLIQ_CASH_LAST_FIVE_TRANSACTION = "transaction_click";
+export const CLIQ_CASH_VIEW_ALL_TRANSACTION = "transtn_menu_click";
+//const for setting data layer for the FAQ and TC track
+export const SET_DATA_LAYER_FAQ = "SET_DATA_LAYER_FAQ";
+export const SET_DATA_LAYER_TC = "SET_DATA_LAYER_TC";
+//const for setting data layer for the Buy and Add gift card track
+export const SET_DATA_LAYER_ADD_GIFT_CARD = "SET_DATA_LAYER_ADD_GIFT_CARD";
+export const SET_DATA_LAYER_BUY_GIFT_CARD = "SET_DATA_LAYER_BUY_GIFT_CARD";
+export const SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT =
+  "SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT";
+export const SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT =
+  "SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT";
+export const SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION =
+  "SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION";
+export const SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION =
+  "SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION";
 const ADOBE_SATELLITE_CODE = "virtual_page_load";
 const INTERNAL_CAMPAIGN_TRACK = "internal_campaign";
 const ADOBE_PDP_CPJ = "cpj_pdp";
@@ -2542,6 +2565,50 @@ export function setDataLayerForStoryModal(type) {
   if (type === ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW) {
     if (window._satellite) {
       window._satellite.track(FRESH_FROM_BRANDS_PDP_VIEW);
+    }
+  }
+}
+export function setDataLayerForFaqAndTc(type) {
+  if (type === SET_DATA_LAYER_FAQ) {
+    if (window._satellite) {
+      window._satellite.track(FAQ);
+    }
+  }
+  if (type === SET_DATA_LAYER_TC) {
+    if (window._satellite) {
+      window._satellite.track(TC);
+    }
+  }
+}
+export function setDataLayerForGiftCard(type) {
+  if (type === SET_DATA_LAYER_ADD_GIFT_CARD) {
+    if (window._satellite) {
+      window._satellite.track(ADD_GIFT_CARD);
+    }
+  }
+  if (type === SET_DATA_LAYER_BUY_GIFT_CARD) {
+    if (window._satellite) {
+      window._satellite.track(BUY_GIFT_CARD);
+    }
+  }
+  if (type === SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION) {
+    if (window._satellite) {
+      window._satellite.track(CLIQ_CASH_LAST_FIVE_TRANSACTION);
+    }
+  }
+  if (type === SET_DATA_LAYER_CLIQ_CASH_VIEW_ALL_TRANSACTION) {
+    if (window._satellite) {
+      window._satellite.track(CLIQ_CASH_VIEW_ALL_TRANSACTION);
+    }
+  }
+  if (type === SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT) {
+    if (window._satellite) {
+      window._satellite.track(ADD_GIFT_CARD_SUBMIT);
+    }
+  }
+  if (type === SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT) {
+    if (window._satellite) {
+      window._satellite.track(BUY_GIFT_CARD_SUBMIT);
     }
   }
 }

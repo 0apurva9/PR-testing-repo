@@ -13,7 +13,7 @@ export default class GiftCardPopup extends React.Component {
     this.state = {
       cardNumber: this.props.voucherNumber ? this.props.voucherNumber : "",
       pinNumber: this.props.voucherPin ? this.props.voucherPin : "",
-      isEnable: UserAgent.checkUserAgentIsMobile() ? true : false
+      isEnable: false
     };
   }
   addGiftCard() {
@@ -29,21 +29,28 @@ export default class GiftCardPopup extends React.Component {
     if (val !== " ") {
       this.setState({ cardNumber: val });
     }
-    if (!UserAgent.checkUserAgentIsMobile()) {
-      if (val.length > 0) {
-        this.setState({
-          isEnable: true
-        });
-      } else {
-        this.setState({
-          isEnable: false
-        });
-      }
+    if (val.length > 0 && this.state.pinNumber.length > 0) {
+      this.setState({
+        isEnable: true
+      });
+    } else {
+      this.setState({
+        isEnable: false
+      });
     }
   }
   handlePin(val) {
     if (val !== " ") {
       this.setState({ pinNumber: val });
+    }
+    if (val.length > 0 && this.state.cardNumber.length > 0) {
+      this.setState({
+        isEnable: true
+      });
+    } else {
+      this.setState({
+        isEnable: false
+      });
     }
   }
   render() {

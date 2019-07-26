@@ -19,7 +19,9 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
-  REDMI_WALLET_FROM_EMAIL
+  REDMI_WALLET_FROM_EMAIL,
+  TRANSACTION_DETAIL_PAGE,
+  TRANSACTION_HISTORY
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 
@@ -39,6 +41,8 @@ import AddressBookContainer from "../containers/AddressBookContainer.js";
 import OrderDetailsContainer from "../containers/OrderDetailsContainer.js";
 import * as Cookie from "../../lib/Cookie";
 import OrderRelatedIssueContainer from "../containers/OrderRelatedIssueContainer.js";
+import TransactionDetailDesktop from "./TransactionDetailDesktop.js";
+import TransactionHistoryContainer from "../containers/TransactionHistoryContainer";
 
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
@@ -46,7 +50,15 @@ export default class MyAccountWrapper extends React.Component {
   }
   navigateToLogin() {
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
+    if (url.match(/cliq-cash/g)) {
+      this.props.setUrlToRedirectToAfterAuth(
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
+      );
+    } else if (url === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`) {
+      this.props.setUrlToRedirectToAfterAuth(`${url}`);
+    } else {
+      this.props.setUrlToRedirectToAfterAuth(`${MY_ACCOUNT_PAGE}`);
+    }
     this.props.history.push(LOGIN_PATH);
     return null;
   }
@@ -63,6 +75,7 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`}
           component={SavedCardContainer}
         />
+
         <Route path={REDMI_WALLET_FROM_EMAIL} component={CliqCashContainer} />
 
         <Route
@@ -84,6 +97,16 @@ export default class MyAccountWrapper extends React.Component {
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`}
           component={CliqCashContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`}
+          component={TransactionDetailDesktop}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`}
+          component={TransactionHistoryContainer}
         />
 
         <Route
