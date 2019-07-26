@@ -5,7 +5,10 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import {
   HELP_URL,
   MY_ACCOUNT_PAGE,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  RETURN_TO_ADDRESS,
+  RETURN_LANDING,
+  RETURNS_PREFIX
 } from "../../lib/constants";
 import each from "lodash.foreach";
 export default class OrderPaymentMethod extends React.Component {
@@ -20,6 +23,11 @@ export default class OrderPaymentMethod extends React.Component {
       `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     );
   }
+  onChangeAddress = () => {
+    this.props.history.push(
+      `${RETURNS_PREFIX}/${this.orderId}${RETURN_LANDING}${RETURN_TO_ADDRESS}`
+    );
+  };
 
   render() {
     // let isDelivered = false;
@@ -63,7 +71,12 @@ export default class OrderPaymentMethod extends React.Component {
                 <span className={styles.ffsemibold}>Delivery Address:</span>
               </div>
               {this.props.isCDA ? (
-                <div className={styles.helpSupport}>Change</div>
+                <div
+                  className={styles.helpSupport}
+                  onClick={() => this.onChangeAddress()}
+                >
+                  Change
+                </div>
               ) : (
                 ""
               )}

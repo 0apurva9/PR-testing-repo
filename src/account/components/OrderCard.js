@@ -68,7 +68,6 @@ export default class OrderCard extends React.Component {
   }
 
   render() {
-    console.log("Order card @@---->", this.props);
     let calloutMessage = this.props.calloutMessage;
 
     let updatedCalloutMessage =

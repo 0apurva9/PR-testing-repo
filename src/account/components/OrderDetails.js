@@ -1071,6 +1071,7 @@ export default class OrderDetails extends React.Component {
                       }
                       paymentMethod={orderDetails.paymentMethod}
                       isCDA={orderDetails.isCDA}
+                      orderId={orderDetails.orderId}
                       //isInvoiceAvailable={products.isInvoiceAvailable}
                       //statusDisplay={products.statusDisplayMsg}
                       // request={() =>
