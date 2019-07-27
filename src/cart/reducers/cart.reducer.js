@@ -144,6 +144,7 @@ const cart = (
     orderExperienceError: null,
 
     binValidationStatus: null,
+    bankGatewayStatus: null,
     binValidationError: null,
     binValidationDetails: null,
 
@@ -1085,6 +1086,7 @@ const cart = (
     case cartActions.BIN_VALIDATION_SUCCESS:
       return Object.assign({}, state, {
         binValidationStatus: action.status,
+        bankGatewayStatus: action.binValidation,
         binValidationDetails: action.binValidation,
         loading: false
       });
@@ -1093,6 +1095,12 @@ const cart = (
       return Object.assign({}, state, {
         binValidationStatus: action.status,
         binValidationError: action.error,
+        loading: false
+      });
+    case cartActions.BANK_GATEWAY_STATUS_ERROR:
+      return Object.assign({}, state, {
+        binValidationStatus: action.status,
+        bankGatewayStatus: action.bankGatewayStatus,
         loading: false
       });
 
@@ -1975,6 +1983,7 @@ const cart = (
         orderExperienceError: null,
 
         binValidationStatus: null,
+        bankGatewayStatus: null,
         binValidationError: null,
         binValidationDetails: null,
 

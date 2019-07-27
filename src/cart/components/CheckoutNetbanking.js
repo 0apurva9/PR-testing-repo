@@ -57,6 +57,16 @@ export default class CheckoutNetBanking extends React.Component {
           bankNameForNetBanking={this.props.bankNameForNetBanking}
           bankCodeForNetBanking={this.props.bankCodeForNetBanking}
           onCheckout={this.props.onCheckout}
+          bankBinFailedDetails={
+            this.props.cart &&
+            this.props.cart.bankGatewayStatus &&
+            this.props.cart.bankGatewayStatus.bankGatewayStatus
+          }
+          binValidationSucessDetails={
+            this.props.cart &&
+            this.props.cart.binValidationDetails &&
+            this.props.cart.binValidationDetails.bankGatewayStatus
+          }
         />
       </ManueDetails>
     );
