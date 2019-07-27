@@ -270,6 +270,7 @@ export const REMOVE_CLIQ_CASH_FAILURE = "REMOVE_CLIQ_CASH_FAILURE";
 export const BIN_VALIDATION_REQUEST = "BIN_VALIDATION_REQUEST";
 export const BIN_VALIDATION_SUCCESS = "BIN_VALIDATION_SUCCESS";
 export const BIN_VALIDATION_FAILURE = "BIN_VALIDATION_FAILURE";
+export const BANK_GATEWAY_STATUS_ERROR = "BANK_GATEWAY_STATUS_ERROR";
 
 export const SOFT_RESERVATION_FOR_PAYMENT_REQUEST =
   "SOFT_RESERVATION_FOR_PAYMENT_REQUEST";
@@ -2112,6 +2113,13 @@ export function binValidationFailure(error) {
     error
   };
 }
+export function bankGateWayError(bankGatewayStatus) {
+  return {
+    type: BANK_GATEWAY_STATUS_ERROR,
+    status: ERROR,
+    bankGatewayStatus
+  };
+}
 
 // Action Creator to bin Validation
 export function binValidation(
@@ -2238,6 +2246,7 @@ export function binValidationForNetBanking(
             })
           );
         } else {
+          dispatch(bankGateWayError(resultJson));
           throw new Error(resultJsonStatus.message);
         }
       }
