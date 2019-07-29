@@ -5,11 +5,12 @@ import {
   ORDER_CONFIRMED,
   ORDER_IN_PROCESS,
   CANCEL_STATUS,
-  SHIPPING,
+  SHIPPED,
   DELIVERED,
   REFUND_INITIATED,
   READY_FOR_COLLECTION,
   ORDER_COLLECTED,
+  ORDER_NOT_COLLECTED,
   ORDER_CANCELLED,
   ITEM_PACKED,
   RETURN_INITIATED,
@@ -50,11 +51,17 @@ export default class OrderStatusVerticalV2 extends React.Component {
     const orderCollectedData = this.props.statusMessageList.find(val => {
       return val.key === ORDER_COLLECTED;
     });
+    const orderNotCollectedData = this.props.statusMessageList.find(val => {
+      return val.key === ORDER_NOT_COLLECTED;
+    });
     const cancelledData = this.props.statusMessageList.find(val => {
       return val.key === ORDER_CANCELLED;
     });
     const itemPackedData = this.props.statusMessageList.find(val => {
       return val.key === ITEM_PACKED;
+    });
+    const shippedData = this.props.statusMessageList.find(val => {
+      return val.key === SHIPPED;
     });
     const returnInitiatedData = this.props.statusMessageList.find(val => {
       return val.key === RETURN_INITIATED;
@@ -86,8 +93,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //to get the active order status
     //sequence should be maintained
     let activeOrderStatus = "";
+    let orderEDHD = [];
     if (!this.props.isCNC) {
-      let orderEDHD = [];
+      // let orderEDHD = [];
       if (orderConfirmedData && orderConfirmedData.key) {
         orderEDHD.push(orderConfirmedData.key);
       }
@@ -97,29 +105,36 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (itemPackedData && itemPackedData.key) {
         orderEDHD.push(itemPackedData.key);
       }
+      if (shippedData && shippedData.key) {
+        orderEDHD.push(shippedData.key);
+      }
       if (deliveredData && deliveredData.key) {
         orderEDHD.push(deliveredData.key);
       }
       if (outForDeliveryData && outForDeliveryData.key) {
         orderEDHD.push(outForDeliveryData.key);
       }
-      if (returnRequestedData && returnRequestedData.key) {
-        orderEDHD.push(returnRequestedData.key);
+      if (orderNotCollectedData && orderNotCollectedData.key) {
+        orderEDHD.push(orderNotCollectedData.key);
       }
       if (cancelledData && cancelledData.key) {
         orderEDHD.push(cancelledData.key);
       }
+      if (returnRequestedData && returnRequestedData.key) {
+        orderEDHD.push(returnRequestedData.key);
+      }
       if (returnInitiatedData && returnInitiatedData.key) {
         orderEDHD.push(returnInitiatedData.key);
       }
-      if (returnCancelledData && returnCancelledData.key) {
-        orderEDHD.push(returnCancelledData.key);
-      }
+
       if (pickupScheduledData && pickupScheduledData.key) {
         orderEDHD.push(pickupScheduledData.key);
       }
       if (refundInitiatedData && refundInitiatedData.key) {
         orderEDHD.push(refundInitiatedData.key);
+      }
+      if (returnCancelledData && returnCancelledData.key) {
+        orderEDHD.push(returnCancelledData.key);
       }
       if (unDeliveredData && unDeliveredData.key) {
         orderEDHD.push(unDeliveredData.key);
@@ -132,8 +147,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       activeOrderStatus = orderEDHD[orderEDHD.length - 1];
     }
+    let orderCNC = [];
     if (this.props.isCNC) {
-      let orderCNC = [];
       if (orderConfirmedData && orderConfirmedData.key) {
         orderCNC.push(orderConfirmedData.key);
       }
@@ -143,17 +158,23 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (itemPackedData && itemPackedData.key) {
         orderCNC.push(itemPackedData.key);
       }
+      if (shippedData && shippedData.key) {
+        orderCNC.push(shippedData.key);
+      }
       if (outForDeliveryData && outForDeliveryData.key) {
         orderCNC.push(outForDeliveryData.key);
-      }
-      if (returnRequestedData && returnRequestedData.key) {
-        orderCNC.push(returnRequestedData.key);
       }
       if (readyForCollectionData && readyForCollectionData.key) {
         orderCNC.push(readyForCollectionData.key);
       }
+      if (returnRequestedData && returnRequestedData.key) {
+        orderCNC.push(returnRequestedData.key);
+      }
       if (orderCollectedData && orderCollectedData.key) {
         orderCNC.push(orderCollectedData.key);
+      }
+      if (orderNotCollectedData && orderNotCollectedData.key) {
+        orderCNC.push(orderNotCollectedData.key);
       }
       if (cancelledData && cancelledData.key) {
         orderCNC.push(cancelledData.key);
@@ -161,14 +182,14 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (returnInitiatedData && returnInitiatedData.key) {
         orderCNC.push(returnInitiatedData.key);
       }
-      if (returnCancelledData && returnCancelledData.key) {
-        orderCNC.push(returnCancelledData.key);
+      if (refundInitiatedData && refundInitiatedData.key) {
+        orderCNC.push(refundInitiatedData.key);
       }
       if (pickupScheduledData && pickupScheduledData.key) {
         orderCNC.push(pickupScheduledData.key);
       }
-      if (refundInitiatedData && refundInitiatedData.key) {
-        orderCNC.push(refundInitiatedData.key);
+      if (returnCancelledData && returnCancelledData.key) {
+        orderCNC.push(returnCancelledData.key);
       }
       if (unDeliveredData && unDeliveredData.key) {
         orderCNC.push(unDeliveredData.key);
@@ -249,6 +270,34 @@ export default class OrderStatusVerticalV2 extends React.Component {
         itemPackedData.value.statusList[1].statusMessageList[0].time
           ? itemPackedData.value.statusList[1].statusMessageList[0].time
           : itemPackedData.value.statusList[0].statusMessageList[0].time;
+    }
+
+    //shipped
+    let shippedDate = " ";
+    let shippedTime = " ";
+    let shippedDataCustomerFacingName = "Shipped";
+    if (shippedData && shippedData.value.customerFacingName) {
+      shippedDataCustomerFacingName = shippedData.value.customerFacingName;
+    }
+    if (
+      shippedData &&
+      shippedData.value.statusList &&
+      shippedData.value.statusList[0] &&
+      shippedData.value.statusList[0].statusMessageList &&
+      shippedData.value.statusList[0].statusMessageList[0]
+    ) {
+      //show date time from HOTC or Packed
+      shippedDate =
+        shippedData.value.statusList[1] &&
+        shippedData.value.statusList[1].statusMessageList[0].date
+          ? shippedData.value.statusList[1].statusMessageList[0].date
+          : shippedData.value.statusList[0].statusMessageList[0].date;
+
+      shippedTime =
+        shippedData.value.statusList[1] &&
+        shippedData.value.statusList[1].statusMessageList[0].time
+          ? shippedData.value.statusList[1].statusMessageList[0].time
+          : shippedData.value.statusList[0].statusMessageList[0].time;
     }
 
     //out for delivery
@@ -434,6 +483,30 @@ export default class OrderStatusVerticalV2 extends React.Component {
         orderCollectedData.value.statusList[0].statusMessageList[0].time;
     }
 
+    //order uncollected
+    let orderNotCollectedDate = "";
+    let orderNotCollectedTime = "";
+    let orderNotCollectedCustomerFacingName = "Order Not Collected";
+    if (
+      orderNotCollectedData &&
+      orderNotCollectedData.value.customerFacingName
+    ) {
+      orderNotCollectedCustomerFacingName =
+        orderNotCollectedData.value.customerFacingName;
+    }
+    if (
+      orderNotCollectedData &&
+      orderNotCollectedData.value.statusList &&
+      orderNotCollectedData.value.statusList[0] &&
+      orderNotCollectedData.value.statusList[0].statusMessageList &&
+      orderNotCollectedData.value.statusList[0].statusMessageList[0]
+    ) {
+      orderNotCollectedDate =
+        orderNotCollectedData.value.statusList[0].statusMessageList[0].date;
+      orderNotCollectedTime =
+        orderNotCollectedData.value.statusList[0].statusMessageList[0].time;
+    }
+
     //return initiated
     let returnInitiatedDate = "";
     let returnInitiatedTime = "";
@@ -565,7 +638,14 @@ export default class OrderStatusVerticalV2 extends React.Component {
         refundInitiatedData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
-
+    console.log(
+      "Active Order Status:",
+      activeOrderStatus,
+      "orderEDHD",
+      orderEDHD,
+      "props:",
+      this.props
+    );
     return (
       <React.Fragment>
         <div className={styles.base}>
@@ -618,6 +698,31 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                     <div className={styles.dateHolder}>
                       {returnInitiatedTime}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {completedSteps.includes(RETURN_DECLINED) && (
+                <div className={styles.step}>
+                  <div className={styles.checkActive} />
+                  <div
+                    className={
+                      activeOrderStatus === RETURN_DECLINED
+                        ? styles.processNameHolderBold
+                        : styles.processNameHolder
+                    }
+                  >
+                    {returnDeclinedCustomerFacingName}
+                    {/* <span className={styles.shipmentStatus}>
+                    {returnInitiatedShipmentStatus}
+                  </span> */}
+                  </div>
+                  <div className={styles.dateAndTimeHolder}>
+                    <div className={styles.timeHolder}>
+                      {returnDeclinedDate}
+                    </div>
+                    <div className={styles.dateHolder}>
+                      {returnDeclinedTime}
                     </div>
                   </div>
                 </div>
@@ -924,6 +1029,39 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     </div>
                                   </div>
                                 </React.Fragment>
+                              ) : completedSteps.includes(SHIPPED) ? (
+                                <div
+                                  className={
+                                    completedSteps.includes(SHIPPED)
+                                      ? styles.step
+                                      : styles.stepInactive
+                                  }
+                                >
+                                  <div
+                                    className={
+                                      completedSteps.includes(SHIPPED)
+                                        ? styles.checkActive
+                                        : styles.check
+                                    }
+                                  />
+                                  <div
+                                    className={
+                                      activeOrderStatus === SHIPPED
+                                        ? styles.processNameHolderBold
+                                        : styles.processNameHolder
+                                    }
+                                  >
+                                    {shippedDataCustomerFacingName}
+                                  </div>
+                                  <div className={styles.dateAndTimeHolder}>
+                                    <div className={styles.timeHolder}>
+                                      {shippedTime}
+                                    </div>
+                                    <div className={styles.dateHolder}>
+                                      {shippedDate}
+                                    </div>
+                                  </div>
+                                </div>
                               ) : (
                                 <div
                                   className={
@@ -1129,6 +1267,39 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                 </div>
                               </div>
                             </div>
+                          ) : completedSteps.includes(SHIPPED) ? (
+                            <div
+                              className={
+                                completedSteps.includes(SHIPPED)
+                                  ? styles.step
+                                  : styles.stepInactive
+                              }
+                            >
+                              <div
+                                className={
+                                  completedSteps.includes(SHIPPED)
+                                    ? styles.checkActive
+                                    : styles.check
+                                }
+                              />
+                              <div
+                                className={
+                                  activeOrderStatus === SHIPPED
+                                    ? styles.processNameHolderBold
+                                    : styles.processNameHolder
+                                }
+                              >
+                                {shippedDataCustomerFacingName}
+                              </div>
+                              <div className={styles.dateAndTimeHolder}>
+                                <div className={styles.timeHolder}>
+                                  {shippedTime}
+                                </div>
+                                <div className={styles.dateHolder}>
+                                  {shippedDate}
+                                </div>
+                              </div>
+                            </div>
                           ) : (
                             <div
                               className={
@@ -1166,39 +1337,75 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         </React.Fragment>
                       )}
 
-                      <div
-                        className={
-                          completedSteps.includes(ORDER_COLLECTED)
-                            ? styles.step
-                            : styles.stepInactive
-                        }
-                      >
-                        <div
-                          className={
-                            activeOrderStatus === ORDER_COLLECTED
-                              ? styles.processNameHolderBold
-                              : styles.processNameHolder
-                          }
-                        >
-                          {orderCollectedCustomerFacingName}
-                        </div>
+                      {completedSteps.includes(ORDER_COLLECTED) ? (
                         <div
                           className={
                             completedSteps.includes(ORDER_COLLECTED)
-                              ? styles.checkActive
-                              : styles.check
+                              ? styles.step
+                              : styles.stepInactive
                           }
-                        />
-
-                        <div className={styles.dateAndTimeHolder}>
-                          <div className={styles.timeHolder}>
-                            {orderCollectedTime}
+                        >
+                          <div
+                            className={
+                              activeOrderStatus === ORDER_COLLECTED
+                                ? styles.processNameHolderBold
+                                : styles.processNameHolder
+                            }
+                          >
+                            {orderCollectedCustomerFacingName}
                           </div>
-                          <div className={styles.dateHolder}>
-                            {orderCollectedDate}
+                          <div
+                            className={
+                              completedSteps.includes(ORDER_COLLECTED)
+                                ? styles.checkActive
+                                : styles.check
+                            }
+                          />
+
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {orderCollectedTime}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {orderCollectedDate}
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div
+                          className={
+                            completedSteps.includes(ORDER_NOT_COLLECTED)
+                              ? styles.step
+                              : styles.stepInactive
+                          }
+                        >
+                          <div
+                            className={
+                              activeOrderStatus === ORDER_NOT_COLLECTED
+                                ? styles.processNameHolderBold
+                                : styles.processNameHolder
+                            }
+                          >
+                            {orderNotCollectedCustomerFacingName}
+                          </div>
+                          <div
+                            className={
+                              completedSteps.includes(ORDER_NOT_COLLECTED)
+                                ? styles.checkActive
+                                : styles.check
+                            }
+                          />
+
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {orderNotCollectedTime}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {orderNotCollectedDate}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </React.Fragment>
                   )}
                 </React.Fragment>
@@ -1216,7 +1423,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
             </React.Fragment>
           )}
         </div>
-        {completedSteps.includes(PICKUP_SCHEDULED) && (
+        {activeOrderStatus === PICKUP_SCHEDULED && (
           <div className={styles.shipmentStatus}>
             {pickupScheduledShipmentStatus}
           </div>

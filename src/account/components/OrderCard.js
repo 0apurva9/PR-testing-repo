@@ -37,7 +37,7 @@ export default class OrderCard extends React.Component {
     let deliveryModeNameLowerCase = deliveryModeName.toLowerCase();
     switch (deliveryModeNameLowerCase) {
       case "click and collect":
-        return "QUiQ PiQ";
+        return "Cliq Piq";
 
       case "home delivery":
         return "Standard Delivery";
