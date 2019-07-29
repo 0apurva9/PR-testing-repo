@@ -63,6 +63,9 @@ export default class ReturnReasonForm extends React.Component {
       );
       this.props.onContinue(reasonAndCommentObj);
     }
+    if (this.state.comment) {
+      localStorage.setItem("comment", this.state.comment);
+    }
   }
   onChangePrimary(val) {
     const code = val.value;
@@ -315,7 +318,10 @@ export default class ReturnReasonForm extends React.Component {
                       )}
                       <div className={styles.textArea}>
                         <TextArea
-                          value={this.state.comment}
+                          value={
+                            localStorage.getItem("comment") ||
+                            this.state.comment
+                          }
                           onChange={val => this.handleChange(val)}
                           placeholder={COMMENTS_PLACEHOLDER}
                         />

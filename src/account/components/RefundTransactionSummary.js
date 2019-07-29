@@ -44,6 +44,7 @@ export default class RefundTransactionSummary extends React.Component {
     localStorage.removeItem("secondaryCode");
     localStorage.removeItem("primaryLabel");
     localStorage.removeItem("primaryCode");
+    localStorage.removeItem("comment");
   }
   gotoOrderDetailsPage() {
     //get order id

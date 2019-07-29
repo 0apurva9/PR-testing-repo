@@ -243,6 +243,7 @@ export default class OrderDetails extends React.Component {
     localStorage.removeItem("secondaryCode");
     localStorage.removeItem("primaryLabel");
     localStorage.removeItem("primaryCode");
+    localStorage.removeItem("comment");
   }
   updateRefundDetailsPopUp(orderId, transactionId) {
     const orderDetails = {};
