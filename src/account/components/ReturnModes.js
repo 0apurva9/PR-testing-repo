@@ -93,8 +93,8 @@ export default class ReturnModes extends React.Component {
       }
       this.setState({ pickupAddress: pickupAddress });
     }
-    let deliveryAddress = data.returnModesDetails.deliveryAddress;
-    let selectedAddress = "";
+    // let deliveryAddress = data.returnModesDetails.deliveryAddress;
+    // let selectedAddress = "";
     let selectedOne =
       this.props.returnRequest &&
       this.props.returnRequest.deliveryAddressesList.find((value, index) => {
@@ -240,8 +240,8 @@ export default class ReturnModes extends React.Component {
   }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const userData = JSON.parse(userDetails);
+    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    // const userData = JSON.parse(userDetails);
     const userAccountDetails = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
     let returnFlow = this.props.returnFlow;
@@ -253,7 +253,7 @@ export default class ReturnModes extends React.Component {
     ) {
       return this.navigateToReturnLanding();
     }
-    const { productInfo } = this.props;
+    //const { productInfo } = this.props;
     const data = this.state.returnModesDetails;
     const returnStoreDetailsList =
       data &&

@@ -25,7 +25,7 @@ export default class OrderPaymentMethod extends React.Component {
   }
   onChangeAddress = () => {
     this.props.history.push(
-      `${RETURNS_PREFIX}/${this.orderId}${RETURN_LANDING}${RETURN_TO_ADDRESS}`
+      `${MY_ACCOUNT_PAGE}/${this.orderId}${RETURN_TO_ADDRESS}`
     );
   };
 

@@ -23,8 +23,8 @@ import {
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import CliqCashDesktop from "../components/CliqCashDesktop";
-const CLIQ_CASH_REDEEM_SUCCESS =
-  "Congrats!  Money has been added to your Cliq Cash balance";
+// const CLIQ_CASH_REDEEM_SUCCESS =
+//   "Congrats!  Money has been added to your Cliq Cash balance";
 const mapDispatchToProps = dispatch => {
   return {
     getCliqCashDetails: () => {

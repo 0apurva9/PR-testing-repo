@@ -6,11 +6,7 @@ import {
 import { withRouter } from "react-router-dom";
 import { displayToast } from "../../general/toast.actions";
 import CancelOrder from "../components/CancelOrder";
-import {
-  SUCCESS,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE
-} from "../../lib/constants";
+import { SUCCESS } from "../../lib/constants";
 import { showModal, CANCEL_ORDER_POP_UP } from "../../general/modal.actions";
 import { setDataLayerForMyAccountDirectCalls } from "../../lib/adobeUtils";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
