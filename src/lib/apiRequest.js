@@ -641,3 +641,10 @@ export async function getPlpBanners(categoryCode) {
     API_URL_ROOT + "/v2/mpl/cms/plpBanners?categoryCode=" + categoryCode
   );
 }
+export async function getOrderConfirmBanner(url) {
+  let APIUrl = "https://www.tataque.com" + url;
+  if (process.env.REACT_APP_STAGE !== "production") {
+    APIUrl = "http://uat6.tataque.com" + url;
+  }
+  return await fetch(APIUrl);
+}

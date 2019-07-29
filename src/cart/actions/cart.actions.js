@@ -443,6 +443,13 @@ export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
 export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
   "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
 
+export const ORDER_CONFIRMATION_BANNER_REQUEST =
+  "ORDER_CONFIRMATION_BANNER_REQUEST";
+export const ORDER_CONFIRMATION_BANNER_SUCCESS =
+  "ORDER_CONFIRMATION_BANNER_SUCCESS";
+export const ORDER_CONFIRMATION_BANNER_FAILURE =
+  "ORDER_CONFIRMATION_BANNER_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -3568,6 +3575,51 @@ export function orderConfirmation(orderId) {
       dispatch(orderConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
+    }
+  };
+}
+
+//get banner on order confirmation
+export function orderConfirmationBannerRequest() {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function orderConfirmationBannerSuccess(orderConfirmationBannerDetails) {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_SUCCESS,
+    status: SUCCESS,
+    orderConfirmationBannerDetails
+  };
+}
+
+export function orderConfirmationBannerFailure(error) {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function orderConfirmationBanner(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(orderConfirmationBannerRequest());
+    try {
+      const result = await api.getOrderConfirmBanner(
+        `/otatacliq/getApplicationProperties.json?propertyNames=ORDER_CONFIRMATION_WARRENTY_BANNER`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(orderConfirmationBannerSuccess(resultJson));
+    } catch (e) {
+      dispatch(orderConfirmationBannerFailure(e.message));
     }
   };
 }
