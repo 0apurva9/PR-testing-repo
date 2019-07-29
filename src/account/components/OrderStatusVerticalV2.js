@@ -18,7 +18,8 @@ import {
   UNDELIVERED,
   NOT_DELIVERED,
   OUT_FOR_DELIVERY,
-  RETURN_REQUESTED
+  RETURN_REQUESTED,
+  RETURN_DECLINED
 } from "../../lib/constants";
 
 export default class OrderStatusVerticalV2 extends React.Component {
@@ -79,6 +80,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
     const returnRequestedData = this.props.statusMessageList.find(val => {
       return val.key === RETURN_REQUESTED;
     });
+    const returnDeclinedData = this.props.statusMessageList.find(val => {
+      return val.key === RETURN_DECLINED;
+    });
     //to get the active order status
     //sequence should be maintained
     let activeOrderStatus = "";
@@ -122,6 +126,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (notDeliveredData && notDeliveredData.key) {
         orderEDHD.push(notDeliveredData.key);
+      }
+      if (returnDeclinedData && returnDeclinedData.key) {
+        orderEDHD.push(returnDeclinedData.key);
       }
       activeOrderStatus = orderEDHD[orderEDHD.length - 1];
     }
@@ -168,6 +175,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (notDeliveredData && notDeliveredData.key) {
         orderCNC.push(notDeliveredData.key);
+      }
+      if (returnDeclinedData && returnDeclinedData.key) {
+        orderCNC.push(returnDeclinedData.key);
       }
       activeOrderStatus = orderCNC[orderCNC.length - 1];
     }
@@ -531,6 +541,27 @@ export default class OrderStatusVerticalV2 extends React.Component {
       refundInitiatedDate =
         refundInitiatedData.value.statusList[0].statusMessageList[0].date;
       refundInitiatedTime =
+        refundInitiatedData.value.statusList[0].statusMessageList[0].time;
+    }
+
+    //return declined
+    let returnDeclinedDate = "";
+    let returnDeclinedTime = "";
+    let returnDeclinedCustomerFacingName = "Return Declined";
+    if (returnDeclinedData && returnDeclinedData.value.customerFacingName) {
+      returnDeclinedCustomerFacingName =
+        returnDeclinedData.value.customerFacingName;
+    }
+    if (
+      returnDeclinedData &&
+      returnDeclinedData.value.statusList &&
+      returnDeclinedData.value.statusList[0] &&
+      returnDeclinedData.value.statusList[0].statusMessageList &&
+      returnDeclinedData.value.statusList[0].statusMessageList[0]
+    ) {
+      returnDeclinedDate =
+        refundInitiatedData.value.statusList[0].statusMessageList[0].date;
+      returnDeclinedTime =
         refundInitiatedData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;

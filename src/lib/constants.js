@@ -398,6 +398,7 @@ export const PICKUP_SCHEDULED = "PICKUP_SCHEDULED";
 export const RETURN_CANCELLED = "RETURN_CANCELLED";
 export const UNDELIVERED = "UNDELIVERED";
 export const NOT_DELIVERED = "NOT_DELIVERED";
+export const RETURN_DECLINED = "RETURN_DECLINED";
 export const BANK_OFFER_TYPE = "bankOffer";
 export const NCE_OFFER_TYPE = "nceOfferType";
 export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
