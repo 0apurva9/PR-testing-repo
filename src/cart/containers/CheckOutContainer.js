@@ -561,8 +561,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     binValidationOfEmiEligible: binNo => {
       return dispatch(binValidationOfEmiEligible(binNo));
     },
-    whatsappNotification: () => {
-      dispatch(showModal(CONFIRMATION_NOTIFICATION));
+    whatsappNotification: orderId => {
+      dispatch(showModal(CONFIRMATION_NOTIFICATION, orderId));
     }
   };
 };

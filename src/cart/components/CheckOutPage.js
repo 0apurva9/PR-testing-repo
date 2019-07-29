@@ -1377,7 +1377,18 @@ if you have order id in local storage then you have to show order confirmation p
           );
         }
       }
-      this.whatsappNotification();
+      // Show popup if OrderConfirmation returns whatsapp false
+      let showWhatsappPopup =
+        this.props.cart.orderConfirmationDetails &&
+        this.props.cart.orderConfirmationDetails.whatsapp
+          ? this.props.cart.orderConfirmationDetails.whatsapp
+          : null;
+      if (!showWhatsappPopup) {
+        let orderId =
+          this.props.cart.orderConfirmationDetails &&
+          this.props.cart.orderConfirmationDetails.orderRefNo;
+        this.whatsappNotification(orderId);
+      }
     } else if (
       this.props.location &&
       this.props.location.state &&

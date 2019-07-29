@@ -42,6 +42,13 @@
 .buttonHolder:first-child {
   margin-right: 34px;
 }
+.whatsappImage {
+	width: 20px;
+	height: 20px;
+	margin-left: 10px;
+	display: inline-block;
+  vertical-align: bottom;
+}
 @media screen and (min-width: 1024px) {
   .buttonHolder {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);

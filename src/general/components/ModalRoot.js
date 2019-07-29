@@ -569,6 +569,12 @@ export default class ModalRoot extends React.Component {
     }
   };
 
+  subscribeWhatsapp = () => {
+    if (this.props.subscribeWhatsapp) {
+      this.props.subscribeWhatsapp();
+    }
+  };
+
   render() {
     const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -907,7 +913,10 @@ export default class ModalRoot extends React.Component {
       ),
 
       NotificationConfirmation: (
-        <NotificationConfirmation closeModal={() => this.handleClose()} />
+        <NotificationConfirmation
+          closeModal={() => this.handleClose()}
+          handleWhatsappSubscribe={() => this.subscribeWhatsapp()}
+        />
       )
     };
 

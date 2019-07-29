@@ -444,6 +444,13 @@ export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
 export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
   "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
 
+export const GET_ORDER_UPDATE_ON_WHATSAPP_REQUEST =
+  "GET_ORDER_UPDATE_ON_WHATSAPP_REQUEST";
+export const GET_ORDER_UPDATE_ON_WHATSAPP_SUCCESS =
+  "GET_ORDER_UPDATE_ON_WHATSAPP_SUCCESS";
+export const GET_ORDER_UPDATE_ON_WHATSAPP_FAILURE =
+  "GET_ORDER_UPDATE_ON_WHATSAPP_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -5287,6 +5294,56 @@ export function getCartCountForLoggedInUser(cartVal) {
       );
     } catch (e) {
       return dispatch(getCartCountForLoggedInUserFailure(e.message));
+    }
+  };
+}
+
+export function getOrderUpdateOnWhatsappRequest() {
+  return {
+    type: GET_ORDER_UPDATE_ON_WHATSAPP_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getOrderUpdateOnWhatsappSuccess(responseJSON) {
+  return {
+    type: GET_ORDER_UPDATE_ON_WHATSAPP_SUCCESS,
+    status: SUCCESS,
+    responseJSON
+  };
+}
+
+export function getOrderUpdateOnWhatsappFailure(error) {
+  return {
+    type: GET_ORDER_UPDATE_ON_WHATSAPP_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getOrderUpdateOnWhatsapp(orderId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getOrderUpdateOnWhatsappRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateOrderPreferences/${orderId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&whatsapp=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(getOrderUpdateOnWhatsappSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getOrderUpdateOnWhatsappFailure(e.message));
     }
   };
 }

@@ -104,7 +104,7 @@ export default class DeliveryAddressCopy extends React.Component {
             <div className={styles.orderUpdateText}>
               Get order updates on Whatsapp
               <div className={styles.whatsappImage}>
-                <img src={Whatsapp} alt="" width="18px" height="18px" />
+                <img src={Whatsapp} alt="" width="24px" height="24px" />
               </div>
             </div>
           </div>

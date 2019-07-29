@@ -20,7 +20,8 @@ import {
 import {
   getTncForBankOffer,
   tempCartIdForLoggedInUser,
-  getCartCountForLoggedInUser
+  getCartCountForLoggedInUser,
+  getOrderUpdateOnWhatsapp
 } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
@@ -382,6 +383,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addProductToCart: productDetails => {
       dispatch(addProductToCart(productDetails));
+    },
+    subscribeWhatsapp: () => {
+      dispatch(getOrderUpdateOnWhatsapp());
     }
   };
 };

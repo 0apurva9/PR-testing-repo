@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./Button";
 import styles from "./NotificationConfirmation.css";
+import Whatsapp from "./img/whatsapp.svg";
 
 export default class NotificationConfirmation extends React.Component {
   handleClose() {
@@ -8,11 +9,19 @@ export default class NotificationConfirmation extends React.Component {
       this.props.closeModal();
     }
   }
+  handleWhatsappSubscribe() {
+    if (this.props.handleWhatsappSubscribe) {
+      this.props.handleWhatsappSubscribe();
+    }
+  }
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.header}>
           Get order update on <strong>Whatsapp</strong>
+          <div className={styles.whatsappImage}>
+            <img src={Whatsapp} alt="" width="20px" height="20px" />
+          </div>
         </div>
         <div className={styles.buttonContainer}>
           <div className={styles.buttonHolder}>
@@ -30,7 +39,7 @@ export default class NotificationConfirmation extends React.Component {
               type="primary"
               width={165}
               height={40}
-              onClick={() => this.handleClose()}
+              onClick={() => this.handleWhatsappSubscribe()}
             />
           </div>
         </div>
