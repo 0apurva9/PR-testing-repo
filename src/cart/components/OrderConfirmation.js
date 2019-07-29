@@ -20,6 +20,8 @@ import addressIcon from "../../general/components/img/addressbook.svg";
 import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+
+import PaymentBanner from "./PaymentBanner.js";
 export default class OrderConfirmation extends React.Component {
   captureOrderExperience = rating => {
     this.props.captureOrderExperience(rating);
@@ -47,17 +49,32 @@ export default class OrderConfirmation extends React.Component {
           <div className={styles.pageSectionHolder}>
             <div className={styles.leftSection}>
               <div className={styles.orderBannerHolder}>
-                <OrderBanner
-                  history={this.props.history}
-                  headingText={this.props.orderStatusMessage}
-                  label={this.props.orderId}
-                  onClick={() => this.trackOrder()}
-                  isContinueShopping={true}
-                  isGiftCard={
-                    this.props.orderDetails &&
-                    this.props.orderDetails.isEgvOrder
-                  }
-                />
+                {this.props.orderDetails.paymentMethod === "COD" ? (
+                  <PaymentBanner
+                    history={this.props.history}
+                    headingText={this.props.orderStatusMessage}
+                    label={this.props.orderId}
+                    onClick={() => this.trackOrder()}
+                    isContinueShopping={true}
+                    isGiftCard={
+                      this.props.orderDetails &&
+                      this.props.orderDetails.isEgvOrder
+                    }
+                    COD={true}
+                  />
+                ) : (
+                  <OrderBanner
+                    history={this.props.history}
+                    headingText={this.props.orderStatusMessage}
+                    label={this.props.orderId}
+                    onClick={() => this.trackOrder()}
+                    isContinueShopping={true}
+                    isGiftCard={
+                      this.props.orderDetails &&
+                      this.props.orderDetails.isEgvOrder
+                    }
+                  />
+                )}
               </div>
               <MobileOnly>
                 <div className={styles.rateHolder}>
