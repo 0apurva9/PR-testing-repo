@@ -34,7 +34,8 @@ import {
   WALLET,
   OFFER_ERROR_PAYMENT_MODE_TYPE,
   EMI_TENURE,
-  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST
+  PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+  WHATSAPP_NOTIFICATION
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2536,6 +2537,7 @@ export function createJusPayOrder(
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   let url = queryString.parse(window.location.search);
   if (url && url.value) {
@@ -2587,7 +2589,9 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           productItems
         );
       } else {
@@ -2610,7 +2614,9 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           cartItem
         );
       }
@@ -2717,6 +2723,7 @@ export function createJusPayOrderForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   const parsedQueryString = queryString.parse(window.location.search);
   if (parsedQueryString.value) {
@@ -2755,7 +2762,9 @@ export function createJusPayOrderForNetBanking(
             JSON.parse(customerCookie).access_token
           }&juspayUrl=${encodeURIComponent(
             jusPayUrl
-          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           productItems
         );
       } else {
@@ -2766,7 +2775,9 @@ export function createJusPayOrderForNetBanking(
             JSON.parse(customerCookie).access_token
           }&juspayUrl=${encodeURIComponent(
             jusPayUrl
-          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           cartItem
         );
       }
@@ -2875,6 +2886,7 @@ export function createJusPayOrderForSavedCards(
   }/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
@@ -2917,7 +2929,9 @@ export function createJusPayOrderForSavedCards(
             jusPayUrl
           )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
             bankName ? bankName : ""
-          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           productItems
         );
       } else {
@@ -2936,7 +2950,9 @@ export function createJusPayOrderForSavedCards(
             jusPayUrl
           )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
             bankName ? bankName : ""
-          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           cartItem
         );
       }
@@ -3043,6 +3059,7 @@ export function createJusPayOrderForCliqCash(
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
@@ -3063,7 +3080,9 @@ export function createJusPayOrderForCliqCash(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         cartItem
       );
       const resultJson = await result.json();
@@ -3806,6 +3825,7 @@ export function updateTransactionDetailsForCOD(
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
   if (parsedQueryString.value) {
@@ -3825,7 +3845,9 @@ export function updateTransactionDetailsForCOD(
           JSON.parse(userDetails).userName
         }/payments/updateTransactionDetailsforCOD?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}&channel=${CHANNEL}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}&channel=${CHANNEL}${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
