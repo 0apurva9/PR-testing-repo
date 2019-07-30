@@ -17,6 +17,7 @@ import {
   NO,
   BANK_COUPON_COOKIE,
   ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
+  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
@@ -140,6 +141,9 @@ class CartPage extends React.Component {
     }
     if (localStorage.getItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE)) {
       localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
+    }
+    if (localStorage.getItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE)) {
+      localStorage.removeItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE);
     }
   }
 
