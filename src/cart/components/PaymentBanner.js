@@ -32,13 +32,25 @@ export default class PaymentBanner extends React.Component {
             <Image image={paymentConfirmation} />
           </div>
 
-          <div className={styles.orderHeading}>
-            Thank You! Your payment is confirmed.
-          </div>
-          <div className={styles.orderSubText}>
-            We will send you an e-mail and SMS confirmation for your order
-            within the next 30 minutes.
-          </div>
+          {!this.props.COD ? (
+            <div className={styles.orderHeading}>
+              Thank You! Your payment is confirmed.
+            </div>
+          ) : (
+            <div className={styles.orderHeading}>
+              {`Thanks! We've received your order`}
+            </div>
+          )}
+          {!this.props.COD ? (
+            <div className={styles.orderSubText}>
+              We will send you an e-mail and SMS confirmation for your order
+              within the next 30 minutes.
+            </div>
+          ) : (
+            <div className={styles.orderLabel}>{`Order Id: ${
+              this.props.label
+            }`}</div>
+          )}
 
           {this.props.isTrack && (
             <div className={styles.buttonHolder}>
@@ -92,5 +104,6 @@ PaymentBanner.defaultProps = {
   buttonText: "Track Order",
   isTrack: false,
   isContinueShopping: false,
-  continueButton: "Continue shopping"
+  continueButton: "Continue shopping",
+  COD: false
 };
