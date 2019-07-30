@@ -22,6 +22,10 @@ import MobileOnly from "../../general/components/MobileOnly";
 import ModalPanel from "../../general/components/ModalPanel.js";
 import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import {
+  setDataLayerForGiftCard,
+  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT
+} from "../../lib/adobeUtils";
 
 export default class OrderConfirmation extends React.Component {
   constructor(props) {
@@ -34,6 +38,9 @@ export default class OrderConfirmation extends React.Component {
     this.onCancel = this.onCancel.bind(this);
   }
   async componentDidMount() {
+    if (this.props.orderDetails.isEgvOrder) {
+      setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
+    }
     let firstProductCategory = this.props.orderDetails.products[0]
       .productCategory;
     let bannerData = await this.props.orderConfirmationBanner();
