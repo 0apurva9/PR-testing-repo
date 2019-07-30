@@ -641,9 +641,9 @@ export default class PdpApparel extends React.Component {
 
   render() {
     let seasonData = {};
-    if (this.props.productDetails["seasonDetails"] != undefined) {
+    if (this.props.productDetails["seasonDetails"] !== undefined) {
       seasonData = this.props.productDetails["seasonDetails"].find(item => {
-        return item.key == "Season";
+        return item.key === "Season";
       });
     }
     const getPinCode =
