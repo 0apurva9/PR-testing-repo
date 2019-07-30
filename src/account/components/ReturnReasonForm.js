@@ -47,11 +47,14 @@ export default class ReturnReasonForm extends React.Component {
       let reasonAndCommentObj = Object.assign(
         {},
         {
-          returnReasonCode: this.state.returnReasonCode,
-          subReasonCode: this.state.subReasonCode,
-          subReason: this.state.subReason,
-          comment: this.state.comment,
-          reason: this.state.reason,
+          returnReasonCode:
+            localStorage.getItem("primaryCode") || this.state.returnReasonCode,
+          subReasonCode:
+            localStorage.getItem("secondaryCode") || this.state.subReasonCode,
+          subReason:
+            localStorage.getItem("secondaryLabel") || this.state.subReason,
+          comment: localStorage.getItem("comment") || this.state.comment,
+          reason: localStorage.getItem("primaryLabel") || this.state.reason,
           reverseSeal: this.state.reverseSeal,
           sellerorderno: this.props.returnProductDetails.orderProductWsDTO[0]
             .sellerorderno,
@@ -102,9 +105,12 @@ export default class ReturnReasonForm extends React.Component {
     }
     localStorage.setItem("primaryLabel", label);
     localStorage.setItem("primaryCode", code);
+    localStorage.removeItem("secondaryLabel");
+    localStorage.removeItem("secondaryCode");
   }
   handleChange(val) {
     this.setState({ comment: val });
+    localStorage.setItem("comment", val);
   }
   selectReverseSeal(val) {
     this.setState({ reverseSeal: val });
