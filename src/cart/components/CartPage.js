@@ -12,7 +12,6 @@ import UnderLinedButton from "../../general/components/UnderLinedButton";
 import CartItemForDesktop from "./CartItemForDesktop";
 import Button from "../../general/components/Button.js";
 import {
-  SUCCESS,
   HOME_ROUTER,
   NO,
   BANK_COUPON_COOKIE,
@@ -22,7 +21,6 @@ import {
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
 import { Redirect } from "react-router-dom";
-import { MAIN_ROUTER } from "../../lib/constants";
 import TextWithUnderLine from "./TextWithUnderLine.js";
 import EmptyBag from "./EmptyBag.js";
 import {
@@ -39,7 +37,6 @@ import {
   YOUR_BAG,
   MY_ACCOUNT_PAGE,
   SAVE_LIST_PAGE,
-  COUPON_COOKIE,
   CART_BAG_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";

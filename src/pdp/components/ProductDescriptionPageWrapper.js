@@ -22,7 +22,7 @@ import PdpHome from "./PdpHome";
 import PdpDesktop from "./PdpDesktop";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 // prettier-ignore
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 const PiqPageForPdp = Loadable({
   loader: () => import("./PiqPageForPdp"),
   loading() {
@@ -52,7 +52,7 @@ const Loader = () => {
   );
 };
 
-const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+//const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 
 export default class ProductDescriptionPageWrapper extends React.Component {
   constructor(props) {

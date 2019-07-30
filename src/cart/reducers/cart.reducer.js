@@ -12,7 +12,6 @@ import {
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
-  CART_COUNT_FOR_LOGGED_IN_USER,
   BANK_COUPON_COOKIE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
@@ -238,7 +237,7 @@ const cart = (
   },
   action
 ) => {
-  let updatedCartDetailsCNC, cloneCartDetailCNC, cartDetails;
+  let cloneCartDetailCNC, cartDetails;
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {

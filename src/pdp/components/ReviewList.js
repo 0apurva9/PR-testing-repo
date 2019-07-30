@@ -18,11 +18,11 @@ export default class ReviewList extends React.Component {
               if (!data) return null;
               let userName = data.userName;
               let alias = data.alias;
-              let name =
+              /*  let name =
                 data &&
                 data.principal &&
                 data.principal.name &&
-                data.principal.name.trim();
+                data.principal.name.trim(); */
               return (
                 <ReviewPage
                   rating={data && data.rating}
@@ -42,11 +42,11 @@ export default class ReviewList extends React.Component {
             if (!data) return null;
             let userName = data.userName;
             let alias = data.alias;
-            let name =
+            /*  let name =
               data &&
               data.principal &&
               data.principal.name &&
-              data.principal.name.trim();
+              data.principal.name.trim();  */
             return (
               <ReviewPage
                 rating={data && data.rating}

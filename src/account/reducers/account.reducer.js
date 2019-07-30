@@ -8,7 +8,7 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants.js";
-import findIndex from "lodash.findindex";
+
 import { SUCCESS } from "../../lib/constants";
 import { CLEAR_ERROR } from "../../general/error.actions";
 import * as Cookies from "../../lib/Cookie";

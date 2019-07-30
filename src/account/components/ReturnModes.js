@@ -23,11 +23,7 @@ import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
-import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  PRODUCT_CANCEL
-} from "../../lib/constants";
+import { LOGGED_IN_USER_DETAILS, PRODUCT_CANCEL } from "../../lib/constants";
 const dateFormat = "DD MMM YYYY";
 
 export default class ReturnModes extends React.Component {

@@ -12,7 +12,7 @@ import {
   EMAIL_SENT_SUCCESS_MESSAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
-import findIndex from "lodash.findindex";
+//import findIndex from "lodash.findindex";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -296,7 +296,6 @@ const FOLLOW = "follow";
 const UNFOLLOW = "unfollow";
 const DATE_FORMAT_TO_UPDATE_PROFILE = "DD/MM/YYYY";
 const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
-const CART_GU_ID = "cartGuid";
 const MSD_API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const MAD_UUID = "19267047903874796013507214974570460649";
 const WOMEN = "Women's";

@@ -19,7 +19,6 @@ import {
   SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
 } from "../../lib/adobeUtils";
 const NO_REVIEW_TEXT = "Be the first to review this product";
-const PROMOTION = "Promotion";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export default class ProductDetailsMainCard extends React.Component {
   constructor(props) {

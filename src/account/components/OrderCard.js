@@ -357,7 +357,7 @@ export default class OrderCard extends React.Component {
             )}
 
           {this.props.isGiveAway === NO &&
-            this.props.orderStatusCode != "PAYMENT_PENDING" &&
+            this.props.orderStatusCode !== "PAYMENT_PENDING" &&
             !this.props.retryPaymentUrl && (
               <div
                 className={styles.trackOrderText}
@@ -375,7 +375,7 @@ export default class OrderCard extends React.Component {
               </div>
             )}
           {this.props &&
-            this.props.returnMode != "REFNOPCK" && (
+            this.props.returnMode !== "REFNOPCK" && (
               <React.Fragment>
                 {this.props.pickupAddress && (
                   <div className={styles.pickupAddressHolder}>

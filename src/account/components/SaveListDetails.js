@@ -11,18 +11,11 @@ import UserProfile from "./UserProfile";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  GLOBAL_ACCESS_TOKEN,
-  CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS,
-  ANONYMOUS_USER,
-  LOGIN_PATH,
   SAVED_LIST
 } from "../../lib/constants";
-import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
-import { checkUserLoggedIn } from "../../lib/userUtils";
 import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_WISHLIST_REMOVE

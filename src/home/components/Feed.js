@@ -219,12 +219,12 @@ const BannerSeparator = Loadable({
     return <div />;
   }
 });
-const AutomatedBrandProductCarousel = Loadable({
+/* const AutomatedBrandProductCarousel = Loadable({
   loader: () => import("./AutomatedBrandProductCarousel.js"),
   loading() {
     return <div />;
   }
-});
+}); */
 const PreAutomatedBrandProductCarousel = Loadable({
   loader: () => import("./PreAutomatedBrandProductCarousel.js"),
   loading() {

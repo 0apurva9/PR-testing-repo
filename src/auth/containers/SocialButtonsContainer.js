@@ -9,9 +9,7 @@ import {
   SOCIAL_CHANNEL_FACEBOOK,
   GOOGLE_PLUS_PLATFORM,
   SOCIAL_CHANNEL_GOOGLE_PLUS,
-  loginUser,
   loginUserRequest,
-  customerAccessToken,
   socialMediaRegistration,
   loadGoogleSignInApi,
   CUSTOMER_ACCESS_TOKEN_FAILURE
@@ -25,7 +23,6 @@ import {
 } from "../../auth/actions/auth.actions";
 import {
   mergeCartId,
-  generateCartIdForLoggedInUser,
   getCartId,
   getCartCountForLoggedInUser,
   getCartDetails
@@ -33,7 +30,6 @@ import {
 import {
   SUCCESS,
   ERROR,
-  FAILURE,
   CART_DETAILS_FOR_ANONYMOUS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP,
@@ -46,7 +42,6 @@ import {
   createWishlist,
   getWishListItems
 } from "../../wishlist/actions/wishlist.actions.js";
-import { displayToast } from "../../general/toast.actions.js";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
   setDataLayerForLogin,

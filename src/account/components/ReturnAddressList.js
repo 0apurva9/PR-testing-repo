@@ -154,12 +154,12 @@ export default class ReturnAddressList extends React.Component {
     }
   };
   renderAddress = () => {
-    let defaultAddress =
-      this.props.returnRequest &&
-      this.props.returnRequest.deliveryAddressesList &&
-      this.props.returnRequest.deliveryAddressesList.find(address => {
-        return address.defaultAddress === true;
-      });
+    // let defaultAddress =
+    //   this.props.returnRequest &&
+    //   this.props.returnRequest.deliveryAddressesList &&
+    //   this.props.returnRequest.deliveryAddressesList.find(address => {
+    //     return address.defaultAddress === true;
+    //   });
     if (this.props.returnRequest) {
       return (
         <ReturnsFrame

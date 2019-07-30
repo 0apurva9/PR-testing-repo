@@ -9,12 +9,10 @@ import {
   signUpUser,
   forgotPasswordOtpVerification,
   loginUser,
-  loginUserRequest,
   customerAccessToken
 } from "../../auth/actions/user.actions";
 import {
   redeemCliqVoucher,
-  removeAddress,
   cancelProduct,
   updateReturnCancellation,
   updateReturnForHOTC
@@ -29,12 +27,9 @@ import {
   FAILURE,
   CART_DETAILS_FOR_ANONYMOUS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  ERROR_MESSAGE_FOR_VERIFY_OTP,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE,
   ERROR
 } from "../../lib/constants";
 import {
@@ -51,7 +46,6 @@ import {
   applyUserCouponForAnonymous,
   getUserAddress,
   mergeCartId,
-  generateCartIdForLoggedInUser,
   getCartId,
   applyUserCouponForLoggedInUsers,
   releaseCouponForAnonymous,

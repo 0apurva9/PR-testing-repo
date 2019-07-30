@@ -8,14 +8,12 @@ import customerCareIcon from "../../account/components/img/callred.svg";
 import contactUsIcon from "../../account/components/img/contactred.svg";
 import callUsIcon from "../../account/components/img/contactblack.svg";
 import aboutUsIcon from "../../account/components/img/aboutusred.svg";
-import arrowLeft from "../../cart/components/img/down-arrow.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import {
   SECONDARY_FEED_TYPE,
   NOT_FOUND,
   SUCCESS,
-  ERROR,
   ABOUT_US_URL,
   CONTACT_URL,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
@@ -56,7 +54,6 @@ export default class StaticPage extends Component {
     return <Redirect to={NOT_FOUND} />;
   }
   render() {
-    const data = this.props;
     let listMenu =
       this.props &&
       this.props.data.length > 0 &&

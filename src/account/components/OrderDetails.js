@@ -19,7 +19,6 @@ import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import { Redirect } from "react-router-dom";
 import Icon from "../../xelpmoc-core/Icon";
-import rating from "./img/rating.svg";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
 import {
@@ -51,8 +50,8 @@ import {
 const dateFormat = "Do MMM YYYY";
 const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
-const PRODUCT_RETURN_WINDOW_CLOSED =
-  "You cannot return this product as the window for returns has expired";
+// const PRODUCT_RETURN_WINDOW_CLOSED =
+//   "You cannot return this product as the window for returns has expired";
 const AWB_POPUP_TRUE = "Y";
 const AWB_POPUP_FALSE = "N";
 const CLICK_COLLECT = "click-and-collect";
@@ -540,17 +539,17 @@ export default class OrderDetails extends React.Component {
                       />
 
                       {products.consignmentStatus &&
-                        products.consignmentStatus != "ORDER_ALLOCATED" &&
-                        products.consignmentStatus != "PACKED" &&
-                        products.consignmentStatus !=
+                        products.consignmentStatus !== "ORDER_ALLOCATED" &&
+                        products.consignmentStatus !== "PACKED" &&
+                        products.consignmentStatus !==
                           "RETURNINITIATED_BY_RTO" &&
-                        products.consignmentStatus != "HOTC" &&
-                        products.consignmentStatus != "UNDELIVERED" &&
-                        products.consignmentStatus !=
+                        products.consignmentStatus !== "HOTC" &&
+                        products.consignmentStatus !== "UNDELIVERED" &&
+                        products.consignmentStatus !==
                           "CANCELLATION_INITIATED" &&
-                        products.consignmentStatus != "PAYMENT_TIMEOUT" &&
-                        products.consignmentStatus != "PICK_CONFIRMED" &&
-                        products.consignmentStatus != "ORDER_UNCOLLECTED" && (
+                        products.consignmentStatus !== "PAYMENT_TIMEOUT" &&
+                        products.consignmentStatus !== "PICK_CONFIRMED" &&
+                        products.consignmentStatus !== "ORDER_UNCOLLECTED" && (
                           <React.Fragment>
                             {/* <div className={styles.rateThisItem}>
                               Rate this item

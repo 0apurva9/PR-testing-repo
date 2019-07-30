@@ -11,7 +11,6 @@ import CliqCashModuleContainer from "../../account/containers/CliqCashModuleCont
 import DatePickerModule from "../../account/components/DatePickerModule";
 import GiftCardSucessBottomModel from "../../account/components/GiftCardSucessBottomModel";
 import CliqCashKnowMore from "../../account/components/CliqCashKnowMore";
-
 import {
   LOGGED_IN_USER_DETAILS,
   SUCCESS,
@@ -20,8 +19,7 @@ import {
   NO_COST_EMI_COUPON,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   PRODUCT_CART_ROUTER,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  HOME_ROUTER
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
 import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";

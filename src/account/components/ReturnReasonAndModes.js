@@ -32,7 +32,10 @@ import {
   NAME_TEXT,
   LAST_NAME_TEXT,
   ADDRESS_VALIDATION,
-  EMAIL_VALID_TEXT
+  EMAIL_VALID_TEXT,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  CART_DETAILS_FOR_LOGGED_IN_USER
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -42,11 +45,6 @@ import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
-import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  CART_DETAILS_FOR_LOGGED_IN_USER
-} from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import ReturnDateTime from "../../account/components/ReturnDateTime.js";
 import format from "date-fns/format";
@@ -384,7 +382,7 @@ export default class ReturnReasonAndModes extends React.Component {
         returnFlow={this.props.returnFlow}
       />
     );
-    const refundTransactionSummary = (
+    /* const refundTransactionSummary = (
       <RefundTransactionSummary
         {...this.props}
         {...this.state}
@@ -398,7 +396,7 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.location &&
       this.props.location.state &&
       this.props.location.state.isRefundTransactionPage &&
-      this.props.location.state.isRefundTransactionPage;
+      this.props.location.state.isRefundTransactionPage; */
     return (
       <React.Fragment>
         {pathname.match(REG_X_FOR_REASON) && renderReasonForm}

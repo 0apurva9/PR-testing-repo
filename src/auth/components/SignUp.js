@@ -23,13 +23,10 @@ import {
   CHECKOUT_ROUTER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
-import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
+import { EMAIL_REGULAR_EXPRESSION } from "./Login";
 import {
   setDataLayer,
-  ADOBE_LOGIN_AND_SIGN_UP_PAGE,
-  setDataLayerForSignupProcess,
-  ADOBE_SIGN_UP_START,
-  ADOBE_SIGN_UP_SUCCESS
+  ADOBE_LOGIN_AND_SIGN_UP_PAGE
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";

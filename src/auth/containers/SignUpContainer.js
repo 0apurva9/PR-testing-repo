@@ -11,7 +11,6 @@ import {
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   PRODUCT_ADDED_TO_WISHLIST,
-  ERROR,
   CART_BAG_DETAILS
 } from "../../lib/constants";
 import {
@@ -56,7 +55,6 @@ const mapDispatchToProps = dispatch => {
           setDataLayerForSignupProcess(ADOBE_SIGN_UP_SUCCESS);
           await dispatch(createWishlist());
           const mergeCartIdResponse = await dispatch(mergeCartId());
-          let guid;
           if (mergeCartIdResponse.status === SUCCESS) {
             const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
             const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
