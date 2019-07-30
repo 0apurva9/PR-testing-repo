@@ -1278,6 +1278,12 @@ class CheckOutPage extends React.Component {
     ) {
       localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
     }
+    if (
+      this.props.cart &&
+      this.props.cart.getPrepaidOrderPaymentConfirmationStatus === SUCCESS
+    ) {
+      localStorage.removeItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE);
+    }
     this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
   }
@@ -1309,6 +1315,7 @@ if you have order id in local storage then you have to show order confirmation p
     const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
     if (orderIdForPaymentConfirmationPage && stripeDetails) {
       this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+      return;
     }
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
@@ -1806,12 +1813,14 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   getCODEligibility = cartId => {
-    if (this.props.getCODEligibility) {
-      this.props.getCODEligibility(
-        this.state.isPaymentFailed,
-        this.state.isComingFromRetryUrl,
-        this.state.retryCartGuid
-      );
+    if (!this.state.cliqCashApplied) {
+      if (this.props.getCODEligibility) {
+        this.props.getCODEligibility(
+          this.state.isPaymentFailed,
+          this.state.isComingFromRetryUrl,
+          this.state.retryCartGuid
+        );
+      }
     }
   };
 
