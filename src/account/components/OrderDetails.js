@@ -523,6 +523,11 @@ export default class OrderDetails extends React.Component {
                         discountPrice={""}
                         productName={products.productName}
                         isGiveAway={products.isGiveAway}
+                        clickAndCollect={
+                          products.selectedDeliveryMode.code == CLICK_COLLECT
+                            ? true
+                            : false
+                        }
                         onClick={() => this.onClickImage(products.productcode)}
                         quantity={true}
                         selectedDeliveryMode={products.selectedDeliveryMode}

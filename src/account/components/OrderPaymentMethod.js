@@ -8,7 +8,8 @@ import {
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   RETURN_TO_ADDRESS,
   RETURN_LANDING,
-  RETURNS_PREFIX
+  RETURNS_PREFIX,
+  MY_ACCOUNT_ADDRESS_PAGE
 } from "../../lib/constants";
 import each from "lodash.foreach";
 export default class OrderPaymentMethod extends React.Component {
@@ -24,9 +25,8 @@ export default class OrderPaymentMethod extends React.Component {
     );
   }
   onChangeAddress = () => {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}/${this.orderId}${RETURN_TO_ADDRESS}`
-    );
+    //this.props.history.push(`${MY_ACCOUNT_PAGE}/${this.props.orderId}${RETURN_TO_ADDRESS}`);
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${RETURN_TO_ADDRESS}`);
   };
 
   render() {
@@ -41,6 +41,7 @@ export default class OrderPaymentMethod extends React.Component {
     //     }
     //   });
     // });
+
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (

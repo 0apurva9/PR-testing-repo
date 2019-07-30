@@ -125,7 +125,10 @@ export default class OrderCard extends React.Component {
       let EstDelivery = new Date(this.props.deliveryDate);
       EstDeliveryFormatted = format(EstDelivery, dateFormat);
     }
-
+    let checkStatus = "";
+    if (this.props.clickAndCollect == true) {
+      checkStatus = shipmentStatus.includes("Estimated Delivery Date");
+    }
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -503,10 +506,13 @@ export default class OrderCard extends React.Component {
           date && (
             <div className={styles.commonTitle}>
               {shipmentStatus && (
-                <span className={styles.ffsemibold}>{shipmentStatus}: </span>
+                <span className={styles.ffsemibold}>
+                  {checkStatus ? "" : shipmentStatus}{" "}
+                </span>
               )}
               {!this.props.returnMode &&
-                this.props.consignmentStatus !== "DELIVERED" && (
+                this.props.consignmentStatus !== "DELIVERED" &&
+                !checkStatus && (
                   <span className={styles.styleDate}>
                     {this.props.estimatedDeliveryDate
                       ? estimatedDeliveryDateFormatted

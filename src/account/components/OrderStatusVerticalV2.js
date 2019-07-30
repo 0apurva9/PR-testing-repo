@@ -638,14 +638,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
         refundInitiatedData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
-    console.log(
-      "Active Order Status:",
-      activeOrderStatus,
-      "orderEDHD",
-      orderEDHD,
-      "props:",
-      this.props
-    );
     return (
       <React.Fragment>
         <div className={styles.base}>
@@ -914,12 +906,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     <React.Fragment>
                       {completedSteps.includes(NOT_DELIVERED) ? (
                         <React.Fragment>
-                          <div className={styles.step}>
+                          {/* <div className={styles.step}>
                             <div className={styles.checkActive} />
                             <div className={styles.processNameHolder}>
                               {unDeliveredCustomerFacingName}
                             </div>
-                          </div>
+                          </div> */}
                           <div className={styles.step}>
                             <div className={styles.checkActive} />
                             <div className={styles.processNameHolderBold}>

@@ -8,7 +8,8 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import {
   RETURNS_PREFIX,
   RETURN_LANDING,
-  RETURNS_MODES
+  RETURNS_MODES,
+  ORDER_PREFIX
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -79,7 +80,11 @@ export default class ReturnChangeAddress extends React.Component {
         <div className={styles.addressHolder}>
           {/* {this.props.isReturn && ( */}
           <div className={styles.addressHeader}>
-            <span>Select Pickup Address</span>
+            {this.props.changeAddress ? (
+              <span>Select Delivery Address</span>
+            ) : (
+              <span>Select Pickup Address</span>
+            )}
             {/* <div className={styles.underLineButtonHolder}>
 							<UnderLinedButton
 								size="14px"
@@ -154,17 +159,27 @@ export default class ReturnChangeAddress extends React.Component {
                       color: "#FFF",
                       fontSize: 14
                     }}
-                    onClick={() =>
-                      this.props.history.push({
-                        pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_MODES}`,
-                        state: {
-                          address: this.state.selectedAddress
-                            ? this.state.selectedAddress
-                            : this.props.defaultAddress,
-                          authorizedRequest: true
-                        }
-                      })
-                    }
+                    onClick={() => {
+                      this.props.changeAddress
+                        ? this.props.history.push({
+                            pathname: `${ORDER_PREFIX}`,
+                            state: {
+                              address: this.state.selectedAddress
+                                ? this.state.selectedAddress
+                                : this.props.defaultAddress,
+                              authorizedRequest: true
+                            }
+                          })
+                        : this.props.history.push({
+                            pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_MODES}`,
+                            state: {
+                              address: this.state.selectedAddress
+                                ? this.state.selectedAddress
+                                : this.props.defaultAddress,
+                              authorizedRequest: true
+                            }
+                          });
+                    }}
                   />
                 </div>
               )}

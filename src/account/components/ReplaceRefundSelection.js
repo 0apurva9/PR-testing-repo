@@ -220,11 +220,6 @@ export default class ReplaceRefundSelection extends React.Component {
         refundMode
       );
       //move to next screen on success
-      console.log(
-        "updateRefundMode Page data:----->3",
-        updateRefundModeResponse,
-        this.props.getRefundModesDetails.typeofRefund
-      );
       if (
         updateRefundModeResponse &&
         updateRefundModeResponse.status === "success"
