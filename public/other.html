@@ -396,6 +396,7 @@
         _satellite.pageBottom();
       }
     </script>
+    <% if(htmlWebpackPlugin.options.stage === "production") { %>
     <script type="text/javascript">
       !(function(t, e) {
         var n = e.createElement("script"),
@@ -409,5 +410,10 @@
           o.parentNode.insertBefore(n, o);
       })(window, document);
     </script>
+    <% } else { %>
+    <script type="text/javascript">
+      !function(t,e){var n=e.createElement("script"),o=e.getElementsByTagName("script")[0];n.async=!0,n.src="https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v="+Date.now().toString(),n.charset="UTF-8",n.type="text/javascript",o.parentNode.insertBefore(n,o)}(window,document);
+    </script>
+  <% } %>
   </body>
 </html>
