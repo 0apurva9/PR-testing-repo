@@ -524,11 +524,15 @@ export default class OrderCard extends React.Component {
                       : date}
                   </span>
                 )}
-              {/* {this.props.consignmentStatus === "DELIVERED" && (
+              {shipmentStatus.includes("Collection window expired on") ? (
                 <span className={styles.styleDate}>
-                  {EstDeliveryFormatted}
+                  {this.props.estimatedDeliveryDate
+                    ? estimatedDeliveryDateFormatted
+                    : date}
                 </span>
-              )} */}
+              ) : (
+                ""
+              )}
               <span className={styles.styleDate}>
                 {this.props.consignmentStatus === "DELIVERED" &&
                   format(returnEligibleDate.toString(), dateFormat)}
