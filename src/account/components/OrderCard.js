@@ -126,9 +126,11 @@ export default class OrderCard extends React.Component {
       EstDeliveryFormatted = format(EstDelivery, dateFormat);
     }
     let checkStatus = "";
+    let EstDeliveryDate = shipmentStatus.includes("Estimated Delivery Date");
     if (this.props.clickAndCollect == true) {
       checkStatus = shipmentStatus.includes("Estimated Delivery Date");
     }
+    //console.log("estimatedDeliveryDateFormatted:", estimatedDeliveryDateFormatted, date)
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -512,7 +514,8 @@ export default class OrderCard extends React.Component {
               )}
               {!this.props.returnMode &&
                 this.props.consignmentStatus !== "DELIVERED" &&
-                !checkStatus && (
+                !checkStatus &&
+                EstDeliveryDate && (
                   <span className={styles.styleDate}>
                     {this.props.estimatedDeliveryDate
                       ? estimatedDeliveryDateFormatted

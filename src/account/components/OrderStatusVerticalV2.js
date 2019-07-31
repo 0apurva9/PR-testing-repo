@@ -914,12 +914,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     <React.Fragment>
                       {completedSteps.includes(NOT_DELIVERED) ? (
                         <React.Fragment>
-                          {/* <div className={styles.step}>
+                          <div className={styles.step}>
                             <div className={styles.checkActive} />
                             <div className={styles.processNameHolder}>
                               {unDeliveredCustomerFacingName}
                             </div>
-                          </div> */}
+                          </div>
                           <div className={styles.step}>
                             <div className={styles.checkActive} />
                             <div className={styles.processNameHolderBold}>
