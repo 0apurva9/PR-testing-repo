@@ -6,8 +6,7 @@ import {
   clearTransaction
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
-import CliqAndCash from "../components/CliqAndCash.js";
-import { setHeaderText, SUCCESS } from "../../general/header.actions";
+import { setHeaderText } from "../../general/header.actions";
 import {
   showSecondaryLoader,
   hideSecondaryLoader

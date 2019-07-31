@@ -90,7 +90,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
       } else if (hasBrand && hasCategory) {
         // I know it has a brand and a category
 
-        const test = SEARCH_TEXT_BEFORE_CATEGORY.exec(query);
+        //const test = SEARCH_TEXT_BEFORE_CATEGORY.exec(query);
         let subquery = query;
         subquery = subquery.replace(/category:[a-zA-Z0-9]+:/, "");
         subquery = subquery.replace(/:brand:[a-zA-Z0-9]+$/, "");

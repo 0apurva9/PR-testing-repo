@@ -15,7 +15,6 @@ import {
   RELEASE_USER_COUPON_FAILURE
 } from "../../cart/actions/cart.actions";
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
-import format from "date-fns/format";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 const REMOVE = "Remove";
