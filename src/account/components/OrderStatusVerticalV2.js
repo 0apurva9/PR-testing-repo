@@ -638,6 +638,14 @@ export default class OrderStatusVerticalV2 extends React.Component {
         refundInitiatedData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
+
+    console.log(
+      "item shipped:",
+      completedSteps,
+      shippedData,
+      "activeOrderStatus",
+      activeOrderStatus
+    );
     return (
       <React.Fragment>
         <div className={styles.base}>
@@ -979,6 +987,39 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     </div>
                                   </div>
                                 </div>
+                              ) : completedSteps.includes(SHIPPED) ? (
+                                <div
+                                  className={
+                                    completedSteps.includes(SHIPPED)
+                                      ? styles.step
+                                      : styles.stepInactive
+                                  }
+                                >
+                                  <div
+                                    className={
+                                      completedSteps.includes(SHIPPED)
+                                        ? styles.checkActive
+                                        : styles.check
+                                    }
+                                  />
+                                  <div
+                                    className={
+                                      activeOrderStatus === SHIPPED
+                                        ? styles.processNameHolderBold
+                                        : styles.processNameHolder
+                                    }
+                                  >
+                                    {shippedDataCustomerFacingName}
+                                  </div>
+                                  <div className={styles.dateAndTimeHolder}>
+                                    <div className={styles.timeHolder}>
+                                      {shippedTime}
+                                    </div>
+                                    <div className={styles.dateHolder}>
+                                      {shippedDate}
+                                    </div>
+                                  </div>
+                                </div>
                               ) : completedSteps.includes(ITEM_PACKED) ? (
                                 <React.Fragment>
                                   {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
@@ -1021,39 +1062,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     </div>
                                   </div>
                                 </React.Fragment>
-                              ) : completedSteps.includes(SHIPPED) ? (
-                                <div
-                                  className={
-                                    completedSteps.includes(SHIPPED)
-                                      ? styles.step
-                                      : styles.stepInactive
-                                  }
-                                >
-                                  <div
-                                    className={
-                                      completedSteps.includes(SHIPPED)
-                                        ? styles.checkActive
-                                        : styles.check
-                                    }
-                                  />
-                                  <div
-                                    className={
-                                      activeOrderStatus === SHIPPED
-                                        ? styles.processNameHolderBold
-                                        : styles.processNameHolder
-                                    }
-                                  >
-                                    {shippedDataCustomerFacingName}
-                                  </div>
-                                  <div className={styles.dateAndTimeHolder}>
-                                    <div className={styles.timeHolder}>
-                                      {shippedTime}
-                                    </div>
-                                    <div className={styles.dateHolder}>
-                                      {shippedDate}
-                                    </div>
-                                  </div>
-                                </div>
                               ) : (
                                 <div
                                   className={
@@ -1219,6 +1227,40 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         </div>
                       ) : (
                         <React.Fragment>
+                          completedSteps.includes(SHIPPED) ? (
+                          <div
+                            className={
+                              completedSteps.includes(SHIPPED)
+                                ? styles.step
+                                : styles.stepInactive
+                            }
+                          >
+                            <div
+                              className={
+                                completedSteps.includes(SHIPPED)
+                                  ? styles.checkActive
+                                  : styles.check
+                              }
+                            />
+                            <div
+                              className={
+                                activeOrderStatus === SHIPPED
+                                  ? styles.processNameHolderBold
+                                  : styles.processNameHolder
+                              }
+                            >
+                              {shippedDataCustomerFacingName}
+                            </div>
+                            <div className={styles.dateAndTimeHolder}>
+                              <div className={styles.timeHolder}>
+                                {shippedTime}
+                              </div>
+                              <div className={styles.dateHolder}>
+                                {shippedDate}
+                              </div>
+                            </div>
+                          </div>
+                          ) :
                           {completedSteps.includes(ITEM_PACKED) ? (
                             <div
                               className={
@@ -1256,39 +1298,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                 </div>
                                 <div className={styles.itemPackedDetails}>
                                   AWB No: {this.props.trackingAWB}
-                                </div>
-                              </div>
-                            </div>
-                          ) : completedSteps.includes(SHIPPED) ? (
-                            <div
-                              className={
-                                completedSteps.includes(SHIPPED)
-                                  ? styles.step
-                                  : styles.stepInactive
-                              }
-                            >
-                              <div
-                                className={
-                                  completedSteps.includes(SHIPPED)
-                                    ? styles.checkActive
-                                    : styles.check
-                                }
-                              />
-                              <div
-                                className={
-                                  activeOrderStatus === SHIPPED
-                                    ? styles.processNameHolderBold
-                                    : styles.processNameHolder
-                                }
-                              >
-                                {shippedDataCustomerFacingName}
-                              </div>
-                              <div className={styles.dateAndTimeHolder}>
-                                <div className={styles.timeHolder}>
-                                  {shippedTime}
-                                </div>
-                                <div className={styles.dateHolder}>
-                                  {shippedDate}
                                 </div>
                               </div>
                             </div>
