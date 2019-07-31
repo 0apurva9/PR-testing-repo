@@ -132,7 +132,12 @@ export default class OrderCard extends React.Component {
       checkStatus =
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     }
-    //console.log("estimatedDeliveryDateFormatted:", estimatedDeliveryDateFormatted, date)
+    console.log(
+      "giftCardStatus",
+      this.props.giftCardStatus,
+      "displayStatusName",
+      this.props.displayStatusName
+    );
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -225,7 +230,8 @@ export default class OrderCard extends React.Component {
             )} */}
           {!this.props.isEgvOrder &&
             this.props.orderStatusCode &&
-            this.props.orderStatusCode !== "DELIVERED" && (
+            this.props.orderStatusCode !== "DELIVERED" &&
+            this.props.price != 0.01 && (
               <div className={styles.deliveryDate}>
                 {this.props.displayStatusName === "Your payment is in process"
                   ? "Payment Pending"

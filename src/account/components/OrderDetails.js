@@ -596,7 +596,9 @@ export default class OrderDetails extends React.Component {
 
                       {products.consignmentStatus !== "DELIVERED" &&
                         products.selectedDeliveryMode.code !== CLICK_COLLECT &&
-                        products.consignmentStatus !== "PAYMENT_TIMEOUT" && (
+                        products.consignmentStatus !== "PAYMENT_TIMEOUT" &&
+                        products.price &&
+                        products.price != 0.01 && (
                           <div className={styles.orderStatusVertical}>
                             {/* This block of code needs to be duplicated below for CNC as well */}
 
@@ -612,6 +614,7 @@ export default class OrderDetails extends React.Component {
                               returnMode={products.returnMode}
                               returnType={products.returnType}
                             />
+
                             {/* Block of code ends here */}
                           </div>
                         )}
@@ -732,19 +735,22 @@ export default class OrderDetails extends React.Component {
 
                             {/* <div className={styles.divider} /> */}
 
-                            <OrderStatusVertical
-                              trackingAWB={products.trackingAWB}
-                              courier={products.reverseLogisticName}
-                              logisticName={products.logisticName}
-                              isCNC={true}
-                              showShippingDetails={
-                                this.props.showShippingDetails
-                              }
-                              orderCode={orderDetails.orderId}
-                              returnMode={products.returnMode}
-                              returnType={products.returnType}
-                              statusMessageList={products.statusDisplayMsg}
-                            />
+                            {products.price &&
+                              products.price != 0.01 && (
+                                <OrderStatusVertical
+                                  trackingAWB={products.trackingAWB}
+                                  courier={products.reverseLogisticName}
+                                  logisticName={products.logisticName}
+                                  isCNC={true}
+                                  showShippingDetails={
+                                    this.props.showShippingDetails
+                                  }
+                                  orderCode={orderDetails.orderId}
+                                  returnMode={products.returnMode}
+                                  returnType={products.returnType}
+                                  statusMessageList={products.statusDisplayMsg}
+                                />
+                              )}
                           </React.Fragment>
                         )}
 
