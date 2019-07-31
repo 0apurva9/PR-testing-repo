@@ -4,8 +4,6 @@ import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import GridSelect from "../../general/components/GridSelect";
 import YesNoQuestion from "./YesNoQuestion";
 import PropTypes from "prop-types";
-import DesktopOnly from "../../general/components/DesktopOnly";
-
 const LABEL = "More Info";
 export default class ReverseSealYesNo extends React.Component {
   constructor(props) {

@@ -4,7 +4,6 @@ import OrderPlacedAndId from "../../account/components/OrderPlacedAndId";
 import OrderCard from "../../account/components/OrderCard";
 import PriceAndLink from "../../account/components/PriceAndLink";
 import styles from "./OrderDetailsCard.css";
-import { COLLECT } from "../../lib/constants";
 const NO_SIZE = "NO SIZE";
 export default class OrderDetailsCard extends React.Component {
   onViewDetails() {

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import ProductDetailsCardForSaveList from "../../pdp/components/ProductDetailsCardForSaveList";
 import StarRating from "../../general/components/StarRating.js";
 import OrderReturn from "../../account/components/OrderReturn.js";
-import MediaQuery from "react-responsive";
 export default class SaveListCard extends React.Component {
   addToBagItem() {
     if (this.props.addToBagItem) {
