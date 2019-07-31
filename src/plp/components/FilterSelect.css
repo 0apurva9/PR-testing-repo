@@ -32,10 +32,14 @@
   height: auto;
   line-height: normal;
   word-wrap: break-word;
-  white-space: normal;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .contentSelected {
   composes: itemContent;

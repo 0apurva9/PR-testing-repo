@@ -79,6 +79,7 @@
     margin: auto;
     padding: 35px;
     border-radius: 4px;
+    margin-bottom: 5%;
   }
   .dropdown {
     width: 50%;
@@ -121,7 +122,6 @@
     width: 100%;
     height: auto;
     float: left;
-    font-family: semibold;
     font-size: 14px;
     line-height: 14px;
     font-family: light;
@@ -149,5 +149,106 @@
   }
   .reviewHolder {
     padding: 0px;
+  }
+  .pageIteam {
+    width: 7px;
+    height: 17px;
+    font-family: Rubik;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #212121;
+  }
+  .paginationListHolder {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: inline-flex;
+  }
+  .pagination {
+    display: inline-flex;
+    width: 100%;
+  }
+
+  .pageIteam {
+    padding: 8px 16px;
+    text-decoration: none;
+    width: 7px;
+    height: 17px;
+    font-family: Rubik;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #212121;
+  }
+  .activePageIteam {
+    background-color: rgba(33, 33, 33, 0.93);
+    padding: 8px 13px;
+    border-radius: 50px;
+    color: #fdfdfd;
+    text-align: center;
+    line-height: normal;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+  }
+  .listHolder {
+    height: auto;
+    font-size: 14px;
+    padding: 0px 9px 0px 10px;
+    width: auto;
+  }
+  .paginationHolder {
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    right: 0;
+  }
+  .pageNumberInfoHolder {
+    width: 30%;
+    padding: 12px 52px;
+  }
+  .pageNumberInfoText {
+    font-size: 14px;
+    color: #2d2d2d;
+    font-family: Rubik;
+    text-align: center;
+  }
+  .previousbutton {
+    background-image: url(./img/previousbutton.svg);
+    width: 136px;
+    height: 40px;
+    background-repeat: no-repeat;
+  }
+  .nextbutton {
+    background-image: url(./img/nextbutton.svg);
+    width: 117px;
+    height: 40px;
+    background-repeat: no-repeat;
+  }
+  .pageInfo {
+    width: 24%;
+    height: auto;
+  }
+  .pageInfoText {
+    padding: 11px 0;
+    height: 14px;
+    font-family: Rubik;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #2d2d2d;
   }
 }

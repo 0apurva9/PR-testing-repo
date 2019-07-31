@@ -638,6 +638,11 @@ export default class PdpApparel extends React.Component {
     }
     window.location.href = value;
   }
+  ScrollIntoView() {
+    document
+      .getElementById("ratingSection")
+      .scrollIntoView({ behavior: "smooth" }, true);
+  }
 
   render() {
     let seasonData = {};
@@ -826,6 +831,7 @@ export default class PdpApparel extends React.Component {
                         history={this.props.history}
                         location={this.props.location}
                         price={price}
+                        ScrollReviewList={this.ScrollIntoView}
                         doublePrice={seoDoublePrice}
                         discountPrice={discountPrice}
                         averageRating={productData.averageRating}
@@ -1279,6 +1285,13 @@ export default class PdpApparel extends React.Component {
                   </div>
                 </div>
               ) : null}
+
+              <div className={styles.youPlus}>
+                <div className={styles.pageCenter}>
+                  <div id="yp_widget" />
+                </div>
+              </div>
+
               <div className={styles.pageCenter}>
                 <div
                   className={styles.detailsHolder}
@@ -1595,7 +1608,7 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
                     </React.Fragment>
-                    <div className={styles.blankSeparator} />
+                    <div className={styles.blankSeparator} id="ratingSection" />
                     <React.Fragment>
                       {productData.numberOfReviews &&
                       (productData.numberOfReviews !== 0 ||

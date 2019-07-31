@@ -149,6 +149,12 @@ const ManufacturerDetailsModal = Loadable({
     return <Loader />;
   }
 });
+const ReviewGuidelineModal = Loadable({
+  loader: () => import("../../pdp/components/ReviewGuidelineModal.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const BankOffersDetails = Loadable({
   loader: () => import("../../cart/components/BankOffersDetails.js"),
