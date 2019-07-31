@@ -1813,7 +1813,7 @@ if you have order id in local storage then you have to show order confirmation p
   };
 
   getCODEligibility = cartId => {
-    if (!this.state.cliqCashApplied) {
+    if (!this.state.isCliqCashApplied) {
       if (this.props.getCODEligibility) {
         this.props.getCODEligibility(
           this.state.isPaymentFailed,
