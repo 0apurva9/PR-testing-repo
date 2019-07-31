@@ -395,22 +395,9 @@
         _satellite.pageBottom();
       }
     </script>
+
     <script type="text/javascript">
-    <% if(htmlWebpackPlugin.options.stage === "production") { %>
-      !(function(t, e) {
-        var n = e.createElement("script"),
-          o = e.getElementsByTagName("script")[0];
-        (n.async = !0),
-          (n.src =
-            "https://d1uck549nef0ok.cloudfront.net/youplus.opinion.in.js?v=" +
-            Date.now().toString()),
-          (n.charset = "UTF-8"),
-          (n.type = "text/javascript"),
-          o.parentNode.insertBefore(n, o);
-      })(window, document);
-    <% } else { %>
       !function(t,e){var n=e.createElement("script"),o=e.getElementsByTagName("script")[0];n.async=!0,n.src="https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v="+Date.now().toString(),n.charset="UTF-8",n.type="text/javascript",o.parentNode.insertBefore(n,o)}(window,document);
-  <% } %>
-  </script>
+    </script>
   </body>
 </html>
