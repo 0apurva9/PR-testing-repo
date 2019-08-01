@@ -583,7 +583,7 @@ export default class ModalRoot extends React.Component {
   };
 
   render() {
-    const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
+    //  const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
       RestorePassword: (
         <RestorePassword

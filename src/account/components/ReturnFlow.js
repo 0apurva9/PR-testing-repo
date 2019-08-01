@@ -2,8 +2,6 @@ import React from "react";
 import cloneDeep from "lodash.clonedeep";
 import { Route } from "react-router-dom";
 import ReturnCliqAndPiqContainer from "../containers/ReturnCliqAndPiqContainer.js";
-
-import ReturnModes from "./ReturnModes.js";
 import ReturnToStoreContainer from "../containers/ReturnToStoreContainer";
 import ReturnBankForm from "./ReturnBankForm";
 import ReturnReasonAndModes from "./ReturnReasonAndModes";
@@ -11,11 +9,8 @@ import Loader from "../../general/components/Loader";
 import SelfCourierContainer from "../containers/SelfCourierContainer";
 import {
   RETURNS,
-  RETURNS_REASON,
   RETURNS_MODES,
-  RETURNS_STORE_MAP,
   RETURNS_STORE_BANK_FORM,
-  RETURNS_STORE_FINAL,
   RETURN_TO_STORE,
   RETURN_LANDING,
   RETURNS_PREFIX,

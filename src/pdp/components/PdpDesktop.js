@@ -69,11 +69,11 @@ const ProductDetailsMainCard = LoadableVisibility({
 });
 //const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
-const ProductDetails = LoadableVisibility({
+/* const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
   loading: () => <div />,
   delay: 400
-});
+}); */
 
 const Overlay = LoadableVisibility({
   loader: () => import("./Overlay"),

@@ -2,7 +2,6 @@ import React from "react";
 import BannerImage from "../../general/components/BannerImage";
 import Banner from "../../general/components/Banner";
 import PropTypes from "prop-types";
-import HeroBannerSkeleton from "../../general/components/HeroBannerSkeleton";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
 import styles from "./HeroBanner.css";
 export default class HeroBanner extends React.Component {

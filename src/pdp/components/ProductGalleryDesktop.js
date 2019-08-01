@@ -62,7 +62,7 @@ export default class ProductGalleryDesktop extends React.Component {
     setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productDetails);
   }
   componentDidMount() {
-    if (this.type == "image") {
+    if (this.type === "image") {
       this.getPosition(this.refs.zoom);
       this.getDimensions(this.refs.zoom);
     }
@@ -164,7 +164,7 @@ export default class ProductGalleryDesktop extends React.Component {
               return null;
             }
           })}
-          {this.type == "image" && (
+          {this.type === "image" && (
             <div
               className={styles.image}
               ref="zoom"
@@ -194,13 +194,13 @@ export default class ProductGalleryDesktop extends React.Component {
                   this.swapViews(position, i);
                 }}
               >
-                {this.props.productImages[i].type == "image" && (
+                {this.props.productImages[i].type === "image" && (
                   <div className={styles.image}>
                     <Image image={val} fit="contain" alt={this.props.alt} />
                   </div>
                 )}
 
-                {this.props.productImages[i].type == "video" && (
+                {this.props.productImages[i].type === "video" && (
                   <div className={styles.videoImage} />
                 )}
               </div>

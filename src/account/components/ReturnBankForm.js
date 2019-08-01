@@ -3,16 +3,9 @@ import ReturnsFrameV2 from "./ReturnsFrameV2";
 import BankDetailsV2 from "./BankDetailsV2";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
-import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
 import stylesCommon from "./ReturnReasonAndModes.css";
-import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  PRODUCT_CANCEL
-} from "../../lib/constants";
-const dateFormat = "DD MMM YYYY";
-
+import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 export default class ReturnBankForm extends React.Component {
   handleCancel() {
     if (this.props.onCancel) {
@@ -21,8 +14,6 @@ export default class ReturnBankForm extends React.Component {
   }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const userData = JSON.parse(userDetails);
     const userAccountDetails = JSON.parse(userDetails);
 
     return (

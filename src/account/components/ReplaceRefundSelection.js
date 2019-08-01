@@ -24,7 +24,6 @@ import {
   RETURNS_REASON,
   RETURNS_MODES,
   RETURNS_STORE_BANK_FORM,
-  CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   PRODUCT_CANCEL,
   REFUND_SUMMARY
@@ -51,14 +50,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   componentDidMount() {
-    let orderId = this.props.data.sellerorderno;
-    let transactionId = this.props.data.transactionId;
-    let returnReasonCode = this.props.data.returnReasonCode;
-    let returnSubReasonCode = this.props.data.subReasonCode;
-    let comments = this.props.data.comment;
-    let uploadedImageURLs = this.props.data.validImgFiles;
-    let reverseSealAvailability = this.props.data.reverseSeal;
-    let refundType = this.props.getRefundOptionsData(
+    /* let refundType = this.props.getRefundOptionsData(
       orderId,
       transactionId,
       returnReasonCode,
@@ -66,7 +58,7 @@ export default class ReplaceRefundSelection extends React.Component {
       comments,
       uploadedImageURLs,
       reverseSealAvailability
-    );
+    ); */
     //if bank data already present show it - coming from update bank details screen
     if (Object.keys(this.props.bankDetail).length !== 0) {
       this.setState({ showRefundOptions: true });
@@ -76,8 +68,8 @@ export default class ReplaceRefundSelection extends React.Component {
       this.setState({ showBankDetails: false });
     }
     if (
-      this.props.data.showImageUpload == true &&
-      this.props.data.validImgFiles == ""
+      this.props.data.showImageUpload === true &&
+      this.props.data.validImgFiles === ""
     ) {
       this.setState({ showAttachment: true });
     } else {
@@ -224,7 +216,7 @@ export default class ReplaceRefundSelection extends React.Component {
         updateRefundModeResponse &&
         updateRefundModeResponse.status === "success"
       ) {
-        if (this.props.getRefundModesDetails.typeofRefund == "REFNOPCK") {
+        if (this.props.getRefundModesDetails.typeofRefund === "REFNOPCK") {
           let updateReturnConfirmation = await this.props.updateReturnConfirmation(
             orderId,
             transactionId,
@@ -389,8 +381,6 @@ export default class ReplaceRefundSelection extends React.Component {
 
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const userData = JSON.parse(userDetails);
     const userAccountDetails = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
     let returnFlow = this.props.returnFlow;
@@ -410,7 +400,6 @@ export default class ReplaceRefundSelection extends React.Component {
     if (Object.keys(this.props.bankDetail).length !== 0) {
       userBankDetails = this.props.bankDetail;
     }
-    let showImageUpload = this.props.data.showImageUpload;
     const data = this.props.getRefundOptionsDetails;
     const refundModesDetail = this.props.getRefundModesDetails;
     const productData = this.props.returnProductDetails;
@@ -520,7 +509,7 @@ export default class ReplaceRefundSelection extends React.Component {
                 <ReturnsFrame>
                   <div className={styles.content}>
                     {!this.state.showRefundOptions &&
-                      this.state.showAttachment == false && (
+                      this.state.showAttachment === false && (
                         <React.Fragment>
                           <div className={styles.returnMode}>
                             Select mode of return
@@ -661,7 +650,7 @@ export default class ReplaceRefundSelection extends React.Component {
                       </React.Fragment>
                     )}
                     {/* -----------------------Image Upload------------------------ */}
-                    {this.state.showAttachment == true && (
+                    {this.state.showAttachment === true && (
                       <div>
                         <div className={styles.returnTitle}>
                           Add attachments

@@ -2,7 +2,6 @@ import React from "react";
 import Image from "../../xelpmoc-core/Image";
 import styles from "./StoryWidget.css";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import MobileOnly from "../../general/components/MobileOnly";
 export default class StoryWidget extends React.Component {
   constructor(props) {
     super(props);

@@ -1,9 +1,6 @@
 import "isomorphic-fetch";
-import cloneDeep from "lodash.clonedeep";
 import * as Cookie from "./Cookie";
 import {
-  SUCCESS,
-  FAILURE,
   LOGGED_IN_USER_DETAILS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CART_DETAILS_FOR_ANONYMOUS
