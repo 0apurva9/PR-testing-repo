@@ -26,7 +26,7 @@ export default class Calender extends Component {
     let currentYear = currentDay.getFullYear();
     let previousYear = 2018;
     let yearDiffrence = currentYear - previousYear;
-    let numberOfMonths = 12 * yearDiffrence + currentMonth + 1;
+    let numberOfMonths = 12 * yearDiffrence + currentMonth;
     return (
       <div className={styles.calender} id="height">
         <DayPicker
