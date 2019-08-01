@@ -550,7 +550,6 @@ export function newReturnInitiateRequest() {
 }
 
 export function newReturnInitiateSuccess(returnDetails) {
-  console.log("returnDetails", returnDetails);
   return {
     type: NEW_RETURN_INITIATE_SUCCESS,
     returnDetails,

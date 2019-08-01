@@ -427,7 +427,6 @@ export default class ReturnAddressList extends React.Component {
     this.props.history.goBack();
   };
   render() {
-    console.log("this.props", this.props);
     if (this.props.loading || this.props.returnPinCodeStatus === REQUESTING) {
       this.props.showSecondaryLoader();
     } else {
