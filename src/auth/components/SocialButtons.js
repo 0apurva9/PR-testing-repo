@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-
 import styles from "./SocialButtons.css";
 import MediaQuery from "react-responsive";
-import CircleButton from "../../xelpmoc-core/CircleButton";
-import Icon from "../../xelpmoc-core/Icon";
-import desktopFacebookImage from "./img/facebookForDesktop.svg";
-import desktopGooglePlus from "./img/googleForDesktop.svg";
-
 import PropTypes from "prop-types";
-
 import { SOCIAL_SIGN_UP, HOME_ROUTER } from "../../lib/constants";
 const FACEBOOK_VERSION = "v3.0";
 const FACEBOOK_SDK = "https://connect.facebook.net/en_US/sdk.js";

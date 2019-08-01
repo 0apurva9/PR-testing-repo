@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./BankDetailsV2.css";
 import PropTypes from "prop-types";
 import Input3 from "../../general/components/Input3.js";
-import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import {
   RETURNS_PREFIX,
   RETURN_LANDING,

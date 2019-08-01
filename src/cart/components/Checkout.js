@@ -2,14 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Checkout.css";
 import Button from "../../general/components/Button.js";
-import infoIcon from "./img/Info.svg";
-import Icon from "../../xelpmoc-core/Icon";
 import {
   RUPEE_SYMBOL,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
-const DISCLAIMER =
-  "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class Checkout extends React.Component {
   handleClick() {
     if (this.props.onCheckout) {
