@@ -52,7 +52,7 @@ export default class OrderCard extends React.Component {
   getTrackOrderText(orderStatusCode, isEgvOrder) {
     let trackOrderText = "";
     if (!isEgvOrder) {
-      if (orderStatusCode && orderStatusCode !== "DELIVERED") {
+      if (orderStatusCode && orderStatusCode != "DELIVERED") {
         if (!orderStatusCode.includes("CANCEL")) {
           trackOrderText = "Track Order";
         }
@@ -230,8 +230,8 @@ export default class OrderCard extends React.Component {
             )} */}
           {!this.props.isEgvOrder &&
             this.props.orderStatusCode &&
-            this.props.orderStatusCode !== "DELIVERED" &&
-            this.props.price !== 0.01 && (
+            this.props.orderStatusCode != "DELIVERED" &&
+            this.props.price != 0.01 && (
               <div className={styles.deliveryDate}>
                 {this.props.displayStatusName === "Your payment is in process"
                   ? "Payment Pending"
@@ -264,7 +264,7 @@ export default class OrderCard extends React.Component {
             </div>
           )}
 
-          {this.props.idFromAllOrderDetails !== "Y" && (
+          {this.props.idFromAllOrderDetails != "Y" && (
             <div className={styles.priceWithQuantity}>
               {this.props.isGiveAway === NO || !this.props.isGiveAway ? (
                 <div className={styles.priceHolderForGiftCard}>
@@ -291,7 +291,7 @@ export default class OrderCard extends React.Component {
                       </div>
                     )}
                   {this.props.discountPrice &&
-                    this.props.discountPrice !== this.props.price && (
+                    this.props.discountPrice != this.props.price && (
                       <div className={styles.discountPrice}>
                         {`${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
                           this.props.price
@@ -306,7 +306,7 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-          {this.props.idFromAllOrderDetails !== "Y" && (
+          {this.props.idFromAllOrderDetails != "Y" && (
             <div className={styles.priceHolder}>
               {this.props.productSize && (
                 <div className={styles.price}>
@@ -321,7 +321,7 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-          {this.props.idFromAllOrderDetails !== "Y" && (
+          {this.props.idFromAllOrderDetails != "Y" && (
             <div>
               {this.props.quantity && (
                 <div className={styles.priceHolder}>
@@ -335,9 +335,9 @@ export default class OrderCard extends React.Component {
           )}
 
           {this.props.children &&
-            this.props.idFromAllOrderDetails !== "Y" &&
+            this.props.idFromAllOrderDetails != "Y" &&
             this.props.showQuantity &&
-            this.props.productName !== "Gift Card" && (
+            this.props.productName != "Gift Card" && (
               <div className={styles.additionalContent}>
                 {this.props.children}
               </div>
@@ -345,7 +345,7 @@ export default class OrderCard extends React.Component {
 
           {!this.props.isEgvOrder &&
             !this.props.retryPaymentUrl &&
-            this.props.orderStatusCode !== "PAYMENT_PENDING" &&
+            this.props.orderStatusCode != "PAYMENT_PENDING" &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}
@@ -369,7 +369,7 @@ export default class OrderCard extends React.Component {
             )}
 
           {this.props.isGiveAway === NO &&
-            this.props.orderStatusCode !== "PAYMENT_PENDING" &&
+            this.props.orderStatusCode != "PAYMENT_PENDING" &&
             !this.props.retryPaymentUrl && (
               <div
                 className={styles.trackOrderText}
@@ -387,7 +387,7 @@ export default class OrderCard extends React.Component {
               </div>
             )}
           {this.props &&
-            this.props.returnMode !== "REFNOPCK" && (
+            this.props.returnMode != "REFNOPCK" && (
               <React.Fragment>
                 {this.props.pickupAddress && (
                   <div className={styles.pickupAddressHolder}>
@@ -414,7 +414,7 @@ export default class OrderCard extends React.Component {
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
-          this.props.productName !== "Gift Card" && (
+          this.props.productName != "Gift Card" && (
             <div className={styles.additionalContent}>
               {this.props.children}
             </div>
@@ -537,7 +537,7 @@ export default class OrderCard extends React.Component {
                 </span>
               )}
               {!this.props.returnMode &&
-                this.props.consignmentStatus !== "DELIVERED" &&
+                this.props.consignmentStatus != "DELIVERED" &&
                 !checkStatus &&
                 EstDeliveryDate && (
                   <span className={styles.styleDate}>

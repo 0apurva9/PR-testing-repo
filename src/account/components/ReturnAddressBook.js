@@ -39,7 +39,7 @@ export default class ReturnAddressBook extends React.Component {
       });
     if (
       this.state.defaultAddress &&
-      this.state.defaultAddress.id !== defaultAddress.id
+      this.state.defaultAddress.id != defaultAddress.id
     ) {
       this.setState({
         defaultAddress: defaultAddress

@@ -222,7 +222,7 @@ export default class ReturnReasonAndModes extends React.Component {
     }
     if (
       address.emailId &&
-      address.emailId !== "" &&
+      address.emailId != "" &&
       !EMAIL_REGULAR_EXPRESSION.test(address.emailId)
     ) {
       this.props.displayToast(EMAIL_VALID_TEXT);

@@ -245,7 +245,7 @@ export default class AllOrderDetails extends React.Component {
   renderNoOrder() {
     return (
       <React.Fragment>
-        {this.props.profile.orderDetailsStatus !== REQUESTING && (
+        {this.props.profile.orderDetailsStatus != REQUESTING && (
           <div className={styles.noOrder}>
             <div className={styles.noOderText}>
               You have not made any purchase yet
@@ -742,7 +742,7 @@ export default class AllOrderDetails extends React.Component {
                                             </div>
                                           </div>
                                         )} */}
-                                      {product.productName !== "Gift Card" &&
+                                      {product.productName != "Gift Card" &&
                                         !orderDetails.retryPaymentUrl &&
                                         product.orderStatusCode ===
                                           "DELIVERED" && (

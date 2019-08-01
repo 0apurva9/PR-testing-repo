@@ -544,17 +544,17 @@ export default class OrderDetails extends React.Component {
                       />
 
                       {products.consignmentStatus &&
-                        products.consignmentStatus !== "ORDER_ALLOCATED" &&
-                        products.consignmentStatus !== "PACKED" &&
-                        products.consignmentStatus !==
+                        products.consignmentStatus != "ORDER_ALLOCATED" &&
+                        products.consignmentStatus != "PACKED" &&
+                        products.consignmentStatus !=
                           "RETURNINITIATED_BY_RTO" &&
-                        products.consignmentStatus !== "HOTC" &&
-                        products.consignmentStatus !== "UNDELIVERED" &&
-                        products.consignmentStatus !==
+                        products.consignmentStatus != "HOTC" &&
+                        products.consignmentStatus != "UNDELIVERED" &&
+                        products.consignmentStatus !=
                           "CANCELLATION_INITIATED" &&
-                        products.consignmentStatus !== "PAYMENT_TIMEOUT" &&
-                        products.consignmentStatus !== "PICK_CONFIRMED" &&
-                        products.consignmentStatus !== "ORDER_UNCOLLECTED" && (
+                        products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                        products.consignmentStatus != "PICK_CONFIRMED" &&
+                        products.consignmentStatus != "ORDER_UNCOLLECTED" && (
                           <React.Fragment>
                             {/* <div className={styles.rateThisItem}>
                               Rate this item
@@ -594,12 +594,12 @@ export default class OrderDetails extends React.Component {
                           </React.Fragment>
                         )}
 
-                      {products.consignmentStatus !== "DELIVERED" &&
-                        products.selectedDeliveryMode.code !== CLICK_COLLECT &&
-                        products.consignmentStatus !== "PAYMENT_TIMEOUT" &&
-                        products.consignmentStatus !== "PAYMENT_PENDING" &&
+                      {products.consignmentStatus != "DELIVERED" &&
+                        products.selectedDeliveryMode.code != CLICK_COLLECT &&
+                        products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                        products.consignmentStatus != "PAYMENT_PENDING" &&
                         products.price &&
-                        products.price !== 0.01 && (
+                        products.price != 0.01 && (
                           <div className={styles.orderStatusVertical}>
                             {/* This block of code needs to be duplicated below for CNC as well */}
 
@@ -646,27 +646,27 @@ export default class OrderDetails extends React.Component {
                         <div className={styles.row}>
                            */}
                                 {products.storeDetails.displayName &&
-                                  products.storeDetails.displayName !==
+                                  products.storeDetails.displayName !=
                                     undefined &&
-                                  products.storeDetails.displayName !==
+                                  products.storeDetails.displayName !=
                                     "undefined" && (
                                     <span>
                                       {products.storeDetails.displayName} ,
                                     </span>
                                   )}{" "}
                                 {products.storeDetails.returnAddress1 &&
-                                  products.storeDetails.returnAddress1 !==
+                                  products.storeDetails.returnAddress1 !=
                                     undefined &&
-                                  products.storeDetails.returnAddress1 !==
+                                  products.storeDetails.returnAddress1 !=
                                     "undefined" && (
                                     <span>
                                       {products.storeDetails.returnAddress1} ,
                                     </span>
                                   )}{" "}
                                 {products.storeDetails.returnAddress2 &&
-                                  products.storeDetails.returnAddress2 !==
+                                  products.storeDetails.returnAddress2 !=
                                     undefined &&
-                                  products.storeDetails.returnAddress2 !==
+                                  products.storeDetails.returnAddress2 !=
                                     "undefined" && (
                                     <span>
                                       {products.storeDetails.returnAddress2}
@@ -738,9 +738,8 @@ export default class OrderDetails extends React.Component {
 
                             {products.price &&
                               products.price != 0.01 &&
-                              products.consignmentStatus !==
-                                "PAYMENT_TIMEOUT" &&
-                              products.consignmentStatus !==
+                              products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                              products.consignmentStatus !=
                                 "PAYMENT_PENDING" && (
                                 <OrderStatusVertical
                                   trackingAWB={products.trackingAWB}

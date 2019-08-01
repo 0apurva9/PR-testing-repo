@@ -140,14 +140,14 @@ export default class ReturnReasonForm extends React.Component {
     let disabledContinueButton = true;
     if (
       this.state.reason ||
-      localStorage.getItem("primaryLabel") !== null ||
-      localStorage.getItem("secondaryLabel") !== null
+      localStorage.getItem("primaryLabel") != null ||
+      localStorage.getItem("secondaryLabel") != null
     ) {
       let secondaryReasons = this.state.secondaryReasons;
-      if (secondaryReasons && secondaryReasons !== undefined) {
+      if (secondaryReasons && secondaryReasons != undefined) {
         if (
           this.state.subReason ||
-          localStorage.getItem("secondaryLabel") !== null
+          localStorage.getItem("secondaryLabel") != null
         ) {
           disabledContinueButton = false;
         } else {
@@ -175,12 +175,12 @@ export default class ReturnReasonForm extends React.Component {
     let c = null;
     let d = null;
 
-    if (primaryLabel !== null) {
+    if (primaryLabel != null) {
       c = primaryLabel;
     } else {
       c = this.props.returnFlow ? "Select issue" : "Select a reason";
     }
-    if (secondaryLabel !== null) {
+    if (secondaryLabel != null) {
       d = secondaryLabel;
     } else {
       d = "Select a reason";
@@ -307,7 +307,7 @@ export default class ReturnReasonForm extends React.Component {
                         />
                       </div>
 
-                      {(secondaryLabel !== null ||
+                      {(secondaryLabel != null ||
                         this.state.secondaryReasons) && (
                         <div className={styles.select}>
                           <SelectBoxMobile2

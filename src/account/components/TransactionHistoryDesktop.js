@@ -130,7 +130,7 @@ export default class TransactionHistoryDesktop extends React.Component {
     if (status) {
       var transactionStatus = "\\b" + status.toUpperCase();
       var statusRegEx = new RegExp(transactionStatus, "g");
-      if (type !== 4) {
+      if (type != 4) {
         filteredData =
           originalData &&
           originalData.reduce((result, val) => {
@@ -310,7 +310,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                     transactionDetails.map((val, i) => {
                       return (
                         <div className={styles.transactionBase}>
-                          {this.state.checked !== 4 && (
+                          {this.state.checked != 4 && (
                             <div className={styles.dateSection}>
                               <div className={styles.borderSection} />
                               <div className={styles.dateTime}>
@@ -358,7 +358,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         </div>
                                       )}
                                     {value.expiryDate &&
-                                      value.expiryDate !==
+                                      value.expiryDate !=
                                         EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       value.transactionType
@@ -380,7 +380,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         </div>
                                       )}
                                     {value.expiryDate &&
-                                      value.expiryDate !==
+                                      value.expiryDate !=
                                         EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       !value.transactionType
