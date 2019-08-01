@@ -550,6 +550,7 @@ export function newReturnInitiateRequest() {
 }
 
 export function newReturnInitiateSuccess(returnDetails) {
+  console.log("returnDetails", returnDetails);
   return {
     type: NEW_RETURN_INITIATE_SUCCESS,
     returnDetails,
@@ -829,7 +830,6 @@ export function createGiftCardDetails(giftCardDetails) {
         throw new Error(resultJsonStatus.message);
       }
       return dispatch(createGiftCardSuccess(resultJson));
-
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
     }
