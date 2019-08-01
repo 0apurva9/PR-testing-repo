@@ -50,7 +50,14 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   componentDidMount() {
-    /* let refundType = this.props.getRefundOptionsData(
+    let orderId = this.props.data.sellerorderno;
+    let transactionId = this.props.data.transactionId;
+    let returnReasonCode = this.props.data.returnReasonCode;
+    let returnSubReasonCode = this.props.data.subReasonCode;
+    let comments = this.props.data.comment;
+    let uploadedImageURLs = this.props.data.validImgFiles;
+    let reverseSealAvailability = this.props.data.reverseSeal;
+    this.props.getRefundOptionsData(
       orderId,
       transactionId,
       returnReasonCode,
@@ -58,7 +65,7 @@ export default class ReplaceRefundSelection extends React.Component {
       comments,
       uploadedImageURLs,
       reverseSealAvailability
-    ); */
+    );
     //if bank data already present show it - coming from update bank details screen
     if (Object.keys(this.props.bankDetail).length !== 0) {
       this.setState({ showRefundOptions: true });
