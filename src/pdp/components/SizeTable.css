@@ -20,8 +20,8 @@
 .headerLabelHolder {
   width: auto;
   height: 30px;
-  min-width: 10%;
-  display: -ms-flexbox;
+  min-width: 15%;
+  max-width: 20%;
   display: flex;
   font-size: 11px;
   color: rgb(74, 74, 74);
@@ -43,8 +43,8 @@
 .tableData {
   width: auto;
   height: 30px;
-  min-width: 10%;
-  display: -ms-flexbox;
+  min-width: 15%;
+  max-width: 20%;
   display: flex;
   font-size: 11px;
   color: rgba(33, 33, 33, 0.93);
