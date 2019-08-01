@@ -84,5 +84,5 @@ OrderBanner.defaultProps = {
   buttonText: "Track Order",
   isTrack: false,
   isContinueShopping: false,
-  continueButton: "Continue shopping"
+  continueButton: "Continue Shopping"
 };
