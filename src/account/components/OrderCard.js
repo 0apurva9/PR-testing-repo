@@ -248,22 +248,21 @@ export default class OrderCard extends React.Component {
                 Delivered on {this.props.deliveryDate}
               </div>
             )}
-          <div>
-            {this.props.orderStatusCode && (
-              <div
-                className={
-                  this.props.orderStatusCode === "PAYMENT_PENDING" ||
-                  this.props.orderStatusCode === "PAYMENT_TIMEOUT"
-                    ? styles.calloutMessagePayment
-                    : styles.calloutMessage
-                }
-              >
-                <div className={styles.calloutMessage}>
-                  {updatedCalloutMessage}
-                </div>
+
+          {this.props.orderStatusCode && (
+            <div
+              className={
+                this.props.orderStatusCode === "PAYMENT_PENDING" ||
+                this.props.orderStatusCode === "PAYMENT_TIMEOUT"
+                  ? styles.calloutMessagePayment
+                  : styles.calloutMessage
+              }
+            >
+              <div className={styles.calloutMessage}>
+                {updatedCalloutMessage}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {this.props.idFromAllOrderDetails !== "Y" && (
             <div className={styles.priceWithQuantity}>
@@ -445,6 +444,17 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
+        {this.props.consignmentStatus == "PAYMENT_PENDING" && (
+          <React.Fragment>
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>Status: </span>
+              <span className={styles.estimatedDate}>
+                Your payment is in process
+              </span>
+            </div>
+            <div className={styles.calloutMessage}>{calloutMessage}</div>
+          </React.Fragment>
+        )}
         {/* {this.props.statusDisplay && (
           <div className={styles.commonTitle}>
             <span className={styles.ffsemibold}>Status: </span>
@@ -530,14 +540,12 @@ export default class OrderCard extends React.Component {
                       : date}
                   </span>
                 )}
-              {shipmentStatus.includes("Collection window expired on") ? (
+              {shipmentStatus.includes("Collection window expired on") && (
                 <span className={styles.styleDate}>
                   {this.props.estimatedDeliveryDate
                     ? estimatedDeliveryDateFormatted
                     : date}
                 </span>
-              ) : (
-                ""
               )}
               <span className={styles.styleDate}>
                 {this.props.consignmentStatus === "DELIVERED" &&

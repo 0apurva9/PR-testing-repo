@@ -597,6 +597,7 @@ export default class OrderDetails extends React.Component {
                       {products.consignmentStatus !== "DELIVERED" &&
                         products.selectedDeliveryMode.code !== CLICK_COLLECT &&
                         products.consignmentStatus !== "PAYMENT_TIMEOUT" &&
+                        products.consignmentStatus !== "PAYMENT_PENDING" &&
                         products.price &&
                         products.price != 0.01 && (
                           <div className={styles.orderStatusVertical}>
@@ -736,7 +737,11 @@ export default class OrderDetails extends React.Component {
                             {/* <div className={styles.divider} /> */}
 
                             {products.price &&
-                              products.price != 0.01 && (
+                              products.price != 0.01 &&
+                              products.consignmentStatus !==
+                                "PAYMENT_TIMEOUT" &&
+                              products.consignmentStatus !==
+                                "PAYMENT_PENDING" && (
                                 <OrderStatusVertical
                                   trackingAWB={products.trackingAWB}
                                   courier={products.reverseLogisticName}
@@ -755,7 +760,14 @@ export default class OrderDetails extends React.Component {
                         )}
 
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
-                        <div className={styles.buttonHolder}>
+                        <div
+                          className={
+                            products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                            products.consignmentStatus != "PAYMENT_PENDING"
+                              ? styles.buttonHolder
+                              : styles.buttonHolderForPaymentPending
+                          }
+                        >
                           <div className={styles.buttonHolderForUpdate}>
                             {/* showing write a review and cancel or return only for mobile */}
                             {/* <MobileOnly>
@@ -922,7 +934,14 @@ export default class OrderDetails extends React.Component {
                       )}
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
-                        <div className={styles.buttonHolder}>
+                        <div
+                          className={
+                            products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                            products.consignmentStatus != "PAYMENT_PENDING"
+                              ? styles.buttonHolder
+                              : styles.buttonHolderForPaymentPending
+                          }
+                        >
                           <div className={styles.buttonHolderForUpdate}>
                             <div className={styles.replaceHolder}>
                               <div

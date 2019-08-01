@@ -71,6 +71,14 @@
 	display: inline-block;
 	border-top: 1px solid #ececec;
 }
+.buttonHolderForPaymentPending {
+	width: 100%;
+	height: auto;
+	/* margin-top: 27px; */
+	padding-top: 20px;
+	display: inline-block;
+	border-top: 1px solid #ececec;
+}
 .ratingReviewHolder {
 	display: flex;
 	position: relative;

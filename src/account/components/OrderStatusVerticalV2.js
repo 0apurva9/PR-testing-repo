@@ -919,6 +919,14 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             <div className={styles.processNameHolder}>
                               {unDeliveredCustomerFacingName}
                             </div>
+                            <div className={styles.dateAndTimeHolder}>
+                              <div className={styles.timeHolder}>
+                                {unDeliveredTime}
+                              </div>
+                              <div className={styles.dateHolder}>
+                                {unDeliveredDate}
+                              </div>
+                            </div>
                           </div>
                           <div className={styles.step}>
                             <div className={styles.checkActive} />
