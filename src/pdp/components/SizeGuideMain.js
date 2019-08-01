@@ -13,9 +13,7 @@ export default class SizeGuideMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: 0,
-      inchActive: true,
-      cmsActive: false
+      isOpen: 0
     };
   }
   componentDidMount() {
@@ -32,9 +30,6 @@ export default class SizeGuideMain extends React.Component {
     this.setState({ isOpen: val });
   }
   render() {
-    const inch = this.state.inchActive ? styles.inActive : styles.in;
-    const cm = this.state.cmsActive ? styles.cmActive : styles.cm;
-
     if (this.props.loading) {
       return <Loader />;
     }
@@ -49,62 +44,6 @@ export default class SizeGuideMain extends React.Component {
             {this.props.productName} Size Guide
           </div>
           <div className={styles.imageWithSize}>
-            {this.props.category !== "Footwear" &&
-              this.props.category !== "Accessories" && (
-                <div className={styles.togglebase}>
-                  <DesktopOnly>
-                    <div className={styles.subHeading} />
-                    <div className={styles.toggleContainer}>
-                      <div className={styles.toggle}>
-                        <div
-                          className={inch}
-                          onClick={() => {
-                            this.setState({
-                              inchActive: true,
-                              cmsActive: false
-                            });
-                          }}
-                        >
-                          In
-                        </div>
-
-                        <div
-                          className={cm}
-                          onClick={() => {
-                            this.setState({
-                              cmsActive: true,
-                              inchActive: false
-                            });
-                          }}
-                        >
-                          Cm
-                        </div>
-                      </div>
-                    </div>
-                  </DesktopOnly>
-                  <MobileOnly>
-                    <div className={styles.toggle}>
-                      <div
-                        className={inch}
-                        onClick={() => {
-                          this.setState({ inchActive: true, cmsActive: false });
-                        }}
-                      >
-                        In
-                      </div>
-
-                      <div
-                        className={cm}
-                        onClick={() => {
-                          this.setState({ cmsActive: true, inchActive: false });
-                        }}
-                      >
-                        Cm
-                      </div>
-                    </div>
-                  </MobileOnly>
-                </div>
-              )}
             <MobileOnly>
               {this.props.category === "Footwear" &&
                 this.props.category === "Accessories" && (
@@ -124,8 +63,6 @@ export default class SizeGuideMain extends React.Component {
                   <SizeGuideElementClothing
                     data={this.props.sizeData}
                     category={this.props.category}
-                    showInch={this.state.inchActive}
-                    showCms={this.state.cmsActive}
                   />
                 </div>
               )}
