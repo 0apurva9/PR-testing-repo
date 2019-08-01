@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import styles from "./TransactionHistoryDesktop.css";
 import {
   LOGGED_IN_USER_DETAILS,
-  RECEIVED,
-  PAID,
-  EXPIRED,
   TRANSACTION_DETAIL_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
@@ -46,7 +43,7 @@ export default class TransactionHistoryDesktop extends React.Component {
   getMonth = day => {
     let date = day.split("-");
     var monthString = "";
-    if (date[1] == year) {
+    if (date[1] === year) {
       monthString = getMonthString(date[0]);
     } else {
       monthString = getMonthString(date[0]) + " " + date[1];
@@ -361,7 +358,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         </div>
                                       )}
                                     {value.expiryDate &&
-                                      value.expiryDate !=
+                                      value.expiryDate !==
                                         EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       value.transactionType
@@ -383,7 +380,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                                         </div>
                                       )}
                                     {value.expiryDate &&
-                                      value.expiryDate !=
+                                      value.expiryDate !==
                                         EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       !value.transactionType

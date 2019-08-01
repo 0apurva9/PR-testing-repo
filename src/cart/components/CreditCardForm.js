@@ -1,29 +1,19 @@
 import React from "react";
-
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
-import Icon from "../../xelpmoc-core/Icon";
-import CircleButton from "../../xelpmoc-core/CircleButton";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
-import informationIcon from "../../general/components/img/Info-grey.svg";
 import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants.js";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
-
-const INSUFFICIENT_DATA_ERROR_MESSAGE = "Please enter valid card details";
-const MERCHANT_ID = "tul_uat2";
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 19;
 const REGX_FOR_WHITE_SPACE = /\W/gi;
 const REGX_FOR_CARD_FORMATTER = /(.{4})/g;
-
 export default class CreditCardForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.expiryYearObject = [];
     const currentYear = new Date().getFullYear();
     for (let i = MINIMUM_YEARS_TO_SHOW; i <= MAXIMUM_YEARS_TO_SHOW; i++) {

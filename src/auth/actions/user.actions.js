@@ -2,10 +2,8 @@ import {
   SUCCESS,
   REQUESTING,
   ERROR,
-  FAILURE_LOWERCASE,
   GLOBAL_ACCESS_TOKEN,
   CUSTOMER_ACCESS_TOKEN,
-  FAILURE_UPPERCASE,
   OTP_VERIFICATION_REQUIRED_CODE,
   OTP_VERIFICATION_REQUIRED_TEXT,
   RESET_PASSWORD_SUCCESS_MESSAGE,
@@ -21,17 +19,12 @@ import {
   OTP_LOGIN_MODAL
 } from "../../general/modal.actions.js";
 import * as Cookie from "../../lib/Cookie";
-import config from "../../lib/config";
-import { SOCIAL_SIGN_UP } from "../../lib/constants";
 import {
   authCallsAreInProgress,
-  singleAuthCallHasFailed,
   stopLoaderOnLoginForOTPVerification
 } from "./auth.actions";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
-import { OTP_VERIFICATION_REQUIRED_MESSAGE } from "../containers/LoginContainer";
 import { displayToast } from "../../general/toast.actions";
-
 export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const LOGIN_USER_FAILURE = "LOGIN_USER_FAILURE";
@@ -100,8 +93,6 @@ export const SIGN_UP = "v2/mpl/users/registration";
 export const SOCIAL_MEDIA_REGISTRATION_PATH =
   "v2/mpl/users/socialMediaRegistration";
 export const SOCIAL_MEDIA_LOGIN_PATH = "v2/mpl/users";
-const COOKIE_POLICY = "single_host_origin";
-const REQUEST_VISIBLE_ACTIONS = "http://schema.org/AddAction";
 const SCOPE = "https://www.googleapis.com/auth/plus.login email";
 const CLIENT_ID = "gauravj@dewsolutions.in";
 const CUSTOMER_PROFILE_PATH = "v2/mpl/users";
@@ -114,7 +105,6 @@ const LOCALE = "en_US";
 const FACEBOOK_FIELDS =
   "first_name.as(firstName),last_name.as(lastName), email, picture.width(60).height(60).as(profileImage)";
 const MY_PROFILE = "me";
-const FAILURE = "Failure";
 const GOOGLE_PLATFORM_URL = "//apis.google.com/js/platform.js";
 export const SOCIAL_CHANNEL_GOOGLE_PLUS = "G";
 export const SOCIAL_CHANNEL_FACEBOOK = "F";

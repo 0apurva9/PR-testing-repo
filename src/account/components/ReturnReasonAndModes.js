@@ -48,7 +48,6 @@ import {
 import * as Cookie from "../../lib/Cookie";
 import ReturnDateTime from "../../account/components/ReturnDateTime.js";
 import format from "date-fns/format";
-import RefundTransactionSummary from "../../account/components/RefundTransactionSummary.js";
 const REG_X_FOR_REASON = /reason/i;
 const REG_X_FOR_MODES = /modes/i;
 const dateFormat = "DD MMM YYYY";

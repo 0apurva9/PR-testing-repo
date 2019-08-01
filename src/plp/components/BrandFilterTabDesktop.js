@@ -2,7 +2,6 @@ import React from "react";
 import FilterSelect from "./FilterSelect";
 import SearchInput from "../../general/components/SearchInput";
 import styles from "./BrandFilterTabDesktop.css";
-import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
 class BrandFilterTabDesktop extends React.Component {

@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./AllOrderDetails.css";
 import OrderPlacedAndId from "./OrderPlacedAndId.js";
 import OrderCard from "./OrderCard.js";
-import PriceAndLink from "./PriceAndLink.js";
 import OrderDelivered from "./OrderDelivered.js";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
@@ -10,8 +9,6 @@ import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import { Redirect } from "react-router-dom";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
@@ -29,7 +26,6 @@ import {
   ORDER_CODE,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
   ORDER_HISTORY,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
@@ -44,8 +40,6 @@ import {
   PRIVACY_POLICY_URL,
   CASH_ON_DELIVERY,
   FAQ_URL,
-  SEARCH_RESULTS_PAGE,
-  PRODUCT_REVIEWS_PATH_SUFFIX,
   HELP_URL,
   SUCCESS,
   CHECKOUT_ROUTER,
@@ -63,7 +57,6 @@ import {
 } from "../../lib/adobeUtils";
 //import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
-import rating from "./img/rating.svg";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
@@ -72,7 +65,6 @@ import TabData from "./TabData";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "Do MMM YYYY";
-const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";

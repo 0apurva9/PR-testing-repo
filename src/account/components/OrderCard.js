@@ -128,7 +128,7 @@ export default class OrderCard extends React.Component {
     let checkStatus = "";
     let EstDeliveryDate =
       shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
-    if (this.props.clickAndCollect == true) {
+    if (this.props.clickAndCollect === true) {
       checkStatus =
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     }
@@ -231,7 +231,7 @@ export default class OrderCard extends React.Component {
           {!this.props.isEgvOrder &&
             this.props.orderStatusCode &&
             this.props.orderStatusCode !== "DELIVERED" &&
-            this.props.price != 0.01 && (
+            this.props.price !== 0.01 && (
               <div className={styles.deliveryDate}>
                 {this.props.displayStatusName === "Your payment is in process"
                   ? "Payment Pending"

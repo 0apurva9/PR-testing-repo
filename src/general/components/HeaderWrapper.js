@@ -31,10 +31,8 @@ import {
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-
 import * as UserAgent from "../../lib/UserAgent.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
-
 export default class HeaderWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -174,8 +172,8 @@ export default class HeaderWrapper extends React.Component {
   };
   openSignUp = () => {
     if (
-      this.props.location.pathname != "/checkout" &&
-      this.props.location.pathname != "/cart"
+      this.props.location.pathname !== "/checkout" &&
+      this.props.location.pathname !== "/cart"
     ) {
       this.props.setUrlToRedirectToAfterAuth(
         `${this.props.location.pathname}${this.props.location.search}`

@@ -2,10 +2,7 @@ import React from "react";
 import styles from "./EditAddressPopUp.css";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
-import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
-import CircleButton from "../../xelpmoc-core/CircleButton";
-import informationIcon from "../../general/components/img/GPS.svg";
 import GridSelect from "../../general/components/GridSelect";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import TextArea from "../../general/components/TextArea.js";
@@ -19,17 +16,11 @@ import {
   NAME_VALIDATION,
   EDIT_ADDRESS_BOOK,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGIN_PATH,
   PINCODE_NOT_SERVICEABLE_TEXT,
   MY_ACCOUNT,
   MY_ACCOUNT_ADDRESS_PAGE
 } from "../../lib/constants.js";
-import SelectBoxMobile from "../../general/components/SelectBoxMobile";
-import {
-  EMAIL_REGULAR_EXPRESSION,
-  MOBILE_PATTERN
-} from "../../auth/components/Login";
+import { MOBILE_PATTERN } from "../../auth/components/Login";
 import ReturnAndOrderCancelWrapper from "../../return/components/ReturnAndOrderCancelWrapper";
 import * as Cookie from "../../lib/Cookie";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -42,18 +33,12 @@ const ADDRESS_MINLENGTH_VALID_TEXT = "Minimum address length is 15 characters";
 const ADDRESS_MAXLENGTH_VALID_TEXT = "Address should not exceed 120 characters";
 const ADDRESS_VALIDATION_TEXT =
   "Special characters accepted are - # & ( ) ' ' . ,  / \\ + _ . Please remove other special characters";
-const EMAIL_TEXT = "Please enter email id";
-const LANDMARK_TEXT = "Please select landmark";
-const LANDMARK_ENTER_TEXT = "Please enter landmark";
-const MOBILE_TEXT = "Please enter mobile number";
 const PINCODE_VALID_TEXT = "Please enter valid pincode";
-const EMAIL_VALID_TEXT = "Please enter valid emailId";
 const PHONE_VALID_TEXT = "Please fill valid mobile number";
 const PHONE_TEXT = "Please enter mobile number";
 const CITY_TEXT = "please enter city";
 const STATE_TEXT = "please enter state";
 const HOME_TEXT = "please select address type";
-const ISO_CODE = "IN";
 const OTHER_LANDMARK = "other";
 export default class EditAddressPopUp extends React.Component {
   constructor(props) {

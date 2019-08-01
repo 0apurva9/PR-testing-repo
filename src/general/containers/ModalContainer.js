@@ -90,7 +90,6 @@ const mapStateToProps = (state, ownProps) => {
     loading: state.profile.loading,
     stores: state.productDescription.storeDetails,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
-    loading: state.profile.loading,
     loadingForUpdateReturnCancellation:
       state.profile.loadingForUpdateReturnCancellation
   };

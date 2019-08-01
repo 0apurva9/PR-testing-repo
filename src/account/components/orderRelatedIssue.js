@@ -247,12 +247,12 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(MOBILE_VALID_TEXT);
       return false;
     } else {
-      let orderRelatedIssue =
+      /*let orderRelatedIssue =
         this.props.customerQueriesData &&
         this.props.customerQueriesData.nodes &&
         this.props.customerQueriesData.nodes.find(orderRelated => {
           return orderRelated.nodeDesc === "Order Related Query";
-        });
+        });*/
       let submitDetailsObject = Object.assign(
         {},
         {

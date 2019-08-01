@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import Grid from "../../general/components/Grid";
 import BankSelect from "./BankSelect";
@@ -15,12 +14,10 @@ import induslandBankIcon from "./img/indusind.svg";
 import kotakBankIcon from "./img/kotak.svg";
 const axisBankCode = "NB_AXIS";
 const hdfcBankCode = "NB_HDFC";
-const hdfcBankCode1 = "HDFC Bank";
 const iciciBankCode = "NB_ICICI";
 const sbiBankCode = "NB_SBI";
 const kotakBankCode = "NB_KOTAK";
 const induslandBankCode = "NB_INDUS";
-const axisBankCodeDummy = "Dummy Bank";
 const SHOW_DEFAULT_BANK_LIST = [
   axisBankCode,
   hdfcBankCode,

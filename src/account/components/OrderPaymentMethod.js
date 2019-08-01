@@ -1,17 +1,11 @@
 import React from "react";
 import styles from "./OrderPaymentMethod.css";
 import PropTypes from "prop-types";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
 import {
-  HELP_URL,
   MY_ACCOUNT_PAGE,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
-  RETURN_TO_ADDRESS,
-  RETURN_LANDING,
-  RETURNS_PREFIX,
-  MY_ACCOUNT_ADDRESS_PAGE
+  RETURN_TO_ADDRESS
 } from "../../lib/constants";
-import each from "lodash.foreach";
 export default class OrderPaymentMethod extends React.Component {
   // request() {
   //   if (this.props.request) {

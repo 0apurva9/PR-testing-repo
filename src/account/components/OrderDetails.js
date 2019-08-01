@@ -524,7 +524,7 @@ export default class OrderDetails extends React.Component {
                         productName={products.productName}
                         isGiveAway={products.isGiveAway}
                         clickAndCollect={
-                          products.selectedDeliveryMode.code == CLICK_COLLECT
+                          products.selectedDeliveryMode.code === CLICK_COLLECT
                             ? true
                             : false
                         }
@@ -577,7 +577,7 @@ export default class OrderDetails extends React.Component {
                             </div> */}
                             <div
                               className={
-                                products.consignmentStatus == "DELIVERED"
+                                products.consignmentStatus === "DELIVERED"
                                   ? styles.boxReview
                                   : styles.boxReviewMargin
                               }
@@ -599,7 +599,7 @@ export default class OrderDetails extends React.Component {
                         products.consignmentStatus !== "PAYMENT_TIMEOUT" &&
                         products.consignmentStatus !== "PAYMENT_PENDING" &&
                         products.price &&
-                        products.price != 0.01 && (
+                        products.price !== 0.01 && (
                           <div className={styles.orderStatusVertical}>
                             {/* This block of code needs to be duplicated below for CNC as well */}
 

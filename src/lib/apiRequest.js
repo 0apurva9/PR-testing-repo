@@ -104,8 +104,6 @@ export const JUS_PAY_API_URL_ROOT = process.env.REACT_APP_JUS_PAY_API_URL_ROOT;
 const ACCESS_TOKEN_EXPIRED_MESSAGE = "Access token expired";
 const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
-const CUSTOMER_ACCESS_TOKEN_INVALID = "customerAccessTokenInvalid";
-const GLOBAL_ACCESS_TOKEN_INVALID = "globalAccessTokenInvalid";
 const CART_NOT_FOUND_ERROR = "CartError";
 
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";

@@ -5,14 +5,10 @@ import {
   BRAND_CATEGORY_PREFIX
 } from "./PlpBrandCategoryWrapper.js";
 import { ARRAY_OF_SORTS } from "./Sort.js";
-
 export const CATEGORY_URL_REGEX = /(:category:)(.*)/;
 export const CATEGORY_URL_CAPTURE_REGEX = /(:category:)([MSH|msh][a-zA-Z0-9]+)(.*)/;
-
 export const BRAND_URL_REGEX = /:brand:(.*)/;
 export const TEXT_REGEX = /text=(.*)/;
-const SEARCH_TEXT_BEFORE_CATEGORY = /(.*):category:/;
-
 export function getSortFromQuery(str) {
   let sortToReturn = null;
   ARRAY_OF_SORTS.forEach(sort => {

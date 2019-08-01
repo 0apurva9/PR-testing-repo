@@ -2,16 +2,12 @@ import React from "react";
 import OrderCard from "./OrderCard";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import TextArea from "../../general/components/TextArea";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Button from "../../general/components/Button";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import styles from "./ReturnReasonForm.css";
 import stylesCommon from "./ReturnReasonAndModes.css";
 import ReverseSealYesNo from "./ReverseSealYesNo.js";
 import DeskTopOnly from "../../general/components/DesktopOnly.js";
-import MobileOnly from "../../general/components/MobileOnly.js";
 import DummyTab from "../../cart/components/DummyTab.js";
-import cancel from "../../general/components/img/canceltransperent.png";
 import { COMMENTS_PLACEHOLDER } from "../../lib/constants";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
@@ -98,7 +94,7 @@ export default class ReturnReasonForm extends React.Component {
     });
     //getting value from html converts its to string so checking in below way,
     //not using === as it is not working
-    if (val.isImageApplicable == "true") {
+    if (val.isImageApplicable === "true") {
       this.setState({ showImageUpload: true });
     } else {
       this.setState({ showImageUpload: false });
@@ -123,7 +119,7 @@ export default class ReturnReasonForm extends React.Component {
     localStorage.setItem("secondaryCode", code);
     //getting value from html converts its to string so checking in below way,
     //not using === as it is not working
-    if (val.isImageApplicable == "true") {
+    if (val.isImageApplicable === "true") {
       this.setState({ showImageUpload: true });
     } else {
       this.setState({ showImageUpload: false });
@@ -165,14 +161,14 @@ export default class ReturnReasonForm extends React.Component {
     }
 
     //let disabledContinue = this.state.reason ? this.state.secondaryReasons & this.state.subReason ? false: true;
-    const userData = JSON.parse(userDetails);
+    //const userData = JSON.parse(userDetails);
     const userAccountDetails = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
     let returnFlow = this.props.returnFlow;
     const returnProductDetails = this.props.returnProductDetails;
     const data = this.props.returnProductDetails;
-    let imageCallOut = data && data.attachmentImageCallout;
-    let imageCallOutArr = imageCallOut && imageCallOut.split("|");
+    //let imageCallOut = data && data.attachmentImageCallout;
+    //let imageCallOutArr = imageCallOut && imageCallOut.split("|");
 
     let primaryLabel = localStorage.getItem("primaryLabel");
     let secondaryLabel = localStorage.getItem("secondaryLabel");
@@ -281,7 +277,7 @@ export default class ReturnReasonForm extends React.Component {
                 <div className={styles.base}>
                   <div className={styles.content}>
                     <div className={styles.selectReasonWithText}>
-                      {this.props.returnFlow == false ? (
+                      {this.props.returnFlow === false ? (
                         <div className={styles.header}>
                           <div className={styles.circleHolder}>
                             <div className={styles.circle}>1</div>

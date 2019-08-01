@@ -2,17 +2,13 @@ import { getCookieValue, getCookie } from "./Cookie.js";
 import cloneDeep from "lodash.clonedeep";
 import { setInterval, clearInterval } from "timers";
 import * as constants from "../lib/constants.js";
-import { userAddressFailure } from "../cart/actions/cart.actions";
 import {
   LOGIN_WITH_EMAIL,
   LOGIN_WITH_MOBILE,
   FACEBOOK_PLATFORM,
   GOOGLE_PLUS_PLATFORM
 } from "../auth/actions/user.actions";
-import {
-  BRAND_REGEX,
-  CATEGORY_REGEX
-} from "../plp/components/PlpBrandCategoryWrapper.js";
+import { CATEGORY_REGEX } from "../plp/components/PlpBrandCategoryWrapper.js";
 import { IS_COMING_FOR_REVIEW_PAGE } from "./constants";
 export const ADOBE_TARGET_COOKIE_NAME =
   "AMCV_E9174ABF55BA76BA7F000101%40AdobeOrg";

@@ -67,7 +67,6 @@ export default class SocialButtons extends Component {
   };
 
   render() {
-    let width = window.innerWidth;
     let titleText =
       this.props.type === SOCIAL_SIGN_UP
         ? this.props.titleTextSignIp

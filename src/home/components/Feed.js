@@ -521,21 +521,21 @@ class Feed extends Component {
     if (this.props.loading) {
       return <HomeSkeleton />;
     }
-    let propsForHeader = {};
+    //let propsForHeader = {};
     if (this.props.isHomeFeedPage) {
-      propsForHeader = {
+      /* propsForHeader = {
         hasBackButton: false,
         text: this.props.headerMessage
-      };
+      }; */
     } else {
       let landingPageTitleObj = this.props.homeFeedData[0]
         ? this.props.homeFeedData[0]
         : {};
       if (landingPageTitleObj.type === "Landing Page Title Component") {
-        propsForHeader = {
+        /* propsForHeader = {
           hasBackButton: true,
           text: landingPageTitleObj.title
-        };
+        }; */
       }
     }
     return (

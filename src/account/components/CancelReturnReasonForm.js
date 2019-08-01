@@ -1,16 +1,13 @@
 import React from "react";
-import OrderCard from "./OrderCard";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import * as Cookie from "../../lib/Cookie";
 import TextArea from "../../general/components/TextArea";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import styles from "./CancelReasonForm.css";
 import PropTypes from "prop-types";
-import { COMMENTS_PLACEHOLDER } from "../../lib/constants";
 import {
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGIN_PATH
+  CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
 import ReturnAndOrderCancelWrapper from "../../return/components/ReturnAndOrderCancelWrapper";
 export default class CancelReturnReasonForm extends React.Component {
