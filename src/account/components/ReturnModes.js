@@ -198,7 +198,8 @@ export default class ReturnModes extends React.Component {
         }${RETURN_LANDING}${REFUND_SUMMARY}`,
         state: {
           authorizedRequest: true,
-          isRefundTransactionPage: true
+          isRefundTransactionPage: true,
+          returnMode: this.state.selectedOption
         }
       });
     } else {

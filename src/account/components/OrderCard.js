@@ -392,7 +392,13 @@ export default class OrderCard extends React.Component {
                 {this.props.pickupAddress && (
                   <div className={styles.pickupAddressHolder}>
                     <div className={styles.pickupAddressTitle}>
-                      Pick up from:
+                      {this.props.returnModeSelected == "Pick Up"
+                        ? "Customer pick up address"
+                        : this.props.returnModeSelected == "Self Courier"
+                          ? "Delivery Address"
+                          : this.props.returnModeSelected == "Return To Store"
+                            ? "Store Address"
+                            : ""}
                     </div>
                     <div className={styles.pickupAddressText}>
                       {this.props.pickupAddress.line1} ,&nbsp;

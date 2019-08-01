@@ -70,6 +70,7 @@ export default class RefundTransactionSummary extends React.Component {
     );
   }
   render() {
+    console.log("this.props:", this.props);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -146,6 +147,13 @@ export default class RefundTransactionSummary extends React.Component {
                   productColourName={
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .productColour
+                  }
+                  returnModeSelected={
+                    this.props &&
+                    this.props.history &&
+                    this.props.history.location &&
+                    this.props.history.location.state &&
+                    this.props.history.location.state.returnMode
                   }
                 >
                   {/* {summaryDetails.getRefundTransactionDetails.products[0]
