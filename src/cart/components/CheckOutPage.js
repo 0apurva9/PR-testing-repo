@@ -104,7 +104,8 @@ import {
   EMI_TENURE,
   STRIPE_DETAILS,
   MY_ACCOUNT_ORDERS_PAGE,
-  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE
+  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
+  FAILURE_LOWERCASE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -2803,6 +2804,18 @@ if you have order id in local storage then you have to show order confirmation p
             );
           }
         }
+      } else if (
+        binValidationOfEmiEligibleResponse &&
+        binValidationOfEmiEligibleResponse.status &&
+        binValidationOfEmiEligibleResponse.status.toLowerCase() ===
+          FAILURE_LOWERCASE
+      ) {
+        this.setState({
+          emiBinValidationStatus: true,
+          emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+            this.state.cardDetails.emi_bank
+          } card only.`
+        });
       } else {
         this.setState({
           emiBinValidationErrorMessage: null,
