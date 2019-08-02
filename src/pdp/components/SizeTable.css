@@ -18,9 +18,8 @@
   background: #ececec;
 }
 .headerLabelHolder {
-  width: auto;
   height: 30px;
-  min-width: 15%;
+  min-width: 13%;
   max-width: 20%;
   display: flex;
   font-size: 11px;
@@ -29,6 +28,7 @@
   text-align: center;
   justify-content: space-evenly;
   font-family: semibold;
+  background: #ececec;
 }
 .tableHolder {
   width: 100%;
@@ -43,7 +43,7 @@
 .tableData {
   width: auto;
   height: 30px;
-  min-width: 15%;
+  min-width: 13%;
   max-width: 20%;
   display: flex;
   font-size: 11px;
