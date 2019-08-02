@@ -24,7 +24,7 @@ export default class SizeGuideElementClothing extends Component {
       sizeGudeList &&
       sizeGudeList.unitList &&
       sizeGudeList.unitList.filter(function(data) {
-        return data.unit.toUpperCase().match(/^(INCH|INCHES|IN|INCHE)$/);
+        return data.unit.toUpperCase().match(/^(INCH|INCHES|IN|INCHE|INC)$/);
       });
     return (
       <div className={styles.base}>
