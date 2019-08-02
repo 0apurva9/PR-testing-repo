@@ -2815,9 +2815,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
             this.state.cardDetails.emi_bank
-          } card only.`
+          } card.`
         });
       } else {
         this.setState({
