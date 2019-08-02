@@ -624,9 +624,13 @@ class App extends Component {
             <Route
               path="/care"
               component={() => {
-                window.location.replace(
-                  "https://www.tatacliq.com/my-account/order-related"
-                );
+                let currentLocation = window.location;
+                let redirectURL =
+                  currentLocation.protocol +
+                  "//" +
+                  currentLocation.host +
+                  "/my-account/order-related";
+                window.location.replace(redirectURL);
                 return (
                   <div className={AppStyles.loadingIndicator}>
                     <SecondaryLoader />
