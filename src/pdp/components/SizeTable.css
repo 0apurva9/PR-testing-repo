@@ -8,19 +8,19 @@
 .tablebase {
   width: auto;
   height: auto;
+  user-select: none;
 }
 .header {
   width: 100%;
   height: 30px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   background: #ececec;
 }
 .headerLabelHolder {
   height: 30px;
-  min-width: 13%;
-  max-width: 20%;
+  min-width: 20%;
+  max-width: 30%;
   display: flex;
   font-size: 11px;
   color: rgb(74, 74, 74);
@@ -43,8 +43,8 @@
 .tableData {
   width: auto;
   height: 30px;
-  min-width: 13%;
-  max-width: 20%;
+  min-width: 20%;
+  max-width: 30%;
   display: flex;
   font-size: 11px;
   color: rgba(33, 33, 33, 0.93);
