@@ -9,7 +9,6 @@ import OrderModal from "../../account/components/OrderModal";
 import * as Cookie from "../../lib/Cookie.js";
 import CliqCashModuleContainer from "../../account/containers/CliqCashModuleContainer";
 import DatePickerModule from "../../account/components/DatePickerModule";
-import GiftCardSucessBottomModel from "../../account/components/GiftCardSucessBottomModel";
 import CliqCashKnowMore from "../../account/components/CliqCashKnowMore";
 
 import {
@@ -247,6 +246,12 @@ const SimilarProductsOOSModal = Loadable({
 
 const SizeSelectorOOSModal = Loadable({
   loader: () => import("./SizeSelectorOOSModalWrapper.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+const GiftCardSucessBottomModel = Loadable({
+  loader: () => import("../../account/components/GiftCardSucessBottomModel"),
   loading() {
     return <Loader />;
   }
