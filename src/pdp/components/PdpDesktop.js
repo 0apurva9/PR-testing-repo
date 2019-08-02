@@ -639,9 +639,12 @@ export default class PdpApparel extends React.Component {
     window.location.href = value;
   }
   ScrollIntoView() {
-    document
-      .getElementById("ratingSection")
-      .scrollIntoView({ behavior: "smooth" }, true);
+    document.getElementById("ratingSection").scrollIntoView(
+      { behavior: "smooth" },
+      {
+        offsetTop: -100
+      }
+    );
   }
 
   render() {
