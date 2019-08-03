@@ -838,12 +838,7 @@ class CheckOutPage extends React.Component {
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
     }
-    if (
-      nextProps.cart.cartDetailsCNCError ||
-      (nextProps.cart.cartDetailsCNC && !nextProps.cart.cartDetailsCNC.products)
-    ) {
-      this.props.history.push(HOME_ROUTER);
-    }
+
     if (
       (nextProps.cart &&
         nextProps.cart.jusPayError &&
@@ -900,6 +895,14 @@ class CheckOutPage extends React.Component {
         });
       }
       this.getPaymentModes(oldCartId);
+    }
+    if (
+      this.state.isPaymentFailed === false &&
+      (nextProps.cart.cartDetailsCNCError ||
+        (nextProps.cart.cartDetailsCNC &&
+          !nextProps.cart.cartDetailsCNC.products))
+    ) {
+      this.props.history.push(HOME_ROUTER);
     }
     //update cliqCash Amount
     if (
