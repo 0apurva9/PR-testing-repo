@@ -1541,6 +1541,9 @@ if you have order id in local storage then you have to show order confirmation p
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           );
         }
+        if (!cartDetailsLoggedInUser) {
+          this.props.history.push(HOME_ROUTER);
+        }
       }
     }
     if (
@@ -1900,7 +1903,7 @@ if you have order id in local storage then you have to show order confirmation p
         confirmAddress: false,
         selectedAddress: addressSelected,
         isCheckoutAddressSelected: true,
-        addressId: addressSelected.id,
+        addressId: addressSelected && addressSelected.id,
         isDeliveryModeSelected: false
       });
     } else {
