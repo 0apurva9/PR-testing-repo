@@ -5580,15 +5580,13 @@ export function stripeTokenize(cardDetails, address, cartItem, paymentMode) {
     let card_exp_year = cardDetails && cardDetails.yearValue;
     let card_number = cardDetails && cardDetails.cardNumber;
     let card_security_code = cardDetails && cardDetails.cvvNumber;
-    // let merchant_id = getState().cart.paymentModes.merchantID;
-    // let name_on_card = cardDetails.cardName;
     try {
       const result = await api.postStripe(
         `v1/tokens?card[number]=${card_number}&card[exp_month]=${card_exp_month}&card[exp_year]=${card_exp_year}&card[cvc]=${card_security_code}`
       );
       const resultJson = await result.json();
       if (resultJson.error) {
-        dispatch(displayToast(resultJson.error.message));
+        // dispatch(displayToast(resultJson.error.message));
         throw new Error(resultJson.error.message);
       }
       dispatch(stripeTokenizeSuccess(resultJson));
