@@ -3822,17 +3822,19 @@ if you have order id in local storage then you have to show order confirmation p
       );
     } else if (this.state.paymentConfirmation) {
       return (
-        <PaymentConfirmationPage
-          orderStatusMessage={this.props.orderConfirmationText}
-          orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
-          orderDetails={this.props.cart.cliqCashJusPayDetails}
-          continueShopping={() => this.continueShopping()}
-          trackOrder={() => this.navigateToOrderHistoryPage()}
-          captureOrderExperience={rating =>
-            this.captureOrderExperienceForStripe(rating)
-          }
-          history={this.props.history}
-        />
+        <div className={styles.orderConfirmationHolder}>
+          <PaymentConfirmationPage
+            orderStatusMessage={this.props.orderConfirmationText}
+            orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
+            orderDetails={this.props.cart.cliqCashJusPayDetails}
+            continueShopping={() => this.continueShopping()}
+            trackOrder={() => this.navigateToOrderHistoryPage()}
+            captureOrderExperience={rating =>
+              this.captureOrderExperienceForStripe(rating)
+            }
+            history={this.props.history}
+          />
+        </div>
       );
     } else {
       return null;
