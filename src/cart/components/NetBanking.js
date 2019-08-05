@@ -91,13 +91,20 @@ export default class NetBanking extends React.Component {
   render() {
     return (
       <div>
-        {(this.props.bankBinFailedDetails === BANK_GATWAY_DOWN ||
-          this.props.binValidationSucessDetails === BANK_GATWAY_DOWN) && (
-          <span className={styles.invalidCardText}>
-            * Your bank is currently unable to process NetBanking payments due
-            to a technical issue
-          </span>
-        )}
+        {this.props.bankBinFailedDetails &&
+          this.props.bankBinFailedDetails.bankGatewayStatus ===
+            BANK_GATWAY_DOWN && (
+            <span className={styles.invalidCardText}>
+              * {this.props.bankBinFailedDetails.errorMsg}
+            </span>
+          )}
+        {this.props.binValidationSucessDetails &&
+          this.props.binValidationSucessDetails.bankGatewayStatus ===
+            BANK_GATWAY_DOWN && (
+            <span className={styles.invalidCardText}>
+              * {this.props.binValidationSucessDetails.errorMsg}
+            </span>
+          )}
         {this.props.bankList && (
           <Grid
             limit={1}
