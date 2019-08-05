@@ -27,8 +27,8 @@ export function getDesktopFooterFailure(error) {
 }
 export function getDesktopFooter(pathName) {
   let requestSource = "https://www.tatacliq.com/";
-  if (process.env.REACT_APP_STAGE === "e2e1") {
-    requestSource = "https://e2e1.tataunistore.com/";
+  if (process.env.REACT_APP_STAGE === "e2e") {
+    requestSource = "https://e2e.tataunistore.com/";
   }
   return async (dispatch, getState, { api }) => {
     dispatch(getDesktopFooterRequest());

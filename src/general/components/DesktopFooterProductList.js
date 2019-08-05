@@ -16,6 +16,7 @@ class DesktopFooterProductList extends Component {
           <div className={styles.header}>
             {this.props &&
               this.props.productListings &&
+              this.props.productListings.searchresult &&
               this.props.productListings.searchresult[0]
                 .productCategoryType}{" "}
             Price List
@@ -24,6 +25,7 @@ class DesktopFooterProductList extends Component {
             <div className={styles.productListHeader}>
               {this.props &&
                 this.props.productListings &&
+                this.props.productListings.searchresult &&
                 this.props.productListings.searchresult[0].productCategoryType}
               <div className={styles.priceText}>Price</div>
             </div>
@@ -31,6 +33,7 @@ class DesktopFooterProductList extends Component {
             <div className={styles.productListDetailsWrapper}>
               {this.props &&
                 this.props.productListings &&
+                this.props.productListings.searchresult &&
                 this.props.productListings.searchresult.map((value, i) => {
                   return (
                     i < 10 && (
