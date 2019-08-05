@@ -625,6 +625,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnDeclinedCustomerFacingName =
         returnDeclinedData.value.customerFacingName;
     }
+
     if (
       returnDeclinedData &&
       returnDeclinedData.value.statusList &&
@@ -633,9 +634,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnDeclinedData.value.statusList[0].statusMessageList[0]
     ) {
       returnDeclinedDate =
-        refundInitiatedData.value.statusList[0].statusMessageList[0].date;
+        returnDeclinedData.value.statusList[0].statusMessageList[0].date;
       returnDeclinedTime =
-        refundInitiatedData.value.statusList[0].statusMessageList[0].time;
+        returnDeclinedData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
 
@@ -754,7 +755,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  {!completedSteps.includes(RETURN_CANCELLED) ? (
+                  {!completedSteps.includes(RETURN_CANCELLED) &&
+                  !completedSteps.includes(RETURN_DECLINED) ? (
                     <div
                       className={
                         completedSteps.includes(PICKUP_SCHEDULED)
@@ -824,12 +826,14 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   </div>
                 </React.Fragment>
               ) : (
-                <div className={styles.stepInactive}>
-                  <div className={styles.check} />
-                  <div className={styles.processNameHolder}>
-                    Refund Successful
+                !completedSteps.includes(RETURN_DECLINED) && (
+                  <div className={styles.stepInactive}>
+                    <div className={styles.check} />
+                    <div className={styles.processNameHolder}>
+                      Refund Successful
+                    </div>
                   </div>
-                </div>
+                )
               )}
             </React.Fragment>
           ) : (
