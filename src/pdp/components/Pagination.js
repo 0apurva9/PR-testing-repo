@@ -133,24 +133,26 @@ export default class Pagination extends Component {
             />
           )}
         </div>
-        <ul className={styles.listHolder}>
-          {this.state.pageNumbers.map(number => {
-            return (
-              <l1
-                id={number}
-                key={number}
-                className={
-                  this.props.pageNumber === number
-                    ? styles.activePageIteam
-                    : styles.pageIteam
-                }
-                onClick={() => this.handleClick(number)}
-              >
-                {number}
-              </l1>
-            );
-          })}
-        </ul>
+        {this.state.pageNumbers.length > 1 && (
+          <ul className={styles.listHolder}>
+            {this.state.pageNumbers.map(number => {
+              return (
+                <l1
+                  id={number}
+                  key={number}
+                  className={
+                    this.props.pageNumber === number
+                      ? styles.activePageIteam
+                      : styles.pageIteam
+                  }
+                  onClick={() => this.handleClick(number)}
+                >
+                  {number}
+                </l1>
+              );
+            })}
+          </ul>
+        )}
         {this.state.totalpagenumbers > this.props.pageNumber && (
           <div className={styles.continueButtonHolder}>
             <div

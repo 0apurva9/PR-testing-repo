@@ -188,6 +188,7 @@
     letter-spacing: normal;
     text-align: center;
     color: #212121;
+    cursor: pointer;
   }
   .activePageIteam {
     background-color: rgba(33, 33, 33, 0.93);
@@ -227,12 +228,14 @@
     width: 136px;
     height: 40px;
     background-repeat: no-repeat;
+    cursor: pointer;
   }
   .nextbutton {
     background-image: url(./img/nextbutton.svg);
     width: 117px;
     height: 40px;
     background-repeat: no-repeat;
+    cursor: pointer;
   }
   .pageInfo {
     width: 24%;
