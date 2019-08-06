@@ -600,6 +600,8 @@ export default class OrderDetails extends React.Component {
                         products.consignmentStatus != "PAYMENT_PENDING" &&
                         products.consignmentStatus != "PAYMENT_SUCCESSFUL" &&
                         products.consignmentStatus != "PAYMENT_FAILED" &&
+                        products.consignmentStatus !=
+                          "RMS_VERIFICATION_PENDING" &&
                         products.price &&
                         products.price != 0.01 && (
                           <div className={styles.orderStatusVertical}>

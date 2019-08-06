@@ -738,6 +738,12 @@ export function updateReturnConfirmation(
         });
       }
 
+      if (modeOfReturn === "other") {
+        Object.assign(data, {
+          returnId: returnId
+        });
+      }
+
       const result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName

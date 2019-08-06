@@ -154,7 +154,14 @@ export default class ReplaceRefundSelection extends React.Component {
       let returnId = this.props.getRefundOptionsDetails.returnId;
       let typeOfReturn = this.props.getRefundOptionsDetails.typeOfReturn[0]
         .typeOfReturnCode;
-      this.props.getRefundModes(orderId, transactionId, returnId, typeOfReturn);
+      let data = this.props.getRefundModes(
+        orderId,
+        transactionId,
+        returnId,
+        typeOfReturn
+      );
+      let currentTypeofRefund = data && data.getRefundModesDetails.typeofRefund;
+      this.setState({ typeofRefund: currentTypeofRefund });
       //show hide
       this.setState({ showRefundOptions: true });
     } else {
@@ -224,11 +231,15 @@ export default class ReplaceRefundSelection extends React.Component {
         updateRefundModeResponse.status === "success"
       ) {
         if (this.props.getRefundModesDetails.typeofRefund === "REFNOPCK") {
+          let modeOfReturn = "other";
           let updateReturnConfirmation = await this.props.updateReturnConfirmation(
             orderId,
             transactionId,
             returnId,
-            returnAddress
+            returnAddress,
+            "",
+            "",
+            modeOfReturn
           );
           if (updateReturnConfirmation.status === "success") {
             this.props.history.push({

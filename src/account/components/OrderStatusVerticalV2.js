@@ -20,7 +20,8 @@ import {
   NOT_DELIVERED,
   OUT_FOR_DELIVERY,
   RETURN_REQUESTED,
-  RETURN_DECLINED
+  RETURN_DECLINED,
+  REFUND_SUCCESSFUL
 } from "../../lib/constants";
 
 export default class OrderStatusVerticalV2 extends React.Component {
@@ -72,9 +73,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     const pickupScheduledData = this.props.statusMessageList.find(val => {
       return val.key === PICKUP_SCHEDULED;
     });
-    const refundInitiatedData = this.props.statusMessageList.find(val => {
-      return val.key === REFUND_INITIATED;
-    });
+
     const unDeliveredData = this.props.statusMessageList.find(val => {
       return val.key === UNDELIVERED;
     });
@@ -89,6 +88,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
     });
     const returnDeclinedData = this.props.statusMessageList.find(val => {
       return val.key === RETURN_DECLINED;
+    });
+    const refundInitiatedData = this.props.statusMessageList.find(val => {
+      return val.key === REFUND_INITIATED;
+    });
+    const refundSuccessfulData = this.props.statusMessageList.find(val => {
+      return val.key === REFUND_SUCCESSFUL;
     });
     //to get the active order status
     //sequence should be maintained
@@ -130,12 +135,11 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (pickupScheduledData && pickupScheduledData.key) {
         orderEDHD.push(pickupScheduledData.key);
       }
-      if (refundInitiatedData && refundInitiatedData.key) {
-        orderEDHD.push(refundInitiatedData.key);
-      }
+
       if (returnCancelledData && returnCancelledData.key) {
         orderEDHD.push(returnCancelledData.key);
       }
+
       if (unDeliveredData && unDeliveredData.key) {
         orderEDHD.push(unDeliveredData.key);
       }
@@ -144,6 +148,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (returnDeclinedData && returnDeclinedData.key) {
         orderEDHD.push(returnDeclinedData.key);
+      }
+      if (refundInitiatedData && refundInitiatedData.key) {
+        orderEDHD.push(refundInitiatedData.key);
+      }
+      if (refundSuccessfulData && refundSuccessfulData.key) {
+        orderEDHD.push(refundSuccessfulData.key);
       }
       activeOrderStatus = orderEDHD[orderEDHD.length - 1];
     }
@@ -182,9 +192,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (returnInitiatedData && returnInitiatedData.key) {
         orderCNC.push(returnInitiatedData.key);
       }
-      if (refundInitiatedData && refundInitiatedData.key) {
-        orderCNC.push(refundInitiatedData.key);
-      }
       if (pickupScheduledData && pickupScheduledData.key) {
         orderCNC.push(pickupScheduledData.key);
       }
@@ -199,6 +206,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
       }
       if (returnDeclinedData && returnDeclinedData.key) {
         orderCNC.push(returnDeclinedData.key);
+      }
+      if (refundInitiatedData && refundInitiatedData.key) {
+        orderCNC.push(refundInitiatedData.key);
+      }
+      if (refundSuccessfulData && refundSuccessfulData.key) {
+        orderCNC.push(refundSuccessfulData.key);
       }
       activeOrderStatus = orderCNC[orderCNC.length - 1];
     }
@@ -638,6 +651,26 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnDeclinedTime =
         returnDeclinedData.value.statusList[0].statusMessageList[0].time;
     }
+    //refund successful
+    let refundSuccessfulDate = "";
+    let refundSuccessfulTime = "";
+    let refundSuccessfulCustomerFacingName = "Refund Successful";
+    if (refundSuccessfulData && refundSuccessfulData.value.customerFacingName) {
+      refundSuccessfulCustomerFacingName =
+        refundSuccessfulData.value.customerFacingName;
+    }
+    if (
+      refundSuccessfulData &&
+      refundSuccessfulData.value.statusList &&
+      refundSuccessfulData.value.statusList[0] &&
+      refundSuccessfulData.value.statusList[0].statusMessageList &&
+      refundSuccessfulData.value.statusList[0].statusMessageList[0]
+    ) {
+      refundSuccessfulDate =
+        refundSuccessfulData.value.statusList[0].statusMessageList[0].date;
+      refundSuccessfulTime =
+        refundSuccessfulData.value.statusList[0].statusMessageList[0].time;
+    }
     const orderCode = this.props.orderCode;
 
     console.log(
@@ -703,31 +736,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   </div>
                 </div>
               )}
-              {completedSteps.includes(RETURN_DECLINED) && (
-                <div className={styles.step}>
-                  <div className={styles.checkActive} />
-                  <div
-                    className={
-                      activeOrderStatus === RETURN_DECLINED
-                        ? styles.processNameHolderBold
-                        : styles.processNameHolder
-                    }
-                  >
-                    {returnDeclinedCustomerFacingName}
-                    {/* <span className={styles.shipmentStatus}>
-                    {returnInitiatedShipmentStatus}
-                  </span> */}
-                  </div>
-                  <div className={styles.dateAndTimeHolder}>
-                    <div className={styles.timeHolder}>
-                      {returnDeclinedDate}
-                    </div>
-                    <div className={styles.dateHolder}>
-                      {returnDeclinedTime}
-                    </div>
-                  </div>
-                </div>
-              )}
+
               {completedSteps.includes(REFUND_INITIATED) ? (
                 <React.Fragment>
                   {completedSteps.includes(REFUND_INITIATED) && (
@@ -825,15 +834,65 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                   </div>
                 </React.Fragment>
-              ) : (
-                !completedSteps.includes(RETURN_DECLINED) && (
-                  <div className={styles.stepInactive}>
-                    <div className={styles.check} />
-                    <div className={styles.processNameHolder}>
-                      Refund Successful
+              ) : completedSteps.includes(RETURN_DECLINED) ? (
+                <React.Fragment>
+                  <div className={styles.step}>
+                    <div className={styles.checkActive} />
+                    <div
+                      className={
+                        activeOrderStatus === RETURN_DECLINED
+                          ? styles.processNameHolderBold
+                          : styles.processNameHolder
+                      }
+                    >
+                      {returnDeclinedCustomerFacingName}
+                      {/* <span className={styles.shipmentStatus}>
+                    {returnInitiatedShipmentStatus}
+                  </span> */}
+                    </div>
+                    <div className={styles.dateAndTimeHolder}>
+                      <div className={styles.timeHolder}>
+                        {returnDeclinedDate}
+                      </div>
+                      <div className={styles.dateHolder}>
+                        {returnDeclinedTime}
+                      </div>
                     </div>
                   </div>
-                )
+                </React.Fragment>
+              ) : (
+                <div
+                  className={
+                    completedSteps.includes(REFUND_SUCCESSFUL)
+                      ? styles.step
+                      : styles.stepInactive
+                  }
+                >
+                  <div
+                    className={
+                      completedSteps.includes(REFUND_SUCCESSFUL)
+                        ? styles.checkActive
+                        : styles.check
+                    }
+                  />
+                  <div
+                    className={
+                      activeOrderStatus === REFUND_SUCCESSFUL
+                        ? styles.processNameHolderBold
+                        : styles.processNameHolder
+                    }
+                  >
+                    {refundSuccessfulCustomerFacingName}
+                  </div>
+                  <div className={styles.dateAndTimeHolder}>
+                    <div className={styles.timeHolder}>
+                      {refundSuccessfulDate}
+                    </div>
+                    <div className={styles.dateHolder}>
+                      {refundSuccessfulTime}
+                    </div>
+                  </div>
+                </div>
               )}
             </React.Fragment>
           ) : (
