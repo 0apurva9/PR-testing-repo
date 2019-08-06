@@ -22,6 +22,7 @@ const sbiBankCode = "NB_SBI";
 const kotakBankCode = "NB_KOTAK";
 const induslandBankCode = "NB_INDUS";
 const axisBankCodeDummy = "Dummy Bank";
+const bankErrorMessage = `Your bank is currently unable to process NetBanking payments due to a technical issue. Please try another payment method.`;
 const SHOW_DEFAULT_BANK_LIST = [
   axisBankCode,
   hdfcBankCode,
@@ -95,14 +96,20 @@ export default class NetBanking extends React.Component {
           this.props.bankBinFailedDetails.bankGatewayStatus ===
             BANK_GATWAY_DOWN && (
             <span className={styles.invalidCardText}>
-              * {this.props.bankBinFailedDetails.errorMsg}
+              *{" "}
+              {this.props.bankBinFailedDetails.errorMsg
+                ? this.props.bankBinFailedDetails.errorMsg
+                : bankErrorMessage}
             </span>
           )}
         {this.props.binValidationSucessDetails &&
           this.props.binValidationSucessDetails.bankGatewayStatus ===
             BANK_GATWAY_DOWN && (
             <span className={styles.invalidCardText}>
-              * {this.props.binValidationSucessDetails.errorMsg}
+              *{" "}
+              {this.props.binValidationSucessDetails.errorMsg
+                ? this.props.binValidationSucessDetails.errorMsg
+                : bankErrorMessage}
             </span>
           )}
         {this.props.bankList && (
