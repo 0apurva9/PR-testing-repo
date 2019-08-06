@@ -866,3 +866,7 @@
 .flixInpage {
   margin-top: 60px;
 }
+
+.yp_widget iframe {
+  margin-top: 60px;
+}

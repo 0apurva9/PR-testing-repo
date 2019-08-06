@@ -1291,7 +1291,7 @@ export default class PdpApparel extends React.Component {
 
               <div className={styles.youPlus}>
                 <div className={styles.pageCenter}>
-                  <div id="yp_widget" />
+                  <div id="yp_widget" className={styles.yp_widget} />
                 </div>
               </div>
 
