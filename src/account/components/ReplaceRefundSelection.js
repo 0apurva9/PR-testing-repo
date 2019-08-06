@@ -160,7 +160,11 @@ export default class ReplaceRefundSelection extends React.Component {
         returnId,
         typeOfReturn
       );
-      let currentTypeofRefund = data && data.getRefundModesDetails.typeofRefund;
+      //console.log("DAta Checking.....", data)
+      let currentTypeofRefund =
+        data &&
+        data.getRefundModesDetails &&
+        data.getRefundModesDetails.typeofRefund;
       this.setState({ typeofRefund: currentTypeofRefund });
       //show hide
       this.setState({ showRefundOptions: true });
