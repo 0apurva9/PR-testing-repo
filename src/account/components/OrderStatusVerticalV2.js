@@ -686,7 +686,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
           {/* <div className={styles.trackOrderTitle}>Track Order</div> */}
           {this.props.returnMode && this.props.returnType ? (
             <React.Fragment>
-              {completedSteps.includes(RETURN_REQUESTED) && (
+              {completedSteps.includes(RETURN_REQUESTED) ? (
                 <div className={styles.step}>
                   <div className={styles.checkActive} />
                   <div
@@ -710,8 +710,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                   </div>
                 </div>
-              )}
-              {completedSteps.includes(RETURN_INITIATED) && (
+              ) : completedSteps.includes(RETURN_INITIATED) ? (
                 <div className={styles.step}>
                   <div className={styles.checkActive} />
                   <div
@@ -735,6 +734,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                   </div>
                 </div>
+              ) : (
+                ""
               )}
 
               {completedSteps.includes(REFUND_INITIATED) ? (
