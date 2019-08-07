@@ -598,6 +598,10 @@ export default class OrderDetails extends React.Component {
                         products.selectedDeliveryMode.code != CLICK_COLLECT &&
                         products.consignmentStatus != "PAYMENT_TIMEOUT" &&
                         products.consignmentStatus != "PAYMENT_PENDING" &&
+                        products.consignmentStatus != "PAYMENT_SUCCESSFUL" &&
+                        products.consignmentStatus != "PAYMENT_FAILED" &&
+                        products.consignmentStatus !=
+                          "RMS_VERIFICATION_PENDING" &&
                         products.price &&
                         products.price != 0.01 && (
                           <div className={styles.orderStatusVertical}>
@@ -739,8 +743,11 @@ export default class OrderDetails extends React.Component {
                             {products.price &&
                               products.price != 0.01 &&
                               products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+                              products.consignmentStatus != "PAYMENT_PENDING" &&
                               products.consignmentStatus !=
-                                "PAYMENT_PENDING" && (
+                                "PAYMENT_SUCCESSFUL" &&
+                              products.consignmentStatus !=
+                                "PAYMENT_FAILED" && (
                                 <OrderStatusVertical
                                   trackingAWB={products.trackingAWB}
                                   courier={products.reverseLogisticName}
