@@ -67,6 +67,9 @@
   display: inline-block;
   vertical-align: top;
 }
+.tip {
+  margin-top: 5px;
+}
 @media screen and (min-width: 1025px) {
   .base {
     margin-top: 38px;
