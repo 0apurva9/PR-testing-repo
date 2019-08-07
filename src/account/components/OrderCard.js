@@ -37,7 +37,7 @@ export default class OrderCard extends React.Component {
     let deliveryModeNameLowerCase = deliveryModeName.toLowerCase();
     switch (deliveryModeNameLowerCase) {
       case "click and collect":
-        return "Cliq Piq";
+        return "Cliq n Piq";
 
       case "home delivery":
         return "Standard Delivery";
@@ -200,12 +200,14 @@ export default class OrderCard extends React.Component {
                     {this.props.giftCardStatus}
                   </div>
                 </div>
-                <div className={styles.priceHolder}>
-                  <div className={styles.egvPrice}>
-                    Expiry Date: <span className={styles.five} />
-                    {format(this.props.cartExpiryDate, dateTimeFormat)}
+                {this.props.cartExpiryDate && (
+                  <div className={styles.priceHolder}>
+                    <div className={styles.egvPrice}>
+                      Expiry Date: <span className={styles.five} />
+                      {format(this.props.cartExpiryDate, dateTimeFormat)}
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className={styles.egvAmount}>
                   {this.props.totalFinalPayableOrderAmount}
                 </div>
@@ -528,7 +530,7 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
-        {this.props.isGiveAway === "N" &&
+        {/* {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
           !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
@@ -544,7 +546,7 @@ export default class OrderCard extends React.Component {
                 this.props.estimatedDeliveryDate && (
                   <span className={styles.ffsemibold}>{shipmentStatus} </span>
                 )}
-              {/* {!this.props.returnMode &&
+              {!this.props.returnMode &&
                 this.props.consignmentStatus != "DELIVERED" &&
                 !checkStatus &&
                 !EstDeliveryDate && (
@@ -555,28 +557,88 @@ export default class OrderCard extends React.Component {
                   </span>
                 )} */}
 
-              {shipmentStatus &&
+        {/* {shipmentStatus &&
                 EstDeliveryDate &&
                 this.props.estimatedDeliveryDate &&
-                this.props.consignmentStatus != "DELIVERED" && (
+                this.props.consignmentStatus != "DELIVERED" &&  (
                   <span className={styles.styleDate}>
                     {estimatedDeliveryDateFormatted}
                   </span>
                 )}
-              {shipmentStatus.includes("Collection window expired on") && (
+                {shipmentStatus && !checkStatus && this.props.estimatedDeliveryDate && !shipmentStatus.includes("Eligible for Return till") && (
+                   <span className={styles.styleDate}>
+                   {this.props.estimatedDeliveryDate
+                     ? estimatedDeliveryDateFormatted
+                     : date}
+                 </span>
+                )} */}
+
+        {/* {shipmentStatus.includes("Collection window expired on") && (
                 <span className={styles.styleDate}>
                   {this.props.estimatedDeliveryDate
                     ? estimatedDeliveryDateFormatted
                     : date}
                 </span>
               )}
-              <span className={styles.styleDate}>
+              {shipmentStatus.includes("Order Could be collected by") && (
+                <span className={styles.styleDate}>
+                  {this.props.estimatedDeliveryDate
+                    ? estimatedDeliveryDateFormatted
+                    : date}
+                </span>
+              )} */}
+        {/* <span className={styles.styleDate}>
                 {this.props.consignmentStatus === "DELIVERED" &&
                   format(returnEligibleDate.toString(), dateFormat)}
               </span>
             </div>
-          )}
+          )} */}
 
+        {this.props.isGiveAway === "N" &&
+          (this.props.consignmentStatus &&
+            !this.props.consignmentStatus.includes("CANCEL")) &&
+          date && (
+            <div className={styles.commonTitle}>
+              {!this.props.calloutMessage ? (
+                <React.Fragment>
+                  {this.props.estimatedDeliveryDate &&
+                    !checkStatus &&
+                    (date || returnEligibleDate) && (
+                      <React.Fragment>
+                        <span className={styles.ffsemibold}>
+                          {shipmentStatus}
+                        </span>
+                        {EstDeliveryDate && (
+                          <span className={styles.styleDate}>
+                            &nbsp;
+                            {this.props.estimatedDeliveryDate
+                              ? estimatedDeliveryDateFormatted
+                              : ""}
+                          </span>
+                        )}
+                        {/* {!this.props.returnMode &&
+              this.props.consignmentStatus !== "DELIVERED" &&  (
+                <span className={styles.styleDate}>
+                  &nbsp;
+                  {this.props.estimatedDeliveryDate
+                    ? estimatedDeliveryDateFormatted
+                    : ""}
+                </span>
+              )} */}
+                        <span className={styles.styleDate}>
+                          {this.props.consignmentStatus === "DELIVERED" &&
+                            format(returnEligibleDate.toString(), dateFormat)}
+                        </span>
+                      </React.Fragment>
+                    )}
+                </React.Fragment>
+              ) : (
+                <div className={styles.commonTitle}>
+                  {this.props.calloutMessage}
+                </div>
+              )}
+            </div>
+          )}
         {this.props.isOrderReturnable === false &&
           this.props.statusDisplay === "Delivered" && (
             <div className={styles.returnClosed}>

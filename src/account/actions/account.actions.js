@@ -726,7 +726,8 @@ export function updateReturnConfirmation(
           returnId: returnId,
           pickupDate: "",
           pickupTimeSlot: "",
-          returnAddressData: returnAddress
+          returnAddressData: returnAddress,
+          returnFullfillmentType: returnFullfillmentType
         });
       }
 

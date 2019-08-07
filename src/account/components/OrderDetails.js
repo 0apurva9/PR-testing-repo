@@ -618,6 +618,7 @@ export default class OrderDetails extends React.Component {
                               orderCode={orderDetails.orderId}
                               returnMode={products.returnMode}
                               returnType={products.returnType}
+                              mediationRequired={products.mediationRequired}
                             />
 
                             {/* Block of code ends here */}
@@ -760,6 +761,7 @@ export default class OrderDetails extends React.Component {
                                   returnMode={products.returnMode}
                                   returnType={products.returnType}
                                   statusMessageList={products.statusDisplayMsg}
+                                  mediationRequired={products.mediationRequired}
                                 />
                               )}
                           </React.Fragment>

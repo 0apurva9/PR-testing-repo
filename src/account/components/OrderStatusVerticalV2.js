@@ -767,53 +767,127 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 <React.Fragment>
                   {!completedSteps.includes(RETURN_CANCELLED) &&
                   !completedSteps.includes(RETURN_DECLINED) ? (
-                    <div
-                      className={
-                        completedSteps.includes(PICKUP_SCHEDULED)
-                          ? styles.step
-                          : styles.stepInactive
-                      }
-                    >
+                    this.props.mediationRequired == true ? (
+                      <div
+                        className={
+                          completedSteps.includes(RETURN_INITIATED)
+                            ? styles.step
+                            : styles.stepInactive
+                        }
+                      >
+                        <div
+                          className={
+                            completedSteps.includes(RETURN_INITIATED)
+                              ? styles.checkActive
+                              : styles.check
+                          }
+                        />
+                        <div
+                          className={
+                            activeOrderStatus === RETURN_INITIATED
+                              ? styles.processNameHolderBold
+                              : styles.processNameHolder
+                          }
+                        >
+                          {returnInitiatedCustomerFacingName}
+                          {/* <span className={styles.shipmentStatus}>
+                    {returnInitiatedShipmentStatus}
+                  </span> */}
+                        </div>
+                        <div className={styles.dateAndTimeHolder}>
+                          <div className={styles.timeHolder}>
+                            {returnInitiatedDate}
+                          </div>
+                          <div className={styles.dateHolder}>
+                            {returnInitiatedTime}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
                       <div
                         className={
                           completedSteps.includes(PICKUP_SCHEDULED)
-                            ? styles.checkActive
-                            : styles.check
-                        }
-                      />
-                      <div
-                        className={
-                          activeOrderStatus === PICKUP_SCHEDULED
-                            ? styles.processNameHolderBold
-                            : styles.processNameHolder
+                            ? styles.step
+                            : styles.stepInactive
                         }
                       >
-                        {pickupScheduledCustomerFacingName}
-                        {/* <span className={styles.shipmentStatus}>
+                        <div
+                          className={
+                            completedSteps.includes(PICKUP_SCHEDULED)
+                              ? styles.checkActive
+                              : styles.check
+                          }
+                        />
+                        <div
+                          className={
+                            activeOrderStatus === PICKUP_SCHEDULED
+                              ? styles.processNameHolderBold
+                              : styles.processNameHolder
+                          }
+                        >
+                          {pickupScheduledCustomerFacingName}
+                          {/* <span className={styles.shipmentStatus}>
                       {pickupScheduledShipmentStatus}
                     </span> */}
-                      </div>
-                      <div className={styles.dateAndTimeHolder}>
-                        <div className={styles.timeHolder}>
-                          {pickupScheduledDate}
                         </div>
-                        <div className={styles.dateHolder}>
-                          {pickupScheduledTime}
+                        <div className={styles.dateAndTimeHolder}>
+                          <div className={styles.timeHolder}>
+                            {pickupScheduledDate}
+                          </div>
+                          <div className={styles.dateHolder}>
+                            {pickupScheduledTime}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )
                   ) : null}
                 </React.Fragment>
               )}
 
               {completedSteps.includes(RETURN_CANCELLED) ? (
                 <React.Fragment>
-                  <div className={styles.step}>
-                    <div className={styles.checkActive} />
-                    <div className={styles.processNameHolder}>
-                      {pickupScheduledCustomerFacingName}
+                  {this.props.mediationRequired == true ? (
+                    <div className={styles.step}>
+                      <div className={styles.checkActive} />
+                      <div
+                        className={
+                          activeOrderStatus === RETURN_INITIATED
+                            ? styles.processNameHolderBold
+                            : styles.processNameHolder
+                        }
+                      >
+                        {returnInitiatedCustomerFacingName}
+                        {/* <span className={styles.shipmentStatus}>
+                    {returnInitiatedShipmentStatus}
+                  </span> */}
+                      </div>
+                      <div className={styles.dateAndTimeHolder}>
+                        <div className={styles.timeHolder}>
+                          {returnInitiatedDate}
+                        </div>
+                        <div className={styles.dateHolder}>
+                          {returnInitiatedTime}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    ""
+                  )
+                  //   (<div className={styles.step}>
+                  //   <div className={styles.checkActive} />
+                  //   <div className={styles.processNameHolder}>
+                  //     {pickupScheduledCustomerFacingName}
+                  //   </div>
+                  //   {pickupScheduledDate && pickupScheduledTime && (<div className={styles.dateAndTimeHolder}>
+                  //       <div className={styles.timeHolder}>
+                  //         {pickupScheduledDate}
+                  //       </div>
+                  //       <div className={styles.dateHolder}>
+                  //         {pickupScheduledTime}
+                  //       </div>
+                  //     </div>)}
+                  // </div>)
+                  }
                   <div className={styles.step}>
                     <div className={styles.checkActive} />
                     <div
