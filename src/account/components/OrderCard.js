@@ -88,6 +88,7 @@ export default class OrderCard extends React.Component {
       let deliveryD = new Date(deliveryDate);
       deliveryDateFormatted = format(deliveryD, dateFormat);
     }
+
     let date = "",
       shipmentStatus = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
@@ -138,6 +139,7 @@ export default class OrderCard extends React.Component {
       "displayStatusName",
       this.props.displayStatusName
     );
+    //console.log("estomated Delivery Date:", estimatedDeliveryDateFormatted)
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -531,19 +533,34 @@ export default class OrderCard extends React.Component {
           !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
             <div className={styles.commonTitle}>
-              {shipmentStatus && (
-                <span className={styles.ffsemibold}>
-                  {checkStatus ? "" : shipmentStatus}{" "}
-                </span>
-              )}
-              {!this.props.returnMode &&
+              {shipmentStatus &&
+                !EstDeliveryDate && (
+                  <span className={styles.ffsemibold}>
+                    {checkStatus ? "" : shipmentStatus}{" "}
+                  </span>
+                )}
+              {shipmentStatus &&
+                EstDeliveryDate &&
+                this.props.estimatedDeliveryDate && (
+                  <span className={styles.ffsemibold}>{shipmentStatus} </span>
+                )}
+              {/* {!this.props.returnMode &&
                 this.props.consignmentStatus != "DELIVERED" &&
                 !checkStatus &&
-                EstDeliveryDate && (
+                !EstDeliveryDate && (
                   <span className={styles.styleDate}>
                     {this.props.estimatedDeliveryDate
                       ? estimatedDeliveryDateFormatted
                       : date}
+                  </span>
+                )} */}
+
+              {shipmentStatus &&
+                EstDeliveryDate &&
+                this.props.estimatedDeliveryDate &&
+                this.props.consignmentStatus != "DELIVERED" && (
+                  <span className={styles.styleDate}>
+                    {estimatedDeliveryDateFormatted}
                   </span>
                 )}
               {shipmentStatus.includes("Collection window expired on") && (

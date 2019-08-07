@@ -82,7 +82,9 @@ const mapDispatchToProps = dispatch => {
       );
     },
     getRefundModes: (orderId, transactionId, returnId, typeOfReturn) => {
-      dispatch(getRefundModes(orderId, transactionId, returnId, typeOfReturn));
+      return dispatch(
+        getRefundModes(orderId, transactionId, returnId, typeOfReturn)
+      );
     },
     updateRefundMode: async (orderId, transactionId, returnId, refundMode) => {
       return await dispatch(
