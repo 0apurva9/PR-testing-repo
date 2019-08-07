@@ -124,43 +124,52 @@ export default class Pagination extends Component {
             }`}{" "}
           </div>
         </div>
-        <div className={styles.PreviousButtonHolder}>
-          {" "}
-          {this.props.pageNumber > 1 && (
+        <div className={styles.paginationHolder}>
+          <div
+            className={
+              this.props.pageNumber > 1
+                ? styles.continueButtonHolder
+                : styles.continueHiddenButtonHolder
+            }
+          >
             <div
               className={styles.previousbutton}
               onClick={() => this.prevClick(true, this.props.pageNumber)}
             />
+          </div>
+          {this.state.pageNumbers.length > 1 && (
+            <ul className={styles.listHolder}>
+              {this.state.pageNumbers.map(number => {
+                return (
+                  <l1
+                    id={number}
+                    key={number}
+                    className={
+                      this.props.pageNumber === number
+                        ? styles.activePageIteam
+                        : styles.pageIteam
+                    }
+                    onClick={() => this.handleClick(number)}
+                  >
+                    {number}
+                  </l1>
+                );
+              })}
+            </ul>
           )}
-        </div>
-        {this.state.pageNumbers.length > 1 && (
-          <ul className={styles.listHolder}>
-            {this.state.pageNumbers.map(number => {
-              return (
-                <l1
-                  id={number}
-                  key={number}
-                  className={
-                    this.props.pageNumber === number
-                      ? styles.activePageIteam
-                      : styles.pageIteam
-                  }
-                  onClick={() => this.handleClick(number)}
-                >
-                  {number}
-                </l1>
-              );
-            })}
-          </ul>
-        )}
-        {this.state.totalpagenumbers > this.props.pageNumber && (
-          <div className={styles.continueButtonHolder}>
+          <div
+            className={
+              this.state.totalpagenumbers > this.props.pageNumber
+                ? styles.continueButtonHolder
+                : styles.continueHiddenButtonHolder
+            }
+          >
             <div
               className={styles.nextbutton}
               onClick={() => this.nextClick(false, this.props.pageNumber)}
             />
           </div>
-        )}
+        </div>
       </div>
     );
   }
