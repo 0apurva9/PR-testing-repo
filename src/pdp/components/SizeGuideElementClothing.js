@@ -10,28 +10,27 @@ export default class SizeGuideElementClothing extends Component {
     super(props);
     this.state = {
       inchActive: true,
-      cmsActive: false,
-      hideToggle: false
+      cmsActive: false
     };
   }
   render() {
-    const sizeGudeList =
+    const sizeGuideList =
       this.props.data && this.props.data.sizeGuideTabularWsData;
 
     const image = this.props.data && this.props.data.imageURL;
     const imagePosition = this.props.data && this.props.data.imagePosition;
-    const tip1 = sizeGudeList && sizeGudeList.tip1;
-    const tip2 = sizeGudeList && sizeGudeList.tip2;
+    const tip1 = sizeGuideList && sizeGuideList.tip1;
+    const tip2 = sizeGuideList && sizeGuideList.tip2;
     const sizeGuidForCms =
-      sizeGudeList &&
-      sizeGudeList.unitList &&
-      sizeGudeList.unitList.filter(function(data) {
+      sizeGuideList &&
+      sizeGuideList.unitList &&
+      sizeGuideList.unitList.filter(function(data) {
         return data.unit.toUpperCase().match(/^(CMS|CM)$/);
       });
     const sizeGuidForInch =
-      sizeGudeList &&
-      sizeGudeList.unitList &&
-      sizeGudeList.unitList.filter(function(data) {
+      sizeGuideList &&
+      sizeGuideList.unitList &&
+      sizeGuideList.unitList.filter(function(data) {
         return data.unit.toUpperCase().match(/^(INCH|INCHES|IN|INCHE|INC)$/);
       });
     const inch = this.state.inchActive ? styles.inActive : styles.in;
@@ -40,8 +39,12 @@ export default class SizeGuideElementClothing extends Component {
       <div className={styles.base}>
         <MobileOnly>
           <React.Fragment>
-            {sizeGuidForInch.length > 0 &&
-              sizeGuidForCms.length > 0 && (
+            {sizeGuidForInch[0] &&
+              sizeGuidForInch[0].sizeGuideList &&
+              sizeGuidForInch[0].sizeGuideList.length > 0 &&
+              sizeGuidForCms[0] &&
+              sizeGuidForCms[0].sizeGuideList &&
+              sizeGuidForCms[0].sizeGuideList.length > 0 && (
                 <div className={styles.togglebase}>
                   <div className={styles.toggle}>
                     <div
@@ -68,9 +71,13 @@ export default class SizeGuideElementClothing extends Component {
               <div className={styles.imageTop}>
                 <SizeTable
                   data={
-                    !sizeGuidForInch.length > 0
+                    (sizeGuidForInch &&
+                      sizeGuidForInch[0] &&
+                      sizeGuidForInch[0].sizeGuideList &&
+                      !sizeGuidForInch[0].sizeGuideList.length > 0) ||
+                    !sizeGuidForInch.length
                       ? sizeGuidForCms && sizeGuidForCms[0]
-                      : this.state.showInch
+                      : this.state.inchActive
                         ? sizeGuidForInch && sizeGuidForInch[0]
                         : sizeGuidForCms && sizeGuidForCms[0]
                   }
@@ -93,9 +100,13 @@ export default class SizeGuideElementClothing extends Component {
               <div className={styles.imageBottom}>
                 <SizeTable
                   data={
-                    !sizeGuidForInch.length > 0
+                    (sizeGuidForInch &&
+                      sizeGuidForInch[0] &&
+                      sizeGuidForInch[0].sizeGuideList &&
+                      !sizeGuidForInch[0].sizeGuideList.length > 0) ||
+                    !sizeGuidForInch.length
                       ? sizeGuidForCms && sizeGuidForCms[0]
-                      : this.state.showInch
+                      : this.state.inchActive
                         ? sizeGuidForInch && sizeGuidForInch[0]
                         : sizeGuidForCms && sizeGuidForCms[0]
                   }
@@ -121,35 +132,39 @@ export default class SizeGuideElementClothing extends Component {
         <DesktopOnly>
           <React.Fragment>
             <div className={styles.togglebase}>
-              {!this.state.hideToggle && (
-                <div className={styles.toggleContainer}>
-                  <div className={styles.toggle}>
-                    <div
-                      className={inch}
-                      onClick={() => {
-                        this.setState({
-                          inchActive: true,
-                          cmsActive: false
-                        });
-                      }}
-                    >
-                      In
-                    </div>
+              {sizeGuidForInch[0] &&
+                sizeGuidForInch[0].sizeGuideList &&
+                sizeGuidForInch[0].sizeGuideList.length > 0 &&
+                sizeGuidForCms[0] &&
+                sizeGuidForCms[0].sizeGuideList.length > 0 && (
+                  <div className={styles.toggleContainer}>
+                    <div className={styles.toggle}>
+                      <div
+                        className={inch}
+                        onClick={() => {
+                          this.setState({
+                            inchActive: true,
+                            cmsActive: false
+                          });
+                        }}
+                      >
+                        In
+                      </div>
 
-                    <div
-                      className={cm}
-                      onClick={() => {
-                        this.setState({
-                          cmsActive: true,
-                          inchActive: false
-                        });
-                      }}
-                    >
-                      Cm
+                      <div
+                        className={cm}
+                        onClick={() => {
+                          this.setState({
+                            cmsActive: true,
+                            inchActive: false
+                          });
+                        }}
+                      >
+                        Cm
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
 
             <div className={styles.imageAndTipsHolder}>
@@ -168,11 +183,22 @@ export default class SizeGuideElementClothing extends Component {
               </div>
             </div>
             <div className={styles.sizeGudeTableHolder}>
+              {console.log(
+                sizeGuidForInch[0] &&
+                  sizeGuidForInch[0].sizeGuideList &&
+                  !sizeGuidForInch[0].sizeGuideList.length > 0,
+                sizeGuidForInch,
+                sizeGuidForInch.length
+              )}
               <SizeTable
                 data={
-                  !sizeGuidForInch.length > 0
+                  (sizeGuidForInch &&
+                    sizeGuidForInch[0] &&
+                    sizeGuidForInch[0].sizeGuideList &&
+                    !sizeGuidForInch[0].sizeGuideList.length > 0) ||
+                  !sizeGuidForInch.length
                     ? sizeGuidForCms && sizeGuidForCms[0]
-                    : this.state.showInch
+                    : this.state.inchActive
                       ? sizeGuidForInch && sizeGuidForInch[0]
                       : sizeGuidForCms && sizeGuidForCms[0]
                 }
