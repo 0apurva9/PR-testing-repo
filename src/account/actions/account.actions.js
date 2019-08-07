@@ -35,7 +35,8 @@ import {
   VERIFY_OTP,
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
-  SHOW_RETURN_CONFIRM_POP_UP
+  SHOW_RETURN_CONFIRM_POP_UP,
+  VERIFY_OTP_FOR_CHANGE_ADDRESS
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -186,6 +187,13 @@ export const GET_OTP_TO_ACTIVATE_WALLET_SUCCESS =
   "GET_OTP_TO_ACTIVATE_WALLET_SUCCESS";
 export const GET_OTP_TO_ACTIVATE_WALLET_FAILURE =
   "GET_OTP_TO_ACTIVATE_WALLET_FAILURE";
+
+export const GET_OTP_TO_CHANGE_ADDRESS_REQUEST =
+  "GET_OTP_TO_CHANGE_ADDRESS_REQUEST";
+export const GET_OTP_TO_CHANGE_ADDRESS_SUCCESS =
+  "GET_OTP_TO_CHANGE_ADDRESS_SUCCESS";
+export const GET_OTP_TO_CHANGE_ADDRESS_FAILURE =
+  "GET_OTP_TO_CHANGE_ADDRESS_FAILURE";
 
 export const VERIFY_WALLET_REQUEST = "VERIFY_WALLET_REQUEST";
 export const VERIFY_WALLET_SUCCESS = "VERIFY_WALLET_SUCCESS";
@@ -1318,6 +1326,57 @@ export function getOtpToActivateWallet(customerDetails, isFromCliqCash) {
       } else {
         dispatch(showModal(VERIFY_OTP));
       }
+      return dispatch(getOtpToActivateWalletSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getOtpToActivateWalletFailure(e.message));
+    }
+  };
+}
+
+export function getOtpToChangeAddressRequest() {
+  return {
+    type: GET_OTP_TO_CHANGE_ADDRESS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getOtpToChangeAddressSuccess(getOtpToChangeAdderss) {
+  return {
+    type: GET_OTP_TO_CHANGE_ADDRESS_SUCCESS,
+    status: SUCCESS,
+    getOtpToChangeAdderss
+  };
+}
+
+export function getOtpToChangeAddressFailure(error) {
+  return {
+    type: GET_OTP_TO_CHANGE_ADDRESS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getOtpToChangeAddress(customerDetails) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getOtpToChangeAddressRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/checkWalletMobileNumber?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isUpdateProfile=false`,
+        customerDetails
+      );
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(showModal(VERIFY_OTP_FOR_CHANGE_ADDRESS));
       return dispatch(getOtpToActivateWalletSuccess(resultJson));
     } catch (e) {
       return dispatch(getOtpToActivateWalletFailure(e.message));
