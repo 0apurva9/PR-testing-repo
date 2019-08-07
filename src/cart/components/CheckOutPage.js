@@ -104,7 +104,8 @@ import {
   EMI_TENURE,
   STRIPE_DETAILS,
   MY_ACCOUNT_ORDERS_PAGE,
-  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE
+  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
+  FAILURE_LOWERCASE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -897,6 +898,15 @@ class CheckOutPage extends React.Component {
       }
       this.getPaymentModes(oldCartId);
     }
+    if (
+      this.state.isPaymentFailed === false &&
+      !this.state.isComingFromRetryUrl &&
+      (nextProps.cart.cartDetailsCNCError ||
+        (nextProps.cart.cartDetailsCNC &&
+          !nextProps.cart.cartDetailsCNC.products))
+    ) {
+      this.props.history.push(HOME_ROUTER);
+    }
     //update cliqCash Amount
     if (
       nextProps.cart.paymentModes &&
@@ -1533,6 +1543,9 @@ if you have order id in local storage then you have to show order confirmation p
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           );
         }
+        if (!cartDetailsLoggedInUser) {
+          this.props.history.push(HOME_ROUTER);
+        }
       }
     }
     if (
@@ -1892,7 +1905,7 @@ if you have order id in local storage then you have to show order confirmation p
         confirmAddress: false,
         selectedAddress: addressSelected,
         isCheckoutAddressSelected: true,
-        addressId: addressSelected.id,
+        addressId: addressSelected && addressSelected.id,
         isDeliveryModeSelected: false
       });
     } else {
@@ -2803,6 +2816,18 @@ if you have order id in local storage then you have to show order confirmation p
             );
           }
         }
+      } else if (
+        binValidationOfEmiEligibleResponse &&
+        binValidationOfEmiEligibleResponse.status &&
+        binValidationOfEmiEligibleResponse.status.toLowerCase() ===
+          FAILURE_LOWERCASE
+      ) {
+        this.setState({
+          emiBinValidationStatus: true,
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
+        });
       } else {
         this.setState({
           emiBinValidationErrorMessage: null,
@@ -3802,17 +3827,19 @@ if you have order id in local storage then you have to show order confirmation p
       );
     } else if (this.state.paymentConfirmation) {
       return (
-        <PaymentConfirmationPage
-          orderStatusMessage={this.props.orderConfirmationText}
-          orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
-          orderDetails={this.props.cart.cliqCashJusPayDetails}
-          continueShopping={() => this.continueShopping()}
-          trackOrder={() => this.navigateToOrderHistoryPage()}
-          captureOrderExperience={rating =>
-            this.captureOrderExperienceForStripe(rating)
-          }
-          history={this.props.history}
-        />
+        <div className={styles.orderConfirmationHolder}>
+          <PaymentConfirmationPage
+            orderStatusMessage={this.props.orderConfirmationText}
+            orderId={this.props.cart.getPrepaidOrderPaymentConfirmation.orderId}
+            orderDetails={this.props.cart.cliqCashJusPayDetails}
+            continueShopping={() => this.continueShopping()}
+            trackOrder={() => this.navigateToOrderHistoryPage()}
+            captureOrderExperience={rating =>
+              this.captureOrderExperienceForStripe(rating)
+            }
+            history={this.props.history}
+          />
+        </div>
       );
     } else {
       return null;

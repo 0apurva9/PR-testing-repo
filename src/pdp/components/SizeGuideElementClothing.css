@@ -130,6 +130,9 @@
   color: #ffffff;
   background-color: #6c6c6c;
 }
+.tip {
+  margin-top: 5px;
+}
 @media screen and (min-width: 1025px) {
   .base {
     margin-top: 38px;

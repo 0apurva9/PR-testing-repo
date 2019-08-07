@@ -38,7 +38,7 @@ export default class PaymentBanner extends React.Component {
             </div>
           ) : (
             <div className={styles.orderHeading}>
-              {`Thanks! We've received your order`}
+              {`Thank you! We have received your order.`}
             </div>
           )}
           {!this.props.COD ? (
@@ -104,6 +104,6 @@ PaymentBanner.defaultProps = {
   buttonText: "Track Order",
   isTrack: false,
   isContinueShopping: false,
-  continueButton: "Continue shopping",
+  continueButton: "Continue Shopping",
   COD: false
 };

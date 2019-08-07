@@ -32,7 +32,7 @@ export default class SizeGuideElementClothing extends Component {
       sizeGudeList &&
       sizeGudeList.unitList &&
       sizeGudeList.unitList.filter(function(data) {
-        return data.unit.toUpperCase().match(/^(INCH|INCHES|IN|INCHE)$/);
+        return data.unit.toUpperCase().match(/^(INCH|INCHES|IN|INCHE|INC)$/);
       });
     const inch = this.state.inchActive ? styles.inActive : styles.in;
     const cm = this.state.cmsActive ? styles.cmActive : styles.cm;
@@ -155,9 +155,10 @@ export default class SizeGuideElementClothing extends Component {
             <div className={styles.imageAndTipsHolder}>
               {(tip1 || tip2) && (
                 <div className={styles.tipContainer}>
-                  Tip: {tip1 && <span>Buy a size {tip1} for this brand.</span>}
-                  {tip2 && !tip1 && <span>{tip2}</span>}
-                  {tip2 && tip1 && <div>{tip2}</div>}
+                  <span className={styles.tipHeader}>Tip:</span>
+                  {tip1 && <span>Buy a size {tip1} for this brand.</span>}
+                  {tip2 && !tip1 && <span className={styles.tip}>{tip2}</span>}
+                  {tip2 && tip1 && <div className={styles.tip}>{tip2}</div>}
                 </div>
               )}
               <div className={styles.imageHolder}>
