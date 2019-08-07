@@ -183,13 +183,6 @@ export default class SizeGuideElementClothing extends Component {
               </div>
             </div>
             <div className={styles.sizeGudeTableHolder}>
-              {console.log(
-                sizeGuidForInch[0] &&
-                  sizeGuidForInch[0].sizeGuideList &&
-                  !sizeGuidForInch[0].sizeGuideList.length > 0,
-                sizeGuidForInch,
-                sizeGuidForInch.length
-              )}
               <SizeTable
                 data={
                   (sizeGuidForInch &&
