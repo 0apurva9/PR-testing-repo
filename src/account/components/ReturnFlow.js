@@ -184,13 +184,6 @@ export default class ReturnFlow extends React.Component {
             <SelfCourierContainer {...this.state} {...this.props} />
           )}
         />
-        {/* <Route
-        exact
-        path={`${RETURNS}${}`}
-        render={()=>{
-
-        }} */}
-
         {/* end of need to call return bia store pick up  routes */}
       </React.Fragment>
     );

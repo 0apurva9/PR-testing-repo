@@ -258,13 +258,6 @@ const CancelReturnRequestPopUp = Loadable({
   }
 });
 
-const ChangeAddressVerifyOTPModal = Loadable({
-  loader: () =>
-    import("../../account/components/ChangeAddressVerifyOTPModal.js"),
-  loading() {
-    return <Loader />;
-  }
-});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -943,13 +936,6 @@ export default class ModalRoot extends React.Component {
           }
           cancelModal={() => this.handleClose()}
           updateReturnCancellation={data => this.updateReturnCancellation(data)}
-        />
-      ),
-
-      ChangeAddressVerifyOTPModal: (
-        <ChangeAddressVerifyOTPModal
-          data={this.props.ownProps}
-          cancelModal={() => this.handleClose()}
         />
       )
     };

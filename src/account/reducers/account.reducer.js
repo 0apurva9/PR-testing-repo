@@ -115,11 +115,6 @@ const account = (
     getOtpToActivateWalletError: null,
     loadingForGetOtpToActivateWallet: false,
 
-    getOtpToChangeAddress: null,
-    getOtpToChangeAddressStatus: null,
-    getOtpToChangeAddressError: null,
-    loadingForGetOtpToChangeAddress: false,
-
     verifyWallet: null,
     verifyWalletStatus: null,
     verifyWalletError: null,
@@ -391,25 +386,6 @@ const account = (
         getOtpToActivateWalletStatus: action.status,
         getOtpToActivateWalletError: action.error,
         loadingForGetOtpToActivateWallet: false
-      });
-    case accountActions.GET_OTP_TO_CHANGE_ADDRESS_REQUEST:
-      return Object.assign({}, state, {
-        getOtpToChangeAddress: action.status,
-        loadingForGetOtpToChangeAddress: true
-      });
-
-    case accountActions.GET_OTP_TO_CHANGE_ADDRESS_SUCCESS:
-      return Object.assign({}, state, {
-        getOtpToChangeAddressStatus: action.status,
-        getOtpToChangeAddress: action.getOtpToChangeAddress,
-        loadingForGetOtpToChangeAddress: false
-      });
-
-    case accountActions.GET_OTP_TO_CHANGE_ADDRESS_FAILURE:
-      return Object.assign({}, state, {
-        getOtpToChangeAddressStatus: action.status,
-        getOtpToChangeAddressError: action.error,
-        loadingForGetOtpToChangeAddress: false
       });
 
     case accountActions.VERIFY_WALLET_REQUEST:
