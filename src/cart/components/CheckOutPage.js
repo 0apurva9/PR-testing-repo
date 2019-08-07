@@ -838,9 +838,7 @@ class CheckOutPage extends React.Component {
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
     }
-    if (nextProps.cart.cartDetailsCNCError) {
-      this.props.history.push(HOME_ROUTER);
-    }
+
     if (
       (nextProps.cart &&
         nextProps.cart.jusPayError &&
