@@ -82,7 +82,7 @@
   color: #212121;
 }
 .toggleContainer {
-  width: 20%;
+  width: 100%;
   height: auto;
   display: inline-block;
   float: right;
@@ -135,8 +135,15 @@
   background-color: #6c6c6c;
   cursor: pointer;
 }
-.disable {
+.disableInch {
   composes: in;
+  border: none;
+  color: #ffffff;
+  background-color: #e3e3e3;
+  cursor: pointer;
+}
+.disableCm {
+  composes: cm;
   border: none;
   color: #ffffff;
   background-color: #e3e3e3;
