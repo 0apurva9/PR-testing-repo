@@ -78,16 +78,12 @@ export function getHeaderFailure(error) {
 }
 
 export function getHeader() {
-  let requestSource = "https://www.tatacliq.com/";
-  if (process.env.REACT_APP_STAGE === "e2e1") {
-    requestSource = "https://e2e1.tataunistore.com/";
-  }
+  //let requestSource;
+
   return async (dispatch, getState, { api }) => {
     dispatch(getHeaderRequest());
     try {
-      const result = await fetch(
-        `${requestSource}marketplacewebservices/v2/mpl/cms/desktopservice/header`
-      );
+      const result = await api.get("v2/mpl/cms/desktopservice/header");
 
       //const result = await mockGetFooter();
       const resultJson = await result.json();

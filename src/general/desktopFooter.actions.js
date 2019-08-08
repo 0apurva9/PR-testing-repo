@@ -26,10 +26,6 @@ export function getDesktopFooterFailure(error) {
   };
 }
 export function getDesktopFooter(pathName) {
-  let requestSource = "https://www.tatacliq.com/";
-  if (process.env.REACT_APP_STAGE === "e2e") {
-    requestSource = "https://e2e.tataunistore.com/";
-  }
   return async (dispatch, getState, { api }) => {
     dispatch(getDesktopFooterRequest());
     try {
@@ -41,19 +37,16 @@ export function getDesktopFooter(pathName) {
         var urlSearch = pathName && pathName.split("/c-");
         if (urlSearch[1].search("/") !== -1) {
           var urlSearch2 = urlSearch[1].split("/");
-          footerApi = `${requestSource}marketplacewebservices/v2/mpl/cms/desktopservice/footer?pageID=${
+          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${
             urlSearch2[0]
           }`;
         } else {
-          footerApi = `${requestSource}marketplacewebservices/v2/mpl/cms/desktopservice/footer?pageID=${
-            urlSearch[1]
-          }`;
+          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch[1]}`;
         }
       } else {
-        footerApi = `${requestSource}marketplacewebservices/v2/mpl/cms/desktopservice/footer`;
+        footerApi = "v2/mpl/cms/desktopservice/footer";
       }
-
-      const result = await fetch(footerApi);
+      const result = await api.get(footerApi);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
