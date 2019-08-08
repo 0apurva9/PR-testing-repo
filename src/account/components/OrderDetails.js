@@ -480,14 +480,14 @@ export default class OrderDetails extends React.Component {
                             <span className={styles.highlightedText}>
                               Order ID :{" "}
                             </span>
-                            <span>#{orderDetails.orderId}</span>
+                            <span>{orderDetails.orderId}</span>
                           </div>
                           {products.transactionId && (
                             <div className={styles.orderIdHolder}>
                               <span className={styles.highlightedText}>
                                 Transaction ID :{" "}
                               </span>
-                              <span>#{products.transactionId}</span>
+                              <span>{products.transactionId}</span>
                             </div>
                           )}
                         </div>
