@@ -107,8 +107,7 @@ class DesktopFooter extends React.Component {
     const isPlp =
       /c-msh[0-9]+/.test(this.props.location.pathname) ||
       /c-mbh[0-9]+/.test(this.props.location.pathname) ||
-      /search/.test(this.props.location.pathname) ||
-      /q=&icid2/.test(this.props.location.pathname);
+      /search/.test(this.props.location.pathname);
 
     return (
       <div className={styles.contentHolder}>
