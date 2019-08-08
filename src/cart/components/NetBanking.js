@@ -162,8 +162,12 @@ export default class NetBanking extends React.Component {
               <div className={styles.buttonHolder}>
                 <Button
                   disabled={
-                    this.props.bankBinFailedDetails === BANK_GATWAY_DOWN ||
-                    this.props.binValidationSucessDetails === BANK_GATWAY_DOWN
+                    (this.props.bankBinFailedDetails &&
+                      this.props.bankBinFailedDetails.bankGatewayStatus ===
+                        BANK_GATWAY_DOWN) ||
+                    (this.props.binValidationSucessDetails &&
+                      this.props.binValidationSucessDetails
+                        .bankGatewayStatus === BANK_GATWAY_DOWN)
                       ? true
                       : this.props.validateNetBanking()
                   }

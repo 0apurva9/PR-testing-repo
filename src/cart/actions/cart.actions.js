@@ -2238,6 +2238,7 @@ export function binValidationForNetBanking(
       }
       if (resultJsonStatus.status) {
         if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
+          dispatch(bankGateWayError(resultJson));
           dispatch(applyBankOfferFailure(resultJsonStatus.message));
           return dispatch(
             showModal(VALIDATE_OFFERS_POPUP, {
