@@ -20,7 +20,7 @@ export default class RateyourExperienceCard extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.retingInnerBox}>
-          <div className={styles.codOrderHeading}>{this.props.heading}</div>
+          <div className={styles.orderHeading}>{this.props.heading}</div>
           <div className={styles.retingLabel}>{this.props.label}</div>
           <div className={styles.rating}>
             <ExperienceRateGrid
