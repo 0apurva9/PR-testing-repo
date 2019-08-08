@@ -829,7 +829,6 @@ export function createGiftCardDetails(giftCardDetails) {
         throw new Error(resultJsonStatus.message);
       }
       return dispatch(createGiftCardSuccess(resultJson));
-
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
     }

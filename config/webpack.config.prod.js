@@ -15,6 +15,7 @@ const getClientEnvironment = require("./env");
 const CompressionPlugin = require("compression-webpack-plugin");
 const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const BrotliPlugin = require("brotli-webpack-plugin"); // NEW!
+const AsyncStylesheetWebpackPlugin = require("async-stylesheet-webpack-plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -294,11 +295,10 @@ module.exports = {
       },
       stage: process.env.REACT_APP_STAGE
     }),
-
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
-
+    new AsyncStylesheetWebpackPlugin(),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
@@ -331,7 +331,7 @@ module.exports = {
     }),
 
     //StyleExtHtmlWebpackPlugin  remove css link tag add that css inline in html -  here main.css will inline in htmls
-    new StyleExtHtmlWebpackPlugin(),
+    //new StyleExtHtmlWebpackPlugin(),  // commenting it for critical css change
 
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without

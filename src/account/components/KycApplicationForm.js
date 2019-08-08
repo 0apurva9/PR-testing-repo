@@ -15,7 +15,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 
-export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
+export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
 export default class KycApplicationForm extends React.Component {
   constructor(props) {
     super(props);
@@ -47,9 +47,6 @@ export default class KycApplicationForm extends React.Component {
       }
       if (generateOtp.status === SUCCESS) {
         this.setState({ isLoader: false });
-      }
-      if (this.props.generateOtp) {
-        this.props.generateOtp(this.state);
       }
     }
   };
