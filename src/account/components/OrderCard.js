@@ -576,7 +576,9 @@ export default class OrderCard extends React.Component {
                         )}
 
                         <span className={styles.styleDate}>
-                          {this.props.consignmentStatus === "DELIVERED" &&
+                          {(this.props.consignmentStatus === "DELIVERED" ||
+                            this.props.consignmentStatus ===
+                              "ORDER_COLLECTED") &&
                             this.props.deliveryDate &&
                             format(returnEligibleDate.toString(), dateFormat)}
                         </span>
