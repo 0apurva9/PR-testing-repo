@@ -106,12 +106,14 @@
   font-size: 12px;
   font-family: light;
   border: 0.5px solid #8d8d8d;
+  cursor: pointer;
 }
 .inActive {
   composes: in;
   border: none;
   color: #ffffff;
   background-color: #6c6c6c;
+  cursor: pointer;
 }
 .cm {
   width: 54px;
@@ -124,12 +126,21 @@
   font-family: light;
   font-size: 12px;
   border: 0.5px solid #8d8d8d;
+  cursor: pointer;
 }
 .cmActive {
   composes: cm;
   border: none;
   color: #ffffff;
   background-color: #6c6c6c;
+  cursor: pointer;
+}
+.disable {
+  composes: in;
+  border: none;
+  color: #ffffff;
+  background-color: #e3e3e3;
+  cursor: pointer;
 }
 .tip {
   margin-top: 5px;
