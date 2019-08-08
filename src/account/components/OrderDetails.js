@@ -595,6 +595,7 @@ export default class OrderDetails extends React.Component {
                         )}
 
                       {products.consignmentStatus != "DELIVERED" &&
+                        products.consignmentStatus != "ORDER_COLLECTED" &&
                         products.selectedDeliveryMode.code != CLICK_COLLECT &&
                         products.consignmentStatus != "PAYMENT_TIMEOUT" &&
                         products.consignmentStatus != "PAYMENT_PENDING" &&
@@ -726,7 +727,13 @@ export default class OrderDetails extends React.Component {
                         (orderDetails.pickupPersonName ||
                           orderDetails.pickupPersonMobile) && (
                           <React.Fragment>
-                            <div className={styles.storeDetails}>
+                            <div
+                              className={
+                                products.consignmentStatus == "ORDER_COLLECTED"
+                                  ? styles.orderColleted
+                                  : styles.storeDetails
+                              }
+                            >
                               <div className={styles.commonTitle}>
                                 <span className={styles.width20}>
                                   Contact Details
@@ -747,8 +754,9 @@ export default class OrderDetails extends React.Component {
                               products.consignmentStatus != "PAYMENT_PENDING" &&
                               products.consignmentStatus !=
                                 "PAYMENT_SUCCESSFUL" &&
+                              products.consignmentStatus != "PAYMENT_FAILED" &&
                               products.consignmentStatus !=
-                                "PAYMENT_FAILED" && (
+                                "ORDER_COLLECTED" && (
                                 <OrderStatusVertical
                                   trackingAWB={products.trackingAWB}
                                   courier={products.reverseLogisticName}
@@ -771,7 +779,8 @@ export default class OrderDetails extends React.Component {
                         <div
                           className={
                             products.consignmentStatus != "PAYMENT_TIMEOUT" &&
-                            products.consignmentStatus != "PAYMENT_PENDING"
+                            products.consignmentStatus != "PAYMENT_PENDING" &&
+                            products.consignmentStatus != "ORDER_COLLECTED"
                               ? styles.buttonHolder
                               : styles.buttonHolderForPaymentPending
                           }
@@ -914,7 +923,9 @@ export default class OrderDetails extends React.Component {
                                 )}
                               {products.isInvoiceAvailable &&
                                 (products.consignmentStatus === "DELIVERED" ||
-                                  products.consignmentStatus === "HOTC") && (
+                                  products.consignmentStatus === "HOTC" ||
+                                  products.consignmentStatus ===
+                                    "ORDER_COLLECTED") && (
                                   <div
                                     className={styles.cancelProduct}
                                     onClick={() =>
@@ -945,7 +956,8 @@ export default class OrderDetails extends React.Component {
                         <div
                           className={
                             products.consignmentStatus != "PAYMENT_TIMEOUT" &&
-                            products.consignmentStatus != "PAYMENT_PENDING"
+                            products.consignmentStatus != "PAYMENT_PENDING" &&
+                            products.consignmentStatus != "ORDER_COLLECTED"
                               ? styles.buttonHolder
                               : styles.buttonHolderForPaymentPending
                           }
