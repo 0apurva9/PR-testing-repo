@@ -43,8 +43,7 @@ export default class PaymentBanner extends React.Component {
           )}
           {!this.props.COD ? (
             <div className={styles.orderSubText}>
-              We will send you an e-mail and SMS confirmation for your order
-              within the next 30 minutes.
+              Please check your email for order confirmation and order details.
             </div>
           ) : (
             <div className={styles.orderLabel}>{`Order Id: ${

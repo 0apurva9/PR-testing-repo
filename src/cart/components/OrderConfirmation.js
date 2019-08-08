@@ -134,23 +134,12 @@ export default class OrderConfirmation extends React.Component {
             <DesktopOnly>
               <div className={styles.rightSection}>
                 <div className={styles.rateHolder}>
-                  {this.props.orderDetails.paymentMethod === "COD" ? (
-                    <RateYourExperienceCard
-                      captureOrderExperience={rating =>
-                        this.captureOrderExperience(rating)
-                      }
-                      continueShopping={() => this.continueShopping()}
-                      COD={true}
-                      heading="Did you enjoy shopping with us?"
-                    />
-                  ) : (
-                    <RateYourExperienceCard
-                      captureOrderExperience={rating =>
-                        this.captureOrderExperience(rating)
-                      }
-                      continueShopping={() => this.continueShopping()}
-                    />
-                  )}
+                  <RateYourExperienceCard
+                    captureOrderExperience={rating =>
+                      this.captureOrderExperience(rating)
+                    }
+                    continueShopping={() => this.continueShopping()}
+                  />
                 </div>
                 <div className={styles.linkHolder}>
                   <div className={styles.linkHeader}>My CLiQ</div>
