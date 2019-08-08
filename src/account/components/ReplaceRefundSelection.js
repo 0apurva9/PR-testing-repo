@@ -699,9 +699,10 @@ export default class ReplaceRefundSelection extends React.Component {
                                         id="panImage"
                                         src={val}
                                         alt="Upload"
-                                        width="60%"
-                                        height="auto"
+                                        width="59.9px"
+                                        height="90px"
                                       />
+
                                       <div className={styles.cancel}>
                                         <img
                                           src={cancel}
