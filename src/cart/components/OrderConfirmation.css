@@ -139,3 +139,10 @@
     vertical-align: top;
   }
 }
+.popup{
+  width: 340px;
+  height: auto;
+  padding: 10px;
+  background: #fff;
+  cursor: pointer;
+}

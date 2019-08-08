@@ -32,7 +32,7 @@ if (
     "https://tmppprd.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "production") {
   API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
-  MIDDLEWARE_API_URL_ROOT = "https://www.tataque.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "p2") {
   API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
@@ -51,6 +51,21 @@ if (
   API_URL_ROOT = "https://uat6-tcs.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://uat6-tcs.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "pt") {
+  API_URL_ROOT = "https://pt.tatacliq.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT = "https://pt.tatacliq.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "uat5") {
+  API_URL_ROOT = "https://uat5.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://uat5.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "uat6") {
+  API_URL_ROOT = "https://uat6.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://uat6.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "e2e") {
+  API_URL_ROOT = "https://e2e.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://e2e.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -71,6 +86,14 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://uat.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "uat6tcs") {
   URL_ROOT = "https://uat6-tcs.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "pt") {
+  URL_ROOT = "https://pt.tatacliq.com";
+} else if (process.env.REACT_APP_STAGE === "uat5") {
+  URL_ROOT = "https://uat5.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "uat6") {
+  URL_ROOT = "https://uat6.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "e2e") {
+  URL_ROOT = "https://e2e.tataunistore.com";
 }
 
 export const API_URL_ROOT_DUMMY =
@@ -154,6 +177,10 @@ export async function get(url) {
   const errorStatus = ErrorHandling.getFailureResponse(resultJson);
 
   try {
+    if (errorStatus.status && url.includes("cartDetails")) {
+      throw errorStatus;
+    }
+
     if (
       (!errorStatus.status ||
         !isInvalidAccessTokenError(errorStatus.message)) &&
@@ -586,4 +613,44 @@ export async function corePostByUrlEncoded(path, postData) {
     },
     body: postData
   });
+}
+
+export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
+  let accessToken = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
+  const customerToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  if (customerToken) {
+    accessToken = JSON.parse(customerToken);
+  }
+  return await fetch(
+    API_URL_ROOT +
+      "/v2/mpl/products/" +
+      code +
+      "/voucherSequence?access_token=" +
+      accessToken.access_token +
+      "&sellerId=" +
+      sellerId +
+      "&categoryCode=" +
+      categoryCode +
+      "&brandCode=" +
+      brandCode +
+      "&channel=Web&updatedFlag=true"
+  );
+}
+export async function pdpManufacturersApi(categoryCode, brandCode) {
+  return await fetch(
+    API_URL_ROOT +
+      "/v2/mpl/products/manufacturingdetails?category=" +
+      categoryCode +
+      "&brand=" +
+      brandCode
+  );
+}
+export async function getPlpBanners(categoryCode) {
+  return await fetch(
+    API_URL_ROOT + "/v2/mpl/cms/plpBanners?categoryCode=" + categoryCode
+  );
+}
+export async function getOrderConfirmBanner(url) {
+  let APIUrl = "https://www.tataque.com" + url;
+  return await fetch(APIUrl);
 }

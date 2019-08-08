@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { useEffect, useRef, Component } from "react";
 import ReviewList from "./ReviewList";
 import styles from "./ProductReviewPage.css";
 import ProductDetailsCard from "./ProductDetailsCard";
+import Pagination from "./Pagination";
 import ProductDetailsForReview from "./ProductDetailsForReview";
 import WriteReview from "./WriteReview";
 import PropTypes from "prop-types";
@@ -39,6 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 import commentArray from "../../mock/lang_profanity.json";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import { userAddressFailure } from "../../cart/actions/cart.actions";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 export default class ProductReviewPage extends Component {
@@ -49,7 +51,14 @@ export default class ProductReviewPage extends Component {
       sort: "byDate",
       orderBy: "desc",
       sortValue: "byDate_desc",
-      sortLabel: "Newest First"
+      sortLabel: "Newest First",
+      reviewList:
+        this.props &&
+        this.props.reviews &&
+        this.props.reviews.reviews &&
+        this.props.reviews.reviews,
+      currentPage: 1,
+      reviewListPerPage: 10
     };
     this.filterOptions = [
       { label: "Oldest First", value: "byDate_asc" },
@@ -58,6 +67,51 @@ export default class ProductReviewPage extends Component {
       { label: "Positive First", value: "byRating_desc" }
     ];
   }
+
+  pageNumbers = () => {
+    const pageNumbers = [];
+    for (
+      let i = 1;
+      i <=
+      Math.ceil(
+        this.props.reviews.totalNoOfReviews / this.state.reviewListPerPage
+      );
+      i++
+    ) {
+      pageNumbers.push(i);
+    }
+    return pageNumbers;
+  };
+
+  smoothScroll() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  handleClick = event => {
+    this.setState({ currentPage: event });
+    this.smoothScroll();
+  };
+
+  prevClick = (event, callback) => {
+    const { reviewListPerPage } = this.state;
+    if (event && this.state.currentPage > 1) {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      });
+      callback(this.state.currentPage - 1);
+    }
+    if (
+      !event &&
+      this.state.currentPage <
+        Math.ceil(this.props.reviews.totalNoOfReviews / reviewListPerPage)
+    ) {
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      });
+      callback(this.state.currentPage + 1);
+    }
+    this.smoothScroll();
+  };
 
   handleScroll = () => {
     return throttle(() => {
@@ -118,6 +172,7 @@ export default class ProductReviewPage extends Component {
       if (!userDetails || !customerCookie) {
         const url = this.props.location.pathname;
         this.props.setUrlToRedirectToAfterAuth(url);
+        this.props.hideSecondaryLoader();
         this.props.history.push(LOGIN_PATH);
       } else {
         this.setState({ visible: true });
@@ -166,12 +221,28 @@ export default class ProductReviewPage extends Component {
     }
     if (productReview.comment) {
       let notCommentPossible = commentArray.words.find(words => {
-        if (productReview.comment.toLowerCase().includes(words.toLowerCase())) {
+        let regMatch = false;
+        const splCharCheck = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+        if (splCharCheck.test(words)) {
+          regMatch = productReview.comment
+            .toLowerCase()
+            .includes(words.toLowerCase());
+        } else {
+          let regexWord = "\\b" + words.toLowerCase() + "\\b";
+          regMatch = new RegExp(regexWord, "i").test(
+            productReview.comment.toLowerCase()
+          );
+        }
+        if (regMatch) {
           return true;
         }
       });
       if (notCommentPossible) {
         this.props.displayToast("Review comment contains profane words");
+        return false;
+      } else if (productReview.comment.length < 50) {
+        this.props.displayToast("Please enter minimum 50 characters");
         return false;
       } else {
         if (
@@ -206,6 +277,7 @@ export default class ProductReviewPage extends Component {
           setUrlToRedirectToAfterAuth={url =>
             this.props.setUrlToRedirectToAfterAuth(url)
           }
+          showReviewGuidelineModal={() => this.props.showReviewGuidelineModal()}
         />
       );
     }
@@ -280,6 +352,14 @@ export default class ProductReviewPage extends Component {
   };
 
   render() {
+    const { currentPage, reviewListPerPage } = this.state;
+    const indexOfLastTodo = currentPage * reviewListPerPage;
+    const indexOfFirstReview = indexOfLastTodo - reviewListPerPage;
+    const currentreviewList =
+      this.props &&
+      this.props.reviews &&
+      this.props.reviews.reviews &&
+      this.props.reviews.reviews.slice(indexOfFirstReview, indexOfLastTodo);
     if (this.props.loadingForAddProduct || this.props.loading) {
       this.props.showSecondaryLoader();
     } else {
@@ -439,6 +519,7 @@ export default class ProductReviewPage extends Component {
                       <ReviewList
                         reviewList={this.props.reviews.reviews}
                         totalNoOfReviews={this.props.reviews.totalNoOfPages}
+                        currentreviewList={currentreviewList}
                       />
                     )}
                   </div>
@@ -486,11 +567,27 @@ export default class ProductReviewPage extends Component {
                           <ReviewList
                             reviewList={this.props.reviews.reviews}
                             totalNoOfReviews={this.props.reviews.totalNoOfPages}
+                            NoOfReviews={this.props.reviews.totalNoOfReviews}
+                            currentreviewList={currentreviewList}
                           />
                         )}
                       </div>
                     </div>
                   )}
+                <div className={styles.paginationHolder}>
+                  {this.props.reviews &&
+                    this.props.reviews.reviews &&
+                    this.props.reviews.reviews.length > 0 && (
+                      <Pagination
+                        postPerPage={reviewListPerPage}
+                        totalPost={this.props.reviews.totalNoOfReviews}
+                        handleClick={this.handleClick}
+                        prevClick={this.prevClick}
+                        pageNumber={this.state.currentPage}
+                        pageNumbers={this.pageNumbers()}
+                      />
+                    )}
+                </div>
               </DesktopOnly>
             </div>
           </div>

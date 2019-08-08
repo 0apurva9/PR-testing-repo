@@ -4,6 +4,7 @@ import StarRating from "../../general/components/StarRating.js";
 import Icon from "../../xelpmoc-core/Icon";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
+import TimerCounter from "../../general/components/TimerCounterProductDetails";
 import {
   RUPEE_SYMBOL,
   WRITE_REVIEW,
@@ -18,7 +19,18 @@ import {
   SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
 } from "../../lib/adobeUtils";
 const NO_REVIEW_TEXT = "Be the first to review this product";
+const PROMOTION = "Promotion";
+export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export default class ProductDetailsMainCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      popoverOpen: false,
+      offsetTop: null,
+      showTimer: false,
+      endDateTime: null
+    };
+  }
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
@@ -43,10 +55,13 @@ export default class ProductDetailsMainCard extends React.Component {
   }
   seeRatingReview() {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
-    this.props.history.push(url);
+    // const url = `${
+    //   this.props.location.pathname
+    // }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    // this.props.history.push(url);
+    if (this.props.ScrollReviewList) {
+      this.props.ScrollReviewList();
+    }
   }
   renderSchemaTags = () => {
     return (
@@ -59,6 +74,35 @@ export default class ProductDetailsMainCard extends React.Component {
       </MetaTags>
     );
   };
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.impulseOfferCalloutList &&
+      nextProps.impulseOfferCalloutList.length
+    ) {
+      return;
+    } else if (
+      nextProps.offers &&
+      nextProps.offers.length &&
+      this.props.offers.length === 0
+    ) {
+      let primaryOffer = nextProps.offers.find(offer => {
+        return offer.couponType === PRIMARY_OFFER;
+      });
+
+      if (primaryOffer && primaryOffer.offerEndTimerStartDateAndTime) {
+        if (
+          new Date() >= new Date(primaryOffer.offerEndTimerStartDateAndTime) &&
+          new Date(primaryOffer.offerEndTimerStartDateAndTime) <=
+            new Date(primaryOffer.endDateAndTime)
+        ) {
+          this.setState({
+            showTimer: true,
+            endDateTime: primaryOffer.endDateAndTime
+          });
+        }
+      }
+    }
+  }
 
   handleLinkClick = e => {
     e.preventDefault();
@@ -120,6 +164,25 @@ export default class ProductDetailsMainCard extends React.Component {
                   </span>
                 </div>
               )}
+
+            {this.state.showTimer && (
+              <div className={styles.counter}>
+                <span className={styles.offerEndsIn}>OFFER ENDS IN</span>{" "}
+                <TimerCounter
+                  endTime={this.state.endDateTime}
+                  onComplete={this.onComplete}
+                />
+              </div>
+            )}
+            {this.props.impulseOfferCalloutList &&
+            this.props.impulseOfferCalloutList.length ? (
+              <div className={styles.impulseOfferCalloutList}>
+                <span className={styles.impulseOfferCalloutListSpan}>
+                  {this.props.impulseOfferCalloutList[0].promotionDisplayText}
+                </span>
+              </div>
+            ) : null}
+
             <DesktopOnly>
               {this.props.hasPriceBreakUp && (
                 <div className={styles.priceBreakUp}>

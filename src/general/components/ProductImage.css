@@ -17,3 +17,23 @@
   overflow: hidden;
   border-radius: 4px;
 }
+.electronicImageHolder {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.electronicImageBase {
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  padding-bottom: 130%;
+}
+.similarIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

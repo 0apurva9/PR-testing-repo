@@ -9,14 +9,21 @@ import {
   CART_BAG_DETAILS,
   PLAT_FORM_NUMBER,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS
+  CART_DETAILS_FOR_ANONYMOUS,
+  FAILURE,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS,
+  ANONYMOUS_USER,
+  TIME_OUT_FOR_APIS,
+  LOW_INTERNET_CONNECTION_MESSAGE,
+  CHANNEL
 } from "../../lib/constants";
-import { FAILURE } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
   getMcvId,
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT,
+  QA2_MCV_ID,
   SET_DATA_LAYER_FOR_SUBMIT_REVIEW
 } from "../../lib/adobeUtils.js";
 import each from "lodash.foreach";
@@ -24,17 +31,9 @@ import {
   showModal,
   GO_TO_CART_PAGE_POPUP
 } from "../../general/modal.actions.js";
-import {
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  ANONYMOUS_USER,
-  TIME_OUT_FOR_APIS,
-  LOW_INTERNET_CONNECTION_MESSAGE
-} from "../../lib/constants";
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
-
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -101,6 +100,10 @@ export const GET_PDP_ITEMS_FAILURE = "GET_PDP_ITEMS_FAILURE";
 export const PDP_ABOUT_BRAND_REQUEST = "PDP_ABOUT_BRAND_REQUEST";
 export const PDP_ABOUT_BRAND_SUCCESS = "PDP_ABOUT_BRAND_SUCCESS";
 export const PDP_ABOUT_BRAND_FAILURE = "PDP_ABOUT_BRAND_FAILURE";
+//NU-385 for Desktop
+export const PDP_OFFER_REQUEST = "PDP_OFFER_REQUEST";
+export const PDP_OFFER_SUCCESS = "PDP_OFFER_SUCCESS";
+export const PDP_OFFER_FAILURE = "PDP_OFFER_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
@@ -135,6 +138,10 @@ const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
 const NUMBER_RESULTS = [10, 10];
+//TPR-9957 for Desktop
+export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
+export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
+export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 
 export function getProductDescriptionRequest() {
   return {
@@ -302,10 +309,11 @@ export function addProductToCartRequest() {
     status: REQUESTING
   };
 }
-export function addProductToCartSuccess() {
+export function addProductToCartSuccess(newProduct) {
   return {
     type: ADD_PRODUCT_TO_CART_SUCCESS,
-    status: SUCCESS
+    status: SUCCESS,
+    newProduct
   };
 }
 
@@ -320,30 +328,30 @@ export function addProductToCartFailure(error) {
 export function addProductToCart(productDetails) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-  let userId = ANONYMOUS_USER;
-  let cartId = cartDetailsForAnonymous
-    ? JSON.parse(cartDetailsForAnonymous).guid
-    : null;
   let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
-
-  if (userDetails && customerCookie && cartDetails) {
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
+  if (userDetails && customerCookie) {
     userId = JSON.parse(userDetails).userName;
-    cartId = JSON.parse(cartDetails).code;
     accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
   }
+  let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
   return async (dispatch, getState, { api }) => {
     dispatch(addProductToCartRequest());
     try {
       const result = await api.post(
-        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${cartId}/addProductToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+          cartId ? cartId + "/" : ""
+        }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
           productDetails.code
         }&USSID=${productDetails.ussId}&quantity=${
           productDetails.quantity
-        }&addedToCartWl=false`
+        }&addedToCartWl=false&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -354,13 +362,10 @@ export function addProductToCart(productDetails) {
 
       //set local storage
       let bagItem = localStorage.getItem(CART_BAG_DETAILS);
-
       let bagItemsInJsonFormat = bagItem ? JSON.parse(bagItem) : [];
-
       if (!bagItemsInJsonFormat.includes(productDetails.ussId)) {
         bagItemsInJsonFormat.push(productDetails.ussId);
       }
-
       localStorage.setItem(
         CART_BAG_DETAILS,
         JSON.stringify(bagItemsInJsonFormat)
@@ -369,7 +374,8 @@ export function addProductToCart(productDetails) {
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
-      return dispatch(addProductToCartSuccess());
+
+      return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
     } catch (e) {
       return dispatch(addProductToCartFailure(e.message));
@@ -719,7 +725,7 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
     accessToken = JSON.parse(customerCookie).access_token;
   } else {
     userName = ANONYMOUS_USER;
-    accessToken = JSON.parse(globalCookie).access_token;
+    accessToken = globalCookie && JSON.parse(globalCookie).access_token;
   }
   return async (dispatch, getState, { api }) => {
     dispatch(getProductReviewsRequest());
@@ -810,17 +816,36 @@ export function productMsdFailure(error) {
     error
   };
 }
-
-export function getMsdRequest(productCode) {
+export function getMsdRequest(
+  productCode,
+  similarProducts,
+  filters,
+  resultsRequired
+) {
   return async (dispatch, getState, { api }) => {
     let msdRequestObject = new FormData();
     msdRequestObject.append("api_key", API_KEY);
-    msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
-    msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
-    const mcvId = await getMcvId();
-    msdRequestObject.append("mad_uuid", mcvId);
+    if (process.env.REACT_APP_STAGE === "qa2") {
+      msdRequestObject.append("mad_uuid", QA2_MCV_ID);
+    } else {
+      const mcvId = await getMcvId();
+      msdRequestObject.append("mad_uuid", mcvId);
+    }
+    if (similarProducts) {
+      msdRequestObject.append("widget_list", JSON.stringify([0]));
+    } else {
+      msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
+    }
+    if (resultsRequired !== undefined && resultsRequired.length) {
+      msdRequestObject.append("num_results", JSON.stringify(resultsRequired));
+    } else {
+      msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    }
     msdRequestObject.append("details", false);
     msdRequestObject.append("product_id", productCode.toUpperCase());
+    if (filters) {
+      msdRequestObject.append("filters", JSON.stringify(filters));
+    }
     dispatch(productMsdRequest());
     try {
       const result = await api.postMsd(
@@ -833,13 +858,20 @@ export function getMsdRequest(productCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      // if (process.env.REACT_APP_STAGE == "tmpprod") {
+      //   resultJson.data[0] = SIMILAR_PRODUCTS_TMPPROD;
+      // } else if (process.env.REACT_APP_STAGE === "qa2") {
+      //   resultJson.data[0] = SIMILAR_PRODUCTS_QA2;
+      // }
 
-      if (resultJson.data[0].length > 0) {
+      if (resultJson.data[0] && resultJson.data[0].length > 0) {
         dispatch(
           getPdpItems(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
         );
+      } else {
+        dispatch(getPdpItems([], RECOMMENDED_PRODUCTS_WIDGET_KEY));
       }
-      if (resultJson.data[1].length > 0) {
+      if (resultJson.data[1] && resultJson.data[1].length > 0) {
         dispatch(getPdpItems(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
       }
     } catch (e) {
@@ -954,7 +986,71 @@ export function getPdpItems(itemIds, widgetKey) {
     }
   };
 }
+//NU-385 for Desktop
+export function pdpOfferRequest() {
+  return {
+    type: PDP_OFFER_REQUEST,
+    status: REQUESTING
+  };
+}
 
+export function pdpOfferSuccess(offers, impulseOfferCalloutList) {
+  return {
+    type: PDP_OFFER_SUCCESS,
+    status: SUCCESS,
+    offers: offers,
+    impulseOfferCalloutList: impulseOfferCalloutList
+  };
+}
+
+export function pdpOfferFailure(error) {
+  return {
+    type: PDP_OFFER_FAILURE,
+    status: ERROR,
+    error: error
+  };
+}
+export function getPdpOffers() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(pdpOfferRequest());
+    try {
+      let productDetails = getState().productDescription.productDetails;
+      let categoryCode =
+        productDetails.categoryHierarchy[
+          productDetails.categoryHierarchy.length - 1
+        ].category_id;
+
+      let brandCode = productDetails.brandURL.split("-");
+      let brandCodeLength = brandCode.length;
+      let brandCodeLast = brandCode[brandCodeLength - 1];
+      const pdpOffersApi = await api.pdpOffersApi(
+        productDetails.productListingId,
+        productDetails.winningSellerID,
+        categoryCode,
+        brandCodeLast.toUpperCase()
+      );
+      const pdpOffersApiJson = await pdpOffersApi.json();
+      if (pdpOffersApiJson.offerCalloutList) {
+        dispatch(
+          pdpOfferSuccess(
+            pdpOffersApiJson.offerCalloutList,
+            pdpOffersApiJson.impulseOfferCalloutList
+              ? pdpOffersApiJson.impulseOfferCalloutList
+              : []
+          )
+        );
+      } else if (pdpOffersApiJson.impulseOfferCalloutList) {
+        dispatch(pdpOfferSuccess([], pdpOffersApiJson.impulseOfferCalloutList));
+      } else if (pdpOffersApiJson.status === "Success") {
+        dispatch(pdpOfferSuccess([], []));
+      } else {
+        dispatch(pdpOfferFailure("error"));
+      }
+    } catch (e) {
+      dispatch(pdpOfferFailure(e.message));
+    }
+  };
+}
 // Actions to get All Stores CNC
 export function getAllStoresForCliqAndPiqRequest() {
   return {
@@ -1023,5 +1119,70 @@ export function showPdpPiqPage() {
 export function hidePdpPiqPage() {
   return {
     type: HIDE_PDP_PIQ_PAGE
+  };
+}
+
+export function pdpManufacturerRequest() {
+  return {
+    type: PDP_MANUFACTURER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function pdpManufacturerSuccess(manufacturers) {
+  return {
+    type: PDP_MANUFACTURER_SUCCESS,
+    status: SUCCESS,
+    manufacturers: manufacturers
+  };
+}
+
+export function pdpManufacturerFailure(error) {
+  return {
+    type: PDP_MANUFACTURER_FAILURE,
+    status: ERROR,
+    error: error
+  };
+}
+
+export function getManufacturerDetails() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(pdpManufacturerRequest());
+    try {
+      let productDetails = getState().productDescription.productDetails;
+      let categoryCode =
+        productDetails.categoryHierarchy[
+          productDetails.categoryHierarchy.length - 1
+        ].category_id;
+      // let brandCode = productDetails.brandURL.length > 6 ? (productDetails.brandURL
+      //   .substr(
+      //     productDetails.brandURL.length - 6,
+      //     productDetails.brandURL.length
+      //   )
+      //   .toUpperCase()) : (productDetails.brandURL.toUpperCase());
+      let brandCode = productDetails.brandURL.split("-");
+      let brandCodeLength = brandCode.length;
+      let brandCodeLast = brandCode[brandCodeLength - 1];
+      // let brandCodeLastLength = brandCodeLast.length;
+      // let brandCodeFinal = "";
+      // if(brandCodeLast.length > 6){
+      //     brandCodeFinal = brandCodeLast.substr(brandCodeLastLength - 6,brandCodeLastLength)
+      // }
+      const pdpManufacturerApi = await api.pdpManufacturersApi(
+        categoryCode.toUpperCase(),
+        brandCodeLast.toUpperCase()
+      );
+
+      const pdpManufacturerApiJson = await pdpManufacturerApi.json();
+      // if (pdpManufacturerApiJson.status == "Success") {
+
+      // } else {
+      if (pdpManufacturerApiJson.errorCode) {
+        dispatch(pdpManufacturerFailure("error"));
+      } else {
+        dispatch(pdpManufacturerSuccess(pdpManufacturerApiJson));
+      }
+    } catch (e) {
+      dispatch(pdpManufacturerFailure(e.message));
+    }
   };
 }

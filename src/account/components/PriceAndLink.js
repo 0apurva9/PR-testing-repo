@@ -25,7 +25,11 @@ export default class PriceAndLink extends React.Component {
                 size="14px"
                 fontFamily="regular"
                 color="#000000"
-                label="View details"
+                label={
+                  this.props.placeHolderText
+                    ? this.props.placeHolderText
+                    : "View details"
+                }
                 onClick={() => this.handleClick()}
               />
             </div>
@@ -47,9 +51,7 @@ export default class PriceAndLink extends React.Component {
         <DesktopOnly>
           <div className={styles.priceTextHolder}>
             <div className={styles.priceHeader}>Total Price </div>
-            <div className={styles.priceAmount}>{`${RUPEE_SYMBOL} ${
-              this.props.price
-            }`}</div>
+            <div className={styles.priceAmount}>{`${this.props.price}`}</div>
           </div>
           <MobileOnly>
             {this.props.isEgvOrder &&
@@ -66,7 +68,11 @@ export default class PriceAndLink extends React.Component {
                 size="14px"
                 fontFamily="regular"
                 color="#000000"
-                label="View details"
+                label={
+                  this.props.placeHolderText
+                    ? this.props.placeHolderText
+                    : "View details"
+                }
                 onClick={() => this.handleClick()}
               />
             </div>

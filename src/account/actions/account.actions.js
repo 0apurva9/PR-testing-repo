@@ -54,7 +54,9 @@ import {
   setDataLayerForFollowAndUnFollowBrand,
   ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
   ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
-  setDataLayerForLogoutSuccess
+  setDataLayerForLogoutSuccess,
+  setDataLayerForGiftCard,
+  SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -70,6 +72,7 @@ export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
 export const GET_SAVED_CARD_REQUEST = "GET_SAVED_CARD_REQUEST";
 export const GET_SAVED_CARD_SUCCESS = "GET_SAVED_CARD_SUCCESS";
 export const GET_SAVED_CARD_FAILURE = "GET_SAVED_CARD_FAILURE";
+export const CLEAR_TRANSACTION_DATA = "CLEAR_TRANSACTION_DATA";
 
 export const REMOVE_SAVED_CARD_REQUEST = "REMOVE_SAVED_CARD_REQUEST";
 export const REMOVE_SAVED_CARD_SUCCESS = "REMOVE_SAVED_CARD_SUCCESS";
@@ -238,6 +241,12 @@ export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
   "RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS";
 export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE =
   "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
+
+export const GET_TRANSACTION_DETAILS_REQUEST = "TRANSACTION_DETAILS_REQUEST";
+export const GET_TRANSACTION_DETAILS_SUCCESS =
+  "GET_TRANSACTION_DETAILS_SUCCESS";
+export const GET_TRANSACTION_DETAILS_FAILURE =
+  "GET_TRANSACTION_DETAILS_FAILURE";
 
 export const UPLOAD_USER_FILE_REQUEST = "UPLOAD_USER_FILE_REQUEST";
 export const UPLOAD_USER_FILE_SUCCESS = "UPLOAD_USER_FILE_SUCCESS";
@@ -751,7 +760,7 @@ export function getGiftCardDetails() {
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
-        if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
+        if (!resultJson.isWalletOtpVerified) {
           dispatch(showModal(GENERATE_OTP_FOR_EGV));
         } else if (
           resultJson.isWalletCreated &&
@@ -908,6 +917,7 @@ export function verifyWalletFailure(error) {
 export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+
   return async (dispatch, getState, { api }) => {
     dispatch(verifyWalletRequest());
     try {
@@ -927,13 +937,25 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(hideModal());
+
       if (isFromCliqCash) {
         dispatch(getCliqCashDetails());
       } else {
         dispatch(getGiftCardDetails());
       }
+      dispatch(hideModal());
+      dispatch(displayToast(resultJson.message));
+      let updatedUserCookie = {};
+      updatedUserCookie.firstName = resultJson.firstName;
+      updatedUserCookie.lastName = resultJson.lastName;
+      updatedUserCookie.userName = JSON.parse(userDetails).userName;
+      updatedUserCookie.customerId = JSON.parse(userDetails).customerId;
+      updatedUserCookie.loginType = JSON.parse(userDetails).loginType;
 
+      Cookie.createCookie(
+        LOGGED_IN_USER_DETAILS,
+        JSON.stringify(updatedUserCookie)
+      );
       return dispatch(verifyWalletSuccess(resultJson));
     } catch (e) {
       return dispatch(verifyWalletFailure(e.message));
@@ -964,13 +986,19 @@ export function submitSelfCourierReturnInfoFailure(error) {
   };
 }
 export function submitSelfCourierReturnInfo(returnDetails) {
-  let returnDetailsObject = new FormData(returnDetails.file);
-  returnDetailsObject.append("awbNumber", returnDetails.awbNumber);
-  returnDetailsObject.append("lpname", returnDetails.lpname);
-  returnDetailsObject.append("amount", returnDetails.amount);
-  returnDetailsObject.append("orderId", returnDetails.orderId);
-  returnDetailsObject.append("transactionId", returnDetails.transactionId);
-  returnDetailsObject.append("file", returnDetails.file);
+  let returnDetailsObject = new FormData();
+  returnDetailsObject.append(
+    "awbNumber",
+    returnDetails && returnDetails.awbNumber
+  );
+  returnDetailsObject.append("lpname", returnDetails && returnDetails.lpname);
+  returnDetailsObject.append("amount", returnDetails && returnDetails.amount);
+  returnDetailsObject.append("orderId", returnDetails && returnDetails.orderId);
+  returnDetailsObject.append(
+    "transactionId",
+    returnDetails && returnDetails.transactionId
+  );
+  returnDetailsObject.append("file", returnDetails && returnDetails.file);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
@@ -1019,7 +1047,11 @@ export function getSavedCardFailure(error) {
     error
   };
 }
-
+export function clearTransaction() {
+  return {
+    type: CLEAR_TRANSACTION_DATA
+  };
+}
 export function getSavedCardDetails(userId, customerAccessToken) {
   return async (dispatch, getState, { api }) => {
     dispatch(getSavedCardRequest());
@@ -1040,6 +1072,56 @@ export function getSavedCardDetails(userId, customerAccessToken) {
     }
   };
 }
+
+export function getTransactionDetailsRequest() {
+  return {
+    type: GET_TRANSACTION_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getTransactionDetailsSuccess(transactionDetails) {
+  return {
+    type: GET_TRANSACTION_DETAILS_SUCCESS,
+    transactionDetails,
+    status: SUCCESS
+  };
+}
+
+export function getTransactionDetailsFailure(error) {
+  return {
+    type: GET_TRANSACTION_DETAILS_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function getTransactionDetails() {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getTransactionDetailsRequest());
+
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getWalletTransactions?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&channel=${CHANNEL}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getTransactionDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getTransactionDetailsFailure(e.message));
+    }
+  };
+}
+
 export function getPinCodeRequest() {
   return {
     type: GET_PIN_CODE_REQUEST,
@@ -1185,13 +1267,13 @@ export function getAllOrdersDetails(
       if (showDataAccordingToUser) {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/orderhistorylist?access_token=${
+        }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
       } else {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/orderhistorylist?access_token=${
+        }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
       }
@@ -2019,7 +2101,7 @@ export function getCliqCashDetails() {
         throw new Error(resultJsonStatus.message);
       }
       setDataLayer(ADOBE_MY_ACCOUNT_CLIQ_CASH);
-      if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
+      if (!resultJson.isWalletOtpVerified) {
         dispatch(showModal(GENERATE_OTP_FOR_CLIQ_CASH));
       }
 
@@ -2079,6 +2161,9 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
 
         dispatch(getPaymentModes(JSON.parse(cartDetails).guid));
       }
+      dispatch(getCliqCashDetails());
+      dispatch(getTransactionDetails());
+      setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT);
       return dispatch(redeemCliqVoucherSuccess(resultJson));
     } catch (e) {
       return dispatch(redeemCliqVoucherFailure(e.message));

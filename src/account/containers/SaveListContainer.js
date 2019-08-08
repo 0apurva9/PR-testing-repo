@@ -11,6 +11,10 @@ import { addProductToCart } from "../../pdp/actions/pdp.actions";
 import { SUCCESS } from "../../lib/constants";
 import { SUCCESS_FOR_ADDING_TO_BAG } from "../../lib/constants.js";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import {
+  showSecondaryLoader,
+  hideSecondaryLoader
+} from "../../general/secondaryLoader.actions";
 const REMOVED_SAVELIST = "Removed Successfully";
 
 const mapDispatchToProps = dispatch => {
@@ -25,12 +29,14 @@ const mapDispatchToProps = dispatch => {
       dispatch(showModal(DESKTOP_AUTH));
     },
     addProductToCart: productDetails => {
+      dispatch(showSecondaryLoader());
       dispatch(addProductToCart(productDetails)).then(result => {
         if (result.status === SUCCESS) {
           dispatch(removeProductFromWishList(productDetails)).then(response => {
             if (response.status === SUCCESS) {
               dispatch(displayToast(SUCCESS_FOR_ADDING_TO_BAG));
             }
+            dispatch(hideSecondaryLoader());
           });
         }
       });

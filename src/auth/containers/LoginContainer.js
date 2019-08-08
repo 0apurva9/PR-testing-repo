@@ -8,7 +8,9 @@ import {
   mergeCartId,
   generateCartIdForLoggedInUser,
   getCartId,
-  tempCartIdForLoggedInUser
+  tempCartIdForLoggedInUser,
+  getCartCountForLoggedInUser,
+  removeItemFromCartLoggedIn
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
 
@@ -44,6 +46,10 @@ import {
   createWishlist,
   addProductToWishList
 } from "../../wishlist/actions/wishlist.actions";
+import {
+  showSecondaryLoader,
+  hideSecondaryLoader
+} from "../../general/secondaryLoader.actions.js";
 import ProductDetails from "../../pdp/components/ProductDetails";
 import { retryPayment } from "../../account/actions/account.actions";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
@@ -77,7 +83,9 @@ const mapDispatchToProps = dispatch => {
         const loginUserResponse = await dispatch(loginUser(userDetails));
         if (loginUserResponse.status === SUCCESS) {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS, lastUrl);
+          // Get cartDetails if user already has cart created
           const cartVal = await dispatch(getCartId());
+          let guid;
           if (
             cartVal.status === SUCCESS &&
             cartVal.cartDetails.guid &&
@@ -108,6 +116,8 @@ const mapDispatchToProps = dispatch => {
                     : false
                 )
               );
+              // At the time of login Get Cart GUID for logged-in user
+              guid = JSON.parse(cartDetailsLoggedInUser).guid;
               const existingWishList = await dispatch(getWishListItems());
 
               if (!existingWishList || !existingWishList.wishlist) {
@@ -116,64 +126,50 @@ const mapDispatchToProps = dispatch => {
               dispatch(setIfAllAuthCallsHaveSucceeded());
             } else if (mergeCartIdWithOldOneResponse.status === ERROR) {
               Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-              Cookies.createCookie(
-                CART_DETAILS_FOR_LOGGED_IN_USER,
-                JSON.stringify(cartVal.cartDetails)
-              );
+              guid = cartVal;
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
             //end of  merge old cart id with anonymous cart id
           } else {
-            // generating new cart if if wont get any existing cartId
-            const newCartIdObj = await dispatch(
-              generateCartIdForLoggedInUser()
+            // If cart is not available check if cartDetailsForAnonymous is created
+            let cartDetailsAnonymous = Cookies.getCookie(
+              CART_DETAILS_FOR_ANONYMOUS
             );
-
-            if (newCartIdObj.status === SUCCESS) {
-              const mergeCartIdResponse = await dispatch(
-                mergeCartId(newCartIdObj.cartDetails.guid)
-              );
-              // merging cart id with new cart id
-              if (mergeCartIdResponse.status === SUCCESS) {
-                const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
-
-                const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
-                const cartDetailsLoggedInUser = Cookies.getCookie(
-                  CART_DETAILS_FOR_LOGGED_IN_USER
+            if (cartDetailsAnonymous) {
+              let anonymousCart = JSON.parse(cartDetailsAnonymous);
+              if (anonymousCart.guid) {
+                // Create a new cart using Anonymous cartGUID
+                const mergeCartIdWithAnonymousResponse = await dispatch(
+                  mergeCartId()
                 );
-                dispatch(
-                  getCartDetails(
-                    JSON.parse(userDetails).userName,
-                    JSON.parse(customerCookie).access_token,
-                    JSON.parse(cartDetailsLoggedInUser).code,
-                    localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
-                    lastUrl === "/cart" &&
-                    parseInt(
-                      mergeCartIdResponse.cartDetails.count !== currentBagCount,
-                      10
-                    )
-                      ? true
-                      : false
-                  )
-                );
-                const existingWishList = await dispatch(getWishListItems());
-                if (!existingWishList || !existingWishList.wishlist) {
-                  dispatch(createWishlist());
+                if (mergeCartIdWithAnonymousResponse.status === SUCCESS) {
+                  const newCartDetailsLoggedInUser = Cookies.getCookie(
+                    CART_DETAILS_FOR_LOGGED_IN_USER
+                  );
+
+                  guid = JSON.parse(newCartDetailsLoggedInUser).guid;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
+                } else if (mergeCartIdWithAnonymousResponse.status === ERROR) {
+                  Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+                  guid = anonymousCart;
+                  dispatch(setIfAllAuthCallsHaveSucceeded());
                 }
-                dispatch(setIfAllAuthCallsHaveSucceeded());
-              } else if (mergeCartIdResponse.status === ERROR) {
-                Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
-                Cookies.createCookie(
-                  CART_DETAILS_FOR_LOGGED_IN_USER,
-                  JSON.stringify(newCartIdObj.cartDetails)
-                );
-                dispatch(setIfAllAuthCallsHaveSucceeded());
               }
-              // end of merging cart id with new cart id
-            } else if (newCartIdObj.status === ERROR) {
-              dispatch(singleAuthCallHasFailed(newCartIdObj.error));
             }
-            // end of generating new cart if if wont get any existing cartId
+            const existingWishList = await dispatch(getWishListItems());
+            if (!existingWishList || !existingWishList.wishlist) {
+              dispatch(createWishlist());
+            }
+            dispatch(setIfAllAuthCallsHaveSucceeded());
+            // dispatch(getCartCountForLoggedInUser());
+          }
+          if (guid) {
+            // Get the bagCount if Cart GUID exists for Logged-in user
+            dispatch(
+              getCartCountForLoggedInUser(
+                typeof guid === "object" ? guid : null
+              )
+            );
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
@@ -189,6 +185,28 @@ const mapDispatchToProps = dispatch => {
     addProductToWishList: async productObj => {
       const wishlistResponse = await dispatch(addProductToWishList(productObj));
       if (wishlistResponse.status === SUCCESS) {
+        dispatch(showSecondaryLoader());
+        const cartDetailsLoggedInUser = Cookies.getCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER
+        );
+
+        //Get bag details before login
+        const cartDetails = localStorage.getItem(CART_BAG_DETAILS);
+        const cartDetailsCount = JSON.parse(cartDetails).length;
+        const cartDetailsLoggedInUserCount = parseInt(
+          JSON.parse(cartDetailsLoggedInUser).count
+        );
+        if (productObj.index >= 0) {
+          const removeCartResponse = await dispatch(
+            removeItemFromCartLoggedIn(
+              cartDetailsLoggedInUserCount -
+                cartDetailsCount +
+                productObj.index,
+              localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+            )
+          );
+        }
+        dispatch(hideSecondaryLoader());
         dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
       }
     },

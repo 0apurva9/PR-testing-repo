@@ -498,21 +498,21 @@ export default class AllOrderDetails extends React.Component {
                             }`
                           : `${
                               orderDetails &&
-                              orderDetails.billingAddress.addressLine1
-                                ? orderDetails.billingAddress.addressLine1
+                              orderDetails.deliveryAddress.addressLine1
+                                ? orderDetails.deliveryAddress.addressLine1
                                 : ""
                             } ${
-                              orderDetails && orderDetails.billingAddress.town
-                                ? orderDetails.billingAddress.town
+                              orderDetails && orderDetails.deliveryAddress.town
+                                ? orderDetails.deliveryAddress.town
                                 : ""
                             } ${
-                              orderDetails && orderDetails.billingAddress.state
-                                ? orderDetails.billingAddress.state
+                              orderDetails && orderDetails.deliveryAddress.state
+                                ? orderDetails.deliveryAddress.state
                                 : ""
                             } ${
                               orderDetails &&
-                              orderDetails.billingAddress.postalcode
-                                ? orderDetails.billingAddress.postalcode
+                              orderDetails.deliveryAddress.postalcode
+                                ? orderDetails.deliveryAddress.postalcode
                                 : ""
                             }`;
                       let placeHolder =
@@ -702,7 +702,7 @@ export default class AllOrderDetails extends React.Component {
                                   status={orderDetails.giftCardStatus}
                                   price={
                                     orderDetails &&
-                                    orderDetails.totalOrderAmount
+                                    orderDetails.totalFinalPayableOrderAmount
                                   }
                                   borderColor={
                                     orderDetails && orderDetails.retryPaymentUrl
@@ -785,34 +785,37 @@ export default class AllOrderDetails extends React.Component {
                                       }
                                       deliveredAddress2={
                                         orderDetails &&
-                                        orderDetails.billingAddress.addressLine1
-                                          ? orderDetails.billingAddress
+                                        orderDetails.deliveryAddress
+                                          .addressLine1
+                                          ? orderDetails.deliveryAddress
                                               .addressLine1
                                           : ""
                                       }
                                       deliveredAddress3={
                                         orderDetails &&
-                                        orderDetails.billingAddress &&
+                                        orderDetails.deliveryAddress &&
                                         `${
                                           orderDetails &&
-                                          orderDetails.billingAddress &&
-                                          orderDetails.billingAddress.state
-                                            ? orderDetails.billingAddress.state
+                                          orderDetails.deliveryAddress &&
+                                          orderDetails.deliveryAddress.state
+                                            ? orderDetails.deliveryAddress.state
                                             : ""
                                         }${
                                           orderDetails &&
-                                          orderDetails.billingAddress &&
-                                          orderDetails.billingAddress.town
+                                          orderDetails.deliveryAddress &&
+                                          orderDetails.deliveryAddress.town
                                             ? `, ${
-                                                orderDetails.billingAddress.town
+                                                orderDetails.deliveryAddress
+                                                  .town
                                               }`
                                             : ""
                                         }${
                                           orderDetails &&
-                                          orderDetails.billingAddress &&
-                                          orderDetails.billingAddress.postalcode
+                                          orderDetails.deliveryAddress &&
+                                          orderDetails.deliveryAddress
+                                            .postalcode
                                             ? `, ${
-                                                orderDetails.billingAddress
+                                                orderDetails.deliveryAddress
                                                   .postalcode
                                               }`
                                             : ""
@@ -845,6 +848,7 @@ export default class AllOrderDetails extends React.Component {
                                     >
                                       <div className={styles.priceRightHolder}>
                                         <PriceAndLink
+                                          placeHolderText="View status and details"
                                           onViewDetails={() =>
                                             this.onViewDetails(
                                               orderDetails &&
@@ -860,7 +864,7 @@ export default class AllOrderDetails extends React.Component {
                                           status={orderDetails.giftCardStatus}
                                           price={
                                             orderDetails &&
-                                            orderDetails.totalOrderAmount
+                                            orderDetails.totalFinalPayableOrderAmount
                                           }
                                           borderColor={"#fff"}
                                           retryPaymentUrl={
@@ -889,6 +893,7 @@ export default class AllOrderDetails extends React.Component {
                                       </div>
                                       <div className={styles.priceRightHolder}>
                                         <PriceAndLink
+                                          placeHolderText="View status and details"
                                           onViewDetails={() =>
                                             this.onViewDetails(
                                               orderDetails &&
@@ -899,7 +904,7 @@ export default class AllOrderDetails extends React.Component {
                                           status={orderDetails.giftCardStatus}
                                           price={
                                             orderDetails &&
-                                            orderDetails.totalOrderAmount
+                                            orderDetails.totalFinalPayableOrderAmount
                                           }
                                         />
                                       </div>

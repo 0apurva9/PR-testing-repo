@@ -2,7 +2,13 @@ import React from "react";
 import Image from "../../xelpmoc-core/Image";
 import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
+import Icon from "../../xelpmoc-core/Icon";
+import similarIcon from "../../general/components/img/similarIcon.svg";
+import { setDataLayer, ADOBE_SIMILAR_PRODUCTS_PDP } from "../../lib/adobeUtils";
 import Video from "../../general/components/Video";
+const MODEL_FIT = "Model fit";
+const FABRIC = "Fabric";
+const WASH = "Wash";
 export default class ProductGalleryDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -50,6 +56,11 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomHeight = element.offsetHeight;
     this.zoomWidth = element.offsetWidth;
   }
+
+  showSimilarProducts() {
+    this.props.showSimilarProducts();
+    setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productDetails);
+  }
   componentDidMount() {
     if (this.type == "image") {
       this.getPosition(this.refs.zoom);
@@ -82,6 +93,21 @@ export default class ProductGalleryDesktop extends React.Component {
   handleMouseLeave() {
     this.setState({ isZoom: false });
   }
+  getKeyValue = key => {
+    let details = this.props.details;
+
+    return (
+      details &&
+      details.map(detail => {
+        if (detail["key"] !== key) {
+          return null;
+        } else {
+          let detailedValue = detail["value"].split("|");
+          return <span>{detailedValue[0]}</span>;
+        }
+      })
+    );
+  };
   render() {
     return (
       <div className={styles.base}>
@@ -122,6 +148,16 @@ export default class ProductGalleryDesktop extends React.Component {
                   {val.type === "video" && (
                     <Video url={val.value} controls={true} />
                   )}
+                  <div
+                    className={styles.similarIcon}
+                    onClick={() => this.showSimilarProducts()}
+                  >
+                    <Icon
+                      image={similarIcon}
+                      size={38}
+                      backgroundSize="auto 22px"
+                    />
+                  </div>
                 </div>
               );
             } else {
@@ -170,6 +206,25 @@ export default class ProductGalleryDesktop extends React.Component {
               </div>
             );
           })}
+          <div className={styles.product_desc_desktop}>
+            {this.props.category === "Clothing" && (
+              <React.Fragment>
+                <div className={styles.marginTop10}>
+                  <div className={styles.description}>
+                    {this.getKeyValue(MODEL_FIT)}
+                  </div>
+                </div>
+                <div className={styles.marginTop10}>
+                  <div className={styles.fabtype}>
+                    {this.getKeyValue(FABRIC)}
+                    {this.getKeyValue(WASH) !== undefined &&
+                      this.getKeyValue(WASH) !== null && <span>, </span>}
+                    {this.getKeyValue(WASH)}
+                  </div>
+                </div>
+              </React.Fragment>
+            )}
+          </div>
         </div>
         <div
           className={styles.navArrow}

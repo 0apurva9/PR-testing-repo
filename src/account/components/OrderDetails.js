@@ -21,6 +21,7 @@ import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
+import { Redirect } from "react-router-dom";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -159,6 +160,13 @@ export default class OrderDetails extends React.Component {
     }
   }
 
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+
+    return <Redirect to={LOGIN_PATH} />;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.sendInvoiceSatus === SUCCESS) {
       this.props.displayToast("Invoice has been sent");
@@ -172,7 +180,10 @@ export default class OrderDetails extends React.Component {
     }
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
@@ -191,6 +202,7 @@ export default class OrderDetails extends React.Component {
               orderDetails.products.map((products, i) => {
                 let isOrderReturnable = false;
                 let isReturned = false;
+                let isNotRefund = false;
 
                 if (
                   products &&
@@ -219,6 +231,12 @@ export default class OrderDetails extends React.Component {
                         status.responseCode === "ORDER_COLLECTED"
                       ) {
                         isOrderReturnable = true;
+                      }
+                      if (
+                        !status.responseCode.includes("REFUND") &&
+                        !isNotRefund
+                      ) {
+                        isNotRefund = true;
                       }
                     }
                   );
@@ -395,7 +413,9 @@ export default class OrderDetails extends React.Component {
                         />
                       )}
                     {products.statusDisplayMsg &&
-                      products.selectedDeliveryMode.code !== CLICK_COLLECT && (
+                      (products.selectedDeliveryMode &&
+                        products.selectedDeliveryMode.code !==
+                          CLICK_COLLECT) && (
                         <div className={styles.orderStatusVertical}>
                           {/* This block of code needs to be duplicated below for CNC as well */}
                           {!products.statusDisplayMsg
@@ -432,7 +452,8 @@ export default class OrderDetails extends React.Component {
                           {/* Block of code ends here */}
                         </div>
                       )}
-                    {products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                    {products.selectedDeliveryMode &&
+                      products.selectedDeliveryMode.code === CLICK_COLLECT &&
                       products.storeDetails && (
                         <div className={styles.orderStatusVertical}>
                           <div className={styles.header}>Store details:</div>
@@ -470,7 +491,8 @@ export default class OrderDetails extends React.Component {
                           </div>
                         </div>
                       )}
-                    {products.selectedDeliveryMode.code === CLICK_COLLECT &&
+                    {products.selectedDeliveryMode &&
+                      products.selectedDeliveryMode.code === CLICK_COLLECT &&
                       (orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile) && (
                         <div className={styles.orderStatusVertical}>
@@ -622,7 +644,8 @@ export default class OrderDetails extends React.Component {
                               </div>
                             )}
                             {isOrderReturnable &&
-                              products.isReturned === false && (
+                              products.isReturned === false &&
+                              isNotRefund && (
                                 <div className={styles.returnClosed}>
                                   {PRODUCT_RETURN_WINDOW_CLOSED}
                                 </div>

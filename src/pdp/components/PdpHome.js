@@ -303,7 +303,7 @@ export default class PdpApparel extends React.Component {
     }
     /* Start - Gemini Script  */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Home
 
       window.GEM.setGeminiPageId("0002321000100600");
@@ -425,6 +425,8 @@ export default class PdpApparel extends React.Component {
               showDetails={this.props.showOfferDetails}
               potentialPromotions={productData.potentialPromotions}
               secondaryPromotions={productData.productOfferMsg}
+              offers={this.props.offers}
+              showVoucherOffersModal={this.props.showVoucherOffersModal}
             />
             {productData.variantOptions && (
               <React.Fragment>

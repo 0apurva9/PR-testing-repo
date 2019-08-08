@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const StyleExtHtmlWebpackPlugin = require("style-ext-html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
@@ -14,10 +15,12 @@ const getClientEnvironment = require("./env");
 const CompressionPlugin = require("compression-webpack-plugin");
 const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const BrotliPlugin = require("brotli-webpack-plugin"); // NEW!
+const AsyncStylesheetWebpackPlugin = require("async-stylesheet-webpack-plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
+const appSrc = paths.appSrc;
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
 const shouldUseRelativeAssetPaths = publicPath === "./";
@@ -37,15 +40,14 @@ if (env.stringified["process.env"].NODE_ENV !== '"production"') {
 }
 
 // Note: defined here because it will be used more than once.
-const cssFilename = "static/css/[name].css";
+const cssFilename = "static/css/[name].[hash:12].css";
 
 // ExtractTextPlugin expects the build output to be flat.
 // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
 // However, our output is structured with css, js and media folders.
 // To have this structure working with relative paths, we have to use custom options.
-const extractTextPluginOptions = shouldUseRelativeAssetPaths
-  ? // Making sure that the publicPath goes back to to build folder.
-    {
+const extractTextPluginOptions = shouldUseRelativeAssetPaths // Making sure that the publicPath goes back to to build folder.
+  ? {
       publicPath: Array(cssFilename.split("/").length).join("../")
     }
   : {};
@@ -67,7 +69,7 @@ module.exports = {
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
-    filename: "static/js/[name].js",
+    filename: "static/js/[name].[hash:12].js",
     chunkFilename: "static/js/[name].[chunkhash:8].chunk.js",
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
@@ -257,7 +259,28 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml,
+      filename: "index.html",
+      template: paths.appBuildHtml,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      stage: process.env.REACT_APP_STAGE
+    }),
+
+    // Generates an `other.html` file with the <script> injected.
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: "other.html",
+      template: paths.appOtherHtml,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -275,10 +298,7 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
-    new PreloadWebpackPlugin({
-      rel: "preload",
-      include: "initial"
-    }),
+    new AsyncStylesheetWebpackPlugin(),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
@@ -309,6 +329,10 @@ module.exports = {
     new ExtractTextPlugin({
       filename: cssFilename
     }),
+
+    //StyleExtHtmlWebpackPlugin  remove css link tag add that css inline in html -  here main.css will inline in htmls
+    //new StyleExtHtmlWebpackPlugin(),  // commenting it for critical css change
+
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
@@ -342,6 +366,7 @@ module.exports = {
       minify: true,
       // For unknown URLs, fallback to the index page
       navigateFallback: publicUrl + "/index.html",
+      templateFilePath: appSrc + "/service-worker.tmpl",
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [

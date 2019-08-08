@@ -75,7 +75,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       //need to show error page
     }
-
     const parsedQueryString = queryString.parse(this.props.location.search);
 
     //show the pinCodeModal if showAmpPincode is true
@@ -152,9 +151,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       </div>
     );
   }
-  /*
-
-  */
 
   render() {
     if (this.props.loading) {
@@ -187,6 +183,9 @@ export default class ProductDescriptionPageWrapper extends React.Component {
               {this.renderRootCategory(this.props.productDetails.rootCategory)}
             </MobileOnly>
             <DesktopOnly>
+              {this.props.productDetails.seo
+                ? renderMetaTags(this.props.productDetails)
+                : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
               <PdpDesktop {...this.props} />
             </DesktopOnly>
           </div>

@@ -14,7 +14,8 @@
   text-align: left;
   text-transform: capitalize;
 }
-.titleDescription {
+.titleDescription,
+.titleContact {
   width: 100%;
   height: auto;
   line-height: 22px;
@@ -36,7 +37,8 @@
   width: 100%;
   height: auto;
 }
-.titleDescriptionForReturn {
+.titleDescriptionForReturn,
+.titleContactForReturn {
   width: 100%;
   height: auto;
   line-height: 22px;
@@ -71,7 +73,8 @@
     padding-left: 30px;
     position: relative;
   }
-  .titleDescription {
+  .titleDescription,
+  .titleContact {
     padding-left: 30px;
     word-wrap: break-word;
     padding-right: initial;
@@ -82,7 +85,8 @@
     border-bottom: 1px solid #ececec;
   }
 
-  .titleDescriptionForReturn {
+  .titleDescriptionForReturn,
+  .titleContactForReturn {
     word-wrap: break-word;
     padding-right: initial;
     padding-right: 35%;

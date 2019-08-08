@@ -1,8 +1,16 @@
 import * as pdpActions from "../actions/pdp.actions";
 import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS } from "../../account/actions/account.actions";
-import { YES, NO } from "../../lib/constants";
+import {
+  YES,
+  NO,
+  CART_DETAILS_FOR_ANONYMOUS,
+  LOGGED_IN_USER_DETAILS,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CUSTOMER_ACCESS_TOKEN
+} from "../../lib/constants";
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
+import * as Cookies from "../../lib/Cookie";
 
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
@@ -33,7 +41,13 @@ const productDescription = (
     showPiqPage: false,
     loadingForCliqAndPiq: false,
     visitedNewProduct: false,
-    getProductDetailsLoading: false
+    getProductDetailsLoading: false,
+    serviceableSellerMessage: null,
+
+    manufacturerStatus: null,
+    manufacturerError: null,
+    manufacturerLoading: null,
+    manufacturerDetails: {}
   },
   action
 ) => {
@@ -150,8 +164,16 @@ const productDescription = (
         listOfAllServiceableUssid.length &&
         currentPdpDetail.otherSellers
       ) {
+        Object.assign(currentPdpDetail, {
+          serviceableSellerMessage:
+            "Finding a serviceable seller on the selected pincode, the price of the product may be different"
+        });
         let otherSellersList = currentPdpDetail.otherSellers;
-        let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
+        let leastMrpSellerUssid = {
+          specialPriceSeller: {
+            value: 999999999
+          }
+        };
         let eligibleDeliveryModeForThisSeller;
         listOfAllServiceableUssid.forEach(seller => {
           let sellerObjInOtherSellers = currentPdpDetail.otherSellers.find(
@@ -235,6 +257,27 @@ const productDescription = (
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_SUCCESS:
+      const cartDetailsForAnonymous = Cookies.getCookie(
+        CART_DETAILS_FOR_ANONYMOUS
+      );
+      const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
+      const cartDetailsLoggedInUser = Cookies.getCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER
+      );
+
+      if (!userDetails && !customerCookie) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify(action.newProduct)
+        );
+      } else if (userDetails && customerCookie) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.newProduct)
+        );
+      }
+
       return Object.assign({}, state, {
         status: action.status,
         loading: false
@@ -505,6 +548,48 @@ const productDescription = (
     case pdpActions.HIDE_PDP_PIQ_PAGE:
       return Object.assign({}, state, {
         showPiqPage: false
+      });
+
+    case pdpActions.PDP_OFFER_REQUEST:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerLoading: true,
+        offerDetails: [],
+        impulseOfferCalloutList: [],
+        productDescription: null
+      });
+    case pdpActions.PDP_OFFER_SUCCESS:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerDetails: action.offers,
+        impulseOfferCalloutList: action.impulseOfferCalloutList,
+        offerLoading: false
+      });
+    case pdpActions.PDP_OFFER_FAILURE:
+      return Object.assign({}, state, {
+        offerStatus: action.status,
+        offerError: action.error,
+        offerLoading: false
+      });
+
+    case pdpActions.PDP_MANUFACTURER_REQUEST:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerLoading: true
+      });
+
+    case pdpActions.PDP_MANUFACTURER_SUCCESS:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerDetails: action.manufacturers,
+        manufacturerLoading: false
+      });
+
+    case pdpActions.PDP_MANUFACTURER_FAILURE:
+      return Object.assign({}, state, {
+        manufacturerStatus: action.status,
+        manufacturerError: action.error,
+        manufacturerLoading: false
       });
     default:
       return state;

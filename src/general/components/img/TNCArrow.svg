@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="20px" viewBox="0 0 12 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <g id="PDP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PDP-offer-listing-Copy" transform="translate(-427.000000, -220.000000)" fill="#212121" fill-rule="nonzero">
+            <path d="M438.158189,231.201576 L429.619756,239.559925 C429.020347,240.146692 428.048966,240.146692 427.449557,239.559925 C426.850148,238.973158 426.850148,238.022264 427.449557,237.435497 L435.045255,230 L427.449557,222.564503 C426.850148,221.977736 426.850148,221.026842 427.449557,220.440075 C428.048966,219.853308 429.020347,219.853308 429.619756,220.440075 L438.158189,228.798424 C438.836159,229.462095 438.836159,230.537905 438.158189,231.201576 Z" id="Shape" transform="translate(432.833333, 230.000000) rotate(180.000000) translate(-432.833333, -230.000000) "></path>
+        </g>
+    </g>
+</svg>

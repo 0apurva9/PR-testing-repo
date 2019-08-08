@@ -37,12 +37,16 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
+//index_build.html is used for prod whereas index.html is used for local dev , index is used for all pages except cart and checkout
+//other.html is used for cart and checkout only
 module.exports = {
   dotenv: resolveApp(".env"),
   appBuild: resolveApp("build"),
   serverBuild: resolveApp("build/server"), //TODO this should likely not exist and we should put the build server stuff into the build folder
   appPublic: resolveApp("public"),
   appHtml: resolveApp("public/index.html"),
+  appBuildHtml: resolveApp("public/index_build.html"),
+  appOtherHtml: resolveApp("public/other.html"),
   appIndexJs: resolveApp("src/index.js"),
   appPackageJson: resolveApp("package.json"),
   appSrc: resolveApp("src"),

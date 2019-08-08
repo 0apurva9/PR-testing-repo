@@ -34,6 +34,7 @@ import {
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT
 } from "../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import FlixMediaContainer from "./FlixMediaContainer";
 const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
@@ -250,7 +251,7 @@ export default class PdpElectronics extends React.Component {
     }
     /* Start- Gemini Script */
     //gemini rum JS object check
-    if (typeof window.GEM == "object") {
+    if (typeof window.GEM === "object") {
       //gemini custom ID for Product Detail Page - Electronics
       window.GEM.setGeminiPageId("0002321000100500");
     } else {
@@ -300,6 +301,12 @@ export default class PdpElectronics extends React.Component {
         productData.winningSellerPrice.formattedValueNoDecimal
       ) {
         discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+      }
+      let flixModelNo = "";
+      if (productData.details && productData.details.length) {
+        flixModelNo = productData.details.find(detail => {
+          return detail.key === "Model Number";
+        });
       }
       return (
         <PdpFrame
@@ -411,6 +418,8 @@ export default class PdpElectronics extends React.Component {
               showDetails={this.props.showOfferDetails}
               potentialPromotions={productData.potentialPromotions}
               secondaryPromotions={productData.productOfferMsg}
+              offers={this.props.offers}
+              showVoucherOffersModal={this.props.showVoucherOffersModal}
             />
             {productData.variantOptions && (
               <React.Fragment>
@@ -493,7 +502,10 @@ export default class PdpElectronics extends React.Component {
                   {productData.knowMore &&
                     productData.knowMore.map(val => {
                       return (
-                        <div className={styles.list}>{val.knowMoreItem}</div>
+                        <div
+                          className={styles.list}
+                          dangerouslySetInnerHTML={{ __html: val.knowMoreItem }}
+                        />
                       );
                     })}
                 </Accordion>
@@ -602,6 +614,14 @@ export default class PdpElectronics extends React.Component {
               productContent={productData.APlusContent.productContent}
             />
           )}
+          <React.Fragment>
+            {flixModelNo && productData.brandName ? (
+              <FlixMediaContainer
+                flixModelNo={flixModelNo}
+                brandName={productData.brandName}
+              />
+            ) : null}
+          </React.Fragment>
           <PDPRecommendedSectionsContainer />
           <div className={styles.trustLogo}>
             <Image image={TrustBadgeImage} fit="cover" />

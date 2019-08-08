@@ -2,21 +2,31 @@
   width: 100%;
   height: auto;
 }
+
 .loadingIndicator {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
+
 .breadcrumbs {
   color: #9b9b9b;
   width: auto;
   display: flex;
   flex-direction: row;
 }
+
 .text {
   color: #9b9b9b;
 }
+
+.content {
+  width: 100%;
+  height: auto;
+  padding-bottom: 10px;
+}
+
 .breadcrumbsText {
   width: auto;
   max-width: 90px;
@@ -34,10 +44,12 @@
   text-align: center;
   transition: 300ms;
 }
+
 .breadcrumbsText:hover {
   color: #ff1744;
   max-width: initial;
 }
+
 .breadcrumbsDefault {
   composes: breadcrumbsText;
   width: auto;
@@ -54,22 +66,28 @@
   background-size: auto 12px;
   background-position: center;
 }
+
 .breadcrumbsText:last-child {
   pointer-events: none;
 }
+
 .breadcrumbsText:last-child:after {
   background: url("");
 }
-.content {
+
+.contentDetails {
   width: 100%;
   height: auto;
   padding: 0 15px;
+  margin: 15px 0px;
 }
+
 .whiteBackground {
   composes: base;
   background: #fff;
   padding-bottom: 15px;
 }
+
 .info {
   width: 100%;
   height: auto;
@@ -80,11 +98,13 @@
   padding: 0 15px;
   line-height: 22px;
 }
+
 .gallery {
   width: 100%;
   height: auto;
   position: relative;
 }
+
 .flag {
   width: 157px;
   height: 40px;
@@ -99,15 +119,18 @@
   left: 0px;
   pointer-events: none;
 }
+
 .link {
   font-size: 14px;
   color: #ff1744;
   font-family: regular;
   display: inline-block;
 }
+
 .textOffset {
   margin-right: 10px;
 }
+
 .details {
   width: 100%;
   height: auto;
@@ -115,11 +138,85 @@
   padding: 0 15px;
   margin-top: 30px;
 }
+
+.season {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 0 15px;
+}
+
+.youPlus {
+  width: 100%;
+  height: auto;
+  padding: 0 15px;
+}
+
+.seasonDetails {
+  margin-top: 60px;
+  display: flex;
+}
+
+.collectionNotesTile {
+  width: 100%;
+  height: 20px;
+  font-family: semibold;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: 0.4px;
+  color: var(--black-93);
+}
+
+.collectionNotesContent {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.collectionNotesContent:empty {
+  margin: 0;
+}
+
+.seasonLaunchDate {
+  width: 100%;
+  font-family: Baskerville;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: 1.25;
+  letter-spacing: 0.3px;
+  color: #ff1744;
+}
+
+.seasonTitle {
+  width: 100%;
+  font-family: Baskerville;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #af1566;
+}
+
 .separator {
   width: 100%;
   height: auto;
   margin-top: 30px;
 }
+
 .sellers {
   font-size: 14px;
   line-height: 22px;
@@ -134,9 +231,20 @@
   z-index: 10;
 }
 
+.headerDetails {
+  font-family: semibold;
+}
+
+.descriptionDetails {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+
 .winningSellerText {
   font-family: semibold;
 }
+
 .customisation {
   width: 100%;
   line-height: 24px;
@@ -145,11 +253,13 @@
   color: #171d1c;
   padding: 10px 15px;
 }
+
 .customisationButton {
   width: auto;
   display: inline-block;
   margin-top: 15px;
 }
+
 .cashInfo {
   width: 100%;
   height: auto;
@@ -169,9 +279,12 @@
   margin-bottom: 5px;
   position: relative;
 }
+
 .list a {
-  color: #ff1744;
+  color: #ff1744 !important;
+  text-decoration: underline !important;
 }
+
 .list:before {
   content: "";
   width: 5px;
@@ -182,6 +295,7 @@
   background: #212121;
   border-radius: 50%;
 }
+
 .sideContent {
   width: 50%;
   line-height: 24px;
@@ -191,25 +305,35 @@
   vertical-align: top;
   margin-bottom: 5px;
 }
+
 .sideHeader {
   composes: sideContent;
   font-family: semibold;
 }
+
 .header {
   composes: sideHeader;
   width: 100%;
 }
+
 .details:empty {
   margin: 0;
 }
+
+.season :empty {
+  margin: 0;
+}
+
 .blankSeparator {
   width: 100%;
   height: auto;
   margin-top: 30px;
 }
+
 .blankSeparator:empty {
   margin: 0;
 }
+
 .monogrammingText {
   width: 100%;
   height: auto;
@@ -218,6 +342,7 @@
   line-height: 21px;
   padding: 0 20px 20px 20px;
 }
+
 .contentTextForHome {
   width: 100%;
   font-size: 14px;
@@ -226,6 +351,7 @@
   color: #212121;
   margin-top: 10px;
 }
+
 .accordionContentWithoutBorder {
   width: 100%;
   height: auto;
@@ -237,6 +363,7 @@
   padding-bottom: 15px;
   position: relative;
 }
+
 .accordionContent {
   width: 100%;
   height: auto;
@@ -248,6 +375,19 @@
   padding-bottom: 15px;
   position: relative;
 }
+
+.accordionLight {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 5px;
+  position: relative;
+}
+
 .accordionContent:after {
   content: "";
   width: 100%;
@@ -257,22 +397,38 @@
   left: 0;
   bottom: 0;
 }
+
+.accordionContentBold {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  font-family: regular;
+  color: #212121;
+
+  position: relative;
+}
+
 .trustLogo {
   width: 100%;
   height: 150px;
   margin-top: 30px;
 }
+
 .wishlist {
   width: 100%;
   height: auto;
   padding-left: 15px;
 }
+
 .containerWithBottomBorder {
   width: 100%;
   height: auto;
   position: relative;
   padding-bottom: 10px;
 }
+
 .containerWithBottomBorder:after {
   content: "";
   width: 100%;
@@ -282,10 +438,19 @@
   left: 0;
   bottom: 0;
 }
+
 @media screen and (min-width: 1025px) {
   .base {
     text-align: center;
   }
+
+  .contentDetails {
+    width: 33.33%;
+    display: inline-block;
+    min-width: 250px;
+    vertical-align: top;
+  }
+
   .pageCenter {
     width: 100%;
     display: inline-block;
@@ -293,32 +458,36 @@
     text-align: left;
     position: relative;
   }
+
   .gallery {
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    position: sticky;
-    top: 120px;
     z-index: 5;
   }
+
   .content {
     width: 50%;
     display: inline-block;
     vertical-align: top;
     padding: 0 40px;
   }
+
   .separator {
     margin-top: 15px;
     border-bottom: 1px solid #e2e2e2;
   }
+
   .sellers {
     display: inline-block;
     font-family: light;
     font-size: 13px;
   }
+
   .info {
     padding: 0;
   }
+
   .link:after {
     content: "";
     width: 10px;
@@ -330,33 +499,107 @@
     background-position: center;
     background-size: contain;
   }
+
   .link {
     cursor: pointer;
     font-family: light;
   }
+
+  .season {
+    background: #ececec;
+    padding: 0;
+    padding-bottom: 40px;
+  }
+
+  .seasonDetails {
+    margin-top: 60px;
+    display: flex;
+  }
+
+  .seasonBanner {
+    text-align: center;
+  }
+
+  .seasonBanner img {
+    width: 100%;
+    display: block;
+  }
+
+  .seasonImage {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 27px;
+    padding: 0px 25px 0px 0;
+  }
+
+  .seasonTextDetails {
+    width: 50%;
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  .seasonButton {
+    margin-top: 21px;
+  }
+
   .details {
     background: #ececec;
     padding: 0;
     padding-bottom: 40px;
   }
+
+  .seasonImg {
+    width: 100%;
+    text-align: center;
+    padding: 0 0 12px 0;
+  }
+
   .detailsCard {
     width: 100%;
     background: #fff;
     padding: 20px 40px;
     border-radius: 4px;
   }
+
+  .productDetailsImagesCard {
+    width: 100%;
+    background: #fafafa;
+    padding: 20px 40px;
+    border-radius: 4px;
+    margin: 20px 0px 5px 0px;
+  }
+
+  .tableCellSingleComponent {
+    display: table-cell;
+    padding: 0px 50px;
+  }
+
+  .width95px {
+    width: 98px;
+    height: 20px;
+    text-align: center;
+  }
+
+  .inline {
+    display: inline;
+  }
+
   .detailsHolder {
-    margin-top: 60px;
+    margin-top: 40px;
     display: flex;
   }
+
   .detailsCard:empty {
     display: none;
   }
+
   .reviewsHolder {
     composes: detailsCard;
     margin-top: 60px;
     padding-top: 40px;
   }
+
   .reviewsHeader {
     width: 100%;
     font-size: 20px;
@@ -365,16 +608,19 @@
     margin-bottom: 10px;
     position: relative;
   }
+
   .reviewsButton {
     position: absolute;
     bottom: 0;
     right: 0;
   }
+
   .sideContent {
     width: 100%;
     margin: 0;
     font-family: light;
   }
+
   .featureHolder {
     width: 33.33%;
     display: inline-block;
@@ -382,17 +628,21 @@
     vertical-align: top;
     padding-bottom: 10px;
   }
+
   .customisation {
     padding: 10px 0;
   }
+
   .horizontalOffset {
     width: 100%;
   }
+
   .sizeHolder {
     width: 100%;
     border-radius: 4px;
     border: 1px solid transparent;
   }
+
   .sizeError {
     composes: sizeHolder;
     background-color: rgba(255, 0, 0, 0.03);
@@ -400,6 +650,7 @@
     padding: 20px;
     margin-left: -20px;
   }
+
   .buttonHolder {
     width: auto;
     display: inline-block;
@@ -407,29 +658,36 @@
     vertical-align: top;
     position: relative;
   }
+
   .nonClickButton {
     composes: buttonHolder;
     pointer-events: none;
   }
+
   .buttonHolder:last-child {
     margin-right: 0px;
   }
+
   .buttonHolderForWishlist {
     composes: buttonHolder;
     padding: 0 15px;
   }
+
   .saveListButton {
     cursor: pointer;
   }
+
   .updatePincodeHolder {
     width: 360px;
     position: relative;
     padding-left: 75px;
     margin: 15px 0;
   }
+
   .overlay {
     padding-top: 14px;
   }
+
   .updatePincodeHolder:before {
     content: "Delivery";
     position: absolute;
@@ -440,6 +698,7 @@
     color: #212121;
     font-family: semibold;
   }
+
   .updatePincodeHolder:after {
     content: "";
     width: 285px;
@@ -449,9 +708,11 @@
     bottom: 0px;
     right: 0;
   }
+
   .otherText {
     color: #808080;
   }
+
   .buttonAddToBag {
     width: auto;
     height: auto;
@@ -459,6 +720,7 @@
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
     transition: 300ms;
   }
+
   .loaderHolder {
     width: 100%;
     height: 100%;
@@ -470,6 +732,7 @@
     pointer-events: none;
     z-index: 2;
   }
+
   .loader {
     border: 3px solid #f3f3f3;
     animation: spin 1s linear infinite;
@@ -484,23 +747,28 @@
     bottom: 0;
     margin: auto;
   }
+
   @keyframes spin {
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }
   }
+
   .buttonAddToBag:hover {
     box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
   }
+
   .cardHeaderHolder {
     width: 100%;
     height: auto;
     position: relative;
     padding-right: 40px;
   }
+
   .wisthListIconHolder {
     width: 35px;
     height: 35px;
@@ -509,16 +777,19 @@
     top: 10px;
     border-radius: 50%;
   }
+
   .deliveyModesHolder {
     width: 100%;
     height: auto;
     margin-top: 5px;
     display: inline-block;
   }
+
   .pinAndDeliveryHolder {
     width: 100%;
     height: auto;
   }
+
   .pointListHolder {
     width: 100%;
     height: auto;
@@ -526,6 +797,7 @@
     margin-bottom: 35px;
     position: relative;
   }
+
   .viewDetails {
     width: auto;
     height: auto;
@@ -535,6 +807,7 @@
     padding-left: 5px;
     cursor: pointer;
   }
+
   .pointHeader {
     width: 100%;
     height: auto;
@@ -543,15 +816,57 @@
     font-family: semibold;
     margin-bottom: 15px;
   }
+
   .buttonWrapper {
     width: 100%;
     height: auto;
     margin-top: 25px;
   }
-  .samsungChatImgHolder{
+
+  .samsungChatImgHolder {
     position: fixed;
     right: 0;
     top: 80%;
     z-index: 1;
   }
+
+  .genericCountryPart {
+    float: left;
+    width: 100%;
+  }
+
+  .countryOfOrigin {
+    margin-bottom: 25px;
+  }
+
+  .genericName {
+    margin-bottom: 25px;
+  }
+
+  .genericLabel {
+    font-size: 14px;
+    color: #4a4a4a;
+    float: left;
+    padding-right: 65px;
+    width: 300px;
+  }
+
+  .manufacturerDetailsBoldText {
+    font-family: semibold;
+  }
+
+  .clickHere {
+    font-size: 14px;
+    font-family: light;
+    border-bottom: 1px solid;
+    cursor: pointer;
+  }
+}
+
+.flixInpage {
+  margin-top: 60px;
+}
+
+.yp_widget iframe {
+  margin-top: 60px;
 }

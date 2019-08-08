@@ -5,12 +5,14 @@
   padding-top: 50px;
   position: relative;
 }
+
 .searchBar {
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
 }
+
 .searchResults {
   width: 100%;
   padding: 20px;
@@ -20,8 +22,9 @@
   -webkit-overflow-scrolling: touch;
   left: 0;
   top: 50px;
-  background-color: #ececec;
+  background-color: #fff;
 }
+
 @media screen and (min-width: 1025px) {
   .searchHolder {
     background: #fff;
@@ -30,11 +33,13 @@
     top: 60px;
     width: 100%;
   }
+
   .base {
     padding-top: 0px;
     float: left;
     background: none;
   }
+
   .searchResults {
     height: auto;
     top: 0px;
@@ -43,15 +48,18 @@
     max-height: 480px;
     overflow-y: auto;
   }
+
   .searchBar {
     position: initial;
     width: 100%;
     height: auto;
     display: inline-block;
   }
+
   .color {
     background: #ececec;
   }
+
   .back {
     background: #fff;
   }

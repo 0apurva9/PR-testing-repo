@@ -71,7 +71,10 @@ import {
   DEFAULT_PINCODE,
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
-  RETRY_FAILED_ORDER
+  RETRY_FAILED_ORDER,
+  CART_COUNT_FOR_LOGGED_IN_USER,
+  PANCARD_PAGE,
+  CART_BAG_DETAILS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -122,7 +125,12 @@ const BrandsLandingPageDefaultContainer = Loadable({
     return <Loader />;
   }
 });
-
+const PanCardFormContainer = Loadable({
+  loader: () => import("./general/containers/PanCardFormContainer"),
+  loading(error) {
+    return <Loader />;
+  }
+});
 const ProductListingsContainer = Loadable({
   loader: () => import("./plp/containers/ProductListingsContainer"),
   loading(error) {
@@ -305,6 +313,18 @@ const NoResultPage = Loadable({
   }
 });
 class App extends Component {
+  componentWillMount() {
+    let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    if (!globalAccessToken && !this.props.cartLoading) {
+      this.props.getGlobalAccessToken();
+      globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    }
+    let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (customerAccessToken && !loggedInUserDetails) {
+      Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+    }
+  }
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -312,30 +332,30 @@ class App extends Component {
     let cartDetailsForLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
+    let guid;
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
 
     // Case 1. THe user is not logged in.
-    if (!globalAccessToken && !this.props.cartLoading) {
-      await this.props.getGlobalAccessToken();
-      globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    }
+    // if (!globalAccessToken && !this.props.cartLoading) {
+    //   await this.props.getGlobalAccessToken();
+    //   globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    // }
 
     if (!customerAccessToken && localStorage.getItem(REFRESH_TOKEN)) {
       await this.props.refreshToken(localStorage.getItem(REFRESH_TOKEN));
       customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     }
 
-    if (customerAccessToken) {
-      if (!cartDetailsForLoggedInUser && !this.props.cartLoading) {
-        this.props.generateCartIdForLoggedInUser();
-      }
-    }
     if (
       customerAccessToken &&
       cartDetailsForLoggedInUser &&
       loggedInUserDetails
     ) {
+      // Get Cart GUID for logged-in user
+      guid = JSON.parse(cartDetailsForLoggedInUser).guid
+        ? JSON.parse(cartDetailsForLoggedInUser).guid
+        : null;
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -348,25 +368,22 @@ class App extends Component {
         }
       }
     } else {
-      if (!cartDetailsForAnonymous && globalAccessToken) {
-        const parsedQueryString = queryString.parse(this.props.location.search);
-        if (!parsedQueryString || !parsedQueryString.cartGuid) {
-          this.props.generateCartIdForAnonymous();
-        }
+      if (cartDetailsForAnonymous) {
+        // Get Cart GUID if user is Anonymous
+        guid = JSON.parse(cartDetailsForAnonymous);
       }
     }
-    window.prerenderReady = true;
-  }
-  componentWillMount() {
-    const parsedQueryString = queryString.parse(this.props.location.search);
-    if (parsedQueryString && parsedQueryString.cartGuid) {
-      Cookies.createCookie(
-        CART_DETAILS_FOR_ANONYMOUS,
-        JSON.stringify({
-          guid: parsedQueryString.cartGuid
-        })
+    // Check if GUID exists
+    if (guid) {
+      // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
+      this.props.getCartCountForLoggedInUsers(
+        typeof guid === "object" ? guid : null
       );
+    } else {
+      // Else remove cartDetails from Local storage
+      localStorage.removeItem(CART_BAG_DETAILS);
     }
+    window.prerenderReady = true;
   }
 
   renderLoader() {
@@ -395,7 +412,10 @@ class App extends Component {
       cartIdForAnonymousUserStatus === REQUESTING
     ) {
       if (checkUserAgentIsMobile()) {
-        return <HomeSkeleton />;
+        //this is performance change , we will show skeleton only for home
+        if (this.props.location.pathname === "/") {
+          return <HomeSkeleton />;
+        }
       }
     }
 
@@ -415,6 +435,7 @@ class App extends Component {
           </MobileOnly>
           <Switch>
             <Route path={MY_ACCOUNT} component={MyAccountWrapper} />{" "}
+            <Route exact path={PANCARD_PAGE} component={PanCardFormContainer} />
             <Route
               exact
               path={CATEGORY_PRODUCT_LISTINGS_WITH_PAGE}
@@ -589,7 +610,34 @@ class App extends Component {
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
             />
-            } />
+            <Route
+              path="/que"
+              component={() => {
+                window.location.replace("https://www.tatacliq.com/que/");
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
+            <Route
+              path="/care"
+              component={() => {
+                let currentLocation = window.location;
+                let redirectURL =
+                  currentLocation.protocol +
+                  "//" +
+                  currentLocation.host +
+                  "/my-account/order-related";
+                window.location.replace(redirectURL);
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>

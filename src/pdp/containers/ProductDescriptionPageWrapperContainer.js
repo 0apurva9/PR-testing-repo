@@ -10,7 +10,9 @@ import {
   getProductPinCode,
   getAllStoresForCliqAndPiq,
   showPdpPiqPage,
-  hidePdpPiqPage
+  hidePdpPiqPage,
+  getPdpOffers,
+  getManufacturerDetails
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -27,7 +29,12 @@ import {
   PRICE_BREAKUP,
   SIZE_SELECTOR,
   SIZE_GUIDE,
-  CLIQ_PIQ_MODAL
+  CLIQ_PIQ_MODAL,
+  MANUFACTURER_MODAL,
+  TERMSNCONDITIONS_MODAL,
+  SIMILAR_PRODUCTS_MODAL,
+  SIMILAR_PRODUCTS_OOS_MODAL,
+  SIZE_SELECTOR_OOS_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -72,6 +79,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showOfferDetails: data => {
       dispatch(showModal(OFFER_MODAL, data));
+    },
+
+    showTermsNConditions: data => {
+      dispatch(showModal(TERMSNCONDITIONS_MODAL, data));
+    },
+    showManufactureDetailsModal: data => {
+      dispatch(showModal(MANUFACTURER_MODAL, data));
+    },
+    showSimilarProducts: () => {
+      dispatch(showModal(SIMILAR_PRODUCTS_MODAL));
     },
     getProductSizeGuide: productCode => {
       dispatch(getProductSizeGuide(productCode));
@@ -127,8 +144,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
-    getUserAddress: () => {
-      dispatch(getUserAddress());
+    getPdpOffers: async () => {
+      await dispatch(getPdpOffers());
+    },
+    getManufacturerDetails: async () => {
+      await dispatch(getManufacturerDetails());
+    },
+    getUserAddress: async () => {
+      await dispatch(getUserAddress());
+    },
+    showSimilarSizeOOSModal: data => {
+      dispatch(showModal(SIMILAR_PRODUCTS_OOS_MODAL, data));
+    },
+    showOOSSizeSelectorModal: data => {
+      dispatch(showModal(SIZE_SELECTOR_OOS_MODAL, data));
     }
   };
 };
@@ -141,7 +170,10 @@ const mapStateToProps = state => {
     showPiqPage: state.productDescription.showPiqPage,
     slaveData: state.productDescription.slaveData,
     loadingForCliqAndPiq: state.productDescription.loadingForCliqAndPiq,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    offers: state.productDescription.offerDetails,
+    impulseOfferCalloutList: state.productDescription.impulseOfferCalloutList,
+    manufacturerDetails: state.productDescription.manufacturerDetails
   };
 };
 

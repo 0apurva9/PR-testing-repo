@@ -119,6 +119,45 @@ export default class FilterDesktop extends React.Component {
       url = createUrlFromQueryAndCategory(query, pathName, val, filterName);
     }
 
+    if (url.includes("capacityCC-classification")) {
+      let attributeCapacity = url.match(
+        new RegExp("capacityCC-classification:" + "(.*)" + ":")
+      );
+      attributeCapacity = attributeCapacity
+        ? attributeCapacity
+        : url.match(new RegExp("capacityCC-classification:" + "(.*)"));
+      if (attributeCapacity && attributeCapacity[1]) {
+        let attributeCapacityMatched = attributeCapacity[1].replace("+", "%2B");
+        url = url.replace(attributeCapacity[1], attributeCapacityMatched);
+      }
+    }
+
+    if (url.includes("internalStorage-classification")) {
+      let attributeStorage = url.match(
+        new RegExp("internalStorage-classification:" + "(.*)" + ":")
+      );
+      attributeStorage = attributeStorage
+        ? attributeStorage
+        : url.match(new RegExp("internalStorage-classification:" + "(.*)"));
+      if (attributeStorage && attributeStorage[1]) {
+        let attributeStorageMatched = attributeStorage[1].replace("+", "%2B");
+        url = url.replace(attributeStorage[1], attributeStorageMatched);
+      }
+    }
+
+    if (url.includes("type-classification")) {
+      let attributeType = url.match(
+        new RegExp("type-classification:" + "(.*)" + ":")
+      );
+      attributeType = attributeType
+        ? attributeType
+        : url.match(new RegExp("type-classification:" + "(.*)"));
+      if (attributeType && attributeType[1]) {
+        let attributeTypeMatched = attributeType[1].replace("+", "%2B");
+        url = url.replace(attributeType[1], attributeTypeMatched);
+      }
+    }
+
     if (url.endsWith(":relevance")) {
       url = url.replace(":relevance", "");
       url = url.replace("MSH", "c-msh");
@@ -154,8 +193,14 @@ export default class FilterDesktop extends React.Component {
         this.props.location.pathname,
         val
       );
+      if (url.match("page-{pageNo}")) {
+        url = url.replace("page-{pageNo}", "page-1");
+      }
     } else {
       url = val.replace("{pageNo}", 1);
+      if (filterType === "Capacity" || filterType === "Type") {
+        url = url.replace(/[+]/g, "%20");
+      }
     }
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
@@ -256,6 +301,7 @@ export default class FilterDesktop extends React.Component {
                               value={val.categoryCode}
                               onL1Click={this.onL1Click}
                               isOpen={val.selected}
+                              key={i}
                             >
                               <FilterCategory
                                 onClick={this.onL2Click}
@@ -271,7 +317,7 @@ export default class FilterDesktop extends React.Component {
                   {autoShowFilters.map((facetDataValues, i) => {
                     return (
                       facetDataValues && (
-                        <div className={styles.facetData}>
+                        <div className={styles.facetData} key={i}>
                           <div className={styles.filterHeader}>
                             {facetDataValues.name}
                           </div>
@@ -300,6 +346,7 @@ export default class FilterDesktop extends React.Component {
                                         }
                                         selected={val.selected}
                                         value={val.url}
+                                        key={i}
                                       />
                                     );
                                   }
@@ -424,6 +471,7 @@ export default class FilterDesktop extends React.Component {
                                           categoryId={categoryId}
                                           history={this.props.history}
                                           typeOfFilter={facetDataValues.name}
+                                          key={i}
                                         />
                                       );
                                     })}
@@ -535,6 +583,7 @@ export default class FilterDesktop extends React.Component {
                                       categoryId={categoryId}
                                       history={this.props.history}
                                       typeOfFilter={facetDataValues.name}
+                                      key={i}
                                     />
                                   );
                                 })}

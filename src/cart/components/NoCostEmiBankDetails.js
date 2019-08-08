@@ -10,7 +10,8 @@ import {
   NO_COST_EMI,
   RUPEE_SYMBOL,
   SUCCESS,
-  NO_COST_EMI_COUPON
+  NO_COST_EMI_COUPON,
+  EMI_TENURE
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
@@ -70,7 +71,12 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedFromDropDown: false
       });
     }
-    if (nextProps.isNoCostEmiApplied && !this.state.selectedCouponCode) {
+
+    if (
+      nextProps.isNoCostEmiApplied &&
+      !this.state.selectedCouponCode &&
+      this.props.noCostEmiProductCount !== nextProps.noCostEmiProductCount
+    ) {
       let bankObject =
         this.props.bankList &&
         this.props.bankList.find(
@@ -98,7 +104,8 @@ export default class NoCostEmiBankDetails extends React.Component {
         emi_bank: this.state.selectedBankCode,
         emi_tenure: emiTenureObj.tenure,
         selectedMonth,
-        selectedCouponCode: emiTenureObj.emicouponCode
+        selectedCouponCode: emiTenureObj.emicouponCode,
+        selectedBankName: this.state.selectedBankName
       });
     }
   }
@@ -218,12 +225,16 @@ export default class NoCostEmiBankDetails extends React.Component {
           selectedCouponCode: val.emicouponCode,
           selectedTenure: val.tenure
         });
+        if (val.tenure) {
+          localStorage.setItem(EMI_TENURE, val.tenure);
+        }
         this.onChangeCardDetail({
           is_emi: true,
           emi_bank: this.state.selectedBankCode,
           emi_tenure: val.tenure,
           selectedMonth: index,
-          selectedCouponCode: val.emicouponCode
+          selectedCouponCode: val.emicouponCode,
+          selectedBankName: this.state.selectedBankName
         });
       } else {
         this.setState({

@@ -46,6 +46,17 @@ export default class DeliveryAddressCopy extends React.Component {
             </div>
           )}
         </div>
+        {this.props.contact && (
+          <div
+            className={
+              this.props.isReturn
+                ? styles.titleContactForReturn
+                : styles.titleContact
+            }
+          >
+            Ph. {this.props.phone}
+          </div>
+        )}
         <DesktopOnly>
           {!this.props.isReturn && (
             <div className={styles.checkCircle}>

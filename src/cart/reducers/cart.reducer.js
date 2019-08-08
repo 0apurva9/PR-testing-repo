@@ -10,7 +10,10 @@ import {
   NO_COST_EMI_COUPON,
   OLD_CART_CART_ID,
   CART_BAG_DETAILS,
-  CLIQ_CASH_APPLIED_LOCAL_STORAGE
+  CLIQ_CASH_APPLIED_LOCAL_STORAGE,
+  EMI_TENURE,
+  CART_COUNT_FOR_LOGGED_IN_USER,
+  BANK_COUPON_COOKIE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -227,7 +230,16 @@ const cart = (
     binValidationOfEmiEligibleStatus: null,
     binValidationOfEmiEligible: null,
     loadingForBinValidationOfEmiEligible: false,
-    binValidationOfEmiEligibleError: null
+    binValidationOfEmiEligibleError: null,
+
+    cartCountStatus: null,
+    cartCountError: null,
+    cartCount: null,
+
+    orderConfirmationBannerDetailsStatus: null,
+    orderConfirmationBannerDetails: null,
+    orderConfirmationBannerDetailsLoading: false,
+    orderConfirmationBannerDetailsError: null
   },
   action
 ) => {
@@ -786,6 +798,13 @@ const cart = (
           cartAmount: action.paymentDetails.cartAmount
         });
       }
+      if (
+        action.paymentDetails &&
+        action.paymentDetails.cartAmount &&
+        !action.paymentDetails.cartAmount.cartDiscount
+      ) {
+        localStorage.removeItem(BANK_COUPON_COOKIE);
+      }
       return Object.assign({}, state, {
         cartDetailsCNC: cloneCartDetailCNC,
         cliqCashPaymentStatus: action.status,
@@ -910,6 +929,7 @@ const cart = (
       localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
+      localStorage.removeItem(EMI_TENURE);
       return Object.assign({}, state, {
         jusPayDetails: action.jusPayDetails
       });
@@ -930,6 +950,14 @@ const cart = (
       });
 
     case cartActions.ORDER_CONFIRMATION_SUCCESS: {
+      let cartDetails = Cookies.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      if (!cartDetails) {
+        localStorage.removeItem(CART_BAG_DETAILS);
+      }
+      if (cartDetails && !JSON.parse(cartDetails).products) {
+        localStorage.removeItem(CART_BAG_DETAILS);
+      }
+
       return Object.assign({}, state, {
         orderConfirmationDetailsStatus: action.status,
         orderConfirmationDetails: action.confirmedOrderDetails,
@@ -947,6 +975,26 @@ const cart = (
         orderConfirmationDetailsError: action.error,
         jusPaymentLoader: false,
         isPaymentProceeded: false
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_REQUEST:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetailsLoading: true
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_SUCCESS:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetails: action.confirmedOrderDetails,
+        orderConfirmationBannerDetailsLoading: false
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_FAILURE:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetailsError: action.error,
+        orderConfirmationBannerDetailsLoading: false
       });
 
     case cartActions.CLEAR_ORDER_EXPERIENCE_CAPTURE:
@@ -1362,6 +1410,7 @@ const cart = (
 
     case cartActions.REMOVE_NO_COST_EMI_SUCCESS:
       localStorage.removeItem(NO_COST_EMI_COUPON);
+      localStorage.removeItem(EMI_TENURE);
       carDetailsCopy = state.cartDetailsCNC
         ? cloneDeep(state.cartDetailsCNC)
         : {};
@@ -1824,6 +1873,37 @@ const cart = (
       return Object.assign({}, state, {
         resetAllPaymentModeFlag: false
       });
+
+    case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS:
+      if (action.userDetails) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.cartDetails)
+        );
+      } else {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify(action.cartDetails)
+        );
+      }
+      return Object.assign({}, state, {
+        cartCount: action.cartDetails && action.cartDetails.count,
+        cartCountStatus: action.status
+      });
+    case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
+      return Object.assign({}, state, {
+        cartCountStatus: action.status
+      });
+    case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE:
+      Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+      Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      localStorage.removeItem(CART_BAG_DETAILS);
+      return Object.assign({}, state, {
+        cartCountError: action.error,
+        cartCountStatus: action.status,
+        cartCount: null
+      });
+
     default:
       return state;
   }

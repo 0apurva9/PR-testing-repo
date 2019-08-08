@@ -66,6 +66,9 @@ const mapDispatchToProps = dispatch => {
       pinCode,
       setDataLayerForPincode: false
     ) => {
+      if (!accessToken) {
+        return false;
+      }
       const cartDetailsObj = await dispatch(
         getCartDetails(cartId, userId, accessToken, pinCode, true)
       );

@@ -39,7 +39,8 @@ import {
   YOUR_BAG,
   MY_ACCOUNT_PAGE,
   SAVE_LIST_PAGE,
-  COUPON_COOKIE
+  COUPON_COOKIE,
+  CART_BAG_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -54,7 +55,7 @@ import styles from "./CartPage.css";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
-  "Product is not Serviceable,Please try with another pin code";
+  "Product is not Serviceable, Please try with another pin code";
 const CHECKOUT_BUTTON_TEXT = "Continue";
 const CHECKOUT__TEXT = "Checkout";
 class CartPage extends React.Component {
@@ -108,11 +109,14 @@ class CartPage extends React.Component {
         JSON.parse(cartDetailsLoggedInUser).code,
         defaultPinCode
       );
-      this.props.displayCouponsForLoggedInUser(
-        JSON.parse(userDetails).userName,
-        JSON.parse(customerCookie).access_token,
-        JSON.parse(cartDetailsLoggedInUser).guid
-      );
+
+      if (localStorage.getItem(CART_BAG_DETAILS)) {
+        this.props.displayCouponsForLoggedInUser(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token,
+          JSON.parse(cartDetailsLoggedInUser).guid
+        );
+      }
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
         this.props.getCartDetails(
@@ -462,7 +466,7 @@ class CartPage extends React.Component {
               </div>
             </div>
           </div>
-          <div clasName={styles.pageCenter}>
+          <div className={styles.pageCenter}>
             <div className={styles.emptyBagHolder}>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
@@ -487,7 +491,7 @@ class CartPage extends React.Component {
             />
           </div>
 
-          <div clasName={styles.pageCenter}>
+          <div className={styles.pageCenter}>
             <div className={styles.content}>
               <EmptyBag
                 onContinueShopping={() => this.navigateToHome()}
@@ -957,8 +961,10 @@ here we need to hit call for merging cart id if user
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartDetails = cartDetails && JSON.parse(cartDetails);
 
-    if (!this.navigateToCheckout && cartDetails && cartDetails.isBuyNowCart) {
-      this.props.mergeTempCartWithOldCart();
+    if (!this.navigateToCheckout) {
+      if (cartDetails && cartDetails.isBuyNowCart) {
+        this.props.mergeTempCartWithOldCart();
+      }
     }
 
     if (this.props.clearCartDetails) {

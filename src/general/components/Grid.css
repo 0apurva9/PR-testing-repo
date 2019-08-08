@@ -11,3 +11,14 @@
   display: inline-block;
   vertical-align: top;
 }
+
+.displayFlex {
+  display: flex;
+}
+.displayInline {
+  display: inline;
+}
+
+.electronicViewElement {
+  display: inline;
+}

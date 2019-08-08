@@ -104,7 +104,9 @@ export default class ConfirmAddress extends React.Component {
                       <DeliveryAddressCart
                         addressTitle={val.addressTitle}
                         addressDescription={val.addressDescription}
+                        contact={val.phone}
                         key={i}
+                        phone={val.phone}
                         value={val.value}
                         selected={val.selected}
                         isReturn={this.props.isReturn}

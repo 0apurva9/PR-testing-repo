@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_REQUEST } from "../pdp/actions/pdp.actions";
-
+export const PANCARD_PAGE = "/panCard/panCardDetailsUpload/(.*)";
 export const SUCCESS = "success";
 export const SUCCESS_UPPERCASE = "SUCCESS";
 export const SUCCESS_CAMEL_CASE = "Success";
@@ -15,6 +15,8 @@ export const FAILURE_LOWERCASE = "failure";
 export const WRONG_FAILURE = "faliure";
 export const JUS_PAY_PENDING = "PENDING_VBV";
 export const JUS_PAY_CHARGED = "CHARGED";
+export const PANCARD_SUCCES_MESSAGE =
+  "The Pan Card Copy is submitted successfully.";
 export const JUS_PAY_SUCCESS = "S";
 export const JUS_PAY_AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED";
 export const JUS_PAY_AUTHORIZATION_FAILED = "JUS_PAY_AUTHORIZATION_FAILED";
@@ -90,6 +92,8 @@ export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
 export const ORDER_PREFIX = "/my-account/order/(.*)";
 export const ORDER_CODE = "orderCode";
 export const ORDER = "/order";
+export const TRANSACTION_DETAIL_PAGE = "/transaction";
+export const TRANSACTION_HISTORY = "/transactionHistory";
 export const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
 // MyAccount Routes
 export const MY_ACCOUNT_PAGE_ROOT = "/my-account/.*";
@@ -157,6 +161,7 @@ export const BANK_COUPON_COOKIE = "bankCoupon";
 export const CART_BAG_DETAILS = "cartBagDetails";
 export const APP_VIEW = "isAppView";
 export const ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE = "orderConfirmationPageId";
+export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
@@ -240,8 +245,12 @@ export const PRIVACY_POLICY_URL = "/privacy-policy";
 export const CANCEL_URL = "/cancellation-faq";
 export const RETURN_URL = "/returns-faq";
 export const FAQ_URL = "/faq";
+export const DUMMY_FAQ = "/cliq-cash-tnc";
+export const DUMMY_TC = "/sample-cliq-cash";
+export const CLIQ_CASH_FAQ = "/cliq-cash-faq";
+export const CLIQ_CASH_TC = "/cliq-cash-tnc";
 export const HELP_URL = "/help";
-export const CONTACT_URL = "/contact";
+export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
 
 // constants for payments method
@@ -374,3 +383,9 @@ export const REDMI_WALLET_FROM_EMAIL = "/wallet/redimWalletFromEmail/";
 export const RETRY_FAILED_ORDER = "/retryFailedOrder";
 export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
+export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
+export const EMI_TENURE = "emiTenure";
+export const RECEIVED = "Received";
+export const PAID = "Paid";
+export const EXPIRED = "Expired";
+export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";

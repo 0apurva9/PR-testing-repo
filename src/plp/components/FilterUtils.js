@@ -46,8 +46,10 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
     if (query.indexOf("searchCategory") > -1) {
       // there is a text option here
       const textParam = TEXT_REGEX.exec(query);
-      url = `/${modifiedCode}/?q=${textParam[1]}:relevance:category:${val}`;
-      return url;
+      if (textParam && textParam[1]) {
+        url = `/${modifiedCode}/?q=${textParam[1]}:relevance:category:${val}`;
+        return url;
+      }
     }
 
     if (query.indexOf(":") === -1) {
@@ -111,7 +113,11 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
     }
   } else {
     if (CATEGORY_REGEX.test(pathName)) {
-      url = `/search/?q=:category:${val}`;
+      if (modifiedCode && CATEGORY_REGEX.test(modifiedCode)) {
+        url = `/${modifiedCode}`;
+      } else {
+        url = `/search/?q=:category:${val}`;
+      }
     } else if (BRAND_REGEX.test(pathName)) {
       let brandId = BRAND_CAPTURE_REGEX.exec(pathName)[0];
       brandId = brandId.replace(BRAND_CATEGORY_PREFIX, "");

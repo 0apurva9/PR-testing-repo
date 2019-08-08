@@ -1,6 +1,6 @@
 import React from "react";
-import DumbGrid from "../../general/components/DumbGrid";
-import ProductModule from "../../general/components/ProductModule";
+import DumbGrid from "../../general/components/DumbGridPLP";
+import ProductModuleContainer from "../../general/containers/ProductModuleContainer";
 import PlpComponent from "./PlpComponent";
 import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
@@ -21,6 +21,7 @@ import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
+
 const LIST = "list";
 const GRID = "grid";
 const PRODUCT = "product";
@@ -32,6 +33,9 @@ export default class ProductGrid extends React.Component {
     this.state = {
       view: GRID,
       gridBreakup: false
+      // gridScroll: localStorage.getItem("gridScroll")
+      //   ? localStorage.getItem("gridScroll")
+      //   : 0
     };
   }
 
@@ -47,6 +51,9 @@ export default class ProductGrid extends React.Component {
       this.setState({ view: LIST });
     }
   }
+  // recordScreenScroll = () => {
+  //   localStorage.setItem("gridScroll", window.pageYOffset);
+  // };
   goToProductDescription = (url, productObj, productModuleId, index) => {
     // change this
     if (!checkUserAgentIsMobile()) {
@@ -70,8 +77,10 @@ export default class ProductGrid extends React.Component {
       data.productCategoryType
     }-TATA CLIQ`;
     return (
-      <ProductModule
+      <ProductModuleContainer
         key={index}
+        isRange={data.price.isRange}
+        productCategoryType={data.productCategoryType}
         isRange={data.price.isRange}
         maxPrice={
           data.price &&
@@ -79,6 +88,7 @@ export default class ProductGrid extends React.Component {
           data.price.maxPrice.formattedValueNoDecimal
         }
         alt={altTag}
+        seasonTag={data.seasonTag}
         minPrice={
           data.price &&
           data.price.minPrice &&
@@ -107,18 +117,25 @@ export default class ProductGrid extends React.Component {
         newProduct={data.newProduct}
         averageRating={data.averageRating}
         totalNoOfReviews={data.totalNoOfReviews}
-        view={this.state.view}
+        view={this.props.view}
+        winningUssID={data.winningUssID ? data.winningUssID : data.ussid}
         onClick={(url, data, ref) =>
           this.goToProductDescription(url, data, ref, index)
         }
         productCategory={data.productCategoryType}
         productId={data.productId}
-        showWishListButton={false}
+        offerData={data.offerData}
+        showWishListButton={true}
         plpAttrMap={data && data.plpAttrMap}
+        shouldShowSimilarIcon={true}
+        productListings={this.props.productListings}
+        ussid={data.ussid}
       />
     );
   };
   render() {
+    let electronicView = this.props.electronicView;
+
     return (
       <React.Fragment>
         <div
@@ -135,10 +152,15 @@ export default class ProductGrid extends React.Component {
 
           <div className={styles.content}>
             <DumbGrid
+              // gridScroll={this.state.gridScroll}
               search={this.props.search}
+              electronicView={electronicView}
+              // recordScreenScroll={this.recordScreenScroll()}
               offset={0}
               elementWidthMobile={this.props.view === LIST ? 100 : 50}
               elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
+              banners={this.props.banners}
+              view={this.props.view}
             >
               {this.props.data &&
                 this.props.data.map((datum, i) => {
@@ -147,7 +169,7 @@ export default class ProductGrid extends React.Component {
                     <PlpComponent
                       key={i}
                       gridWidthMobile={widthMobile}
-                      view={this.state.view}
+                      view={this.props.view}
                       type={datum && datum.type}
                     >
                       {this.renderComponent(datum, i)}

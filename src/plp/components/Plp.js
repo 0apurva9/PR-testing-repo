@@ -13,6 +13,7 @@ import { CATEGORY_REGEX } from "../components/PlpBrandCategoryWrapper";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import Loadable from "react-loadable";
+import SearchresultNullpage from "./SearchresultNullpage";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
@@ -62,6 +63,7 @@ const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const LIST = "list";
 const GRID = "grid";
+const PAGE_REGEX = /\/page-(\d+)/;
 export default class Plp extends React.Component {
   constructor() {
     super();
@@ -89,6 +91,11 @@ export default class Plp extends React.Component {
       }
     } else {
       this.setState({ gridBreakup: !this.state.gridBreakup });
+      if (this.state.view === LIST) {
+        this.setState({ view: GRID });
+      } else {
+        this.setState({ view: LIST });
+      }
     }
   }
   onApply = () => {
@@ -284,6 +291,9 @@ export default class Plp extends React.Component {
       searchresult.filter(brand => {
         return brand.brandname === brandName;
       });
+    if (this.props.headerText) {
+      return this.props.headerText;
+    }
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
@@ -318,14 +328,18 @@ export default class Plp extends React.Component {
     let parsingurl = url;
 
     parsingurl = url.replace(/\+/g, " ");
+    // if (parsingurl.match(filterName)) {
+    //   parsingurl = url.split("?");
+    //   url = parsingurl[0];
+    // }
 
-    if (parsingurl.match(filterName)) {
-      parsingurl = url.split("?");
-      url = parsingurl[0];
-    }
-    if (url.match("/search/")) {
-      url = url.replace("/search/", "");
-      url = this.props.location.pathname + url;
+    if (url.match("/search")) {
+      url = url.replace("/search", "");
+      let pathname = this.props.location.pathname.replace(PAGE_REGEX, "");
+      if (pathname.charAt(pathname.length - 1).match("/")) {
+        url = url.replace(/\//g, "");
+      }
+      url = pathname + url;
     } else {
       url = url;
     }
@@ -490,6 +504,14 @@ export default class Plp extends React.Component {
     let selectedFilter = [];
     let filterSelected = false;
     let hasSorts = false;
+    // let electronicView =
+    //   this.props &&
+    //   this.props.productListings &&
+    //   this.props.productListings.facetdatacategory &&
+    //   this.props.productListings.facetdatacategory.filters &&
+    //   this.props.productListings.facetdatacategory.filters[0].categoryName ===
+    //     "Electronics";
+    let electronicView = false;
     if (this.props.productListings && this.props.productListings.facetdata) {
       this.props.productListings.facetdata.forEach(filter => {
         selectedFilterCount += filter.selectedFilterCount;
@@ -531,7 +553,10 @@ export default class Plp extends React.Component {
               {this.props.productListings &&
               this.props.productListings &&
               this.props.productListings.currentQuery &&
-              this.props.productListings.currentQuery.searchQuery ? (
+              this.props.productListings.currentQuery.searchQuery &&
+              !this.props.productListings.currentQuery.searchQuery.includes(
+                ":relevance"
+              ) ? (
                 <div className={styles.headerText}>
                   <div className={styles.plpHeading}>
                     {`Showing "${
@@ -560,22 +585,27 @@ export default class Plp extends React.Component {
                     <h1>{this.setHeaderTextDesktop()}</h1>
                   </div>
                   <div className={styles.totalProducts}>
-                    {`${
-                      this.props.productListings &&
+                    {this.props.productListings &&
                       this.props.productListings.pagination &&
-                      this.props.productListings.pagination.totalResults
-                        ? this.props.productListings.pagination.totalResults
-                        : 0
-                    } Products`}
+                      this.props.productListings.pagination.totalResults &&
+                      `${
+                        this.props.productListings.pagination.totalResults
+                      } Products`}
                   </div>
                 </div>
               )}
             </MediaQuery>
             <MediaQuery query="(min-device-width:1025px)">
               <div className={styles.headerSortWithFilter}>
-                <div className={styles.selectedFilter}>
+                <div
+                  className={
+                    electronicView
+                      ? styles.selectedFilterElectronicView
+                      : styles.selectedFilter
+                  }
+                >
                   {selectedFilter &&
-                    selectedFilter.map(selectedFilterData => {
+                    selectedFilter.map((selectedFilterData, i) => {
                       return (
                         <div
                           className={styles.selectedFilterWithIcon}
@@ -585,6 +615,7 @@ export default class Plp extends React.Component {
                               selectedFilterData.name
                             )
                           }
+                          key={i}
                         >
                           {selectedFilterData.name}
                           <div className={styles.cancelIcon}>
@@ -601,27 +632,31 @@ export default class Plp extends React.Component {
                 <div className={styles.sort}>
                   <SortDesktopContainer />
                 </div>
-                <div className={styles.gridIcon}>
-                  <DesktopOnly>
-                    <div
-                      className={styles.icon}
-                      onClick={() => this.switchView()}
-                    >
-                      {this.state.gridBreakup && (
-                        <Icon image={gridImage} size={20} />
-                      )}
-                      {!this.state.gridBreakup && (
-                        <Icon image={listImage} size={20} />
-                      )}
-                    </div>
-                  </DesktopOnly>
-                </div>
+
+                {!electronicView && (
+                  <div className={styles.gridIcon}>
+                    <DesktopOnly>
+                      <div
+                        className={styles.icon}
+                        onClick={() => this.switchView()}
+                      >
+                        {this.state.gridBreakup && (
+                          <Icon image={gridImage} size={20} />
+                        )}
+                        {!this.state.gridBreakup && (
+                          <Icon image={listImage} size={20} />
+                        )}
+                      </div>
+                    </DesktopOnly>
+                  </div>
+                )}
               </div>
             </MediaQuery>
             <MobileOnly>
               <div className={styles.productWithFilter}>
                 <div className={styles.main}>
                   <ProductGrid
+                    banners={this.props.banners}
                     history={this.props.history}
                     location={this.props.location}
                     data={this.props.productListings.searchresult}
@@ -637,6 +672,7 @@ export default class Plp extends React.Component {
                     view={this.state.view}
                     gridBreakup={this.state.gridBreakup}
                     isPosition={true}
+                    productListings={this.props.productListings}
                   >
                     <div
                       className={styles.icon}
@@ -686,6 +722,8 @@ export default class Plp extends React.Component {
                 >
                   <div id="grid-wrapper_desktop">
                     <ProductGrid
+                      banners={this.props.banners}
+                      electronicView={false}
                       history={this.props.history}
                       location={this.props.location}
                       data={this.props.productListings.searchresult}
@@ -700,6 +738,7 @@ export default class Plp extends React.Component {
                       }
                       view={this.state.view}
                       gridBreakup={this.state.gridBreakup}
+                      productListings={this.props.productListings}
                     />
                   </div>
                   <DesktopOnly>
@@ -738,7 +777,16 @@ export default class Plp extends React.Component {
           </div>
         )}
         {!this.props.productListings &&
-          !this.props.productListings && <div className={styles.dummyHolder} />}
+          !this.props.productListings &&
+          this.props.searchMsdData && (
+            <div className={styles.dummyHolder}>
+              <SearchresultNullpage
+                history={this.props.history}
+                feeds={this.props.searchMsdData}
+                showTrendingProducts={true}
+              />
+            </div>
+          )}
       </React.Fragment>
     );
   }
