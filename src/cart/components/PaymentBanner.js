@@ -32,9 +32,15 @@ export default class PaymentBanner extends React.Component {
             <Image image={paymentConfirmation} />
           </div>
 
-          <div className={styles.orderHeading}>
-            Thank you! We have received your order.
-          </div>
+          {!this.props.COD ? (
+            <div className={styles.orderHeading}>
+              Thank you for shopping with us!
+            </div>
+          ) : (
+            <div className={styles.orderHeading}>
+              Thank you! We have received your order.
+            </div>
+          )}
 
           {!this.props.COD ? (
             <div className={styles.orderSubText}>
