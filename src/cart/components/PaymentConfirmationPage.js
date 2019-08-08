@@ -42,9 +42,7 @@ export default class PaymentConfirmationPage extends React.Component {
       <div className={styles.base}>
         <div className={styles.pageCenter}>
           <DesktopOnly>
-            <div className={styles.thanKText}>
-              Thank you for shopping with us!
-            </div>
+            <div className={styles.thanKText}>Thank you</div>
           </DesktopOnly>
           <div className={styles.pageSectionHolder}>
             <div className={styles.leftSection}>
