@@ -925,7 +925,9 @@ export default class OrderDetails extends React.Component {
                                 (products.consignmentStatus === "DELIVERED" ||
                                   products.consignmentStatus === "HOTC" ||
                                   products.consignmentStatus ===
-                                    "ORDER_COLLECTED") && (
+                                    "ORDER_COLLECTED" ||
+                                  products.consignmentStatus ===
+                                    "RETURN_CANCELLED_CUS") && (
                                   <div
                                     className={styles.cancelProduct}
                                     onClick={() =>
