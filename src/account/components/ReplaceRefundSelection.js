@@ -94,7 +94,10 @@ export default class ReplaceRefundSelection extends React.Component {
         cliqCashCheck.status === "Success" &&
         (cliqCashCheck.isWalletCreated && cliqCashCheck.isWalletOtpVerified)
       ) {
-        this.setState({ cliqCashCheckSuccess: true });
+        localStorage.setItem("cliqCashCheckSuccess", true);
+        this.setState({
+          cliqCashCheckSuccess: localStorage.getItem("cliqCashCheckSuccess")
+        });
       } else {
         this.setState({ selectedOption: "" });
       }

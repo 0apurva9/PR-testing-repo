@@ -45,6 +45,7 @@ export default class RefundTransactionSummary extends React.Component {
     localStorage.removeItem("primaryLabel");
     localStorage.removeItem("primaryCode");
     localStorage.removeItem("comment");
+    localStorage.removeItem("cliqCashCheckSuccess");
   }
   gotoOrderDetailsPage() {
     //get order id
