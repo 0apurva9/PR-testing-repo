@@ -57,7 +57,7 @@ export default class FeedBackForm extends React.Component {
   }
   onSumbmit() {
     if (this.questionRatingArray.length < 1) {
-      this.props.displayToast("Plaese Select one Rating");
+      this.props.displayToast("Please Select One Rating");
     } else {
       let getUserDetails = queryString.parse(this.props.location.search);
       this.props.postFeedBackForm(
