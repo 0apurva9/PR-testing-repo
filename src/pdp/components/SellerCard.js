@@ -118,6 +118,8 @@ export default class SellerCard extends React.Component {
               <div className={styles.offerText}>EMI Available</div>
             )}
           </div>
+          {console.log(this.props.eligibleDeliveryModes)}
+          {console.log(this.props.serviceablePincodeList)}
           <div
             className={
               this.props.disabled ? styles.faded : styles.sellerCardDetails
@@ -125,13 +127,27 @@ export default class SellerCard extends React.Component {
           >
             {this.props.eligibleDeliveryModes &&
               this.props.eligibleDeliveryModes.map((val, i) => {
-                return (
-                  <div className={styles.shippingText}>
-                    {val.name}
-                    {val.description && <span>-</span>}
-                    {val.description}
-                  </div>
-                );
+                if (this.props.serviceablePincodeList) {
+                  this.props.serviceablePincodeList.map((product, i) => {
+                    return (
+                      product.ussid === this.props.winningUssID && (
+                        <div className={styles.shippingText}>
+                          {val.name}
+                          {val.description && <span>-</span>}
+                          {val.description}
+                        </div>
+                      )
+                    );
+                  });
+                } else {
+                  return (
+                    <div className={styles.shippingText}>
+                      {val.name}
+                      {val.description && <span>-</span>}
+                      {val.description}
+                    </div>
+                  );
+                }
               })}
             {this.props.hasCod && (
               <div className={styles.offerText}>{this.props.cashText}</div>
