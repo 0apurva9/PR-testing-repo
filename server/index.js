@@ -51,6 +51,7 @@ app.use("/:slug/c-:brandOrCategoryId/page-:page", plpRenderer);
 app.use("/custom/:c-:brandOrCategoryId/page-:page", plpRenderer);
 app.use("/CustomSkuCollection/:brandOrCategoryId/page-:page", plpRenderer);
 //CustomSkuCollection/oppo-f11-pro-range/page-1?q=%3Arelevance%3AcollectionIds%3Aoppo-f11-pro-range%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Acolour%3ABlack_000000
+app.use("/p-:productDescriptionCode", pdpRenderer);
 
 app.use(
   express.static(path.resolve(__dirname, "..", "..", ".."), {
