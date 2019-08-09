@@ -140,6 +140,12 @@ export default class JewelleryDetailsAndLink extends React.Component {
                       itemProp="reviewCount"
                       content={this.props.numberOfReviews}
                     />
+                    <meta
+                      itemprop="itemReviewed"
+                      content={
+                        this.props.averageRating ? this.props.averageRating : 0
+                      }
+                    />
                   </div>
                 )}
                 <div className={styles.arrowHolder}>

@@ -25,7 +25,7 @@ const path = require("path");
 const fs = require("fs");
 
 const renderScript = preloadedState => {
-  return `      <script>
+  return ` <script>
   window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
     /</g,
     "\\u003c"
