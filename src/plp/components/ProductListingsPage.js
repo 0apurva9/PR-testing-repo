@@ -20,6 +20,8 @@ import {
   CATEGORY_REGEX,
   BRAND_CATEGORY_PREFIX
 } from "./PlpBrandCategoryWrapper.js";
+import { isBrowser } from "browser-or-node";
+
 const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";
 const SUFFIX = `&isTextSearch=false&isFilter=false`;
@@ -28,6 +30,7 @@ const PAGE_REGEX = /page-(\d+)/;
 const MAX_PRICE_FROM_API = "and Above";
 const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
+
 class ProductListingsPage extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +42,8 @@ class ProductListingsPage extends Component {
     const parsedQueryString = currentUrl
       ? queryString.parseUrl(currentUrl).query
       : queryString.parse(this.props.location.search);
+    console.log("LOCAION");
+    console.log(this.props.location);
     const searchCategory = parsedQueryString.searchCategory;
     let searchText = parsedQueryString.q;
     if (
@@ -220,22 +225,25 @@ class ProductListingsPage extends Component {
     ) {
       return;
     }
-    if (
-      !this.props.urlString &&
-      this.props.lastVisitedPlpUrl === window.location.href
-    ) {
-      if (this.props.clickedProductModuleRef) {
-        const clickedElement = document.getElementById(
-          this.props.clickedProductModuleRef
-        );
-        if (clickedElement) {
-          delay(() => {
-            clickedElement.scrollIntoView();
-          }, 50);
+    if (isBrowser) {
+      if (
+        !this.props.urlString &&
+        this.props.lastVisitedPlpUrl === window.location.href
+      ) {
+        if (this.props.clickedProductModuleRef) {
+          const clickedElement = document.getElementById(
+            this.props.clickedProductModuleRef
+          );
+          if (clickedElement) {
+            delay(() => {
+              clickedElement.scrollIntoView();
+            }, 50);
+          }
         }
+        return;
       }
-      return;
     }
+
     if (this.props.match.path === SKU_PAGE) {
       const skuId = this.props.match.params.slug;
       let searchText = `:relevance:collectionIds:${skuId}:${OUT_OF_STOCK_FLAG}:true`;
@@ -465,6 +473,7 @@ class ProductListingsPage extends Component {
   }
 
   render() {
+    console.log("IN PRODUCT LISTINGS PAGE");
     let isFilter = false;
     if (this.props.location.state && this.props.location.state.isFilter) {
       isFilter = true;

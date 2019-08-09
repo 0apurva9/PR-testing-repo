@@ -20,6 +20,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
 } from "../../lib/adobeUtils";
+import { isBrowser } from "browser-or-node";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
 
@@ -187,7 +188,7 @@ export default class DesktopHeader extends React.Component {
     }
   }
   getLuxURL() {
-    const hostName = window.location.href;
+    const hostName = isBrowser ? window.location.href : "";
     switch (hostName) {
       case "https://tmppprd.tataunistore.com/":
         return "https://luxtmppprd.tataunistore.com/";

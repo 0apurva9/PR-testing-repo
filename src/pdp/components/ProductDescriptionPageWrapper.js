@@ -15,14 +15,16 @@ import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
-import PdpElectronics from "./PdpElectronics";
-import PdpJewellery from "./PdpJewellery";
-import PdpApparel from "./PdpApparel";
-import PdpHome from "./PdpHome";
+// import PdpElectronics from "./PdpElectronics";
+// import PdpJewellery from "./PdpJewellery";
+// import PdpApparel from "./PdpApparel";
+// import PdpHome from "./PdpHome";
 import PdpDesktop from "./PdpDesktop";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 // prettier-ignore
 import queryString, { parse } from "query-string";
+import { isBrowser } from "browser-or-node";
+
 const PiqPageForPdp = Loadable({
   loader: () => import("./PiqPageForPdp"),
   loading() {
@@ -34,15 +36,28 @@ const PiqPageForPdp = Loadable({
   }
 });
 
-const typeComponentMapping = {
-  Electronics: props => <PdpElectronics {...props} />,
-  Watches: props => <PdpElectronics {...props} />,
-  FashionJewellery: props => <PdpJewellery {...props} />,
-  Clothing: props => <PdpApparel {...props} />,
-  Footwear: props => <PdpApparel {...props} />,
-  HomeFurnishing: props => <PdpHome {...props} />,
-  FineJewellery: props => <PdpJewellery {...props} />
-};
+let typeComponentMapping = {};
+let PdpElectronics;
+let PdpJewellery;
+let PdpApparel;
+let PdpHome;
+
+if (isBrowser) {
+  PdpElectronics = require("./PdpElectronics");
+  PdpJewellery = require("./PdpJewellery");
+  PdpApparel = require("./PdpApparel");
+  PdpHome = require("./PdpHome");
+
+  typeComponentMapping = {
+    Electronics: props => <PdpElectronics {...props} />,
+    Watches: props => <PdpElectronics {...props} />,
+    FashionJewellery: props => <PdpJewellery {...props} />,
+    Clothing: props => <PdpApparel {...props} />,
+    Footwear: props => <PdpApparel {...props} />,
+    HomeFurnishing: props => <PdpHome {...props} />,
+    FineJewellery: props => <PdpJewellery {...props} />
+  };
+}
 
 const Loader = () => {
   return (
@@ -51,8 +66,6 @@ const Loader = () => {
     </div>
   );
 };
-
-const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 
 export default class ProductDescriptionPageWrapper extends React.Component {
   constructor(props) {
@@ -158,6 +171,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
+    console.log("PRODUCT DESCRIPTION PAGE WRAPPER RENDER HIT");
     if (
       !checkUserAgentIsMobile() &&
       this.props.showPiqPage &&
@@ -172,9 +186,9 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {
-      if (!this.props.showPiqPage || !checkUserAgentIsMobile()) {
-        return (
-          <div itemScope itemType="http://schema.org/Product">
+      if (!this.props.showPiqPage) {
+        if (checkUserAgentIsMobile()) {
+          return (
             <MobileOnly>
               {this.renderAmpTags()}
               {this.props.productDetails.seo
@@ -182,14 +196,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
                 : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
               {this.renderRootCategory(this.props.productDetails.rootCategory)}
             </MobileOnly>
-            <DesktopOnly>
-              {this.props.productDetails.seo
-                ? renderMetaTags(this.props.productDetails)
-                : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
-              <PdpDesktop {...this.props} />
-            </DesktopOnly>
-          </div>
-        );
+          );
+        } else {
+          return <PdpDesktop {...this.props} />;
+        }
       } else {
         return (
           <div>
