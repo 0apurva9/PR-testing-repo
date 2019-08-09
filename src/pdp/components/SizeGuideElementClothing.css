@@ -135,19 +135,8 @@
   background-color: #6c6c6c;
   cursor: pointer;
 }
-.disableInch {
-  composes: in;
-  border: none;
-  color: #ffffff;
-  background-color: #e3e3e3;
-  cursor: pointer;
-}
-.disableCm {
-  composes: cm;
-  border: none;
-  color: #ffffff;
-  background-color: #e3e3e3;
-  cursor: pointer;
+.disable {
+  display: none;
 }
 .tip {
   margin-top: 5px;
