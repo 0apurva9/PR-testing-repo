@@ -188,6 +188,7 @@
   display: inline-block;
   margin-left: 55px;
   margin-bottom: 60px;
+  vertical-align: top;
 }
 .popularSearches {
   margin-top: 30px;
