@@ -182,14 +182,14 @@ export default class SizeGuideElementClothing extends Component {
                   <div className={styles.toggle}>
                     <div
                       className={
-                        inActiveInch ? styles.disableInch : styles.inActive
+                        inActiveInch ? styles.disable : styles.inActive
                       }
                     >
                       In
                     </div>
                     <div
                       className={
-                        !inActiveInch ? styles.disableCm : styles.cmActive
+                        !inActiveInch ? styles.disable : styles.cmActive
                       }
                     >
                       Cm
