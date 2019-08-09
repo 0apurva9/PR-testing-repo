@@ -14,6 +14,8 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import arrowIcon from "../../general/components/img/arrow.svg";
 import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
+import { isBrowser } from "browser-or-node";
+
 import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
@@ -136,7 +138,7 @@ export default class ProductDetailsMainCard extends React.Component {
             </div>
             <a
               itemProp="url"
-              href={window.location.href}
+              href={isBrowser ? window.location.href : ""}
               onClick={this.handleLinkClick}
             >
               <div itemProp="name">

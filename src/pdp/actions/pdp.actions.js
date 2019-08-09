@@ -34,6 +34,8 @@ import {
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
+import { isBrowser } from "browser-or-node";
+
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -197,10 +199,11 @@ export function getProductDescription(
           window.location.pathname = resultJson.seo.alternateURL;
         }
         if (
-          !window.digitalData ||
-          !window.digitalData.cpj ||
-          !window.digitalData.cpj.product ||
-          window.digitalData.cpj.product.id !== resultJson.productListingId
+          isBrowser &&
+          (!window.digitalData ||
+            !window.digitalData.cpj ||
+            !window.digitalData.cpj.product ||
+            window.digitalData.cpj.product.id !== resultJson.productListingId)
         ) {
           if (componentName === "Theme offers component") {
             setDataLayer(
