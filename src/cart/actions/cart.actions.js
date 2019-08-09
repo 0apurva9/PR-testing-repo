@@ -4898,7 +4898,7 @@ export function getValidDeliveryModeDetails(
           }
         );
         productDetails.serviceableSlaves =
-          selectedStoreDetails.serviceableSlaves;
+          selectedStoreDetails && selectedStoreDetails.serviceableSlaves;
       }
       item.push(productDetails);
       productItems.item = item;
