@@ -283,13 +283,29 @@ export default class Plp extends React.Component {
     if (this.props.headerText) {
       return this.props.headerText;
     }
+    const searchresult =
+      this.props &&
+      this.props.productListings &&
+      this.props.productListings.searchresult;
+
+    const brandName = searchresult && searchresult[0].brandname;
+    const brandData =
+      searchresult &&
+      searchresult.filter(brand => {
+        return brand.brandname === brandName;
+      });
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
       this.props.productListings.seo.breadcrumbs[0] &&
       this.props.productListings.seo.breadcrumbs[0].name
     ) {
-      return this.props.productListings.seo.breadcrumbs[0].name;
+      const headerText =
+        (brandData && brandData.length) ===
+        (searchresult && searchresult.length)
+          ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
+          : this.props.productListings.seo.breadcrumbs[0].name;
+      return headerText;
     } else {
       return (
         <React.Fragment>

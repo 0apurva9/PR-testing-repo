@@ -20,6 +20,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
+import DesktopFooterProductList from "./DesktopFooterProductList";
 const TEXT = "© 2019 Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
@@ -103,6 +104,11 @@ class DesktopFooter extends React.Component {
     const isNotPdp = /p-mp[0-9]+/.test(this.props.location.pathname)
       ? false
       : true;
+    const isPlp =
+      /c-msh[0-9]+/.test(this.props.location.pathname) ||
+      /c-mbh[0-9]+/.test(this.props.location.pathname) ||
+      /search/.test(this.props.location.pathname) ||
+      /q=&icid2/.test(this.props.location.pathname);
 
     return (
       <div className={styles.contentHolder}>
@@ -240,28 +246,64 @@ class DesktopFooter extends React.Component {
             <div className={styles.copyRightText}>{TEXT}</div>
           </div>
         </div>
-        {isNotPdp && (
-          <div
-            className={styles.footerData}
-            dangerouslySetInnerHTML={{
-              __html:
-                footerData &&
-                footerData.items &&
-                footerData.items[0].pageSpecificFooterData
-            }}
-          />
+
+        {isPlp && (
+          <div className={styles.footerDataWrapper}>
+            <div className={styles.footerDataPlp}>
+              <div
+                className={styles.pageSpecificFooterData}
+                dangerouslySetInnerHTML={{
+                  __html:
+                    footerData &&
+                    footerData.items &&
+                    footerData.items[0].pageSpecificFooterData
+                }}
+              />
+              <div
+                className={styles.popularSearches}
+                dangerouslySetInnerHTML={{
+                  __html:
+                    footerData &&
+                    footerData.items &&
+                    footerData.items[0].popularSearches
+                }}
+              />
+            </div>
+
+            <div className={styles.desktopFooterProductListWrapper}>
+              <DesktopFooterProductList
+                productListings={this.props && this.props.productListings}
+                history={this.props.history}
+                location={this.props.location}
+              />
+            </div>
+          </div>
         )}
-        {isNotPdp && (
-          <div
-            className={styles.footerData}
-            dangerouslySetInnerHTML={{
-              __html:
-                footerData &&
-                footerData.items &&
-                footerData.items[0].popularSearches
-            }}
-          />
-        )}
+
+        {isNotPdp &&
+          !isPlp && (
+            <div
+              className={styles.footerData}
+              dangerouslySetInnerHTML={{
+                __html:
+                  footerData &&
+                  footerData.items &&
+                  footerData.items[0].pageSpecificFooterData
+              }}
+            />
+          )}
+        {isNotPdp &&
+          !isPlp && (
+            <div
+              className={styles.footerData}
+              dangerouslySetInnerHTML={{
+                __html:
+                  footerData &&
+                  footerData.items &&
+                  footerData.items[0].popularSearches
+              }}
+            />
+          )}
       </div>
     );
   }
