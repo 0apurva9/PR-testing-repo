@@ -99,6 +99,7 @@
 	letter-spacing: 0.03px;
 	color: #747474;
 	margin-left: 5px;
+	word-break: break-word;
 }
 .dateAndTimeHolder {
 	width: 100%;
