@@ -288,10 +288,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //shipped
     let shippedDate = " ";
     let shippedTime = " ";
+    let shippingList = null;
     let shippedDataCustomerFacingName = "Shipped";
     if (shippedData && shippedData.value.customerFacingName) {
       shippedDataCustomerFacingName = shippedData.value.customerFacingName;
     }
+
     if (
       shippedData &&
       shippedData.value.statusList &&
@@ -311,6 +313,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
         shippedData.value.statusList[1].statusMessageList[0].time
           ? shippedData.value.statusList[1].statusMessageList[0].time
           : shippedData.value.statusList[0].statusMessageList[0].time;
+      shippingList = shippedData.value.statusList[0].statusMessageList;
     }
 
     //out for delivery
@@ -1163,6 +1166,17 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     </div>
                                     <div className={styles.dateHolder}>
                                       {shippedDate}
+                                    </div>
+                                    <div
+                                      className={styles.courierInfoHolder}
+                                      onClick={() =>
+                                        this.handleMoreDetails({
+                                          shippingList,
+                                          orderCode
+                                        })
+                                      }
+                                    >
+                                      More details
                                     </div>
                                   </div>
                                 </div>
