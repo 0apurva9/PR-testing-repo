@@ -51,6 +51,16 @@ export default class CheckoutDebitCard extends React.Component {
           isFromGiftCard={this.props.isFromGiftCard}
           onChangeCardDetail={card => this.onChangeCardDetail(card)}
           onCheckout={this.props.onCheckout}
+          bankGatewayStatus={
+            this.props.cart &&
+            this.props.cart.binValidationDetails &&
+            this.props.cart.binValidationDetails.bankGatewayStatus
+          }
+          bankError={
+            this.props.cart &&
+            this.props.cart.binValidationDetails &&
+            this.props.cart.binValidationDetails.errorMsg
+          }
         />
       </ManueDetails>
     );
