@@ -12,7 +12,11 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
+import {
+  showModal,
+  DESKTOP_AUTH,
+  REVIEW_GUIDLINE_MODAL
+} from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
@@ -43,6 +47,10 @@ const mapDispatchToProps = dispatch => {
 
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    showReviewGuidelineModal: () => {
+      console.log("hello");
+      dispatch(showModal(REVIEW_GUIDLINE_MODAL));
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));

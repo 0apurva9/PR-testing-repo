@@ -101,7 +101,7 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 
-import { EGV_GIFT_CART_ID } from "../components/CheckOutPage";
+const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const RESET_ALL_PAYMENT_MODES = "RESET_ALL_PAYMENT_MODES";
@@ -485,6 +485,13 @@ export const GET_MINICART_SUCCESS = "GET_MINICART_SUCCESS";
 export const GET_MINICART_REQUEST = "GET_MINICART_REQUEST";
 export const GET_MINICART_FAILURE = "GET_MINICART_FAILURE";
 export const GET_MINICART_NOCART = "GET_MINICART_NOCART";
+
+export const ORDER_CONFIRMATION_BANNER_REQUEST =
+  "ORDER_CONFIRMATION_BANNER_REQUEST";
+export const ORDER_CONFIRMATION_BANNER_SUCCESS =
+  "ORDER_CONFIRMATION_BANNER_SUCCESS";
+export const ORDER_CONFIRMATION_BANNER_FAILURE =
+  "ORDER_CONFIRMATION_BANNER_FAILURE";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -3648,6 +3655,51 @@ export function orderConfirmation(orderId) {
       dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
+    }
+  };
+}
+
+//get banner on order confirmation
+export function orderConfirmationBannerRequest() {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function orderConfirmationBannerSuccess(orderConfirmationBannerDetails) {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_SUCCESS,
+    status: SUCCESS,
+    orderConfirmationBannerDetails
+  };
+}
+
+export function orderConfirmationBannerFailure(error) {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function orderConfirmationBanner(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(orderConfirmationBannerRequest());
+    try {
+      const result = await api.getOrderConfirmBanner(
+        `/otatacliq/getApplicationProperties.json?propertyNames=ORDER_CONFIRMATION_WARRENTY_BANNER`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(orderConfirmationBannerSuccess(resultJson));
+    } catch (e) {
+      dispatch(orderConfirmationBannerFailure(e.message));
     }
   };
 }

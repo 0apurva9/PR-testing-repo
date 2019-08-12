@@ -33,6 +33,7 @@ import {
   softReservationPaymentForNetBanking,
   softReservationPaymentForSavedCard,
   orderConfirmation,
+  orderConfirmationBanner,
   softReservationForCliqCash,
   jusPayTokenizeForGiftCard,
   createJusPayOrderForGiftCardNetBanking,
@@ -478,6 +479,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     orderConfirmation: orderId => {
       dispatch(orderConfirmation(orderId));
+    },
+    orderConfirmationBanner: async () => {
+      return await dispatch(orderConfirmationBanner());
     },
     createJusPayOrderForNetBanking: (
       paymentMethodType,

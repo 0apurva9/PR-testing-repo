@@ -6,15 +6,42 @@ import PropTypes from "prop-types";
 export default class ReviewList extends React.Component {
   render() {
     return (
-      <div className={styles.base}>
-        {this.props &&
-          this.props.limit &&
-          this.props.reviewList &&
-          this.props.reviewList
-            .filter((data, i) => {
-              return i < 5;
-            })
-            .map((data, i) => {
+      <React.Fragment>
+        <div className={styles.base}>
+          {this.props &&
+            this.props.limit &&
+            this.props.reviewList &&
+            this.props.reviewList
+              .filter((data, i) => {
+                return i < 5;
+              })
+              .map((data, i) => {
+                if (!data) return null;
+                let userName = data.userName;
+                let alias = data.alias;
+                let name =
+                  data &&
+                  data.principal &&
+                  data.principal.name &&
+                  data.principal.name.trim();
+                return (
+                  <ReviewPage
+                    rating={data && data.rating}
+                    heading={data && data.headline}
+                    text={data && data.comment}
+                    date={data && data.date}
+                    isBuyer={data && data.isBuyer}
+                    reviewAge={data && data.reviewAge}
+                    name={userName ? userName : alias}
+                    key={i}
+                  />
+                );
+              })}
+          {this.props &&
+            !this.props.limit &&
+            this.props.currentreviewList &&
+            this.props.currentreviewList &&
+            this.props.currentreviewList.map((data, i) => {
               if (!data) return null;
               let userName = data.userName;
               let alias = data.alias;
@@ -32,34 +59,12 @@ export default class ReviewList extends React.Component {
                   isBuyer={data && data.isBuyer}
                   reviewAge={data && data.reviewAge}
                   name={userName ? userName : alias}
+                  key={i}
                 />
               );
             })}
-        {this.props &&
-          !this.props.limit &&
-          this.props.reviewList &&
-          this.props.reviewList.map((data, i) => {
-            if (!data) return null;
-            let userName = data.userName;
-            let alias = data.alias;
-            let name =
-              data &&
-              data.principal &&
-              data.principal.name &&
-              data.principal.name.trim();
-            return (
-              <ReviewPage
-                rating={data && data.rating}
-                heading={data && data.headline}
-                text={data && data.comment}
-                date={data && data.date}
-                isBuyer={data && data.isBuyer}
-                reviewAge={data && data.reviewAge}
-                name={userName ? userName : alias}
-              />
-            );
-          })}
-      </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

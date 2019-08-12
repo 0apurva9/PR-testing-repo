@@ -261,7 +261,12 @@ const cart = (
 
     minicartStatus: null,
     minicartError: null,
-    minicart: null
+    minicart: null,
+
+    orderConfirmationBannerDetailsStatus: null,
+    orderConfirmationBannerDetails: null,
+    orderConfirmationBannerDetailsLoading: false,
+    orderConfirmationBannerDetailsError: null
   },
   action
 ) => {
@@ -1166,6 +1171,26 @@ const cart = (
         orderConfirmationDetailsError: action.error,
         jusPaymentLoader: false,
         isPaymentProceeded: false
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_REQUEST:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetailsLoading: true
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_SUCCESS:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetails: action.confirmedOrderDetails,
+        orderConfirmationBannerDetailsLoading: false
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_FAILURE:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetailsError: action.error,
+        orderConfirmationBannerDetailsLoading: false
       });
 
     case cartActions.CLEAR_ORDER_EXPERIENCE_CAPTURE:

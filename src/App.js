@@ -630,6 +630,23 @@ class App extends Component {
                 );
               }}
             />
+            <Route
+              path="/care"
+              component={() => {
+                let currentLocation = window.location;
+                let redirectURL =
+                  currentLocation.protocol +
+                  "//" +
+                  currentLocation.host +
+                  "/my-account/order-related";
+                window.location.replace(redirectURL);
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
             <Route exact path={STATIC_PAGE} component={StaticPageContainer} />
             <Route render={() => <NoResultPage {...this.props} />} />
           </Switch>
