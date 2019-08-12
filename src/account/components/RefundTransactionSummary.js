@@ -71,7 +71,7 @@ export default class RefundTransactionSummary extends React.Component {
     );
   }
   render() {
-    console.log("this.props:", this.props);
+    // console.log('this.props:', this.props);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
@@ -140,6 +140,10 @@ export default class RefundTransactionSummary extends React.Component {
                   }
                   pickupAddress={
                     summaryDetails.getRefundTransactionDetails.deliveryAddress
+                  }
+                  returnStoreAddress={
+                    summaryDetails.getRefundTransactionDetails
+                      .returnStoreAddress
                   }
                   productSize={
                     summaryDetails.getRefundTransactionDetails.products[0]

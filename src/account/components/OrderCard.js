@@ -140,12 +140,14 @@ export default class OrderCard extends React.Component {
       checkStatus =
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     }
-    console.log(
-      "giftCardStatus",
-      this.props.giftCardStatus,
-      "displayStatusName",
-      this.props.displayStatusName
-    );
+    // console.log(
+    //   "giftCardStatus",
+    //   this.props.giftCardStatus,
+    //   "displayStatusName",
+    //   this.props.displayStatusName,
+    //   "props in order card:",
+    //   this.props
+    // );
     //console.log("estomated Delivery Date:", estimatedDeliveryDateFormatted)
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
@@ -400,26 +402,45 @@ export default class OrderCard extends React.Component {
           {this.props &&
             this.props.returnMode != "REFNOPCK" && (
               <React.Fragment>
-                {this.props.pickupAddress && (
-                  <div className={styles.pickupAddressHolder}>
-                    <div className={styles.pickupAddressTitle}>
-                      {this.props.returnModeSelected == "Pick Up"
-                        ? "Customer pick up address"
-                        : this.props.returnModeSelected == "Self Courier"
-                          ? "Delivery Address"
-                          : this.props.returnModeSelected == "Return To Store"
-                            ? "Store Address"
-                            : ""}
+                {this.props.pickupAddress &&
+                  this.props.returnStoreAddress && (
+                    <div className={styles.pickupAddressHolder}>
+                      <div className={styles.pickupAddressTitle}>
+                        {this.props.returnModeSelected == "Pick Up"
+                          ? "Customer pick up address"
+                          : this.props.returnModeSelected == "Self Courier"
+                            ? "Delivery Address"
+                            : this.props.returnModeSelected == "Return To Store"
+                              ? "Store Address"
+                              : ""}
+                      </div>
+                      {this.props.pickupAddress && (
+                        <div className={styles.pickupAddressText}>
+                          {this.props.pickupAddress.line1}{" "}
+                          {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
+                          {this.props.pickupAddress.landmark}{" "}
+                          {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
+                          {this.props.pickupAddress.city}{" "}
+                          {this.props.pickupAddress.city ? "," : ""}&nbsp;
+                          {this.props.pickupAddress.state}{" "}
+                          {this.props.pickupAddress.state ? "," : ""}&nbsp;
+                          {this.props.pickupAddress.postalCode}
+                        </div>
+                      )}
+                      {this.props.returnStoreAddress && (
+                        <div className={styles.pickupAddressText}>
+                          {this.props.returnStoreAddress.address &&
+                            this.props.returnStoreAddress.address.line1}{" "}
+                          ,&nbsp;
+                          {this.props.returnStoreAddress.address &&
+                            this.props.returnStoreAddress.address.city}{" "}
+                          ,&nbsp;
+                          {this.props.returnStoreAddress.address &&
+                            this.props.returnStoreAddress.address.postalCode}
+                        </div>
+                      )}
                     </div>
-                    <div className={styles.pickupAddressText}>
-                      {this.props.pickupAddress.line1} ,&nbsp;
-                      {this.props.pickupAddress.landmark} ,&nbsp;
-                      {this.props.pickupAddress.city} ,&nbsp;
-                      {this.props.pickupAddress.state}&nbsp;
-                      {this.props.pickupAddress.postalCode}
-                    </div>
-                  </div>
-                )}
+                  )}
               </React.Fragment>
             )}
         </div>

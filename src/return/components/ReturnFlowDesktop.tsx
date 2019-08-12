@@ -147,7 +147,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			this.props.displayToast(RE_ENTER_ACCOUNT_NUMBER);
 			return false;
 		}
-		if (this.state.bankDetail.accountNumber !== this.state.bankDetail.reEnterAccountNumber) {
+		if (this.state.bankDetail.accountNumber != this.state.bankDetail.reEnterAccountNumber) {
 			this.props.displayToast(ACCOUNT_NUMBER_MATCH_TEXT);
 			return false;
 		}

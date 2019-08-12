@@ -369,7 +369,7 @@ export default class EditAddressPopUp extends React.Component {
                   onChange={landmark => this.onSelectLandmark(landmark)}
                 />
               )}
-            {this.props.location.state.addressDetails.postalCode !==
+            {this.props.location.state.addressDetails.postalCode !=
               this.state.postalCode && (
               <SelectBoxMobile2
                 height={33}
