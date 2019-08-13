@@ -5,44 +5,6 @@
 	border-bottom: 1px solid #ececec;
 	cursor: pointer;
 }
-
-.addressBlock {
-	margin-bottom: 40px;
-}
-.baseWhatsapp {
-	width: 100%;
-	height: auto;
-	margin-left: 15px;
-}
-
-.whatsAppTick {
-	width: 8%;
-	float: left;
-	padding: 3px 0 0 3px;
-	cursor: pointer;
-}
-
-.whatsappImage {
-	width: 24px;
-	height: 24px;
-	margin-left: 10px;
-	display: inline-block;
-  vertical-align: bottom;
-}
-
-.orderUpdateText {
-	width: 92%;
-	height: auto;
-	line-height: 22px;
-	text-align: left;
-	font-family: semibold;
-	font-size: 12px;
-	position: relative;
-	word-wrap: break-word;
-	float: right;
-	cursor: pointer;
-}
-
 .titleAddress {
 	width: 100%;
 	height: auto;

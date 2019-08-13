@@ -1,114 +1,72 @@
 import React from "react";
 import styles from "./DeliveryAddressCart.css";
 import CheckBox from "../../general/components/CheckBox.js";
-import CheckBoxSquare from "../../general/components/CheckBoxSquare.js";
-import Whatsapp from "../../general/components/img/whatsapp.svg";
 import PropTypes from "prop-types";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 export default class DeliveryAddressCopy extends React.Component {
   constructor() {
     super();
-    this.state = {
-      whatsAppActive: false
-    };
   }
-  async componentDidMount() {
-    await this.setState({ whatsAppActive: this.props.selected });
-    if (this.props.selected && this.props.handleWhatsAppClick) {
-      this.props.handleWhatsAppClick(this.state.whatsAppActive);
-    }
-  }
-  async handleClick() {
-    await this.setState({ whatsAppActive: !this.props.selected });
+  handleClick() {
     if (this.props.selectItem) {
       this.props.selectItem();
-    }
-    if (this.props.handleWhatsAppClick) {
-      this.props.handleWhatsAppClick(this.state.whatsAppActive);
-    }
-  }
-  async handleWhatsAppClick() {
-    await this.setState({ whatsAppActive: !this.state.whatsAppActive });
-    if (this.props.handleWhatsAppClick) {
-      this.props.handleWhatsAppClick(this.state.whatsAppActive);
     }
   }
   render() {
     return (
-      <div className={styles.addressBlock}>
+      <div
+        className={this.props.isReturn ? styles.baseForReturn : styles.base}
+        onClick={() => this.handleClick()}
+      >
         <div
-          className={this.props.isReturn ? styles.baseForReturn : styles.base}
-          onClick={() => this.handleClick()}
+          className={
+            this.props.isReturn
+              ? styles.titleAddressForReturn
+              : styles.titleAddress
+          }
         >
-          <div
-            className={
-              this.props.isReturn
-                ? styles.titleAddressForReturn
-                : styles.titleAddress
-            }
-          >
-            {this.props.addressTitle}
-          </div>
-          <div
-            className={
-              this.props.isReturn
-                ? styles.titleDescriptionForReturn
-                : styles.titleDescription
-            }
-          >
-            {this.props.addressDescription}
-            <MobileOnly>
-              {!this.props.isReturn && (
-                <div className={styles.checkCircle}>
-                  <CheckBox selected={this.props.selected} />
-                </div>
-              )}
-            </MobileOnly>
-            {this.props.isReturn && (
-              <div className={styles.checkCircleForReturn}>
-                <CheckBox selected={this.props.selected} />
-              </div>
-            )}
-          </div>
-          {this.props.contact && (
-            <div
-              className={
-                this.props.isReturn
-                  ? styles.titleContactForReturn
-                  : styles.titleContact
-              }
-            >
-              Ph. {this.props.phone}
-            </div>
-          )}
-          <DesktopOnly>
+          {this.props.addressTitle}
+        </div>
+        <div
+          className={
+            this.props.isReturn
+              ? styles.titleDescriptionForReturn
+              : styles.titleDescription
+          }
+        >
+          {this.props.addressDescription}
+          <MobileOnly>
             {!this.props.isReturn && (
               <div className={styles.checkCircle}>
                 <CheckBox selected={this.props.selected} />
               </div>
             )}
-          </DesktopOnly>
+          </MobileOnly>
+          {this.props.isReturn && (
+            <div className={styles.checkCircleForReturn}>
+              <CheckBox selected={this.props.selected} />
+            </div>
+          )}
         </div>
-        {this.props.selected && (
+        {this.props.contact && (
           <div
-            className={styles.baseWhatsapp}
-            onClick={() => this.handleWhatsAppClick()}
+            className={
+              this.props.isReturn
+                ? styles.titleContactForReturn
+                : styles.titleContact
+            }
           >
-            <div className={styles.whatsAppTick}>
-              <CheckBoxSquare
-                selected={this.state.whatsAppActive}
-                size="16px"
-              />
-            </div>
-            <div className={styles.orderUpdateText}>
-              Get order updates on Whatsapp
-              <div className={styles.whatsappImage}>
-                <img src={Whatsapp} alt="" width="24px" height="24px" />
-              </div>
-            </div>
+            Ph. {this.props.phone}
           </div>
         )}
+        <DesktopOnly>
+          {!this.props.isReturn && (
+            <div className={styles.checkCircle}>
+              <CheckBox selected={this.props.selected} />
+            </div>
+          )}
+        </DesktopOnly>
       </div>
     );
   }
