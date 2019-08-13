@@ -66,6 +66,12 @@
   font-family: light;
 }
 .priceText {
-  float: right;
-  padding-right: 142px;
+  display: inline-block;
+  width: 30%;
+  text-align: left;
+}
+
+.productListHeaderLeft {
+  width: 70%;
+  display: inline-block;
 }

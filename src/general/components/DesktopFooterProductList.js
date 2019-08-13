@@ -23,10 +23,13 @@ class DesktopFooterProductList extends Component {
           </div>
           <div className={styles.productListWrapper}>
             <div className={styles.productListHeader}>
-              {this.props &&
-                this.props.productListings &&
-                this.props.productListings.searchresult &&
-                this.props.productListings.searchresult[0].productCategoryType}
+              <div className={styles.productListHeaderLeft}>
+                {this.props &&
+                  this.props.productListings &&
+                  this.props.productListings.searchresult &&
+                  this.props.productListings.searchresult[0]
+                    .productCategoryType}
+              </div>
               <div className={styles.priceText}>Price</div>
             </div>
 
