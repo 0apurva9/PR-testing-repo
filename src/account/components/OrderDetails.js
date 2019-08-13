@@ -350,6 +350,12 @@ export default class OrderDetails extends React.Component {
     if (orderDetails && orderDetails.orderDate) {
       orderPlacedDate = format(orderDetails.orderDate, dateFormat);
     }
+    let storeNumber =
+      orderDetails &&
+      orderDetails.products &&
+      orderDetails.products[0] &&
+      orderDetails.products[0].storeDetails &&
+      orderDetails.products[0].storeDetails.storeContactNumber;
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -741,7 +747,7 @@ export default class OrderDetails extends React.Component {
                                 <span className={styles.colon}>:</span>
                                 <span className={styles.width75}>
                                   {/* <span>{orderDetails.pickupPersonName}</span> */}
-                                  <span>{orderDetails.pickupPersonMobile}</span>
+                                  <span>{storeNumber}</span>
                                 </span>
                               </div>
                             </div>

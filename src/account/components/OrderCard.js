@@ -140,15 +140,7 @@ export default class OrderCard extends React.Component {
       checkStatus =
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     }
-    // console.log(
-    //   "giftCardStatus",
-    //   this.props.giftCardStatus,
-    //   "displayStatusName",
-    //   this.props.displayStatusName,
-    //   "props in order card:",
-    //   this.props
-    // );
-    //console.log("estomated Delivery Date:", estimatedDeliveryDateFormatted)
+
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
