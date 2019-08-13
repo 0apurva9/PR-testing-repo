@@ -52,7 +52,7 @@ class DesktopFooterProductList extends Component {
                           </a>
                         </div>
                         <div className={styles.productListPrice}>
-                          Rs. {value.price.sellingPrice.doubleValue}
+                          ₹{value.price.sellingPrice.doubleValue}
                         </div>
                       </div>
                     )
