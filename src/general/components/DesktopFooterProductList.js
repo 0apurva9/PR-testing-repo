@@ -10,6 +10,7 @@ class DesktopFooterProductList extends Component {
       "/" +
       current_datetime.getDate();
     const headerName =
+      this.props &&
       this.props.productListings &&
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs;
@@ -19,7 +20,8 @@ class DesktopFooterProductList extends Component {
           <div className={styles.header}>
             {headerName
               ? headerName[0].name
-              : this.props.productListings &&
+              : this.props &&
+                this.props.productListings &&
                 this.props.productListings.currentQuery &&
                 this.props.productListings.currentQuery.searchQuery.replace(
                   "%22",
@@ -32,7 +34,8 @@ class DesktopFooterProductList extends Component {
               <div className={styles.productListHeaderLeft}>
                 {headerName
                   ? headerName[0].name
-                  : this.props.productListings &&
+                  : this.props &&
+                    this.props.productListings &&
                     this.props.productListings.currentQuery &&
                     this.props.productListings.currentQuery.searchQuery.replace(
                       "%22",
