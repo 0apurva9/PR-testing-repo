@@ -44,14 +44,20 @@ class DesktopFooterProductList extends Component {
               </div>
               <div className={styles.priceText}>Price</div>
             </div>
-
             <div className={styles.productListDetailsWrapper}>
               {this.props &&
                 this.props.productListings &&
                 this.props.productListings.searchresult &&
-                this.props.productListings.searchresult.map((value, i) => {
-                  return (
-                    i < 10 && (
+                this.props.productListings.searchresult
+                  .slice(0, 10)
+                  .sort(function(a, b) {
+                    return (
+                      b.price.sellingPrice.doubleValue -
+                      a.price.sellingPrice.doubleValue
+                    );
+                  })
+                  .map((value, i) => {
+                    return (
                       <div className={styles.productListRow}>
                         <div className={styles.productListDetailWrapper}>
                           <span>{i + 1}. </span>
@@ -67,9 +73,8 @@ class DesktopFooterProductList extends Component {
                           {value.price.sellingPrice.formattedValueNoDecimal}
                         </div>
                       </div>
-                    )
-                  );
-                })}
+                    );
+                  })}
             </div>
           </div>
           <div className={styles.lastUpdated}>
