@@ -97,7 +97,7 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 
-import { EGV_GIFT_CART_ID } from "../components/CheckOutPage";
+const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
 export const RESET_ALL_PAYMENT_MODES = "RESET_ALL_PAYMENT_MODES";
@@ -442,6 +442,13 @@ export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
   "GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST";
 export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
   "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
+
+export const ORDER_CONFIRMATION_BANNER_REQUEST =
+  "ORDER_CONFIRMATION_BANNER_REQUEST";
+export const ORDER_CONFIRMATION_BANNER_SUCCESS =
+  "ORDER_CONFIRMATION_BANNER_SUCCESS";
+export const ORDER_CONFIRMATION_BANNER_FAILURE =
+  "ORDER_CONFIRMATION_BANNER_FAILURE";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -808,6 +815,7 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartGuId = JSON.parse(cartDetails).guid;
   let cartId = JSON.parse(cartDetails).code;
+  let cliqCashapplied = localStorage.getItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     dispatch(releaseUserCouponRequest());
     try {
@@ -823,6 +831,11 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+
+      if (cliqCashapplied) {
+        await dispatch(removeCliqCash());
+        await dispatch(applyCliqCash());
       }
 
       if (newCouponCode) {
@@ -2656,12 +2669,9 @@ export function createJusPayOrderForGiftCard(
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartId = cartDetails && JSON.parse(cartDetails).guid;
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
   return async (dispatch, getState, { api }) => {
-    let orderDetails = getState().cart.cartDetailsCNC;
     dispatch(createJusPayOrderRequest());
     try {
       const result = await api.post(
@@ -3568,6 +3578,51 @@ export function orderConfirmation(orderId) {
       dispatch(orderConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
+    }
+  };
+}
+
+//get banner on order confirmation
+export function orderConfirmationBannerRequest() {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function orderConfirmationBannerSuccess(orderConfirmationBannerDetails) {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_SUCCESS,
+    status: SUCCESS,
+    orderConfirmationBannerDetails
+  };
+}
+
+export function orderConfirmationBannerFailure(error) {
+  return {
+    type: ORDER_CONFIRMATION_BANNER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function orderConfirmationBanner(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(orderConfirmationBannerRequest());
+    try {
+      const result = await api.getOrderConfirmBanner(
+        `/otatacliq/getApplicationProperties.json?propertyNames=ORDER_CONFIRMATION_WARRENTY_BANNER`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(orderConfirmationBannerSuccess(resultJson));
+    } catch (e) {
+      dispatch(orderConfirmationBannerFailure(e.message));
     }
   };
 }

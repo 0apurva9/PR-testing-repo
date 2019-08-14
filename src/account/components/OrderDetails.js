@@ -329,9 +329,13 @@ export default class OrderDetails extends React.Component {
                         }
                         ConvenienceCharges={orderDetails.convenienceCharge}
                         Total={
-                          orderDetails.totalOrderAmount
-                            ? Math.round(orderDetails.totalOrderAmount * 100) /
-                              100
+                          orderDetails.orderAmount &&
+                          orderDetails.orderAmount.paybleAmount &&
+                          orderDetails.orderAmount.paybleAmount.value
+                            ? Math.round(
+                                orderDetails.orderAmount.paybleAmount.value *
+                                  100
+                              ) / 100
                             : "0.00"
                         }
                         cliqCashAmountDeducted={

@@ -7,6 +7,9 @@ import PriceBreakupModal from "../../pdp/components/PriceBreakupModal";
 import BankOfferTNCModal from "../../cart/components/BankOfferTNCModal";
 import OrderModal from "../../account/components/OrderModal";
 import * as Cookie from "../../lib/Cookie.js";
+import CliqCashModuleContainer from "../../account/containers/CliqCashModuleContainer";
+import DatePickerModule from "../../account/components/DatePickerModule";
+import CliqCashKnowMore from "../../account/components/CliqCashKnowMore";
 
 import {
   LOGGED_IN_USER_DETAILS,
@@ -145,6 +148,12 @@ const ManufacturerDetailsModal = Loadable({
     return <Loader />;
   }
 });
+const ReviewGuidelineModal = Loadable({
+  loader: () => import("../../pdp/components/ReviewGuidelineModal.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const BankOffersDetails = Loadable({
   loader: () => import("../../cart/components/BankOffersDetails.js"),
@@ -237,6 +246,12 @@ const SimilarProductsOOSModal = Loadable({
 
 const SizeSelectorOOSModal = Loadable({
   loader: () => import("./SizeSelectorOOSModalWrapper.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+const GiftCardSucessBottomModel = Loadable({
+  loader: () => import("../../account/components/GiftCardSucessBottomModel"),
   loading() {
     return <Loader />;
   }
@@ -710,6 +725,34 @@ export default class ModalRoot extends React.Component {
           wrongNumber={() => this.wrongNumber()}
           {...this.props.ownProps}
           loadingForVerifyWallet={this.props.loadingForVerifyWallet}
+        />
+      ),
+      cliqCashModule: (
+        <CliqCashModuleContainer
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          displayToast={message => this.props.displayToast(message)}
+        />
+      ),
+      cliqcashknowmore: (
+        <CliqCashKnowMore
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+      datePickerModule: (
+        <DatePickerModule
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          displayToast={message => this.props.displayToast(message)}
+        />
+      ),
+      cliqCashSucessModule: (
+        <GiftCardSucessBottomModel
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          history={this.props.history}
+          displayToast={message => this.props.displayToast(message)}
         />
       ),
       TermsAndConditionForBankOffer: (
