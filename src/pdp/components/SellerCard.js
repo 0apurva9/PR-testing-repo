@@ -6,7 +6,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import Button from "../../general/components/Button.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
-import { SUCCESS, ADD_TO_BAG_TEXT } from "../../lib/constants";
+import { SUCCESS, ADD_TO_BAG_TEXT, SHIPPING_TYPES } from "../../lib/constants";
 export default class SellerCard extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +44,7 @@ export default class SellerCard extends React.Component {
     ) {
       priceClass = styles.priceCancelled;
     }
+    let availableDeliveryModes = [];
 
     return (
       <div className={styles.base} onClick={() => this.handleClick(this.props)}>
@@ -118,34 +119,36 @@ export default class SellerCard extends React.Component {
               <div className={styles.offerText}>EMI Available</div>
             )}
           </div>
-          {console.log(this.props.eligibleDeliveryModes)}
-          {console.log(this.props.serviceablePincodeList)}
           <div
             className={
               this.props.disabled ? styles.faded : styles.sellerCardDetails
             }
           >
-            {this.props.eligibleDeliveryModes &&
-              this.props.eligibleDeliveryModes.map((val, i) => {
-                if (this.props.serviceablePincodeList) {
-                  this.props.serviceablePincodeList.map((product, i) => {
-                    return (
-                      product.ussid === this.props.winningUssID && (
-                        <div className={styles.shippingText}>
-                          {val.name}
-                          {val.description && <span>-</span>}
-                          {val.description}
-                        </div>
-                      )
-                    );
-                  });
-                } else {
+            {this.props.serviceablePincodeList &&
+              this.props.serviceablePincodeList.map((product, j) => {
+                if (product.ussid === this.props.winningUssID) {
                   return (
-                    <div className={styles.shippingText}>
-                      {val.name}
-                      {val.description && <span>-</span>}
-                      {val.description}
-                    </div>
+                    product.validDeliveryModes &&
+                    product.validDeliveryModes.map((deliveryMode, k) => {
+                      return (
+                        this.props.eligibleDeliveryModes &&
+                        this.props.eligibleDeliveryModes.map((val, i) => {
+                          if (
+                            SHIPPING_TYPES[deliveryMode.type] === val.code &&
+                            !availableDeliveryModes.includes(deliveryMode.type)
+                          ) {
+                            availableDeliveryModes.push(deliveryMode.type);
+                            return (
+                              <div className={styles.shippingText}>
+                                {val.name}
+                                {val.description && <span>-</span>}
+                                {val.description}
+                              </div>
+                            );
+                          }
+                        })
+                      );
+                    })
                   );
                 }
               })}
