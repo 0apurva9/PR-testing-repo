@@ -64,24 +64,20 @@ export default class FeedBackForm extends React.Component {
       getUserDetails.transactionId,
       getUserDetails.originalUid
     );
-    document.location.reload();
   }
   render() {
     let getData = this.props && this.props.feedBackDetails;
     let getMessage =
       this.props &&
-      this.props.feedBackDetails &&
-      this.props.feedBackDetails.message;
+      ((this.props.feedBackDetails && this.props.feedBackDetails.message) ||
+        (this.props.feedBackSent && this.props.feedBackSent.message));
     return (
       <div className={styles.base}>
         <div className={styles.formWrapper}>
           {getMessage && (
             <div className={styles.afterSubMitReviewHolder}>
               <div className={styles.thankYouText}>Thank you!</div>
-              <div className={styles.subText}>
-                It appears that you have already provided feedback for the
-                survey.
-              </div>
+              <div className={styles.subText}>{getMessage}</div>
               <div className={styles.buttonHolder}>
                 <div className={styles.button}>
                   <Button
