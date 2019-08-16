@@ -65,14 +65,12 @@ class DesktopFooterProductList extends Component {
                         </div>
                         <div className={styles.productListPrice}>
                           {value.price &&
-                          value.price.maxPrice &&
-                          value.price.maxPrice.formattedValueNoDecimal
-                            ? value.price &&
-                              value.price.maxPrice &&
-                              value.price.maxPrice.formattedValueNoDecimal
-                            : value.price &&
-                              value.price.sellingPrice &&
-                              value.price.sellingPrice.formattedValueNoDecimal}
+                            (value.price.maxPrice &&
+                            value.price.maxPrice.formattedValueNoDecimal
+                              ? value.price.maxPrice.formattedValueNoDecimal
+                              : value.price.sellingPrice &&
+                                value.price.sellingPrice
+                                  .formattedValueNoDecimal)}
                         </div>
                       </div>
                     );
