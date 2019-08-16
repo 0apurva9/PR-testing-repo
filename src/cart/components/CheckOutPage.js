@@ -1239,12 +1239,12 @@ class CheckOutPage extends React.Component {
       }
     }
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
-      window.scroll(0, 0);
+      window.scrollTo(0, 0);
       this.setState({ orderConfirmation: true, paymentConfirmation: false });
     }
 
     if (nextProps.cart.getPrepaidOrderPaymentConfirmationStatus === SUCCESS) {
-      window.scroll(0, 0);
+      window.scrollTo(0, 0);
       this.setState({ paymentConfirmation: true, orderConfirmation: false });
     }
 

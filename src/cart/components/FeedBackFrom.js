@@ -21,7 +21,7 @@ export default class FeedBackForm extends React.Component {
     if (this.props.getFeedBackForm) {
       this.props.getFeedBackForm(getUserDetails);
     }
-    window.scroll(0, 0);
+    window.scrollTo(0, 0);
   }
   onclickQuestion = (rating, questionNumber, questionName) => {
     if (this.questionRatingArray.length !== 0) {
@@ -64,6 +64,7 @@ export default class FeedBackForm extends React.Component {
       getUserDetails.transactionId,
       getUserDetails.originalUid
     );
+    window.scrollTo(0, 0);
   }
   render() {
     let getData = this.props && this.props.feedBackDetails;
