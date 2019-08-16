@@ -50,12 +50,6 @@ class DesktopFooterProductList extends Component {
                 this.props.productListings.searchresult &&
                 this.props.productListings.searchresult
                   .slice(0, 10)
-                  .sort(function(a, b) {
-                    return (
-                      b.price.sellingPrice.doubleValue -
-                      a.price.sellingPrice.doubleValue
-                    );
-                  })
                   .map((value, i) => {
                     return (
                       <div className={styles.productListRow}>
@@ -70,7 +64,15 @@ class DesktopFooterProductList extends Component {
                           </a>
                         </div>
                         <div className={styles.productListPrice}>
-                          {value.price.sellingPrice.formattedValueNoDecimal}
+                          {value.price &&
+                          value.price.maxPrice &&
+                          value.price.maxPrice.formattedValueNoDecimal
+                            ? value.price &&
+                              value.price.maxPrice &&
+                              value.price.maxPrice.formattedValueNoDecimal
+                            : value.price &&
+                              value.price.sellingPrice &&
+                              value.price.sellingPrice.formattedValueNoDecimal}
                         </div>
                       </div>
                     );
