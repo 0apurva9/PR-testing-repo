@@ -21,6 +21,7 @@ export default class FeedBackForm extends React.Component {
     if (this.props.getFeedBackForm) {
       this.props.getFeedBackForm(getUserDetails);
     }
+    window.scroll(0, 0);
   }
   onclickQuestion = (rating, questionNumber, questionName) => {
     if (this.questionRatingArray.length !== 0) {
@@ -56,18 +57,14 @@ export default class FeedBackForm extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   onSumbmit() {
-    if (this.questionRatingArray.length < 1) {
-      this.props.displayToast("Please Select One Rating");
-    } else {
-      let getUserDetails = queryString.parse(this.props.location.search);
-      this.props.postFeedBackForm(
-        this.state.textDetails,
-        this.questionRatingArray,
-        getUserDetails.transactionId,
-        getUserDetails.originalUid
-      );
-      document.location.reload();
-    }
+    let getUserDetails = queryString.parse(this.props.location.search);
+    this.props.postFeedBackForm(
+      this.state.textDetails,
+      this.questionRatingArray,
+      getUserDetails.transactionId,
+      getUserDetails.originalUid
+    );
+    document.location.reload();
   }
   render() {
     let getData = this.props && this.props.feedBackDetails;
