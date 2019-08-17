@@ -37,7 +37,7 @@ export default class SizeGuideMain extends React.Component {
       this.props.sizeData &&
       (this.props.sizeData.sizeGuideList ||
         (this.props.sizeData.sizeGuideTabularWsData &&
-          this.props.sizeData.sizeGuideTabularWsData.length > 0))
+          this.props.sizeData.sizeGuideTabularWsData.unitList))
     ) {
       return (
         <div className={styles.base}>
