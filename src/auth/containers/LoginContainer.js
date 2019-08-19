@@ -192,10 +192,12 @@ const mapDispatchToProps = dispatch => {
 
         //Get bag details before login
         const cartDetails = localStorage.getItem(CART_BAG_DETAILS);
-        const cartDetailsCount = JSON.parse(cartDetails).length;
-        const cartDetailsLoggedInUserCount = parseInt(
-          JSON.parse(cartDetailsLoggedInUser).count
-        );
+        const cartDetailsCount = cartDetails
+          ? JSON.parse(cartDetails).length
+          : 0;
+        const cartDetailsLoggedInUserCount = cartDetailsLoggedInUser
+          ? parseInt(JSON.parse(cartDetailsLoggedInUser).count)
+          : 0;
         if (productObj.index >= 0) {
           const removeCartResponse = await dispatch(
             removeItemFromCartLoggedIn(
