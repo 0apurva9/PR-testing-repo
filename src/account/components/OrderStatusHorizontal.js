@@ -78,7 +78,7 @@ export default class OrderStatusHorizontal extends React.Component {
           <div
             className={refundCompleted ? styles.checkActive : styles.check}
           />
-          {refundCompleted && <span>Refund completed</span>}
+          {refundCompleted && <span>Return completed</span>}
         </div>
       </div>
     );
