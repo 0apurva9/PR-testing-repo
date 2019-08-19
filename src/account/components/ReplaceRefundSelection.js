@@ -26,7 +26,8 @@ import {
   RETURNS_STORE_BANK_FORM,
   LOGGED_IN_USER_DETAILS,
   PRODUCT_CANCEL,
-  REFUND_SUMMARY
+  REFUND_SUMMARY,
+  BANK_ACCOUNT
 } from "../../lib/constants";
 const dateFormat = "DD MMM YYYY";
 
@@ -69,7 +70,7 @@ export default class ReplaceRefundSelection extends React.Component {
     //if bank data already present show it - coming from update bank details screen
     if (Object.keys(this.props.bankDetail).length !== 0) {
       this.setState({ showRefundOptions: true });
-      this.setState({ selectedOption: "BANK_ACCOUNT" });
+      this.setState({ selectedOption: BANK_ACCOUNT });
       this.setState({ showBankDetails: true });
     } else {
       this.setState({ showBankDetails: false });
@@ -102,7 +103,7 @@ export default class ReplaceRefundSelection extends React.Component {
         this.setState({ selectedOption: "" });
       }
     }
-    if (target.value === "BANK_ACCOUNT") {
+    if (target.value === BANK_ACCOUNT) {
       //bank account
       // if (target.value === "BANK_TO_SOURCE") {
       let getCustomerBankDetailsResponse = await this.props.getCustomerBankDetails();
@@ -201,7 +202,7 @@ export default class ReplaceRefundSelection extends React.Component {
       }
     }
     //bank account
-    if (this.state.selectedOption === "BANK_ACCOUNT") {
+    if (this.state.selectedOption === BANK_ACCOUNT) {
       this.goToRefundModesPage();
     }
   }
@@ -360,7 +361,7 @@ export default class ReplaceRefundSelection extends React.Component {
 
   getContinueButton(selectedOption, agreeToReturn, userBankDetails) {
     // if (selectedOption && agreeToReturn) {
-    if (selectedOption === "BANK_ACCOUNT") {
+    if (selectedOption === BANK_ACCOUNT) {
       return (
         <div className={styles.buttonHolder}>
           <div className={styles.button}>
@@ -381,7 +382,7 @@ export default class ReplaceRefundSelection extends React.Component {
         </div>
       );
     }
-    if (selectedOption !== "BANK_ACCOUNT") {
+    if (selectedOption !== BANK_ACCOUNT) {
       return (
         <div className={styles.buttonHolder}>
           <div className={styles.button}>
@@ -431,12 +432,19 @@ export default class ReplaceRefundSelection extends React.Component {
     const productData = this.props.returnProductDetails;
     let imageCallOut = productData && productData.attachmentImageCallout;
     let imageCallOutArr = imageCallOut && imageCallOut.split("|");
+
     let uploadImage = this.state.uploadedImageFiles;
     let ifscCode = userBankDetails && userBankDetails.IFSCCode;
     let accountNumber = userBankDetails && userBankDetails.accountNumber;
-    let length = 5;
-    let ifscCodeHidden = ifscCode.substring(0, length - 4) + "****";
-    let accountNumberHidden = accountNumber.substring(0, length - 4) + "****";
+    let noOfStarsIfscCode =
+      ifscCode && ifscCode.slice(ifscCode.length - 4, ifscCode.length);
+    let noOfStarsAccountNumber =
+      accountNumber &&
+      accountNumber.slice(accountNumber.length - 4, accountNumber.length);
+    let newIfscCode =
+      ifscCode.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsIfscCode;
+    let newAccountNumber =
+      accountNumber.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsAccountNumber;
 
     return (
       <React.Fragment>
@@ -626,8 +634,7 @@ export default class ReplaceRefundSelection extends React.Component {
                                   )}
                               </form>
                               {this.state.showBankDetails &&
-                                this.state.selectedOption ===
-                                  "BANK_ACCOUNT" && (
+                                this.state.selectedOption === BANK_ACCOUNT && (
                                   <React.Fragment>
                                     <div className={styles.bankDetailsHeading}>
                                       Your Account Details:
@@ -656,20 +663,20 @@ export default class ReplaceRefundSelection extends React.Component {
                                       IFSC code:
                                     </div>
                                     <div className={styles.bankDetailsText}>
-                                      {ifscCodeHidden}
+                                      {newIfscCode}
                                     </div>
                                     <div className={styles.bankDetailsText}>
                                       Account number:
                                     </div>
                                     <div className={styles.bankDetailsText}>
-                                      {accountNumberHidden}
+                                      {newAccountNumber}
                                     </div>
                                   </React.Fragment>
                                 )}
                             </div>
                           </div>
                           {!this.state.showBankDetails &&
-                            this.state.selectedOption === "BANK_ACCOUNT" && (
+                            this.state.selectedOption === BANK_ACCOUNT && (
                               <div
                                 className={styles.addBankDetailsButton}
                                 onClick={() => this.addBankDetails()}
