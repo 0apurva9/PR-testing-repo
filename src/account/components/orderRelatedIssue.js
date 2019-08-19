@@ -276,7 +276,8 @@ export default class OrderRelatedIssue extends React.Component {
           orderCode: this.state.orderCode,
 
           subOrderCode: this.state.sellerOrderNumber,
-          currentState: this.state.isSelected
+          currentState: this.state.isSelected,
+          imageURL: this.state.productImageURL
         }
       );
       let getCustomerQueryDetailsObject = Object.assign(
