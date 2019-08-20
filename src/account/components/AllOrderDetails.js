@@ -697,6 +697,8 @@ export default class AllOrderDetails extends React.Component {
                                       orderDetails.displayStatusName
                                     }
                                     displayToast={this.props.displayToast}
+                                    logisticName={product.logisticName}
+                                    trackingAWB={product.trackingAWB}
                                   />
                                   <DesktopOnly>
                                     <div className={styles.returnReview}>

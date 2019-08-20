@@ -1227,16 +1227,20 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         <div className={styles.dateHolder}>
                           {itemPackedDate}
                         </div> */}
-                                        <div
-                                          className={styles.itemPackedDetails}
-                                        >
-                                          Courier: {this.props.logisticName}
-                                        </div>
-                                        <div
-                                          className={styles.itemPackedDetails}
-                                        >
-                                          AWB No: {this.props.trackingAWB}
-                                        </div>
+                                        {this.props.logisticName && (
+                                          <div
+                                            className={styles.itemPackedDetails}
+                                          >
+                                            Courier: {this.props.logisticName}
+                                          </div>
+                                        )}
+                                        {this.props.trackingAWB && (
+                                          <div
+                                            className={styles.itemPackedDetails}
+                                          >
+                                            AWB No: {this.props.trackingAWB}
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   </React.Fragment>
@@ -1346,12 +1350,16 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           <div className={styles.timeHolder}>
                             {refundInitiatedDate}
                           </div>
-                          <span className={styles.itemPackedDetails}>
-                            Courier: {this.props.logisticName}
-                          </span>
-                          <span className={styles.itemPackedDetails}>
-                            AWB No: {this.props.trackingAWB}
-                          </span>
+                          {this.props.logisticName && (
+                            <span className={styles.itemPackedDetails}>
+                              Courier: {this.props.logisticName}
+                            </span>
+                          )}
+                          {this.props.trackingAWB && (
+                            <span className={styles.itemPackedDetails}>
+                              AWB No: {this.props.trackingAWB}
+                            </span>
+                          )}
                         </div>
                       </div>
                     )}
@@ -1597,12 +1605,16 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           <div className={styles.dateHolder}>
                             {itemPackedDate}
                           </div> */}
-                                <div className={styles.itemPackedDetails}>
-                                  Courier: {this.props.logisticName}
-                                </div>
-                                <div className={styles.itemPackedDetails}>
-                                  AWB No: {this.props.trackingAWB}
-                                </div>
+                                {this.props.logisticName && (
+                                  <div className={styles.itemPackedDetails}>
+                                    Courier: {this.props.logisticName}
+                                  </div>
+                                )}
+                                {this.props.trackingAWB && (
+                                  <div className={styles.itemPackedDetails}>
+                                    AWB No: {this.props.trackingAWB}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           ) : (
