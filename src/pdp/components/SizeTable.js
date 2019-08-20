@@ -66,7 +66,13 @@ export default class SizeTable extends Component {
       <div className={styles.tablebase}>
         {this.state.header && (
           <div className={styles.base}>
-            <div className={styles.header}>
+            <div
+              className={
+                this.state.header.length > 3
+                  ? styles.header
+                  : styles.shortHeader
+              }
+            >
               {this.state.header.map(val => {
                 return (
                   <div className={styles.headerLabelHolder}>
@@ -82,7 +88,13 @@ export default class SizeTable extends Component {
                 this.props.data.sizeGuideList.map(val => {
                   details = this.getdata(val.dimensionList);
                   return (
-                    <div className={styles.tableRow}>
+                    <div
+                      className={
+                        this.state.header.length > 3
+                          ? styles.tableRow
+                          : styles.shortTableRow
+                      }
+                    >
                       <div className={styles.tableData}>
                         {val.dimensionSize}
                       </div>

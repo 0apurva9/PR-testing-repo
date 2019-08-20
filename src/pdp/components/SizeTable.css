@@ -16,6 +16,18 @@
   display: flex;
   flex-direction: row;
 }
+.shortHeader {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  background: #ececec;
+  justify-content: center;
+}
+.shortTableRow {
+  composes: shortHeader;
+  background: #fff;
+}
 .headerLabelHolder {
   height: 30px;
   min-width: 25%;
