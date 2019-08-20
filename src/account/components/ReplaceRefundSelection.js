@@ -434,7 +434,9 @@ export default class ReplaceRefundSelection extends React.Component {
     let imageCallOutArr = imageCallOut && imageCallOut.split("|");
 
     let uploadImage = this.state.uploadedImageFiles;
-    let ifscCode = userBankDetails && userBankDetails.IFSCCode;
+    let ifscCode =
+      (userBankDetails && userBankDetails.IFSCCode) ||
+      (userBankDetails && userBankDetails.ifscCode);
     let accountNumber = userBankDetails && userBankDetails.accountNumber;
     let noOfStarsIfscCode =
       ifscCode && ifscCode.slice(ifscCode.length - 4, ifscCode.length);
@@ -442,8 +444,9 @@ export default class ReplaceRefundSelection extends React.Component {
       accountNumber &&
       accountNumber.slice(accountNumber.length - 4, accountNumber.length);
     let newIfscCode =
-      ifscCode.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsIfscCode;
+      ifscCode && ifscCode.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsIfscCode;
     let newAccountNumber =
+      accountNumber &&
       accountNumber.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsAccountNumber;
 
     return (
