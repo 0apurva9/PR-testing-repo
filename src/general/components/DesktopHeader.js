@@ -361,9 +361,9 @@ export default class DesktopHeader extends React.Component {
                   <a href={""} target="_blank">
                     <div
                       className={styles.loginTab}
-                      onClick={event => this.onCliqCash("Cliq Cash", event)}
+                      onClick={event => this.onCliqCash("CLiQ Cash", event)}
                     >
-                      Cliq Cash
+                      CLiQ Cash
                     </div>
                   </a>
                 </div>
