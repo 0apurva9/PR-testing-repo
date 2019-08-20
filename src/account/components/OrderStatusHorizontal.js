@@ -52,11 +52,14 @@ export default class OrderStatusHorizontal extends React.Component {
           this.props.courier !== "null" && (
             <div className={styles.row}>Courier: {this.props.courier}</div>
           )}
-        {this.props.trackingAWB &&
-          this.props.trackingAWB !== null &&
-          this.props.trackingAWB !== "null" && (
-            <div className={styles.row}>AWB No: {this.props.trackingAWB}</div>
-          )}
+        {(this.props.returnAWB || this.props.trackingAWB) && (
+          <div className={styles.row}>
+            AWB No:{" "}
+            {this.props.returnAWB
+              ? this.props.returnAWB
+              : this.props.trackingAWB}
+          </div>
+        )}
 
         <div className={returnInitiated ? styles.step : styles.stepInactive}>
           <div

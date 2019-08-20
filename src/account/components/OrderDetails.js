@@ -442,6 +442,7 @@ export default class OrderDetails extends React.Component {
                             .includes(RETURN) && (
                             <OrderStatusHorizontal
                               trackingAWB={products.trackingAWB}
+                              returnAWB={products.returnAWB}
                               courier={products.reverseLogisticName}
                               statusMessageList={products.statusDisplayMsg.filter(
                                 val => {
@@ -528,6 +529,7 @@ export default class OrderDetails extends React.Component {
                             .includes(RETURN) && (
                             <OrderStatusHorizontal
                               trackingAWB={products.trackingAWB}
+                              returnAWB={products.returnAWB}
                               courier={products.reverseLogisticName}
                               statusMessageList={products.statusDisplayMsg.filter(
                                 val => {
