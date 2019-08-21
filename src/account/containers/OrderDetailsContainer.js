@@ -14,7 +14,8 @@ import {
   ORDER_DETAILS_MODAL,
   showModal,
   SHOW_RETURN_CONFIRM_POP_UP,
-  DESKTOP_AUTH
+  DESKTOP_AUTH,
+  SHOW_DELIVERY_CONFIRM_POP_UP
 } from "../../general/modal.actions";
 import {
   showSecondaryLoader,
@@ -63,6 +64,9 @@ const mapDispatchToProps = dispatch => {
     },
     retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
       return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
+    },
+    showDeliveryConfirmModal: data => {
+      dispatch(showModal(SHOW_DELIVERY_CONFIRM_POP_UP, data));
     }
   };
 };

@@ -44,7 +44,8 @@ export default class ReplaceRefundSelection extends React.Component {
       //addBankDetailsPage: false
       cliqCashCheckSuccess: false,
       uploadedImageFiles: "",
-      showAttachment: false
+      showAttachment: false,
+      totalImageSize: ""
     };
     this.radioChange = this.radioChange.bind(this);
     this.agreeToReturnDetails = this.agreeToReturnDetails.bind(this);
@@ -310,6 +311,7 @@ export default class ReplaceRefundSelection extends React.Component {
       imgArray.push(eachImgSrc);
       validImageFiles.push(value);
       let currentImagesSize = allImagesSize.reduce((a, b) => a + b, 0);
+      this.setState({ allImagesSize: currentImagesSize });
       if (currentImagesSize > 25000000) {
         return this.props.displayToast(
           "The all images size should be lesser than 25MB"
@@ -434,7 +436,9 @@ export default class ReplaceRefundSelection extends React.Component {
     let imageCallOutArr = imageCallOut && imageCallOut.split("|");
 
     let uploadImage = this.state.uploadedImageFiles;
-    let ifscCode = userBankDetails && userBankDetails.IFSCCode;
+    let ifscCode =
+      (userBankDetails && userBankDetails.IFSCCode) ||
+      (userBankDetails && userBankDetails.ifscCode);
     let accountNumber = userBankDetails && userBankDetails.accountNumber;
     let noOfStarsIfscCode =
       ifscCode && ifscCode.slice(ifscCode.length - 4, ifscCode.length);
@@ -442,9 +446,12 @@ export default class ReplaceRefundSelection extends React.Component {
       accountNumber &&
       accountNumber.slice(accountNumber.length - 4, accountNumber.length);
     let newIfscCode =
-      ifscCode.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsIfscCode;
+      ifscCode && ifscCode.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsIfscCode;
     let newAccountNumber =
+      accountNumber &&
       accountNumber.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsAccountNumber;
+    let ImgSize =
+      this.state.allImagesSize && this.state.allImagesSize > 25000000;
 
     return (
       <React.Fragment>
@@ -826,18 +833,19 @@ export default class ReplaceRefundSelection extends React.Component {
                       this.state.agreeToReturn,
                       userBankDetails
                     )}
-                  {uploadImage.length > 0 && (
-                    <div className={styles.buttonHolder}>
-                      <div className={styles.button}>
-                        <Button
-                          width={175}
-                          type="primary"
-                          label="CONTINUE"
-                          onClick={() => this.onContinueImageUpload()}
-                        />
+                  {uploadImage.length > 0 &&
+                    !ImgSize && (
+                      <div className={styles.buttonHolder}>
+                        <div className={styles.button}>
+                          <Button
+                            width={175}
+                            type="primary"
+                            label="CONTINUE"
+                            onClick={() => this.onContinueImageUpload()}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </ReturnsFrame>
               </div>
             </div>

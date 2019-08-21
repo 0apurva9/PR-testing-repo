@@ -478,6 +478,7 @@ export function updateReturnForHOTC(data) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(displayToast(SUCCESS_MESSAGE_IN_RETURN_TO_HOTC));
+      sessionStorage.setItem("updateReturnForHOTC", true);
       return dispatch(updateReturnForHOTCSuccess(resultJson));
     } catch (e) {
       return dispatch(updateReturnForHOTCFailure(e.message));
