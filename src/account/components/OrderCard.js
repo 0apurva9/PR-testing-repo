@@ -550,7 +550,14 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
-
+        {this.props.isGiveAway === "N" &&
+          (this.props.consignmentStatus &&
+            this.props.consignmentStatus.includes("CANCEL")) &&
+          date && (
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>{shipmentStatus}</span>
+            </div>
+          )}
         {this.props.isGiveAway === "N" &&
           (this.props.consignmentStatus &&
             !this.props.consignmentStatus.includes("CANCEL")) &&
