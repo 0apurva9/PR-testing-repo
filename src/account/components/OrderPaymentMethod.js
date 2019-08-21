@@ -50,7 +50,12 @@ export default class OrderPaymentMethod extends React.Component {
     let deliveryAddress = this.props && this.props.deliveryAddress;
     await this.setState({
       deliveryAddress:
-        this.props.history.location.state.address || deliveryAddress
+        (this.props &&
+          this.props.history &&
+          this.props.history.location &&
+          this.props.history.location.state &&
+          this.props.history.location.state.address) ||
+        deliveryAddress
     });
   }
 
@@ -112,7 +117,8 @@ export default class OrderPaymentMethod extends React.Component {
               <div className={styles.deliveryAddress}>
                 <React.Fragment>
                   <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.addressLine1},{" "}
+                    {this.state.deliveryAddress.addressLine ||
+                      this.state.deliveryAddress.addressLine1},{" "}
                   </span>
                   <span className={styles.addressLine}>
                     {this.state.deliveryAddress.landmark},{" "}
