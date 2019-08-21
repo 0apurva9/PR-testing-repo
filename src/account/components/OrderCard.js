@@ -94,6 +94,7 @@ export default class OrderCard extends React.Component {
       deliveryDateFormatted = format(deliveryD, dateFormat);
     }
 
+    //console.log("Return Modes Address:", this.props)
     let date = "",
       shipmentStatus = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
@@ -331,18 +332,15 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-          {this.props.idFromAllOrderDetails != "Y" && (
-            <div>
-              {this.props.quantity && (
-                <div className={styles.priceHolder}>
-                  <div className={styles.price}>Qty</div>
-                  <div className={styles.quantity}>
-                    {this.props.numberOfQuantity}
-                  </div>
+          {this.props.idFromAllOrderDetails != "Y" &&
+            this.props.quantity && (
+              <div className={styles.priceHolder}>
+                <div className={styles.price}>Qty</div>
+                <div className={styles.quantity}>
+                  {this.props.numberOfQuantity}
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
 
           {this.props.children &&
             this.props.idFromAllOrderDetails != "Y" &&
@@ -399,45 +397,42 @@ export default class OrderCard extends React.Component {
           {this.props &&
             this.props.returnMode != "REFNOPCK" && (
               <React.Fragment>
-                {this.props.pickupAddress &&
-                  this.props.returnStoreAddress && (
-                    <div className={styles.pickupAddressHolder}>
-                      <div className={styles.pickupAddressTitle}>
-                        {this.props.returnModeSelected == "Pick Up"
-                          ? "Customer pick up address"
-                          : this.props.returnModeSelected == "Self Courier"
-                            ? "Delivery Address"
-                            : this.props.returnModeSelected == "Return To Store"
-                              ? "Store Address"
-                              : ""}
-                      </div>
-                      {this.props.pickupAddress && (
-                        <div className={styles.pickupAddressText}>
-                          {this.props.pickupAddress.line1}{" "}
-                          {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
-                          {this.props.pickupAddress.landmark}{" "}
-                          {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
-                          {this.props.pickupAddress.city}{" "}
-                          {this.props.pickupAddress.city ? "," : ""}&nbsp;
-                          {this.props.pickupAddress.state}{" "}
-                          {this.props.pickupAddress.state ? "," : ""}&nbsp;
-                          {this.props.pickupAddress.postalCode}
-                        </div>
-                      )}
-                      {this.props.returnStoreAddress && (
-                        <div className={styles.pickupAddressText}>
-                          {this.props.returnStoreAddress.address &&
-                            this.props.returnStoreAddress.address.line1}{" "}
-                          ,&nbsp;
-                          {this.props.returnStoreAddress.address &&
-                            this.props.returnStoreAddress.address.city}{" "}
-                          ,&nbsp;
-                          {this.props.returnStoreAddress.address &&
-                            this.props.returnStoreAddress.address.postalCode}
-                        </div>
-                      )}
+                <div className={styles.pickupAddressHolder}>
+                  <div className={styles.pickupAddressTitle}>
+                    {this.props.returnModeSelected == "Pick Up"
+                      ? "Customer pick up address"
+                      : this.props.returnModeSelected == "Self Courier"
+                        ? "Delivery Address"
+                        : this.props.returnModeSelected == "Return To Store"
+                          ? "Store Address"
+                          : ""}
+                  </div>
+                  {this.props.pickupAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.pickupAddress.line1}{" "}
+                      {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.landmark}{" "}
+                      {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.city}{" "}
+                      {this.props.pickupAddress.city ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.state}{" "}
+                      {this.props.pickupAddress.state ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.postalCode}
                     </div>
                   )}
+                  {this.props.returnStoreAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.line1}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.city}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.postalCode}
+                    </div>
+                  )}
+                </div>
               </React.Fragment>
             )}
         </div>
