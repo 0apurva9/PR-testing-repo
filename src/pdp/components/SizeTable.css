@@ -17,11 +17,7 @@
   flex-direction: row;
 }
 .shortHeader {
-  width: 100%;
-  height: 30px;
-  display: flex;
-  flex-direction: row;
-  background: #ececec;
+  composes: header;
   justify-content: center;
 }
 .shortTableRow {
