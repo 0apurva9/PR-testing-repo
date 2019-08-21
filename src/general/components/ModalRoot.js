@@ -176,6 +176,13 @@ const ShowReturnConfirmPopup = Loadable({
   }
 });
 
+const ShowDeliveryConfirmPopup = Loadable({
+  loader: () => import("../../account/components/ShowDeliveryConfirmPopup.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const KycApplicationFormWithBottomSlideModal = Loadable({
   loader: () =>
     import("../../account/components/KycApplicationFormWithBottomSlideModal"),
@@ -627,6 +634,9 @@ export default class ModalRoot extends React.Component {
           onConfirmReturn={val => this.onConfirmReturn(val)}
           {...this.props.ownProps}
         />
+      ),
+      ShowDeliveryConfirmPopup: (
+        <ShowDeliveryConfirmPopup closeModal={() => this.handleClose()} />
       ),
       ForgotPasswordOtpVerification: (
         <OtpVerification

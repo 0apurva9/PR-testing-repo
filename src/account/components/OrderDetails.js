@@ -238,6 +238,10 @@ export default class OrderDetails extends React.Component {
       this.props.fetchOrderDetails(orderCode);
       this.props.setHeaderText("Order Details");
     }
+    let returnForHOTC = sessionStorage.getItem("updateReturnForHOTC");
+    if (returnForHOTC) {
+      this.props.showDeliveryConfirmModal();
+    }
     localStorage.removeItem("secondaryLabel");
     localStorage.removeItem("secondaryCode");
     localStorage.removeItem("primaryLabel");

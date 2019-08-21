@@ -52,7 +52,12 @@ export default class OrderCard extends React.Component {
   getTrackOrderText(orderStatusCode, isEgvOrder) {
     let trackOrderText = "";
     if (!isEgvOrder) {
-      if (orderStatusCode && orderStatusCode != "DELIVERED") {
+      if (
+        orderStatusCode &&
+        orderStatusCode != "DELIVERED" &&
+        orderStatusCode != "ORDER_UNCOLLECTED" &&
+        orderStatusCode != "ORDER_COLLECTED"
+      ) {
         if (!orderStatusCode.includes("CANCEL")) {
           trackOrderText = "Track Order";
         }

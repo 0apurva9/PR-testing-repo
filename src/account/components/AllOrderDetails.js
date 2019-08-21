@@ -745,9 +745,27 @@ export default class AllOrderDetails extends React.Component {
                                           </div>
                                         )} */}
                                       {product.productName != "Gift Card" &&
+                                        (product.orderStatusCode ===
+                                          "CANCELLATION_INITIATED" ||
+                                          product.orderStatusCode ===
+                                            "ORDER_UNCOLLECTED") && (
+                                          <div
+                                            onClick={() =>
+                                              this.redirectToHelp(HELP_URL)
+                                            }
+                                            className={styles.helpSupport}
+                                          >
+                                            Help & Support
+                                          </div>
+                                        )}
+                                      {product.productName != "Gift Card" &&
                                         !orderDetails.retryPaymentUrl &&
-                                        product.orderStatusCode ===
-                                          "DELIVERED" && (
+                                        (product.orderStatusCode ===
+                                          "DELIVERED" ||
+                                          product.orderStatusCode ===
+                                            "RETURN_CANCELLED_CUS" ||
+                                          product.orderStatusCode ===
+                                            "ORDER_COLLECTED") && (
                                           <div className={styles.reviewHolder}>
                                             {/* <div
                                               className={styles.rateThisItem}
