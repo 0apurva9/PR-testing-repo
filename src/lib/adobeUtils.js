@@ -386,6 +386,7 @@ const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
 const CONTINUE_SHOPPING = "continue_shopping";
 const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
+const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 export function setDataLayer(
@@ -2610,5 +2611,11 @@ export function setDataLayerForGiftCard(type) {
     if (window._satellite) {
       window._satellite.track(BUY_GIFT_CARD_SUBMIT);
     }
+  }
+}
+
+export function setDataLayerForMinibag() {
+  if (window._satellite) {
+    window._satellite.track(VIEW_CART_FROM_MINIBAG);
   }
 }

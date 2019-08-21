@@ -19,7 +19,8 @@ import {
   setDataLayerForHeaderAndFooterDirectCalls,
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
   ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
-  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
+  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+  setDataLayerForMinibag
 } from "../../lib/adobeUtils";
 import ProductImage from "./ProductImage.js";
 import Minibag from "./minibag.js";
@@ -57,6 +58,7 @@ export default class DesktopHeader extends React.Component {
   handleSelect() {
     if (this.props.onSelect) {
       this.props.onSelect();
+      setDataLayerForMinibag();
       setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         "Cart"
