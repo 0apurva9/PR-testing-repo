@@ -4,7 +4,12 @@ import PropTypes from "prop-types";
 import {
   MY_ACCOUNT_PAGE,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
-  RETURN_TO_ADDRESS
+  RETURN_TO_ADDRESS,
+  RETURNS_PREFIX,
+  RETURN_LANDING,
+  ORDER_CODE,
+  ORDER,
+  MY_ACCOUNT
 } from "../../lib/constants";
 export default class OrderPaymentMethod extends React.Component {
   // request() {
@@ -12,6 +17,10 @@ export default class OrderPaymentMethod extends React.Component {
   //     this.props.request();
   //   }
   // }
+  constructor(props) {
+    super(props);
+    this.state = { deliveryAddress: "" };
+  }
   redirectToHelpPage() {
     // this.props.history.push(`${HELP_URL}`);
     this.props.history.push(
@@ -20,8 +29,30 @@ export default class OrderPaymentMethod extends React.Component {
   }
   onChangeAddress = () => {
     //this.props.history.push(`${MY_ACCOUNT_PAGE}/${this.props.orderId}${RETURN_TO_ADDRESS}`);
-    this.props.history.push(`${MY_ACCOUNT_PAGE}${RETURN_TO_ADDRESS}`);
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
+        this.props.orderId
+      }${RETURN_TO_ADDRESS}`,
+      state: {
+        urlAddress: window.location.href,
+        authorizedRequest: true
+      }
+    });
+
+    //let orderCode = this.props.location.pathname.split("/")[2];
+    // let searchparam = window.location.search;
+    // let orderCode = searchparam.split('=')[1];
+    // console.log(`${RETURNS_PREFIX}/${orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`, 'helloworld');
+
+    // this.props.history.push(`${RETURNS_PREFIX}/${orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`);
   };
+  async componentDidMount() {
+    let deliveryAddress = this.props && this.props.deliveryAddress;
+    await this.setState({
+      deliveryAddress:
+        this.props.history.location.state.address || deliveryAddress
+    });
+  }
 
   render() {
     // let isDelivered = false;
@@ -35,7 +66,7 @@ export default class OrderPaymentMethod extends React.Component {
     //     }
     //   });
     // });
-
+    console.log("this.props", this.state.deliveryAddress);
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
@@ -77,25 +108,27 @@ export default class OrderPaymentMethod extends React.Component {
               )}
             </React.Fragment>
 
-            <div className={styles.deliveryAddress}>
-              <React.Fragment>
-                <span className={styles.addressLine}>
-                  {this.props.deliveryAddress.addressLine1},{" "}
-                </span>
-                <span className={styles.addressLine}>
-                  {this.props.deliveryAddress.landmark},{" "}
-                </span>
-                <span className={styles.addressLine}>
-                  {this.props.deliveryAddress.town},{" "}
-                </span>
-                <span className={styles.addressLine}>
-                  {this.props.deliveryAddress.state}
-                </span>
-                <span className={styles.addressLine}>
-                  {this.props.deliveryAddress.postalcode}
-                </span>
-              </React.Fragment>
-            </div>
+            {this.state.deliveryAddress && (
+              <div className={styles.deliveryAddress}>
+                <React.Fragment>
+                  <span className={styles.addressLine}>
+                    {this.state.deliveryAddress.addressLine1},{" "}
+                  </span>
+                  <span className={styles.addressLine}>
+                    {this.state.deliveryAddress.landmark},{" "}
+                  </span>
+                  <span className={styles.addressLine}>
+                    {this.state.deliveryAddress.town},{" "}
+                  </span>
+                  <span className={styles.addressLine}>
+                    {this.state.deliveryAddress.state}
+                  </span>
+                  <span className={styles.addressLine}>
+                    {this.state.deliveryAddress.postalcode}
+                  </span>
+                </React.Fragment>
+              </div>
+            )}
           </React.Fragment>
         )}
 

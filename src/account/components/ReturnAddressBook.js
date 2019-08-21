@@ -8,6 +8,7 @@ import {
   RETURN_LANDING,
   RETURNS_MODES
 } from "../../lib/constants.js";
+import { displayCouponsForLoggedInUser } from "../../cart/actions/cart.actions";
 const EDIT = "/edit";
 const ADD = "/add";
 
@@ -86,6 +87,19 @@ export default class ReturnAddressBook extends React.Component {
   }
 
   handleSubmit = () => {
+    debugger;
+    console.log("this.props.history", this.props.history.location.state);
+    if (this.props.history.location.state.includes("/my-account/order/")) {
+      this.props.history.push({
+        pathname: `${RETURNS_PREFIX}/${
+          this.props.data.sellerorderno
+        }${RETURN_LANDING}${RETURNS_MODES}`,
+        state: {
+          address: this.state.defaultAddress,
+          authorizedRequest: true
+        }
+      });
+    }
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
         this.props.data.sellerorderno

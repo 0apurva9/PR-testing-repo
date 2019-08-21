@@ -23,6 +23,7 @@ import {
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY,
   RETURN_TO_ADDRESS,
+  MY_ACCOUNT_SUFFIX,
   ADD,
   EDIT
 } from "../../lib/constants.js";
@@ -76,6 +77,31 @@ export default class MyAccountWrapper extends React.Component {
     }
     return (
       <Switch>
+        <Route
+          exact
+          path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}`}
+          render={() => (
+            <ReturnAddressContainer
+              {...this.state}
+              {...this.props}
+              changeAddress={true}
+            />
+          )}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_SUFFIX}${EDIT}`}
+          render={() => (
+            <ReturnEditAddressContainer {...this.state} {...this.props} />
+          )}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_SUFFIX}${ADD}`}
+          render={() => (
+            <ReturnAddAddressContainer {...this.state} {...this.props} />
+          )}
+        />
         <Route exact path={MY_ACCOUNT_PAGE} component={MyAccountContainer} />
         <Route
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`}
@@ -154,31 +180,6 @@ export default class MyAccountWrapper extends React.Component {
         <Route
           path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
           component={OrderRelatedIssueContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${RETURN_TO_ADDRESS}`}
-          render={() => (
-            <ReturnAddressContainer
-              {...this.state}
-              {...this.props}
-              changeAddress={true}
-            />
-          )}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${EDIT}`}
-          render={() => (
-            <ReturnEditAddressContainer {...this.state} {...this.props} />
-          )}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${ADD}`}
-          render={() => (
-            <ReturnAddAddressContainer {...this.state} {...this.props} />
-          )}
         />
       </Switch>
     );
