@@ -1393,11 +1393,12 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
       // Show popup if OrderConfirmation returns whatsapp false
-      let showWhatsappPopup =
-        this.props.cart.orderConfirmationDetails &&
-        this.props.cart.orderConfirmationDetails.whatsapp
-          ? this.props.cart.orderConfirmationDetails.whatsapp
-          : null;
+      // let showWhatsappPopup =
+      //   this.props.cart.orderConfirmationDetails &&
+      //   this.props.cart.orderConfirmationDetails.whatsapp
+      //     ? this.props.cart.orderConfirmationDetails.whatsapp
+      //     : null;
+      let showWhatsappPopup = true;
       if (!showWhatsappPopup) {
         let orderId =
           this.props.cart.orderConfirmationDetails &&
