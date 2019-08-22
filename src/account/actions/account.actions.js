@@ -117,6 +117,13 @@ export const GET_PIN_CODE_REQUEST = "GET_PIN_CODE_REQUEST";
 export const GET_PIN_CODE_SUCCESS = "GET_PIN_CODE_SUCCESS";
 export const GET_PIN_CODE_FAILURE = "GET_PIN_CODE_FAILURE";
 
+export const GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST =
+  "GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST";
+export const GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS =
+  "GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS";
+export const GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE =
+  "GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE";
+
 export const SEND_INVOICE_REQUEST = "SEND_INVOICE_REQUEST";
 export const SEND_INVOICE_SUCCESS = "SEND_INVOICE_SUCCESS";
 export const SEND_INVOICE_FAILURE = "SEND_INVOICE_FAILURE";
@@ -1990,6 +1997,57 @@ export function getPinCode(pinCode) {
       dispatch(getPinCodeSuccess(resultJson));
     } catch (e) {
       dispatch(getPinCodeFailure(e.message));
+    }
+  };
+}
+
+export function getPinCodeChangeAddressOrderedProductRequest() {
+  return {
+    type: GET_PIN_CODE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getPinCodeChangeAddressOrderedProductSuccess(pinCode) {
+  return {
+    type: GET_PIN_CODE_SUCCESS,
+    status: SUCCESS,
+    pinCode
+  };
+}
+
+export function getPinCodeChangeAddressOrderedProductFailure(error) {
+  return {
+    type: GET_PIN_CODE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getPinCodeChangeAddressOrderedProduct(pinCode) {
+  return async (dispatch, getState, { api }) => {
+    const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const userAccessToken = Cookie.getCookie("userDetails");
+    dispatch(getPinCodeChangeAddressOrderedProductRequest());
+    try {
+      const result = await api.get(
+        `${PIN_PATH}/users/${JSON.parse(userAccessToken).userName}/${
+          JSON.parse(globalAccessToken).access_token
+        }${pinCode}?access_token=${JSON.parse(globalAccessToken).access_token}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        console.log("resultJsonStatus", resultJsonStatus.status);
+        let errorMessage = resultJsonStatus.message;
+        if (errorMessage === FAILURE_UPPERCASE) {
+          errorMessage = "Pincode is not serviceable";
+        }
+        throw new Error(errorMessage);
+      }
+      dispatch(getPinCodeChangeAddressOrderedProductSuccess(resultJson));
+    } catch (e) {
+      dispatch(getPinCodeChangeAddressOrderedProductFailure(e.message));
     }
   };
 }

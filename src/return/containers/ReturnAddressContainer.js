@@ -8,7 +8,10 @@ import {
 } from "../../cart/actions/cart.actions";
 import {
   removeAddress,
-  resetAddAddressDetails
+  resetAddAddressDetails,
+  getPinCodeChangeAddressOrderedProduct,
+  getPinCodeSuccess,
+  getReturnRequest
 } from "../../account/actions/account.actions";
 import {
   showSecondaryLoader,
@@ -40,6 +43,9 @@ const mapDispatchToProps = dispatch => {
     },
     resetAddAddressDetails: () => {
       dispatch(resetAddAddressDetails());
+    },
+    getPinCodeChangeAddressOrderedProduct: pinCode => {
+      dispatch(getPinCodeChangeAddressOrderedProduct(pinCode));
     }
   };
 };

@@ -938,6 +938,22 @@ const account = (
         getPinCodeStatus: action.status,
         getPinCodeError: action.error
       });
+    case accountActions.GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        getPinCodeStatus: action.status
+      });
+
+    case accountActions.GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        getPinCodeStatus: action.status,
+        getPinCodeDetails: action.pinCode
+      });
+
+    case accountActions.GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        getPinCodeStatus: action.status,
+        getPinCodeError: action.error
+      });
     case accountActions.GET_CANCEL_PRODUCT_DETAILS_REQUEST:
       return Object.assign({}, state, {
         cancelProductDetailsStatus: action.status,

@@ -80,6 +80,9 @@ export default class ReturnAddressBook extends React.Component {
 
   handleClick(address) {
     this.setState({ defaultAddress: address });
+    if (this.props.history.location.state.includes("/my-account/order/")) {
+      this.props.getPinCodeChangeAddressOrderedProduct(address.pincode);
+    }
   }
 
   onChange(val) {
