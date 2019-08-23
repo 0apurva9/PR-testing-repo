@@ -204,6 +204,7 @@ label {
 	text-align: center;
 	font-family: semibold;
 	margin-top: 15px;
+	cursor: pointer;
 }
 .bankDetailsHeading {
 	font-size: 14px;
