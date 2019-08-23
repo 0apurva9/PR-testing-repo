@@ -291,6 +291,14 @@ export default class Plp extends React.Component {
       searchresult.filter(brand => {
         return brand.brandname === brandName;
       });
+    if (this.props.productListings.seo && this.props.productListings.seo.tag) {
+      const tagText =
+        (brandData && brandData.length) ===
+        (searchresult && searchresult.length)
+          ? brandName + " " + this.props.productListings.seo.tag
+          : this.props.productListings.seo.tag;
+      return tagText;
+    }
     if (this.props.headerText) {
       return this.props.headerText;
     }
