@@ -20,7 +20,8 @@ import {
 import {
   getTncForBankOffer,
   tempCartIdForLoggedInUser,
-  getCartCountForLoggedInUser
+  getCartCountForLoggedInUser,
+  getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
@@ -198,9 +199,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
         if (guid) {
           // Get the bagCount if Cart GUID exists for Logged-in user
-          dispatch(
+          await dispatch(
             getCartCountForLoggedInUser(typeof guid === "object" ? guid : null)
           );
+          dispatch(getMinicartProducts());
         }
       } else {
         setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
@@ -250,7 +252,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
               );
               dispatch(setIfAllAuthCallsHaveSucceeded());
             }
-            dispatch(getCartCountForLoggedInUser());
+            await dispatch(getCartCountForLoggedInUser());
+            dispatch(getMinicartProducts());
           } else {
             let cartDetailsAnonymous = Cookies.getCookie(
               CART_DETAILS_FOR_ANONYMOUS
@@ -282,11 +285,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(setIfAllAuthCallsHaveSucceeded());
           }
           if (guid) {
-            dispatch(
+            await dispatch(
               getCartCountForLoggedInUser(
                 typeof guid === "object" ? guid : null
               )
             );
+            dispatch(getMinicartProducts());
           }
         } else if (customerAccessResponse.status === FAILURE) {
           dispatch(singleAuthCallHasFailed(otpResponse.error));

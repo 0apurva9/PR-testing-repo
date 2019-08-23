@@ -3,7 +3,10 @@ import { logoutUser } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import LogoutButton from "../components/LogoutButton";
 import { displayToast } from "../../general/toast.actions";
-import { generateCartIdForAnonymous } from "../../cart/actions/cart.actions";
+import {
+  generateCartIdForAnonymous,
+  getMinicartProducts
+} from "../../cart/actions/cart.actions";
 import { setFalseForAllAuthCallHasSucceedFlag } from "../../auth/actions/auth.actions";
 import { setBagCount } from "../../general/header.actions";
 const mapDispatchToProps = dispatch => {
@@ -22,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     },
     setBagCount: bagCount => {
       dispatch(setBagCount(bagCount));
+    },
+    getMinicartProducts: async () => {
+      return dispatch(getMinicartProducts());
     }
   };
 };
