@@ -186,6 +186,7 @@ label {
 	vertical-align: text—top;
 	color: #ff1744;
 	display: inline-block;
+	cursor: pointer;
 }
 .InstantImage {
 	width: 15px;
@@ -193,6 +194,7 @@ label {
 	display: inline-block;
 	vertical-align: text-top;
 	margin: 0 10px 0 10px;
+	cursor: pointer;
 }
 .addBankDetailsButton {
 	font-size: 14px;

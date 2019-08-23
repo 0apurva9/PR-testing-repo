@@ -50,12 +50,12 @@ export default class OrderPaymentMethod extends React.Component {
     let deliveryAddress = this.props && this.props.deliveryAddress;
     await this.setState({
       deliveryAddress:
+        deliveryAddress ||
         (this.props &&
           this.props.history &&
           this.props.history.location &&
           this.props.history.location.state &&
-          this.props.history.location.state.address) ||
-        deliveryAddress
+          this.props.history.location.state.address)
     });
   }
 
@@ -95,7 +95,7 @@ export default class OrderPaymentMethod extends React.Component {
           </div>
         )}
         {/* <div className={styles.payments} /> */}
-        {this.props.deliveryAddress && (
+        {this.state.deliveryAddress && (
           <React.Fragment>
             <React.Fragment>
               <div className={styles.deliveryAddressTitle}>
@@ -116,19 +116,28 @@ export default class OrderPaymentMethod extends React.Component {
             {this.state.deliveryAddress && (
               <div className={styles.deliveryAddress}>
                 <React.Fragment>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.addressLine ||
-                      this.state.deliveryAddress.addressLine1},{" "}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.landmark},{" "}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.town},{" "}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.state}
-                  </span>
+                  {(this.state.deliveryAddress.addressLine ||
+                    this.state.deliveryAddress.addressLine1) && (
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.addressLine ||
+                        this.state.deliveryAddress.addressLine1},{" "}
+                    </span>
+                  )}
+                  {this.state.deliveryAddress.landmark && (
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.landmark},{" "}
+                    </span>
+                  )}
+                  {this.state.deliveryAddress.town && (
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.town},{" "}
+                    </span>
+                  )}
+                  {this.state.deliveryAddress.state && (
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.state},{" "}
+                    </span>
+                  )}
                   <span className={styles.addressLine}>
                     {this.state.deliveryAddress.postalcode}
                   </span>
