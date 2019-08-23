@@ -2063,9 +2063,9 @@ export function changePassword(passwordDetails) {
           JSON.parse(userDetails).userName
         }/resetCustomerPassword?isPwa=true&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&old=${passwordDetails.oldPassword}&newPassword=${
-          passwordDetails.newPassword
-        }`
+        }&isPwa=true&old=${encodeURIComponent(
+          passwordDetails.oldPassword
+        )}&newPassword=${encodeURIComponent(passwordDetails.newPassword)}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
