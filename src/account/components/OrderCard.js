@@ -568,9 +568,9 @@ export default class OrderCard extends React.Component {
                     (date || returnEligibleDate) && (
                       <React.Fragment>
                         <span className={styles.ffsemibold}>
-                          {shipmentStatus.includes(
-                            "Eligible for Return till"
-                          ) && !this.props.deliveryDate
+                          {shipmentStatus &&
+                          shipmentStatus.includes("Eligible for Return till") &&
+                          !this.props.deliveryDate
                             ? ""
                             : shipmentStatus}{" "}
                         </span>
@@ -582,16 +582,17 @@ export default class OrderCard extends React.Component {
                               : ""}
                           </span>
                         )}
-                        {shipmentStatus.includes(
-                          "Order Could be collected by"
-                        ) && (
-                          <span className={styles.styleDate}>
-                            {format(
-                              orderCouldbeCollected.toString(),
-                              dateFormat
-                            )}
-                          </span>
-                        )}
+                        {shipmentStatus &&
+                          shipmentStatus.includes(
+                            "Order Could be collected by"
+                          ) && (
+                            <span className={styles.styleDate}>
+                              {format(
+                                orderCouldbeCollected.toString(),
+                                dateFormat
+                              )}
+                            </span>
+                          )}
 
                         <span className={styles.styleDate}>
                           {(this.props.consignmentStatus === "DELIVERED" ||
