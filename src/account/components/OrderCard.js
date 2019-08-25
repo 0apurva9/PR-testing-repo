@@ -14,8 +14,6 @@ import {
 } from "../../lib/constants";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
 const dateFormat = "Do MMM YYYY";
-const PRODUCT_RETURN_WINDOW_CLOSED =
-  "You cannot return this product as the window for returns has expired";
 const dateTimeFormat = "DD MMM YYYY | HH:mm:ss";
 export default class OrderCard extends React.Component {
   onClick() {
@@ -334,7 +332,7 @@ export default class OrderCard extends React.Component {
           )}
           {this.props.idFromAllOrderDetails != "Y" &&
             this.props.quantity && (
-              <div className={styles.priceHolder}>
+              <div className={styles.priceWithQuantity}>
                 <div className={styles.price}>Qty</div>
                 <div className={styles.quantity}>
                   {this.props.numberOfQuantity}
@@ -400,7 +398,7 @@ export default class OrderCard extends React.Component {
                 <div className={styles.pickupAddressHolder}>
                   <div className={styles.pickupAddressTitle}>
                     {this.props.returnModeSelected == "Pick Up"
-                      ? "Customer pick up address"
+                      ? "Pick up from"
                       : this.props.returnModeSelected == "Self Courier"
                         ? "Delivery Address"
                         : this.props.returnModeSelected == "Return To Store"
@@ -612,12 +610,7 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-        {this.props.isOrderReturnable === false &&
-          this.props.statusDisplay === "Delivered" && (
-            <div className={styles.returnClosed}>
-              {PRODUCT_RETURN_WINDOW_CLOSED}
-            </div>
-          )}
+
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}
