@@ -27,7 +27,11 @@ export default class ReturnAddressBook extends React.Component {
           return value;
         }
       });
-    this.setState({ defaultAddress: defaultAddress });
+
+    this.setState({
+      defaultAddress: defaultAddress,
+      defaultAddressClone: defaultAddress
+    });
   }
   componentWillReceiveProps(nextProps) {
     let defaultAddress =
@@ -39,11 +43,20 @@ export default class ReturnAddressBook extends React.Component {
         }
       });
     if (
-      this.state.defaultAddress &&
-      this.state.defaultAddress.id != defaultAddress.id
+      nextProps &&
+      nextProps.getPinCodeDetails &&
+      nextProps.getPinCodeDetails.isPincodeServiceable === false
     ) {
       this.setState({
-        defaultAddress: defaultAddress
+        defaultAddress: this.state.defaultAddressClone
+      });
+    } else if (
+      nextProps &&
+      nextProps.getPinCodeDetails &&
+      nextProps.getPinCodeDetails.isPincodeServiceable === true
+    ) {
+      this.setState({
+        defaultAddress: this.state.defaultAddress
       });
     }
   }
@@ -78,10 +91,27 @@ export default class ReturnAddressBook extends React.Component {
     });
   };
 
-  handleClick(address) {
-    this.setState({ defaultAddress: address });
-    if (this.props.history.location.state.includes("/my-account/order/")) {
-      this.props.getPinCodeChangeAddressOrderedProduct(address.pincode);
+  async handleClick(address) {
+    if (
+      this.props &&
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state.urlAddress.includes(
+        "/my-account/order/"
+      )
+    ) {
+      await this.props.getPinCodeChangeAddressOrderedProduct(
+        address,
+        this.props.history.location.state.orderId
+      );
+
+      this.props &&
+        this.props.history &&
+        this.props.history.location &&
+        this.props.history.location.state.urlAddress.includes(
+          "/my-account/order/"
+        ) &&
+        this.setState({ defaultAddress: address });
     }
   }
 
@@ -90,8 +120,6 @@ export default class ReturnAddressBook extends React.Component {
   }
 
   handleSubmit = () => {
-    debugger;
-    console.log("this.props.history", this.props.history.location.state);
     if (this.props.history.location.state.includes("/my-account/order/")) {
       this.props.history.push({
         pathname: `${RETURNS_PREFIX}/${
@@ -113,6 +141,10 @@ export default class ReturnAddressBook extends React.Component {
       }
     });
   };
+  // checkDefaultAddress = address => {
+  // 	return address.defaultAddress === true;
+  // };
+
   render() {
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;

@@ -2003,13 +2003,13 @@ export function getPinCode(pinCode) {
 
 export function getPinCodeChangeAddressOrderedProductRequest() {
   return {
-    type: GET_PIN_CODE_REQUEST,
+    type: GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST,
     status: REQUESTING
   };
 }
 export function getPinCodeChangeAddressOrderedProductSuccess(pinCode) {
   return {
-    type: GET_PIN_CODE_SUCCESS,
+    type: GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS,
     status: SUCCESS,
     pinCode
   };
@@ -2017,33 +2017,31 @@ export function getPinCodeChangeAddressOrderedProductSuccess(pinCode) {
 
 export function getPinCodeChangeAddressOrderedProductFailure(error) {
   return {
-    type: GET_PIN_CODE_FAILURE,
+    type: GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE,
     status: ERROR,
     error
   };
 }
 
-export function getPinCodeChangeAddressOrderedProduct(pinCode) {
+export function getPinCodeChangeAddressOrderedProduct(address, orderCode) {
   return async (dispatch, getState, { api }) => {
-    const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const userAccessToken = Cookie.getCookie("userDetails");
     dispatch(getPinCodeChangeAddressOrderedProductRequest());
     try {
-      const result = await api.get(
-        `${PIN_PATH}/users/${JSON.parse(userAccessToken).userName}/${
-          JSON.parse(globalAccessToken).access_token
-        }${pinCode}?access_token=${JSON.parse(globalAccessToken).access_token}`
+      const result = await api.post(
+        `${PIN_PATH}/users/${
+          JSON.parse(userAccessToken).userName
+        }/changeDeliveryAddress/${orderCode}?access_token=${
+          JSON.parse(customerAccessToken).access_token
+        }`,
+        address
       );
       const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        console.log("resultJsonStatus", resultJsonStatus.status);
-        let errorMessage = resultJsonStatus.message;
-        if (errorMessage === FAILURE_UPPERCASE) {
-          errorMessage = "Pincode is not serviceable";
-        }
-        throw new Error(errorMessage);
+      let errorMessage;
+      if (resultJson.isPincodeServiceable === false) {
+        errorMessage = "Pincode is not serviceable";
+        dispatch(displayToast(errorMessage));
       }
       dispatch(getPinCodeChangeAddressOrderedProductSuccess(resultJson));
     } catch (e) {

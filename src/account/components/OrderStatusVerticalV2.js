@@ -687,13 +687,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
     }
     const orderCode = this.props.orderCode;
 
-    console.log(
-      "item shipped:",
-      completedSteps,
-      shippedData,
-      "activeOrderStatus",
-      activeOrderStatus
-    );
     return (
       <React.Fragment>
         <div className={styles.base}>

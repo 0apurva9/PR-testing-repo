@@ -271,7 +271,8 @@ const account = (
         wishlistError: null,
         updateProfileError: null,
         changePasswordError: null,
-        reSendEmailError: null
+        reSendEmailError: null,
+        pinCodeDetails: null
       });
     case accountActions.GET_RETURN_REQUEST:
     case accountActions.RETURN_PRODUCT_DETAILS_REQUEST:

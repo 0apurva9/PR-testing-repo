@@ -5,13 +5,12 @@ import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DeliveryAddressReturn from "./DeliveryAddressReturn.js";
 import Button from "../../general/components/Button.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import * as Cookie from "../../lib/Cookie";
+
 import {
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_MODES,
-  ORDER_PREFIX,
-  GLOBAL_ACCESS_TOKEN
+  ORDER_PREFIX
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -56,8 +55,6 @@ export default class ReturnChangeAddress extends React.Component {
     }
   }
   render() {
-    const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    console.log(`${JSON.parse(globalAccessToken).access_token}`, "console1");
     let buttonHolder = styles.buttonHolder;
     if (
       this.props.address &&

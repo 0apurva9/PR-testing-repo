@@ -44,17 +44,19 @@ const mapDispatchToProps = dispatch => {
     resetAddAddressDetails: () => {
       dispatch(resetAddAddressDetails());
     },
-    getPinCodeChangeAddressOrderedProduct: pinCode => {
-      dispatch(getPinCodeChangeAddressOrderedProduct(pinCode));
+    getPinCodeChangeAddressOrderedProduct: (pinCode, orderCode) => {
+      dispatch(getPinCodeChangeAddressOrderedProduct(pinCode, orderCode));
     }
   };
 };
 const mapStateToProps = state => {
+  console.log("getPinCodeDetails", state);
   return {
     cart: state.cart,
     userAddress: state.profile.userAddress,
     loading: state.profile.loading,
-    removeAddressStatus: state.profile.removeAddressStatus
+    removeAddressStatus: state.profile.removeAddressStatus,
+    getPinCodeDetails: state.profile.getPinCodeDetails
   };
 };
 
