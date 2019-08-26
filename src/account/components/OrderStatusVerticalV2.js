@@ -1174,27 +1174,47 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     >
                                       {shippedDataCustomerFacingName}
                                     </div>
-                                    <div className={styles.dateAndTimeHolder}>
-                                      <div className={styles.timeHolder}>
-                                        {shippedTime}
+                                    {activeOrderStatus === SHIPPED ? (
+                                      <React.Fragment>
+                                        {this.props.logisticName && (
+                                          <div
+                                            className={styles.itemPackedDetails}
+                                          >
+                                            Courier: {this.props.logisticName}
+                                          </div>
+                                        )}
+                                        {this.props.trackingAWB && (
+                                          <div
+                                            className={styles.itemPackedDetails}
+                                          >
+                                            AWB No: {this.props.trackingAWB}
+                                          </div>
+                                        )}
+                                      </React.Fragment>
+                                    ) : (
+                                      <div className={styles.dateAndTimeHolder}>
+                                        <div className={styles.timeHolder}>
+                                          {shippedTime}
+                                        </div>
+                                        <div className={styles.dateHolder}>
+                                          {shippedDate}
+                                        </div>
                                       </div>
-                                      <div className={styles.dateHolder}>
-                                        {shippedDate}
-                                      </div>
-                                      <div
-                                        className={styles.courierInfoHolder}
-                                        onClick={() =>
-                                          this.handleMoreDetails({
-                                            shippingList,
-                                            orderCode
-                                          })
-                                        }
-                                      >
-                                        More details
-                                      </div>
+                                    )}
+                                    <div
+                                      className={styles.courierInfoHolder}
+                                      onClick={() =>
+                                        this.handleMoreDetails({
+                                          shippingList,
+                                          orderCode
+                                        })
+                                      }
+                                    >
+                                      More details
                                     </div>
                                   </div>
-                                ) : completedSteps.includes(ITEM_PACKED) ? (
+                                ) : // </div>
+                                completedSteps.includes(ITEM_PACKED) ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
@@ -1564,13 +1584,39 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               >
                                 {shippedDataCustomerFacingName}
                               </div>
-                              <div className={styles.dateAndTimeHolder}>
-                                <div className={styles.timeHolder}>
-                                  {shippedTime}
+                              {activeOrderStatus === SHIPPED ? (
+                                <React.Fragment>
+                                  {this.props.logisticName && (
+                                    <div className={styles.itemPackedDetails}>
+                                      Courier: {this.props.logisticName}
+                                    </div>
+                                  )}
+                                  {this.props.trackingAWB && (
+                                    <div className={styles.itemPackedDetails}>
+                                      AWB No: {this.props.trackingAWB}
+                                    </div>
+                                  )}
+                                </React.Fragment>
+                              ) : (
+                                <div className={styles.dateAndTimeHolder}>
+                                  <div className={styles.timeHolder}>
+                                    {shippedTime}
+                                  </div>
+                                  <div className={styles.dateHolder}>
+                                    {shippedDate}
+                                  </div>
                                 </div>
-                                <div className={styles.dateHolder}>
-                                  {shippedDate}
-                                </div>
+                              )}
+                              <div
+                                className={styles.courierInfoHolder}
+                                onClick={() =>
+                                  this.handleMoreDetails({
+                                    shippingList,
+                                    orderCode
+                                  })
+                                }
+                              >
+                                More details
                               </div>
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) ? (
