@@ -79,6 +79,7 @@ export default class MyAccount extends React.Component {
     if (window.initMessenger) {
       window.initMessenger();
     }
+    window.od.messenger("show");
   }
 
   navigateToLogin() {
