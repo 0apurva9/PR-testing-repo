@@ -9,7 +9,8 @@ import {
 import {
   generateCartIdForLoggedInUser,
   generateCartIdForAnonymous,
-  getCartCountForLoggedInUser
+  getCartCountForLoggedInUser,
+  getMinicartProducts
 } from "../../cart/actions/cart.actions.js";
 import { withRouter } from "react-router-dom";
 import App from "../../App.js";
@@ -50,6 +51,9 @@ const mapDispatchToProps = dispatch => {
     },
     getCartCountForLoggedInUsers: async guid => {
       return dispatch(getCartCountForLoggedInUser(guid));
+    },
+    getMinicartProducts: async () => {
+      return dispatch(getMinicartProducts());
     }
   };
 };

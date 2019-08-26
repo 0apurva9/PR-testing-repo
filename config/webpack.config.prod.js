@@ -298,7 +298,10 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
-    new AsyncStylesheetWebpackPlugin(),
+    //new AsyncStylesheetWebpackPlugin(),
+    new AsyncStylesheetWebpackPlugin({
+      preloadPolyfill: true
+    }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.

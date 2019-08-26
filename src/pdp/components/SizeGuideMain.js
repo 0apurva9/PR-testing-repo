@@ -8,6 +8,7 @@ import SizeGuideElementFootwear from "./SizeGuideElementFootwear";
 import SizeGuideElementBelt from "./SizeGuideElementBelt";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import SizeGuideElementClothing from "./SizeGuideElementClothing";
 export default class SizeGuideMain extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +17,14 @@ export default class SizeGuideMain extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.getSizeGuide(this.props.productCode);
+    if (
+      this.props.category === "Footwear" ||
+      this.props.category === "Accessories"
+    ) {
+      this.props.getSizeGuide(this.props.productCode);
+    } else {
+      this.props.getProductSizeChart(this.props.productCode);
+    }
   }
   toggleView(val) {
     this.setState({ isOpen: val });
@@ -25,7 +33,12 @@ export default class SizeGuideMain extends React.Component {
     if (this.props.loading) {
       return <Loader />;
     }
-    if (this.props.sizeData && this.props.sizeData.sizeGuideList) {
+    if (
+      this.props.sizeData &&
+      (this.props.sizeData.sizeGuideList ||
+        (this.props.sizeData.sizeGuideTabularWsData &&
+          this.props.sizeData.sizeGuideTabularWsData.unitList))
+    ) {
       return (
         <div className={styles.base}>
           <div className={styles.header}>
@@ -33,37 +46,25 @@ export default class SizeGuideMain extends React.Component {
           </div>
           <div className={styles.imageWithSize}>
             <MobileOnly>
-              <div className={styles.imageHolder}>
-                <div className={styles.image}>
-                  <Image fit="contain" image={this.props.sizeData.imageURL} />
-                </div>
-              </div>
+              {this.props.category === "Footwear" &&
+                this.props.category === "Accessories" && (
+                  <div className={styles.imageHolder}>
+                    <div className={styles.image}>
+                      <Image
+                        fit="contain"
+                        image={this.props.sizeData.imageURL}
+                      />
+                    </div>
+                  </div>
+                )}
             </MobileOnly>
             {this.props.category !== "Footwear" &&
-              this.props.category !== "Accessories" &&
-              this.props.sizeData.sizeGuideList && (
-                <div className={styles.sizeList} id="currentOpenSize">
-                  {this.props.sizeData.sizeGuideList.map((list, i) => {
-                    return (
-                      <Accordion
-                        text={list.dimensionSize}
-                        key={i}
-                        offset={20}
-                        activeBackground="#f8f8f8"
-                        isOpen={this.state.isOpen === i}
-                        onOpen={() => {
-                          this.toggleView(i);
-                        }}
-                      >
-                        {this.props.category !== "Footwear" && (
-                          <SizeGuideElement
-                            data={list.dimensionList}
-                            category={this.props.category}
-                          />
-                        )}
-                      </Accordion>
-                    );
-                  })}
+              this.props.category !== "Accessories" && (
+                <div className={styles.sizeListColthing} id="currentOpenSize">
+                  <SizeGuideElementClothing
+                    data={this.props.sizeData}
+                    category={this.props.category}
+                  />
                 </div>
               )}
             {this.props.category === "Footwear" &&
@@ -89,19 +90,25 @@ export default class SizeGuideMain extends React.Component {
                   })}
                 </div>
               )}
-            <DesktopOnly>
-              <div
-                className={
-                  this.props.category === "Footwear"
-                    ? styles.imageHolderFootwear
-                    : styles.imageHolder
-                }
-              >
-                <div className={styles.image}>
-                  <Image fit="contain" image={this.props.sizeData.imageURL} />
-                </div>
-              </div>
-            </DesktopOnly>
+            {this.props.category === "Footwear" &&
+              this.props.category === "Accessories" && (
+                <DesktopOnly>
+                  <div
+                    className={
+                      this.props.category === "Footwear"
+                        ? styles.imageHolderFootwear
+                        : styles.imageHolder
+                    }
+                  >
+                    <div className={styles.image}>
+                      <Image
+                        fit="contain"
+                        image={this.props.sizeData.imageURL}
+                      />
+                    </div>
+                  </div>
+                </DesktopOnly>
+              )}
           </div>
         </div>
       );

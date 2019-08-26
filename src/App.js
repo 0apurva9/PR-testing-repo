@@ -333,6 +333,7 @@ class App extends Component {
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
     let guid;
+    let cartCode;
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
 
@@ -356,6 +357,9 @@ class App extends Component {
       guid = JSON.parse(cartDetailsForLoggedInUser).guid
         ? JSON.parse(cartDetailsForLoggedInUser).guid
         : null;
+      cartCode = JSON.parse(cartDetailsForLoggedInUser).code
+        ? JSON.parse(cartDetailsForLoggedInUser).code
+        : null;
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -371,17 +375,22 @@ class App extends Component {
       if (cartDetailsForAnonymous) {
         // Get Cart GUID if user is Anonymous
         guid = JSON.parse(cartDetailsForAnonymous);
+        cartCode = JSON.parse(cartDetailsForAnonymous).code;
       }
     }
     // Check if GUID exists
     if (guid) {
       // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
-      this.props.getCartCountForLoggedInUsers(
+      await this.props.getCartCountForLoggedInUsers(
         typeof guid === "object" ? guid : null
       );
     } else {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
+    }
+    if (cartCode) {
+      // Call minicart after landing on the site or reloading page
+      this.props.getMinicartProducts();
     }
     window.prerenderReady = true;
   }
