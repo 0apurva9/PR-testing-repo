@@ -553,6 +553,25 @@ export default class OrderDetails extends React.Component {
                         returnPolicy={products.returnPolicy}
                       />
 
+                      {products.awbPopupLink === AWB_POPUP_TRUE && (
+                        <div className={styles.replaceHolder}>
+                          <div
+                            className={styles.replace}
+                            onClick={() =>
+                              this.updateRefundDetailsPopUp(
+                                orderDetails.orderId,
+                                products.transactionId
+                              )
+                            }
+                          >
+                            Update Return Details
+                            {/* <UnderLinedButton
+                                  label="Update Return Details"
+                                  color="#000"
+                                /> */}
+                          </div>
+                        </div>
+                      )}
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
                         products.consignmentStatus != "PACKED" &&
@@ -975,24 +994,8 @@ export default class OrderDetails extends React.Component {
                           }
                         >
                           <div className={styles.buttonHolderForUpdate}>
-                            <div className={styles.replaceHolder}>
-                              <div
-                                className={styles.replace}
-                                onClick={() =>
-                                  this.updateRefundDetailsPopUp(
-                                    orderDetails.orderId,
-                                    products.transactionId
-                                  )
-                                }
-                              >
-                                <UnderLinedButton
-                                  label="Update Return Details"
-                                  color="#000"
-                                />
-                              </div>
-                            </div>
                             <div className={styles.reviewHolder}>
-                              {products.isReturned &&
+                              {/* {products.isReturned &&
                                 isOrderReturnable && (
                                   <div
                                     className={styles.review}
@@ -1009,12 +1012,12 @@ export default class OrderDetails extends React.Component {
                                       color="#ff1744"
                                     />
                                   </div>
-                                )}
-                              {!products.isReturned && (
+                                )} */}
+                              {/* {!products.isReturned && (
                                 <div className={styles.review}>
                                   Return window is Closed
                                 </div>
-                              )}
+                              )} */}
                               {/* in case of hotc show return option */}
                               {products.isReturned &&
                                 products.isHOTCReturnable && (

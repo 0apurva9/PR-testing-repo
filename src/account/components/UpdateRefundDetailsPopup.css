@@ -1,15 +1,15 @@
 .base {
-	width: 100%;
-	height: auto;
+	width: 667px;
+	height: 395px;
 	background: #fff;
 	padding: 25px;
 }
 .headerText {
-	width: 100%;
-	height: auto;
+	width: 231px;
+	height: 26px;
 	color: #000;
-	font-size: 14px;
+	font-size: 20px;
 	font-family: semibold;
 	margin-bottom: 20px;
-	text-align: center;
+	text-align: left;
 }

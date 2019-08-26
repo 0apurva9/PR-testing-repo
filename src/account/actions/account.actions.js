@@ -742,7 +742,7 @@ export function updateReturnConfirmation(
       if (modeOfReturn === "Self Courier") {
         Object.assign(data, {
           returnId: returnId,
-          selfCourier: true,
+          isSelfCourier: true,
           returnFullfillmentType: returnFullfillmentType
         });
       }

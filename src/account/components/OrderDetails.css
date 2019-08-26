@@ -197,6 +197,11 @@
 	height: auto;
 	display: inline-block;
 	text-align: left;
+	color: #ff1744;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: semibold;
+	margin-bottom: 30px;
 }
 .replace {
 	font-size: 14px;
@@ -206,7 +211,7 @@
 	width: 50%;
 	height: auto;
 	display: inline-block;
-	text-align: right;
+	text-align: left;
 }
 .review {
 	font-size: 14px;
