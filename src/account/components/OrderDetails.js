@@ -47,7 +47,7 @@ import {
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
-const dateFormat = "Do MMM YYYY";
+const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
 // const PRODUCT_RETURN_WINDOW_CLOSED =

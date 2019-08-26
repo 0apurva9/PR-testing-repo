@@ -13,7 +13,7 @@ import {
   PRODUCT_CANCEL
 } from "../../lib/constants";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
-const dateFormat = "Do MMM YYYY";
+const dateFormat = "DD MMM YYYY";
 const dateTimeFormat = "DD MMM YYYY | HH:mm:ss";
 export default class OrderCard extends React.Component {
   onClick() {

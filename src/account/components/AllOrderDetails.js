@@ -64,7 +64,7 @@ import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
-const dateFormat = "Do MMM YYYY";
+const dateFormat = "DD MMM YYYY";
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
