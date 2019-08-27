@@ -408,52 +408,67 @@ export default class ReturnModes extends React.Component {
                         {data.returnModes.quickDrop &&
                           returnStoreDetailsList &&
                           returnStoreDetailsList.length > 0 && (
+                            <div className={styles.returnModesDivider}>
+                              <label className={styles.labelForRadioBtn}>
+                                <input
+                                  className={styles.radioBtn}
+                                  type="radio"
+                                  value="Return To Store"
+                                  checked={
+                                    this.state.selectedOption ===
+                                    "Return To Store"
+                                  }
+                                  onChange={this.radioChange}
+                                />
+                                Return To Store
+                                <span className={styles.calloutForReturnModes}>
+                                  You can visit the nearest store to return the
+                                  product
+                                </span>
+                              </label>
+                            </div>
+                          )}
+                        {data.returnModes.schedulePickup && (
+                          <div className={styles.returnModesDivider}>
                             <label className={styles.labelForRadioBtn}>
                               <input
                                 className={styles.radioBtn}
                                 type="radio"
-                                value="Return To Store"
+                                value="Pick Up"
                                 checked={
-                                  this.state.selectedOption ===
-                                  "Return To Store"
+                                  this.state.selectedOption === "Pick Up"
                                 }
                                 onChange={this.radioChange}
                               />
-                              Return To Store
+                              Pick Up
                             </label>
-                          )}
-                        {data.returnModes.schedulePickup && (
-                          <label className={styles.labelForRadioBtn}>
-                            <input
-                              className={styles.radioBtn}
-                              type="radio"
-                              value="Pick Up"
-                              checked={this.state.selectedOption === "Pick Up"}
-                              onChange={this.radioChange}
-                            />
-                            Pick Up
-                          </label>
+                            <span className={styles.calloutForReturnModes}>
+                              Our logistics partner will pick up the product
+                            </span>
+                          </div>
                         )}
                         {data.returnModes.selfCourier &&
                           returnLogisticsResponseDTO.length > 0 && (
-                            <label className={styles.labelForRadioBtn}>
-                              <input
-                                className={styles.radioBtn}
-                                type="radio"
-                                value="Self Courier"
-                                checked={
-                                  this.state.selectedOption === "Self Courier"
-                                }
-                                onChange={this.radioChange}
-                              />
-                              Self Courier
-                              <span className={styles.radioBtnSubText}>
-                                {
-                                  returnLogisticsResponseDTO[0]
-                                    .responseDescription
-                                }
-                              </span>
-                            </label>
+                            <div className={styles.returnModesDivider}>
+                              <label className={styles.labelForRadioBtn}>
+                                <input
+                                  className={styles.radioBtn}
+                                  type="radio"
+                                  value="Self Courier"
+                                  checked={
+                                    this.state.selectedOption === "Self Courier"
+                                  }
+                                  onChange={this.radioChange}
+                                />
+                                Self Courier
+                                <span className={styles.radioBtnSubText}>
+                                  {
+                                    returnLogisticsResponseDTO[0]
+                                      .responseDescription
+                                  }
+                                </span>
+                              </label>
+                            </div>
                           )}
                         {/* {!this.state.isModeSelected && (
 								<div className={styles.returnModesWithBorder}>
