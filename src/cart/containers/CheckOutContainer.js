@@ -90,7 +90,8 @@ import {
   updateProfile,
   clearPinCodeStatus,
   redeemCliqVoucher,
-  retryPayment
+  retryPayment,
+  fetchOrderDetails
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -721,6 +722,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFailed)
       );
+    },
+    fetchOrderDetails: (orderId, pageName) => {
+      dispatch(fetchOrderDetails(orderId, pageName));
     }
   };
 };
