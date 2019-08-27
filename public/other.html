@@ -208,25 +208,47 @@
             //left: (window.innerWidth) - 40,
             //bottom: (window.innerHeight) - 70 - 40,
             left: 95,
-            bottom: 5,
-          },
-        },
+            bottom: 5
+          }
+
+        }
       };
     </script>
     <script>
-      window.initMessenger = function() {
-        if (!document.getElementById("onedirect-messaging-sdk")) {
+      window.od = {};
+      var mc = function() {
+        mc.c(arguments);
+      };
+      mc.q = [];
+      mc.c = function(args) {
+        mc.q.push(args);
+      };
+      window.od.messenger = mc;
+    </script>
+
+    <script>
+      fetch(
+        "https://msg.onedirect.in/kong/mgateway/public/v1/sdk-version?brandHash=NjMyNF8xNTYyMjE5NzU2Njg3XzQ=&channelId=1"
+      )
+        .then(r => r.json())
+        .then(r => {
           !(function(e, s, n, t, a) {
+            let c = r.version;
+            let src =
+              "https://s3-ap-southeast-1.amazonaws.com/onedirect/messaging/web-sdk/production/" +
+              c +
+              "/od-messaging.init.v1.0.min.js";
             (el = s.createElement(n)),
               (p = s.getElementsByTagName(n)[0]),
               (el.async = 1),
               (el.id = "onedirect-messaging-sdk"),
-              (el.src =
-                "https://s3-ap-southeast-1.amazonaws.com/onedirect/messaging/web-sdk/production/od-messaging.init.v1.0.min.js"),
+              (el.src = src),
               p.parentNode.insertBefore(el, p);
           })(window, document, "script");
-        }
-      };
+        })
+        .catch(error => {
+          console.log(error);
+        });
     </script>
 
     <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>    <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>    <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>    <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>    <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>    <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>    <style>*{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;padding:0;font-family:regular}.LeFt5T0EqAiCJR4_F2OqM{width:100%;color:#212121}@media only screen and (min-width:1025px){::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{border-radius:5px;opacity:0}::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 45px rgba(0,0,0,.3)}::-webkit-scrollbar-thumb:window-inactive{opacity:0}}._2R7om4cRGxcvRWWDS4m5Sr{width:100%;height:100px;position:fixed;z-index:100;left:0;top:0;background:#212121;-webkit-transform:translateZ(-1px);transform:translateZ(-1px)}._2JaxsS7c63syQmj-iuBn0S{height:75px}._3NBnsvgko3BOEoxVRAlrvL{width:100%;height:100%;max-width:1200px;margin:auto;padding-left:185px;position:relative}._2ThZLOx5Lprtf4tuFSQTaz{width:85px;height:55px;position:absolute;left:0;top:0;bottom:0;margin:auto;background:url(/static/media/group.ccb1a969.svg) no-repeat;background-size:auto 40px;background-position:50%}._2LxxO2RnfREssiEWUb_Wb2{width:auto;height:100%;float:right;padding:25px 0}._34bdm57pGuXK3ePq-NFSZH{width:auto;height:100%;position:relative;float:right}.np7fiFOyLkXmUdDGngXuA{width:100%;height:50px;display:hidden}._1VHx6Q-_S0kAoslXHWJKNf{height:100px}*{-webkit-box-sizing:border-box;box-sizing:border-box}</style>  </head>
