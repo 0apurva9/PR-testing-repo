@@ -66,7 +66,7 @@ export default class KycApplicationForm extends React.Component {
         <div className={styles.bottomHolder}>
           <div className={styles.applicationForm}>
             <div className={styles.header}>
-              Please enter below information to verify you KYC details.
+              Please enter the information below to verify your KYC details.
             </div>
             <div className={styles.labelHedaer}>
               Any changes will automatically reflect in your account
