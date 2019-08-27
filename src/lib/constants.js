@@ -187,6 +187,11 @@ export const STANDARD_SHIPPING = "Standard delivery";
 export const COLLECT_TEXT = "CLiQ & PiQ";
 export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
+export const SHIPPING_TYPES = {
+  HD: "home-delivery",
+  CNC: "click-and-collect",
+  ED: "express-delivery"
+};
 
 export const PLAT_FORM_NUMBER = "5";
 export const CHANNEL = "web";
