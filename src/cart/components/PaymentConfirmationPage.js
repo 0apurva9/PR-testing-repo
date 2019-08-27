@@ -42,7 +42,7 @@ export default class PaymentConfirmationPage extends React.Component {
     }
     if (orderId) {
       let pageName = "paymentConfirmation";
-      await this.wait(5000);
+      await this.wait(7000);
       this.setState({ showloader: true });
       await this.props.fetchOrderDetails(orderId, pageName);
     }
