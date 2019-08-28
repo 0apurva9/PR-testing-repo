@@ -2,9 +2,9 @@ import React from "react";
 import styles from "./AwbForm.css";
 import PropTypes from "prop-types";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Input2 from "../../general/components/Input2.js";
+import Input3 from "../../general/components/Input3.js";
 import Button from "../../general/components/Button";
-import ImageUpload from "./ImageUpload";
+import ImageUploadWithoutBox from "./ImageUploadWithoutBox";
 export default class AwbForm extends React.Component {
   constructor(props) {
     super(props);
@@ -63,7 +63,7 @@ export default class AwbForm extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.inputHolder}>
-          <Input2
+          <Input3
             boxy={true}
             placeholder="AWB number"
             value={
@@ -75,7 +75,7 @@ export default class AwbForm extends React.Component {
           />
         </div>
         <div className={styles.inputHolder}>
-          <Input2
+          <Input3
             boxy={true}
             placeholder="Logistics partner"
             value={
@@ -89,7 +89,7 @@ export default class AwbForm extends React.Component {
           />
         </div>
         <div className={styles.inputHolder}>
-          <Input2
+          <Input3
             boxy={true}
             placeholder="Courier charges in Rs."
             value={
@@ -105,7 +105,7 @@ export default class AwbForm extends React.Component {
         </div>
 
         <div className={styles.inputHolder}>
-          <ImageUpload
+          <ImageUploadWithoutBox
             value={
               this.state.file
                 ? this.state.file.name

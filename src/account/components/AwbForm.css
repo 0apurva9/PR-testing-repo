@@ -3,9 +3,14 @@
 	height: auto;
 }
 .inputHolder {
-	width: 100%;
+	width: 524px;
 	height: auto;
-	margin-bottom: 15px;
+	margin-bottom: 28px;
+	margin-right: 83px;
+	font-size: 14px;
+	font-family: light;
+	letter-spacing: 0.03px;
+	color: #212121;
 }
 .fileUploadHolder {
 	width: 100%;
@@ -74,7 +79,6 @@
 .PopUpbuttonHolder {
 	width: 100%;
 	height: auto;
-	margin-top: 15px;
 	display: inline-block;
 	text-align: center;
 }
