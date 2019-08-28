@@ -440,7 +440,7 @@ export default class ReturnModes extends React.Component {
                                 }
                                 onChange={this.radioChange}
                               />
-                              Pick Up
+                              Pickup
                             </label>
                             <span className={styles.calloutForReturnModes}>
                               Our logistics partner will pick up the product
