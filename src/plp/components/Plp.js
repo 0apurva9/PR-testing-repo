@@ -291,15 +291,17 @@ export default class Plp extends React.Component {
       searchresult.filter(brand => {
         return brand.brandname === brandName;
       });
+
+    const isBrand = /c-mbh/.test(this.props.location.pathname) ? true : false;
     if (this.props.productListings.seo && this.props.productListings.seo.tag) {
       const tagText =
         (brandData && brandData.length) ===
-        (searchresult && searchresult.length)
+          (searchresult && searchresult.length) && !isBrand
           ? brandName + " " + this.props.productListings.seo.tag
           : this.props.productListings.seo.tag;
       return tagText;
     }
-    if (this.props.headerText) {
+    if (!this.props.productListings && this.props.headerText) {
       return this.props.headerText;
     }
     if (
@@ -310,7 +312,7 @@ export default class Plp extends React.Component {
     ) {
       const headerText =
         (brandData && brandData.length) ===
-        (searchresult && searchresult.length)
+          (searchresult && searchresult.length) && !isBrand
           ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
           : this.props.productListings.seo.breadcrumbs[0].name;
       return headerText;
