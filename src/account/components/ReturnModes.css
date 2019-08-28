@@ -14,8 +14,10 @@
 }
 .calloutForReturnModes {
 	font-family: light;
-	font-size: 10px;
+	font-size: 12px;
 	color: #4a4a4a;
+	width: 440px;
+	height: 14px;
 }
 .replaceRefundHeading,
 .returnModesHeading {

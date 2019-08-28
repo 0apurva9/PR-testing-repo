@@ -44,7 +44,12 @@ export default class ReturnModes extends React.Component {
   }
   async componentDidMount() {
     //use delivery address id - required for getPickupAddrReturnPincodeServcblty api call
-    let pickUpAddressId = this.props.getRefundOptionsDetails.deliveryAddress.id;
+    let pickUpAddressId =
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.address
+        ? this.props.location.state.address.id
+        : this.props.getRefundOptionsDetails.deliveryAddress.id;
     let returnId = this.props.getRefundModesDetails.returnId;
     let orderId = this.props.data.sellerorderno;
     let transactionId = this.props.data.transactionId;
@@ -64,6 +69,7 @@ export default class ReturnModes extends React.Component {
         this.props.location.state.address
       ) {
         let changedAddress = this.props.location.state.address;
+        // console.log("Changed Address:", changedAddress);
         Object.assign(pickupAddress, {
           line1: changedAddress.line1,
           line2: changedAddress.line2 ? changedAddress.line2 : "",
