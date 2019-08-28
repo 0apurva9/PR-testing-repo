@@ -532,7 +532,7 @@ export default class ReturnModes extends React.Component {
                     )}
                     {!this.isReturnModesEnabled() && <Loader />}
                   </div>
-                  {this.isReturnModesEnabled() &&
+                  {/* {this.isReturnModesEnabled() &&
                     this.state.selectedOption === "Self Courier" &&
                     returnLogisticsResponseDTO.length > 0 && (
                       <div className={styles.content}>
@@ -552,7 +552,7 @@ export default class ReturnModes extends React.Component {
                           </div>
                         </div>
                       </div>
-                    )}
+                    )} */}
 
                   {this.isReturnModesEnabled() &&
                     this.state.selectedOption === "Return To Store" &&

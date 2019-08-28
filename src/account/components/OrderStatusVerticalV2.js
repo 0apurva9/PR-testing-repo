@@ -704,9 +704,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     }
                   >
                     {returnRequestedCustomerFacingName}
-                    <span className={styles.shipmentStatus}>
+                    {/* <span className={styles.shipmentStatus}>
                       {returnRequestedShipmentStatus}
-                    </span>
+                    </span> */}
                   </div>
                   <div className={styles.dateAndTimeHolder}>
                     <div className={styles.timeHolder}>
@@ -1779,11 +1779,11 @@ export default class OrderStatusVerticalV2 extends React.Component {
             </React.Fragment>
           )}
         </div>
-        {activeOrderStatus === PICKUP_SCHEDULED && (
+        {/* {activeOrderStatus === PICKUP_SCHEDULED && (
           <div className={styles.shipmentStatus}>
             {pickupScheduledShipmentStatus}
           </div>
-        )}
+        )} */}
       </React.Fragment>
     );
   }

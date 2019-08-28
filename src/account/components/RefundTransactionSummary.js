@@ -88,7 +88,7 @@ export default class RefundTransactionSummary extends React.Component {
               <Icon image={success} size={150} />
             </div>
             <div className={styles.summaryTitle}>
-              Your request for a refund has been placed successfully.
+              Your request for a return has been placed successfully.
             </div>
             <div className={styles.buttonHolder}>
               <Button

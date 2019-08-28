@@ -106,7 +106,11 @@ export default class AwbForm extends React.Component {
 
         <div className={styles.inputHolder}>
           <ImageUpload
-            value={this.state.file ? this.state.file.name : "Upload attachment"}
+            value={
+              this.state.file
+                ? this.state.file.name
+                : "Upload picture of Receipt"
+            }
             onChange={file => this.onUploadFile(file)}
           />
         </div>
@@ -141,7 +145,7 @@ export default class AwbForm extends React.Component {
             <Button
               width={176}
               type="primary"
-              label="SUBMIT"
+              label="CONTINUE"
               onClick={() => this.onUpdate()}
             />
           </div>

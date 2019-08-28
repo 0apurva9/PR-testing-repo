@@ -145,6 +145,22 @@ export default class OrderCard extends React.Component {
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     }
 
+    console.log(
+      "status for callout---->",
+      this.props.calloutMessage,
+      "shipmentStatus",
+      shipmentStatus,
+      "estimatedDeliveryDate",
+      this.props.estimatedDeliveryDate,
+      "consignmentStatus",
+      this.props.consignmentStatus,
+      "checkStatus",
+      checkStatus,
+      "date",
+      date,
+      "returnEligibleDate",
+      returnEligibleDate
+    );
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -489,54 +505,6 @@ export default class OrderCard extends React.Component {
             <span className={styles.estimatedDate}>{this.props.statusDisplay}</span>
           </div>
         )} */}
-        {/* {this.props.consignmentStatus === "DELIVERED" && (
-          <React.Fragment>
-            <div className={styles.commonTitle}>
-              <span className={styles.ffsemibold}>Delivered On: </span>
-              <span className={styles.estimatedDate}>
-                {deliveryDateFormatted}
-              </span>
-            </div> */}
-        {/* <div className={styles.commonTitle}>
-              {this.props.shipmentStatusText}
-              {this.props.statusMessageListDate}
-            </div> */}
-        {/* </React.Fragment>
-        )} */}
-        {/* {this.props.isGiveAway === "N" && this.props.consignmentStatus &&
-          this.props.consignmentStatus !== "DELIVERED" &&
-          !this.props.consignmentStatus.includes("CANCEL") &&
-          this.props.showEDD === "Y" &&
-          estimatedDeliveryDate && (
-            <div className={styles.commonTitle}>
-               <span className={styles.ffsemibold}>{shipmentStatus}</span>
-
-               {this.props.selectedDeliveryMode.code === "click-and-collect" && (
-                <span className={styles.ffsemibold}>
-                  Order could be collected by:{" "}
-                </span>
-              )} */}
-
-        {/* {this.props.selectedDeliveryMode.code !== "click-and-collect" && (
-                <span className={styles.ffsemibold}>
-                  Estimated Delivery Date:{" "}
-                </span>
-              )} */}
-        {/* {!this.props.returnMode &&
-                this.props.consignmentStatus !== "DELIVERED" && date && (
-                  <span className={styles.styleDate}>
-                    {this.props.estimateddeliverydate
-                      ? estimatedDeliveryDateFormatted
-                      : date} :{" "}
-                  </span>
-                )}
-              {this.props.consignmentStatus === "DELIVERED" &&
-                format(returnEligibleDate.toString(), dateFormat)} */}
-        {/* <span className={styles.styleDate}>
-                {estimatedDeliveryDateFormatted}
-              </span> */}
-        {/* </div>
-          )} */}
 
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus === "DELIVERED" &&
@@ -602,6 +570,17 @@ export default class OrderCard extends React.Component {
                             format(returnEligibleDate.toString(), dateFormat)}
                         </span>
                       </React.Fragment>
+                    )}
+                  {!this.props.estimatedDeliveryDate &&
+                    !checkStatus &&
+                    (date || returnEligibleDate) && (
+                      <span className={styles.ffsemibold}>
+                        {shipmentStatus &&
+                        shipmentStatus.includes("Eligible for Return till") &&
+                        !this.props.deliveryDate
+                          ? ""
+                          : shipmentStatus}{" "}
+                      </span>
                     )}
                 </React.Fragment>
               ) : (

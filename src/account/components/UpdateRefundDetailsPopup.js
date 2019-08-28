@@ -13,7 +13,7 @@ export default class UpdateRefundDetailsPopup extends React.Component {
     return (
       <BottomSlideModal>
         <div className={styles.base}>
-          <div className={styles.headerText}>Update Refund Detials</div>
+          <div className={styles.headerText}>Update Refund Details</div>
           <AwbForm
             onUpdate={val => this.onUpdate(val)}
             displayToast={this.props.displayToast}
