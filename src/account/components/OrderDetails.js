@@ -113,13 +113,14 @@ export default class OrderDetails extends React.Component {
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let pageName = "orderDetails";
     if (
       userDetails &&
       customerCookie &&
       this.props.match.path === `${ORDER_PREFIX}`
     ) {
       const orderCode = queryString.parse(this.props.location.search).orderCode;
-      this.props.fetchOrderDetails(orderCode);
+      this.props.fetchOrderDetails(orderCode, pageName);
       this.props.setHeaderText(`#${orderCode}`);
     } else if (
       userDetails &&
@@ -127,7 +128,7 @@ export default class OrderDetails extends React.Component {
       this.props.match.path === `${SHORT_URL_ORDER_DETAIL}`
     ) {
       const orderCode = this.props.match.params.orderCode;
-      this.props.fetchOrderDetails(orderCode);
+      this.props.fetchOrderDetails(orderCode, pageName);
       this.props.setHeaderText(`#${orderCode}`);
     }
   }

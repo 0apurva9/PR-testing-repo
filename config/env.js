@@ -184,8 +184,11 @@ if (
   process.env.REACT_APP_STAGE === "p2"
 ) {
   process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
+  process.env.REACT_APP_STRIPE_ACCESTOKEN =
+    "pk_live_0mEUvve0oja2ClunVfALIOXt00z52bGLZs";
 } else {
   process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
+  process.env.REACT_APP_STRIPE_ACCESTOKEN = "pk_test_UvukxCIqd4zofxt7dX2hjPeI";
 }
 
 // for samsung chat on pdp
