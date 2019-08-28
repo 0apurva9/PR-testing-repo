@@ -577,6 +577,7 @@ export default class OrderDetails extends React.Component {
                         products.consignmentStatus != "PACKED" &&
                         products.consignmentStatus !=
                           "RETURNINITIATED_BY_RTO" &&
+                        products.consignmentStatus != "OUT_FOR_DELIVERY" &&
                         products.consignmentStatus != "HOTC" &&
                         products.consignmentStatus != "UNDELIVERED" &&
                         products.consignmentStatus !=
