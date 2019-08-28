@@ -96,6 +96,7 @@ export default class ReturnAddressBook extends React.Component {
       this.props &&
       this.props.history &&
       this.props.history.location &&
+      this.props.history.location.state &&
       this.props.history.location.state.urlAddress.includes(
         "/my-account/order/"
       )
@@ -108,6 +109,7 @@ export default class ReturnAddressBook extends React.Component {
       this.props &&
         this.props.history &&
         this.props.history.location &&
+        this.props.history.location.state &&
         this.props.history.location.state.urlAddress.includes(
           "/my-account/order/"
         ) &&
