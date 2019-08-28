@@ -56,7 +56,10 @@ import {
   ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
   setDataLayerForLogoutSuccess,
   setDataLayerForGiftCard,
-  SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT
+  SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT,
+  ADOBE_ORDER_CONFIRMATION,
+  setDataLayerForOrderConfirmationDirectCalls,
+  ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -1621,7 +1624,7 @@ export function editAddress(addressDetails) {
   };
 }
 
-export function fetchOrderDetails(orderId) {
+export function fetchOrderDetails(orderId, pageName) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -1640,7 +1643,20 @@ export function fetchOrderDetails(orderId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
+      if (pageName === "paymentConfirmation") {
+        setDataLayer(
+          ADOBE_ORDER_CONFIRMATION,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
+        setDataLayerForOrderConfirmationDirectCalls(
+          ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
+          resultJson.orderId
+        );
+      } else {
+        setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
+      }
       dispatch(fetchOrderDetailsSuccess(resultJson));
     } catch (e) {
       dispatch(fetchOrderDetailsFailure(e.message));
@@ -2063,9 +2079,9 @@ export function changePassword(passwordDetails) {
           JSON.parse(userDetails).userName
         }/resetCustomerPassword?isPwa=true&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&old=${passwordDetails.oldPassword}&newPassword=${
-          passwordDetails.newPassword
-        }`
+        }&isPwa=true&old=${encodeURIComponent(
+          passwordDetails.oldPassword
+        )}&newPassword=${encodeURIComponent(passwordDetails.newPassword)}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

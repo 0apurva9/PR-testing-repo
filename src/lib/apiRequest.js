@@ -103,7 +103,8 @@ export const API_URL_ROOT_MOCK = "https://cliq-json-server.herokuapp.com";
 export const HOME_FEED_API_ROOT =
   "https://tataunistore.tt.omtrdc.net/rest/v1/mbox?client=tataunistore";
 export const JUS_PAY_API_URL_ROOT = process.env.REACT_APP_JUS_PAY_API_URL_ROOT;
-
+export const STRIPE_API_URL_ROOT = process.env.REACT_APP_STRIPE_API_URL_ROOT;
+const STRIPE_ACCESTOKEN = process.env.REACT_APP_STRIPE_ACCESTOKEN;
 const ACCESS_TOKEN_EXPIRED_MESSAGE = "Access token expired";
 const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
@@ -572,6 +573,16 @@ export async function postJusPay(path, postData) {
     body: postData
   });
 }
+
+export async function postStripe(path, postData) {
+  let url = `${STRIPE_API_URL_ROOT}/${path}`;
+  return await fetch(url, {
+    method: "POST",
+    headers: { Authorization: "Bearer" + " " + STRIPE_ACCESTOKEN },
+    body: postData
+  });
+}
+
 export async function postJusPayUrlEncode(path, postData) {
   let url = `${JUS_PAY_API_URL_ROOT}/${path}`;
   return await fetch(url, {

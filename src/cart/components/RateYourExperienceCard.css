@@ -9,6 +9,14 @@
   height: auto;
   text-align: center;
 }
+.orderHeading {
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: semibold;
+}
 .heading {
   width: 100%;
   height: auto;

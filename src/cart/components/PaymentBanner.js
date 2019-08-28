@@ -1,12 +1,14 @@
 import React from "react";
-import styles from "./OrderBanner.css";
+import styles from "./PaymentBanner.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import * as Cookie from "../../lib/Cookie.js";
 import { LOGGED_IN_USER_DETAILS, HOME_ROUTER } from "../../lib/constants.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import Image from "../../xelpmoc-core/Image";
+import paymentConfirmation from "./img/PaymentConfirmation.svg";
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-export default class OrderBanner extends React.Component {
+export default class PaymentBanner extends React.Component {
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
@@ -26,12 +28,30 @@ export default class OrderBanner extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.orderInnerBox}>
-          <div
-            className={styles.orderHeading}
-          >{`Thanks ${firstName} We've received your order`}</div>
-          <div className={styles.orderLabel}>{`Order Id: ${
-            this.props.label
-          }`}</div>
+          <div className={styles.PaymentConfirmationImage}>
+            <Image image={paymentConfirmation} />
+          </div>
+
+          {!this.props.COD ? (
+            <div className={styles.orderHeading}>
+              Thank you for shopping with us!
+            </div>
+          ) : (
+            <div className={styles.orderHeading}>
+              Thank you! We have received your order.
+            </div>
+          )}
+
+          {!this.props.COD ? (
+            <div className={styles.orderSubText}>
+              Please check your email for order confirmation and order details.
+            </div>
+          ) : (
+            <div className={styles.orderLabel}>{`Order Id: ${
+              this.props.label
+            }`}</div>
+          )}
+
           {this.props.isTrack && (
             <div className={styles.buttonHolder}>
               <Button
@@ -58,8 +78,8 @@ export default class OrderBanner extends React.Component {
               <div className={styles.buttonHolder} style={{ marginLeft: 10 }}>
                 <Button
                   type="hollow"
-                  color="#fff"
-                  label="View order details"
+                  color="#212121"
+                  label="View Orders"
                   height={37}
                   width={175}
                   onClick={() => this.handleClick()}
@@ -72,7 +92,7 @@ export default class OrderBanner extends React.Component {
     );
   }
 }
-OrderBanner.propTypes = {
+PaymentBanner.propTypes = {
   headingText: PropTypes.string,
   label: PropTypes.string,
   buttonText: PropTypes.string,
@@ -80,9 +100,10 @@ OrderBanner.propTypes = {
   isTrack: PropTypes.bool
 };
 
-OrderBanner.defaultProps = {
+PaymentBanner.defaultProps = {
   buttonText: "Track Order",
   isTrack: false,
   isContinueShopping: false,
-  continueButton: "Continue Shopping"
+  continueButton: "Continue Shopping",
+  COD: false
 };

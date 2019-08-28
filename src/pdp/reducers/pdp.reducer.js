@@ -43,6 +43,7 @@ const productDescription = (
     visitedNewProduct: false,
     getProductDetailsLoading: false,
     serviceableSellerMessage: null,
+    serviceablePincodeListResponse: null,
 
     manufacturerStatus: null,
     manufacturerError: null,
@@ -116,12 +117,14 @@ const productDescription = (
     case pdpActions.CHECK_PRODUCT_PIN_CODE_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
-        loading: true
+        loading: true,
+        serviceablePincodeListResponse: null
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
       const currentPdpDetail = cloneDeep(state.productDetails);
       let listOfAllServiceableUssid;
+      let pincodeListResponse;
       if (
         action.productPinCode &&
         action.productPinCode.deliveryOptions &&
@@ -132,6 +135,8 @@ const productDescription = (
             return delivery.isServicable === YES;
           }
         );
+        pincodeListResponse =
+          action.productPinCode.deliveryOptions.pincodeListResponse;
       }
 
       let eligibleDeliveryModes = [];
@@ -240,14 +245,16 @@ const productDescription = (
       return Object.assign({}, state, {
         status: action.status,
         productDetails: currentPdpDetail,
-        loading: false
+        loading: false,
+        serviceablePincodeListResponse: pincodeListResponse
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
-        loading: false
+        loading: false,
+        serviceablePincodeListResponse: null
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:
@@ -311,6 +318,36 @@ const productDescription = (
       });
 
     case pdpActions.PRODUCT_SIZE_GUIDE_FAILURE:
+      sizeGuide = {
+        loading: false,
+        error: action.error
+      };
+      return Object.assign({}, state, {
+        status: action.status,
+        sizeGuide
+      });
+
+    case pdpActions.PRODUCT_SIZE_CHART_REQUEST:
+      sizeGuide = {
+        loading: true,
+        data: null
+      };
+      return Object.assign({}, state, {
+        status: action.status,
+        sizeGuide
+      });
+
+    case pdpActions.PRODUCT_SIZE_CHART_SUCCESS:
+      sizeGuide = {
+        loading: false,
+        data: action.sizeChart
+      };
+      return Object.assign({}, state, {
+        status: action.status,
+        sizeGuide
+      });
+
+    case pdpActions.PRODUCT_SIZE_CHART_FAILURE:
       sizeGuide = {
         loading: false,
         error: action.error

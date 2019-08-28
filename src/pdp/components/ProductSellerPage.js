@@ -300,6 +300,9 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
+                          serviceablePincodeList={
+                            this.props.serviceablePincodeList
+                          }
                         />
                       );
                     })}
@@ -327,6 +330,9 @@ class ProductSellerPage extends Component {
                         policyText={DELIVERY_RATES}
                         key={index}
                         value={value}
+                        serviceablePincodeList={
+                          this.props.serviceablePincodeList
+                        }
                       />
                     );
                   })}
@@ -399,6 +405,9 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
+                          serviceablePincodeList={
+                            this.props.serviceablePincodeList
+                          }
                           addToBag={() =>
                             this.addToCartAccordingToTheUssid(value.USSID)
                           }
@@ -434,6 +443,9 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
+                          serviceablePincodeList={
+                            this.props.serviceablePincodeList
+                          }
                         />
                       );
                     })}

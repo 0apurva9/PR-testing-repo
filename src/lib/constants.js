@@ -10,6 +10,7 @@ export const ADD_TO_BAG_TEXT = "The item has been added to your bag";
 export const REQUESTING = "requesting";
 export const ERROR = "error";
 export const FAILURE = "Failure";
+export const NOCART = "no cart";
 export const FAILURE_UPPERCASE = "FAILURE";
 export const FAILURE_LOWERCASE = "failure";
 export const WRONG_FAILURE = "faliure";
@@ -161,6 +162,8 @@ export const BANK_COUPON_COOKIE = "bankCoupon";
 export const CART_BAG_DETAILS = "cartBagDetails";
 export const APP_VIEW = "isAppView";
 export const ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE = "orderConfirmationPageId";
+export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
+  "paymentConfirmationPageId";
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
@@ -184,6 +187,11 @@ export const STANDARD_SHIPPING = "Standard delivery";
 export const COLLECT_TEXT = "CLiQ & PiQ";
 export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
+export const SHIPPING_TYPES = {
+  HD: "home-delivery",
+  CNC: "click-and-collect",
+  ED: "express-delivery"
+};
 
 export const PLAT_FORM_NUMBER = "5";
 export const CHANNEL = "web";
@@ -267,7 +275,8 @@ export const PAYPAL = "PayPal";
 export const E_WALLET_PAYPAL = "PayPal";
 export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
-
+export const STRIPE_DETAILS = "stripeDetails";
+export const BANK_GATWAY_DOWN = "0";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =
