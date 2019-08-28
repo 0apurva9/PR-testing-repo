@@ -409,14 +409,17 @@ export function resetPasswordFailure(error) {
 export function resetPassword(userDetails) {
   const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
+    let newDetails = new FormData();
+    newDetails.append("username", userDetails.username);
+    newDetails.append("newPassword", userDetails.newPassword);
+    newDetails.append("otp", userDetails.otp);
     dispatch(resetPasswordRequest());
     try {
       const url = `${RESET_PASSWORD}${
         JSON.parse(globalAccessToken).access_token
-      }&username=${userDetails.username}&newPassword=${
-        userDetails.newPassword
-      }&otp=${userDetails.otp}&platformNumber=${PLAT_FORM_NUMBER}`;
-      const result = await api.post(url);
+      }&platformNumber=${PLAT_FORM_NUMBER}`;
+
+      const result = await api.postFormData(url, newDetails);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {

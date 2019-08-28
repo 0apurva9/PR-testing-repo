@@ -29,7 +29,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 const mapStateToProps = state => {
   return {
-    productDetails: state.productDescription.productDetails
+    productDetails: state.productDescription.productDetails,
+    serviceablePincodeList:
+      state.productDescription.serviceablePincodeListResponse
   };
 };
 
