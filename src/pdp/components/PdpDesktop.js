@@ -1210,6 +1210,33 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
                 </div>
+                <div>
+                  <div className={styles.sumsungSeparator}>
+                    <div className={styles.chatIcon}>
+                      {productData.brandName === "Samsung" ? (
+                        <a
+                          href={samsungChatUrl}
+                          target="_blank"
+                          className={styles.samsungChatImgHolder}
+                        >
+                          <img
+                            src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                            alt="Samsung Chat"
+                          />
+                        </a>
+                      ) : null}
+                      <div className={styles.chatText}>
+                        <p>
+                          Chat with the Samsung brand representative directly
+                          for more info
+                        </p>
+                        <a href={samsungChatUrl} target="_blank">
+                          Clik here to chat
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className={styles.details}>
@@ -1645,7 +1672,7 @@ export default class PdpApparel extends React.Component {
             </div>
           </div>
 
-          {productData.brandName === "Samsung" ? (
+          {/* {productData.brandName === "Samsung" ? (
             <a
               href={samsungChatUrl}
               target="_blank"
@@ -1656,7 +1683,7 @@ export default class PdpApparel extends React.Component {
                 alt="Samsung Chat"
               />
             </a>
-          ) : null}
+          ) : null} */}
         </PdpFrame>
       );
     } else {

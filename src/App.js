@@ -393,6 +393,12 @@ class App extends Component {
       this.props.getMinicartProducts();
     }
     window.prerenderReady = true;
+
+    if (!this.props.location.pathname.includes("/my-account")) {
+      if (window.od && window.od.messenger && window.od.messenger("update")) {
+        window.od.messenger("update");
+      }
+    }
   }
 
   renderLoader() {
