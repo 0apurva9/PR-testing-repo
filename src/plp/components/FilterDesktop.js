@@ -182,13 +182,13 @@ export default class FilterDesktop extends React.Component {
     this.onCategorySelect(val, filterType, filterValue, filterName, false);
   };
   onFilterClick = (val, filterType, filterValue, filterSelected, webUrl) => {
-    if (filterType === "Colour") {
+    if (filterType === "Colour" && webUrl) {
       let colourUrl = webUrl ? webUrl.split("/") : "";
       const category = colourUrl[1];
+      const colourStub = colourUrl[2];
       const categoryCode = colourUrl[3];
-      const colorStub = colourUrl[2];
-      colourUrl = `/${category}/${categoryCode}/${colorStub}`;
-      if (this.props.location.pathname.includes(colourUrl)) {
+      colourUrl = webUrl;
+      if (this.props.location.pathname.includes(colourStub)) {
         colourUrl = `/${category}/${categoryCode}`;
       }
       val = val.replace("/search/page-{pageNo}", colourUrl);
