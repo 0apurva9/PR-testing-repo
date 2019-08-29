@@ -4,7 +4,7 @@
   "javascript.format.enable": false,
   "javascript.validate.enable": false,
   "eslint.autoFixOnSave": true,
-  "workbench.colorTheme": "Abyss",
+  "workbench.colorTheme": "Default Dark+",
   "workbench.iconTheme": "material-icon-theme",
   "editor.formatOnSave": true,
   "editor.lineHeight": 20,
