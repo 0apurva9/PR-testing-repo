@@ -292,9 +292,9 @@ export default class OrderDetails extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.sendInvoiceSatus === SUCCESS) {
-      this.props.displayToast("Invoice has been sent");
-    }
+    // if (nextProps.sendInvoiceSatus === SUCCESS) {
+    //   this.props.displayToast("Invoice has been sent");
+    // }
   }
   getPickUpDate(orderdate, returnPolicy) {
     let pickupDate = "";

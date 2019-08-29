@@ -2594,6 +2594,7 @@ export function sendInvoiceRequest() {
   };
 }
 export function sendInvoiceSuccess(sendInvoice) {
+  debugger;
   return {
     type: SEND_INVOICE_SUCCESS,
     status: SUCCESS,
@@ -2630,6 +2631,7 @@ export function sendInvoice(lineID, orderNumber) {
       }
       dispatch(sendInvoiceSuccess(resultJson));
       if (resultJson && resultJson.status === "Success") {
+        debugger;
         dispatch(displayToast("Invoice has been sent"));
       }
     } catch (e) {

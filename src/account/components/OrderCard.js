@@ -97,25 +97,29 @@ export default class OrderCard extends React.Component {
       shipmentStatus = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
       let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
+      let statusList =
+        statusDisplayMsgL1 &&
+        statusDisplayMsgL1.value &&
+        statusDisplayMsgL1.value.statusList;
+      let LaststatusDisplayList = statusList
+        ? statusList[statusList.length - 1]
+        : "";
+      console.log(
+        "StatusList:",
+        statusList,
+        "LaststatusDisplayList",
+        LaststatusDisplayList
+      );
       //written to avoid for loop
       if (
-        statusDisplayMsgL1 &&
-        statusDisplayMsgL1.value &&
-        statusDisplayMsgL1.value.statusList &&
-        statusDisplayMsgL1.value.statusList[0] &&
-        statusDisplayMsgL1.value.statusList[0].statusMessageList &&
-        statusDisplayMsgL1.value.statusList[0].statusMessageList[0] &&
-        statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date
+        LaststatusDisplayList &&
+        LaststatusDisplayList.statusMessageList[0] &&
+        LaststatusDisplayList.statusMessageList[0].date
       ) {
-        date = statusDisplayMsgL1.value.statusList[0].statusMessageList[0].date;
+        date = LaststatusDisplayList.statusMessageList[0].date;
       }
-      if (
-        statusDisplayMsgL1 &&
-        statusDisplayMsgL1.value &&
-        statusDisplayMsgL1.value.statusList &&
-        statusDisplayMsgL1.value.statusList[0]
-      ) {
-        shipmentStatus = statusDisplayMsgL1.value.statusList[0].shipmentStatus;
+      if (LaststatusDisplayList && LaststatusDisplayList.shipmentStatus) {
+        shipmentStatus = LaststatusDisplayList.shipmentStatus;
       }
     }
     let returnEligibleDate = "";
@@ -367,7 +371,8 @@ export default class OrderCard extends React.Component {
 
           {!this.props.isEgvOrder &&
             !this.props.retryPaymentUrl &&
-            this.props.orderStatusCode != "PAYMENT_PENDING" &&
+            (this.props.orderStatusCode != "PAYMENT_PENDING" ||
+              this.props.orderStatusCode != "PAYMENT_TIMEOUT") &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}
@@ -382,7 +387,8 @@ export default class OrderCard extends React.Component {
 
           {!this.props.isEgvOrder &&
             (this.props.retryPaymentUrl ||
-              this.props.orderStatusCode === "PAYMENT_PENDING") &&
+              this.props.orderStatusCode === "PAYMENT_PENDING" ||
+              this.props.orderStatusCode === "PAYMENT_TIMEOUT") &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}
@@ -391,7 +397,8 @@ export default class OrderCard extends React.Component {
             )}
 
           {this.props.isGiveAway === NO &&
-            this.props.orderStatusCode != "PAYMENT_PENDING" &&
+            (this.props.orderStatusCode != "PAYMENT_PENDING" ||
+              this.props.orderStatusCode != "PAYMENT_TIMEOUT") &&
             !this.props.retryPaymentUrl && (
               <div
                 className={styles.trackOrderText}
@@ -574,13 +581,33 @@ export default class OrderCard extends React.Component {
                   {!this.props.estimatedDeliveryDate &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
-                      <span className={styles.ffsemibold}>
+                      <React.Fragment>
+                        <span className={styles.ffsemibold}>
+                          {shipmentStatus &&
+                          shipmentStatus.includes("Eligible for Return till") &&
+                          !this.props.deliveryDate
+                            ? ""
+                            : shipmentStatus}{" "}
+                        </span>
                         {shipmentStatus &&
-                        shipmentStatus.includes("Eligible for Return till") &&
-                        !this.props.deliveryDate
-                          ? ""
-                          : shipmentStatus}{" "}
-                      </span>
+                          shipmentStatus.includes(
+                            "Order Could be collected by"
+                          ) && (
+                            <span className={styles.styleDate}>
+                              {format(
+                                orderCouldbeCollected.toString(),
+                                dateFormat
+                              )}
+                            </span>
+                          )}
+                        <span className={styles.styleDate}>
+                          {(this.props.consignmentStatus === "DELIVERED" ||
+                            this.props.consignmentStatus ===
+                              "ORDER_COLLECTED") &&
+                            this.props.deliveryDate &&
+                            format(returnEligibleDate.toString(), dateFormat)}
+                        </span>
+                      </React.Fragment>
                     )}
                 </React.Fragment>
               ) : (

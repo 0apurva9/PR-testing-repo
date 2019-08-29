@@ -427,11 +427,11 @@ export default class ReturnModes extends React.Component {
                                   onChange={this.radioChange}
                                 />
                                 Return To Store
-                                <span className={styles.calloutForReturnModes}>
-                                  You can visit the nearest store to return the
-                                  product
-                                </span>
                               </label>
+                              <span className={styles.calloutForReturnModes}>
+                                You can visit the nearest store to return the
+                                product
+                              </span>
                             </div>
                           )}
                         {data.returnModes.schedulePickup && (
@@ -467,13 +467,13 @@ export default class ReturnModes extends React.Component {
                                   onChange={this.radioChange}
                                 />
                                 Self Courier
-                                <span className={styles.radioBtnSubText}>
-                                  {
-                                    returnLogisticsResponseDTO[0]
-                                      .responseDescription
-                                  }
-                                </span>
                               </label>
+                              <span className={styles.radioBtnSubText}>
+                                {
+                                  returnLogisticsResponseDTO[0]
+                                    .responseDescription
+                                }
+                              </span>
                             </div>
                           )}
                         {/* {!this.state.isModeSelected && (
