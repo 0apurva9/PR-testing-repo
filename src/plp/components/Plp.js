@@ -332,7 +332,7 @@ export default class Plp extends React.Component {
   onClickCancelIcon(val, filterName, allData) {
     let url = "";
     let colourSlug = "";
-    if ("hexColor" in allData) {
+    if ("hexColor" in allData && allData.webURL) {
       colourSlug = `/${allData.webURL.split("/")[2]}`;
     }
     url = val.replace("page-{pageNo}", "page-1");
