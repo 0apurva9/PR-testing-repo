@@ -2,14 +2,34 @@
 	width: 667px;
 	height: 395px;
 	background: #fff;
-	padding: 25px;
+	padding: 30px;
 }
 .headerText {
 	width: 231px;
 	height: 26px;
-	color: #000;
+	color: #212121;
 	font-size: 20px;
 	font-family: semibold;
 	margin-bottom: 20px;
 	text-align: left;
 }
+.close {
+	margin-right: 20px;
+	margin-left: 56%;
+}
+.header {
+	display: flex;
+	width: 667px;
+	height: 58px;
+	background-color: rgb 249 249 249;
+}
+/* .crossIcon {
+	width: 40px;
+	height: 40px;
+	background: url('../../auth/components/img/cancel.svg') no-repeat;
+	background-position: center;
+	background-size: 14px;
+	position: absolute;
+	top: 5px;
+	right: 15px;
+} */
