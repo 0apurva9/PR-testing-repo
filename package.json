@@ -95,7 +95,7 @@
 		"async-stylesheet-webpack-plugin": "0.4.1"
 	},
 	"scripts": {
-		"start": "node -r dotenv/config scripts/start.js",
+		"start": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
 		"start:desktop": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
 		"stage": " REACT_APP_STAGE=stage node scripts/build.js",
 		"tmpprod": " REACT_APP_STAGE=tmpprod node scripts/build.js",
