@@ -3839,6 +3839,9 @@ if you have order id in local storage then you have to show order confirmation p
               this.captureOrderExperienceForStripe(rating)
             }
             history={this.props.history}
+            fetchOrderDetails={(orderId, pageName) =>
+              this.props.fetchOrderDetails(orderId, pageName)
+            }
           />
         </div>
       );

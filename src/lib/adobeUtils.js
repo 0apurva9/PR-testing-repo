@@ -855,7 +855,8 @@ function getDigitalDataForOrderConfirmation(type, response) {
         primaryCategory: "orderconfirmation"
       },
       pageInfo: {
-        pageName: "order confirmation"
+        pageName: "order confirmation",
+        pageType: "Order Successfull"
       }
     }
   };
@@ -869,6 +870,14 @@ function getDigitalDataForOrderConfirmation(type, response) {
       productBrandArray,
       categoryArray
     } = getProductData;
+    productQuantityArray.forEach((element, index) => {
+      if (
+        productQuantityArray[index] == null ||
+        isNaN(productQuantityArray[index])
+      ) {
+        productQuantityArray.splice(index, 1, 1);
+      }
+    });
     Object.assign(data, {
       cpj: {
         product: {
@@ -879,6 +888,9 @@ function getDigitalDataForOrderConfirmation(type, response) {
         },
         brand: {
           name: productBrandArray
+        },
+        payment: {
+          mode: response.paymentMethod
         }
       }
     });
