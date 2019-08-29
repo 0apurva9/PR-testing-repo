@@ -329,8 +329,12 @@ export default class Plp extends React.Component {
       );
     }
   };
-  onClickCancelIcon(val, filterName) {
+  onClickCancelIcon(val, filterName, allData) {
     let url = "";
+    let colourSlug = "";
+    if ("hexColor" in allData) {
+      colourSlug = `/${allData.webURL.split("/")[2]}`;
+    }
     url = val.replace("page-{pageNo}", "page-1");
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
@@ -338,6 +342,7 @@ export default class Plp extends React.Component {
     let parsingurl = url;
 
     parsingurl = url.replace(/\+/g, " ");
+
     // if (parsingurl.match(filterName)) {
     //   parsingurl = url.split("?");
     //   url = parsingurl[0];
@@ -350,10 +355,10 @@ export default class Plp extends React.Component {
         url = url.replace(/\//g, "");
       }
       url = pathname + url;
-    } else {
-      url = url;
     }
-
+    if (colourSlug) {
+      url = url.replace(colourSlug, "");
+    }
     if (filterName.includes("Exclude out of stock")) {
       this.props.userSelectedOutOfStock(true);
     }
@@ -622,7 +627,8 @@ export default class Plp extends React.Component {
                           onClick={(url, name) =>
                             this.onClickCancelIcon(
                               selectedFilterData.url,
-                              selectedFilterData.name
+                              selectedFilterData.name,
+                              selectedFilterData
                             )
                           }
                           key={i}
