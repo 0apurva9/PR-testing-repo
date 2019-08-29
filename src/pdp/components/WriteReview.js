@@ -56,6 +56,11 @@ class WriteReview extends React.Component {
       this.props.onCancel();
     }
   }
+  showReviewGuidelineModal = () => {
+    if (this.props.showReviewGuidelineModal) {
+      this.props.showReviewGuidelineModal();
+    }
+  };
   onSubmit = async () => {
     if (
       /\s*[0-9a-zA-Z]+/.test(this.state.comment) &&
@@ -105,6 +110,16 @@ class WriteReview extends React.Component {
               resetRating={this.state.resetRating}
             />
           </div>
+          {/* <div className={styles.reviewGuidelinesBar}>
+            <div
+              className={styles.reviewGuidelines}
+              onClick={() => {
+                this.showReviewGuidelineModal();
+              }}
+            >
+              Tips to write a review
+            </div>
+          </div> */}
         </div>
         <div className={styles.input}>
           <Input
@@ -120,7 +135,7 @@ class WriteReview extends React.Component {
           }
           value={this.state.comment}
           onChange={val => this.onChangeComment(val)}
-          placeholder="Tell us what you think of this product"
+          placeholder="Tell us what you think of this product (Minimum 50 characters)"
         />
         <div className={styles.buttonContainer}>
           <MobileOnly>

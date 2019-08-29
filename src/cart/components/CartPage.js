@@ -16,6 +16,7 @@ import {
   NO,
   BANK_COUPON_COOKIE,
   ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
+  ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   BUY_NOW_PRODUCT_DETAIL
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
@@ -137,6 +138,9 @@ class CartPage extends React.Component {
     }
     if (localStorage.getItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE)) {
       localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
+    }
+    if (localStorage.getItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE)) {
+      localStorage.removeItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE);
     }
   }
 
@@ -948,7 +952,7 @@ class CartPage extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     /*
 here we need to hit call for merging cart id if user
  has temp cart .
@@ -960,7 +964,10 @@ here we need to hit call for merging cart id if user
 
     if (!this.navigateToCheckout) {
       if (cartDetails && cartDetails.isBuyNowCart) {
-        this.props.mergeTempCartWithOldCart();
+        await this.props.mergeTempCartWithOldCart();
+      } else {
+        // Before leaving cart page call minicart
+        this.props.getMinicartProducts();
       }
     }
 

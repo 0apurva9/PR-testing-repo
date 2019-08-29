@@ -55,6 +55,7 @@ const ADOBE_RATE_THIS_PRODUCT = "cpj_review_write_review";
 const PINCODE_SUCCESS = "pin_successful";
 const PINCODE_FAILURE = "pin_failed";
 const ADOBE_DIRECT_CALL_FOR_LANDING_USER = "cpj_cart_page";
+const ADOBE_DIRECT_CALL_FOR_SIZE_GUIDE = "cpj_size_guide";
 const ADOBE_DIRECT_CALL_ON_CART_FOR_REMOVE_TRIGGER = "cpj_cart_removal";
 const ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT = "cpj_cart_checkout";
 const ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART =
@@ -151,7 +152,7 @@ export const ICID2 = "ICID2";
 export const CID = "CID";
 export const SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT =
   "SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT";
-
+export const SET_DATA_LAYER_FOR_SIZE_GUIDE = "SET_DATA_LAYER_FOR_SIZE_GUIDE";
 export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
   "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
 
@@ -381,6 +382,7 @@ const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
 const CONTINUE_SHOPPING = "continue_shopping";
 const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
+const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 export function setDataLayer(
@@ -849,7 +851,8 @@ function getDigitalDataForOrderConfirmation(type, response) {
         primaryCategory: "orderconfirmation"
       },
       pageInfo: {
-        pageName: "order confirmation"
+        pageName: "order confirmation",
+        pageType: "Order Successfull"
       }
     }
   };
@@ -863,6 +866,14 @@ function getDigitalDataForOrderConfirmation(type, response) {
       productBrandArray,
       categoryArray
     } = getProductData;
+    productQuantityArray.forEach((element, index) => {
+      if (
+        productQuantityArray[index] == null ||
+        isNaN(productQuantityArray[index])
+      ) {
+        productQuantityArray.splice(index, 1, 1);
+      }
+    });
     Object.assign(data, {
       cpj: {
         product: {
@@ -873,6 +884,9 @@ function getDigitalDataForOrderConfirmation(type, response) {
         },
         brand: {
           name: productBrandArray
+        },
+        payment: {
+          mode: response.paymentMethod
         }
       }
     });
@@ -1147,6 +1161,11 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_ADD_TO_CART);
+    }
+  }
+  if (type === SET_DATA_LAYER_FOR_SIZE_GUIDE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_SIZE_GUIDE);
     }
   }
   if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
@@ -2600,5 +2619,11 @@ export function setDataLayerForGiftCard(type) {
     if (window._satellite) {
       window._satellite.track(BUY_GIFT_CARD_SUBMIT);
     }
+  }
+}
+
+export function setDataLayerForMinibag() {
+  if (window._satellite) {
+    window._satellite.track(VIEW_CART_FROM_MINIBAG);
   }
 }

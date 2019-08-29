@@ -313,6 +313,36 @@ const productDescription = (
         sizeGuide
       });
 
+    case pdpActions.PRODUCT_SIZE_CHART_REQUEST:
+      sizeGuide = {
+        loading: true,
+        data: null
+      };
+      return Object.assign({}, state, {
+        status: action.status,
+        sizeGuide
+      });
+
+    case pdpActions.PRODUCT_SIZE_CHART_SUCCESS:
+      sizeGuide = {
+        loading: false,
+        data: action.sizeChart
+      };
+      return Object.assign({}, state, {
+        status: action.status,
+        sizeGuide
+      });
+
+    case pdpActions.PRODUCT_SIZE_CHART_FAILURE:
+      sizeGuide = {
+        loading: false,
+        error: action.error
+      };
+      return Object.assign({}, state, {
+        status: action.status,
+        sizeGuide
+      });
+
     case pdpActions.PRODUCT_PDP_EMI_REQUEST:
       return Object.assign({}, state, {
         status: action.status,

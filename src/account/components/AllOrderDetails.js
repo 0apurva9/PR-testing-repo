@@ -592,464 +592,275 @@ export default class AllOrderDetails extends React.Component {
                                 </div>
                               )}
                           </div>
-                          {orderDetails &&
-                            orderDetails.products &&
-                            orderDetails.products.map((product, key) => {
-                              let isOrderReturnable = false;
-                              let isReturned = false;
+                          <React.Fragment>
+                            {orderDetails &&
+                              orderDetails.products &&
+                              orderDetails.products.map((product, key) => {
+                                let isOrderReturnable = false;
+                                let isReturned = false;
 
-                              if (
-                                product &&
-                                product.statusDisplayMsg &&
-                                product.statusDisplayMsg
-                                  .map(val => {
-                                    return val.key;
-                                  })
-                                  .includes(RETURN)
-                              ) {
-                                isReturned = product.statusDisplayMsg
-                                  .map(val => {
-                                    return val.key;
-                                  })
-                                  .includes(RETURN);
-                              }
-
-                              each(
-                                product && product.statusDisplayMsg,
-                                orderStatus => {
-                                  each(
-                                    orderStatus &&
-                                      orderStatus.value &&
-                                      orderStatus.value.statusList,
-                                    status => {
-                                      if (
-                                        status.responseCode === "DELIVERED" ||
-                                        status.responseCode ===
-                                          "ORDER_COLLECTED"
-                                      ) {
-                                        isOrderReturnable = true;
-                                      }
-                                    }
-                                  );
+                                if (
+                                  product &&
+                                  product.statusDisplayMsg &&
+                                  product.statusDisplayMsg
+                                    .map(val => {
+                                      return val.key;
+                                    })
+                                    .includes(RETURN)
+                                ) {
+                                  isReturned = product.statusDisplayMsg
+                                    .map(val => {
+                                      return val.key;
+                                    })
+                                    .includes(RETURN);
                                 }
-                              );
-                              let productsDetails =
-                                orderDetails && orderDetails.products;
-                              let productLength = productsDetails.length;
 
-                              return (
-                                <div
-                                  className={
-                                    productLength === key + 1
-                                      ? styles.orderDetailsHolder
-                                      : styles.orderCardIndividualWithBorder
+                                each(
+                                  product && product.statusDisplayMsg,
+                                  orderStatus => {
+                                    each(
+                                      orderStatus &&
+                                        orderStatus.value &&
+                                        orderStatus.value.statusList,
+                                      status => {
+                                        if (
+                                          status.responseCode === "DELIVERED" ||
+                                          status.responseCode ===
+                                            "ORDER_COLLECTED"
+                                        ) {
+                                          isOrderReturnable = true;
+                                        }
+                                      }
+                                    );
                                   }
-                                >
-                                  <OrderCard
-                                    estimatedDeliveryDate={
-                                      product.estimateddeliverydate
+                                );
+                                let productsDetails =
+                                  orderDetails && orderDetails.products;
+                                let productLength = productsDetails.length;
+
+                                return (
+                                  <div
+                                    className={
+                                      productLength === key + 1
+                                        ? styles.orderDetailsHolder
+                                        : styles.orderCardIndividualWithBorder
                                     }
-                                    imageUrl={product.imageURL}
-                                    hasProduct={product}
-                                    isGiveAway={product.isGiveAway}
-                                    price={product.price}
-                                    quantity={true}
-                                    //statusDisplay={product.statusDisplay}
-                                    productName={product.productName}
-                                    productBrand={product.productBrand}
-                                    isEgvOrder={orderDetails.isEgvOrder}
-                                    resendAvailable={
-                                      orderDetails.resendAvailable
-                                    }
-                                    reSendEmailForGiftCard={() =>
-                                      this.reSendEmailForGiftCard(
-                                        orderDetails.orderId
-                                      )
-                                    }
-                                    egvCardNumber={orderDetails.egvCardNumber}
-                                    giftCardStatus={orderDetails.giftCardStatus}
-                                    cartExpiryDate={orderDetails.cartExpiryDate}
-                                    totalFinalPayableOrderAmount={
-                                      orderDetails.totalFinalPayableOrderAmount
-                                    }
-                                    onClick={() =>
-                                      this.onClickImage(
-                                        orderDetails.isEgvOrder,
-                                        product.productcode
-                                      )
-                                    }
-                                    orderStatusCode={product.orderStatusCode}
-                                    displayStatusName={
-                                      product.displayStatusName
-                                    }
-                                    deliveryDate={product.deliveryDate}
-                                    calloutMessage={product.calloutMessage}
-                                    showRightArrow="Y"
-                                    orderId={orderDetails.orderId}
-                                    history={this.props.history}
-                                    transactionId={product.transactionId}
-                                    orderCancelDate={product.orderCancelDate}
-                                    idFromAllOrderDetails="Y"
-                                    retryPaymentUrl={
-                                      orderDetails.retryPaymentUrl
-                                    }
-                                    retryPayment={
-                                      orderDetails.displayStatusName
-                                    }
-                                    displayToast={this.props.displayToast}
-                                    logisticName={product.logisticName}
-                                    trackingAWB={product.trackingAWB}
-                                  />
-                                  <DesktopOnly>
-                                    <div className={styles.returnReview}>
-                                      {product.isReturned && (
-                                        <div
-                                          className={styles.cancelProduct}
-                                          onClick={() =>
-                                            this.replaceItem(
-                                              product.sellerorderno,
-                                              orderDetails.paymentMethod,
-                                              product.transactionId
-                                            )
-                                          }
-                                        >
-                                          {PRODUCT_RETURN}
-                                        </div>
-                                      )}
-                                      {/* {orderDetails &&
-                                        orderDetails.retryPaymentUrl && (
-                                          <div className={styles.retryPayment}>
-                                            <div
-                                              className={
-                                                styles.writeReviedButton
-                                              }
-                                            >
-                                              <Button
-                                                type="hollow"
-                                                width={147}
-                                                height={36}
-                                                label="Retry payment"
-                                                color="#ff1744"
-                                                textStyle={{
-                                                  color: "#212121",
-                                                  fontSize: 14,
-                                                  fontFamily: "regular"
-                                                }}
-                                                onClick={() =>
-                                                  this.onClickRetryPayment(
-                                                    orderDetails.retryPaymentUrl
-                                                  )
-                                                }
-                                              />
-                                            </div>
-                                          </div>
-                                        )} */}
-                                      {product.productName != "Gift Card" &&
-                                        (product.orderStatusCode ===
-                                          "CANCELLATION_INITIATED" ||
-                                          product.orderStatusCode ===
-                                            "ORDER_UNCOLLECTED") && (
+                                  >
+                                    <OrderCard
+                                      estimatedDeliveryDate={
+                                        product.estimateddeliverydate
+                                      }
+                                      imageUrl={product.imageURL}
+                                      hasProduct={product}
+                                      isGiveAway={product.isGiveAway}
+                                      price={product.price}
+                                      quantity={true}
+                                      //statusDisplay={product.statusDisplay}
+                                      productName={product.productName}
+                                      productBrand={product.productBrand}
+                                      isEgvOrder={orderDetails.isEgvOrder}
+                                      resendAvailable={
+                                        orderDetails.resendAvailable
+                                      }
+                                      reSendEmailForGiftCard={() =>
+                                        this.reSendEmailForGiftCard(
+                                          orderDetails.orderId
+                                        )
+                                      }
+                                      egvCardNumber={orderDetails.egvCardNumber}
+                                      giftCardStatus={
+                                        orderDetails.giftCardStatus
+                                      }
+                                      cartExpiryDate={
+                                        orderDetails.cartExpiryDate
+                                      }
+                                      totalFinalPayableOrderAmount={
+                                        orderDetails.totalFinalPayableOrderAmount
+                                      }
+                                      onClick={() =>
+                                        this.onClickImage(
+                                          orderDetails.isEgvOrder,
+                                          product.productcode
+                                        )
+                                      }
+                                      orderStatusCode={product.orderStatusCode}
+                                      displayStatusName={
+                                        product.displayStatusName
+                                      }
+                                      deliveryDate={product.deliveryDate}
+                                      calloutMessage={product.calloutMessage}
+                                      showRightArrow="Y"
+                                      orderId={orderDetails.orderId}
+                                      history={this.props.history}
+                                      transactionId={product.transactionId}
+                                      orderCancelDate={product.orderCancelDate}
+                                      idFromAllOrderDetails="Y"
+                                      retryPaymentUrl={
+                                        orderDetails.retryPaymentUrl
+                                      }
+                                      retryPayment={
+                                        orderDetails.displayStatusName
+                                      }
+                                      displayToast={this.props.displayToast}
+                                      logisticName={product.logisticName}
+                                      trackingAWB={product.trackingAWB}
+                                    />
+                                    <DesktopOnly>
+                                      <div className={styles.returnReview}>
+                                        {product.isReturned && (
                                           <div
+                                            className={styles.cancelProduct}
                                             onClick={() =>
-                                              this.redirectToHelp(HELP_URL)
+                                              this.replaceItem(
+                                                product.sellerorderno,
+                                                orderDetails.paymentMethod,
+                                                product.transactionId
+                                              )
                                             }
-                                            className={styles.helpSupport}
                                           >
-                                            Help & Support
+                                            {PRODUCT_RETURN}
                                           </div>
                                         )}
-                                      {product.productName != "Gift Card" &&
-                                        !orderDetails.retryPaymentUrl &&
-                                        (product.orderStatusCode ===
-                                          "DELIVERED" ||
-                                          product.orderStatusCode ===
-                                            "RETURN_CANCELLED_CUS" ||
-                                          product.orderStatusCode ===
-                                            "ORDER_COLLECTED") && (
-                                          <div className={styles.reviewHolder}>
-                                            {/* <div
-                                              className={styles.rateThisItem}
-                                            >
-                                              Rate this item
-                                            </div>
+                                        {product.productName != "Gift Card" &&
+                                          (product.orderStatusCode ===
+                                            "CANCELLATION_INITIATED" ||
+                                            product.orderStatusCode ===
+                                              "ORDER_UNCOLLECTED") && (
                                             <div
-                                              className={
-                                                styles.ratingReviewHolder
+                                              onClick={() =>
+                                                this.redirectToHelp(HELP_URL)
                                               }
-                                              onClick={val =>
-                                                this.writeReview(
-                                                  product.productcode,
-                                                  product.productName
-                                                )
-                                              }
+                                              className={styles.helpSupport}
                                             >
-                                              <Icon image={rating} size={25} />
-                                              <div
-                                                className={styles.marginIcon}
-                                              />
-                                              <Icon image={rating} size={25} />
-                                              <div
-                                                className={styles.marginIcon}
-                                              />
-                                              <Icon image={rating} size={25} />
-                                              <div
-                                                className={styles.marginIcon}
-                                              />
-                                              <Icon image={rating} size={25} />
-                                              <div
-                                                className={styles.marginIcon}
-                                              />
-                                              <Icon image={rating} size={25} />
-                                            </div> */}
-                                            <div className={styles.boxReview}>
-                                              <div
-                                                className={styles.reviewText}
-                                                onClick={val =>
-                                                  this.writeReview(
-                                                    product.productcode
-                                                  )
-                                                }
-                                              >
-                                                WRITE A REVIEW
+                                              Help & Support
+                                            </div>
+                                          )}
+                                        {product.productName != "Gift Card" &&
+                                          !orderDetails.retryPaymentUrl &&
+                                          (product.orderStatusCode ===
+                                            "DELIVERED" ||
+                                            product.orderStatusCode ===
+                                              "RETURN_CANCELLED_CUS" ||
+                                            product.orderStatusCode ===
+                                              "ORDER_COLLECTED") && (
+                                            <div
+                                              className={styles.reviewHolder}
+                                            >
+                                              <div className={styles.boxReview}>
+                                                <div
+                                                  className={styles.reviewText}
+                                                  onClick={val =>
+                                                    this.writeReview(
+                                                      product.productcode
+                                                    )
+                                                  }
+                                                >
+                                                  WRITE A REVIEW
+                                                </div>
                                               </div>
                                             </div>
-                                          </div>
-                                        )}
-                                      {/* {orderDetails &&
-                                        !orderDetails.retryPaymentUrl &&
-                                        product.productName !== "Gift Card" && (
-                                          <div
-                                            className={styles.writeReviedButton}
-                                          >
-                                            <Button
-                                              label={"Write a review"}
-                                              width={147}
-                                              height={36}
-                                              borderColor={"#000000"}
-                                              borderRadius={20}
-                                              backgroundColor={"#ffffff"}
-                                              onClick={val =>
-                                                this.writeReview(
-                                                  product.productcode
-                                                )
-                                              }
-                                              textStyle={{
-                                                color: "#000000",
-                                                fontSize: 14,
-                                                fontFamily: "regular"
-                                              }}
-                                            />
-                                          </div>
-                                        )} */}
-                                    </div>
-                                  </DesktopOnly>
-                                </div>
-                              );
-                            })}
-                          {/* <MobileOnly>
-                            <React.Fragment>
-                              <div
-                                style={{
-                                  paddingBottom:
-                                    orderDetails && orderDetails.retryPaymentUrl
-                                      ? "20px"
-                                      : "0px",
-                                  borderBottom:
-                                    orderDetails && orderDetails.retryPaymentUrl
-                                      ? "1px solid #ececec"
-                                      : "none"
-                                }}
-                              >
-                                {/* <PriceAndLink
-                                  onViewDetails={() =>
-                                    this.onViewDetails(
-                                      orderDetails && orderDetails.orderId
-                                    )
-                                  }
-                                  isEgvOrder={orderDetails.isEgvOrder}
-                                  status={orderDetails.giftCardStatus}
-                                  price={
-                                    orderDetails &&
-                                    orderDetails.totalFinalPayableOrderAmount
-                                  }
-                                  borderColor={
-                                    orderDetails && orderDetails.retryPaymentUrl
-                                      ? "#fff"
-                                      : "#ececec"
-                                  }
-                                />
-                                {orderDetails &&
-                                  orderDetails.retryPaymentUrl && (
-                                    <div className={styles.retryPayment}>
-                                      <div
-                                        className={
-                                          styles.buttonHolderForRetryPayment
-                                        }
-                                      >
-                                        <Button
-                                          type="hollow"
-                                          height={36}
-                                          label="Retry payment"
-                                          color="#ff1744"
-                                          textStyle={{
-                                            color: "#212121",
-                                            fontSize: 14
-                                          }}
-                                          onClick={() =>
-                                            this.onClickRetryPayment(
-                                              orderDetails.retryPaymentUrl
-                                            )
-                                          }
-                                        />
+                                          )}
                                       </div>
-                                    </div>
-                                  )}
-                              </div>
+                                    </DesktopOnly>
+                                  </div>
+                                );
+                              })}
+                            <DesktopOnly>
                               {!orderDetails.isEgvOrder &&
                                 orderDetails &&
                                 orderDetails.billingAddress && (
-                                  <OrderDelivered
-                                    deliveredAddress={deliveryAddress}
-                                    orderDeliveryHeaderText={placeHolder}
-                                    deliveredDate={
-                                      orderDetails &&
-                                      orderDetails.products &&
-                                      orderDetails.products[0] &&
-                                      orderDetails.products.length &&
-                                      orderDetails.products[0].deliveryDate
-                                    }
-                                    soldBy={
-                                      orderDetails &&
-                                      orderDetails.products &&
-                                      orderDetails.products[0] &&
-                                      orderDetails.products.length &&
-                                      orderDetails.products[0].sellerName
-                                    }
-                                  />
-                                )}
-                            </React.Fragment>
-                          </MobileOnly> */}
-                          <DesktopOnly>
-                            {!orderDetails.isEgvOrder &&
-                              orderDetails &&
-                              orderDetails.billingAddress && (
-                                <div className={styles.priceAndInfoHolder}>
-                                  <div className={styles.deliverLeftHolder}>
-                                    <OrderDelivered
-                                      deliveredAddress1={
-                                        orderDetails.pickupPersonName ||
-                                        orderDetails.pickupPersonMobile
-                                          ? `${
-                                              orderDetails.pickupPersonName
-                                                ? orderDetails.pickupPersonName
-                                                : ""
-                                            }${
-                                              orderDetails.pickupPersonMobile
-                                                ? `, ${
-                                                    orderDetails.pickupPersonMobile
-                                                  }`
-                                                : ""
-                                            }`
-                                          : userName
-                                      }
-                                      deliveredAddress2={
-                                        orderDetails &&
-                                        orderDetails.deliveryAddress
-                                          .addressLine1
-                                          ? orderDetails.deliveryAddress
-                                              .addressLine1
-                                          : ""
-                                      }
-                                      deliveredAddress3={
-                                        orderDetails &&
-                                        orderDetails.deliveryAddress &&
-                                        `${
-                                          orderDetails &&
-                                          orderDetails.deliveryAddress &&
-                                          orderDetails.deliveryAddress.state
-                                            ? orderDetails.deliveryAddress.state
-                                            : ""
-                                        }${
-                                          orderDetails &&
-                                          orderDetails.deliveryAddress &&
-                                          orderDetails.deliveryAddress.town
-                                            ? `, ${
-                                                orderDetails.deliveryAddress
-                                                  .town
+                                  <div className={styles.priceAndInfoHolder}>
+                                    <div className={styles.deliverLeftHolder}>
+                                      <OrderDelivered
+                                        deliveredAddress1={
+                                          orderDetails.pickupPersonName ||
+                                          orderDetails.pickupPersonMobile
+                                            ? `${
+                                                orderDetails.pickupPersonName
+                                                  ? orderDetails.pickupPersonName
+                                                  : ""
+                                              }${
+                                                orderDetails.pickupPersonMobile
+                                                  ? `, ${
+                                                      orderDetails.pickupPersonMobile
+                                                    }`
+                                                  : ""
                                               }`
-                                            : ""
-                                        }${
+                                            : userName
+                                        }
+                                        deliveredAddress2={
                                           orderDetails &&
-                                          orderDetails.deliveryAddress &&
                                           orderDetails.deliveryAddress
-                                            .postalcode
-                                            ? `, ${
-                                                orderDetails.deliveryAddress
-                                                  .postalcode
-                                              }`
+                                            .addressLine1
+                                            ? orderDetails.deliveryAddress
+                                                .addressLine1
                                             : ""
-                                        }`
-                                      }
-                                      orderDeliveryHeaderText={placeHolder}
-                                      deliveredDate={
-                                        orderDetails &&
-                                        orderDetails.products &&
-                                        orderDetails.products[0] &&
-                                        orderDetails.products.length &&
-                                        orderDetails.products[0].deliveryDate
-                                      }
-                                      soldBy={
-                                        orderDetails &&
-                                        orderDetails.products &&
-                                        orderDetails.products[0] &&
-                                        orderDetails.products.length &&
-                                        orderDetails.products[0].sellerName
-                                      }
-                                      isShowDataHorizontal={true}
-                                      isCancel={
-                                        orderDetails &&
-                                        orderDetails.products &&
-                                        orderDetails.products[0] &&
-                                        orderDetails.products.length &&
-                                        orderDetails.products[0].cancel
-                                      }
-                                      borderBottom={"#fff"}
-                                    >
-                                      <div className={styles.priceRightHolder}>
-                                        {/* <PriceAndLink
-                                          onViewDetails={() =>
-                                            this.onViewDetails(
-                                              orderDetails &&
-                                                orderDetails.orderId
-                                            )
-                                          }
-                                          onClickRetryPayment={() =>
-                                            this.onClickRetryPayment(
-                                              orderDetails.retryPaymentUrl
-                                            )
-                                          }
-                                          isEgvOrder={orderDetails.isEgvOrder}
-                                          status={orderDetails.giftCardStatus}
-                                          price={
+                                        }
+                                        deliveredAddress3={
+                                          orderDetails &&
+                                          orderDetails.deliveryAddress &&
+                                          `${
                                             orderDetails &&
-                                            orderDetails.totalFinalPayableOrderAmount
-                                          }
-                                          borderColor={"#fff"}
-                                          retryPaymentUrl={
+                                            orderDetails.deliveryAddress &&
+                                            orderDetails.deliveryAddress.state
+                                              ? orderDetails.deliveryAddress
+                                                  .state
+                                              : ""
+                                          }${
                                             orderDetails &&
-                                            orderDetails.retryPaymentUrl
-                                          }
-                                          products={
+                                            orderDetails.deliveryAddress &&
+                                            orderDetails.deliveryAddress.town
+                                              ? `, ${
+                                                  orderDetails.deliveryAddress
+                                                    .town
+                                                }`
+                                              : ""
+                                          }${
                                             orderDetails &&
-                                            orderDetails.products
-                                          }
-                                        /> */}
-                                      </div>
-                                    </OrderDelivered>
+                                            orderDetails.deliveryAddress &&
+                                            orderDetails.deliveryAddress
+                                              .postalcode
+                                              ? `, ${
+                                                  orderDetails.deliveryAddress
+                                                    .postalcode
+                                                }`
+                                              : ""
+                                          }`
+                                        }
+                                        orderDeliveryHeaderText={placeHolder}
+                                        deliveredDate={
+                                          orderDetails &&
+                                          orderDetails.products &&
+                                          orderDetails.products[0] &&
+                                          orderDetails.products.length &&
+                                          orderDetails.products[0].deliveryDate
+                                        }
+                                        soldBy={
+                                          orderDetails &&
+                                          orderDetails.products &&
+                                          orderDetails.products[0] &&
+                                          orderDetails.products.length &&
+                                          orderDetails.products[0].sellerName
+                                        }
+                                        isShowDataHorizontal={true}
+                                        isCancel={
+                                          orderDetails &&
+                                          orderDetails.products &&
+                                          orderDetails.products[0] &&
+                                          orderDetails.products.length &&
+                                          orderDetails.products[0].cancel
+                                        }
+                                        borderBottom={"#fff"}
+                                      >
+                                        <div
+                                          className={styles.priceRightHolder}
+                                        />
+                                      </OrderDelivered>
+                                    </div>
                                   </div>
-                                </div>
-                              )}
-                          </DesktopOnly>
+                                )}
+                            </DesktopOnly>
+                          </React.Fragment>
                         </div>
                       );
                     })

@@ -79,6 +79,18 @@ const cart = (
     softReserveStatus: null,
     softReserveError: null,
 
+    createPaymentOrder: null,
+    createPaymentOrderStatus: null,
+    createPaymentOrderError: null,
+
+    collectPaymentOrder: null,
+    collectPaymentOrderStatus: null,
+    collectPaymentOrderError: null,
+
+    getPrepaidOrderPaymentConfirmation: null,
+    getPrepaidOrderPaymentConfirmationStatus: null,
+    getPrepaidOrderPaymentConfirmationError: null,
+
     paymentModes: null,
     paymentModesStatus: null,
     paymentModesError: null,
@@ -95,6 +107,7 @@ const cart = (
     jusPayError: null,
     jusPayDetails: null,
     cliqCashJusPayDetails: null,
+    cliqCashStripeDetails: null,
     createJusPayStatus: null,
     createJusPayError: null,
 
@@ -129,6 +142,7 @@ const cart = (
     orderExperienceError: null,
 
     binValidationStatus: null,
+    bankGatewayStatus: null,
     binValidationError: null,
     binValidationDetails: null,
 
@@ -161,10 +175,15 @@ const cart = (
     jusPayTokenizeError: null,
     jusPayTokenizeDetails: null,
 
+    stripeTokenizeStatus: null,
+    stripeTokenizeError: null,
+    stripeTokenizeDetails: null,
+
     createJusPayOrderStatus: null,
     createJusPayOrderError: null,
     createJusPayOrderDetails: null,
     jusPaymentLoader: false,
+    stripePaymentLoader: false,
     selectDeliveryModeLoader: false,
     transactionStatus: null,
     loginFromMyBag: false,
@@ -193,6 +212,9 @@ const cart = (
     paymentFailureOrderDetailsError: null,
     paymentFailureOrderDetails: null,
 
+    isCreatePaymentOrderFailed: false,
+    isCollectPaymentOrderFailed: false,
+    isGetPrepaidOrderPaymentConfirmationFailed: false,
     isSoftReservationFailed: false,
     isPaymentProceeded: false,
     bankOfferTncDetails: null,
@@ -233,7 +255,16 @@ const cart = (
 
     cartCountStatus: null,
     cartCountError: null,
-    cartCount: null
+    cartCount: null,
+
+    minicartStatus: null,
+    minicartError: null,
+    minicart: null,
+
+    orderConfirmationBannerDetailsStatus: null,
+    orderConfirmationBannerDetails: null,
+    orderConfirmationBannerDetailsLoading: false,
+    orderConfirmationBannerDetailsError: null
   },
   action
 ) => {
@@ -247,6 +278,9 @@ const cart = (
         couponError: null,
         emiBankError: null,
         softReserveError: null,
+        createPaymentOrderError: null,
+        collectPaymentOrderError: null,
+        getPrepaidOrderPaymentConfirmationError: null,
         paymentsModeError: null,
         bankOfferError: null,
         cliqCashPaymentStatusError: null,
@@ -262,6 +296,7 @@ const cart = (
         AddUserAddressError: null,
         softReservationForPaymentError: null,
         jusPayTokenizeError: null,
+        stripeTokenizeError: null,
         createJusPayOrderError: null,
         transactionCODError: null,
         orderSummaryError: null,
@@ -277,7 +312,9 @@ const cart = (
         bankAndTenureError: null,
         emiTermsAndConditionError: null,
         noCostEmiError: null,
-        emiItemBreakUpError: null
+        emiItemBreakUpError: null,
+        cartCountError: null,
+        minicartError: null
       });
     case cartActions.CART_DETAILS_REQUEST:
       return Object.assign({}, state, {
@@ -847,6 +884,133 @@ const cart = (
         cliqCashPaymentStatusError: action.error,
         loading: false
       });
+    case cartActions.CREATE_PAYMENT_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        createPaymentOrderStatus: action.status,
+        selectDeliveryModeLoader: true
+      });
+
+    case cartActions.CREATE_PAYMENT_ORDER_SUCCESS:
+      return Object.assign({}, state, {
+        createPaymentOrderStatus: action.status,
+        createPaymentOrder: action.createPaymentOrder,
+        selectDeliveryModeLoader: false
+      });
+
+    case cartActions.CREATE_PAYMENT_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        createPaymentOrderStatus: action.status,
+        createPaymentOrderError: action.error,
+        isCreatePaymentOrderFailed: true,
+        selectDeliveryModeLoader: false
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPaymentLoader: true
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_SUCCESS:
+      cartDetails = Cookies.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      const cartGuid = JSON.parse(cartDetails).guid;
+      Cookies.createCookieInMinutes(
+        OLD_CART_GU_ID,
+        cartGuid,
+        VALIDITY_OF_OLD_CART_ID
+      );
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrder: action.collectPaymentOrder
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrderError: action.error,
+        isPaymentProceeded: false,
+        isCollectPaymentOrderFailed: true,
+        jusPaymentLoader: false
+      });
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_REQUEST:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPaymentLoader: true
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_SUCCESS:
+      Cookies.createCookieInMinutes(
+        OLD_CART_GU_ID,
+        action.guid,
+        VALIDITY_OF_OLD_CART_ID
+      );
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrder: action.collectPaymentOrder
+      });
+
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_FAILURE:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        collectPaymentOrderError: action.error,
+        isPaymentProceeded: false,
+        isCollectPaymentOrderFailed: true,
+        jusPaymentLoader: false
+      });
+
+    case cartActions.GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_REQUEST:
+      return Object.assign({}, state, {
+        getPrepaidOrderPaymentConfirmationStatus: action.status,
+        jusPaymentLoader: true,
+        isPaymentProceeded: true
+      });
+
+    case cartActions.GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_SUCCESS:
+      Cookies.deleteCookie(OLD_CART_GU_ID);
+      localStorage.removeItem(cartActions.CART_ITEM_COOKIE);
+      localStorage.removeItem(cartActions.ADDRESS_FOR_PLACE_ORDER);
+      localStorage.removeItem(EGV_GIFT_CART_ID);
+      localStorage.removeItem(NO_COST_EMI_COUPON);
+      localStorage.removeItem(OLD_CART_CART_ID);
+      localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
+      localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+      localStorage.removeItem(RETRY_PAYMENT_CART_ID);
+      localStorage.removeItem(EMI_TENURE);
+      return Object.assign({}, state, {
+        getPrepaidOrderPaymentConfirmationStatus: action.status,
+        getPrepaidOrderPaymentConfirmation: action.paymentDetails,
+        jusPaymentLoader: false,
+        isPaymentProceeded: true
+      });
+
+    case cartActions.GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_FAILURE:
+      return Object.assign({}, state, {
+        getPrepaidOrderPaymentConfirmationStatus: action.status,
+        getPrepaidOrderPaymentConfirmationError: action.error,
+        isGetPrepaidOrderPaymentConfirmationFailed: true,
+        jusPaymentLoader: false,
+        isPaymentProceeded: false
+      });
+
+    case cartActions.STRIPE_TOKENIZE_REQUEST:
+      return Object.assign({}, state, {
+        stripeTokenizeStatus: action.status,
+        jusPaymentLoader: true
+      });
+
+    case cartActions.STRIPE_TOKENIZE_SUCCESS:
+      return Object.assign({}, state, {
+        stripeTokenizeStatus: action.status,
+        stripeTokenizeDetails: action.stripeToken
+      });
+
+    case cartActions.STRIPE_TOKENIZE_FAILURE:
+      return Object.assign({}, state, {
+        stripeTokenizeStatus: action.status,
+        stripeTokenizeError: action.error,
+        jusPaymentLoader: false,
+        isPaymentProceeded: false
+      });
 
     case cartActions.CREATE_JUS_PAY_ORDER_REQUEST:
       return Object.assign({}, state, {
@@ -878,7 +1042,36 @@ const cart = (
         jusPaymentLoader: false
       });
     }
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_REQUEST:
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPaymentLoader: true,
+        isPaymentProceeded: true
+      });
 
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_FAILURE: {
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        jusPayDetails: action.jusPayDetails
+      });
+    }
+    case cartActions.COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_SUCCESS: {
+      const cartDetails = Cookies.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      const cartDetailsGuid = JSON.parse(cartDetails).guid;
+      Cookies.createCookieInMinutes(
+        OLD_CART_GU_ID,
+        cartDetailsGuid,
+        VALIDITY_OF_OLD_CART_ID
+      );
+      // here is where I need to destroy the cart details
+      Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      Cookies.deleteCookie(COUPON_COOKIE);
+      return Object.assign({}, state, {
+        collectPaymentOrderStatus: action.status,
+        cliqCashStripeDetails: action.cliqCashJusPayDetails,
+        jusPaymentLoader: false
+      });
+    }
     case cartActions.CREATE_JUS_PAY_ORDER_FAILURE:
       return Object.assign({}, state, {
         createJusPayStatus: action.status,
@@ -896,6 +1089,7 @@ const cart = (
     case cartActions.BIN_VALIDATION_SUCCESS:
       return Object.assign({}, state, {
         binValidationStatus: action.status,
+        bankGatewayStatus: action.binValidation,
         binValidationDetails: action.binValidation,
         loading: false
       });
@@ -904,6 +1098,12 @@ const cart = (
       return Object.assign({}, state, {
         binValidationStatus: action.status,
         binValidationError: action.error,
+        loading: false
+      });
+    case cartActions.BANK_GATEWAY_STATUS_ERROR:
+      return Object.assign({}, state, {
+        binValidationStatus: action.status,
+        bankGatewayStatus: action.bankGatewayStatus,
         loading: false
       });
 
@@ -971,6 +1171,26 @@ const cart = (
         isPaymentProceeded: false
       });
 
+    case cartActions.ORDER_CONFIRMATION_BANNER_REQUEST:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetailsLoading: true
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_SUCCESS:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetails: action.confirmedOrderDetails,
+        orderConfirmationBannerDetailsLoading: false
+      });
+
+    case cartActions.ORDER_CONFIRMATION_BANNER_FAILURE:
+      return Object.assign({}, state, {
+        orderConfirmationBannerDetailsStatus: action.status,
+        orderConfirmationBannerDetailsError: action.error,
+        orderConfirmationBannerDetailsLoading: false
+      });
+
     case cartActions.CLEAR_ORDER_EXPERIENCE_CAPTURE:
       return Object.assign({}, state, {
         orderConfirmationDetailsStatus: null
@@ -995,8 +1215,7 @@ const cart = (
       Cookies.deleteCookie(COUPON_COOKIE);
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,
-        justPayPaymentDetails: action.justPayPaymentDetails,
-        jusPaymentLoader: false
+        justPayPaymentDetails: action.justPayPaymentDetails
       });
 
     case cartActions.JUS_PAY_PAYMENT_METHOD_TYPE_FOR_GIFT_CARD_SUCCESS: {
@@ -1007,8 +1226,7 @@ const cart = (
       );
       return Object.assign({}, state, {
         justPayPaymentDetailsStatus: action.status,
-        justPayPaymentDetails: action.justPayPaymentDetails,
-        jusPaymentLoader: false
+        justPayPaymentDetails: action.justPayPaymentDetails
       });
     }
 
@@ -1669,6 +1887,8 @@ const cart = (
       });
 
     case cartActions.CLEAR_CART_DETAILS:
+      localStorage.removeItem(RETRY_PAYMENT_CART_ID);
+      localStorage.removeItem(RETRY_PAYMENT_DETAILS);
       return Object.assign({}, state, {
         status: null,
         error: null,
@@ -1684,6 +1904,22 @@ const cart = (
         userCart: null,
         userCartStatus: null,
         userCartError: null,
+
+        createPaymentOrder: null,
+        createPaymentOrderStatus: null,
+        createPaymentOrderError: null,
+
+        collectPaymentOrder: null,
+        collectPaymentOrderStatus: null,
+        collectPaymentOrderError: null,
+
+        getPrepaidOrderPaymentConfirmation: null,
+        getPrepaidOrderPaymentConfirmationStatus: null,
+        getPrepaidOrderPaymentConfirmationError: null,
+
+        stripeTokenizeStatus: null,
+        stripeTokenizeError: null,
+        stripeTokenizeDetails: null,
 
         cartDetails: null,
         cartDetailsStatus: null,
@@ -1770,6 +2006,7 @@ const cart = (
         orderExperienceError: null,
 
         binValidationStatus: null,
+        bankGatewayStatus: null,
         binValidationError: null,
         binValidationDetails: null,
 
@@ -1836,7 +2073,7 @@ const cart = (
         paymentFailureOrderDetailsStatus: null,
         paymentFailureOrderDetailsError: null,
         paymentFailureOrderDetails: null,
-
+        isGetPrepaidOrderPaymentConfirmationFailed: false,
         isSoftReservationFailed: false
       });
     case cartActions.RESET_ALL_PAYMENT_MODES:
@@ -1876,6 +2113,26 @@ const cart = (
         cartCountError: action.error,
         cartCountStatus: action.status,
         cartCount: null
+      });
+    case cartActions.GET_MINICART_REQUEST:
+      return Object.assign({}, state, {
+        minicartStatus: action.status
+      });
+    case cartActions.GET_MINICART_FAILURE:
+      return Object.assign({}, state, {
+        minicartStatus: action.status,
+        minicartError: action.error,
+        minicart: null
+      });
+    case cartActions.GET_MINICART_NOCART:
+      return Object.assign({}, state, {
+        minicartStatus: action.status,
+        minicart: null
+      });
+    case cartActions.GET_MINICART_SUCCESS:
+      return Object.assign({}, state, {
+        minicartStatus: action.status,
+        minicart: action.minicartDetails
       });
 
     default:

@@ -202,6 +202,7 @@ export default class OrderDetails extends React.Component {
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let pageName = "orderDetails";
     if (
       userDetails &&
       customerCookie &&
@@ -817,51 +818,6 @@ export default class OrderDetails extends React.Component {
                         >
                           <div className={styles.buttonHolderForUpdate}>
                             {/* showing write a review and cancel or return only for mobile */}
-                            {/* <MobileOnly>
-                              <div className={styles.replaceHolder}>
-                                {products.isReturned &&
-                                  isOrderReturnable && (
-                                    <div
-                                      className={styles.review}
-                                      onClick={() =>
-                                        this.replaceItem(
-                                          products.sellerorderno,
-                                          orderDetails.paymentMethod,
-                                          products.transactionId
-                                        )
-                                      }
-                                    >
-                                      <UnderLinedButton
-                                        label={PRODUCT_RETURN}
-                                        color="#000"
-                                      />
-                                    </div>
-                                  )}
-
-                                {products.cancel && (
-                                  <div
-                                    className={styles.review}
-                                    onClick={() =>
-                                      this.cancelItem(
-                                        products.transactionId,
-                                        products.USSID,
-                                        products.sellerorderno,
-                                        orderDetails.orderId,
-                                        format(
-                                          orderDetails.orderDate,
-                                          dateFormat
-                                        )
-                                      )
-                                    }
-                                  >
-                                    <UnderLinedButton
-                                      label={PRODUCT_CANCEL}
-                                      color="#000"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </MobileOnly> */}
                             {!isReturned && (
                               <React.Fragment>
                                 <MobileOnly>
@@ -900,12 +856,6 @@ export default class OrderDetails extends React.Component {
                                   {PRODUCT_CANCEL}
                                 </div>
                               )}
-                              {/* {isOrderReturnable &&
-                                  products.isReturned === false && (
-                                    <div className={styles.returnClosed}>
-                                      {PRODUCT_RETURN_WINDOW_CLOSED}
-                                    </div>
-                                  )} */}
                               {products.isReturned &&
                                 isOrderReturnable && (
                                   <div
@@ -996,29 +946,6 @@ export default class OrderDetails extends React.Component {
                         >
                           <div className={styles.buttonHolderForUpdate}>
                             <div className={styles.reviewHolder}>
-                              {/* {products.isReturned &&
-                                isOrderReturnable && (
-                                  <div
-                                    className={styles.review}
-                                    onClick={() =>
-                                      this.replaceItem(
-                                        products.sellerorderno,
-                                        orderDetails.paymentMethod,
-                                        products.transactionId
-                                      )
-                                    }
-                                  >
-                                    <UnderLinedButton
-                                      label={PRODUCT_RETURN}
-                                      color="#ff1744"
-                                    />
-                                  </div>
-                                )} */}
-                              {/* {!products.isReturned && (
-                                <div className={styles.review}>
-                                  Return window is Closed
-                                </div>
-                              )} */}
                               {/* in case of hotc show return option */}
                               {products.isReturned &&
                                 products.isHOTCReturnable && (

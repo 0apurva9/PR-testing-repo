@@ -7,10 +7,13 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
+import { BANK_GATWAY_DOWN } from "../../lib/constants";
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 19;
 const REGX_FOR_WHITE_SPACE = /\W/gi;
 const REGX_FOR_CARD_FORMATTER = /(.{4})/g;
+const bankErrorMessage = `Your bank is currently unable to process payments due to a technical issue.`;
+
 export default class CreditCardForm extends React.Component {
   constructor(props) {
     super(props);
@@ -192,13 +195,24 @@ export default class CreditCardForm extends React.Component {
                 isCard={true}
                 onBlur={() => this.onBlurOfCardInput()}
               />
-              {this.state.invalidCard &&
+              {this.state.cardNumber &&
+                this.props.bankGatewayStatus === BANK_GATWAY_DOWN && (
+                  <span className={styles.invalidCardText}>
+                    *{" "}
+                    {this.props.bankError
+                      ? this.props.bankError
+                      : bankErrorMessage}
+                  </span>
+                )}
+              {!this.props.bankGatewayStatus === BANK_GATWAY_DOWN &&
+                this.state.invalidCard &&
                 !this.state.emiInvalidCardError && (
                   <span className={styles.invalidCardText}>
                     Please enter a valid card number
                   </span>
                 )}
-              {this.state.emiInvalidCardError &&
+              {!this.props.bankGatewayStatus === BANK_GATWAY_DOWN &&
+                this.state.emiInvalidCardError &&
                 this.state.cardNumber.length > 6 && (
                   <span className={styles.invalidCardText}>
                     {this.state.emiInvalidCardError}
@@ -349,7 +363,11 @@ export default class CreditCardForm extends React.Component {
               <DesktopOnly>
                 <div className={styles.buttonHolder}>
                   <Button
-                    disabled={this.props.buttonDisabled}
+                    disabled={
+                      this.props.bankGatewayStatus === BANK_GATWAY_DOWN
+                        ? true
+                        : this.props.buttonDisabled
+                    }
                     type="primary"
                     backgroundColor="#ff1744"
                     height={40}

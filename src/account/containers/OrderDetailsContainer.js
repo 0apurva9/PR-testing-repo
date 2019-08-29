@@ -25,8 +25,8 @@ import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js"
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrderDetails: orderId => {
-      dispatch(fetchOrderDetails(orderId));
+    fetchOrderDetails: (orderId, pageName) => {
+      dispatch(fetchOrderDetails(orderId, pageName));
     },
     displayToast: toastMessage => {
       dispatch(displayToast(toastMessage));

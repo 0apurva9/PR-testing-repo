@@ -100,11 +100,15 @@ export default class Checkout extends React.Component {
             <div className={styles.amountHolder}>
               {this.props.isRetryUrl && (
                 <div className={styles.amount}>
-                  {`${RUPEE_SYMBOL} ${this.props.amount}`}
+                  {`${RUPEE_SYMBOL} ${
+                    this.props.amount ? this.props.amount : ""
+                  }`}
                 </div>
               )}
               {!this.props.isRetryUrl && (
-                <div className={styles.amount}>{this.props.amount}</div>
+                <div className={styles.amount}>
+                  {this.props.amount ? this.props.amount : ""}
+                </div>
               )}
             </div>
             <div

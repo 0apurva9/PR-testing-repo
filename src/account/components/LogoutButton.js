@@ -36,6 +36,7 @@ export default class LogoutButton extends React.Component {
         }
 
         this.props.setFalseForAllAuthCallHasSucceedFlag();
+        this.props.getMinicartProducts();
       }
     }
   }

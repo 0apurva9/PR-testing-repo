@@ -12,12 +12,14 @@ import iciciBankIcon from "./img/pwa_NB_ICICI.svg";
 import sbiBankIcon from "./img/pwa_NB_SBI.svg";
 import induslandBankIcon from "./img/indusind.svg";
 import kotakBankIcon from "./img/kotak.svg";
+import { BANK_GATWAY_DOWN } from "../../lib/constants";
 const axisBankCode = "NB_AXIS";
 const hdfcBankCode = "NB_HDFC";
 const iciciBankCode = "NB_ICICI";
 const sbiBankCode = "NB_SBI";
 const kotakBankCode = "NB_KOTAK";
 const induslandBankCode = "NB_INDUS";
+const bankErrorMessage = `Your bank is currently unable to process NetBanking payments due to a technical issue. Please try another payment method.`;
 const SHOW_DEFAULT_BANK_LIST = [
   axisBankCode,
   hdfcBankCode,
@@ -26,6 +28,14 @@ const SHOW_DEFAULT_BANK_LIST = [
   kotakBankCode,
   induslandBankCode
 ];
+const bankImages = {
+  NB_AXIS: axisBankIcon,
+  NB_HDFC: hdfcBankIcon,
+  NB_ICICI: iciciBankIcon,
+  NB_INDUS: induslandBankIcon,
+  NB_KOTAK: kotakBankIcon,
+  NB_SBI: sbiBankIcon
+};
 export default class NetBanking extends React.Component {
   constructor(props) {
     super(props);
@@ -79,6 +89,26 @@ export default class NetBanking extends React.Component {
   render() {
     return (
       <div>
+        {this.props.bankBinFailedDetails &&
+          this.props.bankBinFailedDetails.bankGatewayStatus ===
+            BANK_GATWAY_DOWN && (
+            <span className={styles.invalidCardText}>
+              *{" "}
+              {this.props.bankBinFailedDetails.errorMsg
+                ? this.props.bankBinFailedDetails.errorMsg
+                : bankErrorMessage}
+            </span>
+          )}
+        {this.props.binValidationSucessDetails &&
+          this.props.binValidationSucessDetails.bankGatewayStatus ===
+            BANK_GATWAY_DOWN && (
+            <span className={styles.invalidCardText}>
+              *{" "}
+              {this.props.binValidationSucessDetails.errorMsg
+                ? this.props.binValidationSucessDetails.errorMsg
+                : bankErrorMessage}
+            </span>
+          )}
         {this.props.bankList && (
           <Grid
             limit={1}
@@ -86,90 +116,20 @@ export default class NetBanking extends React.Component {
             elementWidthMobile={33.33}
             elementWidthDesktop={16.66}
           >
-            {this.props.bankList.find(bank => {
-              return bank.bankCode === axisBankCode;
-            }) ? (
-              <BankSelect
-                selectItem={() =>
-                  this.handleSelectForIcon(axisBankCode, "Axis Bank")
-                }
-                image={axisBankIcon}
-                selected={this.state.bankCode === axisBankCode}
-                name="Axis Bank"
-              />
-            ) : (
-              <div />
-            )}
-            {this.props.bankList.find(bank => {
-              return bank.bankCode === hdfcBankCode;
-            }) ? (
-              <BankSelect
-                selectItem={() =>
-                  this.handleSelectForIcon(hdfcBankCode, "HDFC Bank")
-                }
-                image={hdfcBankIcon}
-                selected={this.state.bankCode === hdfcBankCode}
-                name="HDFC Bank"
-              />
-            ) : (
-              <div />
-            )}
-            {this.props.bankList.find(bank => {
-              return bank.bankCode === iciciBankCode;
-            }) ? (
-              <BankSelect
-                selectItem={() =>
-                  this.handleSelectForIcon(iciciBankCode, "ICICI Bank")
-                }
-                image={iciciBankIcon}
-                selected={this.state.bankCode === iciciBankCode}
-                name="ICICI Bank"
-              />
-            ) : (
-              <div />
-            )}
-            {this.props.bankList.find(bank => {
-              return bank.bankCode === sbiBankCode;
-            }) ? (
-              <BankSelect
-                selectItem={() =>
-                  this.handleSelectForIcon(sbiBankCode, "State Bank of India")
-                }
-                image={sbiBankIcon}
-                selected={this.state.bankCode === sbiBankCode}
-                name="State Bank of India"
-              />
-            ) : (
-              <div />
-            )}
-            {this.props.bankList.find(bank => {
-              return bank.bankCode === kotakBankCode;
-            }) ? (
-              <BankSelect
-                selectItem={() =>
-                  this.handleSelectForIcon(kotakBankCode, "Kotak Bank")
-                }
-                image={kotakBankIcon}
-                selected={this.state.bankCode === kotakBankCode}
-                name="Kotak Bank"
-              />
-            ) : (
-              <div />
-            )}
-            {this.props.bankList.find(bank => {
-              return bank.bankCode === induslandBankCode;
-            }) ? (
-              <BankSelect
-                selectItem={() =>
-                  this.handleSelectForIcon(induslandBankCode, "IndusInd Bank")
-                }
-                image={induslandBankIcon}
-                selected={this.state.bankCode === induslandBankCode}
-                name="IndusInd Bank"
-              />
-            ) : (
-              <div />
-            )}
+            {this.props.bankList
+              .filter(bank => SHOW_DEFAULT_BANK_LIST.includes(bank.bankCode))
+              .map((val, i) => {
+                return (
+                  <BankSelect
+                    selectItem={() =>
+                      this.handleSelectForIcon(val.bankCode, val.bankName)
+                    }
+                    image={bankImages[val.bankCode]}
+                    selected={this.state.bankCode === val.bankCode}
+                    name={val.bankName}
+                  />
+                );
+              })}
           </Grid>
         )}
         <div className={styles.bankDropDown}>
@@ -198,7 +158,16 @@ export default class NetBanking extends React.Component {
             <div className={styles.contentHolder}>
               <div className={styles.buttonHolder}>
                 <Button
-                  disabled={this.props.validateNetBanking()}
+                  disabled={
+                    (this.props.bankBinFailedDetails &&
+                      this.props.bankBinFailedDetails.bankGatewayStatus ===
+                        BANK_GATWAY_DOWN) ||
+                    (this.props.binValidationSucessDetails &&
+                      this.props.binValidationSucessDetails
+                        .bankGatewayStatus === BANK_GATWAY_DOWN)
+                      ? true
+                      : this.props.validateNetBanking()
+                  }
                   type="primary"
                   backgroundColor="#ff1744"
                   height={40}

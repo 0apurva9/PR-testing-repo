@@ -374,6 +374,7 @@ export default class HeaderWrapper extends React.Component {
               headerBrandAndCategoryDetails={this.props.headerDetails}
               goToWishList={() => this.goToDefaultWishList()}
               wishListCount={lengthOfWishList}
+              minicart={this.props.minicart}
               goToMyAccount={() => this.goToMyAccount()}
               goToOrdersPage={() => this.goToOrdersPage()}
               goToDefaultWishList={() => this.goToDefaultWishList()}

@@ -54,10 +54,13 @@ export default class ProductDetailsMainCard extends React.Component {
   }
   seeRatingReview() {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
-    this.props.history.push(url);
+    // const url = `${
+    //   this.props.location.pathname
+    // }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    // this.props.history.push(url);
+    if (this.props.ScrollReviewList) {
+      this.props.ScrollReviewList();
+    }
   }
   renderSchemaTags = () => {
     return (
