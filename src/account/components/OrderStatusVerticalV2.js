@@ -1693,41 +1693,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         </React.Fragment>
                       )}
 
-                      {completedSteps.includes(ORDER_COLLECTED) ? (
-                        <div
-                          className={
-                            completedSteps.includes(ORDER_COLLECTED)
-                              ? styles.step
-                              : styles.stepInactive
-                          }
-                        >
-                          <div
-                            className={
-                              activeOrderStatus === ORDER_COLLECTED
-                                ? styles.processNameHolderBold
-                                : styles.processNameHolder
-                            }
-                          >
-                            {orderCollectedCustomerFacingName}
-                          </div>
-                          <div
-                            className={
-                              completedSteps.includes(ORDER_COLLECTED)
-                                ? styles.checkActive
-                                : styles.check
-                            }
-                          />
-
-                          <div className={styles.dateAndTimeHolder}>
-                            <div className={styles.timeHolder}>
-                              {orderCollectedTime}
-                            </div>
-                            <div className={styles.dateHolder}>
-                              {orderCollectedDate}
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
+                      {completedSteps.includes(ORDER_NOT_COLLECTED) ? (
                         <div
                           className={
                             completedSteps.includes(ORDER_NOT_COLLECTED)
@@ -1758,6 +1724,40 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             </div>
                             <div className={styles.dateHolder}>
                               {orderNotCollectedDate}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={
+                            completedSteps.includes(ORDER_COLLECTED)
+                              ? styles.step
+                              : styles.stepInactive
+                          }
+                        >
+                          <div
+                            className={
+                              activeOrderStatus === ORDER_COLLECTED
+                                ? styles.processNameHolderBold
+                                : styles.processNameHolder
+                            }
+                          >
+                            {orderCollectedCustomerFacingName}
+                          </div>
+                          <div
+                            className={
+                              completedSteps.includes(ORDER_COLLECTED)
+                                ? styles.checkActive
+                                : styles.check
+                            }
+                          />
+
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {orderCollectedTime}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {orderCollectedDate}
                             </div>
                           </div>
                         </div>
