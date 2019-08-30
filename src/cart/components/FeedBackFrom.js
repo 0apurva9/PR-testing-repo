@@ -21,8 +21,9 @@ export default class FeedBackForm extends React.Component {
     if (this.props.getFeedBackForm) {
       this.props.getFeedBackForm(getUserDetails);
     }
+    window.scrollTo(0, 0);
   }
-  onclickQuestion = (rating, questionNumber) => {
+  onclickQuestion = (rating, questionNumber, questionName) => {
     if (this.questionRatingArray.length !== 0) {
       const indexOfQuestionRatingArray = this.questionRatingArray.findIndex(
         questionRatingArrayDetails => {
@@ -34,12 +35,14 @@ export default class FeedBackForm extends React.Component {
       }
       this.questionRatingArray.push({
         questionCode: questionNumber,
-        rating: rating[0]
+        rating: rating[0],
+        questionDesc: questionName
       });
     } else {
       this.questionRatingArray.push({
         questionCode: questionNumber,
-        rating: rating[0]
+        rating: rating[0],
+        questionDesc: questionName
       });
     }
   };
@@ -58,25 +61,24 @@ export default class FeedBackForm extends React.Component {
     this.props.postFeedBackForm(
       this.state.textDetails,
       this.questionRatingArray,
-      getUserDetails.transactionId
+      getUserDetails.transactionId,
+      getUserDetails.originalUid
     );
+    window.scrollTo(0, 0);
   }
   render() {
     let getData = this.props && this.props.feedBackDetails;
     let getMessage =
       this.props &&
-      this.props.feedBackDetails &&
-      this.props.feedBackDetails.message;
+      ((this.props.feedBackDetails && this.props.feedBackDetails.message) ||
+        (this.props.feedBackSent && this.props.feedBackSent.message));
     return (
       <div className={styles.base}>
         <div className={styles.formWrapper}>
           {getMessage && (
             <div className={styles.afterSubMitReviewHolder}>
               <div className={styles.thankYouText}>Thank you!</div>
-              <div className={styles.subText}>
-                It appears that you have already provided feedback for the
-                survey.
-              </div>
+              <div className={styles.subText}>{getMessage}</div>
               <div className={styles.buttonHolder}>
                 <div className={styles.button}>
                   <Button
@@ -104,11 +106,9 @@ export default class FeedBackForm extends React.Component {
                   {getData &&
                     getData.items.map((val, i) => {
                       return (
-                        <div className={styles.feedBackDetailsHolder}>
+                        <div className={styles.feedBackDetailsHolder} key={i}>
                           <div className={styles.feedBackText}>
-                            <div className={styles.countOfText}>
-                              {val.questionCode}
-                            </div>
+                            <div className={styles.countOfText}>{i + 1}</div>
                             <span> {val.questionName}</span>
                           </div>
                           <div className={styles.feedBackRatingAndTextHolder}>
@@ -117,7 +117,11 @@ export default class FeedBackForm extends React.Component {
                               <FeedBackRateGrid
                                 selected={this.state.selected}
                                 onSelect={rating =>
-                                  this.onclickQuestion(rating, val.questionCode)
+                                  this.onclickQuestion(
+                                    rating,
+                                    val.questionCode,
+                                    val.questionName
+                                  )
                                 }
                                 isReset={this.state.isReset}
                               />

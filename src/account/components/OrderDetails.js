@@ -113,13 +113,14 @@ export default class OrderDetails extends React.Component {
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let pageName = "orderDetails";
     if (
       userDetails &&
       customerCookie &&
       this.props.match.path === `${ORDER_PREFIX}`
     ) {
       const orderCode = queryString.parse(this.props.location.search).orderCode;
-      this.props.fetchOrderDetails(orderCode);
+      this.props.fetchOrderDetails(orderCode, pageName);
       this.props.setHeaderText(`#${orderCode}`);
     } else if (
       userDetails &&
@@ -127,7 +128,7 @@ export default class OrderDetails extends React.Component {
       this.props.match.path === `${SHORT_URL_ORDER_DETAIL}`
     ) {
       const orderCode = this.props.match.params.orderCode;
-      this.props.fetchOrderDetails(orderCode);
+      this.props.fetchOrderDetails(orderCode, pageName);
       this.props.setHeaderText(`#${orderCode}`);
     }
   }
@@ -418,22 +419,23 @@ export default class OrderDetails extends React.Component {
                           CLICK_COLLECT) && (
                         <div className={styles.orderStatusVertical}>
                           {/* This block of code needs to be duplicated below for CNC as well */}
-                          {!products.statusDisplayMsg
-                            .map(val => {
-                              return val.key;
-                            })
-                            .includes(RETURN) && (
-                            <OrderStatusVertical
-                              isCNC={false}
-                              statusMessageList={products.statusDisplayMsg}
-                              logisticName={products.logisticName}
-                              trackingAWB={products.trackingAWB}
-                              showShippingDetails={
-                                this.props.showShippingDetails
-                              }
-                              orderCode={orderDetails.orderId}
-                            />
-                          )}
+                          {products.statusDisplayMsg &&
+                            !products.statusDisplayMsg
+                              .map(val => {
+                                return val.key;
+                              })
+                              .includes(RETURN) && (
+                              <OrderStatusVertical
+                                isCNC={false}
+                                statusMessageList={products.statusDisplayMsg}
+                                logisticName={products.logisticName}
+                                trackingAWB={products.trackingAWB}
+                                showShippingDetails={
+                                  this.props.showShippingDetails
+                                }
+                                orderCode={orderDetails.orderId}
+                              />
+                            )}
                           {products.statusDisplayMsg
                             .map(val => {
                               return val.key;
@@ -441,6 +443,7 @@ export default class OrderDetails extends React.Component {
                             .includes(RETURN) && (
                             <OrderStatusHorizontal
                               trackingAWB={products.trackingAWB}
+                              returnAWB={products.returnAWB}
                               courier={products.reverseLogisticName}
                               statusMessageList={products.statusDisplayMsg.filter(
                                 val => {
@@ -527,6 +530,7 @@ export default class OrderDetails extends React.Component {
                             .includes(RETURN) && (
                             <OrderStatusHorizontal
                               trackingAWB={products.trackingAWB}
+                              returnAWB={products.returnAWB}
                               courier={products.reverseLogisticName}
                               statusMessageList={products.statusDisplayMsg.filter(
                                 val => {
