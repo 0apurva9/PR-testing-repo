@@ -12,7 +12,8 @@ export default class ColourAdd extends React.Component {
         this.props.typeOfFilter,
         this.props.colour,
         null,
-        this.props.webUrl
+        this.props.webUrl,
+        this.props.colourValue
       );
     }
   };

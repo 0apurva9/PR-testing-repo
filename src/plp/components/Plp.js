@@ -356,8 +356,13 @@ export default class Plp extends React.Component {
       }
       url = pathname + url;
     }
+
     if (colourSlug) {
-      url = url.replace(colourSlug, "");
+      if ((colourSlug.match(/~/g) || []).length > 1) {
+        url = url.replace(`${filterName.toLowerCase()}~`, "");
+      } else {
+        url = url.replace(`${filterName.toLowerCase()}~color/`, "");
+      }
     }
     if (filterName.includes("Exclude out of stock")) {
       this.props.userSelectedOutOfStock(true);
