@@ -39,6 +39,7 @@ export default class ReturnReasonForm extends React.Component {
     };
   }
   handleContinue() {
+    // console.log("localStorage:", localStorage.getItem("showImageUpload"))
     if (this.props.onContinue) {
       let reasonAndCommentObj = Object.assign(
         {},
@@ -57,7 +58,9 @@ export default class ReturnReasonForm extends React.Component {
           transactionId: this.props.returnProductDetails.orderProductWsDTO[0]
             .transactionId,
           validImgFiles: this.state.validImgFiles,
-          showImageUpload: this.state.showImageUpload
+          showImageUpload:
+            localStorage.getItem("showImageUpload") ||
+            this.state.showImageUpload
         }
       );
       this.props.onContinue(reasonAndCommentObj);
@@ -99,6 +102,7 @@ export default class ReturnReasonForm extends React.Component {
     } else {
       this.setState({ showImageUpload: false });
     }
+
     localStorage.setItem("primaryLabel", label);
     localStorage.setItem("primaryCode", code);
     localStorage.removeItem("secondaryLabel");
@@ -117,6 +121,8 @@ export default class ReturnReasonForm extends React.Component {
     this.setState({ subReasonCode: code, subReason: label, isEnable: true });
     localStorage.setItem("secondaryLabel", label);
     localStorage.setItem("secondaryCode", code);
+    localStorage.setItem("showImageUpload", val.isImageApplicable);
+    // console.log("showImageUpload--->", val.isImageApplicable )
     //getting value from html converts its to string so checking in below way,
     //not using === as it is not working
     if (val.isImageApplicable === "true") {

@@ -52,6 +52,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   componentDidMount() {
+    // console.log("this.props foe Image upload:", this.props)
     let orderId = this.props.data.sellerorderno;
     let transactionId = this.props.data.transactionId;
     let returnReasonCode = this.props.data.returnReasonCode;
@@ -555,7 +556,9 @@ export default class ReplaceRefundSelection extends React.Component {
                 <ReturnsFrame>
                   <div className={styles.content}>
                     {!this.state.showRefundOptions &&
-                      this.state.showAttachment === false && (
+                      this.props &&
+                      this.props.data &&
+                      this.props.data.showImageUpload === "false" && (
                         <React.Fragment>
                           <div className={styles.returnMode}>
                             Select mode of return
@@ -695,96 +698,100 @@ export default class ReplaceRefundSelection extends React.Component {
                       </React.Fragment>
                     )}
                     {/* -----------------------Image Upload------------------------ */}
-                    {this.state.showAttachment === true && (
-                      <div>
-                        <div className={styles.returnTitle}>
-                          Add attachments
-                        </div>
-                        {imageCallOutArr && (
-                          <ol className={styles.imgAttachmentText}>
-                            {imageCallOutArr.map((value, index) => {
-                              return <li key={index}>{value}</li>;
-                            })}
-                          </ol>
-                        )}
-
-                        {this.state.uploadedImageFiles.length > 0 && (
-                          <div className={styles.imagePreviewContainer}>
-                            {this.state.uploadedImageFiles.length > 0 &&
-                              this.state.uploadedImageFiles.map(
-                                (val, index) => {
-                                  return (
-                                    <div
-                                      className={styles.imagePreview}
-                                      key={index}
-                                    >
-                                      <img
-                                        id="panImage"
-                                        src={val}
-                                        alt="Upload"
-                                        width="59.9px"
-                                        height="90px"
-                                      />
-
-                                      <div className={styles.cancel}>
-                                        <img
-                                          src={cancel}
-                                          onClick={() =>
-                                            this.removeFile(val, index)
-                                          }
-                                          alt="cancel"
-                                        />
-                                      </div>
-                                    </div>
-                                    // <div
-                                    //   className={styles.imagePreviewContains}
-                                    //   key={index}
-                                    // >
-                                    //   <div className={styles.imagePreview}>
-                                    //     <img
-                                    //       id="panImage"
-                                    //       src={val}
-                                    //       alt="Upload"
-                                    //       width="76%"
-                                    //       height="auto"
-                                    //     />
-                                    //     <div className={styles.cancel}>
-                                    //       <img
-                                    //         src={cancel}
-                                    //         onClick={() =>
-                                    //           this.removeFile(val, index)
-                                    //         }
-                                    //         alt="cancel"
-                                    //       />
-                                    //     </div>
-                                    //   </div>
-                                    // </div>
-                                  );
-                                }
-                              )}
+                    {this.props &&
+                      this.props.data &&
+                      this.props.data.showImageUpload === "true" && (
+                        <div>
+                          <div className={styles.returnTitle}>
+                            Add attachments
                           </div>
-                        )}
-                        <div className={styles.uploadimageButton}>
-                          <button className={styles.fileuploadButtonForUpload}>
-                            <Icon image={Upload} size={14} />
-                            <span className={styles.marginImage}>
-                              Upload Images
-                            </span>
-                          </button>
-                          <input
-                            type="file"
-                            name="myfile"
-                            ref="file"
-                            onChange={event => this.handleFileUpload(event)}
-                            multiple="multiple"
-                          />
-                        </div>
+                          {imageCallOutArr && (
+                            <ol className={styles.imgAttachmentText}>
+                              {imageCallOutArr.map((value, index) => {
+                                return <li key={index}>{value}</li>;
+                              })}
+                            </ol>
+                          )}
 
-                        <div className={styles.imgAttachmentSubText}>
-                          Upload JPEG, PNG (Maximum upload limit is 25 MB)
+                          {this.state.uploadedImageFiles.length > 0 && (
+                            <div className={styles.imagePreviewContainer}>
+                              {this.state.uploadedImageFiles.length > 0 &&
+                                this.state.uploadedImageFiles.map(
+                                  (val, index) => {
+                                    return (
+                                      <div
+                                        className={styles.imagePreview}
+                                        key={index}
+                                      >
+                                        <img
+                                          id="panImage"
+                                          src={val}
+                                          alt="Upload"
+                                          width="59.9px"
+                                          height="90px"
+                                        />
+
+                                        <div className={styles.cancel}>
+                                          <img
+                                            src={cancel}
+                                            onClick={() =>
+                                              this.removeFile(val, index)
+                                            }
+                                            alt="cancel"
+                                          />
+                                        </div>
+                                      </div>
+                                      // <div
+                                      //   className={styles.imagePreviewContains}
+                                      //   key={index}
+                                      // >
+                                      //   <div className={styles.imagePreview}>
+                                      //     <img
+                                      //       id="panImage"
+                                      //       src={val}
+                                      //       alt="Upload"
+                                      //       width="76%"
+                                      //       height="auto"
+                                      //     />
+                                      //     <div className={styles.cancel}>
+                                      //       <img
+                                      //         src={cancel}
+                                      //         onClick={() =>
+                                      //           this.removeFile(val, index)
+                                      //         }
+                                      //         alt="cancel"
+                                      //       />
+                                      //     </div>
+                                      //   </div>
+                                      // </div>
+                                    );
+                                  }
+                                )}
+                            </div>
+                          )}
+                          <div className={styles.uploadimageButton}>
+                            <button
+                              className={styles.fileuploadButtonForUpload}
+                            >
+                              <Icon image={Upload} size={14} />
+                              <span className={styles.marginImage}>
+                                Upload Images
+                              </span>
+                            </button>
+                            <input
+                              type="file"
+                              name="myfile"
+                              ref="file"
+                              onChange={event => this.handleFileUpload(event)}
+                              multiple="multiple"
+                            />
+                          </div>
+
+                          <div className={styles.imgAttachmentSubText}>
+                            Upload JPEG, PNG (Maximum upload limit is 25 MB)
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </div>
 
                   {this.state.showRefundOptions && (
