@@ -356,10 +356,7 @@ export default class Plp extends React.Component {
       }
       url = pathname + url;
     }
-    console.log(colourSlug);
-    console.log(val);
-    console.log(filterName);
-    console.log(allData);
+
     if (colourSlug) {
       if ((colourSlug.match(/~/g) || []).length > 1) {
         url = url.replace(`${filterName.toLowerCase()}~`, "");
