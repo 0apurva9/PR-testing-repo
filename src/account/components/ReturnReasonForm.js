@@ -102,7 +102,7 @@ export default class ReturnReasonForm extends React.Component {
     } else {
       this.setState({ showImageUpload: false });
     }
-
+    localStorage.setItem("showImageUpload", val.isImageApplicable);
     localStorage.setItem("primaryLabel", label);
     localStorage.setItem("primaryCode", code);
     localStorage.removeItem("secondaryLabel");
