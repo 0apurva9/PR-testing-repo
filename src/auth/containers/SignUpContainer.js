@@ -23,7 +23,8 @@ import {
   generateCartIdForLoggedInUser,
   getCartId,
   getCartDetails,
-  getCartCountForLoggedInUser
+  getCartCountForLoggedInUser,
+  getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import {
   createWishlist,
@@ -79,7 +80,8 @@ const mapDispatchToProps = dispatch => {
               )
             );
             dispatch(setIfAllAuthCallsHaveSucceeded());
-            dispatch(getCartCountForLoggedInUser());
+            await dispatch(getCartCountForLoggedInUser());
+            dispatch(getMinicartProducts());
           } else {
             Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
             dispatch(setIfAllAuthCallsHaveSucceeded());

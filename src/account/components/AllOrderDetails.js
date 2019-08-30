@@ -535,149 +535,151 @@ export default class AllOrderDetails extends React.Component {
                               orderId={orderDetails && orderDetails.orderId}
                             />
                           </div>
-                          {orderDetails &&
-                            orderDetails.products &&
-                            orderDetails.products.map((product, key) => {
-                              let isOrderReturnable = false;
-                              let isReturned = false;
+                          <React.Fragment>
+                            {orderDetails &&
+                              orderDetails.products &&
+                              orderDetails.products.map((product, key) => {
+                                let isOrderReturnable = false;
+                                let isReturned = false;
 
-                              if (
-                                product &&
-                                product.statusDisplayMsg &&
-                                product.statusDisplayMsg
-                                  .map(val => {
-                                    return val.key;
-                                  })
-                                  .includes(RETURN)
-                              ) {
-                                isReturned = product.statusDisplayMsg
-                                  .map(val => {
-                                    return val.key;
-                                  })
-                                  .includes(RETURN);
-                              }
-
-                              each(
-                                product && product.statusDisplayMsg,
-                                orderStatus => {
-                                  each(
-                                    orderStatus &&
-                                      orderStatus.value &&
-                                      orderStatus.value.statusList,
-                                    status => {
-                                      if (
-                                        status.responseCode === "DELIVERED" ||
-                                        status.responseCode ===
-                                          "ORDER_COLLECTED"
-                                      ) {
-                                        isOrderReturnable = true;
-                                      }
-                                    }
-                                  );
+                                if (
+                                  product &&
+                                  product.statusDisplayMsg &&
+                                  product.statusDisplayMsg
+                                    .map(val => {
+                                      return val.key;
+                                    })
+                                    .includes(RETURN)
+                                ) {
+                                  isReturned = product.statusDisplayMsg
+                                    .map(val => {
+                                      return val.key;
+                                    })
+                                    .includes(RETURN);
                                 }
-                              );
-                              return (
-                                <div className={styles.orderDetailsHolder}>
-                                  <OrderCard
-                                    imageUrl={product.imageURL}
-                                    hasProduct={product}
-                                    isGiveAway={product.isGiveAway}
-                                    price={product.price}
-                                    quantity={true}
-                                    productName={product.productName}
-                                    productBrand={product.productBrand}
-                                    isEgvOrder={orderDetails.isEgvOrder}
-                                    resendAvailable={
-                                      orderDetails.resendAvailable
-                                    }
-                                    reSendEmailForGiftCard={() =>
-                                      this.reSendEmailForGiftCard(
-                                        orderDetails.orderId
-                                      )
-                                    }
-                                    egvCardNumber={orderDetails.egvCardNumber}
-                                    onClick={() =>
-                                      this.onClickImage(
-                                        orderDetails.isEgvOrder,
-                                        product.productcode
-                                      )
-                                    }
-                                  />
-                                  <DesktopOnly>
-                                    <div className={styles.returnReview}>
-                                      {product.isReturned && (
-                                        <div
-                                          className={styles.cancelProduct}
-                                          onClick={() =>
-                                            this.replaceItem(
-                                              product.sellerorderno,
-                                              orderDetails.paymentMethod,
-                                              product.transactionId
-                                            )
-                                          }
-                                        >
-                                          {PRODUCT_RETURN}
-                                        </div>
-                                      )}
-                                      {orderDetails &&
-                                        orderDetails.retryPaymentUrl && (
-                                          <div className={styles.retryPayment}>
+
+                                each(
+                                  product && product.statusDisplayMsg,
+                                  orderStatus => {
+                                    each(
+                                      orderStatus &&
+                                        orderStatus.value &&
+                                        orderStatus.value.statusList,
+                                      status => {
+                                        if (
+                                          status.responseCode === "DELIVERED" ||
+                                          status.responseCode ===
+                                            "ORDER_COLLECTED"
+                                        ) {
+                                          isOrderReturnable = true;
+                                        }
+                                      }
+                                    );
+                                  }
+                                );
+                                return (
+                                  <div className={styles.orderDetailsHolder}>
+                                    <OrderCard
+                                      imageUrl={product.imageURL}
+                                      hasProduct={product}
+                                      isGiveAway={product.isGiveAway}
+                                      price={product.price}
+                                      quantity={true}
+                                      productName={product.productName}
+                                      productBrand={product.productBrand}
+                                      isEgvOrder={orderDetails.isEgvOrder}
+                                      resendAvailable={
+                                        orderDetails.resendAvailable
+                                      }
+                                      reSendEmailForGiftCard={() =>
+                                        this.reSendEmailForGiftCard(
+                                          orderDetails.orderId
+                                        )
+                                      }
+                                      egvCardNumber={orderDetails.egvCardNumber}
+                                      onClick={() =>
+                                        this.onClickImage(
+                                          orderDetails.isEgvOrder,
+                                          product.productcode
+                                        )
+                                      }
+                                    />
+                                    <DesktopOnly>
+                                      <div className={styles.returnReview}>
+                                        {product.isReturned && (
+                                          <div
+                                            className={styles.cancelProduct}
+                                            onClick={() =>
+                                              this.replaceItem(
+                                                product.sellerorderno,
+                                                orderDetails.paymentMethod,
+                                                product.transactionId
+                                              )
+                                            }
+                                          >
+                                            {PRODUCT_RETURN}
+                                          </div>
+                                        )}
+                                        {orderDetails &&
+                                          !orderDetails.retryPaymentUrl &&
+                                          product.productName !==
+                                            "Gift Card" && (
                                             <div
                                               className={
                                                 styles.writeReviedButton
                                               }
                                             >
                                               <Button
-                                                type="hollow"
+                                                label={"Write a review"}
                                                 width={147}
                                                 height={36}
-                                                label="Retry payment"
-                                                color="#ff1744"
+                                                borderColor={"#000000"}
+                                                borderRadius={20}
+                                                backgroundColor={"#ffffff"}
+                                                onClick={val =>
+                                                  this.writeReview(
+                                                    product.productcode
+                                                  )
+                                                }
                                                 textStyle={{
-                                                  color: "#212121",
+                                                  color: "#000000",
                                                   fontSize: 14,
                                                   fontFamily: "regular"
                                                 }}
-                                                onClick={() =>
-                                                  this.onClickRetryPayment(
-                                                    orderDetails.retryPaymentUrl
-                                                  )
-                                                }
                                               />
                                             </div>
-                                          </div>
-                                        )}
-                                      {orderDetails &&
-                                        !orderDetails.retryPaymentUrl &&
-                                        product.productName !== "Gift Card" && (
-                                          <div
-                                            className={styles.writeReviedButton}
-                                          >
-                                            <Button
-                                              label={"Write a review"}
-                                              width={147}
-                                              height={36}
-                                              borderColor={"#000000"}
-                                              borderRadius={20}
-                                              backgroundColor={"#ffffff"}
-                                              onClick={val =>
-                                                this.writeReview(
-                                                  product.productcode
-                                                )
-                                              }
-                                              textStyle={{
-                                                color: "#000000",
-                                                fontSize: 14,
-                                                fontFamily: "regular"
-                                              }}
-                                            />
-                                          </div>
-                                        )}
-                                    </div>
-                                  </DesktopOnly>
+                                          )}
+                                      </div>
+                                    </DesktopOnly>
+                                  </div>
+                                );
+                              })}
+                            {orderDetails &&
+                              orderDetails.retryPaymentUrl && (
+                                <div className={styles.retryPayment}>
+                                  <div className={styles.writeReviedButton}>
+                                    <Button
+                                      type="hollow"
+                                      width={147}
+                                      height={36}
+                                      label="Retry payment"
+                                      color="#ff1744"
+                                      textStyle={{
+                                        color: "#212121",
+                                        fontSize: 14,
+                                        fontFamily: "regular"
+                                      }}
+                                      onClick={() =>
+                                        this.onClickRetryPayment(
+                                          orderDetails.retryPaymentUrl
+                                        )
+                                      }
+                                    />
+                                  </div>
                                 </div>
-                              );
-                            })}
+                              )}
+                          </React.Fragment>
+
                           <MobileOnly>
                             <React.Fragment>
                               <div

@@ -60,7 +60,9 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  text-align: center;
+  text-align: right;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .buttonHolderForRetryPayment {
   width: auto;

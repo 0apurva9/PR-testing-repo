@@ -48,6 +48,16 @@ export default class CheckoutCreditCard extends React.Component {
           binValidation={binNo => this.binValidation(binNo)}
           onChangeCardDetail={card => this.onChangeCardDetail(card)}
           onCheckout={this.props.onCheckout}
+          bankGatewayStatus={
+            this.props.cart &&
+            this.props.cart.binValidationDetails &&
+            this.props.cart.binValidationDetails.bankGatewayStatus
+          }
+          bankError={
+            this.props.cart &&
+            this.props.cart.binValidationDetails &&
+            this.props.cart.binValidationDetails.errorMsg
+          }
         />
       </ManueDetails>
     );

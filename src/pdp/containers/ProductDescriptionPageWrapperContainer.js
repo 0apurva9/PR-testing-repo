@@ -20,7 +20,10 @@ import {
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import { setHeaderText } from "../../general/header.actions";
-import { getUserAddress } from "../../cart/actions/cart.actions";
+import {
+  getUserAddress,
+  getMinicartProducts
+} from "../../cart/actions/cart.actions";
 import {
   showModal,
   EMI_MODAL,
@@ -158,6 +161,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showOOSSizeSelectorModal: data => {
       dispatch(showModal(SIZE_SELECTOR_OOS_MODAL, data));
+    },
+    getMinicartProducts: async () => {
+      return dispatch(getMinicartProducts());
     }
   };
 };

@@ -33,6 +33,7 @@ import {
   softReservationPaymentForNetBanking,
   softReservationPaymentForSavedCard,
   orderConfirmation,
+  orderConfirmationBanner,
   softReservationForCliqCash,
   jusPayTokenizeForGiftCard,
   createJusPayOrderForGiftCardNetBanking,
@@ -55,7 +56,19 @@ import {
   resetIsSoftReservationFailed,
   preventRestingAllPaymentMode,
   getUserAddressAndDeliveryModesByRetryPayment,
-  binValidationOfEmiEligible
+  binValidationOfEmiEligible,
+  getPrepaidOrderPaymentConfirmation,
+  createPaymentOrder,
+  collectPaymentOrder,
+  stripeTokenize,
+  stripe_juspay_Tokenize,
+  stripe_juspay_TokenizeGiftCard,
+  getMinicartProducts,
+  collectPaymentOrderForGiftCardNetBanking,
+  collectPaymentOrderForNetBanking,
+  collectPaymentOrderForSavedCards,
+  collectPaymentOrderForGiftCardFromSavedCards,
+  collectPaymentOrderForCliqCash
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -77,7 +90,8 @@ import {
   updateProfile,
   clearPinCodeStatus,
   redeemCliqVoucher,
-  retryPayment
+  retryPayment,
+  fetchOrderDetails
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -214,8 +228,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeCliqCash: pinCode => {
       dispatch(removeCliqCash(pinCode));
     },
-    binValidation: (paymentMode, binNo, cartGuId) => {
-      dispatch(binValidation(paymentMode, binNo, cartGuId));
+    binValidation: (paymentMode, binNo, isFromRetryUrl, retryCartGuid) => {
+      dispatch(
+        binValidation(paymentMode, binNo, isFromRetryUrl, retryCartGuid)
+      );
     },
     softReservationForPayment: (cardDetails, address, paymentMode) => {
       dispatch(softReservationForPayment(cardDetails, address, paymentMode));
@@ -228,8 +244,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getCODEligibility(isPaymentFailed, isFromRetryUrl, retryCartGuid)
       );
     },
-    binValidationForCOD: paymentMode => {
-      dispatch(binValidationForCOD(paymentMode));
+    binValidationForCOD: (paymentMode, isFromRetryUrl, retryCartGuid) => {
+      dispatch(binValidationForCOD(paymentMode, isFromRetryUrl, retryCartGuid));
     },
     updateTransactionDetailsForCOD: (
       paymentMode,
@@ -258,8 +274,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     redeemCliqVoucher: cliqCashDetails => {
       dispatch(redeemCliqVoucher(cliqCashDetails, true));
     },
-    binValidationForNetBanking: (paymentMode, binNo) => {
-      dispatch(binValidationForNetBanking(paymentMode, binNo));
+    binValidationForNetBanking: (
+      paymentMode,
+      binNo,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        binValidationForNetBanking(
+          paymentMode,
+          binNo,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
     },
     softReservationPaymentForNetBanking: (
       paymentMethodType,
@@ -453,6 +481,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     orderConfirmation: orderId => {
       dispatch(orderConfirmation(orderId));
     },
+    orderConfirmationBanner: async () => {
+      return await dispatch(orderConfirmationBanner());
+    },
     createJusPayOrderForNetBanking: (
       paymentMethodType,
       cartItem,
@@ -559,6 +590,141 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     binValidationOfEmiEligible: binNo => {
       return dispatch(binValidationOfEmiEligible(binNo));
+    },
+    getPrepaidOrderPaymentConfirmation: stripeDetails => {
+      dispatch(getPrepaidOrderPaymentConfirmation(stripeDetails));
+    },
+    stripe_juspay_Tokenize: (
+      cardDetails,
+      address,
+      cartItems,
+      paymentMode,
+      isSaveCard,
+      orderDetails,
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        stripe_juspay_Tokenize(
+          cardDetails,
+          address,
+          cartItems,
+          paymentMode,
+          isSaveCard,
+          orderDetails,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    stripe_juspay_TokenizeGiftCard: (cardDetails, paymentMode, egvCartGuid) => {
+      dispatch(
+        stripe_juspay_TokenizeGiftCard(cardDetails, paymentMode, egvCartGuid)
+      );
+    },
+    createPaymentOrder: guId => {
+      dispatch(createPaymentOrder(guId));
+    },
+    collectPaymentOrder: (
+      cardDetails,
+      address,
+      cartItems,
+      isPaymentFailed,
+      isSaveCard,
+      cartdetails,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        collectPaymentOrder(
+          cardDetails,
+          address,
+          cartItems,
+          isPaymentFailed,
+          isSaveCard,
+          cartdetails,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    stripeTokenize: (
+      cardDetails,
+      address,
+      cartItem,
+      paymentMode,
+      isPaymentFailed
+    ) => {
+      dispatch(
+        stripeTokenize(
+          cardDetails,
+          address,
+          cartItem,
+          paymentMode,
+          isPaymentFailed
+        )
+      );
+    },
+    getMinicartProducts: () => {
+      dispatch(getMinicartProducts());
+    },
+    collectPaymentOrderForGiftCardNetBanking: (guId, bankCode, bankName) => {
+      dispatch(
+        collectPaymentOrderForGiftCardNetBanking(guId, bankCode, bankName)
+      );
+    },
+    collectPaymentOrderForGiftCardFromSavedCards: (cardDetails, guId) => {
+      dispatch(collectPaymentOrderForGiftCardFromSavedCards(cardDetails, guId));
+    },
+    collectPaymentOrderForSavedCards: (
+      cardDetails,
+      cartItem,
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        collectPaymentOrderForSavedCards(
+          cardDetails,
+          cartItem,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    collectPaymentOrderForNetBanking: (
+      paymentMethodType,
+      cartItem,
+      bankCode,
+      pinCode,
+      isFromRetryUrl,
+      retryCartGuid,
+      bankName,
+      isPaymentFailed
+    ) => {
+      dispatch(
+        collectPaymentOrderForNetBanking(
+          paymentMethodType,
+          cartItem,
+          bankCode,
+          pinCode,
+          isFromRetryUrl,
+          retryCartGuid,
+          bankName,
+          isPaymentFailed
+        )
+      );
+    },
+    collectPaymentOrderForCliqCash: (pinCode, cartItem, isPaymentFailed) => {
+      dispatch(
+        collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFailed)
+      );
+    },
+    fetchOrderDetails: (orderId, pageName) => {
+      dispatch(fetchOrderDetails(orderId, pageName));
     }
   };
 };
