@@ -17,7 +17,7 @@ delete window.__PRELOADED_STATE__;
 
 var elementRoot = document.getElementById("root");
 if (elementRoot.hasChildNodes()) {
-  ReactDOM.hydrate(
+  ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <AppContainer />

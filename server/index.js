@@ -7,7 +7,7 @@ import serverRenderer, {
 const PORT = 3000;
 const path = require("path");
 const app = express();
-
+const router = express.Router();
 app.get("*.css", function(req, res, next) {
   const encodings = req.acceptsEncodings();
   if (encodings.indexOf("br") > -1) {
@@ -40,24 +40,27 @@ app.get("*.js", function(req, res, next) {
   res.set("Content-Type", "application/javascript");
   next();
 });
-
-app.use("^/$", serverRenderer);
-app.use("/:slug/p-:productDescriptionCode", pdpRenderer);
-app.use("/search/:searchTerm($|/*)", plpRenderer);
+// router.use(
+//  express.static(path.resolve(__dirname, "..", "build"), { maxAge: "30d" })
+// );
+router.use("^/", serverRenderer);
+app.get("^/$", serverRenderer);
+app.get("/:slug/p-:productDescriptionCode", pdpRenderer);
+app.get("/search/:searchTerm($|/*)", plpRenderer);
 // CATEGORY_PRODUCT_LISTINGS_WITH_PAGE
-app.use("/:slug/c-:brandOrCategoryId/", blpOrClpRenderer);
+app.get("/:slug/c-:brandOrCategoryId/", blpOrClpRenderer);
 
-app.use("/:slug/c-:brandOrCategoryId/page-:page", plpRenderer);
-app.use("/custom/:c-:brandOrCategoryId/page-:page", plpRenderer);
-app.use("/CustomSkuCollection/:brandOrCategoryId/page-:page", plpRenderer);
+app.get("/:slug/c-:brandOrCategoryId/page-:page", plpRenderer);
+app.get("/custom/:c-:brandOrCategoryId/page-:page", plpRenderer);
+app.get("/CustomSkuCollection/:brandOrCategoryId/page-:page", plpRenderer);
 //CustomSkuCollection/oppo-f11-pro-range/page-1?q=%3Arelevance%3AcollectionIds%3Aoppo-f11-pro-range%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Acolour%3ABlack_000000
-app.use("/p-:productDescriptionCode", pdpRenderer);
-
+app.get("/p-:productDescriptionCode", pdpRenderer);
 app.use(
   express.static(path.resolve(__dirname, "..", "..", ".."), {
     maxAge: "30d"
   })
 );
+app.use(router);
 
 app.listen(PORT, error => {
   console.log("listening on 3000 from the server");
