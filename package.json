@@ -123,6 +123,7 @@
     "test": "cross-env node scripts/test.js --env=jsdom",
     "lint": "eslint 'src/**/*.js'",
     "pre-build": "yarn run tmpprod-desktop  && sudo pm2 startOrRestart ecosystem.config.js",
+    "pre-build-ssr": "sudo  pm2 startOrRestart ecosystem.ssr.config.js",
     "deploy": "pm2 deploy ecosystem.config.js production --force",
     "precommit": "lint-staged",
     "ssr": "NODE_ENV=DFGDFG server/bootstrap.js"
