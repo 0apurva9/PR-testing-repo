@@ -75,8 +75,31 @@ export default class MyAccountWrapper extends React.Component {
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
+
     return (
       <Switch>
+        <Route
+          exact
+          path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}${EDIT}`}
+          render={() => (
+            <ReturnEditAddressContainer
+              {...this.state}
+              {...this.props}
+              changeAddress={true}
+            />
+          )}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}${ADD}`}
+          render={() => (
+            <ReturnAddAddressContainer
+              {...this.state}
+              {...this.props}
+              changeAddress={true}
+            />
+          )}
+        />
         <Route
           exact
           path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}`}
@@ -88,28 +111,12 @@ export default class MyAccountWrapper extends React.Component {
             />
           )}
         />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_SUFFIX}${EDIT}`}
-          render={() => (
-            <ReturnEditAddressContainer {...this.state} {...this.props} />
-          )}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_SUFFIX}${ADD}`}
-          render={() => (
-            <ReturnAddAddressContainer {...this.state} {...this.props} />
-          )}
-        />
         <Route exact path={MY_ACCOUNT_PAGE} component={MyAccountContainer} />
         <Route
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`}
           component={SavedCardContainer}
         />
-
         <Route path={REDMI_WALLET_FROM_EMAIL} component={CliqCashContainer} />
-
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`}
@@ -140,7 +147,6 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`}
           component={TransactionHistoryContainer}
         />
-
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_BRANDS_PAGE}`}
@@ -151,7 +157,6 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`}
           component={UpdateProfileContainer}
         />
-
         <Route
           path={`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`}
           component={SaveListContainer}
@@ -160,7 +165,6 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`}
           component={AllOrderContainer}
         />
-
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_PAGE}`}

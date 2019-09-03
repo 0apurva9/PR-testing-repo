@@ -6,7 +6,11 @@ import Loader from "../../general/components/Loader";
 import {
   RETURNS_PREFIX,
   RETURN_LANDING,
-  RETURNS_MODES
+  RETURNS_MODES,
+  ORDER,
+  MY_ACCOUNT,
+  ORDER_CODE,
+  RETURN_TO_ADDRESS
 } from "../../lib/constants.js";
 import { displayCouponsForLoggedInUser } from "../../cart/actions/cart.actions";
 const EDIT = "/edit";
@@ -71,24 +75,67 @@ export default class ReturnAddressBook extends React.Component {
   };
 
   editAddress = (address, orderId) => {
-    this.props.history.push({
-      pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${EDIT}`,
-      state: {
-        addressDetails: address,
-        path: this.props.location.pathname,
-        authorizedRequest: true
-      }
-    });
+    if (
+      this.props &&
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state &&
+      this.props.history.location.state.urlAddress.includes(
+        "/my-account/order/"
+      )
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
+          this.props.history.location.state.orderId
+        }${RETURN_TO_ADDRESS}${EDIT}`,
+        state: {
+          path: this.props.location.pathname,
+          addAddress: true,
+          urlAddress: window.location.href,
+          addressDetails: address
+        }
+      });
+    } else
+      this.props.history.push({
+        pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${EDIT}`,
+        state: {
+          addressDetails: address,
+          path: this.props.location.pathname,
+          authorizedRequest: true
+        }
+      });
   };
 
   addAddress = orderId => {
-    this.props.history.push({
-      pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${ADD}`,
-      state: {
-        path: this.props.location.pathname,
-        addAddress: true
-      }
-    });
+    if (
+      this.props &&
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state &&
+      this.props.history.location.state.urlAddress.includes(
+        "/my-account/order/"
+      )
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
+          this.props.history.location.state.orderId
+        }${RETURN_TO_ADDRESS}${ADD}`,
+        state: {
+          path: this.props.location.pathname,
+          addAddress: true,
+          urlAddress: window.location.href
+        }
+      });
+    } else {
+      this.props.history.push({
+        pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${ADD}`,
+        state: {
+          path: this.props.location.pathname,
+          addAddress: true,
+          urlAddress: window.location.href
+        }
+      });
+    }
   };
 
   async handleClick(address) {
