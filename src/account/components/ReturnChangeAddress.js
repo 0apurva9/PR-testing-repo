@@ -10,7 +10,10 @@ import {
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_MODES,
-  ORDER_PREFIX
+  ORDER_PREFIX,
+  ORDER_CODE,
+  ORDER,
+  MY_ACCOUNT
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -163,7 +166,9 @@ export default class ReturnChangeAddress extends React.Component {
                     onClick={() => {
                       this.props.changeAddress
                         ? this.props.history.push({
-                            pathname: `${ORDER_PREFIX}`,
+                            pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
+                              this.props.orderId
+                            }`,
                             state: {
                               address: this.state.selectedAddress
                                 ? this.state.selectedAddress
