@@ -107,21 +107,21 @@ export default class OfferCard extends React.Component {
     let offers = [];
     let offersTobeShown = [];
     if (this.props.offers) {
-      offers = [this.props.offers];
-      offers &&
-        offers.forEach(offer => {
-          if (!offer.sequence) {
-            offer.sequence = 0;
-          }
-        });
-      offers = sortBy(offers, ["sequence"]);
-      let i = 0;
-      while (i < 2 && offers && offers.length) {
-        if (offers[i]) {
-          offersTobeShown.push(offers[i]);
+      offers = [...this.props.offers];
+    }
+    offers &&
+      offers.forEach(offer => {
+        if (!offer.sequence) {
+          offer.sequence = 0;
         }
-        i++;
+      });
+    offers = sortBy(offers, ["sequence"]);
+    let i = 0;
+    while (i < 2 && offers && offers.length) {
+      if (offers[i]) {
+        offersTobeShown.push(offers[i]);
       }
+      i++;
     }
     if (offers.length) {
       return (

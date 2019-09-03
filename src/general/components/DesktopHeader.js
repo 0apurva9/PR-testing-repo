@@ -7,7 +7,8 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  HELP_URL
+  HELP_URL,
+  RUPEE_SYMBOL
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
@@ -18,18 +19,23 @@ import {
   setDataLayerForHeaderAndFooterDirectCalls,
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
   ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
-  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK
+  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+  setDataLayerForMinibag
 } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
+import ProductImage from "./ProductImage.js";
+import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
+const NO_SIZE = "NO SIZE";
 
 export default class DesktopHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hovered: null,
-      hoverInType: null
+      hoverInType: null,
+      bagHover: false
     };
   }
   redirectToHome() {
@@ -53,6 +59,7 @@ export default class DesktopHeader extends React.Component {
   handleSelect() {
     if (this.props.onSelect) {
       this.props.onSelect();
+      setDataLayerForMinibag();
       setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         "Cart"
@@ -162,7 +169,8 @@ export default class DesktopHeader extends React.Component {
   hoverOut() {
     this.setState({
       hovered: null,
-      hoverInType: null
+      hoverInType: null,
+      bagHover: false
     });
   }
   renderToAnotherUrlForHelp(webURL, value, event) {
@@ -208,6 +216,11 @@ export default class DesktopHeader extends React.Component {
       default:
         return "https://luxury.tatacliq.com/";
     }
+  }
+  onHoverBag() {
+    this.setState({
+      bagHover: true
+    });
   }
 
   render() {
@@ -627,6 +640,8 @@ export default class DesktopHeader extends React.Component {
                   <div
                     className={styles.myBagShow}
                     onClick={() => this.handleSelect()}
+                    onMouseEnter={() => this.onHoverBag()}
+                    onMouseLeave={() => this.hoverOut()}
                   >
                     {this.props.bagCount !== null &&
                       (this.props.bagCount > 0 && (
@@ -634,6 +649,14 @@ export default class DesktopHeader extends React.Component {
                           this.props.bagCount
                         }`}</span>
                       ))}
+                    {this.props.minicart &&
+                      this.props.minicart.products &&
+                      this.state.bagHover && (
+                        <Minibag
+                          cart={this.props.minicart}
+                          gotoCart={() => this.handleSelect()}
+                        />
+                      )}
                   </div>
                   <div
                     className={styles.mywishList}

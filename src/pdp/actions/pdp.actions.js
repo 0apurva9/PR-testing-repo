@@ -56,6 +56,10 @@ export const PRODUCT_SIZE_GUIDE_REQUEST = "PRODUCT_SIZE_GUIDE_REQUEST";
 export const PRODUCT_SIZE_GUIDE_SUCCESS = "PRODUCT_SIZE_GUIDE_SUCCESS";
 export const PRODUCT_SIZE_GUIDE_FAILURE = "PRODUCT_SIZE_GUIDE_FAILURE";
 
+export const PRODUCT_SIZE_CHART_REQUEST = "PRODUCT_SIZE_CHART_REQUEST";
+export const PRODUCT_SIZE_CHART_SUCCESS = "PRODUCT_SIZE_CHART_SUCCESS";
+export const PRODUCT_SIZE_CHART_FAILURE = "PRODUCT_SIZE_CHART_FAILURE";
+
 export const PRODUCT_PDP_EMI_REQUEST = "PRODUCT_PDP_EMI_REQUEST";
 export const PRODUCT_PDP_EMI_SUCCESS = "PRODUCT_PDP_EMI_SUCCESS";
 export const PRODUCT_PDP_EMI_FAILURE = "PRODUCT_PDP_EMI_FAILURE";
@@ -408,6 +412,28 @@ export function getProductSizeGuideFailure(error) {
   };
 }
 
+export function getProductSizeChartRequest() {
+  return {
+    type: PRODUCT_SIZE_CHART_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getProductSizeChartSuccess(sizeChart) {
+  return {
+    type: PRODUCT_SIZE_CHART_SUCCESS,
+    status: SUCCESS,
+    sizeChart
+  };
+}
+
+export function getProductSizeChartFailure(error) {
+  return {
+    type: PRODUCT_SIZE_CHART_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
 export function getProductSizeGuide(productCode) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductSizeGuideRequest());
@@ -425,6 +451,25 @@ export function getProductSizeGuide(productCode) {
       dispatch(getProductSizeGuideSuccess(resultJson));
     } catch (e) {
       dispatch(getProductSizeGuideFailure(e.message));
+    }
+  };
+}
+
+export function getProductSizeChart(productCode) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getProductSizeChartRequest());
+    try {
+      const result = await api.getMiddlewareUrl(
+        `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/sizeGuideChart?isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getProductSizeChartSuccess(resultJson));
+    } catch (e) {
+      dispatch(getProductSizeChartFailure(e));
     }
   };
 }

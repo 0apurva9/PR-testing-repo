@@ -20,7 +20,7 @@ export default class RateyourExperienceCard extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.retingInnerBox}>
-          <div className={styles.heading}>{this.props.heading}</div>
+          <div className={styles.orderHeading}>{this.props.heading}</div>
           <div className={styles.retingLabel}>{this.props.label}</div>
           <div className={styles.rating}>
             <ExperienceRateGrid
@@ -54,7 +54,7 @@ RateyourExperienceCard.propTypes = {
 };
 
 RateyourExperienceCard.defaultProps = {
-  heading: "Rate your Experience",
+  heading: "Did you enjoy shopping with us?",
   label:
     "We'd love to know your feedback. Tell us, did you enjoy shopping on Tata CLiQ? ",
   buttonText: "Continue shopping",
