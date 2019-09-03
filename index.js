@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const isBrowser = require("browser-or-node");
 var url = require("url");
 
 app.get("*.js", function(req, res, next) {
@@ -266,12 +267,14 @@ app.get("/*", (req, res) => {
 
     //Code end for AMP
   } else {
-    var q = url.parse(req.url, true);
-    if (q.pathname == "/cart" || q.pathname == "/checkout") {
-      res.sendFile(__dirname + "/build/other.html");
-    } else {
-      res.sendFile(__dirname + "/build/index.html");
-    }
+    if (isBrowser) {
+      var q = url.parse(req.url, true);
+      if (q.pathname === "/cart" || q.pathname === "/checkout") {
+        res.sendFile(__dirname + "/build/other.html");
+      } else {
+        res.sendFile(__dirname + "/build/index.html");
+      }
+    } else res.sendFile(__dirname + "/build/index.html");
   }
 });
 

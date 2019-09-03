@@ -15,26 +15,14 @@ import configureStore from "./configureStore";
 const store = configureStore(window.__PRELOADED_STATE__);
 delete window.__PRELOADED_STATE__;
 
-var elementRoot = document.getElementById("root");
-if (elementRoot.hasChildNodes()) {
-  ReactDOM.hydrate(
-    <Provider store={store}>
-      <BrowserRouter>
-        <AppContainer />
-      </BrowserRouter>
-    </Provider>,
-    elementRoot
-  );
-} else {
-  ReactDOM.render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <AppContainer />
-      </BrowserRouter>
-    </Provider>,
-    elementRoot
-  );
-}
+ReactDOM.render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <AppContainer />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById("root")
+);
 
 const displayToastFunc = message => {
   ReactDOM.render(
@@ -45,4 +33,3 @@ const displayToastFunc = message => {
     document.getElementById("service-worker-toast-root").innerHTML = "";
   }, TOAST_DELAY);
 };
-// registerServiceWorker(displayToastFunc);
