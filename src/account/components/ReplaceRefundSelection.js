@@ -45,6 +45,7 @@ export default class ReplaceRefundSelection extends React.Component {
       cliqCashCheckSuccess: false,
       uploadedImageFiles: "",
       showAttachment: false,
+      hideUpload: true,
       totalImageSize: ""
     };
     this.radioChange = this.radioChange.bind(this);
@@ -81,7 +82,7 @@ export default class ReplaceRefundSelection extends React.Component {
       this.props.data.showImageUpload === true &&
       this.props.data.validImgFiles === ""
     ) {
-      this.setState({ showAttachment: true });
+      this.setState({ showAttachment: true, hideUpload: false });
     } else {
       this.setState({ showAttachment: false });
     }
@@ -335,8 +336,11 @@ export default class ReplaceRefundSelection extends React.Component {
       this.setState({ validImgFiles: updatedValidImgFiles });
     }
   }
-  onContinueImageUpload() {
+  onContinueImageUpload(uploadImage) {
+    // console.log("this.state", this.state, "props", this.props);
+    window.scrollTo(0, 0);
     if (this.state.validImgFiles.length > 0) {
+      this.setState({ showAttachment: false });
       let reasonAndCommentObj = Object.assign({
         returnReasonCode: this.props.data.returnReasonCode,
         subReasonCode: this.props.data.subReasonCode,
@@ -348,7 +352,7 @@ export default class ReplaceRefundSelection extends React.Component {
           .sellerorderno,
         transactionId: this.props.returnProductDetails.orderProductWsDTO[0]
           .transactionId,
-        validImgFiles: this.state.validImgFiles
+        validImgFiles: this.state.validImgFiles || this.state.uploadImage
         // isElectronicsProduct: this.state.isElectronicsProduct,
       });
       this.props.onChange(reasonAndCommentObj);
@@ -359,7 +363,12 @@ export default class ReplaceRefundSelection extends React.Component {
         this.state.validImgFiles
       );
     }
-    this.setState({ showAttachment: false, uploadedImageFiles: [] });
+    this.setState({
+      showAttachment: false,
+      uploadedImageFiles: [],
+      hideUpload: true
+    });
+    debugger;
   }
 
   getContinueButton(selectedOption, agreeToReturn, userBankDetails) {
@@ -451,8 +460,18 @@ export default class ReplaceRefundSelection extends React.Component {
     let newAccountNumber =
       accountNumber &&
       accountNumber.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsAccountNumber;
-    let ImgSize =
-      this.state.allImagesSize && this.state.allImagesSize > 25000000;
+    let ImgSize = this.state.ImgSize && this.state.allImagesSize > 25000000;
+    // console.log("Props coming:", this.props);
+    let disableModes;
+    if (
+      this.props &&
+      this.props.data &&
+      this.props.data.showImageUpload === "true"
+    ) {
+      disableModes = true;
+    } else {
+      disableModes = false;
+    }
 
     return (
       <React.Fragment>
@@ -556,9 +575,7 @@ export default class ReplaceRefundSelection extends React.Component {
                 <ReturnsFrame>
                   <div className={styles.content}>
                     {!this.state.showRefundOptions &&
-                      this.props &&
-                      this.props.data &&
-                      this.props.data.showImageUpload === "false" && (
+                      !disableModes && (
                         <React.Fragment>
                           <div className={styles.returnMode}>
                             Select mode of return
@@ -848,7 +865,9 @@ export default class ReplaceRefundSelection extends React.Component {
                             width={175}
                             type="primary"
                             label="CONTINUE"
-                            onClick={() => this.onContinueImageUpload()}
+                            onClick={() =>
+                              this.onContinueImageUpload(uploadImage)
+                            }
                           />
                         </div>
                       </div>

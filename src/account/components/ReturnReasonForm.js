@@ -57,10 +57,10 @@ export default class ReturnReasonForm extends React.Component {
             .sellerorderno,
           transactionId: this.props.returnProductDetails.orderProductWsDTO[0]
             .transactionId,
-          validImgFiles: this.state.validImgFiles,
           showImageUpload:
             localStorage.getItem("showImageUpload") ||
-            this.state.showImageUpload
+            this.state.showImageUpload,
+          validImgFiles: this.state.validImgFiles
         }
       );
       this.props.onContinue(reasonAndCommentObj);
