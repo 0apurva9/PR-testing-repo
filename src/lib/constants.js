@@ -323,6 +323,7 @@ export const LANDMARK_ENTER_TEXT = "Please enter landmark";
 export const MOBILE_TEXT = "Please enter mobile number";
 export const PINCODE_VALID_TEXT = "Please enter valid pincode";
 export const EMAIL_VALID_TEXT = "Please enter valid emailId";
+export const MOBILE_VALID_TEXT = "Please enter a valid mobile number";
 export const PHONE_VALID_TEXT = "Please fill valid mobile number";
 export const PHONE_TEXT = "Please enter mobile number";
 export const CITY_TEXT = "please enter city";
