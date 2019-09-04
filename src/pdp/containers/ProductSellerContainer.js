@@ -3,18 +3,20 @@ import ProductSellerPage from "../components/ProductSellerPage";
 import { withRouter } from "react-router-dom";
 import {
   addProductToCart,
-  getProductDescription
+  getProductDescription,
+  getProductPinCode
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
+import { SUCCESS, DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToCart: async productDetails => {
       return dispatch(addProductToCart(productDetails));
     },
     getProductDescription: productCode => {
-      dispatch(getProductDescription(productCode));
+      return dispatch(getProductDescription(productCode));
     },
     displayToast: val => {
       dispatch(displayToast(val));
@@ -24,6 +26,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     buyNow: async productDetails => {
       return dispatch(tempCartIdForLoggedInUser(productDetails));
+    },
+    getProductPinCode: (pinCode, productCode) => {
+      dispatch(getProductPinCode(pinCode, productCode));
     }
   };
 };
