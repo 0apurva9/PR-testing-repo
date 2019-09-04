@@ -338,7 +338,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
   onContinueImageUpload(uploadImage) {
     // console.log("this.state", this.state, "props", this.props);
-
+    window.scrollTo(0, 0);
     if (this.state.validImgFiles.length > 0) {
       this.setState({ showAttachment: false });
       let reasonAndCommentObj = Object.assign({
