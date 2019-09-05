@@ -11,6 +11,10 @@ import {
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
 } from "../../lib/adobeUtils";
 const LOGOUT_TEXT = "You have logged out successfully";
+let clevertap = { logout: () => {} };
+if (typeof window !== "undefined") {
+  clevertap = window.clevertap;
+}
 export default class LogoutButton extends React.Component {
   async logoutUser() {
     if (this.props.logoutUser) {
@@ -36,6 +40,7 @@ export default class LogoutButton extends React.Component {
         }
 
         this.props.setFalseForAllAuthCallHasSucceedFlag();
+        this.props.getMinicartProducts();
       }
     }
   }

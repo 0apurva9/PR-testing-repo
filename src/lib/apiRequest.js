@@ -66,6 +66,10 @@ if (
   API_URL_ROOT = "https://e2e.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://e2e.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "e2e1") {
+  API_URL_ROOT = "https://e2e1.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://e2e1.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -94,6 +98,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://uat6.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "e2e") {
   URL_ROOT = "https://e2e.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "e2e1") {
+  URL_ROOT = "https://e2e1.tataunistore.com";
 }
 
 export const API_URL_ROOT_DUMMY =
@@ -103,7 +109,8 @@ export const API_URL_ROOT_MOCK = "https://cliq-json-server.herokuapp.com";
 export const HOME_FEED_API_ROOT =
   "https://tataunistore.tt.omtrdc.net/rest/v1/mbox?client=tataunistore";
 export const JUS_PAY_API_URL_ROOT = process.env.REACT_APP_JUS_PAY_API_URL_ROOT;
-
+export const STRIPE_API_URL_ROOT = process.env.REACT_APP_STRIPE_API_URL_ROOT;
+const STRIPE_ACCESTOKEN = process.env.REACT_APP_STRIPE_ACCESTOKEN;
 const ACCESS_TOKEN_EXPIRED_MESSAGE = "Access token expired";
 const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
@@ -147,7 +154,16 @@ async function corePost(path, postData, doNotUseApiSuffix) {
   });
 }
 
+export async function mockGetFooter() {
+  const url = "https://assessable-fridays.000webhostapp.com/footer.json";
+  return await fetch(url);
+}
+
 export async function coreGet(url) {
+  function btoa(str) {
+    if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
+    return Buffer(str, "binary").toString("base64");
+  }
   return await fetch(`${API_URL_ROOT}/${url}`, {
     headers: {
       Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
@@ -572,6 +588,16 @@ export async function postJusPay(path, postData) {
     body: postData
   });
 }
+
+export async function postStripe(path, postData) {
+  let url = `${STRIPE_API_URL_ROOT}/${path}`;
+  return await fetch(url, {
+    method: "POST",
+    headers: { Authorization: "Bearer" + " " + STRIPE_ACCESTOKEN },
+    body: postData
+  });
+}
+
 export async function postJusPayUrlEncode(path, postData) {
   let url = `${JUS_PAY_API_URL_ROOT}/${path}`;
   return await fetch(url, {
@@ -640,4 +666,8 @@ export async function getPlpBanners(categoryCode) {
   return await fetch(
     API_URL_ROOT + "/v2/mpl/cms/plpBanners?categoryCode=" + categoryCode
   );
+}
+export async function getOrderConfirmBanner(url) {
+  let APIUrl = "https://www.tataque.com" + url;
+  return await fetch(APIUrl);
 }

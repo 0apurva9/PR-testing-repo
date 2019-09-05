@@ -98,7 +98,9 @@ export default class GiftCard extends React.Component {
             this.state.amountText >= MINIMUM_PRICE
           )
         ) {
-          this.props.displayToast("Please enter a valid amount.");
+          this.props.displayToast(
+            "Amount should be greater than Rs. 15 and less than Rs. 10,000."
+          );
           return false;
         }
 

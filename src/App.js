@@ -45,6 +45,7 @@ import {
   CATEGORY_PAGE,
   BRAND_PAGE_WITH_SLUG,
   CATEGORY_PAGE_WITH_SLUG,
+  CATEGORY_PAGE_WITH_FILTER_SLUG,
   RETURNS,
   SHORT_URL_ORDER_DETAIL,
   CATEGORY_PAGE_WITH_QUERY_PARAMS,
@@ -333,6 +334,7 @@ class App extends Component {
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
     let guid;
+    let cartCode;
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
 
@@ -356,6 +358,9 @@ class App extends Component {
       guid = JSON.parse(cartDetailsForLoggedInUser).guid
         ? JSON.parse(cartDetailsForLoggedInUser).guid
         : null;
+      cartCode = JSON.parse(cartDetailsForLoggedInUser).code
+        ? JSON.parse(cartDetailsForLoggedInUser).code
+        : null;
       if (
         this.props.location.pathname.indexOf(LOGIN_PATH) !== -1 ||
         this.props.location.pathname.indexOf(SIGN_UP_PATH) !== -1
@@ -371,17 +376,22 @@ class App extends Component {
       if (cartDetailsForAnonymous) {
         // Get Cart GUID if user is Anonymous
         guid = JSON.parse(cartDetailsForAnonymous);
+        cartCode = JSON.parse(cartDetailsForAnonymous).code;
       }
     }
     // Check if GUID exists
     if (guid) {
       // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
-      this.props.getCartCountForLoggedInUsers(
+      await this.props.getCartCountForLoggedInUsers(
         typeof guid === "object" ? guid : null
       );
     } else {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
+    }
+    if (cartCode) {
+      // Call minicart after landing on the site or reloading page
+      this.props.getMinicartProducts();
     }
     window.prerenderReady = true;
   }
@@ -507,6 +517,11 @@ class App extends Component {
               component={PlpBrandCategoryWrapperContainer}
             />
             <Route
+              strict
+              path={CATEGORY_PAGE_WITH_FILTER_SLUG}
+              component={PlpBrandCategoryWrapperContainer}
+            />
+            <Route
               exact
               path={CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS}
               component={PlpBrandCategoryWrapperContainer}
@@ -614,6 +629,23 @@ class App extends Component {
               path="/que"
               component={() => {
                 window.location.replace("https://www.tatacliq.com/que/");
+                return (
+                  <div className={AppStyles.loadingIndicator}>
+                    <SecondaryLoader />
+                  </div>
+                );
+              }}
+            />
+            <Route
+              path="/care"
+              component={() => {
+                let currentLocation = window.location;
+                let redirectURL =
+                  currentLocation.protocol +
+                  "//" +
+                  currentLocation.host +
+                  "/my-account/order-related";
+                window.location.replace(redirectURL);
                 return (
                   <div className={AppStyles.loadingIndicator}>
                     <SecondaryLoader />

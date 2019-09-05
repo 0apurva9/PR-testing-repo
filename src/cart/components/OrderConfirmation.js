@@ -5,7 +5,6 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
-import MediaQuery from "react-responsive";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
@@ -20,15 +19,56 @@ import addressIcon from "../../general/components/img/addressbook.svg";
 import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import ModalPanel from "../../general/components/ModalPanel.js";
+import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import {
   setDataLayerForGiftCard,
   SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT
 } from "../../lib/adobeUtils";
 
+import PaymentBanner from "./PaymentBanner.js";
 export default class OrderConfirmation extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showBanner: false,
+      bannerImg: "",
+      bannerPDPUrl: ""
+    };
+    this.onCancel = this.onCancel.bind(this);
+  }
+  async componentDidMount() {
     if (this.props.orderDetails.isEgvOrder) {
       setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
+    }
+    let firstProductCategory = this.props.orderDetails.products[0]
+      .productCategory;
+    let bannerData = await this.props.orderConfirmationBanner();
+    let bannerCategoryCodes =
+      bannerData &&
+      JSON.parse(
+        bannerData.orderConfirmationBannerDetails.applicationProperties[0].value
+      );
+    let matchedCategoryCode = "";
+    let matchedPDPUrl = "";
+    if (bannerCategoryCodes) {
+      for (var key in bannerCategoryCodes.categoryCodes) {
+        if (key === firstProductCategory) {
+          matchedCategoryCode = key;
+          matchedPDPUrl = bannerCategoryCodes.categoryCodes[key];
+        }
+      }
+      let bannerImgUrl = bannerCategoryCodes.bannerUrl;
+      if (bannerImgUrl) {
+        this.setState({ bannerImg: bannerImgUrl });
+      }
+      if (matchedPDPUrl) {
+        this.setState({ bannerPDPUrl: matchedPDPUrl });
+      }
+      if (matchedCategoryCode) {
+        this.showBanner();
+      }
     }
   }
   captureOrderExperience = rating => {
@@ -47,27 +87,75 @@ export default class OrderConfirmation extends React.Component {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);
     }
   }
+
+  showBanner() {
+    setTimeout(() => {
+      this.setState({ showBanner: true });
+    }, 3000);
+  }
+
+  onCancel() {
+    this.setState({ showBanner: false });
+  }
+
+  goToBannerUrl(url) {
+    if (url) {
+      const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+      this.props.history.push(`${urlSuffix}`);
+    }
+  }
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.pageCenter}>
+          {this.state.showBanner && (
+            <ModalPanel>
+              <BottomSlideModal2 onCancel={this.onCancel}>
+                <div className={styles.popup}>
+                  <img
+                    src={this.state.bannerImg}
+                    alt="Banner"
+                    onClick={value =>
+                      this.goToBannerUrl(this.state.bannerPDPUrl)
+                    }
+                  />
+                </div>
+              </BottomSlideModal2>
+            </ModalPanel>
+          )}
           <DesktopOnly>
             <div className={styles.thanKText}>Thank you</div>
           </DesktopOnly>
           <div className={styles.pageSectionHolder}>
             <div className={styles.leftSection}>
               <div className={styles.orderBannerHolder}>
-                <OrderBanner
-                  history={this.props.history}
-                  headingText={this.props.orderStatusMessage}
-                  label={this.props.orderId}
-                  onClick={() => this.trackOrder()}
-                  isContinueShopping={true}
-                  isGiftCard={
-                    this.props.orderDetails &&
-                    this.props.orderDetails.isEgvOrder
-                  }
-                />
+                {this.props.orderDetails.paymentMethod === "COD" ? (
+                  <PaymentBanner
+                    history={this.props.history}
+                    headingText={this.props.orderStatusMessage}
+                    label={this.props.orderId}
+                    onClick={() => this.trackOrder()}
+                    isContinueShopping={true}
+                    isGiftCard={
+                      this.props.orderDetails &&
+                      this.props.orderDetails.isEgvOrder
+                    }
+                    COD={true}
+                  />
+                ) : (
+                  <OrderBanner
+                    history={this.props.history}
+                    headingText={this.props.orderStatusMessage}
+                    label={this.props.orderId}
+                    onClick={() => this.trackOrder()}
+                    isContinueShopping={true}
+                    isGiftCard={
+                      this.props.orderDetails &&
+                      this.props.orderDetails.isEgvOrder
+                    }
+                  />
+                )}
               </div>
               <MobileOnly>
                 <div className={styles.rateHolder}>

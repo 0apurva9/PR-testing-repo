@@ -9,8 +9,20 @@ const mapDispatchToProps = dispatch => {
     getFeedBackForm: getUserDetails => {
       dispatch(getFeedBackForm(getUserDetails));
     },
-    postFeedBackForm: (commemt, questionRatingArray, transactionId) => {
-      dispatch(postFeedBackForm(commemt, questionRatingArray, transactionId));
+    postFeedBackForm: (
+      commemt,
+      questionRatingArray,
+      transactionId,
+      originalUid
+    ) => {
+      dispatch(
+        postFeedBackForm(
+          commemt,
+          questionRatingArray,
+          transactionId,
+          originalUid
+        )
+      );
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));

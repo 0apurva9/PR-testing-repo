@@ -5,6 +5,7 @@ import styles from "./DatePickerModule.css";
 import { getCurrentDate } from "../../lib/dateTimeFunction";
 const WEEKDAYS_SHORT = ["S", "M", "T", "W", "T", "F", "S"];
 var currentDay = getCurrentDate();
+
 export default class Calender extends Component {
   constructor(props) {
     super(props);
@@ -23,15 +24,16 @@ export default class Calender extends Component {
     let currentMonth = currentDay.getMonth();
     let currentDate = currentDay.getDate();
     let currentYear = currentDay.getFullYear();
-    let previousYear = currentYear - 1;
-    let numberOfMonths = (currentYear - previousYear) * 12;
+    let previousYear = 2018;
+    let yearDiffrence = currentYear - previousYear;
+    let numberOfMonths = 12 * yearDiffrence + currentMonth;
     return (
       <div className={styles.calender} id="height">
         <DayPicker
           classNames={dayPickerstyle}
           numberOfMonths={numberOfMonths}
           month={new Date(currentYear, currentMonth)}
-          fromMonth={new Date(previousYear, currentMonth)}
+          fromMonth={new Date(previousYear, 0)}
           toMonth={new Date(currentYear, currentMonth)}
           selectedDays={
             this.props.selectedDay

@@ -9,7 +9,6 @@ import OrderModal from "../../account/components/OrderModal";
 import * as Cookie from "../../lib/Cookie.js";
 import CliqCashModuleContainer from "../../account/containers/CliqCashModuleContainer";
 import DatePickerModule from "../../account/components/DatePickerModule";
-import GiftCardSucessBottomModel from "../../account/components/GiftCardSucessBottomModel";
 import CliqCashKnowMore from "../../account/components/CliqCashKnowMore";
 
 import {
@@ -149,6 +148,12 @@ const ManufacturerDetailsModal = Loadable({
     return <Loader />;
   }
 });
+const ReviewGuidelineModal = Loadable({
+  loader: () => import("../../pdp/components/ReviewGuidelineModal.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const BankOffersDetails = Loadable({
   loader: () => import("../../cart/components/BankOffersDetails.js"),
@@ -247,6 +252,12 @@ const SizeSelectorOOSModal = Loadable({
 });
 const NotificationConfirmation = Loadable({
   loader: () => import("../../general/components/NotificationConfirmation.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+const GiftCardSucessBottomModel = Loadable({
+  loader: () => import("../../account/components/GiftCardSucessBottomModel"),
   loading() {
     return <Loader />;
   }

@@ -1,0 +1,63 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+}
+.tablebase {
+  width: auto;
+  height: auto;
+  user-select: none;
+}
+.header {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  background: #ececec;
+}
+.shortHeader {
+  composes: header;
+  justify-content: center;
+}
+.shortTableRow {
+  composes: shortHeader;
+  background: #fff;
+}
+.headerLabelHolder {
+  height: 30px;
+  min-width: 25%;
+  max-width: 30%;
+  display: flex;
+  font-size: 11px;
+  color: rgb(74, 74, 74);
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  font-family: semibold;
+  background: #ececec;
+}
+.tableHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.tableRow {
+  composes: header;
+  background: #fff;
+}
+.tableData {
+  width: auto;
+  height: 30px;
+  min-width: 25%;
+  max-width: 30%;
+  display: flex;
+  font-size: 11px;
+  color: rgba(33, 33, 33, 0.93);
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  font-family: regular;
+}

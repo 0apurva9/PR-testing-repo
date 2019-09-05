@@ -74,7 +74,8 @@ if (
   process.env.REACT_APP_STAGE === "pt" ||
   process.env.REACT_APP_STAGE === "uat5" ||
   process.env.REACT_APP_STAGE === "uat6" ||
-  process.env.REACT_APP_STAGE === "e2e"
+  process.env.REACT_APP_STAGE === "e2e" ||
+  process.env.REACT_APP_STAGE === "e2e1"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
 } else if (
@@ -123,6 +124,9 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
 } else if (process.env.REACT_APP_STAGE === "e2e") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-tlp1vii8eoc4i3lq1i9a028lrtiieo5q.apps.googleusercontent.com";
+} else if (process.env.REACT_APP_STAGE === "e2e1") {
+  process.env.REACT_APP_GOOGLE_CLIENT_ID =
+    "970557259016-tlp1vii8eoc4i3lq1i9a028lrtiieo5q.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "uat5") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-dn8cfjib6e40a1ejlisqitoakqpac2uj.apps.googleusercontent.com";
@@ -158,6 +162,7 @@ if (
   process.env.REACT_APP_STAGE === "uat5" ||
   process.env.REACT_APP_STAGE === "uat6" ||
   process.env.REACT_APP_STAGE === "e2e" ||
+  process.env.REACT_APP_STAGE === "e2e1" ||
   process.env.REACT_APP_STAGE === "pt"
 ) {
   process.env.REACT_APP_RECAPTCHA_SITE_KEY =
@@ -176,6 +181,19 @@ if (
   process.env.REACT_APP_JUS_PAY_API_URL_ROOT = "https://api.juspay.in";
 } else {
   process.env.REACT_APP_JUS_PAY_API_URL_ROOT = "https://sandbox.juspay.in";
+}
+//stripe urls
+
+if (
+  process.env.REACT_APP_STAGE === "production" ||
+  process.env.REACT_APP_STAGE === "p2"
+) {
+  process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
+  process.env.REACT_APP_STRIPE_ACCESTOKEN =
+    "pk_live_0mEUvve0oja2ClunVfALIOXt00z52bGLZs";
+} else {
+  process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
+  process.env.REACT_APP_STRIPE_ACCESTOKEN = "pk_test_UvukxCIqd4zofxt7dX2hjPeI";
 }
 
 // for samsung chat on pdp
