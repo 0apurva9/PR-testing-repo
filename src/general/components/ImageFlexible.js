@@ -46,7 +46,7 @@ ImageFlexible.propTypes = {
   lazyLoad: PropTypes.bool
 };
 
-Image.defaultProps = {
+ImageFlexible.defaultProps = {
   alt: "No Image",
   lazyLoad: false
 };

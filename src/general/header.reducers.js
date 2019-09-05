@@ -2,6 +2,7 @@ import * as headerAction from "./header.actions.js";
 import { CART_BAG_DETAILS } from "../lib/constants";
 let bagCount = 0;
 if (
+  typeof localStorage !== "undefined" &&
   localStorage.getItem(CART_BAG_DETAILS) &&
   JSON.parse(localStorage.getItem(CART_BAG_DETAILS))
 ) {
