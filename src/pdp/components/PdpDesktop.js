@@ -1319,11 +1319,6 @@ export default class PdpApparel extends React.Component {
 
               <div className={styles.youPlus}>
                 <div className={styles.pageCenter}>
-                  <div className={styles.youPlusText}>
-                    <div className={styles.youPlusTextHolder}>
-                      <h3>Video Reviews</h3>
-                    </div>
-                  </div>
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
               </div>
