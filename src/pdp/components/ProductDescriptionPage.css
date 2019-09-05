@@ -151,7 +151,15 @@
   height: auto;
   padding: 0 15px;
 }
-
+.youPlusText {
+  position: absolute;
+  height: auto;
+}
+.youPlusTextHolder {
+  padding: 13px 2px;
+  font-family: semibold;
+  font-size: 18px;
+}
 .seasonDetails {
   margin-top: 60px;
   display: flex;
