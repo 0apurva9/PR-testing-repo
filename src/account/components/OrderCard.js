@@ -92,7 +92,6 @@ export default class OrderCard extends React.Component {
       deliveryDateFormatted = format(deliveryD, dateFormat);
     }
 
-    //console.log("Return Modes Address:", this.props)
     let date = "",
       shipmentStatus = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
@@ -104,12 +103,7 @@ export default class OrderCard extends React.Component {
       let LaststatusDisplayList = statusList
         ? statusList[statusList.length - 1]
         : "";
-      console.log(
-        "StatusList:",
-        statusList,
-        "LaststatusDisplayList",
-        LaststatusDisplayList
-      );
+
       //written to avoid for loop
       if (
         LaststatusDisplayList &&
@@ -149,22 +143,6 @@ export default class OrderCard extends React.Component {
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     }
 
-    console.log(
-      "status for callout---->",
-      this.props.calloutMessage,
-      "shipmentStatus",
-      shipmentStatus,
-      "estimatedDeliveryDate",
-      this.props.estimatedDeliveryDate,
-      "consignmentStatus",
-      this.props.consignmentStatus,
-      "checkStatus",
-      checkStatus,
-      "date",
-      date,
-      "returnEligibleDate",
-      returnEligibleDate
-    );
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (

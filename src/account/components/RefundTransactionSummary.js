@@ -71,7 +71,6 @@ export default class RefundTransactionSummary extends React.Component {
     );
   }
   render() {
-    //console.log('this.props:', this.props, "summary Details:", summaryDetails);
     // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||

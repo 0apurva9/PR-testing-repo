@@ -53,7 +53,6 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   componentDidMount() {
-    // console.log("this.props foe Image upload:", this.props)
     let orderId = this.props.data.sellerorderno;
     let transactionId = this.props.data.transactionId;
     let returnReasonCode = this.props.data.returnReasonCode;
@@ -337,7 +336,6 @@ export default class ReplaceRefundSelection extends React.Component {
     }
   }
   onContinueImageUpload(uploadImage) {
-    // console.log("this.state", this.state, "props", this.props);
     window.scrollTo(0, 0);
     if (this.state.validImgFiles.length > 0) {
       this.setState({ showAttachment: false });
@@ -461,7 +459,7 @@ export default class ReplaceRefundSelection extends React.Component {
       accountNumber &&
       accountNumber.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsAccountNumber;
     let ImgSize = this.state.ImgSize && this.state.allImagesSize > 25000000;
-    // console.log("Props coming:", this.props);
+
     let disableModes;
     if (
       this.props &&

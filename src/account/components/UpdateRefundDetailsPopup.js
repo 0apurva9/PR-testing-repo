@@ -12,7 +12,6 @@ export default class UpdateRefundDetailsPopup extends React.Component {
     }
   }
   handleClick() {
-    console.log("props in pop up:-->", this.props);
     this.props.closeModal();
   }
   render() {

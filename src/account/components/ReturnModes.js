@@ -69,7 +69,7 @@ export default class ReturnModes extends React.Component {
         this.props.location.state.address
       ) {
         let changedAddress = this.props.location.state.address;
-        // console.log("Changed Address:", changedAddress);
+
         Object.assign(pickupAddress, {
           line1: changedAddress.line1,
           line2: changedAddress.line2 ? changedAddress.line2 : "",

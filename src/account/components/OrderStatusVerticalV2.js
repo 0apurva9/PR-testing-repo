@@ -774,7 +774,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 <React.Fragment>
                   {!completedSteps.includes(RETURN_CANCELLED) &&
                   !completedSteps.includes(RETURN_DECLINED) ? (
-                    this.props.mediationRequired == true ? (
+                    this.props.mediationRequired == true &&
+                    completedSteps.includes(RETURN_REQUESTED) ? (
                       <div
                         className={
                           completedSteps.includes(RETURN_INITIATED)
@@ -853,7 +854,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
 
               {completedSteps.includes(RETURN_CANCELLED) ? (
                 <React.Fragment>
-                  {this.props.mediationRequired == true ? (
+                  {/* {this.props.mediationRequired == true ? (
                     <div className={styles.step}>
                       <div className={styles.checkActive} />
                       <div
@@ -867,7 +868,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         {/* <span className={styles.shipmentStatus}>
                     {returnInitiatedShipmentStatus}
                   </span> */}
-                      </div>
+                  {/* </div> 
                       <div className={styles.dateAndTimeHolder}>
                         <div className={styles.timeHolder}>
                           {returnInitiatedDate}
@@ -879,8 +880,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                   ) : (
                     ""
-                  )
-                  //   (<div className={styles.step}>
+                  ) */}
+                  {/* //   (<div className={styles.step}>
                   //   <div className={styles.checkActive} />
                   //   <div className={styles.processNameHolder}>
                   //     {pickupScheduledCustomerFacingName}
@@ -894,7 +895,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   //       </div>
                   //     </div>)}
                   // </div>)
-                  }
+                  // } */}
                   <div className={styles.step}>
                     <div className={styles.checkActive} />
                     <div

@@ -39,7 +39,6 @@ export default class ReturnReasonForm extends React.Component {
     };
   }
   handleContinue() {
-    // console.log("localStorage:", localStorage.getItem("showImageUpload"))
     if (this.props.onContinue) {
       let reasonAndCommentObj = Object.assign(
         {},
@@ -122,7 +121,6 @@ export default class ReturnReasonForm extends React.Component {
     localStorage.setItem("secondaryLabel", label);
     localStorage.setItem("secondaryCode", code);
     localStorage.setItem("showImageUpload", val.isImageApplicable);
-    // console.log("showImageUpload--->", val.isImageApplicable )
     //getting value from html converts its to string so checking in below way,
     //not using === as it is not working
     if (val.isImageApplicable === "true") {

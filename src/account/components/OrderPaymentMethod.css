@@ -9,6 +9,9 @@
 	display: inline-block;
 	padding-top: 34px;
 }
+.removeMarginAddress{
+	padding-bottom: 34px;
+}
 .ffsemibold {
 	line-height: 22px;
 	font-size: 14px;

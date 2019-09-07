@@ -43,7 +43,6 @@ export default class OrderPaymentMethod extends React.Component {
     //let orderCode = this.props.location.pathname.split("/")[2];
     // let searchparam = window.location.search;
     // let orderCode = searchparam.split('=')[1];
-    // console.log(`${RETURNS_PREFIX}/${orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`, 'helloworld');
 
     // this.props.history.push(`${RETURNS_PREFIX}/${orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`);
   };
@@ -75,7 +74,13 @@ export default class OrderPaymentMethod extends React.Component {
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
-          <div className={styles.marginAddress}>
+          <div
+            className={
+              this.props.clickcollect != true
+                ? styles.marginAddress
+                : styles.removeMarginAddress
+            }
+          >
             <div className={styles.paymentHolder}>
               {this.props.paymentMethod && (
                 <div className={styles.paymentMethod}>
@@ -94,48 +99,49 @@ export default class OrderPaymentMethod extends React.Component {
             </div>
           </div>
         )}
-        {this.props.deliveryAddress && (
-          <React.Fragment>
+        {this.props.deliveryAddress &&
+          this.props.clickcollect != true && (
             <React.Fragment>
-              <div className={styles.deliveryAddressTitle}>
-                <span className={styles.ffsemibold}>Delivery Address:</span>
-              </div>
-              {this.props.isCDA ? (
-                <div
-                  className={styles.helpSupport}
-                  onClick={() => this.onChangeAddress()}
-                >
-                  Change
+              <React.Fragment>
+                <div className={styles.deliveryAddressTitle}>
+                  <span className={styles.ffsemibold}>Delivery Address:</span>
                 </div>
-              ) : (
-                ""
+                {this.props.isCDA ? (
+                  <div
+                    className={styles.helpSupport}
+                    onClick={() => this.onChangeAddress()}
+                  >
+                    Change
+                  </div>
+                ) : (
+                  ""
+                )}
+              </React.Fragment>
+
+              {this.state.deliveryAddress && (
+                <div className={styles.deliveryAddress}>
+                  <React.Fragment>
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.addressLine ||
+                        this.state.deliveryAddress.addressLine1},{" "}
+                    </span>
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.landmark},{" "}
+                    </span>
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.town},{" "}
+                    </span>
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.state}
+                    </span>
+                    <span className={styles.addressLine}>
+                      {this.state.deliveryAddress.postalcode}
+                    </span>
+                  </React.Fragment>
+                </div>
               )}
             </React.Fragment>
-
-            {this.state.deliveryAddress && (
-              <div className={styles.deliveryAddress}>
-                <React.Fragment>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.addressLine ||
-                      this.state.deliveryAddress.addressLine1},{" "}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.landmark},{" "}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.town},{" "}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.state}
-                  </span>
-                  <span className={styles.addressLine}>
-                    {this.state.deliveryAddress.postalcode}
-                  </span>
-                </React.Fragment>
-              </div>
-            )}
-          </React.Fragment>
-        )}
+          )}
 
         {/* {(this.props.paymentMethod || this.props.phoneNumber) && (
           <div className={styles.cashAndMobileHolder}>
