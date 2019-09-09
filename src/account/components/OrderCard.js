@@ -136,11 +136,15 @@ export default class OrderCard extends React.Component {
       EstDeliveryFormatted = format(EstDelivery, dateFormat);
     }
     let checkStatus = "";
+    let CNCcallOut = "";
     let EstDeliveryDate =
       shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
     if (this.props.clickAndCollect === true) {
       checkStatus =
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
+      CNCcallOut = this.props.calloutMessage.includes(
+        "Estimated Delivery Date"
+      );
     }
 
     return (
@@ -256,20 +260,21 @@ export default class OrderCard extends React.Component {
               </div>
             )}
 
-          {this.props.orderStatusCode && (
-            <div
-              className={
-                this.props.orderStatusCode === "PAYMENT_PENDING" ||
-                this.props.orderStatusCode === "PAYMENT_TIMEOUT"
-                  ? styles.calloutMessagePayment
-                  : styles.calloutMessage
-              }
-            >
-              <div className={styles.calloutMessage}>
-                {updatedCalloutMessage}
+          {this.props.orderStatusCode &&
+            !CNCcallOut && (
+              <div
+                className={
+                  this.props.orderStatusCode === "PAYMENT_PENDING" ||
+                  this.props.orderStatusCode === "PAYMENT_TIMEOUT"
+                    ? styles.calloutMessagePayment
+                    : styles.calloutMessage
+                }
+              >
+                <div className={styles.calloutMessage}>
+                  {updatedCalloutMessage}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {this.props.idFromAllOrderDetails != "Y" && (
             <div className={styles.priceWithQuantity}>
