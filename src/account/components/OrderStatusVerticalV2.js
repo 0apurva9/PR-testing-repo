@@ -881,21 +881,26 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   ) : (
                     ""
                   ) */}
-                  {/* //   (<div className={styles.step}>
-                  //   <div className={styles.checkActive} />
-                  //   <div className={styles.processNameHolder}>
-                  //     {pickupScheduledCustomerFacingName}
-                  //   </div>
-                  //   {pickupScheduledDate && pickupScheduledTime && (<div className={styles.dateAndTimeHolder}>
-                  //       <div className={styles.timeHolder}>
-                  //         {pickupScheduledDate}
-                  //       </div>
-                  //       <div className={styles.dateHolder}>
-                  //         {pickupScheduledTime}
-                  //       </div>
-                  //     </div>)}
-                  // </div>)
-                  // } */}
+                  {completedSteps.includes(PICKUP_SCHEDULED) && (
+                    <div className={styles.step}>
+                      <div className={styles.checkActive} />
+                      <div className={styles.processNameHolder}>
+                        {pickupScheduledCustomerFacingName}
+                      </div>
+                      {pickupScheduledDate &&
+                        pickupScheduledTime && (
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {pickupScheduledDate}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {pickupScheduledTime}
+                            </div>
+                          </div>
+                        )}
+                    </div>
+                  )}
+
                   <div className={styles.step}>
                     <div className={styles.checkActive} />
                     <div
