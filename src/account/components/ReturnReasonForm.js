@@ -43,14 +43,14 @@ export default class ReturnReasonForm extends React.Component {
       let reasonAndCommentObj = Object.assign(
         {},
         {
-          returnReasonCode:
-            localStorage.getItem("primaryCode") || this.state.returnReasonCode,
-          subReasonCode:
-            localStorage.getItem("secondaryCode") || this.state.subReasonCode,
-          subReason:
-            localStorage.getItem("secondaryLabel") || this.state.subReason,
-          comment: localStorage.getItem("comment") || this.state.comment,
-          reason: localStorage.getItem("primaryLabel") || this.state.reason,
+          // returnReasonCode:
+          //   localStorage.getItem("primaryCode") || this.state.returnReasonCode,
+          // subReasonCode:
+          //   localStorage.getItem("secondaryCode") || this.state.subReasonCode,
+          // subReason:
+          //   localStorage.getItem("secondaryLabel") || this.state.subReason,
+          // comment: localStorage.getItem("comment") || this.state.comment,
+          // reason: localStorage.getItem("primaryLabel") || this.state.reason,
           reverseSeal: this.state.reverseSeal,
           sellerorderno: this.props.returnProductDetails.orderProductWsDTO[0]
             .sellerorderno,
@@ -64,9 +64,9 @@ export default class ReturnReasonForm extends React.Component {
       );
       this.props.onContinue(reasonAndCommentObj);
     }
-    if (this.state.comment) {
-      localStorage.setItem("comment", this.state.comment);
-    }
+    // if (this.state.comment) {
+    //   localStorage.setItem("comment", this.state.comment);
+    // }
   }
   onChangePrimary(val) {
     const code = val.value;
@@ -102,14 +102,14 @@ export default class ReturnReasonForm extends React.Component {
       this.setState({ showImageUpload: false });
     }
     localStorage.setItem("showImageUpload", val.isImageApplicable);
-    localStorage.setItem("primaryLabel", label);
-    localStorage.setItem("primaryCode", code);
-    localStorage.removeItem("secondaryLabel");
-    localStorage.removeItem("secondaryCode");
+    // localStorage.setItem("primaryLabel", label);
+    // localStorage.setItem("primaryCode", code);
+    // localStorage.removeItem("secondaryLabel");
+    // localStorage.removeItem("secondaryCode");
   }
   handleChange(val) {
     this.setState({ comment: val });
-    localStorage.setItem("comment", val);
+    //  localStorage.setItem("comment", val);
   }
   selectReverseSeal(val) {
     this.setState({ reverseSeal: val });
@@ -118,8 +118,8 @@ export default class ReturnReasonForm extends React.Component {
     const code = val.value;
     const label = val.label;
     this.setState({ subReasonCode: code, subReason: label, isEnable: true });
-    localStorage.setItem("secondaryLabel", label);
-    localStorage.setItem("secondaryCode", code);
+    // localStorage.setItem("secondaryLabel", label);
+    // localStorage.setItem("secondaryCode", code);
     localStorage.setItem("showImageUpload", val.isImageApplicable);
     //getting value from html converts its to string so checking in below way,
     //not using === as it is not working
@@ -142,17 +142,10 @@ export default class ReturnReasonForm extends React.Component {
       return this.navigateToLogin();
     }
     let disabledContinueButton = true;
-    if (
-      this.state.reason ||
-      localStorage.getItem("primaryLabel") != null ||
-      localStorage.getItem("secondaryLabel") != null
-    ) {
+    if (this.state.reason) {
       let secondaryReasons = this.state.secondaryReasons;
       if (secondaryReasons && secondaryReasons != undefined) {
-        if (
-          this.state.subReason ||
-          localStorage.getItem("secondaryLabel") != null
-        ) {
+        if (this.state.subReason) {
           disabledContinueButton = false;
         } else {
           disabledContinueButton = true;
@@ -174,21 +167,21 @@ export default class ReturnReasonForm extends React.Component {
     //let imageCallOut = data && data.attachmentImageCallout;
     //let imageCallOutArr = imageCallOut && imageCallOut.split("|");
 
-    let primaryLabel = localStorage.getItem("primaryLabel");
-    let secondaryLabel = localStorage.getItem("secondaryLabel");
-    let c = null;
-    let d = null;
+    // let primaryLabel = localStorage.getItem("primaryLabel");
+    // let secondaryLabel = localStorage.getItem("secondaryLabel");
+    // let c = null;
+    // let d = null;
 
-    if (primaryLabel != null) {
-      c = primaryLabel;
-    } else {
-      c = this.props.returnFlow ? "Select issue" : "Select a reason";
-    }
-    if (secondaryLabel != null) {
-      d = secondaryLabel;
-    } else {
-      d = "Select a reason";
-    }
+    // if (primaryLabel != null) {
+    //   c = primaryLabel;
+    // } else {
+    //   c = this.props.returnFlow ? "Select issue" : "Select a reason";
+    // }
+    // if (secondaryLabel != null) {
+    //   d = secondaryLabel;
+    // } else {
+    //   d = "Select a reason";
+    // }
     return (
       <React.Fragment>
         <div className={stylesCommon.base}>
@@ -295,7 +288,11 @@ export default class ReturnReasonForm extends React.Component {
                       )}
                       <div className={styles.select}>
                         <SelectBoxMobile2
-                          placeholder={c}
+                          placeholder={
+                            this.props.returnFlow
+                              ? "Select issue"
+                              : "Select a reason"
+                          }
                           options={
                             data &&
                             data.returnReasonMap &&
@@ -311,11 +308,10 @@ export default class ReturnReasonForm extends React.Component {
                         />
                       </div>
 
-                      {(secondaryLabel != null ||
-                        this.state.secondaryReasons) && (
+                      {this.state.secondaryReasons && (
                         <div className={styles.select}>
                           <SelectBoxMobile2
-                            placeholder={d}
+                            placeholder={"Select a reason"}
                             options={this.state.secondaryReasons}
                             onChange={val => this.onChangeSecondary(val)}
                             isEnable={this.state.isEnable}
@@ -324,10 +320,7 @@ export default class ReturnReasonForm extends React.Component {
                       )}
                       <div className={styles.textArea}>
                         <TextArea
-                          value={
-                            localStorage.getItem("comment") ||
-                            this.state.comment
-                          }
+                          value={this.state.comment}
                           onChange={val => this.handleChange(val)}
                           placeholder={COMMENTS_PLACEHOLDER}
                         />
