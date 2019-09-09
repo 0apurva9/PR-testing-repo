@@ -142,9 +142,10 @@ export default class OrderCard extends React.Component {
     if (this.props.clickAndCollect === true) {
       checkStatus =
         shipmentStatus && shipmentStatus.includes("Estimated Delivery Date");
-      CNCcallOut = this.props.calloutMessage.includes(
-        "Estimated Delivery Date"
-      );
+      CNCcallOut =
+        this.props &&
+        this.props.calloutMessage &&
+        this.props.calloutMessage.includes("Estimated Delivery Date");
     }
 
     return (
