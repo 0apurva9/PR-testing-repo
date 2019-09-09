@@ -11,6 +11,10 @@ import {
   ORDER,
   MY_ACCOUNT
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_HELP_SUPPORT_LINK_CLICKED
+} from "../../lib/adobeUtils";
 export default class OrderPaymentMethod extends React.Component {
   // request() {
   //   if (this.props.request) {
@@ -23,6 +27,7 @@ export default class OrderPaymentMethod extends React.Component {
   }
   redirectToHelpPage() {
     // this.props.history.push(`${HELP_URL}`);
+    setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(
       `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     );

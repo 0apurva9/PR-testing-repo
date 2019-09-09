@@ -36,6 +36,10 @@ import {
 	BACK_END_ISSUE_ERROR_MESSAGE,
 	//RETURNS_STORE_BANK_FORM,
 } from '../../lib/constants';
+import {
+	setDataLayer,
+	ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED
+  } from "../../lib/adobeUtils";
 import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
 //import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
 //import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
@@ -171,6 +175,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			delete bankData.customerName;
 			delete bankData.reEnterAccountNumber;
 			this.props.updateCustomerBankDetails(bankData);
+			setDataLayer(ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED);
 			this.props.history.push({
 				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
 				state: {

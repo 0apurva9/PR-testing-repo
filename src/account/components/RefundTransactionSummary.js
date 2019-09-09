@@ -14,6 +14,12 @@ import {
   ORDER,
   ORDER_CODE
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED,
+  ADOBE_REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED,
+  ADOBE_REFUNDSUMMARY_PAGE_LANDED
+} from "../../lib/adobeUtils";
 export default class RefundTransactionSummary extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +30,7 @@ export default class RefundTransactionSummary extends React.Component {
   async componentDidMount() {
     //to get refund details initially
     if (this.props.orderDetails && this.props.orderDetails.products[0]) {
+      setDataLayer(ADOBE_REFUNDSUMMARY_PAGE_LANDED);
       let productData = this.props.orderDetails.products[0];
       let orderId = productData.sellerorderno;
       let transactionId = productData.transactionId;
@@ -48,6 +55,7 @@ export default class RefundTransactionSummary extends React.Component {
     localStorage.removeItem("cliqCashCheckSuccess");
   }
   gotoOrderDetailsPage() {
+    setDataLayer(ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED);
     //get order id
     let orderRefId = sessionStorage.getItem("returnOrderId");
     let transactionId = sessionStorage.getItem("returnTransactionId");
@@ -59,6 +67,7 @@ export default class RefundTransactionSummary extends React.Component {
     // });
   }
   goToHomepage() {
+    setDataLayer(ADOBE_REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED);
     this.props.history.push(HOME_ROUTER);
   }
   navigateToReturnLanding() {

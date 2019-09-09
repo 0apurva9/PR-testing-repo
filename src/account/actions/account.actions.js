@@ -59,7 +59,8 @@ import {
   SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT,
   ADOBE_ORDER_CONFIRMATION,
   setDataLayerForOrderConfirmationDirectCalls,
-  ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS
+  ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
+  ADOBE_RETURN_LINK_CLICKED
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -489,6 +490,7 @@ export function updateReturnForHOTC(data) {
       }
       dispatch(displayToast(SUCCESS_MESSAGE_IN_RETURN_TO_HOTC));
       sessionStorage.setItem("updateReturnForHOTC", true);
+      setDataLayer(ADOBE_RETURN_LINK_CLICKED);
       return dispatch(updateReturnForHOTCSuccess(resultJson));
     } catch (e) {
       return dispatch(updateReturnForHOTCFailure(e.message));

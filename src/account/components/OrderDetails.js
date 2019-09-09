@@ -45,7 +45,10 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
-  ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
+  ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
+  ADOBE_RETURN_LINK_CLICKED,
+  ADOBE_REQUEST_INVOICE_LINK_CLICKED,
+  ADOBE_HELP_SUPPORT_LINK_CLICKED
 } from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -69,6 +72,7 @@ export default class OrderDetails extends React.Component {
     }
   }
   requestInvoice(lineID, orderNumber) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_REQUEST_INVOICE_LINK_CLICKED);
     if (this.props.sendInvoice) {
       this.props.sendInvoice(lineID, orderNumber);
     }
@@ -93,6 +97,7 @@ export default class OrderDetails extends React.Component {
       if (paymentMethod === PAY_PAL) {
         isPaypal = true;
       }
+      setDataLayerForMyAccountDirectCalls(ADOBE_RETURN_LINK_CLICKED);
       this.props.history.push({
         pathname: `${RETURNS_PREFIX}/${sellerorderno}${RETURN_LANDING}${RETURNS_REASON}`,
         state: {
@@ -190,6 +195,7 @@ export default class OrderDetails extends React.Component {
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
+    setDataLayerForMyAccountDirectCalls(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(`${HELP_URL}`);
   }
   componentWillMount() {

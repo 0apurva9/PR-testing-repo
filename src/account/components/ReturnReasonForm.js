@@ -18,6 +18,10 @@ import {
   LOGGED_IN_USER_DETAILS,
   PRODUCT_CANCEL
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_RETURN_REASON_BUTTON_CLICKED
+} from "../../lib/adobeUtils";
 const MODE_OF_RETURN = "Select mode of return";
 const REFUND_DETAILS = "Refund Details";
 const dateFormat = "DD MMM YYYY";
@@ -59,6 +63,7 @@ export default class ReturnReasonForm extends React.Component {
           validImgFiles: this.state.validImgFiles
         }
       );
+      setDataLayer(ADOBE_RETURN_REASON_BUTTON_CLICKED);
       this.props.onContinue(reasonAndCommentObj);
     }
     // if (this.state.comment) {

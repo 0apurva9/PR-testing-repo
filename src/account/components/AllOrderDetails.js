@@ -53,7 +53,8 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
-  ADOBE_MY_ACCOUNT_ORDER_HISTORY
+  ADOBE_MY_ACCOUNT_ORDER_HISTORY,
+  ADOBE_ORDER_DETAILS_LINK_CLICKED
 } from "../../lib/adobeUtils";
 //import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
@@ -113,6 +114,7 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   onViewDetails(orderId) {
+    setDataLayer(ADOBE_ORDER_DETAILS_LINK_CLICKED);
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(productCode) {

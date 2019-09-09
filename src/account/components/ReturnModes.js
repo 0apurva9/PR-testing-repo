@@ -18,6 +18,11 @@ import {
   REFUND_SUMMARY,
   RETURN_TO_ADDRESS
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED,
+  ADOBE_MODE_OF_RETURN_SUBMITTED
+} from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
 import UserProfile from "../../account/components/UserProfile.js";
@@ -185,7 +190,10 @@ export default class ReturnModes extends React.Component {
     let returnStore = this.state.selectedReturnStore;
     //get selected mode of return
     let modeOfReturn = this.state.selectedOption;
-
+    let dtmData = {};
+    dtmData.modeOfReturn = modeOfReturn;
+    dtmData.refundAddressPincode = returnAddress.postalCode;
+    setDataLayer(ADOBE_MODE_OF_RETURN_SUBMITTED, dtmData);
     let updateReturnConfirmation = await this.props.updateReturnConfirmation(
       orderId,
       transactionId,
@@ -216,6 +224,7 @@ export default class ReturnModes extends React.Component {
     }
   }
   onChangeAddress = () => {
+    setDataLayer(ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED);
     this.props.history.push(
       `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`
     );

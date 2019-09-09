@@ -385,6 +385,55 @@ const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
 const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
+
+//return flow
+const ORDER_DETAILS_LINK_CLICKED = "myAccount_orderDetails";
+export const ADOBE_ORDER_DETAILS_LINK_CLICKED =
+  "ADOBE_ORDER_DETAILS_LINK_CLICKED";
+const ITEM_DETAILS_LINK_CLICKED = "myAccount_itemDetails";
+export const ADOBE_ITEM_DETAILS_LINK_CLICKED =
+  "ADOBE_ITEM_DETAILS_LINK_CLICKED";
+const RETURN_LINK_CLICKED = "rrj_returnReplace_click";
+export const ADOBE_RETURN_LINK_CLICKED = "ADOBE_RETURN_LINK_CLICKED";
+const REQUEST_INVOICE_LINK_CLICKED = "rrj_requestInvoice_click";
+export const ADOBE_REQUEST_INVOICE_LINK_CLICKED =
+  "ADOBE_REQUEST_INVOICE_LINK_CLICKED";
+const HELP_SUPPORT_LINK_CLICKED = "rrj_helpSupport_click";
+export const ADOBE_HELP_SUPPORT_LINK_CLICKED =
+  "ADOBE_HELP_SUPPORT_LINK_CLICKED";
+const RETURN_REASON_BUTTON_CLICKED = "rrj_returnReason_click";
+export const ADOBE_RETURN_REASON_BUTTON_CLICKED =
+  "ADOBE_RETURN_REASON_BUTTON_CLICKED";
+const RETURN_JOURNEY_INITIATED = "rrj_returnJourneyInitiate";
+export const ADOBE_RETURN_JOURNEY_INITIATED = "ADOBE_RETURN_JOURNEY_INITIATED";
+
+//Refund flow
+const REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED = "rrj_viewOrderDetails_click";
+export const ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED =
+  "ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED";
+const REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED = "rrj_contShopping_click";
+export const ADOBE_REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED =
+  "ADOBE_REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED";
+const REFUNDSUMMARY_PAGE_LANDED = "rrj_refundSuccess";
+export const ADOBE_REFUNDSUMMARY_PAGE_LANDED =
+  "ADOBE_REFUNDSUMMARY_PAGE_LANDED";
+const ADD_BANKDETAILS_BUTTON_CLICKED = "rrj_addBankDetails_click";
+export const ADOBE_ADD_BANKDETAILS_BUTTON_CLICKED =
+  "ADOBE_ADD_BANKDETAILS_BUTTON_CLICKED";
+const CHANGE_PICKUPADDRESS_LINK_CLICKED = "rrj_changeAddress_click";
+export const ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED =
+  "ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED";
+const SAVE_BANKDETAILS_BUTTON_CLICKED = "rrj_addBankContinue_click";
+export const ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED =
+  "ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED";
+const SHOW_REFUND_BUTTON_CLICKED = "rrj_refund_click";
+export const ADOBE_SHOW_REFUND_BUTTON_CLICKED =
+  "ADOBE_SHOW_REFUND_BUTTON_CLICKED";
+const MODE_OF_REFUND_SUBMITTED = "rrj_modeOfRefund_click";
+export const ADOBE_MODE_OF_REFUND_SUBMITTED = "ADOBE_MODE_OF_REFUND_SUBMITTED";
+const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
+export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
+
 export function setDataLayer(
   type,
   apiResponse,
@@ -634,6 +683,93 @@ export function setDataLayer(
 
   if (window._satellite) {
     window._satellite.track(ADOBE_SATELLITE_CODE);
+  }
+
+  //return flow
+  if (type === ADOBE_ORDER_DETAILS_LINK_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(ORDER_DETAILS_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_ITEM_DETAILS_LINK_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(ITEM_DETAILS_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_RETURN_LINK_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(RETURN_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_REQUEST_INVOICE_LINK_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(REQUEST_INVOICE_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_HELP_SUPPORT_LINK_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(HELP_SUPPORT_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_RETURN_REASON_BUTTON_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(RETURN_REASON_BUTTON_CLICKED);
+    }
+  }
+  if (type === ADOBE_RETURN_JOURNEY_INITIATED) {
+    if (window._satellite) {
+      window._satellite.track(RETURN_JOURNEY_INITIATED);
+    }
+  }
+
+  //refund flow
+  if (type === ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED);
+    }
+  }
+  if (type === ADOBE_REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED);
+    }
+  }
+  if (type === ADOBE_REFUNDSUMMARY_PAGE_LANDED) {
+    if (window._satellite) {
+      window._satellite.track(REFUNDSUMMARY_PAGE_LANDED);
+    }
+  }
+  if (type === ADOBE_ADD_BANKDETAILS_BUTTON_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(ADD_BANKDETAILS_BUTTON_CLICKED);
+    }
+  }
+  if (type === ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(CHANGE_PICKUPADDRESS_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(SAVE_BANKDETAILS_BUTTON_CLICKED);
+    }
+  }
+  if (type === ADOBE_SHOW_REFUND_BUTTON_CLICKED) {
+    if (window._satellite) {
+      window._satellite.track(SHOW_REFUND_BUTTON_CLICKED);
+    }
+  }
+  if (type === ADOBE_MODE_OF_REFUND_SUBMITTED) {
+    window.digitalData.modeOfRefund = apiResponse;
+    if (window._satellite) {
+      window._satellite.track(MODE_OF_REFUND_SUBMITTED);
+    }
+  }
+  if (type === ADOBE_MODE_OF_RETURN_SUBMITTED) {
+    window.digitalData.modeOfReturn = apiResponse.modeOfReturn;
+    window.digitalData.refundAddressPincode = apiResponse.refundAddressPincode;
+    if (window._satellite) {
+      window._satellite.track(MODE_OF_RETURN_SUBMITTED);
+    }
   }
 }
 

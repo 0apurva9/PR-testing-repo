@@ -29,6 +29,12 @@ import {
   REFUND_SUMMARY,
   BANK_ACCOUNT
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_ADD_BANKDETAILS_BUTTON_CLICKED,
+  ADOBE_SHOW_REFUND_BUTTON_CLICKED,
+  ADOBE_MODE_OF_REFUND_SUBMITTED
+} from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 
 export default class ReplaceRefundSelection extends React.Component {
@@ -130,6 +136,7 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   addBankDetails(data) {
+    setDataLayer(ADOBE_ADD_BANKDETAILS_BUTTON_CLICKED);
     this.setState({ showAttachment: false });
     this.props.history.push({
       pathname: `${RETURNS_PREFIX}/${
@@ -173,6 +180,7 @@ export default class ReplaceRefundSelection extends React.Component {
       this.setState({ typeofRefund: currentTypeofRefund });
       //show hide
       this.setState({ showRefundOptions: true });
+      setDataLayer(ADOBE_SHOW_REFUND_BUTTON_CLICKED);
     } else {
       this.setState({ showRefundOptions: false });
     }
@@ -211,6 +219,7 @@ export default class ReplaceRefundSelection extends React.Component {
 
   async goToRefundModesPage() {
     if (this.state.selectedOption && this.state.agreeToReturn) {
+      setDataLayer(ADOBE_MODE_OF_REFUND_SUBMITTED, this.state.selectedOption);
       let orderId = this.props.data.sellerorderno;
       let transactionId = this.props.data.transactionId;
       let returnId = this.props.getRefundOptionsDetails.returnId;
