@@ -170,6 +170,16 @@
   margin-bottom: 20px;
   display: inline-block;
 }
+.footerDataPlpNull {
+  width: 77%;
+  margin-left: 13%;
+  color: #000;
+  font-size: 14px;
+  font-family: regular !important;
+  line-height: 20px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
 .footerDataWrapper {
   width: 100%;
   height: auto;
@@ -188,6 +198,10 @@
   display: inline-block;
   margin-left: 55px;
   margin-bottom: 60px;
+  vertical-align: top;
+}
+.desktopFooterProductListWrapperNull {
+  display: none;
 }
 .popularSearches {
   margin-top: 30px;

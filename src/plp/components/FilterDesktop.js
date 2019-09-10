@@ -181,11 +181,33 @@ export default class FilterDesktop extends React.Component {
   onL3Click = (val, filterType, filterValue, filterName) => {
     this.onCategorySelect(val, filterType, filterValue, filterName, false);
   };
-  onFilterClick = (val, filterType, filterValue, filterSelected) => {
-    val = val.replace(
-      "/search/page-{pageNo}",
-      `${this.props.location.pathname}`
-    );
+  onFilterClick = (
+    val,
+    filterType,
+    filterValue,
+    filterSelected,
+    webUrl,
+    colourValue
+  ) => {
+    if (filterType === "Colour" && webUrl) {
+      let colourUrl = webUrl ? webUrl.split("/") : "";
+      const colourStub = colourUrl[2];
+      colourUrl = webUrl;
+      if (this.props.location.pathname.includes(colourStub)) {
+        if ((webUrl.match(/~/g) || []).length > 1) {
+          colourUrl = webUrl.replace(`${colourValue.toLowerCase()}~`, "");
+        } else {
+          colourUrl = webUrl.replace(`${colourValue.toLowerCase()}~color/`, "");
+        }
+      }
+      val = val.replace("/search/page-{pageNo}", colourUrl);
+    } else {
+      val = val.replace(
+        "/search/page-{pageNo}",
+        `${this.props.location.pathname}`
+      );
+    }
+
     let url = "";
     if (CATEGORY_REGEX.test(this.props.location.pathname)) {
       url = createUrlFromQueryAndCategory(
@@ -333,15 +355,23 @@ export default class FilterDesktop extends React.Component {
                                       <ColourSelect
                                         typeOfFilter={facetDataValues.name}
                                         colour={val.hexColor}
+                                        webUrl={val.webURL}
+                                        colourValue={val.name}
                                         onSelect={(
                                           data,
                                           filterType,
-                                          filterValue
+                                          filterValue,
+                                          bla,
+                                          webUrl,
+                                          colourValue
                                         ) =>
                                           this.onFilterClick(
                                             data,
                                             filterType,
-                                            filterValue
+                                            filterValue,
+                                            bla,
+                                            webUrl,
+                                            colourValue
                                           )
                                         }
                                         selected={val.selected}
@@ -363,14 +393,21 @@ export default class FilterDesktop extends React.Component {
                                       onSelect={(
                                         data,
                                         filterType,
-                                        filterValue
+                                        filterValue,
+                                        bla,
+                                        webUrl,
+                                        colourValue
                                       ) =>
                                         this.onFilterClick(
                                           data,
                                           filterType,
-                                          filterValue
+                                          filterValue,
+                                          bla,
+                                          webUrl,
+                                          colourValue
                                         )
                                       }
+                                      colourValue={val.name}
                                       selected={val.selected}
                                       value={val.url}
                                     />

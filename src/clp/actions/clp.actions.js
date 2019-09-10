@@ -84,6 +84,12 @@ export function getHeader() {
       const result = await fetch(
         "https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/header"
       );
+      //let requestSource;
+
+      // return async (dispatch, getState, { api }) => {
+      //   dispatch(getHeaderRequest());
+      //   try {
+      //     const result = await api.get("v2/mpl/cms/desktopservice/header");
 
       //const result = await mockGetFooter();
       const resultJson = await result.json();

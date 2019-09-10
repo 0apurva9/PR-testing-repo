@@ -107,8 +107,14 @@ class DesktopFooter extends React.Component {
     const isPlp =
       /c-msh[0-9]+/.test(this.props.location.pathname) ||
       /c-mbh[0-9]+/.test(this.props.location.pathname) ||
-      /search/.test(this.props.location.pathname) ||
-      /q=&icid2/.test(this.props.location.pathname);
+      /search/.test(this.props.location.pathname);
+
+    const isProductListingNull =
+      this.props &&
+      this.props.productListings &&
+      this.props.productListings.searchresult
+        ? false
+        : true;
 
     return (
       <div className={styles.contentHolder}>
@@ -249,7 +255,13 @@ class DesktopFooter extends React.Component {
 
         {isPlp && (
           <div className={styles.footerDataWrapper}>
-            <div className={styles.footerDataPlp}>
+            <div
+              className={
+                isProductListingNull
+                  ? styles.footerDataPlpNull
+                  : styles.footerDataPlp
+              }
+            >
               <div
                 className={styles.pageSpecificFooterData}
                 dangerouslySetInnerHTML={{
@@ -270,7 +282,13 @@ class DesktopFooter extends React.Component {
               />
             </div>
 
-            <div className={styles.desktopFooterProductListWrapper}>
+            <div
+              className={
+                isProductListingNull
+                  ? styles.desktopFooterProductListWrapperNull
+                  : styles.desktopFooterProductListWrapper
+              }
+            >
               <DesktopFooterProductList
                 productListings={this.props && this.props.productListings}
                 history={this.props.history}

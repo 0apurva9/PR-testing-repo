@@ -9,34 +9,49 @@ class DesktopFooterProductList extends Component {
       (current_datetime.getMonth() + 1) +
       "/" +
       current_datetime.getDate();
-
+    const headerName =
+      this.props &&
+      this.props.productListings &&
+      this.props.productListings.seo &&
+      this.props.productListings.seo.breadcrumbs;
     return (
       <div className={styles.baseWrapper}>
         <div className={styles.base}>
           <div className={styles.header}>
-            {this.props &&
-              this.props.productListings &&
-              this.props.productListings.searchresult &&
-              this.props.productListings.searchresult[0]
-                .productCategoryType}{" "}
+            {headerName
+              ? headerName[0].name
+              : this.props &&
+                this.props.productListings &&
+                this.props.productListings.currentQuery &&
+                this.props.productListings.currentQuery.searchQuery.replace(
+                  "%22",
+                  '"'
+                )}{" "}
             Price List
           </div>
           <div className={styles.productListWrapper}>
             <div className={styles.productListHeader}>
-              {this.props &&
-                this.props.productListings &&
-                this.props.productListings.searchresult &&
-                this.props.productListings.searchresult[0].productCategoryType}
+              <div className={styles.productListHeaderLeft}>
+                {headerName
+                  ? headerName[0].name
+                  : this.props &&
+                    this.props.productListings &&
+                    this.props.productListings.currentQuery &&
+                    this.props.productListings.currentQuery.searchQuery.replace(
+                      "%22",
+                      '"'
+                    )}
+              </div>
               <div className={styles.priceText}>Price</div>
             </div>
-
             <div className={styles.productListDetailsWrapper}>
               {this.props &&
                 this.props.productListings &&
                 this.props.productListings.searchresult &&
-                this.props.productListings.searchresult.map((value, i) => {
-                  return (
-                    i < 10 && (
+                this.props.productListings.searchresult
+                  .slice(0, 10)
+                  .map((value, i) => {
+                    return (
                       <div className={styles.productListRow}>
                         <div className={styles.productListDetailWrapper}>
                           <span>{i + 1}. </span>
@@ -49,12 +64,17 @@ class DesktopFooterProductList extends Component {
                           </a>
                         </div>
                         <div className={styles.productListPrice}>
-                          Rs. {value.price.sellingPrice.doubleValue}
+                          {value.price &&
+                            (value.price.maxPrice &&
+                            value.price.maxPrice.formattedValueNoDecimal
+                              ? value.price.maxPrice.formattedValueNoDecimal
+                              : value.price.sellingPrice &&
+                                value.price.sellingPrice
+                                  .formattedValueNoDecimal)}
                         </div>
                       </div>
-                    )
-                  );
-                })}
+                    );
+                  })}
             </div>
           </div>
           <div className={styles.lastUpdated}>

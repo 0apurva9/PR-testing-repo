@@ -261,9 +261,6 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
-    if (this.props.headerText) {
-      return this.props.headerText;
-    }
     const searchresult =
       this.props &&
       this.props.productListings &&
@@ -275,6 +272,19 @@ export default class Plp extends React.Component {
       searchresult.filter(brand => {
         return brand.brandname === brandName;
       });
+
+    const isBrand = /c-mbh/.test(this.props.location.pathname) ? true : false;
+    if (this.props.productListings.seo && this.props.productListings.seo.tag) {
+      const tagText =
+        (brandData && brandData.length) ===
+          (searchresult && searchresult.length) && !isBrand
+          ? brandName + " " + this.props.productListings.seo.tag
+          : this.props.productListings.seo.tag;
+      return tagText;
+    }
+    if (!this.props.productListings && this.props.headerText) {
+      return this.props.headerText;
+    }
     if (
       this.props.productListings.seo &&
       this.props.productListings.seo.breadcrumbs &&
@@ -283,7 +293,7 @@ export default class Plp extends React.Component {
     ) {
       const headerText =
         (brandData && brandData.length) ===
-        (searchresult && searchresult.length)
+          (searchresult && searchresult.length) && !isBrand
           ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
           : this.props.productListings.seo.breadcrumbs[0].name;
       return headerText;
@@ -300,8 +310,12 @@ export default class Plp extends React.Component {
       );
     }
   };
-  onClickCancelIcon(val, filterName) {
+  onClickCancelIcon(val, filterName, allData) {
     let url = "";
+    let colourSlug = "";
+    if ("hexColor" in allData && allData.webURL) {
+      colourSlug = `/${allData.webURL.split("/")[2]}`;
+    }
     url = val.replace("page-{pageNo}", "page-1");
     filterName = filterName.replace("&", " and ");
     filterName = filterName.replace("'", "%27");
@@ -309,6 +323,7 @@ export default class Plp extends React.Component {
     let parsingurl = url;
 
     parsingurl = url.replace(/\+/g, " ");
+
     // if (parsingurl.match(filterName)) {
     //   parsingurl = url.split("?");
     //   url = parsingurl[0];
@@ -321,10 +336,15 @@ export default class Plp extends React.Component {
         url = url.replace(/\//g, "");
       }
       url = pathname + url;
-    } else {
-      url = url;
     }
 
+    if (colourSlug) {
+      if ((colourSlug.match(/~/g) || []).length > 1) {
+        url = url.replace(`${filterName.toLowerCase()}~`, "");
+      } else {
+        url = url.replace(`${filterName.toLowerCase()}~color/`, "");
+      }
+    }
     if (filterName.includes("Exclude out of stock")) {
       this.props.userSelectedOutOfStock(true);
     }
@@ -603,7 +623,8 @@ export default class Plp extends React.Component {
                           onClick={(url, name) =>
                             this.onClickCancelIcon(
                               selectedFilterData.url,
-                              selectedFilterData.name
+                              selectedFilterData.name,
+                              selectedFilterData
                             )
                           }
                           key={i}
