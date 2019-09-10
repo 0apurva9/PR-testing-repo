@@ -2,6 +2,7 @@
 // What is the difference?
 
 // Taken from Quirks mode
+import { isBrowser } from "browser-or-node";
 
 export function createCookie(name, value, days) {
   let expires = "";
@@ -24,8 +25,12 @@ export function createCookieInMinutes(name, value, minutes) {
 }
 
 export function getCookie(cookieName) {
-  let match = document.cookie.match(new RegExp(cookieName + `=([^;]+)`));
-  if (match) return match[1];
+  if (isBrowser) {
+    let match = document.cookie.match(new RegExp(cookieName + `=([^;]+)`));
+    if (match) return match[1];
+  } else {
+    return null;
+  }
 }
 
 export function deleteCookie(cookieName) {

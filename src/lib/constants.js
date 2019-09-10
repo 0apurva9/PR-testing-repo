@@ -51,6 +51,7 @@ export const CATEGORY_PAGE = "/c-(msh[0-9A-Za-z]+)";
 export const CATEGORY_PAGE_WITH_SLUG = `/:slug/c-(msh[0-9a-zA-Z]+)`;
 export const CATEGORY_PAGE_WITH_QUERY_PARAMS = `${CATEGORY_PAGE}?&.*`;
 export const CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `${CATEGORY_PAGE_WITH_SLUG}?&.*`;
+export const CATEGORY_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(msh[0-9a-zA-Z]+)`;
 export const PRODUCT_LISTINGS = "/search/(.*)";
 export const PRODUCT_LISTINGS_WITHOUT_SLASH = "/search/";
 export const SKU_PAGE_FILTER = "/CustomSkuCollection/:slug/page-([0-9]+)";

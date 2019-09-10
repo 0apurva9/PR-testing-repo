@@ -45,6 +45,7 @@ import {
   CATEGORY_PAGE,
   BRAND_PAGE_WITH_SLUG,
   CATEGORY_PAGE_WITH_SLUG,
+  CATEGORY_PAGE_WITH_FILTER_SLUG,
   RETURNS,
   SHORT_URL_ORDER_DETAIL,
   CATEGORY_PAGE_WITH_QUERY_PARAMS,
@@ -522,6 +523,11 @@ class App extends Component {
             <Route
               strict
               path={CATEGORY_PAGE_WITH_SLUG}
+              component={PlpBrandCategoryWrapperContainer}
+            />
+            <Route
+              strict
+              path={CATEGORY_PAGE_WITH_FILTER_SLUG}
               component={PlpBrandCategoryWrapperContainer}
             />
             <Route

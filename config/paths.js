@@ -1,5 +1,3 @@
-"use strict";
-
 const path = require("path");
 const fs = require("fs");
 const url = require("url");
@@ -44,6 +42,7 @@ function getServedPath(appPackageJson) {
 module.exports = {
   dotenv: resolveApp(".env"),
   appBuild: resolveApp("build"),
+  serverBuild: resolveApp("build/server"), //TODO this should likely not exist and we should put the build server stuff into the build folder
   appPublic: resolveApp("public"),
   appHtml: resolveApp("public/index.html"),
   appBuildHtml: resolveApp("public/index_build.html"),
@@ -55,5 +54,8 @@ module.exports = {
   testsSetup: resolveApp("src/setupTests.js"),
   appNodeModules: resolveApp("node_modules"),
   publicUrl: getPublicUrl(resolveApp("package.json")),
-  servedPath: getServedPath(resolveApp("package.json"))
+  servedPath: getServedPath(resolveApp("package.json")),
+  serverPath: resolveApp("server/index.js"),
+  serverMiddlewarePath: resolveApp("server/middleware/renderer.js"),
+  xelpmocCore: resolveApp("src/xelpmoc-core")
 };

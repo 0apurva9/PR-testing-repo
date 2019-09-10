@@ -15,7 +15,8 @@ const mapDispatchToProps = dispatch => {
 };
 const mapStateToProps = state => {
   return {
-    DesktopFooterDetails: state.desktopFooter.DesktopFooterDetails
+    DesktopFooterDetails: state.desktopFooter.DesktopFooterDetails,
+    productListings: state.productListings.productListings
   };
 };
 const DesktopFooterContainer = withRouter(

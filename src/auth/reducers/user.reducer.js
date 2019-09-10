@@ -11,7 +11,12 @@ import {
   CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants";
 import { LOGIN_WITH_MOBILE, LOGIN_WITH_EMAIL } from "../actions/user.actions";
-const clevertap = window.clevertap;
+import { isBrowser } from "browser-or-node";
+
+let clevertap = { logout: () => {} };
+if (isBrowser) {
+  clevertap = window.clevertap;
+}
 const user = (
   state = {
     user: null,
