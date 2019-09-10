@@ -1231,7 +1231,7 @@ export default class PdpApparel extends React.Component {
                           for more info
                         </p>
                         <a href={samsungChatUrl} target="_blank">
-                          Clik here to chat
+                          Click here to chat
                         </a>
                       </div>
                     </div>
