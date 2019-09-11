@@ -1018,18 +1018,20 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     {/* {check if order is cancelled then show cancelled status} */}
                     {completedSteps.includes(ORDER_CANCELLED) ? (
                       <React.Fragment>
-                        <div className={styles.step}>
-                          <div className={styles.checkActive} />
-                          <div
-                            className={
-                              activeOrderStatus === ORDER_IN_PROCESS
-                                ? styles.processNameHolderBold
-                                : styles.processNameHolder
-                            }
-                          >
-                            {orderInProcessCustomerFacingName}
+                        {completedSteps.includes(ORDER_IN_PROCESS) && (
+                          <div className={styles.step}>
+                            <div className={styles.checkActive} />
+                            <div
+                              className={
+                                activeOrderStatus === ORDER_IN_PROCESS
+                                  ? styles.processNameHolderBold
+                                  : styles.processNameHolder
+                              }
+                            >
+                              {orderInProcessCustomerFacingName}
+                            </div>
                           </div>
-                        </div>
+                        )}
                         <div
                           className={
                             completedSteps.includes(ORDER_CANCELLED)
@@ -1496,18 +1498,20 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   {/* {check if order is cancelled then show cancelled status} */}
                   {completedSteps.includes(ORDER_CANCELLED) ? (
                     <React.Fragment>
-                      <div className={styles.step}>
-                        <div className={styles.checkActive} />
-                        <div
-                          className={
-                            activeOrderStatus === ORDER_IN_PROCESS
-                              ? styles.processNameHolderBold
-                              : styles.processNameHolder
-                          }
-                        >
-                          {orderInProcessCustomerFacingName}
+                      {completedSteps.includes(ORDER_IN_PROCESS) && (
+                        <div className={styles.step}>
+                          <div className={styles.checkActive} />
+                          <div
+                            className={
+                              activeOrderStatus === ORDER_IN_PROCESS
+                                ? styles.processNameHolderBold
+                                : styles.processNameHolder
+                            }
+                          >
+                            {orderInProcessCustomerFacingName}
+                          </div>
                         </div>
-                      </div>
+                      )}
                       <div
                         className={
                           completedSteps.includes(ORDER_CANCELLED)

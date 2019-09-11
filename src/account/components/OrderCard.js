@@ -270,9 +270,11 @@ export default class OrderCard extends React.Component {
               </div>
             )}
 
-          {this.props.orderStatusCode &&
+          {this.props &&
+            this.props.orderStatusCode &&
             !CNCcallOut &&
-            this.props.price != 0.01 && (
+            this.props.price != 0.01 &&
+            this.props.calloutMessage && (
               <div
                 className={
                   this.props.orderStatusCode === "PAYMENT_PENDING" ||
