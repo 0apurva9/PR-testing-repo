@@ -396,6 +396,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //not delivered
     let notDeliveredDate = "";
     let notDeliveredTime = "";
+    let responseCodeForNotDelivered = "";
     let notDeliveredCustomerFacingName = "Not Delivered";
     if (notDeliveredData && notDeliveredData.value.customerFacingName) {
       notDeliveredCustomerFacingName =
@@ -412,6 +413,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
         notDeliveredData.value.statusList[0].statusMessageList[0].date;
       notDeliveredTime =
         notDeliveredData.value.statusList[0].statusMessageList[0].time;
+      responseCodeForNotDelivered =
+        notDeliveredData.value.statusList[0].responseCode;
     }
 
     //un delivered
@@ -748,106 +751,85 @@ export default class OrderStatusVerticalV2 extends React.Component {
 
               {completedSteps.includes(REFUND_INITIATED) ? (
                 <React.Fragment>
-                  {completedSteps.includes(REFUND_INITIATED) && (
-                    <div className={styles.step}>
-                      <div className={styles.checkActive} />
-                      <div
-                        className={
-                          activeOrderStatus === REFUND_INITIATED
-                            ? styles.processNameHolderBold
-                            : styles.processNameHolder
-                        }
-                      >
-                        {refundInitiatedCustomerFacingName}
+                  <div className={styles.step}>
+                    <div className={styles.checkActive} />
+                    <div
+                      className={
+                        activeOrderStatus === REFUND_INITIATED
+                          ? styles.processNameHolderBold
+                          : styles.processNameHolder
+                      }
+                    >
+                      {refundInitiatedCustomerFacingName}
+                    </div>
+                    <div className={styles.dateAndTimeHolder}>
+                      <div className={styles.timeHolder}>
+                        {refundInitiatedDate}
                       </div>
-                      <div className={styles.dateAndTimeHolder}>
-                        <div className={styles.timeHolder}>
-                          {refundInitiatedDate}
-                        </div>
-                        <div className={styles.dateHolder}>
-                          {refundInitiatedTime}
-                        </div>
+                      <div className={styles.dateHolder}>
+                        {refundInitiatedTime}
                       </div>
                     </div>
-                  )}
+                  </div>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   {!completedSteps.includes(RETURN_CANCELLED) &&
                   !completedSteps.includes(RETURN_DECLINED) ? (
-                    this.props.mediationRequired == true &&
-                    completedSteps.includes(RETURN_REQUESTED) ? (
-                      <div
-                        className={
-                          completedSteps.includes(RETURN_INITIATED)
-                            ? styles.step
-                            : styles.stepInactive
-                        }
-                      >
-                        <div
-                          className={
-                            completedSteps.includes(RETURN_INITIATED)
-                              ? styles.checkActive
-                              : styles.check
-                          }
-                        />
-                        <div
-                          className={
-                            activeOrderStatus === RETURN_INITIATED
-                              ? styles.processNameHolderBold
-                              : styles.processNameHolder
-                          }
-                        >
-                          {returnInitiatedCustomerFacingName}
-                          {/* <span className={styles.shipmentStatus}>
-                    {returnInitiatedShipmentStatus}
-                  </span> */}
+                    // this.props.mediationRequired == true &&
+                    this.props.returnType === "selfShipment" ? (
+                      <div className={styles.step}>
+                        <div className={styles.checkActive} />
+                        <div className={styles.processNameHolder}>
+                          {refundInitiatedCustomerFacingName}
                         </div>
                         <div className={styles.dateAndTimeHolder}>
                           <div className={styles.timeHolder}>
-                            {returnInitiatedDate}
+                            {refundInitiatedDate}
                           </div>
                           <div className={styles.dateHolder}>
-                            {returnInitiatedTime}
+                            {refundInitiatedTime}
                           </div>
                         </div>
                       </div>
                     ) : (
-                      <div
-                        className={
-                          completedSteps.includes(PICKUP_SCHEDULED)
-                            ? styles.step
-                            : styles.stepInactive
-                        }
-                      >
+                      this.props.returnType !== "selfShipment" && (
                         <div
                           className={
                             completedSteps.includes(PICKUP_SCHEDULED)
-                              ? styles.checkActive
-                              : styles.check
-                          }
-                        />
-                        <div
-                          className={
-                            activeOrderStatus === PICKUP_SCHEDULED
-                              ? styles.processNameHolderBold
-                              : styles.processNameHolder
+                              ? styles.step
+                              : styles.stepInactive
                           }
                         >
-                          {pickupScheduledCustomerFacingName}
-                          {/* <span className={styles.shipmentStatus}>
+                          <div
+                            className={
+                              completedSteps.includes(PICKUP_SCHEDULED)
+                                ? styles.checkActive
+                                : styles.check
+                            }
+                          />
+                          <div
+                            className={
+                              activeOrderStatus === PICKUP_SCHEDULED
+                                ? styles.processNameHolderBold
+                                : styles.processNameHolder
+                            }
+                          >
+                            {pickupScheduledCustomerFacingName}
+                            {/* <span className={styles.shipmentStatus}>
                       {pickupScheduledShipmentStatus}
                     </span> */}
-                        </div>
-                        <div className={styles.dateAndTimeHolder}>
-                          <div className={styles.timeHolder}>
-                            {pickupScheduledDate}
                           </div>
-                          <div className={styles.dateHolder}>
-                            {pickupScheduledTime}
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {pickupScheduledDate}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {pickupScheduledTime}
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      )
                     )
                   ) : null}
                 </React.Fragment>
@@ -882,7 +864,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   ) : (
                     ""
                   ) */}
-                  {completedSteps.includes(PICKUP_SCHEDULED) && (
+                  {/**done as RNR-2713 */}
+                  {/* {completedSteps.includes(PICKUP_SCHEDULED) && (
                     <div className={styles.step}>
                       <div className={styles.checkActive} />
                       <div className={styles.processNameHolder}>
@@ -900,7 +883,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           </div>
                         )}
                     </div>
-                  )}
+                  )} */}
 
                   <div className={styles.step}>
                     <div className={styles.checkActive} />
@@ -922,6 +905,15 @@ export default class OrderStatusVerticalV2 extends React.Component {
                       </div>
                     </div>
                   </div>
+                  {returnCancelledCustomerFacingName ===
+                    "Return Cancelled QC Failed" && (
+                    <div className={styles.step}>
+                      <div className={styles.check} />
+                      <div className={styles.processNameHolder}>
+                        Refund Rejected
+                      </div>
+                    </div>
+                  )}
                 </React.Fragment>
               ) : completedSteps.includes(RETURN_DECLINED) ? (
                 <React.Fragment>
@@ -1359,15 +1351,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         <div className={styles.checkActive} />
                         <div
                           className={
-                            activeOrderStatus === REFUND_INITIATED
-                              ? styles.processNameHolderBold
-                              : styles.processNameHolder
+                            responseCodeForNotDelivered ===
+                            "CLOSED_ON_RETURN_TO_ORIGIN"
+                              ? styles.processNameHolder
+                              : styles.processNameHolderBold
                           }
                         >
                           {refundInitiatedCustomerFacingName}
-                          {/* <span className={styles.shipmentStatus}>
-                        {refundInitiatedShipmentStatus}
-                      </span> */}
                         </div>
                         <div className={styles.dateAndTimeHolder}>
                           <div className={styles.dateHolder}>
@@ -1389,15 +1379,26 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         </div>
                       </div>
                     )}
-                    {/* if cod show cancelled - RNR-2539 */}
-                    {this.props.paymentMethod === "COD" && (
-                      <div className={styles.step}>
-                        <div className={styles.check} />
-                        <div className={styles.processNameHolder}>
-                          Order Cancelled
+
+                    {this.props.paymentMethod === "COD" &&
+                      completedSteps.includes(NOT_DELIVERED) &&
+                      responseCodeForNotDelivered ===
+                        "CLOSED_ON_RETURN_TO_ORIGIN" && (
+                        <div className={styles.step}>
+                          <div className={styles.checkActive} />
+                          <div className={styles.processNameHolderBold}>
+                            {notDeliveredCustomerFacingName}
+                          </div>
+                          <div className={styles.dateAndTimeHolder}>
+                            <div className={styles.timeHolder}>
+                              {notDeliveredTime}
+                            </div>
+                            <div className={styles.dateHolder}>
+                              {notDeliveredDate}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     {/* if prepaid show refund flow - RNR-2539 */}
                     {this.props.paymentMethod !== "COD" && (
                       <React.Fragment>
