@@ -669,7 +669,6 @@ export default class PdpApparel extends React.Component {
 
     const manufacturerDetails = this.props.manufacturerDetails;
     let mshProduct = productData && productData.brandURL;
-    console.log("productData", mshProduct);
     const tailedKnowMoreV2 =
       productData &&
       productData.knowMoreV2 &&
