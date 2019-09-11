@@ -328,6 +328,7 @@ export default class ReplaceRefundSelection extends React.Component {
         );
       }
     });
+    e.target.value = null;
     this.setState({ uploadedImageFiles: imgArray });
     this.setState({ validImgFiles: validImageFiles });
   }
