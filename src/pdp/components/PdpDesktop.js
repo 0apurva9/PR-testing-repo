@@ -1214,7 +1214,8 @@ export default class PdpApparel extends React.Component {
                   {mshProduct.includes("samsung") && (
                     <div className={styles.sumsungSeparator}>
                       <div className={styles.chatIcon}>
-                        {productData.brandName === "Samsung" ? (
+                        {productData.brandName === "Samsung" ||
+                        productData.brandName === "SAMSUNG" ? (
                           <a
                             href={samsungChatUrl}
                             target="_blank"
