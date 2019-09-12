@@ -658,6 +658,7 @@ export default class OrderDetails extends React.Component {
                               returnType={products.returnType}
                               mediationRequired={products.mediationRequired}
                               paymentMethod={orderDetails.paymentMethod}
+                              consignmentStatus={products.consignmentStatus}
                             />
 
                             {/* Block of code ends here */}
@@ -809,6 +810,7 @@ export default class OrderDetails extends React.Component {
                                   statusMessageList={products.statusDisplayMsg}
                                   mediationRequired={products.mediationRequired}
                                   paymentMethod={orderDetails.paymentMethod}
+                                  consignmentStatus={products.consignmentStatus}
                                 />
                               )}
                           </React.Fragment>
