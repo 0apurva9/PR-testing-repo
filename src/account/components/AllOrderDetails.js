@@ -639,10 +639,7 @@ export default class AllOrderDetails extends React.Component {
                                 let productsDetails =
                                   orderDetails && orderDetails.products;
                                 let productLength = productsDetails.length;
-                                console.log(
-                                  "props in all order details:",
-                                  orderDetails
-                                );
+
                                 return (
                                   <div
                                     className={

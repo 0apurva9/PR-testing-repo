@@ -689,7 +689,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
         refundSuccessfulData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
-    console.log("props in order status:--->", this.props);
 
     return (
       <React.Fragment>

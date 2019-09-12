@@ -321,7 +321,6 @@ export default class ReplaceRefundSelection extends React.Component {
       imgArray.push(eachImgSrc);
       validImageFiles.push(value);
       let currentImagesSize = allImagesSize.reduce((a, b) => a + b, 0);
-      console.log("image SIze=========>", currentImagesSize, allImagesSize);
       this.setState({ allImagesSize: currentImagesSize });
       if (currentImagesSize > 25000000) {
         return this.props.displayToast(
@@ -470,7 +469,6 @@ export default class ReplaceRefundSelection extends React.Component {
       accountNumber &&
       accountNumber.replace(/[0-9 A-Z a-z]/gi, "*") + noOfStarsAccountNumber;
     let ImgSize = this.state.allImagesSize > 25000000;
-    console.log("sizeImage:", this.state.allImagesSize);
 
     let disableModes;
     if (
