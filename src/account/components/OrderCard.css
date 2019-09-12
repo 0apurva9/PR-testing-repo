@@ -239,11 +239,11 @@
 	transform: rotate(-45deg);
 	-webkit-transform: rotate(-45deg);
 	float: right;
-	position: absolute;
 	top: 96px;
 	right: 5px;
 	cursor: pointer;
 }
+
 .styleDate {
 	font-size: 14px;
 	font-family: light;
