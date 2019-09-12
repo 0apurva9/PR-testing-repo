@@ -66,7 +66,7 @@
     min-height: 329px;
   }
   .applicationForm {
-    padding: 30px 50px;
+    padding: 30px 46px;
     border-radius: 0px 0px 4px 4px;
   }
   .header {
@@ -74,7 +74,7 @@
     text-align: center;
   }
   .formHolder {
-    padding: 0px 35px;
+    padding: 0px 38px;
     margin-top: 30px;
   }
   .labelHedaer {
@@ -93,6 +93,7 @@
   }
   .buttonHolder {
     margin-top: 20px;
+    padding: 0 4px;
   }
   .button {
     cursor: pointer;
