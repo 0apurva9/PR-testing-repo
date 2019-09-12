@@ -260,6 +260,11 @@ export default class ReturnAddressBook extends React.Component {
               this.editAddress(this.state.defaultAddress, orderId)
             }
             defaultAddress={this.state.defaultAddress}
+            isPincodeServiceable={
+              this.props &&
+              this.props.getPinCodeDetails &&
+              this.props.getPinCodeDetails.isPincodeServiceable
+            }
           />
         )}
         {!this.props.userAddress && (

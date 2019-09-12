@@ -70,6 +70,7 @@ export default class ReturnChangeAddress extends React.Component {
     }
     let orderId =
       this.props && this.props.data && this.props.data.sellerorderno;
+
     return (
       <div className={styles.base}>
         {/* {!this.props.isReturn && (
@@ -153,7 +154,9 @@ export default class ReturnChangeAddress extends React.Component {
               {this.props.onRedirectionToNextSection && (
                 <div className={styles.continueButtonHolder}>
                   <Button
-                    disabled={this.props.disabled}
+                    disabled={
+                      this.props.isPincodeServiceable === true ? false : true
+                    }
                     type="primary"
                     backgroundColor="#ff1744"
                     height={40}

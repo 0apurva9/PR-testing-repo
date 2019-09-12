@@ -76,6 +76,8 @@ export default class OrderPaymentMethod extends React.Component {
     //     }
     //   });
     // });
+    let addressLine1 = this.props && this.props.deliveryAddress;
+    // console.log("address from api", this.props)
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
@@ -123,10 +125,13 @@ export default class OrderPaymentMethod extends React.Component {
                 )}
               </React.Fragment>
 
-              {this.state.deliveryAddress && (
+              {addressLine1 && (
                 <div className={styles.deliveryAddress}>
                   <React.Fragment>
                     <span className={styles.addressLine}>
+                      {addressLine1.addressLine1}
+                    </span>
+                    {/* <span className={styles.addressLine}>
                       {this.state.deliveryAddress.addressLine ||
                         this.state.deliveryAddress.addressLine1},{" "}
                     </span>
@@ -141,7 +146,7 @@ export default class OrderPaymentMethod extends React.Component {
                     </span>
                     <span className={styles.addressLine}>
                       {this.state.deliveryAddress.postalcode}
-                    </span>
+                    </span> */}
                   </React.Fragment>
                 </div>
               )}
