@@ -200,17 +200,35 @@ export default class ReturnAddressBook extends React.Component {
     let addressSelectedId =
       this.props.returnRequest && this.props.returnRequest.deliveryAddress;
     let fetchId = addressSelectedId && addressSelectedId.id;
-    let defaultAddressId = fetchId;
+    let defaultAddressId;
     //let defaultAddress = addressSelectedId;
-    if (this.state.defaultAddress) {
-      defaultAddressId = this.state.defaultAddress.id;
-      //defaultAddress = this.state.defaultAddress;
+    if (
+      this.props &&
+      this.props.returnRequest &&
+      this.props.returnRequest.deliveryAddress &&
+      this.props.returnRequest.deliveryAddress.id
+    ) {
+      defaultAddressId = fetchId;
+    } else {
+      if (this.state.defaultAddress) {
+        defaultAddressId = this.state.defaultAddress.id;
+        //defaultAddress = this.state.defaultAddress;
+      }
     }
+
+    console.log("props in Change Address:", this.props);
     return (
       <div className={styles.addressBase}>
         {this.props.userAddress && (
           <ReturnChangeAddress
             {...this.props}
+            orderId={
+              this.props &&
+              this.props.history &&
+              this.props.history.location &&
+              this.props.history.location.state &&
+              this.props.history.location.state.orderId
+            }
             address={this.props.userAddress.addresses.map(address => {
               return {
                 addressType: address.addressType,
