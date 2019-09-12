@@ -63,6 +63,10 @@ if (
   API_URL_ROOT = "https://e2e.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://e2e.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "e2e1") {
+  API_URL_ROOT = "https://e2e1.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://e2e1.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -91,6 +95,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://uat6.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "e2e") {
   URL_ROOT = "https://e2e.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "e2e1") {
+  URL_ROOT = "https://e2e1.tataunistore.com";
 }
 
 export const API_URL_ROOT_DUMMY =
@@ -143,7 +149,16 @@ async function corePost(path, postData, doNotUseApiSuffix) {
   });
 }
 
+export async function mockGetFooter() {
+  const url = "https://assessable-fridays.000webhostapp.com/footer.json";
+  return await fetch(url);
+}
+
 export async function coreGet(url) {
+  function btoa(str) {
+    if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
+    return Buffer(str, "binary").toString("base64");
+  }
   return await fetch(`${API_URL_ROOT}/${url}`, {
     headers: {
       Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
@@ -569,13 +584,19 @@ export async function postJusPay(path, postData) {
   });
 }
 
-export async function postStripe(path, postData) {
-  let url = `${STRIPE_API_URL_ROOT}/${path}`;
-  return await fetch(url, {
-    method: "POST",
-    headers: { Authorization: "Bearer" + " " + STRIPE_ACCESTOKEN },
-    body: postData
-  });
+export async function postStripe(postData) {
+  if (window.Stripe) {
+    const stripe = window.Stripe;
+    stripe.setPublishableKey(STRIPE_ACCESTOKEN);
+    let stripeResponse = new Promise(function(resolve, reject) {
+      stripe.card.createToken(postData, (status, response) => {
+        resolve(response);
+      });
+    });
+    return await stripeResponse.then(function(result) {
+      return result;
+    });
+  }
 }
 
 export async function postJusPayUrlEncode(path, postData) {

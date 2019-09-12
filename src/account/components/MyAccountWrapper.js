@@ -63,6 +63,8 @@ export default class MyAccountWrapper extends React.Component {
       );
     } else if (url === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`) {
       this.props.setUrlToRedirectToAfterAuth(`${url}`);
+    } else if (url === `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`) {
+      this.props.setUrlToRedirectToAfterAuth(`${url}`);
     } else {
       this.props.setUrlToRedirectToAfterAuth(`${MY_ACCOUNT_PAGE}`);
     }

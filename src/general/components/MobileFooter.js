@@ -101,9 +101,11 @@ class MobileFooter extends React.Component {
           activeIcon={myBagIconRed}
           basicIcon={myBagIcon}
           bagCount={
-            localStorage.getItem(CART_BAG_DETAILS) &&
-            JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
-            JSON.parse(localStorage.getItem(CART_BAG_DETAILS)).length
+            typeof localStorage !== "undefined"
+              ? localStorage.getItem(CART_BAG_DETAILS) &&
+                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)) &&
+                JSON.parse(localStorage.getItem(CART_BAG_DETAILS)).length
+              : 0
           }
           value={BAG}
           text="My Bag"

@@ -153,9 +153,22 @@ class ProductSellerPage extends Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.match.path === PRODUCT_OTHER_SELLER_ROUTER) {
-      this.props.getProductDescription(this.props.match.params[0]);
+      const productCode = this.props.match.params[0];
+      const productDetailsResponse = await this.props.getProductDescription(
+        productCode
+      );
+
+      if (
+        !this.props.serviceablePincodeList &&
+        (productDetailsResponse && productDetailsResponse.status === SUCCESS)
+      ) {
+        const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        if (pinCode) {
+          this.props.getProductPinCode(pinCode, productCode);
+        }
+      }
     } else {
       //need to show error page
     }
@@ -300,6 +313,9 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
+                          serviceablePincodeList={
+                            this.props.serviceablePincodeList
+                          }
                         />
                       );
                     })}
@@ -327,6 +343,9 @@ class ProductSellerPage extends Component {
                         policyText={DELIVERY_RATES}
                         key={index}
                         value={value}
+                        serviceablePincodeList={
+                          this.props.serviceablePincodeList
+                        }
                       />
                     );
                   })}
@@ -399,6 +418,9 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
+                          serviceablePincodeList={
+                            this.props.serviceablePincodeList
+                          }
                           addToBag={() =>
                             this.addToCartAccordingToTheUssid(value.USSID)
                           }
@@ -434,6 +456,9 @@ class ProductSellerPage extends Component {
                           policyText={DELIVERY_RATES}
                           key={index}
                           value={value}
+                          serviceablePincodeList={
+                            this.props.serviceablePincodeList
+                          }
                         />
                       );
                     })}

@@ -50,6 +50,7 @@ export const CATEGORY_PAGE = "/c-(msh[0-9A-Za-z]+)";
 export const CATEGORY_PAGE_WITH_SLUG = `/:slug/c-(msh[0-9a-zA-Z]+)`;
 export const CATEGORY_PAGE_WITH_QUERY_PARAMS = `${CATEGORY_PAGE}?&.*`;
 export const CATEGORY_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `${CATEGORY_PAGE_WITH_SLUG}?&.*`;
+export const CATEGORY_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(msh[0-9a-zA-Z]+)`;
 export const PRODUCT_LISTINGS = "/search/(.*)";
 export const PRODUCT_LISTINGS_WITHOUT_SLASH = "/search/";
 export const SKU_PAGE_FILTER = "/CustomSkuCollection/:slug/page-([0-9]+)";
@@ -200,6 +201,11 @@ export const STANDARD_SHIPPING = "Standard delivery";
 export const COLLECT_TEXT = "CLiQ & PiQ";
 export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
+export const SHIPPING_TYPES = {
+  HD: "home-delivery",
+  CNC: "click-and-collect",
+  ED: "express-delivery"
+};
 
 export const PLAT_FORM_NUMBER = "5";
 export const CHANNEL = "web";
@@ -333,6 +339,7 @@ export const LANDMARK_ENTER_TEXT = "Please enter landmark";
 export const MOBILE_TEXT = "Please enter mobile number";
 export const PINCODE_VALID_TEXT = "Please enter valid pincode";
 export const EMAIL_VALID_TEXT = "Please enter valid emailId";
+export const MOBILE_VALID_TEXT = "Please enter a valid mobile number";
 export const PHONE_VALID_TEXT = "Please fill valid mobile number";
 export const PHONE_TEXT = "Please enter mobile number";
 export const CITY_TEXT = "please enter city";

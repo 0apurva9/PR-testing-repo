@@ -45,6 +45,7 @@ import {
   CATEGORY_PAGE,
   BRAND_PAGE_WITH_SLUG,
   CATEGORY_PAGE_WITH_SLUG,
+  CATEGORY_PAGE_WITH_FILTER_SLUG,
   RETURNS,
   SHORT_URL_ORDER_DETAIL,
   CATEGORY_PAGE_WITH_QUERY_PARAMS,
@@ -400,6 +401,12 @@ class App extends Component {
       this.props.getMinicartProducts();
     }
     window.prerenderReady = true;
+
+    if (!this.props.location.pathname.includes("/my-account")) {
+      if (window.od && window.od.messenger && window.od.messenger("update")) {
+        window.od.messenger("update");
+      }
+    }
   }
 
   renderLoader() {
@@ -411,6 +418,9 @@ class App extends Component {
   }
 
   render() {
+    if (!this.props.location.pathname.includes("/my-account")) {
+      window.od.messenger("update");
+    }
     let className = AppStyles.base;
     const {
       globalAccessTokenStatus,
@@ -524,6 +534,11 @@ class App extends Component {
             <Route
               strict
               path={CATEGORY_PAGE_WITH_SLUG}
+              component={PlpBrandCategoryWrapperContainer}
+            />
+            <Route
+              strict
+              path={CATEGORY_PAGE_WITH_FILTER_SLUG}
               component={PlpBrandCategoryWrapperContainer}
             />
             <Route

@@ -5,7 +5,6 @@ import CancelAndContinueButton from '../../account/components/CancelAndContinueB
 import ReverseSealYesNo from '../../account/components/ReverseSealYesNo';
 import DummyTab from '../../cart/components/DummyTab.js';
 import * as styles from './ReturnReasonFormForDesktop.css';
-//import cancel from '../../general/components/img/canceltransperent.png';
 import {
 	IProps,
 	IPReturnCommentsObj,
@@ -14,7 +13,7 @@ import {
 	IReturnSubReasons,
 	IReturnSubReasonWithLabel,
 } from './interface/ReturnReasonForm';
-import { MODE_OF_RETURN, REFUND_DETAILS, COMMENTS_PLACEHOLDER } from '../../lib/constants.js';
+import { MODE_OF_RETURN, REFUND_DETAILS } from '../../lib/constants.js';
 export default class ReturnReasonForm extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
@@ -27,10 +26,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 			subReasonCode: '',
 			isEnable: false,
 			reason: '',
-			subReason: '',
-			// uploadedImageFiles: '',
-			// validImgFiles: '',
-			// isElectronicsProduct: false,
+			subReason: ''
 		};
 	}
 	handleContinue() {
@@ -43,19 +39,15 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 				reason: this.state.reason,
 				reverseSeal: this.state.reverseSeal,
 				sellerorderno: this.props.returnProductDetails.orderProductWsDTO[0].sellerorderno,
-				transactionId: this.props.returnProductDetails.orderProductWsDTO[0].transactionId,
-				// validImgFiles: this.state.validImgFiles,
-				// isElectronicsProduct: this.state.isElectronicsProduct,
+				transactionId: this.props.returnProductDetails.orderProductWsDTO[0].transactionId
 			});
 			this.props.onContinue(reasonAndCommentObj);
 		}
 	}
-
 	onChangePrimary(val: IReturnSubReasonWithLabel) {
 		const code = val.value;
 		const label = val.label;
 		const returnProductDetails = this.props.returnProductDetails;
-		//this.setState({ primaryReason: label });
 		const selectedReason = returnProductDetails.returnReasonMap.find((val: IReturnReasonMapItem) => {
 			return val.parentReasonCode === code;
 		});
@@ -94,49 +86,8 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 			this.props.onCancel();
 		}
 	}
-	// handleFileUpload(e) {
-	// 	let uploadedFilesArr = Array.from(e.target.files);
-	// 	if (uploadedFilesArr.length > 8) {
-	// 		return this.props.displayToast('Upload maximum 8 images');
-	// 	}
-	// 	let imgArray = [];
-	// 	let validImageFiles = [];
-	// 	uploadedFilesArr.map((value, index) => {
-	// 		if (!value.type.includes('image')) {
-	// 			return this.props.displayToast('Upload file in image file format only');
-	// 		}
-	// 		if (!value.type.includes('jpeg')) {
-	// 			if (!value.type.includes('png')) {
-	// 				return this.props.displayToast('Upload image in JPEG/PNG format only');
-	// 			}
-	// 		}
-	// 		if (value.size > 2500000) {
-	// 			return this.props.displayToast('The Image size should be lesser than 2.5MB');
-	// 		}
-	// 		let eachImgSrc = URL.createObjectURL(value);
-	// 		imgArray.push(eachImgSrc);
-	// 		validImageFiles.push(value);
-	// 	});
-	// 	this.setState({ uploadedImageFiles: imgArray });
-	// 	this.setState({ validImgFiles: validImageFiles });
-	// }
-	// removeFile(filename, indexOfRemovedFile) {
-	// 	let fileNames = this.state.uploadedImageFiles;
-	// 	let index = fileNames.indexOf(filename);
-	// 	if (index > -1) {
-	// 		fileNames.splice(index, 1);
-	// 		this.setState({ uploadedImageFiles: fileNames });
-	// 	}
-	// 	let updatedValidImgFiles = this.state.validImgFiles;
-	// 	if (indexOfRemovedFile > -1) {
-	// 		updatedValidImgFiles.splice(indexOfRemovedFile, 1);
-	// 		this.setState({ validImgFiles: updatedValidImgFiles });
-	// 	}
-	// }
 	render() {
 		const returnProductDetails = this.props.returnProductDetails;
-		//let imageCallOut = returnProductDetails && returnProductDetails.attachmentImageCallout;
-		//let imageCallOutArr = imageCallOut && imageCallOut.split('|');
 		return (
 			<div className={styles.base}>
 				<div className={styles.content}>
@@ -180,11 +131,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 								</div>
 							)}
 						<div className={styles.textArea}>
-							<TextArea
-								placeholder={COMMENTS_PLACEHOLDER}
-								value={this.state.comment}
-								onChange={(val: string) => this.handleChange(val)}
-							/>
+							<TextArea value={this.state.comment} onChange={(val: string) => this.handleChange(val)} />
 						</div>
 						{returnProductDetails &&
 							returnProductDetails.showReverseSealFrJwlry === 'yes' && (

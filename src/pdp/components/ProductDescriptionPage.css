@@ -216,6 +216,10 @@
   height: auto;
   margin-top: 30px;
 }
+.sumsungSeparator {
+  margin-top: 15px;
+  border-top: 1px solid #e2e2e2;
+}
 
 .sellers {
   font-size: 14px;
@@ -824,7 +828,7 @@
   }
 
   .samsungChatImgHolder {
-    position: fixed;
+    position: relative;
     right: 0;
     top: 80%;
     z-index: 1;
@@ -869,4 +873,19 @@
 
 .yp_widget iframe {
   margin-top: 60px;
+}
+.chatIcon {
+  display: flex;
+}
+.chatText p {
+  font-size: 12px;
+  padding: 11px 0px 3px 6px;
+  color: #212121;
+  font-family: light;
+}
+.chatText a {
+  font-size: 12px;
+  padding: 11px 0px 3px 6px;
+  color: #ff1744;
+  font-family: regular;
 }
