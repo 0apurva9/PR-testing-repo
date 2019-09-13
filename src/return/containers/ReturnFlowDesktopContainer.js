@@ -182,7 +182,9 @@ const mapStateToProps = state => {
     userAddress: state.cart.userAddress,
     getRefundOptionsDetails: state.profile.getRefundOptionsDetails,
     getRefundModesDetails: state.profile.getRefundModesDetails,
-    removeAddressStatus: state.profile.removeAddressStatus
+    removeAddressStatus: state.profile.removeAddressStatus,
+    updateReturnConfirmation: state.profile.updateReturnConfirmation,
+    updateReturnConfirmationStatus: state.profile.updateReturnConfirmationStatus
   };
 };
 
