@@ -40,7 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-export const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
+export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
 const FAILED_TO_FETCH = "Failed to fetch";
 export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
