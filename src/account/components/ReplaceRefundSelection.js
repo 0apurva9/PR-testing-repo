@@ -222,10 +222,10 @@ export default class ReplaceRefundSelection extends React.Component {
     if (this.state.selectedOption && this.state.agreeToReturn) {
       setDataLayer(ADOBE_MODE_OF_REFUND_SUBMITTED, this.state.selectedOption);
       let orderId =
+        (this.props && this.props.data && this.props.data.sellerorderno) ||
         (this.props &&
           this.props.orderDetails &&
-          this.props.orderDetails.orderId) ||
-        (this.props && this.props.data && this.props.data.sellerorderno);
+          this.props.orderDetails.orderId);
       let transactionId = this.props.data.transactionId;
       let returnId = this.props.getRefundOptionsDetails.returnId;
       let refundMode = this.state.selectedOption;
