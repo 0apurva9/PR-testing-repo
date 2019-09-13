@@ -10,7 +10,9 @@ import {
   BRAND_PRODUCT_LISTINGS_WITH_PAGE,
   BRAND_PAGE_WITH_SLUG,
   CHANNEL,
-  PRODUCT_LISTINGS
+  PRODUCT_LISTINGS,
+  CATEGORY_PAGE,
+  BRAND_PAGE
 } from "../../lib/constants.js";
 import delay from "lodash.delay";
 import {
@@ -84,6 +86,7 @@ class ProductListingsPage extends Component {
       }
     }
     if (
+      this.props.match.path === CATEGORY_PAGE ||
       this.props.match.path === CATEGORY_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === CATEGORY_PAGE_WITH_SLUG ||
       CATEGORY_CAPTURE_REGEX.test(currentUrl)
@@ -139,6 +142,7 @@ class ProductListingsPage extends Component {
     }
 
     if (
+      this.props.match.path === BRAND_PAGE ||
       this.props.match.path === BRAND_PRODUCT_LISTINGS_WITH_PAGE ||
       this.props.match.path === BRAND_PAGE_WITH_SLUG ||
       BRAND_CAPTURE_REGEX.test(currentUrl)
