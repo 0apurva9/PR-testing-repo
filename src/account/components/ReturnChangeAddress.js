@@ -155,7 +155,8 @@ export default class ReturnChangeAddress extends React.Component {
                 <div className={styles.continueButtonHolder}>
                   <Button
                     disabled={
-                      this.props.isPincodeServiceable === true ? false : true
+                      this.props.disabled
+                      // isPincodeServiceable === true ? false : true
                     }
                     type="primary"
                     backgroundColor="#ff1744"

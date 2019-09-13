@@ -222,7 +222,6 @@ export default class ReturnModes extends React.Component {
         this.props.displayToast(updateReturnConfirmation.error);
       }
     }
-    // console.log("update data after hitting submit button", this.props)
   }
   onChangeAddress = () => {
     setDataLayer(ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED);
@@ -251,6 +250,9 @@ export default class ReturnModes extends React.Component {
       );
     }
   }
+  renderLoader() {
+    return <Loader />;
+  }
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -266,6 +268,10 @@ export default class ReturnModes extends React.Component {
     ) {
       return this.navigateToReturnLanding();
     }
+    if (this.props && this.props.updateReturnConfirmationStatus === "success") {
+      return this.renderLoader();
+    }
+
     //const { productInfo } = this.props;
     const data = this.state.returnModesDetails;
     const returnStoreDetailsList =
