@@ -222,6 +222,7 @@ export default class ReturnModes extends React.Component {
         this.props.displayToast(updateReturnConfirmation.error);
       }
     }
+    // console.log("update data after hitting submit button", this.props)
   }
   onChangeAddress = () => {
     setDataLayer(ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED);

@@ -5,6 +5,7 @@ import TextArea from "../../general/components/TextArea";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import styles from "./CancelReasonForm.css";
 import PropTypes from "prop-types";
+import Loader from "../../general/components/Loader";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
@@ -83,6 +84,9 @@ export default class CancelReturnReasonForm extends React.Component {
         </div>
       </div>
     );
+  }
+  renderLoader() {
+    return <Loader />;
   }
   render() {
     const data = this.props.returnReasons;

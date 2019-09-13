@@ -31,6 +31,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     }
   }
   render() {
+    console.log("props in order status:", this.props);
     if (!this.props.statusMessageList) {
       return null;
     }
@@ -1345,7 +1346,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
               {!this.props.isCNC &&
                 (responseCode.includes("RETURN_CLOSED") ||
                   responseCode.includes("RETURNINITIATED_BY_RTO") ||
-                  this.props.consignmentStatus === "ORDER_CANCELLED") && (
+                  this.props.consignmentStatus === "ORDER_CANCELLED" ||
+                  this.props.consignmentStatus === "REFUND_IN_PROGRESS") && (
                   <React.Fragment>
                     {completedSteps.includes(REFUND_INITIATED) && (
                       <div className={styles.step}>
