@@ -183,6 +183,8 @@ const mapStateToProps = state => {
     getRefundOptionsDetails: state.profile.getRefundOptionsDetails,
     getRefundModesDetails: state.profile.getRefundModesDetails,
     removeAddressStatus: state.profile.removeAddressStatus,
+    loadingForUpdateReturnConfirmation:
+      state.profile.loadingForUpdateReturnConfirmation,
     updateReturnConfirmation: state.profile.updateReturnConfirmation,
     updateReturnConfirmationStatus: state.profile.updateReturnConfirmationStatus
   };
