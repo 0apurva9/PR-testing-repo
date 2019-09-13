@@ -1355,7 +1355,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         <div
                           className={
                             responseCodeForNotDelivered ===
-                            "CLOSED_ON_RETURN_TO_ORIGIN"
+                              "CLOSED_ON_RETURN_TO_ORIGIN" ||
+                            completedSteps.includes(RETURN_CANCELLED) ||
+                            completedSteps.includes(RETURN_DECLINED) ||
+                            completedSteps.includes(REFUND_SUCCESSFUL)
                               ? styles.processNameHolder
                               : styles.processNameHolderBold
                           }
