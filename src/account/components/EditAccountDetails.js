@@ -23,7 +23,13 @@ import {
   LOGIN_PATH,
   ERROR,
   HOME_ROUTER,
-  REQUESTING
+  REQUESTING,
+  NAME_TEXT,
+  NAME_VALID_TEXT,
+  LAST_NAME_TEXT,
+  LAST_VALID_TEXT,
+  PREVENT_NUMBERS_VALIDATION,
+  NAME_VALIDATION
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -143,6 +149,34 @@ export default class EditAccountDetails extends React.Component {
       }
   }
   updateProfile = () => {
+    if (
+      this.state.firstName &&
+      !PREVENT_NUMBERS_VALIDATION.test(this.state.firstName.trim())
+    ) {
+      this.props.displayToast(NAME_VALID_TEXT);
+      return false;
+    }
+    if (
+      this.state.lastName &&
+      !PREVENT_NUMBERS_VALIDATION.test(this.state.lastName.trim())
+    ) {
+      this.props.displayToast(LAST_VALID_TEXT);
+      return false;
+    }
+    if (
+      !this.state.firstName.trim() ||
+      !NAME_VALIDATION.test(this.state.firstName.trim())
+    ) {
+      this.props.displayToast(NAME_TEXT);
+      return false;
+    }
+    if (
+      !this.state.lastName.trim() ||
+      !NAME_VALIDATION.test(this.state.lastName.trim())
+    ) {
+      this.props.displayToast(LAST_NAME_TEXT);
+      return false;
+    }
     if (
       this.state.emailId &&
       !EMAIL_REGULAR_EXPRESSION.test(this.state.emailId)
