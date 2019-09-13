@@ -218,9 +218,14 @@ export default class ReplaceRefundSelection extends React.Component {
   }
 
   async goToRefundModesPage() {
+    console.log("props--->", this.props);
     if (this.state.selectedOption && this.state.agreeToReturn) {
       setDataLayer(ADOBE_MODE_OF_REFUND_SUBMITTED, this.state.selectedOption);
-      let orderId = this.props.data.sellerorderno;
+      let orderId =
+        (this.props &&
+          this.props.orderDetails &&
+          this.props.orderDetails.orderId) ||
+        (this.props && this.props.data && this.props.data.sellerorderno);
       let transactionId = this.props.data.transactionId;
       let returnId = this.props.getRefundOptionsDetails.returnId;
       let refundMode = this.state.selectedOption;
@@ -248,6 +253,7 @@ export default class ReplaceRefundSelection extends React.Component {
         updateRefundModeResponse &&
         updateRefundModeResponse.status === "success"
       ) {
+        debugger;
         if (this.props.getRefundModesDetails.typeofRefund === "REFNOPCK") {
           let modeOfReturn = "other";
           let updateReturnConfirmation = await this.props.updateReturnConfirmation(
