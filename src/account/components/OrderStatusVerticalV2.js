@@ -959,38 +959,40 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   </div>
                 </React.Fragment>
               ) : (
-                <div
-                  className={
-                    completedSteps.includes(REFUND_SUCCESSFUL)
-                      ? styles.step
-                      : styles.stepInactive
-                  }
-                >
+                completedSteps.includes(REFUND_SUCCESSFUL) && (
                   <div
                     className={
                       completedSteps.includes(REFUND_SUCCESSFUL)
-                        ? styles.checkActive
-                        : styles.check
-                    }
-                  />
-                  <div
-                    className={
-                      activeOrderStatus === REFUND_SUCCESSFUL
-                        ? styles.processNameHolderBold
-                        : styles.processNameHolder
+                        ? styles.step
+                        : styles.stepInactive
                     }
                   >
-                    {refundSuccessfulCustomerFacingName}
-                  </div>
-                  <div className={styles.dateAndTimeHolder}>
-                    <div className={styles.timeHolder}>
-                      {refundSuccessfulDate}
+                    <div
+                      className={
+                        completedSteps.includes(REFUND_SUCCESSFUL)
+                          ? styles.checkActive
+                          : styles.check
+                      }
+                    />
+                    <div
+                      className={
+                        activeOrderStatus === REFUND_SUCCESSFUL
+                          ? styles.processNameHolderBold
+                          : styles.processNameHolder
+                      }
+                    >
+                      {refundSuccessfulCustomerFacingName}
                     </div>
-                    <div className={styles.dateHolder}>
-                      {refundSuccessfulTime}
+                    <div className={styles.dateAndTimeHolder}>
+                      <div className={styles.timeHolder}>
+                        {refundSuccessfulDate}
+                      </div>
+                      <div className={styles.dateHolder}>
+                        {refundSuccessfulTime}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )
               )}
             </React.Fragment>
           ) : (
@@ -1484,38 +1486,40 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             </div>
                           </React.Fragment>
                         ) : (
-                          <div
-                            className={
-                              completedSteps.includes(REFUND_SUCCESSFUL)
-                                ? styles.step
-                                : styles.stepInactive
-                            }
-                          >
+                          completedSteps.includes(REFUND_SUCCESSFUL) && (
                             <div
                               className={
                                 completedSteps.includes(REFUND_SUCCESSFUL)
-                                  ? styles.checkActive
-                                  : styles.check
-                              }
-                            />
-                            <div
-                              className={
-                                activeOrderStatus === REFUND_SUCCESSFUL
-                                  ? styles.processNameHolderBold
-                                  : styles.processNameHolder
+                                  ? styles.step
+                                  : styles.stepInactive
                               }
                             >
-                              {refundSuccessfulCustomerFacingName}
-                            </div>
-                            <div className={styles.dateAndTimeHolder}>
-                              <div className={styles.timeHolder}>
-                                {refundSuccessfulDate}
+                              <div
+                                className={
+                                  completedSteps.includes(REFUND_SUCCESSFUL)
+                                    ? styles.checkActive
+                                    : styles.check
+                                }
+                              />
+                              <div
+                                className={
+                                  activeOrderStatus === REFUND_SUCCESSFUL
+                                    ? styles.processNameHolderBold
+                                    : styles.processNameHolder
+                                }
+                              >
+                                {refundSuccessfulCustomerFacingName}
                               </div>
-                              <div className={styles.dateHolder}>
-                                {refundSuccessfulTime}
+                              <div className={styles.dateAndTimeHolder}>
+                                <div className={styles.timeHolder}>
+                                  {refundSuccessfulDate}
+                                </div>
+                                <div className={styles.dateHolder}>
+                                  {refundSuccessfulTime}
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )
                         )}
                       </React.Fragment>
                     )}
