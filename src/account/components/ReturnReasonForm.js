@@ -229,9 +229,11 @@ export default class ReturnReasonForm extends React.Component {
                         }
                         orderId={this.props.orderId}
                         productSize={
+                          this.props.orderDetails &&
                           this.props.orderDetails.products[0].productSize
                         }
                         productColourName={
+                          this.props.orderDetails &&
                           this.props.orderDetails.products[0].productColourName
                         }
                         productBrand={

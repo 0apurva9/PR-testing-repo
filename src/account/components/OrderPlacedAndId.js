@@ -6,8 +6,13 @@ import MobileOnly from "../../general/components/MobileOnly";
 import { MY_ACCOUNT, ORDER, ORDER_CODE } from "../../lib/constants";
 import { MY_ACCOUNT_ORDERS_PAGE, MY_ACCOUNT_PAGE } from "../../lib/constants";
 // import { push } from 'react-router-redux';
+import {
+  setDataLayer,
+  ADOBE_ORDER_DETAILS_LINK_CLICKED
+} from "../../lib/adobeUtils";
 export default class OrderPlacedAndId extends React.Component {
   onViewDetails(orderId) {
+    setDataLayer(ADOBE_ORDER_DETAILS_LINK_CLICKED);
     this.props.pushDetails.push(
       `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`
     );

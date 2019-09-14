@@ -60,7 +60,8 @@ import {
   ADOBE_ORDER_CONFIRMATION,
   setDataLayerForOrderConfirmationDirectCalls,
   ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
-  ADOBE_RETURN_LINK_CLICKED
+  ADOBE_RETURN_LINK_CLICKED,
+  ADOBE_RETURN_JOURNEY_INITIATED
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -491,6 +492,7 @@ export function updateReturnForHOTC(data) {
       dispatch(displayToast(SUCCESS_MESSAGE_IN_RETURN_TO_HOTC));
       sessionStorage.setItem("updateReturnForHOTC", true);
       setDataLayer(ADOBE_RETURN_LINK_CLICKED);
+      setDataLayer(ADOBE_RETURN_JOURNEY_INITIATED);
       return dispatch(updateReturnForHOTCSuccess(resultJson));
     } catch (e) {
       return dispatch(updateReturnForHOTCFailure(e.message));
@@ -2596,7 +2598,6 @@ export function sendInvoiceRequest() {
   };
 }
 export function sendInvoiceSuccess(sendInvoice) {
-  debugger;
   return {
     type: SEND_INVOICE_SUCCESS,
     status: SUCCESS,
@@ -2633,7 +2634,6 @@ export function sendInvoice(lineID, orderNumber) {
       }
       dispatch(sendInvoiceSuccess(resultJson));
       if (resultJson && resultJson.status === "Success") {
-        debugger;
         dispatch(displayToast("Invoice has been sent"));
       }
     } catch (e) {

@@ -44,11 +44,13 @@ import {
   HELP_URL
 } from "../../lib/constants";
 import {
+  setDataLayer,
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
   ADOBE_RETURN_LINK_CLICKED,
   ADOBE_REQUEST_INVOICE_LINK_CLICKED,
-  ADOBE_HELP_SUPPORT_LINK_CLICKED
+  ADOBE_HELP_SUPPORT_LINK_CLICKED,
+  ADOBE_RETURN_JOURNEY_INITIATED
 } from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -72,7 +74,7 @@ export default class OrderDetails extends React.Component {
     }
   }
   requestInvoice(lineID, orderNumber) {
-    setDataLayerForMyAccountDirectCalls(ADOBE_REQUEST_INVOICE_LINK_CLICKED);
+    setDataLayer(ADOBE_REQUEST_INVOICE_LINK_CLICKED);
     if (this.props.sendInvoice) {
       this.props.sendInvoice(lineID, orderNumber);
     }
@@ -87,7 +89,6 @@ export default class OrderDetails extends React.Component {
   }
   replaceItem(sellerorderno, paymentMethod, transactionId) {
     sessionStorage.setItem("returnTransactionId", transactionId);
-    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     if (sellerorderno) {
       let isCOD = false;
       let isPaypal = false;
@@ -97,7 +98,8 @@ export default class OrderDetails extends React.Component {
       if (paymentMethod === PAY_PAL) {
         isPaypal = true;
       }
-      setDataLayerForMyAccountDirectCalls(ADOBE_RETURN_LINK_CLICKED);
+      setDataLayer(ADOBE_RETURN_LINK_CLICKED);
+      setDataLayer(ADOBE_RETURN_JOURNEY_INITIATED);
       this.props.history.push({
         pathname: `${RETURNS_PREFIX}/${sellerorderno}${RETURN_LANDING}${RETURNS_REASON}`,
         state: {
@@ -195,7 +197,7 @@ export default class OrderDetails extends React.Component {
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
-    setDataLayerForMyAccountDirectCalls(ADOBE_HELP_SUPPORT_LINK_CLICKED);
+    setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(`${HELP_URL}`);
   }
   componentWillMount() {

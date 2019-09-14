@@ -14,8 +14,7 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayer,
-  ADOBE_ITEM_DETAILS_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_ITEM_DETAILS_LINK_CLICKED
 } from "../../lib/adobeUtils";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
 const dateFormat = "DD MMM YYYY";
@@ -32,9 +31,6 @@ export default class OrderCard extends React.Component {
     }
   };
   onViewItemDetails(orderId, transactionId) {
-    if (this.props.orderStatusCode === "DELIVERED") {
-      setDataLayer(ADOBE_RETURN_JOURNEY_INITIATED);
-    }
     setDataLayer(ADOBE_ITEM_DETAILS_LINK_CLICKED);
     this.props.history.push(
       `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}&transactionId=${transactionId}`

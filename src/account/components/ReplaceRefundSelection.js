@@ -253,7 +253,6 @@ export default class ReplaceRefundSelection extends React.Component {
         updateRefundModeResponse &&
         updateRefundModeResponse.status === "success"
       ) {
-        debugger;
         if (this.props.getRefundModesDetails.typeofRefund === "REFNOPCK") {
           let modeOfReturn = "other";
           let updateReturnConfirmation = await this.props.updateReturnConfirmation(
@@ -382,7 +381,6 @@ export default class ReplaceRefundSelection extends React.Component {
       uploadedImageFiles: [],
       hideUpload: true
     });
-    debugger;
   }
 
   getContinueButton(selectedOption, agreeToReturn, userBankDetails) {

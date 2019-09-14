@@ -419,7 +419,9 @@ class App extends Component {
 
   render() {
     if (!this.props.location.pathname.includes("/my-account")) {
-      window.od.messenger("update");
+      if (window.od && window.od.messenger && window.od.messenger("update")) {
+        window.od.messenger("update");
+      }
     }
     let className = AppStyles.base;
     const {
