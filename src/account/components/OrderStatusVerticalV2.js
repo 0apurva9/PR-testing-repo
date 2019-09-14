@@ -621,6 +621,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
     let refundInitiatedTime = "";
     let refundInitiatedCustomerFacingName = "Refund Initiated";
     let refundInitiatedShipmentStatus = "";
+    let statusList =
+      refundInitiatedData &&
+      refundInitiatedData.value &&
+      refundInitiatedData.value.statusList;
     let responseCode = "";
     if (refundInitiatedData && refundInitiatedData.value.customerFacingName) {
       refundInitiatedCustomerFacingName =
@@ -645,7 +649,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
     ) {
       refundInitiatedShipmentStatus =
         refundInitiatedData.value.statusList[0].shipmentStatus;
-      responseCode = refundInitiatedData.value.statusList[0].responseCode;
+      let lastArrayResponseCode = statusList[statusList.length - 1];
+      responseCode = lastArrayResponseCode.responseCode;
     }
 
     //return declined
