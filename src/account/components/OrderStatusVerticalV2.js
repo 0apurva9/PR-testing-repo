@@ -756,7 +756,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
               {completedSteps.includes(REFUND_INITIATED) ? (
                 <React.Fragment>
                   <div className={styles.step}>
-                    <div className={styles.checkActive} />
+                    <div
+                      className={
+                        completedSteps.includes(REFUND_INITIATED)
+                          ? styles.checkActive
+                          : styles.check
+                      }
+                    />
                     <div
                       className={
                         activeOrderStatus === REFUND_INITIATED
@@ -783,7 +789,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     // this.props.mediationRequired == true &&
                     this.props.returnType === "selfShipment" ? (
                       <div className={styles.step}>
-                        <div className={styles.checkActive} />
+                        <div
+                          className={
+                            completedSteps.includes(REFUND_INITIATED)
+                              ? styles.checkActive
+                              : styles.check
+                          }
+                        />
                         <div className={styles.processNameHolder}>
                           {refundInitiatedCustomerFacingName}
                         </div>
@@ -1356,7 +1368,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   <React.Fragment>
                     {completedSteps.includes(REFUND_INITIATED) && (
                       <div className={styles.step}>
-                        <div className={styles.checkActive} />
+                        <div
+                          className={
+                            completedSteps.includes(REFUND_INITIATED)
+                              ? styles.checkActive
+                              : styles.check
+                          }
+                        />
                         <div
                           className={
                             responseCodeForNotDelivered ===
