@@ -147,10 +147,11 @@ label {
 	padding: 15px 0;
 }
 .button {
-	/* float: center; */
 	padding-right: 30%;
-	padding-left: 40%;
-	cursor: pointer;
+    width: 30%;
+    margin-left: 40%;
+    /* padding-left: 40%; */
+    cursor: pointer;
 }
 .button1 {
 	height: 40px;
