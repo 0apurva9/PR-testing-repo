@@ -76,7 +76,7 @@
 	background: #ececec;
 	min-height: calc(100vh - 80px);
 }
-.header {
+/* .header {
 	width: 100%;
 	font-size: 18px;
 	color: #000000;
@@ -84,7 +84,7 @@
 	position: relative;
 	padding-right: 60px;
 	margin-bottom: 25px;
-}
+} */
 .cancel {
 	position: absolute;
 	right: 0;
@@ -180,6 +180,9 @@
 }
 .storeAddress:last-child {
 	border-bottom: none;
+}
+.returnModesDivider:last-child{
+	padding: 15px 0 0 0;
 }
 @media screen and (min-width: 1025px) {
 	.base {
