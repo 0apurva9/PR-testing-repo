@@ -77,7 +77,7 @@ export default class OrderPaymentMethod extends React.Component {
     //   });
     // });
     let addressLine1 = this.props && this.props.deliveryAddress;
-    // console.log("address from api", this.props)
+    console.log("address from api", this.props);
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (
@@ -128,25 +128,33 @@ export default class OrderPaymentMethod extends React.Component {
               {addressLine1 && (
                 <div className={styles.deliveryAddress}>
                   <React.Fragment>
-                    <span className={styles.addressLine}>
-                      {addressLine1.addressLine1}
-                    </span>
-                    {/* <span className={styles.addressLine}>
+                    {addressLine1.addressLine1 && (
+                      <span className={styles.addressLine}>
+                        {addressLine1.addressLine1},{" "}
+                      </span>
+                    )}
+                    {/* {/* <span className={styles.addressLine}>
                       {this.state.deliveryAddress.addressLine ||
                         this.state.deliveryAddress.addressLine1},{" "}
                     </span>
                     <span className={styles.addressLine}>
                       {this.state.deliveryAddress.landmark},{" "}
-                    </span>
-                    <span className={styles.addressLine}>
-                      {this.state.deliveryAddress.town},{" "}
-                    </span>
-                    <span className={styles.addressLine}>
-                      {this.state.deliveryAddress.state}
-                    </span>
-                    <span className={styles.addressLine}>
-                      {this.state.deliveryAddress.postalcode}
                     </span> */}
+                    {addressLine1.town && (
+                      <span className={styles.addressLine}>
+                        {addressLine1.town},{" "}
+                      </span>
+                    )}
+                    {addressLine1.state && (
+                      <span className={styles.addressLine}>
+                        {addressLine1.state},{" "}
+                      </span>
+                    )}
+                    {addressLine1.postalcode && (
+                      <span className={styles.addressLine}>
+                        {addressLine1.postalcode}
+                      </span>
+                    )}
                   </React.Fragment>
                 </div>
               )}
