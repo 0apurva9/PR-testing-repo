@@ -903,7 +903,6 @@ export default class OrderDetails extends React.Component {
                                     }
                                   >
                                     {this.props.underlineButtonLabel}
-                                    <span className={styles.rightArrow} />
                                   </div>
                                 )}
                               {this.state.itemDetails && (
