@@ -5633,17 +5633,20 @@ export function stripeTokenize(cardDetails, address, cartItem, paymentMode) {
     let card_exp_year = cardDetails && cardDetails.yearValue;
     let card_number = cardDetails && cardDetails.cardNumber;
     let card_security_code = cardDetails && cardDetails.cvvNumber;
+    let cardData = {
+      number: card_number,
+      cvc: card_security_code,
+      exp_month: card_exp_month,
+      exp_year: card_exp_year
+    };
     try {
-      const result = await api.postStripe(
-        `v1/tokens?card[number]=${card_number}&card[exp_month]=${card_exp_month}&card[exp_year]=${card_exp_year}&card[cvc]=${card_security_code}`
-      );
-      const resultJson = await result.json();
-      if (resultJson.error) {
+      const result = await api.postStripe(cardData);
+      if (result.error) {
         // dispatch(displayToast(resultJson.error.message));
-        throw new Error(resultJson.error.message);
+        throw new Error(result.error.message);
       }
-      dispatch(stripeTokenizeSuccess(resultJson));
-      return resultJson;
+      dispatch(stripeTokenizeSuccess(result));
+      return result;
     } catch (e) {
       dispatch(stripeTokenizeFailure(e));
     }

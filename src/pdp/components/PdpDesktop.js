@@ -652,7 +652,7 @@ export default class PdpApparel extends React.Component {
     const productData = this.props.productDetails;
 
     const manufacturerDetails = this.props.manufacturerDetails;
-
+    let mshProduct = productData && productData.brandURL;
     const tailedKnowMoreV2 =
       productData &&
       productData.knowMoreV2 &&
@@ -1131,7 +1131,7 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
 
-                    {!userCookie && (
+                    {(!userCookie || !getPinCode) && (
                       <SearchAndUpdate
                         uiType="hollow"
                         checkPinCodeAvailability={pincode =>
@@ -1195,6 +1195,36 @@ export default class PdpApparel extends React.Component {
                         deliveryModesATP={productData.deliveryModesATP}
                         iconShow={true}
                       />
+                    </div>
+                  )}
+                </div>
+                <div>
+                  {mshProduct.includes("samsung") && (
+                    <div className={styles.sumsungSeparator}>
+                      <div className={styles.chatIcon}>
+                        {productData.brandName === "Samsung" ||
+                        productData.brandName === "SAMSUNG" ? (
+                          <a
+                            href={samsungChatUrl}
+                            target="_blank"
+                            className={styles.samsungChatImgHolder}
+                          >
+                            <img
+                              src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                              alt="Samsung Chat"
+                            />
+                          </a>
+                        ) : null}
+                        <div className={styles.chatText}>
+                          <p>
+                            Chat with the Samsung brand representative directly
+                            for more info
+                          </p>
+                          <a href={samsungChatUrl} target="_blank">
+                            Click here to chat
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1633,7 +1663,7 @@ export default class PdpApparel extends React.Component {
             </div>
           </div>
 
-          {productData.brandName === "Samsung" ? (
+          {/* {productData.brandName === "Samsung" ? (
             <a
               href={samsungChatUrl}
               target="_blank"
@@ -1644,7 +1674,7 @@ export default class PdpApparel extends React.Component {
                 alt="Samsung Chat"
               />
             </a>
-          ) : null}
+          ) : null} */}
         </PdpFrame>
       );
     } else {
