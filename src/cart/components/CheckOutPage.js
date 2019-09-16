@@ -2391,7 +2391,7 @@ if you have order id in local storage then you have to show order confirmation p
             this.props.createPaymentOrder(this.state.retryCartGuid);
           }
           this.props.collectPaymentOrderForNetBanking(
-            NET_BANKING_PAYMENT_MODE,
+            NET_BANKING,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             this.state.bankCodeForNetBanking,
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
