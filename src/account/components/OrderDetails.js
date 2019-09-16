@@ -12,7 +12,6 @@ import each from "lodash.foreach";
 import queryString from "query-string";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import MobileOnly from "../../general/components/MobileOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
@@ -520,17 +519,6 @@ export default class OrderDetails extends React.Component {
                             Back to Order History
                           </div>
                         )}
-                      <MobileOnly>
-                        {this.state.itemDetails && (
-                          <div className={styles.orderItemDateID}>
-                            <div>Order placed on : {orderPlacedDate}</div>
-                            <div>Order ID : #{orderDetails.orderId}</div>
-                            <div>
-                              Transaction ID : #{products.transactionId}
-                            </div>
-                          </div>
-                        )}
-                      </MobileOnly>
 
                       <OrderCard
                         statusDisplayMsg={products.statusDisplayMsg}
@@ -832,21 +820,6 @@ export default class OrderDetails extends React.Component {
                             {/* showing write a review and cancel or return only for mobile */}
                             {!isReturned && (
                               <React.Fragment>
-                                <MobileOnly>
-                                  <div className={styles.reviewHolder}>
-                                    <div
-                                      className={styles.replace}
-                                      onClick={val =>
-                                        this.writeReview(products.productcode)
-                                      }
-                                    >
-                                      <UnderLinedButton
-                                        label="Write a review"
-                                        color="#ff1744"
-                                      />
-                                    </div>
-                                  </div>
-                                </MobileOnly>
                                 {/* showing write a review only for desktop */}
                               </React.Fragment>
                             )}
