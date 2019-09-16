@@ -1191,7 +1191,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
                                 this.props.consignmentStatus !==
-                                  "ORDER_REJECTED" ? (
+                                  "ORDER_REJECTED" &&
+                                this.props.consignmentStatus !==
+                                  "REFUND_IN_PROGRESS" ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
