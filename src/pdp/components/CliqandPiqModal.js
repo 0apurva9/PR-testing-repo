@@ -90,12 +90,7 @@ export default class ReturnToStore extends React.Component {
         return (
           slaves.CNCServiceableSlavesData &&
           slaves.CNCServiceableSlavesData.map(slave => {
-            return (
-              slave &&
-              slave.serviceableSlaves.map(serviceableSlave => {
-                return serviceableSlave;
-              })
-            );
+            return slave && slave.storeId;
           })
         );
       })
@@ -108,11 +103,14 @@ export default class ReturnToStore extends React.Component {
         );
       });
 
-    const allStoreIds = [].concat
-      .apply([], [].concat.apply([], someData))
-      .map(store => {
-        return store && store.slaveId;
-      });
+    // const allStoreIds = [].concat
+    //   .apply([], [].concat.apply([], someData))
+    //   .map(store => {
+    //     return store && store.slaveId;
+    //   });
+    const allStoreIds = [].concat.apply([], someData).map(store => {
+      return store;
+    });
     const availableStores = this.props.stores
       ? this.props.stores.filter(val => {
           return allStoreIds.includes(val.slaveId) && val.clicknCollect === "Y";
