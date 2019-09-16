@@ -1336,7 +1336,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 (responseCode.includes("RETURN_CLOSED") ||
                   responseCode.includes("RETURNINITIATED_BY_RTO") ||
                   this.props.consignmentStatus === "ORDER_CANCELLED" ||
-                  this.props.consignmentStatus === "REFUND_IN_PROGRESS") && (
+                  this.props.consignmentStatus === "REFUND_IN_PROGRESS" ||
+                  this.props.consignmentStatus === "REFUND_INITIATED") && (
                   <React.Fragment>
                     {completedSteps.includes(REFUND_INITIATED) && (
                       <div className={styles.step}>
