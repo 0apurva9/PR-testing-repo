@@ -8,14 +8,11 @@ import {
   PRODUCT_CART_ROUTER,
   DEFAULT_BRANDS_LANDING_PAGE,
   CATEGORIES_LANDING_PAGE,
-  PRODUCT_CART_DELIVERY_MODES,
   MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_ADDRESS_EDIT_PAGE,
   EDIT_ADDRESS_BOOK,
   CDN_URL_ROOT,
   CART_BAG_DETAILS
 } from "../../../src/lib/constants";
-import { CATEGORY_REGEX } from "../../plp/components/PlpBrandCategoryWrapper";
 const HOME = "home";
 const CATEGORIES = "categories";
 const BRANDS = "brands";

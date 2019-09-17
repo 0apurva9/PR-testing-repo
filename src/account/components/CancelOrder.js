@@ -4,9 +4,7 @@ import * as Cookie from "../../lib/Cookie";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE
+  LOGIN_PATH
 } from "../../lib/constants";
 import CancelReasonForm from "./CancelReasonForm";
 import PropTypes from "prop-types";
@@ -86,6 +84,7 @@ export default class CancelOrder extends React.Component {
       <div>
         {cancelProductDetails && (
           <CancelReasonForm
+            {...this.props}
             cancelProductDetails={cancelProductDetails}
             onContinue={reason => this.finalSubmit(reason)}
             onCancel={() => this.onCancel()}

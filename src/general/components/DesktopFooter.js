@@ -11,13 +11,11 @@ import {
   SAVE_LIST_PAGE,
   MY_ACCOUNT_ORDERS_PAGE
 } from "../../../src/lib/constants";
-import companyLogo from "../../general/components/img/companylogo.svg";
 import TrustComponent from "../../general/components/TrustComponent";
 import {
   setDataLayerForHeaderAndFooterDirectCalls,
   ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK,
-  ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK,
-  ADOBE_DIRECT_CALL_FOR_FOOTER_SUBSCRIBE
+  ADOBE_DIRECT_CALL_FOR_SOCIALMEDIA_CLICK
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import DesktopFooterProductList from "./DesktopFooterProductList";

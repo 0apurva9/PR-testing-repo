@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./InvalidCouponPopUp.css";
 import queryString from "query-string";
-
 import {
   FAILURE_LOWERCASE,
   SUCCESS,
@@ -11,15 +10,11 @@ import {
   NO_COST_EMI_COUPON,
   BANK_COUPON_COOKIE,
   COUPON_COOKIE,
-  SUCCESS_CAMEL_CASE,
-  SUCCESS_UPPERCASE,
   BANK_OFFER_TYPE,
   NCE_OFFER_TYPE,
   OFFER_ERROR_PAYMENT_MODE_TYPE
 } from "../../lib/constants";
 import { BANK_OFFERS } from "../../general/modal.actions.js";
-import DesktopOnly from "../../general/components/DesktopOnly";
-import MobileOnly from "../../general/components/MobileOnly";
 export default class ValidateOffersPopUp extends React.Component {
   getBanksList(bankDetail) {
     return (

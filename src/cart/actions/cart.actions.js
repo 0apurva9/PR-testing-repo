@@ -4,7 +4,6 @@ import {
   ERROR,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  JUS_PAY_AUTHENTICATION_FAILED,
   NO,
   BANK_COUPON_COOKIE,
   PAYMENT_MODE_TYPE,
@@ -38,7 +37,8 @@ import {
   NOCART,
   STRIPE_DETAILS,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
-  OLD_CART_GU_ID
+  OLD_CART_GU_ID,
+  FAILURE_LOWERCASE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -57,20 +57,16 @@ import {
   GLOBAL_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   FAILURE,
-  FAILURE_UPPERCASE,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CART_DETAILS_FOR_ANONYMOUS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   JUS_PAY_PENDING,
   JUS_PAY_CHARGED,
-  FAILURE_LOWERCASE,
-  SOFT_RESERVATION_ITEM,
-  ADDRESS_DETAILS_FOR_PAYMENT,
   CART_BAG_DETAILS,
   EMI_TYPE,
   SELECTED_DELIVERY_MODE
 } from "../../lib/constants";
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 import { setBagCount } from "../../general/header.actions";
 import * as browserAndDeviceDetails from "../../mock/browserDetails.js";
 import {
@@ -89,10 +85,8 @@ import {
   setDataLayerForCheckoutDirectCalls,
   ADOBE_ADD_ADDRESS_TO_ORDER,
   ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE,
-  ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
   ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
-  ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE,
   ADOBE_FINAL_PAYMENT_MODES,
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_ON,
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF,

@@ -55,7 +55,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
     title = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
   }
 
-  if (productDetails.type == "productSearchPageWsDto") {
+  if (productDetails.type === "productSearchPageWsDto") {
     let discountPercentArray = [];
     let maxDiscount = 0;
     if (productDetails.searchresult) {
@@ -65,10 +65,10 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
     }
     maxDiscount = Math.max.apply(0, discountPercentArray);
     if (
-      productDetails.currentQuery.appliedFilters.indexOf("brand") != -1 &&
-      productDetails.seo != undefined &&
-      productDetails.searchresult != undefined &&
-      productDetails.seo.title != undefined
+      productDetails.currentQuery.appliedFilters.indexOf("brand") !== -1 &&
+      productDetails.seo !== undefined &&
+      productDetails.searchresult !== undefined &&
+      productDetails.seo.title !== undefined
     ) {
       title = `Buy ${productDetails.searchresult[0].brandname} ${
         productDetails.seo.title.split("|")[0]
@@ -91,8 +91,8 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
       } Online`;
     } else {
       if (
-        productDetails.seo != undefined &&
-        productDetails.seo.title != undefined
+        productDetails.seo !== undefined &&
+        productDetails.seo.title !== undefined
       ) {
         title = `Buy ${
           productDetails.seo.title.split(" ")[0]
@@ -110,7 +110,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
       }
     }
   }
-  if (window.location.href.indexOf("viewSellers") != -1) {
+  if (window.location.href.indexOf("viewSellers") !== -1) {
     title = `${productDetails.productName} Sellers at Tata CLIQ`;
     description = `Shop ${
       productDetails.productName
@@ -122,7 +122,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
       <title> {title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      {window.location.href.indexOf("viewSellers") == -1 ? (
+      {window.location.href.indexOf("viewSellers") === -1 ? (
         <link
           rel="canonical"
           href={`${URL_ROOT}${canonicalUrl}`}

@@ -85,6 +85,11 @@ export const ONLY_ICON = "wishlistIconForPdp";
 //   loading: () => <div />,
 //   delay: 400
 // });
+/* const ProductDetails = LoadableVisibility({
+  loader: () => import("./ProductDetails"),
+  loading: () => <div />,
+  delay: 400
+}); */
 
 // const Overlay = LoadableVisibility({
 //   loader: () => import("./Overlay"),
@@ -634,9 +639,9 @@ export default class PdpApparel extends React.Component {
 
   render() {
     let seasonData = {};
-    if (this.props.productDetails["seasonDetails"] != undefined) {
+    if (this.props.productDetails["seasonDetails"] !== undefined) {
       seasonData = this.props.productDetails["seasonDetails"].find(item => {
-        return item.key == "Season";
+        return item.key === "Season";
       });
     }
     const getPinCode =

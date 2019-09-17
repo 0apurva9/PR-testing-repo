@@ -3,9 +3,6 @@ import styles from "./PickUpLocation.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import MobileOnly from "../../general/components/MobileOnly";
-
-import GridSelect from "../../general/components/GridSelect.js";
-
 import DesktopOnly from "../../general/components/DesktopOnly";
 import CheckBox from "../../general/components/CheckBox.js";
 const integerDayMapping = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thur", "Fri"];

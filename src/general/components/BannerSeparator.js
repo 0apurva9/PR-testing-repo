@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./BannerSeparator.css";
 import Image from "../../xelpmoc-core/Image";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import PropTypes from "prop-types";
 export default class BannerSeparator extends React.Component {
   handleClick(webURL) {
     if (webURL) {

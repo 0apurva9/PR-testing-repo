@@ -16,10 +16,9 @@ import {
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import OrderRelatedPopup from "./OrderRelatedPopup";
-import { SUCCESS, MY_ACCOUNT_PAGE, CUSTOMER_CARE } from "../../lib/constants";
+import { SUCCESS, CUSTOMER_CARE } from "../../lib/constants";
 import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -36,7 +35,6 @@ const EMAIL_TEXT = "Please enter emailId";
 const EMAIL_VALID_TEXT = "Please enter  valid emailId";
 const DUPLICATE_QUERY =
   "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
-const OFFSET_BOTTOM = 800;
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
@@ -249,12 +247,12 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(MOBILE_VALID_TEXT);
       return false;
     } else {
-      let orderRelatedIssue =
+      /*let orderRelatedIssue =
         this.props.customerQueriesData &&
         this.props.customerQueriesData.nodes &&
         this.props.customerQueriesData.nodes.find(orderRelated => {
           return orderRelated.nodeDesc === "Order Related Query";
-        });
+        });*/
       let submitDetailsObject = Object.assign(
         {},
         {

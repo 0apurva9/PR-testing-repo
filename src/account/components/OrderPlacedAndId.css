@@ -1,47 +1,75 @@
 .base {
-  width: 100%;
-  height: auto;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	display: inline-block;
 }
 .orderPlacedHolder {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  color: #181818;
-  margin-bottom: 10px;
-  display: inline-block;
-  font-family: regular;
+	width: 75%;
+	height: auto;
+	font-size: 14px;
+	color: #181818;
+	margin-bottom: 10px;
+	display: inline-block;
+	font-family: regular;
 }
 .labelHeader {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  font-family: semibold;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	font-family: light;
+	font-size: 14px;
+}
+.labelOrderDetailsHeader {
+	width: auto;
+	height: auto;
+	color: #ff1744;
+	font-size: 14px;
+	font-family: semibold;
+	cursor: pointer;
+}
+/* .labelOrderDetailsHeaderForHistoryBack {
+	width: auto;
+	height: auto;
+	color: #ff1744;
+	font-size: 14px;
+	font-family: semibold;
+	margin-right: 10px;
+} */
+.marginHeader {
+	margin: 5px 5px 5px 5px;
 }
 .dataInformationText {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  padding-left: 5px;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	padding-left: 5px;
+	font-family: light;
+	font-size: 14px;
 }
 .orderIdHolder {
-  composes: orderPlacedHolder;
-  margin-bottom: 0px;
+	width: 30%;
+	composes: orderPlacedHolder;
+	margin-bottom: 0px;
 }
 @media screen and (min-width: 1025px) {
-  .dataHolder {
-    width: 100%;
-    height: auto;
-    float: left;
-  }
-  .orderPlacedHolder {
-    width: auto;
-    display: initial;
-    float: left;
-    margin-bottom: 0;
-  }
-  .orderIdHolder {
-    composes: orderPlacedHolder;
-    float: right;
-  }
+	.dataHolder {
+		width: 100%;
+		height: 16px;
+		float: left;
+		line-height: 22px;
+		margin-bottom: 10px;
+	}
+	.orderPlacedHolder {
+		width: 70%;
+		display: initial;
+		float: left;
+		margin-bottom: 0;
+	}
+	.orderIdHolder {
+		composes: orderPlacedHolder;
+		float: right;
+		width: 30%;
+		right: 0;
+		text-align: right;
+	}
 }

@@ -1,49 +1,67 @@
 import React from "react";
 import styles from "./SelectedReasonForReturn.css";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
 import checkIcon from "../../general/components/img/check.svg";
 import Icon from "../../xelpmoc-core/Icon";
 export default class SelectedReasonForReturn extends React.Component {
   handleCancel() {
-    if (this.props.handleCancel) {
-      this.props.handleCancel();
-    }
+    this.props.history.goBack();
+    // if (this.props.handleCancel) {
+    // 	this.props.handleCancel();
+    // }
   }
   render() {
     return (
       <div className={styles.base}>
-        {this.props.header && (
-          <div className={styles.headerForDefectiveReason}>
-            {this.props.header}
+        <div className={styles.headerRefundReason}>
+          {this.props.header && (
+            <div className={styles.headerForDefectiveReason}>
+              <div className={styles.headerForDefectiveReasonFirst}>
+                Reason for return:
+                {this.props.data.reason && (
+                  <span className={styles.titleDescription}>
+                    {this.props.data.reason}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+          <div
+            className={styles.cancelButtonHolder}
+            onClick={() => this.handleCancel()}
+          >
+            Change
+          </div>
+        </div>
+        {this.props.data.subReason && (
+          <div className={styles.subDescription}>
+            Issue Detail:{" "}
+            <span className={styles.subTitleDescription}>
+              {this.props.data.subReason}
+            </span>
           </div>
         )}
-        <div className={styles.cancelButtonHolder}>
-          <UnderLinedButton
-            size="14px"
-            fontFamily="regular"
-            color="#000000"
-            label="Change"
-            onClick={() => this.handleCancel()}
-          />
-        </div>
-        <div className={styles.checkIcon}>
-          <Icon image={checkIcon} size={40} />
-        </div>
-        <div className={styles.defectiveProductData}>
-          {this.props.title && (
-            <div className={styles.titleAddress}>{this.props.title}</div>
-          )}
-          {this.props.titleDescription && (
-            <div className={styles.titleDescription}>
-              {this.props.titleDescription}
-            </div>
-          )}
-          {this.props.subTitleDescription && (
-            <div className={styles.subTitleDescription}>
-              {this.props.subTitleDescription}
-            </div>
-          )}
-        </div>
+        {this.props.data.comment && (
+          <div className={styles.commentTitle}>
+            Comments:{" "}
+            <span className={styles.comment}>{this.props.data.comment}</span>
+          </div>
+        )}
+        {this.props.returnFlow ? (
+          ""
+        ) : (
+          <div className={styles.checkIcon}>
+            <Icon image={checkIcon} size={40} />
+          </div>
+        )}
+        {/* <div className={styles.defectiveProductData}>
+					{this.props.title && <div className={styles.titleAddress}>{this.props.title}</div>}
+					{this.props.titleDescription && (
+						<div className={styles.titleDescription}>{this.props.titleDescription}</div>
+					)}
+					{this.props.subTitleDescription && (
+						<div className={styles.subTitleDescription}>{this.props.subTitleDescription}</div>
+					)}
+				</div> */}
         {(this.props.date || this.props.time) && (
           <div className={styles.dateAndTimeHolder} style={{ display: "none" }}>
             {this.props.date && (

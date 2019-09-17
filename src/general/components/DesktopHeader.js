@@ -3,7 +3,6 @@ import styles from "./DesktopHeader.css";
 import PropTypes from "prop-types";
 import {
   LOGGED_IN_USER_DETAILS,
-  CONTACT_URL,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
@@ -11,7 +10,6 @@ import {
   RUPEE_SYMBOL
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
-import LogoutButtonContainer from "../../account/containers/LogoutButtonContainer";
 import * as Cookie from "../../lib/Cookie";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import BrandImage from "./BrandImage";

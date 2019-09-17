@@ -1,0 +1,85 @@
+.base {
+	width: 100%;
+	height: auto;
+	padding: 34px;
+	background: #f2f2f2;
+}
+.content {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	margin: 45px auto 24px auto;
+	max-width: 1190px;
+	max-height: 381px;
+}
+.contentSummary {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	max-width: 1190px;
+	max-height: 323px;
+	margin: 0px auto 24px auto;
+}
+.card {
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border-bottom: 1px solid #ececec;
+	position: relative;
+}
+.cardSummary {
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border-bottom: 1px solid #ececec;
+	position: relative;
+}
+.buttonHolder {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	margin: 34px auto 34px auto;
+}
+/* .buttonHolder:last-child {
+	margin: 20px 0 0 0;
+	/* display: inline-block;
+} */
+.summaryTitle {
+	text-align: center;
+	font-family: semibold;
+	font-size: 28px;
+	width: 555px;
+	height: 67px;
+	margin: auto;
+}
+.summaryHeading {
+	font-size: 16px;
+	font-family: semibold;
+}
+.summaryText {
+	font-size: 14px;
+	font-family: light;
+	margin-top: 10px;
+}
+.summarySmallHeading {
+	margin: 34px 0 20px 0;
+	font-family: semibold;
+	font-size: 16px;
+}
+.iconHolder {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+.trackOrderButton {
+	font-size: 12px;
+	font-family: semibold;
+	color: #ff1744;
+	padding-left: 10%;
+	cursor: pointer;
+}
+.marginRightSpan {
+	margin-right: 34px;
+}

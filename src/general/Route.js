@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route as ReactRouterRoute } from "react-router";
-import { setDataLayer } from "../lib/adobeUtils";
 import { withRouter } from "react-router-dom";
 import { setIcid, clearIcid } from "./icid.actions";
 import { parse } from "query-string";

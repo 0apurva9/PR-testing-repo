@@ -2,11 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import MoreBrands from "../../blp/components/MoreBrands";
 import BrandEdit from "../../blp/components/BrandEdit";
-import ProfilePicture from "../../blp/components/ProfilePicture";
 import * as styles from "./MyAccountBrands.css";
 import Loader from "../../general/components/Loader";
 import {
-  TRUE,
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,

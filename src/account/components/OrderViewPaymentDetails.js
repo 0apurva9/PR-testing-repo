@@ -6,6 +6,7 @@ export default class OrderViewPaymentDetails extends React.Component {
   render() {
     return (
       <div className={styles.base}>
+        <div className={styles.paymentDetails}>Payment Details</div>
         <div className={styles.subTotalsHolder}>
           <div className={styles.labelText}>Sub total</div>
           {this.props.SubTotal && (

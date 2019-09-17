@@ -54,13 +54,13 @@ export default class SearchPage extends React.Component {
     isSetDataLayer
   ) {
     const data = this.props.searchResult;
-    let firstSuggestedKeyWord = "";
+    /*let firstSuggestedKeyWord = "";
     const firstSuggestionNew = cloneDeep(
       data && data.suggestionsNew ? data.suggestionsNew : ""
     );
     firstSuggestedKeyWord = firstSuggestionNew
       ? firstSuggestionNew.splice(0, 1)
-      : "";
+      : ""; */
     const suggestedKeyWord = data && data.suggestionsNew;
     if (data) {
       if (data) {
@@ -118,13 +118,13 @@ export default class SearchPage extends React.Component {
     const data = this.props.searchResult;
     const categoryCode = `${webURL}`.replace(TATA_CLIQ_ROOT, "$1");
     //const searchQuery = this.state.searchString;
-    let firstSuggestedKeyWord = "";
+    /* let firstSuggestedKeyWord = "";
     const firstSuggestionNew = cloneDeep(
       data && data.suggestionsNew ? data.suggestionsNew : ""
     );
-    firstSuggestedKeyWord = firstSuggestionNew
+      firstSuggestedKeyWord = firstSuggestionNew
       ? firstSuggestionNew.splice(0, 1)
-      : "";
+      : ""; */
     const suggestedKeyWord = data && data.suggestionsNew;
     if (data) {
       if (data) {

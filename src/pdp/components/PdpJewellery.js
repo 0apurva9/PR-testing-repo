@@ -6,13 +6,12 @@ import Accordion from "../../general/components/Accordion.js";
 import styles from "./ProductDescriptionPage.css";
 import * as Cookie from "../../lib/Cookie";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
   GLOBAL_ACCESS_TOKEN,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
-  YES,
   NO,
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
@@ -62,12 +61,6 @@ const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
   loading: () => <div />,
   delay: 1000
-});
-
-const ProductFeature = LoadableVisibility({
-  loader: () => import("./ProductFeature"),
-  loading: () => <div />,
-  delay: 400
 });
 
 const AllDescription = LoadableVisibility({

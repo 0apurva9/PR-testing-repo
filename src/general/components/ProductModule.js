@@ -4,8 +4,6 @@ import ProductDescription from "./ProductDescription";
 import PropTypes from "prop-types";
 import ConnectButton from "./ConnectButton.js";
 import styles from "./ProductModule.css";
-import downloadIcon from "./img/download.svg";
-import downloadIconWhite from "./img/downloadWhite.svg";
 import ProductInfo from "./ProductInfo.js";
 import ProductFlags from "./ProductFlags.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -90,10 +88,10 @@ export default class ProductModule extends React.Component {
     //     "Electronics";
     let electronicView = false;
 
-    let downloadImage = downloadIcon;
-    if (this.props.isWhite) {
-      downloadImage = downloadIconWhite;
-    }
+    //  let downloadImage = downloadIcon;
+    // if (this.props.isWhite) {
+    //   downloadImage = downloadIconWhite;
+    // }
     let href = this.getProductURL();
     if (isBrowser) {
       href = `${window.location.origin}${href}`;

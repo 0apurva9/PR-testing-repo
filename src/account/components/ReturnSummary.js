@@ -14,9 +14,6 @@ import dinersLogo from "../../cart/components/img/diners.svg";
 import discoverLogo from "../../cart/components/img/discover.svg";
 import jcbLogo from "../../cart/components/img/jcb.svg";
 import MobileOnly from "../../general/components/MobileOnly.js";
-import DesktopOnly from "../../general/components/DesktopOnly.js";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-import BankDetails from "./BankDetails.js";
 import {
   RUPAY_CARD,
   VISA_CARD,

@@ -3,7 +3,6 @@ import {
   REQUESTING,
   ERROR,
   FAILURE,
-  USER_SEARCH_LOCAL_STORAGE,
   LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import {

@@ -7,7 +7,6 @@ import PasswordInput from "./PasswordInput";
 import styles from "./Login.css";
 import LoginButton from "./LogInButton";
 import {
-  CART_DETAILS_FOR_ANONYMOUS,
   MY_ACCOUNT_CART_PAGE,
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
