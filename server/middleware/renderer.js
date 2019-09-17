@@ -154,10 +154,13 @@ export function plpRenderer(req, res, next) {
   console.log(req.query);
   console.log(req.params.page);
 
-  const searchText = getSearchTextFromUrl(
-    { pathname: req._parsedUrl.pathname, search: req._parsedUrl.query },
-    match
-  );
+  const searchText =
+    match &&
+    getSearchTextFromUrl(
+      { pathname: req._parsedUrl.pathname, search: req._parsedUrl.query },
+      match
+    );
+
   console.log("SEARCH TEXT");
   console.log(searchText);
 

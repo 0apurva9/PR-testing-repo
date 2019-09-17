@@ -616,13 +616,19 @@ export async function postJusPay(path, postData) {
   });
 }
 
-export async function postStripe(path, postData) {
-  let url = `${STRIPE_API_URL_ROOT}/${path}`;
-  return await fetch(url, {
-    method: "POST",
-    headers: { Authorization: "Bearer" + " " + STRIPE_ACCESTOKEN },
-    body: postData
-  });
+export async function postStripe(postData) {
+  if (window.Stripe) {
+    const stripe = window.Stripe;
+    stripe.setPublishableKey(STRIPE_ACCESTOKEN);
+    let stripeResponse = new Promise(function(resolve, reject) {
+      stripe.card.createToken(postData, (status, response) => {
+        resolve(response);
+      });
+    });
+    return await stripeResponse.then(function(result) {
+      return result;
+    });
+  }
 }
 
 export async function postJusPayUrlEncode(path, postData) {
