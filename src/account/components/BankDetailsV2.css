@@ -1,0 +1,51 @@
+.base {
+	width: 100%;
+	height: auto;
+	background-color: #ffffff;
+	border-radius: 6px;
+}
+.header {
+	width: 100%;
+	height: auto;
+	font-size: 16px;
+	font-family: semibold;
+	margin-bottom: 15px;
+}
+.container {
+	width: 100%;
+	height: auto;
+	margin-bottom: 48px;
+}
+.buttonHolder {
+	width: 100%;
+	height: auto;
+	padding: 15px;
+	border-top: 1px solid #ececec;
+}
+.holder {
+	width: 100%;
+	height: auto;
+	padding: 34px;
+	margin-bottom: 15px;
+}
+.clearAll {
+	font-size: 14px;
+	color: #ff1744;
+	font-family: semibold;
+	float: right;
+	cursor: pointer;
+}
+.radioBtn {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	vertical-align: text-top;
+	margin: 0 10px 0 0;
+}
+.titleLabel {
+	display: inline-block;
+	font-size: 12px;
+	font-family: light;
+	width: 33%;
+	margin: 0;
+}

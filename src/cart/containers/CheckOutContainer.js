@@ -8,7 +8,6 @@ import {
   getUserAddress,
   selectDeliveryMode,
   getOrderSummary,
-  applyUserCoupon,
   releaseUserCoupon,
   getAllStoresCNC,
   addStoreCNC,
@@ -98,8 +97,6 @@ import { displayToast } from "../../general/toast.actions";
 import { setHeaderText } from "../../general/header.actions.js";
 import {
   setDataLayerForCheckoutDirectCalls,
-  ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE,
-  ADOBE_FINAL_PAYMENT_MODES,
   ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER
 } from "../../lib/adobeUtils";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";

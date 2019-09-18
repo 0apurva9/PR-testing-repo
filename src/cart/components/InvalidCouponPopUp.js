@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./InvalidCouponPopUp.css";
 import queryString from "query-string";
-
 import {
   FAILURE_LOWERCASE,
   SUCCESS,
@@ -11,7 +10,6 @@ import {
   NO_COST_EMI_COUPON,
   BANK_COUPON_COOKIE,
   COUPON_COOKIE,
-  SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE
 } from "../../lib/constants";
 

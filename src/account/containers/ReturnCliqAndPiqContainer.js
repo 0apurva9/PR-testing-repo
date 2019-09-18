@@ -5,8 +5,6 @@ import ReturnAddressList from "../components/ReturnAddressList.js";
 import { addUserAddress } from "../../cart/actions/cart.actions.js";
 import {
   SUCCESS,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE,
   RETURN_SUCCESS_MESSAGE,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE

@@ -1,12 +1,9 @@
 import React from "react";
 import ReturnsFrame from "./ReturnsFrame";
-import SelectReturnDate from "./SelectReturnDate";
 import OrderReturnAddressDetails from "./OrderReturnAddressDetails";
 import PropTypes from "prop-types";
 import styles from "./ReturnDateTime.css";
 import MobileOnly from "../../general/components/MobileOnly.js";
-import DesktopOnly from "../../general/components/DesktopOnly.js";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 const PICK_UP_TIME = "Select Pick Up Time";
 const PICK_UP_DATE = "Select Pick Up DATE";
 

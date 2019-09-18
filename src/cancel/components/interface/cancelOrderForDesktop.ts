@@ -28,6 +28,7 @@ export interface IState {
   cancelReasonCode: string;
   reason: string;
   comment: string;
+  placeholder: string;
 }
 export interface ICancelItem {
   code: string;

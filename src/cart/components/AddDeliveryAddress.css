@@ -1,8 +1,9 @@
 .base {
   width: 100%;
   height: auto;
-  background: #ececec;
-  padding: 15px;
+  border-radius: 4px;
+  background: #fff;
+  padding: 15px 0 50px 0px;
 }
 .formHolder {
   width: 100%;
@@ -91,6 +92,12 @@
   line-height: 16px;
   top: 0px;
 }
+.buttonCancel{
+  width: auto;
+  line-height: 16px;
+  display: inline-block;
+  padding-right: 52px;
+}
 .addressInnerBox {
   width: 100%;
   height: auto;
@@ -130,8 +137,8 @@
   .base {
     display: inline-block;
     padding: 0;
-    padding-top: 30px;
-    padding-bottom: 100px;
+    /* padding-top: 30px; */
+    padding-bottom: 50px;
   }
   .onlyLeft {
     width: 100%;
@@ -169,12 +176,12 @@
     display: inline-block;
   }
   .buttonHolder {
-    width: 50%;
+    width: 100%;
     height: auto;
     display: inline-block;
     text-align: right;
     vertical-align: top;
-    margin: 0px;
+    padding-right: 30px;
   }
   .formHolder {
     padding: 15px;

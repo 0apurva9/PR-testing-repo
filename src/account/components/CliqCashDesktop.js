@@ -160,7 +160,9 @@ export default class CliqCashDesktop extends React.Component {
     let transactions = [];
     this.props.transactionDetails &&
       this.props.transactionDetails.map(data => {
-        return transactions.push(...data.items);
+        if (data.items) {
+          return transactions.push(...data.items);
+        }
       });
     if (userDetails) {
       userData = JSON.parse(userDetails);

@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import styles from "./GiftCardSucess.css";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
-
-import {
-  HOME_ROUTER,
-  MY_ACCOUNT_GIFT_CARD_PAGE,
-  MY_ACCOUNT_PAGE
-} from "../../lib/constants";
+import { HOME_ROUTER } from "../../lib/constants";
 
 export default class GiftCardSucess extends Component {
   renderToContinueShopping = () => {

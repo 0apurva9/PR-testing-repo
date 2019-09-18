@@ -1,4 +1,3 @@
-import { withRouter } from "react-router-dom";
 import {
   getReturnRequest,
   returnProductDetails

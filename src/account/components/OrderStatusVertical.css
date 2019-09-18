@@ -1,159 +1,191 @@
 .base {
-  width: 100%;
-  height: auto;
-  margin-top: 15px;
+	width: 100%;
+	height: auto;
+	margin-top: 15px;
 }
 
 .step {
-  width: 100%;
-  height: auto;
-  padding-left: 25px;
-  position: relative;
-  padding-bottom: 50px;
+	width: 100%;
+	height: auto;
+	padding-left: 25px;
+	position: relative;
+	padding-bottom: 30px;
+}
+.step:last-child {
+	padding-bottom: 0px;
 }
 .step:before {
-  content: "";
-  width: 2px;
-  height: 100%;
-  position: absolute;
-  left: 8.5px;
-  top: 0;
-  background: #12de7c;
+	content: '';
+	width: 1px;
+	height: 100%;
+	position: absolute;
+	left: 8.5px;
+	top: 0;
+	background: #4a4a4a;
 }
 .step:last-child:before {
-  display: none;
+	display: none;
 }
 .stepInactive {
-  composes: step;
+	composes: step;
 }
 .stepInactive:before {
-  background: #eeeeee;
+	background: #eeeeee;
 }
 .deliveredStepHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-left: 20px;
-  position: relative;
-  padding-bottom: 50px;
-  border-left: 2px solid #10e368;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	padding-left: 20px;
+	position: relative;
+	padding-bottom: 50px;
+	border-left: 2px solid #10e368;
 }
 
 .deliveredStepHolder:last-child {
-  padding-bottom: 0px;
-  border-left: none;
+	padding-bottom: 0px;
+	border-left: none;
 }
 .check {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: -1px;
-  top: 0;
-  border-radius: 50%;
-  border: 2px solid #eeeeee;
-  z-index: 10;
-  background: #fff;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: -1px;
+	top: 0;
+	border-radius: 50%;
+	border: 2px solid #67b70b;
+	z-index: 10;
+	background: #fff;
 }
 .checkActive {
-  composes: check;
-  background: url(../../general/components/img/check.svg) no-repeat;
-  background-size: auto 35px;
-  background-position: center;
-  border: none;
+	composes: check;
+	background: url(../../general/components/img/checkOrder.svg) no-repeat;
+	background-size: auto 40px;
+	background-position: center;
+	border: none;
 }
 .processFail {
-  composes: check;
-  background: red;
-  background-size: auto 35px;
-  background-position: center;
-  border: none;
-  border-radius: 50%;
+	composes: check;
+	background: red;
+	background-size: auto 35px;
+	background-position: center;
+	border: none;
+	border-radius: 50%;
 }
 .processFail::before {
-  content: "X";
-  width: 20px;
-  height: 20px;
-  color: #fff;
-  font-size: 13px;
-  font-family: semibold;
-  line-height: 20px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  text-align: center;
+	content: 'X';
+	width: 20px;
+	height: 20px;
+	color: #fff;
+	font-size: 13px;
+	font-family: semibold;
+	line-height: 20px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
 }
 .deliveredProcesesAndTime {
-  width: 100%;
-  height: auto;
-  display: inline-block;
+	width: 100%;
+	height: auto;
+	display: inline-block;
 }
 .processNameHolder {
-  width: 40%;
-  height: auto;
-  display: inline-block;
-  color: #212121;
-  font-size: 14px;
-  line-height: 21px;
-  vertical-align: top;
-  font-family: regular;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 12px;
+	line-height: 21px;
+	vertical-align: top;
+	font-family: regular;
+}
+.processNameHolderBold {
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 12px;
+	line-height: 21px;
+	vertical-align: top;
+	font-family: semibold;
 }
 .dateAndTimeHolder {
-  width: 60%;
-  height: auto;
-  display: inline-block;
-  vertical-align: top;
-  text-align: right;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+	text-align: right;
 }
 .timeHolder {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  padding-left: 10px;
-  color: #212121;
-  font-size: 14px;
-  font-family: light;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 12px;
+	font-family: light;
+}
+.timeHolder:first-child {
+	padding-right: 5px;
+	margin-right: 5px;
+	border-right: 1px solid #ccc;
 }
 .dateHolder {
-  composes: timeHolder;
-  padding-left: 0px;
+	composes: timeHolder;
+	padding-left: 0px;
 }
 .dummyHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  min-height: 60px;
-  text-align: right;
-  margin-top: 10px;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	min-height: 60px;
+	text-align: right;
+	margin-top: 10px;
 }
 
 .courierInfoHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  text-align: right;
-  margin-top: 8px;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	text-align: right;
+	margin-top: 8px;
 }
 .moreInfoQuestionHolder {
-  width: auto;
-  height: 20px;
-  line-height: 20px;
-  color: #212121;
-  font-family: light;
-  font-size: 14px;
-  display: inline-block;
+	width: auto;
+	height: 20px;
+	line-height: 20px;
+	color: #212121;
+	font-family: light;
+	font-size: 14px;
+	display: inline-block;
 }
 .moreAnswerHolder {
-  composes: moreInfoQuestionHolder;
-  padding-left: 5px;
-  display: inline-block;
+	composes: moreInfoQuestionHolder;
+	padding-left: 5px;
+	display: inline-block;
 }
 .buttonHolder {
-  composes: courierInfoHolder;
-  margin: 15px 0px 25px 0px;
+	composes: courierInfoHolder;
+	margin: 15px 0px 25px 0px;
 }
 .button {
-  width: auto;
-  height: 25px;
-  display: inline-block;
-  vertical-align: middle;
+	width: auto;
+	height: 25px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.trackOrderTitle {
+	font-size: 18px;
+	color: #000000;
+	margin-bottom: 20px;
+	font-family: semibold;
+}
+.itemPackedDetails {
+	width: auto;
+	height: auto;
+	display: block;
+	color: #212121;
+	font-size: 10px;
+	font-family: regular;
+	line-height: 1.5;
 }

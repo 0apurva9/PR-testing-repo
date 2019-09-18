@@ -5,7 +5,6 @@ import TextArea from "../../general/components/TextArea";
 import ReturnsFrame from "./ReturnsFrame";
 import styles from "./CancelReasonForm.css";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 export default class CancelReasonForm extends React.Component {
   constructor(props) {
     super(props);

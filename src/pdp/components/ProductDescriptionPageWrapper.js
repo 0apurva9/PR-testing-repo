@@ -8,7 +8,6 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
   AMP_PRODUCT_CODE_REG_EX
 } from "../../lib/constants";
 import {
@@ -22,7 +21,7 @@ import PdpHome from "./PdpHome";
 import PdpDesktop from "./PdpDesktop";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 // prettier-ignore
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 const PiqPageForPdp = Loadable({
   loader: () => import("./PiqPageForPdp"),
   loading() {
@@ -52,7 +51,7 @@ const Loader = () => {
   );
 };
 
-const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+//const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 
 export default class ProductDescriptionPageWrapper extends React.Component {
   constructor(props) {

@@ -133,7 +133,7 @@ export default class ProductFeatureDetails extends Component {
                   )}
                 {this.props.discountPercent &&
                 this.props.price !== this.props.discountPrice &&
-                this.props.discountPercent != "0" ? (
+                this.props.discountPercent !== "0" ? (
                   <div
                     className={
                       this.props.electronicView

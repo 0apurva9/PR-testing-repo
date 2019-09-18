@@ -5,7 +5,7 @@ import Input2 from "./Input2.js";
 import Button from "./Button.js";
 import cancel from "./img/canceltransperent.png";
 import upload from "./img/upload.svg";
-import { SUCCESS, REQUESTING, ERROR, HOME_ROUTER } from "../../lib/constants";
+import { SUCCESS, HOME_ROUTER } from "../../lib/constants";
 const panRegEx = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 export default class PanCardForm extends Component {
   constructor(props) {
@@ -133,12 +133,12 @@ export default class PanCardForm extends Component {
                 <img
                   id="panImage"
                   src={this.state.ImageUrl}
-                  alt="Pan image"
+                  alt="Pan"
                   width="63px"
                   height="70px"
                 />
                 <div className={styles.cancel}>
-                  <img src={cancel} onClick={() => this.removeFile()} />
+                  <img src={cancel} alt="" onClick={() => this.removeFile()} />
                 </div>
               </div>
             )}
@@ -175,7 +175,7 @@ export default class PanCardForm extends Component {
                 (this.props.panCardDetails.status !==
                   "PENDING_FOR_VERIFICATION" &&
                   this.props.panCardDetails.status !== "APPROVED" &&
-                  this.state.file != "" &&
+                  this.state.file !== "" &&
                   this.state.Pancard_number.length !== "")
                   ? styles.buttonCover
                   : styles.buttonCoverDisabled

@@ -6,7 +6,6 @@ import Button from "../../general/components/Button.js";
 import ControlInput from "../../general/components/ControlInput";
 import giftImageURL from "../../general/components/img/Gift.svg";
 import MDSpinner from "../../general/components/Loader";
-import * as UserAgent from "../../lib/UserAgent.js";
 export default class GiftCardPopup extends React.Component {
   constructor(props) {
     super(props);

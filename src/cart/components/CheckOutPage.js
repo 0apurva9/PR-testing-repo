@@ -661,12 +661,7 @@ class CheckOutPage extends React.Component {
           return (
             slaves.CNCServiceableSlavesData &&
             slaves.CNCServiceableSlavesData.map(slave => {
-              return (
-                slave &&
-                slave.serviceableSlaves.map(serviceableSlave => {
-                  return serviceableSlave;
-                })
-              );
+              return slave && slave.storeId;
             })
           );
         })
@@ -679,11 +674,14 @@ class CheckOutPage extends React.Component {
           );
         });
 
-      const allStoreIds = [].concat
-        .apply([], [].concat.apply([], someData))
-        .map(store => {
-          return store && store.slaveId;
-        });
+      // const allStoreIds = [].concat
+      //   .apply([], [].concat.apply([], someData))
+      //   .map(store => {
+      //     return store && store.slaveId;
+      //   });
+      const allStoreIds = [].concat.apply([], someData).map(store => {
+        return store;
+      });
       const availableStores = this.props.cart.storeDetails
         ? this.props.cart.storeDetails.filter(val => {
             return (

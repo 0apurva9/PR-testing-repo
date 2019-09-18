@@ -39,12 +39,16 @@ export default class SelectBoxMobile extends React.Component {
       const index = event.nativeEvent.target.selectedIndex;
       const selectedLabel = event.nativeEvent.target[index].label;
       const details = {};
+      const isImageApplicable = event.nativeEvent.target[index].getAttribute(
+        "data-isimageapplicable"
+      );
       this.setState(
         { value: selectedValue, label: selectedLabel, touched: true },
         () => {
           if (this.props.onChange) {
             details.label = selectedLabel;
             details.value = selectedValue;
+            details.isImageApplicable = isImageApplicable;
             this.props.onChange(details);
           }
         }
@@ -140,6 +144,7 @@ export default class SelectBoxMobile extends React.Component {
                     key={i}
                     value={item.value}
                     label={item.label}
+                    data-isimageapplicable={item.isImageApplicable}
                   >
                     {item.label}
                   </option>
