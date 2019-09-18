@@ -6,21 +6,82 @@ import {
   setDataLayer,
   ADOBE_OFFER_CARD_VIEW_MORE_TNC
 } from "../../lib/adobeUtils";
+import BundledProduct from "./BundledProduct";
 export default class VoucherOfferModal extends React.Component {
-  handleShowDetails = (selectedOffer, offers) => {
-    // this.props.closeModal();
-    if (this.props.showDetails) {
-      this.props.showDetails({
-        offers: offers,
-        selectedOffer: selectedOffer,
-        showVoucherModal: true,
-        showDetails: this.props.showDetails,
-        potentialPromotions: this.props.potentialPromotions,
-        productListings: this.props.productListings
-      });
+  state = {
+    addBundledProduct: [],
+    bundledData: {}
+  };
+
+  handleShowDetails = async (selectedOffer, offers) => {
+    let Title = selectedOffer.promotionDisplayText;
+    let baseAllOOStock =
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.allOOStock;
+    console.log("baseProduct", this.props);
+    if (Title.indexOf("bundledProduct") >= 0 && !baseAllOOStock) {
+      await this.getParams(Title)
+        .then(data => {
+          console.log("data in get params return", data);
+          if (data.status !== "error" && data.status !== "Failure") {
+            this.props.showBundledProduct(this.state.bundledData);
+          }
+        })
+        .catch(e => {
+          throw Error(e);
+        });
+    } else {
+      if (this.props.showDetails) {
+        this.props.showDetails({
+          offers: offers,
+          selectedOffer: selectedOffer,
+          showVoucherModal: true,
+          showDetails: this.props.showDetails,
+          potentialPromotions: this.props.potentialPromotions,
+          productListings: this.props.productListings
+        });
+      }
     }
+    // this.props.closeModal();
     // setDataLayer(ADOBE_OFFER_CARD_VIEM_MORE, this.props.productListings);
   };
+
+  getBundleProductServibilty = async params => {
+    return await this.props.getBundleProductPinCode(
+      this.props.pincode && this.props.pincode.pinCode,
+      params.bundledProductCode,
+      params.ussid
+    );
+  };
+  getParams = async Title => {
+    let bundleProduct;
+    var snippet = document.createElement("div");
+    snippet.innerHTML = Title;
+    var links = snippet.getElementsByTagName("a"),
+      lastURL = links[links.length - 1].href; // or getAttribute("href")
+    var params = {};
+    var parser = document.createElement("a");
+    parser.href = lastURL;
+    var query = parser.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      params[pair[0]] = decodeURIComponent(pair[1]);
+    }
+
+    if (params) {
+      this.setState({ bundledData: params });
+      bundleProduct = await this.props.getBundleproduct(
+        params.bundledProductCode
+      );
+      if (bundleProduct.status === "success") {
+        bundleProduct = await this.getBundleProductServibilty(params);
+      }
+    }
+    return bundleProduct;
+  };
+
   handleTnCDetails = (selectedOffer, offers) => {
     if (this.props.showDetails) {
       this.props.showDetails({
@@ -90,10 +151,13 @@ export default class VoucherOfferModal extends React.Component {
     }
   }
   render() {
+    let offerList = this.state.addBundledProduct;
     return (
       <div className={styles.base}>
         <div className={styles.header}>Offers</div>
         {this.props.offers.map((offer, index) => {
+          console.log("offerDetails:", offer);
+          let bundleP = offer.name;
           return (
             <div key={index} className={styles.container}>
               <div
@@ -101,12 +165,16 @@ export default class VoucherOfferModal extends React.Component {
                 onClick={() => this.handleShowDetails(offer, this.props.offers)}
                 dangerouslySetInnerHTML={{ __html: offer.name }}
               />
+              {/* {bundleP.indexOf('bundledProduct') >= 0 ? (
+								' '
+							) : ( */}
               <div
                 className={styles.termsAndConditions}
                 onClick={() => this.handleTnCDetails(offer, this.props.offers)}
               >
                 T&C
               </div>
+              {/* )} */}
               {offer.offerEndTimerStartDateAndTime
                 ? this.checkTimer(
                     offer.offerEndTimerStartDateAndTime,

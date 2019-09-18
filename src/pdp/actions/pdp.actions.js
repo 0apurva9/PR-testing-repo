@@ -109,6 +109,18 @@ export const PDP_OFFER_REQUEST = "PDP_OFFER_REQUEST";
 export const PDP_OFFER_SUCCESS = "PDP_OFFER_SUCCESS";
 export const PDP_OFFER_FAILURE = "PDP_OFFER_FAILURE";
 
+//bundledProduct
+export const BUNDLE_PRODUCT_REQUEST = "BUNDLE_PRODUCT_REQUEST";
+export const BUNDLE_PRODUCT_SUCCESS = "BUNDLE_PRODUCT_SUCCESS";
+export const BUNDLE_PRODUCT_FAILURE = "BUNDLE_PRODUCT_FAILURE";
+
+export const CHECK_BUNDLE_PRODUCT_PIN_CODE_REQUEST =
+  "CHECK_BUNDLE_PRODUCT_PIN_CODE_REQUEST";
+export const CHECK_BUNDLE_PRODUCT_PIN_CODE_FAILURE =
+  "CHECK_BUNDLE_PRODUCT_PIN_CODE_FAILURE";
+export const CHECK_BUNDLE_PRODUCT_PIN_CODE_SUCCESS =
+  "CHECK_BUNDLE_PRODUCT_PIN_CODE_SUCCESS";
+
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PIN_CODE_AVAILABILITY_PATH = "pincodeserviceability";
 export const PRODUCT_PDP_EMI_PATH = `v2/mpl/getEMIDetails`;
@@ -267,7 +279,7 @@ export function getProductPinCodeFailure(error) {
 
 export function getProductPinCode(pinCode: null, productCode) {
   let validProductCode = productCode.toUpperCase();
-
+  //debugger;
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
   }
@@ -1031,6 +1043,81 @@ export function getPdpItems(itemIds, widgetKey) {
     }
   };
 }
+
+//**Bundling product */
+export function getbundleProductRequest() {
+  return {
+    type: BUNDLE_PRODUCT_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getbundleProductSuccess(data) {
+  return {
+    type: BUNDLE_PRODUCT_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+export function getbundleProductFailure() {
+  return {
+    type: BUNDLE_PRODUCT_FAILURE,
+    status: FAILURE
+  };
+}
+
+// export function getBundleproduct (productCode) {
+//   debugger;
+// return async (dispatch, getState, { api }) => {
+// dispatch(getbundleProductRequest());
+// try {
+// const getProductdetails=await api.getMiddlewareUrl(
+//   `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
+// );
+// let finalProductDetails=await getProductdetails.json();
+// console.log("getBundleproduct", finalProductDetails);
+// dispatch(getbundleProductSuccess(finalProductDetails));
+// }
+// catch (e) {
+// console.log("getBundleproduct", e);
+// dispatch(getbundleProductFailure(e.message));
+// }
+// }
+// }
+export function getBundleproduct(productCode, isApiCall = 0) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getbundleProductRequest());
+    try {
+      setTimeout(() => {
+        if (getState().productDescription.getProductDetailsLoading) {
+          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
+        }
+      }, TIME_OUT_FOR_APIS);
+      const result = await api.getMiddlewareUrl(
+        `${PRODUCT_DESCRIPTION_PATH}/mp000000005025204?isPwa=true`
+      );
+      const resultJson = await result.json();
+      console.log("bundle", resultJson);
+      if (
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === SUCCESS_CAMEL_CASE
+      ) {
+        return dispatch(getbundleProductSuccess(resultJson));
+      } else {
+        if (resultJson.status === 404 && isApiCall === 0) {
+          isApiCall = isApiCall + 1;
+          dispatch(getBundleproduct(productCode, isApiCall));
+        } else {
+          throw new Error(`${resultJson.error}`);
+        }
+      }
+    } catch (e) {
+      return dispatch(getbundleProductFailure(e.message));
+    }
+  };
+}
+//***Bundling end */
+
 //NU-385 for Desktop
 export function pdpOfferRequest() {
   return {
@@ -1075,6 +1162,7 @@ export function getPdpOffers() {
         brandCodeLast.toUpperCase()
       );
       const pdpOffersApiJson = await pdpOffersApi.json();
+
       if (pdpOffersApiJson.offerCalloutList) {
         dispatch(
           pdpOfferSuccess(
@@ -1164,6 +1252,94 @@ export function showPdpPiqPage() {
 export function hidePdpPiqPage() {
   return {
     type: HIDE_PDP_PIQ_PAGE
+  };
+}
+
+/******Bundled Product pincode issue */
+export function getBundleProductPinCodeRequest() {
+  return {
+    type: CHECK_BUNDLE_PRODUCT_PIN_CODE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getBundleProductPinCodeSuccess(productPinCode) {
+  return {
+    type: CHECK_BUNDLE_PRODUCT_PIN_CODE_SUCCESS,
+    status: SUCCESS,
+    productPinCode,
+    ussId: productPinCode.ussId
+  };
+}
+
+export function getBundleProductPinCodeFailure(error) {
+  return {
+    type: CHECK_BUNDLE_PRODUCT_PIN_CODE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getBundleProductPinCode(pinCode = null, productCode, ussId) {
+  console.log("");
+  let validProductCode = productCode.toUpperCase();
+
+  if (pinCode) {
+    localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(getBundleProductPinCodeRequest());
+    try {
+      let url;
+      let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        let userName = JSON.parse(userDetails).userName;
+        let accessToken = JSON.parse(customerCookie).access_token;
+        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+      } else {
+        let userName = ANONYMOUS_USER;
+        let accessToken = JSON.parse(globalCookie).access_token;
+        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+      }
+      const result = await api.post(url);
+
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      // Checking listing Id
+      let bundleProductResponse = resultJson.listOfDataList[0].value;
+      let listOfAllBundleServiceableUssid;
+      if (bundleProductResponse && bundleProductResponse.pincodeListResponse) {
+        listOfAllBundleServiceableUssid = bundleProductResponse.pincodeListResponse.filter(
+          delivery => {
+            return delivery.isServicable === "Y";
+          }
+        );
+      }
+      let serviceableForExistingBundleProductSeller = listOfAllBundleServiceableUssid.find(
+        seller => {
+          return seller.ussid === ussId;
+        }
+      );
+      if (serviceableForExistingBundleProductSeller.stockCount > 0) {
+        return dispatch(
+          getBundleProductPinCodeSuccess({
+            pinCode,
+            deliveryOptions: resultJson.listOfDataList[0].value,
+            ussId
+          })
+        );
+      } else {
+        return dispatch(getBundleProductPinCodeFailure("stockCount:0"));
+      }
+    } catch (e) {
+      return dispatch(getBundleProductPinCodeFailure(e.message));
+    }
   };
 }
 

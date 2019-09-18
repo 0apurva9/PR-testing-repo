@@ -248,6 +248,7 @@ export default class PdpApparel extends React.Component {
       pincode,
       productCode
     );
+    console.log("Shriney pin code service--->", this.props.productDetails);
     if (productPincodeObj.status === ERROR) {
       this.props.displayToast("Please enter a valid pincode");
     }
@@ -768,6 +769,7 @@ export default class PdpApparel extends React.Component {
           return detail.key === "Model Number";
         });
       }
+
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -904,12 +906,22 @@ export default class PdpApparel extends React.Component {
                     showEmiModal={() => this.showEmiModal()}
                   />
                   <OfferCard
+                    {...this.props}
                     productListings={this.props.productDetails}
+                    showBundledProduct={this.props.showBundledProduct}
                     showDetails={this.props.showTermsNConditions}
                     showVoucherOffersModal={this.props.showOfferDetails}
                     potentialPromotions={productData.potentialPromotions}
                     secondaryPromotions={productData.productOfferMsg}
                     offers={this.props.offers}
+                    defaultPinCode={localStorage.getItem(
+                      DEFAULT_PIN_CODE_LOCAL_STORAGE
+                    )}
+                    getBundleproduct={this.props.getBundleproduct}
+                    getProductPinCode={(pinCode, productCode) =>
+                      this.props.getProductPinCode(pinCode, productCode)
+                    }
+                    getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
                 </div>
                 {productData.variantOptions && (
