@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import Grid from "../../general/components/Grid";
 import BankSelect from "./BankSelect";
@@ -16,12 +15,10 @@ import kotakBankIcon from "./img/kotak.svg";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
 const axisBankCode = "NB_AXIS";
 const hdfcBankCode = "NB_HDFC";
-const hdfcBankCode1 = "HDFC Bank";
 const iciciBankCode = "NB_ICICI";
 const sbiBankCode = "NB_SBI";
 const kotakBankCode = "NB_KOTAK";
 const induslandBankCode = "NB_INDUS";
-const axisBankCodeDummy = "Dummy Bank";
 const bankErrorMessage = `Your bank is currently unable to process NetBanking payments due to a technical issue. Please try another payment method.`;
 const SHOW_DEFAULT_BANK_LIST = [
   axisBankCode,

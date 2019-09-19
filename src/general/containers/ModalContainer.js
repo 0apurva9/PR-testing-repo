@@ -9,13 +9,13 @@ import {
   signUpUser,
   forgotPasswordOtpVerification,
   loginUser,
-  loginUserRequest,
   customerAccessToken
 } from "../../auth/actions/user.actions";
 import {
   redeemCliqVoucher,
-  removeAddress,
-  cancelProduct
+  cancelProduct,
+  updateReturnCancellation,
+  updateReturnForHOTC
 } from "../../account/actions/account.actions";
 import {
   getTncForBankOffer,
@@ -29,12 +29,9 @@ import {
   FAILURE,
   CART_DETAILS_FOR_ANONYMOUS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  ERROR_MESSAGE_FOR_VERIFY_OTP,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE,
   ERROR
 } from "../../lib/constants";
 import {
@@ -51,7 +48,6 @@ import {
   applyUserCouponForAnonymous,
   getUserAddress,
   mergeCartId,
-  generateCartIdForLoggedInUser,
   getCartId,
   applyUserCouponForLoggedInUsers,
   releaseCouponForAnonymous,
@@ -95,7 +91,9 @@ const mapStateToProps = (state, ownProps) => {
     loadingForCancelProduct: state.profile.loadingForCancelProduct,
     loading: state.profile.loading,
     stores: state.productDescription.storeDetails,
-    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl
+    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
+    loadingForUpdateReturnCancellation:
+      state.profile.loadingForUpdateReturnCancellation
   };
 };
 
@@ -390,6 +388,22 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     subscribeWhatsapp: () => {
       dispatch(getOrderUpdateOnWhatsapp());
+    },
+    updateReturnCancellation: async data => {
+      const updateReturnCancellationDetails = await dispatch(
+        updateReturnCancellation(data)
+      );
+      if (updateReturnCancellationDetails.status === SUCCESS) {
+        ownProps.history.goBack();
+      }
+    },
+    updateReturnForHOTC: async data => {
+      const updateReturnForHOTCDetails = await dispatch(
+        updateReturnForHOTC(data)
+      );
+      if (updateReturnForHOTCDetails.status === SUCCESS) {
+        ownProps.history.go();
+      }
     }
   };
 };

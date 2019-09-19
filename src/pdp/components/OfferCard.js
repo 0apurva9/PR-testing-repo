@@ -1,19 +1,12 @@
 import React from "react";
-import DesktopOnly from "../../general/components/DesktopOnly";
-import MobileOnly from "../../general/components/MobileOnly";
 import styles from "./OfferCard.css";
 import PropTypes from "prop-types";
 import {
   setDataLayerForPdpDirectCalls,
-  setDataLayer,
-  ADOBE_DIRECT_CALL_FOR_PDP_OFFER,
-  ADOBE_OFFERS_PDP,
-  ADOBE_OFFER_CARD_PDP,
-  ADOBE_OFFER_CARD_TNC
+  ADOBE_DIRECT_CALL_FOR_PDP_OFFER
 } from "../../lib/adobeUtils.js";
 import TimerCounter from "../../general/components/TimerCounter";
 import { PRIMARY_OFFER } from "../../lib/constants";
-import voucherImage from "./img/voucherImage.svg";
 import sortBy from "lodash.sortby";
 export default class OfferCard extends React.Component {
   state = {
@@ -173,83 +166,6 @@ export default class OfferCard extends React.Component {
     } else {
       return null;
     }
-    /*let getId =
-      this.props.secondaryPromotions &&
-      this.props.secondaryPromotions.isNoCostEmi;
-    let getMessage =
-      this.props.secondaryPromotions &&
-      this.props.secondaryPromotions.messageID;
-    if (this.props.potentialPromotions || this.props.secondaryPromotions) {
-      return (
-        <div
-          className={
-            this.props.theme === 2 ? styles.themeElectronics : styles.base
-          }
-        >
-          <MobileOnly>
-            <div className={styles.offerText}>Offer(s)</div>
-          </MobileOnly>
-          {this.props.potentialPromotions && (
-            <div
-              className={styles.headingText}
-              onClick={this.handleShowDetails}
-            >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: this.props.potentialPromotions.title
-                }}
-              />
-            </div>
-          )}
-          <MobileOnly>
-            {this.props.secondaryPromotions && (
-              <div
-                className={styles.headingText}
-                onClick={this.handleShowDetails}
-              >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: this.props.secondaryPromotions.messageID
-                  }}
-                />
-              </div>
-            )}
-          </MobileOnly>
-          <DesktopOnly>
-            {this.props.secondaryPromotions &&
-              getId === "false" && (
-                <div
-                  className={styles.headingText}
-                  onClick={this.handleShowDetails}
-                >
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.secondaryPromotions.messageID
-                    }}
-                  />
-                </div>
-              )}
-
-            {this.props.secondaryPromotions &&
-              getId === "true" &&
-              !getMessage.includes("No Cost EMI") && (
-                <div
-                  className={styles.headingText}
-                  onClick={this.handleShowDetails}
-                >
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.secondaryPromotions.messageID
-                    }}
-                  />
-                </div>
-              )}
-          </DesktopOnly>
-        </div>
-      );
-    } else {
-      return null;
-    }*/
   }
 }
 OfferCard.propTypes = {

@@ -8,7 +8,6 @@ import Input from "../../general/components/Input";
 import MediaQuery from "react-responsive";
 import { default as styles } from "./AuthPopUp.css";
 import { default as ownStyles } from "./RestorePassword.css";
-import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "./Login";
 export default class RestorePassword extends React.Component {
   constructor(props) {
     super(props);

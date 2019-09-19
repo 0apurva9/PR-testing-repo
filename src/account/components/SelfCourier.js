@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import CourierProduct from "./CourierProduct.js";
 import styles from "./SelfCourier.css";
 import {
-  SELF_COURIER,
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_REASON

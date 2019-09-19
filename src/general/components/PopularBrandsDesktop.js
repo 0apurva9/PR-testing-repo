@@ -7,7 +7,6 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
-import queryString from "query-string";
 export default class PopularBrandsDesktop extends React.Component {
   constructor(props) {
     super(props);

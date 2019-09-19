@@ -6,7 +6,6 @@ import {
   resetFilterSelectedData,
   userSelectedOutOfStock
 } from "../actions/plp.actions.js";
-import findIndex from "lodash.findindex";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onApply: () => {
