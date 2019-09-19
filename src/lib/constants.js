@@ -440,3 +440,23 @@ export const EXPIRED = "Expired";
 export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+
+// errors
+export const JAVA_NET = "java.net";
+export const REDIS_CLIENT = "redis.clients";
+export const FLIXIBLE_SEARCH_ERROR = "flexible search error";
+export const INVALID_GRANT_ERROR = "invalidgranterror";
+export const INVALID_TOKEN_ERROR = "invalidtokenerror";
+export const NO_PAGE_ID = "no page with id [defaulthomepage] found.";
+export const ACCESS_DENIED = "access is denied";
+export const SYSTEM_EXCEPTION = "system exception - glitch in code";
+export const JAVA_SQL = "java.sql";
+export const SQL_SEARCH_ERROR = "sql search error";
+export const DE_HYBRIS = "de.hybris.";
+export const NULL_POINTER_EXCEPTION = "nullpointererror";
+export const JAVA_LANG = "java.lang";
+export const CARD_ID = "cartid";
+export const INVALID_REFRESH_TOKEN = "invalid refresh token";
+export const ORG_APACHE = "org.apache";
+export const FLEXIBLE_SEARCH_QUERY = "flexible search query";
+export const INVALID_ACCESS_TOKEN = "invalid access token";
