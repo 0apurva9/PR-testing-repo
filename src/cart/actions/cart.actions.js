@@ -1904,7 +1904,7 @@ export function applyBankOffer(couponCode) {
         } else if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_4
         ) {
-          dispatch(displayToast(resultJsonStatus.message));
+          dispatch(displayToast(resultJson.couponMessage));
           localStorage.removeItem(BANK_COUPON_COOKIE);
         } else {
           localStorage.removeItem(BANK_COUPON_COOKIE);
