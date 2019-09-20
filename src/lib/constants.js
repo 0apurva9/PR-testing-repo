@@ -444,3 +444,24 @@ export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
 
+// errors
+export const ERROR_CODE_JAVA_NET = "java.net";
+export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
+export const ERROR_CODE_FLIXIBLE_SEARCH_ERROR = "flexible search error";
+export const ERROR_CODE_INVALID_GRANT_ERROR = "invalidgranterror";
+export const ERROR_CODE_INVALID_TOKEN_ERROR = "invalidtokenerror";
+export const ERROR_CODE_NO_PAGE_ID = "no page with id [defaulthomepage] found.";
+export const ERROR_CODE_ACCESS_DENIED = "access is denied";
+
+export const ERROR_CODE_SYSTEM_EXCEPTION = "system exception - glitch in code";
+export const ERROR_CODE_JAVA_SQL = "java.sql";
+export const ERROR_CODE_SQL_SEARCH_ERROR = "sql search error";
+export const ERROR_CODE_DE_HYBRIS = "de.hybris.";
+export const ERROR_CODE_NULL_POINTER_EXCEPTION = "nullpointererror";
+export const ERROR_CODE_JAVA_LANG = "java.lang";
+export const ERROR_CODE_CARD_ID = "cartid";
+export const ERROR_CODE_INVALID_REFRESH_TOKEN = "invalid refresh token";
+export const ERROR_CODE_ORG_APACHE = "org.apache";
+export const ERROR_CODE_FLEXIBLE_SEARCH_QUERY = "flexible search query";
+export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid access token";
+

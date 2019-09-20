@@ -433,6 +433,7 @@ const MODE_OF_REFUND_SUBMITTED = "rrj_modeOfRefund_click";
 export const ADOBE_MODE_OF_REFUND_SUBMITTED = "ADOBE_MODE_OF_REFUND_SUBMITTED";
 const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
 export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
+export const ADOBE_ERROR_TOAST_MESSAGE = "error_tracking";
 
 export function setDataLayer(
   type,
