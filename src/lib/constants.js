@@ -326,6 +326,8 @@ export const SAVE_TEXT = "Save Address";
 export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
 export const LAST_NAME_TEXT = "Please enter last name";
+export const NAME_VALID_TEXT = "Please enter valid first name";
+export const LAST_VALID_TEXT = "Please enter valid last name";
 export const ADDRESS_TEXT = "Please enter address";
 export const ADDRESS_MINLENGTH_VALID_TEXT =
   "Minimum address length is 15 characters";
@@ -438,5 +440,7 @@ export const RECEIVED = "Received";
 export const PAID = "Paid";
 export const EXPIRED = "Expired";
 export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
+export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+
