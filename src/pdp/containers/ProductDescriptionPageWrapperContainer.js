@@ -14,7 +14,8 @@ import {
   getPdpOffers,
   getManufacturerDetails,
   getBundleproduct,
-  getBundleProductPinCode
+  getBundleProductPinCode,
+  openInApp
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -178,6 +179,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return await dispatch(
         getBundleProductPinCode(pinCode, productCode, ussId)
       );
+    },
+    openInApp: async () => {
+      return await dispatch(openInApp());
     }
   };
 };

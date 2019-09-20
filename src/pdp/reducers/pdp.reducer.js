@@ -49,7 +49,12 @@ const productDescription = (
     manufacturerError: null,
     manufacturerLoading: null,
     manufacturerDetails: {},
-    bundleProductData: null
+    bundleProductData: null,
+
+    openInAppStatus: null,
+    openInAppDetails: [],
+    openInAppLoading: false,
+    openInAppError: null
   },
   action
 ) => {
@@ -622,12 +627,12 @@ const productDescription = (
         manufacturerError: action.error,
         manufacturerLoading: false
       });
-    case pdpActions.GET_PDP_ITEMS_FAILURE:
-      return Object.assign({}, state, {
-        status: action.status,
-        bundledProductData: {},
-        loading: false
-      });
+    // case pdpActions.GET_PDP_ITEMS_FAILURE:
+    //   return Object.assign({}, state, {
+    //     status: action.status,
+    //     bundledProductData: {},
+    //     loading: false
+    //   });
     case pdpActions.BUNDLE_PRODUCT_FAILURE:
       return Object.assign({}, state, {
         bundleProducStatus: action.status
@@ -794,6 +799,27 @@ const productDescription = (
         error: action.error,
         loading: false
       });
+
+    case pdpActions.OPEN_IN_APP_REQUEST:
+      return Object.assign({}, state, {
+        openInAppStatus: action.status,
+        openInAppLoading: true
+      });
+
+    case pdpActions.OPEN_IN_APP_SUCCESS:
+      return Object.assign({}, state, {
+        openInAppStatus: action.status,
+        openInAppDetails: action.openInAppDetails,
+        openInAppLoading: false
+      });
+
+    case pdpActions.OPEN_IN_APP_FAILURE:
+      return Object.assign({}, state, {
+        openInAppStatus: action.status,
+        openInAppError: action.error,
+        openInAppLoading: false
+      });
+
     default:
       return state;
   }

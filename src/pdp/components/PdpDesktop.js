@@ -171,10 +171,11 @@ export default class PdpApparel extends React.Component {
       goToCartPageFlag:
         this.props.location.state && this.props.location.state.goToCartPageFlag
           ? this.props.location.state.goToCartPageFlag
-          : false
+          : false,
+      showGotoCartButton: false
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
     this.props.getPdpOffers();
@@ -187,8 +188,19 @@ export default class PdpApparel extends React.Component {
     } else {
       window.gemPageId = "0002321000100700";
     }
-
     /* End- Gemini Script */
+    let data = await this.props.openInApp();
+    if (
+      data &&
+      data.openInAppDetails &&
+      data.openInAppDetails.applicationProperties &&
+      data.openInAppDetails.applicationProperties[0] &&
+      data.openInAppDetails.applicationProperties[0].value
+    ) {
+      if (data.openInAppDetails.applicationProperties[0].value === "Y") {
+        this.setState({ showGotoCartButton: true });
+      }
+    }
   }
   componentDidUpdate(prevProps) {
     if (
@@ -648,7 +660,6 @@ export default class PdpApparel extends React.Component {
       }
     );
   }
-
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -1048,62 +1059,80 @@ export default class PdpApparel extends React.Component {
                   </div>
                 )}
 
-                <div className={styles.buttonWrapper}>
-                  <div
-                    className={
-                      this.state.isLoader
-                        ? styles.nonClickButton
-                        : styles.buttonHolder
-                    }
-                  >
-                    {this.state.isLoader && (
-                      <div className={styles.loaderHolder}>
-                        <div className={styles.loader} />
+                {this.state.showGotoCartButton && (
+                  <div className={styles.openInAppButton}>
+                    <AddToWishListButtonContainer
+                      type="wishlistTextPDP"
+                      productListingId={productData.productListingId}
+                      winningUssID={productData.winningUssID}
+                      setDataLayerType={
+                        SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                      }
+                      isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                      showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
+                      ussid={productData.winningUssID}
+                    />
+                  </div>
+                )}
+                {!this.state.showGotoCartButton && (
+                  <div className={styles.buttonWrapper}>
+                    <div
+                      className={
+                        this.state.isLoader
+                          ? styles.nonClickButton
+                          : styles.buttonHolder
+                      }
+                    >
+                      {this.state.isLoader && (
+                        <div className={styles.loaderHolder}>
+                          <div className={styles.loader} />
+                        </div>
+                      )}
+                      <div className={styles.buttonAddToBag}>
+                        <Button
+                          type="primary"
+                          height={45}
+                          width={195}
+                          label="Buy Now"
+                          onClick={this.onClickOfBuyNow}
+                          disabled={
+                            productData.allOOStock ||
+                            !productData.winningSellerPrice ||
+                            (productData.winningSellerAvailableStock === "0" &&
+                              this.checkIfSizeSelected())
+                          }
+                        />
                       </div>
-                    )}
-                    <div className={styles.buttonAddToBag}>
-                      <Button
-                        type="primary"
-                        height={45}
-                        width={195}
-                        label="Buy Now"
-                        onClick={this.onClickOfBuyNow}
-                        disabled={
-                          productData.allOOStock ||
-                          !productData.winningSellerPrice ||
-                          (productData.winningSellerAvailableStock === "0" &&
-                            this.checkIfSizeSelected())
-                        }
-                      />
+                    </div>
+                    <div className={styles.buttonHolder}>
+                      <div className={styles.buttonAddToBag}>
+                        <Button
+                          type="hollow"
+                          height={45}
+                          width={195}
+                          color={"#ff1744"}
+                          label={
+                            this.state.goToCartPageFlag
+                              ? "Go to bag"
+                              : "Add to bag"
+                          }
+                          onClick={
+                            this.state.goToCartPageFlag
+                              ? () => this.goToCart({ goToBag: true })
+                              : () => this.addToCart(false)
+                          }
+                          disabled={
+                            productData.allOOStock ||
+                            !productData.winningSellerPrice ||
+                            (productData.winningSellerAvailableStock === "0" &&
+                              this.checkIfSizeSelected())
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.buttonHolder}>
-                    <div className={styles.buttonAddToBag}>
-                      <Button
-                        type="hollow"
-                        height={45}
-                        width={195}
-                        color={"#ff1744"}
-                        label={
-                          this.state.goToCartPageFlag
-                            ? "Go to bag"
-                            : "Add to bag"
-                        }
-                        onClick={
-                          this.state.goToCartPageFlag
-                            ? () => this.goToCart({ goToBag: true })
-                            : () => this.addToCart(false)
-                        }
-                        disabled={
-                          productData.allOOStock ||
-                          !productData.winningSellerPrice ||
-                          (productData.winningSellerAvailableStock === "0" &&
-                            this.checkIfSizeSelected())
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
+                )}
+
                 {productData &&
                   productData.details &&
                   productData.rootCategory === "Electronics" && (

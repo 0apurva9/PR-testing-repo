@@ -889,3 +889,7 @@
   color: #ff1744;
   font-family: regular;
 }
+.openInAppButton{
+  margin: 10px 0;
+  display: inline-block;
+}

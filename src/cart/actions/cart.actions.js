@@ -3681,7 +3681,7 @@ export function orderConfirmationBanner(orderId) {
   return async (dispatch, getState, { api }) => {
     dispatch(orderConfirmationBannerRequest());
     try {
-      const result = await api.getOrderConfirmBanner(
+      const result = await api.customGetMiddlewareUrl(
         `/otatacliq/getApplicationProperties.json?propertyNames=ORDER_CONFIRMATION_WARRENTY_BANNER`
       );
       const resultJson = await result.json();
