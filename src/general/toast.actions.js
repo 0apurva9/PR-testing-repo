@@ -36,32 +36,30 @@ export function showToast(message) {
 }
 export function displayToast(message) {
   let updatedMessage = message;
-  if (
-    message
-      .toLowerCase()
-      .includes(
-        ERROR_CODE_JAVA_NET,
-        ERROR_CODE_REDIS_CLIENT,
-        ERROR_CODE_FLIXIBLE_SEARCH_ERROR,
-        ERROR_CODE_INVALID_GRANT_ERROR,
-        ERROR_CODE_INVALID_TOKEN_ERROR,
-        ERROR_CODE_NO_PAGE_ID,
-        ERROR_CODE_ACCESS_DENIED,
-        ERROR_CODE_SYSTEM_EXCEPTION,
-        ERROR_CODE_JAVA_SQL,
-        ERROR_CODE_SQL_SEARCH_ERROR,
-        ERROR_CODE_DE_HYBRIS,
-        ERROR_CODE_NULL_POINTER_EXCEPTION,
-        ERROR_CODE_JAVA_LANG,
-        ERROR_CODE_CARD_ID,
-        ERROR_CODE_INVALID_REFRESH_TOKEN,
-        ERROR_CODE_ORG_APACHE,
-        ERROR_CODE_FLEXIBLE_SEARCH_QUERY,
-        ERROR_CODE_INVALID_ACCESS_TOKEN
-      )
-  ) {
+  let arrayOfError = [
+    ERROR_CODE_JAVA_NET,
+    ERROR_CODE_REDIS_CLIENT,
+    ERROR_CODE_FLIXIBLE_SEARCH_ERROR,
+    ERROR_CODE_INVALID_GRANT_ERROR,
+    ERROR_CODE_INVALID_TOKEN_ERROR,
+    ERROR_CODE_NO_PAGE_ID,
+    ERROR_CODE_ACCESS_DENIED,
+    ERROR_CODE_SYSTEM_EXCEPTION,
+    ERROR_CODE_JAVA_SQL,
+    ERROR_CODE_SQL_SEARCH_ERROR,
+    ERROR_CODE_DE_HYBRIS,
+    ERROR_CODE_NULL_POINTER_EXCEPTION,
+    ERROR_CODE_JAVA_LANG,
+    ERROR_CODE_CARD_ID,
+    ERROR_CODE_INVALID_REFRESH_TOKEN,
+    ERROR_CODE_ORG_APACHE,
+    ERROR_CODE_FLEXIBLE_SEARCH_QUERY,
+    ERROR_CODE_INVALID_ACCESS_TOKEN
+  ];
+  if (arrayOfError.some(o => updatedMessage.toLowerCase().includes(o))) {
     updatedMessage = SOMETHING_WENT_WRONG;
   }
+
   return async dispatch => {
     dispatch(showToast(updatedMessage));
     delay(() => {
