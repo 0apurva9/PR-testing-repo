@@ -27,19 +27,19 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
 import BundledProduct from "./BundledProduct";
-const bundledObject = {
-  channel: "ALL",
-  couponType: "PRODUCT_PROMOTION",
-  endDateAndTime: "2019-09-10 23:59:00",
-  name: "Special Discounted Price for Bundling*",
-  offerType: "Promotion",
-  priority: 1000,
-  promotionDisplayText:
-    "<a href=https://www.tatacliq.com/newpage?bundledProduct=true&bundledPromotionText=Hello$User&bundledProductCode=MP000000004656813&ussid=1242198904123052293&cartPromotionText=?Cart$Discounted?>Price inclusive of offer</a>",
-  startDateAndTime: "2019-08-13 13:00:00",
-  title: "Special Discounted Price*",
-  voucherIdentifier: "13AUG19GOOGLE1"
-};
+// const bundledObject = {
+//   channel: "ALL",
+//   couponType: "PRODUCT_PROMOTION",
+//   endDateAndTime: "2019-09-10 23:59:00",
+//   name: "Special Discounted Price for Bundling*",
+//   offerType: "Promotion",
+//   priority: 1000,
+//   promotionDisplayText:
+//     "<a href=https://www.tatacliq.com/newpage?bundledProduct=true&bundledPromotionText=Hello$User&bundledProductCode=MP000000004656813&ussid=1242198904123052293&cartPromotionText=?Cart$Discounted?>Price inclusive of offer</a>",
+//   startDateAndTime: "2019-08-13 13:00:00",
+//   title: "Special Discounted Price*",
+//   voucherIdentifier: "13AUG19GOOGLE1"
+// };
 export const BundledProductCode = "BundledProductCode";
 
 export default class OfferCard extends React.Component {
@@ -197,7 +197,7 @@ export default class OfferCard extends React.Component {
     if (this.props.offers) {
       offers = [...this.props.offers];
     }
-    offers.push(bundledObject);
+    // offers.push(bundledObject);
     offers &&
       offers.forEach(offer => {
         if (!offer.sequence) {
