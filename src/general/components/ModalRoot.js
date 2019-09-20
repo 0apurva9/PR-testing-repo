@@ -112,6 +112,13 @@ const EmiModal = Loadable({
   }
 });
 
+const BundledProductModal = Loadable({
+  loader: () => import("../../pdp/containers/BundledProductContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const OfferDetailsModal = Loadable({
   loader: () => import("../../pdp/components/OfferDetailsModal"),
   loading() {
@@ -833,6 +840,12 @@ export default class ModalRoot extends React.Component {
       ),
       OfferDetailsModal: (
         <OfferDetailsModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+      BundledProductModal: (
+        <BundledProductModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
         />

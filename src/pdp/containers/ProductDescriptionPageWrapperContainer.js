@@ -12,7 +12,9 @@ import {
   showPdpPiqPage,
   hidePdpPiqPage,
   getPdpOffers,
-  getManufacturerDetails
+  getManufacturerDetails,
+  getBundleproduct,
+  getBundleProductPinCode
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -35,6 +37,7 @@ import {
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
   TERMSNCONDITIONS_MODAL,
+  BUNDLEDPRODUCT_MODAL,
   SIMILAR_PRODUCTS_MODAL,
   SIMILAR_PRODUCTS_OOS_MODAL,
   SIZE_SELECTOR_OOS_MODAL
@@ -83,7 +86,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showOfferDetails: data => {
       dispatch(showModal(OFFER_MODAL, data));
     },
-
+    showBundledProduct: data => {
+      //debugger;
+      dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
+    },
     showTermsNConditions: data => {
       dispatch(showModal(TERMSNCONDITIONS_MODAL, data));
     },
@@ -164,6 +170,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getMinicartProducts: async () => {
       return dispatch(getMinicartProducts());
+    },
+    getBundleproduct: async data => {
+      return dispatch(getBundleproduct(data));
+    },
+    getBundleProductPinCode: async (pinCode, productCode, ussId) => {
+      return await dispatch(
+        getBundleProductPinCode(pinCode, productCode, ussId)
+      );
     }
   };
 };
@@ -179,7 +193,8 @@ const mapStateToProps = state => {
     userAddress: state.profile.userAddress,
     offers: state.productDescription.offerDetails,
     impulseOfferCalloutList: state.productDescription.impulseOfferCalloutList,
-    manufacturerDetails: state.productDescription.manufacturerDetails
+    manufacturerDetails: state.productDescription.manufacturerDetails,
+    bundleProductData: state.productDescription.bundleProductData
   };
 };
 

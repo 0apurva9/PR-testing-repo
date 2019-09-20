@@ -23,6 +23,7 @@ export const GO_TO_CART_PAGE_POPUP = "GoToCartPagePopUp";
 export const GENERATE_OTP_FOR_CLIQ_CASH = "generateOtpForCliqCash";
 export const VERIFY_OTP_FOR_CLIQ_CASH = "verifyOtpForCliqCash";
 export const ORDER_DETAILS_MODAL = "OrderModal";
+export const BUNDLEDPRODUCT_MODAL = "BundledProductModal";
 export const UPDATE_REFUND_DETAILS_POPUP = "UpdateRefundDetailsPopup";
 export const TNC_FOR_BANK_OFFER_POPUP = "TermsAndConditionForBankOffer";
 export const NEW_PASSWORD = "NewPassword";
