@@ -119,6 +119,10 @@ export const ABOUT_THE_BRAND_WIDGET_KEY = "aboutTheBrand";
 export const RECOMMENDED_PRODUCTS_WIDGET_KEY = "recommendedProducts";
 export const SIMILAR_PRODUCTS_WIDGET_KEY = "similarProducts";
 
+export const OPEN_IN_APP_REQUEST = "OPEN_IN_APP_REQUEST";
+export const OPEN_IN_APP_SUCCESS = "OPEN_IN_APP_SUCCESS";
+export const OPEN_IN_APP_FAILURE = "OPEN_IN_APP_FAILURE";
+
 export const GET_ALL_STORES_FOR_CLIQ_AND_PIQ_REQUEST =
   "GET_ALL_STORES_FOR_CLIQ_AND_PIQ_REQUEST";
 export const GET_ALL_STORES_FOR_CLIQ_AND_PIQ_SUCCESS =
@@ -1228,6 +1232,47 @@ export function getManufacturerDetails() {
       }
     } catch (e) {
       dispatch(pdpManufacturerFailure(e.message));
+    }
+  };
+}
+
+export function openInAppRequest() {
+  return {
+    type: OPEN_IN_APP_REQUEST,
+    status: REQUESTING
+  };
+}
+export function openInAppSuccess(openInAppDetails) {
+  return {
+    type: OPEN_IN_APP_SUCCESS,
+    status: SUCCESS,
+    openInAppDetails
+  };
+}
+export function openInAppFailure(error) {
+  return {
+    type: OPEN_IN_APP_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function openInApp() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(openInAppRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=isDesktopActive`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(openInAppSuccess(resultJson));
+    } catch (e) {
+      dispatch(openInAppFailure(e.message));
     }
   };
 }

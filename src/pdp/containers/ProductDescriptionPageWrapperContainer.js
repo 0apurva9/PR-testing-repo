@@ -12,7 +12,8 @@ import {
   showPdpPiqPage,
   hidePdpPiqPage,
   getPdpOffers,
-  getManufacturerDetails
+  getManufacturerDetails,
+  openInApp
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -164,6 +165,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getMinicartProducts: async () => {
       return dispatch(getMinicartProducts());
+    },
+    openInApp: async () => {
+      return await dispatch(openInApp());
     }
   };
 };
