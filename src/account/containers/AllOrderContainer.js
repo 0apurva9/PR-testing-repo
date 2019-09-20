@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
 import { setHeaderText } from "../../general/header.actions";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import { displayToast } from "../../general/toast.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllOrdersDetails: showDataAccordingToUser => {
@@ -38,6 +39,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
       return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
+    },
+    displayToast: message => {
+      dispatch(displayToast(message));
     }
   };
 };

@@ -1,99 +1,191 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 25px 15px 85px 15px;
-  background: #ececec;
-  min-height: 100vh;
+	width: 100%;
+	height: auto;
+	padding: 25px 15px 85px 15px;
+	background: #ececec;
+	min-height: 100vh;
 }
 .cancelHolder {
-  position: absolute;
-  right: 0;
-  top: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 .select {
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
+	width: 100%;
+	height: auto;
+	margin-bottom: 20px;
 }
 .textArea {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 .content {
-  width: 100%;
-  height: auto;
-  background: #fff;
-  border-radius: 4px;
-  padding: 15px;
+	width: 100%;
+	height: auto;
+	background: #fff;
+	border-radius: 4px;
+	padding: 15px;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-  text-align: center;
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	text-align: center;
 }
 .button {
-  display: inline-block;
+	display: inline-block;
 }
 .reverseSealHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 15px;
-  border-radius: 4px;
+	width: 100%;
+	height: auto;
+	margin-top: 15px;
+	border-radius: 4px;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  position: relative;
-  margin-top: 28px;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	position: relative;
+	margin-top: 28px;
 }
 .header {
-  width: 100%;
-  height: auto;
-  font-size: 16px;
-  font-family: semibold;
-  line-height: 25px;
-  position: relative;
-  padding-bottom: 36px;
+	width: 100%;
+	height: auto;
+	font-size: 16px;
+	font-family: semibold;
+	line-height: 25px;
+	position: relative;
+	padding-bottom: 20px;
 }
+/* image upload */
+.returnTitle {
+	font-family: semibold;
+	margin-bottom: 15px;
+	font-size: 18px;
+}
+.returnReasonForm {
+	padding: 25px 20px;
+	background-color: #ffffff;
+	border-radius: 6px;
+	margin-bottom: 15px;
+}
+.imgAttachmentText {
+	font-family: light;
+	font-size: 12px;
+	padding-left: 15px;
+}
+.imgAttachmentText li {
+	margin-bottom: 8px;
+}
+.uploadimageButton {
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+.fileUpload {
+	position: absolute;
+	opacity: 0;
+	top: 5px;
+	width: 95px;
+	height: 95px;
+	z-index: 1;
+}
+.imgAttachmentSubText {
+	font-family: light;
+	font-size: 10px;
+	text-align: center;
+	line-height: 3;
+}
+.fileuploadButton {
+	width: 95px;
+	height: 95px;
+	border: 1px dashed #9b9b9b;
+	margin: 5px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.addImageSign {
+	position: relative;
+	width: 30px;
+	height: 30px;
+}
+.addImageSign:before,
+.addImageSign:after {
+	content: '';
+	position: absolute;
+	background-color: #9b9b9b;
+	border-radius: 2px;
+}
+.addImageSign:before {
+	top: 0;
+	left: 50%;
+	width: 4px;
+	height: 100%;
+	margin-left: -2px;
+}
+.addImageSign:after {
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	margin-top: -2px;
+}
+.imagePreview {
+	float: left;
+	width: 70px;
+	margin: 5px 0;
+	position: relative;
+	min-height: 50px;
+}
+.imagePreviewContainer {
+	display: inline-block;
+	width: 100%;
+}
+.cancel {
+	position: absolute;
+	top: -20px;
+	right: 10px;
+}
+
 @media screen and (min-width: 1025px) {
-  .base {
-    padding: 0px;
-  }
-  .content {
-    padding: 0px;
-    background: #ececec;
-  }
-  .selectReasonWithText {
-    background: #fff;
-    padding: 30px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-  .buttonHolder {
-    width: 100%;
-    height: auto;
-    padding: 0px 0px 20px 0px;
-  }
-  .circleHolder {
-    width: auto;
-    height: auto;
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .circle {
-    width: 23px;
-    height: 23px;
-    background-color: #fff;
-    border: 2px solid black;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 14px;
-    color: #000000;
-    font-size: 14px;
-    font-family: semibold;
-    line-height: 23px;
-  }
+	.base {
+		padding: 0px;
+	}
+	.content {
+		padding: 0px;
+		background: #ececec;
+	}
+	.selectReasonWithText {
+		background: #fff;
+		padding: 34px;
+		border-radius: 4px;
+	}
+	.buttonHolder {
+		width: 100%;
+		height: auto;
+		padding: 0px 0px 20px 0px;
+	}
+	.circleHolder {
+		width: auto;
+		height: auto;
+		display: inline-block;
+		margin-right: 10px;
+	}
+	.circle {
+		width: 23px;
+		height: 23px;
+		background-color: #fff;
+		border: 2px solid black;
+		border-radius: 50%;
+		text-align: center;
+		font-size: 14px;
+		color: #000000;
+		font-size: 14px;
+		font-family: semibold;
+		line-height: 23px;
+	}
+	.reverseSealHolder {
+		margin-top: 20px;
+	}
 }

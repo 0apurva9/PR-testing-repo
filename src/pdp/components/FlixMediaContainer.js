@@ -10,7 +10,6 @@ export default class FlixMediaContainer extends React.Component {
     };
   }
   componentDidMount() {
-    let scripts = [];
     let flixModelNo = this.props.flixModelNo.value;
     let brandName = this.props.brandName.toUpperCase();
 

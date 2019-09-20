@@ -2,10 +2,6 @@ import React from "react";
 import styles from "./CodForm.css";
 import PropTypes from "prop-types";
 import Captcha from "../../general/components/Captcha";
-import Button from "../../general/components/Button";
-
-const CASH_ON_DELIVERY = "COD";
-
 export default class CodForm extends React.Component {
   constructor(props) {
     super(props);

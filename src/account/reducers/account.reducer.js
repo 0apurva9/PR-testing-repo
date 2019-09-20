@@ -8,7 +8,7 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CART_DETAILS_FOR_ANONYMOUS
 } from "../../lib/constants.js";
-import findIndex from "lodash.findindex";
+
 import { SUCCESS } from "../../lib/constants";
 import { CLEAR_ERROR } from "../../general/error.actions";
 import * as Cookies from "../../lib/Cookie";
@@ -172,7 +172,71 @@ const account = (
     userReviewStatus: null,
     userReviewError: null,
     loadingForUserReview: false,
-    userReview: null
+    userReview: null,
+    retryPaymentDetails: null,
+    retryPaymentDetailsStatus: null,
+    retryPaymentDetailsError: null,
+    retryPaymentDetailsLoading: false,
+
+    submitImageUploadDetailsStatus: null,
+    submitImageUploadDetails: null,
+    loadingForsubmitImageUploadDetails: false,
+    submitImageUploadDetailsError: null,
+
+    getRefundOptionsStatus: null,
+    loadingForGetRefundOptions: false,
+    getRefundOptionsDetails: null,
+    getRefundOptionsError: null,
+
+    getRefundModesStatus: null,
+    loadingForGetRefundModes: false,
+    getRefundModesDetails: null,
+    getRefundModesError: null,
+
+    updateRefundModeStatus: null,
+    loadingForUpdateRefundMode: false,
+    updateRefundModeDetails: null,
+    updateRefundModeError: null,
+
+    getCustomerBankDetailsStatus: null,
+    loadingForgetCustomerBankDetails: false,
+    getCustomerBankDetailsDetails: null,
+    getCustomerBankDetailsError: null,
+
+    updateCustomerBankDetailsStatus: null,
+    loadingForUpdateCustomerBankDetails: false,
+    updateCustomerBankDetails: null,
+    updateCustomerBankDetailsError: null,
+
+    getReturnModesDetailsStatus: null,
+    loadingForGetReturnModesDetails: false,
+    getReturnModesDetails: null,
+    getReturnModesDetailsError: null,
+
+    updateReturnConfirmationStatus: null,
+    loadingForUpdateReturnConfirmation: false,
+    updateReturnConfirmation: null,
+    updateReturnConfirmationError: null,
+
+    getRefundTransactionSummaryStatus: null,
+    loadingForGetRefundTransactionSummary: false,
+    getRefundTransactionSummary: null,
+    getRefundTransactionSummaryError: null,
+
+    getReturnReasonsStatus: null,
+    loadingForGetReturnReasons: false,
+    getReturnReasonsDetails: null,
+    getReturnReasonsError: null,
+
+    updateReturnCancellationStatus: null,
+    loadingForUpdateReturnCancellation: false,
+    updateReturnCancellationDetails: null,
+    updateReturnCancellationError: null,
+
+    updateReturnHOTCStatus: null,
+    loadingForUpdateReturnHOTC: false,
+    updateReturnHOTCDetails: null,
+    updateReturnHOTCError: null
   },
   action
 ) => {
@@ -207,7 +271,8 @@ const account = (
         wishlistError: null,
         updateProfileError: null,
         changePasswordError: null,
-        reSendEmailError: null
+        reSendEmailError: null,
+        pinCodeDetails: null
       });
     case accountActions.GET_RETURN_REQUEST:
     case accountActions.RETURN_PRODUCT_DETAILS_REQUEST:
@@ -584,6 +649,26 @@ const account = (
         loadingForFetchOrderDetails: false
       });
 
+    case accountActions.FETCH_ORDER_ITEM_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        fetchOrderItemDetailsStatus: action.status,
+        loadingForFetchOrderItemDetails: true
+      });
+
+    case accountActions.FETCH_ORDER_ITEM_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        fetchOrderItemDetailsStatus: action.status,
+        fetchOrderItemDetails: action.fetchOrderItemDetails,
+        loadingForFetchOrderItemDetails: false
+      });
+
+    case accountActions.FETCH_ORDER_ITEM_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        fetchOrderItemDetailsStatus: action.status,
+        fetchOrderItemDetailsError: action.error,
+        loadingForFetchOrderItemDetails: false
+      });
+
     case accountActions.SEND_INVOICE_REQUEST:
       return Object.assign({}, state, {
         sendInvoiceStatus: action.status,
@@ -850,6 +935,22 @@ const account = (
       });
 
     case accountActions.GET_PIN_CODE_FAILURE:
+      return Object.assign({}, state, {
+        getPinCodeStatus: action.status,
+        getPinCodeError: action.error
+      });
+    case accountActions.GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        getPinCodeStatus: action.status
+      });
+
+    case accountActions.GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        getPinCodeStatus: action.status,
+        getPinCodeDetails: action.pinCode
+      });
+
+    case accountActions.GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE:
       return Object.assign({}, state, {
         getPinCodeStatus: action.status,
         getPinCodeError: action.error
@@ -1148,6 +1249,219 @@ const account = (
         retryPaymentDetailsError: action.error,
         retryPaymentDetailsLoading: false
       });
+    case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        submitImageUploadDetailsStatus: action.status,
+        loadingForsubmitImageUploadDetails: true
+      });
+    case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        submitImageUploadDetailsStatus: action.status,
+        submitImageUploadDetails: action.submitImageUploadDetails,
+        loadingForsubmitImageUploadDetails: false
+      });
+    case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        submitImageUploadDetailsStatus: action.status,
+        submitImageUploadDetailsError: action.error,
+        loadingForsubmitImageUploadDetails: false
+      });
+
+    case accountActions.GET_REFUND_OPTIONS_DATA_REQUEST:
+      return Object.assign({}, state, {
+        getRefundOptionsStatus: action.status,
+        loadingForGetRefundOptions: true
+      });
+    case accountActions.GET_REFUND_OPTIONS_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        getRefundOptionsStatus: action.status,
+        getRefundOptionsDetails: action.getRefundOptionsDetails,
+        loadingForGetRefundOptions: false
+      });
+    case accountActions.GET_REFUND_OPTIONS_DATA_FAILURE:
+      return Object.assign({}, state, {
+        getRefundOptionsStatus: action.status,
+        getRefundOptionsError: action.error,
+        loadingForGetRefundOptions: false
+      });
+
+    case accountActions.GET_REFUND_MODES_REQUEST:
+      return Object.assign({}, state, {
+        getRefundModesStatus: action.status,
+        loadingForGetRefundModes: true
+      });
+    case accountActions.GET_REFUND_MODES_SUCCESS:
+      return Object.assign({}, state, {
+        getRefundModesStatus: action.status,
+        getRefundModesDetails: action.getRefundModesDetails,
+        loadingForGetRefundModes: false
+      });
+    case accountActions.GET_REFUND_MODES_FAILURE:
+      return Object.assign({}, state, {
+        getRefundModesStatus: action.status,
+        getRefundModesError: action.error,
+        loadingForGetRefundModes: false
+      });
+
+    case accountActions.UPDATE_REFUND_MODE_REQUEST:
+      return Object.assign({}, state, {
+        updateRefundModeStatus: action.status,
+        loadingForUpdateRefundMode: true
+      });
+    case accountActions.UPDATE_REFUND_MODE_SUCCESS:
+      return Object.assign({}, state, {
+        updateRefundModeStatus: action.status,
+        updateRefundModeDetails: action.updateRefundModeDetails,
+        loadingForUpdateRefundMode: false
+      });
+    case accountActions.UPDATE_REFUND_MODE_FAILURE:
+      return Object.assign({}, state, {
+        updateRefundModeStatus: action.status,
+        updateRefundModeError: action.error,
+        loadingForUpdateRefundMode: false
+      });
+
+    case accountActions.GET_CUSTOMER_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        getCustomerBankDetailsStatus: action.status,
+        loadingForGetCustomerBankDetails: true
+      });
+    case accountActions.GET_CUSTOMER_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        getCustomerBankDetailsStatus: action.status,
+        getCustomerBankDetailsDetails: action.getCustomerBankDetailsDetails,
+        loadingForGetCustomerBankDetails: false
+      });
+    case accountActions.GET_CUSTOMER_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        getCustomerBankDetailsStatus: action.status,
+        getCustomerBankDetailsError: action.error,
+        loadingForGetCustomerBankDetails: false
+      });
+    case accountActions.UPDATE_CUSTOMER_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        updateCustomerBankDetailsStatus: action.status,
+        loadingForUpdateCustomerBankDetails: true
+      });
+    case accountActions.UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        updateCustomerBankDetailsStatus: action.status,
+        updateCustomerBankDetails: action.updateCustomerBankDetails,
+        loadingForUpdateCustomerBankDetails: false
+      });
+    case accountActions.UPDATE_CUSTOMER_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        updateCustomerBankDetailsStatus: action.status,
+        updateCustomerBankDetailsError: action.error,
+        loadingForUpdateCustomerBankDetails: false
+      });
+    case accountActions.GET_RETURN_MODES_REQUEST:
+      return Object.assign({}, state, {
+        getReturnModesDetailsStatus: action.status,
+        loadingForGetReturnModesDetails: true
+      });
+    case accountActions.GET_RETURN_MODES_SUCCESS:
+      return Object.assign({}, state, {
+        getReturnModesDetailsStatus: action.status,
+        loadingForGetReturnModesDetails: false,
+        getReturnModesDetails: action.getReturnModesDetails
+      });
+    case accountActions.GET_RETURN_MODES_FAILURE:
+      return Object.assign({}, state, {
+        getReturnModesDetailsError: action.error,
+        getReturnModesDetailsStatus: action.status,
+        loadingForGetReturnModesDetails: false
+      });
+    case accountActions.UPDATE_RETURN_CONFIRMATION_REQUEST:
+      return Object.assign({}, state, {
+        updateReturnConfirmationStatus: action.status,
+        loadingForUpdateReturnConfirmation: true
+      });
+    case accountActions.UPDATE_RETURN_CONFIRMATION_SUCCESS:
+      return Object.assign({}, state, {
+        updateReturnConfirmationStatus: action.status,
+        updateReturnConfirmation: action.updateReturnConfirmation,
+        loadingForUpdateReturnConfirmation: false
+      });
+    case accountActions.UPDATE_RETURN_CONFIRMATION_FAILURE:
+      return Object.assign({}, state, {
+        updateReturnConfirmationStatus: action.status,
+        updateReturnConfirmationError: action.error,
+        loadingForUpdateReturnConfirmation: false
+      });
+
+    case accountActions.GET_REFUND_TRANSACTION_SUMMARY_REQUEST:
+      return Object.assign({}, state, {
+        getRefundTransactionSummaryStatus: action.status,
+        loadingForGetRefundTransactionSummary: true
+      });
+    case accountActions.GET_REFUND_TRANSACTION_SUMMARY_SUCCESS:
+      return Object.assign({}, state, {
+        getRefundTransactionSummaryStatus: action.status,
+        getRefundTransactionSummary: action.getRefundTransactionSummary,
+        loadingForGetRefundTransactionSummary: false
+      });
+    case accountActions.GET_REFUND_TRANSACTION_SUMMARY_FAILURE:
+      return Object.assign({}, state, {
+        getRefundTransactionSummaryStatus: action.status,
+        getRefundTransactionSummaryError: action.error,
+        loadingForGetRefundTransactionSummary: false
+      });
+
+    case accountActions.GET_RETURN_REASONS_REQUEST:
+      return Object.assign({}, state, {
+        getReturnReasonsStatus: action.status,
+        loadingForGetReturnReasons: true
+      });
+    case accountActions.GET_RETURN_REASONS_SUCCESS:
+      return Object.assign({}, state, {
+        getReturnReasonsStatus: action.status,
+        getReturnReasonsDetails: action.getReturnReasonsDetails,
+        loadingForGetReturnReasons: false
+      });
+    case accountActions.GET_RETURN_REASONS_FAILURE:
+      return Object.assign({}, state, {
+        getReturnReasonsStatus: action.status,
+        getReturnReasonsError: action.error,
+        loadingForGetReturnReasons: false
+      });
+
+    case accountActions.UPDATE_RETURN_CANCELLATION_REQUEST:
+      return Object.assign({}, state, {
+        updateReturnCancellationStatus: action.status,
+        loadingForUpdateReturnCancellation: true
+      });
+    case accountActions.UPDATE_RETURN_CANCELLATION_SUCCESS:
+      return Object.assign({}, state, {
+        updateReturnCancellationStatus: action.status,
+        updateReturnCancellationDetails: action.updateReturnCancellationDetails,
+        loadingForUpdateReturnCancellation: false
+      });
+    case accountActions.UPDATE_RETURN_CANCELLATION_FAILURE:
+      return Object.assign({}, state, {
+        updateReturnCancellationStatus: action.status,
+        updateReturnCancellationError: action.error,
+        loadingForUpdateReturnCancellation: false
+      });
+
+    case accountActions.UPDATE_RETURN_HOTC_REQUEST:
+      return Object.assign({}, state, {
+        updateReturnHOTCStatus: action.status,
+        loadingForUpdateReturnHOTC: true
+      });
+    case accountActions.UPDATE_RETURN_HOTC_SUCCESS:
+      return Object.assign({}, state, {
+        updateReturnHOTCStatus: action.status,
+        updateReturnHOTCDetails: action.updateReturnHOTCDetails,
+        loadingForUpdateReturnHOTC: false
+      });
+    case accountActions.UPDATE_RETURN_HOTC_FAILURE:
+      return Object.assign({}, state, {
+        updateReturnHOTCStatus: action.status,
+        updateReturnHOTCError: action.error,
+        loadingForUpdateReturnHOTC: false
+      });
+
     case accountActions.CLEAR_TRANSACTION_DATA:
       return Object.assign({}, state, {
         transactionDetails: " "

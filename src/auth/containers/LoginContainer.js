@@ -6,7 +6,6 @@ import {
 } from "../actions/user.actions";
 import {
   mergeCartId,
-  generateCartIdForLoggedInUser,
   getCartId,
   tempCartIdForLoggedInUser,
   getCartCountForLoggedInUser,
@@ -14,7 +13,6 @@ import {
   getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
-
 import { withRouter } from "react-router-dom";
 import { showModal, RESTORE_PASSWORD } from "../../general/modal.actions.js";
 import { getFeed } from "../../home/actions/home.actions";

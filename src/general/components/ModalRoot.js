@@ -10,7 +10,6 @@ import * as Cookie from "../../lib/Cookie.js";
 import CliqCashModuleContainer from "../../account/containers/CliqCashModuleContainer";
 import DatePickerModule from "../../account/components/DatePickerModule";
 import CliqCashKnowMore from "../../account/components/CliqCashKnowMore";
-
 import {
   LOGGED_IN_USER_DETAILS,
   SUCCESS,
@@ -19,8 +18,7 @@ import {
   NO_COST_EMI_COUPON,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   PRODUCT_CART_ROUTER,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  HOME_ROUTER
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants.js";
 import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";
@@ -183,6 +181,20 @@ const UpdateRefundDetailsPopup = Loadable({
   }
 });
 
+const ShowReturnConfirmPopup = Loadable({
+  loader: () => import("../../account/components/ShowReturnConfirmPopup.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const ShowDeliveryConfirmPopup = Loadable({
+  loader: () => import("../../account/components/ShowDeliveryConfirmPopup.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const KycApplicationFormWithBottomSlideModal = Loadable({
   loader: () =>
     import("../../account/components/KycApplicationFormWithBottomSlideModal"),
@@ -257,6 +269,14 @@ const SizeSelectorOOSModal = Loadable({
     return <Loader />;
   }
 });
+
+const CancelReturnRequestPopUp = Loadable({
+  loader: () => import("../../account/components/CancelReturnRequestPopUp.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const GiftCardSucessBottomModel = Loadable({
   loader: () => import("../../account/components/GiftCardSucessBottomModel"),
   loading() {
@@ -318,6 +338,9 @@ export default class ModalRoot extends React.Component {
       returnDetails.file = val.file;
       this.props.submitSelfCourierReturnInfo(returnDetails);
     }
+  }
+  onConfirmReturn(val) {
+    this.props.updateReturnForHOTC(val);
   }
   submitOtp(otpDetails) {
     this.props.otpVerification(otpDetails, this.props.ownProps);
@@ -509,6 +532,9 @@ export default class ModalRoot extends React.Component {
   cancelOrderProduct = (cancelProductDetails, productDetails) => {
     this.props.cancelProduct(cancelProductDetails, productDetails);
   };
+  updateReturnCancellation = data => {
+    this.props.updateReturnCancellation(data);
+  };
   goToCartPage(productCode) {
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
@@ -519,6 +545,7 @@ export default class ModalRoot extends React.Component {
       }
     });
   }
+
   goToHomePage() {
     this.handleClose();
   }
@@ -582,7 +609,7 @@ export default class ModalRoot extends React.Component {
   };
 
   render() {
-    const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
+    //  const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
       RestorePassword: (
         <RestorePassword
@@ -619,6 +646,16 @@ export default class ModalRoot extends React.Component {
           onClickWrongNumber={() => this.handleClose()}
         />
       ),
+      ShowReturnConfirmPopup: (
+        <ShowReturnConfirmPopup
+          closeModal={() => this.handleClose()}
+          onConfirmReturn={val => this.onConfirmReturn(val)}
+          {...this.props.ownProps}
+        />
+      ),
+      ShowDeliveryConfirmPopup: (
+        <ShowDeliveryConfirmPopup closeModal={() => this.handleClose()} />
+      ),
       ForgotPasswordOtpVerification: (
         <OtpVerification
           closeModal={() => this.handleClose()}
@@ -633,6 +670,7 @@ export default class ModalRoot extends React.Component {
           closeModal={() => this.handleClose()}
           onUpdate={val => this.onUpdate(val)}
           {...this.props.ownProps}
+          displayToast={this.props.displayToast}
         />
       ),
       Sort: <Sort />,
@@ -921,6 +959,17 @@ export default class ModalRoot extends React.Component {
           {...this.props}
           history={this.props.history}
           closeModal={() => this.handleClose()}
+        />
+      ),
+
+      CancelReturnRequestPopUp: (
+        <CancelReturnRequestPopUp
+          data={this.props.ownProps}
+          loadingForUpdateReturnCancellation={
+            this.props.loadingForUpdateReturnCancellation
+          }
+          cancelModal={() => this.handleClose()}
+          updateReturnCancellation={data => this.updateReturnCancellation(data)}
         />
       )
     };

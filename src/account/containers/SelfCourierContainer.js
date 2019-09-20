@@ -2,11 +2,7 @@ import { withRouter } from "react-router-dom";
 import { newReturnInitial } from "../actions/account.actions.js";
 import { connect } from "react-redux";
 import SelfCourier from "../components/SelfCourier";
-import {
-  SUCCESS,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE
-} from "../../lib/constants.js";
+import { SUCCESS } from "../../lib/constants.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 import { displayToast } from "../../general/toast.actions.js";
 const RETURN_SUCCESS_MESSAGE = "Return has been initiated";

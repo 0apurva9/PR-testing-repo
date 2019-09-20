@@ -6,11 +6,7 @@ import {
 import { withRouter } from "react-router-dom";
 import { displayToast } from "../../general/toast.actions";
 import cancelOrderForDesktop from "../../cancel/components/cancelOrderForDesktop";
-import {
-  SUCCESS,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE
-} from "../../lib/constants";
+import { SUCCESS } from "../../lib/constants";
 import { getUserAddress } from "../../cart/actions/cart.actions";
 import { showModal, CANCEL_ORDER_POP_UP } from "../../general/modal.actions";
 import { setDataLayerForMyAccountDirectCalls } from "../../lib/adobeUtils";

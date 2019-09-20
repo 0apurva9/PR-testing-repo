@@ -1,9 +1,6 @@
 import "isomorphic-fetch";
-import cloneDeep from "lodash.clonedeep";
 import * as Cookie from "./Cookie";
 import {
-  SUCCESS,
-  FAILURE,
   LOGGED_IN_USER_DETAILS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CART_DETAILS_FOR_ANONYMOUS
@@ -114,8 +111,6 @@ const STRIPE_ACCESTOKEN = process.env.REACT_APP_STRIPE_ACCESTOKEN;
 const ACCESS_TOKEN_EXPIRED_MESSAGE = "Access token expired";
 const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
-const CUSTOMER_ACCESS_TOKEN_INVALID = "customerAccessTokenInvalid";
-const GLOBAL_ACCESS_TOKEN_INVALID = "globalAccessTokenInvalid";
 const CART_NOT_FOUND_ERROR = "CartError";
 
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";

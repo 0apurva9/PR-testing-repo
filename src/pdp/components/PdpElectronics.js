@@ -9,7 +9,7 @@ import styles from "./ProductDescriptionPage.css";
 import * as Cookie from "../../lib/Cookie";
 import PdpFlags from "../components/PdpFlags.js";
 import TrustBadgeImage from "../components/img/trustBadge.jpg";
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 import {
   PRODUCT_SELLER_ROUTER_SUFFIX,
   GLOBAL_ACCESS_TOKEN,
@@ -121,7 +121,7 @@ const PDPRecommendedSectionsContainer = LoadableVisibility({
   },
   delay: 400
 });
-const VIDEO = "Video";
+//const VIDEO = "Video";
 const IMAGE = "Image";
 export default class PdpElectronics extends React.Component {
   visitBrand() {

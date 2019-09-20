@@ -1,4 +1,3 @@
-import { PRODUCT_DESCRIPTION_REQUEST } from "../pdp/actions/pdp.actions";
 export const PANCARD_PAGE = "/panCard/panCardDetailsUpload/(.*)";
 export const SUCCESS = "success";
 export const SUCCESS_UPPERCASE = "SUCCESS";
@@ -120,20 +119,33 @@ export const RETURNS = "/returns/(.*)";
 export const RETURN_LANDING = "/initiate";
 export const RETURNS_REASON = "/reason";
 export const RETURNS_MODES = "/modes";
+export const REPLACE_REFUND_SELECTION = "/replace-refund-selection";
+export const REFUND_SUMMARY = "/refund-summary";
 export const RETURNS_NEW_ADDRESS = "/addDeliveryLocation";
 export const RETURN_CLIQ_PIQ = "/cliqpiq";
 export const RETURN_CLIQ_PIQ_ADDRESS = "/address";
 export const RETURN_CLIQ_PIQ_DATE = "/dateTime";
+export const RETURN_TO_ADDRESS = "/changeAddress";
+export const EDIT = "/edit";
+export const ADD = "/add";
 export const SUCCESS_MESSAGE_IN_CANCELING_ORDER =
-  "Your order cancelled successfully";
+  "Your order has been cancelled"; //"Your order cancelled successfully";
 export const RETURN_CLIQ_PIQ_RETURN_SUMMARY = "/returnSummary";
+export const SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER =
+  "Your return request cancelled successfully";
+export const SUCCESS_MESSAGE_IN_RETURN_TO_HOTC =
+  "Your order is marked as delivered";
 
 export const RETURN_TO_STORE = "/store";
 export const RETURNS_STORE_MAP = "/storePick";
 export const RETURNS_STORE_BANK_FORM = "/bankDetail";
 export const RETURNS_STORE_FINAL = "/submit";
 
+export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
+export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
+
 export const RETURNS_SELF_COURIER = "/selfCourier";
+export const CHANGE_RETURN_ADDRESS = "/changeReturnAddress";
 export const MY_ACCOUNT_ADDRESS_EDIT_PAGE = "/address-book/edit";
 export const MY_ACCOUNT_ADDRESS_ADD_PAGE = "/address-book/add";
 export const FEEDBACK_PAGE = "/feedback/NPSFeedbackForm(.*)";
@@ -166,6 +178,7 @@ export const ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE = "orderConfirmationPageId";
 export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
   "paymentConfirmationPageId";
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
+export const PRODUCT_CANCEL = "Cancel Item";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
@@ -216,6 +229,8 @@ export const MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW = "myAccountFollow";
 export const PAYTM = "PAYTM";
 export const CANCEL = "/cancel";
 export const CANCEL_PREFIX = "/cancel/(.*)";
+export const CANCEL_RETURN_REQUEST = "/cancel-return";
+export const CANCEL_RETURN_PREFIX = "/cancel-return/(.*)/(.*)";
 
 export const WALLET = "WALLET";
 
@@ -311,6 +326,8 @@ export const SAVE_TEXT = "Save Address";
 export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
 export const LAST_NAME_TEXT = "Please enter last name";
+export const NAME_VALID_TEXT = "Please enter valid first name";
+export const LAST_VALID_TEXT = "Please enter valid last name";
 export const ADDRESS_TEXT = "Please enter address";
 export const ADDRESS_MINLENGTH_VALID_TEXT =
   "Minimum address length is 15 characters";
@@ -376,6 +393,28 @@ export const PINCODE_NOT_SERVICEABLE_TEXT =
   "We are sorry, this pincode is not serviceable. Please enter another pincode.";
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
 export const DEFAULT_PINCODE = 110001;
+
+export const ORDER_CONFIRMED = "ORDER_CONFIRMED";
+export const ORDER_IN_PROCESS = "ORDER_IN_PROCESS";
+export const CANCEL_STATUS = "CANCEL";
+export const SHIPPING = "SHIPPING";
+export const SHIPPED = "SHIPPED";
+export const DELIVERED = "DELIVERED";
+export const OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY";
+export const REFUND_INITIATED = "REFUND_INITIATED";
+export const READY_FOR_COLLECTION = "READY_FOR_COLLECTION";
+export const ORDER_COLLECTED = "ORDER_COLLECTED";
+export const ORDER_NOT_COLLECTED = "ORDER_NOT_COLLECTED";
+export const ORDER_CANCELLED = "ORDER_CANCELLED";
+export const ITEM_PACKED = "ITEM_PACKED";
+export const RETURN_REQUESTED = "RETURN_REQUESTED";
+export const RETURN_INITIATED = "RETURN_INITIATED";
+export const PICKUP_SCHEDULED = "PICKUP_SCHEDULED";
+export const RETURN_CANCELLED = "RETURN_CANCELLED";
+export const UNDELIVERED = "UNDELIVERED";
+export const NOT_DELIVERED = "NOT_DELIVERED";
+export const RETURN_DECLINED = "RETURN_DECLINED";
+export const REFUND_SUCCESSFUL = "REFUND_SUCCESSFUL";
 export const BANK_OFFER_TYPE = "bankOffer";
 export const NCE_OFFER_TYPE = "nceOfferType";
 export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
@@ -396,7 +435,33 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
+export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
 export const RECEIVED = "Received";
 export const PAID = "Paid";
 export const EXPIRED = "Expired";
 export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
+export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
+export const BANK_ACCOUNT = "BANK_ACCOUNT";
+export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+
+// errors
+export const ERROR_CODE_JAVA_NET = "java.net";
+export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
+export const ERROR_CODE_FLIXIBLE_SEARCH_ERROR = "flexible search error";
+export const ERROR_CODE_INVALID_GRANT_ERROR = "invalidgranterror";
+export const ERROR_CODE_INVALID_TOKEN_ERROR = "invalidtokenerror";
+export const ERROR_CODE_NO_PAGE_ID = "no page with id [defaulthomepage] found.";
+export const ERROR_CODE_ACCESS_DENIED = "access is denied";
+
+export const ERROR_CODE_SYSTEM_EXCEPTION = "system exception - glitch in code";
+export const ERROR_CODE_JAVA_SQL = "java.sql";
+export const ERROR_CODE_SQL_SEARCH_ERROR = "sql search error";
+export const ERROR_CODE_DE_HYBRIS = "de.hybris.";
+export const ERROR_CODE_NULL_POINTER_EXCEPTION = "nullpointererror";
+export const ERROR_CODE_JAVA_LANG = "java.lang";
+export const ERROR_CODE_CARD_ID = "cartid";
+export const ERROR_CODE_INVALID_REFRESH_TOKEN = "invalid refresh token";
+export const ERROR_CODE_ORG_APACHE = "org.apache";
+export const ERROR_CODE_FLEXIBLE_SEARCH_QUERY = "flexible search query";
+export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid access token";
+

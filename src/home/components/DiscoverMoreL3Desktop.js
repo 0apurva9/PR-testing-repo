@@ -7,7 +7,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import PropTypes from "prop-types";
 export default class DiscoverMoreL3Desktop extends React.Component {
   render() {
-    const { feedComponentData, title } = this.props;
+    const { feedComponentData } = this.props;
     if (
       !feedComponentData ||
       !feedComponentData.data ||

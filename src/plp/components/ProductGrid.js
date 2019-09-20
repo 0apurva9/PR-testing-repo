@@ -3,28 +3,13 @@ import DumbGrid from "../../general/components/DumbGridPLP";
 import ProductModuleContainer from "../../general/containers/ProductModuleContainer";
 import PlpComponent from "./PlpComponent";
 import PropTypes from "prop-types";
-import Icon from "../../xelpmoc-core/Icon";
 import styles from "./ProductGrid.css";
-import gridImage from "./img/grid.svg";
-import listImage from "./img/list.svg";
 import MediaQuery from "react-responsive";
-import dropDownSortIcon from "../../cart/components/img/googleSearch.png";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-import {
-  PRODUCT_DESCRIPTION_ROUTER,
-  IS_OFFER_EXISTING,
-  PRODUCT_LISTINGS_WITHOUT_SLASH
-} from "../../lib/constants";
-import queryString from "query-string";
-import { applySortToUrl } from "./SortUtils.js";
-import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
+import { PRODUCT_LISTINGS_WITHOUT_SLASH } from "../../lib/constants";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
-import DesktopOnly from "../../general/components/DesktopOnly.js";
-import MobileOnly from "../../general/components/MobileOnly.js";
-
 const LIST = "list";
 const GRID = "grid";
-const PRODUCT = "product";
 export const PLPAD = "plpAd";
 export const ICONICFILTER = "iconicFilter";
 export default class ProductGrid extends React.Component {
