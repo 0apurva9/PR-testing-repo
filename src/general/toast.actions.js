@@ -19,6 +19,7 @@ import {
   ERROR_CODE_FLEXIBLE_SEARCH_QUERY,
   ERROR_CODE_INVALID_ACCESS_TOKEN
 } from "../lib/constants";
+import { ADOBE_ERROR_TOAST_MESSAGE } from "../lib/adobeUtils";
 export const TOAST_DELAY = 3000;
 export const SHOW_TOAST = "SHOW_TOAST";
 export const HIDE_TOAST = "HIDE_TOAST";
@@ -62,6 +63,10 @@ export function displayToast(message) {
 
   return async dispatch => {
     dispatch(showToast(updatedMessage));
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ERROR_TOAST_MESSAGE, message);
+    }
+
     delay(() => {
       dispatch(hideToast());
     }, TOAST_DELAY);
