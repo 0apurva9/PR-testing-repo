@@ -10,8 +10,6 @@ import {
   BRAND_CAPTURE_REGEX,
   BRAND_CATEGORY_PREFIX
 } from "./PlpBrandCategoryWrapper";
-import queryString from "query-string";
-
 /*
 What do I want to do?
   I have a url. I apply a sort.

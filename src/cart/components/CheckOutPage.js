@@ -661,12 +661,7 @@ class CheckOutPage extends React.Component {
           return (
             slaves.CNCServiceableSlavesData &&
             slaves.CNCServiceableSlavesData.map(slave => {
-              return (
-                slave &&
-                slave.serviceableSlaves.map(serviceableSlave => {
-                  return serviceableSlave;
-                })
-              );
+              return slave && slave.storeId;
             })
           );
         })
@@ -679,11 +674,14 @@ class CheckOutPage extends React.Component {
           );
         });
 
-      const allStoreIds = [].concat
-        .apply([], [].concat.apply([], someData))
-        .map(store => {
-          return store && store.slaveId;
-        });
+      // const allStoreIds = [].concat
+      //   .apply([], [].concat.apply([], someData))
+      //   .map(store => {
+      //     return store && store.slaveId;
+      //   });
+      const allStoreIds = [].concat.apply([], someData).map(store => {
+        return store;
+      });
       const availableStores = this.props.cart.storeDetails
         ? this.props.cart.storeDetails.filter(val => {
             return (
@@ -2391,7 +2389,7 @@ if you have order id in local storage then you have to show order confirmation p
             this.props.createPaymentOrder(this.state.retryCartGuid);
           }
           this.props.collectPaymentOrderForNetBanking(
-            NET_BANKING_PAYMENT_MODE,
+            NET_BANKING,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
             this.state.bankCodeForNetBanking,
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),

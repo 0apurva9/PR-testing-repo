@@ -45,11 +45,11 @@ export default class ReviewList extends React.Component {
               if (!data) return null;
               let userName = data.userName;
               let alias = data.alias;
-              let name =
+              /*  let name =
                 data &&
                 data.principal &&
                 data.principal.name &&
-                data.principal.name.trim();
+                data.principal.name.trim(); */
               return (
                 <ReviewPage
                   rating={data && data.rating}
@@ -60,6 +60,30 @@ export default class ReviewList extends React.Component {
                   reviewAge={data && data.reviewAge}
                   name={userName ? userName : alias}
                   key={i}
+                />
+              );
+            })}
+          {this.props &&
+            !this.props.limit &&
+            this.props.reviewList &&
+            this.props.reviewList.map((data, i) => {
+              if (!data) return null;
+              let userName = data.userName;
+              let alias = data.alias;
+              /*  let name =
+              data &&
+              data.principal &&
+              data.principal.name &&
+              data.principal.name.trim();  */
+              return (
+                <ReviewPage
+                  rating={data && data.rating}
+                  heading={data && data.headline}
+                  text={data && data.comment}
+                  date={data && data.date}
+                  isBuyer={data && data.isBuyer}
+                  reviewAge={data && data.reviewAge}
+                  name={userName ? userName : alias}
                 />
               );
             })}

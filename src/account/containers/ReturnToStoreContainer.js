@@ -4,13 +4,7 @@ import ReturnToStore from "../components/ReturnToStore";
 import { quickDropStore, newReturnInitial } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
-import {
-  SUCCESS,
-  MY_ACCOUNT,
-  MY_ACCOUNT_ORDERS_PAGE,
-  ERROR,
-  FAILURE
-} from "../../lib/constants.js";
+import { SUCCESS, FAILURE } from "../../lib/constants.js";
 const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
 
 const mapDispatchToProps = (dispatch, ownProps) => {

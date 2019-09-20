@@ -2,10 +2,8 @@ import React from "react";
 import styles from "./HelpDetails.css";
 import faqIcon from "./img/faqred.svg";
 import trackOrderIcon from "./img/tored.svg";
-import cancelIcon from "./img/cancelred.svg";
 import returnIcon from "./img/returnred.svg";
 import customerCareIcon from "./img/callred.svg";
-import contactUsIcon from "./img/contactred.svg";
 import aboutUsIcon from "./img/aboutusred.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -13,7 +11,6 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   ABOUT_US_URL,
   MY_ACCOUNT_PAGE,
-  CANCEL_URL,
   RETURN_URL,
   FAQ_URL,
   CONTACT_URL,

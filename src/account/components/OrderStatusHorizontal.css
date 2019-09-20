@@ -1,77 +1,210 @@
 .base {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
+	padding-top: 15px;
 }
 .step {
-  width: 25%;
-  height: auto;
-  display: inline-block;
-  vertical-align: top;
-  padding-top: 30px;
-  position: relative;
-  font-size: 14px;
-  font-family: light;
-  text-align: center;
-  margin-top: 10px;
+	width: 33%;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+	padding-top: 30px;
+	position: relative;
+	font-size: 14px;
+	font-family: light;
+	text-align: center;
+	margin-top: 10px;
 }
+.shipmentStatus {
+	left: 25px;
+	margin-top: 24px;
+	font-family: light;
+	font-size: 12px;
+	color: #747474;
+	height: 14px;
+}
+
+.processNameHolderBold {
+	width: 64%;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 14px;
+	line-height: 21px;
+	vertical-align: top;
+	font-family: semibold;
+	position: absolute;
+	top: -42px;
+	left: 20px;
+}
+
+.processNameHolder {
+	width: 64%;
+	height: auto;
+	display: inline-block;
+	color: #212121;
+	font-size: 14px;
+	letter-spacing: 0px;
+	text-align: center;
+	line-height: 21px;
+	vertical-align: top;
+	font-family: light;
+	position: absolute;
+	top: -42px;
+	left: 20px;
+}
+
+.dateAndTimeHolder {
+	width: 186px;
+	height: 51px;
+	display: inline-block;
+	vertical-align: top;
+	/* text-align: center; */
+}
+/* .dateAndTimeHolder > .dateHolder, .dateAndTimeHolder > .timeHolder:first-child {
+	padding-left: 15px;
+}  */
+.timeHolder {
+	width: 50%;
+	height: auto;
+	/* display: inline-block; */
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+	line-height: 16px;
+	letter-spacing: 0px;
+	margin-left: 25px;
+}
+/* .timeHolder:first-child {
+	padding-left: 15px;
+}  */
+.dateHolder {
+	width: 50%;
+	height: auto;
+	/* display: inline-block; */
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+	line-height: 16px;
+	letter-spacing: 0px;
+	margin-left: 25px;
+}
+.courierInfoHolder {
+	width: 50%;
+	height: auto;
+	/* display: inline-block; */
+	font-size: 12px;
+	color: black;
+	margin-top: 5px;
+	cursor: pointer;
+	/* font-family: light; */
+	line-height: 16px;
+	margin-left: 39px;
+	text-align: center;
+}
+/* .dateHolder:first-child {
+	padding-left: 15px;
+}  */
 .stepInactive {
-  composes: step;
+	composes: step;
 }
-.stepInactive:after {
-  display: none;
+div .stepInactive:after {
+	/* display: none; */
+	content: '';
+	height: 1px;
+	width: 100%;
+	position: absolute;
+	top: 8.5px;
+	left: 33%;
+	border-top: 1px dashed #000;
+}
+div .stepInactive:before {
+	display: none;
+}
+div .stepInactive:last-child:after,
+div .stepInactive:last-child:before {
+	display: none;
 }
 .row {
-  width: 100%;
-  height: auto;
-  font-family: light;
-  font-size: 14px;
-  line-height: 24px;
-  color: #212121;
+	width: 100%;
+	height: auto;
+	font-family: light;
+	font-size: 12px;
+	line-height: 24px;
+	color: black;
+	vertical-align: top;
+	text-align: center;
 }
-.step:after {
-  content: "";
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  top: 8.5px;
-  left: 33%;
-  background: #12de7c;
+div .step:after {
+	content: '';
+	height: 2px;
+	width: 88%;
+	position: absolute;
+	top: 8.5px;
+	left: 44%;
+	/* margin-left: 3px; */
+	/* background: #4a4a4a; */
 }
-.step:before {
-  content: "";
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  top: 8.5px;
-  left: 33%;
-  background: #eeeeee;
+div .step:before {
+	content: '';
+	height: 2px;
+	width: 88%;
+	position: absolute;
+	top: 8.5px;
+	left: 44%;
+	/* margin-left: 3px; */
+	background: #4a4a4a;
 }
 .step:last-child:after,
 .step:last-child:before {
-  display: none;
+	display: none;
 }
 .status {
-  width: 100%;
-  font-size: 14px;
-  color: #212121;
-  font-family: light;
-  margin-bottom: 15px;
+	width: 100%;
+	font-size: 14px;
+	color: #212121;
+	font-family: light;
+	margin-bottom: 15px;
+}
+.trackOrderTitle {
+	font-size: 18px;
+	color: #000000;
+	margin-bottom: 20px;
+	font-family: semibold;
 }
 .check {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 33%;
-  top: 0;
-  border-radius: 50%;
-  border: 2px solid #eeeeee;
-  z-index: 10;
-  background: #fff;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 33%;
+	top: 0;
+	border-radius: 50%;
+	border: 2px solid #67b70b;
+	z-index: 10;
+	background: #fff;
 }
 .checkActive {
-  composes: check;
-  background: url(../../general/components/img/check.svg) no-repeat;
-  background-size: auto 35px;
-  background-position: center;
-  border: none;
+	composes: check;
+	background: url(../../general/components/img/checkOrder.svg) no-repeat;
+	background-size: auto 40px;
+	background-position: center;
+	border: none;
+}
+.orderProcessHolder {
+	font-size: 14px;
+	width: 25%;
+	display: inline-block;
+	text-align: center;
+}
+.itemPackedDetails {
+	width: 186px;
+	height: 14px;
+	display: inline-block;
+	color: black;
+	font-size: 12px;
+	font-family: light;
+	line-height: 14px;
+	letter-spacing: 0px;
+	text-align: center;
+	margin-right: 25px;
 }

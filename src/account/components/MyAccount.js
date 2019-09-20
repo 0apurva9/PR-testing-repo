@@ -15,7 +15,6 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserReviewContainer from "../containers/UserReviewContainer";
 import {
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   MY_CLIQ,
   MY_ACCOUNT_PAGE,
@@ -25,7 +24,6 @@ import {
   PRIVACY_POLICY_URL,
   FAQ_URL,
   HELP_URL,
-  HOME_ROUTER,
   BUYER_POLICY_URL
 } from "../../lib/constants";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -56,9 +54,9 @@ export default class MyAccount extends React.Component {
     );
   }
   redirectPage = (url, type) => {
-    if (type == FAQ) {
+    if (type === FAQ) {
       setDataLayerForFaqAndTc(SET_DATA_LAYER_FAQ);
-    } else if (type == TC) {
+    } else if (type === TC) {
       setDataLayerForFaqAndTc(SET_DATA_LAYER_TC);
     }
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");

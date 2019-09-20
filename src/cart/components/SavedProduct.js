@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import styles from "./SavedProduct.css";
 import Button from "../../general/components/Button.js";
 import Coupon from "../../general/components/Coupon.js";
-import * as Cookie from "../../lib/Cookie.js";
-import { COUPON_COOKIE } from "../../lib/constants.js";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 const COUPON_SUBTEXT =

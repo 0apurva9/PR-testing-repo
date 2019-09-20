@@ -28,7 +28,7 @@ export default class AutoImageBanner extends React.Component {
         className={
           this.state.imageStatus === ERROR ? styles.image : styles.imageLoaded
         }
-        alt="No Image"
+        alt=""
         src={this.props.image}
         onLoad={() => this.handleImageLoaded()}
         onError={() => this.handleImageErrored()}

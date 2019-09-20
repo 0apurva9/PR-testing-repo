@@ -12,9 +12,7 @@ import {
   MY_ACCOUNT_COUPON_PAGE,
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
-  LOGIN_PATH,
-  ALERTS_COUPON,
-  HOME_ROUTER
+  ALERTS_COUPON
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as styles from "./UserAlertsAndCoupons.css";

@@ -1,14 +1,10 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-import PiqPage from "../../cart/components/PiqPage";
 import CliqAndPiqMap from "../../account/components/CliqAndPiqMap.js";
 import SearchLocationByPincode from "../../cart/components/SearchLocationByPincode";
 import styles from "./CliqAndPiqModal.css";
 import GridSelect from "../../general/components/GridSelect.js";
 import PickUpLocation from "../../cart/components/PickUpLocation.js";
 import GetLocationDetails from "../../cart/components/GetLocationDetails.js";
-import Button from "../../general/components/Button.js";
-import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import PickUpDetails from "../../cart/components/PickUpDetails.js";
 import {
@@ -94,12 +90,7 @@ export default class ReturnToStore extends React.Component {
         return (
           slaves.CNCServiceableSlavesData &&
           slaves.CNCServiceableSlavesData.map(slave => {
-            return (
-              slave &&
-              slave.serviceableSlaves.map(serviceableSlave => {
-                return serviceableSlave;
-              })
-            );
+            return slave && slave.storeId;
           })
         );
       })
@@ -112,11 +103,14 @@ export default class ReturnToStore extends React.Component {
         );
       });
 
-    const allStoreIds = [].concat
-      .apply([], [].concat.apply([], someData))
-      .map(store => {
-        return store && store.slaveId;
-      });
+    // const allStoreIds = [].concat
+    //   .apply([], [].concat.apply([], someData))
+    //   .map(store => {
+    //     return store && store.slaveId;
+    //   });
+    const allStoreIds = [].concat.apply([], someData).map(store => {
+      return store;
+    });
     const availableStores = this.props.stores
       ? this.props.stores.filter(val => {
           return allStoreIds.includes(val.slaveId) && val.clicknCollect === "Y";

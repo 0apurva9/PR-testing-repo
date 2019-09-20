@@ -1,0 +1,40 @@
+.base {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	padding-bottom: 34px;
+}
+.ratingHolder {
+	width: 38px;
+    height: 38px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 24px;
+}
+.startHolder {
+	width: auto;
+	height: auto;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+}
+.ratingStar {
+	width: 32px;
+	height: 31px;
+	background: url(../../general/components/img/star-stroke.svg) no-repeat;
+	background-size: auto 100%;
+	background-position: center;
+	display: inline-block;
+	transition: 300ms;
+	margin-bottom: 34px;
+}
+.ratingFillStar {
+	width: 32px;
+	height: 31px;
+	background: url(../../general/components/img/star-fill.svg) no-repeat;
+	background-size: auto 100%;
+	background-position: center;
+	display: inline-block;
+	transition: 300ms;
+}

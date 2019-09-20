@@ -8,22 +8,21 @@ import {
   HOME_FEED_FOLLOW_AND_UN_FOLLOW,
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
-  STORE_NOT_AVAILABLE_TEXT,
   CHANNEL,
   EMAIL_SENT_SUCCESS_MESSAGE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
-import findIndex from "lodash.findindex";
+//import findIndex from "lodash.findindex";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   FAILURE_UPPERCASE,
-  CART_DETAILS_FOR_ANONYMOUS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
   GLOBAL_ACCESS_TOKEN,
   PLAT_FORM_NUMBER,
   SUCCESS_MESSAGE_IN_CANCELING_ORDER,
+  SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER,
+  SUCCESS_MESSAGE_IN_RETURN_TO_HOTC,
   FEMALE,
   MALE
 } from "../../lib/constants";
@@ -35,7 +34,8 @@ import {
   hideModal,
   VERIFY_OTP,
   GIFT_CARD_MODAL,
-  UPDATE_REFUND_DETAILS_POPUP
+  UPDATE_REFUND_DETAILS_POPUP,
+  SHOW_RETURN_CONFIRM_POP_UP
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -59,7 +59,9 @@ import {
   SET_DATA_LAYER_ADD_GIFT_CARD_SUBMIT,
   ADOBE_ORDER_CONFIRMATION,
   setDataLayerForOrderConfirmationDirectCalls,
-  ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS
+  ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
+  ADOBE_RETURN_LINK_CLICKED,
+  ADOBE_RETURN_JOURNEY_INITIATED
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -101,6 +103,13 @@ export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
 
+export const FETCH_ORDER_ITEM_DETAILS_REQUEST =
+  "FETCH_ORDER_ITEM_DETAILS_REQUEST";
+export const FETCH_ORDER_ITEM_DETAILS_SUCCESS =
+  "FETCH_ORDER_ITEM_DETAILS_SUCCESS";
+export const FETCH_ORDER_ITEM_DETAILS_FAILURE =
+  "FETCH_ORDER_ITEM_DETAILS_FAILURE";
+
 export const GET_USER_COUPON_REQUEST = "GET_USER_COUPON_REQUEST";
 export const GET_USER_COUPON_SUCCESS = "GET_USER_COUPON_SUCCESS";
 export const GET_USER_COUPON_FAILURE = "GET_USER_COUPON_FAILURE";
@@ -112,6 +121,13 @@ export const GET_USER_ALERTS_FAILURE = "GET_USER_ALERTS_FAILURE";
 export const GET_PIN_CODE_REQUEST = "GET_PIN_CODE_REQUEST";
 export const GET_PIN_CODE_SUCCESS = "GET_PIN_CODE_SUCCESS";
 export const GET_PIN_CODE_FAILURE = "GET_PIN_CODE_FAILURE";
+
+export const GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST =
+  "GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST";
+export const GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS =
+  "GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS";
+export const GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE =
+  "GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE";
 
 export const SEND_INVOICE_REQUEST = "SEND_INVOICE_REQUEST";
 export const SEND_INVOICE_SUCCESS = "SEND_INVOICE_SUCCESS";
@@ -292,7 +308,6 @@ const FOLLOW = "follow";
 const UNFOLLOW = "unfollow";
 const DATE_FORMAT_TO_UPDATE_PROFILE = "DD/MM/YYYY";
 const MOBILE_PATTERN = /^[7,8,9]{1}[0-9]{9}$/;
-const CART_GU_ID = "cartGuid";
 const MSD_API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const MAD_UUID = "19267047903874796013507214974570460649";
 const WOMEN = "Women's";
@@ -303,7 +318,71 @@ export const MSD_FEEDBACK = "feedback";
 
 const NEFT = "NEFT";
 const TITLE_NAME_ARRAY = ["Ms.", "Mr.", "Mr. & Mrs."];
-// cencel product
+// cancel product
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST =
+  "SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS =
+  "SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE =
+  "SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE";
+export const GET_REFUND_OPTIONS_DATA_REQUEST =
+  "GET_REFUND_OPTIONS_DATA_REQUEST";
+export const GET_REFUND_OPTIONS_DATA_SUCCESS =
+  "GET_REFUND_OPTIONS_DATA_SUCCESS";
+export const GET_REFUND_OPTIONS_DATA_FAILURE =
+  "GET_REFUND_OPTIONS_DATA_FAILURE";
+export const GET_REFUND_MODES_REQUEST = "GET_REFUND_MODES_REQUEST";
+export const GET_REFUND_MODES_SUCCESS = "GET_REFUND_MODES_SUCCESS";
+export const GET_REFUND_MODES_FAILURE = "GET_REFUND_MODES_FAILURE";
+export const UPDATE_REFUND_MODE_REQUEST = "UPDATE_REFUND_MODE_REQUEST";
+export const UPDATE_REFUND_MODE_SUCCESS = "UPDATE_REFUND_MODE_SUCCESS";
+export const UPDATE_REFUND_MODE_FAILURE = "UPDATE_REFUND_MODE_FAILURE";
+export const GET_CUSTOMER_BANK_DETAILS_REQUEST =
+  "GET_CUSTOMER_BANK_DETAILS_REQUEST";
+export const GET_CUSTOMER_BANK_DETAILS_SUCCESS =
+  "GET_CUSTOMER_BANK_DETAILS_SUCCESS";
+export const GET_CUSTOMER_BANK_DETAILS_FAILURE =
+  "GET_CUSTOMER_BANK_DETAILS_FAILURE";
+
+export const UPDATE_CUSTOMER_BANK_DETAILS_REQUEST =
+  "UPDATE_CUSTOMER_BANK_DETAILS_REQUEST";
+export const UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS =
+  "UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS";
+export const UPDATE_CUSTOMER_BANK_DETAILS_FAILURE =
+  "UPDATE_CUSTOMER_BANK_DETAILS_FAILURE";
+
+export const GET_RETURN_MODES_REQUEST = "GET_RETURN_MODES_REQUEST";
+export const GET_RETURN_MODES_SUCCESS = "GET_RETURN_MODES_SUCCESS";
+export const GET_RETURN_MODES_FAILURE = "GET_RETURN_MODES_FAILURE";
+
+export const UPDATE_RETURN_CONFIRMATION_REQUEST =
+  "UPDATE_RETURN_CONFIRMATION_REQUEST";
+export const UPDATE_RETURN_CONFIRMATION_SUCCESS =
+  "UPDATE_RETURN_CONFIRMATION_SUCCESS";
+export const UPDATE_RETURN_CONFIRMATION_FAILURE =
+  "UPDATE_RETURN_CONFIRMATION_FAILURE";
+
+export const GET_REFUND_TRANSACTION_SUMMARY_REQUEST =
+  "GET_REFUND_TRANSACTION_SUMMARY_REQUEST";
+export const GET_REFUND_TRANSACTION_SUMMARY_SUCCESS =
+  "GET_REFUND_TRANSACTION_SUMMARY_SUCCESS";
+export const GET_REFUND_TRANSACTION_SUMMARY_FAILURE =
+  "GET_REFUND_TRANSACTION_SUMMARY_FAILURE";
+
+export const GET_RETURN_REASONS_REQUEST = "GET_RETURN_REASONS_REQUEST";
+export const GET_RETURN_REASONS_SUCCESS = "GET_RETURN_REASONS_SUCCESS";
+export const GET_RETURN_REASONS_FAILURE = "GET_RETURN_REASONS_FAILURE";
+
+export const UPDATE_RETURN_CANCELLATION_REQUEST =
+  "UPDATE_RETURN_CANCELLATION_REQUEST";
+export const UPDATE_RETURN_CANCELLATION_SUCCESS =
+  "UPDATE_RETURN_CANCELLATION_SUCCESS";
+export const UPDATE_RETURN_CANCELLATION_FAILURE =
+  "UPDATE_RETURN_CANCELLATION_FAILURE";
+
+export const UPDATE_RETURN_HOTC_REQUEST = "UPDATE_RETURN_HOTC_REQUEST";
+export const UPDATE_RETURN_HOTC_SUCCESS = "UPDATE_RETURN_HOTC_SUCCESS";
+export const UPDATE_RETURN_HOTC_FAILURE = "UPDATE_RETURN_HOTC_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -364,7 +443,62 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
     }
   };
 }
+//HOTC Request
+export function updateReturnForHOTCRequest() {
+  return {
+    type: UPDATE_RETURN_HOTC_REQUEST,
+    status: REQUESTING
+  };
+}
 
+export function updateReturnForHOTCSuccess(updateReturnForHOTCDetails) {
+  return {
+    type: UPDATE_RETURN_HOTC_SUCCESS,
+    status: SUCCESS,
+    updateReturnForHOTCDetails
+  };
+}
+
+export function updateReturnForHOTCFailure(error) {
+  return {
+    type: UPDATE_RETURN_HOTC_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateReturnForHOTC(data) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateReturnForHOTCRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnForHOTC/${
+          data.orderId
+        }/${data.transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.error));
+        dispatch(hideModal(SHOW_RETURN_CONFIRM_POP_UP));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(displayToast(SUCCESS_MESSAGE_IN_RETURN_TO_HOTC));
+      sessionStorage.setItem("updateReturnForHOTC", true);
+      setDataLayer(ADOBE_RETURN_LINK_CLICKED);
+      setDataLayer(ADOBE_RETURN_JOURNEY_INITIATED);
+      return dispatch(updateReturnForHOTCSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateReturnForHOTCFailure(e.message));
+    }
+  };
+}
 //cancel final order
 
 export function cancelProductRequest() {
@@ -491,7 +625,320 @@ export function returnProductDetails(productDetails) {
     }
   };
 }
+export function getReturnModesRequest() {
+  return {
+    type: GET_RETURN_MODES_REQUEST,
+    status: REQUESTING
+  };
+}
 
+export function getReturnModesSuccess(returnModesDetails) {
+  return {
+    type: GET_RETURN_MODES_SUCCESS,
+    status: SUCCESS,
+    returnModesDetails
+  };
+}
+export function getReturnModesFailure(error) {
+  return {
+    type: GET_RETURN_MODES_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getReturnModes(
+  returnId,
+  orderId,
+  pickUpAddressId,
+  transactionId
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getReturnModesRequest());
+    try {
+      let data = new FormData();
+      data.append("returnId", returnId);
+      data.append("orderId", orderId);
+      data.append("pickUpAddress", pickUpAddressId);
+      data.append("transactionId", transactionId);
+
+      const result = await api.postFormData(
+        `v2/mpl/users/${
+          JSON.parse(userDetails).userName
+        }/getPickupAddrReturnPincodeServcblty?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+
+      const resultJson = await result.json();
+
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getReturnModesSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getReturnModesFailure(e.message));
+    }
+  };
+}
+export function updateReturnConfirmationRequest() {
+  return {
+    type: UPDATE_RETURN_CONFIRMATION_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function updateReturnConfirmationSuccess(
+  updateReturnConfirmationDetails
+) {
+  return {
+    type: UPDATE_RETURN_CONFIRMATION_SUCCESS,
+    status: SUCCESS,
+    updateReturnConfirmationDetails
+  };
+}
+
+export function updateReturnConfirmationFailure(error) {
+  return {
+    type: UPDATE_RETURN_CONFIRMATION_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateReturnConfirmation(
+  orderId,
+  transactionId,
+  returnId,
+  returnFullfillmentType,
+  returnStore,
+  returnAddress,
+  modeOfReturn
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateReturnConfirmationRequest());
+    try {
+      let data = {};
+      if (modeOfReturn === "Return To Store") {
+        Object.assign(data, {
+          returnId: returnId,
+          returnStore: JSON.parse(returnStore),
+          returnFullfillmentType: returnFullfillmentType
+        });
+      }
+
+      if (modeOfReturn === "Pick Up") {
+        Object.assign(data, {
+          returnId: returnId,
+          pickupDate: "",
+          pickupTimeSlot: "",
+          returnAddressData: returnAddress,
+          returnFullfillmentType: returnFullfillmentType
+        });
+      }
+
+      if (modeOfReturn === "Self Courier") {
+        Object.assign(data, {
+          returnId: returnId,
+          isSelfCourier: true,
+          returnFullfillmentType: returnFullfillmentType
+        });
+      }
+
+      if (modeOfReturn === "other") {
+        Object.assign(data, {
+          returnId: returnId
+        });
+      }
+
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(updateReturnConfirmationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateReturnConfirmationFailure(e.message));
+    }
+  };
+}
+export function getRefundTransactionSummaryRequest() {
+  return {
+    type: GET_REFUND_TRANSACTION_SUMMARY_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRefundTransactionSummarySuccess(
+  getRefundTransactionDetails
+) {
+  return {
+    type: GET_REFUND_TRANSACTION_SUMMARY_SUCCESS,
+    status: SUCCESS,
+    getRefundTransactionDetails
+  };
+}
+
+export function getRefundTransactionSummaryFailure(error) {
+  return {
+    type: GET_REFUND_TRANSACTION_SUMMARY_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getRefundTransactionSummary(orderId, transactionId, returnId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRefundTransactionSummaryRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getReturnTransactionSummary/${orderId}/${transactionId}/${returnId}/?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getRefundTransactionSummarySuccess(resultJson));
+    } catch (e) {
+      return dispatch(getRefundTransactionSummaryFailure(e.message));
+    }
+  };
+}
+
+export function getReturnReasonsRequest() {
+  return {
+    type: GET_RETURN_REASONS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getReturnReasonsSuccess(getReturnReasonsDetails) {
+  return {
+    type: GET_RETURN_REASONS_SUCCESS,
+    status: SUCCESS,
+    getReturnReasonsDetails
+  };
+}
+
+export function getReturnReasonsFailure(error) {
+  return {
+    type: GET_RETURN_REASONS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getReturnReasons(orderId, transactionId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getReturnReasonsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getReturnCancelReasons?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&orderCode=${orderId}&transactionId=${transactionId}&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getReturnReasonsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getReturnReasonsFailure(e.message));
+    }
+  };
+}
+
+export function updateReturnCancellationRequest() {
+  return {
+    type: UPDATE_RETURN_CANCELLATION_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function updateReturnCancellationSuccess(
+  updateReturnCancellationDetails
+) {
+  return {
+    type: UPDATE_RETURN_CANCELLATION_SUCCESS,
+    status: SUCCESS,
+    updateReturnCancellationDetails
+  };
+}
+
+export function updateReturnCancellationFailure(error) {
+  return {
+    type: UPDATE_RETURN_CANCELLATION_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateReturnCancellation(data) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateReturnCancellationRequest());
+    try {
+      let apiData = {};
+      apiData.returnCancelReasonCode = data.returnCancelReasonCode;
+      if (data.returnCancelComments) {
+        apiData.returnCancelComments = data.returnCancelComments;
+      }
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnCancellation/${data.orderId}/${
+          data.transactionId
+        }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true`,
+        apiData
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.error));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(displayToast(SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER));
+      return dispatch(updateReturnCancellationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateReturnCancellationFailure(e.message));
+    }
+  };
+}
 // This is a crappy name, but the api is called getReturnRequest and that conflicts with our pattern
 // Let's keep the name, because it fits our convention and deal with the awkwardness.
 export function getReturnRequestRequest() {
@@ -966,6 +1413,395 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
   };
 }
 //  update refund details
+//update replace and return details
+export function getReturnReasonsWithProductDetails(productDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(returnProductDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnReasons/${
+          productDetails.orderCode
+        }/${productDetails.transactionId}/?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(returnProductDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(returnProductDetailsFailure(e.message));
+    }
+  };
+}
+export function uploadProductImagesRequest() {
+  return {
+    type: SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function uploadProductImagesSuccess(submitImageUploadDetails) {
+  return {
+    type: SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS,
+    status: SUCCESS,
+    submitImageUploadDetails
+  };
+}
+export function uploadProductImagesFailure(error) {
+  return {
+    type: SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function uploadProductImages(orderId, transactionId, file) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(uploadProductImagesRequest());
+    try {
+      let uploadFile = new FormData();
+      uploadFile.append("orderId", orderId);
+      uploadFile.append("transactionId", transactionId);
+      file.forEach(val => {
+        uploadFile.append("uploadfile", val);
+      });
+
+      const result = await api.postFormData(
+        `/v2/mpl/users/${
+          JSON.parse(userDetails).userName
+        }/uploadReturnImageFile?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        uploadFile
+      );
+
+      const resultJson = await result.json();
+      if (
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS
+      ) {
+        dispatch(displayToast("Images Uploaded Successfully"));
+      }
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(uploadProductImagesSuccess(resultJson));
+    } catch (e) {
+      return dispatch(uploadProductImagesFailure(e.message));
+    }
+  };
+}
+
+export function getRefundOptionsDataRequest() {
+  return {
+    type: GET_REFUND_OPTIONS_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRefundOptionsDataSuccess(getRefundOptionsDetails) {
+  return {
+    type: GET_REFUND_OPTIONS_DATA_SUCCESS,
+    status: SUCCESS,
+    getRefundOptionsDetails
+  };
+}
+export function getRefundOptionsDataFailure(error) {
+  return {
+    type: GET_REFUND_OPTIONS_DATA_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getRefundOptionsData(
+  orderId,
+  transactionId,
+  returnReasonCode,
+  returnSubReasonCode,
+  comments,
+  uploadedImageURLs,
+  reverseSealAvailability
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRefundOptionsDataRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        returnReasonCode: returnReasonCode,
+        returnSubReasonCode: returnSubReasonCode,
+        comments: comments,
+        uploadedImageURLs: uploadedImageURLs,
+        reverseSealAvailability: reverseSealAvailability
+      });
+
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnReasonGetReturnType/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getRefundOptionsDataSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getRefundOptionsDataFailure(e.message));
+    }
+  };
+}
+export function getRefundModesRequest() {
+  return {
+    type: GET_REFUND_MODES_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRefundModesSuccess(getRefundModesDetails) {
+  return {
+    type: GET_REFUND_MODES_SUCCESS,
+    status: SUCCESS,
+    getRefundModesDetails
+  };
+}
+export function getRefundModesFailure(error) {
+  return {
+    type: GET_REFUND_MODES_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getRefundModes(orderId, transactionId, returnId, typeOfReturn) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRefundModesRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        typeOfReturn: typeOfReturn,
+        returnId: returnId
+      });
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateReturnTypeGetRefundMode/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getRefundModesSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getRefundModesFailure(e.message));
+    }
+  };
+}
+
+export function updateRefundModeRequest() {
+  return {
+    type: UPDATE_REFUND_MODE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function updateRefundModeSuccess(updateRefundModeDetails) {
+  return {
+    type: UPDATE_REFUND_MODE_SUCCESS,
+    status: SUCCESS,
+    updateRefundModeDetails
+  };
+}
+export function updateRefundModeFailure(error) {
+  return {
+    type: UPDATE_REFUND_MODE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateRefundModeRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        refundMode: refundMode,
+        returnId: returnId
+      });
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateRefundMode/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        data
+      );
+      const resultJson = await result.json();
+      // return resultJson;
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(updateRefundModeSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateRefundModeFailure(e.message));
+    }
+  };
+}
+
+export function getCustomerBankDetailsRequest() {
+  return {
+    type: GET_CUSTOMER_BANK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCustomerBankDetailsSuccess(getCustomerBankDetails) {
+  return {
+    type: GET_CUSTOMER_BANK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    getCustomerBankDetails
+  };
+}
+export function getCustomerBankDetailsFailure(error) {
+  return {
+    type: GET_CUSTOMER_BANK_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getCustomerBankDetails() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomerBankDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCustomerBankDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&customerId=${JSON.parse(userDetails).customerId}&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getCustomerBankDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getCustomerBankDetailsFailure(e.message));
+    }
+  };
+}
+export function updateCustomerBankDetailsRequest() {
+  return {
+    type: UPDATE_CUSTOMER_BANK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function updateCustomerBankDetailsSuccess(updateCustomerBankDetails) {
+  return {
+    type: UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    updateCustomerBankDetails
+  };
+}
+export function updateCustomerBankDetailsFailure(error) {
+  return {
+    type: UPDATE_CUSTOMER_BANK_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function updateCustomerBankDetails(bankDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(updateCustomerBankDetailsRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateBankDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`,
+        bankDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(updateCustomerBankDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(updateCustomerBankDetailsFailure(e.message));
+    }
+  };
+}
+export function getCliqCashDetailsRefund() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    dispatch(getCliqCashRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/cliqcash/getUserCliqCashDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (!resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
+        dispatch(showModal(GENERATE_OTP_FOR_CLIQ_CASH));
+      }
+      return resultJson;
+      // dispatch(getCliqCashSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashFailure(e.message));
+    }
+  };
+}
 
 export function submitSelfCourierReturnInfoRequest() {
   return {
@@ -990,18 +1826,13 @@ export function submitSelfCourierReturnInfoFailure(error) {
 }
 export function submitSelfCourierReturnInfo(returnDetails) {
   let returnDetailsObject = new FormData();
-  returnDetailsObject.append(
-    "awbNumber",
-    returnDetails && returnDetails.awbNumber
-  );
-  returnDetailsObject.append("lpname", returnDetails && returnDetails.lpname);
-  returnDetailsObject.append("amount", returnDetails && returnDetails.amount);
-  returnDetailsObject.append("orderId", returnDetails && returnDetails.orderId);
-  returnDetailsObject.append(
-    "transactionId",
-    returnDetails && returnDetails.transactionId
-  );
-  returnDetailsObject.append("file", returnDetails && returnDetails.file);
+  //let returnDetailsObject = new FormData(returnDetails.file);
+  returnDetailsObject.append("awbNumber", returnDetails.awbNumber);
+  returnDetailsObject.append("lpname", returnDetails.lpname);
+  returnDetailsObject.append("amount", returnDetails.amount);
+  returnDetailsObject.append("orderId", returnDetails.orderId);
+  returnDetailsObject.append("transactionId", returnDetails.transactionId);
+  returnDetailsObject.append("file", returnDetails.file);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
@@ -1018,6 +1849,9 @@ export function submitSelfCourierReturnInfo(returnDetails) {
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       dispatch(hideModal(UPDATE_REFUND_DETAILS_POPUP));
+      if (resultJson.status === "success") {
+        dispatch(displayToast("Updated return details successfully"));
+      }
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
@@ -1174,6 +2008,55 @@ export function getPinCode(pinCode) {
   };
 }
 
+export function getPinCodeChangeAddressOrderedProductRequest() {
+  return {
+    type: GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getPinCodeChangeAddressOrderedProductSuccess(pinCode) {
+  return {
+    type: GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_SUCCESS,
+    status: SUCCESS,
+    pinCode
+  };
+}
+
+export function getPinCodeChangeAddressOrderedProductFailure(error) {
+  return {
+    type: GET_PIN_CODE_CHANGE_ADDRESS_ORDERED_PRODUCT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getPinCodeChangeAddressOrderedProduct(address, orderCode) {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userAccessToken = Cookie.getCookie("userDetails");
+    dispatch(getPinCodeChangeAddressOrderedProductRequest());
+    try {
+      const result = await api.post(
+        `${PIN_PATH}/users/${
+          JSON.parse(userAccessToken).userName
+        }/changeDeliveryAddress/${orderCode}?access_token=${
+          JSON.parse(customerAccessToken).access_token
+        }`,
+        address
+      );
+      const resultJson = await result.json();
+      let errorMessage;
+      if (resultJson.isPincodeServiceable === false) {
+        errorMessage = "Pincode is not serviceable";
+        dispatch(displayToast(errorMessage));
+      }
+      dispatch(getPinCodeChangeAddressOrderedProductSuccess(resultJson));
+    } catch (e) {
+      dispatch(getPinCodeChangeAddressOrderedProductFailure(e.message));
+    }
+  };
+}
+
 export function removeSavedCardRequest() {
   return {
     type: REMOVE_SAVED_CARD_REQUEST,
@@ -1301,6 +2184,27 @@ export function getAllOrdersDetails(
       dispatch(hideSecondaryLoader());
       dispatch(getAllOrdersFailure(e.message, paginated));
     }
+  };
+}
+export function fetchOrderItemDetailsRequest() {
+  return {
+    type: FETCH_ORDER_ITEM_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function fetchOrderItemDetailsSuccess(fetchOrderItemDetails) {
+  return {
+    type: FETCH_ORDER_ITEM_DETAILS_SUCCESS,
+    status: SUCCESS,
+    fetchOrderItemDetails
+  };
+}
+
+export function fetchOrderItemDetailsFailure(error) {
+  return {
+    type: FETCH_ORDER_ITEM_DETAILS_FAILURE,
+    status: ERROR,
+    error
   };
 }
 
@@ -1535,30 +2439,6 @@ export function editAddressFailure(error) {
     error
   };
 }
-
-export function fetchOrderDetailsRequest() {
-  return {
-    type: FETCH_ORDER_DETAILS_REQUEST,
-    status: REQUESTING
-  };
-}
-export function fetchOrderDetailsSuccess(fetchOrderDetails) {
-  return {
-    type: FETCH_ORDER_DETAILS_SUCCESS,
-    status: SUCCESS,
-    fetchOrderDetails
-  };
-}
-
-export function fetchOrderDetailsFailure(error) {
-  return {
-    type: FETCH_ORDER_DETAILS_FAILURE,
-
-    status: ERROR,
-    error
-  };
-}
-
 export function editAddress(addressDetails) {
   return async (dispatch, getState, { api }) => {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -1623,6 +2503,27 @@ export function editAddress(addressDetails) {
     }
   };
 }
+export function fetchOrderDetailsRequest() {
+  return {
+    type: FETCH_ORDER_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function fetchOrderDetailsSuccess(fetchOrderDetails) {
+  return {
+    type: FETCH_ORDER_DETAILS_SUCCESS,
+    status: SUCCESS,
+    fetchOrderDetails
+  };
+}
+
+export function fetchOrderDetailsFailure(error) {
+  return {
+    type: FETCH_ORDER_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
 
 export function fetchOrderDetails(orderId, pageName) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -1633,7 +2534,7 @@ export function fetchOrderDetails(orderId, pageName) {
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getSelectedOrder/${orderId}?access_token=${
+        }/getSelectedOrder_V1/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true`
       );
@@ -1657,6 +2558,32 @@ export function fetchOrderDetails(orderId, pageName) {
       } else {
         setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
       }
+      dispatch(fetchOrderDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(fetchOrderDetailsFailure(e.message));
+    }
+  };
+}
+export function fetchOrderItemDetails(orderId, transactionId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(fetchOrderDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getSelectedTransaction/${orderId}/${transactionId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      // setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
       dispatch(fetchOrderDetailsSuccess(resultJson));
     } catch (e) {
       dispatch(fetchOrderDetailsFailure(e.message));
@@ -1706,6 +2633,9 @@ export function sendInvoice(lineID, orderNumber) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(sendInvoiceSuccess(resultJson));
+      if (resultJson && resultJson.status === "Success") {
+        dispatch(displayToast("Invoice has been sent"));
+      }
     } catch (e) {
       dispatch(sendInvoiceFailure(e.message));
     }
@@ -1981,7 +2911,10 @@ export function followAndUnFollowBrand(
           let brandName = clonedComponent.data[indexOfBrand].brandName;
           setDataLayerForFollowAndUnFollowBrand(
             ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            { followStatus: updatedFollowedStatus, brandName }
+            {
+              followStatus: updatedFollowedStatus,
+              brandName
+            }
           );
           return dispatch(
             followAndUnFollowBrandSuccessForHomeFeed(
@@ -1995,7 +2928,10 @@ export function followAndUnFollowBrand(
           const brandName = brandObj.brandName;
           setDataLayerForFollowAndUnFollowBrand(
             ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            { followStatus: updatedFollowedStatus, brandName }
+            {
+              followStatus: updatedFollowedStatus,
+              brandName
+            }
           );
           return dispatch(
             followAndUnFollowBrandSuccessForPdp(brandId, updatedFollowedStatus)
@@ -2006,7 +2942,10 @@ export function followAndUnFollowBrand(
           let brandName = brandObj.brandName;
           setDataLayerForFollowAndUnFollowBrand(
             ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            { followStatus: updatedFollowedStatus, brandName }
+            {
+              followStatus: updatedFollowedStatus,
+              brandName
+            }
           );
 
           return dispatch(

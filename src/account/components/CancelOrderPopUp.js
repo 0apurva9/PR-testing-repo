@@ -38,27 +38,29 @@ export default class CancelOrderPopUp extends React.Component {
               Are you sure you want to cancel your order ?
             </div>
           </div>
+          <div className={styles.buttonHolderForCloseModal}>
+            <div className={styles.button}>
+              <Button
+                type="secondary"
+                height={40}
+                label="NO"
+                width={165}
+                borderRadius={20}
+                onClick={() => this.cancelModal()}
+              />
+            </div>
+          </div>
           <div className={styles.buttonHolderForCancelOrder}>
             <div className={styles.button}>
               <Button
                 type="primary"
                 backgroundColor="#ff1744"
-                height={36}
-                label="Yes"
-                width={211}
+                height={40}
+                label="YES"
+                width={165}
+                borderRadius={20}
                 textStyle={{ color: "#FFF", fontSize: 14 }}
                 onClick={() => this.cancelProduct()}
-              />
-            </div>
-          </div>
-          <div className={styles.buttonHolderForCloseModal}>
-            <div className={styles.button}>
-              <Button
-                type="secondary"
-                height={36}
-                label="No"
-                width={211}
-                onClick={() => this.cancelModal()}
               />
             </div>
           </div>
