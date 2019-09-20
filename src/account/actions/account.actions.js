@@ -3496,7 +3496,9 @@ export function submitOrderDetails(submitOrderDetails) {
       if (submitOrderDetails.currentState === 0) {
         transactionIdWithAttachmentFile = `transactionId=${
           submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=`;
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
+          submitOrderDetails.imageURL
+        }`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 
