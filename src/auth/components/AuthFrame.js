@@ -10,7 +10,6 @@ import SocialButtonsContainer from "../containers/SocialButtonsContainer.js";
 import {
   TERMS_AND_CONDITION_URL,
   PRIVACY_POLICY_URL,
-  SIGN_UP_PATH,
   LOGIN_PATH
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";

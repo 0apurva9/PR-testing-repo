@@ -9,7 +9,6 @@ import { getDateMonthFormat, getTimeAmPm } from "../../lib/dateTimeFunction";
 import FaqAndTcBase from "./FaqAndTcBase";
 import {
   LOGGED_IN_USER_DETAILS,
-  CONTACT_URL,
   MY_ACCOUNT,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   MY_ACCOUNT_PAGE,

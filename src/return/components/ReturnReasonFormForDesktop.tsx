@@ -11,11 +11,9 @@ import {
 	IState,
 	IReturnReasonMapItem,
 	IReturnSubReasons,
-	IReturnSubReasonWithLabel
+	IReturnSubReasonWithLabel,
 } from './interface/ReturnReasonForm';
-const MODE_OF_RETURN = 'Select mode of return';
-const REFUND_DETAILS = 'Refund Details';
-
+import { MODE_OF_RETURN, REFUND_DETAILS } from '../../lib/constants.js';
 export default class ReturnReasonForm extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
@@ -36,9 +34,12 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 			let reasonAndCommentObj: IPReturnCommentsObj = Object.assign({
 				returnReasonCode: this.state.returnReasonCode,
 				subReasonCode: this.state.subReasonCode,
+				subReason: this.state.subReason,
 				comment: this.state.comment,
 				reason: this.state.reason,
-				reverseSeal: this.state.reverseSeal
+				reverseSeal: this.state.reverseSeal,
+				sellerorderno: this.props.returnProductDetails.orderProductWsDTO[0].sellerorderno,
+				transactionId: this.props.returnProductDetails.orderProductWsDTO[0].transactionId
 			});
 			this.props.onContinue(reasonAndCommentObj);
 		}
@@ -56,7 +57,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 			selectedReason.subReasons.map((value: IReturnSubReasons) => {
 				return {
 					value: value.subReasonCode,
-					label: value.subReturnReason
+					label: value.subReturnReason,
 				};
 			});
 
@@ -66,7 +67,7 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 			returnReasonCode: code,
 			reason: label,
 			isEnable: false,
-			secondaryReasons: selectedSubReasonList
+			secondaryReasons: selectedSubReasonList,
 		});
 	}
 	handleChange(val: string) {
@@ -87,34 +88,31 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 	}
 	render() {
 		const returnProductDetails = this.props.returnProductDetails;
-		let disabledContinue = this.state.reason ? styles.buttonHolder : styles.displayNone;
-		if (this.state.secondaryReasons && this.state.subReasonCode) {
-			disabledContinue = styles.buttonHolder;
-		}
-		if (this.state.reason && this.state.secondaryReasons && this.state.subReasonCode === '') {
-			disabledContinue = styles.displayNone;
-		}
 		return (
 			<div className={styles.base}>
 				<div className={styles.content}>
 					<div className={styles.selectReasonWithText}>
-						<div className={styles.header}>
-							<div className={styles.circleHolder}>
-								<div className={styles.circle}>1</div>
+						{this.props.returnFlow == false ? (
+							<div className={styles.header}>
+								<div className={styles.circleHolder}>
+									<div className={styles.circle}>1</div>
+								</div>
+								Select reason for your return
 							</div>
-							Select reason for your return
-						</div>
+						) : (
+							<div className={styles.header}>Please select return reason</div>
+						)}
 
 						<div className={styles.select}>
 							<SelectBoxMobile2
-								placeholder={'Select a reason'}
+								placeholder={this.props.returnFlow ? 'Select issue' : 'Select a reason'}
 								options={
 									returnProductDetails &&
 									returnProductDetails.returnReasonMap &&
 									returnProductDetails.returnReasonMap.map((val: IReturnReasonMapItem, i: number) => {
 										return {
 											value: val.parentReasonCode,
-											label: val.parentReturnReason
+											label: val.parentReturnReason,
 										};
 									})
 								}
@@ -144,17 +142,18 @@ export default class ReturnReasonForm extends React.Component<IProps, IState> {
 								</div>
 							)}
 
-						<div className={disabledContinue}>
+						<div className={styles.buttonHolder}>
 							<CancelAndContinueButton
 								handleCancel={() => this.handleCancel()}
 								handleContinue={() => this.handleContinue()}
+								disabled={this.state.reason ? false : true}
 							/>
 						</div>
 					</div>
 				</div>
 
-				<DummyTab title={MODE_OF_RETURN} number={2} />
-				<DummyTab title={REFUND_DETAILS} number={3} />
+				{this.props.returnFlow ? '' : <DummyTab title={MODE_OF_RETURN} number={2} />}
+				{this.props.returnFlow ? '' : <DummyTab title={REFUND_DETAILS} number={3} />}
 			</div>
 		);
 	}

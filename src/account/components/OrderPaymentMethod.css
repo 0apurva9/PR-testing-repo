@@ -1,62 +1,115 @@
 .base {
-  width: 100%;
-  height: auto;
-  background: #fff;
+	width: 100%;
+	height: auto;
+	background: #fff;
 }
 .paymentHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-top: 15px;
+	width: 70%;
+	height: auto;
+	display: inline-block;
+	padding-top: 34px;
+}
+.removeMarginAddress{
+	padding-bottom: 34px;
+}
+.ffsemibold {
+	line-height: 22px;
+	font-size: 14px;
+	font-family: semibold;
+	margin-bottom: 69px;
+	color: blackTwo;
+}
+.payments {
+	border-top: 1px solid #ececec;
+	margin-top: -15px;
+	margin-bottom: 15px;
+}
+.helpSupport {
+	width: 30%;
+	font-family: semibold;
+	color: #ff1744;
+	font-size: 14px;
+	display: inline-block;
+	text-align: right;
+	cursor: pointer;
+}
+.marginAddress {
+	padding-bottom: 34px;
+	border-bottom: 1px solid #ececec;
+}
+.deliveryAddressTitle {
+	padding-top: 34px;
+	width: 70%;
+	display: inline-block;
+}
+.paymentMethodMode {
+	line-height: 22px;
+	font-size: 14px;
+	font-family: light;
+	color: blackTwo;
+	/* margin-bottom: 69px; */
+}
+.deliveryAddress {
+	font-size: 14px;
+	line-height: 22px;
+	color: blackTwo;
+	font-family: semibold;
+	width: 75%;
+}
+.addressLine {
+	font-size: 14px;
+	line-height: 22px;
+	color: blackTwo;
+	font-family: light;
 }
 .paymentMethod {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  text-align: left;
-  font-family: semibold;
-  font-size: 14px;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	text-align: left;
+	font-family: semibold;
+	font-size: 14px;
 }
 .requestHolder {
-  width: 50%;
-  height: auto;
-  display: inline-block;
-  text-align: right;
-  font-family: regular;
-  font-size: 14px;
+	width: 50%;
+	height: auto;
+	display: inline-block;
+	text-align: right;
+	font-family: regular;
+	font-size: 14px;
 }
 .requestWithUnderline {
-  display: inline-block;
+	display: inline-block;
 }
 .cashAndMobileHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-top: 5px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ececec;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ececec;
 }
 
 .cashText {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  font-size: 14px;
-  font-family: regular;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	font-size: 14px;
+	font-family: regular;
 }
 .mobileNumber {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  font-size: 14px;
-  font-family: regular;
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	font-size: 14px;
+	font-family: regular;
 }
 
 @media screen and (min-width: 1025px) {
-  .cashText {
-    font-family: light;
-  }
-  .mobileNumber {
-    font-family: light;
-  }
+	.cashText {
+		font-family: light;
+	}
+	.mobileNumber {
+		font-family: light;
+	}
 }

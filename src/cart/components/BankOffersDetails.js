@@ -3,11 +3,7 @@ import BankCoupons from "./BankCoupons.js";
 import SlideModal from "../../general/components/SlideModal";
 import styles from "./BankOffersDetails.css";
 import GridSelect from "../../general/components/GridSelect";
-import { SUCCESS, ERROR, BANK_COUPON_COOKIE } from "../../lib/constants";
-import {
-  RELEASE_BANK_OFFER_FAILURE,
-  APPLY_BANK_OFFER_FAILURE
-} from "../actions/cart.actions";
+import { SUCCESS, ERROR } from "../../lib/constants";
 const COUPON_HEADER = "Bank Offers";
 
 class BankOffersDetails extends Component {

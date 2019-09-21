@@ -14,13 +14,8 @@ import {
   SUCCESS,
   SUCCESS_CAMEL_CASE,
   SUCCESS_UPPERCASE,
-  FAILURE,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
-  HOME_ROUTER
+  LOGGED_IN_USER_DETAILS
 } from "../../lib/constants.js";
-import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";

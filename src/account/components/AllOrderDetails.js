@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./AllOrderDetails.css";
 import OrderPlacedAndId from "./OrderPlacedAndId.js";
 import OrderCard from "./OrderCard.js";
-import PriceAndLink from "./PriceAndLink.js";
 import OrderDelivered from "./OrderDelivered.js";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
@@ -10,8 +9,6 @@ import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import { Redirect } from "react-router-dom";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
@@ -22,24 +19,18 @@ import {
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
+import RetryPaymentIcon from "./img/payment_retry.svg";
 import {
   MY_ACCOUNT,
   ORDER,
   ORDER_CODE,
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
   ORDER_HISTORY,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   WRITE_REVIEW,
-  REQUESTING
-} from "../../lib/constants";
-import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
-import ProfileMenu from "./ProfileMenu";
-import UserProfile from "./UserProfile";
-import { default as MyAccountStyles } from "./MyAccountDesktop.css";
-import {
+  REQUESTING,
   HOME_ROUTER,
   RETURNS_PREFIX,
   RETURN_LANDING,
@@ -49,17 +40,24 @@ import {
   PRIVACY_POLICY_URL,
   CASH_ON_DELIVERY,
   FAQ_URL,
-  SEARCH_RESULTS_PAGE,
-  PRODUCT_REVIEWS_PATH_SUFFIX,
   HELP_URL,
   SUCCESS,
-  CHECKOUT_ROUTER
+  CHECKOUT_ROUTER,
+  RETRY_PAYMENT_CART_ID,
+  RETRY_PAYMENT_DETAILS
 } from "../../lib/constants";
+import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
+import ProfileMenu from "./ProfileMenu";
+import UserProfile from "./UserProfile";
+import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
-  ADOBE_MY_ACCOUNT_ORDER_HISTORY
+  ADOBE_MY_ACCOUNT_ORDER_HISTORY,
+  ADOBE_ORDER_DETAILS_LINK_CLICKED
 } from "../../lib/adobeUtils";
+//import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
+import Icon from "../../xelpmoc-core/Icon";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
@@ -68,12 +66,9 @@ import TabData from "./TabData";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
-const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
-export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
-export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 const Loader = () => {
   return (
     <div>
@@ -119,6 +114,7 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   onViewDetails(orderId) {
+    setDataLayer(ADOBE_ORDER_DETAILS_LINK_CLICKED);
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(productCode) {
@@ -251,7 +247,7 @@ export default class AllOrderDetails extends React.Component {
   renderNoOrder() {
     return (
       <React.Fragment>
-        {this.props.profile.orderDetailsStatus !== REQUESTING && (
+        {this.props.profile.orderDetailsStatus != REQUESTING && (
           <div className={styles.noOrder}>
             <div className={styles.noOderText}>
               You have not made any purchase yet
@@ -300,6 +296,13 @@ export default class AllOrderDetails extends React.Component {
       }
     }
   };
+  getDivWithWithoutBorder(productsLength, key) {
+    if (productsLength === key + 1) {
+      return styles.orderCardIndividual;
+    } else {
+      return styles.orderCardIndividualWithBorder;
+    }
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -317,6 +320,7 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
+    let productsDetails = orderDetails && orderDetails.products;
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
@@ -527,13 +531,68 @@ export default class AllOrderDetails extends React.Component {
                           dateFormat
                         );
                       }
+
                       return (
                         <div className={styles.order} key={i}>
                           <div className={styles.orderIdHolder}>
                             <OrderPlacedAndId
                               placedTime={formattedDate}
                               orderId={orderDetails && orderDetails.orderId}
+                              pushDetails={this.props.history}
+                              isEgvOrder={orderDetails.isEgvOrder}
                             />
+                            {orderDetails &&
+                              orderDetails.retryPaymentUrl && (
+                                <div
+                                  style={{
+                                    paddingBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "20px"
+                                        : "0px",
+                                    marginBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "35px"
+                                        : "0px"
+                                  }}
+                                >
+                                  <div className={styles.retryPayment}>
+                                    <div className={styles.retryPaymentTitle}>
+                                      <Icon
+                                        image={RetryPaymentIcon}
+                                        size={42}
+                                      />
+                                      <div
+                                        className={styles.retryCallOutMessage}
+                                      >
+                                        {orderDetails.calloutMessage}
+                                      </div>
+                                    </div>
+                                    <div
+                                      className={
+                                        styles.buttonHolderForRetryPayment
+                                      }
+                                    >
+                                      <Button
+                                        type="hollow"
+                                        height={36}
+                                        label="RETRY PAYMENT"
+                                        color="#ff1744"
+                                        textStyle={{
+                                          color: "#212121",
+                                          fontSize: 14
+                                        }}
+                                        onClick={() =>
+                                          this.onClickRetryPayment(
+                                            orderDetails.retryPaymentUrl
+                                          )
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                           </div>
                           <React.Fragment>
                             {orderDetails &&
@@ -577,14 +636,28 @@ export default class AllOrderDetails extends React.Component {
                                     );
                                   }
                                 );
+                                let productsDetails =
+                                  orderDetails && orderDetails.products;
+                                let productLength = productsDetails.length;
+
                                 return (
-                                  <div className={styles.orderDetailsHolder}>
+                                  <div
+                                    className={
+                                      productLength === key + 1
+                                        ? styles.orderDetailsHolder
+                                        : styles.orderCardIndividualWithBorder
+                                    }
+                                  >
                                     <OrderCard
+                                      estimatedDeliveryDate={
+                                        product.estimateddeliverydate
+                                      }
                                       imageUrl={product.imageURL}
                                       hasProduct={product}
                                       isGiveAway={product.isGiveAway}
                                       price={product.price}
                                       quantity={true}
+                                      //statusDisplay={product.statusDisplay}
                                       productName={product.productName}
                                       productBrand={product.productBrand}
                                       isEgvOrder={orderDetails.isEgvOrder}
@@ -597,12 +670,48 @@ export default class AllOrderDetails extends React.Component {
                                         )
                                       }
                                       egvCardNumber={orderDetails.egvCardNumber}
+                                      giftCardStatus={
+                                        orderDetails.giftCardStatus
+                                      }
+                                      cartExpiryDate={
+                                        orderDetails.cartExpiryDate
+                                      }
+                                      totalFinalPayableOrderAmount={
+                                        orderDetails.totalFinalPayableOrderAmount
+                                      }
                                       onClick={() =>
                                         this.onClickImage(
                                           orderDetails.isEgvOrder,
                                           product.productcode
                                         )
                                       }
+                                      orderStatusCode={product.orderStatusCode}
+                                      displayStatusName={
+                                        product.displayStatusName
+                                      }
+                                      clickAndCollect={
+                                        orderDetails &&
+                                        orderDetails.pickupPersonName
+                                          ? true
+                                          : false
+                                      }
+                                      deliveryDate={product.deliveryDate}
+                                      calloutMessage={product.calloutMessage}
+                                      showRightArrow="Y"
+                                      orderId={orderDetails.orderId}
+                                      history={this.props.history}
+                                      transactionId={product.transactionId}
+                                      orderCancelDate={product.orderCancelDate}
+                                      idFromAllOrderDetails="Y"
+                                      retryPaymentUrl={
+                                        orderDetails.retryPaymentUrl
+                                      }
+                                      retryPayment={
+                                        orderDetails.displayStatusName
+                                      }
+                                      displayToast={this.props.displayToast}
+                                      logisticName={product.logisticName}
+                                      trackingAWB={product.trackingAWB}
                                     />
                                     <DesktopOnly>
                                       <div className={styles.returnReview}>
@@ -620,33 +729,43 @@ export default class AllOrderDetails extends React.Component {
                                             {PRODUCT_RETURN}
                                           </div>
                                         )}
-                                        {orderDetails &&
-                                          !orderDetails.retryPaymentUrl &&
-                                          product.productName !==
-                                            "Gift Card" && (
+                                        {product.productName != "Gift Card" &&
+                                          (product.orderStatusCode ===
+                                            "CANCELLATION_INITIATED" ||
+                                            product.orderStatusCode ===
+                                              "ORDER_UNCOLLECTED") && (
                                             <div
-                                              className={
-                                                styles.writeReviedButton
+                                              onClick={() =>
+                                                this.redirectToHelp(HELP_URL)
                                               }
+                                              className={styles.helpSupport}
                                             >
-                                              <Button
-                                                label={"Write a review"}
-                                                width={147}
-                                                height={36}
-                                                borderColor={"#000000"}
-                                                borderRadius={20}
-                                                backgroundColor={"#ffffff"}
-                                                onClick={val =>
-                                                  this.writeReview(
-                                                    product.productcode
-                                                  )
-                                                }
-                                                textStyle={{
-                                                  color: "#000000",
-                                                  fontSize: 14,
-                                                  fontFamily: "regular"
-                                                }}
-                                              />
+                                              Help & Support
+                                            </div>
+                                          )}
+                                        {product.productName != "Gift Card" &&
+                                          !orderDetails.retryPaymentUrl &&
+                                          (product.orderStatusCode ===
+                                            "DELIVERED" ||
+                                            product.orderStatusCode ===
+                                              "RETURN_CANCELLED_CUS" ||
+                                            product.orderStatusCode ===
+                                              "ORDER_COLLECTED") && (
+                                            <div
+                                              className={styles.reviewHolder}
+                                            >
+                                              <div className={styles.boxReview}>
+                                                <div
+                                                  className={styles.reviewText}
+                                                  onClick={val =>
+                                                    this.writeReview(
+                                                      product.productcode
+                                                    )
+                                                  }
+                                                >
+                                                  WRITE A REVIEW
+                                                </div>
+                                              </div>
                                             </div>
                                           )}
                                       </div>
@@ -654,267 +773,102 @@ export default class AllOrderDetails extends React.Component {
                                   </div>
                                 );
                               })}
-                            {orderDetails &&
-                              orderDetails.retryPaymentUrl && (
-                                <div className={styles.retryPayment}>
-                                  <div className={styles.writeReviedButton}>
-                                    <Button
-                                      type="hollow"
-                                      width={147}
-                                      height={36}
-                                      label="Retry payment"
-                                      color="#ff1744"
-                                      textStyle={{
-                                        color: "#212121",
-                                        fontSize: 14,
-                                        fontFamily: "regular"
-                                      }}
-                                      onClick={() =>
-                                        this.onClickRetryPayment(
-                                          orderDetails.retryPaymentUrl
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                          </React.Fragment>
-
-                          <MobileOnly>
-                            <React.Fragment>
-                              <div
-                                style={{
-                                  paddingBottom:
-                                    orderDetails && orderDetails.retryPaymentUrl
-                                      ? "20px"
-                                      : "0px",
-                                  borderBottom:
-                                    orderDetails && orderDetails.retryPaymentUrl
-                                      ? "1px solid #ececec"
-                                      : "none"
-                                }}
-                              >
-                                <PriceAndLink
-                                  onViewDetails={() =>
-                                    this.onViewDetails(
-                                      orderDetails && orderDetails.orderId
-                                    )
-                                  }
-                                  isEgvOrder={orderDetails.isEgvOrder}
-                                  status={orderDetails.giftCardStatus}
-                                  price={
-                                    orderDetails &&
-                                    orderDetails.totalFinalPayableOrderAmount
-                                  }
-                                  borderColor={
-                                    orderDetails && orderDetails.retryPaymentUrl
-                                      ? "#fff"
-                                      : "#ececec"
-                                  }
-                                />
-                                {orderDetails &&
-                                  orderDetails.retryPaymentUrl && (
-                                    <div className={styles.retryPayment}>
-                                      <div
-                                        className={
-                                          styles.buttonHolderForRetryPayment
-                                        }
-                                      >
-                                        <Button
-                                          type="hollow"
-                                          height={36}
-                                          label="Retry payment"
-                                          color="#ff1744"
-                                          textStyle={{
-                                            color: "#212121",
-                                            fontSize: 14
-                                          }}
-                                          onClick={() =>
-                                            this.onClickRetryPayment(
-                                              orderDetails.retryPaymentUrl
-                                            )
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                  )}
-                              </div>
+                            <DesktopOnly>
                               {!orderDetails.isEgvOrder &&
                                 orderDetails &&
                                 orderDetails.billingAddress && (
-                                  <OrderDelivered
-                                    deliveredAddress={deliveryAddress}
-                                    orderDeliveryHeaderText={placeHolder}
-                                    deliveredDate={
-                                      orderDetails &&
-                                      orderDetails.products &&
-                                      orderDetails.products[0] &&
-                                      orderDetails.products.length &&
-                                      orderDetails.products[0].deliveryDate
-                                    }
-                                    soldBy={
-                                      orderDetails &&
-                                      orderDetails.products &&
-                                      orderDetails.products[0] &&
-                                      orderDetails.products.length &&
-                                      orderDetails.products[0].sellerName
-                                    }
-                                  />
-                                )}
-                            </React.Fragment>
-                          </MobileOnly>
-                          <DesktopOnly>
-                            <div className={styles.priceAndInfoHolder}>
-                              <div className={styles.deliverLeftHolder}>
-                                {!orderDetails.isEgvOrder &&
-                                  orderDetails && (
-                                    <OrderDelivered
-                                      deliveredAddress1={
-                                        orderDetails.pickupPersonName ||
-                                        orderDetails.pickupPersonMobile
-                                          ? `${
-                                              orderDetails.pickupPersonName
-                                                ? orderDetails.pickupPersonName
-                                                : ""
-                                            }${
-                                              orderDetails.pickupPersonMobile
-                                                ? `, ${
-                                                    orderDetails.pickupPersonMobile
-                                                  }`
-                                                : ""
-                                            }`
-                                          : userName
-                                      }
-                                      deliveredAddress2={
-                                        orderDetails &&
-                                        orderDetails.deliveryAddress
-                                          .addressLine1
-                                          ? orderDetails.deliveryAddress
-                                              .addressLine1
-                                          : ""
-                                      }
-                                      deliveredAddress3={
-                                        orderDetails &&
-                                        orderDetails.deliveryAddress &&
-                                        `${
-                                          orderDetails &&
-                                          orderDetails.deliveryAddress &&
-                                          orderDetails.deliveryAddress.state
-                                            ? orderDetails.deliveryAddress.state
-                                            : ""
-                                        }${
-                                          orderDetails &&
-                                          orderDetails.deliveryAddress &&
-                                          orderDetails.deliveryAddress.town
-                                            ? `, ${
-                                                orderDetails.deliveryAddress
-                                                  .town
+                                  <div className={styles.priceAndInfoHolder}>
+                                    <div className={styles.deliverLeftHolder}>
+                                      <OrderDelivered
+                                        deliveredAddress1={
+                                          orderDetails.pickupPersonName ||
+                                          orderDetails.pickupPersonMobile
+                                            ? `${
+                                                orderDetails.pickupPersonName
+                                                  ? orderDetails.pickupPersonName
+                                                  : ""
+                                              }${
+                                                orderDetails.pickupPersonMobile
+                                                  ? `, ${
+                                                      orderDetails.pickupPersonMobile
+                                                    }`
+                                                  : ""
                                               }`
-                                            : ""
-                                        }${
+                                            : userName
+                                        }
+                                        deliveredAddress2={
                                           orderDetails &&
-                                          orderDetails.deliveryAddress &&
                                           orderDetails.deliveryAddress
-                                            .postalcode
-                                            ? `, ${
-                                                orderDetails.deliveryAddress
-                                                  .postalcode
-                                              }`
+                                            .addressLine1
+                                            ? orderDetails.deliveryAddress
+                                                .addressLine1
                                             : ""
-                                        }`
-                                      }
-                                      orderDeliveryHeaderText={placeHolder}
-                                      deliveredDate={
-                                        orderDetails &&
-                                        orderDetails.products &&
-                                        orderDetails.products[0] &&
-                                        orderDetails.products.length &&
-                                        orderDetails.products[0].deliveryDate
-                                      }
-                                      soldBy={
-                                        orderDetails &&
-                                        orderDetails.products &&
-                                        orderDetails.products[0] &&
-                                        orderDetails.products.length &&
-                                        orderDetails.products[0].sellerName
-                                      }
-                                      isShowDataHorizontal={true}
-                                      isCancel={
-                                        orderDetails &&
-                                        orderDetails.products &&
-                                        orderDetails.products[0] &&
-                                        orderDetails.products.length &&
-                                        orderDetails.products[0].cancel
-                                      }
-                                      borderBottom={"#fff"}
-                                    >
-                                      <div className={styles.priceRightHolder}>
-                                        <PriceAndLink
-                                          placeHolderText="View status and details"
-                                          onViewDetails={() =>
-                                            this.onViewDetails(
-                                              orderDetails &&
-                                                orderDetails.orderId
-                                            )
-                                          }
-                                          onClickRetryPayment={() =>
-                                            this.onClickRetryPayment(
-                                              orderDetails.retryPaymentUrl
-                                            )
-                                          }
-                                          isEgvOrder={orderDetails.isEgvOrder}
-                                          status={orderDetails.giftCardStatus}
-                                          price={
+                                        }
+                                        deliveredAddress3={
+                                          orderDetails &&
+                                          orderDetails.deliveryAddress &&
+                                          `${
                                             orderDetails &&
-                                            orderDetails.totalFinalPayableOrderAmount
-                                          }
-                                          borderColor={"#fff"}
-                                          retryPaymentUrl={
+                                            orderDetails.deliveryAddress &&
+                                            orderDetails.deliveryAddress.state
+                                              ? orderDetails.deliveryAddress
+                                                  .state
+                                              : ""
+                                          }${
                                             orderDetails &&
-                                            orderDetails.retryPaymentUrl
-                                          }
-                                          products={
+                                            orderDetails.deliveryAddress &&
+                                            orderDetails.deliveryAddress.town
+                                              ? `, ${
+                                                  orderDetails.deliveryAddress
+                                                    .town
+                                                }`
+                                              : ""
+                                          }${
                                             orderDetails &&
-                                            orderDetails.products
-                                          }
+                                            orderDetails.deliveryAddress &&
+                                            orderDetails.deliveryAddress
+                                              .postalcode
+                                              ? `, ${
+                                                  orderDetails.deliveryAddress
+                                                    .postalcode
+                                                }`
+                                              : ""
+                                          }`
+                                        }
+                                        orderDeliveryHeaderText={placeHolder}
+                                        deliveredDate={
+                                          orderDetails &&
+                                          orderDetails.products &&
+                                          orderDetails.products[0] &&
+                                          orderDetails.products.length &&
+                                          orderDetails.products[0].deliveryDate
+                                        }
+                                        soldBy={
+                                          orderDetails &&
+                                          orderDetails.products &&
+                                          orderDetails.products[0] &&
+                                          orderDetails.products.length &&
+                                          orderDetails.products[0].sellerName
+                                        }
+                                        isShowDataHorizontal={true}
+                                        isCancel={
+                                          orderDetails &&
+                                          orderDetails.products &&
+                                          orderDetails.products[0] &&
+                                          orderDetails.products.length &&
+                                          orderDetails.products[0].cancel
+                                        }
+                                        borderBottom={"#fff"}
+                                      >
+                                        <div
+                                          className={styles.priceRightHolder}
                                         />
-                                      </div>
-                                    </OrderDelivered>
-                                  )}
-
-                                {orderDetails.isEgvOrder &&
-                                  orderDetails.giftCardStatus && (
-                                    <div>
-                                      <div className={styles.statusHolder}>
-                                        <div className={styles.priceHeader}>
-                                          Status
-                                        </div>
-                                        <div className={styles.statusFailed}>
-                                          {orderDetails.giftCardStatus}
-                                        </div>
-                                      </div>
-                                      <div className={styles.priceRightHolder}>
-                                        <PriceAndLink
-                                          placeHolderText="View status and details"
-                                          onViewDetails={() =>
-                                            this.onViewDetails(
-                                              orderDetails &&
-                                                orderDetails.orderId
-                                            )
-                                          }
-                                          isEgvOrder={orderDetails.isEgvOrder}
-                                          status={orderDetails.giftCardStatus}
-                                          price={
-                                            orderDetails &&
-                                            orderDetails.totalFinalPayableOrderAmount
-                                          }
-                                        />
-                                      </div>
+                                      </OrderDelivered>
                                     </div>
-                                  )}
-                              </div>
-                            </div>
-                          </DesktopOnly>
+                                  </div>
+                                )}
+                            </DesktopOnly>
+                          </React.Fragment>
                         </div>
                       );
                     })

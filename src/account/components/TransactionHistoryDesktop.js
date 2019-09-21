@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import styles from "./TransactionHistoryDesktop.css";
 import {
   LOGGED_IN_USER_DETAILS,
-  RECEIVED,
-  PAID,
-  EXPIRED,
   TRANSACTION_DETAIL_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
@@ -46,7 +43,7 @@ export default class TransactionHistoryDesktop extends React.Component {
   getMonth = day => {
     let date = day.split("-");
     var monthString = "";
-    if (date[1] == year) {
+    if (date[1] === year) {
       monthString = getMonthString(date[0]);
     } else {
       monthString = getMonthString(date[0]) + " " + date[1];
@@ -133,7 +130,7 @@ export default class TransactionHistoryDesktop extends React.Component {
     if (status) {
       var transactionStatus = "\\b" + status.toUpperCase();
       var statusRegEx = new RegExp(transactionStatus, "g");
-      if (type !== 4) {
+      if (type != 4) {
         filteredData =
           originalData &&
           originalData.reduce((result, val) => {
@@ -313,7 +310,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                     transactionDetails.map((val, i) => {
                       return (
                         <div className={styles.transactionBase}>
-                          {this.state.checked !== 4 && (
+                          {this.state.checked != 4 && (
                             <div className={styles.dateSection}>
                               <div className={styles.borderSection} />
                               <div className={styles.dateTime}>

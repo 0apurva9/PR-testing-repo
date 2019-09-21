@@ -57,7 +57,7 @@ const productDescription = (
   },
   action
 ) => {
-  let sizeGuide, currentProductDetails, currentBrandDetails;
+  let sizeGuide, currentBrandDetails;
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -269,15 +269,8 @@ const productDescription = (
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_SUCCESS:
-      const cartDetailsForAnonymous = Cookies.getCookie(
-        CART_DETAILS_FOR_ANONYMOUS
-      );
       const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
-      const cartDetailsLoggedInUser = Cookies.getCookie(
-        CART_DETAILS_FOR_LOGGED_IN_USER
-      );
-
       if (!userDetails && !customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,

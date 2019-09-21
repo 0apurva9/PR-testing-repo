@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "../../general/components/Grid";
 import ProfileMenu from "./ProfileMenu";
-import PropTypes from "prop-types";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,

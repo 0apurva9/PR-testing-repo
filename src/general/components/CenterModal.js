@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./CenterModal.css";
 export default class CenterModal extends React.Component {
   handleClose() {

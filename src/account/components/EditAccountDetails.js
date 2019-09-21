@@ -5,7 +5,6 @@ import ControlInput from "../../general/components/ControlInput";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import MobileDatePicker from "../../general/components/MobileDatePicker";
 import ShopByBrandLists from "../../blp/components/ShopByBrandLists.js";
-import CheckboxAndText from "../../cart/components/CheckboxAndText.js";
 import AccountFooter from "./AccountFooter.js";
 import format from "date-fns/format";
 import Button from "../../general/components/Button";
@@ -23,10 +22,15 @@ import {
   LOGIN_PATH,
   ERROR,
   HOME_ROUTER,
-  REQUESTING
+  REQUESTING,
+  NAME_TEXT,
+  NAME_VALID_TEXT,
+  LAST_NAME_TEXT,
+  LAST_VALID_TEXT,
+  PREVENT_NUMBERS_VALIDATION,
+  NAME_VALIDATION
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
-import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -38,7 +42,6 @@ const NEW_PASSWORD_TEXT = "Please enter new password";
 const PASSWORD_LENGTH_TEXT = "Password length should be minimum 8 character";
 const CONFIRM_PASSWORD_TEXT = "Please confirm your passowrd";
 const PASSWORD_MATCH_TEXT = "Password did not match";
-const DATE_FORMAT_TO_UPDATE_PROFILE = "DD/MM/YYYY";
 const OLD_NEW_PASSWORD_MATCH_TEXT = "Current and New password cannot be same";
 export default class EditAccountDetails extends React.Component {
   constructor(props) {
@@ -143,6 +146,34 @@ export default class EditAccountDetails extends React.Component {
       }
   }
   updateProfile = () => {
+    if (
+      this.state.firstName &&
+      !PREVENT_NUMBERS_VALIDATION.test(this.state.firstName.trim())
+    ) {
+      this.props.displayToast(NAME_VALID_TEXT);
+      return false;
+    }
+    if (
+      this.state.lastName &&
+      !PREVENT_NUMBERS_VALIDATION.test(this.state.lastName.trim())
+    ) {
+      this.props.displayToast(LAST_VALID_TEXT);
+      return false;
+    }
+    if (
+      !this.state.firstName.trim() ||
+      !NAME_VALIDATION.test(this.state.firstName.trim())
+    ) {
+      this.props.displayToast(NAME_TEXT);
+      return false;
+    }
+    if (
+      !this.state.lastName.trim() ||
+      !NAME_VALIDATION.test(this.state.lastName.trim())
+    ) {
+      this.props.displayToast(LAST_NAME_TEXT);
+      return false;
+    }
     if (
       this.state.emailId &&
       !EMAIL_REGULAR_EXPRESSION.test(this.state.emailId)

@@ -3,10 +3,7 @@ import styles from "./NewBrand.css";
 import Image from "../../xelpmoc-core/Image";
 import PropTypes from "prop-types";
 import { FollowUnFollowButtonContainer } from "../../pdp/containers/FollowUnFollowButtonContainer";
-import Logo from "./Logo";
 import { HOME_FEED_FOLLOW_AND_UN_FOLLOW } from "../../lib/constants";
-import Follow from "./Follow";
-
 export default class NewBrand extends React.Component {
   handleBrandClick = () => {
     this.props.onClick(this.props.webUrl);

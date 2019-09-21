@@ -1,54 +1,55 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 25px 15px 85px 15px;
-  background: #ececec;
-  min-height: calc(100vh - 80px);
+	width: 100%;
+    height: auto;
+    /* padding: 25px 15px 85px 15px; */
+    /* background: #ececec; */
+    min-height: calc(100vh - 80px);
+    /* margin: 34px;*/
 }
 
 .header {
-  width: 100%;
-  font-size: 18px;
-  color: #000000;
-  font-family: semibold;
-  position: relative;
-  padding-right: 60px;
-  margin-bottom: 25px;
+	width: 100%;
+	font-size: 18px;
+	color: #000000;
+	font-family: semibold;
+	position: relative;
+	padding-right: 60px;
+	margin-bottom: 25px;
 }
 .cancel {
-  position: absolute;
-  right: 0;
-  top: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-  text-align: center;
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	text-align: center;
 }
 .button {
-  display: inline-block;
+	display: inline-block;
 }
 @media only screen and (min-width: 1025px) {
-  .base {
-    padding: 0px;
-    background: #fff;
-    min-height: 0px;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .bankDetailFooter {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-    text-align: right;
-    padding: 0px 30px 20px 20px;
-  }
-  .cancelButton {
-    display: inline-block;
-    margin-right: 20px;
-  }
-  .continueButton {
-    display: inline-block;
-  }
+	.base {
+		padding: 0px;
+		/* background: #fff; */
+		min-height: 0px;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+	.bankDetailFooter {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+		text-align: right;
+		padding: 0px 30px 20px 20px;
+	}
+	.cancelButton {
+		display: inline-block;
+		margin-right: 20px;
+	}
+	.continueButton {
+		display: inline-block;
+	}
 }

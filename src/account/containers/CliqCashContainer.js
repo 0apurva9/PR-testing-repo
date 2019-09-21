@@ -6,8 +6,7 @@ import {
   clearTransaction
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
-import CliqAndCash from "../components/CliqAndCash.js";
-import { setHeaderText, SUCCESS } from "../../general/header.actions";
+import { setHeaderText } from "../../general/header.actions";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
@@ -23,8 +22,8 @@ import {
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import CliqCashDesktop from "../components/CliqCashDesktop";
-const CLIQ_CASH_REDEEM_SUCCESS =
-  "Congrats!  Money has been added to your Cliq Cash balance";
+// const CLIQ_CASH_REDEEM_SUCCESS =
+//   "Congrats!  Money has been added to your Cliq Cash balance";
 const mapDispatchToProps = dispatch => {
   return {
     getCliqCashDetails: () => {

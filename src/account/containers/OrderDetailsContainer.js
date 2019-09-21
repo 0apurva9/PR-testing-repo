@@ -1,5 +1,10 @@
 import { connect } from "react-redux";
-import { fetchOrderDetails, sendInvoice } from "../actions/account.actions";
+import {
+  fetchOrderDetails,
+  sendInvoice,
+  fetchOrderItemDetails,
+  retryPayment
+} from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
 import { displayToast } from "../../general/toast.actions";
@@ -8,7 +13,9 @@ import {
   UPDATE_REFUND_DETAILS_POPUP,
   ORDER_DETAILS_MODAL,
   showModal,
-  DESKTOP_AUTH
+  SHOW_RETURN_CONFIRM_POP_UP,
+  DESKTOP_AUTH,
+  SHOW_DELIVERY_CONFIRM_POP_UP
 } from "../../general/modal.actions";
 import {
   showSecondaryLoader,
@@ -23,6 +30,9 @@ const mapDispatchToProps = dispatch => {
     },
     displayToast: toastMessage => {
       dispatch(displayToast(toastMessage));
+    },
+    fetchOrderItemDetails: (orderId, transactionId) => {
+      dispatch(fetchOrderItemDetails(orderId, transactionId));
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
@@ -48,6 +58,15 @@ const mapDispatchToProps = dispatch => {
 
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    showReturnModal: data => {
+      dispatch(showModal(SHOW_RETURN_CONFIRM_POP_UP, data));
+    },
+    retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
+      return dispatch(retryPayment(retryPaymentGuId, retryPaymentUserId));
+    },
+    showDeliveryConfirmModal: data => {
+      dispatch(showModal(SHOW_DELIVERY_CONFIRM_POP_UP, data));
     }
   };
 };

@@ -7,7 +7,6 @@ import CommonCenter from "../../general/components/CommonCenter.js";
 import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";
 import styles from "./FollowBase.css";
-import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
 
 export default class FollowBase extends React.Component {
